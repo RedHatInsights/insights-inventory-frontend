@@ -1,3 +1,5 @@
+[![Build Status](https://jenkins-insights-jenkins.1b13.insights.openshiftapps.com/buildStatus/icon?job=insights-inventory-frontend/insights-inventory-frontend-ci)](https://jenkins-insights-jenkins.1b13.insights.openshiftapps.com/job/insights-inventory-frontend/job/insights-inventory-frontend-ci/)
+
 # Insights Inventory Frontend
 
 This is the frontend application for [Insights Inventory](https://github.com/RedHatInsights/insights-inventory). It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
