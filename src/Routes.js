@@ -1,29 +1,11 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
-import asyncComponent from './Utilities/asyncComponent';
 import some from 'lodash/some';
+import Inventory from './SmartComponents/Inventory/Inventory';
 
-/**
- * Aysnc imports of components
- *
- * https://webpack.js.org/guides/code-splitting/
- * https://reactjs.org/docs/code-splitting.html
- *
- * pros:
- *      1) code splitting
- *      2) can be used in server-side rendering
- * cons:
- *      1) nameing chunk names adds unnecessary docs to code,
- *         see the difference with DashboardMap and InventoryDeployments.
- *
- */
-const Rules = asyncComponent(() => import(/* webpackChunkName: "Rules" */ './PresentationalComponents/Rules/Rules'));
-const SamplePage = asyncComponent(() => import(
-    /* webpackChunkName: "SamplePage" */ './SmartComponents/SamplePage/SamplePage'));
 const paths = {
-    sample: '/samplepage',
-    rules: '/advisor/rules'
+    inventory: '/inventory'
 };
 
 type Props = {
@@ -56,11 +38,9 @@ export const Routes = (props: Props) => {
 
     return (
         <Switch>
-            <InsightsRoute exact path={paths.sample} component={SamplePage} rootClass='sample' />
-            <InsightsRoute path={paths.rules} component={Rules} rootClass='rules' />
-
+            <InsightsRoute exact path={paths.inventory} component={Inventory} rootClass='inventory' />
             {/* Finally, catch all unmatched routes */}
-            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.sample} />)} />
+            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.inventory} />)} />
         </Switch>
     );
 };
