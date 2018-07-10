@@ -9,16 +9,7 @@ class App extends Component {
 
     componentDidMount () {
         insights.chrome.init();
-        insights.chrome.identifyApp('advisor');
-        insights.chrome.navigation(buildNavigation());
-
-        this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
-        this.buildNav = this.props.history.listen(() => insights.chrome.navigation(buildNavigation()));
-    }
-
-    componentWillUnmount () {
-        this.appNav();
-        this.buildNav();
+        insights.chrome.identifyApp('inventory');
     }
 
     render () {
@@ -38,17 +29,3 @@ App.propTypes = {
  *          https://reactjs.org/docs/higher-order-components.html
  */
 export default withRouter (connect()(App));
-
-function buildNavigation () {
-    const currentPath = 'advisor' + '/' + window.location.pathname.split('/').slice(-1)[0];
-    return [{
-        title: 'Sample App',
-        id: 'advisor/samplepage'
-    }, {
-        title: 'Rules',
-        id: 'advisor/rules'
-    }].map(item => ({
-        ...item,
-        active: item.id === currentPath
-    }));
-}
