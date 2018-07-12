@@ -2,7 +2,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 import some from 'lodash/some';
-import Inventory from './SmartComponents/Inventory/Inventory';
+import Inventory from './routes/Inventory';
 
 const paths = {
     inventory: '/inventory'

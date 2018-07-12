@@ -8,11 +8,18 @@ This is the frontend application for [Insights Inventory](https://github.com/Red
 There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an Insights environment complete with:
 - A frontend application
 - [Insights Chroming](https://github.com/RedHatInsights/insights-chrome)
-- [Insights Proxy](https://github.com/RedHatInsights/insights-proxy)
+- [Insights Proxy]
 
 Note: You will need to set up the Insights environment if you want to develop the inventory app due to the consumption of the chroming service as well as setting up your global/app navigation through the API.
 
-## Build app
+### Insights Proxy
+[Insights Proxy](https://github.com/RedHatInsights/insights-proxy) is required to run the inventory frontend application. **Note that a inventory-specific proxy configuration is required for now for the frontend application to be able to talk to the Inventory API POC**. To run the proxy with inventory-specific configuration run:
+```
+cd /path/to/insights-inventory-frontend
+docker run -v $PWD/config:/config --rm --net='host' -p1337:1337 -e PLATFORM=linux -ti docker.io/redhatinsights/insights-proxy
+```
+
+### Running the app
 1. ```npm install```
 
 2. ```npm run start```
