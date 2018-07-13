@@ -1,16 +1,8 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
-import some from 'lodash/some';
 import Inventory from './routes/Inventory';
-
-const paths = {
-    inventory: '/inventory'
-};
-
-type Props = {
-    childProps: any
-};
+import Entity from './routes/Entity';
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
@@ -33,14 +25,13 @@ InsightsRoute.propTypes = {
  *      path - https://prod.foo.redhat.com:1337/insights/advisor/rules
  *      component - component to be rendered when a route has been chosen.
  */
-export const Routes = (props: Props) => {
-    const path = props.childProps.location.pathname;
-
+export const Routes = () => {
     return (
         <Switch>
-            <InsightsRoute exact path={paths.inventory} component={Inventory} rootClass='inventory' />
-            {/* Finally, catch all unmatched routes */}
-            <Route render={() => some(paths, p => p === path) ? null : (<Redirect to={paths.inventory} />)} />
+            <Route exact path='/inventory/entity/:id' component={Entity} />
+            <InsightsRoute exact path='/inventory' component={Inventory} rootClass='inventory' />
+
+            <Redirect to='/inventory' />
         </Switch>
     );
 };

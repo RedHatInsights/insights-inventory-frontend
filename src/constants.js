@@ -4,7 +4,8 @@ import flatMap from 'lodash/flatMap';
 const actions = [];
 
 const asyncActions = flatMap([
-    'LOAD_ENTITIES'
+    'LOAD_ENTITIES',
+    'LOAD_ENTITY'
 ], a => [a, `${a}_PENDING`, `${a}_FULFILLED`, `${a}_REJECTED`]);
 
 export const ACTION_TYPES = keyBy([...actions, ...asyncActions], k => k);

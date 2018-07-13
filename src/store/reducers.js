@@ -13,6 +13,19 @@ const reducers = {
         })
     }, {
         loaded: false
+    }),
+
+    entityDetails: applyReducerHash({
+        [ACTION_TYPES.LOAD_ENTITY_PENDING]: () => ({
+            loaded: false
+        }),
+
+        [ACTION_TYPES.LOAD_ENTITY_FULFILLED]: (state, action) => ({
+            loaded: true,
+            entity: action.payload
+        })
+    }, {
+        loaded: false
     })
 };
 
