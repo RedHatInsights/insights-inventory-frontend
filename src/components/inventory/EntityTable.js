@@ -6,6 +6,14 @@ import { Icon } from '@patternfly/react-icons';
 
 const EntityTable = ({ loaded, entities }) => (
     <table className='entity-table'>
+        <thead>
+            <tr>
+                <th className='checkbox' />
+                <th>System Name</th>
+                <th>Account</th>
+                <th className='actions' />
+            </tr>
+        </thead>
         <tbody>
             {(!loaded) ?
                 <tr>
@@ -15,16 +23,16 @@ const EntityTable = ({ loaded, entities }) => (
                 </tr> :
                 entities.map(entity =>
                     <tr key={entity.id}>
-                        <td className='checkbox'>
+                        <td>
                             <input type='checkbox'></input>
                         </td>
                         <td>
                             <Link to={`/inventory/entity/${entity.id}`}>
-                                {entity.display_name ? entity.display_name : 'undefined'}
+                                {entity.display_name ? entity.display_name : 'unnamed system'}
                             </Link>
                         </td>
                         <td>{entity.account}</td>
-                        <td className='actions'>
+                        <td>
                             <Icon name='ellipsis-v'/>
                         </td>
                     </tr>

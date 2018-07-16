@@ -20,7 +20,7 @@ class Entity extends Component {
     }
 
     componentDidMount () {
-        this.store.dispatch(actions.loadEntity(this.id));
+        this.store.dispatch(actions.loadEntity(parseInt(this.id)));
     }
 
     render() {

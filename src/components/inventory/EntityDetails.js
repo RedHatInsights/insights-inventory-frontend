@@ -6,6 +6,9 @@ import Breadcrumbs from '../Breadcrumbs';
 
 import './EntityDetails.scss';
 
+const TYPE_PLACEHOLDER = 'RHEL Box';
+
+// MARK: maybe implement this in components??
 const EntityDetails = ({ loaded, entity }) => {
     if (!loaded) {
         return (
@@ -25,7 +28,7 @@ const EntityDetails = ({ loaded, entity }) => {
                 <dt>system id</dt>
                 <dd>{entity.id}</dd>
                 <dt>type</dt>
-                <dd>RHEL Box</dd>
+                <dd>{TYPE_PLACEHOLDER}</dd>
                 <dt>account</dt>
                 <dd>{entity.account}</dd>
             </dl>

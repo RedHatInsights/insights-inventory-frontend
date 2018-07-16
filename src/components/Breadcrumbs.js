@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+// MARK: implement this in components
 const Breadcrumbs = ({ name, path, param }) => {
     return (
         <React.Fragment>

@@ -1,12 +1,17 @@
 import { INVENTORY_API_BASE } from './config';
-import find from 'lodash/find';
 
 export function getEntities () {
-    return fetch(INVENTORY_API_BASE).then(r => r.json());
+    return fetch(INVENTORY_API_BASE).then(r => {
+        if (r.ok) {
+            return r.json();
+        }
+
+        throw new Error(`Unexpected response code ${r.status}`);
+    });
 }
 
 export function getEntity (id) {
     return getEntities().then(entities => {
-        return find(entities, e => e.id === parseInt(id));
+        return entities.find(e => e.id === id);
     });
 }
