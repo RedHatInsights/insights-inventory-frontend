@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Title } from '@patternfly/react-core';
-import { Icon } from '@patternfly/react-icons';
+import { SyncAltIcon } from '@patternfly/react-icons';
 import Breadcrumbs from '../Breadcrumbs';
 
 import './EntityDetails.scss';
@@ -13,7 +13,7 @@ const EntityDetails = ({ loaded, entity }) => {
     if (!loaded) {
         return (
             <div>
-                <Icon name='sync-alt'/>
+                <SyncAltIcon/>
             </div>
         );
     }
@@ -21,7 +21,7 @@ const EntityDetails = ({ loaded, entity }) => {
     return (
         <React.Fragment>
             <Breadcrumbs name='Inventory' path='/inventory' param={entity.display_name}/>
-            <Title size='xxl'>{entity.display_name}</Title>
+            <Title size='2xl'>{entity.display_name}</Title>
             <dl>
                 <dt>hostname</dt>
                 <dd>{entity.display_name}</dd>

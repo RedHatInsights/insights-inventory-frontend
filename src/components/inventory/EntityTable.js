@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './EntityTable.scss';
 import { Link } from 'react-router-dom';
-import { Icon } from '@patternfly/react-icons';
+import { SyncAltIcon, EllipsisVIcon } from '@patternfly/react-icons';
 
 const EntityTable = ({ loaded, entities }) => (
     <table className='entity-table'>
@@ -18,7 +18,7 @@ const EntityTable = ({ loaded, entities }) => (
             {(!loaded) ?
                 <tr>
                     <td colSpan='4' className='loading'>
-                        <Icon name='sync-alt'/>
+                        <SyncAltIcon/>
                     </td>
                 </tr> :
                 entities.map(entity =>
@@ -33,7 +33,7 @@ const EntityTable = ({ loaded, entities }) => (
                         </td>
                         <td>{entity.account}</td>
                         <td>
-                            <Icon name='ellipsis-v'/>
+                            <EllipsisVIcon/>
                         </td>
                     </tr>
                 )
