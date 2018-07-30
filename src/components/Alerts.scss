@@ -1,0 +1,13 @@
+@import '../Utilities.scss';
+
+.alerts {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: $global-padding;
+    min-width: 400px;
+
+    .pf-c-alert + .pf-c-alert {
+        margin-top: $global-margin;
+    }
+}
