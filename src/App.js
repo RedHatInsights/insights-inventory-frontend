@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import './App.scss';
 
+import AlertsContainer from './containers/AlertsContainer';
+
 class App extends Component {
 
     componentDidMount () {
@@ -14,7 +16,10 @@ class App extends Component {
 
     render () {
         return (
-            <Routes childProps={this.props} />
+            <React.Fragment>
+                <AlertsContainer/>
+                <Routes childProps={this.props} />
+            </React.Fragment>
         );
     }
 }

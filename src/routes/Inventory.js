@@ -17,6 +17,8 @@ class Inventory extends Component {
     constructor (props, ctx) {
         super(props, ctx);
         this.loadEntities = () => ctx.store.dispatch(actions.loadEntities());
+        this.alert1 = () => ctx.store.dispatch(actions.addAlert({ title: 'Dismissible alert', dismissible: true }));
+        this.alert2 = () => ctx.store.dispatch(actions.addAlert({ title: 'Non-dismissible alert', dismissible: false }));
     }
 
     componentDidMount () {
@@ -31,7 +33,11 @@ class Inventory extends Component {
                 </PageHeader>
                 <Section type='content'>
                     <InventoryEntityTable/>
-                    <Button variant='primary' onClick={() => this.loadEntities()}>Refresh</Button>
+                    <div className='buttons'>
+                        <Button variant='primary' onClick={this.loadEntities}>Refresh</Button>
+                        <Button variant='secondary' onClick={this.alert1}>Dismissible alert</Button>
+                        <Button variant='secondary' onClick={this.alert2}>Non-dismissible alert</Button>
+                    </div>
                 </Section>
             </React.Fragment>
         );

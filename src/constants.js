@@ -1,7 +1,10 @@
 import keyBy from 'lodash/keyBy';
 import flatMap from 'lodash/flatMap';
 
-const actions = [];
+const actions = [
+    'ALERT_ADD',
+    'ALERT_DISMISS'
+];
 
 const asyncActions = flatMap([
     'LOAD_ENTITIES',
