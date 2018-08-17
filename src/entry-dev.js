@@ -10,7 +10,7 @@ const store = init(logger);
 
 ReactDOM.render(
     <Provider store={store.getStore()}>
-        <Router basename='/insights'>
+        <Router basename='/insights/platform/inventory'>
             <App />
         </Router>
     </Provider>,
