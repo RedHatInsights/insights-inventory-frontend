@@ -22,7 +22,7 @@ const EntityDetails = ({ loaded, entity }) => {
 
     return (
         <React.Fragment>
-            <Breadcrumbs name='Inventory' path='/inventory' param={entity.display_name}/>
+            <Breadcrumbs name='Inventory' path='/' param={entity.display_name}/>
             <Title size='2xl'>{entity.display_name}</Title>
             <dl>
                 <dt>Hostname</dt>

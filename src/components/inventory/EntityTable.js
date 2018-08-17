@@ -27,7 +27,7 @@ const EntityTable = ({ loaded, entities }) => (
                             <input type='checkbox'></input>
                         </td>
                         <td>
-                            <Link to={`/inventory/entity/${entity.id}`}>
+                            <Link to={`/entity/${entity.id}`}>
                                 {entity.display_name ? entity.display_name : 'unnamed system'}
                             </Link>
                         </td>
