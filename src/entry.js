@@ -7,7 +7,7 @@ import App from './App';
 
 ReactDOM.render(
     <Provider store={init().getStore()}>
-        <Router basename='/insights'>
+        <Router basename='/insights/platform/inventory'>
             <App />
         </Router>
     </Provider>,
