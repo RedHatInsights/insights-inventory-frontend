@@ -31,7 +31,7 @@ export const Routes = () => {
             <Route exact path='/entity/:id' component={Entity} />
             <InsightsRoute exact path='/' component={Inventory} rootClass='inventory' />
 
-            <Redirect to='/inventory' />
+            <Redirect to='/' />
         </Switch>
     );
 };
