@@ -27,7 +27,7 @@ class Entity extends Component {
         return (
             <Section type='content'>
                 <InventoryEntityDetails/>
-                <Link to='/inventory'>
+                <Link to='/'>
                     <Button variant='primary'>Back</Button>
                 </Link>
             </Section>

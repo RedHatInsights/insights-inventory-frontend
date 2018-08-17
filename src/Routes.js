@@ -28,8 +28,8 @@ InsightsRoute.propTypes = {
 export const Routes = () => {
     return (
         <Switch>
-            <Route exact path='/inventory/entity/:id' component={Entity} />
-            <InsightsRoute exact path='/inventory' component={Inventory} rootClass='inventory' />
+            <Route exact path='/entity/:id' component={Entity} />
+            <InsightsRoute exact path='/' component={Inventory} rootClass='inventory' />
 
             <Redirect to='/inventory' />
         </Switch>
