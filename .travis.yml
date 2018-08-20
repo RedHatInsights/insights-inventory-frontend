@@ -1,8 +1,5 @@
 language: node_js
 sudo: required
-cache:
-  directories:
-  - node_modules
 notifications:
   email: false
 node_js:
@@ -11,3 +8,9 @@ install:
   - npm ci
 script:
   - npm run travis:verify
+after_success:
+- .travis/after_success.sh
+env:
+    global:
+    - REPO="git@github.com:RedHatInsights/insights-inventory-frontend-build"
+    - REPO_DIR="insights-inventory-frontend-build"
