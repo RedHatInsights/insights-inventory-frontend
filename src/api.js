@@ -2,6 +2,11 @@ import { INVENTORY_API_BASE } from './config';
 import { getStore } from './store';
 import { addAlert } from './actions';
 
+const defaultTags = {
+    group: ['group-1234'],
+    deployment: ['datacenter-east']
+};
+
 /* eslint camelcase: off */
 function buildMock (i) {
     return {
@@ -32,6 +37,13 @@ function buildMock (i) {
                 utcoffset: '-14400'
             }
         },
+        tags: defaultTags,
+        health: {
+            vulnerabilities: { title: 5, redirect: 'cost_management' },
+            configuration: { title: 10, redirect: 'configuration_assessment' },
+            compliance: { title: '74%', redirect: 'compliance' },
+            cost: { title: '23K', redirect: 'cost_management' }
+        },
         display_name: `server0${i}.redhat.com`
     };
 }
@@ -42,7 +54,16 @@ let mockWarnCount = 0;
 export function getEntities () {
     return fetch(INVENTORY_API_BASE).then(r => {
         if (r.ok) {
-            return r.json();
+            return r.json().then(data => data.map(row => ({
+                id: row.id,
+                tags: defaultTags,
+                health: {
+                    vulnerabilities: { title: 5, redirect: 'cost_management' },
+                    configuration: { title: 10, redirect: 'configuration_assessment' },
+                    compliance: { title: '74%', redirect: 'compliance' },
+                    cost: { title: '23K', redirect: 'cost_management' }
+                }
+            })));
         }
 
         if (r.status === 404) {

@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import './App.scss';
+import { INVENTORY_ROOT } from './config';
 
 import AlertsContainer from './containers/AlertsContainer';
 
@@ -11,7 +12,16 @@ class App extends Component {
 
     componentDidMount () {
         insights.chrome.init();
-        insights.chrome.identifyApp('inventory');
+        insights.chrome.identifyApp(INVENTORY_ROOT);
+        insights.chrome.navigation(buildNavigation());
+
+        this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
+        this.buildNav = this.props.history.listen(() => insights.chrome.navigation(buildNavigation()));
+    }
+
+    componentWillUnmount() {
+        this.appNav();
+        this.buildNav();
     }
 
     render () {
@@ -34,3 +44,14 @@ App.propTypes = {
  *          https://reactjs.org/docs/higher-order-components.html
  */
 export default withRouter (connect()(App));
+
+function buildNavigation () {
+    const currentPath = `${INVENTORY_ROOT}/${window.location.pathname.split('/').slice(-1)[0]}`;
+    return [{
+        title: 'Entities',
+        id: `${INVENTORY_ROOT}/entity`
+    }].map(item => ({
+        ...item,
+        active: item.id === currentPath
+    }));
+}

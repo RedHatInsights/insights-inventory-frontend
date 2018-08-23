@@ -1,13 +1,15 @@
 import { ACTION_TYPES } from './constants';
 import { getEntity, getEntities } from './api';
 
-export const loadEntities = () => ({
-    type: ACTION_TYPES.LOAD_ENTITIES,
-    payload: getEntities()
-});
+export const loadEntities = () => {
+    return ({
+        type: ACTION_TYPES.GET_ENTITIES,
+        payload: getEntities()
+    });
+};
 
 export const loadEntity = id => ({
-    type: ACTION_TYPES.LOAD_ENTITY,
+    type: ACTION_TYPES.GET_ENTITY,
     payload: getEntity(id)
 });
 
