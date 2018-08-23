@@ -2,14 +2,13 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Inventory from './routes/Inventory';
-import Entity from './routes/Entity';
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
     root.removeAttribute('class');
     root.classList.add(`page__${rootClass}`, 'pf-l-page__main');
 
-    return (<Component {...rest} />);
+    return (<Route {...rest} component={Component}/>);
 };
 
 InsightsRoute.propTypes = {
@@ -28,10 +27,9 @@ InsightsRoute.propTypes = {
 export const Routes = () => {
     return (
         <Switch>
-            <Route exact path='/entity/:id' component={Entity} />
-            <InsightsRoute exact path='/' component={Inventory} rootClass='inventory' />
+            <InsightsRoute path='/entity' component={Inventory} rootClass='inventory' />
 
-            <Redirect to='/' />
+            <Redirect to='/entity' />
         </Switch>
     );
 };
