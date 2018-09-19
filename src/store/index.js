@@ -1,34 +1,19 @@
-import ReducerRegistry from '@red-hat-insights/insights-frontend-components/Utilities/ReducerRegistry';
 import MiddlewareListener from '@red-hat-insights/insights-frontend-components/Utilities/MiddlewareListener';
+import { getRegistry } from '@red-hat-insights/insights-frontend-components/Utilities/Registry';
 import promiseMiddleware from 'redux-promise-middleware';
-import reducers from './reducers';
+export { default as reducers, asyncReducers } from './reducers';
 
-let registry;
 let middlewareListener;
 
 export function init (...middleware) {
-    if (registry) {
-        throw new Error('store already initialized');
-    }
-
     middlewareListener = new MiddlewareListener();
-
-    registry = new ReducerRegistry({}, [
-        middlewareListener.getMiddleware(),
-        promiseMiddleware(),
-        ...middleware
-    ]);
-
-    registry.register(reducers);
-    return registry;
-}
-
-export function getStore () {
-    return registry.getStore();
-}
-
-export function register (...args) {
-    return registry.register(...args);
+    return getRegistry(
+        {}, [
+            middlewareListener.getMiddleware(),
+            promiseMiddleware(),
+            ...middleware
+        ]
+    );
 }
 
 export function addNewListener ({ actionType, callback }) {

@@ -6,27 +6,39 @@ import './inventory.scss';
 import {
     PageHeader,
     PageHeaderTitle,
-    Section,
-    inventoryConnector,
-    ASYNC_ACTIONS
+    Section
 } from '@red-hat-insights/insights-frontend-components';
 import { Button } from '@patternfly/react-core';
-import { register, addNewListener } from '../store';
+import { asyncReducers, addNewListener } from '../store';
 import * as actions from '../actions';
 import { Card, CardBody, Grid, GridItem } from '@patternfly/react-core';
-import '@red-hat-insights/insights-frontend-components/components/Inventory.css';
+import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
+import registryDecorator from '@red-hat-insights/insights-frontend-components/Utilities/Registry';
 
+@registryDecorator()
 class Inventory extends Component {
 
     constructor (props, ctx) {
         super(props, ctx);
+        this.loadInventory();
+        this.alert1 = () => this.props.addAlert({ title: 'Dismissible alert', dismissible: true });
+        this.alert2 = () => this.props.addAlert({ title: 'Non-dismissible alert', dismissible: false });
+
+        this.state = {
+            ConnectedInventory: () => <div>Loading..</div>
+        };
+    }
+
+    async loadInventory() {
+        this.getRegistry().register(await asyncReducers());
+        const { inventoryConnector, INVENTORY_ACTION_TYPES } = await asyncInventoryLoader();
         this.entitiesListener = addNewListener({
-            actionType: ASYNC_ACTIONS.LOAD_ENTITIES,
+            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
             callback: this.props.loadEntities
         });
 
         this.entityListener = addNewListener({
-            actionType: ASYNC_ACTIONS.LOAD_ENTITY,
+            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
             callback: ({ data }) => {
                 data.then(payload => {
                     payload.error && this.props.addAlert({ title: payload.error.message });
@@ -34,8 +46,10 @@ class Inventory extends Component {
                 });
             }
         });
-        this.alert1 = () => this.props.addAlert({ title: 'Dismissible alert', dismissible: true });
-        this.alert2 = () => this.props.addAlert({ title: 'Non-dismissible alert', dismissible: false });
+
+        this.setState({
+            ConnectedInventory: inventoryConnector()
+        });
     }
 
     componentWillUnmount() {
@@ -43,7 +57,7 @@ class Inventory extends Component {
     }
 
     render() {
-        const ConnectedInventory = inventoryConnector(register);
+        const { ConnectedInventory } = this.state;
         return (
             <React.Fragment>
                 <PageHeader>
