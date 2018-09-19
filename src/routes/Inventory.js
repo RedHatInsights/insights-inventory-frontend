@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './inventory.scss';
 
-import { PageHeader, PageHeaderTitle, Section } from '@red-hat-insights/insights-frontend-components';
+import { PageHeader, PageHeaderTitle, Main } from '@red-hat-insights/insights-frontend-components';
 import { Button } from '@patternfly/react-core';
 
 import * as actions from '../actions';
@@ -31,14 +31,14 @@ class Inventory extends Component {
                 <PageHeader>
                     <PageHeaderTitle title='Inventory'/>
                 </PageHeader>
-                <Section type='content'>
+                <Main>
                     <InventoryEntityTable/>
                     <div className='buttons'>
                         <Button variant='primary' onClick={this.loadEntities}>Refresh</Button>
                         <Button variant='secondary' onClick={this.alert1}>Dismissible alert</Button>
                         <Button variant='secondary' onClick={this.alert2}>Non-dismissible alert</Button>
                     </div>
-                </Section>
+                </Main>
             </React.Fragment>
         );
     }
