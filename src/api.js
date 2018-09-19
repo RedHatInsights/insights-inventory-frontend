@@ -1,6 +1,4 @@
 import { INVENTORY_API_BASE } from './config';
-import { getStore } from './store';
-import { addAlert } from './actions';
 
 const defaultTags = {
     group: ['group-1234'],
@@ -68,14 +66,14 @@ export function getEntities () {
 
         if (r.status === 404) {
             if (!mockWarnCount) {
-                getStore().dispatch(addAlert({
-                    title: 'Unable to connect to the API. Falling back to mock data set'
-                }));
                 mockWarnCount++;
 
             }
 
-            return MOCKS;
+            return {
+                items: MOCKS,
+                isMocked: true
+            };
         }
 
         throw new Error(`Unexpected response code ${r.status}`);
@@ -84,6 +82,6 @@ export function getEntities () {
 
 export function getEntity (id) {
     return getEntities().then(entities => {
-        return entities.find(e => e.id === id);
+        return (entities.items || entities).find(e => e.id === id);
     });
 }

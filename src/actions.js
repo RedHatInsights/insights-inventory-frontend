@@ -4,7 +4,7 @@ import { getEntity, getEntities } from './api';
 export const loadEntities = () => {
     return ({
         type: ACTION_TYPES.GET_ENTITIES,
-        payload: getEntities()
+        payload: getEntities().then(data => (data.items || data))
     });
 };
 

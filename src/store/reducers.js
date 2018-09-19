@@ -5,13 +5,15 @@ import { ACTION_TYPES } from '../constants';
 import { applyReducerHash } from '@red-hat-insights/insights-frontend-components/Utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@red-hat-insights/insights-frontend-components/Utilities/helpers';
 import {
-    mergeWithDetail,
-    mergeWithEntities,
-    ASYNC_ACTIONS,
     Overview,
     GeneralInformation
 } from '@red-hat-insights/insights-frontend-components';
+
+import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
+
 let alertIdGenerator = 0;
+
+const defaultState = { loaded: false };
 
 function entitiesLoaded(state, { payload }) {
     return {
@@ -49,20 +51,7 @@ function enableApplications(state) {
     };
 }
 
-const reducers = {
-    ...mergeWithEntities(applyReducerHash({
-        [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded
-    },
-    {
-        loaded: false
-    })),
-    ...mergeWithDetail(applyReducerHash({
-        [ASYNC_ACTIONS.LOAD_ENTITY_FULFILLED]: enableApplications,
-        [ACTION_TYPES.GET_ENTITY_FULFILLED]: entityLoaded
-    },
-    {
-        loaded: false
-    })),
+let reducers = {
     alerts: applyReducerHash({
         [ACTION_TYPES.ALERT_ADD]: (state, { payload }) =>
             ([...state, { id: alertIdGenerator++, ...payload }]),
@@ -76,5 +65,22 @@ const reducers = {
         )
     }, [])
 };
+
+export async function asyncReducers() {
+    const { mergeWithEntities, mergeWithDetail, INVENTORY_ACTION_TYPES } = await asyncInventoryLoader();
+    return ({
+        ...mergeWithEntities(applyReducerHash({
+            [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded
+        },
+        defaultState
+        )),
+        ...mergeWithDetail(applyReducerHash({
+            [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: enableApplications,
+            [ACTION_TYPES.GET_ENTITY_FULFILLED]: entityLoaded
+        },
+        defaultState
+        ))
+    });
+}
 
 export default reducers;
