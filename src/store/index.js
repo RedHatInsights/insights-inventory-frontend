@@ -1,7 +1,7 @@
 import MiddlewareListener from '@red-hat-insights/insights-frontend-components/Utilities/MiddlewareListener';
-import { getRegistry } from '@red-hat-insights/insights-frontend-components/Utilities/Registry';
+import { getRegistry } from '@red-hat-insights/insights-frontend-components';
 import promiseMiddleware from 'redux-promise-middleware';
-export { default as reducers, asyncReducers } from './reducers';
+export { default as reducers, entitiesReducer, entitesDetailReducer } from './reducers';
 
 let middlewareListener;
 

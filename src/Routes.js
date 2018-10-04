@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Inventory from './routes/Inventory';
@@ -28,8 +28,6 @@ export const Routes = () => {
     return (
         <Switch>
             <InsightsRoute path='/entity' component={Inventory} rootClass='inventory' />
-
-            <Redirect to='/entity' />
         </Switch>
     );
 };

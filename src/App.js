@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Routes } from './Routes';
+import { withRouter } from 'react-router-dom';
 import './App.scss';
 import { INVENTORY_ROOT } from './config';
-import registryDecorator from '@red-hat-insights/insights-frontend-components/Utilities/Registry';
+import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
 import AlertsContainer from './containers/AlertsContainer';
 import { reducers } from './store';
 
@@ -42,8 +42,7 @@ App.propTypes = {
 };
 
 /**
- * withRouter: https://reacttraining.com/react-router/web/api/withRouter
  * connect: https://github.com/reactjs/react-redux/blob/master/docs/api.md
  *          https://reactjs.org/docs/higher-order-components.html
  */
-export default withRouter (connect()(App));
+export default withRouter(connect()(App));
