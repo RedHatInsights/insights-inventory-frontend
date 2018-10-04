@@ -9,8 +9,6 @@ import {
     GeneralInformation
 } from '@red-hat-insights/insights-frontend-components';
 
-import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
-
 let alertIdGenerator = 0;
 
 const defaultState = { loaded: false };
@@ -66,21 +64,19 @@ let reducers = {
     }, [])
 };
 
-export async function asyncReducers() {
-    const { mergeWithEntities, mergeWithDetail, INVENTORY_ACTION_TYPES } = await asyncInventoryLoader();
-    return ({
-        ...mergeWithEntities(applyReducerHash({
-            [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded
-        },
-        defaultState
-        )),
-        ...mergeWithDetail(applyReducerHash({
-            [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: enableApplications,
-            [ACTION_TYPES.GET_ENTITY_FULFILLED]: entityLoaded
-        },
-        defaultState
-        ))
-    });
-}
+export const entitiesReducer = applyReducerHash(
+    {
+        [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded
+    },
+    defaultState
+);
+
+export const entitesDetailReducer = (INVENTORY_ACTION_TYPES) => applyReducerHash(
+    {
+        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: enableApplications,
+        [ACTION_TYPES.GET_ENTITY_FULFILLED]: entityLoaded
+    },
+    defaultState
+);
 
 export default reducers;

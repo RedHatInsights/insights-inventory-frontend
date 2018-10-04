@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
-import {
-    PageHeader,
-    PageHeaderTitle,
-    Section
-} from '@red-hat-insights/insights-frontend-components';
+import { PageHeader, PageHeaderTitle, Main } from '@red-hat-insights/insights-frontend-components';
 import { Button } from '@patternfly/react-core';
-import { asyncReducers, addNewListener } from '../store';
+import { entitesDetailReducer, entitiesReducer, addNewListener } from '../store';
 import * as actions from '../actions';
 import { Card, CardBody, Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
-import registryDecorator from '@red-hat-insights/insights-frontend-components/Utilities/Registry';
+import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
+import { withRouter } from 'react-router-dom';
 
 @registryDecorator()
 class Inventory extends Component {
@@ -30,8 +26,16 @@ class Inventory extends Component {
     }
 
     async loadInventory() {
-        this.getRegistry().register(await asyncReducers());
-        const { inventoryConnector, INVENTORY_ACTION_TYPES } = await asyncInventoryLoader();
+        const {
+            inventoryConnector,
+            INVENTORY_ACTION_TYPES,
+            mergeWithEntities,
+            mergeWithDetail
+        } = await asyncInventoryLoader();
+        this.getRegistry().register({
+            ...mergeWithEntities(entitiesReducer),
+            ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
+        });
         this.entitiesListener = addNewListener({
             actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
             callback: this.props.loadEntities
@@ -63,7 +67,7 @@ class Inventory extends Component {
                 <PageHeader>
                     <PageHeaderTitle title='Inventory'/>
                 </PageHeader>
-                <Section type='content'>
+                <Main>
                     <Grid gutter="md">
                         <GridItem span={12}>
                             <Card>
@@ -83,7 +87,7 @@ class Inventory extends Component {
                             </Card>
                         </GridItem>
                     </Grid>
-                </Section>
+                </Main>
             </React.Fragment>
         );
     }
