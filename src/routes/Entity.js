@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { Section } from '@red-hat-insights/insights-frontend-components';
+import { Main } from '@red-hat-insights/insights-frontend-components';
 import { Button } from '@patternfly/react-core';
 import EntityDetails from '../components/inventory/EntityDetails';
 
@@ -25,13 +25,12 @@ class Entity extends Component {
 
     render() {
         return (
-            <Section type='content'>
+            <Main>
                 <InventoryEntityDetails/>
                 <Link to='/'>
                     <Button variant='primary'>Back</Button>
                 </Link>
-            </Section>
-
+            </Main>
         );
     }
 }
