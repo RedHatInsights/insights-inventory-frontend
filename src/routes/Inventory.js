@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
-import { PageHeader, PageHeaderTitle, Main } from '@red-hat-insights/insights-frontend-components';
+import { PageHeader, PageHeaderTitle, Main, routerParams } from '@red-hat-insights/insights-frontend-components';
 import { Button } from '@patternfly/react-core';
 import { entitesDetailReducer, entitiesReducer, addNewListener } from '../store';
 import * as actions from '../actions';
 import { Card, CardBody, Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
-import { withRouter } from 'react-router-dom';
 
 @registryDecorator()
 class Inventory extends Component {
@@ -32,6 +31,7 @@ class Inventory extends Component {
             mergeWithEntities,
             mergeWithDetail
         } = await asyncInventoryLoader();
+        // eslint-disable-next-line no-console
         this.getRegistry().register({
             ...mergeWithEntities(entitiesReducer),
             ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
@@ -111,4 +111,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(() => ({}), mapDispatchToProps)(Inventory));
+export default routerParams(connect(() => ({}), mapDispatchToProps)(Inventory));
