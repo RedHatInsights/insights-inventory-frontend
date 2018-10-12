@@ -64,7 +64,7 @@ class Inventory extends Component {
         const { ConnectedInventory } = this.state;
         return (
             <React.Fragment>
-                <PageHeader>
+                <PageHeader className="pf-m-light">
                     <PageHeaderTitle title='Inventory'/>
                 </PageHeader>
                 <Main>
