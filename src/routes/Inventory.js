@@ -31,7 +31,6 @@ class Inventory extends Component {
             mergeWithEntities,
             mergeWithDetail
         } = await asyncInventoryLoader();
-        // eslint-disable-next-line no-console
         this.getRegistry().register({
             ...mergeWithEntities(entitiesReducer),
             ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
