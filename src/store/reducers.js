@@ -16,8 +16,10 @@ const defaultState = { loaded: false };
 function entitiesLoaded(state, { payload }) {
     return {
         ...state,
-        rows: mergeArraysByKey([state.rows, payload]),
-        entities: mergeArraysByKey([state.entities, payload])
+        // eslint-disable-next-line no-unused-vars
+        rows: mergeArraysByKey([state.rows, payload.map(({ display_name: displayName, ...rest }) => rest)]),
+        // eslint-disable-next-line no-unused-vars
+        entities: mergeArraysByKey([state.entities, payload.map(({ display_name: displayName, ...rest }) => rest)])
     };
 }
 
