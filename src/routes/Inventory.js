@@ -45,7 +45,7 @@ class Inventory extends Component {
             callback: ({ data }) => {
                 data.then(payload => {
                     payload.error && this.props.addAlert({ title: payload.error.message });
-                    this.props.loadEntity(payload.id);
+                    this.props.loadEntity(payload.results[0].id);
                 });
             }
         });
