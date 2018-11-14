@@ -104,8 +104,8 @@
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelint.json",
     "prod": "NODE_ENV=production webpack-serve --config config/dev.webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
-    "start": "NODE_ENV=production webpack-serve --config config/dev.webpack.config.js",
-    "travis:build": "webpack --config config/test.webpack.config.js",
+    "start": "webpack-serve --config config/dev.webpack.config.js",
+    "travis:build": "NODE_ENV=production webpack --config config/test.webpack.config.js",
     "travis:verify": "npm-run-all travis:build lint test",
     "verify": "npm-run-all build lint test"
   },
