@@ -6,9 +6,13 @@ import { init } from './store';
 import App from './App';
 import logger from 'redux-logger';
 
+// exposes webpack variable RELEASE
+/*global RELEASE:true*/
+/*eslint no-undef: "error"*/
+
 ReactDOM.render(
     <Provider store={init(logger).getStore()}>
-        <Router basename='/insights/platform/inventory'>
+        <Router basename={ `/${RELEASE}/platform/inventory` }>
             <App />
         </Router>
     </Provider>,
