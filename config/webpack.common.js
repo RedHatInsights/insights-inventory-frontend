@@ -9,18 +9,20 @@ const entry = process.env.NODE_ENV === 'production' ?
     path.resolve(__dirname, '../src/entry.js') :
     path.resolve(__dirname, '../src/entry-dev.js');
 
-let insightsDeployment = 'insights';
-const gitBranch = process.env.BRANCH || gitRevisionPlugin.branch();
-const betaBranch =
-    gitBranch === 'master' ||
-    gitBranch === 'qa-beta' ||
-    gitBranch === 'ci-beta' ||
-    gitBranch === 'prod-beta';
-if (process.env.NODE_ENV === 'production' && betaBranch) {
-    insightsDeployment = 'insightsbeta';
-}
+const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
+const betaBranhces = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
+const insightsDeployment = (process.env.NODE_ENV === 'production' && betaBranhces.includes(gitBranch)) ?
+    'insightsbeta' :
+    'insights';
 
-const publicPath = `/${insightsDeployment}/platform/inventory/`;
+/* eslint-disable no-console */
+console.log('~~~Using variables~~~');
+console.log(`Current branch: ${gitBranch}`);
+console.log(`Beta branches: ${betaBranhces}`);
+console.log(`Using deployments: ${insightsDeployment}`);
+console.log(`Public path: /${insightsDeployment}/platform/inventory/`);
+console.log('~~~~~~~~~~~~~~~~~~~~~');
+/* eslint-enable no-console */
 
 module.exports = {
     paths: {
@@ -31,7 +33,7 @@ module.exports = {
         smartComponents: path.resolve(__dirname, '../src/SmartComponents'),
         pages: path.resolve(__dirname, '../src/pages'),
         static: path.resolve(__dirname, '../static'),
-        publicPath
+        publicPath: `/${insightsDeployment}/platform/inventory/`
     },
     insightsDeployment
 };
