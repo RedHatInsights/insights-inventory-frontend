@@ -61,17 +61,6 @@ const LodashWebpackPlugin = new (require('lodash-webpack-plugin'))({
 plugins.push(LodashWebpackPlugin);
 
 /**
- * Optimizes bundle size
- *
- * @type {var}
- */
-//const AggressiveSplittingPlugin = new webpack.optimize.AggressiveSplittingPlugin({
-//    minSize: 30000,
-//    maxSize: 50000
-//});
-// plugins.push(AggressiveSplittingPlugin);
-
-/**
  * Writes final css to file
  */
 const ExtractCssWebpackPlugin = new (require('mini-css-extract-plugin'))({

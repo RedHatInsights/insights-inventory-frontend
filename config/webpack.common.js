@@ -14,6 +14,7 @@ const gitBranch = process.env.BRANCH || gitRevisionPlugin.branch();
 const betaBranch =
     gitBranch === 'master' ||
     gitBranch === 'qa-beta' ||
+    gitBranch === 'ci-beta' ||
     gitBranch === 'prod-beta';
 if (process.env.NODE_ENV === 'production' && betaBranch) {
     insightsDeployment = 'insightsbeta';
