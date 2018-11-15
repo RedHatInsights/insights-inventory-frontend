@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main, routerParams } from '@red-hat-insights/insights-frontend-components';
-import { Button } from '@patternfly/react-core';
 import { entitesDetailReducer, entitiesReducer, addNewListener } from '../store';
 import * as actions from '../actions';
 import { Card, CardBody, Grid, GridItem } from '@patternfly/react-core';
@@ -72,16 +71,6 @@ class Inventory extends Component {
                             <Card>
                                 <CardBody>
                                     <ConnectedInventory />
-                                </CardBody>
-                            </Card>
-                        </GridItem>
-                        <GridItem span={12}>
-                            <Card>
-                                <CardBody>
-                                    <div className='buttons'>
-                                        <Button variant='secondary' onClick={this.alert1}>Dismissible alert</Button>
-                                        <Button variant='secondary' onClick={this.alert2}>Non-dismissible alert</Button>
-                                    </div>
                                 </CardBody>
                             </Card>
                         </GridItem>

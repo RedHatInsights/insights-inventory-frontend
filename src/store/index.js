@@ -1,5 +1,6 @@
 import MiddlewareListener from '@red-hat-insights/insights-frontend-components/Utilities/MiddlewareListener';
 import { getRegistry } from '@red-hat-insights/insights-frontend-components';
+import { notificationsMiddleware } from '@red-hat-insights/insights-frontend-components/components/Notifications/';
 import promiseMiddleware from 'redux-promise-middleware';
 export { default as reducers, entitiesReducer, entitesDetailReducer } from './reducers';
 
@@ -11,6 +12,7 @@ export function init (...middleware) {
         {}, [
             middlewareListener.getMiddleware(),
             promiseMiddleware(),
+            notificationsMiddleware(),
             ...middleware
         ]
     );
