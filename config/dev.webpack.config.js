@@ -10,7 +10,7 @@ webpackConfig.serve = {
     content: config.paths.public,
     port: 8002,
     dev: {
-        publicPath: '/insights/platform/inventory'
+        publicPath: config.paths.publicPath
     },
     // https://github.com/webpack-contrib/webpack-serve/blob/master/docs/addons/history-fallback.config.js
     add: app => app.use(convert(history({})))
