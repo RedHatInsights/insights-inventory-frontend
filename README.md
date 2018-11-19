@@ -15,8 +15,7 @@ Note: You will need to set up the Insights environment if you want to develop th
 ### Insights Proxy
 [Insights Proxy](https://github.com/RedHatInsights/insights-proxy) is required to run the inventory frontend application. **Note that a inventory-specific proxy configuration is required for now for the frontend application to be able to talk to the Inventory API POC**. To run the proxy with inventory-specific configuration run:
 ```
-cd /path/to/insights-inventory-frontend
-docker run -v $PWD/config:/config --rm --net='host' -p1337:1337 -e PLATFORM=linux -ti docker.io/redhatinsights/insights-proxy
+SPANDX_CONFIG="$(pwd)/insights-inventory-frontend/config/spandx.config.js" bash insights-proxy/scripts/run.sh
 ```
 
 ### Running the app
