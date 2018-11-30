@@ -4,9 +4,9 @@
   "private": false,
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@patternfly/react-core": "1.32.2",
-    "@patternfly/react-icons": "2.7.1",
-    "@red-hat-insights/insights-frontend-components": "^3.21.2",
+    "@patternfly/react-core": "1.38.3",
+    "@patternfly/react-icons": "2.9.2",
+    "@red-hat-insights/insights-frontend-components": "3.23.1",
     "classnames": "^2.2.6",
     "create-react-class": "^15.6.3"
   },
