@@ -1,7 +1,8 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Inventory from './routes/Inventory';
+import InventoryTable from './routes/InventoryTable';
+import InventoryDetail from './routes/InventoryDetail';
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
@@ -27,7 +28,8 @@ InsightsRoute.propTypes = {
 export const Routes = () => {
     return (
         <Switch>
-            <InsightsRoute path='/entity' component={Inventory} rootClass='inventory' />
+            <InsightsRoute exact path='/entity' component={InventoryTable} rootClass='inventory' />
+            <InsightsRoute path='/entity/:inventoryId' component={InventoryDetail} rootClass='inventory' />
             <Redirect to="/entity" />
         </Switch>
     );

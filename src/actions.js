@@ -1,10 +1,10 @@
 import { ACTION_TYPES } from './constants';
 import { getEntity, getEntities } from './api';
 
-export const loadEntities = () => {
+export const loadEntities = (config) => {
     return ({
         type: ACTION_TYPES.GET_ENTITIES,
-        payload: getEntities().then(data => (data.items || data))
+        payload: getEntities(config).then(data => (data.items || data))
     });
 };
 
