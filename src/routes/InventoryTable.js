@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main, routerParams } from '@red-hat-insights/insights-frontend-components';
-import { entitesDetailReducer, entitiesReducer, addNewListener } from '../store';
+import { entitiesReducer, addNewListener } from '../store';
 import * as actions from '../actions';
-import { Card, CardBody, Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
 
@@ -15,47 +15,46 @@ class Inventory extends Component {
     constructor (props, ctx) {
         super(props, ctx);
         this.loadInventory();
-        this.alert1 = () => this.props.addAlert({ title: 'Dismissible alert', dismissible: true });
-        this.alert2 = () => this.props.addAlert({ title: 'Non-dismissible alert', dismissible: false });
+        this.inventory = React.createRef();
 
         this.state = {
             ConnectedInventory: () => <div>Loading..</div>
         };
+
+        this.onRefresh = this.onRefresh.bind(this);
     }
 
     async loadInventory() {
         const {
             inventoryConnector,
             INVENTORY_ACTION_TYPES,
-            mergeWithEntities,
-            mergeWithDetail
+            mergeWithEntities
         } = await asyncInventoryLoader();
         this.getRegistry().register({
-            ...mergeWithEntities(entitiesReducer),
-            ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
-        });
-        this.entitiesListener = addNewListener({
-            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
-            callback: this.props.loadEntities
+            ...mergeWithEntities(entitiesReducer)
         });
 
-        this.entityListener = addNewListener({
-            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
+        addNewListener({
+            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
             callback: ({ data }) => {
-                data.then(payload => {
-                    payload.error && this.props.addAlert({ title: payload.error.message });
-                    this.props.loadEntity(payload.results[0].id);
+                // eslint-disable-next-line camelcase
+                data.then(({ page, per_page }) => {
+                    // eslint-disable-next-line camelcase
+                    this.props.loadEntities({ page, per_page });
                 });
             }
         });
 
+        const { InventoryTable, updateEntities } = inventoryConnector();
+
+        this.updateEntities = updateEntities;
+
         this.setState({
-            ConnectedInventory: inventoryConnector()
+            ConnectedInventory: InventoryTable
         });
     }
 
-    componentWillUnmount() {
-        this.entitiesListener();
+    onRefresh() {
     }
 
     render() {
@@ -68,11 +67,19 @@ class Inventory extends Component {
                 <Main>
                     <Grid gutter="md">
                         <GridItem span={12}>
-                            <Card>
-                                <CardBody>
-                                    <ConnectedInventory />
-                                </CardBody>
-                            </Card>
+                            <ConnectedInventory
+                                filters={[
+                                    {
+                                        title: 'Health status', value: 'health-status', items: []
+                                    },
+                                    {
+                                        title: 'Last seen', value: 'last-seen', items: []
+                                    }
+                                ]}
+                                ref={this.inventory}
+                                showHealth
+                                onRefresh={this.onRefresh}
+                            />
                         </GridItem>
                     </Grid>
                 </Main>
@@ -94,7 +101,7 @@ Inventory.propTypes = {
 function mapDispatchToProps(dispatch) {
     return {
         addAlert: (payload) => dispatch(actions.addAlert(payload)),
-        loadEntities: () => dispatch(actions.loadEntities()),
+        loadEntities: (config) => dispatch(actions.loadEntities(config)),
         loadEntity: (id) => dispatch(actions.loadEntity(id))
     };
 }

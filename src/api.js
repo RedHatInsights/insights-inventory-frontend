@@ -10,8 +10,19 @@ const addMockApp = (results) => results.map(row => ({
     }
 }));
 
-export function getEntities () {
-    return fetch(INVENTORY_API_BASE).then(r => {
+// eslint-disable-next-line camelcase
+export function getEntities({ page, per_page }) {
+    let query = '';
+    // eslint-disable-next-line camelcase
+    if (per_page || page) {
+        // eslint-disable-next-line camelcase
+        const params = { per_page, page };
+        query = '?' + Object.keys(params).reduce(
+            (acc, curr) => [...acc, `${curr}=${params[curr]}`], []
+        ).join('&');
+    }
+
+    return fetch(`${INVENTORY_API_BASE}${query}`).then(r => {
         if (r.ok) {
             return r.json().then(data => ({
                 results: addMockApp(data.results)
