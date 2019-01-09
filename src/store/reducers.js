@@ -6,7 +6,8 @@ import { applyReducerHash } from '@red-hat-insights/insights-frontend-components
 import { mergeArraysByKey } from '@red-hat-insights/insights-frontend-components/Utilities/helpers';
 import {
     Overview,
-    GeneralInformation
+    GeneralInformation,
+    Vulnerabilities
 } from '@red-hat-insights/insights-frontend-components';
 
 let alertIdGenerator = 0;
@@ -39,11 +40,9 @@ function enableApplications(state) {
         ...state,
         loaded: true,
         activeApps: [
-            { title: 'Overview', name: 'overview', component: Overview },
-            { title: 'Vulnerabilities', name: 'vulnerabilities' },
-            { title: 'Configuration Assessment', name: 'configuration_assessment' },
+            { title: 'Vulnerabilities', name: 'vulnerabilities', component: Vulnerabilities },
+            { title: 'Advisor', name: 'configuration_assessment' },
             { title: 'Compliance', name: 'compliance' },
-            { title: 'Cost Managemenet', name: 'cost_management' },
             { title: 'General Information', name: 'general_information', component: GeneralInformation }
         ]
     };

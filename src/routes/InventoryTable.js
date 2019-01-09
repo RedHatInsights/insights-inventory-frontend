@@ -16,11 +16,9 @@ class Inventory extends Component {
         super(props, ctx);
         this.loadInventory();
         this.inventory = React.createRef();
-
         this.state = {
-            ConnectedInventory: () => <div>Loading..</div>
+            removeListener: () => undefined
         };
-
         this.onRefresh = this.onRefresh.bind(this);
     }
 
@@ -34,13 +32,13 @@ class Inventory extends Component {
             ...mergeWithEntities(entitiesReducer)
         });
 
-        addNewListener({
+        const removeListener = addNewListener({
             actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
             callback: ({ data }) => {
                 // eslint-disable-next-line camelcase
                 data.then(({ page, per_page }) => {
                     // eslint-disable-next-line camelcase
-                    this.props.loadEntities({ page, per_page });
+                    this.props.loadEntities({ page, per_page, filters: this.state.filters });
                 });
             }
         });
@@ -50,11 +48,19 @@ class Inventory extends Component {
         this.updateEntities = updateEntities;
 
         this.setState({
-            ConnectedInventory: InventoryTable
+            ConnectedInventory: InventoryTable,
+            removeListener
         });
     }
 
-    onRefresh() {
+    onRefresh({ filters }) {
+        this.setState({
+            filters
+        });
+    }
+
+    componentWillUnmount() {
+        this.inventory && this.state.removeListener();
     }
 
     render() {
@@ -67,19 +73,20 @@ class Inventory extends Component {
                 <Main>
                     <Grid gutter="md">
                         <GridItem span={12}>
-                            <ConnectedInventory
-                                filters={[
-                                    {
-                                        title: 'Health status', value: 'health-status', items: []
-                                    },
-                                    {
-                                        title: 'Last seen', value: 'last-seen', items: []
-                                    }
-                                ]}
-                                ref={this.inventory}
-                                showHealth
-                                onRefresh={this.onRefresh}
-                            />
+                            {ConnectedInventory &&
+                                <ConnectedInventory
+                                    filters={[
+                                        {
+                                            title: 'Health status', value: 'health-status', items: []
+                                        },
+                                        {
+                                            title: 'Last seen', value: 'last-seen', items: []
+                                        }
+                                    ]}
+                                    ref={this.inventory}
+                                    onRefresh={this.onRefresh}
+                                />
+                            }
                         </GridItem>
                     </Grid>
                 </Main>

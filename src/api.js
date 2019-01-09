@@ -11,15 +11,16 @@ const addMockApp = (results) => results.map(row => ({
 }));
 
 // eslint-disable-next-line camelcase
-export function getEntities({ page, per_page }) {
+export function getEntities({ page, per_page, filters = [] }) {
     let query = '';
+    const displayName = filters.find(item => item.value === 'display_name');
     // eslint-disable-next-line camelcase
-    if (per_page || page) {
+    if (per_page || page || displayName) {
         // eslint-disable-next-line camelcase
-        const params = { per_page, page };
+        const params = { per_page, page, display_name: displayName && displayName.filter };
         query = '?' + Object.keys(params).reduce(
             (acc, curr) => [...acc, `${curr}=${params[curr]}`], []
-        ).join('&');
+        ).filter(item => item.indexOf('undefined') === -1).join('&');
     }
 
     return fetch(`${INVENTORY_API_BASE}${query}`).then(r => {

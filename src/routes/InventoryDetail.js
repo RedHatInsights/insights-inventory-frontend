@@ -8,6 +8,7 @@ import * as actions from '../actions';
 import { Card, CardBody, Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
+import '@red-hat-insights/insights-frontend-components/components/GeneralInformation.css';
 
 @registryDecorator()
 class Inventory extends Component {
@@ -41,7 +42,9 @@ class Inventory extends Component {
             }
         });
 
-        const { InventoryDetail } = inventoryConnector();
+        const { InventoryDetail, VulnerabilitiesStore } = inventoryConnector();
+
+        this.getRegistry().register({ VulnerabilitiesStore });
 
         this.setState({
             InventoryDetail
