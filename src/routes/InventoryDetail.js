@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
-import { PageHeader, PageHeaderTitle, Main, routerParams } from '@red-hat-insights/insights-frontend-components';
+import { PageHeader, Main, routerParams, Breadcrumbs } from '@red-hat-insights/insights-frontend-components';
 import { entitesDetailReducer, addNewListener } from '../store';
 import * as actions from '../actions';
-import { Card, CardBody, Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
+import '@red-hat-insights/insights-frontend-components/components/GeneralInformation.css';
+import '@red-hat-insights/insights-frontend-components/components/Advisor.css';
 
 @registryDecorator()
 class Inventory extends Component {
@@ -16,9 +18,8 @@ class Inventory extends Component {
         super(props, ctx);
         this.loadInventory();
 
-        this.state = {
-            InventoryDetail: () => <div>Loading..</div>
-        };
+        this.state = {};
+        this.onNavigate = this.onNavigate.bind(this);
     }
 
     async loadInventory() {
@@ -31,46 +32,53 @@ class Inventory extends Component {
             ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
         });
 
-        this.entityListener = addNewListener({
+        const removeListener = addNewListener({
             actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
             callback: ({ data }) => {
                 data.then(payload => {
                     payload.error && this.props.addAlert({ title: payload.error.message });
                     this.props.loadEntity(payload.results[0].id);
+                    removeListener();
                 });
             }
         });
 
-        const { InventoryDetail } = inventoryConnector();
+        const { InventoryDetailHead, AppInfo, VulnerabilitiesStore } = inventoryConnector();
+
+        VulnerabilitiesStore && this.getRegistry().register({ VulnerabilitiesStore });
 
         this.setState({
-            InventoryDetail
+            InventoryDetail: InventoryDetailHead,
+            AppInfo
         });
     }
 
-    componentWillUnmount() {
-        this.entityListener();
+    onNavigate(navigateTo) {
+        const { history } = this.props;
+        history.push(`/${navigateTo}`);
     }
 
     render() {
-        const { InventoryDetail } = this.state;
+        const { InventoryDetail, AppInfo } = this.state;
+        const { entity } = this.props;
         return (
-            <React.Fragment>
-                <PageHeader className="pf-m-light">
-                    <PageHeaderTitle title='Inventory' />
+            <Fragment>
+                <PageHeader className="pf-m-light ins-inventory-detail">
+                    <Breadcrumbs
+                        items={[{ title: 'Inventory', navigate: 'entity' }]}
+                        current={entity && entity.display_name}
+                        onNavigate={(_event, navigateTo) => this.onNavigate(navigateTo)}
+                    />
+                    {InventoryDetail && <InventoryDetail hideBack />}
                 </PageHeader>
                 <Main>
                     <Grid gutter="md">
                         <GridItem span={12}>
-                            <Card>
-                                <CardBody>
-                                    <InventoryDetail />
-                                </CardBody>
-                            </Card>
+                            {AppInfo && <AppInfo />}
                         </GridItem>
                     </Grid>
                 </Main>
-            </React.Fragment>
+            </Fragment>
         );
     }
 }
@@ -80,10 +88,18 @@ Inventory.contextTypes = {
 };
 
 Inventory.propTypes = {
+    history: PropTypes.object,
+    entity: PropTypes.object,
     addAlert: PropTypes.func,
     loadEntities: PropTypes.func,
     loadEntity: PropTypes.func
 };
+
+function mapStateToProps({ entityDetails }) {
+    return {
+        entity: entityDetails && entityDetails.entity
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -93,4 +109,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default routerParams(connect(() => ({}), mapDispatchToProps)(Inventory));
+export default routerParams(connect(mapStateToProps, mapDispatchToProps)(Inventory));
