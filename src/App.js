@@ -6,14 +6,13 @@ import './App.scss';
 import { INVENTORY_ROOT } from './config';
 import { registry as registryDecorator, routerParams } from '@red-hat-insights/insights-frontend-components';
 import { reducers } from './store';
-import { NotificationsPortal, notifications } from '@red-hat-insights/insights-frontend-components/components/Notifications';
+import { NotificationsPortal } from '@red-hat-insights/insights-frontend-components/components/Notifications';
 
 @registryDecorator()
 class App extends Component {
     constructor(props) {
         super(props);
         this.getRegistry().register(reducers);
-        this.getRegistry().register({ notifications });
     }
 
     componentDidMount () {

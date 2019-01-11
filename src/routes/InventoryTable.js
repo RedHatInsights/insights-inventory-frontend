@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
-import { PageHeader, PageHeaderTitle, Main, routerParams } from '@red-hat-insights/insights-frontend-components';
+import { PageHeader, PageHeaderTitle, Main, routerParams, DownloadButton } from '@red-hat-insights/insights-frontend-components';
 import { entitiesReducer, addNewListener } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
+import { getAllEntities } from '../api';
+import { downloadFile, JSON_TYPE } from '@red-hat-insights/insights-frontend-components/Utilities/helpers';
 
 @registryDecorator()
 class Inventory extends Component {
@@ -20,6 +22,7 @@ class Inventory extends Component {
             removeListener: () => undefined
         };
         this.onRefresh = this.onRefresh.bind(this);
+        this.onSelect = this.onSelect.bind(this);
     }
 
     async loadInventory() {
@@ -63,6 +66,21 @@ class Inventory extends Component {
         this.inventory && this.state.removeListener();
     }
 
+    async onSelect(_event, fileType) {
+        const { filters } = this.state;
+        const results = await getAllEntities({ filters });
+        if (fileType === 'json') {
+            downloadFile(JSON.stringify(results), `${new Date().toISOString()}.json`, JSON_TYPE);
+        } else {
+            const header = Object.keys(results[0]);
+            const data = results.map(item => header.map(head => item[head] || '').join(','));
+            downloadFile([
+                header.join(','),
+                ...data
+            ].join('\n'), `${new Date().toISOString()}.csv`, JSON_TYPE);
+        }
+    }
+
     render() {
         const { ConnectedInventory } = this.state;
         return (
@@ -85,7 +103,9 @@ class Inventory extends Component {
                                     ]}
                                     ref={this.inventory}
                                     onRefresh={this.onRefresh}
-                                />
+                                >
+                                    { DownloadButton && <DownloadButton onSelect={this.onSelect}/> }
+                                </ConnectedInventory>
                             }
                         </GridItem>
                     </Grid>

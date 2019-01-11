@@ -5,9 +5,10 @@ import { ACTION_TYPES } from '../constants';
 import { applyReducerHash } from '@red-hat-insights/insights-frontend-components/Utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@red-hat-insights/insights-frontend-components/Utilities/helpers';
 import {
-    Overview,
     GeneralInformation,
-    Vulnerabilities
+    Vulnerabilities,
+    Compliance,
+    Advisor
 } from '@red-hat-insights/insights-frontend-components';
 
 let alertIdGenerator = 0;
@@ -41,8 +42,8 @@ function enableApplications(state) {
         loaded: true,
         activeApps: [
             { title: 'Vulnerabilities', name: 'vulnerabilities', component: Vulnerabilities },
-            { title: 'Advisor', name: 'configuration_assessment' },
-            { title: 'Compliance', name: 'compliance' },
+            { title: 'Configuration Assessment', name: 'configuration_assessment', component: Advisor },
+            { title: 'Compliance', name: 'compliance', component: Compliance },
             { title: 'General Information', name: 'general_information', component: GeneralInformation }
         ]
     };

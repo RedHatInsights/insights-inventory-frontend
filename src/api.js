@@ -1,14 +1,30 @@
 import { INVENTORY_API_BASE } from './config';
 
-const addMockApp = (results) => results.map(row => ({
-    id: row.id,
-    health: {
-        vulnerabilities: { title: 5, redirect: 'cost_management' },
-        configuration: { title: 10, redirect: 'configuration_assessment' },
-        compliance: { title: '74%', redirect: 'compliance' },
-        cost: { title: '23K', redirect: 'cost_management' }
+export async function getAllEntities({ filters = [] }) {
+    const config = {
+        // eslint-disable-next-line camelcase
+        per_page: 100,
+        filters
+    };
+    const data = await getEntities({ page: 1, ...config });
+    let numberOfpages = Math.ceil(Number(data.total) / 100);
+    let results = data.results;
+    if (numberOfpages > 1) {
+        results = [
+            ...results,
+            ...await Promise.all([...Array(numberOfpages)].map((_item, key) => {
+                if (key + 1 !== 1) {
+                    return getEntities({ page: key + 1, ...config }).then(entities => entities.results);
+                }
+            }))
+        ].filter(Boolean)
+        .flatMap(item => item)
+        // eslint-disable-next-line no-unused-vars
+        .flatMap(({ facts, ...item }) => item);
     }
-}));
+
+    return results;
+}
 
 // eslint-disable-next-line camelcase
 export function getEntities({ page, per_page, filters = [] }) {
@@ -25,9 +41,7 @@ export function getEntities({ page, per_page, filters = [] }) {
 
     return fetch(`${INVENTORY_API_BASE}${query}`).then(r => {
         if (r.ok) {
-            return r.json().then(data => ({
-                results: addMockApp(data.results)
-            }));
+            return r.json();
         }
 
         throw new Error(`Unexpected response code ${r.status}`);
