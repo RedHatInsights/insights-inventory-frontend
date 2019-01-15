@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main, routerParams, DownloadButton } from '@red-hat-insights/insights-frontend-components';
-import { entitiesReducer, addNewListener } from '../store';
+import { entitiesReducer } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
@@ -28,31 +28,30 @@ class Inventory extends Component {
     async loadInventory() {
         const {
             inventoryConnector,
-            INVENTORY_ACTION_TYPES,
             mergeWithEntities
         } = await asyncInventoryLoader();
         this.getRegistry().register({
             ...mergeWithEntities(entitiesReducer)
         });
 
-        const removeListener = addNewListener({
-            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
-            callback: ({ data }) => {
-                // eslint-disable-next-line camelcase
-                data.then(({ page, per_page }) => {
-                    // eslint-disable-next-line camelcase
-                    this.props.loadEntities({ page, per_page, filters: this.state.filters });
-                });
-            }
-        });
+        // No need for it right now because we are not getting extra data
+        // const removeListener = addNewListener({
+        //     actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
+        //     callback: ({ data }) => {
+        //         // eslint-disable-next-line camelcase
+        //         data.then(({ page, per_page }) => {
+        //             // eslint-disable-next-line camelcase
+        //             this.props.loadEntities({ page, per_page, filters: this.state.filters });
+        //         });
+        //     }
+        // });
 
         const { InventoryTable, updateEntities } = inventoryConnector();
 
         this.updateEntities = updateEntities;
 
         this.setState({
-            ConnectedInventory: InventoryTable,
-            removeListener
+            ConnectedInventory: InventoryTable
         });
     }
 
@@ -60,10 +59,6 @@ class Inventory extends Component {
         this.setState({
             filters
         });
-    }
-
-    componentWillUnmount() {
-        this.inventory && this.state.removeListener();
     }
 
     async onSelect(_event, fileType) {
