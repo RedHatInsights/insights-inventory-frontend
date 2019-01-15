@@ -6,9 +6,10 @@
     "@babel/runtime": "^7.1.5",
     "@patternfly/react-core": "1.38.3",
     "@patternfly/react-icons": "2.9.2",
-    "@red-hat-insights/insights-frontend-components": "3.31.2",
+    "@red-hat-insights/insights-frontend-components": "3.32.4",
     "classnames": "^2.2.6",
-    "create-react-class": "^15.6.3"
+    "create-react-class": "^15.6.3",
+    "graphql": "^14.0.2"
   },
   "sassIncludes": {
     "patternfly": "node_modules/patternfly/dist/sass",
