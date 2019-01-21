@@ -1,2 +1,8 @@
 @import './src/Utilities.scss';
 @import '~@red-hat-insights/insights-frontend-components/components/Notifications.css';
+
+
+table.ins-entity-table th {
+    padding: 1rem;
+    padding-left: 2rem;
+}
