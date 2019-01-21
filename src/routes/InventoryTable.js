@@ -88,14 +88,6 @@ class Inventory extends Component {
                         <GridItem span={12}>
                             {ConnectedInventory &&
                                 <ConnectedInventory
-                                    filters={[
-                                        {
-                                            title: 'Health status', value: 'health-status', items: []
-                                        },
-                                        {
-                                            title: 'Last seen', value: 'last-seen', items: []
-                                        }
-                                    ]}
                                     ref={this.inventory}
                                     onRefresh={this.onRefresh}
                                 >
