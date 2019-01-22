@@ -90,6 +90,7 @@ class Inventory extends Component {
                                 <ConnectedInventory
                                     ref={this.inventory}
                                     onRefresh={this.onRefresh}
+                                    hasCheckbox={false}
                                 >
                                     { DownloadButton && <DownloadButton onSelect={this.onSelect}/> }
                                 </ConnectedInventory>
