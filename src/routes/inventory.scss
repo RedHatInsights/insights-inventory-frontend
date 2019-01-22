@@ -8,3 +8,7 @@
         margin-left: $global-margin;
     }
 }
+
+.ins-inventory-filters .pf-l-grid__item:not([class*="ins-"]) {
+    margin-top: -4px;
+}

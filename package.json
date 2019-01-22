@@ -4,7 +4,7 @@
   "private": false,
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@patternfly/react-core": "1.45.4",
+    "@patternfly/react-core": "1.49.4",
     "@patternfly/react-icons": "2.9.7",
     "@red-hat-insights/insights-frontend-components": "3.33.2",
     "classnames": "^2.2.6",
