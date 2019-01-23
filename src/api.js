@@ -17,13 +17,13 @@ export async function getAllEntities({ filters = [] }) {
                     return getEntities({ page: key + 1, ...config }).then(entities => entities.results);
                 }
             }))
-        ].filter(Boolean)
-        .flatMap(item => item)
-        // eslint-disable-next-line no-unused-vars
-        .flatMap(({ facts, ...item }) => item);
+        ].filter(Boolean);
     }
 
-    return results;
+    return results
+    .flatMap(item => item)
+    // eslint-disable-next-line no-unused-vars
+    .flatMap(({ facts, ...item }) => item);
 }
 
 // eslint-disable-next-line camelcase
