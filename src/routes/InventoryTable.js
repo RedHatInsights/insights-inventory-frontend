@@ -9,7 +9,7 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
 import { getAllEntities } from '../api';
-import { downloadFile, JSON_TYPE } from '@red-hat-insights/insights-frontend-components/Utilities/helpers';
+import { downloadFile } from '@red-hat-insights/insights-frontend-components/Utilities/helpers';
 
 @registryDecorator()
 class Inventory extends Component {
@@ -65,14 +65,14 @@ class Inventory extends Component {
         const { filters } = this.state;
         const results = await getAllEntities({ filters });
         if (fileType === 'json') {
-            downloadFile(JSON.stringify(results), `${new Date().toISOString()}.json`, JSON_TYPE);
+            downloadFile(JSON.stringify(results), new Date().toISOString(), fileType);
         } else {
             const header = Object.keys(results[0]);
             const data = results.map(item => header.map(head => item[head] || '').join(','));
             downloadFile([
                 header.join(','),
                 ...data
-            ].join('\n'), `${new Date().toISOString()}.csv`, JSON_TYPE);
+            ].join('\n'), new Date().toISOString(), fileType);
         }
     }
 
