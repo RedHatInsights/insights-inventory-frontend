@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, matchPath } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React from 'react';
 import InventoryTable from './routes/InventoryTable';
@@ -17,6 +17,23 @@ InsightsRoute.propTypes = {
     rootClass: PropTypes.string
 };
 
+const routes = {
+    table: '/entity',
+    detail: '/entity/:inventoryId'
+};
+
+const checkPaths = () => {
+    // eslint-disable-next-line no-console
+    console.log(Object.values(routes));
+    return Object
+    .values(routes)
+    .some(
+        route => {
+            return matchPath(location.href, { path: `${document.baseURI}platform/inventory${route}` });
+        }
+    );
+};
+
 /**
  * the Switch component changes routes depending on the path.
  *
@@ -25,12 +42,23 @@ InsightsRoute.propTypes = {
  *      path - https://prod.foo.redhat.com:1337/insights/advisor/rules
  *      component - component to be rendered when a route has been chosen.
  */
-export const Routes = () => {
+export const Routes = ({ childProps: { history } }) => {
+    if (!checkPaths()) {
+        history.push(routes.table);
+    }
+
     return (
         <Switch>
-            <InsightsRoute exact path='/entity' component={InventoryTable} rootClass='inventory' />
-            <InsightsRoute path='/entity/:inventoryId' component={InventoryDetail} rootClass='inventory' />
-            <Redirect to="/entity" />
+            <InsightsRoute exact path={routes.table} component={InventoryTable} rootClass='inventory' />
+            <InsightsRoute path={routes.detail} component={InventoryDetail} rootClass='inventory' />
         </Switch>
     );
+};
+
+Routes.propTypes = {
+    childProps: PropTypes.shape({
+        history: PropTypes.shape({
+            push: PropTypes.func
+        })
+    })
 };

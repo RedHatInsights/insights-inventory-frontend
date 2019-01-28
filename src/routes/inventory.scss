@@ -12,3 +12,5 @@
 .ins-inventory-filters .pf-l-grid__item:not([class*="ins-"]) {
     margin-top: -4px;
 }
+
+.pf-c-breadcrumb .pf-c-breadcrumb__item .ins-c-skeleton { @include rem('width', 75px); }

@@ -2,15 +2,16 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
-import { PageHeader, Main, routerParams, Breadcrumbs } from '@red-hat-insights/insights-frontend-components';
+import { PageHeader, Main, routerParams } from '@red-hat-insights/insights-frontend-components';
+import { Link } from 'react-router-dom';
 import { entitesDetailReducer, addNewListener } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
-import { registry as registryDecorator } from '@red-hat-insights/insights-frontend-components';
+import { registry as registryDecorator, Skeleton, SkeletonSize } from '@red-hat-insights/insights-frontend-components';
+import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import '@red-hat-insights/insights-frontend-components/components/GeneralInformation.css';
 import '@red-hat-insights/insights-frontend-components/components/Advisor.css';
-
 @registryDecorator()
 class Inventory extends Component {
 
@@ -19,7 +20,6 @@ class Inventory extends Component {
         this.loadInventory();
 
         this.state = {};
-        this.onNavigate = this.onNavigate.bind(this);
     }
 
     async loadInventory() {
@@ -53,22 +53,22 @@ class Inventory extends Component {
         });
     }
 
-    onNavigate(navigateTo) {
-        const { history } = this.props;
-        history.push(`/${navigateTo}`);
-    }
-
     render() {
         const { InventoryDetail, AppInfo } = this.state;
         const { entity } = this.props;
         return (
             <Fragment>
                 <PageHeader className="pf-m-light ins-inventory-detail">
-                    <Breadcrumbs
-                        items={[{ title: 'Inventory', navigate: 'entity' }]}
-                        current={entity && entity.display_name}
-                        onNavigate={(_event, navigateTo) => this.onNavigate(navigateTo)}
-                    />
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to='/entity'> Inventory </Link></BreadcrumbItem>
+                        <BreadcrumbItem isActive>
+                            {
+                                entity ?
+                                    entity.display_name :
+                                    <Skeleton size={SkeletonSize.xs} />
+                            }
+                        </BreadcrumbItem>
+                    </Breadcrumb>
                     {InventoryDetail && <InventoryDetail hideBack />}
                 </PageHeader>
                 <Main>
