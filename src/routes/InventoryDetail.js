@@ -12,6 +12,8 @@ import { registry as registryDecorator, Skeleton, SkeletonSize } from '@red-hat-
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import '@red-hat-insights/insights-frontend-components/components/GeneralInformation.css';
 import '@red-hat-insights/insights-frontend-components/components/Advisor.css';
+import { routes } from '../Routes';
+
 @registryDecorator()
 class Inventory extends Component {
 
@@ -60,7 +62,7 @@ class Inventory extends Component {
             <Fragment>
                 <PageHeader className="pf-m-light ins-inventory-detail">
                     <Breadcrumb>
-                        <BreadcrumbItem><Link to='/entity'> Inventory </Link></BreadcrumbItem>
+                        <BreadcrumbItem><Link to={routes.table}>Inventory</Link></BreadcrumbItem>
                         <BreadcrumbItem isActive>
                             {
                                 entity ?

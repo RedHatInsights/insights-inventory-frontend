@@ -17,22 +17,18 @@ InsightsRoute.propTypes = {
     rootClass: PropTypes.string
 };
 
-const routes = {
-    table: '/entity',
-    detail: '/entity/:inventoryId'
+export const routes = {
+    table: '/',
+    detail: '/:inventoryId'
 };
 
-const checkPaths = () => {
-    // eslint-disable-next-line no-console
-    console.log(Object.values(routes));
+function checkPaths() {
     return Object
     .values(routes)
     .some(
-        route => {
-            return matchPath(location.href, { path: `${document.baseURI}platform/inventory${route}` });
-        }
+        route => matchPath(location.href, { path: `${document.baseURI}platform/inventory${route}` })
     );
-};
+}
 
 /**
  * the Switch component changes routes depending on the path.
