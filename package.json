@@ -6,7 +6,7 @@
     "@babel/runtime": "^7.1.5",
     "@patternfly/react-core": "1.49.4",
     "@patternfly/react-icons": "2.9.7",
-    "@red-hat-insights/insights-frontend-components": "3.33.35",
+    "@red-hat-insights/insights-frontend-components": "3.33.45",
     "classnames": "^2.2.6",
     "create-react-class": "^15.6.3",
     "graphql": "^14.0.2"
