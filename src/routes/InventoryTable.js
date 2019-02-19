@@ -55,10 +55,10 @@ class Inventory extends Component {
         });
     }
 
-    onRefresh({ filters }) {
+    onRefresh(options) {
         this.setState({
-            filters
-        });
+            filters: options.filters
+        }, () => this.inventory.current.onRefreshData(options, false));
     }
 
     async onSelect(_event, fileType) {
