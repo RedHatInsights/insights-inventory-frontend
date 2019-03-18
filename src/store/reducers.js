@@ -42,7 +42,7 @@ function enableApplications(state) {
         loaded: true,
         activeApps: [
             { title: 'Vulnerabilities', name: 'vulnerabilities', component: Vulnerabilities },
-            { title: 'Configuration Assessment', name: 'configuration_assessment', component: Advisor },
+            { title: 'Insights', name: 'insights', component: Advisor },
             { title: 'Compliance', name: 'compliance', component: Compliance },
             { title: 'General Information', name: 'general_information', component: GeneralInformation }
         ]
