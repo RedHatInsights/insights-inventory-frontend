@@ -11,16 +11,16 @@ const entry = process.env.NODE_ENV === 'production' ?
 
 const gitBranch = process.env.TRAVIS_BRANCH || process.env.BRANCH || gitRevisionPlugin.branch();
 const betaBranhces = ['master', 'qa-beta', 'ci-beta', 'prod-beta'];
-const insightsDeployment = (process.env.NODE_ENV === 'production' && betaBranhces.includes(gitBranch)) ?
-    'insightsbeta' :
-    'insights';
+const appDeployment = (process.env.NODE_ENV === 'production' && betaBranhces.includes(gitBranch)) ?
+    'beta/apps' :
+    'apps';
 
 /* eslint-disable no-console */
 console.log('~~~Using variables~~~');
 console.log(`Current branch: ${gitBranch}`);
 console.log(`Beta branches: ${betaBranhces}`);
-console.log(`Using deployments: ${insightsDeployment}`);
-console.log(`Public path: /${insightsDeployment}/platform/inventory/`);
+console.log(`Using deployments: ${appDeployment}`);
+console.log(`Public path: /${appDeployment}/inventory/`);
 console.log('~~~~~~~~~~~~~~~~~~~~~');
 /* eslint-enable no-console */
 
@@ -33,7 +33,7 @@ module.exports = {
         smartComponents: path.resolve(__dirname, '../src/SmartComponents'),
         pages: path.resolve(__dirname, '../src/pages'),
         static: path.resolve(__dirname, '../static'),
-        publicPath: `/${insightsDeployment}/platform/inventory/`
+        publicPath: `/${appDeployment}/inventory/`
     },
-    insightsDeployment
+    appDeployment
 };
