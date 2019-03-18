@@ -23,11 +23,13 @@ export const routes = {
     detail: '/:inventoryId'
 };
 
-function checkPaths() {
+function checkPaths(app) {
     return Object
     .values(routes)
     .some(
-        route => matchPath(location.href, { path: `${document.baseURI}platform/inventory${route}` })
+        route => {
+            return matchPath(location.href, { path: `${document.baseURI}${app}/inventory${route}` });
+        }
     );
 }
 
@@ -40,7 +42,9 @@ function checkPaths() {
  *      component - component to be rendered when a route has been chosen.
  */
 export const Routes = ({ childProps: { history } }) => {
-    if (!checkPaths()) {
+    const pathName = window.location.pathname.split('/');
+
+    if (!checkPaths(pathName[1] === 'beta' ? pathName[2] : pathName[1])) {
         history.push(routes.table);
     }
 

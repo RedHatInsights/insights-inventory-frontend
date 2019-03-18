@@ -23,6 +23,7 @@ globals:
   shallow: true
   React: true
 rules:
+  no-console: 1
   array-bracket-spacing: 2
   comma-dangle: 2
   comma-spacing:
