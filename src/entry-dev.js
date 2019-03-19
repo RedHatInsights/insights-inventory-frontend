@@ -7,12 +7,18 @@ import App from './App';
 import logger from 'redux-logger';
 
 const pathName = window.location.pathname.split('/');
+pathName.shift();
+
+if (pathName[0] === 'beta') {
+    pathName.shift();
+}
 
 ReactDOM.render(
     <Provider store={init(logger).getStore()}>
-        <Router basename={`${pathName[1] === 'beta' ? pathName[2] : pathName[1]}/inventory`}>
+        <Router basename={`${pathName[0]}/${pathName[1]}`}>
             <App />
         </Router>
     </Provider>,
+
     document.getElementById('root')
 );

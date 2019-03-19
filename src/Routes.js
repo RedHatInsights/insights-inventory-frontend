@@ -23,28 +23,25 @@ export const routes = {
     detail: '/:inventoryId'
 };
 
-function checkPaths(app) {
+function checkPaths(technology, app) {
     return Object
     .values(routes)
     .some(
         route => {
-            return matchPath(location.href, { path: `${document.baseURI}${app}/inventory${route}` });
+            return matchPath(location.href, { path: `${document.baseURI}${technology}/${app}${route}` });
         }
     );
 }
 
-/**
- * the Switch component changes routes depending on the path.
- *
- * Route properties:
- *      exact - path must match exactly,
- *      path - https://prod.foo.redhat.com:1337/insights/advisor/rules
- *      component - component to be rendered when a route has been chosen.
- */
 export const Routes = ({ childProps: { history } }) => {
     const pathName = window.location.pathname.split('/');
+    pathName.shift();
 
-    if (!checkPaths(pathName[1] === 'beta' ? pathName[2] : pathName[1])) {
+    if (pathName[0] === 'beta') {
+        pathName.shift();
+    }
+
+    if (!checkPaths(pathName[0], pathName[1])) {
         history.push(routes.table);
     }
 
