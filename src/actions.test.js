@@ -75,7 +75,7 @@ describe('Async', () => {
     };
 
     test('load entities', async () => {
-        fetchMock.getOnce('/r/insights/platform/inventory/api/v1/hosts', mockedData);
+        fetchMock.getOnce('/api/inventory/v1/hosts', mockedData);
         const entities = loadEntities({});
         expect(entities).toMatchObject({ type: ACTION_TYPES.GET_ENTITIES });
         const { results } = await entities.payload;
@@ -84,7 +84,7 @@ describe('Async', () => {
     });
 
     test('load entities', async () => {
-        fetchMock.getOnce('/r/insights/platform/inventory/api/v1/hosts/1', mockedData);
+        fetchMock.getOnce('/api/inventory/v1/hosts/1', mockedData);
         const entities = loadEntity(1);
         expect(entities).toMatchObject({ type: ACTION_TYPES.GET_ENTITY });
         const { results } = await entities.payload;
