@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from './constants';
+import { ACTION_TYPES, CLEAR_NOTIFICATIONS } from './constants';
 import { getEntity, getEntities } from './api';
 
 export const loadEntities = (config) => {
@@ -23,3 +23,9 @@ export const dismissAlert = (alert, timeout = false) => ({
     alert,
     timeout
 });
+
+export const clearNotifications = () => {
+    return ({
+        type: CLEAR_NOTIFICATIONS
+    });
+};

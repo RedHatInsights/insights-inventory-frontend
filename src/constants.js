@@ -12,3 +12,4 @@ const asyncActions = flatMap([
 ], a => [a, `${a}_PENDING`, `${a}_FULFILLED`, `${a}_REJECTED`]);
 
 export const ACTION_TYPES = keyBy([...actions, ...asyncActions], k => k);
+export const CLEAR_NOTIFICATIONS = '@@INSIGHTS-CORE/NOTIFICATIONS/CLEAR_NOTIFICATIONS';

@@ -26,6 +26,7 @@ class Inventory extends Component {
     }
 
     async loadInventory() {
+        this.props.clearNotifications();
         const {
             inventoryConnector,
             mergeWithEntities
@@ -33,18 +34,6 @@ class Inventory extends Component {
         this.getRegistry().register({
             ...mergeWithEntities(entitiesReducer)
         });
-
-        // No need for it right now because we are not getting extra data
-        // const removeListener = addNewListener({
-        //     actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
-        //     callback: ({ data }) => {
-        //         // eslint-disable-next-line camelcase
-        //         data.then(({ page, per_page }) => {
-        //             // eslint-disable-next-line camelcase
-        //             this.props.loadEntities({ page, per_page, filters: this.state.filters });
-        //         });
-        //     }
-        // });
 
         const { InventoryTable, updateEntities } = inventoryConnector();
 
@@ -108,16 +97,16 @@ Inventory.contextTypes = {
 };
 
 Inventory.propTypes = {
-    addAlert: PropTypes.func,
     loadEntities: PropTypes.func,
-    loadEntity: PropTypes.func
+    loadEntity: PropTypes.func,
+    clearNotifications: PropTypes.func
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        addAlert: (payload) => dispatch(actions.addAlert(payload)),
         loadEntities: (config) => dispatch(actions.loadEntities(config)),
-        loadEntity: (id) => dispatch(actions.loadEntity(id))
+        loadEntity: (id) => dispatch(actions.loadEntity(id)),
+        clearNotifications: () => dispatch(actions.clearNotifications())
     };
 }
 
