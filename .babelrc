@@ -20,5 +20,6 @@
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-proposal-object-rest-spread",
     "lodash"
-  ]
+  ],
+  "ignore": ["node_modules"],
 }

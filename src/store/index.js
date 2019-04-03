@@ -12,7 +12,9 @@ export function init (...middleware) {
         {}, [
             middlewareListener.getMiddleware(),
             promiseMiddleware(),
-            notificationsMiddleware(),
+            notificationsMiddleware({
+                errorDescriptionKey: ['detail', 'stack']
+            }),
             ...middleware
         ]
     );

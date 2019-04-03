@@ -25,6 +25,7 @@ class Inventory extends Component {
     }
 
     async loadInventory() {
+        this.props.clearNotifications();
         const {
             inventoryConnector,
             INVENTORY_ACTION_TYPES,
@@ -38,7 +39,6 @@ class Inventory extends Component {
             actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
             callback: ({ data }) => {
                 data.then(payload => {
-                    payload.error && this.props.addAlert({ title: payload.error.message });
                     this.props.loadEntity(payload.results[0].id);
                     removeListener();
                 });
@@ -92,9 +92,9 @@ Inventory.contextTypes = {
 Inventory.propTypes = {
     history: PropTypes.object,
     entity: PropTypes.object,
-    addAlert: PropTypes.func,
     loadEntities: PropTypes.func,
-    loadEntity: PropTypes.func
+    loadEntity: PropTypes.func,
+    clearNotifications: PropTypes.func
 };
 
 function mapStateToProps({ entityDetails }) {
@@ -105,9 +105,9 @@ function mapStateToProps({ entityDetails }) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addAlert: (payload) => dispatch(actions.addAlert(payload)),
         loadEntities: () => dispatch(actions.loadEntities()),
-        loadEntity: (id) => dispatch(actions.loadEntity(id))
+        loadEntity: (id) => dispatch(actions.loadEntity(id)),
+        clearNotifications: () => dispatch(actions.clearNotifications())
     };
 }
 
