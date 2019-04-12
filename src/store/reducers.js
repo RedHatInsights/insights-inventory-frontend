@@ -37,7 +37,7 @@ function enableApplications(state) {
         ...state,
         loaded: true,
         activeApps: [
-            { title: 'Rules', name: 'rules', component: Advisor },
+            { title: 'Insights', name: 'insights', component: Advisor },
             { title: 'Vulnerabilities', name: 'vulnerabilities', component: Vulnerabilities },
             { title: 'Compliance', name: 'compliance', component: Compliance },
             { title: 'General Information', name: 'general_information', component: GeneralInformation }
