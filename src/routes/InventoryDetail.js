@@ -57,10 +57,15 @@ class Inventory extends Component {
 
     render() {
         const { InventoryDetail, AppInfo } = this.state;
-        const { entity } = this.props;
+        const { entity, currentApp } = this.props;
+        const classNames = `${
+            currentApp && currentApp === 'general_information' ?
+                'ins-c-inventory__detail--general-info' :
+                ''
+        }`;
         return (
             <Fragment>
-                <PageHeader className="pf-m-light ins-inventory-detail">
+                <PageHeader className={`pf-m-light ins-inventory-detail ${classNames}`}>
                     <Breadcrumb>
                         <BreadcrumbItem><Link to={routes.table}>Inventory</Link></BreadcrumbItem>
                         <BreadcrumbItem isActive>
@@ -73,7 +78,7 @@ class Inventory extends Component {
                     </Breadcrumb>
                     {InventoryDetail && <InventoryDetail hideBack />}
                 </PageHeader>
-                <Main>
+                <Main className={classNames}>
                     <Grid gutter="md">
                         <GridItem span={12}>
                             {AppInfo && <AppInfo />}
@@ -94,12 +99,14 @@ Inventory.propTypes = {
     entity: PropTypes.object,
     loadEntities: PropTypes.func,
     loadEntity: PropTypes.func,
-    clearNotifications: PropTypes.func
+    clearNotifications: PropTypes.func,
+    currentApp: PropTypes.string
 };
 
 function mapStateToProps({ entityDetails }) {
     return {
-        entity: entityDetails && entityDetails.entity
+        entity: entityDetails && entityDetails.entity,
+        currentApp: entityDetails && entityDetails.activeApp && entityDetails.activeApp.appName
     };
 }
 
