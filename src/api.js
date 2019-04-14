@@ -48,12 +48,6 @@ export function getEntities({ page, per_page, filters = [] }) {
     });
 }
 
-export function getEntity (id) {
-    return fetch(`${INVENTORY_API_BASE}/${id}`).then(r => {
-        if (r.ok) {
-            return r.json();
-        }
-
-        throw new Error(`Unexpected response code ${r.status}`);
-    });
+export function getEntity () {
+    return insights.chrome.auth.getUser();
 }
