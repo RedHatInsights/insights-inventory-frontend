@@ -8,7 +8,7 @@ const convert = require('koa-connect');
 
 webpackConfig.serve = {
     content: config.paths.public,
-    port: 8002,
+    port: 8007,
     dev: {
         publicPath: config.paths.publicPath
     },
