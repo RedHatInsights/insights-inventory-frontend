@@ -14,3 +14,22 @@
 }
 
 .pf-c-breadcrumb .pf-c-breadcrumb__item .ins-c-skeleton { @include rem('width', 75px); }
+
+.ins-c-inventory__detail--general-info:not(.ins-inventory-detail) {
+    background: var(--pf-global--BackgroundColor--100);
+}
+
+.ins-inventory-detail.ins-c-inventory__detail--general-info .pf-c-tabs__list {
+    &:after {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: var(--pf-global--BorderColor--light-200);
+    }
+
+    li:not(.pf-m-current) {
+        button:before {
+            border: solid var(--pf-c-tabs__item--BorderColor);
+            border-width: var(--pf-c-tabs__item--BorderWidth) 0 var(--pf-c-tabs__item--BorderWidth) var(--pf-c-tabs__item--BorderWidth);
+        }
+    }
+}
