@@ -23,7 +23,7 @@
     &:after {
         border-bottom-style: solid;
         border-bottom-width: 1px;
-        border-bottom-color: var(--pf-global--BorderColor--light-200);
+        border-bottom-color: var(--pf-c-tabs__item--BorderColor);
     }
 
     li:not(.pf-m-current) {
