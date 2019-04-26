@@ -11,7 +11,7 @@ global.insights = {
             getUser: () => fetch('/api/entitlements/v1/services').then(res => res.json())
         }
     }
-}
+};
 
 global.shallow = shallow;
 global.render = render;

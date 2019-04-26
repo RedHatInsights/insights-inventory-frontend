@@ -5,10 +5,14 @@ import fetchMock from 'fetch-mock';
 
 describe('Async', () => {
     const mockedData = {
-        'hybrid_cloud': { 'is_entitled': true },
-        'insights': { 'is_entitled': true },
-        'openshift': { 'is_entitled': true },
-        'smart_management': { 'is_entitled': false }
+        // eslint-disable-next-line camelcase
+        hybrid_cloud: { is_entitled: true },
+        // eslint-disable-next-line camelcase
+        insights: { is_entitled: true },
+        // eslint-disable-next-line camelcase
+        openshift: { is_entitled: true },
+        // eslint-disable-next-line camelcase
+        smart_management: { is_entitled: false }
     };
 
     test('load entity detail', async () => {

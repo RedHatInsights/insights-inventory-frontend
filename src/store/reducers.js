@@ -11,7 +11,13 @@ import { notifications } from '@red-hat-insights/insights-frontend-components/co
 
 const defaultState = { loaded: false };
 
-const isEntitled = (service) => (service && service.is_entitled) || location.hostname.indexOf('ci') !== -1;
+const isEntitled = (service) => {
+    if (sessionStorage.getItem('disableEntitlements') === 'true') {
+        return true;
+    }
+
+    return service && service.is_entitled;
+};
 
 function entitiesLoaded(state, { payload }) {
     return {
@@ -27,12 +33,12 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
         loaded: true,
         activeApps: [
             isEntitled(entitlements && entitlements.insights) && { title: 'Insights', name: 'insights', component: Advisor },
-            isEntitled(entitlements && entitlements.hybrid_management) && {
+            isEntitled(entitlements && entitlements.smart_management) && {
                 title: 'Vulnerabilities',
                 name: 'vulnerabilities',
                 component: Vulnerabilities
             },
-            isEntitled(entitlements && entitlements.hybrid_management) && {
+            isEntitled(entitlements && entitlements.smart_management) && {
                 title: 'Compliance',
                 name: 'compliance',
                 component: Compliance
