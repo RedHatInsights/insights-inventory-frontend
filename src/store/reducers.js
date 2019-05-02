@@ -43,7 +43,7 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
                 title: 'Compliance',
                 name: 'compliance',
                 component: Compliance
-            },
+            }
         ].filter(Boolean)
     };
 }
