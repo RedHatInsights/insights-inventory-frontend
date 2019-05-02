@@ -11,6 +11,14 @@ import { notifications } from '@red-hat-insights/insights-frontend-components/co
 
 const defaultState = { loaded: false };
 
+const isEntitled = (service) => {
+    if (sessionStorage.getItem('disableEntitlements') === 'true') {
+        return true;
+    }
+
+    return service && service.is_entitled;
+};
+
 function entitiesLoaded(state, { payload }) {
     return {
         ...state,
@@ -19,29 +27,24 @@ function entitiesLoaded(state, { payload }) {
     };
 }
 
-function entityLoaded(state, { payload }) {
-    const { health, tags, ...rest } = payload;
-    return {
-        ...state,
-        health,
-        tags,
-        entity: {
-            ...state.entity,
-            ...rest
-        }
-    };
-}
-
-function enableApplications(state) {
+function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
     return {
         ...state,
         loaded: true,
         activeApps: [
-            { title: 'Insights', name: 'insights', component: Advisor },
-            { title: 'Vulnerabilities', name: 'vulnerabilities', component: Vulnerabilities },
-            { title: 'Compliance', name: 'compliance', component: Compliance },
+            isEntitled(entitlements && entitlements.insights) && { title: 'Insights', name: 'insights', component: Advisor },
+            isEntitled(entitlements && entitlements.smart_management) && {
+                title: 'Vulnerabilities',
+                name: 'vulnerabilities',
+                component: Vulnerabilities
+            },
+            isEntitled(entitlements && entitlements.smart_management) && {
+                title: 'Compliance',
+                name: 'compliance',
+                component: Compliance
+            },
             { title: 'General Information', name: 'general_information', component: GeneralInformation }
-        ]
+        ].filter(Boolean)
     };
 }
 
@@ -56,9 +59,8 @@ export const entitiesReducer = applyReducerHash(
     defaultState
 );
 
-export const entitesDetailReducer = (INVENTORY_ACTION_TYPES) => applyReducerHash(
+export const entitesDetailReducer = () => applyReducerHash(
     {
-        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: enableApplications,
         [ACTION_TYPES.GET_ENTITY_FULFILLED]: entityLoaded
     },
     defaultState

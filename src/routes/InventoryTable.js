@@ -78,14 +78,12 @@ Inventory.contextTypes = {
 };
 
 Inventory.propTypes = {
-    loadEntities: PropTypes.func,
     loadEntity: PropTypes.func,
     clearNotifications: PropTypes.func
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        loadEntities: (config) => dispatch(actions.loadEntities(config)),
         loadEntity: (id) => dispatch(actions.loadEntity(id)),
         clearNotifications: () => dispatch(actions.clearNotifications())
     };

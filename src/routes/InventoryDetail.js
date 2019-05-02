@@ -97,7 +97,6 @@ Inventory.contextTypes = {
 Inventory.propTypes = {
     history: PropTypes.object,
     entity: PropTypes.object,
-    loadEntities: PropTypes.func,
     loadEntity: PropTypes.func,
     clearNotifications: PropTypes.func,
     currentApp: PropTypes.string
@@ -112,7 +111,6 @@ function mapStateToProps({ entityDetails }) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        loadEntities: () => dispatch(actions.loadEntities()),
         loadEntity: (id) => dispatch(actions.loadEntity(id)),
         clearNotifications: () => dispatch(actions.clearNotifications())
     };
