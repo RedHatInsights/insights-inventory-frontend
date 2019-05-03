@@ -103,9 +103,11 @@ Inventory.propTypes = {
 };
 
 function mapStateToProps({ entityDetails }) {
+    const activeApp = entityDetails && entityDetails.activeApp && entityDetails.activeApp.appName;
+    const firstApp = entityDetails && entityDetails.activeApps && entityDetails.activeApps[0];
     return {
         entity: entityDetails && entityDetails.entity,
-        currentApp: entityDetails && entityDetails.activeApp && entityDetails.activeApp.appName
+        currentApp: activeApp || (firstApp && firstApp.name)
     };
 }
 
