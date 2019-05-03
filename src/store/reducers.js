@@ -32,7 +32,6 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
         ...state,
         loaded: true,
         activeApps: [
-            { title: 'General Information', name: 'general_information', component: GeneralInformation },
             isEntitled(entitlements && entitlements.insights) && { title: 'Insights', name: 'insights', component: Advisor },
             isEntitled(entitlements && entitlements.smart_management) && {
                 title: 'Vulnerabilities',
@@ -43,7 +42,8 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
                 title: 'Compliance',
                 name: 'compliance',
                 component: Compliance
-            }
+            },
+            { title: 'General Information', name: 'general_information', component: GeneralInformation }
         ].filter(Boolean)
     };
 }
