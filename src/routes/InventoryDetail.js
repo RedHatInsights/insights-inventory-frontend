@@ -2,16 +2,18 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
-import { PageHeader, Main, routerParams } from '@red-hat-insights/insights-frontend-components';
 import { Link } from 'react-router-dom';
 import { entitesDetailReducer, addNewListener } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
-import { registry as registryDecorator, Skeleton, SkeletonSize } from '@red-hat-insights/insights-frontend-components';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
-import '@red-hat-insights/insights-frontend-components/components/GeneralInformation.css';
-import '@red-hat-insights/insights-frontend-components/components/Advisor.css';
+import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
+import '@redhat-cloud-services/frontend-components-inventory-general-info/index.css';
+import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
+import { VulnerabilitiesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
 import { routes } from '../Routes';
 
 @registryDecorator()
@@ -45,7 +47,7 @@ class Inventory extends Component {
             }
         });
 
-        const { InventoryDetailHead, AppInfo, VulnerabilitiesStore } = inventoryConnector();
+        const { InventoryDetailHead, AppInfo } = inventoryConnector();
 
         VulnerabilitiesStore && this.getRegistry().register({ VulnerabilitiesStore });
 

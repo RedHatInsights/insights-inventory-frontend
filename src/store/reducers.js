@@ -1,13 +1,13 @@
 import { ACTION_TYPES } from '../constants';
-import { applyReducerHash } from '@red-hat-insights/insights-frontend-components/Utilities/ReducerRegistry';
-import { mergeArraysByKey } from '@red-hat-insights/insights-frontend-components/Utilities/helpers';
-import {
-    GeneralInformation,
-    Vulnerabilities,
-    Compliance,
-    Advisor
-} from '@red-hat-insights/insights-frontend-components';
-import { notifications } from '@red-hat-insights/insights-frontend-components/components/Notifications';
+import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
+import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
+import GeneralInformation, {
+    systemProfileStore
+} from '@redhat-cloud-services/frontend-components-inventory-general-info';
+import Vulnerabilities from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
+import Compliance from '@redhat-cloud-services/frontend-components-inventory-compliance';
+import Advisor from '@redhat-cloud-services/frontend-components-inventory-insights';
+import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 
 const defaultState = { loaded: false };
 
@@ -49,7 +49,8 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
 }
 
 let reducers = {
-    notifications
+    notifications,
+    systemProfileStore
 };
 
 export const entitiesReducer = applyReducerHash(

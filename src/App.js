@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import './App.scss';
 import { INVENTORY_ROOT } from './config';
-import { registry as registryDecorator, routerParams } from '@red-hat-insights/insights-frontend-components';
+import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { reducers } from './store';
-import { NotificationsPortal } from '@red-hat-insights/insights-frontend-components/components/Notifications';
+import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 
 @registryDecorator()
 class App extends Component {
