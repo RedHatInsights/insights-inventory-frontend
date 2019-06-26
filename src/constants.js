@@ -3,7 +3,8 @@ import flatMap from 'lodash/flatMap';
 
 const actions = [
     'ALERT_ADD',
-    'ALERT_DISMISS'
+    'ALERT_DISMISS',
+    'REMOVE_ENTITY'
 ];
 
 const asyncActions = flatMap([
