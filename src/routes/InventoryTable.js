@@ -139,7 +139,7 @@ class Inventory extends Component {
                                     id: 'remove-initiated',
                                     variant: 'warning',
                                     title: 'Delete operation initiated',
-                                    description: `Removing of ${displayName} host started.`,
+                                    description: `Removal of ${displayName} started.`,
                                     dismissable: false
                                 });
                                 deleteEntity(id, displayName, () => this.onRefresh({ filters }));

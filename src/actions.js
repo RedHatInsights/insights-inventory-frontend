@@ -9,7 +9,7 @@ export const deleteEntity = (id, displayName) => ({
             fulfilled: {
                 variant: 'success',
                 title: 'Delete operation finished',
-                description: `Removing of ${displayName} has been successfully finished.`,
+                description: `${displayName} has been successfully removed.`,
                 dismissable: true
             }
         }
