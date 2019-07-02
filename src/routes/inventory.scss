@@ -33,3 +33,17 @@
         }
     }
 }
+
+svg.ins-m-alert {
+    fill: var(--pf-global--warning-color--100);
+}
+
+.ins-c-inventory__table--remove {
+    .pf-c-clipboard-copy {
+        margin: 0 3rem;
+    }
+
+    .pf-l-split:first-child {
+        margin-bottom: 2rem;
+    }
+}
