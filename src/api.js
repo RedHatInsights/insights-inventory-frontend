@@ -44,7 +44,7 @@ export function getEntities({ page, per_page, filters = [] }) {
         ).filter(item => item.indexOf('undefined') === -1).join('&');
     }
 
-    return fetch(`${INVENTORY_API_BASE}${query}`).then(r => {
+    return fetch(`${INVENTORY_API_BASE}/hosts${query}`).then(r => {
         if (r.ok) {
             return r.json();
         }
