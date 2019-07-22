@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
@@ -9,158 +9,142 @@ import * as actions from '../actions';
 import {
     Grid,
     GridItem,
-    Modal,
-    Button,
-    Split,
-    SplitItem,
-    Level,
-    LevelItem,
-    Stack,
-    StackItem,
-    ClipboardCopy
+    Dropdown,
+    DropdownItem,
+    KebabToggle
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
-import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
-@registryDecorator()
-class Inventory extends Component {
+import DeleteModal from '../components/DeleteModal';
 
-    constructor (props, ctx) {
-        super(props, ctx);
-        this.loadInventory();
-        this.inventory = React.createRef();
-        this.state = {
-            isModalOpen: false,
-            removeListener: () => undefined
-        };
-        this.onDeleteHost = this.onDeleteHost.bind(this);
-        this.onRefresh = this.onRefresh.bind(this);
-        this.handleModalToggle = this.handleModalToggle.bind(this);
-    }
-
-    async loadInventory() {
-        this.props.clearNotifications();
+const Inventory = ({ clearNotifications, deleteEntity, addNotification, rows }) => {
+    const inventory = useRef(null);
+    const [ConnectedInventory, setInventory] = useState();
+    const [isModalOpen, handleModalToggle] = useState(false);
+    const [currentSytem, activateSystem] = useState({});
+    const [filters, onSetfilters] = useState([]);
+    const [dropdownOpened, onDropdownToggle] = useState(false);
+    const loadInventory = async () => {
+        clearNotifications();
         const {
             inventoryConnector,
             mergeWithEntities
         } = await asyncInventoryLoader();
-        this.getRegistry().register({
+        getRegistry().register({
             ...mergeWithEntities(entitiesReducer)
         });
 
-        const { InventoryTable, updateEntities } = inventoryConnector();
-
-        this.updateEntities = updateEntities;
-
-        this.setState({
-            ConnectedInventory: InventoryTable
-        });
-    }
-
-    onRefresh(options) {
-        this.setState({
-            filters: options.filters
-        }, () => this.inventory.current.onRefreshData(options, false));
-    }
-
-    handleModalToggle() {
-        this.setState(({ isModalOpen }) => ({
-            isModalOpen: !isModalOpen
-        }));
+        const { InventoryTable } = inventoryConnector();
+        setInventory(() => InventoryTable);
     };
 
-    onDeleteHost(id, displayName) {
-        this.setState(({ isModalOpen }) => ({
-            isModalOpen: !isModalOpen,
-            id,
-            displayName
-        }));
-    }
+    const onRefresh = (options) => {
+        onSetfilters(options.filters);
+        if (inventory && inventory.current) {
+            inventory.current.onRefreshData(options);
+        }
+    };
 
-    render() {
-        const { ConnectedInventory, isModalOpen, displayName, id, filters } = this.state;
-        const { deleteEntity, addNotification } = this.props;
-        return (
-            <React.Fragment>
-                <PageHeader className="pf-m-light">
-                    <PageHeaderTitle title='Inventory'/>
-                </PageHeader>
-                <Main>
-                    <Grid gutter="md">
-                        <GridItem span={12}>
-                            {
-                                ConnectedInventory &&
+    useEffect(() => {
+        loadInventory();
+    }, []);
+
+    return (
+        <React.Fragment>
+            <PageHeader className="pf-m-light">
+                <PageHeaderTitle title='Inventory'/>
+            </PageHeader>
+            <Main>
+                <Grid gutter="md">
+                    <GridItem span={12}>
+                        {
+                            ConnectedInventory &&
                                 <ConnectedInventory
-                                    ref={this.inventory}
-                                    onRefresh={this.onRefresh}
-                                    hasCheckbox={false}
+                                    ref={inventory}
+                                    hasCheckbox
+                                    onRefresh={onRefresh}
                                     actions={[
                                         {
                                             title: 'Delete',
-                                            onClick: (_event, _index, { id: systemId, display_name: displayName }) =>
-                                                this.onDeleteHost(systemId, displayName)
+                                            onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                                                handleModalToggle(true);
+                                                activateSystem({
+                                                    id: systemId,
+                                                    displayName
+                                                });
+                                            }
                                         }
                                     ]}
-                                />
-                            }
-                        </GridItem>
-                    </Grid>
-                </Main>
-                <Modal
-                    isSmall
-                    title="Remove from inventory"
-                    className="ins-c-inventory__table--remove"
-                    isOpen={isModalOpen}
-                    onClose={this.handleModalToggle}
-                >
-                    <Split gutter="md">
-                        <SplitItem><ExclamationTriangleIcon size="xl" className="ins-m-alert"/></SplitItem>
-                        <SplitItem isFilled>
-                            <Stack gutter="md">
-                                <StackItem>
-                                    {displayName} will be removed from
-                                    all {location.host} applications and services. You need to re-register
-                                    the system to add it back to your inventory.
-                                </StackItem>
-                                <StackItem>
-                                    To disable the daily upload for this system, use the following command:
-                                </StackItem>
-                                <StackItem>
-                                    <ClipboardCopy>insights-client --unregister</ClipboardCopy>
-                                </StackItem>
-                            </Stack>
-                        </SplitItem>
-                    </Split>
-                    <Level gutter="md">
-                        <LevelItem>
-                            <Button variant="danger" onClick={() => {
-                                addNotification({
-                                    id: 'remove-initiated',
-                                    variant: 'warning',
-                                    title: 'Delete operation initiated',
-                                    description: `Removal of ${displayName} started.`,
-                                    dismissable: false
-                                });
-                                deleteEntity(id, displayName, () => this.onRefresh({ filters }));
-                                this.handleModalToggle();
-                            }}>
-                                Remove
-                            </Button>
-                            <Button variant="link" onClick={this.handleModalToggle}>Cancel</Button>
-                        </LevelItem>
-                    </Level>
-                </Modal>
-            </React.Fragment>
-        );
-    }
-}
+                                >
+                                    <Dropdown
+                                        isPlain
+                                        onSelect={() => onDropdownToggle(!dropdownOpened)}
+                                        isOpen={dropdownOpened}
+                                        toggle={<KebabToggle onToggle={(isOpen) => onDropdownToggle(isOpen)}/>}
+                                        dropdownItems={[
+                                            <DropdownItem
+                                                key={'delete-selected'}
+                                                onClick={() => {
+                                                    const selectedSystems = rows.filter(row => row.selected);
+                                                    if (selectedSystems.length > 0) {
+                                                        activateSystem(selectedSystems);
+                                                        handleModalToggle(true);
+                                                    }
+                                                }}
+                                                component='button'
+                                            >
+                                                Delete
+                                            </DropdownItem>
+                                        ]}
+                                    />
+                                </ConnectedInventory>
+                        }
+                    </GridItem>
+                </Grid>
+            </Main>
+            <DeleteModal
+                handleModalToggle={handleModalToggle}
+                isModalOpen={isModalOpen}
+                currentSytem={currentSytem}
+                onConfirm={() => {
+                    let displayName;
+                    let removeSystems;
+                    if (Array.isArray(currentSytem)) {
+                        removeSystems = currentSytem.map(({ id }) => id);
+                        displayName = currentSytem.length > 1 ?
+                            `${currentSytem.length} systems` :
+                            currentSytem[0].display_name;
+                    } else {
+                        displayName = currentSytem.displayName;
+                        removeSystems = [currentSytem.id];
+                    }
+
+                    addNotification({
+                        id: 'remove-initiated',
+                        variant: 'warning',
+                        title: 'Delete operation initiated',
+                        description: `Removal of ${displayName} started.`,
+                        dismissable: false
+                    });
+                    deleteEntity(removeSystems, displayName, () => onRefresh({ filters }));
+                    handleModalToggle(false);
+                }}
+            />
+        </React.Fragment>
+    );
+};
 
 Inventory.contextTypes = {
     store: PropTypes.object
 };
 
 Inventory.propTypes = {
+    rows: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        selected: PropTypes.bool
+    })),
+    loaded: PropTypes.bool,
     loadEntity: PropTypes.func,
     clearNotifications: PropTypes.func,
     deleteEntity: PropTypes.func,
@@ -181,4 +165,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default routerParams(connect(() => ({}), mapDispatchToProps)(Inventory));
+export default routerParams(connect(({ entities }) => ({
+    rows: entities && entities.rows,
+    loaded: entities && entities.loaded
+}), mapDispatchToProps)(Inventory));
