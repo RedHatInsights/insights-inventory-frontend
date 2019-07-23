@@ -6,12 +6,15 @@ import { init } from './store';
 import App from './App';
 import logger from 'redux-logger';
 import { getBaseName } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
+import { IntlProvider } from 'react-intl';
 
 ReactDOM.render(
     <Provider store={init(logger).getStore()}>
-        <Router basename={getBaseName(window.location.pathname)}>
-            <App />
-        </Router>
+        <IntlProvider locale={navigator.language}>
+            <Router basename={getBaseName(window.location.pathname)}>
+                <App />
+            </Router>
+        </IntlProvider>
     </Provider>,
 
     document.getElementById('root')
