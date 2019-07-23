@@ -5,9 +5,9 @@ import GeneralInformation, {
     systemProfileStore
 } from '@redhat-cloud-services/frontend-components-inventory-general-info';
 import Vulnerabilities from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
-import Compliance from '@redhat-cloud-services/frontend-components-inventory-compliance';
 import Advisor from '@redhat-cloud-services/frontend-components-inventory-insights';
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
+import ComplianceTab from '../components/inventory/Compliance';
 
 const defaultState = { loaded: false };
 
@@ -42,7 +42,7 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
             isEntitled(entitlements && entitlements.smart_management) && {
                 title: 'Compliance',
                 name: 'compliance',
-                component: Compliance
+                component: ComplianceTab
             }
         ].filter(Boolean)
     };
