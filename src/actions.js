@@ -1,9 +1,9 @@
 import { ACTION_TYPES, CLEAR_NOTIFICATIONS } from './constants';
 import { getEntity, hosts } from './api';
 
-export const deleteEntity = (id, displayName) => ({
+export const deleteEntity = (systems, displayName) => ({
     type: ACTION_TYPES.REMOVE_ENTITY,
-    payload: hosts.apiHostDeleteById([id]),
+    payload: hosts.apiHostDeleteById(systems),
     meta: {
         notifications: {
             fulfilled: {
