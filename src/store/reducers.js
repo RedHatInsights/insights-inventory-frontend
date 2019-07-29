@@ -9,7 +9,7 @@ import Advisor from '@redhat-cloud-services/frontend-components-inventory-insigh
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import ComplianceTab from '../components/inventory/Compliance';
 
-const defaultState = { loaded: false };
+const defaultState = { loaded: false, selected: {} };
 
 const isEntitled = (service) => {
     if (window.sessionStorage.getItem('disableEntitlements') === 'true') {
@@ -48,14 +48,46 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
     };
 }
 
+function entitySelected(state, { payload }) {
+    const selected = state.selected || {};
+    if (payload.id === 0) {
+        state.rows.map(row => {
+            selected[row.id] = payload.selected;
+        });
+    } else {
+        selected[payload.id] = payload.selected;
+    }
+
+    return {
+        ...state,
+        selected
+    };
+}
+
+function onEntitiesLoaded(state, { payload }) {
+    return {
+        ...state,
+        rows: mergeArraysByKey([state.rows, payload.results.map(result => {
+            return {
+                ...result,
+                selected: Object.keys(state.selected || {})
+                .find(selectedRow => selectedRow === result.id && state.selected[selectedRow])
+            };
+        })])
+    };
+}
+
 let reducers = {
     notifications,
     systemProfileStore
 };
 
-export const entitiesReducer = applyReducerHash(
+export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash(
     {
-        [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded
+        [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded,
+        [LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
+        SELECT_ENTITY: entitySelected,
+        FILTER_SELECT: (state) => ({ ...state, selected: {} })
     },
     defaultState
 );

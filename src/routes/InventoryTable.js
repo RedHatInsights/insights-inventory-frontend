@@ -13,7 +13,7 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 
-const Inventory = ({ clearNotifications, deleteEntity, addNotification, loaded, rows, updateDisplayName }) => {
+const Inventory = ({ clearNotifications, deleteEntity, addNotification, loaded, rows, updateDisplayName, selected }) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
     const [isModalOpen, handleModalToggle] = useState(false);
@@ -24,10 +24,11 @@ const Inventory = ({ clearNotifications, deleteEntity, addNotification, loaded, 
         clearNotifications();
         const {
             inventoryConnector,
-            mergeWithEntities
+            mergeWithEntities,
+            INVENTORY_ACTION_TYPES
         } = await asyncInventoryLoader();
         getRegistry().register({
-            ...mergeWithEntities(entitiesReducer)
+            ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
         });
 
         const { InventoryTable } = inventoryConnector();
@@ -154,7 +155,8 @@ Inventory.propTypes = {
     clearNotifications: PropTypes.func,
     deleteEntity: PropTypes.func,
     addNotification: PropTypes.func,
-    updateDisplayName: PropTypes.func
+    updateDisplayName: PropTypes.func,
+    selected: PropTypes.any
 };
 
 function mapDispatchToProps(dispatch) {
@@ -176,5 +178,6 @@ function mapDispatchToProps(dispatch) {
 
 export default routerParams(connect(({ entities }) => ({
     rows: entities && entities.rows,
-    loaded: entities && entities.loaded
+    loaded: entities && entities.loaded,
+    selected: entities && entities.selected
 }), mapDispatchToProps)(Inventory));
