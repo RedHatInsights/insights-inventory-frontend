@@ -1,0 +1,6 @@
+{
+  "en": {
+    "daily.uploads.disable": "To disable the daily upload for {system,plural,one{this system} other{these systems}}, use the following command:",
+    "system.remove.info": "{systemToRemove} {system,plural,one{} other{systems}} will be removed from all {host} applications and services. You need to re - register the {system,plural,one{ system } other{ systems }} to add it back to your inventory."
+  }
+}

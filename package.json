@@ -15,6 +15,8 @@
     "@redhat-cloud-services/frontend-components-notifications": "0.0.7",
     "@redhat-cloud-services/frontend-components-utilities": "0.0.8",
     "@redhat-cloud-services/host-inventory-client": "1.0.19",
+    "@redhat-cloud-services/frontend-components-translations": "0.0.1",
+    "babel-plugin-react-intl": "^4.1.8",
     "classnames": "^2.2.6",
     "graphql": "^14.0.2",
     "react": "^16.8.6",

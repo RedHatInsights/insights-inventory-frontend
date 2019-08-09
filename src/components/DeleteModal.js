@@ -11,19 +11,13 @@ import {
     Button,
     ClipboardCopy
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from  '@patternfly/react-icons';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { FormattedMessage } from 'react-intl';
+import { defaultMessages } from '@redhat-cloud-services/frontend-components-translations';
+import messages from '../messages';
 
-const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }) => {
-    let systemToRemove;
-    let systemLabel = 'system';
-    if (Array.isArray(currentSytem)) {
-        systemToRemove = currentSytem.length === 1 ? currentSytem[0].display_name : `${currentSytem.length} systems`;
-        systemLabel = currentSytem.length === 1 ? systemLabel : 'systems';
-    } else {
-        systemToRemove = currentSytem.displayName;
-    }
-
-    return <Modal
+const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }) => (
+    <Modal
         isSmall
         title="Remove from inventory"
         className="ins-c-inventory__table--remove"
@@ -35,12 +29,26 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }
             <SplitItem isFilled>
                 <Stack gutter="md">
                     <StackItem>
-                        {systemToRemove} will be removed from
-                                    all {location.host} applications and services. You need to re-register
-                        the {systemLabel} to add it back to your inventory.
+                        <FormattedMessage
+                            {...messages.systemRemoveInfo}
+                            values={{
+                                systemToRemove: Array.isArray(currentSytem) ?
+                                    currentSytem.length === 1 ?
+                                        currentSytem[0].display_name :
+                                        currentSytem.length :
+                                    currentSytem.displayName,
+                                host: location.host,
+                                system: Array.isArray(currentSytem) ? currentSytem.length : 1
+                            }}
+                        />
                     </StackItem>
                     <StackItem>
-                        To disable the daily upload for this {systemLabel}, use the following command:
+                        <FormattedMessage
+                            {...messages.disableDailyUploads}
+                            values={{
+                                system: Array.isArray(currentSytem) ? currentSytem.length : 1
+                            }}
+                        />
                     </StackItem>
                     <StackItem>
                         <ClipboardCopy>insights-client --unregister</ClipboardCopy>
@@ -51,13 +59,19 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }
         <Level gutter="md">
             <LevelItem>
                 <Button variant="danger" onClick={onConfirm}>
-                    Remove
+                    <FormattedMessage
+                        {...defaultMessages.remove}
+                    />
                 </Button>
-                <Button variant="link" onClick={() => handleModalToggle(false)}>Cancel</Button>
+                <Button variant="link" onClick={() => handleModalToggle(false)}>
+                    <FormattedMessage
+                        {...defaultMessages.cancel}
+                    />
+                </Button>
             </LevelItem>
         </Level>
-    </Modal>;
-};
+    </Modal>
+);
 
 const ActiveSystemProp = PropTypes.shape({
     id: PropTypes.string,
@@ -66,6 +80,9 @@ const ActiveSystemProp = PropTypes.shape({
 
 DeleteModal.propTypes = {
     isModalOpen: PropTypes.bool,
+    intl: PropTypes.shape({
+        formatMessage: PropTypes.func
+    }),
     currentSytem: PropTypes.oneOfType([ActiveSystemProp, PropTypes.arrayOf(ActiveSystemProp)]),
     handleModalToggle: PropTypes.func,
     onConfirm: PropTypes.func

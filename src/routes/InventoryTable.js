@@ -17,14 +17,19 @@ import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import DeleteModal from '../components/DeleteModal';
+import { defaultMessages } from '@redhat-cloud-services/frontend-components-translations';
+import { injectIntl } from 'react-intl';
+import { hosts } from '../api';
 
-const Inventory = ({ clearNotifications, deleteEntity, addNotification, rows }) => {
+console.log(hosts);
+const Inventory = ({ clearNotifications, deleteEntity, addNotification, rows, intl }) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState([]);
     const [dropdownOpened, onDropdownToggle] = useState(false);
+
     const loadInventory = async () => {
         clearNotifications();
         const {
@@ -94,7 +99,7 @@ const Inventory = ({ clearNotifications, deleteEntity, addNotification, rows }) 
                                                 }}
                                                 component='button'
                                             >
-                                                Delete
+                                                {intl.formatMessage(defaultMessages.delete)}
                                             </DropdownItem>
                                         ]}
                                     />
@@ -144,6 +149,7 @@ Inventory.propTypes = {
         id: PropTypes.string,
         selected: PropTypes.bool
     })),
+    intl: PropTypes.any,
     loaded: PropTypes.bool,
     loadEntity: PropTypes.func,
     clearNotifications: PropTypes.func,
@@ -165,7 +171,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default routerParams(connect(({ entities }) => ({
+export default injectIntl(routerParams(connect(({ entities }) => ({
     rows: entities && entities.rows,
     loaded: entities && entities.loaded
-}), mapDispatchToProps)(Inventory));
+}), mapDispatchToProps)(Inventory)));

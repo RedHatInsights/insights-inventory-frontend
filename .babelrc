@@ -20,7 +20,13 @@
     "@babel/plugin-transform-runtime",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-proposal-object-rest-spread",
-    "lodash"
+    "lodash",
+    [
+        "react-intl",
+        {
+            "messagesDir": "./build/messages/"
+        }
+    ]
   ],
   "ignore": ["node_modules"],
 }

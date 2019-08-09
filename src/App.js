@@ -8,7 +8,8 @@ import routerParams from '@redhat-cloud-services/frontend-components-utilities/f
 import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { reducers } from './store';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
-
+import { IntlProvider } from  '@redhat-cloud-services/frontend-components-translations';
+import messages from '../locales/data';
 @registryDecorator()
 class App extends Component {
     constructor(props) {
@@ -28,10 +29,12 @@ class App extends Component {
 
     render () {
         return (
-            <React.Fragment>
-                <NotificationsPortal />
-                <Routes childProps={this.props} />
-            </React.Fragment>
+            <IntlProvider messages={messages}>
+                <React.Fragment>
+                    <NotificationsPortal />
+                    <Routes childProps={this.props} />
+                </React.Fragment>
+            </IntlProvider>
         );
     }
 }
