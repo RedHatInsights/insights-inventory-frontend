@@ -17,14 +17,16 @@ import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import DeleteModal from '../components/DeleteModal';
+import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 
-const Inventory = ({ clearNotifications, deleteEntity, addNotification, rows }) => {
+const Inventory = ({ clearNotifications, deleteEntity, addNotification, rows, updateDisplayName }) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState([]);
     const [dropdownOpened, onDropdownToggle] = useState(false);
+    const [ediOpen, onEditOpen] = useState(false);
     const loadInventory = async () => {
         clearNotifications();
         const {
@@ -73,6 +75,12 @@ const Inventory = ({ clearNotifications, deleteEntity, addNotification, rows }) 
                                                     id: systemId,
                                                     displayName
                                                 });
+                                            }
+                                        }, {
+                                            title: 'Edit',
+                                            onClick: (_event, _index, data) => {
+                                                onEditOpen(true),
+                                                activateSystem(data);
                                             }
                                         }
                                     ]}
@@ -131,6 +139,17 @@ const Inventory = ({ clearNotifications, deleteEntity, addNotification, rows }) 
                     handleModalToggle(false);
                 }}
             />
+
+            <TextInputModal
+                title="Edit name"
+                isOpen={ediOpen}
+                value={currentSytem.display_name}
+                onCancel={() => onEditOpen(false)}
+                onSubmit={(value) => {
+                    updateDisplayName(currentSytem.id, value, inventory.current.onRefreshData);
+                    onEditOpen(false);
+                }}
+            />
         </React.Fragment>
     );
 };
@@ -148,7 +167,8 @@ Inventory.propTypes = {
     loadEntity: PropTypes.func,
     clearNotifications: PropTypes.func,
     deleteEntity: PropTypes.func,
-    addNotification: PropTypes.func
+    addNotification: PropTypes.func,
+    updateDisplayName: PropTypes.func
 };
 
 function mapDispatchToProps(dispatch) {
@@ -161,7 +181,10 @@ function mapDispatchToProps(dispatch) {
         loadEntity: (id) => dispatch(actions.loadEntity(id)),
         clearNotifications: () => dispatch(actions.clearNotifications()),
         deleteEntity: (id, hostName, callback) => dispatch(reloadWrapper(actions.deleteEntity(id, hostName), callback)),
-        addNotification: (payload) => dispatch(addNotification(payload))
+        addNotification: (payload) => dispatch(addNotification(payload)),
+        updateDisplayName: (id, displayName, callback) => dispatch(
+            reloadWrapper(actions.editDisplayName(id, displayName), callback)
+        )
     };
 }
 
