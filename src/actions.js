@@ -26,3 +26,17 @@ export const clearNotifications = () => {
         type: CLEAR_NOTIFICATIONS
     });
 };
+
+export const editDisplayName = (id, value) => ({
+    type: ACTION_TYPES.UPDATE_DISPLAY_NAME,
+    payload: hosts.apiHostPatchById([id], { display_name: value }), // eslint-disable-line camelcase
+    meta: {
+        notifications: {
+            fulfilled: {
+                variant: 'success',
+                title: `Display name for entity with ID ${id} has been changed to ${value}`,
+                dismissable: true
+            }
+        }
+    }
+});

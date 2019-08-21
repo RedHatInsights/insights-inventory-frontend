@@ -9,7 +9,8 @@ const actions = [
 
 const asyncActions = flatMap([
     'GET_ENTITIES',
-    'GET_ENTITY'
+    'GET_ENTITY',
+    'UPDATE_DISPLAY_NAME'
 ], a => [a, `${a}_PENDING`, `${a}_FULFILLED`, `${a}_REJECTED`]);
 
 export const ACTION_TYPES = keyBy([...actions, ...asyncActions], k => k);
