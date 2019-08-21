@@ -13,8 +13,8 @@ import registryDecorator from '@redhat-cloud-services/frontend-components-utilit
 import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
 import '@redhat-cloud-services/frontend-components-inventory-general-info/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
-import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/index.css';
-import { VulnerabilitiesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
+import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/css/index.css';
+import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
 import { routes } from '../Routes';
 
 @registryDecorator()
@@ -50,7 +50,7 @@ class Inventory extends Component {
 
         const { InventoryDetailHead, AppInfo } = inventoryConnector();
 
-        VulnerabilitiesStore && this.getRegistry().register({ VulnerabilitiesStore });
+        SystemCvesStore && this.getRegistry().register({ SystemCvesStore });
 
         this.setState({
             InventoryDetail: InventoryDetailHead,
