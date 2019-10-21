@@ -7,4 +7,4 @@ update_configs:
       - "karelhala"
     allowed_updates:
       - match:
-          dependency_name: "@redhat-cloud-services/frontend"
+          dependency_name: "@redhat-cloud-services/frontend*"
