@@ -10,7 +10,7 @@
     "@redhat-cloud-services/frontend-components": "0.0.30",
     "@redhat-cloud-services/frontend-components-inventory-compliance": "0.0.28",
     "@redhat-cloud-services/frontend-components-inventory-general-info": "0.0.13",
-    "@redhat-cloud-services/frontend-components-inventory-insights": "0.1.20",
+    "@redhat-cloud-services/frontend-components-inventory-insights": "0.2.0",
     "@redhat-cloud-services/frontend-components-inventory-vulnerabilities": "1.20.26",
     "@redhat-cloud-services/frontend-components-notifications": "0.0.7",
     "@redhat-cloud-services/frontend-components-utilities": "0.0.10",
