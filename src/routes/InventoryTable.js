@@ -13,7 +13,26 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 
-const Inventory = ({ clearNotifications, deleteEntity, addNotification, loaded, rows, updateDisplayName, selected }) => {
+const calculateChecked = (rows, selected) => {
+    if (!rows || rows.length <= 0) {
+        return false;
+    }
+
+    return rows.every(({ id }) => selected && selected.has(id))
+        ? true
+        : rows.some(({ id }) => selected && selected.has(id)) && null;
+};
+
+const Inventory = ({
+    clearNotifications,
+    deleteEntity,
+    addNotification,
+    loaded,
+    rows,
+    updateDisplayName,
+    onSelectRows,
+    selected
+}) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
     const [isModalOpen, handleModalToggle] = useState(false);
@@ -46,7 +65,7 @@ const Inventory = ({ clearNotifications, deleteEntity, addNotification, loaded, 
         loadInventory();
     }, []);
 
-    const calculateSelected = () => (rows || []).filter(row => row.selected).length;
+    const calculateSelected = () => selected ? selected.size : 0;
 
     return (
         <React.Fragment>
@@ -89,9 +108,34 @@ const Inventory = ({ clearNotifications, deleteEntity, addNotification, loaded, 
                                             label: 'Delete',
                                             props: {
                                                 isDisabled: calculateSelected() === 0,
-                                                variant: 'danger'
+                                                variant: 'danger',
+                                                onClick: () => {
+                                                    activateSystem(Array.from(selected.values()));
+                                                    handleModalToggle(true);
+                                                }
                                             }
                                         }]
+                                    }}
+                                    bulkSelect={{
+                                        count: calculateSelected(),
+                                        items: [{
+                                            title: 'Select none (0)',
+                                            onClick: () => {
+                                                onSelectRows(-1, false);
+                                            }
+                                        },
+                                        {
+                                            ...loaded && rows && rows.length > 0 ? {
+                                                title: `Select page (${ rows.length })`,
+                                                onClick: () => {
+                                                    onSelectRows(0, true);
+                                                }
+                                            } : {}
+                                        }],
+                                        checked: calculateChecked(rows, selected),
+                                        onSelect: (value) => {
+                                            onSelectRows(0, value);
+                                        }
                                     }}
                                 />
                         }
@@ -156,7 +200,8 @@ Inventory.propTypes = {
     deleteEntity: PropTypes.func,
     addNotification: PropTypes.func,
     updateDisplayName: PropTypes.func,
-    selected: PropTypes.any
+    onSelectRows: PropTypes.func,
+    selected: PropTypes.map
 };
 
 function mapDispatchToProps(dispatch) {
@@ -172,7 +217,8 @@ function mapDispatchToProps(dispatch) {
         addNotification: (payload) => dispatch(addNotification(payload)),
         updateDisplayName: (id, displayName, callback) => dispatch(
             reloadWrapper(actions.editDisplayName(id, displayName), callback)
-        )
+        ),
+        onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected))
     };
 }
 

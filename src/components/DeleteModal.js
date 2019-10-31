@@ -17,7 +17,7 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }
     let systemToRemove;
     let systemLabel = 'system';
     if (Array.isArray(currentSytem)) {
-        systemToRemove = `${currentSytem.length} ${currentSytem.length === 1 ? systemLabel : 'systems'}`;
+        systemToRemove = currentSytem.length === 1 ? currentSytem[0].display_name : `${currentSytem.length} systems`;
         systemLabel = currentSytem.length === 1 ? systemLabel : 'systems';
     } else {
         systemToRemove = currentSytem.displayName;

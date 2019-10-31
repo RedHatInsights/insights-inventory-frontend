@@ -1,4 +1,4 @@
-import { ACTION_TYPES, CLEAR_NOTIFICATIONS } from './constants';
+import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SELECT_ENTITY } from './constants';
 import { getEntity, hosts } from './api';
 
 export const deleteEntity = (systems, displayName) => ({
@@ -39,4 +39,9 @@ export const editDisplayName = (id, value) => ({
             }
         }
     }
+});
+
+export const selectEntity = (id, selected) => ({
+    type: SELECT_ENTITY,
+    payload: { id, selected }
 });
