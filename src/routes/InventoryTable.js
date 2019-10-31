@@ -137,6 +137,9 @@ const Inventory = ({
                                             onSelectRows(0, value);
                                         }
                                     }}
+                                    tableProps={{
+                                        canSelectAll: false
+                                    }}
                                 />
                         }
                     </GridItem>
