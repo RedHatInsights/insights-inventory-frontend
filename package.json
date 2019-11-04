@@ -6,7 +6,7 @@
     "@babel/runtime": "^7.1.5",
     "@patternfly/react-core": "^3.112.3",
     "@patternfly/react-icons": "3.14.18",
-    "@patternfly/react-table": "^2.22.19",
+    "@patternfly/react-table": "^2.24.17",
     "@redhat-cloud-services/frontend-components": "0.0.37",
     "@redhat-cloud-services/frontend-components-inventory-compliance": "0.0.28",
     "@redhat-cloud-services/frontend-components-inventory-general-info": "0.0.13",
