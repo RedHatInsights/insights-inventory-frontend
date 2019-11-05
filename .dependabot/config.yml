@@ -10,3 +10,4 @@ update_configs:
           dependency_name: "@redhat-cloud-services/frontend*"
       - match:
           dependency_name: "@patternfly/*"
+          dependency_type: "direct"
