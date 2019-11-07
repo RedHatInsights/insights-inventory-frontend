@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from '../constants';
+import { ACTION_TYPES, SELECT_ENTITY } from '../constants';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import GeneralInformation, {
@@ -9,7 +9,7 @@ import Advisor from '@redhat-cloud-services/frontend-components-inventory-insigh
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import ComplianceTab from '../components/inventory/Compliance';
 
-const defaultState = { loaded: false };
+const defaultState = { loaded: false, selected: new Map() };
 
 const isEntitled = (service) => {
     if (window.sessionStorage.getItem('disableEntitlements') === 'true') {
@@ -48,14 +48,54 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
     };
 }
 
+function entitySelected(state, { payload }) {
+    const selected = state.selected || (new Map());
+    if (payload.selected) {
+        if (payload.id === 0) {
+            state.rows.forEach(row => selected.set(row.id, row));
+        } else {
+            const selectedRow = state.rows && state.rows.find(({ id }) => id === payload.id);
+            selected.set(payload.id, { ...selectedRow || {}, id: payload.id });
+        }
+    } else {
+        if (payload.id === 0) {
+            state.rows.forEach(row => selected.delete(row.id));
+        } else if (payload.id === -1) {
+            selected.clear();
+        } else {
+            selected.delete(payload.id);
+        }
+    }
+
+    return {
+        ...state,
+        selected: new Map(selected)
+    };
+}
+
+function onEntitiesLoaded(state, { payload }) {
+    return {
+        ...state,
+        rows: mergeArraysByKey([state.rows, payload.results.map(result => {
+            return {
+                ...result,
+                selected: state.selected && state.selected.has(result.id)
+            };
+        })])
+    };
+}
+
 let reducers = {
     notifications,
     systemProfileStore
 };
 
-export const entitiesReducer = applyReducerHash(
+export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash(
     {
-        [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded
+        [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded,
+        [LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
+        [SELECT_ENTITY]: entitySelected,
+        FILTER_SELECT: (state) => ({ ...state, selected: {} })
     },
     defaultState
 );
