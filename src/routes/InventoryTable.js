@@ -13,15 +13,11 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 
-const calculateChecked = (rows, selected) => {
-    if (!rows || rows.length <= 0) {
-        return false;
-    }
-
-    return rows.every(({ id }) => selected && selected.has(id))
-        ? true
-        : rows.some(({ id }) => selected && selected.has(id)) && null;
-};
+const calculateChecked = (rows = [], selected) => (
+    rows.every(({ id }) => selected && selected.has(id))
+        ? rows.length > 0
+        : rows.some(({ id }) => selected && selected.has(id)) && null
+);
 
 const Inventory = ({
     clearNotifications,
