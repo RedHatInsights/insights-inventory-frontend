@@ -12,7 +12,8 @@ export const deleteEntity = (systems, displayName) => ({
                 description: `${displayName} has been successfully removed.`,
                 dismissable: true
             }
-        }
+        },
+        systems
     }
 });
 

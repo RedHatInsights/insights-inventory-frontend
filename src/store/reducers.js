@@ -73,6 +73,16 @@ function entitySelected(state, { payload }) {
     };
 }
 
+function entityDeleted(state, { meta }) {
+    const selected = state.selected || (new Map());
+    meta.systems.forEach(id => selected.delete(id));
+
+    return {
+        ...state,
+        selected: new Map(selected)
+    };
+}
+
 function onEntitiesLoaded(state, { payload }) {
     return {
         ...state,
@@ -94,6 +104,7 @@ export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash
     {
         [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded,
         [LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
+        [`${ACTION_TYPES.REMOVE_ENTITY}_FULFILLED`]: entityDeleted,
         [SELECT_ENTITY]: entitySelected,
         FILTER_SELECT: (state) => ({ ...state, selected: {} })
     },
