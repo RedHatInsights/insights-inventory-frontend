@@ -8,7 +8,7 @@
     "@patternfly/react-icons": "3.14.24",
     "@patternfly/react-table": "^2.24.41",
     "@redhat-cloud-services/frontend-components": "0.0.42",
-    "@redhat-cloud-services/frontend-components-inventory-compliance": "0.0.30",
+    "@redhat-cloud-services/frontend-components-inventory-compliance": "0.0.31",
     "@redhat-cloud-services/frontend-components-inventory-general-info": "0.0.14",
     "@redhat-cloud-services/frontend-components-inventory-insights": "0.3.0",
     "@redhat-cloud-services/frontend-components-inventory-vulnerabilities": "1.23.2",
