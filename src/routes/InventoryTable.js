@@ -14,9 +14,9 @@ import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 
 const calculateChecked = (rows = [], selected) => (
-    rows.every(({ id }) => selected && selected.has(id))
+    rows.every(({ id }) => selected && selected.has && selected.has(id))
         ? rows.length > 0
-        : rows.some(({ id }) => selected && selected.has(id)) && null
+        : rows.some(({ id }) => selected && selected.has && selected.has(id)) && null
 );
 
 const Inventory = ({

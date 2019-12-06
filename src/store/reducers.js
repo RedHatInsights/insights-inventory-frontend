@@ -89,7 +89,7 @@ function onEntitiesLoaded(state, { payload }) {
         rows: mergeArraysByKey([state.rows, payload.results.map(result => {
             return {
                 ...result,
-                selected: state.selected && state.selected.has(result.id)
+                selected: state.selected && state.selected.has && state.selected.has(result.id)
             };
         })])
     };
