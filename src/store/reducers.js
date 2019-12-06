@@ -55,7 +55,7 @@ function entitySelected(state, { payload }) {
             state.rows.forEach(row => selected.set(row.id, row));
         } else {
             const selectedRow = state.rows && state.rows.find(({ id }) => id === payload.id);
-            selected.set(payload.id, { ...selectedRow || {}, id: payload.id });
+            selected.set && selected.set(payload.id, { ...selectedRow || {}, id: payload.id });
         }
     } else {
         if (payload.id === 0) {
@@ -63,23 +63,23 @@ function entitySelected(state, { payload }) {
         } else if (payload.id === -1) {
             selected.clear();
         } else {
-            selected.delete(payload.id);
+            selected.delete && selected.delete(payload.id);
         }
     }
 
     return {
         ...state,
-        selected: new Map(selected)
+        selected: selected instanceof Map && new Map(selected)
     };
 }
 
 function entityDeleted(state, { meta }) {
     const selected = state.selected || (new Map());
-    meta.systems.forEach(id => selected.delete(id));
+    meta.systems.forEach(id => selected.delete && selected.delete(id));
 
     return {
         ...state,
-        selected: new Map(selected)
+        selected: selected instanceof Map && new Map(selected)
     };
 }
 
@@ -106,7 +106,7 @@ export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash
         [LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
         [`${ACTION_TYPES.REMOVE_ENTITY}_FULFILLED`]: entityDeleted,
         [SELECT_ENTITY]: entitySelected,
-        FILTER_SELECT: (state) => ({ ...state, selected: {} })
+        FILTER_SELECT: (state) => ({ ...state, selected: new Map() })
     },
     defaultState
 );
