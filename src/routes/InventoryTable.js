@@ -6,7 +6,7 @@ import routerParams from '@redhat-cloud-services/frontend-components-utilities/f
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
 import { entitiesReducer } from '../store';
 import * as actions from '../actions';
-import { Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem, Button } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
@@ -136,7 +136,22 @@ const Inventory = ({
                                     tableProps={{
                                         canSelectAll: false
                                     }}
-                                />
+                                >
+                                    <Button
+                                        className="ins-c-inventory__delete-button"
+                                        isDisabled={calculateChecked(rows, selected) === false}
+                                        variant="danger"
+                                        onClick={() => {
+                                            const selectedSystems = rows.filter(row => row.selected);
+                                            if (selectedSystems.length > 0) {
+                                                activateSystem(selectedSystems);
+                                                handleModalToggle(true);
+                                            }
+                                        }}
+                                    >
+                                        Delete
+                                    </Button>
+                                </ConnectedInventory>
                         }
                     </GridItem>
                 </Grid>
