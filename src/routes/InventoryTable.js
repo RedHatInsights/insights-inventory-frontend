@@ -35,6 +35,7 @@ const Inventory = ({
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
+    const [isNewVersion, onSetVersion] = useState(true);
     const loadInventory = async () => {
         clearNotifications();
         const {
@@ -48,6 +49,7 @@ const Inventory = ({
 
         const { InventoryTable } = inventoryConnector();
         setInventory(() => InventoryTable);
+        onSetVersion(() => INVENTORY_ACTION_TYPES.LOAD_TAGS !== undefined);
     };
 
     const onRefresh = (options) => {
@@ -137,7 +139,7 @@ const Inventory = ({
                                         canSelectAll: false
                                     }}
                                 >
-                                    <Button
+                                    {!isNewVersion && <Button
                                         className="ins-c-inventory__delete-button"
                                         isDisabled={calculateChecked(rows, selected) === false}
                                         variant="danger"
@@ -150,7 +152,7 @@ const Inventory = ({
                                         }}
                                     >
                                         Delete
-                                    </Button>
+                                    </Button>}
                                 </ConnectedInventory>
                         }
                     </GridItem>
