@@ -9,7 +9,7 @@
     "@patternfly/react-table": "^2.24.64",
     "@redhat-cloud-services/frontend-components": "0.0.45",
     "@redhat-cloud-services/frontend-components-inventory-compliance": "0.0.31",
-    "@redhat-cloud-services/frontend-components-inventory-general-info": "0.0.14",
+    "@redhat-cloud-services/frontend-components-inventory-general-info": "0.0.15",
     "@redhat-cloud-services/frontend-components-inventory-insights": "0.4.2",
     "@redhat-cloud-services/frontend-components-inventory-vulnerabilities": "1.24.2",
     "@redhat-cloud-services/frontend-components-notifications": "0.0.7",
