@@ -15,17 +15,13 @@ import '@redhat-cloud-services/frontend-components-inventory-general-info/index.
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/css/index.css';
 import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
+import classnames from 'classnames';
 import { routes } from '../Routes';
 
 const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     const [ConnectedInventory, setInventory] = useState({});
     const store = useStore();
     const { InventoryDetail, AppInfo } = ConnectedInventory;
-    const classNames = `${
-        currentApp && currentApp === 'general_information' ?
-            'ins-c-inventory__detail--general-info' :
-            ''
-    }`;
 
     const loadInventory = async () => {
         clearNotifications();
@@ -62,9 +58,13 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
         loadInventory();
     }, []);
 
+    const additionalClasses = {
+        'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'
+    };
+
     return (
         <Fragment>
-            <PageHeader className={`pf-m-light ins-inventory-detail ${classNames}`}>
+            <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
                 <Breadcrumb>
                     <BreadcrumbItem><Link to={routes.table}>Inventory</Link></BreadcrumbItem>
                     <BreadcrumbItem isActive>
@@ -77,7 +77,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                 </Breadcrumb>
                 {InventoryDetail && <InventoryDetail hideBack />}
             </PageHeader>
-            <Main className={classNames}>
+            <Main className={classnames(additionalClasses)}>
                 <Grid gutter="md">
                     <GridItem span={12}>
                         {AppInfo && <AppInfo />}
