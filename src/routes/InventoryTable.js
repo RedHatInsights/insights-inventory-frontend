@@ -10,6 +10,7 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 
@@ -35,6 +36,7 @@ const Inventory = ({
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
+    const store = useStore();
     const loadInventory = async () => {
         clearNotifications();
         const {
@@ -46,7 +48,7 @@ const Inventory = ({
             ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
         });
 
-        const { InventoryTable } = inventoryConnector();
+        const { InventoryTable } = inventoryConnector(store);
         setInventory(() => InventoryTable);
     };
 
@@ -74,30 +76,31 @@ const Inventory = ({
                         {
                             ConnectedInventory &&
                                 <ConnectedInventory
+                                    store={store}
                                     ref={inventory}
                                     hasCheckbox
                                     onRefresh={onRefresh}
                                     {
-                                    ...loaded && rows && rows.length > 0 && {
-                                        actions: [
-                                            {
-                                                title: 'Delete',
-                                                onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
-                                                    handleModalToggle(true);
-                                                    activateSystem({
-                                                        id: systemId,
-                                                        displayName
-                                                    });
+                                        ...loaded && rows && rows.length > 0 && {
+                                            actions: [
+                                                {
+                                                    title: 'Delete',
+                                                    onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                                                        handleModalToggle(true);
+                                                        activateSystem({
+                                                            id: systemId,
+                                                            displayName
+                                                        });
+                                                    }
+                                                }, {
+                                                    title: 'Edit',
+                                                    onClick: (_event, _index, data) => {
+                                                        onEditOpen(true),
+                                                        activateSystem(data);
+                                                    }
                                                 }
-                                            }, {
-                                                title: 'Edit',
-                                                onClick: (_event, _index, data) => {
-                                                    onEditOpen(true),
-                                                    activateSystem(data);
-                                                }
-                                            }
-                                        ]
-                                    }
+                                            ]
+                                        }
                                     }
                                     actionsConfig={{
                                         actions: [{

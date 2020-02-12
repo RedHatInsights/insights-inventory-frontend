@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useStore } from 'react-redux';
 import './inventory.scss';
 import { Link } from 'react-router-dom';
 import { entitesDetailReducer, addNewListener } from '../store';
@@ -9,32 +9,28 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
-import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
 import '@redhat-cloud-services/frontend-components-inventory-general-info/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/css/index.css';
 import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
+import classnames from 'classnames';
 import { routes } from '../Routes';
 
-@registryDecorator()
-class Inventory extends Component {
+const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
+    const [ConnectedInventory, setInventory] = useState({});
+    const store = useStore();
+    const { InventoryDetail, AppInfo } = ConnectedInventory;
 
-    constructor(props, ctx) {
-        super(props, ctx);
-        this.loadInventory();
-
-        this.state = {};
-    }
-
-    async loadInventory() {
-        this.props.clearNotifications();
+    const loadInventory = async () => {
+        clearNotifications();
         const {
             inventoryConnector,
             INVENTORY_ACTION_TYPES,
             mergeWithDetail
         } = await asyncInventoryLoader();
-        this.getRegistry().register({
+        getRegistry().register({
             ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
         });
 
@@ -42,56 +38,55 @@ class Inventory extends Component {
             actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
             callback: ({ data }) => {
                 data.then(payload => {
-                    this.props.loadEntity(payload.results[0].id);
+                    loadEntity(payload.results[0].id);
                     removeListener();
                 });
             }
         });
 
-        const { InventoryDetailHead, AppInfo } = inventoryConnector();
+        const { InventoryDetailHead, AppInfo } = inventoryConnector(store);
 
-        SystemCvesStore && this.getRegistry().register({ SystemCvesStore });
+        SystemCvesStore && getRegistry().register({ SystemCvesStore });
 
-        this.setState({
+        setInventory({
             InventoryDetail: InventoryDetailHead,
             AppInfo
         });
-    }
+    };
 
-    render() {
-        const { InventoryDetail, AppInfo } = this.state;
-        const { entity, currentApp } = this.props;
-        const classNames = `${
-            currentApp && currentApp === 'general_information' ?
-                'ins-c-inventory__detail--general-info' :
-                ''
-        }`;
-        return (
-            <Fragment>
-                <PageHeader className={`pf-m-light ins-inventory-detail ${classNames}`}>
-                    <Breadcrumb>
-                        <BreadcrumbItem><Link to={routes.table}>Inventory</Link></BreadcrumbItem>
-                        <BreadcrumbItem isActive>
-                            {
-                                entity ?
-                                    entity.display_name :
-                                    <Skeleton size={SkeletonSize.xs} />
-                            }
-                        </BreadcrumbItem>
-                    </Breadcrumb>
-                    {InventoryDetail && <InventoryDetail hideBack />}
-                </PageHeader>
-                <Main className={classNames}>
-                    <Grid gutter="md">
-                        <GridItem span={12}>
-                            {AppInfo && <AppInfo />}
-                        </GridItem>
-                    </Grid>
-                </Main>
-            </Fragment>
-        );
-    }
-}
+    useEffect(() => {
+        loadInventory();
+    }, []);
+
+    const additionalClasses = {
+        'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'
+    };
+
+    return (
+        <Fragment>
+            <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
+                <Breadcrumb>
+                    <BreadcrumbItem><Link to={routes.table}>Inventory</Link></BreadcrumbItem>
+                    <BreadcrumbItem isActive>
+                        {
+                            entity ?
+                                entity.display_name :
+                                <Skeleton size={SkeletonSize.xs} />
+                        }
+                    </BreadcrumbItem>
+                </Breadcrumb>
+                {InventoryDetail && <InventoryDetail hideBack />}
+            </PageHeader>
+            <Main className={classnames(additionalClasses)}>
+                <Grid gutter="md">
+                    <GridItem span={12}>
+                        {AppInfo && <AppInfo />}
+                    </GridItem>
+                </Grid>
+            </Main>
+        </Fragment>
+    );
+};
 
 Inventory.contextTypes = {
     store: PropTypes.object
