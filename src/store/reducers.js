@@ -8,6 +8,7 @@ import Vulnerabilities from '@redhat-cloud-services/frontend-components-inventor
 import Advisor from '@redhat-cloud-services/frontend-components-inventory-insights';
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import ComplianceTab from '../components/inventory/Compliance';
+import PatchMan from '@redhat-cloud-services/frontend-components-inventory-patchman';
 
 const defaultState = { loaded: false, selected: new Map() };
 
@@ -43,6 +44,11 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
                 title: 'Compliance',
                 name: 'compliance',
                 component: ComplianceTab
+            },
+            insights.chrome.isProd && isEntitled(entitlements && entitlements.smart_management) && {
+                title: 'Patch',
+                name: 'patch',
+                component: PatchMan
             }
         ].filter(Boolean)
     };
