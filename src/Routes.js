@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import InventoryTable from './routes/InventoryTable';
 import InventoryDetail from './routes/InventoryDetail';
+import queryString from 'query-string';
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
@@ -35,6 +36,7 @@ function checkPaths(technology, app) {
 
 export const Routes = ({ childProps: { history } }) => {
     const pathName = window.location.pathname.split('/');
+    const { status } = queryString.parse(location.search);
     pathName.shift();
 
     if (pathName[0] === 'beta') {
@@ -47,7 +49,7 @@ export const Routes = ({ childProps: { history } }) => {
 
     return (
         <Switch>
-            <InsightsRoute exact path={routes.table} component={InventoryTable} rootClass='inventory' />
+            <InsightsRoute exact path={routes.table} render={() => <InventoryTable status={status} />} rootClass='inventory' />
             <InsightsRoute path={routes.detail} component={InventoryDetail} rootClass='inventory' />
         </Switch>
     );
@@ -56,7 +58,10 @@ export const Routes = ({ childProps: { history } }) => {
 Routes.propTypes = {
     childProps: PropTypes.shape({
         history: PropTypes.shape({
-            push: PropTypes.func
+            push: PropTypes.func,
+            location: PropTypes.shape({
+                search: PropTypes.string
+            })
         })
     })
 };

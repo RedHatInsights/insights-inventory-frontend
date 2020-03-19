@@ -1,4 +1,4 @@
-import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SELECT_ENTITY } from './constants';
+import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SELECT_ENTITY, SET_INVENTORY_FILER } from './constants';
 import { getEntity, hosts } from './api';
 
 export const deleteEntity = (systems, displayName) => ({
@@ -14,6 +14,14 @@ export const deleteEntity = (systems, displayName) => ({
             }
         },
         systems
+    }
+});
+
+export const setFilter = (filterValue, filterKey) => ({
+    type: SET_INVENTORY_FILER,
+    payload: {
+        filterKey,
+        filterValue
     }
 });
 

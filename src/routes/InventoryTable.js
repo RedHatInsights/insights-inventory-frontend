@@ -28,7 +28,9 @@ const Inventory = ({
     rows,
     updateDisplayName,
     onSelectRows,
-    selected
+    selected,
+    status,
+    setFilter
 }) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
@@ -47,6 +49,10 @@ const Inventory = ({
         getRegistry().register({
             ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
         });
+
+        if (status) {
+            setFilter(Array.isArray(status) ? status : [status], 'staleFilter');
+        }
 
         const { InventoryTable } = inventoryConnector(store);
         setInventory(() => InventoryTable);
@@ -203,7 +209,9 @@ Inventory.propTypes = {
     addNotification: PropTypes.func,
     updateDisplayName: PropTypes.func,
     onSelectRows: PropTypes.func,
-    selected: PropTypes.map
+    setFilter: PropTypes.func,
+    selected: PropTypes.map,
+    status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
 };
 
 function mapDispatchToProps(dispatch) {
@@ -220,7 +228,8 @@ function mapDispatchToProps(dispatch) {
         updateDisplayName: (id, displayName, callback) => dispatch(
             reloadWrapper(actions.editDisplayName(id, displayName), callback)
         ),
-        onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected))
+        onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected)),
+        setFilter: (filterValue, filterKey) => dispatch(actions.setFilter(filterValue, filterKey))
     };
 }
 
