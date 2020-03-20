@@ -13,7 +13,6 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
-import queryString from 'query-string';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
@@ -22,16 +21,14 @@ const calculateChecked = (rows = [], selected) => (
 );
 
 const calculateFilters = (filters = []) => {
-    return filters.reduce((acc, curr) => {
-        if ('staleFilter' in curr) {
-            return {
-                ...acc,
-                status: curr.staleFilter
-            };
+    const searchParams = new URLSearchParams();
+    filters.forEach((filter) => {
+        if ('staleFilter' in filter) {
+            filter.staleFilter.forEach(item => searchParams.append('status', item));
         }
+    });
 
-        return acc;
-    }, {});
+    return searchParams;
 };
 
 const Inventory = ({
@@ -65,7 +62,7 @@ const Inventory = ({
             ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
         });
 
-        if (status) {
+        if (status && status.length > 0) {
             setFilter(Array.isArray(status) ? status : [status], 'staleFilter');
         }
 
@@ -75,12 +72,10 @@ const Inventory = ({
 
     const onRefresh = (options) => {
         onSetfilters(options.filters);
-        const search = queryString.stringify(calculateFilters(options.filters));
-        if (search) {
-            history.push({
-                search
-            });
-        }
+        const search = calculateFilters(options.filters).toString();
+        history.push({
+            search
+        });
 
         if (inventory && inventory.current) {
             inventory.current.onRefreshData(options);

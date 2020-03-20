@@ -17,7 +17,6 @@
     "@redhat-cloud-services/host-inventory-client": "1.0.54",
     "classnames": "^2.2.6",
     "graphql": "^14.6.0",
-    "query-string": "^6.11.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
