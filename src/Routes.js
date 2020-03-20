@@ -44,7 +44,7 @@ export const Routes = ({ childProps: { history } }) => {
     }
 
     if (!checkPaths(pathName[0], pathName[1])) {
-        history.push(routes.table);
+        history.push(routes.table + location.search);
     }
 
     return (
