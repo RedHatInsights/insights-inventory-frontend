@@ -15,6 +15,7 @@ import '@redhat-cloud-services/frontend-components-inventory-general-info/index.
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/css/index.css';
 import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
+import { SystemAdvisoryListStore } from '@redhat-cloud-services/frontend-components-inventory-patchman';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 
@@ -47,6 +48,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
         const { InventoryDetailHead, AppInfo } = inventoryConnector(store);
 
         SystemCvesStore && getRegistry().register({ SystemCvesStore });
+        SystemAdvisoryListStore && getRegistry().register({ SystemAdvisoryListStore });
 
         setInventory({
             InventoryDetail: InventoryDetailHead,

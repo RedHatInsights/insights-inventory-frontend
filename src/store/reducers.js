@@ -45,7 +45,7 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
                 name: 'compliance',
                 component: ComplianceTab
             },
-            insights.chrome.isProd && isEntitled(entitlements && entitlements.smart_management) && {
+            !insights.chrome.isProd && isEntitled(entitlements && entitlements.smart_management) && {
                 title: 'Patch',
                 name: 'patch',
                 component: PatchMan
