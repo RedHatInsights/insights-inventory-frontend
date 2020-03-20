@@ -1,4 +1,4 @@
-import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILER } from '../constants';
+import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER } from '../constants';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import GeneralInformation, {
@@ -123,7 +123,7 @@ export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash
         [`${ACTION_TYPES.REMOVE_ENTITY}_FULFILLED`]: entityDeleted,
         [SELECT_ENTITY]: entitySelected,
         FILTER_SELECT: (state) => ({ ...state, selected: {} }),
-        [SET_INVENTORY_FILER]: onSetFilter
+        [SET_INVENTORY_FILTER]: onSetFilter
     },
     defaultState
 );

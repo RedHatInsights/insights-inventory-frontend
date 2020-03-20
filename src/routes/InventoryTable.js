@@ -13,12 +13,26 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
+import queryString from 'query-string';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
         ? rows.length > 0
         : rows.some(({ id }) => selected && selected.has(id)) && null
 );
+
+const calculateFilters = (filters = []) => {
+    return filters.reduce((acc, curr) => {
+        if ('staleFilter' in curr) {
+            return {
+                ...acc,
+                status: curr.staleFilter
+            };
+        }
+
+        return acc;
+    }, {});
+};
 
 const Inventory = ({
     clearNotifications,
@@ -30,7 +44,8 @@ const Inventory = ({
     onSelectRows,
     selected,
     status,
-    setFilter
+    setFilter,
+    history
 }) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
@@ -60,6 +75,13 @@ const Inventory = ({
 
     const onRefresh = (options) => {
         onSetfilters(options.filters);
+        const search = queryString.stringify(calculateFilters(options.filters));
+        if (search) {
+            history.push({
+                search
+            });
+        }
+
         if (inventory && inventory.current) {
             inventory.current.onRefreshData(options);
         }
@@ -211,7 +233,10 @@ Inventory.propTypes = {
     onSelectRows: PropTypes.func,
     setFilter: PropTypes.func,
     selected: PropTypes.map,
-    status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
+    status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    history: PropTypes.shape({
+        push: PropTypes.func
+    })
 };
 
 function mapDispatchToProps(dispatch) {
