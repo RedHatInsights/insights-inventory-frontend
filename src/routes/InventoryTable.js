@@ -20,6 +20,17 @@ const calculateChecked = (rows = [], selected) => (
         : rows.some(({ id }) => selected && selected.has(id)) && null
 );
 
+const calculateFilters = (filters = []) => {
+    const searchParams = new URLSearchParams();
+    filters.forEach((filter) => {
+        if ('staleFilter' in filter) {
+            filter.staleFilter.forEach(item => searchParams.append('status', item));
+        }
+    });
+
+    return searchParams;
+};
+
 const Inventory = ({
     clearNotifications,
     deleteEntity,
@@ -28,7 +39,10 @@ const Inventory = ({
     rows,
     updateDisplayName,
     onSelectRows,
-    selected
+    selected,
+    status,
+    setFilter,
+    history
 }) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
@@ -48,12 +62,21 @@ const Inventory = ({
             ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
         });
 
+        if (status && status.length > 0) {
+            setFilter(Array.isArray(status) ? status : [status], 'staleFilter');
+        }
+
         const { InventoryTable } = inventoryConnector(store);
         setInventory(() => InventoryTable);
     };
 
     const onRefresh = (options) => {
         onSetfilters(options.filters);
+        const search = calculateFilters(options.filters).toString();
+        history.push({
+            search
+        });
+
         if (inventory && inventory.current) {
             inventory.current.onRefreshData(options);
         }
@@ -203,7 +226,12 @@ Inventory.propTypes = {
     addNotification: PropTypes.func,
     updateDisplayName: PropTypes.func,
     onSelectRows: PropTypes.func,
-    selected: PropTypes.map
+    setFilter: PropTypes.func,
+    selected: PropTypes.map,
+    status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    history: PropTypes.shape({
+        push: PropTypes.func
+    })
 };
 
 function mapDispatchToProps(dispatch) {
@@ -220,7 +248,8 @@ function mapDispatchToProps(dispatch) {
         updateDisplayName: (id, displayName, callback) => dispatch(
             reloadWrapper(actions.editDisplayName(id, displayName), callback)
         ),
-        onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected))
+        onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected)),
+        setFilter: (filterValue, filterKey) => dispatch(actions.setFilter(filterValue, filterKey))
     };
 }
 

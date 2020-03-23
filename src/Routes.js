@@ -35,6 +35,7 @@ function checkPaths(technology, app) {
 
 export const Routes = ({ childProps: { history } }) => {
     const pathName = window.location.pathname.split('/');
+    const searchParams = new URLSearchParams(location.search);
     pathName.shift();
 
     if (pathName[0] === 'beta') {
@@ -42,12 +43,17 @@ export const Routes = ({ childProps: { history } }) => {
     }
 
     if (!checkPaths(pathName[0], pathName[1])) {
-        history.push(routes.table);
+        history.push(routes.table + location.search);
     }
 
     return (
         <Switch>
-            <InsightsRoute exact path={routes.table} component={InventoryTable} rootClass='inventory' />
+            <InsightsRoute
+                exact
+                path={routes.table}
+                render={() => <InventoryTable status={searchParams.getAll('status')} />}
+                rootClass='inventory'
+            />
             <InsightsRoute path={routes.detail} component={InventoryDetail} rootClass='inventory' />
         </Switch>
     );
@@ -56,7 +62,10 @@ export const Routes = ({ childProps: { history } }) => {
 Routes.propTypes = {
     childProps: PropTypes.shape({
         history: PropTypes.shape({
-            push: PropTypes.func
+            push: PropTypes.func,
+            location: PropTypes.shape({
+                search: PropTypes.string
+            })
         })
     })
 };

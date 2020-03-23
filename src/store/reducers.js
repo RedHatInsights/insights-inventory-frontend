@@ -1,4 +1,4 @@
-import { ACTION_TYPES, SELECT_ENTITY } from '../constants';
+import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER } from '../constants';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import GeneralInformation, {
@@ -101,6 +101,16 @@ function onEntitiesLoaded(state, { payload }) {
     };
 }
 
+function onSetFilter(state, { payload }) {
+    return {
+        ...state,
+        activeFilters: (state.activeFilters || [{}]).map((filter) => ({
+            ...filter || {},
+            [payload.filterKey]: payload.filterValue
+        }))
+    };
+}
+
 let reducers = {
     notifications,
     systemProfileStore
@@ -112,7 +122,8 @@ export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash
         [LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
         [`${ACTION_TYPES.REMOVE_ENTITY}_FULFILLED`]: entityDeleted,
         [SELECT_ENTITY]: entitySelected,
-        FILTER_SELECT: (state) => ({ ...state, selected: {} })
+        FILTER_SELECT: (state) => ({ ...state, selected: {} }),
+        [SET_INVENTORY_FILTER]: onSetFilter
     },
     defaultState
 );
