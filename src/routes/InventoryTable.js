@@ -102,7 +102,7 @@ const Inventory = ({
                                     store={store}
                                     ref={inventory}
                                     hasCheckbox
-                                    showTags
+                                    // showTags
                                     onRefresh={onRefresh}
                                     {
                                         ...loaded && rows && rows.length > 0 && {
