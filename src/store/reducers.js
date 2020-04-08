@@ -1,14 +1,15 @@
 import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER } from '../constants';
-import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
-import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import GeneralInformation, {
     systemProfileStore
 } from '@redhat-cloud-services/frontend-components-inventory-general-info';
-import Vulnerabilities from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
+
 import Advisor from '@redhat-cloud-services/frontend-components-inventory-insights';
-import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import ComplianceTab from '../components/inventory/Compliance';
 import PatchMan from '@redhat-cloud-services/frontend-components-inventory-patchman';
+import Vulnerabilities from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
+import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
+import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
+import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 
 const defaultState = { loaded: false, selected: new Map() };
 
@@ -34,7 +35,7 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
         loaded: true,
         activeApps: [
             { title: 'General Information', name: 'general_information', component: GeneralInformation },
-            isEntitled(entitlements && entitlements.insights) && { title: 'Insights', name: 'insights', component: Advisor },
+            isEntitled(entitlements && entitlements.insights) && { title: 'Advisor', name: 'advisor', component: Advisor },
             isEntitled(entitlements && entitlements.smart_management) && {
                 title: 'Vulnerability',
                 name: 'vulnerabilities',
