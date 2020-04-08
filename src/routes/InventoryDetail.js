@@ -77,12 +77,12 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                         }
                     </BreadcrumbItem>
                 </Breadcrumb>
-                {InventoryDetail && <InventoryDetail hideBack />}
+                {InventoryDetail && <InventoryDetail hideBack showTags />}
             </PageHeader>
             <Main className={classnames(additionalClasses)}>
                 <Grid gutter="md">
                     <GridItem span={12}>
-                        {AppInfo && <AppInfo />}
+                        {AppInfo && <AppInfo showTags />}
                     </GridItem>
                 </Grid>
             </Main>
