@@ -131,7 +131,7 @@ const Inventory = ({
                                             label: 'Delete',
                                             props: {
                                                 isDisabled: calculateSelected() === 0,
-                                                variant: 'danger',
+                                                variant: 'secondary',
                                                 onClick: () => {
                                                     activateSystem(Array.from(selected.values()));
                                                     handleModalToggle(true);
