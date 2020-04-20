@@ -4,9 +4,8 @@ import GeneralInformation, {
 } from '@redhat-cloud-services/frontend-components-inventory-general-info';
 
 import Advisor from '@redhat-cloud-services/frontend-components-inventory-insights';
-import ComplianceTab from '../components/inventory/Compliance';
+import { ComplianceTab, VulnerabilityTab } from '../components/inventory';
 import PatchMan from '@redhat-cloud-services/frontend-components-inventory-patchman';
-import Vulnerabilities from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
@@ -39,7 +38,7 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
             isEntitled(entitlements && entitlements.smart_management) && {
                 title: 'Vulnerability',
                 name: 'vulnerabilities',
-                component: Vulnerabilities
+                component: VulnerabilityTab
             },
             isEntitled(entitlements && entitlements.smart_management) && {
                 title: 'Compliance',
