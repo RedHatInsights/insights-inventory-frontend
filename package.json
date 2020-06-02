@@ -13,7 +13,7 @@
     "@redhat-cloud-services/frontend-components-inventory-patchman": "0.10.1",
     "@redhat-cloud-services/frontend-components-inventory-vulnerabilities": "1.35.4",
     "@redhat-cloud-services/frontend-components-notifications": "1.0.4",
-    "@redhat-cloud-services/frontend-components-utilities": "1.0.4",
+    "@redhat-cloud-services/frontend-components-utilities": "2.0.0",
     "@redhat-cloud-services/host-inventory-client": "1.0.64",
     "classnames": "^2.2.6",
     "graphql": "^15.0.0",
