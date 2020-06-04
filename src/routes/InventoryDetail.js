@@ -31,9 +31,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
             INVENTORY_ACTION_TYPES,
             mergeWithDetail
         } = await asyncInventoryLoader();
-        getRegistry().register({
-            ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
-        });
+        getRegistry().register(mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES)));
 
         const removeListener = addNewListener({
             actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
