@@ -35,17 +35,17 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
         activeApps: [
             { title: 'General information', name: 'general_information', component: GeneralInformation },
             isEntitled(entitlements && entitlements.insights) && { title: 'Advisor', name: 'advisor', component: Advisor },
-            isEntitled(entitlements && entitlements.smart_management) && {
+            isEntitled(entitlements && entitlements.insights) && {
                 title: 'Vulnerability',
                 name: 'vulnerabilities',
                 component: VulnerabilityTab
             },
-            isEntitled(entitlements && entitlements.smart_management) && {
+            isEntitled(entitlements && entitlements.insights) && {
                 title: 'Compliance',
                 name: 'compliance',
                 component: ComplianceTab
             },
-            isEntitled(entitlements && entitlements.smart_management) && {
+            isEntitled(entitlements && entitlements.insights) && {
                 title: 'Patch',
                 name: 'patch',
                 component: PatchMan
