@@ -163,6 +163,7 @@ const Inventory = ({
                                     tableProps={{
                                         canSelectAll: false
                                     }}
+                                    onRowClick={(_e, id, app) => history.push(`/inventory/${id}${app ? `/${app}` : ''}`)}
                                 />
                         }
                     </GridItem>

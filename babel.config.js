@@ -23,6 +23,10 @@ const NotificationMapper = {
     addNotification: 'actions'
 };
 
+const IconMapper = {
+    AnsibeTowerIcon: 'ansibeTower-icon'
+};
+
 module.exports = {
     presets: [
         [
@@ -75,7 +79,7 @@ module.exports = {
             {
                 '@patternfly/react-icons': {
                     transform: (importName) =>
-                        `@patternfly/react-icons/dist/js/icons/${importName
+                        `@patternfly/react-icons/dist/js/icons/${IconMapper[importName] || importName
                         .split(/(?=[A-Z])/)
                         .join('-')
                         .toLowerCase()}.js`,

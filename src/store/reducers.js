@@ -5,7 +5,7 @@ import GeneralInformation, {
 
 import Advisor from '@redhat-cloud-services/frontend-components-inventory-insights';
 import { ComplianceTab, VulnerabilityTab } from '../components/inventory';
-import PatchMan from '@redhat-cloud-services/frontend-components-inventory-patchman';
+import PatchMan from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
