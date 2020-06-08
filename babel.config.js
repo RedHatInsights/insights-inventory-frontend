@@ -52,6 +52,25 @@ module.exports = {
         [
             'transform-imports',
             {
+                '@redhat-cloud-services/frontend-components-notifications': {
+                    transform: (importName) =>
+                        `@redhat-cloud-services/frontend-components-notifications/cjs/${NotificationMapper[importName] || importName}.js`,
+                    preventFullImport: true
+                },
+                '@redhat-cloud-services/frontend-components': {
+                    transform: (importName) =>
+                        `@redhat-cloud-services/frontend-components/components/cjs/${FECMapper[importName] || importName}.js`,
+                    preventFullImport: true,
+                    skipDefaultConversion: true
+                },
+                '@patternfly/react-icons': {
+                    transform: (importName) =>
+                        `@patternfly/react-icons/dist/js/icons/${IconMapper[importName] || importName
+                        .split(/(?=[A-Z])/)
+                        .join('-')
+                        .toLowerCase()}.js`,
+                    preventFullImport: true
+                },
                 '@patternfly/react-core': {
                     transform: (importName) => {
                         const files = glob.sync(
@@ -70,43 +89,6 @@ module.exports = {
                     },
                     preventFullImport: false,
                     skipDefaultConversion: true
-                }
-            },
-            'react-core'
-        ],
-        [
-            'transform-imports',
-            {
-                '@patternfly/react-icons': {
-                    transform: (importName) =>
-                        `@patternfly/react-icons/dist/js/icons/${IconMapper[importName] || importName
-                        .split(/(?=[A-Z])/)
-                        .join('-')
-                        .toLowerCase()}.js`,
-                    preventFullImport: true
-                }
-            },
-            'react-icons'
-        ],
-        [
-            'transform-imports',
-            {
-                '@redhat-cloud-services/frontend-components': {
-                    transform: (importName) =>
-                        `@redhat-cloud-services/frontend-components/components/cjs/${FECMapper[importName] || importName}.js`,
-                    preventFullImport: false,
-                    skipDefaultConversion: true
-                }
-            },
-            'frontend-components'
-        ],
-        [
-            'transform-imports',
-            {
-                '@redhat-cloud-services/frontend-components-notifications': {
-                    transform: (importName) =>
-                        `@redhat-cloud-services/frontend-components-notifications/cjs/${NotificationMapper[importName] || importName}.js`,
-                    preventFullImport: true
                 }
             },
             'frontend-notifications'

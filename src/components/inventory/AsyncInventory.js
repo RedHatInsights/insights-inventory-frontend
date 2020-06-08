@@ -1,3 +1,4 @@
+import React from 'react';
 import * as reactRouterDom from 'react-router-dom';
 import {
     Table as PfTable,
@@ -8,10 +9,12 @@ import {
     TableVariant,
     sortable,
     expandable,
-    SortByDirection
-} from '@patternfly/react-table';
+    SortByDirection,
+    classNames
+} from '@patternfly/react-table/dist/esm';
 
 export const asyncInventoryLoader = () => insights.loadInventory({
+    React,
     reactRouterDom,
     pfReactTable: {
         Table: PfTable,
@@ -22,6 +25,7 @@ export const asyncInventoryLoader = () => insights.loadInventory({
         TableVariant,
         sortable,
         expandable,
-        SortByDirection
+        SortByDirection,
+        classNames
     }
 });
