@@ -13,8 +13,8 @@ import { getRegistry } from '@redhat-cloud-services/frontend-components-utilitie
 import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
 import '@redhat-cloud-services/frontend-components-inventory-general-info/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
-import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/esm/index.css';
-import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities';
+import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/index.css';
+import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/SystemCvesStore';
 import { SystemAdvisoryListStore } from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
 import classnames from 'classnames';
 import { routes } from '../Routes';

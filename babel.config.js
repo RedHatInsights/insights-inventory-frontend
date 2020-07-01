@@ -30,7 +30,7 @@ const IconMapper = {
 module.exports = {
     presets: [
         [
-            '@babel/env',
+            '@babel/preset-env',
             {
                 targets: '> 0.25%, not dead'
             }
@@ -93,6 +93,5 @@ module.exports = {
             },
             'frontend-notifications'
         ]
-    ],
-    ignore: ['node_modules']
+    ]
 };

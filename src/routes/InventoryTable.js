@@ -70,14 +70,16 @@ const Inventory = ({
         setInventory(() => InventoryTable);
     };
 
-    const onRefresh = (options, onRefreshData) => {
+    const onRefresh = (options) => {
         onSetfilters(options.filters);
         const search = calculateFilters(options.filters).toString();
         history.push({
             search
         });
 
-        onRefreshData && onRefreshData(options);
+        if (inventory && inventory.current) {
+            inventory.current.onRefreshData(options);
+        }
     };
 
     useEffect(() => {
