@@ -19,21 +19,6 @@
     background: var(--pf-global--BackgroundColor--100);
 }
 
-.ins-inventory-detail.ins-c-inventory__detail--general-info .pf-c-tabs__list {
-    &:after {
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: var(--pf-c-tabs__item--BorderColor);
-    }
-
-    li:not(.pf-m-current) {
-        button:before {
-            border: solid var(--pf-c-tabs__item--BorderColor);
-            border-width: var(--pf-c-tabs__item--BorderWidth) 0 var(--pf-c-tabs__item--BorderWidth) var(--pf-c-tabs__item--BorderWidth);
-        }
-    }
-}
-
 svg.ins-m-alert {
     fill: var(--pf-global--warning-color--100);
 }

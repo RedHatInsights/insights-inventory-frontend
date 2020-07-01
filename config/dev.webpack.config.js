@@ -7,6 +7,7 @@ const { config: webpackConfig, plugins } = config({
     debug: true
 });
 
+webpackConfig.node = { fs: 'empty' };
 module.exports = {
     ...webpackConfig,
     plugins

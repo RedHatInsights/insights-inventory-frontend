@@ -104,28 +104,24 @@ const Inventory = ({
                                     hasCheckbox
                                     showTags
                                     onRefresh={onRefresh}
-                                    {
-                                        ...loaded && rows && rows.length > 0 && {
-                                            actions: [
-                                                {
-                                                    title: 'Delete',
-                                                    onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
-                                                        handleModalToggle(true);
-                                                        activateSystem({
-                                                            id: systemId,
-                                                            displayName
-                                                        });
-                                                    }
-                                                }, {
-                                                    title: 'Edit',
-                                                    onClick: (_event, _index, data) => {
-                                                        onEditOpen(true),
-                                                        activateSystem(data);
-                                                    }
-                                                }
-                                            ]
+                                    actions={ [
+                                        {
+                                            title: 'Delete',
+                                            onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                                                activateSystem(() => ({
+                                                    id: systemId,
+                                                    displayName
+                                                }));
+                                                handleModalToggle(() => true);
+                                            }
+                                        }, {
+                                            title: 'Edit',
+                                            onClick: (_event, _index, data) => {
+                                                activateSystem(() => data);
+                                                onEditOpen(() => true);
+                                            }
                                         }
-                                    }
+                                    ]}
                                     actionsConfig={{
                                         actions: [{
                                             label: 'Delete',
@@ -163,6 +159,7 @@ const Inventory = ({
                                     tableProps={{
                                         canSelectAll: false
                                     }}
+                                    onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
                                 />
                         }
                     </GridItem>
