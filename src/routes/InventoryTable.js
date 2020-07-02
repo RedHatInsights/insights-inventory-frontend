@@ -195,7 +195,7 @@ const Inventory = ({
             />
 
             <TextInputModal
-                title="Edit name"
+                title="Edit display name"
                 isOpen={ediOpen}
                 value={currentSytem.display_name}
                 onCancel={() => onEditOpen(false)}
