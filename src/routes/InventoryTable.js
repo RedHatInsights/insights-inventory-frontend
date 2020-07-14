@@ -9,10 +9,12 @@ import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/cjs/actions';
 import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
+
+console.log(addNotification, 'mhhhh');
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
