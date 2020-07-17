@@ -14,8 +14,6 @@ import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 
-console.log(addNotification, 'mhhhh');
-
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
         ? rows.length > 0
@@ -72,15 +70,17 @@ const Inventory = ({
         setInventory(() => InventoryTable);
     };
 
-    const onRefresh = (options) => {
+    const onRefresh = (options, callback) => {
         onSetfilters(options.filters);
         const search = calculateFilters(options.filters).toString();
         history.push({
             search
         });
 
-        if (inventory && inventory.current) {
+        if (!callback && inventory && inventory.current) {
             inventory.current.onRefreshData(options);
+        } else if (callback) {
+            callback(options);
         }
     };
 
