@@ -66,7 +66,9 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
         <Fragment>
             <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
                 <Breadcrumb>
-                    <BreadcrumbItem><Link to={routes.table}>Inventory</Link></BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Link to={routes.table}>Inventory</Link>
+                    </BreadcrumbItem>
                     <BreadcrumbItem isActive>
                         {
                             entity ?
