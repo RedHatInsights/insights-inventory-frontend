@@ -7,6 +7,10 @@ const { config: webpackConfig, plugins } = config({
     debug: true
 });
 
+webpackConfig.resolve.alias = {
+    customReact: 'react'
+};
+
 webpackConfig.node = { fs: 'empty' };
 module.exports = {
     ...webpackConfig,

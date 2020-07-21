@@ -32,3 +32,10 @@ svg.ins-m-alert {
         margin-bottom: 2rem;
     }
 }
+
+.ins-c-inventory__detail--breadcrumb-name {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
