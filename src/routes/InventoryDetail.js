@@ -70,11 +70,13 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                         <Link to={routes.table}>Inventory</Link>
                     </BreadcrumbItem>
                     <BreadcrumbItem isActive>
-                        {
-                            entity ?
-                                entity.display_name :
-                                <Skeleton size={SkeletonSize.xs} />
-                        }
+                        <div className="ins-c-inventory__detail--breadcrumb-name">
+                            {
+                                entity ?
+                                    entity.display_name :
+                                    <Skeleton size={SkeletonSize.xs} />
+                            }
+                        </div>
                     </BreadcrumbItem>
                 </Breadcrumb>
                 {InventoryDetail && <InventoryDetail hideBack showTags hideInvLink showDelete />}
