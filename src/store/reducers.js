@@ -1,8 +1,8 @@
 import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER } from '../constants';
-import GeneralInformation, {
+import {
     systemProfileStore
 } from '@redhat-cloud-services/frontend-components-inventory-general-info/cjs';
-import { ComplianceTab, VulnerabilityTab, AdvisorTab } from '../components/inventory';
+import { ComplianceTab, VulnerabilityTab, AdvisorTab, GeneralInformationTab } from '../components/inventory';
 import PatchMan from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
@@ -31,7 +31,7 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
         ...state,
         loaded: true,
         activeApps: [
-            { title: 'General information', name: 'general_information', component: GeneralInformation },
+            { title: 'General information', name: 'general_information', component: GeneralInformationTab },
             isEntitled(entitlements && entitlements.insights) && { title: 'Advisor', name: 'advisor', component: AdvisorTab },
             isEntitled(entitlements && entitlements.insights) && {
                 title: 'Vulnerability',
