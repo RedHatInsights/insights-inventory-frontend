@@ -22,7 +22,7 @@ import { routes } from '../Routes';
 const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     const [ConnectedInventory, setInventory] = useState({});
     const store = useStore();
-    const { InventoryDetail, AppInfo } = ConnectedInventory;
+    const { InventoryDetail, AppInfo, DetailWrapper } = ConnectedInventory;
 
     const loadInventory = async () => {
         clearNotifications();
@@ -43,14 +43,15 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
             }
         });
 
-        const { InventoryDetailHead, AppInfo } = inventoryConnector(store);
+        const { InventoryDetailHead, AppInfo, DetailWrapper } = inventoryConnector(store);
 
         SystemCvesStore && getRegistry().register({ SystemCvesStore });
         SystemAdvisoryListStore && getRegistry().register({ SystemAdvisoryListStore });
 
         setInventory({
             InventoryDetail: InventoryDetailHead,
-            AppInfo
+            AppInfo,
+            DetailWrapper
         });
     };
 
@@ -62,8 +63,13 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
         'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'
     };
 
+    const Wrapper = DetailWrapper || Fragment;
+
     return (
-        <Fragment>
+        <Wrapper
+            hideInvLink
+            showTags
+        >
             <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
                 <Breadcrumb>
                     <BreadcrumbItem>
@@ -88,7 +94,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                     </GridItem>
                 </Grid>
             </Main>
-        </Fragment>
+        </Wrapper>
     );
 };
 

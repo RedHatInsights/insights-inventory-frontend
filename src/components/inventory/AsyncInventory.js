@@ -13,6 +13,7 @@ import {
     SortByDirection,
     classNames
 } from '@patternfly/react-table/dist/esm';
+import { reactCore } from '@redhat-cloud-services/frontend-components-utilities/files/inventoryDependencies';
 
 export const asyncInventoryLoader = () => insights.loadInventory({
     ReactRedux,
@@ -29,5 +30,6 @@ export const asyncInventoryLoader = () => insights.loadInventory({
         expandable,
         SortByDirection,
         classNames
-    }
+    },
+    pfReact: reactCore
 });
