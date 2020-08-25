@@ -7,11 +7,6 @@ const { config: webpackConfig, plugins } = config({
     debug: true
 });
 
-webpackConfig.resolve.alias = {
-    customReact: 'react',
-    PFReactCore: '@patternfly/react-core'
-};
-
 webpackConfig.node = { fs: 'empty' };
 module.exports = {
     ...webpackConfig,
