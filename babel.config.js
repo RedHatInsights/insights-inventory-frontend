@@ -24,7 +24,8 @@ const NotificationMapper = {
 };
 
 const IconMapper = {
-    AnsibeTowerIcon: 'ansibeTower-icon'
+    AnsibeTowerIcon: 'ansibeTower-icon',
+    ChartSpikeIcon: 'chartSpike-icon'
 };
 
 module.exports = {
