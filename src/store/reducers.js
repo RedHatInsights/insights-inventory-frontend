@@ -102,10 +102,7 @@ function onEntitiesLoaded(state, { payload }) {
 function onSetFilter(state, { payload }) {
     return {
         ...state,
-        activeFilters: (state.activeFilters || [{}]).map((filter) => ({
-            ...filter || {},
-            [payload.filterKey]: payload.filterValue
-        }))
+        activeFilters: payload.filtersList
     };
 }
 

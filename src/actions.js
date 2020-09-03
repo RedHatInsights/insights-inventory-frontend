@@ -17,11 +17,10 @@ export const deleteEntity = (systems, displayName) => ({
     }
 });
 
-export const setFilter = (filterValue, filterKey) => ({
+export const setFilter = (filtersList) => ({
     type: SET_INVENTORY_FILTER,
     payload: {
-        filterKey,
-        filterValue
+        filtersList
     }
 });
 

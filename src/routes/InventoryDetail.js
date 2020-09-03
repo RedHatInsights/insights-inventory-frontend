@@ -85,7 +85,16 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                         </div>
                     </BreadcrumbItem>
                 </Breadcrumb>
-                {InventoryDetail && <InventoryDetail hideBack showTags hideInvLink showDelete />}
+                {
+                    InventoryDetail &&
+                    <InventoryDetail
+                        hideBack
+                        showTags
+                        hideInvLink
+                        showDelete
+                        hideInvDrawer
+                    />
+                }
             </PageHeader>
             <Main className={classnames(additionalClasses)}>
                 <Grid gutter="md">

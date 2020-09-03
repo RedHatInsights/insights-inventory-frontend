@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import InventoryTable from './routes/InventoryTable';
 import InventoryDetail from './routes/InventoryDetail';
+import { tagsMapper } from './constants';
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
@@ -51,7 +52,12 @@ export const Routes = ({ childProps: { history } }) => {
             <InsightsRoute
                 exact
                 path={routes.table}
-                render={() => <InventoryTable status={searchParams.getAll('status')} />}
+                render={() => <InventoryTable
+                    status={searchParams.getAll('status')}
+                    source={searchParams.getAll('source')}
+                    filterbyName={searchParams.getAll('hostname_or_id')}
+                    tagsFilter={searchParams.getAll('tags')?.reduce?.(tagsMapper, [])}
+                />}
                 rootClass='inventory'
             />
             <InsightsRoute path={routes.detail} component={InventoryDetail} rootClass='inventory' />
