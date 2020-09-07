@@ -42,8 +42,7 @@ const filterMapper = {
     )
 };
 
-const calculateFilters = (filters = []) => {
-    const searchParams = new URLSearchParams();
+const calculateFilters = (searchParams, filters = []) => {
     filters.forEach((filter) => {
         Object.keys(filter).forEach(key => {
             filterMapper?.[key]?.(filter, searchParams);
@@ -51,6 +50,11 @@ const calculateFilters = (filters = []) => {
     });
 
     return searchParams;
+};
+
+const calculatePagination = (searchParams, page, perPage) => {
+    searchParams.append('page', page);
+    searchParams.append('per_page', perPage);
 };
 
 const Inventory = ({
@@ -67,7 +71,10 @@ const Inventory = ({
     history,
     source,
     filterbyName,
-    tagsFilter
+    tagsFilter,
+    page,
+    perPage,
+    setPagination
 }) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
@@ -103,13 +110,23 @@ const Inventory = ({
             }
         ]);
 
+        if (perPage || page) {
+            setPagination(
+                Array.isArray(page) ? page[0] : page,
+                Array.isArray(perPage) ? perPage[0] : perPage
+            );
+        }
+
         const { InventoryTable } = inventoryConnector(store);
         setInventory(() => InventoryTable);
     };
 
     const onRefresh = (options, callback) => {
         onSetfilters(options.filters);
-        const search = calculateFilters(options.filters).toString();
+        const searchParams = new URLSearchParams();
+        calculateFilters(searchParams, options.filters);
+        calculatePagination(searchParams, options.page, options.per_page);
+        const search = searchParams.toString();
         history.push({
             search
         });
@@ -271,7 +288,10 @@ Inventory.propTypes = {
     tagsFilter: PropTypes.any,
     history: PropTypes.shape({
         push: PropTypes.func
-    })
+    }),
+    page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    setPagination: PropTypes.func
 };
 
 function mapDispatchToProps(dispatch) {
@@ -289,7 +309,8 @@ function mapDispatchToProps(dispatch) {
             reloadWrapper(actions.editDisplayName(id, displayName), callback)
         ),
         onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected)),
-        setFilter: (filtersList) => dispatch(actions.setFilter(filtersList.filter(Boolean)))
+        setFilter: (filtersList) => dispatch(actions.setFilter(filtersList.filter(Boolean))),
+        setPagination: (page, perPage) => dispatch(actions.setPagination(page, perPage))
     };
 }
 

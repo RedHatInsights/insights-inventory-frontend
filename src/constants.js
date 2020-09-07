@@ -17,6 +17,7 @@ export const ACTION_TYPES = keyBy([...actions, ...asyncActions], k => k);
 export const CLEAR_NOTIFICATIONS = '@@INSIGHTS-CORE/NOTIFICATIONS/CLEAR_NOTIFICATIONS';
 export const SELECT_ENTITY = 'SELECT_ENTITY';
 export const SET_INVENTORY_FILTER = 'SET_INVENTORY_FILTER';
+export const SET_PAGINATION = 'SET_PAGINATION';
 
 export const tagsMapper = (acc, curr) => {
     let [namespace, keyValue] = curr.split('/');
