@@ -13,6 +13,7 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
+import flatMap from 'lodash/flatMap';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
@@ -20,15 +21,40 @@ const calculateChecked = (rows = [], selected) => (
         : rows.some(({ id }) => selected && selected.has(id)) && null
 );
 
-const calculateFilters = (filters = []) => {
-    const searchParams = new URLSearchParams();
+const mapTags = ({ category, values }) => values.map(({ key, value }) => `${
+    category ? `${category}/` : ''
+}${
+    key
+}${
+    value ? `=${value}` : ''
+}`);
+
+const filterMapper = {
+    staleFilter: ({ staleFilter }, searchParams) => staleFilter.forEach(item => searchParams.append('status', item)),
+    registeredWithFilter: ({ registeredWithFilter }, searchParams) => registeredWithFilter
+    ?.forEach(item => searchParams.append('source', item)),
+    value: ({ value, filter }, searchParams) => value === 'hostname_or_id' &&
+    Boolean(filter) &&
+    searchParams.append('hostname_or_id', filter),
+    tagFilters: ({ tagFilters }, searchParams) => tagFilters?.length > 0 && searchParams.append(
+        'tags',
+        flatMap(tagFilters, mapTags)
+    )
+};
+
+const calculateFilters = (searchParams, filters = []) => {
     filters.forEach((filter) => {
-        if ('staleFilter' in filter) {
-            filter.staleFilter.forEach(item => searchParams.append('status', item));
-        }
+        Object.keys(filter).forEach(key => {
+            filterMapper?.[key]?.(filter, searchParams);
+        });
     });
 
     return searchParams;
+};
+
+const calculatePagination = (searchParams, page, perPage) => {
+    searchParams.append('page', page);
+    searchParams.append('per_page', perPage);
 };
 
 const Inventory = ({
@@ -42,7 +68,13 @@ const Inventory = ({
     selected,
     status,
     setFilter,
-    history
+    history,
+    source,
+    filterbyName,
+    tagsFilter,
+    page,
+    perPage,
+    setPagination
 }) => {
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
@@ -62,8 +94,27 @@ const Inventory = ({
             ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
         });
 
-        if (status && status.length > 0) {
-            setFilter(Array.isArray(status) ? status : [status], 'staleFilter');
+        setFilter([
+            status && status.length > 0 && {
+                staleFilter: Array.isArray(status) ? status : [status]
+            },
+            tagsFilter && tagsFilter.length > 0 && {
+                tagFilters: Array.isArray(tagsFilter) ? tagsFilter : [tagsFilter]
+            },
+            source && source.length > 0 && {
+                source: Array.isArray(source) ? source : [source]
+            },
+            filterbyName && filterbyName.length > 0 && {
+                value: 'hostname_or_id',
+                filter: Array.isArray(filterbyName) ? filterbyName[0] : filterbyName
+            }
+        ]);
+
+        if (perPage || page) {
+            setPagination(
+                Array.isArray(page) ? page[0] : page,
+                Array.isArray(perPage) ? perPage[0] : perPage
+            );
         }
 
         const { InventoryTable } = inventoryConnector(store);
@@ -72,7 +123,10 @@ const Inventory = ({
 
     const onRefresh = (options, callback) => {
         onSetfilters(options.filters);
-        const search = calculateFilters(options.filters).toString();
+        const searchParams = new URLSearchParams();
+        calculateFilters(searchParams, options.filters);
+        calculatePagination(searchParams, options.page, options.per_page);
+        const search = searchParams.toString();
         history.push({
             search
         });
@@ -229,9 +283,15 @@ Inventory.propTypes = {
     setFilter: PropTypes.func,
     selected: PropTypes.map,
     status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    source: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    filterbyName: PropTypes.string,
+    tagsFilter: PropTypes.any,
     history: PropTypes.shape({
         push: PropTypes.func
-    })
+    }),
+    page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    setPagination: PropTypes.func
 };
 
 function mapDispatchToProps(dispatch) {
@@ -249,7 +309,8 @@ function mapDispatchToProps(dispatch) {
             reloadWrapper(actions.editDisplayName(id, displayName), callback)
         ),
         onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected)),
-        setFilter: (filterValue, filterKey) => dispatch(actions.setFilter(filterValue, filterKey))
+        setFilter: (filtersList) => dispatch(actions.setFilter(filtersList.filter(Boolean))),
+        setPagination: (page, perPage) => dispatch(actions.setPagination(page, perPage))
     };
 }
 

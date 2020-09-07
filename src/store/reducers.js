@@ -1,4 +1,4 @@
-import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER } from '../constants';
+import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from '../constants';
 import {
     systemProfileStore
 } from '@redhat-cloud-services/frontend-components-inventory-general-info/cjs';
@@ -102,10 +102,15 @@ function onEntitiesLoaded(state, { payload }) {
 function onSetFilter(state, { payload }) {
     return {
         ...state,
-        activeFilters: (state.activeFilters || [{}]).map((filter) => ({
-            ...filter || {},
-            [payload.filterKey]: payload.filterValue
-        }))
+        activeFilters: payload.filtersList
+    };
+}
+
+function onSetPagination(state, { payload }) {
+    return {
+        ...state,
+        perPage: payload.perPage,
+        page: payload.page
     };
 }
 
@@ -121,7 +126,8 @@ export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash
         [`${ACTION_TYPES.REMOVE_ENTITY}_FULFILLED`]: entityDeleted,
         [SELECT_ENTITY]: entitySelected,
         FILTER_SELECT: (state) => ({ ...state, selected: {} }),
-        [SET_INVENTORY_FILTER]: onSetFilter
+        [SET_INVENTORY_FILTER]: onSetFilter,
+        [SET_PAGINATION]: onSetPagination
     },
     defaultState
 );
