@@ -139,6 +139,8 @@ const Inventory = ({
     };
 
     useEffect(() => {
+        insights.chrome.appAction('system-list');
+        insights.chrome.appObjectId();
         loadInventory();
     }, []);
 

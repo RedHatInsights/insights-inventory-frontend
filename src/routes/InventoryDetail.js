@@ -56,6 +56,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     };
 
     useEffect(() => {
+        insights.chrome.appAction('system-detail');
         loadInventory();
     }, []);
 
@@ -64,6 +65,8 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     };
 
     const Wrapper = DetailWrapper || Fragment;
+
+    insights.chrome.appObjectId(entity?.id);
 
     return (
         <Wrapper
