@@ -66,7 +66,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
 
     const Wrapper = DetailWrapper || Fragment;
 
-    insights.chrome.appObjectId(entity?.id);
+    insights?.chrome?.appObjectId?.(entity?.id);
 
     return (
         <Wrapper
