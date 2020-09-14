@@ -56,6 +56,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     };
 
     useEffect(() => {
+        insights.chrome?.hideGlobalFilter?.(true);
         insights.chrome.appAction('system-detail');
         loadInventory();
     }, []);

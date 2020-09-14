@@ -82,6 +82,7 @@ const Inventory = ({
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
+    const [globalFilter, setGlobalFilter] = useState();
     const store = useStore();
     const loadInventory = async () => {
         clearNotifications();
@@ -122,10 +123,12 @@ const Inventory = ({
     };
 
     const onRefresh = (options, callback) => {
-        onSetfilters(options.filters);
+        console.log(options, 'ffff');
+        onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
-        calculateFilters(searchParams, options.filters);
-        calculatePagination(searchParams, options.page, options.per_page);
+        calculateFilters(searchParams, options?.filters);
+        // eslint-disable-next-line camelcase
+        calculatePagination(searchParams, options?.page, options?.per_page);
         const search = searchParams.toString();
         history.push({
             search
@@ -139,8 +142,15 @@ const Inventory = ({
     };
 
     useEffect(() => {
+        insights.chrome?.hideGlobalFilter?.(false);
         insights.chrome.appAction('system-list');
         insights.chrome.appObjectId();
+        insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
+            setGlobalFilter(insights.chrome?.mapGlobalFilter?.(data) || undefined);
+            if (inventory.current) {
+                inventory.current.onRefreshData({});
+            }
+        });
         loadInventory();
     }, []);
 
@@ -157,6 +167,9 @@ const Inventory = ({
                         {
                             ConnectedInventory &&
                                 <ConnectedInventory
+                                    customFilters={{
+                                        tags: globalFilter
+                                    }}
                                     store={store}
                                     ref={inventory}
                                     hasCheckbox
