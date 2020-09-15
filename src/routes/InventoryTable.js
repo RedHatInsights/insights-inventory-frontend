@@ -146,7 +146,7 @@ const Inventory = ({
         insights.chrome.appAction('system-list');
         insights.chrome.appObjectId();
         insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
-            setGlobalFilter(insights.chrome?.mapGlobalFilter?.(data) || undefined);
+            setGlobalFilter(insights.chrome?.mapGlobalFilter?.(data).filter(item => !item.includes('workloads')) || undefined);
             if (inventory.current) {
                 inventory.current.onRefreshData({});
             }
