@@ -324,7 +324,12 @@ function mapDispatchToProps(dispatch) {
             reloadWrapper(actions.editDisplayName(id, displayName), callback)
         ),
         onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected)),
-        setFilter: (filtersList) => dispatch(actions.setFilter(filtersList.filter(Boolean))),
+        setFilter: (filtersList) => {
+            const filters = filtersList.filter(Boolean);
+            if (filters?.length > 0) {
+                dispatch(actions.setFilter(filters));
+            }
+        },
         setPagination: (page, perPage) => dispatch(actions.setPagination(page, perPage))
     };
 }
