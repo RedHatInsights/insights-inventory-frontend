@@ -123,7 +123,6 @@ const Inventory = ({
     };
 
     const onRefresh = (options, callback) => {
-        console.log(options, 'ffff');
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
         calculateFilters(searchParams, options?.filters);
@@ -170,6 +169,7 @@ const Inventory = ({
                                     customFilters={{
                                         tags: globalFilter
                                     }}
+                                    isFullView
                                     store={store}
                                     ref={inventory}
                                     hasCheckbox
