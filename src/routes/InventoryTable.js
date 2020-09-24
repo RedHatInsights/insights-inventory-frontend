@@ -169,6 +169,7 @@ const Inventory = ({
                                     customFilters={{
                                         tags: globalFilter
                                     }}
+                                    isFullView
                                     store={store}
                                     ref={inventory}
                                     hasCheckbox

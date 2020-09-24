@@ -96,7 +96,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                         showTags
                         hideInvLink
                         showDelete
-                        // hideInvDrawer
+                        hideInvDrawer
                     />
                 }
             </PageHeader>
