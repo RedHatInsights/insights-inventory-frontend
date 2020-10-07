@@ -14,6 +14,7 @@ import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 import flatMap from 'lodash/flatMap';
+import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/files/RBACHook';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
@@ -84,6 +85,14 @@ const Inventory = ({
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
     const store = useStore();
+    const { hasAccess } = usePermissions('inventory', [
+        'inventory:*:*',
+        'inventory:hosts:write',
+        'inventory:*:write'
+    ]);
+
+    const canPerformActions = insights.chrome.isProd || hasAccess;
+
     const loadInventory = async () => {
         clearNotifications();
         const {
@@ -172,29 +181,29 @@ const Inventory = ({
                                     isFullView
                                     store={store}
                                     ref={inventory}
-                                    hasCheckbox
                                     showTags
                                     onRefresh={onRefresh}
-                                    actions={ [
-                                        {
-                                            title: 'Delete',
-                                            onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
-                                                activateSystem(() => ({
-                                                    id: systemId,
-                                                    displayName
-                                                }));
-                                                handleModalToggle(() => true);
+                                    hasCheckbox={canPerformActions}
+                                    {...(canPerformActions && {
+                                        actions: [
+                                            {
+                                                title: 'Delete',
+                                                onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                                                    activateSystem(() => ({
+                                                        id: systemId,
+                                                        displayName
+                                                    }));
+                                                    handleModalToggle(() => true);
+                                                }
+                                            }, {
+                                                title: 'Edit',
+                                                onClick: (_event, _index, data) => {
+                                                    activateSystem(() => data);
+                                                    onEditOpen(() => true);
+                                                }
                                             }
-                                        }, {
-                                            title: 'Edit',
-                                            onClick: (_event, _index, data) => {
-                                                activateSystem(() => data);
-                                                onEditOpen(() => true);
-                                            }
-                                        }
-                                    ]}
-                                    actionsConfig={{
-                                        actions: [{
+                                        ],
+                                        actionsConfig: [{
                                             label: 'Delete',
                                             props: {
                                                 isDisabled: calculateSelected() === 0,
@@ -204,29 +213,29 @@ const Inventory = ({
                                                     handleModalToggle(true);
                                                 }
                                             }
-                                        }]
-                                    }}
-                                    bulkSelect={{
-                                        count: calculateSelected(),
-                                        items: [{
-                                            title: 'Select none (0)',
-                                            onClick: () => {
-                                                onSelectRows(-1, false);
-                                            }
-                                        },
-                                        {
-                                            ...loaded && rows && rows.length > 0 ? {
-                                                title: `Select page (${ rows.length })`,
-                                                onClick: () => {
-                                                    onSelectRows(0, true);
-                                                }
-                                            } : {}
                                         }],
-                                        checked: calculateChecked(rows, selected),
-                                        onSelect: (value) => {
-                                            onSelectRows(0, value);
+                                        bulkSelect: {
+                                            count: calculateSelected(),
+                                            items: [{
+                                                title: 'Select none (0)',
+                                                onClick: () => {
+                                                    onSelectRows(-1, false);
+                                                }
+                                            },
+                                            {
+                                                ...loaded && rows && rows.length > 0 ? {
+                                                    title: `Select page (${ rows.length })`,
+                                                    onClick: () => {
+                                                        onSelectRows(0, true);
+                                                    }
+                                                } : {}
+                                            }],
+                                            checked: calculateChecked(rows, selected),
+                                            onSelect: (value) => {
+                                                onSelectRows(0, value);
+                                            }
                                         }
-                                    }}
+                                    })}
                                     tableProps={{
                                         canSelectAll: false
                                     }}
@@ -296,7 +305,7 @@ Inventory.propTypes = {
     updateDisplayName: PropTypes.func,
     onSelectRows: PropTypes.func,
     setFilter: PropTypes.func,
-    selected: PropTypes.map,
+    selected: PropTypes.array,
     status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     source: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     filterbyName: PropTypes.string,
