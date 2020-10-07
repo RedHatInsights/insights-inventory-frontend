@@ -8,6 +8,7 @@ import routerParams from '@redhat-cloud-services/frontend-components-utilities/f
 import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { reducers } from './store';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
+import PermissionLoader from './components/PermissionsLoader';
 
 @registryDecorator()
 class App extends Component {
@@ -33,6 +34,7 @@ class App extends Component {
         return (
             <React.Fragment>
                 <NotificationsPortal />
+                {!insights.chrome.isProd && <PermissionLoader />}
                 <Routes childProps={this.props} />
             </React.Fragment>
         );

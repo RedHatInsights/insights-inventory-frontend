@@ -8,6 +8,8 @@ import { applyReducerHash } from '@redhat-cloud-services/frontend-components-uti
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 
+import permissionsReducer from './permissions/reducer';
+
 const defaultState = { loaded: false, selected: new Map() };
 
 const isEntitled = (service) => {
@@ -116,7 +118,8 @@ function onSetPagination(state, { payload }) {
 
 let reducers = {
     notifications,
-    systemProfileStore
+    systemProfileStore,
+    permissionsReducer
 };
 
 export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash(
