@@ -24,7 +24,8 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     const store = useStore();
     const { InventoryDetail, AppInfo, DetailWrapper } = ConnectedInventory;
     const { loading, writePermissions } = useSelector(
-        ({ permissionsReducer: { loading, writePermissions } }) => ({ loading, writePermissions }),
+        ({ permissionsReducer }) =>
+            ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
         shallowEqual
     );
 

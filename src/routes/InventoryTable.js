@@ -85,7 +85,8 @@ const Inventory = ({
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
     const { loading, writePermissions } = useSelector(
-        ({ permissionsReducer: { loading, writePermissions } }) => ({ loading, writePermissions }),
+        ({ permissionsReducer }) =>
+            ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
         shallowEqual
     );
     const store = useStore();
