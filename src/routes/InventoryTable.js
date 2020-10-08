@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, shallowEqual, useSelector } from 'react-redux';
 import './inventory.scss';
 import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
@@ -15,7 +15,6 @@ import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 import flatMap from 'lodash/flatMap';
-import useInventoryWritePermissions from '../hooks/useInventoryWritePermissions';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
@@ -85,7 +84,11 @@ const Inventory = ({
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
-    const canPerformActions = useInventoryWritePermissions();
+    const { loading, writePermissions } = useSelector(
+        ({ permissionsReducer }) =>
+            ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
+        shallowEqual
+    );
     const store = useStore();
 
     const loadInventory = async () => {
@@ -182,7 +185,7 @@ const Inventory = ({
                 <Grid gutter="md">
                     <GridItem span={12}>
                         {
-                            ConnectedInventory &&
+                            !loading && ConnectedInventory &&
                                 <ConnectedInventory
                                     customFilters={globalFilter}
                                     isFullView
@@ -190,8 +193,8 @@ const Inventory = ({
                                     ref={inventory}
                                     showTags
                                     onRefresh={onRefresh}
-                                    hasCheckbox={canPerformActions}
-                                    {...(canPerformActions && {
+                                    hasCheckbox={writePermissions}
+                                    {...(writePermissions && {
                                         actions: [
                                             {
                                                 title: 'Delete',

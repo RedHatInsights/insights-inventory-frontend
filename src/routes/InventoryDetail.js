@@ -1,6 +1,6 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useStore } from 'react-redux';
+import { connect, useStore, shallowEqual, useSelector } from 'react-redux';
 import './inventory.scss';
 import { Link } from 'react-router-dom';
 import { entitesDetailReducer, addNewListener } from '../store';
@@ -16,7 +16,6 @@ import '@redhat-cloud-services/frontend-components-inventory-insights/index.css'
 import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/index.css';
 import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/SystemCvesStore';
 import { SystemAdvisoryListStore } from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
-import useInventoryWritePermissions from '../hooks/useInventoryWritePermissions';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 
@@ -24,7 +23,11 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     const [ConnectedInventory, setInventory] = useState({});
     const store = useStore();
     const { InventoryDetail, AppInfo, DetailWrapper } = ConnectedInventory;
-    const canPerformActions = useInventoryWritePermissions();
+    const { loading, writePermissions } = useSelector(
+        ({ permissionsReducer }) =>
+            ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
+        shallowEqual
+    );
 
     const loadInventory = async () => {
         clearNotifications();
@@ -92,12 +95,12 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                     </BreadcrumbItem>
                 </Breadcrumb>
                 {
-                    InventoryDetail &&
+                    !loading && InventoryDetail &&
                     <InventoryDetail
                         hideBack
                         showTags
                         hideInvLink
-                        showDelete={canPerformActions}
+                        showDelete={writePermissions}
                         hideInvDrawer
                     />
                 }
