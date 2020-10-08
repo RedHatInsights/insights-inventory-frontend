@@ -15,7 +15,7 @@ import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 import flatMap from 'lodash/flatMap';
-import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/files/RBACHook';
+import useInventoryWritePermissions from '../hooks/useInventoryWritePermissions';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
@@ -85,14 +85,8 @@ const Inventory = ({
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
+    const canPerformActions = useInventoryWritePermissions();
     const store = useStore();
-    const { hasAccess } = usePermissions('inventory', [
-        'inventory:*:*',
-        'inventory:hosts:write',
-        'inventory:*:write'
-    ]);
-
-    const canPerformActions = insights.chrome.isProd || hasAccess;
 
     const loadInventory = async () => {
         clearNotifications();

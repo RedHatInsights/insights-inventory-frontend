@@ -16,6 +16,7 @@ import '@redhat-cloud-services/frontend-components-inventory-insights/index.css'
 import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/index.css';
 import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/SystemCvesStore';
 import { SystemAdvisoryListStore } from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
+import useInventoryWritePermissions from '../hooks/useInventoryWritePermissions';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 
@@ -23,6 +24,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     const [ConnectedInventory, setInventory] = useState({});
     const store = useStore();
     const { InventoryDetail, AppInfo, DetailWrapper } = ConnectedInventory;
+    const canPerformActions = useInventoryWritePermissions();
 
     const loadInventory = async () => {
         clearNotifications();
@@ -95,7 +97,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                         hideBack
                         showTags
                         hideInvLink
-                        showDelete
+                        showDelete={canPerformActions}
                         hideInvDrawer
                     />
                 }
