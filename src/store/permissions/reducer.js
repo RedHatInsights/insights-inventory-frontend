@@ -11,6 +11,7 @@ const loadWritePermissionsPending = (state) => ({
 const loadWritePermissionsFulfilled = (state, { payload }) => ({
     ...state,
     loading: false,
+    loadingFailed: false,
     writePermissions: payload.writePermissions
 });
 
@@ -21,8 +22,8 @@ const loadWritePermissionsFailed = (state) => ({
 });
 
 const defaultPermissionState = {
-    writePermissions: false,
-    loading: true,
+    loading: !insights.chrome.isProd,
+    writePermissions: insights.chrome.isProd,
     loadingFailed: false
 };
 
