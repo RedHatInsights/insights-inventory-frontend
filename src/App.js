@@ -19,7 +19,10 @@ class App extends Component {
     componentDidMount () {
         insights.chrome.init();
         insights.chrome.identifyApp(INVENTORY_ROOT);
-        this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
+        this.appNav = insights.chrome.on(
+            'APP_NAVIGATION',
+            event => this.props.history.push(`/${event.navId}${location.search}${location.hash}`)
+        );
     }
 
     componentWillUnmount() {
