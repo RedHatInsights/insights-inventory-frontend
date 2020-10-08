@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -139,7 +140,8 @@ const Inventory = ({
         calculatePagination(searchParams, options?.page, options?.per_page);
         const search = searchParams.toString();
         history.push({
-            search
+            search,
+            hash: location.hash
         });
 
         if (!callback && inventory && inventory.current) {
@@ -154,7 +156,20 @@ const Inventory = ({
         insights.chrome.appAction('system-list');
         insights.chrome.appObjectId();
         insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
-            setGlobalFilter(insights.chrome?.mapGlobalFilter?.(data).filter(item => !item.includes('workloads')) || undefined);
+            setGlobalFilter({
+                tags: insights.chrome?.mapGlobalFilter?.(data).filter(
+                    item => !item.toLowerCase().includes('workloads')
+                ) || undefined,
+                filter: {
+                    ...globalFilter?.filter,
+                    ...data?.Workloads?.SAP?.isSelected && {
+                        system_profile: {
+                            ...globalFilter?.filter?.system_profile,
+                            sap_system: true
+                        }
+                    }
+                }
+            });
             if (inventory.current) {
                 inventory.current.onRefreshData({});
             }
@@ -175,9 +190,7 @@ const Inventory = ({
                         {
                             ConnectedInventory &&
                                 <ConnectedInventory
-                                    customFilters={{
-                                        tags: globalFilter
-                                    }}
+                                    customFilters={globalFilter}
                                     isFullView
                                     store={store}
                                     ref={inventory}
