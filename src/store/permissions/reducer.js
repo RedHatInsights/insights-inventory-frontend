@@ -4,8 +4,8 @@ import { ACTION_TYPES } from '../../constants';
 const loadWritePermissionsPending = (state) => ({
     ...state,
     loadingFailed: false,
-    loading: !insights.chrome.isProd,
-    writePermissions: insights.chrome.isProd
+    loading: !window.insights?.chrome?.isProd,
+    writePermissions: window.insights?.chrome?.isProd
 });
 
 const loadWritePermissionsFulfilled = (state, { payload }) => ({
@@ -22,8 +22,8 @@ const loadWritePermissionsFailed = (state) => ({
 });
 
 const defaultPermissionState = {
-    loading: !insights.chrome.isProd,
-    writePermissions: insights.chrome.isProd,
+    loading: !window.insights?.chrome?.isProd,
+    writePermissions: window.insights?.chrome?.isProd,
     loadingFailed: false
 };
 
