@@ -153,17 +153,15 @@ const Inventory = ({
         insights.chrome.appAction('system-list');
         insights.chrome.appObjectId();
         insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
+            const [workloads, SID, tags] = insights.chrome?.mapGlobalFilter?.(data, false, true);
             setGlobalFilter({
-                tags: insights.chrome?.mapGlobalFilter?.(data).filter(
-                    item => !item.toLowerCase().includes('workloads')
-                ) || undefined,
+                tags,
                 filter: {
                     ...globalFilter?.filter,
-                    ...data?.Workloads?.SAP?.isSelected && {
-                        system_profile: {
-                            ...globalFilter?.filter?.system_profile,
-                            sap_system: true
-                        }
+                    system_profile: {
+                        ...globalFilter?.filter?.system_profile,
+                        ...workloads?.SAP?.isSelected && { sap_system: true },
+                        ...SID?.length > 0 && { sap_sids: SID }
                     }
                 }
             });
