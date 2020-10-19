@@ -5,7 +5,7 @@ const loadWritePermissionsPending = (state) => ({
     ...state,
     loadingFailed: false,
     loading: true,
-    writePermissions: false
+    writePermissions: undefined
 });
 
 const loadWritePermissionsFulfilled = (state, { payload }) => ({
