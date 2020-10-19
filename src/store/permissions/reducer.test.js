@@ -11,20 +11,6 @@ describe('permissionsReducer', () => {
         });
     });
 
-    it('pending write permission - on prod', () => {
-        const tmp = insights.chrome.isProd;
-        insights.chrome.isProd = true;
-
-        expect(permissionsReducer({}, { type: `${ACTION_TYPES.LOAD_WRITE_PERMISSIONS}_PENDING` }))
-        .toEqual({
-            loading: false,
-            loadingFailed: false,
-            writePermissions: true
-        });
-
-        insights.chrome.isProd = tmp;
-    });
-
     it('fulfilled write permission - true', () => {
         expect(permissionsReducer(
             {},

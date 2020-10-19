@@ -34,7 +34,7 @@ class App extends Component {
         return (
             <React.Fragment>
                 <NotificationsPortal />
-                {!insights.chrome.isProd && <PermissionLoader />}
+                <PermissionLoader />
                 <Routes childProps={this.props} />
             </React.Fragment>
         );
