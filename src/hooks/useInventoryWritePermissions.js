@@ -7,7 +7,7 @@ const useInventoryWritePermissions = () => {
         'inventory:*:write'
     ]);
 
-    return { ...rest, hasAccess: insights.chrome.isProd || hasAccess };
+    return { ...rest, hasAccess };
 };
 
 export default useInventoryWritePermissions;
