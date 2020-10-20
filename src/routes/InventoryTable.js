@@ -15,6 +15,7 @@ import { useStore } from 'react-redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 import flatMap from 'lodash/flatMap';
+import { defaultFilters, generateFilter } from '../Utilities/constants';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
@@ -102,21 +103,7 @@ const Inventory = ({
             ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
         });
 
-        setFilter([
-            status && status.length > 0 && {
-                staleFilter: Array.isArray(status) ? status : [status]
-            },
-            tagsFilter && tagsFilter.length > 0 && {
-                tagFilters: Array.isArray(tagsFilter) ? tagsFilter : [tagsFilter]
-            },
-            source && source.length > 0 && {
-                source: Array.isArray(source) ? source : [source]
-            },
-            filterbyName && filterbyName.length > 0 && {
-                value: 'hostname_or_id',
-                filter: Array.isArray(filterbyName) ? filterbyName[0] : filterbyName
-            }
-        ]);
+        setFilter(generateFilter(status, source, tagsFilter, filterbyName));
 
         if (perPage || page) {
             setPagination(
@@ -130,6 +117,10 @@ const Inventory = ({
     };
 
     const onRefresh = (options, callback) => {
+        if (!options?.filters) {
+            options.filters = defaultFilters;
+        }
+
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
         calculateFilters(searchParams, options?.filters);
@@ -341,12 +332,7 @@ function mapDispatchToProps(dispatch) {
             reloadWrapper(actions.editDisplayName(id, displayName), callback)
         ),
         onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected)),
-        setFilter: (filtersList) => {
-            const filters = filtersList.filter(Boolean);
-            if (filters?.length > 0) {
-                dispatch(actions.setFilter(filters));
-            }
-        },
+        setFilter: (filtersList) => filtersList?.length > 0 && dispatch(actions.setFilter(filtersList)),
         setPagination: (page, perPage) => dispatch(actions.setPagination(page, perPage))
     };
 }
