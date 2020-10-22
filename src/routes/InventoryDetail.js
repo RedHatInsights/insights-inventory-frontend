@@ -2,6 +2,7 @@ import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useStore, shallowEqual, useSelector } from 'react-redux';
 import './inventory.scss';
+import '@redhat-cloud-services/frontend-components-inventory-patchman/dist/cjs/index.css';
 import { Link } from 'react-router-dom';
 import { entitesDetailReducer, addNewListener } from '../store';
 import * as actions from '../actions';
@@ -15,7 +16,10 @@ import '@redhat-cloud-services/frontend-components-inventory-general-info/index.
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/index.css';
 import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/SystemCvesStore';
-import { SystemAdvisoryListStore } from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
+import {
+    SystemAdvisoryListStore,
+    SystemPackageListStore
+} from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 
@@ -51,7 +55,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
         const { InventoryDetailHead, AppInfo, DetailWrapper } = inventoryConnector(store);
 
         SystemCvesStore && getRegistry().register({ SystemCvesStore });
-        SystemAdvisoryListStore && getRegistry().register({ SystemAdvisoryListStore });
+        SystemAdvisoryListStore && getRegistry().register({ SystemAdvisoryListStore, SystemPackageListStore });
 
         setInventory({
             InventoryDetail: InventoryDetailHead,
