@@ -202,17 +202,19 @@ const Inventory = ({
                                                 }
                                             }
                                         ],
-                                        actionsConfig: [{
-                                            label: 'Delete',
-                                            props: {
-                                                isDisabled: calculateSelected() === 0,
-                                                variant: 'secondary',
-                                                onClick: () => {
-                                                    activateSystem(Array.from(selected.values()));
-                                                    handleModalToggle(true);
+                                        actionsConfig: {
+                                            actions: [{
+                                                label: 'Delete',
+                                                props: {
+                                                    isDisabled: calculateSelected() === 0,
+                                                    variant: 'secondary',
+                                                    onClick: () => {
+                                                        activateSystem(Array.from(selected.values()));
+                                                        handleModalToggle(true);
+                                                    }
                                                 }
-                                            }
-                                        }],
+                                            }]
+                                        },
                                         bulkSelect: {
                                             count: calculateSelected(),
                                             items: [{
