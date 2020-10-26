@@ -53,7 +53,8 @@
       "\\.(css|scss)$": "identity-obj-proxy",
       "customReact": "react",
       "PFReactCore": "@patternfly/react-core",
-      "PFReactTable": "@patternfly/react-table"
+      "PFReactTable": "@patternfly/react-table",
+      "reactRedux": "react-redux"
     }
   },
   "devDependencies": {
@@ -68,6 +69,7 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.9.6",
     "@redhat-cloud-services/frontend-components-config": "2.1.7",
+    "@redhat-cloud-services/frontend-components-inventory": "2.4.24",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.0.1",
