@@ -306,7 +306,7 @@ Inventory.propTypes = {
     updateDisplayName: PropTypes.func,
     onSelectRows: PropTypes.func,
     setFilter: PropTypes.func,
-    selected: PropTypes.array,
+    selected: PropTypes.object,
     status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     source: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     filterbyName: PropTypes.string,

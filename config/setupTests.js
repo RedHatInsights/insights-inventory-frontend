@@ -16,6 +16,12 @@ global.insights = {
                     user: {
                         is_org_admin: true
                     }
+                },
+                entitlements: {
+                    hybrid_cloud: { is_entitled: true },
+                    insights: { is_entitled: true },
+                    openshift: { is_entitled: true },
+                    smart_management: { is_entitled: false }
                 }
             })
         },
