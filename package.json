@@ -8,7 +8,7 @@
     "@patternfly/react-table": "4.16.20",
     "@redhat-cloud-services/frontend-components": "2.4.9",
     "@redhat-cloud-services/frontend-components-inventory-compliance": "2.2.9",
-    "@redhat-cloud-services/frontend-components-inventory-general-info": "2.2.4",
+    "@redhat-cloud-services/frontend-components-inventory-general-info": "2.2.5",
     "@redhat-cloud-services/frontend-components-inventory-insights": "2.6.4",
     "@redhat-cloud-services/frontend-components-inventory-patchman": "0.27.11",
     "@redhat-cloud-services/frontend-components-inventory-vulnerabilities": "^1.49.0",
@@ -53,7 +53,8 @@
       "\\.(css|scss)$": "identity-obj-proxy",
       "customReact": "react",
       "PFReactCore": "@patternfly/react-core",
-      "PFReactTable": "@patternfly/react-table"
+      "PFReactTable": "@patternfly/react-table",
+      "reactRedux": "react-redux"
     }
   },
   "devDependencies": {
@@ -68,6 +69,7 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.9.6",
     "@redhat-cloud-services/frontend-components-config": "2.1.7",
+    "@redhat-cloud-services/frontend-components-inventory": "2.4.24",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.0.1",
@@ -86,6 +88,7 @@
     "jest-cli": "^26.0.1",
     "node-fetch": "^2.6.0",
     "npm-run-all": "^4.1.5",
+    "redux-mock-store": "^1.5.4",
     "scheduler": "^0.19.1",
     "stylelint": "^13.5.0",
     "stylelint-config-recommended-scss": "^4.2.0",
