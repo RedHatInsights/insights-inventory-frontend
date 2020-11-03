@@ -121,6 +121,15 @@ const Inventory = ({
             options.filters = defaultFilters;
         }
 
+        const { status, source, tagsFilter, filterbyName } = options?.filters.reduce((acc, curr) => ({
+            ...acc,
+            ...curr?.staleFilter && { status: curr.staleFilter },
+            ...curr?.registeredWithFilter && { source: curr.registeredWithFilter },
+            ...curr?.tagFilters && { tagsFilter: curr.tagFilters },
+            ...curr?.value === 'hostname_or_id' && { filterbyName: curr.filter }
+        }), { status: undefined, source: undefined, tagsFilter: undefined, filterbyName: undefined });
+        options.filters = generateFilter(status, source, tagsFilter, filterbyName);
+
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
         calculateFilters(searchParams, options?.filters);
