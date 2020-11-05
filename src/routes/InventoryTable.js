@@ -78,6 +78,7 @@ const Inventory = ({
     perPage,
     setPagination
 }) => {
+    document.title = 'Inventory | Red Hat Insights';
     const inventory = useRef(null);
     const [ConnectedInventory, setInventory] = useState();
     const [isModalOpen, handleModalToggle] = useState(false);
