@@ -78,6 +78,10 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
 
     insights?.chrome?.appObjectId?.(entity?.id);
 
+    if (entity) {
+        document.title = `${entity.display_name} | Inventory | Red Hat Insights`;
+    }
+
     return (
         <Wrapper
             hideInvLink
