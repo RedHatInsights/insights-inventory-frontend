@@ -28,7 +28,7 @@ export const tagsMapper = (acc, curr) => {
     }
 
     const [key, value = null] = keyValue.split('=');
-    const currTagKey = acc.findIndex(({ namespace: tagNamespace }) => tagNamespace === namespace);
+    const currTagKey = acc.findIndex(({ category }) => category === namespace);
     const currTag = acc[currTagKey] || {
         category: namespace,
         key: namespace,
@@ -36,7 +36,8 @@ export const tagsMapper = (acc, curr) => {
         values: []
     };
     currTag.values.push({
-        key,
+        name: `${key}${value ? `=${value}` : ''}`,
+        key: `${key}${value ? `=${value}` : ''}`,
         tagKey: key,
         value,
         group: {

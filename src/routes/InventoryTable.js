@@ -23,10 +23,10 @@ const calculateChecked = (rows = [], selected) => (
         : rows.some(({ id }) => selected && selected.has(id)) && null
 );
 
-const mapTags = ({ category, values }) => values.map(({ key, value }) => `${
+const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
     category ? `${category}/` : ''
 }${
-    key
+    tagKey
 }${
     value ? `=${value}` : ''
 }`);
