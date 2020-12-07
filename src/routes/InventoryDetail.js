@@ -1,13 +1,12 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useStore, shallowEqual, useSelector } from 'react-redux';
+import { connect, useSelector, shallowEqual } from 'react-redux';
 import './inventory.scss';
 import '@redhat-cloud-services/frontend-components-inventory-patchman/dist/cjs/index.css';
 import { Link } from 'react-router-dom';
-import { entitesDetailReducer, addNewListener } from '../store';
+import { entitesDetailReducer } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
-import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
@@ -23,69 +22,45 @@ import {
 import classnames from 'classnames';
 import { routes } from '../Routes';
 
+import { InventoryDetailHead, AppInfo, DetailWrapper } from '@redhat-cloud-services/frontend-components/components/esm/Inventory';
+
 const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
-    const [ConnectedInventory, setInventory] = useState({});
-    const store = useStore();
-    const { InventoryDetail, AppInfo, DetailWrapper } = ConnectedInventory;
     const { loading, writePermissions } = useSelector(
         ({ permissionsReducer }) =>
             ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
         shallowEqual
     );
 
-    const loadInventory = async () => {
-        clearNotifications();
-        const {
-            inventoryConnector,
-            INVENTORY_ACTION_TYPES,
-            mergeWithDetail
-        } = await asyncInventoryLoader();
-        getRegistry().register(mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES)));
-
-        const removeListener = addNewListener({
-            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
-            callback: ({ data }) => {
-                data.then(payload => {
-                    loadEntity(payload.results[0].id);
-                    removeListener();
-                });
-            }
-        });
-
-        const { InventoryDetailHead, AppInfo, DetailWrapper } = inventoryConnector(store);
-
-        SystemCvesStore && getRegistry().register({ SystemCvesStore });
-        SystemAdvisoryListStore && getRegistry().register({ SystemAdvisoryListStore, SystemPackageListStore });
-
-        setInventory({
-            InventoryDetail: InventoryDetailHead,
-            AppInfo,
-            DetailWrapper
-        });
-    };
-
     useEffect(() => {
         insights.chrome?.hideGlobalFilter?.(true);
         insights.chrome.appAction('system-detail');
-        loadInventory();
+        clearNotifications();
     }, []);
 
     const additionalClasses = {
         'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'
     };
 
-    const Wrapper = DetailWrapper || Fragment;
-
-    insights?.chrome?.appObjectId?.(entity?.id);
-
     if (entity) {
         document.title = `${entity.display_name} | Inventory | Red Hat Insights`;
     }
 
+    useEffect(() => {
+        insights?.chrome?.appObjectId?.(entity?.id);
+        if (entity?.id) {
+            loadEntity();
+        }
+    }, [entity?.id]);
+
     return (
-        <Wrapper
+        <DetailWrapper
             hideInvLink
             showTags
+            onLoad={({ mergeWithDetail, INVENTORY_ACTION_TYPES }) => {
+                getRegistry().register(mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES)));
+                SystemCvesStore && getRegistry().register({ SystemCvesStore });
+                SystemAdvisoryListStore && getRegistry().register({ SystemAdvisoryListStore, SystemPackageListStore });
+            }}
         >
             <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
                 <Breadcrumb>
@@ -103,8 +78,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                     </BreadcrumbItem>
                 </Breadcrumb>
                 {
-                    !loading && InventoryDetail &&
-                    <InventoryDetail
+                    !loading && <InventoryDetailHead
                         hideBack
                         showTags
                         hideInvLink
@@ -116,11 +90,11 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
             <Main className={classnames(additionalClasses)}>
                 <Grid gutter="md">
                     <GridItem span={12}>
-                        {AppInfo && <AppInfo showTags />}
+                        <AppInfo showTags />
                     </GridItem>
                 </Grid>
             </Main>
-        </Wrapper>
+        </DetailWrapper>
     );
 };
 
@@ -147,7 +121,7 @@ function mapStateToProps({ entityDetails }) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        loadEntity: (id) => dispatch(actions.loadEntity(id)),
+        loadEntity: () => dispatch(actions.loadEntity()),
         clearNotifications: () => dispatch(actions.clearNotifications())
     };
 }

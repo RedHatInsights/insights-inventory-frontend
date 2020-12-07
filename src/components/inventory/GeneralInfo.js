@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useStore, useSelector } from 'react-redux';
-import GeneralInformation from '@redhat-cloud-services/frontend-components-inventory-general-info/cjs';
+
+const GeneralInformation = lazy(() => import('@redhat-cloud-services/frontend-components-inventory-general-info/esm'));
 
 const GeneralInformationTab = () => {
     const writePermissions = useSelector(
         ({ permissionsReducer }) => permissionsReducer?.writePermissions
     );
 
-    return <GeneralInformation store={useStore()} writePermissions={writePermissions} />;
+    return <Suspense fallback="">
+        <GeneralInformation store={useStore()} writePermissions={writePermissions} />
+    </Suspense>;
 };
 
 export default GeneralInformationTab;

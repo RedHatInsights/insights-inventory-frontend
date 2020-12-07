@@ -8,14 +8,14 @@ import configureStore from 'redux-mock-store';
 
 import InventoryTable, { calculatePagination } from './InventoryTable';
 
-import * as loader from '../components/inventory/AsyncInventory';
+import * as loader from '@redhat-cloud-services/frontend-components/components/esm/Inventory';
 import DeleteModal from '../components/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
 
-jest.mock('../components/inventory/AsyncInventory', () => ({
+jest.mock('@redhat-cloud-services/frontend-components/components/esm/Inventory', () => ({
     __esModule: true,
-    asyncInventoryLoader: jest.fn()
+    InventoryTable: jest.fn()
 }));
 
 describe('InventoryTable', () => {
@@ -104,7 +104,7 @@ describe('InventoryTable', () => {
     beforeEach(() => {
         mockStore = configureStore();
 
-        jest.spyOn(loader, 'asyncInventoryLoader').mockImplementation(() => (inventory));
+        jest.spyOn(loader, 'InventoryTable').mockImplementation(() => (inventory));
     });
 
     it('renders correctly when write permissions', async () => {
