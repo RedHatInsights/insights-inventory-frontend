@@ -11,7 +11,7 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/cjs/actions';
 import DeleteModal from '../components/DeleteModal';
-import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
+import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/esm/TextInputModal';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
 

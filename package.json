@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": false,
   "dependencies": {
-    "@patternfly/react-core": "4.47.0",
-    "@patternfly/react-icons": "^4.7.6",
-    "@patternfly/react-table": "4.16.20",
+    "@patternfly/react-core": "4.79.2",
+    "@patternfly/react-icons": "^4.7.18",
+    "@patternfly/react-table": "4.19.24",
     "@redhat-cloud-services/frontend-components": "2.5.1",
     "@redhat-cloud-services/frontend-components-inventory-compliance": "2.2.14",
     "@redhat-cloud-services/frontend-components-inventory-general-info": "2.2.6",

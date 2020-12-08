@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector, shallowEqual } from 'react-redux';
 import './inventory.scss';
-import '@redhat-cloud-services/frontend-components-inventory-patchman/dist/cjs/index.css';
+import '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm/index.css';
 import { Link } from 'react-router-dom';
 import { entitesDetailReducer } from '../store';
 import * as actions from '../actions';
@@ -14,11 +14,13 @@ import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services
 import '@redhat-cloud-services/frontend-components-inventory-general-info/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/index.css';
-import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/SystemCvesStore';
+import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/esm/SystemCvesStore';
 import {
-    SystemAdvisoryListStore,
     SystemPackageListStore
-} from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
+} from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm/SystemPackageListStore';
+import {
+    SystemAdvisoryListStore
+} from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm/SystemAdvisoryListStore';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 

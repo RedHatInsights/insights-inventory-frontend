@@ -1,7 +1,5 @@
 import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from '../constants';
-import {
-    systemProfileStore
-} from '@redhat-cloud-services/frontend-components-inventory-general-info/cjs';
+import systemProfileStore from '@redhat-cloud-services/frontend-components-inventory-general-info/esm/systemProfileStore';
 import { ComplianceTab, VulnerabilityTab, AdvisorTab, GeneralInformationTab } from '../components/inventory';
 import PatchMan from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';

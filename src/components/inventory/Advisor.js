@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { useStore } from 'react-redux';
 
-const Advisor = lazy(() => import('@redhat-cloud-services/frontend-components-inventory-insights/cjs'));
+const Advisor = lazy(() => import('@redhat-cloud-services/frontend-components-inventory-insights/esm'));
 
 const AdvisorTab = () => {
     return <Suspense fallback="">

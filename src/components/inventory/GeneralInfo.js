@@ -1,7 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import { useStore, useSelector } from 'react-redux';
 
-const GeneralInformation = lazy(() => import('@redhat-cloud-services/frontend-components-inventory-general-info/esm'));
+const GeneralInformation = lazy(
+    () => import('@redhat-cloud-services/frontend-components-inventory-general-info/esm/GeneralInformation')
+);
 
 const GeneralInformationTab = () => {
     const writePermissions = useSelector(
