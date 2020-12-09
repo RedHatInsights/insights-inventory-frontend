@@ -5,7 +5,7 @@ import { Routes } from './Routes';
 import './App.scss';
 import { INVENTORY_ROOT } from './config';
 import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
-import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/esm/Registry';
 import { reducers } from './store';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import PermissionLoader from './components/PermissionsLoader';

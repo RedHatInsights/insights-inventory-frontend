@@ -8,7 +8,7 @@ import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/fronte
 import { entitiesReducer } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
-import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/esm/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/cjs/actions';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/esm/TextInputModal';

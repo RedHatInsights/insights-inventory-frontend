@@ -8,19 +8,11 @@ import { entitesDetailReducer } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
-import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
-import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/esm/RouterParams';
+import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/esm/Registry';
 import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
 import '@redhat-cloud-services/frontend-components-inventory-general-info/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
-import '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/cjs/index.css';
-import { SystemCvesStore } from '@redhat-cloud-services/frontend-components-inventory-vulnerabilities/dist/esm/SystemCvesStore';
-import {
-    SystemPackageListStore
-} from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm/SystemPackageListStore';
-import {
-    SystemAdvisoryListStore
-} from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm/SystemAdvisoryListStore';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 
@@ -60,8 +52,6 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
             showTags
             onLoad={({ mergeWithDetail, INVENTORY_ACTION_TYPES }) => {
                 getRegistry().register(mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES)));
-                SystemCvesStore && getRegistry().register({ SystemCvesStore });
-                SystemAdvisoryListStore && getRegistry().register({ SystemAdvisoryListStore, SystemPackageListStore });
             }}
         >
             <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
