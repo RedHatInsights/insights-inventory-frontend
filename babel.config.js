@@ -55,18 +55,18 @@ module.exports = {
             {
                 '@redhat-cloud-services/frontend-components-notifications': {
                     transform: (importName) =>
-                        `@redhat-cloud-services/frontend-components-notifications/cjs/${NotificationMapper[importName] || importName}.js`,
+                        `@redhat-cloud-services/frontend-components-notifications/esm/${NotificationMapper[importName] || importName}.js`,
                     preventFullImport: true
                 },
                 '@redhat-cloud-services/frontend-components': {
                     transform: (importName) =>
-                        `@redhat-cloud-services/frontend-components/components/cjs/${FECMapper[importName] || importName}.js`,
+                        `@redhat-cloud-services/frontend-components/components/esm/${FECMapper[importName] || importName}.js`,
                     preventFullImport: true,
                     skipDefaultConversion: true
                 },
                 '@patternfly/react-icons': {
                     transform: (importName) =>
-                        `@patternfly/react-icons/dist/js/icons/${IconMapper[importName] || importName
+                        `@patternfly/react-icons/dist/esm/icons/${IconMapper[importName] || importName
                         .split(/(?=[A-Z])/)
                         .join('-')
                         .toLowerCase()}.js`,
@@ -77,7 +77,7 @@ module.exports = {
                         const files = glob.sync(
                             path.resolve(
                                 __dirname,
-                                `./node_modules/@patternfly/react-core/dist/js/**/${mapper[
+                                `./node_modules/@patternfly/react-core/dist/esm/**/${mapper[
                                 importName
                                 ] || importName}.js`
                             )

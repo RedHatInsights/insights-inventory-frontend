@@ -12,6 +12,13 @@ plugins.push(
     })
 );
 
+plugins.push(new(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)());
+
+webpackConfig.resolve.alias = {
+    ...webpackConfig.resolve.alias,
+    '@react-pdf/renderer': resolve(__dirname, './customPDF')
+};
+
 module.exports = {
     ...webpackConfig,
     plugins
