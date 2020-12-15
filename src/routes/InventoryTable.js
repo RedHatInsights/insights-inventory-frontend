@@ -54,9 +54,12 @@ const calculateFilters = (searchParams, filters = []) => {
     return searchParams;
 };
 
-const calculatePagination = (searchParams, page, perPage) => {
-    searchParams.append('page', page);
-    searchParams.append('per_page', perPage);
+export const calculatePagination = (searchParams, page, perPage) => {
+    const currSearch = new URLSearchParams(location.search);
+    const newPage = page !== undefined ? page : currSearch.get('page');
+    const newPerPage = perPage !== undefined ? perPage : currSearch.get('per_page');
+    !isNaN(parseInt(newPage)) && searchParams.append('page', newPage);
+    !isNaN(parseInt(newPerPage)) && searchParams.append('per_page', newPerPage);
 };
 
 const Inventory = ({
