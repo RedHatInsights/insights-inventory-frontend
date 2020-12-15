@@ -56,7 +56,7 @@ export const Routes = ({ childProps: { history } }) => {
                     status={searchParams.getAll('status')}
                     source={searchParams.getAll('source')}
                     filterbyName={searchParams.getAll('hostname_or_id')}
-                    tagsFilter={searchParams.getAll('tags')?.reduce?.(tagsMapper, [])}
+                    tagsFilter={searchParams.getAll('tags')?.[0]?.split?.(',').reduce?.(tagsMapper, [])}
                     page={searchParams.getAll('page')}
                     perPage={searchParams.getAll('per_page')}
                 />}
