@@ -3,7 +3,7 @@ import { mount as enzymeMount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
 import * as ReactRouterDOM from 'react-router-dom';
-import * as inventory from '@redhat-cloud-services/frontend-components-inventory';
+import { inventoryConnector } from '@redhat-cloud-services/frontend-components-inventory';
 import configureStore from 'redux-mock-store';
 
 import InventoryTable, { calculatePagination } from './InventoryTable';
@@ -104,7 +104,10 @@ describe('InventoryTable', () => {
     beforeEach(() => {
         mockStore = configureStore();
 
-        jest.spyOn(loader, 'InventoryTable').mockImplementation(() => (inventory));
+        jest.spyOn(loader, 'InventoryTable').mockImplementation((props) => {
+            const InvTable = inventoryConnector().InventoryTable;
+            return <InvTable {...props} />;
+        });
     });
 
     it('renders correctly when write permissions', async () => {
