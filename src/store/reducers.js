@@ -1,11 +1,17 @@
 import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from '../constants';
+import systemProfileStore from '@redhat-cloud-services/frontend-components-inventory-general-info/esm/systemProfileStore';
 import {
-    systemProfileStore
-} from '@redhat-cloud-services/frontend-components-inventory-general-info/cjs';
-import { ComplianceTab, VulnerabilityTab, AdvisorTab, GeneralInformationTab } from '../components/inventory';
-import PatchMan from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
-import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
-import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/helpers';
+    ComplianceTab,
+    VulnerabilityTab,
+    AdvisorTab,
+    GeneralInformationTab
+} from '../components/inventory';
+import PatchMan, {
+    SystemPackageListStore,
+    SystemAdvisoryListStore
+} from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
+import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/esm/ReducerRegistry';
+import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/esm/helpers';
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 
 import permissionsReducer from './permissions/reducer';
@@ -121,7 +127,9 @@ function onSetPagination(state, { payload }) {
 let reducers = {
     notifications,
     systemProfileStore,
-    permissionsReducer
+    permissionsReducer,
+    SystemPackageListStore,
+    SystemAdvisoryListStore
 };
 
 export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash(
