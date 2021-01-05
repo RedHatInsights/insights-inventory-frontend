@@ -7,15 +7,13 @@ import App from './App';
 import { getBaseName } from '@redhat-cloud-services/frontend-components-utilities/files/esm/helpers';
 import logger from 'redux-logger';
 
-const InventoryApp = ({ useLogger }) => {
-    return (
-        <Provider store={(useLogger ? init(logger) : init()).getStore()}>
-            <Router basename={getBaseName(window.location.pathname)}>
-                <App />
-            </Router>
-        </Provider>
-    );
-};
+const InventoryApp = ({ useLogger }) => (
+    <Provider store={(useLogger ? init(logger) : init()).getStore()}>
+        <Router basename={getBaseName(window.location.pathname)}>
+            <App />
+        </Router>
+    </Provider>
+);
 
 InventoryApp.propTypes = {
     useLogger: PropTypes.bool
@@ -26,4 +24,3 @@ InventoryApp.defaultProps = {
 };
 
 export default InventoryApp;
-
