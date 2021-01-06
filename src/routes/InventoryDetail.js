@@ -71,6 +71,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
                 </Breadcrumb>
                 {
                     !loading && <InventoryDetailHead
+                        fallback=""
                         hideBack
                         showTags
                         hideInvLink
@@ -82,7 +83,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
             <Main className={classnames(additionalClasses)}>
                 <Grid gutter="md">
                     <GridItem span={12}>
-                        <AppInfo showTags />
+                        <AppInfo showTags fallback="" />
                     </GridItem>
                 </Grid>
             </Main>
