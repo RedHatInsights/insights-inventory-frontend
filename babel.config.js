@@ -8,7 +8,9 @@ const mapper = {
     DropdownPosition: 'dropdownConstants',
     EmptyStateVariant: 'EmptyState',
     TextListItemVariants: 'TextListItem',
-    TextListVariants: 'TextList'
+    TextListVariants: 'TextList',
+    getDefaultOUIAId: 'ouia',
+    useOUIAProps: 'ouia'
 };
 
 const FECMapper = {

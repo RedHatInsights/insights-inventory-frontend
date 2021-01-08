@@ -17,6 +17,8 @@ webpackConfig.resolve.alias = {
     '@react-pdf/renderer': resolve(__dirname, './customPDF')
 };
 
+webpackConfig.optimization.concatenateModules = false;
+
 module.exports = {
     ...webpackConfig,
     plugins
