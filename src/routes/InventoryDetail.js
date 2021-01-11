@@ -55,7 +55,7 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
             }}
         >
             <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
-                <Breadcrumb>
+                <Breadcrumb ouiaId="systems-list">
                     <BreadcrumbItem>
                         <Link to={routes.table}>Inventory</Link>
                     </BreadcrumbItem>

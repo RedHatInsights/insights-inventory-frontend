@@ -50,7 +50,7 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }
         </Split>
         <Level hasGutter>
             <LevelItem>
-                <Button variant="danger" onClick={onConfirm}>
+                <Button variant="danger" onClick={onConfirm} ouiaId="confirm-delete">
                     Remove
                 </Button>
                 <Button variant="link" onClick={() => handleModalToggle(false)}>Cancel</Button>
