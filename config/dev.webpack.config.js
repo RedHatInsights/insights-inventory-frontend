@@ -15,7 +15,8 @@ plugins.push(
 
 webpackConfig.resolve.alias = {
     ...webpackConfig.resolve.alias,
-    '@react-pdf/renderer': resolve(__dirname, './customPDF')
+    '@react-pdf/renderer': resolve(__dirname, './customPDF'),
+    reactRedux: resolve(__dirname, '../node_modules/react-redux')
 };
 
 module.exports = {
