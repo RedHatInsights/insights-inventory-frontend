@@ -32,11 +32,11 @@ class App extends Component {
 
     render () {
         return (
-            <React.Fragment>
+            <div className="inventory">
                 <NotificationsPortal />
                 <PermissionLoader />
                 <Routes childProps={this.props} />
-            </React.Fragment>
+            </div>
         );
     }
 }
