@@ -21,7 +21,7 @@ const FECMapper = {
 const NotificationMapper = {
     REMOVE_NOTIFICATION: 'actionTypes',
     ADD_NOTIFICATION: 'actionTypes',
-    NotificationsPortal: 'NotificationPortal',
+    NotificationsPortal: 'NotificationPortal/index',
     addNotification: 'actions'
 };
 
@@ -57,7 +57,9 @@ module.exports = {
             {
                 '@redhat-cloud-services/frontend-components-notifications': {
                     transform: (importName) =>
-                        `@redhat-cloud-services/frontend-components-notifications/esm/${NotificationMapper[importName] || importName}.js`,
+                        `@redhat-cloud-services/frontend-components-notifications/${
+                            NotificationMapper[importName] || importName
+                        }.js`,
                     preventFullImport: true
                 },
                 '@redhat-cloud-services/frontend-components': {
