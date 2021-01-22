@@ -12,7 +12,7 @@ import PatchMan, {
 } from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/esm/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/esm/helpers';
-import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
+import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 
 import permissionsReducer from './permissions/reducer';
 
@@ -125,7 +125,7 @@ function onSetPagination(state, { payload }) {
 }
 
 let reducers = {
-    notifications,
+    notifications: notificationsReducer,
     systemProfileStore,
     permissionsReducer,
     SystemPackageListStore,
