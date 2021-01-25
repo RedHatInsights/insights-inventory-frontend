@@ -1,5 +1,5 @@
-import MiddlewareListener from '@redhat-cloud-services/frontend-components-utilities/files/esm/MiddlewareListener';
-import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/esm/Registry';
+import MiddlewareListener from '@redhat-cloud-services/frontend-components-utilities/MiddlewareListener';
+import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import promise  from 'redux-promise-middleware';
 export { default as reducers, entitiesReducer, entitesDetailReducer } from './reducers';

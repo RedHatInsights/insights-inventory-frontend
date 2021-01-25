@@ -10,8 +10,8 @@ import PatchMan, {
     SystemPackageListStore,
     SystemAdvisoryListStore
 } from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
-import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/esm/ReducerRegistry';
-import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/files/esm/helpers';
+import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
+import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 
 import permissionsReducer from './permissions/reducer';

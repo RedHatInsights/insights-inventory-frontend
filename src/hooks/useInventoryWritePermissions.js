@@ -1,4 +1,4 @@
-import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/files/esm/RBACHook';
+import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 const useInventoryWritePermissions = () => {
     const { hasAccess, ...rest } = usePermissions('inventory', [
