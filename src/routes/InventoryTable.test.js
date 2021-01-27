@@ -8,12 +8,12 @@ import configureStore from 'redux-mock-store';
 
 import InventoryTable, { calculatePagination } from './InventoryTable';
 
-import * as loader from '@redhat-cloud-services/frontend-components/components/esm/Inventory';
+import * as loader from '@redhat-cloud-services/frontend-components/Inventory';
 import DeleteModal from '../components/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
 
-jest.mock('@redhat-cloud-services/frontend-components/components/esm/Inventory', () => ({
+jest.mock('@redhat-cloud-services/frontend-components/Inventory', () => ({
     __esModule: true,
     InventoryTable: jest.fn()
 }));

@@ -15,7 +15,7 @@ import TextInputModal from '@redhat-cloud-services/frontend-components-inventory
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
 
-import { InventoryTable } from '@redhat-cloud-services/frontend-components/components/esm/Inventory';
+import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))

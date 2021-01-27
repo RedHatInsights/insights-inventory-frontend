@@ -16,7 +16,7 @@ import '@redhat-cloud-services/frontend-components-inventory-insights/index.css'
 import classnames from 'classnames';
 import { routes } from '../Routes';
 
-import { InventoryDetailHead, AppInfo, DetailWrapper } from '@redhat-cloud-services/frontend-components/components/esm/Inventory';
+import { InventoryDetailHead, AppInfo, DetailWrapper } from '@redhat-cloud-services/frontend-components/Inventory';
 
 const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     const { loading, writePermissions } = useSelector(
