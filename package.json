@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": false,
   "dependencies": {
-    "@patternfly/react-core": "4.84.4",
+    "@patternfly/react-core": "4.90.1",
     "@patternfly/react-icons": "^4.7.22",
     "@patternfly/react-table": "4.19.24",
     "@redhat-cloud-services/frontend-components": "2.5.8",
