@@ -6,6 +6,19 @@ const { config: webpackConfig, plugins } = config({
     debug: true
 });
 
+plugins.push(
+    require('@redhat-cloud-services/frontend-components-config/federated-modules')({
+        root: resolve(__dirname, '../')
+    })
+);
+
+webpackConfig.resolve.alias = {
+    ...webpackConfig.resolve.alias,
+    '@react-pdf/renderer': resolve(__dirname, './customPDF')
+};
+
+webpackConfig.optimization.concatenateModules = false;
+
 module.exports = {
     ...webpackConfig,
     plugins

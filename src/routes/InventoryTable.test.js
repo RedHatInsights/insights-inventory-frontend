@@ -3,19 +3,19 @@ import { mount as enzymeMount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
 import * as ReactRouterDOM from 'react-router-dom';
-import * as inventory from '@redhat-cloud-services/frontend-components-inventory';
+import { inventoryConnector } from '@redhat-cloud-services/frontend-components-inventory';
 import configureStore from 'redux-mock-store';
 
-import InventoryTable from './InventoryTable';
+import InventoryTable, { calculatePagination } from './InventoryTable';
 
-import * as loader from '../components/inventory/AsyncInventory';
+import * as loader from '@redhat-cloud-services/frontend-components/components/esm/Inventory';
 import DeleteModal from '../components/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
 
-jest.mock('../components/inventory/AsyncInventory', () => ({
+jest.mock('@redhat-cloud-services/frontend-components/components/esm/Inventory', () => ({
     __esModule: true,
-    asyncInventoryLoader: jest.fn()
+    InventoryTable: jest.fn()
 }));
 
 describe('InventoryTable', () => {
@@ -104,7 +104,10 @@ describe('InventoryTable', () => {
     beforeEach(() => {
         mockStore = configureStore();
 
-        jest.spyOn(loader, 'asyncInventoryLoader').mockImplementation(() => (inventory));
+        jest.spyOn(loader, 'InventoryTable').mockImplementation((props) => {
+            const InvTable = inventoryConnector().InventoryTable;
+            return <InvTable {...props} />;
+        });
     });
 
     it('renders correctly when write permissions', async () => {
@@ -243,5 +246,37 @@ describe('InventoryTable', () => {
             { displayName: 'RHIQE.31ea86a9-a439-4422-9516-27c879057535.test', id: 'ed190a06-de88-4d62-aba1-88ad402720a8' }
         );
         window.XMLHttpRequest = tmp;
+    });
+});
+
+describe('calculatePagination', () => {
+    beforeEach(() => {
+        Object.defineProperty(window, 'location', {
+            configurable: true,
+            value: {
+                search: '?page=5&per_page=20'
+            }
+        });
+    });
+
+    it('should calculate from new values', () => {
+        const searchParams = new URLSearchParams();
+        calculatePagination(searchParams, 1, 50);
+        expect(searchParams.get('page')).toBe('1');
+        expect(searchParams.get('per_page')).toBe('50');
+    });
+
+    it('should calculate from old values', () => {
+        const searchParams = new URLSearchParams();
+        calculatePagination(searchParams);
+        expect(searchParams.get('page')).toBe('5');
+        expect(searchParams.get('per_page')).toBe('20');
+    });
+
+    it('should calculate from mixed values', () => {
+        const searchParams = new URLSearchParams();
+        calculatePagination(searchParams, 2);
+        expect(searchParams.get('page')).toBe('2');
+        expect(searchParams.get('per_page')).toBe('20');
     });
 });

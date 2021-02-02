@@ -29,6 +29,7 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }
         className="ins-c-inventory__table--remove"
         isOpen={isModalOpen}
         onClose={() => handleModalToggle(false)}
+        appendTo={document.getElementsByClassName('inventory')[0]}
     >
         <Split hasGutter>
             <SplitItem><ExclamationTriangleIcon size="xl" className="ins-m-alert" /></SplitItem>
@@ -50,7 +51,7 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }
         </Split>
         <Level hasGutter>
             <LevelItem>
-                <Button variant="danger" onClick={onConfirm}>
+                <Button variant="danger" onClick={onConfirm} ouiaId="confirm-delete">
                     Remove
                 </Button>
                 <Button variant="link" onClick={() => handleModalToggle(false)}>Cancel</Button>

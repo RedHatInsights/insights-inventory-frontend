@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import './App.scss';
 import { INVENTORY_ROOT } from './config';
-import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
-import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import routerParams from '@redhat-cloud-services/frontend-components-utilities/RouterParams';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import { reducers } from './store';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import PermissionLoader from './components/PermissionsLoader';
@@ -32,11 +32,11 @@ class App extends Component {
 
     render () {
         return (
-            <React.Fragment>
+            <div className="inventory">
                 <NotificationsPortal />
                 <PermissionLoader />
                 <Routes childProps={this.props} />
-            </React.Fragment>
+            </div>
         );
     }
 }

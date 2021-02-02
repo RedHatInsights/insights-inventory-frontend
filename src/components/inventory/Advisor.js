@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useStore } from 'react-redux';
-import Advisor from '@redhat-cloud-services/frontend-components-inventory-insights/cjs';
+
+const Advisor = lazy(() => import('@redhat-cloud-services/frontend-components-inventory-insights/esm'));
 
 const AdvisorTab = () => {
-    return <Advisor store={useStore()} />;
+    return <Suspense fallback="">
+        <Advisor store={useStore()} />
+    </Suspense>;
 };
 
 export default AdvisorTab;

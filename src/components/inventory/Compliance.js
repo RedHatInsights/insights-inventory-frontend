@@ -1,10 +1,13 @@
-import React from 'react';
-import Compliance from '@redhat-cloud-services/frontend-components-inventory-compliance';
+import React, { lazy, Suspense } from 'react';
 import '@redhat-cloud-services/frontend-components-inventory-compliance/index.css';
 import { useParams } from 'react-router-dom';
 
-const ComplianceTab = () => <Compliance customItnl intlProps={{
-    locale: navigator.language
-}} inventoryId={ useParams().inventoryId } />;
+const Compliance = lazy(() => import('@redhat-cloud-services/frontend-components-inventory-compliance/esm'));
+
+const ComplianceTab = () => <Suspense fallback="">
+    <Compliance customItnl intlProps={{
+        locale: navigator.language
+    }} inventoryId={ useParams().inventoryId } />
+</Suspense>;
 
 export default ComplianceTab;

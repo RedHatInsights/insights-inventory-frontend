@@ -1,9 +1,10 @@
 import { Route, Switch, matchPath } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import React from 'react';
-import InventoryTable from './routes/InventoryTable';
-import InventoryDetail from './routes/InventoryDetail';
+import React, { lazy, Suspense } from 'react';
 import { tagsMapper } from './constants';
+
+const InventoryTable = lazy(() => import('./routes/InventoryTable'));
+const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
     const root = document.getElementById('root');
@@ -48,22 +49,24 @@ export const Routes = ({ childProps: { history } }) => {
     }
 
     return (
-        <Switch>
-            <InsightsRoute
-                exact
-                path={routes.table}
-                render={() => <InventoryTable
-                    status={searchParams.getAll('status')}
-                    source={searchParams.getAll('source')}
-                    filterbyName={searchParams.getAll('hostname_or_id')}
-                    tagsFilter={searchParams.getAll('tags')?.reduce?.(tagsMapper, [])}
-                    page={searchParams.getAll('page')}
-                    perPage={searchParams.getAll('per_page')}
-                />}
-                rootClass='inventory'
-            />
-            <InsightsRoute path={routes.detail} component={InventoryDetail} rootClass='inventory' />
-        </Switch>
+        <Suspense fallback="">
+            <Switch>
+                <InsightsRoute
+                    exact
+                    path={routes.table}
+                    render={() => <InventoryTable
+                        status={searchParams.getAll('status')}
+                        source={searchParams.getAll('source')}
+                        filterbyName={searchParams.getAll('hostname_or_id')}
+                        tagsFilter={searchParams.getAll('tags')?.[0]?.split?.(',').reduce?.(tagsMapper, [])}
+                        page={searchParams.getAll('page')}
+                        perPage={searchParams.getAll('per_page')}
+                    />}
+                    rootClass='inventory'
+                />
+                <InsightsRoute path={routes.detail} component={InventoryDetail} rootClass='inventory' />
+            </Switch>
+        </Suspense>
     );
 };
 
