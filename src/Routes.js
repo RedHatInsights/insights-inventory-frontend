@@ -6,20 +6,6 @@ import { tagsMapper } from './constants';
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 
-const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
-    const root = document.getElementById('root');
-    root.removeAttribute('class');
-    root.classList.add(`page__${rootClass}`, 'pf-c-page__main');
-    root.classList.add(`page__${rootClass}`, 'pf-l-page__main');
-
-    return (<Route {...rest} component={Component}/>);
-};
-
-InsightsRoute.propTypes = {
-    component: PropTypes.func,
-    rootClass: PropTypes.string
-};
-
 export const routes = {
     table: '/',
     detail: '/:inventoryId'
@@ -51,7 +37,7 @@ export const Routes = ({ childProps: { history } }) => {
     return (
         <Suspense fallback="">
             <Switch>
-                <InsightsRoute
+                <Route
                     exact
                     path={routes.table}
                     render={() => <InventoryTable
@@ -64,7 +50,7 @@ export const Routes = ({ childProps: { history } }) => {
                     />}
                     rootClass='inventory'
                 />
-                <InsightsRoute path={routes.detail} component={InventoryDetail} rootClass='inventory' />
+                <Route path={routes.detail} component={InventoryDetail} rootClass='inventory' />
             </Switch>
         </Suspense>
     );
