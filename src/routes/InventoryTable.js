@@ -11,11 +11,11 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../components/DeleteModal';
-import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/esm/TextInputModal';
+import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
 
-import { InventoryTable } from '@redhat-cloud-services/frontend-components/components/esm/Inventory';
+import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))

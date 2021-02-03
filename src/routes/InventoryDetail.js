@@ -11,12 +11,11 @@ import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import routerParams from '@redhat-cloud-services/frontend-components-utilities/RouterParams';
 import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
-import '@redhat-cloud-services/frontend-components-inventory-general-info/index.css';
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 
-import { InventoryDetailHead, AppInfo, DetailWrapper } from '@redhat-cloud-services/frontend-components/components/esm/Inventory';
+import { InventoryDetailHead, AppInfo, DetailWrapper } from '@redhat-cloud-services/frontend-components/Inventory';
 
 const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
     const { loading, writePermissions } = useSelector(
