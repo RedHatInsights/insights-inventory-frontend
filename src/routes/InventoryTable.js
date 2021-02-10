@@ -1,14 +1,13 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { connect, shallowEqual, useSelector } from 'react-redux';
 import './inventory.scss';
 import routerParams from '@redhat-cloud-services/frontend-components-utilities/RouterParams';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
-import { entitiesReducer } from '../store';
+import { entitiesReducer, RegistryContext } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
-import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
@@ -82,6 +81,7 @@ const Inventory = ({
     setPagination
 }) => {
     document.title = 'Inventory | Red Hat Insights';
+    const { getRegistry } = useContext(RegistryContext);
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
@@ -132,7 +132,7 @@ const Inventory = ({
         insights.chrome.appObjectId();
         insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
             const [workloads, SID, tags] = insights.chrome?.mapGlobalFilter?.(data, false, true);
-            setGlobalFilter({
+            setGlobalFilter(() => ({
                 tags,
                 filter: {
                     ...globalFilter?.filter,
@@ -142,7 +142,7 @@ const Inventory = ({
                         ...SID?.length > 0 && { sap_sids: SID }
                     }
                 }
-            });
+            }));
             if (inventory.current) {
                 inventory.current.onRefreshData({});
             }
