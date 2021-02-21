@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector, shallowEqual } from 'react-redux';
 import './inventory.scss';
 import '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm/index.css';
 import { Link } from 'react-router-dom';
-import { entitesDetailReducer } from '../store';
+import { entitesDetailReducer, RegistryContext } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import routerParams from '@redhat-cloud-services/frontend-components-utilities/RouterParams';
-import { getRegistry } from '@redhat-cloud-services/frontend-components-utilities/Registry';
 import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
 import '@redhat-cloud-services/frontend-components-inventory-insights/index.css';
 import classnames from 'classnames';
@@ -18,6 +17,7 @@ import { routes } from '../Routes';
 import { InventoryDetailHead, AppInfo, DetailWrapper } from '@redhat-cloud-services/frontend-components/Inventory';
 
 const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
+    const { getRegistry } = useContext(RegistryContext);
     const { loading, writePermissions } = useSelector(
         ({ permissionsReducer }) =>
             ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),

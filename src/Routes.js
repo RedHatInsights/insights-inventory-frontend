@@ -1,5 +1,4 @@
-import { Route, Switch, matchPath } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Route, Switch, matchPath, useHistory } from 'react-router-dom';
 import React, { lazy, Suspense } from 'react';
 import { tagsMapper } from './constants';
 
@@ -21,7 +20,8 @@ function checkPaths(technology, app) {
     );
 }
 
-export const Routes = ({ childProps: { history } }) => {
+export const Routes = () => {
+    const history = useHistory();
     const pathName = window.location.pathname.split('/');
     const searchParams = new URLSearchParams(location.search);
     pathName.shift();
@@ -54,15 +54,4 @@ export const Routes = ({ childProps: { history } }) => {
             </Switch>
         </Suspense>
     );
-};
-
-Routes.propTypes = {
-    childProps: PropTypes.shape({
-        history: PropTypes.shape({
-            push: PropTypes.func,
-            location: PropTypes.shape({
-                search: PropTypes.string
-            })
-        })
-    })
 };
