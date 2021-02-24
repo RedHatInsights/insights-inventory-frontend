@@ -1,6 +1,7 @@
 import { Route, Switch, matchPath, useHistory } from 'react-router-dom';
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useContext } from 'react';
 import { tagsMapper } from './constants';
+import { reducers, RegistryContext } from './store';
 
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
@@ -21,6 +22,8 @@ function checkPaths(technology, app) {
 }
 
 export const Routes = () => {
+    const { getRegistry } = useContext(RegistryContext);
+    getRegistry().register(reducers);
     const history = useHistory();
     const pathName = window.location.pathname.split('/');
     const searchParams = new URLSearchParams(location.search);

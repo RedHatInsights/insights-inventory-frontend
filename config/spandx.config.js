@@ -6,8 +6,8 @@ const localhost = (process.env.PLATFORM === 'linux') ? 'localhost' : 'host.docke
 
 module.exports = {
     routes: {
-        '/rhcs/inventory': { host: `https://${localhost}:8002` },
-        '/insights/inventory': { host: `https://${localhost}:8002` },
-        '/apps/inventory': { host: `https://${localhost}:8002` }
+        '/rhcs/inventory': { host: `http://${localhost}:8002` },
+        '/insights/inventory': { host: `http://${localhost}:8002` },
+        '/apps/inventory': { host: `http://${localhost}:8002` }
     }
 };
