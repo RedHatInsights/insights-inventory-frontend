@@ -1,5 +1,5 @@
 import { Route, Switch, matchPath, useHistory } from 'react-router-dom';
-import React, { lazy, Suspense, useContext } from 'react';
+import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { tagsMapper } from './constants';
 import { reducers, RegistryContext } from './store';
 
@@ -23,7 +23,9 @@ function checkPaths(technology, app) {
 
 export const Routes = () => {
     const { getRegistry } = useContext(RegistryContext);
-    getRegistry().register(reducers);
+    useEffect(() => {
+        getRegistry().register(reducers);
+    }, [getRegistry]);
     const history = useHistory();
     const pathName = window.location.pathname.split('/');
     const searchParams = new URLSearchParams(location.search);
