@@ -13,7 +13,7 @@
     "@redhat-cloud-services/frontend-components-inventory-patchman": "^1.11.1",
     "@redhat-cloud-services/frontend-components-inventory-vulnerabilities": "^1.62.1",
     "@redhat-cloud-services/frontend-components-notifications": "3.0.3",
-    "@redhat-cloud-services/frontend-components-remediations": "^2.3.9",
+    "@redhat-cloud-services/frontend-components-remediations": "^3.0.0",
     "@redhat-cloud-services/frontend-components-utilities": "3.0.2",
     "@redhat-cloud-services/host-inventory-client": "1.0.93",
     "classnames": "^2.2.6",
