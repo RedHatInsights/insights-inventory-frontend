@@ -18,7 +18,7 @@
     "@redhat-cloud-services/host-inventory-client": "1.0.93",
     "classnames": "^2.2.6",
     "graphql": "^15.5.0",
-    "marked": "^1.2.8",
+    "marked": "^2.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-intl": "^5.12.0",
