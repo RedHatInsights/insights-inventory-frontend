@@ -3,7 +3,7 @@ import { mount as enzymeMount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
 import * as ReactRouterDOM from 'react-router-dom';
-import { inventoryConnector } from '@redhat-cloud-services/frontend-components-inventory';
+import { inventoryConnector } from '@redhat-cloud-services/frontend-components-inventory/inventoryConnector';
 import configureStore from 'redux-mock-store';
 
 import InventoryTable, { calculatePagination } from './InventoryTable';
