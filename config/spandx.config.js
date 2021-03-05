@@ -8,6 +8,8 @@ module.exports = {
     routes: {
         '/rhcs/inventory': { host: `http://${localhost}:8002` },
         '/insights/inventory': { host: `http://${localhost}:8002` },
-        '/apps/inventory': { host: `http://${localhost}:8002` }
+        '/apps/inventory': { host: `http://${localhost}:8002` },
+        '/beta/apps/inventory': { host: `http://${localhost}:8002` },
+        '/beta/insights/inventory': { host: `http://${localhost}:8002` }
     }
 };
