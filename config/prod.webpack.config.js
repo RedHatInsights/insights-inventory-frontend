@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* global module, __dirname */
 const { resolve } = require('path');
 const config = require('@redhat-cloud-services/frontend-components-config');
@@ -14,6 +15,7 @@ plugins.push(
 
 webpackConfig.resolve.alias = {
     ...webpackConfig.resolve.alias,
+    'html-webpack-plugin': resolve(__dirname, '../node_modules/html-webpack-plugin'),
     '@react-pdf/renderer': resolve(__dirname, './customPDF')
 };
 
