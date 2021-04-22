@@ -64,7 +64,7 @@ module.exports = {
                 },
                 '@redhat-cloud-services/frontend-components': {
                     transform: (importName) =>
-                        `@redhat-cloud-services/frontend-components/components/esm/${FECMapper[importName] || importName}.js`,
+                        `@redhat-cloud-services/frontend-components/${FECMapper[importName] || importName}`,
                     preventFullImport: true,
                     skipDefaultConversion: true
                 },
