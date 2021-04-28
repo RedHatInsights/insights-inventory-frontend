@@ -68,7 +68,7 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/runtime": "^7.13.17",
     "@redhat-cloud-services/frontend-components-config": "4.0.26",
-    "@redhat-cloud-services/frontend-components-inventory": "3.1.9",
+    "@redhat-cloud-services/frontend-components-inventory": "3.1.12",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
