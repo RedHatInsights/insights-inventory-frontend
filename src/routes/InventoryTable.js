@@ -87,7 +87,7 @@ const Inventory = ({
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
-    const [globalFilter, setGlobalFilter] = useState();
+    const [{ globalFilterChanged, ...globalFilter }, setGlobalFilter] = useState({ globalFilterChanged: 0 });
     const { loading, writePermissions } = useSelector(
         ({ permissionsReducer }) =>
             ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
@@ -132,7 +132,8 @@ const Inventory = ({
         insights.chrome.appObjectId();
         insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
             const [workloads, SID, tags] = insights.chrome?.mapGlobalFilter?.(data, false, true);
-            setGlobalFilter(() => ({
+            setGlobalFilter(({ globalFilterChanged }) => ({
+                globalFilterChanged: globalFilterChanged + 1,
                 tags,
                 filter: {
                     ...globalFilter?.filter,
@@ -143,12 +144,15 @@ const Inventory = ({
                     }
                 }
             }));
-            if (inventory.current) {
-                inventory.current.onRefreshData({});
-            }
         });
         clearNotifications();
     }, []);
+
+    useEffect(() => {
+        if (inventory.current && globalFilterChanged) {
+            inventory.current.onRefreshData({});
+        }
+    }, [globalFilterChanged]);
 
     const calculateSelected = () => selected ? selected.size : 0;
 
