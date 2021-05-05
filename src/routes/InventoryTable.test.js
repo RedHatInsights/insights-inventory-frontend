@@ -106,7 +106,7 @@ describe('InventoryTable', () => {
 
         jest.spyOn(loader, 'InventoryTable').mockImplementation((props) => {
             const InvTable = inventoryConnector().InventoryTable;
-            return <InvTable {...props} />;
+            return <InvTable {...props} initialLoading={false} />;
         });
     });
 
