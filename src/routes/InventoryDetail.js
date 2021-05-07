@@ -28,6 +28,11 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
         insights.chrome?.hideGlobalFilter?.(true);
         insights.chrome.appAction('system-detail');
         clearNotifications();
+
+        const splitUrl = window.location.href.split('/insights');
+        if(splitUrl.length === 3) {
+            window.location = `${splitUrl[0]}/insights${splitUrl[1]}`;
+        }
     }, []);
 
     const additionalClasses = {
