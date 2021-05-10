@@ -1,18 +1,21 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
-
-const Compliance = lazy(() => import('@redhat-cloud-services/frontend-components-inventory-compliance/Compliance'));
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import fallback from '../SpinnerFallback';
 
 const ComplianceTab = () => {
     const { params } = useRouteMatch('/:inventoryId');
 
-    return (
-        <Suspense fallback="">
-            <Compliance customItnl intlProps={{
-                locale: navigator.language
-            }} inventoryId={ params.inventoryId } />
-        </Suspense>
-    );
+    return <AsyncComponent
+        appName="compliance"
+        module="./SystemDetail"
+        fallback={fallback}
+        inventoryId={ params.inventoryId }
+        customItnl
+        intlProps={{
+            locale: navigator.language
+        }}
+    />;
 };
 
 export default ComplianceTab;
