@@ -1,12 +1,19 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { useStore } from 'react-redux';
-
-const Advisor = lazy(() => import('@redhat-cloud-services/frontend-components-inventory-insights/esm'));
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import fallback from '../SpinnerFallback';
 
 const AdvisorTab = () => {
-    return <Suspense fallback="">
-        <Advisor store={useStore()} />
-    </Suspense>;
+    return <AsyncComponent
+        appName="advisor"
+        module="./SystemDetail"
+        fallback={fallback}
+        store={useStore()}
+        customItnl
+        intlProps={{
+            locale: navigator.language
+        }}
+    />;
 };
 
 export default AdvisorTab;
