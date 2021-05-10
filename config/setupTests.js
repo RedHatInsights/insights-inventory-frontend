@@ -3,6 +3,10 @@ import { configure, mount, render, shallow } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import React from 'react';
 import 'whatwg-fetch';
+jest.mock('react', () => ({
+    ...jest.requireActual('react'),
+    useLayoutEffect: jest.requireActual('react').useEffect
+}));
 
 configure({ adapter: new Adapter() });
 

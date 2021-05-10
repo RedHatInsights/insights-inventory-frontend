@@ -22,6 +22,7 @@ globals:
   render: true
   shallow: true
   React: true
+  IS_DEV: true
 rules:
   no-console: 1
   array-bracket-spacing: 2
