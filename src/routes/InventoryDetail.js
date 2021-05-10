@@ -28,6 +28,14 @@ const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
         insights.chrome?.hideGlobalFilter?.(true);
         insights.chrome.appAction('system-detail');
         clearNotifications();
+
+        // BZ: RHEL cockpit is linking to crc/insights/inventory/{}/insights
+        // which results in a page error, catch that and redirect
+        // TODO Remove me when BZ is fixed
+        const splitUrl = window.location.href.split('/insights');
+        if (splitUrl.length === 3) {
+            window.location = `${splitUrl[0]}/insights${splitUrl[1]}`;
+        }
     }, []);
 
     const additionalClasses = {
