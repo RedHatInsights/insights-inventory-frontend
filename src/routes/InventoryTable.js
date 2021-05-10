@@ -1,20 +1,25 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { connect, shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './inventory.scss';
-import routerParams from '@redhat-cloud-services/frontend-components-utilities/RouterParams';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
 import { entitiesReducer, RegistryContext } from '../store';
 import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../components/DeleteModal';
 import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
 
 import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
+
+const reloadWrapper = (event, callback) => {
+    event.payload.then(callback);
+    return event;
+};
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
@@ -62,37 +67,42 @@ export const calculatePagination = (searchParams, page, perPage) => {
 };
 
 const Inventory = ({
-    clearNotifications,
-    deleteEntity,
-    addNotification,
-    loaded,
-    rows,
-    updateDisplayName,
-    onSelectRows,
-    selected,
     status,
-    setFilter,
-    history,
     source,
     filterbyName,
     tagsFilter,
     page,
-    perPage,
-    setPagination
+    perPage
 }) => {
     document.title = 'Inventory | Red Hat Insights';
+    const history = useHistory();
     const { getRegistry } = useContext(RegistryContext);
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
-    const [{ globalFilterChanged, ...globalFilter }, setGlobalFilter] = useState({ globalFilterChanged: 0 });
+    const [globalFilter, setGlobalFilter] = useState();
     const { loading, writePermissions } = useSelector(
         ({ permissionsReducer }) =>
             ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
         shallowEqual
     );
+
+    const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
+    const loaded = useSelector(({ entities }) => entities?.loaded);
+    const selected = useSelector(({ entities }) => entities?.selected);
+    const dispatch = useDispatch();
+
+    const clearNotifications = () => dispatch(actions.clearNotifications());
+    const deleteEntity = (id, hostName, callback) => dispatch(reloadWrapper(actions.deleteEntity(id, hostName), callback));
+    const addNotification = (payload) => dispatch(addNotificationAction(payload));
+    const updateDisplayName = (id, displayName, callback) => dispatch(
+        reloadWrapper(actions.editDisplayName(id, displayName), callback)
+    );
+    const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
+    const setFilter = (filtersList) => filtersList?.length > 0 && dispatch(actions.setFilter(filtersList));
+    const setPagination = (page, perPage) => dispatch(actions.setPagination(page, perPage));
 
     const onRefresh = (options, callback) => {
         if (!options?.filters) {
@@ -119,7 +129,7 @@ const Inventory = ({
             hash: location.hash
         });
 
-        if (!callback && inventory && inventory.current) {
+        if (!callback && inventory?.current) {
             inventory.current.onRefreshData(options);
         } else if (callback) {
             callback(options);
@@ -132,8 +142,7 @@ const Inventory = ({
         insights.chrome.appObjectId();
         insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
             const [workloads, SID, tags] = insights.chrome?.mapGlobalFilter?.(data, false, true);
-            setGlobalFilter(({ globalFilterChanged }) => ({
-                globalFilterChanged: globalFilterChanged + 1,
+            setGlobalFilter({
                 tags,
                 filter: {
                     ...globalFilter?.filter,
@@ -143,16 +152,10 @@ const Inventory = ({
                         ...SID?.length > 0 && { sap_sids: SID }
                     }
                 }
-            }));
+            });
         });
         clearNotifications();
     }, []);
-
-    useEffect(() => {
-        if (inventory.current && globalFilterChanged) {
-            inventory.current.onRefreshData({});
-        }
-    }, [globalFilterChanged]);
 
     const calculateSelected = () => selected ? selected.size : 0;
 
@@ -172,6 +175,8 @@ const Inventory = ({
                                 showTags
                                 onRefresh={onRefresh}
                                 hasCheckbox={writePermissions}
+                                autoRefresh
+                                initialLoading
                                 {...(writePermissions && {
                                     actions: [
                                         {
@@ -292,58 +297,13 @@ const Inventory = ({
     );
 };
 
-Inventory.contextTypes = {
-    store: PropTypes.object
-};
-
 Inventory.propTypes = {
-    rows: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        selected: PropTypes.bool
-    })),
-    loaded: PropTypes.bool,
-    loadEntity: PropTypes.func,
-    clearNotifications: PropTypes.func,
-    deleteEntity: PropTypes.func,
-    addNotification: PropTypes.func,
-    updateDisplayName: PropTypes.func,
-    onSelectRows: PropTypes.func,
-    setFilter: PropTypes.func,
-    selected: PropTypes.object,
     status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     source: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     filterbyName: PropTypes.string,
     tagsFilter: PropTypes.any,
-    history: PropTypes.shape({
-        push: PropTypes.func
-    }),
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    setPagination: PropTypes.func
+    perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
-function mapDispatchToProps(dispatch) {
-    const reloadWrapper = (event, callback) => {
-        event.payload.then(callback);
-        return event;
-    };
-
-    return {
-        loadEntity: (id) => dispatch(actions.loadEntity(id)),
-        clearNotifications: () => dispatch(actions.clearNotifications()),
-        deleteEntity: (id, hostName, callback) => dispatch(reloadWrapper(actions.deleteEntity(id, hostName), callback)),
-        addNotification: (payload) => dispatch(addNotification(payload)),
-        updateDisplayName: (id, displayName, callback) => dispatch(
-            reloadWrapper(actions.editDisplayName(id, displayName), callback)
-        ),
-        onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected)),
-        setFilter: (filtersList) => filtersList?.length > 0 && dispatch(actions.setFilter(filtersList)),
-        setPagination: (page, perPage) => dispatch(actions.setPagination(page, perPage))
-    };
-}
-
-export default routerParams(connect(({ entities }) => ({
-    rows: entities && entities.rows,
-    loaded: entities && entities.loaded,
-    selected: entities && entities.selected
-}), mapDispatchToProps)(Inventory));
+export default Inventory;
