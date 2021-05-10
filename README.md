@@ -24,6 +24,32 @@ SPANDX_CONFIG="$(pwd)/insights-inventory-frontend/config/spandx.config.js" bash 
 2. ```npm run start```
     - starts webpack bundler and serves the files with webpack dev server
 
+### Running the app without insights-proxy
+
+You don't have to run insights proxy to serve your application, you can use built in `webpack-proxy` by running
+```
+npm run start:proxy
+```
+
+### Running in beta environment
+
+If you want to run inventory app in beta environment accessible on `/beta/insights/inventory` you can do that by add `BETA=true` before each start command
+
+```
+BETA=true npm start
+```
+
+or
+
+```
+BETA=true npm run start:proxy
+```
+
+or building for beta environment
+```
+BETA=true npm run build
+```
+
 ### Testing
 There is an npm script that runs the build, JS and CSS linters and unit tests. The script can be invoked by
 `npm run verify`
