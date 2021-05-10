@@ -4,12 +4,9 @@ import {
     ComplianceTab,
     VulnerabilityTab,
     AdvisorTab,
-    GeneralInformationTab
+    GeneralInformationTab,
+    PatchTab
 } from '../components/inventory';
-import PatchMan, {
-    SystemPackageListStore,
-    SystemAdvisoryListStore
-} from '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
@@ -54,7 +51,7 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
             isEntitled(entitlements && entitlements.insights) && {
                 title: 'Patch',
                 name: 'patch',
-                component: PatchMan
+                component: PatchTab
             }
         ].filter(Boolean)
     };
@@ -127,9 +124,7 @@ function onSetPagination(state, { payload }) {
 let reducers = {
     notifications: notificationsReducer,
     systemProfileStore,
-    permissionsReducer,
-    SystemPackageListStore,
-    SystemAdvisoryListStore
+    permissionsReducer
 };
 
 export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash(
