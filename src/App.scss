@@ -5,3 +5,10 @@ table.ins-entity-table th {
     padding: 1rem;
     padding-left: 2rem;
 }
+
+.pf-c-select__toggle-text {
+	text-transform: lowercase;
+	&:first-letter{
+        text-transform: capitalize
+    }
+}
