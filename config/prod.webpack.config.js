@@ -17,6 +17,10 @@ plugins.push(
     })
 );
 
+plugins.push(new webpack.DefinePlugin({
+    IS_DEV: false
+}));
+
 webpackConfig.resolve.alias = {
     ...webpackConfig.resolve.alias,
     'html-webpack-plugin': resolve(__dirname, '../node_modules/html-webpack-plugin'),
