@@ -1,5 +1,5 @@
 import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from './constants';
-import { getEntity, hosts } from './api';
+import { getEntity, hosts, getEntitySystemProfile } from './api';
 
 export const deleteEntity = (systems, displayName) => ({
     type: ACTION_TYPES.REMOVE_ENTITY,
@@ -58,5 +58,24 @@ export const setPagination = (page, perPage) => ({
     type: SET_PAGINATION,
     payload: {
         page, perPage
+    }
+});
+
+export const systemProfile = (itemId) => ({
+    type: ACTION_TYPES.LOAD_SYSTEM_PROFILE,
+    payload: getEntitySystemProfile(itemId, {})
+});
+
+export const editAnsibleHost = (id, value) => ({
+    type: ACTION_TYPES.SET_ANSIBLE_HOST,
+    payload: hosts.apiHostPatchById([id], { ansible_host: value }), // eslint-disable-line camelcase
+    meta: {
+        notifications: {
+            fulfilled: {
+                variant: 'success',
+                title: 'Ansible hostname has been updated',
+                dismissable: true
+            }
+        }
     }
 });

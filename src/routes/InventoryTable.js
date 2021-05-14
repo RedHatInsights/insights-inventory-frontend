@@ -10,7 +10,7 @@ import * as actions from '../actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../components/DeleteModal';
-import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
+import { TextInputModal } from '../components/inventory/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
 

@@ -1,5 +1,5 @@
 import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from '../constants';
-import systemProfileStore from '@redhat-cloud-services/frontend-components-inventory-general-info/redux';
+import systemProfileStore from './systemProfileStore';
 import {
     ComplianceTab,
     VulnerabilityTab,
