@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector, shallowEqual } from 'react-redux';
 import './inventory.scss';
-import '@redhat-cloud-services/frontend-components-inventory-patchman/dist/esm/index.css';
 import { Link } from 'react-router-dom';
 import { entitesDetailReducer, RegistryContext } from '../store';
 import * as actions from '../actions';
