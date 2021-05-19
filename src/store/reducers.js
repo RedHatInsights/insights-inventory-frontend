@@ -5,7 +5,8 @@ import {
     VulnerabilityTab,
     AdvisorTab,
     GeneralInformationTab,
-    PatchTab
+    PatchTab,
+    RosTab
 } from '../components/inventory';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
@@ -52,7 +53,13 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
                 title: 'Patch',
                 name: 'patch',
                 component: PatchTab
+            },
+            isEntitled(entitlements && entitlements.insights) && {
+                title: 'Resource Optimization',
+                name: 'ros',
+                component: RosTab
             }
+
         ].filter(Boolean)
     };
 }
