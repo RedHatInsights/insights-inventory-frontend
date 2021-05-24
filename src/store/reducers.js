@@ -33,6 +33,10 @@ function entitiesLoaded(state, { payload }) {
 }
 
 function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
+
+    const hasRosCookie = insights.chrome.visibilityFunctions.isProd() ?
+        insights.chrome.visibilityFunctions.hasCookie('cs_ros_beta_enable', '1') : true;
+
     return {
         ...state,
         loaded: true,
@@ -54,7 +58,7 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
                 name: 'patch',
                 component: PatchTab
             },
-            isEntitled(entitlements && entitlements.insights) && {
+            isEntitled(entitlements && entitlements.insights) && hasRosCookie && {
                 title: 'Resource Optimization',
                 name: 'ros',
                 component: RosTab

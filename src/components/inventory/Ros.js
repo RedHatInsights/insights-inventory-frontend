@@ -11,10 +11,9 @@ const RosTab = () => {
     return <AsyncComponent
         appName="ros"
         module="./SystemDetail"
-        getRegistry={getRegistry}
+        getRegistry={ getRegistry }
         fallback={fallback}
-        customItnlProvider
-        entity={ { id: params.inventoryId } }
+        inventoryId={ params.inventoryId }
     />;
 };
 
