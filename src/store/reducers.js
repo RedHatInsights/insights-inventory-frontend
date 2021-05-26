@@ -5,7 +5,8 @@ import {
     VulnerabilityTab,
     AdvisorTab,
     GeneralInformationTab,
-    PatchTab
+    PatchTab,
+    RosTab
 } from '../components/inventory';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
@@ -32,6 +33,10 @@ function entitiesLoaded(state, { payload }) {
 }
 
 function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
+
+    const hasRosCookie = insights.chrome.visibilityFunctions.isProd() ?
+        insights.chrome.visibilityFunctions.hasCookie('cs_ros_beta_enable', '1') : true;
+
     return {
         ...state,
         loaded: true,
@@ -52,7 +57,13 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
                 title: 'Patch',
                 name: 'patch',
                 component: PatchTab
+            },
+            isEntitled(entitlements && entitlements.insights) && hasRosCookie && {
+                title: 'Resource Optimization',
+                name: 'ros',
+                component: RosTab
             }
+
         ].filter(Boolean)
     };
 }
