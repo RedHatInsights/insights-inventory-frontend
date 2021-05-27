@@ -13,7 +13,13 @@ const App = () => {
         insights.chrome.identifyApp(INVENTORY_ROOT);
         return insights.chrome.on(
             'APP_NAVIGATION',
-            event => history.push(`/${event.navId}${location.search}${location.hash}`)
+            event => {
+                if (event.navId === 'inventory') {
+                    history.push(`/${location.search}${location.hash}`);
+                } else {
+                    history.push(`/${event.navId}${location.search}${location.hash}`);
+                }
+            }
         );
     }, []);
 
