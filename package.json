@@ -65,7 +65,7 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/runtime": "^7.13.17",
     "@redhat-cloud-services/frontend-components-config": "4.0.28",
-    "@redhat-cloud-services/frontend-components-inventory": "3.1.25",
+    "@redhat-cloud-services/frontend-components-inventory": "3.2.2",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
     "abortcontroller-polyfill": "^1.7.3",
     "axios-mock-adapter": "^1.19.0",
