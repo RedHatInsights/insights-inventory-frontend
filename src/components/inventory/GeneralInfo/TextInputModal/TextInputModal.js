@@ -28,7 +28,7 @@ export default class TextInputModal extends Component {
     };
 
     render () {
-        const { title, isOpen, onCancel, onSubmit, ariaLabel } = this.props;
+        const { title, isOpen, onCancel, onSubmit, ariaLabel, modalOuiaId, cancelOuiaId, confirmOuiaId, inputOuiaId } = this.props;
         const { value } = this.state;
 
         return (
@@ -37,13 +37,14 @@ export default class TextInputModal extends Component {
                 title={ title }
                 className="ins-c-inventory__detail--edit"
                 aria-label={ ariaLabel ? `${ariaLabel} - modal` : 'input modal' }
+                ouiaId={ modalOuiaId }
                 isOpen={ isOpen }
                 onClose={ event => onCancel(event) }
                 actions={ [
-                    <Button key="cancel" data-action="cancel" variant="secondary" onClick={ onCancel }>
+                    <Button key="cancel" data-action="cancel" variant="secondary" onClick={ onCancel } ouiaId={ cancelOuiaId }>
                         Cancel
                     </Button>,
-                    <Button key="confirm" data-action="confirm" variant="primary" onClick={ () => onSubmit(this.state.value) }>
+                    <Button key="confirm" data-action="confirm" variant="primary" onClick={ () => onSubmit(this.state.value) } ouiaId={ confirmOuiaId }>
                         Save
                     </Button>
                 ] }
@@ -51,6 +52,7 @@ export default class TextInputModal extends Component {
                 <TextInput
                     value={ value }
                     type="text"
+                    ouiaId={ inputOuiaId }
                     onChange={ value => this.setState({ value }) }
                     aria-label={ ariaLabel  }
                 />

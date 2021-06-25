@@ -27,6 +27,7 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }
         variant="small"
         title="Remove from inventory"
         className="ins-c-inventory__table--remove"
+        ouiaId="inventory-delete-modal"
         isOpen={isModalOpen}
         onClose={() => handleModalToggle(false)}
         appendTo={document.getElementsByClassName('inventory')[0]}
@@ -54,7 +55,7 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytem, onConfirm }
                 <Button variant="danger" onClick={onConfirm} ouiaId="confirm-delete">
                     Remove
                 </Button>
-                <Button variant="link" onClick={() => handleModalToggle(false)}>Cancel</Button>
+                <Button variant="link" onClick={() => handleModalToggle(false)} ouiaId="cancel-delete">Cancel</Button>
             </LevelItem>
         </Level>
     </Modal>;
