@@ -28,7 +28,9 @@ export default class TextInputModal extends Component {
     };
 
     render () {
-        const { title, isOpen, onCancel, onSubmit, ariaLabel, modalOuiaId, cancelOuiaId, confirmOuiaId, inputOuiaId } = this.props;
+        const {
+            title, isOpen, onCancel, onSubmit, ariaLabel, modalOuiaId, cancelOuiaId, confirmOuiaId, inputOuiaId
+        } = this.props;
         const { value } = this.state;
 
         return (
@@ -44,7 +46,12 @@ export default class TextInputModal extends Component {
                     <Button key="cancel" data-action="cancel" variant="secondary" onClick={ onCancel } ouiaId={ cancelOuiaId }>
                         Cancel
                     </Button>,
-                    <Button key="confirm" data-action="confirm" variant="primary" onClick={ () => onSubmit(this.state.value) } ouiaId={ confirmOuiaId }>
+                    <Button
+                        key="confirm"
+                        data-action="confirm"
+                        variant="primary"
+                        onClick={ () => onSubmit(this.state.value) } ouiaId={ confirmOuiaId }
+                    >
                         Save
                     </Button>
                 ] }
@@ -67,6 +74,10 @@ TextInputModal.propTypes = {
     onCancel: PropTypes.func,
     onSubmit: PropTypes.func,
     ariaLabel: PropTypes.string,
+    modalOuiaId: PropTypes.string,
+    cancelOuiaId: PropTypes.string,
+    confirmOuiaId: PropTypes.string,
+    inputOuiaId: PropTypes.string,
     value: PropTypes.string
 };
 
