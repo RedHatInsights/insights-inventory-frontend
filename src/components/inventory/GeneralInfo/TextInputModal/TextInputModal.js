@@ -50,7 +50,8 @@ export default class TextInputModal extends Component {
                         key="confirm"
                         data-action="confirm"
                         variant="primary"
-                        onClick={ () => onSubmit(this.state.value) } ouiaId={ confirmOuiaId }
+                        onClick={ () => onSubmit(this.state.value) }
+                        ouiaId={ confirmOuiaId }
                     >
                         Save
                     </Button>
@@ -88,4 +89,3 @@ TextInputModal.defaultProps = {
     title: '',
     ariaLabel: 'input text'
 };
-
