@@ -163,6 +163,10 @@ class SystemCard extends Component {
                     title='Edit display name'
                     value={ entity && entity.display_name }
                     ariaLabel='Host inventory display name'
+                    modalOuiaId="edit-display-name-modal"
+                    cancelOuiaId="cancel-edit-display-name"
+                    confirmOuiaId="confirm-edit-display-name"
+                    inputOuiaId="input-edit-display-name"
                     onCancel={ this.onCancel }
                     onSubmit={ this.onSubmit(setDisplayName) }
                 />
@@ -171,6 +175,10 @@ class SystemCard extends Component {
                     title='Edit Ansible host'
                     value={ entity && this.getAnsibleHost() }
                     ariaLabel='Ansible host'
+                    modalOuiaId="edit-ansible-name-modal"
+                    cancelOuiaId="cancel-edit-ansible-name"
+                    confirmOuiaId="confirm-edit-ansible-name"
+                    inputOuiaId="input-edit-ansible-name"
                     onCancel={ this.onCancel }
                     onSubmit={ this.onSubmit(setAnsibleHost) }
                 />
