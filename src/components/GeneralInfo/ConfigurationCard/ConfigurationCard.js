@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import { generalMapper, repositoriesMapper } from '../dataMapper';
 import { configurationSelector } from '../selectors';
-import { extraShape } from '../../../../constants';
+import { extraShape } from '../../../constants';
 
 export function enabledRepos(repositories) {
     if (repositories) {

@@ -7,7 +7,7 @@ import {
     GeneralInformationTab,
     PatchTab,
     RosTab
-} from '../components/inventory';
+} from '../components/SystemDetails';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';

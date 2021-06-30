@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { propertiesSelector } from '../selectors';
-import { editDisplayName, editAnsibleHost, systemProfile } from '../../../../actions';
+import { editDisplayName, editAnsibleHost, systemProfile } from '../../../actions';
 import TextInputModal from '../TextInputModal';
 import { loadEntity } from '@redhat-cloud-services/frontend-components-inventory/redux';
 import { Popover, Button } from '@patternfly/react-core';
 import EditButton from '../EditButton';
 import { generalMapper } from '../dataMapper';
-import { extraShape } from '../../../../constants';
+import { extraShape } from '../../../constants';
 
 const TitleWithPopover = ({ title, content }) => (
     <React.Fragment>

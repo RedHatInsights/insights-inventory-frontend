@@ -20,7 +20,7 @@ plugins.push(
         useFileHash: false,
         exposes: {
             './RootApp': resolve(__dirname, '../src/AppEntry'),
-            './SystemDetail': resolve(__dirname, '../src/components/inventory/GeneralInfo')
+            './SystemDetail': resolve(__dirname, '../src/components/SystemDetails/GeneralInfo')
         }
     })
 );

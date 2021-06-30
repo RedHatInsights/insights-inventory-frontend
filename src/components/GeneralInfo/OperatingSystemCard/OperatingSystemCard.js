@@ -5,7 +5,7 @@ import LoadingCard from '../LoadingCard';
 import { generalMapper } from '../dataMapper';
 import { operatingSystem } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
-import { extraShape, isDate } from '../../../../constants';
+import { extraShape, isDate } from '../../../constants';
 
 const OperatingSystemCard = ({
     systemInfo,

@@ -8,7 +8,7 @@ import { Tooltip } from '@patternfly/react-core';
 import LoadingCard from '../LoadingCard';
 import { collectionInformationSelector } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
-import { extraShape } from '../../../../constants';
+import { extraShape } from '../../../constants';
 
 const VersionTooltip = ({ egg, client }) => (
     <Tooltip

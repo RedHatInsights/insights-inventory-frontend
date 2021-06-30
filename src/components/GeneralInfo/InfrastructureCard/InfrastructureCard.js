@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import { generalMapper, interfaceMapper } from '../dataMapper';
 import { infrastructureSelector } from '../selectors';
-import { extraShape } from '../../../../constants';
+import { extraShape } from '../../../constants';
 
 const InfrastructureCard = ({
     infrastructure,

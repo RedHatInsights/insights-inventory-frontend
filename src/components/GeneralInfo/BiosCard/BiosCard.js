@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import { biosSelector } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
-import { extraShape, isDate } from '../../../../constants';
+import { extraShape, isDate } from '../../../constants';
 
 const BiosCard = ({ bios, detailLoaded, hasVendor, hasVersion, handleClick, hasReleaseDate, extra }) => (<LoadingCard
     title="BIOS"
