@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { SortByDirection } from '@patternfly/react-table';
 
-import { systemProfile } from '../../../actions';
+import { systemProfile } from '../../../store/actions';
 import InfoTable from '../InfoTable';
 import OperatingSystemCard from '../OperatingSystemCard';
 import SystemCard from '../SystemCard';

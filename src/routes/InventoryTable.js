@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
-import { entitiesReducer, RegistryContext } from '../store';
-import * as actions from '../actions';
+import { tableReducer, RegistryContext } from '../store';
+import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../components/DeleteModal';
@@ -14,7 +14,7 @@ import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
 
-import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
+import InventoryTable from '../modules/InventoryTable';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -76,6 +76,7 @@ const Inventory = ({
 }) => {
     document.title = 'Inventory | Red Hat Insights';
     const history = useHistory();
+    const store = useStore();
     const { getRegistry } = useContext(RegistryContext);
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
@@ -106,10 +107,10 @@ const Inventory = ({
 
     const onRefresh = (options, callback) => {
         if (!options?.filters) {
-            options.filters = defaultFilters;
+            options.filters = Object.entries(defaultFilters).map(([key, val]) => ({ [key]: val }));
         }
 
-        const { status, source, tagsFilter, filterbyName } = options?.filters.reduce((acc, curr) => ({
+        const { status, source, tagsFilter, filterbyName } = (options?.filters || []).reduce((acc, curr) => ({
             ...acc,
             ...curr?.staleFilter && { status: curr.staleFilter },
             ...curr?.registeredWithFilter && { source: curr.registeredWithFilter },
@@ -169,6 +170,8 @@ const Inventory = ({
                     <GridItem span={12}>
                         {
                             !loading && <InventoryTable
+                                history={history}
+                                store={store}
                                 customFilters={globalFilter}
                                 isFullView
                                 ref={inventory}
@@ -237,7 +240,7 @@ const Inventory = ({
                                 onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
                                 onLoad={({ mergeWithEntities, INVENTORY_ACTION_TYPES }) => {
                                     getRegistry().register({
-                                        ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
+                                        ...mergeWithEntities(tableReducer(INVENTORY_ACTION_TYPES))
                                     });
 
                                     setFilter(generateFilter(status, source, tagsFilter, filterbyName));

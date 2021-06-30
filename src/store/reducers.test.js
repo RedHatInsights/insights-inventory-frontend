@@ -1,11 +1,11 @@
-import { entitiesReducer, entitesDetailReducer } from './reducers';
+import { tableReducer, entitesDetailReducer } from './reducers';
 
-describe('entitiesReducer', () => {
+describe('tableReducer', () => {
     const INVENTORY_ACTION_TYPES = {
         LOAD_ENTITIES_FULFILLED: 'load_entities_fulfiled'
     };
     test('should show default state', () => {
-        expect(entitiesReducer(INVENTORY_ACTION_TYPES)(undefined, {})).toMatchObject({ loaded: false });
+        expect(tableReducer(INVENTORY_ACTION_TYPES)(undefined, {})).toMatchObject({ loaded: false });
     });
 });
 

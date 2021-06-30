@@ -4,7 +4,7 @@ import MiddlewareListener from '@redhat-cloud-services/frontend-components-utili
 import { ReducerRegistry } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import promise  from 'redux-promise-middleware';
-export { default as reducers, entitiesReducer, entitesDetailReducer } from './reducers';
+export { default as reducers, tableReducer, entitesDetailReducer } from './reducers';
 
 export const RegistryContext = createContext({
     getRegistry: () => {}

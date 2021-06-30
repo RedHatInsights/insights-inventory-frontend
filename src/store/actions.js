@@ -1,5 +1,7 @@
-import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from './constants';
-import { getEntity, hosts, getEntitySystemProfile } from './api';
+import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SET_INVENTORY_FILTER, SET_PAGINATION } from './action-types';
+import { hosts, getEntitySystemProfile } from '../api';
+export * from './system-issues-actions';
+export * from './inventory-actions';
 
 export const deleteEntity = (systems, displayName) => ({
     type: ACTION_TYPES.REMOVE_ENTITY,
@@ -24,11 +26,6 @@ export const setFilter = (filtersList) => ({
     }
 });
 
-export const loadEntity = () => ({
-    type: ACTION_TYPES.GET_ENTITY,
-    payload: getEntity()
-});
-
 export const clearNotifications = () => {
     return ({
         type: CLEAR_NOTIFICATIONS
@@ -47,11 +44,6 @@ export const editDisplayName = (id, value) => ({
             }
         }
     }
-});
-
-export const selectEntity = (id, selected) => ({
-    type: SELECT_ENTITY,
-    payload: { id, selected }
 });
 
 export const setPagination = (page, perPage) => ({

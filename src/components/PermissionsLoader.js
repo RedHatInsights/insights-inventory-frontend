@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import useInventoryWritePermissions from '../hooks/useInventoryWritePermissions';
-import { ACTION_TYPES } from '../constants';
+import { ACTION_TYPES } from '../store/action-types';
 
 const PermissionLoader = () => {
     const { isLoading, hasAccess } = useInventoryWritePermissions();
