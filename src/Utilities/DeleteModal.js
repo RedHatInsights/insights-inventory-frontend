@@ -30,6 +30,7 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytems, onConfirm 
         className="ins-c-inventory__table--remove"
         isOpen={isModalOpen}
         onClose={() => handleModalToggle(false)}
+        appendTo={document.getElementsByClassName('inventory')[0] || document.body}
     >
         <Split hasGutter>
             <SplitItem><ExclamationTriangleIcon size="xl" className="ins-m-alert" /></SplitItem>

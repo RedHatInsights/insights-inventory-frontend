@@ -1,4 +1,4 @@
-import { mock } from '../__mock__/systemIssues';
+import { mock } from '../__mocks__/systemIssues';
 import { patch, advisor, compliance, cves } from './systemIssues';
 
 describe('patch', () => {

@@ -3,23 +3,16 @@ import { mount as enzymeMount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
 import * as ReactRouterDOM from 'react-router-dom';
-import { inventoryConnector } from '@redhat-cloud-services/frontend-components-inventory/inventoryConnector';
 import configureStore from 'redux-mock-store';
 
 import InventoryTable, { calculatePagination } from './InventoryTable';
 
-import * as loader from '@redhat-cloud-services/frontend-components/Inventory';
-import DeleteModal from '../components/DeleteModal';
+import DeleteModal from '../Utilities/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
-
-jest.mock('@redhat-cloud-services/frontend-components/Inventory', () => ({
-    __esModule: true,
-    InventoryTable: jest.fn()
-}));
+import { RegistryContext } from '../store';
 
 describe('InventoryTable', () => {
-    let wrapper;
     let mockStore;
 
     const system1 = {
@@ -94,27 +87,27 @@ describe('InventoryTable', () => {
     };
 
     const mount = (children, store) => enzymeMount(
-        <ReactRouterDOM.MemoryRouter>
-            <Provider store={store}>
-                {children}
-            </Provider>
-        </ReactRouterDOM.MemoryRouter>
+        <RegistryContext.Provider value={{
+            getRegistry: () => ({ register: jest.fn() })
+        }}>
+            <ReactRouterDOM.MemoryRouter>
+                <Provider store={store}>
+                    {children}
+                </Provider>
+            </ReactRouterDOM.MemoryRouter>
+        </RegistryContext.Provider>
     );
 
     beforeEach(() => {
         mockStore = configureStore();
-
-        jest.spyOn(loader, 'InventoryTable').mockImplementation((props) => {
-            const InvTable = inventoryConnector().InventoryTable;
-            return <InvTable {...props} initialLoading={false} />;
-        });
     });
 
     it('renders correctly when write permissions', async () => {
         const store = mockStore(initialStore);
+        let wrapper;
 
         await act(async () => {
-            wrapper = mount(<InventoryTable />, store);
+            wrapper = mount(<InventoryTable initialLoading={false} />, store);
         });
         wrapper.update();
 
@@ -125,13 +118,15 @@ describe('InventoryTable', () => {
     });
 
     it('renders correctly when no write permissions', async () => {
+        let wrapper;
+
         const store = mockStore({
             ...initialStore,
             permissionsReducer: { loading: false, writePermissions: false }
         });
 
         await act(async () => {
-            wrapper = mount(<InventoryTable />, store);
+            wrapper = mount(<InventoryTable initialLoading={false} />, store);
         });
         wrapper.update();
 
@@ -141,6 +136,8 @@ describe('InventoryTable', () => {
     });
 
     it('can select and delete items', async () => {
+        let wrapper;
+
         const tmp = window.XMLHttpRequest;
 
         window.XMLHttpRequest = jest.fn().mockImplementation(createXhrMock());
@@ -159,7 +156,7 @@ describe('InventoryTable', () => {
         }));
 
         await act(async () => {
-            wrapper = mount(<InventoryTable />, store);
+            wrapper = mount(<InventoryTable initialLoading={false} />, store);
         });
         wrapper.update();
 
@@ -215,13 +212,15 @@ describe('InventoryTable', () => {
     });
 
     it('can select and delete items from kebab', async () => {
+        let wrapper;
+
         const tmp = window.XMLHttpRequest;
 
         window.XMLHttpRequest = jest.fn().mockImplementation(createXhrMock());
         const store = mockStore(initialStore);
 
         await act(async () => {
-            wrapper = mount(<InventoryTable />, store);
+            wrapper = mount(<InventoryTable initialLoading={false} />, store);
         });
         wrapper.update();
 
@@ -242,7 +241,7 @@ describe('InventoryTable', () => {
         wrapper.update();
 
         expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(true);
-        expect(wrapper.find(DeleteModal).props().currentSytem).toEqual(
+        expect(wrapper.find(DeleteModal).props().currentSytems).toEqual(
             { displayName: 'RHIQE.31ea86a9-a439-4422-9516-27c879057535.test', id: 'ed190a06-de88-4d62-aba1-88ad402720a8' }
         );
         window.XMLHttpRequest = tmp;

@@ -16,7 +16,7 @@ const actions = [
     'REMOVE_ENTITY'
 ];
 
-const asyncActions = [
+export const asyncActions = [
     'GET_ENTITIES',
     'GET_ENTITY',
     'UPDATE_DISPLAY_NAME',
@@ -25,7 +25,7 @@ const asyncActions = [
     'SET_ANSIBLE_HOST'
 ];
 
-const asyncInventory = [
+export const asyncInventory = [
     'LOAD_ENTITIES',
     'LOAD_ENTITY',
     'REMOVE_ENTITY',
@@ -36,7 +36,7 @@ const asyncInventory = [
     'ALL_TAGS'
 ];
 
-const systemIssues = [
+export const systemIssues = [
     'LOAD_ADVISOR_RECOMMENDATIONS',
     'LOAD_APPLICABLE_CVES',
     'LOAD_APPLICABLE_ADVISORIES',

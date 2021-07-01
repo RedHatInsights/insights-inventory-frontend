@@ -4,7 +4,7 @@ import { render, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import OperatingSystemCard from './OperatingSystemCard';
 import configureStore from 'redux-mock-store';
-import { osTest, rhsmFacts } from '../../../../__mocks__/selectors';
+import { osTest, rhsmFacts } from '../../../__mocks__/selectors';
 
 describe('OperatingSystemCard', () => {
     let initialState;

@@ -54,19 +54,22 @@
     }
 }
 
+.ins-simple-table {
+    .ins-health-status div {
+        display: inline-block;
+        padding-right: 20px;
+
+        svg {
+          position: relative;
+            top: 2px;
+            left: -2px;
+        }
+    }
+}
+
 .ins-c-entity-table.pf-c-table {
 
     .pf-c-table__check input { cursor: pointer; }
-    .ins-composed-col div {
-        word-wrap: break-word;
-        word-break:break-all;
-        &:nth-child(2):not(.ins-m-nodetail) {
-            color: var(--pf-global--link--Color);
-            cursor: pointer;
-            &:hover { color: var(--pf-global--link--Color--hover); }
-        }
-    }
-
     .ins-health-status div {
         display: inline-block;
         padding-right: 20px;
@@ -75,6 +78,11 @@
             position: relative;
             top: 2px;
             left: -2px;
+        }
+
+        span:nth-child(2) {
+            color: var(--pf-global--info-color--100);
+            cursor: pointer;
         }
     }
 
@@ -97,29 +105,19 @@
         display: inline-block;
     }
 
-    .ins-health-status div {
-        span:nth-child(2) {
-            color: var(--pf-global--info-color--100);
-            cursor: pointer;
-        }
-    }
-
     .pf-c-table__action .pf-c-dropdown {
         position: relative;
         left: 10px;
         top: 3px;
     }
-}
 
-.ins-simple-table {
-    .ins-health-status div {
-        display: inline-block;
-        padding-right: 20px;
-
-        svg {
-          position: relative;
-            top: 2px;
-            left: -2px;
+    .ins-composed-col div {
+        word-wrap: break-word;
+        word-break:break-all;
+        &:nth-child(2):not(.ins-m-nodetail) {
+            color: var(--pf-global--link--Color);
+            cursor: pointer;
+            &:hover { color: var(--pf-global--link--Color--hover); }
         }
     }
 }

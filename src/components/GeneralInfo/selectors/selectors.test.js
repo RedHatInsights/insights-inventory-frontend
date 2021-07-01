@@ -14,7 +14,7 @@ import {
     infraTest,
     configTest,
     collectInfoTest
-} from '../../../../__mocks__/selectors';
+} from '../../../__mocks__/selectors';
 
 it('propertiesSelector should return correct data', () => {
     expect(propertiesSelector(testProperties)).toEqual({

@@ -7,6 +7,7 @@ import { generateFilter, mergeArraysByKey } from '@redhat-cloud-services/fronten
 import { HostsApi, TagsApi } from '@redhat-cloud-services/host-inventory-client';
 import { defaultFilters } from '../Utilities/constants';
 
+export { instance };
 export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
 export const tags = new TagsApi(undefined, INVENTORY_API_BASE, instance);
 

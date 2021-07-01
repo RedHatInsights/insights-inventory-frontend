@@ -1,4 +1,4 @@
-import { tagsMapper, onDeleteFilter, generateFilters, filterRows, prepareRows, isDate, ACTION_TYPES } from './constants';
+import { tagsMapper, onDeleteFilter, generateFilters, filterRows, prepareRows, isDate } from './constants';
 
 describe('tagsMapper', () => {
     it('maps URL tags to object', () => {
@@ -278,13 +278,5 @@ describe('onDeleteFilter', () => {
         expect(newFilters).toEqual({ first: {
             value: ['second']
         } });
-    });
-});
-
-const asyncTypes = ['', '_PENDING', '_FULFILLED', '_REJECTED'];
-
-asyncTypes.map((type) => {
-    it(`LOAD_SYSTEM_PROFILE${type} should be defined`, () => {
-        expect(ACTION_TYPES[`LOAD_SYSTEM_PROFILE${type}`]).toBeDefined();
     });
 });

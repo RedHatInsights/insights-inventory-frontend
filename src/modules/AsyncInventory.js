@@ -1,11 +1,11 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import LoadingFallback from '../components/SpinnerFallback';
 
 const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...props }) => {
-    const [Component, setComponent] = useState(Fragment);
+    const [Component, setComponent] = useState();
     useEffect(() => {
         (async () => {
             const { inventoryConnector, mergeWithDetail, shared, api, ...rest } = await Promise.all([
@@ -37,7 +37,7 @@ const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...pr
     return (
         <Provider store={store}>
             <Router history={history}>
-                <Component {...props} fallback={LoadingFallback} ref={innerRef} />
+                {Component && <Component {...props} fallback={LoadingFallback} ref={innerRef} />}
             </Router>
         </Provider>
     );

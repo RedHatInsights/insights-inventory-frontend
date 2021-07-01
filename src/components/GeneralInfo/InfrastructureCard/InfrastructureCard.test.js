@@ -4,7 +4,7 @@ import { render, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import InfrastructureCard from './InfrastructureCard';
 import configureStore from 'redux-mock-store';
-import { infraTest, rhsmFacts } from '../../../../__mocks__/selectors';
+import { infraTest, rhsmFacts } from '../../../__mocks__/selectors';
 
 describe('InfrastructureCard', () => {
     let initialState;

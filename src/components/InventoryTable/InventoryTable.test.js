@@ -36,7 +36,7 @@ describe('InventoryTable', () => {
         initialState = {
             entities: {
                 activeFilters: [{}],
-                loaded: true,
+                loaded: false,
                 rows: [],
                 columns: [{ key: 'one', title: 'One' }],
                 page: 1,
@@ -192,24 +192,17 @@ describe('InventoryTable', () => {
             expect(spy).not.toHaveBeenCalled();
         });
 
-        it('should reload on customFilters', async () =>{
+        it('should reload on customFilters', async () => {
             const store = mockStore(initialState);
-            const wrapper = mount(<Dummy store={ store } autoRefresh />);
+            let wrapper;
 
             await act(async () => {
+                wrapper = mount(<Dummy store={ store } autoRefresh />);
                 wrapper.setProps({ customFilters: { system_profile: { sap_ids: ['id1'] } } });
             });
             wrapper.update();
 
             expect(spy).toHaveBeenCalled();
-            spy.mockClear();
-
-            await act(async () => {
-                wrapper.setProps({ customFilters: { system_profile: { sap_ids: ['id1'] } } });
-            });
-            wrapper.update();
-
-            expect(spy).not.toHaveBeenCalled();
         });
     });
 

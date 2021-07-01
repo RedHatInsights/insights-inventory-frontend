@@ -4,7 +4,7 @@ import { render, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import ConfigurationCard from './ConfigurationCard';
 import configureStore from 'redux-mock-store';
-import { configTest } from '../../../../__mocks__/selectors';
+import { configTest } from '../../../__mocks__/selectors';
 
 describe('ConfigurationCard', () => {
     let initialState;

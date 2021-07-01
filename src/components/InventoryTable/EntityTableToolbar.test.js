@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import toJson from 'enzyme-to-json';
-import { mockTags } from '../../__mock__/hostApi';
+import { mockTags } from '../../__mocks__/hostApi';
 import TitleColumn from './TitleColumn';
 import debounce from 'lodash/debounce';
 

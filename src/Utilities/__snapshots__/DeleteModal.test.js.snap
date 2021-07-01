@@ -3,7 +3,7 @@
 exports[`EntityTable DOM should render correctly 1`] = `
 <Modal
   actions={Array []}
-  appendTo={[Function]}
+  appendTo={<body />}
   aria-describedby=""
   aria-label=""
   aria-labelledby=""
@@ -96,7 +96,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
 exports[`EntityTable DOM should render correctly with multiple systems - count 1 1`] = `
 <Modal
   actions={Array []}
-  appendTo={[Function]}
+  appendTo={<body />}
   aria-describedby=""
   aria-label=""
   aria-labelledby=""
@@ -190,7 +190,7 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 1
 exports[`EntityTable DOM should render correctly with multiple systems - count 2 1`] = `
 <Modal
   actions={Array []}
-  appendTo={[Function]}
+  appendTo={<body />}
   aria-describedby=""
   aria-label=""
   aria-labelledby=""
@@ -284,7 +284,7 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 2
 exports[`EntityTable DOM should render correctly with one system 1`] = `
 <Modal
   actions={Array []}
-  appendTo={[Function]}
+  appendTo={<body />}
   aria-describedby=""
   aria-label=""
   aria-labelledby=""
@@ -378,7 +378,7 @@ exports[`EntityTable DOM should render correctly with one system 1`] = `
 exports[`EntityTable DOM should render correctly with one system 2`] = `
 <Modal
   actions={Array []}
-  appendTo={[Function]}
+  appendTo={<body />}
   aria-describedby=""
   aria-label=""
   aria-labelledby=""

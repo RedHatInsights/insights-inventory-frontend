@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import toJson from 'enzyme-to-json';
-import { mock } from '../../__mock__/systemIssues';
+import { mock } from '../../__mocks__/systemIssues';
 import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
 
 describe('DetailWrapper', () => {

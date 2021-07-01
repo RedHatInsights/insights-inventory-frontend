@@ -1,15 +1,21 @@
 /* eslint-disable camelcase */
-import { getAllTags, filtersReducer, constructTags, mapData, getEntitySystemProfile } from './api';
-import { mock, mockTags } from '../__mocks__/hostApi';
+import { filtersReducer, constructTags, mapData, getEntitySystemProfile, hosts } from './api';
 import mockedData from '../__mocks__/mockedData.json';
+import MockAdapter from 'axios-mock-adapter';
 
-it('should send the data as JSON', async () => {
-    mock.onGet('/api/inventory/v1/hosts/4/system_profile').reply(200, mockedData);
+describe('system_profile', () => {
+    const mockedHosts = new MockAdapter(hosts.axios);
+    it('should send the data as JSON', async () => {
+        mockedHosts.onGet('/api/inventory/v1/hosts/4/system_profile').reply(200, mockedData);
+        const data = await getEntitySystemProfile('4');
 
-    const data = await getEntitySystemProfile('4');
+        expect(mockedHosts.history.get.length).toBe(1);
+        expect(data).toEqual(mockedData);
+    });
 
-    expect(mock.history.get.length).toBe(1);
-    expect(data).toEqual(mockedData);
+    afterAll(() => {
+        mockedHosts.reset();
+    });
 });
 
 describe('filtersReducer', () => {
@@ -169,101 +175,6 @@ describe('mapData', () => {
                     display_name: 'test'
                 }
             });
-        });
-    });
-});
-
-describe('getAllTags', () => {
-    it('should generate get all tags call', async () => {
-        const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&registered_with=insights';
-        mockTags.onGet(
-            `/api/inventory/v1/tags${params}`
-        ).replyOnce(200, { test: 'test' });
-        const data = await getAllTags();
-        expect(data).toMatchObject({ test: 'test' });
-    });
-
-    it('should generate get all tags call with search', async () => {
-        // eslint-disable-next-line max-len
-        const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&search=something&registered_with=insights';
-        mockTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
-        const data = await getAllTags('something');
-        expect(data).toMatchObject({ test: 'test' });
-    });
-
-    describe('tagFilters', () => {
-        it('should generate get all tags call with tagFilters', async () => {
-            // eslint-disable-next-line max-len
-            const params = '?tags=namespace%2Fsome%20key%3Dsome%20value&tags=some%20key&order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&registered_with=insights';
-            mockTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
-            const data = await getAllTags(undefined, {
-                filters: [{
-                    tagFilters: [{
-                        values: [{
-                            value: 'some value',
-                            tagKey: 'some key'
-                        }],
-                        category: 'namespace'
-                    },
-                    {
-                        values: [{
-                            value: '',
-                            tagKey: 'some key'
-                        }],
-                        category: ''
-                    }]
-                }]
-            });
-            expect(data).toMatchObject({ test: 'test' });
-        });
-
-        it('should generate get all tags call with staleFilter', async () => {
-            const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=something&registered_with=insights';
-            mockTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
-            const data = await getAllTags(undefined, {
-                filters: [{
-                    staleFilter: ['something']
-                }]
-            });
-            expect(data).toMatchObject({ test: 'test' });
-        });
-
-        it('should generate get all tags call with registeredWithFilter', async () => {
-            // eslint-disable-next-line max-len
-            const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&registered_with=something';
-            mockTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
-            const data = await getAllTags(undefined, {
-                filters: [{
-                    registeredWithFilter: ['something']
-                }]
-            });
-            expect(data).toMatchObject({ test: 'test' });
-        });
-    });
-
-    describe('pagination', () => {
-        it('should generate get all tags call with perPage', async () => {
-            // eslint-disable-next-line max-len
-            const params = '?order_by=tag&order_how=ASC&per_page=50&page=1&staleness=fresh&staleness=stale&registered_with=insights';
-            mockTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
-            const data = await getAllTags(undefined, {
-                pagination: {
-                    perPage: 50
-                }
-            });
-            expect(data).toMatchObject({ test: 'test' });
-        });
-
-        it('should generate get all tags call with page', async () => {
-            // eslint-disable-next-line max-len
-            const params = '?order_by=tag&order_how=ASC&per_page=10&page=20&staleness=fresh&staleness=stale&registered_with=insights';
-            mockTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
-            const data = await getAllTags(undefined, {
-                pagination: {
-                    page: 20
-                }
-            });
-            expect(data).toMatchObject({ test: 'test' });
         });
     });
 });

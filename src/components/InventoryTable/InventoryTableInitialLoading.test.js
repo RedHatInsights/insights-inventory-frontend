@@ -45,7 +45,7 @@ describe('InventoryTable - initial loading', () => {
         spy.mockRestore();
     });
 
-    it('should render loading state when initialLoading set', async () => {
+    it.only('should render loading state when initialLoading set', async () => {
         spy.mockRestore();
         jest.useFakeTimers();
 
@@ -80,6 +80,6 @@ describe('InventoryTable - initial loading', () => {
         wrapper.update();
 
         expect(wrapper.find(SkeletonTable)).toHaveLength(0);
-        expect(wrapper.find(Pagination)).toHaveLength(2);
+        expect(wrapper.find('Pagination')).toHaveLength(2);
     });
 });

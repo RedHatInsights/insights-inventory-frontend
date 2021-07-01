@@ -9,7 +9,7 @@ import { tableReducer, RegistryContext } from '../store';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
-import DeleteModal from '../components/DeleteModal';
+import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
@@ -72,7 +72,8 @@ const Inventory = ({
     filterbyName,
     tagsFilter,
     page,
-    perPage
+    perPage,
+    initialLoading
 }) => {
     document.title = 'Inventory | Red Hat Insights';
     const history = useHistory();
@@ -179,7 +180,7 @@ const Inventory = ({
                                 onRefresh={onRefresh}
                                 hasCheckbox={writePermissions}
                                 autoRefresh
-                                initialLoading
+                                initialLoading={initialLoading}
                                 {...(writePermissions && {
                                     actions: [
                                         {
@@ -260,7 +261,7 @@ const Inventory = ({
             <DeleteModal
                 handleModalToggle={handleModalToggle}
                 isModalOpen={isModalOpen}
-                currentSytem={currentSytem}
+                currentSytems={currentSytem}
                 onConfirm={() => {
                     let displayName;
                     let removeSystems;
@@ -306,7 +307,12 @@ Inventory.propTypes = {
     filterbyName: PropTypes.string,
     tagsFilter: PropTypes.any,
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    initialLoading: PropTypes.bool
+};
+
+Inventory.defaultProps = {
+    initialLoading: true
 };
 
 export default Inventory;

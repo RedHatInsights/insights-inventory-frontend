@@ -26,6 +26,15 @@
 }
 
 .ins-entity-detail {
+  .ins-entity-tags {
+    svg {
+      position: relative;
+      top: 3px;
+    }
+    > div > span {
+      margin: 5px;
+    }
+  }
   .ins-entity-facts {
     div {
       @include rem('margin', 5px);
@@ -36,16 +45,6 @@
       .ins-c-skeleton {
           display: inline-block;
       }
-    }
-  }
-
-  .ins-entity-tags {
-    svg {
-      position: relative;
-      top: 3px;
-    }
-    > div > span {
-        margin: 5px;
     }
   }
 
@@ -80,6 +79,21 @@
             .pf-l-grid__item:first-of-type dd { grid-column: 1; }
         }
       }
+    > * {
+        > * { padding-left: var(--pf-global--spacer--lg); }
+  
+        &:nth-child(odd):after {
+          content: " ";
+          display: block;
+          position: relative;
+          height: 100%;
+          background: var(--pf-global--palette--black-200);
+          top: -100%;
+          width: 107%;
+          left: 0;
+          z-index: -1;
+        }
+      }
     > .pf-l-stack__item {
       &:not(:last-child):before {
         content: " ";
@@ -96,33 +110,18 @@
         padding-top: var(--pf-global--spacer--lg);
       }
     }
-    > * {
-      > * { padding-left: var(--pf-global--spacer--lg); }
-
-      &:nth-child(odd):after {
-        content: " ";
-        display: block;
-        position: relative;
-        height: 100%;
-        background: var(--pf-global--palette--black-200);
-        top: -100%;
-        width: 107%;
-        left: 0;
-        z-index: -1;
-      }
-    }
   }
 
   .ins-c-inventory__drawer-system-issues {
       .ins-c-inventory__drawer--title { --pf-l-stack--m-gutter--MarginBottom: var(--pf-global--spacer--sm); }
       .ins-c-inventory__drawer-patch {
+        a {
+            padding: var(--pf-global--spacer--sm);
+            background: transparent;
+            text-decoration: none;
+        }
         .ins-m-moderate a {
             color: var(--pf-global--palette--gold-400);
-        }
-        a {
-          padding: var(--pf-global--spacer--sm);
-          background: transparent;
-          text-decoration: none;
         }
       }
       .ins-c-inventory__drawer-cve div {

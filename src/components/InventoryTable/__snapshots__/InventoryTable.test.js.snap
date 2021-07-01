@@ -45,7 +45,7 @@ exports[`InventoryTable should render correctly - with no access 1`] = `
     hasAccess={false}
     hasItems={false}
     hideFilters={Object {}}
-    loaded={true}
+    loaded={false}
     onRefreshData={[Function]}
     page={1}
     perPage={50}
@@ -62,7 +62,7 @@ exports[`InventoryTable should render correctly - with no access 1`] = `
   <ForwardRef
     hasAccess={false}
     hasItems={false}
-    loaded={true}
+    loaded={false}
     onRefreshData={[Function]}
     page={1}
     perPage={50}
@@ -119,7 +119,7 @@ exports[`InventoryTable should render correctly 1`] = `
     hasAccess={true}
     hasItems={false}
     hideFilters={Object {}}
-    loaded={true}
+    loaded={false}
     onRefreshData={[Function]}
     page={1}
     perPage={50}
@@ -136,7 +136,7 @@ exports[`InventoryTable should render correctly 1`] = `
   <ForwardRef
     hasAccess={true}
     hasItems={false}
-    loaded={true}
+    loaded={false}
     onRefreshData={[Function]}
     page={1}
     perPage={50}
@@ -152,15 +152,11 @@ exports[`InventoryTable should render correctly 1`] = `
       activeFilters={
         Array [
           Object {},
-          Object {
-            "filter": "",
-            "value": "hostname_or_id",
-          },
         ]
       }
       hasItems={false}
       ignoreRefresh={true}
-      loaded={true}
+      loaded={false}
       onRefreshData={[Function]}
       page={1}
       perPage={50}
@@ -235,7 +231,7 @@ exports[`InventoryTable should render correctly with items 1`] = `
         },
       ]
     }
-    loaded={true}
+    loaded={false}
     onRefreshData={[Function]}
     page={5}
     perPage={20}
@@ -259,7 +255,7 @@ exports[`InventoryTable should render correctly with items 1`] = `
         },
       ]
     }
-    loaded={true}
+    loaded={false}
     onRefreshData={[Function]}
     page={5}
     perPage={20}
@@ -275,10 +271,6 @@ exports[`InventoryTable should render correctly with items 1`] = `
       activeFilters={
         Array [
           Object {},
-          Object {
-            "filter": "",
-            "value": "hostname_or_id",
-          },
         ]
       }
       hasItems={true}
@@ -290,7 +282,7 @@ exports[`InventoryTable should render correctly with items 1`] = `
           },
         ]
       }
-      loaded={true}
+      loaded={false}
       onRefreshData={[Function]}
       page={5}
       perPage={20}
@@ -342,7 +334,7 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
         },
       ]
     }
-    loaded={true}
+    loaded={false}
     onRefreshData={[Function]}
     page={5}
     perPage={20}
@@ -366,7 +358,7 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
         },
       ]
     }
-    loaded={true}
+    loaded={false}
     onRefreshData={[Function]}
     page={5}
     perPage={20}
@@ -382,10 +374,6 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
       activeFilters={
         Array [
           Object {},
-          Object {
-            "filter": "",
-            "value": "hostname_or_id",
-          },
         ]
       }
       hasItems={true}
@@ -397,7 +385,7 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
           },
         ]
       }
-      loaded={true}
+      loaded={false}
       onRefreshData={[Function]}
       page={5}
       perPage={20}

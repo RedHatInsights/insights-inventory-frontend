@@ -15,7 +15,7 @@ import InventoryDetailHead from '../modules/InventoryDetailHead';
 import AppInfo from '../modules/AppInfo';
 import DetailWrapper from '../modules/DetailWrapper';
 
-const Inventory = ({ entity, currentApp, clearNotifications, loadEntity }) => {
+const Inventory = ({ entity, currentApp, clearNotifications }) => {
     const store = useStore();
     const history = useHistory();
     const { getRegistry } = useContext(RegistryContext);

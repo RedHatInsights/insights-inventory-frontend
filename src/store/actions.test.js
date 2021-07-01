@@ -1,13 +1,14 @@
 /* eslint-disable camelcase */
-import { ACTION_TYPES } from '../constants';
-
 import { editAnsibleHost, editDisplayName, systemProfile } from './actions';
-import { mock } from '../__mocks__/hostApi';
+import { hosts } from '../api';
 import mockedData from '../__mocks__/mockedData.json';
+import MockAdapter from 'axios-mock-adapter';
+
+const mocked = new MockAdapter(hosts.axios);
 
 describe('systemProfile', () => {
     it('should return correct redux action', async () => {
-        mock.onGet('/api/inventory/v1/hosts/4/system_profile').reply(200, mockedData);
+        mocked.onGet('/api/inventory/v1/hosts/4/system_profile').reply(200, mockedData);
         const { type, payload } = systemProfile('4');
         expect(type).toBe('LOAD_SYSTEM_PROFILE');
         expect(await payload).toEqual(mockedData);
@@ -16,7 +17,7 @@ describe('systemProfile', () => {
 
 describe('editDisplayName', () => {
     it('should call correct endpoint', async () => {
-        mock.onPatch('/api/inventory/v1/hosts/4').reply(({ data }) => {
+        mocked.onPatch('/api/inventory/v1/hosts/4').reply(({ data }) => {
             expect(data).toEqual(JSON.stringify({ display_name: 'test-value' })); // eslint-disable-line camelcase
             return [200, mockedData];
         });
@@ -36,7 +37,7 @@ describe('editDisplayName', () => {
 
 describe('editAnsibleHost', () => {
     it('should call correct endpoint', async () => {
-        mock.onPatch('/api/inventory/v1/hosts/4').reply(({ data }) => {
+        mocked.onPatch('/api/inventory/v1/hosts/4').reply(({ data }) => {
             expect(data).toEqual(JSON.stringify({ ansible_host: 'test-value' })); // eslint-disable-line camelcase
             return [200, mockedData];
         });

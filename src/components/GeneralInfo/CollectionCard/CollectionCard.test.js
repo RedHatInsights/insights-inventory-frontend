@@ -4,7 +4,7 @@ import { render, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import CollectionCard from './CollectionCard';
 import configureStore from 'redux-mock-store';
-import { collectInfoTest } from '../../../../__mocks__/selectors';
+import { collectInfoTest } from '../../../__mocks__/selectors';
 import { Tooltip } from '@patternfly/react-core';
 
 describe('CollectionCard', () => {
