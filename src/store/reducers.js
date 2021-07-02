@@ -133,10 +133,10 @@ let reducers = {
     permissionsReducer
 };
 
-export const tableReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash(
+export const tableReducer = applyReducerHash(
     {
         [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded,
-        [LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
+        [INVENTORY_ACTION_TYPES.LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
         [`${ACTION_TYPES.REMOVE_ENTITY}_FULFILLED`]: entityDeleted,
         [SELECT_ENTITY]: entitySelected,
         FILTER_SELECT: (state) => ({ ...state, selected: {} }),

@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
 import { tableReducer, RegistryContext } from '../store';
+import { mergeWithEntities } from '../store/reducers';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
@@ -13,8 +14,7 @@ import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
-
-import InventoryTable from '../modules/InventoryTable';
+import { inventoryConnector } from '../Utilities/inventoryConnector';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -75,6 +75,7 @@ const Inventory = ({
     perPage,
     initialLoading
 }) => {
+    const [InvCmp, setInvCmp] = useState();
     document.title = 'Inventory | Red Hat Insights';
     const history = useHistory();
     const store = useStore();
@@ -96,15 +97,7 @@ const Inventory = ({
     const selected = useSelector(({ entities }) => entities?.selected);
     const dispatch = useDispatch();
 
-    const clearNotifications = () => dispatch(actions.clearNotifications());
-    const deleteEntity = (id, hostName, callback) => dispatch(reloadWrapper(actions.deleteEntity(id, hostName), callback));
-    const addNotification = (payload) => dispatch(addNotificationAction(payload));
-    const updateDisplayName = (id, displayName, callback) => dispatch(
-        reloadWrapper(actions.editDisplayName(id, displayName), callback)
-    );
     const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
-    const setFilter = (filtersList) => filtersList?.length > 0 && dispatch(actions.setFilter(filtersList));
-    const setPagination = (page, perPage) => dispatch(actions.setPagination(page, perPage));
 
     const onRefresh = (options, callback) => {
         if (!options?.filters) {
@@ -156,7 +149,22 @@ const Inventory = ({
                 }
             });
         });
-        clearNotifications();
+        dispatch(actions.clearNotifications());
+        const { InventoryTable } = inventoryConnector(store, undefined, undefined, true);
+        setInvCmp(() => InventoryTable);
+        getRegistry().register({
+            ...mergeWithEntities(tableReducer)
+        });
+
+        const filtersList = generateFilter(status, source, tagsFilter, filterbyName);
+        filtersList?.length > 0 && dispatch(actions.setFilter(filtersList));
+
+        if (perPage || page) {
+            dispatch(actions.setPagination(
+                Array.isArray(page) ? page[0] : page,
+                Array.isArray(perPage) ? perPage[0] : perPage
+            ));
+        }
     }, []);
 
     const calculateSelected = () => selected ? selected.size : 0;
@@ -170,7 +178,7 @@ const Inventory = ({
                 <Grid gutter="md">
                     <GridItem span={12}>
                         {
-                            !loading && <InventoryTable
+                            !loading && InvCmp && <InvCmp
                                 history={history}
                                 store={store}
                                 customFilters={globalFilter}
@@ -239,20 +247,6 @@ const Inventory = ({
                                     canSelectAll: false
                                 }}
                                 onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
-                                onLoad={({ mergeWithEntities, INVENTORY_ACTION_TYPES }) => {
-                                    getRegistry().register({
-                                        ...mergeWithEntities(tableReducer(INVENTORY_ACTION_TYPES))
-                                    });
-
-                                    setFilter(generateFilter(status, source, tagsFilter, filterbyName));
-
-                                    if (perPage || page) {
-                                        setPagination(
-                                            Array.isArray(page) ? page[0] : page,
-                                            Array.isArray(perPage) ? perPage[0] : perPage
-                                        );
-                                    }
-                                }}
                             />
                         }
                     </GridItem>
@@ -275,14 +269,14 @@ const Inventory = ({
                         removeSystems = [currentSytem.id];
                     }
 
-                    addNotification({
+                    dispatch(addNotificationAction({
                         id: 'remove-initiated',
                         variant: 'warning',
                         title: 'Delete operation initiated',
                         description: `Removal of ${displayName} started.`,
                         dismissable: false
-                    });
-                    deleteEntity(removeSystems, displayName, () => onRefresh({ filters }));
+                    }));
+                    dispatch(reloadWrapper(actions.deleteEntity(removeSystems, displayName), () => onRefresh({ filters })));
                     handleModalToggle(false);
                 }}
             />
@@ -293,7 +287,10 @@ const Inventory = ({
                 value={currentSytem.display_name}
                 onCancel={() => onEditOpen(false)}
                 onSubmit={(value) => {
-                    updateDisplayName(currentSytem.id, value, inventory.current.onRefreshData);
+                    dispatch(reloadWrapper(
+                        actions.editDisplayName(currentSytem.id, value),
+                        inventory.current.onRefreshData
+                    ));
                     onEditOpen(false);
                 }}
             />
