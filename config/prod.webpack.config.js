@@ -13,7 +13,13 @@ plugins.push(
         root: resolve(__dirname, '../'),
         exposes: {
             './RootApp': resolve(__dirname, '../src/AppEntry'),
-            './SystemDetail': resolve(__dirname, '../src/components/inventory/GeneralInfo')
+            './SystemDetail': resolve(__dirname, '../src/components/SystemDetails/GeneralInfo'),
+            './InventoryTable': resolve(__dirname, '../src/modules/InventoryTable.js'),
+            './AppInfo': resolve(__dirname, '../src/modules/AppInfo.js'),
+            './InventoryDetailHead': resolve(__dirname, '../src/modules/InventoryDetailHead.js'),
+            './InventoryDetail': resolve(__dirname, '../src/modules/InventoryDetail.js'),
+            './TagWithDialog': resolve(__dirname, '../src/modules/TagWithDialog.js'),
+            './DetailWrapper': resolve(__dirname, '../src/modules/DetailWrapper.js')
         }
     })
 );

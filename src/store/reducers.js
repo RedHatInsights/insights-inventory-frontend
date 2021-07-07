@@ -1,4 +1,4 @@
-import { ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from '../constants';
+import { INVENTORY_ACTION_TYPES, ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from './action-types';
 import systemProfileStore from './systemProfileStore';
 import {
     ComplianceTab,
@@ -7,22 +7,18 @@ import {
     GeneralInformationTab,
     PatchTab,
     RosTab
-} from '../components/inventory';
+} from '../components/SystemDetails';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import entitiesReducer, { defaultState as entitiesDefault } from './entities';
+import entityDetailsReducer, { defaultState as entityDefault } from './entityDetails';
+
+export { entitiesReducer, entityDetailsReducer };
 
 import permissionsReducer from './permissions/reducer';
 
 const defaultState = { loaded: false, selected: new Map() };
-
-const isEntitled = (service) => {
-    if (window.sessionStorage.getItem('disableEntitlements') === 'true') {
-        return true;
-    }
-
-    return service && service.is_entitled;
-};
 
 function entitiesLoaded(state, { payload }) {
     return {
@@ -32,7 +28,7 @@ function entitiesLoaded(state, { payload }) {
     };
 }
 
-function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
+function entityLoaded(state) {
 
     const hasRosCookie = insights.chrome.visibilityFunctions.isProd() ?
         insights.chrome.visibilityFunctions.hasCookie('cs_ros_beta_enable', '1') : true;
@@ -42,28 +38,27 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
         loaded: true,
         activeApps: [
             { title: 'General information', name: 'general_information', component: GeneralInformationTab },
-            isEntitled(entitlements && entitlements.insights) && { title: 'Advisor', name: 'advisor', component: AdvisorTab },
-            isEntitled(entitlements && entitlements.insights) && {
+            { title: 'Advisor', name: 'advisor', component: AdvisorTab },
+            {
                 title: 'Vulnerability',
                 name: 'vulnerabilities',
                 component: VulnerabilityTab
             },
-            isEntitled(entitlements && entitlements.insights) && {
+            {
                 title: 'Compliance',
                 name: 'compliance',
                 component: ComplianceTab
             },
-            isEntitled(entitlements && entitlements.insights) && {
+            {
                 title: 'Patch',
                 name: 'patch',
                 component: PatchTab
             },
-            isEntitled(entitlements && entitlements.insights) && hasRosCookie && {
+            hasRosCookie && {
                 title: 'Resource Optimization',
                 name: 'ros',
                 component: RosTab
             }
-
         ].filter(Boolean)
     };
 }
@@ -138,10 +133,10 @@ let reducers = {
     permissionsReducer
 };
 
-export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash(
+export const tableReducer = applyReducerHash(
     {
         [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded,
-        [LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
+        [INVENTORY_ACTION_TYPES.LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
         [`${ACTION_TYPES.REMOVE_ENTITY}_FULFILLED`]: entityDeleted,
         [SELECT_ENTITY]: entitySelected,
         FILTER_SELECT: (state) => ({ ...state, selected: {} }),
@@ -153,9 +148,33 @@ export const entitiesReducer = ({ LOAD_ENTITIES_FULFILLED }) => applyReducerHash
 
 export const entitesDetailReducer = () => applyReducerHash(
     {
-        [ACTION_TYPES.GET_ENTITY_FULFILLED]: entityLoaded
+        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded
     },
     defaultState
 );
+
+export function mergeWithEntities(additionalReducers = (state) => state, defaultState = {}) {
+    return ({
+        entities: (state, payload) => ({
+            ...additionalReducers({
+                ...applyReducerHash({
+                    ...entitiesReducer
+                }, { ...entitiesDefault, ...defaultState })(state, payload)
+            }, payload)
+        })
+    });
+}
+
+export function mergeWithDetail(additionalReducers = (state) => state, defaultState = {}) {
+    return ({
+        entityDetails: (state, payload) => ({
+            ...additionalReducers({
+                ...applyReducerHash({
+                    ...entityDetailsReducer
+                }, { ...entityDefault, ...defaultState })(state, payload)
+            }, payload)
+        })
+    });
+}
 
 export default reducers;
