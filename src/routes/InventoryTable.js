@@ -178,17 +178,14 @@ const Inventory = ({
                 <Grid gutter="md">
                     <GridItem span={12}>
                         {
-                            !loading && InvCmp && <InvCmp
-                                history={history}
-                                store={store}
+                            !loading && <InvCmp
+                                v2
                                 customFilters={globalFilter}
                                 isFullView
-                                ref={inventory}
                                 showTags
-                                onRefresh={onRefresh}
                                 hasCheckbox={writePermissions}
-                                autoRefresh
-                                initialLoading={initialLoading}
+                                bulkSelect
+                                selectAll={(select) => select(['49467873-b8de-4a8a-a18b-d5f501e88d5c'])}
                                 {...(writePermissions && {
                                     actions: [
                                         {
@@ -220,28 +217,6 @@ const Inventory = ({
                                                 }
                                             }
                                         }]
-                                    },
-                                    bulkSelect: {
-                                        count: calculateSelected(),
-                                        id: 'bulk-select-systems',
-                                        items: [{
-                                            title: 'Select none (0)',
-                                            onClick: () => {
-                                                onSelectRows(-1, false);
-                                            }
-                                        },
-                                        {
-                                            ...loaded && rows && rows.length > 0 ? {
-                                                title: `Select page (${ rows.length })`,
-                                                onClick: () => {
-                                                    onSelectRows(0, true);
-                                                }
-                                            } : {}
-                                        }],
-                                        checked: calculateChecked(rows, selected),
-                                        onSelect: (value) => {
-                                            onSelectRows(0, value);
-                                        }
                                     }
                                 })}
                                 tableProps={{

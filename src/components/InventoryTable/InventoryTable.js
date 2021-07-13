@@ -11,7 +11,7 @@ import AccessDenied from '../../Utilities/AccessDenied';
 import { loadSystems } from '../../Utilities/index';
 import isEqual from 'lodash/isEqual';
 import { entitiesLoading } from '../../store/actions';
-
+import InventoryTableV2 from '../TableNew';
 /**
  * A helper function to store props and to always return the latest state.
  * For example, EntityTableToolbar wraps OnRefreshData in a callback, so we need this
@@ -261,4 +261,10 @@ InventoryTable.propTypes = {
     showTagModal: PropTypes.bool
 };
 
-export default InventoryTable;
+const TablesWrapper = ({ v2, ...props }) => v2 ? <InventoryTableV2 {...props} /> : <InventoryTable {...props} />;
+
+TablesWrapper.propTypes = {
+    v2: PropTypes.bool
+};
+
+export default TablesWrapper;
