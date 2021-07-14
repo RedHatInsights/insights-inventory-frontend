@@ -10,7 +10,8 @@ const mapper = {
     TextListItemVariants: 'TextListItem',
     TextListVariants: 'TextList',
     getDefaultOUIAId: 'ouia',
-    useOUIAProps: 'ouia'
+    useOUIAProps: 'ouia',
+    PaginationVariant: 'Pagination'
 };
 
 const FECMapper = {

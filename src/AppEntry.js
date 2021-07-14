@@ -7,8 +7,8 @@ import App from './App';
 import { getBaseName } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import logger from 'redux-logger';
 
-const InventoryApp = ({ useLogger }) => {
-    const registry = useLogger ? init(logger) : init();
+const InventoryApp = () => {
+    const registry = IS_DEV ? init(logger) : init();
     return <RegistryContext.Provider value={{
         getRegistry: () => registry
     }}>
