@@ -4,7 +4,8 @@ import {
     ComplianceTab,
     VulnerabilityTab,
     AdvisorTab,
-    GeneralInformationTab
+    GeneralInformationTab,
+    RosTab
 } from '../components/inventory';
 import PatchMan, {
     SystemPackageListStore,
@@ -55,6 +56,11 @@ function entityLoaded(state, { payload: { entitlements } } = { payload: {} }) {
                 title: 'Patch',
                 name: 'patch',
                 component: PatchMan
+            },
+            isEntitled(entitlements && entitlements.insights) && {
+                title: 'Resource Optimization',
+                name: 'ros',
+                component: RosTab
             }
         ].filter(Boolean)
     };
