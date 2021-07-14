@@ -29,7 +29,6 @@ function entitiesLoaded(state, { payload }) {
 }
 
 function entityLoaded(state) {
-
     return {
         ...state,
         loaded: true,
