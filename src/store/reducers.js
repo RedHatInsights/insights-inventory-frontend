@@ -29,10 +29,6 @@ function entitiesLoaded(state, { payload }) {
 }
 
 function entityLoaded(state) {
-
-    const hasRosCookie = insights.chrome.visibilityFunctions.isProd() ?
-        insights.chrome.visibilityFunctions.hasCookie('cs_ros_beta_enable', '1') : true;
-
     return {
         ...state,
         loaded: true,
@@ -54,7 +50,7 @@ function entityLoaded(state) {
                 name: 'patch',
                 component: PatchTab
             },
-            hasRosCookie && {
+            {
                 title: 'Resource Optimization',
                 name: 'ros',
                 component: RosTab
