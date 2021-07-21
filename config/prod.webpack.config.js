@@ -13,7 +13,7 @@ plugins.push(
         root: resolve(__dirname, '../'),
         exposes: {
             './RootApp': resolve(__dirname, '../src/AppEntry'),
-            './SystemDetail': resolve(__dirname, '../src/components/SystemDetails/GeneralInfo'),
+            './SystemDetail': resolve(__dirname, '../src/components/SystemDetails/GeneralInfo.js'),
             './InventoryTable': resolve(__dirname, '../src/modules/InventoryTable.js'),
             './AppInfo': resolve(__dirname, '../src/modules/AppInfo.js'),
             './InventoryDetailHead': resolve(__dirname, '../src/modules/InventoryDetailHead.js'),
