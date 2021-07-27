@@ -1,20 +1,25 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { connect, shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './inventory.scss';
-import routerParams from '@redhat-cloud-services/frontend-components-utilities/RouterParams';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
-import { entitiesReducer, RegistryContext } from '../store';
-import * as actions from '../actions';
+import { tableReducer, RegistryContext } from '../store';
+import { mergeWithEntities } from '../store/reducers';
+import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
-import DeleteModal from '../components/DeleteModal';
-import TextInputModal from '@redhat-cloud-services/frontend-components-inventory-general-info/TextInputModal';
+import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import DeleteModal from '../Utilities/DeleteModal';
+import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
+import { inventoryConnector } from '../Utilities/inventoryConnector';
 
-import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
+const reloadWrapper = (event, callback) => {
+    event.payload.then(callback);
+    return event;
+};
 
 const calculateChecked = (rows = [], selected) => (
     rows.every(({ id }) => selected && selected.has(id))
@@ -62,25 +67,18 @@ export const calculatePagination = (searchParams, page, perPage) => {
 };
 
 const Inventory = ({
-    clearNotifications,
-    deleteEntity,
-    addNotification,
-    loaded,
-    rows,
-    updateDisplayName,
-    onSelectRows,
-    selected,
     status,
-    setFilter,
-    history,
     source,
     filterbyName,
     tagsFilter,
     page,
     perPage,
-    setPagination
+    initialLoading
 }) => {
+    const [InvCmp, setInvCmp] = useState();
     document.title = 'Inventory | Red Hat Insights';
+    const history = useHistory();
+    const store = useStore();
     const { getRegistry } = useContext(RegistryContext);
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
@@ -94,12 +92,19 @@ const Inventory = ({
         shallowEqual
     );
 
+    const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
+    const loaded = useSelector(({ entities }) => entities?.loaded);
+    const selected = useSelector(({ entities }) => entities?.selected);
+    const dispatch = useDispatch();
+
+    const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
+
     const onRefresh = (options, callback) => {
         if (!options?.filters) {
-            options.filters = defaultFilters;
+            options.filters = Object.entries(defaultFilters).map(([key, val]) => ({ [key]: val }));
         }
 
-        const { status, source, tagsFilter, filterbyName } = options?.filters.reduce((acc, curr) => ({
+        const { status, source, tagsFilter, filterbyName } = (options?.filters || []).reduce((acc, curr) => ({
             ...acc,
             ...curr?.staleFilter && { status: curr.staleFilter },
             ...curr?.registeredWithFilter && { source: curr.registeredWithFilter },
@@ -119,7 +124,7 @@ const Inventory = ({
             hash: location.hash
         });
 
-        if (!callback && inventory && inventory.current) {
+        if (!callback && inventory?.current) {
             inventory.current.onRefreshData(options);
         } else if (callback) {
             callback(options);
@@ -132,7 +137,7 @@ const Inventory = ({
         insights.chrome.appObjectId();
         insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
             const [workloads, SID, tags] = insights.chrome?.mapGlobalFilter?.(data, false, true);
-            setGlobalFilter(() => ({
+            setGlobalFilter({
                 tags,
                 filter: {
                     ...globalFilter?.filter,
@@ -142,12 +147,24 @@ const Inventory = ({
                         ...SID?.length > 0 && { sap_sids: SID }
                     }
                 }
-            }));
-            if (inventory.current) {
-                inventory.current.onRefreshData({});
-            }
+            });
         });
-        clearNotifications();
+        dispatch(actions.clearNotifications());
+        const { InventoryTable } = inventoryConnector(store, undefined, undefined, true);
+        setInvCmp(() => InventoryTable);
+        getRegistry().register({
+            ...mergeWithEntities(tableReducer)
+        });
+
+        const filtersList = generateFilter(status, source, tagsFilter, filterbyName);
+        filtersList?.length > 0 && dispatch(actions.setFilter(filtersList));
+
+        if (perPage || page) {
+            dispatch(actions.setPagination(
+                Array.isArray(page) ? page[0] : page,
+                Array.isArray(perPage) ? perPage[0] : perPage
+            ));
+        }
     }, []);
 
     const calculateSelected = () => selected ? selected.size : 0;
@@ -161,13 +178,17 @@ const Inventory = ({
                 <Grid gutter="md">
                     <GridItem span={12}>
                         {
-                            !loading && <InventoryTable
+                            !loading && InvCmp && <InvCmp
+                                history={history}
+                                store={store}
                                 customFilters={globalFilter}
                                 isFullView
                                 ref={inventory}
                                 showTags
                                 onRefresh={onRefresh}
                                 hasCheckbox={writePermissions}
+                                autoRefresh
+                                initialLoading={initialLoading}
                                 {...(writePermissions && {
                                     actions: [
                                         {
@@ -226,20 +247,6 @@ const Inventory = ({
                                     canSelectAll: false
                                 }}
                                 onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
-                                onLoad={({ mergeWithEntities, INVENTORY_ACTION_TYPES }) => {
-                                    getRegistry().register({
-                                        ...mergeWithEntities(entitiesReducer(INVENTORY_ACTION_TYPES))
-                                    });
-
-                                    setFilter(generateFilter(status, source, tagsFilter, filterbyName));
-
-                                    if (perPage || page) {
-                                        setPagination(
-                                            Array.isArray(page) ? page[0] : page,
-                                            Array.isArray(perPage) ? perPage[0] : perPage
-                                        );
-                                    }
-                                }}
                             />
                         }
                     </GridItem>
@@ -248,7 +255,7 @@ const Inventory = ({
             <DeleteModal
                 handleModalToggle={handleModalToggle}
                 isModalOpen={isModalOpen}
-                currentSytem={currentSytem}
+                currentSytems={currentSytem}
                 onConfirm={() => {
                     let displayName;
                     let removeSystems;
@@ -262,14 +269,14 @@ const Inventory = ({
                         removeSystems = [currentSytem.id];
                     }
 
-                    addNotification({
+                    dispatch(addNotificationAction({
                         id: 'remove-initiated',
                         variant: 'warning',
                         title: 'Delete operation initiated',
                         description: `Removal of ${displayName} started.`,
                         dismissable: false
-                    });
-                    deleteEntity(removeSystems, displayName, () => onRefresh({ filters }));
+                    }));
+                    dispatch(reloadWrapper(actions.deleteEntity(removeSystems, displayName), () => onRefresh({ filters })));
                     handleModalToggle(false);
                 }}
             />
@@ -280,7 +287,10 @@ const Inventory = ({
                 value={currentSytem.display_name}
                 onCancel={() => onEditOpen(false)}
                 onSubmit={(value) => {
-                    updateDisplayName(currentSytem.id, value, inventory.current.onRefreshData);
+                    dispatch(reloadWrapper(
+                        actions.editDisplayName(currentSytem.id, value),
+                        inventory.current.onRefreshData
+                    ));
                     onEditOpen(false);
                 }}
             />
@@ -288,58 +298,18 @@ const Inventory = ({
     );
 };
 
-Inventory.contextTypes = {
-    store: PropTypes.object
-};
-
 Inventory.propTypes = {
-    rows: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        selected: PropTypes.bool
-    })),
-    loaded: PropTypes.bool,
-    loadEntity: PropTypes.func,
-    clearNotifications: PropTypes.func,
-    deleteEntity: PropTypes.func,
-    addNotification: PropTypes.func,
-    updateDisplayName: PropTypes.func,
-    onSelectRows: PropTypes.func,
-    setFilter: PropTypes.func,
-    selected: PropTypes.object,
     status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     source: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     filterbyName: PropTypes.string,
     tagsFilter: PropTypes.any,
-    history: PropTypes.shape({
-        push: PropTypes.func
-    }),
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    setPagination: PropTypes.func
+    initialLoading: PropTypes.bool
 };
 
-function mapDispatchToProps(dispatch) {
-    const reloadWrapper = (event, callback) => {
-        event.payload.then(callback);
-        return event;
-    };
+Inventory.defaultProps = {
+    initialLoading: true
+};
 
-    return {
-        loadEntity: (id) => dispatch(actions.loadEntity(id)),
-        clearNotifications: () => dispatch(actions.clearNotifications()),
-        deleteEntity: (id, hostName, callback) => dispatch(reloadWrapper(actions.deleteEntity(id, hostName), callback)),
-        addNotification: (payload) => dispatch(addNotification(payload)),
-        updateDisplayName: (id, displayName, callback) => dispatch(
-            reloadWrapper(actions.editDisplayName(id, displayName), callback)
-        ),
-        onSelectRows: (id, isSelected) => dispatch(actions.selectEntity(id, isSelected)),
-        setFilter: (filtersList) => filtersList?.length > 0 && dispatch(actions.setFilter(filtersList)),
-        setPagination: (page, perPage) => dispatch(actions.setPagination(page, perPage))
-    };
-}
-
-export default routerParams(connect(({ entities }) => ({
-    rows: entities && entities.rows,
-    loaded: entities && entities.loaded,
-    selected: entities && entities.selected
-}), mapDispatchToProps)(Inventory));
+export default Inventory;

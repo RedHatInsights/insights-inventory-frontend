@@ -1,5 +1,5 @@
 import permissionsReducer from './reducer';
-import { ACTION_TYPES } from '../../constants';
+import { ACTION_TYPES } from '../action-types';
 
 describe('permissionsReducer', () => {
     it('pending write permission', () => {
