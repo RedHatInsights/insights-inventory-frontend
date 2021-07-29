@@ -9,6 +9,7 @@ const { config: webpackConfig, plugins } = config({
     ...process.env.PROXY && {
         https: true,
         useProxy: true,
+        useCloud: true,
         proxyVerbose: true,
         appUrl: process.env.BETA ? '/beta/insights/inventory' : '/insights/inventory'
     }
