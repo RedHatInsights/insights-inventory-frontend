@@ -11,6 +11,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
   hasNoBodyWrapper={false}
   isOpen={false}
   onClose={[Function]}
+  ouiaId="inventory-delete-modal"
   ouiaSafe={true}
   showClose={true}
   title="Remove from inventory"
@@ -84,6 +85,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
       </Button>
       <Button
         onClick={[Function]}
+        ouiaId="cancel-delete"
         variant="link"
       >
         Cancel
@@ -104,6 +106,7 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 1
   hasNoBodyWrapper={false}
   isOpen={true}
   onClose={[Function]}
+  ouiaId="inventory-delete-modal"
   ouiaSafe={true}
   showClose={true}
   title="Remove from inventory"
@@ -178,6 +181,7 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 1
       </Button>
       <Button
         onClick={[Function]}
+        ouiaId="cancel-delete"
         variant="link"
       >
         Cancel
@@ -198,6 +202,7 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 2
   hasNoBodyWrapper={false}
   isOpen={true}
   onClose={[Function]}
+  ouiaId="inventory-delete-modal"
   ouiaSafe={true}
   showClose={true}
   title="Remove from inventory"
@@ -272,6 +277,7 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 2
       </Button>
       <Button
         onClick={[Function]}
+        ouiaId="cancel-delete"
         variant="link"
       >
         Cancel
@@ -292,6 +298,7 @@ exports[`EntityTable DOM should render correctly with one system 1`] = `
   hasNoBodyWrapper={false}
   isOpen={true}
   onClose={[Function]}
+  ouiaId="inventory-delete-modal"
   ouiaSafe={true}
   showClose={true}
   title="Remove from inventory"
@@ -366,6 +373,7 @@ exports[`EntityTable DOM should render correctly with one system 1`] = `
       </Button>
       <Button
         onClick={[Function]}
+        ouiaId="cancel-delete"
         variant="link"
       >
         Cancel
@@ -386,6 +394,7 @@ exports[`EntityTable DOM should render correctly with one system 2`] = `
   hasNoBodyWrapper={false}
   isOpen={true}
   onClose={[Function]}
+  ouiaId="inventory-delete-modal"
   ouiaSafe={true}
   showClose={true}
   title="Remove from inventory"
@@ -460,6 +469,7 @@ exports[`EntityTable DOM should render correctly with one system 2`] = `
       </Button>
       <Button
         onClick={[Function]}
+        ouiaId="cancel-delete"
         variant="link"
       >
         Cancel
