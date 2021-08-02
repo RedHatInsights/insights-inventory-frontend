@@ -54,9 +54,9 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytems, onConfirm 
         <Level hasGutter>
             <LevelItem>
                 <Button
-                  variant="danger"
-                  ouiaId="confirm-inventory-delete"
-                  onClick={onConfirm}
+                    variant="danger"
+                    ouiaId="confirm-inventory-delete"
+                    onClick={onConfirm}
                 >
                     Remove
                 </Button>
