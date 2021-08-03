@@ -50,7 +50,7 @@ function entityLoaded(state) {
                 name: 'patch',
                 component: PatchTab
             },
-            {
+            insights?.chrome?.isBeta() && {
                 title: 'Resource Optimization',
                 name: 'ros',
                 component: RosTab
