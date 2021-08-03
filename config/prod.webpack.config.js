@@ -36,6 +36,16 @@ webpackConfig.resolve.alias = {
 
 webpackConfig.optimization.concatenateModules = false;
 
+webpackConfig.module.rules = [
+    ...webpackConfig.module.rules,
+    {
+        test: /\.m?js/,
+        resolve: {
+            fullySpecified: false
+        }
+    }
+];
+
 module.exports = {
     ...webpackConfig,
     plugins

@@ -43,6 +43,16 @@ webpackConfig.resolve.alias = {
     reactRedux: resolve(__dirname, '../node_modules/react-redux')
 };
 
+webpackConfig.module.rules = [
+    ...webpackConfig.module.rules,
+    {
+        test: /\.m?js/,
+        resolve: {
+            fullySpecified: false
+        }
+    }
+];
+
 module.exports = {
     ...webpackConfig,
     plugins
