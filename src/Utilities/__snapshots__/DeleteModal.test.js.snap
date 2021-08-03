@@ -79,13 +79,14 @@ exports[`EntityTable DOM should render correctly 1`] = `
     <LevelItem>
       <Button
         onClick={[Function]}
+        ouiaId="confirm-inventory-delete"
         variant="danger"
       >
         Remove
       </Button>
       <Button
         onClick={[Function]}
-        ouiaId="cancel-delete"
+        ouiaId="cancel-inventory-delete"
         variant="link"
       >
         Cancel
@@ -175,13 +176,14 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 1
     <LevelItem>
       <Button
         onClick={[Function]}
+        ouiaId="confirm-inventory-delete"
         variant="danger"
       >
         Remove
       </Button>
       <Button
         onClick={[Function]}
-        ouiaId="cancel-delete"
+        ouiaId="cancel-inventory-delete"
         variant="link"
       >
         Cancel
@@ -271,13 +273,14 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 2
     <LevelItem>
       <Button
         onClick={[Function]}
+        ouiaId="confirm-inventory-delete"
         variant="danger"
       >
         Remove
       </Button>
       <Button
         onClick={[Function]}
-        ouiaId="cancel-delete"
+        ouiaId="cancel-inventory-delete"
         variant="link"
       >
         Cancel
@@ -367,13 +370,14 @@ exports[`EntityTable DOM should render correctly with one system 1`] = `
     <LevelItem>
       <Button
         onClick={[Function]}
+        ouiaId="confirm-inventory-delete"
         variant="danger"
       >
         Remove
       </Button>
       <Button
         onClick={[Function]}
-        ouiaId="cancel-delete"
+        ouiaId="cancel-inventory-delete"
         variant="link"
       >
         Cancel
@@ -463,13 +467,14 @@ exports[`EntityTable DOM should render correctly with one system 2`] = `
     <LevelItem>
       <Button
         onClick={[Function]}
+        ouiaId="confirm-inventory-delete"
         variant="danger"
       >
         Remove
       </Button>
       <Button
         onClick={[Function]}
-        ouiaId="cancel-delete"
+        ouiaId="cancel-inventory-delete"
         variant="link"
       >
         Cancel
