@@ -237,6 +237,7 @@ const EntityTableToolbar = ({
      */
     const constructFilters = () => {
         return {
+            ...activeFiltersConfig || {},
             filters: [
                 ...(showTags && !hasItems && enabledFilters.tags) ? tagsChip : [],
                 ...!hasItems && enabledFilters.name ? nameChip : [],
