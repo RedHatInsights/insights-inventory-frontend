@@ -11,7 +11,7 @@
     "@patternfly/react-icons": "^4.11.8",
     "@patternfly/react-table": "4.29.0",
     "@redhat-cloud-services/frontend-components": "3.3.9",
-    "@redhat-cloud-services/frontend-components-inventory-compliance": "^3.4.1",
+    "@redhat-cloud-services/frontend-components-inventory-compliance": "^3.4.3",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.2",
     "@redhat-cloud-services/frontend-components-utilities": "3.2.3",
     "@redhat-cloud-services/host-inventory-client": "1.0.96",
