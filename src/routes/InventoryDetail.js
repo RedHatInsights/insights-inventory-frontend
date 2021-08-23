@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector, shallowEqual, useStore } from 'react-redux';
+import { useRouteMatch } from 'react-router-dom';
 import './inventory.scss';
 import { Link, useHistory } from 'react-router-dom';
 import { entitesDetailReducer, RegistryContext } from '../store';
@@ -18,12 +19,14 @@ import DetailWrapper from '../modules/DetailWrapper';
 const Inventory = ({ entity, currentApp, clearNotifications }) => {
     const store = useStore();
     const history = useHistory();
+    const { params: { inventoryId } } = useRouteMatch('/:inventoryId');
     const { getRegistry } = useContext(RegistryContext);
     const { loading, writePermissions } = useSelector(
         ({ permissionsReducer }) =>
             ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
         shallowEqual
     );
+    const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
 
     useEffect(() => {
         insights.chrome?.hideGlobalFilter?.(true);
@@ -71,7 +74,8 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
                             {
                                 entity ?
                                     entity.display_name :
-                                    <Skeleton size={SkeletonSize.xs} />
+                                    entityLoaded !== true ?
+                                        <Skeleton size={SkeletonSize.xs} /> : inventoryId
                             }
                         </div>
                     </BreadcrumbItem>

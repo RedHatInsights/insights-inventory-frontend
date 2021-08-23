@@ -64,7 +64,9 @@ const InventoryDetail = ({
             {children}
         </Fragment>
         }
-        <ApplicationDetails onTabSelect={ onTabSelect } appList={ appList } />
+        {loaded && entity && (
+            <ApplicationDetails onTabSelect={ onTabSelect } appList={ appList } />
+        )}
     </div>;
 };
 
