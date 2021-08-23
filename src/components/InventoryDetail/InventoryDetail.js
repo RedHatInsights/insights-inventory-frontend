@@ -91,8 +91,7 @@ InventoryDetail.propTypes = {
 InventoryDetail.defaultProps = {
     actions: [],
     hideInvLink: false,
-    showTags: false,
-    onBackToListClick: () => undefined
+    showTags: false
 };
 
 export default InventoryDetail;
