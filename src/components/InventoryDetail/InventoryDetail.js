@@ -64,7 +64,9 @@ const InventoryDetail = ({
             {children}
         </Fragment>
         }
-        <ApplicationDetails onTabSelect={ onTabSelect } appList={ appList } />
+        {loaded && entity && (
+            <ApplicationDetails onTabSelect={ onTabSelect } appList={ appList } />
+        )}
     </div>;
 };
 
@@ -91,8 +93,7 @@ InventoryDetail.propTypes = {
 InventoryDetail.defaultProps = {
     actions: [],
     hideInvLink: false,
-    showTags: false,
-    onBackToListClick: () => undefined
+    showTags: false
 };
 
 export default InventoryDetail;

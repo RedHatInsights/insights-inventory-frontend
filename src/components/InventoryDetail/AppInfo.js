@@ -15,7 +15,7 @@ const AppInfo = ({ componentMapper, appList }) => {
     const { search } = useLocation();
     const searchParams = new URLSearchParams(search);
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
-    const entity = useSelector(({ entityDetails }) => entityDetails?. entity);
+    const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
     const activeApp = useSelector(({ entityDetails }) => {
         if (entityDetails?.loaded) {
             return (appList || entityDetails?.activeApps)?.find?.(item => item?.name === (
@@ -24,6 +24,11 @@ const AppInfo = ({ componentMapper, appList }) => {
         }
     });
     const Cmp = componentMapper || activeApp?.component;
+
+    if (loaded === true && !entity) {
+        return null;
+    }
+
     return (
         <Fragment>
             {
