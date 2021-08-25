@@ -223,6 +223,7 @@ const Inventory = ({
                                     },
                                     bulkSelect: {
                                         count: calculateSelected(),
+                                        id: 'bulk-select-systems',
                                         items: [{
                                             title: 'Select none (0)',
                                             onClick: () => {
