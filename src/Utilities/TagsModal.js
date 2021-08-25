@@ -110,7 +110,7 @@ const TagsModal = ({
                     }
                 }
             ]}
-            onUpdateData={ fetchTags }
+            onUpdateData={ (pagination) => fetchTags(pagination, filterBy) }
             columns={ [
                 { title: 'Name' },
                 { title: 'Value', transforms: [cellWidth(30)] },
