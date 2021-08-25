@@ -12,8 +12,22 @@ plugins.push(
     require('@redhat-cloud-services/frontend-components-config/federated-modules')({
         root: resolve(__dirname, '../'),
         exposes: {
+            // Application root
             './RootApp': resolve(__dirname, '../src/AppEntry'),
+            // System detail
             './SystemDetail': resolve(__dirname, '../src/components/SystemDetails/GeneralInfo.js'),
+            // System detail cards
+            './SystemCard': resolve(__dirname, '../src/components/GeneralInfo/SystemCard/SystemCard.js'),
+            './OperatingSystemCard':
+              resolve(__dirname, '../src/components/GeneralInfo/OperatingSystemCard/OperatingSystemCard.js'),
+            './InfrastructureCard': resolve(__dirname, '../src/components/GeneralInfo/InfrastructureCard/InfrastructureCard.js'),
+            './ConfigurationCard': resolve(__dirname, '../src/components/GeneralInfo/ConfigurationCard/ConfigurationCard.js'),
+            './CollectionCard': resolve(__dirname, '../src/components/GeneralInfo/CollectionCard/CollectionCard.js'),
+            './BiosCard': resolve(__dirname, '../src/components/GeneralInfo/BiosCard/BiosCard.js'),
+            // System detail data providers
+            './selectors': resolve(__dirname, '../src/components/GeneralInfo/selectors/index.js'),
+            './dataMapper': resolve(__dirname, '../src/components/GeneralInfo/dataMapper/index.js'),
+            // Inventory modules
             './InventoryTable': resolve(__dirname, '../src/modules/InventoryTable.js'),
             './AppInfo': resolve(__dirname, '../src/modules/AppInfo.js'),
             './InventoryDetailHead': resolve(__dirname, '../src/modules/InventoryDetailHead.js'),
