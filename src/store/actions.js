@@ -36,6 +36,8 @@ export const editDisplayName = (id, value) => ({
     type: ACTION_TYPES.UPDATE_DISPLAY_NAME,
     payload: hosts.apiHostPatchById([id], { display_name: value }), // eslint-disable-line camelcase
     meta: {
+        id,
+        value,
         notifications: {
             fulfilled: {
                 variant: 'success',

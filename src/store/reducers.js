@@ -28,6 +28,17 @@ function entitiesLoaded(state, { payload }) {
     };
 }
 
+function updateEntity(state, { meta }) {
+    return {
+        ...state,
+        rows: state.rows.map((row) => row.id === meta?.id ? ({
+            ...row,
+            // eslint-disable-next-line camelcase
+            display_name: meta?.value
+        }) : row)
+    };
+}
+
 function entityLoaded(state) {
     return {
         ...state,
@@ -137,7 +148,8 @@ export const tableReducer = applyReducerHash(
         [SELECT_ENTITY]: entitySelected,
         FILTER_SELECT: (state) => ({ ...state, selected: {} }),
         [SET_INVENTORY_FILTER]: onSetFilter,
-        [SET_PAGINATION]: onSetPagination
+        [SET_PAGINATION]: onSetPagination,
+        [ACTION_TYPES.UPDATE_DISPLAY_NAME_FULFILLED]: updateEntity
     },
     defaultState
 );
