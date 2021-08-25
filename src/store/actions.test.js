@@ -24,6 +24,8 @@ describe('editDisplayName', () => {
         const { type, meta } = await editDisplayName('4', 'test-value');
         expect(type).toBe('UPDATE_DISPLAY_NAME');
         expect(meta).toEqual({
+            id: '4',
+            value: 'test-value',
             notifications: {
                 fulfilled: {
                     variant: 'success',
