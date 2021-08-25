@@ -4,15 +4,20 @@ import PropTypes from 'prop-types';
 import GeneralInformation from '../GeneralInfo/GeneralInformation';
 export { default as TextInputModal } from '../GeneralInfo/TextInputModal';
 import fallback from '../SpinnerFallback';
+import systemProfileStore from '../../store/systemProfileStore';
 
-const GeneralInfoTab = ({ getRegisty, ...props }) => {
+const GeneralInfoTab = ({ getRegistry, ...props }) => {
     const [Wrapper, setWrapper] = useState();
     useEffect(() => {
-        setWrapper(() => getRegisty ? Provider : Fragment);
+        if (getRegistry) {
+            getRegistry()?.register?.({ systemProfileStore });
+        }
+
+        setWrapper(() => getRegistry ? Provider : Fragment);
     }, []);
     return Wrapper ? <Wrapper
-        {...getRegisty && {
-            store: getRegisty().getStore()
+        {...getRegistry && {
+            store: getRegistry().getStore()
         }}
     >
         <GeneralInformation {...props} />
@@ -20,7 +25,7 @@ const GeneralInfoTab = ({ getRegisty, ...props }) => {
 };
 
 GeneralInfoTab.propTypes = {
-    getRegisty: PropTypes.func
+    getRegistry: PropTypes.func
 };
 
 export default GeneralInfoTab;
