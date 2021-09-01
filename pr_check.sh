@@ -3,8 +3,9 @@
 # --------------------------------------------
 # Export vars for helper scripts to use
 # --------------------------------------------
-export APP_NAME="host-inventory" # name of app-sre "application" folder this component lives in
-export IMAGE="quay.io/cloudservices/insights-inventory-frontend"
+# export APP_NAME="host-inventory" # name of app-sre "application" folder this component lives in
+export APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
+export IMAGE="quay.io/cloudservices/$APP_NAME"
 export LC_ALL=en_US.utf-8
 export LANG=en_US.utf-8
 export APP_ROOT=$(pwd)
@@ -16,7 +17,9 @@ cat /etc/redhat-release
 # --------------------------------------------
 # Options that must be configured by app owner
 # --------------------------------------------
-COMPONENT_NAME="insights-inventory-frontend"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
+# APP_NAME="insights-inventory-frontend"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
+# Duplicating for now
+export APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
 IQE_PLUGINS="host_inventory"
 IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
@@ -49,7 +52,7 @@ fi
 echo $NPM_INFO > ./app.info.deps.json
 
 echo "{
-  \"app_name\": \"$COMPONENT_NAME\",
+  \"app_name\": \"$APP_NAME\",
   \"src_hash\": \"$GIT_COMMIT\",
   \"patternfly_dependencies\": $PATTERNFLY_DEPS,
 }" > ./app.info.json
@@ -62,13 +65,13 @@ fi
 
 echo "server { 
  listen 80;
- server_name $COMPONENT_NAME;
+ server_name $APP_NAME;
 
  location / {
   try_files \$uri \$uri/ $PREFIX/apps/chrome/index.html;
  }
 
- location $PREFIX/apps/$COMPONENT_NAME {
+ location $PREFIX/apps/$APP_NAME {
    alias /usr/share/nginx/html;
  }
 }

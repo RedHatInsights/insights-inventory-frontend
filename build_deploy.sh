@@ -2,7 +2,8 @@
 
 set -exv
 
-IMAGE="quay.io/cloudservices/insights-inventory-frontend"
+APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
+IMAGE="quay.io/cloudservices/$APP_NAME"
 IMAGE_TAG=$(git rev-parse --short=7 HEAD)
 
 if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
