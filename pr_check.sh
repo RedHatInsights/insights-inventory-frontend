@@ -17,9 +17,8 @@ cat /etc/redhat-release
 # --------------------------------------------
 # Options that must be configured by app owner
 # --------------------------------------------
-# APP_NAME="insights-inventory-frontend"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
+# COMPONENT_NAME="insights-inventory-frontend"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
 # Duplicating for now
-export APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
 IQE_PLUGINS="host_inventory"
 IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
@@ -30,7 +29,7 @@ IQE_FILTER_EXPRESSION=""
 
 npm ci
 npm run verify
-# npx codecov
+npx codecov
 
 NPM_INFO="undefined"
 PATTERNFLY_DEPS="undefined"
