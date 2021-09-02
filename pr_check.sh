@@ -76,10 +76,18 @@ echo "server {
 }
 " > ./nginx.conf
 
+if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
+    echo "QUAY_USER and QUAY_TOKEN must be set"
+    exit 1
+fi
 
-# Get bonfire helper scripts
-CICD_URL=https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd
-curl -s $CICD_URL/bootstrap.sh > .cicd_bootstrap.sh && source .cicd_bootstrap.sh
 
-# build the PR commit image
-source $CICD_ROOT/build.sh
+AUTH_CONF_DIR="$(pwd)/.podman"
+mkdir -p $AUTH_CONF_DIR
+export REGISTRY_AUTH_FILE="$AUTH_CONF_DIR/auth.json"
+
+podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
+podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
+echo "LABEL quay.expires-after=3d" >> $APP_ROOT/$DOCKERFILE  # tag expires in 3 days
+podman build --pull=true -f Dockerfile -t "${IMAGE}:${IMAGE_TAG}" .
+podman push "${IMAGE}:${IMAGE_TAG}"
