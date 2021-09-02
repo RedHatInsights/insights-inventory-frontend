@@ -4,8 +4,9 @@
 # Export vars for helper scripts to use
 # --------------------------------------------
 # export APP_NAME="host-inventory" # name of app-sre "application" folder this component lives in
-export APP_NAME=`node -e 'console.log(require("./package.json").name)'`
-export IMAGE="quay.io/cloudservices/$APP_NAME"
+export APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
+COMPONENT_NAME="insights-inventory-frontend"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
+export IMAGE="quay.io/cloudservices/$COMPONENT_NAME"
 export LC_ALL=en_US.utf-8
 export LANG=en_US.utf-8
 export APP_ROOT=$(pwd)
@@ -17,7 +18,6 @@ cat /etc/redhat-release
 # --------------------------------------------
 # Options that must be configured by app owner
 # --------------------------------------------
-# COMPONENT_NAME="insights-inventory-frontend"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
 # Duplicating for now
 IQE_PLUGINS="host_inventory"
 IQE_MARKER_EXPRESSION="smoke"
@@ -89,11 +89,11 @@ if [[ -z "$RH_REGISTRY_USER" || -z "$RH_REGISTRY_TOKEN" ]]; then
 fi
 
 
-echo "LABEL quay.expires-after=3d" >> $APP_ROOT/$DOCKERFILE  # tag expires in 3 days
+echo "LABEL quay.expires-after=3d" >> $APP_ROOT/Dockerfile # tag expires in 3 days
 DOCKER_CONF="$PWD/.docker"
 mkdir -p "$DOCKER_CONF"
 docker --config="$DOCKER_CONF" login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 docker --config="$DOCKER_CONF" login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
-docker --config="$DOCKER_CONF" build -t "${IMAGE}:${IMAGE_TAG}" $APP_ROOT -f $APP_ROOT/$DOCKERFILE
+docker --config="$DOCKER_CONF" build -t "${IMAGE}:${IMAGE_TAG}" $APP_ROOT -f $APP_ROOT/Dockerfile
 docker --config="$DOCKER_CONF" push "${IMAGE}:${IMAGE_TAG}"
 
