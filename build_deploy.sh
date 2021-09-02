@@ -11,6 +11,11 @@ if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
     exit 1
 fi
 
+if [[ -z "$RH_REGISTRY_USER" || -z "$RH_REGISTRY_TOKEN" ]]; then
+    echo "RH_REGISTRY_USER and RH_REGISTRY_TOKEN must be set"
+    exit 1
+fi
+
 npm ci
 npm run verify
 npx codecov
@@ -60,15 +65,9 @@ echo "server {
 }
 " > ./nginx.conf
 
-
-AUTH_CONF_DIR="$(pwd)/.podman"
-mkdir -p $AUTH_CONF_DIR
-export REGISTRY_AUTH_FILE="$AUTH_CONF_DIR/auth.json"
-
-podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
-podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
-podman build --pull=true -f Dockerfile -t "${IMAGE}:${IMAGE_TAG}" .
-podman push "${IMAGE}:${IMAGE_TAG}"
-
-podman tag "${IMAGE}:${IMAGE_TAG}" "${IMAGE}:latest"
-podman push "${IMAGE}:latest"
+DOCKER_CONF="$PWD/.docker"
+mkdir -p "$DOCKER_CONF"
+docker --config="$DOCKER_CONF" login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
+docker --config="$DOCKER_CONF" login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
+docker --config="$DOCKER_CONF" build -t "${IMAGE}:${IMAGE_TAG}" $APP_ROOT -f $APP_ROOT/$DOCKERFILE
+docker --config="$DOCKER_CONF" push "${IMAGE}:${IMAGE_TAG}"
