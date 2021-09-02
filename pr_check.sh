@@ -29,7 +29,8 @@ IQE_FILTER_EXPRESSION=""
 
 npm ci
 npm run verify
-npx codecov
+# Issue with upload
+# npx codecov
 
 NPM_INFO="undefined"
 PATTERNFLY_DEPS="undefined"
@@ -37,7 +38,8 @@ if [[ -f package-lock.json ]] || [[ -f yarn.lock ]];
 then
   LINES=`npm list --silent --depth=0 --production | grep @patternfly -i | sed -E "s/^(.{0})(.{4})/\1/" | tr "\n" "," | sed -E "s/,/\",\"/g"` 
   PATTERNFLY_DEPS="[\"${LINES%???}\"]"
-else PATTERNFLY_DEPS="[]" fi
+else PATTERNFLY_DEPS="[]" 
+fi
 
 if [[ -n "$APP_BUILD_DIR" &&  -d $APP_BUILD_DIR ]]
 then
@@ -92,3 +94,4 @@ docker --config="$DOCKER_CONF" login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 docker --config="$DOCKER_CONF" login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
 docker --config="$DOCKER_CONF" build -t "${IMAGE}:${IMAGE_TAG}" $APP_ROOT -f $APP_ROOT/$DOCKERFILE
 docker --config="$DOCKER_CONF" push "${IMAGE}:${IMAGE_TAG}"
+
