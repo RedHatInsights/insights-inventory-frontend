@@ -2,7 +2,7 @@
 
 set -exv
 
-APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
+APP_NAME=`node -e 'console.log(require("./package.json").name)'`
 IMAGE="quay.io/cloudservices/$APP_NAME"
 IMAGE_TAG=$(git rev-parse --short=7 HEAD)
 
