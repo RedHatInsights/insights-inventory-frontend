@@ -56,7 +56,7 @@ echo "{
   \"app_name\": \"$APP_NAME\",
   \"src_hash\": \"$GIT_COMMIT\",
   \"patternfly_dependencies\": $PATTERNFLY_DEPS,
-}" > ./app.info.json
+}" > $APP_ROOT/app.info.json
 
 
 PREFIX=""
@@ -76,7 +76,7 @@ echo "server {
    alias /usr/share/nginx/html;
  }
 }
-" > ./nginx.conf
+" > $APP_ROOT/nginx.conf
 
 if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
     echo "QUAY_USER and QUAY_TOKEN must be set"

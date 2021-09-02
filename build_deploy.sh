@@ -44,7 +44,7 @@ echo "{
   \"app_name\": \"$APP_NAME\",
   \"src_hash\": \"$GIT_COMMIT\",
   \"patternfly_dependencies\": $PATTERNFLY_DEPS,
-}" > ./app.info.json
+}" > $APP_ROOT/app.info.json
 
 
 PREFIX=""
@@ -64,7 +64,7 @@ echo "server {
    alias /usr/share/nginx/html;
  }
 }
-" > ./nginx.conf
+" > $APP_ROOT/nginx.conf
 
 DOCKER_CONF="$PWD/.docker"
 mkdir -p "$DOCKER_CONF"
