@@ -97,3 +97,9 @@ docker --config="$DOCKER_CONF" login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOK
 docker --config="$DOCKER_CONF" build -t "${IMAGE}:${IMAGE_TAG}" $APP_ROOT -f $APP_ROOT/Dockerfile
 docker --config="$DOCKER_CONF" push "${IMAGE}:${IMAGE_TAG}"
 
+mkdir -p $WORKSPACE/artifacts
+cat << EOF > $WORKSPACE/artifacts/junit-dummy.xml
+<testsuite tests="1">
+    <testcase classname="dummy" name="dummytest"/>
+</testsuite>
+EOF
