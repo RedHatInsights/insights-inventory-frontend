@@ -23,6 +23,8 @@ IQE_PLUGINS="host_inventory"
 IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
 
+set -ex
+
 # ---------------------------
 # Build and Publish to Quay
 # ---------------------------
