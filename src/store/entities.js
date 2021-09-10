@@ -91,7 +91,7 @@ function entitiesPending(state, { meta }) {
         ], 'key'),
         rows: [],
         loaded: false,
-        currentDate: meta.currentDate
+        lastDateRequest: meta.lastDateRequest
     };
 }
 
@@ -105,7 +105,7 @@ function clearFilters(state) {
 // eslint-disable-next-line camelcase
 function entitiesLoaded(state, { payload: { results, per_page: perPage, page, count, total, loaded, filters }, meta }) {
     // Older requests should not rewrite the state
-    if (meta.currentDate < state.currentDate) {
+    if (meta.lastDateRequest < state.lastDateRequest) {
         return state;
     }
 
@@ -223,9 +223,9 @@ export function toggleTagModalReducer(state, { payload: { isOpen } }) {
     };
 }
 
-export function allTags(state, { payload: { results, total, page, per_page: perPage }, meta: { currentDateTags } }) {
+export function allTags(state, { payload: { results, total, page, per_page: perPage }, meta: { lastDateRequestTags } }) {
     // only the latest request can change state
-    if (currentDateTags < state.currentDateTags) {
+    if (lastDateRequestTags < state.lastDateRequestTags) {
         return state;
     }
 
@@ -249,7 +249,7 @@ export function allTags(state, { payload: { results, total, page, per_page: perP
 export default {
     [ACTION_TYPES.ALL_TAGS_FULFILLED]: allTags,
     [ACTION_TYPES.ALL_TAGS_PENDING]: (state, { meta }) => (
-        { ...state, allTagsLoaded: false, tagModalLoaded: false, currentDateTags: meta.currentDateTags }
+        { ...state, allTagsLoaded: false, tagModalLoaded: false, lastDateRequestTags: meta.lastDateRequestTags }
     ),
     [ACTION_TYPES.LOAD_ENTITIES_PENDING]: entitiesPending,
     [ACTION_TYPES.LOAD_ENTITIES_FULFILLED]: entitiesLoaded,

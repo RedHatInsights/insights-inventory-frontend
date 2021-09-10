@@ -46,7 +46,7 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
     const orderBy = config.orderBy || 'updated';
     const orderDirection = config.orderDirection || 'DESC';
 
-    const currentDate = Date.now();
+    const lastDateRequest = Date.now();
 
     return {
         type: ACTION_TYPES.LOAD_ENTITIES,
@@ -70,7 +70,7 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
         })),
         meta: {
             showTags,
-            currentDate
+            lastDateRequest
         }
     };
 };
@@ -174,7 +174,7 @@ export const toggleTagModal = (isOpen) => ({
 export const fetchAllTags = (search, options) => ({
     type: ACTION_TYPES.ALL_TAGS,
     payload: getAllTags(search, options),
-    meta: { currentDateTags: Date.now() }
+    meta: { lastDateRequestTags: Date.now() }
 });
 
 export const deleteEntity = (systems, displayName) => ({
