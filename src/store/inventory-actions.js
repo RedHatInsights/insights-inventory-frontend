@@ -173,7 +173,8 @@ export const toggleTagModal = (isOpen) => ({
 
 export const fetchAllTags = (search, options) => ({
     type: ACTION_TYPES.ALL_TAGS,
-    payload: getAllTags(search, options)
+    payload: getAllTags(search, options),
+    meta: { currentDateTags: Date.now() }
 });
 
 export const deleteEntity = (systems, displayName) => ({

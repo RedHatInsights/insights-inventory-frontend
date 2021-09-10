@@ -223,7 +223,12 @@ export function toggleTagModalReducer(state, { payload: { isOpen } }) {
     };
 }
 
-export function allTags(state, { payload: { results, total, page, per_page: perPage } }) {
+export function allTags(state, { payload: { results, total, page, per_page: perPage }, meta: { currentDateTags } }) {
+    // only the latest request can change state
+    if (currentDateTags < state.currentDateTags) {
+        return state;
+    }
+
     return {
         ...state,
         allTags: Object.entries(groupBy(results, ({ tag: { namespace } }) => namespace)).map(([key, value]) => ({
@@ -243,7 +248,9 @@ export function allTags(state, { payload: { results, total, page, per_page: perP
 
 export default {
     [ACTION_TYPES.ALL_TAGS_FULFILLED]: allTags,
-    [ACTION_TYPES.ALL_TAGS_PENDING]: (state) => ({ ...state, allTagsLoaded: false, tagModalLoaded: false }),
+    [ACTION_TYPES.ALL_TAGS_PENDING]: (state, { meta }) => (
+        { ...state, allTagsLoaded: false, tagModalLoaded: false, currentDateTags: meta.currentDateTags }
+    ),
     [ACTION_TYPES.LOAD_ENTITIES_PENDING]: entitiesPending,
     [ACTION_TYPES.LOAD_ENTITIES_FULFILLED]: entitiesLoaded,
     [ACTION_TYPES.LOAD_ENTITIES_REJECTED]: loadingRejected,
