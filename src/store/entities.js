@@ -90,7 +90,8 @@ function entitiesPending(state, { meta }) {
             state.columns
         ], 'key'),
         rows: [],
-        loaded: false
+        loaded: false,
+        currentDate: meta.currentDate
     };
 }
 
@@ -102,7 +103,12 @@ function clearFilters(state) {
 }
 
 // eslint-disable-next-line camelcase
-function entitiesLoaded(state, { payload: { results, per_page: perPage, page, count, total, loaded, filters } }) {
+function entitiesLoaded(state, { payload: { results, per_page: perPage, page, count, total, loaded, filters }, meta }) {
+    // Older requests should not rewrite the state
+    if (meta.currentDate < state.currentDate) {
+        return state;
+    }
+
     // Data are loaded and APi returned malicious data
     if (loaded === undefined && (page === undefined || perPage === undefined)) {
         return state;

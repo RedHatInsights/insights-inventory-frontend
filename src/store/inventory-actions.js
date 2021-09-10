@@ -46,6 +46,8 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
     const orderBy = config.orderBy || 'updated';
     const orderDirection = config.orderDirection || 'DESC';
 
+    const currentDate = Date.now();
+
     return {
         type: ACTION_TYPES.LOAD_ENTITIES,
         payload: getEntities(itemIds, {
@@ -67,7 +69,8 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
             hideFilters: config.hideFilters
         })),
         meta: {
-            showTags
+            showTags,
+            currentDate
         }
     };
 };
