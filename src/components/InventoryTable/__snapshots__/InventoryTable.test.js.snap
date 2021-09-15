@@ -152,6 +152,10 @@ exports[`InventoryTable should render correctly 1`] = `
       activeFilters={
         Array [
           Object {},
+          Object {
+            "filter": "",
+            "value": "hostname_or_id",
+          },
         ]
       }
       hasItems={false}
@@ -271,6 +275,10 @@ exports[`InventoryTable should render correctly with items 1`] = `
       activeFilters={
         Array [
           Object {},
+          Object {
+            "filter": "",
+            "value": "hostname_or_id",
+          },
         ]
       }
       hasItems={true}
@@ -374,6 +382,10 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
       activeFilters={
         Array [
           Object {},
+          Object {
+            "filter": "",
+            "value": "hostname_or_id",
+          },
         ]
       }
       hasItems={true}

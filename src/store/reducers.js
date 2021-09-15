@@ -105,7 +105,11 @@ function entityDeleted(state, { meta }) {
     };
 }
 
-function onEntitiesLoaded(state, { payload }) {
+function onEntitiesLoaded(state, { payload, meta }) {
+    if (meta?.lastDateRequest < state?.lastDateRequest) {
+        return state;
+    }
+
     return {
         ...state,
         rows: mergeArraysByKey([state.rows, payload.results.map(result => {
