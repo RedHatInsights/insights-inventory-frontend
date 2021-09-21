@@ -6,6 +6,7 @@ import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-componen
 import { tagsFilterState, tagsFilterReducer, mapGroups } from '@redhat-cloud-services/frontend-components/FilterHooks';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
 import { fetchAllTags, clearFilters, toggleTagModal } from '../../store/actions';
+import { defaultFilters } from '../../Utilities/constants';
 import debounce from 'lodash/debounce';
 import flatMap from 'lodash/flatMap';
 import {
@@ -245,21 +246,25 @@ const EntityTableToolbar = ({
                 ...!hasItems && enabledFilters.registeredWith ? registeredChip : [],
                 ...activeFiltersConfig?.filters || []
             ],
-            onDelete: (e, [deleted, ...restDeleted], isAll) => {
+            onDelete: (e, [deleted, ...restDeleted], isAll) => { // Might have to revist for deletion of filters 
+                console.log('TESTING ------ onDelete restDeleted: ', restDeleted);
+                console.log('TESTING ------ onDelete deleted: ', deleted);
+                console.log('TESTING ------ can I see defaultFilters in onDelete: ', defaultFilters);
+              
                 if (isAll) {
                     updateData({ page: 1, filters: [] });
                     dispatch(clearFilters());
-                    enabledFilters.name && setTextFilter('');
-                    enabledFilters.stale && setStaleFilter([]);
-                    enabledFilters.registeredWith && setRegisteredWithFilter([]);
+                    enabledFilters.name && setTextFilter(''); // it is enabled, but holds no current value 
+                    // enabledFilters.stale && setStaleFilter([]); compare filter to default filter and if different values, THEN reset to default. otherwise return. 
+                    // enabledFilters.registeredWith && setRegisteredWithFilter([]);
                     enabledFilters.tags && setSelectedTags({});
                 } else if (deleted.type) {
                     deleteMapper[deleted.type](deleted);
                 }
-
+                
                 activeFiltersConfig &&
                 activeFiltersConfig.onDelete &&
-                activeFiltersConfig.onDelete(e, [deleted, ...restDeleted], isAll);
+                activeFiltersConfig.onDelete(e, [deleted, ...restDeleted], isAll, defaultFilters);
             }
         };
     };
