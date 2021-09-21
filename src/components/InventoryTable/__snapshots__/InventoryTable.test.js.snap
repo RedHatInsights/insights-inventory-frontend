@@ -3,7 +3,11 @@
 exports[`InventoryTable should render correctly - no data 1`] = `
 <ForwardRef>
   <EntityTableToolbar
-    activeFiltersConfig={Object {}}
+    activeFiltersConfig={
+      Object {
+        "deleteTitle": "Reset Filters",
+      }
+    }
     filters={Array []}
     hasAccess={true}
     hasItems={false}
@@ -40,7 +44,11 @@ exports[`InventoryTable should render correctly - with no access 1`] = `
   hasAccess={false}
 >
   <EntityTableToolbar
-    activeFiltersConfig={Object {}}
+    activeFiltersConfig={
+      Object {
+        "deleteTitle": "Reset Filters",
+      }
+    }
     filters={Array []}
     hasAccess={false}
     hasItems={false}
@@ -114,7 +122,11 @@ exports[`InventoryTable should render correctly - with no access and full view 1
 exports[`InventoryTable should render correctly 1`] = `
 <ForwardRef>
   <EntityTableToolbar
-    activeFiltersConfig={Object {}}
+    activeFiltersConfig={
+      Object {
+        "deleteTitle": "Reset Filters",
+      }
+    }
     filters={Array []}
     hasAccess={true}
     hasItems={false}
@@ -219,7 +231,11 @@ exports[`InventoryTable should render correctly with items 1`] = `
   total={200}
 >
   <EntityTableToolbar
-    activeFiltersConfig={Object {}}
+    activeFiltersConfig={
+      Object {
+        "deleteTitle": "Reset Filters",
+      }
+    }
     filters={Array []}
     hasAccess={true}
     hasItems={true}
@@ -322,7 +338,11 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
   }
 >
   <EntityTableToolbar
-    activeFiltersConfig={Object {}}
+    activeFiltersConfig={
+      Object {
+        "deleteTitle": "Reset Filters",
+      }
+    }
     filters={Array []}
     hasAccess={true}
     hasItems={true}
