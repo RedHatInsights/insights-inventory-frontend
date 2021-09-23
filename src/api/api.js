@@ -90,6 +90,8 @@ export async function getEntities(items, {
             undefined,
             { cancelToken: controller && controller.token }
         );
+        
+        console.log('TESTING ****** what does our host api do? this: ', data);
 
         if (fields && Object.keys(fields).length) {
             try {
