@@ -20,12 +20,12 @@ const DetailRenderer = ({ showInventoryDrawer, isRbacEnabled, ...props }) => {
     }
 };
 
-DetailWrapper.propTypes = {
+DetailRenderer.propTypes = {
     showInventoryDrawer: PropTypes.bool,
     isRbacEnabled: PropTypes.bool
 };
 
-DetailWrapper.defaultProps = {
+DetailRenderer.defaultProps = {
     showInventoryDrawer: false
 };
 
