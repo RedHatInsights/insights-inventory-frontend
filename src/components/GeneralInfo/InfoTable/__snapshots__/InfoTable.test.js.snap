@@ -56,15 +56,16 @@ exports[`InfoTable api expandable should open 1`] = `
         "perPage": 10,
       }
     }
-    toggleIsExpanded={[Function]}
   >
     <Toolbar
       className=" ins-c-primary-toolbar"
       id="ins-primary-data-toolbar"
-      toggleIsExpanded={[Function]}
     >
       <div
         className="pf-c-toolbar  ins-c-primary-toolbar"
+        data-ouia-component-id="OUIA-Generated-Toolbar-1"
+        data-ouia-component-type="PF4/Toolbar"
+        data-ouia-safe={true}
         id="ins-primary-data-toolbar"
       >
         <ToolbarContent
@@ -804,6 +805,7 @@ exports[`InfoTable api expandable should open 1`] = `
           }
           clearFiltersButtonText="Clear all filters"
           collapseListedFiltersBreakpoint="lg"
+          isExpanded={false}
           numberOfFilters={0}
           showClearFiltersButton={false}
         >
@@ -845,6 +847,7 @@ exports[`InfoTable api expandable should open 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
     onCollapse={[Function]}
@@ -1091,6 +1094,7 @@ exports[`InfoTable api expandable should open 1`] = `
         ]
       }
       gridBreakPoint="grid-md"
+      isNested={false}
       isStickyHeader={false}
       isTreeTable={false}
       ouiaSafe={true}
@@ -1114,6 +1118,7 @@ exports[`InfoTable api expandable should open 1`] = `
         borders={true}
         className=""
         gridBreakPoint="grid-md"
+        isNested={false}
         isStickyHeader={false}
         isTreeTable={false}
         ouiaSafe={true}
@@ -1126,6 +1131,7 @@ exports[`InfoTable api expandable should open 1`] = `
           className=""
           gridBreakPoint="grid-md"
           innerRef={null}
+          isNested={false}
           isStickyHeader={false}
           isTreeTable={false}
           ouiaSafe={true}
@@ -1144,7 +1150,7 @@ exports[`InfoTable api expandable should open 1`] = `
               <ContextHeader
                 headerRows={null}
               >
-                <Component
+                <Header
                   className=""
                   headerRows={null}
                 >
@@ -1660,10 +1666,10 @@ exports[`InfoTable api expandable should open 1`] = `
                       </TheadBase>
                     </Thead>
                   </BaseHeader>
-                </Component>
+                </Header>
               </ContextHeader>
             </TableHeader>
-            <Component>
+            <TableBody>
               <ContextBody
                 className=""
                 headerData={
@@ -1896,7 +1902,7 @@ exports[`InfoTable api expandable should open 1`] = `
                   ]
                 }
               >
-                <Component
+                <Body
                   className=""
                   headerRows={null}
                   mappedRows={
@@ -3267,7 +3273,8 @@ exports[`InfoTable api expandable should open 1`] = `
                             >
                               <RowWrapper
                                 className=""
-                                onMouseDown={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
                                 row={
                                   Object {
                                     "cells": Array [
@@ -3307,12 +3314,14 @@ exports[`InfoTable api expandable should open 1`] = `
                               >
                                 <Tr
                                   className=""
-                                  onMouseDown={[Function]}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
                                 >
                                   <TrBase
                                     className=""
                                     innerRef={null}
-                                    onMouseDown={[Function]}
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
                                   >
                                     <tr
                                       className=""
@@ -3320,7 +3329,8 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/TableRow"
                                       data-ouia-safe={true}
                                       hidden={false}
-                                      onMouseDown={[Function]}
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
                                     >
                                       <BodyCell
                                         className="pf-c-table__toggle"
@@ -3701,7 +3711,8 @@ exports[`InfoTable api expandable should open 1`] = `
                             >
                               <RowWrapper
                                 className=""
-                                onMouseDown={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
                                 row={
                                   Object {
                                     "cells": Array [
@@ -3736,13 +3747,15 @@ exports[`InfoTable api expandable should open 1`] = `
                                 <Tr
                                   className=""
                                   isExpanded={true}
-                                  onMouseDown={[Function]}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
                                 >
                                   <TrBase
                                     className=""
                                     innerRef={null}
                                     isExpanded={true}
-                                    onMouseDown={[Function]}
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
                                   >
                                     <tr
                                       className="pf-c-table__expandable-row pf-m-expanded"
@@ -3750,7 +3763,8 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/TableRow"
                                       data-ouia-safe={true}
                                       hidden={false}
-                                      onMouseDown={[Function]}
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
                                     >
                                       <BodyCell
                                         className=""
@@ -4061,7 +4075,8 @@ exports[`InfoTable api expandable should open 1`] = `
                             >
                               <RowWrapper
                                 className=""
-                                onMouseDown={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
                                 row={
                                   Object {
                                     "cells": Array [
@@ -4095,12 +4110,14 @@ exports[`InfoTable api expandable should open 1`] = `
                               >
                                 <Tr
                                   className=""
-                                  onMouseDown={[Function]}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
                                 >
                                   <TrBase
                                     className=""
                                     innerRef={null}
-                                    onMouseDown={[Function]}
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
                                   >
                                     <tr
                                       className=""
@@ -4108,7 +4125,8 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/TableRow"
                                       data-ouia-safe={true}
                                       hidden={false}
-                                      onMouseDown={[Function]}
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
                                     >
                                       <BodyCell
                                         className="pf-c-table__toggle"
@@ -4460,7 +4478,8 @@ exports[`InfoTable api expandable should open 1`] = `
                             >
                               <RowWrapper
                                 className=""
-                                onMouseDown={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
                                 row={
                                   Object {
                                     "cells": Array [
@@ -4495,13 +4514,15 @@ exports[`InfoTable api expandable should open 1`] = `
                                 <Tr
                                   className=""
                                   isExpanded={false}
-                                  onMouseDown={[Function]}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
                                 >
                                   <TrBase
                                     className=""
                                     innerRef={null}
                                     isExpanded={false}
-                                    onMouseDown={[Function]}
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
                                   >
                                     <tr
                                       className="pf-c-table__expandable-row"
@@ -4509,7 +4530,8 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/TableRow"
                                       data-ouia-safe={true}
                                       hidden={true}
-                                      onMouseDown={[Function]}
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
                                     >
                                       <BodyCell
                                         className=""
@@ -4826,7 +4848,8 @@ exports[`InfoTable api expandable should open 1`] = `
                             >
                               <RowWrapper
                                 className=""
-                                onMouseDown={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
                                 row={
                                   Object {
                                     "cells": Array [
@@ -4866,12 +4889,14 @@ exports[`InfoTable api expandable should open 1`] = `
                               >
                                 <Tr
                                   className=""
-                                  onMouseDown={[Function]}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
                                 >
                                   <TrBase
                                     className=""
                                     innerRef={null}
-                                    onMouseDown={[Function]}
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
                                   >
                                     <tr
                                       className=""
@@ -4879,7 +4904,8 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/TableRow"
                                       data-ouia-safe={true}
                                       hidden={false}
-                                      onMouseDown={[Function]}
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
                                     >
                                       <BodyCell
                                         className="pf-c-table__toggle"
@@ -5260,7 +5286,8 @@ exports[`InfoTable api expandable should open 1`] = `
                             >
                               <RowWrapper
                                 className=""
-                                onMouseDown={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
                                 row={
                                   Object {
                                     "cells": Array [
@@ -5295,13 +5322,15 @@ exports[`InfoTable api expandable should open 1`] = `
                                 <Tr
                                   className=""
                                   isExpanded={false}
-                                  onMouseDown={[Function]}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
                                 >
                                   <TrBase
                                     className=""
                                     innerRef={null}
                                     isExpanded={false}
-                                    onMouseDown={[Function]}
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
                                   >
                                     <tr
                                       className="pf-c-table__expandable-row"
@@ -5309,7 +5338,8 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/TableRow"
                                       data-ouia-safe={true}
                                       hidden={true}
-                                      onMouseDown={[Function]}
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
                                     >
                                       <BodyCell
                                         className=""
@@ -5618,7 +5648,8 @@ exports[`InfoTable api expandable should open 1`] = `
                             >
                               <RowWrapper
                                 className=""
-                                onMouseDown={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
                                 row={
                                   Object {
                                     "cells": Array [
@@ -5650,12 +5681,14 @@ exports[`InfoTable api expandable should open 1`] = `
                               >
                                 <Tr
                                   className=""
-                                  onMouseDown={[Function]}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
                                 >
                                   <TrBase
                                     className=""
                                     innerRef={null}
-                                    onMouseDown={[Function]}
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
                                   >
                                     <tr
                                       className=""
@@ -5663,7 +5696,8 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/TableRow"
                                       data-ouia-safe={true}
                                       hidden={false}
-                                      onMouseDown={[Function]}
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
                                     >
                                       <BodyCell
                                         className="pf-c-table__toggle"
@@ -6015,7 +6049,8 @@ exports[`InfoTable api expandable should open 1`] = `
                             >
                               <RowWrapper
                                 className=""
-                                onMouseDown={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
                                 row={
                                   Object {
                                     "cells": Array [
@@ -6050,13 +6085,15 @@ exports[`InfoTable api expandable should open 1`] = `
                                 <Tr
                                   className=""
                                   isExpanded={false}
-                                  onMouseDown={[Function]}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
                                 >
                                   <TrBase
                                     className=""
                                     innerRef={null}
                                     isExpanded={false}
-                                    onMouseDown={[Function]}
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
                                   >
                                     <tr
                                       className="pf-c-table__expandable-row"
@@ -6064,7 +6101,8 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/TableRow"
                                       data-ouia-safe={true}
                                       hidden={true}
-                                      onMouseDown={[Function]}
+                                      onClick={[Function]}
+                                      onKeyDown={[Function]}
                                     >
                                       <BodyCell
                                         className=""
@@ -6163,9 +6201,9 @@ exports[`InfoTable api expandable should open 1`] = `
                       </Tbody>
                     </BodyWrapper>
                   </BaseBody>
-                </Component>
+                </Body>
               </ContextBody>
-            </Component>
+            </TableBody>
           </table>
         </TableComposableBase>
       </TableComposable>
@@ -7023,7 +7061,8 @@ exports[`InfoTable api should paginate to last page 1`] = `
   data-ouia-component-type="PF4/TableRow"
   data-ouia-safe={true}
   hidden={false}
-  onMouseDown={[Function]}
+  onClick={[Function]}
+  onKeyDown={[Function]}
 >
   <BodyCell
     data-key={0}
@@ -7103,7 +7142,8 @@ exports[`InfoTable api should paginate to last page 2`] = `
   data-ouia-component-type="PF4/TableRow"
   data-ouia-safe={true}
   hidden={false}
-  onMouseDown={[Function]}
+  onClick={[Function]}
+  onKeyDown={[Function]}
 >
   <BodyCell
     data-key={0}
@@ -7183,7 +7223,8 @@ exports[`InfoTable api should paginate to next page 1`] = `
   data-ouia-component-type="PF4/TableRow"
   data-ouia-safe={true}
   hidden={false}
-  onMouseDown={[Function]}
+  onClick={[Function]}
+  onKeyDown={[Function]}
 >
   <BodyCell
     data-key={0}
@@ -7263,7 +7304,8 @@ exports[`InfoTable api should paginate to next page 2`] = `
   data-ouia-component-type="PF4/TableRow"
   data-ouia-safe={true}
   hidden={false}
-  onMouseDown={[Function]}
+  onClick={[Function]}
+  onKeyDown={[Function]}
 >
   <BodyCell
     data-key={0}
@@ -7354,7 +7396,6 @@ exports[`InfoTable should render expandable set to true 1`] = `
         "perPage": 10,
       }
     }
-    toggleIsExpanded={[Function]}
   />
   <Table
     aria-label="General information dialog table"
@@ -7373,6 +7414,7 @@ exports[`InfoTable should render expandable set to true 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
     onCollapse={[Function]}
@@ -7435,7 +7477,7 @@ exports[`InfoTable should render expandable set to true 1`] = `
     variant="compact"
   >
     <TableHeader />
-    <Component />
+    <TableBody />
   </Table>
   <TableToolbar
     className="ins-c-inventory__table--toolbar"
@@ -7524,7 +7566,6 @@ exports[`InfoTable should render multiple cells 1`] = `
         "perPage": 10,
       }
     }
-    toggleIsExpanded={[Function]}
   />
   <Table
     aria-label="General information dialog table"
@@ -7543,6 +7584,7 @@ exports[`InfoTable should render multiple cells 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
     onSort={[Function]}
@@ -7577,7 +7619,7 @@ exports[`InfoTable should render multiple cells 1`] = `
     variant="compact"
   >
     <TableHeader />
-    <Component />
+    <TableBody />
   </Table>
   <TableToolbar
     className="ins-c-inventory__table--toolbar"
@@ -7666,7 +7708,6 @@ exports[`InfoTable should render no data 1`] = `
         "perPage": 10,
       }
     }
-    toggleIsExpanded={[Function]}
   />
   <Table
     aria-label="General information dialog table"
@@ -7680,6 +7721,7 @@ exports[`InfoTable should render no data 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
     onSort={[Function]}
@@ -7697,7 +7739,7 @@ exports[`InfoTable should render no data 1`] = `
     variant="compact"
   >
     <TableHeader />
-    <Component />
+    <TableBody />
   </Table>
   <TableToolbar
     className="ins-c-inventory__table--toolbar"
@@ -7786,7 +7828,6 @@ exports[`InfoTable should render onSort set 1`] = `
         "perPage": 10,
       }
     }
-    toggleIsExpanded={[Function]}
   />
   <Table
     aria-label="General information dialog table"
@@ -7810,6 +7851,7 @@ exports[`InfoTable should render onSort set 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
     onSort={[Function]}
@@ -7844,7 +7886,7 @@ exports[`InfoTable should render onSort set 1`] = `
     variant="compact"
   >
     <TableHeader />
-    <Component />
+    <TableBody />
   </Table>
   <TableToolbar
     className="ins-c-inventory__table--toolbar"
@@ -7933,7 +7975,6 @@ exports[`InfoTable should render one cell 1`] = `
         "perPage": 10,
       }
     }
-    toggleIsExpanded={[Function]}
   />
   <TextContent>
     <Text
