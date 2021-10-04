@@ -60,7 +60,10 @@ function entityLoaded(state) {
                 title: 'Patch',
                 name: 'patch',
                 component: PatchTab
-            },
+            }, 
+            /*
+              TESTING >>>>>>>> This is where i need to to test for the provider type.
+            */
             (!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta())) && {
                 title: 'Resource Optimization',
                 name: 'ros',

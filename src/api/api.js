@@ -69,6 +69,12 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter }
 });
 
+/* 
+  TESTING >>>>>>>
+  This is where I'm supposed to get the data back from the api. 
+  Test this, and play around with it, until you get 'provider_type' back. 
+  If it doesn't, reach out to Kharel.
+*/
 export async function getEntities(items, {
     controller,
     hasItems,
@@ -134,7 +140,8 @@ export async function getEntities(items, {
 
         return data;
     } else if (!hasItems) {
-        return hosts.apiHostGetHostList(
+        // This is the end-point that I need to hit, to get provider_type.
+        return hosts.apiHostGetHostList(  
             undefined,
             undefined,
             filters.hostnameOrId,
