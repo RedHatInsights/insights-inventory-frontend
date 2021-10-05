@@ -5,8 +5,7 @@
 # --------------------------------------------
 # export APP_NAME="host-inventory" # name of app-sre "application" folder this component lives in
 export APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
-COMPONENT_NAME="insights-inventory-frontend"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
-export IMAGE="quay.io/cloudservices/$COMPONENT_NAME"
+export IMAGE="quay.io/cloudservices/$APP_NAME-frontend"
 export LC_ALL=en_US.utf-8
 export LANG=en_US.utf-8
 export APP_ROOT=$(pwd)
@@ -14,11 +13,11 @@ export WORKSPACE=${WORKSPACE:-$APP_ROOT}  # if running in jenkins, use the build
 export IMAGE_TAG=$(git rev-parse --short=7 HEAD)
 export GIT_COMMIT=$(git rev-parse HEAD)
 cat /etc/redhat-release
+COMMON_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master
 
 # --------------------------------------------
 # Options that must be configured by app owner
 # --------------------------------------------
-# Duplicating for now
 IQE_PLUGINS="host_inventory"
 IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
@@ -34,27 +33,14 @@ npm run verify
 # Issue with upload
 # npx codecov
 
-source $APP_ROOT/nginx_conf.sh
+# Generate nginx config based on app name in package.json
+curl -sSL $COMMON_BUILDER/src/nginx_conf_gen.sh | bash -s 
 
-if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
-    echo "QUAY_USER and QUAY_TOKEN must be set"
-    exit 1
-fi
-
-if [[ -z "$RH_REGISTRY_USER" || -z "$RH_REGISTRY_TOKEN" ]]; then
-    echo "RH_REGISTRY_USER and RH_REGISTRY_TOKEN must be set"
-    exit 1
-fi
-
-
+# Set pr check images to expire so they don't clog the repo
 echo "LABEL quay.expires-after=3d" >> $APP_ROOT/Dockerfile # tag expires in 3 days
-DOCKER_CONF="$PWD/.docker"
-mkdir -p "$DOCKER_CONF"
-docker --config="$DOCKER_CONF" login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
-docker --config="$DOCKER_CONF" login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
-docker --config="$DOCKER_CONF" build -t "${IMAGE}:${IMAGE_TAG}" $APP_ROOT -f $APP_ROOT/Dockerfile
-docker --config="$DOCKER_CONF" push "${IMAGE}:${IMAGE_TAG}"
+curl -sSL $COMMON_BUILDER/src/quay_push.sh | bash -s 
 
+# Stubbed out for now
 mkdir -p $WORKSPACE/artifacts
 cat << EOF > $WORKSPACE/artifacts/junit-dummy.xml
 <testsuite tests="1">
