@@ -3,9 +3,10 @@
 # --------------------------------------------
 # Export vars for helper scripts to use
 # --------------------------------------------
-# export APP_NAME="host-inventory" # name of app-sre "application" folder this component lives in
+# name of app-sre "application" folder this component lives in; needs to match for quay
+export COMPONENT="insights-inventory" 
 export APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
-export IMAGE="quay.io/cloudservices/$APP_NAME-frontend"
+export IMAGE="quay.io/cloudservices/$COMPONENT-frontend"
 export LC_ALL=en_US.utf-8
 export LANG=en_US.utf-8
 export APP_ROOT=$(pwd)
