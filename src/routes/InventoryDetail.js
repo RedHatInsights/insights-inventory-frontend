@@ -42,12 +42,6 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
         }
     }, []);
 
-    useEffect(() => {
-      console.log('TESTINNG -- entityLoaded: ', entityLoaded);
-      console.log('TESTING -- entity: ', entity);
-      console.log('TESTING -- currentApp', currentApp);
-    }, [entityLoaded]);
-
     const additionalClasses = {
         'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'
     };

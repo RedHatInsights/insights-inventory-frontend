@@ -4,7 +4,6 @@ import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import TitleColumn from './TitleColumn';
 import { Fragment } from 'react';
-import { defaultFilters } from '../../Utilities/constants';
 
 export const buildCells = (item, columns, extra) => {
     return columns.map(({ key, composed, renderFunc }) => {
@@ -51,9 +50,6 @@ export const createRows = (rows = [], columns = [], { actions, expandable, noSys
 
 export const onDeleteFilter = (deleted, currFilter) => {
     const { value: deletedItem } = deleted?.chips?.[0] || {};
-
-    console.log('TESTING !!!!!!! CHECKING ON DELETE FILTER FUNC: ', deleted);
-    console.log('currfilter: ', currFilter);
 
     const newFilter = currFilter.filter((item) => item !== deletedItem);
     return newFilter;

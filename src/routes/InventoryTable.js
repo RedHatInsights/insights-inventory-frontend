@@ -167,11 +167,6 @@ const Inventory = ({
         }
     }, []);
 
-    useEffect(() => {
-      console.log('TESTING ------ show me the filters used in Inventory Table: ', filters);
-      console.log('TESTING ------ show me the default filters on Inventory Table: ', defaultFilters);
-    }, [filters])
-
     const calculateSelected = () => selected ? selected.size : 0;
 
     return (
