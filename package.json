@@ -10,7 +10,7 @@
     "@patternfly/react-core": "4.157.3",
     "@patternfly/react-icons": "^4.11.17",
     "@patternfly/react-table": "4.30.3",
-    "@redhat-cloud-services/frontend-components": "3.4.2",
+    "@redhat-cloud-services/frontend-components": "3.4.6",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.4",
     "@redhat-cloud-services/frontend-components-utilities": "3.2.5",
     "@redhat-cloud-services/host-inventory-client": "1.0.96",
