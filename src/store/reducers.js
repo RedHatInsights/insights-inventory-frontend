@@ -12,7 +12,7 @@ import { applyReducerHash } from '@redhat-cloud-services/frontend-components-uti
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import entitiesReducer, { defaultState as entitiesDefault } from './entities';
-import entityDetailsReducer, { defaultState as entityDefault } from './entityDetails';
+import entityDetailsReducer, { entityDefaultState as entityDefault } from './entityDetails';
 
 export { entitiesReducer, entityDetailsReducer };
 
@@ -105,7 +105,11 @@ function entityDeleted(state, { meta }) {
     };
 }
 
-function onEntitiesLoaded(state, { payload }) {
+function onEntitiesLoaded(state, { payload, meta }) {
+    if (meta?.lastDateRequest < state?.lastDateRequest) {
+        return state;
+    }
+
     return {
         ...state,
         rows: mergeArraysByKey([state.rows, payload.results.map(result => {

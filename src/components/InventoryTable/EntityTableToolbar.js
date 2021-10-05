@@ -183,7 +183,7 @@ const EntityTableToolbar = ({
         refresh({ page: 1, perPage, filters: newFilters });
     };
 
-    const shouldReload = page && perPage && filters && (!hasItems || items) && loaded;
+    const shouldReload = page && perPage && filters && (!hasItems || items);
 
     useEffect(() => {
         if (shouldReload && showTags && enabledFilters.tags) {
