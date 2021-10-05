@@ -12,7 +12,7 @@ import { applyReducerHash } from '@redhat-cloud-services/frontend-components-uti
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import entitiesReducer, { defaultState as entitiesDefault } from './entities';
-import entityDetailsReducer, { defaultState as entityDefault } from './entityDetails';
+import entityDetailsReducer, { entityDefaultState as entityDefault } from './entityDetails';
 
 export { entitiesReducer, entityDetailsReducer };
 
