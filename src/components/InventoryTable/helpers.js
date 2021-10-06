@@ -50,6 +50,7 @@ export const createRows = (rows = [], columns = [], { actions, expandable, noSys
 
 export const onDeleteFilter = (deleted, currFilter) => {
     const { value: deletedItem } = deleted?.chips?.[0] || {};
+
     const newFilter = currFilter.filter((item) => item !== deletedItem);
     return newFilter;
 };
