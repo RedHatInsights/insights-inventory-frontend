@@ -201,6 +201,7 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
                     paginationProps={paginationProps}
                     loaded={loaded}
                     showTagModal={showTagModal}
+                    activeFiltersConfig={{ deleteTitle: 'Reset filters' }}
                 >
                     { children }
                 </EntityTableToolbar>

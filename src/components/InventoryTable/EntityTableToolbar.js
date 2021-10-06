@@ -6,6 +6,7 @@ import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-componen
 import { tagsFilterState, tagsFilterReducer, mapGroups } from '@redhat-cloud-services/frontend-components/FilterHooks';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
 import { fetchAllTags, clearFilters, toggleTagModal } from '../../store/actions';
+import { defaultFilters } from '../../Utilities/constants';
 import debounce from 'lodash/debounce';
 import flatMap from 'lodash/flatMap';
 import {
@@ -250,8 +251,6 @@ const EntityTableToolbar = ({
                     updateData({ page: 1, filters: [] });
                     dispatch(clearFilters());
                     enabledFilters.name && setTextFilter('');
-                    enabledFilters.stale && setStaleFilter([]);
-                    enabledFilters.registeredWith && setRegisteredWithFilter([]);
                     enabledFilters.tags && setSelectedTags({});
                 } else if (deleted.type) {
                     deleteMapper[deleted.type](deleted);
@@ -259,7 +258,7 @@ const EntityTableToolbar = ({
 
                 activeFiltersConfig &&
                 activeFiltersConfig.onDelete &&
-                activeFiltersConfig.onDelete(e, [deleted, ...restDeleted], isAll);
+                activeFiltersConfig.onDelete(e, [deleted, ...restDeleted], isAll, defaultFilters);
             }
         };
     };
