@@ -40,6 +40,7 @@ function updateEntity(state, { meta }) {
 }
 
 function entityLoaded(state) {
+  
     return {
         ...state,
         loaded: true,
