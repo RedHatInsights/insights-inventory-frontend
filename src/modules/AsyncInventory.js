@@ -8,6 +8,7 @@ const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...pr
     const [Component, setComponent] = useState();
     useEffect(() => {
         (async () => {
+          console.log('TESTING _______ wtf is AsyncInectory: ', componentName);
             const { inventoryConnector, mergeWithDetail, shared, api, ...rest } = await Promise.all([
                 import(
                     /* webpackChunkName: "inventoryConnector" */

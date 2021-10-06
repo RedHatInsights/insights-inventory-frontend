@@ -15,6 +15,7 @@ import { routes } from '../Routes';
 import InventoryDetailHead from '../modules/InventoryDetailHead';
 import AppInfo from '../modules/AppInfo';
 import DetailWrapper from '../modules/DetailWrapper';
+import { getEntitySystemProfile } from '../api/api';
 
 const Inventory = ({ entity, currentApp, clearNotifications }) => {
     const store = useStore();
@@ -44,6 +45,9 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
 
     useEffect(() => {
       console.log('TESTING ******* verifying entitiy inside of InventoryDetail: ', entity);
+      if(typeof entity !== undefined){
+          console.log('TESTING ******* verifying what comes from direct api call: ');
+      }
     }, [entity])
 
     const additionalClasses = {

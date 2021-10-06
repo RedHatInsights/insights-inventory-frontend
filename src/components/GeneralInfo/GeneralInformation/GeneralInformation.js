@@ -70,6 +70,7 @@ class GeneralInformation extends Component {
             children
         } = this.props;
         const Wrapper = store ? Provider : Fragment;
+        console.log('TESTING ####### Now deep inside generalInformation, props are: ', this.props);
         return (
             <Wrapper {...(store && { store })}>
                 <div className="ins-c-general-information">

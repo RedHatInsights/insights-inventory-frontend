@@ -11,7 +11,10 @@ export { instance };
 export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
 export const tags = new TagsApi(undefined, INVENTORY_API_BASE, instance);
 
-export const getEntitySystemProfile = (item) => hosts.apiHostGetHostSystemProfileById([item]);
+export const getEntitySystemProfile = (item) => {
+  console.log('TESTING ::::::::::: at my witts end, verifying systemProfile call: ', hosts.apiHostGetHostSystemProfileById([item]));
+  return hosts.apiHostGetHostSystemProfileById([item]);
+};
 
 /* eslint camelcase: off */
 export const mapData = ({ facts = {}, ...oneResult }) => ({
