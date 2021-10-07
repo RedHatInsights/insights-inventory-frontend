@@ -180,6 +180,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
   dropdownPosition="right"
   expandId="expandable-toggle"
   gridBreakPoint="grid-lg"
+  isNested={false}
   isStickyHeader={false}
   isTreeTable={false}
   onSelect={[Function]}
@@ -245,6 +246,7 @@ exports[`EntityTable DOM should render correctly - is expandable 1`] = `
   dropdownPosition="right"
   expandId="expandable-toggle"
   gridBreakPoint="grid-md"
+  isNested={false}
   isStickyHeader={false}
   isTreeTable={false}
   onCollapse={[Function]}
@@ -369,6 +371,9 @@ exports[`EntityTable DOM should render correctly - no rows 1`] = `
               >
                 <h5
                   class="pf-c-title pf-m-lg"
+                  data-ouia-component-id="OUIA-Generated-Title-1"
+                  data-ouia-component-type="PF4/Title"
+                  data-ouia-safe="true"
                 >
                   No matching systems found
                 </h5>
@@ -415,6 +420,7 @@ exports[`EntityTable DOM should render correctly - with actions 1`] = `
   dropdownPosition="right"
   expandId="expandable-toggle"
   gridBreakPoint="grid-md"
+  isNested={false}
   isStickyHeader={false}
   isTreeTable={false}
   onSelect={[Function]}
@@ -543,6 +549,7 @@ exports[`EntityTable DOM should render correctly - without checkbox 1`] = `
   dropdownPosition="right"
   expandId="expandable-toggle"
   gridBreakPoint="grid-md"
+  isNested={false}
   isStickyHeader={false}
   isTreeTable={false}
   onSort={[Function]}
@@ -737,6 +744,7 @@ exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
   dropdownPosition="right"
   expandId="expandable-toggle"
   gridBreakPoint="grid-md"
+  isNested={false}
   isStickyHeader={false}
   isTreeTable={false}
   onCollapse={[Function]}
@@ -813,6 +821,7 @@ exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] 
   dropdownPosition="right"
   expandId="expandable-toggle"
   gridBreakPoint="grid-md"
+  isNested={false}
   isStickyHeader={false}
   isTreeTable={false}
   onSort={[Function]}
@@ -887,6 +896,7 @@ exports[`EntityTable DOM sort by should render correctly 1`] = `
   dropdownPosition="right"
   expandId="expandable-toggle"
   gridBreakPoint="grid-md"
+  isNested={false}
   isStickyHeader={false}
   isTreeTable={false}
   onSelect={[Function]}

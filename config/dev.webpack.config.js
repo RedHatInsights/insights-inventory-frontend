@@ -9,7 +9,6 @@ const { config: webpackConfig, plugins } = config({
     ...process.env.PROXY && {
         https: true,
         useProxy: true,
-        useCloud: true,
         proxyVerbose: true,
         appUrl: process.env.BETA ? '/beta/insights/inventory' : '/insights/inventory',
         ...process.env.LOCAL_API && {
@@ -68,7 +67,6 @@ plugins.push(new webpack.DefinePlugin({
 webpackConfig.resolve.alias = {
     ...webpackConfig.resolve.alias,
     '@react-pdf/renderer': resolve(__dirname, './customPDF'),
-    'html-webpack-plugin': resolve(__dirname, '../node_modules/html-webpack-plugin'),
     reactRedux: resolve(__dirname, '../node_modules/react-redux')
 };
 
@@ -81,6 +79,8 @@ webpackConfig.module.rules = [
         }
     }
 ];
+
+webpackConfig.devServer.client.overlay = false;
 
 module.exports = {
     ...webpackConfig,
