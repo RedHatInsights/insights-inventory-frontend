@@ -7,6 +7,7 @@
 export COMPONENT="insights-inventory" 
 export APP_NAME=`node -e 'console.log(require("./package.json").insights.appname)'`
 export IMAGE="quay.io/cloudservices/$COMPONENT-frontend"
+export APP_ROOT=$(pwd)
 cat /etc/redhat-release
 COMMON_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master
 
