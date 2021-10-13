@@ -12,6 +12,12 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import ApplicationDetails from './ApplicationDetails';
 import './InventoryDetail.scss';
 
+const GenericWrapper = ({ children }) => <Fragment>{children}</Fragment>;
+
+GenericWrapper.propTypes = {
+    children: PropTypes.node
+};
+
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
  * This component is connected to redux and reads `loaded` and `entity`.
@@ -26,6 +32,12 @@ const InventoryDetail = ({
     showDelete,
     appList,
     showInventoryDrawer,
+    UUIDWrapper,
+    LastSeenWrapper,
+    TitleWrapper,
+    TagsWrapper,
+    DeleteWrapper,
+    ActionsWrapper,
     children
 }) => {
     const { inventoryId } = useParams();
@@ -59,8 +71,17 @@ const InventoryDetail = ({
                 showInventoryDrawer={ showInventoryDrawer }
                 showDelete={ showDelete }
                 showTags={ showTags }
+                TitleWrapper={TitleWrapper}
+                TagsWrapper={TagsWrapper}
+                DeleteWrapper={DeleteWrapper}
+                ActionsWrapper={ActionsWrapper}
             />
-            <FactsInfo loaded={ loaded } entity={ entity } />
+            <FactsInfo
+                loaded={ loaded }
+                entity={ entity }
+                UUIDWrapper={UUIDWrapper}
+                LastSeenWrapper={LastSeenWrapper}
+            />
             {children}
         </Fragment>
         }
@@ -88,12 +109,24 @@ InventoryDetail.propTypes = {
     })),
     onTabSelect: PropTypes.func,
     onBackToListClick: PropTypes.func,
-    children: PropTypes.node
+    children: PropTypes.node,
+    UUIDWrapper: PropTypes.node,
+    LastSeenWrapper: PropTypes.node,
+    TitleWrapper: PropTypes.node,
+    TagsWrapper: PropTypes.node,
+    DeleteWrapper: PropTypes.node,
+    ActionsWrapper: PropTypes.node
 };
 InventoryDetail.defaultProps = {
     actions: [],
     hideInvLink: false,
-    showTags: false
+    showTags: false,
+    UUIDWrapper: GenericWrapper,
+    LastSeenWrapper: GenericWrapper,
+    TitleWrapper: GenericWrapper,
+    TagsWrapper: GenericWrapper,
+    DeleteWrapper: GenericWrapper,
+    ActionsWrapper: GenericWrapper
 };
 
 export default InventoryDetail;

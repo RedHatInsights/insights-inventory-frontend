@@ -33,6 +33,10 @@ const TopBar = ({
     onBackToListClick,
     showDelete,
     showInventoryDrawer,
+    TitleWrapper,
+    TagsWrapper,
+    DeleteWrapper,
+    ActionsWrapper,
     showTags
 }) => {
     const dispatch = useDispatch();
@@ -54,16 +58,20 @@ const TopBar = ({
                     loaded ? (
                         <Flex>
                             <FlexItem>
-                                <Title headingLevel="h1" size='2xl'>{ entity && entity.display_name }</Title>
+                                <TitleWrapper>
+                                    <Title headingLevel="h1" size='2xl'>{ entity && entity.display_name }</Title>
+                                </TitleWrapper>
                             </FlexItem>
                             {
                                 showTags &&
                                 <FlexItem>
-                                    <TagWithDialog
-                                        count={ entity && entity.tags && entity.tags.length }
-                                        systemId={ entity && entity.id }
-                                    />
-                                    <TagsModal />
+                                    <TagsWrapper>
+                                        <TagWithDialog
+                                            count={ entity && entity.tags && entity.tags.length }
+                                            systemId={ entity && entity.id }
+                                        />
+                                        <TagsModal />
+                                    </TagsWrapper>
                                 </FlexItem>
                             }
                         </Flex>
@@ -77,33 +85,39 @@ const TopBar = ({
                         loaded ?
                             <Flex>
                                 {showDelete && <FlexItem>
-                                    <Button
-                                        onClick={ () => setIsModalOpen(true) }
-                                        variant="secondary">
+                                    <DeleteWrapper>
+                                        <Button
+                                            onClick={ () => setIsModalOpen(true) }
+                                            variant="secondary">
                                         Delete
-                                    </Button>
+                                        </Button>
+                                    </DeleteWrapper>
                                 </FlexItem>}
                                 { inventoryActions?.length > 0 && (
                                     <FlexItem>
-                                        <Dropdown
-                                            onSelect={ () => setIsOpen(false) }
-                                            toggle={ <DropdownToggle
-                                                onToggle={(isOpen) => setIsOpen(isOpen)}
-                                            >Actions</DropdownToggle>}
-                                            isOpen={ isOpen }
-                                            position={ DropdownPosition.right }
-                                            dropdownItems={
-                                                inventoryActions.map(({ title, ...action }, key) => (
-                                                    <DropdownItem
-                                                        key={ key }
-                                                        component="button"
-                                                        onClick={ (event) => action.onClick(event, action, action.key || key) }
-                                                        {...action}
-                                                    >
-                                                        { title }
-                                                    </DropdownItem>)
-                                                ) }
-                                        />
+                                        <ActionsWrapper>
+                                            <Dropdown
+                                                onSelect={ () => setIsOpen(false) }
+                                                toggle={ <DropdownToggle
+                                                    onToggle={(isOpen) => setIsOpen(isOpen)}
+                                                >Actions</DropdownToggle>}
+                                                isOpen={ isOpen }
+                                                position={ DropdownPosition.right }
+                                                dropdownItems={
+                                                    inventoryActions.map(({ title, ...action }, key) => (
+                                                        <DropdownItem
+                                                            key={ key }
+                                                            component="button"
+                                                            onClick={
+                                                                (event) => action.onClick(event, action, action.key || key)
+                                                            }
+                                                            {...action}
+                                                        >
+                                                            { title }
+                                                        </DropdownItem>)
+                                                    ) }
+                                            />
+                                        </ActionsWrapper>
                                     </FlexItem>)}
                                 <FlexItem>
                                     {
@@ -158,7 +172,11 @@ TopBar.propTypes = {
     })),
     deleteEntity: PropTypes.func,
     addNotification: PropTypes.func,
-    onBackToListClick: PropTypes.func
+    onBackToListClick: PropTypes.func,
+    TitleWrapper: PropTypes.node,
+    TagsWrapper: PropTypes.node,
+    DeleteWrapper: PropTypes.node,
+    ActionsWrapper: PropTypes.node
 };
 
 TopBar.defaultProps = {
