@@ -98,37 +98,37 @@ Toggle to show experimental inventory drawer
 
 *element*
 
-React element to be rednered as wrapper for UUID value.
+React element to be rendered as wrapper for UUID value.
 
 ## LastSeenWrapper
 
 *element*
 
-React element to be rednered as wrapper for Last seen value.
+React element to be rendered as wrapper for Last seen value.
 
 ## TitleWrapper
 
 *element*
 
-React element to be rednered as wrapper for title value.
+React element to be rendered as wrapper for title value.
 
 ## TagsWrapper
 
 *element*
 
-React element to be rednered as wrapper for tags element value, including tags modal.
+React element to be rendered as wrapper for tags element value, including tags modal.
 
 ## DeleteWrapper
 
 *element*
 
-React element to be rednered as wrapper for rendering delete button.
+React element to be rendered as wrapper for rendering delete button.
 
 ## ActionsWrapper
 
 *element*
 
-React element to be rednered as wrapper for rendering actions.
+React element to be rendered as wrapper for rendering actions.
 
 ### Wrapper
 When using `UUIDWrapper`, `LastSeenWrapper`, `TitleWrapper`, `TagsWrapper`, `DeleteWrapper` or `ActionsWrapper` please consume props and use `children` otherwise the wrapped value won't be visible.

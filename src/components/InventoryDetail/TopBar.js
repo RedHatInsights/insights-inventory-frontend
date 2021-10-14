@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DeleteModal, TagsModal, TagWithDialog } from '../../Utilities/index';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
@@ -173,10 +173,10 @@ TopBar.propTypes = {
     deleteEntity: PropTypes.func,
     addNotification: PropTypes.func,
     onBackToListClick: PropTypes.func,
-    TitleWrapper: PropTypes.node,
-    TagsWrapper: PropTypes.node,
-    DeleteWrapper: PropTypes.node,
-    ActionsWrapper: PropTypes.node
+    TitleWrapper: PropTypes.elementType,
+    TagsWrapper: PropTypes.elementType,
+    DeleteWrapper: PropTypes.elementType,
+    ActionsWrapper: PropTypes.elementType
 };
 
 TopBar.defaultProps = {
@@ -187,7 +187,11 @@ TopBar.defaultProps = {
     showInventoryDrawer: false,
     deleteEntity: () => undefined,
     addNotification: () => undefined,
-    onBackToListClick: () => undefined
+    onBackToListClick: () => undefined,
+    TitleWrapper: Fragment,
+    TitleWTagsWrapperrapper: Fragment,
+    DeleteWrapper: Fragment,
+    ActionsWrapper: Fragment
 };
 
 export default TopBar;

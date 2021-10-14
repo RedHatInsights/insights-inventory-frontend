@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
@@ -60,8 +60,13 @@ const FactsInfo = ({ entity, loaded, UUIDWrapper, LastSeenWrapper, ...props }) =
 FactsInfo.propTypes = {
     loaded: PropTypes.bool,
     entity: PropTypes.object,
-    UUIDWrapper: PropTypes.node,
-    LastSeenWrapper: PropTypes.node
+    UUIDWrapper: PropTypes.elementType,
+    LastSeenWrapper: PropTypes.elementType
+};
+
+FactsInfo.defaultProps = {
+    UUIDWrapper: Fragment,
+    LastSeenWrapper: Fragment
 };
 
 export default FactsInfo;
