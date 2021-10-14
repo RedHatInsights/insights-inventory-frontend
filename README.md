@@ -93,3 +93,17 @@ LOCAL_API=advisor:8003~https,vulnerability:8004
 ### Testing
 There is an npm script that runs the build, JS and CSS linters and unit tests. The script can be invoked by
 `npm run verify`
+
+## Inventory table and detail
+
+We are serving inventory trough federated modules, this means both inventory table and inventory detail is served to you in runtime. No need to install and rebuild when something changes in inventory.
+
+### Documentation Links
+
+* Components
+  * [inventory](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory.md)
+    * [props table](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/props_table.md)
+    * [props detail](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/props_detail.md)
+    * [custom fetch function](https://github.com/RedHatInsights/insights-inventory-frontend/blob/doc/custom_fetch.md)
+    * [hide filters](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/hide_filters.md)
+  * [inventory_header](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory_header.md)
