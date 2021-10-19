@@ -11,7 +11,8 @@ const TagsModal = ({
     customFilters,
     filterTagsBy,
     onToggleModal,
-    onApply
+    onApply,
+    getTags
 }) => {
     const dispatch = useDispatch();
     const [filterBy, setFilterBy] = useState('');
@@ -61,7 +62,7 @@ const TagsModal = ({
 
     const fetchTags = (pagination, filterBy) => {
         if (!activeSystemTag) {
-            dispatch(fetchAllTags(filterBy, { ...customFilters, pagination, filters }));
+            dispatch(fetchAllTags(filterBy, { ...customFilters, pagination, filters }, getTags));
         } else {
             setStatePagination(() => pagination);
         }
@@ -139,7 +140,8 @@ TagsModal.propTypes = {
             PropTypes.object,
             PropTypes.arrayOf(PropTypes.string)
         ])
-    })
+    }),
+    getTags: PropTypes.func
 };
 
 TagsModal.defaultProps = {

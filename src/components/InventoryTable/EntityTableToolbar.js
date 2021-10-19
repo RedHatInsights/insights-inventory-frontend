@@ -49,6 +49,7 @@ const EntityTableToolbar = ({
     actionsConfig,
     activeFiltersConfig,
     showTags,
+    getTags,
     items,
     sortBy,
     customFilters,
@@ -97,7 +98,7 @@ const EntityTableToolbar = ({
             dispatch(fetchAllTags(config, {
                 ...customFilters,
                 ...options
-            }));
+            },  getTags));
         }
     }, 800), [customFilters?.tags]);
 
@@ -108,7 +109,7 @@ const EntityTableToolbar = ({
         if (hasAccess) {
             onRefreshData(options);
             if (showTags && !hasItems) {
-                dispatch(fetchAllTags(filterTagsBy, { ...customFilters, filters: options?.filters || filters }));
+                dispatch(fetchAllTags(filterTagsBy, { ...customFilters, filters: options?.filters || filters }, getTags));
             }
         }
     }, [customFilters?.tags]);
@@ -332,6 +333,7 @@ const EntityTableToolbar = ({
                 filterTagsBy={filterTagsBy}
                 onApply={(selected) => setSelectedTags(arrayToSelection(selected))}
                 onToggleModal={() => seFilterTagsBy('')}
+                getTags={getTags}
             />
         }
     </Fragment>;
@@ -339,6 +341,7 @@ const EntityTableToolbar = ({
 
 EntityTableToolbar.propTypes = {
     showTags: PropTypes.bool,
+    getTags: PropTypes.func,
     hasAccess: PropTypes.bool,
     filterConfig: PrimaryToolbar.propTypes.filterConfig,
     total: PropTypes.number,
