@@ -16,7 +16,7 @@ import {
     getEntities as defaultGetEntities,
     getEntitySystemProfile,
     hosts,
-    getAllTags,
+    getAllTags as defaultGetAllTags,
     getTags,
     filtersReducer
 } from '../api';
@@ -171,9 +171,9 @@ export const toggleTagModal = (isOpen) => ({
     payload: { isOpen }
 });
 
-export const fetchAllTags = (search, options) => ({
+export const fetchAllTags = (search, options, getTags = defaultGetAllTags) => ({
     type: ACTION_TYPES.ALL_TAGS,
-    payload: getAllTags(search, options),
+    payload: getTags(search, options),
     meta: { lastDateRequestTags: Date.now() }
 });
 

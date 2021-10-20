@@ -7,16 +7,26 @@
       - [results](#results)
       - [total](#total)
       - [loaded](#loaded)
-  - [Example](#example)
+    - [Example](#example)
+  - [getTags](#gettags)
 
 # Custom fetch
 
-Inventory components provides a simple way for changing its loading function. This function replaces the internal `getEntities` function and allows customers to handle the whole data loading.
+The InventoryTable component allows replacing the default functions that load entities for the table and tags for the filters with custom async functions to provide results.
 
 ```jsx
+const getEntities = () => {
+  return {...}
+};
+
+const getTags = () => {
+  return {...}
+};
+
 <InventoryTable
     {...otherProps}
     getEntities={getEntities}
+    getTags={getTags}
 />
 ```
 
@@ -116,7 +126,7 @@ Total number of all entities based on the filters.
 
 Set loaded to `false`, when loading was not successful.
 
-## Example
+### Example
 
 ```jsx
 <InventoryTable
@@ -134,3 +144,50 @@ Set loaded to `false`, when loading was not successful.
     }}
 />
 ```
+
+## getTags
+
+```tsx
+getTags = (search: array, config: Config) => result as Result
+```
+
+### search
+
+Search string to filter tags by
+
+### config
+
+See getEntities config.
+
+### result
+
+```js
+{
+  page: 1,
+  per_page: 1,
+  total: 1,
+  results: [
+    {
+      tag: { key: 'XUyiWeFmoF', namespace: 'BDFiKe', value: 'miAOoMthvR' },
+      count: 1,
+    },
+  ],
+}
+```
+
+#### page
+
+Current page to fetch
+
+#### per_page
+
+Tags per page
+
+#### total
+
+Overall count of tags
+
+#### results
+
+An array of objects with a tag object and count.
+
