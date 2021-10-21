@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
@@ -12,7 +12,7 @@ import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
  * UUID and last seen.
  * @param {*} props entity and if entity is loaded.
  */
-const FactsInfo = ({ entity, loaded, ...props }) => (
+const FactsInfo = ({ entity, loaded, UUIDWrapper, LastSeenWrapper, ...props }) => (
     <Grid className="ins-entity-facts" { ...props }>
         <GridItem md={ 6 }>
             <div>
@@ -22,7 +22,9 @@ const FactsInfo = ({ entity, loaded, ...props }) => (
                 <span>
                     {
                         loaded ?
-                            getFact(`id`, entity) || ' ' :
+                            <UUIDWrapper>
+                                { getFact(`id`, entity) || ' ' }
+                            </UUIDWrapper> :
                             <Skeleton size={ SkeletonSize.md } />
                     }
                 </span>
@@ -34,16 +36,18 @@ const FactsInfo = ({ entity, loaded, ...props }) => (
                 <span>
                     {
                         loaded ?
-                            (
-                                CullingInformation ? <CullingInformation
-                                    culled={getFact('culled_timestamp', entity)}
-                                    staleWarning={getFact('stale_warning_timestamp', entity)}
-                                    stale={getFact('stale_timestamp', entity)}
-                                    currDate={new Date()}
-                                >
-                                    <DateFormat date={getFact('updated', entity)} type="exact" />
-                                </CullingInformation> : <DateFormat date={getFact('updated', entity)} type="exact" />
-                            ) :
+                            <LastSeenWrapper>{
+                                (
+                                    CullingInformation ? <CullingInformation
+                                        culled={getFact('culled_timestamp', entity)}
+                                        staleWarning={getFact('stale_warning_timestamp', entity)}
+                                        stale={getFact('stale_timestamp', entity)}
+                                        currDate={new Date()}
+                                    >
+                                        <DateFormat date={getFact('updated', entity)} type="exact" />
+                                    </CullingInformation> : <DateFormat date={getFact('updated', entity)} type="exact" />
+                                )}
+                            </LastSeenWrapper> :
                             <Skeleton size={ SkeletonSize.sm } />
                     }
                 </span>
@@ -55,7 +59,14 @@ const FactsInfo = ({ entity, loaded, ...props }) => (
 
 FactsInfo.propTypes = {
     loaded: PropTypes.bool,
-    entity: PropTypes.object
+    entity: PropTypes.object,
+    UUIDWrapper: PropTypes.elementType,
+    LastSeenWrapper: PropTypes.elementType
+};
+
+FactsInfo.defaultProps = {
+    UUIDWrapper: Fragment,
+    LastSeenWrapper: Fragment
 };
 
 export default FactsInfo;
