@@ -44,11 +44,17 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
     }, []);
 
     useEffect(() => {
-      console.log('TESTING ******* verifying entitiy inside of InventoryDetail: ', entity);
-      if(typeof entity !== undefined){
-          console.log('TESTING ******* verifying what comes from direct api call: ');
-      }
-    }, [entity])
+        console.log('TESTING ******* verifying entitiy inside of InventoryDetail: ', entity);
+        // if (typeof entity !== undefined) {
+        //     console.log('TESTING ******* verifying what comes from direct api call: ', getEntitySystemProfile(entity.id));
+        // }
+        if (entity) {
+            // console.log('Directly verifying entity profile: ', getEntitySystemProfile(entity?.id));
+            getEntitySystemProfile(entity?.id).then((result) => {
+                console.log('Directly verifying entity profile: ', result);
+            });
+        }
+    }, [entity]);
 
     const additionalClasses = {
         'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'
