@@ -26,6 +26,12 @@ const InventoryDetail = ({
     showDelete,
     appList,
     showInventoryDrawer,
+    UUIDWrapper,
+    LastSeenWrapper,
+    TitleWrapper,
+    TagsWrapper,
+    DeleteWrapper,
+    ActionsWrapper,
     children
 }) => {
     const { inventoryId } = useParams();
@@ -59,12 +65,23 @@ const InventoryDetail = ({
                 showInventoryDrawer={ showInventoryDrawer }
                 showDelete={ showDelete }
                 showTags={ showTags }
+                TitleWrapper={TitleWrapper}
+                TagsWrapper={TagsWrapper}
+                DeleteWrapper={DeleteWrapper}
+                ActionsWrapper={ActionsWrapper}
             />
-            <FactsInfo loaded={ loaded } entity={ entity } />
+            <FactsInfo
+                loaded={ loaded }
+                entity={ entity }
+                UUIDWrapper={UUIDWrapper}
+                LastSeenWrapper={LastSeenWrapper}
+            />
             {children}
         </Fragment>
         }
-        <ApplicationDetails onTabSelect={ onTabSelect } appList={ appList } />
+        {loaded && entity && (
+            <ApplicationDetails onTabSelect={ onTabSelect } appList={ appList } />
+        )}
     </div>;
 };
 
@@ -86,13 +103,24 @@ InventoryDetail.propTypes = {
     })),
     onTabSelect: PropTypes.func,
     onBackToListClick: PropTypes.func,
-    children: PropTypes.node
+    children: PropTypes.node,
+    UUIDWrapper: PropTypes.elementType,
+    LastSeenWrapper: PropTypes.elementType,
+    TitleWrapper: PropTypes.elementType,
+    TagsWrapper: PropTypes.elementType,
+    DeleteWrapper: PropTypes.elementType,
+    ActionsWrapper: PropTypes.elementType
 };
 InventoryDetail.defaultProps = {
     actions: [],
     hideInvLink: false,
     showTags: false,
-    onBackToListClick: () => undefined
+    UUIDWrapper: Fragment,
+    LastSeenWrapper: Fragment,
+    TitleWrapper: Fragment,
+    TagsWrapper: Fragment,
+    DeleteWrapper: Fragment,
+    ActionsWrapper: Fragment
 };
 
 export default InventoryDetail;

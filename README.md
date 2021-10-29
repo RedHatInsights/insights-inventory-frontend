@@ -50,6 +50,60 @@ or building for beta environment
 BETA=true npm run build
 ```
 
+### Running with another app
+
+If you want to see changes made in inventory table in another application you will have to run both inventory and desired application. We'll take for example [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend) application as app that uses system detail.
+
+#### With insights proxy
+Run the inventory application
+```
+npm start
+```
+
+Open new terminal and navigate to desired application (for instance insights-adviror-frontend) and run it (make sure to run it on different port)
+```
+npm start
+```
+
+Open new terminal, navigate to insights-proxy and run it with
+```
+LOCAL_API=advisor:8003~https SPANDX_CONFIG="$(pwd)/insights-inventory-frontend/config/spandx.config.js" bash insights-proxy/scripts/run.
+```
+
+If you want to run advisor and for instance vulnerability just add new entry to LOCAL_API
+```
+LOCAL_API=advisor:8003~https,vulnerability:8004
+```
+#### With webpack proxy
+Open new terminal and navigate to desired application (for instance insights-adviror-frontend) and run it (make sure to run it on different port)
+```
+npm start
+```
+
+Run the inventory application with proxy enabled and list of additional applications
+```
+LOCAL_API=advisor:8003~https npm run start:proxy
+```
+
+If you want to run advisor and for instance vulnerability just add new entry to LOCAL_API
+```
+LOCAL_API=advisor:8003~https,vulnerability:8004
+```
+
 ### Testing
 There is an npm script that runs the build, JS and CSS linters and unit tests. The script can be invoked by
 `npm run verify`
+
+## Inventory table and detail
+
+We are serving inventory trough federated modules, this means both inventory table and inventory detail is served to you in runtime. No need to install and rebuild when something changes in inventory.
+
+### Documentation Links
+
+* Components
+  * [inventory](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory.md)
+    * [props table](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/props_table.md)
+    * [props detail](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/props_detail.md)
+    * [custom fetch function](https://github.com/RedHatInsights/insights-inventory-frontend/blob/doc/custom_fetch.md)
+    * [hide filters](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/hide_filters.md)
+  * [inventory_header](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory_header.md)

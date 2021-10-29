@@ -90,7 +90,8 @@ function entitiesPending(state, { meta }) {
             state.columns
         ], 'key'),
         rows: [],
-        loaded: false
+        loaded: false,
+        lastDateRequest: meta.lastDateRequest
     };
 }
 
@@ -102,7 +103,12 @@ function clearFilters(state) {
 }
 
 // eslint-disable-next-line camelcase
-function entitiesLoaded(state, { payload: { results, per_page: perPage, page, count, total, loaded, filters } }) {
+function entitiesLoaded(state, { payload: { results, per_page: perPage, page, count, total, loaded, filters }, meta }) {
+    // Older requests should not rewrite the state
+    if (meta.lastDateRequest < state.lastDateRequest) {
+        return state;
+    }
+
     // Data are loaded and APi returned malicious data
     if (loaded === undefined && (page === undefined || perPage === undefined)) {
         return state;
@@ -217,7 +223,12 @@ export function toggleTagModalReducer(state, { payload: { isOpen } }) {
     };
 }
 
-export function allTags(state, { payload: { results, total, page, per_page: perPage } }) {
+export function allTags(state, { payload: { results, total, page, per_page: perPage }, meta: { lastDateRequestTags } }) {
+    // only the latest request can change state
+    if (lastDateRequestTags < state.lastDateRequestTags) {
+        return state;
+    }
+
     return {
         ...state,
         allTags: Object.entries(groupBy(results, ({ tag: { namespace } }) => namespace)).map(([key, value]) => ({
@@ -237,7 +248,9 @@ export function allTags(state, { payload: { results, total, page, per_page: perP
 
 export default {
     [ACTION_TYPES.ALL_TAGS_FULFILLED]: allTags,
-    [ACTION_TYPES.ALL_TAGS_PENDING]: (state) => ({ ...state, allTagsLoaded: false, tagModalLoaded: false }),
+    [ACTION_TYPES.ALL_TAGS_PENDING]: (state, { meta }) => (
+        { ...state, allTagsLoaded: false, tagModalLoaded: false, lastDateRequestTags: meta.lastDateRequestTags }
+    ),
     [ACTION_TYPES.LOAD_ENTITIES_PENDING]: entitiesPending,
     [ACTION_TYPES.LOAD_ENTITIES_FULFILLED]: entitiesLoaded,
     [ACTION_TYPES.LOAD_ENTITIES_REJECTED]: loadingRejected,

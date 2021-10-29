@@ -223,6 +223,7 @@ const Inventory = ({
                                     },
                                     bulkSelect: {
                                         count: calculateSelected(),
+                                        id: 'bulk-select-systems',
                                         items: [{
                                             title: 'Select none (0)',
                                             onClick: () => {
@@ -287,10 +288,7 @@ const Inventory = ({
                 value={currentSytem.display_name}
                 onCancel={() => onEditOpen(false)}
                 onSubmit={(value) => {
-                    dispatch(reloadWrapper(
-                        actions.editDisplayName(currentSytem.id, value),
-                        inventory.current.onRefreshData
-                    ));
+                    dispatch(actions.editDisplayName(currentSytem.id, value));
                     onEditOpen(false);
                 }}
             />

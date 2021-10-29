@@ -115,7 +115,7 @@ export async function getEntities(items, {
                     ], 'id')
                 };
             } catch (e) {
-                console.error(e);
+                console.error(e); // eslint-disable-line
             }
         }
 

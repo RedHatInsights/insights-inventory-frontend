@@ -16,7 +16,7 @@ import {
     getEntities as defaultGetEntities,
     getEntitySystemProfile,
     hosts,
-    getAllTags,
+    getAllTags as defaultGetAllTags,
     getTags,
     filtersReducer
 } from '../api';
@@ -46,6 +46,8 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
     const orderBy = config.orderBy || 'updated';
     const orderDirection = config.orderDirection || 'DESC';
 
+    const lastDateRequest = Date.now();
+
     return {
         type: ACTION_TYPES.LOAD_ENTITIES,
         payload: getEntities(itemIds, {
@@ -67,7 +69,8 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
             hideFilters: config.hideFilters
         })),
         meta: {
-            showTags
+            showTags,
+            lastDateRequest
         }
     };
 };
@@ -168,9 +171,10 @@ export const toggleTagModal = (isOpen) => ({
     payload: { isOpen }
 });
 
-export const fetchAllTags = (search, options) => ({
+export const fetchAllTags = (search, options, getTags = defaultGetAllTags) => ({
     type: ACTION_TYPES.ALL_TAGS,
-    payload: getAllTags(search, options)
+    payload: getTags(search, options),
+    meta: { lastDateRequestTags: Date.now() }
 });
 
 export const deleteEntity = (systems, displayName) => ({

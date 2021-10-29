@@ -6,6 +6,7 @@ import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-componen
 import { tagsFilterState, tagsFilterReducer, mapGroups } from '@redhat-cloud-services/frontend-components/FilterHooks';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
 import { fetchAllTags, clearFilters, toggleTagModal } from '../../store/actions';
+import { defaultFilters } from '../../Utilities/constants';
 import debounce from 'lodash/debounce';
 import flatMap from 'lodash/flatMap';
 import {
@@ -48,6 +49,7 @@ const EntityTableToolbar = ({
     actionsConfig,
     activeFiltersConfig,
     showTags,
+    getTags,
     items,
     sortBy,
     customFilters,
@@ -96,7 +98,7 @@ const EntityTableToolbar = ({
             dispatch(fetchAllTags(config, {
                 ...customFilters,
                 ...options
-            }));
+            },  getTags));
         }
     }, 800), [customFilters?.tags]);
 
@@ -107,7 +109,7 @@ const EntityTableToolbar = ({
         if (hasAccess) {
             onRefreshData(options);
             if (showTags && !hasItems) {
-                dispatch(fetchAllTags(filterTagsBy, { ...customFilters, filters: options?.filters || filters }));
+                dispatch(fetchAllTags(filterTagsBy, { ...customFilters, filters: options?.filters || filters }, getTags));
             }
         }
     }, [customFilters?.tags]);
@@ -182,7 +184,7 @@ const EntityTableToolbar = ({
         refresh({ page: 1, perPage, filters: newFilters });
     };
 
-    const shouldReload = page && perPage && filters && (!hasItems || items) && loaded;
+    const shouldReload = page && perPage && filters && (!hasItems || items);
 
     useEffect(() => {
         if (shouldReload && showTags && enabledFilters.tags) {
@@ -237,6 +239,7 @@ const EntityTableToolbar = ({
      */
     const constructFilters = () => {
         return {
+            ...activeFiltersConfig || {},
             filters: [
                 ...(showTags && !hasItems && enabledFilters.tags) ? tagsChip : [],
                 ...!hasItems && enabledFilters.name ? nameChip : [],
@@ -249,8 +252,6 @@ const EntityTableToolbar = ({
                     updateData({ page: 1, filters: [] });
                     dispatch(clearFilters());
                     enabledFilters.name && setTextFilter('');
-                    enabledFilters.stale && setStaleFilter([]);
-                    enabledFilters.registeredWith && setRegisteredWithFilter([]);
                     enabledFilters.tags && setSelectedTags({});
                 } else if (deleted.type) {
                     deleteMapper[deleted.type](deleted);
@@ -258,7 +259,7 @@ const EntityTableToolbar = ({
 
                 activeFiltersConfig &&
                 activeFiltersConfig.onDelete &&
-                activeFiltersConfig.onDelete(e, [deleted, ...restDeleted], isAll);
+                activeFiltersConfig.onDelete(e, [deleted, ...restDeleted], isAll, defaultFilters);
             }
         };
     };
@@ -332,6 +333,7 @@ const EntityTableToolbar = ({
                 filterTagsBy={filterTagsBy}
                 onApply={(selected) => setSelectedTags(arrayToSelection(selected))}
                 onToggleModal={() => seFilterTagsBy('')}
+                getTags={getTags}
             />
         }
     </Fragment>;
@@ -339,6 +341,7 @@ const EntityTableToolbar = ({
 
 EntityTableToolbar.propTypes = {
     showTags: PropTypes.bool,
+    getTags: PropTypes.func,
     hasAccess: PropTypes.bool,
     filterConfig: PrimaryToolbar.propTypes.filterConfig,
     total: PropTypes.number,

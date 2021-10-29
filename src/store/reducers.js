@@ -12,7 +12,7 @@ import { applyReducerHash } from '@redhat-cloud-services/frontend-components-uti
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import entitiesReducer, { defaultState as entitiesDefault } from './entities';
-import entityDetailsReducer, { defaultState as entityDefault } from './entityDetails';
+import entityDetailsReducer, { entityDefaultState as entityDefault } from './entityDetails';
 
 export { entitiesReducer, entityDetailsReducer };
 
@@ -25,6 +25,17 @@ function entitiesLoaded(state, { payload }) {
         ...state,
         rows: mergeArraysByKey([state.rows, payload.results]),
         entities: mergeArraysByKey([state.entities, payload.results])
+    };
+}
+
+function updateEntity(state, { meta }) {
+    return {
+        ...state,
+        rows: state.rows.map((row) => row.id === meta?.id ? ({
+            ...row,
+            // eslint-disable-next-line camelcase
+            display_name: meta?.value
+        }) : row)
     };
 }
 
@@ -94,7 +105,11 @@ function entityDeleted(state, { meta }) {
     };
 }
 
-function onEntitiesLoaded(state, { payload }) {
+function onEntitiesLoaded(state, { payload, meta }) {
+    if (meta?.lastDateRequest < state?.lastDateRequest) {
+        return state;
+    }
+
     return {
         ...state,
         rows: mergeArraysByKey([state.rows, payload.results.map(result => {
@@ -137,7 +152,8 @@ export const tableReducer = applyReducerHash(
         [SELECT_ENTITY]: entitySelected,
         FILTER_SELECT: (state) => ({ ...state, selected: {} }),
         [SET_INVENTORY_FILTER]: onSetFilter,
-        [SET_PAGINATION]: onSetPagination
+        [SET_PAGINATION]: onSetPagination,
+        [ACTION_TYPES.UPDATE_DISPLAY_NAME_FULFILLED]: updateEntity
     },
     defaultState
 );

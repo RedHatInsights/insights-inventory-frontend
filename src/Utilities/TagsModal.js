@@ -11,7 +11,8 @@ const TagsModal = ({
     customFilters,
     filterTagsBy,
     onToggleModal,
-    onApply
+    onApply,
+    getTags
 }) => {
     const dispatch = useDispatch();
     const [filterBy, setFilterBy] = useState('');
@@ -61,7 +62,7 @@ const TagsModal = ({
 
     const fetchTags = (pagination, filterBy) => {
         if (!activeSystemTag) {
-            dispatch(fetchAllTags(filterBy, { ...customFilters, pagination, filters }));
+            dispatch(fetchAllTags(filterBy, { ...customFilters, pagination, filters }, getTags));
         } else {
             setStatePagination(() => pagination);
         }
@@ -110,7 +111,7 @@ const TagsModal = ({
                     }
                 }
             ]}
-            onUpdateData={ fetchTags }
+            onUpdateData={ (pagination) => fetchTags(pagination, filterBy) }
             columns={ [
                 { title: 'Name' },
                 { title: 'Value', transforms: [cellWidth(30)] },
@@ -121,6 +122,7 @@ const TagsModal = ({
                 selected,
                 onApply: () => onApply && onApply(selected)
             }}
+            bulkSelect={{ id: 'bulk-select-tags' }}
             title={ activeSystemTag ?
                 `${activeSystemTag.display_name} (${tagsCount})` :
                 `All tags in inventory (${tagsCount})`
@@ -138,7 +140,8 @@ TagsModal.propTypes = {
             PropTypes.object,
             PropTypes.arrayOf(PropTypes.string)
         ])
-    })
+    }),
+    getTags: PropTypes.func
 };
 
 TagsModal.defaultProps = {
