@@ -40,25 +40,26 @@ function updateEntity(state, { meta }) {
     };
 }
 
-async function loadEntitySystemProfile(id) {
+async function verifyResourceTab(id) {
     const loadedSystemProfile = await getEntitySystemProfile(id);
-    console.log('TESTING $$$$$$$$ Directly checking systemProfile: ', loadedSystemProfile);
-    return loadedSystemProfile;
+    loadedSystemProfile.then((results) => {
+        const cloudProviderFlag = results;
+        console.log('TESTING >>>>>>>> out what I have in here: ', results);
+        if ((!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta()))
+            && cloudProviderFlag.toLowerCase() === 'aws' || cloudProviderFlag.toLowerCase() === 'azure') {
+            return true;
+        }
+    });
+
 }
-
-// async function verifyResourceTab(id) {
-//     const loadedSystemProfile = await getEntitySystemProfile(id);
-//     loadedSystemP
-
-// }
 
 function entityLoaded(state) {
     console.log('TESTING $$$$$$$$ Directly checking entity in entityLoaded from reducers: ', state);
     let cloudProviderFlag = false;
-    getEntitySystemProfile(state.entity.id).then((result) => {
-        console.log('TESTING $$$$$$$$ Directly checking systemProfile: ', result);
-        cloudProviderFlag = result;
-    });
+    // getEntitySystemProfile(state.entity.id).then((result) => {
+    //     console.log('TESTING $$$$$$$$ Directly checking systemProfile: ', result);
+    //     cloudProviderFlag = result;
+    // });
 
     console.log('TESTING $$$$$$$$$ Directly testing flag: ', cloudProviderFlag);
     return {
@@ -82,15 +83,13 @@ function entityLoaded(state) {
                 name: 'patch',
                 component: PatchTab
             },
-            /*
-              TESTING >>>>>>>> This is where i need to to test for the provider type.
-            */
             // eslint-disable-next-line max-len
-            (!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta()) && cloudProviderFlag.toLowerCase() === 'aws' || 'azure') && {
+            (verifyResourceTab(state.id) && {
                 title: 'Resource Optimization',
                 name: 'ros',
                 component: RosTab
             }
+            // eslint-disable-next-line max-len
             // (!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta() && entitySystemProfile(state.id).then(() => {if(cloud_provider.toLowerCase() === 'aws')})) && {
             //     title: 'Resource Optimization',
             //     name: 'ros',
