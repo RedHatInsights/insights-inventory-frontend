@@ -84,7 +84,7 @@ function entityLoaded(state) {
                 component: PatchTab
             },
             // eslint-disable-next-line max-len
-            (verifyResourceTab(state.id) && {
+            (verifyResourceTab(state.id)) && {
                 title: 'Resource Optimization',
                 name: 'ros',
                 component: RosTab
