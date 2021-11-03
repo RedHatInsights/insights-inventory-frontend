@@ -40,5 +40,5 @@ parameters:
 - name: IMAGE_TAG
   required: true
 - name: INVENTORY_IMAGE
-  value: quay.io/redhat-cloud-services/inventory
+  value: quay.io/cloudservices/insights-inventory-frontend
 
