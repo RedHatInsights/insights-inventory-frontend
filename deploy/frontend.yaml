@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: inventory-frontend
+objects:
+- apiVersion: cloud.redhat.com/v1alpha1
+  kind: Frontend
+  metadata:
+    name: inventory
+  spec:
+    # Add fields here
+    envName: ${ENV_NAME}
+    title: Inventory
+    deploymentRepo: http://test
+    API:
+      versions:
+      - v1
+    frontend:
+      paths:
+      - /apps/inventory
+    image: ${INVENTORY_IMAGE}:${IMAGE_TAG}
+    extensions:
+    - type: "cloud.redhat.com/frontend"
+      properties:
+        navItem:
+          appId: "inventory"
+          title: "Inventory"
+          href: "/insights/inventory"
+          product: "Red Hat Insights"
+        module:
+          manifestLocation: "/apps/inventory/fed-mods.json"
+          modules:
+          - id: "inventory"
+            module: "./RootApp"
+            routes:
+            - pathname: /insights/inventory
+parameters:
+- name: ENV_NAME
+  required: true
+- name: IMAGE_TAG
+  required: true
+- name: INVENTORY_IMAGE
+  value: quay.io/redhat-cloud-services/inventory
+
