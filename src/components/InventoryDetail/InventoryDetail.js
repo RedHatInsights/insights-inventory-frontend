@@ -45,16 +45,15 @@ const InventoryDetail = ({
         if (!entity || !(entity?.id === currId) || !loaded) {
             const action = loadEntity(currId, { hasItems: true }, { showTags });
             dispatch(action);
-            action.payload.then((data) => {
+            action.payload.then(() => {
                 getEntitySystemProfile(currId).then(result => {
-                    const cloudProviderObj = (typeof result.results[0].system_profile.cloud_provider === 'undefined'
+                    const cloudProviderObj = (typeof result.results[0].system_profile.cloud_provider !== undefined
                         ? 'nope'
                         : result.results[0].system_profile.cloud_provider
                     );
                     (cloudProviderObj === 'aws' || cloudProviderObj === 'azure')
                         ? dispatch(setRosTabVisibility(false))
                         : dispatch(setRosTabVisibility(true));
-                    console.log('TESTING ++++++++++ systemProfile in InventoryDetail: ', cloudProviderObj);
                     return result;
                 });
             });
