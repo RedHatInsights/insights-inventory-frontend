@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { loadEntity, deleteEntity } from '../../store/actions';
+import { loadEntity, deleteEntity, setRosTabVisibility } from '../../store/actions';
 import './InventoryDetail.scss';
 import SystemNotFound from './SystemNotFound';
 import TopBar from './TopBar';
@@ -10,6 +10,7 @@ import FactsInfo from './FactsInfo';
 import { reloadWrapper } from '../../Utilities/index';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import ApplicationDetails from './ApplicationDetails';
+import { getEntitySystemProfile } from '../../api/api';
 import './InventoryDetail.scss';
 
 /**
@@ -38,10 +39,26 @@ const InventoryDetail = ({
     const dispatch = useDispatch();
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded || false);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
+    const activeApps = useSelector(({ entityDetails }) => entityDetails);
     useEffect(() => {
         const currId = inventoryId || location.pathname.replace(/\/$/, '').split('/').pop();
         if (!entity || !(entity?.id === currId) || !loaded) {
-            dispatch(loadEntity(currId, { hasItems: true }, { showTags }));
+            const action = loadEntity(currId, { hasItems: true }, { showTags });
+            dispatch(action);
+            action.payload.then((data) => {
+                getEntitySystemProfile(currId).then(result => {
+                    const cloudProviderObj = (typeof result.results[0].system_profile.cloud_provider === 'undefined'
+                        ? 'nope'
+                        : result.results[0].system_profile.cloud_provider
+                    );
+                    (cloudProviderObj === 'aws' || cloudProviderObj === 'azure')
+                        ? dispatch(setRosTabVisibility(false))
+                        : dispatch(setRosTabVisibility(true));
+                    console.log('TESTING ++++++++++ systemProfile in InventoryDetail: ', cloudProviderObj);
+                    return result;
+                });
+            });
+            console.log('TESTING +++++++++ activeAppos in InvDet/InvDet: ', activeApps);
         }
     }, []);
     return <div className="ins-entity-detail">

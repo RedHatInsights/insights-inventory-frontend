@@ -14,7 +14,8 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const searchParams = new URLSearchParams(search);
-    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps);
+    // const items = useSelector(({ entityDetails }) => entityDetails?.activeApps);
+    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps.filter(({ isHidden }) => isHidden !== true));
     const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp);
     const defaultApp = activeApp?.appName || appList?.find(({ pageId, name }) => items?.[0]?.name === (
         pageId || name))?.name || items?.[0]?.name;

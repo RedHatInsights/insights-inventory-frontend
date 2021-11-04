@@ -28,6 +28,7 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
         shallowEqual
     );
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
+    const entityCompleto = useSelector(({ entityDetails }) => entityDetails);
 
     useEffect(() => {
         insights.chrome?.hideGlobalFilter?.(true);
@@ -55,6 +56,11 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
             });
         }
     }, [entity]);
+
+    useEffect(() => {
+        console.log('TESTING $$$$$$$$$$$ checking out entityLoaded in InvDetail: ', entityLoaded);
+        console.log('TESTING $$$$$$$$$$$ verifying entityCompleto results: ', entityCompleto);
+    }, [entityLoaded]);
 
     const additionalClasses = {
         'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'

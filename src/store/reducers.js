@@ -1,4 +1,11 @@
-import { INVENTORY_ACTION_TYPES, ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from './action-types';
+import {
+    INVENTORY_ACTION_TYPES,
+    ACTION_TYPES,
+    SELECT_ENTITY,
+    SET_INVENTORY_FILTER,
+    SET_PAGINATION,
+    SET_ROS_TAB_VISBILITY
+} from './action-types';
 import systemProfileStore from './systemProfileStore';
 import {
     ComplianceTab,
@@ -13,7 +20,6 @@ import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-uti
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import entitiesReducer, { defaultState as entitiesDefault } from './entities';
 import entityDetailsReducer, { entityDefaultState as entityDefault } from './entityDetails';
-import { getEntitySystemProfile } from '../api/api';
 
 export { entitiesReducer, entityDetailsReducer };
 
@@ -40,28 +46,41 @@ function updateEntity(state, { meta }) {
     };
 }
 
-async function verifyResourceTab(id) {
-    const loadedSystemProfile = await getEntitySystemProfile(id);
-    loadedSystemProfile.then((results) => {
-        const cloudProviderFlag = results;
-        console.log('TESTING >>>>>>>> out what I have in here: ', results);
-        if ((!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta()))
-            && cloudProviderFlag.toLowerCase() === 'aws' || cloudProviderFlag.toLowerCase() === 'azure') {
-            return true;
-        }
-    });
+// async function verifyResourceTab(id) {
+//     console.log('TESTING >>>>>>>>> are we getting into verifyResourceTab? I dont know, are we?');
+//     const loadedSystemProfile = await getEntitySystemProfile(id).then((results) => {
+//         const cloudProviderFlag = (typeof results.results[0].system_profile.cloud_provider === 'undefined'
+//             ? 'nope'
+//             : results.results[0].system_profile.cloud_provider
+//         );
+//         console.log('TESTING >>>>>>>> out what I have in verifyResourceTab: ', cloudProviderFlag);
+//         // eslint-disable-next-line max-len
+//         if ((!insights.chrome.isProd && cloudProviderFlag.toLowerCase() === 'aws' || (insights.chrome.isProd && insights?.chrome?.isBeta()))
+//             && cloudProviderFlag.toLowerCase() === 'aws' || cloudProviderFlag.toLowerCase() === 'azure') {
+//             console.log('TESTING >>>>>>>> ITS TRUE BROOOOOOOOOSKI');
+//             return true;
+//         }
+//         // if ((!insights.chrome.isProd && !isHidden || (insights.chrome.isProd && insights?.chrome?.isBeta()))) {
+//         //     console.log('TESTING >>>>>>>> ITS TRUE BROOOOOOOOOSKI');
+//         //     return true;
+//         // }
+//     });
+//     // loadedSystemProfile.then((results) => {
+//     //     const cloudProviderFlag = results;
+//     //     console.log('TESTING >>>>>>>> out what I have in verifyResourceTab: ', results);
+//     //     if ((!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta()))
+//     //         && cloudProviderFlag.toLowerCase() === 'aws' || cloudProviderFlag.toLowerCase() === 'azure') {
+//     //         return true;
+//     //     }
+//     // });
 
-}
+
+//     console.log('TESTING >>>>>>>>>>> this is what my loadedSystemProfile looks like: ', loadedSystemProfile);
+//     return loadedSystemProfile;
+// }
 
 function entityLoaded(state) {
     console.log('TESTING $$$$$$$$ Directly checking entity in entityLoaded from reducers: ', state);
-    let cloudProviderFlag = false;
-    // getEntitySystemProfile(state.entity.id).then((result) => {
-    //     console.log('TESTING $$$$$$$$ Directly checking systemProfile: ', result);
-    //     cloudProviderFlag = result;
-    // });
-
-    console.log('TESTING $$$$$$$$$ Directly testing flag: ', cloudProviderFlag);
     return {
         ...state,
         loaded: true,
@@ -83,18 +102,12 @@ function entityLoaded(state) {
                 name: 'patch',
                 component: PatchTab
             },
-            // eslint-disable-next-line max-len
-            (verifyResourceTab(state.id)) && {
+            {
                 title: 'Resource Optimization',
                 name: 'ros',
+                isHidden: true,
                 component: RosTab
             }
-            // eslint-disable-next-line max-len
-            // (!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta() && entitySystemProfile(state.id).then(() => {if(cloud_provider.toLowerCase() === 'aws')})) && {
-            //     title: 'Resource Optimization',
-            //     name: 'ros',
-            //     component: RosTab
-            // }
         ].filter(Boolean)
     };
 }
@@ -121,6 +134,19 @@ function entitySelected(state, { payload }) {
     return {
         ...state,
         selected: new Map(selected)
+    };
+}
+
+function resourceOptTabVisibility(state, { payload }) {
+    console.log('TESTING $$$$$$$$$ Checking out state in visibility reducer: ', state);
+    return {
+        ...state,
+        activeApps: state.activeApps?.map((entity) => {
+            entity.name === 'ros' ? ({
+                ...entity,
+                isHidden: payload
+            }) : entity;
+        })
     };
 }
 
@@ -185,7 +211,8 @@ export const tableReducer = applyReducerHash(
 
 export const entitesDetailReducer = () => applyReducerHash(
     {
-        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded
+        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded,
+        [SET_ROS_TAB_VISBILITY]: resourceOptTabVisibility
     },
     defaultState
 );
