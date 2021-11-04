@@ -102,7 +102,6 @@ export async function getEntities(items, {
             undefined,
             { cancelToken: controller && controller.token }
         );
-        
         console.log('TESTING ****** what does our host api do? this: ', data);
 
         if (fields && Object.keys(fields).length) {
@@ -147,7 +146,7 @@ export async function getEntities(items, {
         return data;
     } else if (!hasItems) {
         // This is the end-point that I need to hit, to get provider_type.
-        return hosts.apiHostGetHostList(  
+        return hosts.apiHostGetHostList(
             undefined,
             undefined,
             filters.hostnameOrId,
