@@ -129,12 +129,6 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     const onRefreshData = (options = {}, disableOnRefresh) => {
         const { activeFilters } = store.getState().entities;
         const cachedProps = cache.current?.getProps() || {};
-
-        console.log('TESTING ^^^^^^^ verifying what onRefreshData is giving us: ', store.getState().entities);
-        console.log('TESTING ^^^^^^^ verifying what onRefreshData entities activeFilters is giving us: ', activeFilters);
-        console.log('TESTING ^^^^^^^ verifying what cachedprops entities have: ', cachedProps);
-
-        // eslint-disable-next-line camelcase
         const currPerPage = options?.per_page || options?.perPage || cachedProps.perPage;
 
         const params = {

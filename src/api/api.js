@@ -11,13 +11,7 @@ export { instance };
 export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
 export const tags = new TagsApi(undefined, INVENTORY_API_BASE, instance);
 
-export const getEntitySystemProfile = (item) => {
-  hosts.apiHostGetHostSystemProfileById([item]).then((result) => {
-    console.log('TESTING ::::::::: verificando api result: ', result);
-  })
-  console.log('TESTING ::::::::::: at my witts end, verifying systemProfile call item: ', item);
-  return hosts.apiHostGetHostSystemProfileById([item]);
-};
+export const getEntitySystemProfile = (item) => hosts.apiHostGetHostSystemProfileById([item]);
 
 /* eslint camelcase: off */
 export const mapData = ({ facts = {}, ...oneResult }) => ({
@@ -75,12 +69,6 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter }
 });
 
-/* 
-  TESTING >>>>>>>
-  This is where I'm supposed to get the data back from the api. 
-  Test this, and play around with it, until you get 'provider_type' back. 
-  If it doesn't, reach out to Kharel.
-*/
 export async function getEntities(items, {
     controller,
     hasItems,
@@ -102,7 +90,6 @@ export async function getEntities(items, {
             undefined,
             { cancelToken: controller && controller.token }
         );
-        console.log('TESTING ****** what does our host api do? this: ', data);
 
         if (fields && Object.keys(fields).length) {
             try {
@@ -145,7 +132,6 @@ export async function getEntities(items, {
 
         return data;
     } else if (!hasItems) {
-        // This is the end-point that I need to hit, to get provider_type.
         return hosts.apiHostGetHostList(
             undefined,
             undefined,

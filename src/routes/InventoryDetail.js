@@ -15,7 +15,6 @@ import { routes } from '../Routes';
 import InventoryDetailHead from '../modules/InventoryDetailHead';
 import AppInfo from '../modules/AppInfo';
 import DetailWrapper from '../modules/DetailWrapper';
-import { getEntitySystemProfile } from '../api/api';
 
 const Inventory = ({ entity, currentApp, clearNotifications }) => {
     const store = useStore();
@@ -28,7 +27,6 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
         shallowEqual
     );
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
-    const entityCompleto = useSelector(({ entityDetails }) => entityDetails);
 
     useEffect(() => {
         insights.chrome?.hideGlobalFilter?.(true);
@@ -43,24 +41,6 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
             window.location = `${splitUrl[0]}/insights${splitUrl[1]}`;
         }
     }, []);
-
-    useEffect(() => {
-        console.log('TESTING ******* verifying entitiy inside of InventoryDetail: ', entity);
-        // if (typeof entity !== undefined) {
-        //     console.log('TESTING ******* verifying what comes from direct api call: ', getEntitySystemProfile(entity.id));
-        // }
-        if (entity) {
-            // console.log('Directly verifying entity profile: ', getEntitySystemProfile(entity?.id));
-            getEntitySystemProfile(entity?.id).then((result) => {
-                console.log('Directly verifying entity profile: ', result);
-            });
-        }
-    }, [entity]);
-
-    useEffect(() => {
-        console.log('TESTING $$$$$$$$$$$ checking out entityLoaded in InvDetail: ', entityLoaded);
-        console.log('TESTING $$$$$$$$$$$ verifying entityCompleto results: ', entityCompleto);
-    }, [entityLoaded]);
 
     const additionalClasses = {
         'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'

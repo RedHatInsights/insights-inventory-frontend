@@ -71,7 +71,7 @@ function entityLoaded(state) {
             {
                 title: 'Resource Optimization',
                 name: 'ros',
-                isHidden: true,
+                isVisible: false,
                 component: RosTab
             }
         ].filter(Boolean)
@@ -104,12 +104,11 @@ function entitySelected(state, { payload }) {
 }
 
 function resourceOptTabVisibility(state, { payload }) {
-    console.log('TESTING $$$$$$$$$ Checking out state in visibility reducer: ', state);
     return {
         ...state,
         activeApps: state.activeApps?.map((entity) => entity.name === 'ros' ? ({
             ...entity,
-            isHidden: payload
+            isVisible: payload
         }) : entity
         )
     };

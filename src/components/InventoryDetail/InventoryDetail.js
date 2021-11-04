@@ -39,7 +39,6 @@ const InventoryDetail = ({
     const dispatch = useDispatch();
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded || false);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
-    // const activeApps = useSelector(({ entityDetails }) => entityDetails);
     useEffect(() => {
         const currId = inventoryId || location.pathname.replace(/\/$/, '').split('/').pop();
         if (!entity || !(entity?.id === currId) || !loaded) {
@@ -47,13 +46,9 @@ const InventoryDetail = ({
             dispatch(action);
             action.payload.then(() => {
                 getEntitySystemProfile(currId).then(result => {
-                    const cloudProviderObj = (typeof result.results[0].system_profile.cloud_provider !== undefined
-                        ? 'nope'
-                        : result.results[0].system_profile.cloud_provider
-                    );
-                    (cloudProviderObj === 'aws' || cloudProviderObj === 'azure')
-                        ? dispatch(setRosTabVisibility(false))
-                        : dispatch(setRosTabVisibility(true));
+                    const cloudProviderObj = (typeof result.results[0].system_profile.cloud_provider !== 'undefined')
+                        && result.results[0].system_profile.cloud_provider;
+                    dispatch(setRosTabVisibility((cloudProviderObj === 'aws' || cloudProviderObj === 'azure')));
                     return result;
                 });
             });
