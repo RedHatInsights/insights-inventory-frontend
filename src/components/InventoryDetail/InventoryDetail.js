@@ -39,7 +39,7 @@ const InventoryDetail = ({
     const dispatch = useDispatch();
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded || false);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
-    const activeApps = useSelector(({ entityDetails }) => entityDetails);
+    // const activeApps = useSelector(({ entityDetails }) => entityDetails);
     useEffect(() => {
         const currId = inventoryId || location.pathname.replace(/\/$/, '').split('/').pop();
         if (!entity || !(entity?.id === currId) || !loaded) {
@@ -57,7 +57,6 @@ const InventoryDetail = ({
                     return result;
                 });
             });
-            console.log('TESTING +++++++++ activeAppos in InvDet/InvDet: ', activeApps);
         }
     }, []);
     return <div className="ins-entity-detail">

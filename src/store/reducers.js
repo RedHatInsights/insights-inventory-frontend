@@ -46,41 +46,7 @@ function updateEntity(state, { meta }) {
     };
 }
 
-// async function verifyResourceTab(id) {
-//     console.log('TESTING >>>>>>>>> are we getting into verifyResourceTab? I dont know, are we?');
-//     const loadedSystemProfile = await getEntitySystemProfile(id).then((results) => {
-//         const cloudProviderFlag = (typeof results.results[0].system_profile.cloud_provider === 'undefined'
-//             ? 'nope'
-//             : results.results[0].system_profile.cloud_provider
-//         );
-//         console.log('TESTING >>>>>>>> out what I have in verifyResourceTab: ', cloudProviderFlag);
-//         // eslint-disable-next-line max-len
-//         if ((!insights.chrome.isProd && cloudProviderFlag.toLowerCase() === 'aws' || (insights.chrome.isProd && insights?.chrome?.isBeta()))
-//             && cloudProviderFlag.toLowerCase() === 'aws' || cloudProviderFlag.toLowerCase() === 'azure') {
-//             console.log('TESTING >>>>>>>> ITS TRUE BROOOOOOOOOSKI');
-//             return true;
-//         }
-//         // if ((!insights.chrome.isProd && !isHidden || (insights.chrome.isProd && insights?.chrome?.isBeta()))) {
-//         //     console.log('TESTING >>>>>>>> ITS TRUE BROOOOOOOOOSKI');
-//         //     return true;
-//         // }
-//     });
-//     // loadedSystemProfile.then((results) => {
-//     //     const cloudProviderFlag = results;
-//     //     console.log('TESTING >>>>>>>> out what I have in verifyResourceTab: ', results);
-//     //     if ((!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta()))
-//     //         && cloudProviderFlag.toLowerCase() === 'aws' || cloudProviderFlag.toLowerCase() === 'azure') {
-//     //         return true;
-//     //     }
-//     // });
-
-
-//     console.log('TESTING >>>>>>>>>>> this is what my loadedSystemProfile looks like: ', loadedSystemProfile);
-//     return loadedSystemProfile;
-// }
-
 function entityLoaded(state) {
-    console.log('TESTING $$$$$$$$ Directly checking entity in entityLoaded from reducers: ', state);
     return {
         ...state,
         loaded: true,
@@ -141,12 +107,11 @@ function resourceOptTabVisibility(state, { payload }) {
     console.log('TESTING $$$$$$$$$ Checking out state in visibility reducer: ', state);
     return {
         ...state,
-        activeApps: state.activeApps?.map((entity) => {
-            entity.name === 'ros' ? ({
-                ...entity,
-                isHidden: payload
-            }) : entity;
-        })
+        activeApps: state.activeApps?.map((entity) => entity.name === 'ros' ? ({
+            ...entity,
+            isHidden: payload
+        }) : entity
+        )
     };
 }
 
