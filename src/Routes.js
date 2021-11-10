@@ -54,6 +54,7 @@ export const Routes = () => {
                         source={searchParams.getAll('source')}
                         filterbyName={searchParams.getAll('hostname_or_id')}
                         tagsFilter={searchParams.getAll('tags')?.[0]?.split?.(',').reduce?.(tagsMapper, [])}
+                        operatingSystem={searchParams.getAll('operating_system')}
                         page={searchParams.getAll('page')}
                         perPage={searchParams.getAll('per_page')}
                     />}

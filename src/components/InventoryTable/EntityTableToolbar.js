@@ -16,12 +16,14 @@ import {
     TEXTUAL_CHIP,
     STALE_CHIP,
     REGISTERED_CHIP,
+    OS_CHIP,
     TAG_CHIP,
     arrayToSelection
 } from '../../Utilities/index';
 import { onDeleteFilter, onDeleteTag } from './helpers';
 import {
     useStalenessFilter,
+    useOperatingSystemFilter,
     useTextFilter,
     useRegisteredWithFilter,
     useTagsFilter,
@@ -30,6 +32,8 @@ import {
     filtersReducer,
     stalenessFilterReducer,
     stalenessFilterState,
+    operatingSystemFilterReducer,
+    operatingSystemFilterState,
     registeredWithFilterReducer,
     registeredWithFilterState
 } from '../filters';
@@ -67,12 +71,14 @@ const EntityTableToolbar = ({
         textFilterReducer,
         stalenessFilterReducer,
         registeredWithFilterReducer,
-        tagsFilterReducer
+        tagsFilterReducer,
+        operatingSystemFilterReducer
     ]), {
         ...textFilterState,
         ...stalenessFilterState,
         ...registeredWithFilterState,
-        ...tagsFilterState
+        ...tagsFilterState,
+        ...operatingSystemFilterState
     });
     const filters = useSelector(({ entities: { activeFilters } }) => activeFilters);
     const allTagsLoaded = useSelector(({ entities: { allTagsLoaded } }) => allTagsLoaded);
@@ -81,6 +87,7 @@ const EntityTableToolbar = ({
     const [nameFilter, nameChip, textFilter, setTextFilter] = useTextFilter(reducer);
     const [stalenessFilter, stalenessChip, staleFilter, setStaleFilter] = useStalenessFilter(reducer);
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
+    const [operatingSystemFilter, operatingSystemChip, osFilter, setOsFilter] = useOperatingSystemFilter(reducer);
     const {
         tagsFilter,
         tagsChip,
@@ -118,6 +125,7 @@ const EntityTableToolbar = ({
         name: !(hideFilters.all && hideFilters.name !== false) && !hideFilters.name,
         stale: !(hideFilters.all && hideFilters.stale !== false) && !hideFilters.stale,
         registeredWith: !(hideFilters.all && hideFilters.registeredWith !== false) && !hideFilters.registeredWith,
+        operatingSystem: !(hideFilters.all && hideFilters.operatingSystem !== false) && !hideFilters.operatingSystem,
         tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags
     };
 
@@ -143,12 +151,13 @@ const EntityTableToolbar = ({
      * Component did mount effect to calculate actual filters from redux.
      */
     useEffect(() => {
-        const { textFilter, tagFilters, staleFilter, registeredWithFilter } = reduceFilters(filters);
+        const { textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter } = reduceFilters(filters);
         debouncedRefresh();
         enabledFilters.name && setTextFilter(textFilter);
         enabledFilters.stale && setStaleFilter(staleFilter);
         enabledFilters.registeredWith && setRegisteredWithFilter(registeredWithFilter);
         enabledFilters.tags && setSelectedTags(tagFilters);
+        enabledFilters.operatingSystem && setOsFilter(osFilter);
     }, []);
 
     /**
@@ -216,6 +225,12 @@ const EntityTableToolbar = ({
         }
     }, [selectedTags]);
 
+    useEffect(() => {
+        if (shouldReload && enabledFilters.operatingSystem) {
+            onSetFilter(osFilter, 'osFilter', debouncedRefresh);
+        }
+    }, [osFilter]);
+
     /**
      * Mapper to simplify removing of any filter.
      */
@@ -231,7 +246,8 @@ const EntityTableToolbar = ({
         [STALE_CHIP]: (deleted) => setStaleFilter(onDeleteFilter(deleted, staleFilter)),
         [REGISTERED_CHIP]: (deleted) => setRegisteredWithFilter(
             onDeleteFilter(deleted, registeredWithFilter)
-        )
+        ),
+        [OS_CHIP]: (deleted) => setOsFilter(onDeleteFilter(deleted, osFilter))
     };
 
     /**
@@ -245,6 +261,7 @@ const EntityTableToolbar = ({
                 ...!hasItems && enabledFilters.name ? nameChip : [],
                 ...!hasItems && enabledFilters.stale ? stalenessChip : [],
                 ...!hasItems && enabledFilters.registeredWith ? registeredChip : [],
+                ...!hasItems && enabledFilters.operatingSystem ? operatingSystemChip : [],
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -274,6 +291,7 @@ const EntityTableToolbar = ({
         ).filter(Boolean).length > 0 ||
         (staleFilter?.length > 0) ||
         (registeredWithFilter?.length > 0) ||
+        (osFilter?.length > 0) ||
         (activeFiltersConfig?.filters?.length > 0);
     };
 
@@ -281,6 +299,7 @@ const EntityTableToolbar = ({
         ...!hasItems ? [
             ...enabledFilters.name ? [nameFilter] : [],
             ...enabledFilters.stale ? [stalenessFilter] : [],
+            ...enabledFilters.operatingSystem ? [operatingSystemFilter] : [],
             ...enabledFilters.registeredWith ? [registeredFilter] : [],
             ...showTags && enabledFilters.tags ? [tagsFilter] : []
         ] : [],
@@ -367,6 +386,7 @@ EntityTableToolbar.propTypes = {
         name: PropTypes.bool,
         registeredWith: PropTypes.bool,
         stale: PropTypes.bool,
+        operatingSystem: PropTypes.bool,
         all: PropTypes.bool
     }),
     paginationProps: PropTypes.object,
