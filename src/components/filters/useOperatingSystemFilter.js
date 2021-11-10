@@ -5,15 +5,7 @@ export const operatingSystemFilterState = { operatingSystemFilter: [] };
 export const OPERATING_SYSTEM_FILTER = 'OPERATING_SYSTEM_FILTER';
 export const operatingSystemFilterReducer = (_state, { type, payload }) => ({
     ...type === OPERATING_SYSTEM_FILTER && {
-        operatingSystemFilter: {
-            system_profile: {
-                operating_system: {
-                    RHEL: {
-                        version: payload
-                    }
-                }
-            }
-        }
+        operatingSystemFilter: payload
     }
 });
 

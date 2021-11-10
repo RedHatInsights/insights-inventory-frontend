@@ -156,8 +156,7 @@ export async function getEntities(items, {
                 query: {
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
                     ...(filters.osFilter && generateFilter(filters.osFilter,
-                        undefined,
-                        { arrayEnhancer: 'contains' })),
+                        'filter[system_profile][operating_system][RHEL][version]')),
                     ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields'))
                 }
             }
