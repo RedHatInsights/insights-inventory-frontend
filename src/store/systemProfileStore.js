@@ -45,7 +45,7 @@ export function calculateInterfaces(interfaces) {
 
 export function onSystemProfile(state, { payload: { results } }) {
     const systemProfile = (results && results[0] && results[0].system_profile) || {};
-    const cloudProviderObj = (typeof results[0].system_profile.cloud_provider !== 'undefined')
+    const cloudProviderObj = (results && results[0] && (typeof results[0].system_profile.cloud_provider !== 'undefined'))
                         && results[0].system_profile.cloud_provider;
     return {
         ...state,
