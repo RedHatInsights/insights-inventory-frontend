@@ -20,7 +20,6 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     const defaultApp = activeApp?.appName || appList?.find(({ pageId, name }) => items?.[0]?.name === (
         pageId || name))?.name || items?.[0]?.name;
     let applications = appList || items;
-    // let list = appList || items;
     const [activeTabs, setActiveTabs] = useState(applications);
 
     useEffect(() => {
@@ -34,30 +33,14 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     }, []);
 
     useEffect(() => {
-        console.log('TESTING OUT #### disabledApps: ', disabledApps);
-        console.log('TESTING OUT #### original applist: ', applications);
-        // setActiveTabs(disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]));
         const filteredResult = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
         if (filteredResult !== 0 && typeof filteredResult !== undefined) {
-            console.log('TESTING #### METIENDOSELO A MI FILTERED PAPI');
             setActiveTabs(filteredResult);
         }
         else {
             setActiveTabs(applications);
         }
-
-        // setActiveTabs(filteredResult !== 0 && typeof filteredResult !== undefined
-        //     ? setActiveTabs(filteredResult)
-        //     : setActiveTabs(applications));
-        // applications = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
-
-        console.log('TESTING ### our filtered appList: ', filteredResult);
-
     }, [disabledApps]);
-
-    useEffect(() => {
-        console.log('TESTING ### Updated activeTabs: ', activeTabs);
-    }, [activeTabs]);
 
     return (
         <React.Fragment>

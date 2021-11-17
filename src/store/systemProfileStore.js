@@ -44,11 +44,9 @@ export function calculateInterfaces(interfaces) {
 }
 
 export function onSystemProfile(state, { payload: { results } }) {
-    console.log('TESTING $$$$$$$$$ verifying our system profile from systemProfileStore reducer: ', results);
     const systemProfile = (results && results[0] && results[0].system_profile) || {};
     const cloudProviderObj = (typeof results[0].system_profile.cloud_provider !== 'undefined')
                         && results[0].system_profile.cloud_provider;
-    console.log('TESSTING $$$$$$$$ verifying our cloudProvider obj from the profile store: ', cloudProviderObj);
     return {
         ...state,
         disabledApps: [

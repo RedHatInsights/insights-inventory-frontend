@@ -103,8 +103,6 @@ function entitySelected(state, { payload }) {
 }
 
 function resourceOptTabVisibility(state, { payload }) {
-    console.log('TESTING $$$ what do I get in resource tab now?: ', state);
-    console.log('TESTING $$$ payload on resourceOptTabVisibility: ', payload);
     return {
         ...state,
         activeApps: state.activeApps?.map((entity) => entity.name === 'ros' ? ({
