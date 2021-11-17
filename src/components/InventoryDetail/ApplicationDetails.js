@@ -38,11 +38,20 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
         console.log('TESTING OUT #### original applist: ', applications);
         // setActiveTabs(disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]));
         const filteredResult = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
-        if (filteredResult !== 0) {
+        if (filteredResult !== 0 && typeof filteredResult !== undefined) {
+            console.log('TESTING #### METIENDOSELO A MI FILTERED PAPI');
             setActiveTabs(filteredResult);
         }
+        else {
+            setActiveTabs(applications);
+        }
+
+        // setActiveTabs(filteredResult !== 0 && typeof filteredResult !== undefined
+        //     ? setActiveTabs(filteredResult)
+        //     : setActiveTabs(applications));
         // applications = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
-        console.log('TESTING ### our filtered appList: ', applications);
+
+        console.log('TESTING ### our filtered appList: ', filteredResult);
 
     }, [disabledApps]);
 
@@ -58,7 +67,7 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
                     {...props}
                     activeKey={ defaultApp }
                     onSelect={ (event, item) => {
-                        const activeItem = applications.find(oneApp => oneApp.name === item);
+                        const activeItem = activeTabs.find(oneApp => oneApp.name === item);
                         if (onTabSelect) {
                             onTabSelect(event, item, activeItem);
                         } else {
@@ -71,7 +80,7 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
                     isFilled
                     className="ins-c-inventory-detail__app-tabs"
                 >
-                    { applications.map((item, key) => (
+                    { activeTabs && activeTabs.length && activeTabs.map((item, key) => (
                         <Tab key={ key } eventKey={ item.name } title={ item.title }></Tab>
                     )) }
                 </Tabs>
