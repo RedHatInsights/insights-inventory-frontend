@@ -21,7 +21,7 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
         pageId || name))?.name || items?.[0]?.name;
     let applications = appList || items;
     // let list = appList || items;
-    // const [activeTabs, setActiveTabs] = useState(applications);
+    const [activeTabs, setActiveTabs] = useState(applications);
 
     useEffect(() => {
         /**
@@ -34,19 +34,17 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     }, []);
 
     useEffect(() => {
-        // console.log('TESTING OUT #### my results from calling the newly changed reducer on systemProfileStore ', filteredTabs);
         console.log('TESTING OUT #### disabledApps: ', disabledApps);
         console.log('TESTING OUT #### original applist: ', applications);
-        // setApplications(disabledApps && disabledApps.length && list.filter(app => app.name !== disabledApps[0]));
-        applications = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
+        setActiveTabs(disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]));
+        // applications = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
         console.log('TESTING ### our filtered appList: ', applications);
 
     }, [disabledApps]);
 
     useEffect(() => {
-        console.log('TESING ### refreshed applications: ', applications);
-    }, [applications]);
-
+        console.log('TESTING ### Updated activeTabs: ', activeTabs);
+    }, [activeTabs]);
 
     return (
         <React.Fragment>
