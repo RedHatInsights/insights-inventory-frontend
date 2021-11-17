@@ -104,6 +104,7 @@ function entitySelected(state, { payload }) {
 }
 
 function resourceOptTabVisibility(state, { payload }) {
+    console.log('TESTING $$$ what do I get in resource tab now?: ', state);
     return {
         ...state,
         activeApps: state.activeApps?.map((entity) => entity.name === 'ros' ? ({
@@ -176,7 +177,8 @@ export const tableReducer = applyReducerHash(
 export const entitesDetailReducer = () => applyReducerHash(
     {
         [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded,
-        [SET_ROS_TAB_VISBILITY]: resourceOptTabVisibility
+        [INVENTORY_ACTION_TYPES.LOAD_SYSTEM_PROFILE_FULFILLED]: resourceOptTabVisibility
+        // [SET_ROS_TAB_VISBILITY]: resourceOptTabVisibility
     },
     defaultState
 );
