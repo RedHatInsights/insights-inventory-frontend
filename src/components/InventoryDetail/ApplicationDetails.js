@@ -36,7 +36,11 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     useEffect(() => {
         console.log('TESTING OUT #### disabledApps: ', disabledApps);
         console.log('TESTING OUT #### original applist: ', applications);
-        setActiveTabs(disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]));
+        // setActiveTabs(disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]));
+        const filteredResult = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
+        if (filteredResult !== 0) {
+            setActiveTabs(filteredResult);
+        }
         // applications = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
         console.log('TESTING ### our filtered appList: ', applications);
 
