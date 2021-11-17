@@ -3,8 +3,7 @@ import {
     ACTION_TYPES,
     SELECT_ENTITY,
     SET_INVENTORY_FILTER,
-    SET_PAGINATION,
-    SET_ROS_TAB_VISBILITY
+    SET_PAGINATION
 } from './action-types';
 import systemProfileStore from './systemProfileStore';
 import {
@@ -105,6 +104,7 @@ function entitySelected(state, { payload }) {
 
 function resourceOptTabVisibility(state, { payload }) {
     console.log('TESTING $$$ what do I get in resource tab now?: ', state);
+    console.log('TESTING $$$ payload on resourceOptTabVisibility: ', payload);
     return {
         ...state,
         activeApps: state.activeApps?.map((entity) => entity.name === 'ros' ? ({
@@ -178,7 +178,6 @@ export const entitesDetailReducer = () => applyReducerHash(
     {
         [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded,
         [INVENTORY_ACTION_TYPES.LOAD_SYSTEM_PROFILE_FULFILLED]: resourceOptTabVisibility
-        // [SET_ROS_TAB_VISBILITY]: resourceOptTabVisibility
     },
     defaultState
 );

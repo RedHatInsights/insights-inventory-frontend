@@ -10,8 +10,7 @@ import {
     CLEAR_FILTERS,
     TOGGLE_TAG_MODAL,
     CONFIG_CHANGED,
-    TOGGLE_DRAWER,
-    SET_ROS_TAB_VISBILITY
+    TOGGLE_DRAWER
 } from './action-types';
 import {
     getEntities as defaultGetEntities,
@@ -194,10 +193,10 @@ export const deleteEntity = (systems, displayName) => ({
     }
 });
 
-export const setRosTabVisibility = (shouldShowRosTab) => ({
-    type: SET_ROS_TAB_VISBILITY,
-    payload: shouldShowRosTab
-});
+// export const setRosTabVisibility = (shouldShowRosTab) => ({
+//     type: SET_ROS_TAB_VISBILITY,
+//     payload: shouldShowRosTab
+// });
 
 export const configChanged = (config) => ({
     type: CONFIG_CHANGED,

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -16,9 +16,13 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     const searchParams = new URLSearchParams(search);
     const items = useSelector(({ entityDetails }) => entityDetails?.activeApps.filter(({ isVisible }) => isVisible !== false));
     const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp);
+    const disabledApps = useSelector(({ systemProfileStore }) => systemProfileStore?.disabledApps);
     const defaultApp = activeApp?.appName || appList?.find(({ pageId, name }) => items?.[0]?.name === (
         pageId || name))?.name || items?.[0]?.name;
-    const applications = appList || items;
+    let applications = appList || items;
+    // let list = appList || items;
+    // const [activeTabs, setActiveTabs] = useState(applications);
+
     useEffect(() => {
         /**
          * Initialize first inventory detail type
@@ -28,6 +32,21 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
             dispatch(detailSelect(appName));
         }
     }, []);
+
+    useEffect(() => {
+        // console.log('TESTING OUT #### my results from calling the newly changed reducer on systemProfileStore ', filteredTabs);
+        console.log('TESTING OUT #### disabledApps: ', disabledApps);
+        console.log('TESTING OUT #### original applist: ', applications);
+        // setApplications(disabledApps && disabledApps.length && list.filter(app => app.name !== disabledApps[0]));
+        applications = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
+        console.log('TESTING ### our filtered appList: ', applications);
+
+    }, [disabledApps]);
+
+    useEffect(() => {
+        console.log('TESING ### refreshed applications: ', applications);
+    }, [applications]);
+
 
     return (
         <React.Fragment>

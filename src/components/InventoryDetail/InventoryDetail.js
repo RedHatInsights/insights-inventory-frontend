@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { loadEntity, deleteEntity, setRosTabVisibility } from '../../store/actions';
+import { loadEntity, deleteEntity } from '../../store/actions';
 import './InventoryDetail.scss';
 import SystemNotFound from './SystemNotFound';
 import TopBar from './TopBar';
@@ -10,7 +10,6 @@ import FactsInfo from './FactsInfo';
 import { reloadWrapper } from '../../Utilities/index';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import ApplicationDetails from './ApplicationDetails';
-import { getEntitySystemProfile } from '../../api/api';
 import './InventoryDetail.scss';
 
 /**
@@ -42,16 +41,7 @@ const InventoryDetail = ({
     useEffect(() => {
         const currId = inventoryId || location.pathname.replace(/\/$/, '').split('/').pop();
         if (!entity || !(entity?.id === currId) || !loaded) {
-            const action = loadEntity(currId, { hasItems: true }, { showTags });
-            dispatch(action);
-            action.payload.then(() => {
-                getEntitySystemProfile(currId).then(result => {
-                    const cloudProviderObj = (typeof result.results[0].system_profile.cloud_provider !== 'undefined')
-                        && result.results[0].system_profile.cloud_provider;
-                    dispatch(setRosTabVisibility((cloudProviderObj === 'aws' || cloudProviderObj === 'azure')));
-                    return result;
-                });
-            });
+            dispatch(loadEntity(currId, { hasItems: true }, { showTags }));
         }
     }, []);
     return <div className="ins-entity-detail">
