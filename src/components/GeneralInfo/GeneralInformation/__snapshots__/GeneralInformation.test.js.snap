@@ -306,7 +306,9 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -995,7 +997,9 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -1646,7 +1650,9 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -2307,7 +2313,9 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -3369,7 +3377,9 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -4132,7 +4142,9 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -4828,7 +4840,9 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -5486,7 +5500,9 @@ exports[`GeneralInformation custom components should render custom Configuration
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -6154,7 +6170,9 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -7237,7 +7255,9 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
@@ -8826,7 +8846,9 @@ exports[`GeneralInformation should render correctly 1`] = `
                 class=""
                 data-pf-content="true"
               >
-                test-release
+                <span>
+                  test-release
+                </span>
               </dd>
               <dt
                 class=""
