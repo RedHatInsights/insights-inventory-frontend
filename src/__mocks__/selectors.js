@@ -11,7 +11,9 @@ export const testProperties = {
 export const osTest = {
     arch: 'test-arch',
     operating_system: {
-        name: 'test-release'
+        name: 'test-release',
+        major: 1,
+        minor: 0
     },
     os_kernel_version: 'test-kernel',
     last_boot_time: 'test-boot',
