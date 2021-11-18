@@ -35,6 +35,20 @@ describe('OperatingSystemFormatter', () => {
         expect(wrapper.text()).toEqual('RHEL ');
     });
 
+    it('should render correctly with RHEL and minor version set to 0', () => {
+        systemProfile = {
+            operating_system: {
+                name: 'RHEL',
+                major: 7,
+                minor: 0
+            }
+        };
+
+        const wrapper = mount(<OperatingSystemFormatter systemProfile={systemProfile}/>);
+
+        expect(wrapper.text()).toEqual('RHEL 7.0');
+    });
+
     it('should render with different system', () => {
         systemProfile = {
             operating_system: {

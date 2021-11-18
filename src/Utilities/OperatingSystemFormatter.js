@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const OperatingSystemFormatter = ({ systemProfile }) => {
     if (systemProfile?.operating_system?.name === 'RHEL') {
-        const version = (systemProfile.operating_system.major && systemProfile.operating_system.minor)
+        const version = (systemProfile.operating_system.major && systemProfile.operating_system.minor !== null)
         && `${systemProfile.operating_system.major}.${systemProfile.operating_system?.minor}` || null;
 
         return <span>
