@@ -98,7 +98,6 @@ const EntityTable = ({
     };
 
     delete tableProps.RowWrapper;
-
     return (
         <React.Fragment>
             { loaded && cells ?
