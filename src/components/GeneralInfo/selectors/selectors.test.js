@@ -39,7 +39,9 @@ it('propertiesSelector - no data', () => {
 
 it('operatingSystem should return correct data', () => {
     expect(operatingSystem(osTest)).toEqual({
-        release: 'test-release',
+        release: {
+            name: 'test-release'
+        },
         kernelRelease: 'test-kernel',
         architecture: 'test-arch',
         bootTime: 'test-boot',
