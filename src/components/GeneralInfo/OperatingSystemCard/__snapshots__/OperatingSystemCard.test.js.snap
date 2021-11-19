@@ -41,7 +41,9 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -126,7 +128,9 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -211,7 +215,9 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -296,7 +302,9 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -583,7 +591,9 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -680,7 +690,9 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
           class=""
           data-pf-content="true"
         >
-          Not available
+          <span>
+            Not available
+          </span>
         </dd>
         <dt
           class=""
@@ -777,7 +789,9 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -874,7 +888,9 @@ exports[`OperatingSystemCard should render extra 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
