@@ -7790,9 +7790,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__md"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -7831,9 +7833,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__md"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -7872,9 +7876,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__md"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -7888,9 +7894,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -7904,9 +7912,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -7920,9 +7930,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -7936,9 +7948,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -7952,9 +7966,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -7968,9 +7984,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
             </dl>
@@ -8022,9 +8040,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8038,9 +8058,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8054,9 +8076,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8070,9 +8094,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8086,9 +8112,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
             </dl>
@@ -8140,9 +8168,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8156,9 +8186,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8172,9 +8204,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
             </dl>
@@ -8226,9 +8260,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8242,9 +8278,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8258,9 +8296,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8274,9 +8314,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8290,9 +8332,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
             </dl>
@@ -8344,9 +8388,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8360,9 +8406,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8376,9 +8424,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8392,9 +8442,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
             </dl>
@@ -8446,9 +8498,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8462,9 +8516,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8478,9 +8534,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8494,9 +8552,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8510,9 +8570,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
               <dt
@@ -8526,9 +8588,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 data-pf-content="true"
               >
                 <div
-                  class="ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-                   
+                  <span
+                    class="pf-u-screen-reader"
+                  />
                 </div>
               </dd>
             </dl>
