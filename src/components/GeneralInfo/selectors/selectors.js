@@ -39,12 +39,12 @@ export const propertiesSelector = ({
 
 export const operatingSystem = ({
     arch,
-    os_release,
+    operating_system,
     os_kernel_version,
     last_boot_time,
     kernel_modules
 } = {}, { facts } = {}) => ({
-    release: os_release,
+    release: operating_system,
     kernelRelease: os_kernel_version,
     architecture: arch || facts?.rhsm?.ARCHITECTURE,
     bootTime: last_boot_time,
