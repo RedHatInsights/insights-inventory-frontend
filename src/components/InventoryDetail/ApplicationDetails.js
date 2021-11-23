@@ -14,8 +14,8 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const searchParams = new URLSearchParams(search);
-    // eslint-disable-next-line max-len
-    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps || []).filter(({ isVisible }) => isVisible !== false);
+    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps || [])
+    .filter(({ isVisible }) => isVisible !== false);
     const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp);
     const disabledApps = useSelector(({ systemProfileStore }) => systemProfileStore?.disabledApps);
     const defaultApp = activeApp?.appName || appList?.find(({ pageId, name }) => items?.[0]?.name === (
