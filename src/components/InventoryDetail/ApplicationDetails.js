@@ -14,7 +14,8 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const searchParams = new URLSearchParams(search);
-    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps.filter(({ isVisible }) => isVisible !== false));
+    // eslint-disable-next-line max-len
+    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps || []).filter(({ isVisible }) => isVisible !== false);
     const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp);
     const disabledApps = useSelector(({ systemProfileStore }) => systemProfileStore?.disabledApps);
     const defaultApp = activeApp?.appName || appList?.find(({ pageId, name }) => items?.[0]?.name === (
@@ -33,7 +34,7 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     }, []);
 
     useEffect(() => {
-        const filteredResult = disabledApps && disabledApps.length && applications.filter(app => app.name !== disabledApps[0]);
+        const filteredResult = applications.filter(app => !disabledApps?.includes(app.name));
         if (filteredResult !== 0 && typeof filteredResult !== undefined) {
             setActiveTabs(filteredResult);
         }
@@ -63,7 +64,7 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
                     isFilled
                     className="ins-c-inventory-detail__app-tabs"
                 >
-                    { activeTabs && activeTabs.length && activeTabs.map((item, key) => (
+                    { activeTabs?.map((item, key) => (
                         <Tab key={ key } eventKey={ item.name } title={ item.title }></Tab>
                     )) }
                 </Tabs>

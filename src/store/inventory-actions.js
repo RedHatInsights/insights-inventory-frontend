@@ -193,11 +193,6 @@ export const deleteEntity = (systems, displayName) => ({
     }
 });
 
-// export const setRosTabVisibility = (shouldShowRosTab) => ({
-//     type: SET_ROS_TAB_VISBILITY,
-//     payload: shouldShowRosTab
-// });
-
 export const configChanged = (config) => ({
     type: CONFIG_CHANGED,
     payload: config

@@ -50,8 +50,7 @@ export function onSystemProfile(state, { payload: { results } }) {
     return {
         ...state,
         disabledApps: [
-            ...(cloudProviderObj === 'aws' || cloudProviderObj === 'test cloud provider') ? [] : ['ros']
-            // ...(cloudProviderObj === 'aws' || cloudProviderObj === 'azure') ? ['ros'] : []
+            ...(cloudProviderObj === 'aws' || cloudProviderObj === 'azure') ? [] : ['ros']
         ],
         systemProfile: {
             loaded: true,
