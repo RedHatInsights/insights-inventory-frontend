@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@patternfly/react-core": "4.168.8",
-    "@patternfly/react-icons": "^4.19.8",
+    "@patternfly/react-icons": "^4.26.4",
     "@patternfly/react-table": "4.37.8",
     "@redhat-cloud-services/frontend-components": "3.5.1",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.4",
