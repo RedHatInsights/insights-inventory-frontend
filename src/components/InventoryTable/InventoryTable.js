@@ -129,8 +129,6 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     const onRefreshData = (options = {}, disableOnRefresh) => {
         const { activeFilters } = store.getState().entities;
         const cachedProps = cache.current?.getProps() || {};
-
-        // eslint-disable-next-line camelcase
         const currPerPage = options?.per_page || options?.perPage || cachedProps.perPage;
 
         const params = {
