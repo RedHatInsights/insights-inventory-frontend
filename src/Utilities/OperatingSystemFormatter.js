@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const OperatingSystemFormatter = ({ systemProfile }) => {
-    if (systemProfile?.operating_system?.name === 'RHEL') {
-        const version = (systemProfile.operating_system.major && systemProfile.operating_system.minor)
-        && `${systemProfile.operating_system.major}.${systemProfile.operating_system?.minor}` || null;
+const OperatingSystemFormatter = ({ operatingSystem }) => {
+    if (operatingSystem?.name === 'RHEL') {
+        const version = (operatingSystem.major && operatingSystem.minor !== null)
+        && `${operatingSystem.major}.${operatingSystem?.minor}` || null;
 
         return <span>
             RHEL {version}
@@ -12,17 +12,15 @@ const OperatingSystemFormatter = ({ systemProfile }) => {
     }
 
     return <span>
-        {systemProfile?.operating_system?.name || 'Not available'}
+        {operatingSystem?.name || 'Not available'}
     </span>;
 };
 
 OperatingSystemFormatter.propTypes = {
-    systemProfile: PropTypes.shape({
+    operatingSystem: PropTypes.shape({
         name: PropTypes.string,
         major: PropTypes.number,
-        minor: PropTypes.number,
-        // eslint-disable-next-line camelcase
-        operating_system: PropTypes.shape({ name: PropTypes.string, major: PropTypes.number, minor: PropTypes.number })
+        minor: PropTypes.number
     })
 };
 

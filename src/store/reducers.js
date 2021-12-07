@@ -1,4 +1,10 @@
-import { INVENTORY_ACTION_TYPES, ACTION_TYPES, SELECT_ENTITY, SET_INVENTORY_FILTER, SET_PAGINATION } from './action-types';
+import {
+    INVENTORY_ACTION_TYPES,
+    ACTION_TYPES,
+    SELECT_ENTITY,
+    SET_INVENTORY_FILTER,
+    SET_PAGINATION
+} from './action-types';
 import systemProfileStore from './systemProfileStore';
 import {
     ComplianceTab,
@@ -64,6 +70,7 @@ function entityLoaded(state) {
             (!insights.chrome.isProd || (insights.chrome.isProd && insights?.chrome?.isBeta())) && {
                 title: 'Resource Optimization',
                 name: 'ros',
+                isVisible: false,
                 component: RosTab
             }
         ].filter(Boolean)
@@ -92,6 +99,17 @@ function entitySelected(state, { payload }) {
     return {
         ...state,
         selected: new Map(selected)
+    };
+}
+
+function resourceOptTabVisibility(state, { payload }) {
+    return {
+        ...state,
+        activeApps: state.activeApps?.map((entity) => entity.name === 'ros' ? ({
+            ...entity,
+            isVisible: payload
+        }) : entity
+        )
     };
 }
 
@@ -160,7 +178,8 @@ export const tableReducer = applyReducerHash(
 
 export const entitesDetailReducer = () => applyReducerHash(
     {
-        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded
+        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded,
+        [INVENTORY_ACTION_TYPES.LOAD_SYSTEM_PROFILE_FULFILLED]: resourceOptTabVisibility
     },
     defaultState
 );
