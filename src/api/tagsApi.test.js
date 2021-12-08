@@ -58,12 +58,13 @@ describe('getAllTags', () => {
         });
 
         it('should generate get all tags call with osFilter', async () => {
-            const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale\
-            &filter[system_profile][operating_system][RHEL][version][eq]=something&registered_with=insights';
+            mockedTags.resetHistory();
+            const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&registered_with='
+            + 'insights&filter%5Bsystem_profile%5D%5Boperating_system%5D%5BRHEL%5D%5Bversion%5D%5Beq%5D=something';
             mockedTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
             const data = await getAllTags(undefined, {
                 filters: [{
-                    osFilter: ['something']
+                    osFilter: 'something'
                 }]
             });
             expect(data).toMatchObject({ test: 'test' });
