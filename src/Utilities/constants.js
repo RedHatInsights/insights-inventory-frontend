@@ -179,24 +179,15 @@ export function reduceFilters(filters = []) {
                 ...acc,
                 tagFilters: filterToGroup(oneFilter.tagFilters)
             };
-        } else if ('staleFilter' in oneFilter) {
-            return {
-                ...acc,
-                staleFilter: oneFilter.staleFilter
-            };
-        }  else if ('registeredWithFilter' in oneFilter) {
-            return {
-                ...acc,
-                registeredWithFilter: oneFilter.registeredWithFilter
-            };
-        } else if ('osFilter' in oneFilter) {
-            return {
-                ...acc,
-                osFilter: oneFilter.osFilter
-            };
         }
 
-        return acc;
+        const foundKey = ['staleFilter', 'registeredWithFilter', 'osFilter', '']
+        .find(item => Object.keys(oneFilter).includes(item));
+
+        return {
+            ...acc,
+            ...foundKey && { [foundKey]: oneFilter[foundKey] }
+        };
     }, {
         textFilter: '',
         tagFilters: {},
