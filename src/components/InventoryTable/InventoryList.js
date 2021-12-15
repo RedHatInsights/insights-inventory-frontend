@@ -118,7 +118,8 @@ InventoryList.propTypes = {
         tags: PropTypes.bool,
         name: PropTypes.bool,
         registeredWith: PropTypes.bool,
-        stale: PropTypes.bool
+        stale: PropTypes.bool,
+        operatingSystem: PropTypes.bool
     }),
     onRefreshData: PropTypes.func
 };

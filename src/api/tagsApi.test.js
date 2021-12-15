@@ -57,6 +57,19 @@ describe('getAllTags', () => {
             expect(data).toMatchObject({ test: 'test' });
         });
 
+        it('should generate get all tags call with osFilter', async () => {
+            mockedTags.resetHistory();
+            const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&registered_with='
+            + 'insights&filter%5Bsystem_profile%5D%5Boperating_system%5D%5BRHEL%5D%5Bversion%5D%5Beq%5D=something';
+            mockedTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
+            const data = await getAllTags(undefined, {
+                filters: [{
+                    osFilter: 'something'
+                }]
+            });
+            expect(data).toMatchObject({ test: 'test' });
+        });
+
         it('should generate get all tags call with registeredWithFilter', async () => {
             // eslint-disable-next-line max-len
             const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&registered_with=something';
