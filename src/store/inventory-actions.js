@@ -37,10 +37,12 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
         ...defaultFilters,
         ...filters.length === 0 && { registeredWithFilter: [] },
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
-        ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined })
+        ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
+        ...(isFilterDisabled('operating_system') && { osFilter: undefined })
     }) : { ...defaultFilters,
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
-        ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined })
+        ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
+        ...(isFilterDisabled('operating_system') && { osFilter: undefined })
     };
 
     const orderBy = config.orderBy || 'updated';

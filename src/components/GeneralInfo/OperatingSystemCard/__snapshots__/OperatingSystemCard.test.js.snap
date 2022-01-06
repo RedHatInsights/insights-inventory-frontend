@@ -41,7 +41,9 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -126,7 +128,9 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -211,7 +215,9 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -296,7 +302,9 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -467,9 +475,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
           data-pf-content="true"
         >
           <div
-            class="ins-c-skeleton ins-c-skeleton__sm"
+            class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
           >
-             
+            <span
+              class="pf-u-screen-reader"
+            />
           </div>
         </dd>
         <dt
@@ -483,9 +493,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
           data-pf-content="true"
         >
           <div
-            class="ins-c-skeleton ins-c-skeleton__sm"
+            class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
           >
-             
+            <span
+              class="pf-u-screen-reader"
+            />
           </div>
         </dd>
         <dt
@@ -499,9 +511,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
           data-pf-content="true"
         >
           <div
-            class="ins-c-skeleton ins-c-skeleton__sm"
+            class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
           >
-             
+            <span
+              class="pf-u-screen-reader"
+            />
           </div>
         </dd>
         <dt
@@ -515,9 +529,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
           data-pf-content="true"
         >
           <div
-            class="ins-c-skeleton ins-c-skeleton__sm"
+            class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
           >
-             
+            <span
+              class="pf-u-screen-reader"
+            />
           </div>
         </dd>
         <dt
@@ -531,9 +547,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
           data-pf-content="true"
         >
           <div
-            class="ins-c-skeleton ins-c-skeleton__sm"
+            class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
           >
-             
+            <span
+              class="pf-u-screen-reader"
+            />
           </div>
         </dd>
       </dl>
@@ -583,7 +601,9 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -680,7 +700,9 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
           class=""
           data-pf-content="true"
         >
-          Not available
+          <span>
+            Not available
+          </span>
         </dd>
         <dt
           class=""
@@ -777,7 +799,9 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""
@@ -874,7 +898,9 @@ exports[`OperatingSystemCard should render extra 1`] = `
           class=""
           data-pf-content="true"
         >
-          test-release
+          <span>
+            test-release
+          </span>
         </dd>
         <dt
           class=""

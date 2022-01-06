@@ -60,10 +60,11 @@ exports[`InfoTable api expandable should open 1`] = `
     <Toolbar
       className=" ins-c-primary-toolbar"
       id="ins-primary-data-toolbar"
+      ouiaId="PrimaryToolbar"
     >
       <div
         className="pf-c-toolbar  ins-c-primary-toolbar"
-        data-ouia-component-id="OUIA-Generated-Toolbar-1"
+        data-ouia-component-id="PrimaryToolbar"
         data-ouia-component-type="PF4/Toolbar"
         data-ouia-safe={true}
         id="ins-primary-data-toolbar"
@@ -102,6 +103,7 @@ exports[`InfoTable api expandable should open 1`] = `
                     onPerPageSelect={[Function]}
                     onPreviousClick={[Function]}
                     onSetPage={[Function]}
+                    ouiaId="CompactPagination"
                     ouiaSafe={true}
                     page={1}
                     perPage={10}
@@ -147,7 +149,7 @@ exports[`InfoTable api expandable should open 1`] = `
                   >
                     <div
                       className="pf-c-pagination pf-m-compact"
-                      data-ouia-component-id="OUIA-Generated-Pagination-top-1"
+                      data-ouia-component-id="CompactPagination"
                       data-ouia-component-type="PF4/Pagination"
                       data-ouia-safe={true}
                       id="pagination-options-menu-1"
@@ -847,6 +849,7 @@ exports[`InfoTable api expandable should open 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isHeaderSelectDisabled={false}
     isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
@@ -959,6 +962,7 @@ exports[`InfoTable api expandable should open 1`] = `
               "dropdownPosition": "right",
               "expandId": "expandable-toggle",
               "firstUserColumnIndex": 1,
+              "isHeaderSelectDisabled": false,
               "onCollapse": [Function],
               "onExpand": undefined,
               "onFavorite": undefined,
@@ -1012,6 +1016,7 @@ exports[`InfoTable api expandable should open 1`] = `
               "dropdownPosition": "right",
               "expandId": "expandable-toggle",
               "firstUserColumnIndex": 1,
+              "isHeaderSelectDisabled": false,
               "onCollapse": [Function],
               "onExpand": undefined,
               "onFavorite": undefined,
@@ -1064,6 +1069,7 @@ exports[`InfoTable api expandable should open 1`] = `
               "dropdownPosition": "right",
               "expandId": "expandable-toggle",
               "firstUserColumnIndex": 1,
+              "isHeaderSelectDisabled": false,
               "onCollapse": [Function],
               "onExpand": undefined,
               "onFavorite": undefined,
@@ -1183,6 +1189,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "dropdownPosition": "right",
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
+                            "isHeaderSelectDisabled": false,
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -1236,6 +1243,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "dropdownPosition": "right",
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
+                            "isHeaderSelectDisabled": false,
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -1288,6 +1296,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "dropdownPosition": "right",
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
+                            "isHeaderSelectDisabled": false,
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -1395,6 +1404,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "dropdownPosition": "right",
                                     "expandId": "expandable-toggle",
                                     "firstUserColumnIndex": 1,
+                                    "isHeaderSelectDisabled": false,
                                     "onCollapse": [Function],
                                     "onExpand": undefined,
                                     "onFavorite": undefined,
@@ -1448,6 +1458,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "dropdownPosition": "right",
                                     "expandId": "expandable-toggle",
                                     "firstUserColumnIndex": 1,
+                                    "isHeaderSelectDisabled": false,
                                     "onCollapse": [Function],
                                     "onExpand": undefined,
                                     "onFavorite": undefined,
@@ -1500,6 +1511,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "dropdownPosition": "right",
                                     "expandId": "expandable-toggle",
                                     "firstUserColumnIndex": 1,
+                                    "isHeaderSelectDisabled": false,
                                     "onCollapse": [Function],
                                     "onExpand": undefined,
                                     "onFavorite": undefined,
@@ -1699,6 +1711,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         "dropdownPosition": "right",
                         "expandId": "expandable-toggle",
                         "firstUserColumnIndex": 1,
+                        "isHeaderSelectDisabled": false,
                         "onCollapse": [Function],
                         "onExpand": undefined,
                         "onFavorite": undefined,
@@ -1752,6 +1765,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         "dropdownPosition": "right",
                         "expandId": "expandable-toggle",
                         "firstUserColumnIndex": 1,
+                        "isHeaderSelectDisabled": false,
                         "onCollapse": [Function],
                         "onExpand": undefined,
                         "onFavorite": undefined,
@@ -1804,6 +1818,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         "dropdownPosition": "right",
                         "expandId": "expandable-toggle",
                         "firstUserColumnIndex": 1,
+                        "isHeaderSelectDisabled": false,
                         "onCollapse": [Function],
                         "onExpand": undefined,
                         "onFavorite": undefined,
@@ -2317,6 +2332,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "dropdownPosition": "right",
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
+                            "isHeaderSelectDisabled": false,
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -2370,6 +2386,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "dropdownPosition": "right",
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
+                            "isHeaderSelectDisabled": false,
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -2422,6 +2439,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "dropdownPosition": "right",
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
+                            "isHeaderSelectDisabled": false,
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -3095,6 +3113,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3148,6 +3167,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3200,6 +3220,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3539,6 +3560,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3592,6 +3614,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3644,6 +3667,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3903,6 +3927,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3956,6 +3981,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4008,6 +4034,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4306,6 +4333,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4359,6 +4387,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4411,6 +4440,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4670,6 +4700,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4723,6 +4754,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4775,6 +4807,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5114,6 +5147,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5167,6 +5201,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5219,6 +5254,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5478,6 +5514,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5531,6 +5568,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5583,6 +5621,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5877,6 +5916,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5930,6 +5970,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5982,6 +6023,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "dropdownPosition": "right",
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
+                                      "isHeaderSelectDisabled": false,
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -7414,6 +7456,7 @@ exports[`InfoTable should render expandable set to true 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isHeaderSelectDisabled={false}
     isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
@@ -7584,6 +7627,7 @@ exports[`InfoTable should render multiple cells 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isHeaderSelectDisabled={false}
     isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
@@ -7721,6 +7765,7 @@ exports[`InfoTable should render no data 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isHeaderSelectDisabled={false}
     isNested={false}
     isStickyHeader={false}
     isTreeTable={false}
@@ -7851,6 +7896,7 @@ exports[`InfoTable should render onSort set 1`] = `
     dropdownPosition="right"
     expandId="expandable-toggle"
     gridBreakPoint="grid-md"
+    isHeaderSelectDisabled={false}
     isNested={false}
     isStickyHeader={false}
     isTreeTable={false}

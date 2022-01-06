@@ -6,6 +6,7 @@ import { generalMapper } from '../dataMapper';
 import { operatingSystem } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import { extraShape, isDate } from '../../../constants';
+import OperatingSystemFormatter from '../../../Utilities/OperatingSystemFormatter';
 
 const OperatingSystemCard = ({
     systemInfo,
@@ -22,7 +23,7 @@ const OperatingSystemCard = ({
         title="Operating system"
         isLoading={ !detailLoaded }
         items={ [
-            ...hasRelease ? [{ title: 'Release', value: systemInfo.release }] : [],
+            ...hasRelease ? [{ title: 'Release', value: <OperatingSystemFormatter operatingSystem={systemInfo.release} /> }] : [],
             ...hasKernelRelease ? [{ title: 'Kernel release', value: systemInfo.kernelRelease }] : [],
             ...hasArchitecture ? [{ title: 'Architecture', value: systemInfo.architecture }] : [],
             ...hasLastBoot ? [{ title: 'Last boot time', value: (isDate(systemInfo.bootTime) ?

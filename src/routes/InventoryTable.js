@@ -37,6 +37,8 @@ const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
 
 const filterMapper = {
     staleFilter: ({ staleFilter }, searchParams) => staleFilter.forEach(item => searchParams.append('status', item)),
+    osFilter: ({ osFilter }, searchParams) => osFilter
+    ?.forEach(item => searchParams.append('operating_system', item)),
     registeredWithFilter: ({ registeredWithFilter }, searchParams) => registeredWithFilter
     ?.forEach(item => searchParams.append('source', item)),
     value: ({ value, filter }, searchParams) => value === 'hostname_or_id' &&
@@ -71,6 +73,7 @@ const Inventory = ({
     source,
     filterbyName,
     tagsFilter,
+    operatingSystem,
     page,
     perPage,
     initialLoading
@@ -104,14 +107,15 @@ const Inventory = ({
             options.filters = Object.entries(defaultFilters).map(([key, val]) => ({ [key]: val }));
         }
 
-        const { status, source, tagsFilter, filterbyName } = (options?.filters || []).reduce((acc, curr) => ({
+        const { status, source, tagsFilter, filterbyName, operatingSystem } = (options?.filters || []).reduce((acc, curr) => ({
             ...acc,
             ...curr?.staleFilter && { status: curr.staleFilter },
             ...curr?.registeredWithFilter && { source: curr.registeredWithFilter },
             ...curr?.tagFilters && { tagsFilter: curr.tagFilters },
-            ...curr?.value === 'hostname_or_id' && { filterbyName: curr.filter }
-        }), { status: undefined, source: undefined, tagsFilter: undefined, filterbyName: undefined });
-        options.filters = generateFilter(status, source, tagsFilter, filterbyName);
+            ...curr?.value === 'hostname_or_id' && { filterbyName: curr.filter },
+            ...curr?.osFilter && { operatingSystem: curr.osFilter }
+        }), { status: undefined, source: undefined, tagsFilter: undefined, filterbyName: undefined, operatingSystem: undefined });
+        options.filters = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem);
 
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
@@ -156,7 +160,7 @@ const Inventory = ({
             ...mergeWithEntities(tableReducer)
         });
 
-        const filtersList = generateFilter(status, source, tagsFilter, filterbyName);
+        const filtersList = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem);
         filtersList?.length > 0 && dispatch(actions.setFilter(filtersList));
 
         if (perPage || page) {
@@ -299,6 +303,7 @@ const Inventory = ({
 Inventory.propTypes = {
     status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     source: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    operatingSystem: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     filterbyName: PropTypes.string,
     tagsFilter: PropTypes.any,
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

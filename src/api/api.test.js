@@ -42,6 +42,12 @@ describe('filtersReducer', () => {
         })).toMatchObject({ staleFilter: 'something' });
     });
 
+    it('should generate osFilter', () => {
+        expect(filtersReducer({}, {
+            osFilter: 'something'
+        })).toMatchObject({ osFilter: 'something' });
+    });
+
     it('should generate registeredWithFilter', () => {
         expect(filtersReducer({}, {
             registeredWithFilter: 'something'

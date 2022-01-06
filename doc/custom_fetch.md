@@ -61,6 +61,10 @@ example:
          "fresh",
          "stale"
       ],
+      "osFilter":[
+         "8.4",
+         "7.9"
+      ],
       "registeredWithFilter":[
          "insights"
       ],

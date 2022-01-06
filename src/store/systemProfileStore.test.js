@@ -71,6 +71,7 @@ describe('systemProfilePending', () => {
 describe('onSystemProfile', () => {
     it('empty results', () => {
         expect(onSystemProfile(undefined, { payload: {} })).toEqual({
+            disabledApps: ['ros'],
             systemProfile: {
                 loaded: true,
                 network: undefined,
