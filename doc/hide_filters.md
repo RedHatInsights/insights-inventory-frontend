@@ -15,6 +15,7 @@ hideFilters: PropTypes.shape({
     name: PropTypes.bool,
     registeredWith: PropTypes.bool,
     stale: PropTypes.bool,
+    operatingSystem: PropTypes.bool,
     all: PropTypes.bool,
 })
 ```
@@ -46,6 +47,10 @@ Hides registered with filter.
 ## stale
 
 Hides staleness filter.
+
+## operatingSystem
+
+Hides Operating System filter.
 
 ## all
 

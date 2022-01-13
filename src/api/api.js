@@ -66,7 +66,8 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...filter.value === 'hostname_or_id' && { hostnameOrId: filter.filter },
     ...'tagFilters' in filter && { tagFilters: filter.tagFilters },
     ...'staleFilter' in filter && { staleFilter: filter.staleFilter },
-    ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter }
+    ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter },
+    ...'osFilter' in filter && { osFilter: filter.osFilter }
 });
 
 export async function getEntities(items, {
@@ -154,6 +155,16 @@ export async function getEntities(items, {
                 cancelToken: controller && controller.token,
                 query: {
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
+                    ...(filters.osFilter?.length > 0 && generateFilter({ system_profile: {
+                        operating_system: {
+                            RHEL: {
+                                version: {
+                                    eq: filters.osFilter
+                                }
+                            }
+                        }
+                    } }
+                    )),
                     ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields'))
                 }
             }
@@ -191,7 +202,8 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
     const {
         tagFilters,
         staleFilter,
-        registeredWithFilter
+        registeredWithFilter,
+        osFilter
     } = filters ? filters.reduce(filtersReducer, defaultFilters) : defaultFilters;
     return tags.apiTagGetTags(
         [
@@ -204,6 +216,21 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         (pagination && pagination.page) || 1,
         staleFilter,
         search,
-        registeredWithFilter
+        registeredWithFilter,
+        undefined,
+        {
+            query: {
+                ...(osFilter?.length > 0 && generateFilter({ system_profile: {
+                    operating_system: {
+                        RHEL: {
+                            version: {
+                                eq: osFilter
+                            }
+                        }
+                    }
+                } }
+                ))
+            }
+        }
     );
 }

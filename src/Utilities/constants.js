@@ -5,6 +5,7 @@ export const TEXTUAL_CHIP = 'textual';
 export const TAG_CHIP = 'tags';
 export const STALE_CHIP = 'staleness';
 export const REGISTERED_CHIP = 'registered_with';
+export const OS_CHIP = 'operating_system';
 export const staleness = [
     { label: 'Fresh', value: 'fresh' },
     { label: 'Stale', value: 'stale' },
@@ -16,6 +17,125 @@ export const defaultFilters = {
     staleFilter: ['fresh', 'stale'],
     registeredWithFilter: ['insights']
 };
+
+export const operatingSystems = [
+    {
+        label: 'RHEL 9.0',
+        value: '9.0'
+    },
+    {
+        label: 'RHEL 8.6',
+        value: '8.6'
+    },
+    {
+        label: 'RHEL 8.5',
+        value: '8.5'
+    },
+    {
+        label: 'RHEL 8.4',
+        value: '8.4'
+    },
+    {
+        label: 'RHEL 8.3',
+        value: '8.3'
+    },
+    {
+        label: 'RHEL 8.2',
+        value: '8.2'
+    },
+    {
+        label: 'RHEL 8.1',
+        value: '8.1'
+    },
+    {
+        label: 'RHEL 8.0',
+        value: '8.0'
+    },
+    {
+        label: 'RHEL 7.9',
+        value: '7.9'
+    },
+    {
+        label: 'RHEL 7.8',
+        value: '7.8'
+    },
+    {
+        label: 'RHEL 7.7',
+        value: '7.7'
+    },
+    {
+        label: 'RHEL 7.6',
+        value: '7.6'
+    },
+    {
+        label: 'RHEL 7.5',
+        value: '7.5'
+    },
+    {
+        label: 'RHEL 7.4',
+        value: '7.4'
+    },
+    {
+        label: 'RHEL 7.3',
+        value: '7.3'
+    },
+    {
+        label: 'RHEL 7.2',
+        value: '7.2'
+    },
+    {
+        label: 'RHEL 7.1',
+        value: '7.1'
+    },
+    {
+        label: 'RHEL 7.0',
+        value: '7.0'
+    },
+    {
+        label: 'RHEL 6.10',
+        value: '6.10'
+    },
+    {
+        label: 'RHEL 6.9',
+        value: '6.9'
+    },
+    {
+        label: 'RHEL 6.8',
+        value: '6.8'
+    },
+    {
+        label: 'RHEL 6.7',
+        value: '6.7'
+    },
+    {
+        label: 'RHEL 6.6',
+        value: '6.6'
+    },
+    {
+        label: 'RHEL 6.5',
+        value: '6.5'
+    },
+    {
+        label: 'RHEL 6.4',
+        value: '6.4'
+    },
+    {
+        label: 'RHEL 6.3',
+        value: '6.3'
+    },
+    {
+        label: 'RHEL 6.2',
+        value: '6.2'
+    },
+    {
+        label: 'RHEL 6.1',
+        value: '6.1'
+    },
+    {
+        label: 'RHEL 6.0',
+        value: '6.0'
+    }
+];
 
 export function filterToGroup(filter = [], valuesKey = 'values') {
     return filter.reduce((accGroup, group) => ({
@@ -59,19 +179,15 @@ export function reduceFilters(filters = []) {
                 ...acc,
                 tagFilters: filterToGroup(oneFilter.tagFilters)
             };
-        } else if ('staleFilter' in oneFilter) {
-            return {
-                ...acc,
-                staleFilter: oneFilter.staleFilter
-            };
-        } else if ('registeredWithFilter' in oneFilter) {
-            return {
-                ...acc,
-                registeredWithFilter: oneFilter.registeredWithFilter
-            };
         }
 
-        return acc;
+        const foundKey = ['staleFilter', 'registeredWithFilter', 'osFilter', '']
+        .find(item => Object.keys(oneFilter).includes(item));
+
+        return {
+            ...acc,
+            ...foundKey && { [foundKey]: oneFilter[foundKey] }
+        };
     }, {
         textFilter: '',
         tagFilters: {},
@@ -113,7 +229,7 @@ export const reloadWrapper = (event, callback) => {
 
 export const isEmpty = (check) => !check || check?.length === 0;
 
-export const generateFilter = (status, source, tagsFilter, filterbyName) => ([
+export const generateFilter = (status, source, tagsFilter, filterbyName, operatingSystem) => ([
     !isEmpty(status) && {
         staleFilter: Array.isArray(status) ? status : [status]
     },
@@ -132,5 +248,8 @@ export const generateFilter = (status, source, tagsFilter, filterbyName) => ([
     },
     (!isEmpty(source) || !isEmpty(tagsFilter) || !isEmpty(filterbyName)) && isEmpty(status) && {
         staleFilter: []
+    },
+    !isEmpty(operatingSystem) && {
+        osFilter: Array.isArray(operatingSystem) ? operatingSystem : [operatingSystem]
     }
 ].filter(Boolean));
