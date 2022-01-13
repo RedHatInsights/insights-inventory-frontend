@@ -1,5 +1,5 @@
 # Inventory detail
-If you want to learn how to comunicate with inventory check out [Inventory](/inventory.md), this documentation is for showing how to include inventory information at top and app info in bottom screen of inventory detail.
+If you want to learn how to comunicate with inventory check out [Inventory](inventory.md), this documentation is for showing how to include inventory information at top and app info in bottom screen of inventory detail.
 
 ### Usage
 1) Import correct components
