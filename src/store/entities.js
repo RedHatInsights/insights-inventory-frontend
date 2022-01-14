@@ -35,6 +35,7 @@ export const defaultState = {
 export const defaultColumns = [
     {
         key: 'display_name',
+        sortKey: 'display_name',
         title: 'Name',
         renderFunc: TitleColumn
     },
@@ -55,6 +56,7 @@ export const defaultColumns = [
     },
     {
         key: 'updated',
+        sortKey: 'updated',
         title: 'Last seen',
         // eslint-disable-next-line react/display-name
         renderFunc: (
