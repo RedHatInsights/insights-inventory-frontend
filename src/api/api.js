@@ -70,15 +70,13 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'osFilter' in filter && { osFilter: filter.osFilter }
 });
 
+/*
+ * Monkey patch to allow sorting by operating system.
+ * this should be refactored if we ever need multiple system_profile
+ * field columns.
+ */
 function processOrderBy(orderBy) {
-    //TODO: remove logging
-    console.log("porcessing orderBy:\n orderBy: "+orderBy);
-    if (orderBy === "system_profile") {
-        orderBy = "operating_system";
-    }
-
-
-    return orderBy;
+    return orderBy === 'system_profile' ? 'operating_system' : orderBy;
 }
 
 export async function getEntities(items, {
