@@ -26,6 +26,11 @@ export const defaultState = {
     tagsLoaded: false,
     allTagsLoaded: false,
     invConfig: {},
+    //TODO: change back
+    // sortBy: {
+    //     key: 'updated',
+    //     direction: 'desc'
+    // }
     sortBy: {
         key: 'updated',
         direction: 'desc'
@@ -50,7 +55,7 @@ export const defaultColumns = [
         title: <Tooltip content={<span>Operating system</span>}><span>OS</span></Tooltip>,
         // eslint-disable-next-line react/display-name
         renderFunc: (systemProfile) => <OperatingSystemFormatter operatingSystem={systemProfile?.operating_system} />,
-        props: { width: 10, isStatic: true }
+        props: { width: 10 }
     },
     {
         key: 'updated',
