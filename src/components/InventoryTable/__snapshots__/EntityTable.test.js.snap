@@ -127,6 +127,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
       Object {
         "cellFormatters": Array [],
         "key": "one",
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -135,6 +136,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
       Object {
         "cellFormatters": Array [],
         "key": "one",
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -143,6 +145,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
       Object {
         "cellFormatters": Array [],
         "key": "one",
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -151,6 +154,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
       Object {
         "cellFormatters": Array [],
         "key": "one",
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -159,6 +163,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
       Object {
         "cellFormatters": Array [],
         "key": "one",
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -167,6 +172,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
       Object {
         "cellFormatters": Array [],
         "key": "one",
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -234,6 +240,7 @@ exports[`EntityTable DOM should render correctly - is expandable 1`] = `
         ],
         "key": "one",
         "renderFunc": [Function],
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -399,6 +406,7 @@ exports[`EntityTable DOM should render correctly - with actions 1`] = `
         "cellFormatters": Array [],
         "key": "one",
         "renderFunc": [Function],
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -528,6 +536,7 @@ exports[`EntityTable DOM should render correctly - without checkbox 1`] = `
         "cellFormatters": Array [],
         "key": "one",
         "renderFunc": [Function],
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -724,6 +733,7 @@ exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
         ],
         "key": "one",
         "renderFunc": [Function],
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -802,6 +812,7 @@ exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] 
         "cellFormatters": Array [],
         "key": "one",
         "renderFunc": [Function],
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
@@ -878,6 +889,7 @@ exports[`EntityTable DOM sort by should render correctly 1`] = `
         "cellFormatters": Array [],
         "key": "one",
         "renderFunc": [Function],
+        "sortKey": "one",
         "title": "One",
         "transforms": Array [
           [Function],
