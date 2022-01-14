@@ -26,11 +26,6 @@ export const defaultState = {
     tagsLoaded: false,
     allTagsLoaded: false,
     invConfig: {},
-    //TODO: change back
-    // sortBy: {
-    //     key: 'updated',
-    //     direction: 'desc'
-    // }
     sortBy: {
         key: 'updated',
         direction: 'desc'

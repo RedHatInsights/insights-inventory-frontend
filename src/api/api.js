@@ -70,6 +70,17 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'osFilter' in filter && { osFilter: filter.osFilter }
 });
 
+function processOrderBy(orderBy) {
+    //TODO: remove logging
+    console.log("porcessing orderBy:\n orderBy: "+orderBy);
+    if (orderBy === "system_profile") {
+        orderBy = "operating_system";
+    }
+
+
+    return orderBy;
+}
+
 export async function getEntities(items, {
     controller,
     hasItems,
@@ -141,7 +152,7 @@ export async function getEntities(items, {
             undefined,
             perPage,
             page,
-            orderBy,
+            processOrderBy(orderBy),
             orderDirection,
             filters.staleFilter,
             [
