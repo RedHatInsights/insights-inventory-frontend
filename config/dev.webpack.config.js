@@ -10,7 +10,7 @@ const { config: webpackConfig, plugins } = config({
         https: true,
         useProxy: true,
         proxyVerbose: true,
-        env: `${process.env.ENVIRONMENT || 'ci'}-${
+        env: `${process.env.ENVIRONMENT || 'stage'}-${
           process.env.BETA ? 'beta' : 'stable'
         }`, // for accessing prod-beta start your app with ENVIRONMENT=prod and BETA=true
         appUrl: process.env.BETA ? '/beta/insights/inventory' : '/insights/inventory',
