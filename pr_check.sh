@@ -18,7 +18,7 @@ IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
 
 set -exv
-GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+GIT_BRANCH=$(git branch --show-current)
 echo $GIT_BRANCH
 # source is preferred to | bash -s in this case to avoid a subshell
 source <(curl -sSL $COMMON_BUILDER/src/frontend-build.sh)
