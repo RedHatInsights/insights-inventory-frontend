@@ -142,6 +142,7 @@ const EntityTable = ({
                         ...actions && rows?.length > 0 && { actions }
                     } }
                     { ...tableProps }
+                    isStickyHeader
                 >
                     <TableHeader />
                     <TableBody />
