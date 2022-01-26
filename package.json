@@ -12,7 +12,7 @@
     "@patternfly/react-table": "4.37.8",
     "@redhat-cloud-services/frontend-components": "3.5.1",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.4",
-    "@redhat-cloud-services/frontend-components-utilities": "3.2.5",
+    "@redhat-cloud-services/frontend-components-utilities": "3.2.7",
     "@redhat-cloud-services/host-inventory-client": "1.0.96",
     "classnames": "^2.3.1",
     "graphql": "^15.6.0",
