@@ -16,7 +16,7 @@ objects:
       frontend:
         paths:
           - /apps/inventory
-      image: quay.io/cloudservices/insights-inventory-frontend:a82f241
+      image: ${IMAGE}:${IMAGE_TAG}
       navItems:
         - appId: "inventory"
           title: "Inventory"
@@ -35,5 +35,5 @@ parameters:
     required: true
   - name: IMAGE_TAG
     required: true
-  - name: INVENTORY_IMAGE
+  - name: IMAGE
     value: quay.io/cloudservices/insights-inventory-frontend
