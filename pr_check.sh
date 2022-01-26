@@ -18,8 +18,6 @@ IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
 
 set -exv
-printenv | sort
-echo $GIT_BRANCH
 # source is preferred to | bash -s in this case to avoid a subshell
 source <(curl -sSL $COMMON_BUILDER/src/frontend-build.sh)
 BUILD_RESULTS=$?
