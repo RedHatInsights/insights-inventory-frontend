@@ -141,8 +141,8 @@ const EntityTable = ({
                         ...expandable ? { onCollapse: onExpandClick } : {},
                         ...actions && rows?.length > 0 && { actions }
                     } }
-                    { ...tableProps }
                     isStickyHeader
+                    { ...tableProps }
                 >
                     <TableHeader />
                     <TableBody />
