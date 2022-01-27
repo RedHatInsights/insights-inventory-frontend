@@ -9,7 +9,6 @@ export WORKSPACE=${WORKSPACE:-$APP_ROOT} # if running in jenkins, use the build'
 export APP_ROOT=$(pwd)
 export NODE_BUILD_VERSION=12
 COMMON_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master
-PR_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/de5ddc1c59654973194b6d80824ec0697ab5193c/src/frontend-build.sh
 
 # --------------------------------------------
 # Options that must be configured by app owner
@@ -17,10 +16,11 @@ PR_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-bu
 IQE_PLUGINS="host_inventory"
 IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
+FOO=true
 
 set -exv
 # source is preferred to | bash -s in this case to avoid a subshell
-source <(curl -sSL $PR_BUILDER)
+source <(curl -sSL $COMMON_BUILDER/src/frontend-build.sh)
 BUILD_RESULTS=$?
 
 # Stubbed out for now
