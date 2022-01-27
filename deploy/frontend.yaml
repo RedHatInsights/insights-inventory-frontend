@@ -10,6 +10,7 @@ objects:
     spec:
       envName: ${ENV_NAME}
       title: Inventory
+      deploymentRepo: https://github.com/RedHatInsights/insights-inventory-frontend
       API:
         versions:
           - v1
