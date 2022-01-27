@@ -9,7 +9,7 @@ export WORKSPACE=${WORKSPACE:-$APP_ROOT} # if running in jenkins, use the build'
 export APP_ROOT=$(pwd)
 export NODE_BUILD_VERSION=12
 COMMON_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master
-PR_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/57b7f6dccbbc7480e864cec1b139a25d797aaca2/src/frontend-build.sh
+PR_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/de5ddc1c59654973194b6d80824ec0697ab5193c/src/frontend-build.sh
 
 # --------------------------------------------
 # Options that must be configured by app owner
