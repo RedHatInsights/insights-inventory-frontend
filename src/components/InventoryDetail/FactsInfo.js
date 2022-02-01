@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem, Flex, FlexItem } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import { CullingInformation } from '@redhat-cloud-services/frontend-components/CullingInfo';
@@ -15,25 +15,15 @@ import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
 const FactsInfo = ({ entity, loaded, UUIDWrapper, LastSeenWrapper, ...props }) => (
     <Grid className="ins-entity-facts" { ...props }>
         <GridItem md={ 6 }>
-            <div>
-                <span>
-                    UUID:
-                </span>
-                <span>
-                    {
-                        loaded ?
-                            <UUIDWrapper>
-                                { getFact(`id`, entity) || ' ' }
-                            </UUIDWrapper> :
-                            <Skeleton size={ SkeletonSize.md } />
-                    }
-                </span>
-            </div>
-            <div>
-                <span>
-                    Last seen:
-                </span>
-                <span>
+            <Flex>
+                <FlexItem>UUID:</FlexItem>
+                <FlexItem grow={{ default: 'grow' }}>
+                    {loaded ? getFact(`id`, entity) || ' ' : <Skeleton size={SkeletonSize.md} fontSize="sm" />}
+                </FlexItem>
+            </Flex>
+            <Flex>
+                <FlexItem>Last seen:</FlexItem>
+                <FlexItem grow={{ default: 'grow' }}>
                     {
                         loaded ?
                             <LastSeenWrapper>{
@@ -48,11 +38,11 @@ const FactsInfo = ({ entity, loaded, UUIDWrapper, LastSeenWrapper, ...props }) =
                                     </CullingInformation> : <DateFormat date={getFact('updated', entity)} type="exact" />
                                 )}
                             </LastSeenWrapper> :
-                            <Skeleton size={ SkeletonSize.sm } />
+                            <Skeleton size={SkeletonSize.md} fontSize="sm" />
                     }
-                </span>
+                </FlexItem>
                 {loaded && !getFact('insights_id', entity) && <InsightsDisconnected />}
-            </div>
+            </Flex>
         </GridItem>
     </Grid>
 );
