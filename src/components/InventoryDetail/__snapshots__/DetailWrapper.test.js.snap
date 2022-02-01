@@ -18,19 +18,31 @@ Array [
       <div
         className="pf-l-grid__item pf-m-6-col-on-md"
       >
-        <div>
-          <span>
+        <div
+          className="pf-l-flex"
+        >
+          <div
+            className=""
+          >
             UUID:
-          </span>
-          <span>
+          </div>
+          <div
+            className="pf-m-grow"
+          >
             some-id
-          </span>
+          </div>
         </div>
-        <div>
-          <span>
+        <div
+          className="pf-l-flex"
+        >
+          <div
+            className=""
+          >
             Last seen:
-          </span>
-          <span>
+          </div>
+          <div
+            className="pf-m-grow"
+          >
             <span
               className="ins-c-inventory__culling-danger"
             >
@@ -54,7 +66,7 @@ Array [
               </svg>
               01 Jan 1970 00:00 UTC
             </span>
-          </span>
+          </div>
           <span
             className="pf-u-ml-sm ins-c-inventor__disconnected-icon"
           >
@@ -95,19 +107,31 @@ Array [
       <div
         className="pf-l-grid__item pf-m-6-col-on-md"
       >
-        <div>
-          <span>
+        <div
+          className="pf-l-flex"
+        >
+          <div
+            className=""
+          >
             UUID:
-          </span>
-          <span>
+          </div>
+          <div
+            className="pf-m-grow"
+          >
             some-id
-          </span>
+          </div>
         </div>
-        <div>
-          <span>
+        <div
+          className="pf-l-flex"
+        >
+          <div
+            className=""
+          >
             Last seen:
-          </span>
-          <span>
+          </div>
+          <div
+            className="pf-m-grow"
+          >
             <span
               className="ins-c-inventory__culling-danger"
             >
@@ -131,7 +155,7 @@ Array [
               </svg>
               01 Jan 1970 00:00 UTC
             </span>
-          </span>
+          </div>
           <span
             className="pf-u-ml-sm ins-c-inventor__disconnected-icon"
           >
@@ -378,19 +402,31 @@ exports[`DetailWrapper DOM should render with data 1`] = `
               <div
                 className="pf-l-grid__item pf-m-6-col-on-md"
               >
-                <div>
-                  <span>
+                <div
+                  className="pf-l-flex"
+                >
+                  <div
+                    className=""
+                  >
                     UUID:
-                  </span>
-                  <span>
+                  </div>
+                  <div
+                    className="pf-m-grow"
+                  >
                     some-id
-                  </span>
+                  </div>
                 </div>
-                <div>
-                  <span>
+                <div
+                  className="pf-l-flex"
+                >
+                  <div
+                    className=""
+                  >
                     Last seen:
-                  </span>
-                  <span>
+                  </div>
+                  <div
+                    className="pf-m-grow"
+                  >
                     <span
                       className="ins-c-inventory__culling-danger"
                     >
@@ -414,7 +450,7 @@ exports[`DetailWrapper DOM should render with data 1`] = `
                       </svg>
                       01 Jan 1970 00:00 UTC
                     </span>
-                  </span>
+                  </div>
                   <span
                     className="pf-u-ml-sm ins-c-inventor__disconnected-icon"
                   >
