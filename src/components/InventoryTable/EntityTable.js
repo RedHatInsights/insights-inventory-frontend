@@ -141,12 +141,17 @@ const EntityTable = ({
                         ...expandable ? { onCollapse: onExpandClick } : {},
                         ...actions && rows?.length > 0 && { actions }
                     } }
+                    isStickyHeader
                     { ...tableProps }
                 >
                     <TableHeader />
                     <TableBody />
                 </PfTable> :
-                <SkeletonTable colSize={ columns.current?.length || 3 } rowSize={ 15 } />
+                <SkeletonTable
+                    colSize={ columns.current?.length || 3 }
+                    rowSize={ 15 }
+                    variant={variant ?? tableProps.variant}
+                />
             }
         </React.Fragment>
     );
@@ -167,7 +172,8 @@ EntityTable.propTypes = {
     }),
     tableProps: PropTypes.shape({
         [PropTypes.string]: PropTypes.any,
-        RowWrapper: PropTypes.elementType
+        RowWrapper: PropTypes.elementType,
+        variant: PropTypes.string
     }),
     onRowClick: PropTypes.func,
     showTags: PropTypes.bool,
