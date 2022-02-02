@@ -150,7 +150,7 @@ const EntityTable = ({
                 <SkeletonTable
                     colSize={ columns.current?.length || 3 }
                     rowSize={ 15 }
-                    variant={variant ? variant : tableProps.variant}
+                    variant={variant ?? tableProps.variant}
                 />
             }
         </React.Fragment>
