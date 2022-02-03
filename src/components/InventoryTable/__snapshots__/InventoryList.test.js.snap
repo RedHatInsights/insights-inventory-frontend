@@ -93,37 +93,27 @@ exports[`InventoryList should render correctly 1`] = `
             class=""
             colspan="1"
             data-key="0"
-            data-label="One"
           >
             <div
-              class="ins-c-table__empty"
+              class="pf-c-empty-state"
             >
-               
               <div
-                class="pf-l-bullseye"
+                class="pf-c-empty-state__content"
               >
-                <div
-                  class="pf-c-empty-state"
+                <h5
+                  class="pf-c-title pf-m-lg"
+                  data-ouia-component-id="OUIA-Generated-Title-1"
+                  data-ouia-component-type="PF4/Title"
+                  data-ouia-safe="true"
                 >
-                  <div
-                    class="pf-c-empty-state__content"
-                  >
-                    <h5
-                      class="pf-c-title pf-m-lg"
-                      data-ouia-component-id="OUIA-Generated-Title-1"
-                      data-ouia-component-type="PF4/Title"
-                      data-ouia-safe="true"
-                    >
-                      No matching systems found
-                    </h5>
-                    <div
-                      class="pf-c-empty-state__body"
-                    >
-                      This filter criteria matches no systems. 
-                      <br />
-                       Try changing your filter settings.
-                    </div>
-                  </div>
+                  No matching systems found
+                </h5>
+                <div
+                  class="pf-c-empty-state__body"
+                >
+                  This filter criteria matches no systems. 
+                  <br />
+                   Try changing your filter settings.
                 </div>
               </div>
             </div>

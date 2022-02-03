@@ -24,7 +24,8 @@ export const createRows = (rows = [], columns = [], { actions, expandable, noSys
             cells: [{
                 title: noSystemsTable,
                 props: {
-                    colSpan: columns.length + Boolean(actions)
+                    colSpan: columns.length + Boolean(actions),
+                    dataLabel: null
                 }
             }]
         }];
