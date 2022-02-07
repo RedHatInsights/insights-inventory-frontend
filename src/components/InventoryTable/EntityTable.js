@@ -44,7 +44,7 @@ const EntityTable = ({
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
-    let rows = useSelector(({ entities: { rows } }) => rows);
+    const rows = useSelector(({ entities: { rows } }) => rows);
     const columnsRedux = useSelector(
         ({ entities: { columns } }) => columns,
         (next, prev) => next.every(
