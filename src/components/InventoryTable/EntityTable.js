@@ -98,6 +98,10 @@ const EntityTable = ({
     };
 
     delete tableProps.RowWrapper;
+    if (rows?.length === 0) {
+        delete tableProps.actionResolver;
+    }
+
     return (
         <React.Fragment>
             { loaded && cells ?
@@ -173,7 +177,8 @@ EntityTable.propTypes = {
     tableProps: PropTypes.shape({
         [PropTypes.string]: PropTypes.any,
         RowWrapper: PropTypes.elementType,
-        variant: PropTypes.string
+        variant: PropTypes.string,
+        actionResolver: PropTypes.func
     }),
     onRowClick: PropTypes.func,
     showTags: PropTypes.bool,
