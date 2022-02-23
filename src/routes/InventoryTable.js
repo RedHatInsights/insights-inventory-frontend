@@ -149,7 +149,7 @@ const Inventory = ({
                         ...globalFilter?.filter?.system_profile,
                         ...workloads?.SAP?.isSelected && { sap_system: true },
                         ...workloads && workloads['Ansible Automation Platform']?.isSelected
-                            && { ansible: { controller_version: true } },
+                            && { ansible: 'not_nil' },
                         ...SID?.length > 0 && { sap_sids: SID }
                     }
                 }
