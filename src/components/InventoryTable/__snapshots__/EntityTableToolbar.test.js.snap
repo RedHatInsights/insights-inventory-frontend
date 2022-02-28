@@ -20,16 +20,6 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
           ],
           "type": "staleness",
         },
-        Object {
-          "category": "Source",
-          "chips": Array [
-            Object {
-              "name": "Insights",
-              "value": "insights",
-            },
-          ],
-          "type": "registered_with",
-        },
       ],
       "onDelete": [Function],
     }
@@ -214,12 +204,14 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
@@ -257,16 +249,6 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
           ],
           "type": "staleness",
         },
-        Object {
-          "category": "Source",
-          "chips": Array [
-            Object {
-              "name": "Insights",
-              "value": "insights",
-            },
-          ],
-          "type": "registered_with",
-        },
       ],
       "onDelete": [Function],
     }
@@ -451,12 +433,14 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
@@ -497,16 +481,6 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
             },
           ],
           "type": "staleness",
-        },
-        Object {
-          "category": "Source",
-          "chips": Array [
-            Object {
-              "name": "Insights",
-              "value": "insights",
-            },
-          ],
-          "type": "registered_with",
         },
         Object {
           "category": "Some",
@@ -703,12 +677,14 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
@@ -780,16 +756,6 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
           ],
           "type": "staleness",
         },
-        Object {
-          "category": "Source",
-          "chips": Array [
-            Object {
-              "name": "Insights",
-              "value": "insights",
-            },
-          ],
-          "type": "registered_with",
-        },
       ],
       "onDelete": [Function],
     }
@@ -974,12 +940,14 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
@@ -1024,16 +992,6 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
           ],
           "type": "staleness",
         },
-        Object {
-          "category": "Source",
-          "chips": Array [
-            Object {
-              "name": "Insights",
-              "value": "insights",
-            },
-          ],
-          "type": "registered_with",
-        },
       ],
       "onDelete": [Function],
     }
@@ -1217,12 +1175,14 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
@@ -1263,16 +1223,6 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
             },
           ],
           "type": "staleness",
-        },
-        Object {
-          "category": "Source",
-          "chips": Array [
-            Object {
-              "name": "Insights",
-              "value": "insights",
-            },
-          ],
-          "type": "registered_with",
         },
       ],
       "onDelete": [Function],
@@ -1458,12 +1408,14 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
@@ -1691,12 +1643,14 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
@@ -1745,16 +1699,6 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
             },
           ],
           "type": "staleness",
-        },
-        Object {
-          "category": "Source",
-          "chips": Array [
-            Object {
-              "name": "Insights",
-              "value": "insights",
-            },
-          ],
-          "type": "registered_with",
         },
       ],
       "onDelete": [Function],
@@ -1940,12 +1884,14 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
@@ -2025,16 +1971,6 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
           ],
           "type": "staleness",
         },
-        Object {
-          "category": "Source",
-          "chips": Array [
-            Object {
-              "name": "Insights",
-              "value": "insights",
-            },
-          ],
-          "type": "registered_with",
-        },
       ],
       "onDelete": [Function],
     }
@@ -2219,12 +2155,14 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
                 "label": "Insights",
                 "value": "insights",
               },
+              Object {
+                "label": "Insights not connected",
+                "value": "nil",
+              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by source",
-            "value": Array [
-              "insights",
-            ],
+            "value": undefined,
           },
           "label": "Source",
           "type": "checkbox",
