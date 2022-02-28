@@ -374,9 +374,7 @@ exports[`EntityTable DOM should render correctly - no rows 1`] = `
             <div
               class="pf-c-empty-state__body"
             >
-              This filter criteria matches no systems. 
-              <br />
-               Try changing your filter settings.
+              To continue, edit your filter settings and search again.
             </div>
           </div>
         </div>

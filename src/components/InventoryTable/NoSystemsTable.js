@@ -10,7 +10,7 @@ const NoSystemsTable = () => (
             No matching systems found
         </Title>
         <EmptyStateBody>
-            This filter criteria matches no systems. <br /> Try changing your filter settings.
+            To continue, edit your filter settings and search again.
         </EmptyStateBody>
     </EmptyState>
 );
