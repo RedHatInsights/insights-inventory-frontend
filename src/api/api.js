@@ -18,7 +18,7 @@ export const mapData = ({ facts = {}, ...oneResult }) => ({
     ...oneResult,
     rawFacts: facts,
     facts: {
-        ...facts.reduce((acc, curr) => ({ ...acc, [curr.namespace]: curr.facts }), {}),
+        ...facts.reduce?.((acc, curr) => ({ ...acc, [curr.namespace]: curr.facts }), {}),
         ...flatMap(facts, (oneFact => Object.values(oneFact)))
         .map(item => typeof item !== 'string' ? ({
             ...item,
