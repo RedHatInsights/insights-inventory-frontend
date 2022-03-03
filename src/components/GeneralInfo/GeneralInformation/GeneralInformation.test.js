@@ -8,8 +8,12 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { osTest, biosTest, collectInfoTest, configTest, infraTest, testProperties } from '../../../__mocks__/selectors';
 import promiseMiddleware from 'redux-promise-middleware';
-import { mock } from '../../../__mocks__/hostApi';
+
+import { hosts } from '../../../api/api';
+import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
+
+const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () => ({
     esModule: true,
