@@ -11,7 +11,7 @@ const ComplianceTab = () => {
         store={useStore()}
         customItnl
         intlProps={{
-            locale: navigator.language
+            locale: navigator.language.slice(0, 2)
         }}
         inventoryId={ params.inventoryId }
         remediationsEnabled
