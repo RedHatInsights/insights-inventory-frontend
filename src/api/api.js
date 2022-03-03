@@ -63,12 +63,14 @@ export const constructTags = (tagFilters) => {
 
 export const calculateSystemProfile = (osFilter, nonInsights) => {
     let systemProfile = {};
+    const osFilterValues = Array.isArray(osFilter) ? osFilter : Object.values(osFilter || {})
+    .flatMap((majorOsVersion) => Object.keys(majorOsVersion));
 
-    if (osFilter?.length > 0) {
+    if (osFilterValues?.length > 0) {
         systemProfile.operating_system = {
             RHEL: {
                 version: {
-                    eq: osFilter
+                    eq: osFilterValues
                 }
             }
         };

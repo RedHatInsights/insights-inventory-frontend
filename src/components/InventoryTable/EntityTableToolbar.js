@@ -20,7 +20,7 @@ import {
     TAG_CHIP,
     arrayToSelection
 } from '../../Utilities/index';
-import { onDeleteFilter, onDeleteTag } from './helpers';
+import { onDeleteFilter, onDeleteTag, onDeleteOsFilter } from './helpers';
 import {
     useStalenessFilter,
     useOperatingSystemFilter,
@@ -247,7 +247,7 @@ const EntityTableToolbar = ({
         [REGISTERED_CHIP]: (deleted) => setRegisteredWithFilter(
             onDeleteFilter(deleted, registeredWithFilter)
         ),
-        [OS_CHIP]: (deleted) => setOsFilter(onDeleteFilter(deleted, osFilter))
+        [OS_CHIP]: (deleted) => setOsFilter(onDeleteOsFilter(deleted, osFilter))
     };
 
     /**
@@ -270,8 +270,8 @@ const EntityTableToolbar = ({
                     dispatch(clearFilters());
                     enabledFilters.name && setTextFilter('');
                     enabledFilters.tags && setSelectedTags({});
-                } else if (deleted.type) {
-                    deleteMapper[deleted.type](deleted);
+                } else {
+                    deleteMapper[deleted.type]?.(deleted);
                 }
 
                 activeFiltersConfig &&
