@@ -8,7 +8,7 @@ const RenderWrapper = ({ cmp: Component, hideLoader, isRbacEnabled, inventoryRef
         'inventory:*:*',
         'inventory:*:read',
         'inventory:hosts:read'
-    ]);
+    ], true);
     return (
         (hasAccess === undefined && !hideLoader) ?
             <Spinner /> :

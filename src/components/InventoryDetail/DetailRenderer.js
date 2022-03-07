@@ -10,7 +10,7 @@ const DetailRenderer = ({ showInventoryDrawer, isRbacEnabled, ...props }) => {
         'inventory:*:*',
         'inventory:*:read',
         'inventory:hosts:read'
-    ]);
+    ], true);
     if (hasAccess === undefined) {
         return <Spinner />;
     } else if (isRbacEnabled && hasAccess === false) {
