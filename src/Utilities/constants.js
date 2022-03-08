@@ -11,11 +11,10 @@ export const staleness = [
     { label: 'Stale', value: 'stale' },
     { label: 'Stale warning', value: 'stale_warning' }
 ];
-export const registered = [{ label: 'Insights', value: 'insights' }];
+export const registered = [{ label: 'Insights', value: 'insights' }, { label: 'Insights not connected', value: 'nil' }];
 export const InventoryContext = createContext({});
 export const defaultFilters = {
-    staleFilter: ['fresh', 'stale'],
-    registeredWithFilter: ['insights']
+    staleFilter: ['fresh', 'stale']
 };
 
 export const operatingSystems = [
