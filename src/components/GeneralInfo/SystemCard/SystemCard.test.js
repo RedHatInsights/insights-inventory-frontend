@@ -27,7 +27,6 @@ describe('SystemCard', () => {
         mock.onGet('/api/inventory/v1/hosts/test-id/system_profile').reply(200, mockedData);
         mock.onGet('/api/inventory/v1/hosts/test-id').reply(200, mockedData);
         mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
-
         initialState = {
             entityDetails: {
                 entity: {
