@@ -58,8 +58,7 @@ describe('CollectionCard', () => {
         'hasLastCheckIn',
         'hasRegistered',
         'hasInsightsId',
-        'hasReporter',
-        'hasMachineId'
+        'hasReporter'
     ].map((item) => it(`should not render ${item}`, () => {
         const store = mockStore(initialState);
         const wrapper = render(<CollectionCard store={ store } {...{ [item]: false }} />);
