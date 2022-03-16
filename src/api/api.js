@@ -153,8 +153,8 @@ export async function getEntities(items, {
 
         return data;
     } else if (!hasItems) {
-        const insightsConnectedFilter = filters?.registeredWithFilter.filter(filter => filter !== 'nil');
-        const hasNonInsightHostFilter = filters?.registeredWithFilter.filter(filter => filter === 'nil').length > 0;
+        const insightsConnectedFilter = filters?.registeredWithFilter?.filter(filter => filter !== 'nil');
+        const hasNonInsightHostFilter = filters?.registeredWithFilter?.filter(filter => filter === 'nil').length > 0;
 
         return hosts.apiHostGetHostList(
             undefined,
