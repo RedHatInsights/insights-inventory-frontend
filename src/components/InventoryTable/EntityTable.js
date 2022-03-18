@@ -7,7 +7,8 @@ import {
     Table as PfTable,
     TableBody,
     TableHeader,
-    TableGridBreakpoint
+    TableGridBreakpoint,
+    TableVariant
 } from '@patternfly/react-table';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components/SkeletonTable';
@@ -199,6 +200,7 @@ EntityTable.defaultProps = {
     hasCheckbox: true,
     showActions: false,
     rows: [],
+    variant: TableVariant.compact,
     onExpandClick: () => undefined,
     tableProps: {}
 };
