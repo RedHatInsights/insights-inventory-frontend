@@ -26,7 +26,10 @@ describe('useRegisteredWithFilter', () => {
                 type: 'checkbox'
             });
             expect(filter.filterValues.value.length).toBe(0);
-            expect(filter.filterValues.items).toMatchObject([{ label: 'Insights', value: 'insights' }]);
+            expect(filter.filterValues.items).toMatchObject([
+                { label: 'Insights', value: 'insights' },
+                { label: 'Insights not connected', value: 'nil' }
+            ]);
         };
 
         mount(<HookRender hookAccessor={hookAccessor} />);

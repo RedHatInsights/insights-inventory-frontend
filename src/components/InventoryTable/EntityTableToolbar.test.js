@@ -229,7 +229,7 @@ describe('EntityTableToolbar', () => {
                 });
                 wrapper.update();
                 expect(onRefreshData).toHaveBeenCalledWith(
-                    { filters: [{}, { filter: '', value: 'hostname_or_id' }, { registeredWithFilter: [] }], page: 1, perPage: 50 }
+                    { filters: [{}, { filter: '', value: 'hostname_or_id' }, { staleFilter: [] }], page: 1, perPage: 50 }
                 );
             });
 

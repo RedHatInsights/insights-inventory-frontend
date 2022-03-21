@@ -61,6 +61,26 @@ export const constructTags = (tagFilters) => {
     ) || '';
 };
 
+export const calculateSystemProfile = (osFilter, nonInsights) => {
+    let systemProfile = {};
+
+    if (osFilter?.length > 0) {
+        systemProfile.operating_system = {
+            RHEL: {
+                version: {
+                    eq: osFilter
+                }
+            }
+        };
+    }
+
+    if (nonInsights) {
+        systemProfile.insights_client_version = 'nil';
+    }
+
+    return generateFilter({ system_profile: systemProfile });
+};
+
 export const filtersReducer = (acc, filter = {}) => ({
     ...acc,
     ...filter.value === 'hostname_or_id' && { hostnameOrId: filter.filter },
@@ -133,6 +153,9 @@ export async function getEntities(items, {
 
         return data;
     } else if (!hasItems) {
+        const insightsConnectedFilter = filters?.registeredWithFilter?.filter(filter => filter !== 'nil');
+        const hasNonInsightHostFilter = filters?.registeredWithFilter?.filter(filter => filter === 'nil').length > 0;
+
         return hosts.apiHostGetHostList(
             undefined,
             undefined,
@@ -148,23 +171,14 @@ export async function getEntities(items, {
                 ...constructTags(filters.tagFilters),
                 ...options.tags || []
             ],
-            filters.registeredWithFilter,
+            insightsConnectedFilter,
             undefined,
             undefined,
             {
                 cancelToken: controller && controller.token,
                 query: {
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
-                    ...(filters.osFilter?.length > 0 && generateFilter({ system_profile: {
-                        operating_system: {
-                            RHEL: {
-                                version: {
-                                    eq: filters.osFilter
-                                }
-                            }
-                        }
-                    } }
-                    )),
+                    ...(calculateSystemProfile(filters.osFilter, hasNonInsightHostFilter)),
                     ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields'))
                 }
             }
@@ -205,6 +219,9 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         registeredWithFilter,
         osFilter
     } = filters ? filters.reduce(filtersReducer, defaultFilters) : defaultFilters;
+    const insightsConnectedFilter = registeredWithFilter?.filter(filter => filter !== 'nil');
+    const hasNonInsightHostFilter = registeredWithFilter?.filter(filter => filter === 'nil').length > 0;
+
     return tags.apiTagGetTags(
         [
             ...tagFilters ? constructTags(tagFilters) : [],
@@ -216,20 +233,11 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         (pagination && pagination.page) || 1,
         staleFilter,
         search,
-        registeredWithFilter,
+        insightsConnectedFilter,
         undefined,
         {
             query: {
-                ...(osFilter?.length > 0 && generateFilter({ system_profile: {
-                    operating_system: {
-                        RHEL: {
-                            version: {
-                                eq: osFilter
-                            }
-                        }
-                    }
-                } }
-                ))
+                ...(calculateSystemProfile(osFilter, hasNonInsightHostFilter))
             }
         }
     );
