@@ -9,7 +9,7 @@ const AdvisorTab = () => {
         store={useStore()}
         customItnl
         intlProps={{
-            locale: navigator.language
+            locale: navigator.language.slice(0, 2)
         }}
     />;
 };
