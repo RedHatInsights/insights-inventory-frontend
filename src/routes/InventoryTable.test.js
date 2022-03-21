@@ -31,7 +31,6 @@ describe('InventoryTable', () => {
         mac_addresses: ['fa:16:3e:72:a6:99', '00:00:00:00:00:00'],
         rawFacts: [],
         reporter: 'puptoo',
-        rhel_machine_id: null,
         satellite_id: null,
         stale_timestamp: '2020-10-28T12:07:14.263615+00:00',
         stale_warning_timestamp: '2020-11-04T12:07:14.263615+00:00',
