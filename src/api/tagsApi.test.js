@@ -2,7 +2,7 @@ import { getAllTags, tags } from './api';
 import MockAdapter from 'axios-mock-adapter';
 
 describe('getAllTags', () => {
-    const mockedTags = new MockAdapter(tags.axios);
+    const mockedTags = new MockAdapter(tags.axios, { onNoMatch: 'throwException' });
     it('should generate get all tags call', async () => {
         const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale';
         mockedTags.onGet(
@@ -59,12 +59,16 @@ describe('getAllTags', () => {
 
         it('should generate get all tags call with osFilter', async () => {
             mockedTags.resetHistory();
-            const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&'
-            + 'filter%5Bsystem_profile%5D%5Boperating_system%5D%5BRHEL%5D%5Bversion%5D%5Beq%5D=something';
+            // eslint-disable-next-line max-len
+            const params = '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&filter%5Bsystem_profile%5D%5Boperating_system%5D%5BRHEL%5D%5Bversion%5D%5Beq%5D%5B%5D=8.1';
             mockedTags.onGet(`/api/inventory/v1/tags${params}`).replyOnce(200, { test: 'test' });
             const data = await getAllTags(undefined, {
                 filters: [{
-                    osFilter: 'something'
+                    osFilter: {
+                        '8.0': {
+                            8.1: true
+                        }
+                    }
                 }]
             });
             expect(data).toMatchObject({ test: 'test' });

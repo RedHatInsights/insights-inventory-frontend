@@ -226,8 +226,8 @@ describe('InventoryTable', () => {
                 </Router>
             </Provider>);
 
-            expect(wrapper.find(ConditionalFilter).props().items.map(({ value }) => value)).toEqual(
-                ['stale-status', 'operating-system', 'source-registered-with', 'tags']
+            expect(wrapper.find(ConditionalFilter).props().items.map(({ label }) => label)).toEqual(
+                ['Status', 'Operating System', 'Source', 'Tags']
             );
         });
 

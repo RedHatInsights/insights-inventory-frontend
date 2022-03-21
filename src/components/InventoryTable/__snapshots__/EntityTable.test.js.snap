@@ -216,7 +216,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
       "index": 0,
     }
   }
-  variant={null}
+  variant="compact"
 />
 `;
 
@@ -296,7 +296,7 @@ exports[`EntityTable DOM should render correctly - is expandable 1`] = `
       "index": 1,
     }
   }
-  variant={null}
+  variant="compact"
 />
 `;
 
@@ -311,13 +311,14 @@ exports[`EntityTable DOM should render correctly - no data 1`] = `
   showActions={false}
   showHealth={false}
   tableProps={Object {}}
+  variant="compact"
 />
 `;
 
 exports[`EntityTable DOM should render correctly - no rows 1`] = `
 <table
   aria-label="Host inventory"
-  class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-sticky-header"
+  class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-compact pf-m-sticky-header"
   data-ouia-component-id="OUIA-Generated-Table-4"
   data-ouia-component-type="PF4/Table"
   data-ouia-safe="true"
@@ -458,14 +459,14 @@ exports[`EntityTable DOM should render correctly - with actions 1`] = `
       "index": 0,
     }
   }
-  variant={null}
+  variant="compact"
 />
 `;
 
 exports[`EntityTable DOM should render correctly - with customNoSystemsTable 1`] = `
 <table
   aria-label="Host inventory"
-  class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-sticky-header"
+  class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-compact pf-m-sticky-header"
   data-ouia-component-id="OUIA-Generated-Table-6"
   data-ouia-component-type="PF4/Table"
   data-ouia-safe="true"
@@ -586,14 +587,14 @@ exports[`EntityTable DOM should render correctly - without checkbox 1`] = `
       "index": -1,
     }
   }
-  variant={null}
+  variant="compact"
 />
 `;
 
 exports[`EntityTable DOM should render correctly 1`] = `
 <table
   aria-label="Host inventory"
-  class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-sticky-header"
+  class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-compact pf-m-sticky-header"
   data-ouia-component-id="OUIA-Generated-Table-26"
   data-ouia-component-type="PF4/Table"
   data-ouia-safe="true"
@@ -784,7 +785,7 @@ exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
       "index": 2,
     }
   }
-  variant={null}
+  variant="compact"
 />
 `;
 
@@ -860,7 +861,7 @@ exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] 
       "index": 0,
     }
   }
-  variant={null}
+  variant="compact"
 />
 `;
 
@@ -937,6 +938,6 @@ exports[`EntityTable DOM sort by should render correctly 1`] = `
       "index": 1,
     }
   }
-  variant={null}
+  variant="compact"
 />
 `;

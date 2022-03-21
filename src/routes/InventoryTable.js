@@ -113,7 +113,9 @@ const Inventory = ({
             ...curr?.registeredWithFilter && { source: curr.registeredWithFilter },
             ...curr?.tagFilters && { tagsFilter: curr.tagFilters },
             ...curr?.value === 'hostname_or_id' && { filterbyName: curr.filter },
-            ...curr?.osFilter && { operatingSystem: curr.osFilter }
+            ...curr?.osFilter && {
+                operatingSystem: Object.values(curr.osFilter || {}).flatMap((majorOsVersion) => Object.keys(majorOsVersion))
+            }
         }), { status: undefined, source: undefined, tagsFilter: undefined, filterbyName: undefined, operatingSystem: undefined });
         options.filters = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem);
 

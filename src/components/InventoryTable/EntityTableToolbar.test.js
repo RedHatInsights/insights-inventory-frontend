@@ -320,7 +320,13 @@ describe('EntityTableToolbar', () => {
             const store = mockStore(initialState);
 
             const wrapper = mount(<Provider store={store}>
-                <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
+                <EntityTableToolbar
+                    hideFilters={{ all: true, name: false }}
+                    page={1}
+                    total={500}
+                    perPage={50}
+                    onRefreshData={onRefreshData}
+                    loaded />
             </Provider>);
 
             await act(async () => {
