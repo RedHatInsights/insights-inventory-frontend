@@ -219,7 +219,8 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         tagFilters,
         staleFilter,
         registeredWithFilter,
-        osFilter
+        osFilter,
+        hostnameOrId
     } = filters ? filters.reduce(filtersReducer, defaultFilters) : defaultFilters;
     const insightsConnectedFilter = registeredWithFilter?.filter(filter => filter !== 'nil');
     const hasNonInsightHostFilter = registeredWithFilter?.filter(filter => filter === 'nil').length > 0;
@@ -234,7 +235,7 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         (pagination && pagination.perPage) || 10,
         (pagination && pagination.page) || 1,
         staleFilter,
-        search,
+        search || hostnameOrId,
         insightsConnectedFilter,
         undefined,
         {
