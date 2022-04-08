@@ -186,6 +186,7 @@ const EntityTableToolbar = ({
      * @param {*} refresh refresh callback function.
      */
     const onSetFilter = (value, filterKey, refresh) => {
+        console.log(filters)
         const newFilters = [
             ...filters?.filter(oneFilter => !Object.prototype.hasOwnProperty.call(oneFilter, filterKey)),
             { [filterKey]: value }
@@ -250,6 +251,14 @@ const EntityTableToolbar = ({
         [OS_CHIP]: (deleted) => setOsFilter(onDeleteOsFilter(deleted, osFilter))
     };
 
+    const resetFilters = (deleted) => {
+        console.log('this is whats deleted ' + deleted)
+        //if there are any filers, delete them. names and tags are already handled
+            deleteMapper['operating_system']?.(deleted);
+            deleteMapper['registered_with']?.(deleted);
+            deleteMapper['staleness']?.(deleted);
+            // deleteMapper['operating_system']?.(deleted);
+    }
     /**
      * Function to create active filters chips.
      */
@@ -265,12 +274,31 @@ const EntityTableToolbar = ({
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
+                // console.log(filters +' before isAll')
                 if (isAll) {
-                    updateData({ page: 1, filters: [] });
+                    updateData({ page: 1, filters: [defaultFilters] });
                     dispatch(clearFilters());
                     enabledFilters.name && setTextFilter('');
                     enabledFilters.tags && setSelectedTags({});
+
+                    
+                    // console.log(Object.keys(enabledFilters) + Object.values(enabledFilters))
+                    // console.log(filters + ' after is all')
+                    console.log(stalenessChip)
+                    // console.log(deleted)
+
+                    //just need to find where chips are being set 
+
+
+                    resetFilters(deleted);
+
+
+                    // deleteMapper['registered_with']?.(deleted);
+                    // deleteMapper['tags']?.(deleted);
+
+
                 } else {
+                    console.log(deleted.type + ' type + ' + Object.keys(deleted))
                     deleteMapper[deleted.type]?.(deleted);
                 }
 

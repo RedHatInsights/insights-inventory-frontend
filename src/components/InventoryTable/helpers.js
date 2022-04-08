@@ -54,10 +54,19 @@ export const onDeleteFilter = (deleted, currFilter = []) => {
     return  currFilter.filter((item) => item !== deletedItem);
 };
 
+function isObject(obj) {
+    return obj === Object(obj);
+  }
+
 export const onDeleteOsFilter = (deleted, currentFilter = []) => {
     const { value: deletedItem } = deleted?.chips?.[0] || {};
+    // console.log(deleted.chips[0])
     const majorVersion = `${deletedItem.split('.')[0]}.0`;
+    console.log(majorVersion)
+    JSON.parse(majorVersion)
+    console.log(majorVersion)
 
+    console.log(isObject(majorVersion))
     return {
         ...currentFilter,
         [majorVersion]: Object.keys(currentFilter[majorVersion]).reduce((acc, item) => {
