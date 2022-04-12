@@ -22,7 +22,6 @@ import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
 import { defaultFilters } from '../Utilities/constants';
 
-
 export const defaultState = {
     loaded: false,
     tagsLoaded: false,

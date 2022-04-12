@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { tagsFilterState, tagsFilterReducer, mapGroups } from '@redhat-cloud-services/frontend-components/FilterHooks';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
-import { fetchAllTags, clearFilters, toggleTagModal } from '../../store/actions';
+import { fetchAllTags, clearFilters, toggleTagModal, setFilter } from '../../store/actions';
 import { defaultFilters } from '../../Utilities/constants';
 import debounce from 'lodash/debounce';
 import flatMap from 'lodash/flatMap';
@@ -186,7 +186,6 @@ const EntityTableToolbar = ({
      * @param {*} refresh refresh callback function.
      */
     const onSetFilter = (value, filterKey, refresh) => {
-        console.log(filters)
         const newFilters = [
             ...filters?.filter(oneFilter => !Object.prototype.hasOwnProperty.call(oneFilter, filterKey)),
             { [filterKey]: value }
@@ -250,15 +249,19 @@ const EntityTableToolbar = ({
         ),
         [OS_CHIP]: (deleted) => setOsFilter(onDeleteOsFilter(deleted, osFilter))
     };
+    /**
+     * Function to reset all filters with 'Reset Filter' is clicked
+     */
+    const resetFilters = () => {
+        enabledFilters.name && setTextFilter('');
+        enabledFilters.stale && setStaleFilter(defaultFilters.staleFilter);
+        enabledFilters.registeredWith && setRegisteredWithFilter([]);
+        enabledFilters.tags && setSelectedTags({});
+        enabledFilters.operatingSystem && setOsFilter([]);
+        dispatch(setFilter([defaultFilters]));
+        updateData({ page: 1, filters: [defaultFilters] });
+    };
 
-    const resetFilters = (deleted) => {
-        console.log('this is whats deleted ' + deleted)
-        //if there are any filers, delete them. names and tags are already handled
-            deleteMapper['operating_system']?.(deleted);
-            deleteMapper['registered_with']?.(deleted);
-            deleteMapper['staleness']?.(deleted);
-            // deleteMapper['operating_system']?.(deleted);
-    }
     /**
      * Function to create active filters chips.
      */
@@ -274,31 +277,10 @@ const EntityTableToolbar = ({
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
-                // console.log(filters +' before isAll')
                 if (isAll) {
-                    updateData({ page: 1, filters: [defaultFilters] });
                     dispatch(clearFilters());
-                    enabledFilters.name && setTextFilter('');
-                    enabledFilters.tags && setSelectedTags({});
-
-                    
-                    // console.log(Object.keys(enabledFilters) + Object.values(enabledFilters))
-                    // console.log(filters + ' after is all')
-                    console.log(stalenessChip)
-                    // console.log(deleted)
-
-                    //just need to find where chips are being set 
-
-
-                    resetFilters(deleted);
-
-
-                    // deleteMapper['registered_with']?.(deleted);
-                    // deleteMapper['tags']?.(deleted);
-
-
+                    resetFilters();
                 } else {
-                    console.log(deleted.type + ' type + ' + Object.keys(deleted))
                     deleteMapper[deleted.type]?.(deleted);
                 }
 

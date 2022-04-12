@@ -10,6 +10,7 @@ import toJson from 'enzyme-to-json';
 import { mockTags } from '../../__mocks__/hostApi';
 import TitleColumn from './TitleColumn';
 import debounce from 'lodash/debounce';
+import { defaultFilters } from '../../Utilities';
 
 jest.mock('lodash/debounce');
 
@@ -294,9 +295,9 @@ describe('EntityTableToolbar', () => {
                 </Provider>);
                 wrapper.find('.ins-c-chip-filters button.pf-m-link').last().simulate('click');
                 const actions = store.getActions();
-                expect(actions.length).toBe(1);
-                expect(actions[actions.length - 1]).toMatchObject({ type: 'CLEAR_FILTERS' });
-                expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
+                expect(actions.length).toBe(2);
+                expect(actions[actions.length - 2]).toMatchObject({ type: 'CLEAR_FILTERS' });
+                expect(onRefreshData).toHaveBeenCalledWith({ filters: [defaultFilters], page: 1 });
             });
 
             it('should call function on delete filter', () => {
