@@ -11,6 +11,7 @@ import { reloadWrapper } from '../../Utilities/index';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import ApplicationDetails from './ApplicationDetails';
 import './InventoryDetail.scss';
+import InsightsPrompt from './InsightsPrompt';
 
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
@@ -76,6 +77,7 @@ const InventoryDetail = ({
                 UUIDWrapper={UUIDWrapper}
                 LastSeenWrapper={LastSeenWrapper}
             />
+            {(loaded && !entity?.insights_id) && <InsightsPrompt />}
             {children}
         </Fragment>
         }
