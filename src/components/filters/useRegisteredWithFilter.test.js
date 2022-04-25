@@ -27,8 +27,8 @@ describe('useRegisteredWithFilter', () => {
             });
             expect(filter.filterValues.value.length).toBe(0);
             expect(filter.filterValues.items).toMatchObject([
-                { label: 'Insights-client', value: 'puptoo' },
-                { label: 'Subscription-manager', value: 'rhsm-conduit' },
+                { label: 'insights-client', value: 'puptoo' },
+                { label: 'subscription-manager', value: 'rhsm-conduit' },
                 { label: 'Satellite/Discovery', value: 'yupana' },
                 { label: 'Insights not connected', value: 'nil' }
             ]);
@@ -47,7 +47,7 @@ describe('useRegisteredWithFilter', () => {
             expect(filter.filterValues.value.length).toBe(1);
             expect(chip).toMatchObject([{
                 category: 'Data Collector',
-                chips: [{ name: 'Insights-client', value: 'puptoo' }],
+                chips: [{ name: 'insights-client', value: 'puptoo' }],
                 type: 'registered_with'
             }]);
         };

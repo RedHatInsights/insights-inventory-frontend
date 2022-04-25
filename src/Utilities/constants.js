@@ -12,8 +12,8 @@ export const staleness = [
     { label: 'Stale warning', value: 'stale_warning' }
 ];
 export const registered = [
-    { label: 'Insights-client', value: 'puptoo' },
-    { label: 'Subscription-manager', value: 'rhsm-conduit' },
+    { label: 'insights-client', value: 'puptoo' },
+    { label: 'subscription-manager', value: 'rhsm-conduit' },
     { label: 'Satellite/Discovery', value: 'yupana' },
     { label: 'Insights not connected', value: 'nil' }
 ];
