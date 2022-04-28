@@ -5,7 +5,7 @@ import {
 
 const InsightsPrompt = () => {
     return (
-        <Alert variant="info" isInline title="Your insights-client is not repotring">
+        <Alert variant="info" isInline title="Your insights-client is not reporting">
             <Grid>
                 <GridItem>
                     <Grid hasGutter>
