@@ -242,8 +242,16 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
             "isDisabled": false,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -251,12 +259,12 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
       ],
     }
@@ -511,8 +519,16 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
             "isDisabled": false,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -520,12 +536,12 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
       ],
     }
@@ -796,8 +812,16 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
             "isDisabled": false,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -805,12 +829,12 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
         Object {
           "filterValues": Object {
@@ -1100,8 +1124,16 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
             "isDisabled": false,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -1109,12 +1141,12 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
         Object {
           "filterValues": Object {
@@ -1376,8 +1408,16 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
             "isDisabled": false,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -1385,12 +1425,12 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
       ],
     }
@@ -1650,8 +1690,16 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
             "isDisabled": false,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -1659,12 +1707,12 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
       ],
     }
@@ -1926,8 +1974,16 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
             "isDisabled": true,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -1935,12 +1991,12 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
       ],
     }
@@ -2208,8 +2264,16 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
             "isDisabled": false,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -2217,12 +2281,12 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
         Object {
           "filterValues": Object {
@@ -2520,8 +2584,16 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
             "isDisabled": false,
             "items": Array [
               Object {
-                "label": "Insights",
-                "value": "insights",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
               },
               Object {
                 "label": "Insights not connected",
@@ -2529,12 +2601,12 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
               },
             ],
             "onChange": [Function],
-            "placeholder": "Filter by source",
+            "placeholder": "Filter by data collector",
             "value": undefined,
           },
-          "label": "Source",
+          "label": "Data Collector",
           "type": "checkbox",
-          "value": "source-registered-with",
+          "value": "data-collector-registered-with",
         },
       ],
     }
