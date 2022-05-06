@@ -254,7 +254,7 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
@@ -531,7 +531,7 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
@@ -824,7 +824,7 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
@@ -1136,7 +1136,7 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
@@ -1420,7 +1420,7 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
@@ -1702,7 +1702,7 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
@@ -1986,7 +1986,7 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
@@ -2276,7 +2276,7 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
@@ -2596,7 +2596,7 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
                 "value": "yupana",
               },
               Object {
-                "label": "Insights not connected",
+                "label": "insights-client not connected",
                 "value": "nil",
               },
             ],
