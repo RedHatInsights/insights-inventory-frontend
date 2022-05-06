@@ -30,7 +30,7 @@ describe('useRegisteredWithFilter', () => {
                 { label: 'insights-client', value: 'puptoo' },
                 { label: 'subscription-manager', value: 'rhsm-conduit' },
                 { label: 'Satellite/Discovery', value: 'yupana' },
-                { label: 'Insights not connected', value: 'nil' }
+                { label: 'insights-client not connected', value: 'nil' }
             ]);
         };
 
