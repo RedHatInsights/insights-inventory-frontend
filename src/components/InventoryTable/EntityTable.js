@@ -7,7 +7,8 @@ import {
     Table as PfTable,
     TableBody,
     TableHeader,
-    TableGridBreakpoint
+    TableGridBreakpoint,
+    TableVariant
 } from '@patternfly/react-table';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components/SkeletonTable';
@@ -98,6 +99,10 @@ const EntityTable = ({
     };
 
     delete tableProps.RowWrapper;
+    if (rows?.length === 0) {
+        delete tableProps.actionResolver;
+    }
+
     return (
         <React.Fragment>
             { loaded && cells ?
@@ -173,7 +178,8 @@ EntityTable.propTypes = {
     tableProps: PropTypes.shape({
         [PropTypes.string]: PropTypes.any,
         RowWrapper: PropTypes.elementType,
-        variant: PropTypes.string
+        variant: PropTypes.string,
+        actionResolver: PropTypes.func
     }),
     onRowClick: PropTypes.func,
     showTags: PropTypes.bool,
@@ -194,6 +200,7 @@ EntityTable.defaultProps = {
     hasCheckbox: true,
     showActions: false,
     rows: [],
+    variant: TableVariant.compact,
     onExpandClick: () => undefined,
     tableProps: {}
 };

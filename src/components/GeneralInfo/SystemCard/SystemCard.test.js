@@ -6,8 +6,12 @@ import SystemCard from './SystemCard';
 import configureStore from 'redux-mock-store';
 import { testProperties, rhsmFacts } from '../../../__mocks__/selectors';
 import promiseMiddleware from 'redux-promise-middleware';
-import { mock } from '../../../__mocks__/hostApi';
+
+import { hosts } from '../../../api/api';
+import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
+
+const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () => ({
     esModule: true,
@@ -20,6 +24,10 @@ describe('SystemCard', () => {
 
     beforeEach(() => {
         mockStore = configureStore([promiseMiddleware]);
+        mock.onGet('/api/inventory/v1/hosts/test-id/system_profile').reply(200, mockedData);
+        mock.onGet('/api/inventory/v1/hosts/test-id').reply(200, mockedData);
+        mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
+
         initialState = {
             entityDetails: {
                 entity: {

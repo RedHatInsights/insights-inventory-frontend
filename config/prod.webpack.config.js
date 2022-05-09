@@ -33,7 +33,8 @@ plugins.push(
             './InventoryDetailHead': resolve(__dirname, '../src/modules/InventoryDetailHead.js'),
             './InventoryDetail': resolve(__dirname, '../src/modules/InventoryDetail.js'),
             './TagWithDialog': resolve(__dirname, '../src/modules/TagWithDialog.js'),
-            './DetailWrapper': resolve(__dirname, '../src/modules/DetailWrapper.js')
+            './DetailWrapper': resolve(__dirname, '../src/modules/DetailWrapper.js'),
+            './OsFilterHelpers': resolve(__dirname, '../src/modules/OsFilterHelpers.js')
         }
     })
 );
@@ -47,8 +48,6 @@ webpackConfig.resolve.alias = {
     'html-webpack-plugin': resolve(__dirname, '../node_modules/html-webpack-plugin'),
     '@react-pdf/renderer': resolve(__dirname, './customPDF')
 };
-
-webpackConfig.optimization.concatenateModules = false;
 
 webpackConfig.module.rules = [
     ...webpackConfig.module.rules,

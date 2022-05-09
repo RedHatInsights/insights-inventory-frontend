@@ -10,6 +10,7 @@ import toJson from 'enzyme-to-json';
 import { mockTags } from '../../__mocks__/hostApi';
 import TitleColumn from './TitleColumn';
 import debounce from 'lodash/debounce';
+import { defaultFilters } from '../../Utilities';
 
 jest.mock('lodash/debounce');
 
@@ -229,7 +230,7 @@ describe('EntityTableToolbar', () => {
                 });
                 wrapper.update();
                 expect(onRefreshData).toHaveBeenCalledWith(
-                    { filters: [{}, { filter: '', value: 'hostname_or_id' }, { registeredWithFilter: [] }], page: 1, perPage: 50 }
+                    { filters: [{}, { filter: '', value: 'hostname_or_id' }, { staleFilter: [] }], page: 1, perPage: 50 }
                 );
             });
 
@@ -294,9 +295,9 @@ describe('EntityTableToolbar', () => {
                 </Provider>);
                 wrapper.find('.ins-c-chip-filters button.pf-m-link').last().simulate('click');
                 const actions = store.getActions();
-                expect(actions.length).toBe(1);
-                expect(actions[actions.length - 1]).toMatchObject({ type: 'CLEAR_FILTERS' });
-                expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
+                expect(actions.length).toBe(2);
+                expect(actions[actions.length - 2]).toMatchObject({ type: 'CLEAR_FILTERS' });
+                expect(onRefreshData).toHaveBeenCalledWith({ filters: [defaultFilters], page: 1 });
             });
 
             it('should call function on delete filter', () => {
@@ -320,7 +321,13 @@ describe('EntityTableToolbar', () => {
             const store = mockStore(initialState);
 
             const wrapper = mount(<Provider store={store}>
-                <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
+                <EntityTableToolbar
+                    hideFilters={{ all: true, name: false }}
+                    page={1}
+                    total={500}
+                    perPage={50}
+                    onRefreshData={onRefreshData}
+                    loaded />
             </Provider>);
 
             await act(async () => {

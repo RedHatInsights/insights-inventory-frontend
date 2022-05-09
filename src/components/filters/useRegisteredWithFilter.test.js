@@ -21,12 +21,17 @@ describe('useRegisteredWithFilter', () => {
     it('should create filter', () => {
         const hookAccessor = ([filter]) => {
             expect(filter).toMatchObject({
-                label: 'Source',
-                value: 'source-registered-with',
+                label: 'Data Collector',
+                value: 'data-collector-registered-with',
                 type: 'checkbox'
             });
             expect(filter.filterValues.value.length).toBe(0);
-            expect(filter.filterValues.items).toMatchObject([{ label: 'Insights', value: 'insights' }]);
+            expect(filter.filterValues.items).toMatchObject([
+                { label: 'insights-client', value: 'puptoo' },
+                { label: 'subscription-manager', value: 'rhsm-conduit' },
+                { label: 'Satellite/Discovery', value: 'yupana' },
+                { label: 'insights-client not connected', value: 'nil' }
+            ]);
         };
 
         mount(<HookRender hookAccessor={hookAccessor} />);
@@ -34,15 +39,15 @@ describe('useRegisteredWithFilter', () => {
 
     it('should create chip', () => {
         const hookAccessor = ([, , , setValue]) => {
-            setValue(['insights']);
+            setValue(['puptoo']);
         };
 
         const hookNotify = ([filter, chip, registeredWithValue]) => {
-            expect(registeredWithValue).toMatchObject(['insights']);
+            expect(registeredWithValue).toMatchObject(['puptoo']);
             expect(filter.filterValues.value.length).toBe(1);
             expect(chip).toMatchObject([{
-                category: 'Source',
-                chips: [{ name: 'Insights', value: 'insights' }],
+                category: 'Data Collector',
+                chips: [{ name: 'insights-client', value: 'puptoo' }],
                 type: 'registered_with'
             }]);
         };

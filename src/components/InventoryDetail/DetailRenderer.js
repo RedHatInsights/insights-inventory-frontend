@@ -6,12 +6,12 @@ import DetailWrapper from './DetailWrapper';
 import AccessDenied from '../../Utilities/AccessDenied';
 
 const DetailRenderer = ({ showInventoryDrawer, isRbacEnabled, ...props }) => {
-    const { hasAccess } = usePermissions('inventory', [
+    const { hasAccess, isLoading } = usePermissions('inventory', [
         'inventory:*:*',
         'inventory:*:read',
         'inventory:hosts:read'
-    ]);
-    if (hasAccess === undefined) {
+    ], true);
+    if (isLoading) {
         return <Spinner />;
     } else if (isRbacEnabled && hasAccess === false) {
         return <AccessDenied />;

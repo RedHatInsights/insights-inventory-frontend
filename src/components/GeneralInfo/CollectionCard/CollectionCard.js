@@ -38,7 +38,6 @@ const CollectionCard = ({
     hasRegistered,
     hasInsightsId,
     hasReporter,
-    hasMachineId,
     extra
 }) => (<LoadingCard
     title="Collection information"
@@ -60,7 +59,6 @@ const CollectionCard = ({
         ) }] : [],
         ...hasInsightsId ? [{ title: 'Insights id', value: entity && entity.insights_id }] : [],
         ...hasReporter ? [{ title: 'Reporter', value: entity && entity.reporter }] : [],
-        ...hasMachineId ? [{ title: 'RHEL machine id', value: entity && entity.rhel_machine_id }] : [],
         ...extra.map(({ onClick, ...item }) => ({
             ...item,
             ...onClick && { onClick: (e) => onClick(e, handleClick) }
@@ -74,8 +72,7 @@ CollectionCard.propTypes = {
         updated: PropTypes.string,
         created: PropTypes.string,
         insights_id: PropTypes.string,
-        reporter: PropTypes.string,
-        rhel_machine_id: PropTypes.string
+        reporter: PropTypes.string
     }),
     handleClick: PropTypes.func,
     collectionInformation: PropTypes.shape({
@@ -87,7 +84,6 @@ CollectionCard.propTypes = {
     hasRegistered: PropTypes.bool,
     hasInsightsId: PropTypes.bool,
     hasReporter: PropTypes.bool,
-    hasMachineId: PropTypes.bool,
     extra: PropTypes.arrayOf(extraShape)
 };
 CollectionCard.defaultProps = {
@@ -99,7 +95,6 @@ CollectionCard.defaultProps = {
     hasRegistered: true,
     hasInsightsId: true,
     hasReporter: true,
-    hasMachineId: true,
     extra: []
 };
 

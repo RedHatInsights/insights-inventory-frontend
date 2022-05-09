@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { tagsFilterState, tagsFilterReducer, mapGroups } from '@redhat-cloud-services/frontend-components/FilterHooks';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
-import { fetchAllTags, clearFilters, toggleTagModal } from '../../store/actions';
+import { fetchAllTags, clearFilters, toggleTagModal, setFilter } from '../../store/actions';
 import { defaultFilters } from '../../Utilities/constants';
 import debounce from 'lodash/debounce';
 import flatMap from 'lodash/flatMap';
@@ -20,7 +20,7 @@ import {
     TAG_CHIP,
     arrayToSelection
 } from '../../Utilities/index';
-import { onDeleteFilter, onDeleteTag } from './helpers';
+import { onDeleteFilter, onDeleteTag, onDeleteOsFilter } from './helpers';
 import {
     useStalenessFilter,
     useOperatingSystemFilter,
@@ -247,7 +247,19 @@ const EntityTableToolbar = ({
         [REGISTERED_CHIP]: (deleted) => setRegisteredWithFilter(
             onDeleteFilter(deleted, registeredWithFilter)
         ),
-        [OS_CHIP]: (deleted) => setOsFilter(onDeleteFilter(deleted, osFilter))
+        [OS_CHIP]: (deleted) => setOsFilter(onDeleteOsFilter(deleted, osFilter))
+    };
+    /**
+     * Function to reset all filters with 'Reset Filter' is clicked
+     */
+    const resetFilters = () => {
+        enabledFilters.name && setTextFilter('');
+        enabledFilters.stale && setStaleFilter(defaultFilters.staleFilter);
+        enabledFilters.registeredWith && setRegisteredWithFilter([]);
+        enabledFilters.tags && setSelectedTags({});
+        enabledFilters.operatingSystem && setOsFilter([]);
+        dispatch(setFilter([defaultFilters]));
+        updateData({ page: 1, filters: [defaultFilters] });
     };
 
     /**
@@ -266,12 +278,10 @@ const EntityTableToolbar = ({
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
                 if (isAll) {
-                    updateData({ page: 1, filters: [] });
                     dispatch(clearFilters());
-                    enabledFilters.name && setTextFilter('');
-                    enabledFilters.tags && setSelectedTags({});
-                } else if (deleted.type) {
-                    deleteMapper[deleted.type](deleted);
+                    resetFilters();
+                } else {
+                    deleteMapper[deleted.type]?.(deleted);
                 }
 
                 activeFiltersConfig &&

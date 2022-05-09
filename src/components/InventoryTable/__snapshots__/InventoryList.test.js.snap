@@ -54,7 +54,7 @@ exports[`InventoryList should render correctly 1`] = `
   >
     <table
       aria-label="Host inventory"
-      class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-sticky-header"
+      class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-compact pf-m-sticky-header"
       data-ouia-component-id="OUIA-Generated-Table-2"
       data-ouia-component-type="PF4/Table"
       data-ouia-safe="true"
@@ -111,9 +111,7 @@ exports[`InventoryList should render correctly 1`] = `
                 <div
                   class="pf-c-empty-state__body"
                 >
-                  This filter criteria matches no systems. 
-                  <br />
-                   Try changing your filter settings.
+                  To continue, edit your filter settings and search again.
                 </div>
               </div>
             </div>

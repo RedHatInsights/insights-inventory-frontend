@@ -670,18 +670,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               >
                 Not available
               </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
             </dl>
           </div>
         </div>
@@ -1986,18 +1974,6 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               >
                 Not available
               </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
             </dl>
           </div>
         </div>
@@ -2634,18 +2610,6 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                 data-pf-content="true"
               >
                 Reporter
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
               </dt>
               <dd
                 class=""
@@ -3306,18 +3270,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               >
                 Not available
               </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
             </dl>
           </div>
         </div>
@@ -3808,18 +3760,6 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                 data-pf-content="true"
               >
                 Reporter
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
               </dt>
               <dd
                 class=""
@@ -4506,18 +4446,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                 data-pf-content="true"
               >
                 Reporter
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
               </dt>
               <dd
                 class=""
@@ -5843,18 +5771,6 @@ exports[`GeneralInformation custom components should render custom Configuration
               >
                 Not available
               </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
             </dl>
           </div>
         </div>
@@ -6498,18 +6414,6 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                 data-pf-content="true"
               >
                 Reporter
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
               </dt>
               <dd
                 class=""
@@ -7177,18 +7081,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               >
                 Not available
               </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
             </dl>
           </div>
         </div>
@@ -7686,18 +7578,6 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                 data-pf-content="true"
               >
                 Reporter
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
               </dt>
               <dd
                 class=""
@@ -8577,24 +8457,6 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                   />
                 </div>
               </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                <div
-                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                >
-                  <span
-                    class="pf-u-screen-reader"
-                  />
-                </div>
-              </dd>
             </dl>
           </div>
         </div>
@@ -9341,18 +9203,6 @@ exports[`GeneralInformation should render correctly 1`] = `
                 data-pf-content="true"
               >
                 Reporter
-              </dt>
-              <dd
-                class=""
-                data-pf-content="true"
-              >
-                Not available
-              </dd>
-              <dt
-                class=""
-                data-pf-content="true"
-              >
-                RHEL machine id
               </dt>
               <dd
                 class=""

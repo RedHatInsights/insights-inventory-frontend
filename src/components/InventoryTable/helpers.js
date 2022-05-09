@@ -49,11 +49,25 @@ export const createRows = (rows = [], columns = [], { actions, expandable, noSys
     }]))).filter(Boolean);
 };
 
-export const onDeleteFilter = (deleted, currFilter) => {
+export const onDeleteFilter = (deleted, currFilter = []) => {
     const { value: deletedItem } = deleted?.chips?.[0] || {};
+    return  currFilter.filter((item) => item !== deletedItem);
+};
 
-    const newFilter = currFilter.filter((item) => item !== deletedItem);
-    return newFilter;
+export const onDeleteOsFilter = (deleted, currentFilter = []) => {
+    const { value: deletedItem } = deleted?.chips?.[0] || {};
+    const majorVersion = `${deletedItem.split('.')[0]}.0`;
+
+    return {
+        ...currentFilter,
+        [majorVersion]: Object.keys(currentFilter[majorVersion]).reduce((acc, item) => {
+            if (item !== deletedItem) {
+                acc[item] = true;
+            }
+
+            return acc;
+        }, {})
+    };
 };
 
 export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
@@ -86,3 +100,4 @@ export const createColumns = (columns, hasItems, rows, isExpandable) => (
         ]
     }))
 );
+
