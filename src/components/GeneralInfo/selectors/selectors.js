@@ -94,3 +94,15 @@ export const collectionInformationSelector = ({
     client: insights_client_version,
     egg: insights_egg_version
 });
+
+export const systemStatusSelector = ({
+    insights_client_version,
+    insights_egg_version
+} = {}) => ({
+    client: insights_client_version,
+    egg: insights_egg_version
+});
+
+export const dataCollectorsSelector = ({
+} = {}) => ({
+});

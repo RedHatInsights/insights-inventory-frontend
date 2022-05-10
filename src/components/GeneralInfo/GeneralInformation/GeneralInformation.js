@@ -16,6 +16,8 @@ import BiosCard from '../BiosCard';
 import InfrastructureCard from '../InfrastructureCard';
 import ConfigurationCard from '../ConfigurationCard';
 import CollectionCard from '../CollectionCard';
+import SystemStatusCard from '../SystemStatusCard';
+import DataCollectorsCard from '../DataCollectorsCard/DataCollectorsCard';
 import { Provider } from 'react-redux';
 import './general-information.scss';
 
@@ -67,6 +69,8 @@ class GeneralInformation extends Component {
             InfrastructureCardWrapper,
             ConfigurationCardWrapper,
             CollectionCardWrapper,
+            SystemStatusCardWrapper,
+            DataCollectorsCardWrapper,
             children
         } = this.props;
         const Wrapper = store ? Provider : Fragment;
@@ -76,6 +80,12 @@ class GeneralInformation extends Component {
                     <Grid sm={ 12 } md={ 6 } hasGutter>
                         {SystemCardWrapper && <GridItem>
                             <SystemCardWrapper handleClick={ this.handleModalToggle } writePermissions={writePermissions} />
+                        </GridItem>}
+                        {SystemStatusCardWrapper && <GridItem>
+                            <SystemStatusCardWrapper handleClick={ this.handleModalToggle } />
+                        </GridItem>}
+                        {DataCollectorsCardWrapper && <GridItem>
+                            <DataCollectorsCardWrapper handleClick={ this.handleModalToggle } />
                         </GridItem>}
                         {OperatingSystemCardWrapper && <GridItem>
                             <OperatingSystemCardWrapper handleClick={ this.handleModalToggle } />
@@ -129,6 +139,8 @@ GeneralInformation.propTypes = {
     InfrastructureCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     ConfigurationCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     CollectionCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+    SystemStatusCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+    DataCollectorsCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     children: PropTypes.node
 };
 GeneralInformation.defaultProps = {
@@ -138,7 +150,9 @@ GeneralInformation.defaultProps = {
     BiosCardWrapper: BiosCard,
     InfrastructureCardWrapper: InfrastructureCard,
     ConfigurationCardWrapper: ConfigurationCard,
-    CollectionCardWrapper: CollectionCard
+    CollectionCardWrapper: CollectionCard,
+    SystemStatusCardWrapper: SystemStatusCard,
+    DataCollectorsCardWrapper: DataCollectorsCard
 };
 
 const mapStateToProps = ({

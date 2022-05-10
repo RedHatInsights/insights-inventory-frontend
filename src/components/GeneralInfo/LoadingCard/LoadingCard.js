@@ -51,7 +51,7 @@ Clickable.defaultProps = {
     item: {}
 };
 
-const LoadingCard = ({ title, isLoading, items }) => {
+const LoadingCard = ({ title, isLoading, items, children }) => {
     return (
         <Stack hasGutter>
             <StackItem>
@@ -62,6 +62,7 @@ const LoadingCard = ({ title, isLoading, items }) => {
                 </TextContent>
             </StackItem>
             <StackItem isFilled>
+                {items.length &&
                 <TextContent>
                     <TextList component={ TextListVariants.dl }>
                         { items.map((item, key) => (
@@ -80,7 +81,8 @@ const LoadingCard = ({ title, isLoading, items }) => {
                             </Fragment>
                         )) }
                     </TextList>
-                </TextContent>
+                </TextContent>}
+                {children}
             </StackItem>
         </Stack>
     );
@@ -96,7 +98,8 @@ LoadingCard.propTypes = {
         size: PropTypes.oneOf(Object.values(SkeletonSize)),
         plural: PropTypes.string,
         singular: PropTypes.string
-    }))
+    })),
+    children: PropTypes.node
 };
 
 LoadingCard.defaultProps = {
