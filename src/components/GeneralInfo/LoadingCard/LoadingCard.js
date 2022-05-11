@@ -62,26 +62,26 @@ const LoadingCard = ({ title, isLoading, items, children }) => {
                 </TextContent>
             </StackItem>
             <StackItem isFilled>
-                {items.length &&
-                <TextContent>
-                    <TextList component={ TextListVariants.dl }>
-                        { items.map((item, key) => (
-                            <Fragment key={ key }>
-                                <TextListItem component={ TextListItemVariants.dt }>
-                                    { item.title }
-                                </TextListItem>
-                                <TextListItem component={ TextListItemVariants.dd }>
-                                    { isLoading && <Skeleton size={ item.size || SkeletonSize.sm } /> }
-                                    { !isLoading && (
-                                        item.onClick && item.value ?
-                                            <Clickable item={ item }/> :
-                                            valueToText(item.value, item.singular, item.plural)
-                                    ) }
-                                </TextListItem>
-                            </Fragment>
-                        )) }
-                    </TextList>
-                </TextContent>}
+                {items.length ?
+                    (<TextContent>
+                        <TextList component={ TextListVariants.dl }>
+                            { items.map((item, key) => (
+                                <Fragment key={ key }>
+                                    <TextListItem component={ TextListItemVariants.dt }>
+                                        { item.title }
+                                    </TextListItem>
+                                    <TextListItem component={ TextListItemVariants.dd }>
+                                        { isLoading && <Skeleton size={ item.size || SkeletonSize.sm } /> }
+                                        { !isLoading && (
+                                            item.onClick && item.value ?
+                                                <Clickable item={ item }/> :
+                                                valueToText(item.value, item.singular, item.plural)
+                                        ) }
+                                    </TextListItem>
+                                </Fragment>
+                            )) }
+                        </TextList>
+                    </TextContent>) : null}
                 {children}
             </StackItem>
         </Stack>

@@ -81,12 +81,6 @@ class GeneralInformation extends Component {
                         {SystemCardWrapper && <GridItem>
                             <SystemCardWrapper handleClick={ this.handleModalToggle } writePermissions={writePermissions} />
                         </GridItem>}
-                        {SystemStatusCardWrapper && <GridItem>
-                            <SystemStatusCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
-                        {DataCollectorsCardWrapper && <GridItem>
-                            <DataCollectorsCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
                         {OperatingSystemCardWrapper && <GridItem>
                             <OperatingSystemCardWrapper handleClick={ this.handleModalToggle } />
                         </GridItem>}
@@ -99,8 +93,14 @@ class GeneralInformation extends Component {
                         {ConfigurationCardWrapper && <GridItem>
                             <ConfigurationCardWrapper handleClick={ this.handleModalToggle } />
                         </GridItem>}
-                        {CollectionCardWrapper && <GridItem>
+                        {/* {CollectionCardWrapper && <GridItem>
                             <CollectionCardWrapper handleClick={ this.handleModalToggle } />
+                        </GridItem>} */}
+                        {SystemStatusCardWrapper && <GridItem>
+                            <SystemStatusCardWrapper handleClick={ this.handleModalToggle } />
+                        </GridItem>}
+                        {DataCollectorsCardWrapper && <GridItem>
+                            <DataCollectorsCardWrapper handleClick={ this.handleModalToggle } />
                         </GridItem>}
                         {children}
                         <Modal
