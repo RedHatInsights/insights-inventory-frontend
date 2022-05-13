@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
-import { systemStatusSelector } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 
 const SystemStatusCard = ({
@@ -76,6 +75,5 @@ export default connect(({
 }) => ({
     entity,
     systemProfile,
-    detailLoaded: systemProfile && systemProfile.loaded,
-    infrastructure: systemStatusSelector(systemProfile, entity)
+    detailLoaded: systemProfile && systemProfile.loaded
 }))(SystemStatusCard);

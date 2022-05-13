@@ -242,10 +242,14 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
             "isDisabled": false,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },
@@ -519,10 +523,14 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
             "isDisabled": false,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },
@@ -812,10 +820,14 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
             "isDisabled": false,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },
@@ -1124,10 +1136,14 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
             "isDisabled": false,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },
@@ -1408,10 +1424,14 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
             "isDisabled": false,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },
@@ -1690,10 +1710,14 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
             "isDisabled": false,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },
@@ -1974,10 +1998,14 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
             "isDisabled": true,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },
@@ -2264,10 +2292,14 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
             "isDisabled": false,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },
@@ -2584,10 +2616,14 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
             "isDisabled": false,
             "items": Array [
               Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
                 "label": "insights-client",
                 "value": "puptoo",
               },
               Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
                 "label": "subscription-manager",
                 "value": "rhsm-conduit",
               },

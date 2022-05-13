@@ -1,8 +1,8 @@
+/* eslint-disable camelcase */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
-import { dataCollectorsSelector } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import { TableComposable, Thead, Tr, Th, Tbody, Td, TableVariant, ExpandableRowContent } from '@patternfly/react-table';
 import { Flex, FlexItem } from '@patternfly/react-core';
@@ -12,11 +12,11 @@ const getDefaultCollectors = (entity) =>
     registered?.filter(reporter => reporter.label !== 'insights-client not connected')
     .map(reporter => ({
         name: reporter.label,
-        status: entity.per_reporter_staleness[reporter.value]?.check_in_succeeded,
-        updated: entity.per_reporter_staleness[reporter.value]?.last_check_in,
+        status: entity?.per_reporter_staleness[reporter.value]?.check_in_succeeded,
+        updated: entity?.per_reporter_staleness[reporter.value]?.last_check_in,
         details: {
             name: reporter.idName,
-            id: entity[reporter.idValue]
+            id: entity?.[reporter.idValue]
         }
     }));
 
@@ -68,18 +68,19 @@ const DataCollectorsCard = ({
                             /> : <Td />}
                         <Td dataLabel={'Name'}>{collector.name}</Td>
                         <Td dataLabel={'Status'}>{collector.status ? 'Active' : 'N/A'}</Td>
-                        <Td dataLabel={'Last upload'}>{
-                            DateFormat ?
+                        <Td dataLabel={'Last upload'}>
+                            {!collector.updated && 'N/A'}
+                            {DateFormat && collector.updated ?
                                 <DateFormat date={ collector.updated } type="exact" /> :
-                                new Date(collector.updated).toLocaleString()
-                        }</Td>
+                                (collector.updated && new Date(collector.updated).toLocaleString())
+                            }</Td>
                     </Tr>
                     {collector.details && collector.details.name && (
                         <Tr isExpanded={isExpanded(collector)}>
                             <Td />
                             <Td colSpan={3}>
                                 <ExpandableRowContent
-                                    style={{ paddingTop: 5, paddingBottom: 5 }}>
+                                    style={{ paddingTop: 10, paddingBottom: 15, paddingLeft: 15 }}>
                                     <Flex>
                                         <FlexItem style={{ marginRight: 5 }}>
                                             {`${collector.details.name}:`}
@@ -101,10 +102,7 @@ DataCollectorsCard.propTypes = {
     detailLoaded: PropTypes.bool,
     collectors: PropTypes.array,
     entity: PropTypes.shape({
-
-    }),
-    systemProfile: PropTypes.shape({
-
+        per_reporter_staleness: PropTypes.object
     })
 };
 DataCollectorsCard.defaultProps = {
@@ -121,6 +119,5 @@ export default connect(({
 }) => ({
     entity,
     systemProfile,
-    detailLoaded: systemProfile && systemProfile.loaded,
-    infrastructure: dataCollectorsSelector(systemProfile, entity)
+    detailLoaded: systemProfile && systemProfile.loaded
 }))(DataCollectorsCard);
