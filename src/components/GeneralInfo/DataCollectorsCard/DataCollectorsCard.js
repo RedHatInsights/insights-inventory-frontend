@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import { dataCollectorsSelector } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
-import { TableComposable, Thead, Tr, Th, Tbody, Td, TableVariant } from '@patternfly/react-table';
+import { TableComposable, Thead, Tr, Th, Tbody, Td, TableVariant, ExpandableRowContent } from '@patternfly/react-table';
 import { Flex, FlexItem } from '@patternfly/react-core';
 import { registered } from '../../../Utilities/index';
 
@@ -25,13 +25,13 @@ const DataCollectorsCard = ({
     collectors,
     entity
 }) => {
-    const [expandedRepoNames, setExpandedRepoNames] = useState([]);
-    const setRepoExpanded = (collector, isExpanding = true) =>
-        setExpandedRepoNames(prevExpanded => {
-            const otherExpandedRepoNames = prevExpanded.filter(r => r !== collector.name);
-            return isExpanding ? [...otherExpandedRepoNames, collector.name] : otherExpandedRepoNames;
+    const [expandedNames, setExpandedNames] = useState([]);
+    const setExpanded = (collector, isExpanding = true) =>
+        setExpandedNames(prevExpanded => {
+            const otherExpandedNames = prevExpanded.filter(r => r !== collector.name);
+            return isExpanding ? [...otherExpandedNames, collector.name] : otherExpandedNames;
         });
-    const isRepoExpanded = (collector) => expandedRepoNames.includes(collector.name);
+    const isExpanded = (collector) => expandedNames.includes(collector.name);
     const data = collectors ?? getDefaultCollectors(entity);
     return (<LoadingCard
         title="Data collectors"
@@ -43,27 +43,29 @@ const DataCollectorsCard = ({
             borders={false}
         >
             <Thead>
-                <Tr>
+                <Tr style={{ border: 'none' }}>
                     <Th />
                     <Th>{'Name'}</Th>
                     <Th>{'Status'}</Th>
                     <Th>{'Last upload'}</Th>
                 </Tr>
             </Thead>
-            <Tbody>
-                {data.map((collector, rowIndex) => (<>
-                    <Tr key={collector.name}>
-                        {collector.details.name ? <Td
-                            expand={
-                                collector.details
-                                    ? {
-                                        rowIndex,
-                                        isExpanded: isRepoExpanded(collector),
-                                        onToggle: () => setRepoExpanded(collector, !isRepoExpanded(collector))
-                                    }
-                                    : undefined
-                            }
-                        /> : <Td />}
+            {data.map((collector, rowIndex) => (
+                <Tbody key={collector.name} isExpanded={isExpanded(collector)}>
+                    <Tr>
+                        {collector.details.name ?
+                            <Td
+                                expand={
+                                    collector.details
+                                        ? {
+                                            rowIndex,
+                                            isExpanded: isExpanded(collector),
+                                            onToggle: () => setExpanded(collector, !isExpanded(collector))
+                                        }
+                                        : undefined
+                                }
+                                style={{ paddingLeft: 0 }}
+                            /> : <Td />}
                         <Td dataLabel={'Name'}>{collector.name}</Td>
                         <Td dataLabel={'Status'}>{collector.status ? 'Active' : 'N/A'}</Td>
                         <Td dataLabel={'Last upload'}>{
@@ -73,21 +75,24 @@ const DataCollectorsCard = ({
                         }</Td>
                     </Tr>
                     {collector.details && collector.details.name && (
-                        <Tr isExpanded={isRepoExpanded(collector)}>
-                            <Td colSpan={4}>
-                                <Flex>
-                                    <FlexItem>
-                                        {`${collector.details.name}:`}
-                                    </FlexItem>
-                                    <FlexItem>
-                                        {collector.details.id ?? 'N/A'}
-                                    </FlexItem>
-                                </Flex>
+                        <Tr isExpanded={isExpanded(collector)}>
+                            <Td />
+                            <Td colSpan={3}>
+                                <ExpandableRowContent
+                                    style={{ paddingTop: 5, paddingBottom: 5 }}>
+                                    <Flex>
+                                        <FlexItem style={{ marginRight: 5 }}>
+                                            {`${collector.details.name}:`}
+                                        </FlexItem>
+                                        <FlexItem grow={{ default: 'grow' }}>
+                                            {collector.details.id ?? 'N/A'}
+                                        </FlexItem>
+                                    </Flex>
+                                </ExpandableRowContent>
                             </Td>
                         </Tr>
                     )}
-                </>))}
-            </Tbody>
+                </Tbody>))}
         </TableComposable>
     </LoadingCard>);
 };
