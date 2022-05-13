@@ -30,7 +30,7 @@ describe('EntityTable', () => {
                     one: 'data',
                     system_profile: {}
                 }],
-                columns: [{ key: 'one', title: 'One', renderFunc: TitleColumn }],
+                columns: [{ key: 'one', sortKey: 'one', title: 'One', renderFunc: TitleColumn }],
                 page: 1,
                 perPage: 50,
                 total: 500
@@ -92,7 +92,7 @@ describe('EntityTable', () => {
             const store = mockStore({
                 entities: {
                     ...initialState.entities,
-                    columns: [...new Array(6)].map(() => ({ key: 'one', title: 'One' }))
+                    columns: [...new Array(6)].map(() => ({ key: 'one', sortKey: 'one', title: 'One' }))
                 }
             });
             const wrapper = mount(<MemoryRouter>
@@ -140,6 +140,7 @@ describe('EntityTable', () => {
                     <Provider store={ store }>
                         <EntityTable loaded disableDefaultColumns sortBy={{
                             key: 'one',
+                            sortKey: 'one',
                             directions: 'asc'
                         }} />
                     </Provider>
@@ -639,7 +640,7 @@ describe('EntityTable', () => {
             const store = mockStore({
                 entities: {
                     ...initialState.entities,
-                    columns: [{ key: 'health', title: 'Health' }]
+                    columns: [{ key: 'health', sortKey: 'health', title: 'Health' }]
                 }
             });
             const wrapper = mount(<MemoryRouter>

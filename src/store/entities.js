@@ -36,6 +36,7 @@ export const defaultState = {
 export const defaultColumns = [
     {
         key: 'display_name',
+        sortKey: 'display_name',
         title: 'Name',
         renderFunc: TitleColumn
     },
@@ -48,13 +49,15 @@ export const defaultColumns = [
     },
     {
         key: 'system_profile',
+        sortKey: 'operating_system',
         title: <Tooltip content={<span>Operating system</span>}><span>OS</span></Tooltip>,
         // eslint-disable-next-line react/display-name
         renderFunc: (systemProfile) => <OperatingSystemFormatter operatingSystem={systemProfile?.operating_system} />,
-        props: { width: 10, isStatic: true }
+        props: { width: 10 }
     },
     {
         key: 'updated',
+        sortKey: 'updated',
         title: 'Last seen',
         // eslint-disable-next-line react/display-name
         renderFunc: (
