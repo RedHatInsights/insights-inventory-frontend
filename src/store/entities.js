@@ -50,6 +50,7 @@ export const defaultColumns = [
     {
         key: 'system_profile',
         sortKey: 'operating_system',
+        dataLabel: 'OS',
         title: <Tooltip content={<span>Operating system</span>}><span>OS</span></Tooltip>,
         // eslint-disable-next-line react/display-name
         renderFunc: (systemProfile) => <OperatingSystemFormatter operatingSystem={systemProfile?.operating_system} />,
