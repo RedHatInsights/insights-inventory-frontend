@@ -15,7 +15,7 @@ export const registered = [
     { label: 'insights-client', value: 'puptoo' },
     { label: 'subscription-manager', value: 'rhsm-conduit' },
     { label: 'Satellite/Discovery', value: 'yupana' },
-    { label: 'insights-client not connected', value: 'nil' }
+    { label: 'insights-client not connected', value: '!puptoo' }
 ];
 export const InventoryContext = createContext({});
 export const defaultFilters = {
