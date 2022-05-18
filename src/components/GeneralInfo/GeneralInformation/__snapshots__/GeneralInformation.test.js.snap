@@ -699,11 +699,10 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-37"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -808,14 +807,12 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -909,14 +906,12 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -1744,11 +1739,10 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-73"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -1853,14 +1847,12 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -1954,14 +1946,12 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -2687,11 +2677,10 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-61"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -2796,14 +2785,12 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -2897,14 +2884,12 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -3622,11 +3607,10 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-49"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -3731,14 +3715,12 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -3832,14 +3814,12 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -4567,11 +4547,10 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-25"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -4676,14 +4655,12 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -4777,14 +4754,12 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -5356,11 +5331,10 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-13"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -5465,14 +5439,12 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -5566,14 +5538,12 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -6334,11 +6304,10 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-43"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -6443,14 +6412,12 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -6544,14 +6511,12 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -7379,11 +7344,10 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-79"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -7488,14 +7452,12 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -7589,14 +7551,12 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -8329,11 +8289,10 @@ exports[`GeneralInformation custom components should render custom Configuration
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-67"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -8438,14 +8397,12 @@ exports[`GeneralInformation custom components should render custom Configuration
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -8539,14 +8496,12 @@ exports[`GeneralInformation custom components should render custom Configuration
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -9271,11 +9226,10 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-55"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -9380,14 +9334,12 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -9481,14 +9433,12 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -10223,11 +10173,10 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-31"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -10332,14 +10281,12 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -10433,14 +10380,12 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -11019,11 +10964,10 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-19"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -11128,14 +11072,12 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -11229,14 +11171,12 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -12179,11 +12119,10 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-1"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -12288,14 +12227,12 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -12389,14 +12326,12 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
@@ -13224,11 +13159,10 @@ exports[`GeneralInformation should render correctly 1`] = `
               class=""
             >
               <tr
-                class=""
+                class="ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-7"
                 data-ouia-component-type="PF4/TableRow"
                 data-ouia-safe="true"
-                style="border:none"
               >
                 <th
                   class=""
@@ -13333,14 +13267,12 @@ exports[`GeneralInformation should render correctly 1`] = `
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Insights id:
                       </div>
@@ -13434,14 +13366,12 @@ exports[`GeneralInformation should render correctly 1`] = `
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
-                    style="padding-top:10px;padding-bottom:15px;padding-left:15px"
                   >
                     <div
                       class="pf-l-flex"
                     >
                       <div
-                        class=""
-                        style="margin-right:5px"
+                        class="ins-c__flex-row-margin"
                       >
                         Subscription manager id:
                       </div>
