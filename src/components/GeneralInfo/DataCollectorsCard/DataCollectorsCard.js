@@ -66,7 +66,7 @@ const DataCollectorsCard = ({
                         <Tr isExpanded={isExpanded(collector)}>
                             <Td />
                             <Td colSpan={3}>
-                                <ExpandableRowContent className="ins-c-data-collectors__expaded-row">
+                                <ExpandableRowContent>
                                     <Flex>
                                         <FlexItem className="ins-c__flex-row-margin">
                                             {`${collector.details.name}:`}

@@ -61,13 +61,13 @@
         border: none;
     }
     
-    .ins-c-data-collectors__expaded-row {
-        padding-top: 10px;
-        padding-bottom: 15px;
-        padding-left: 15px;
+    .pf-c-table__expandable-row-content {
+        padding-top: var(--pf-global--spacer--sm);
+        padding-bottom: var(--pf-global--spacer--md);
+        padding-left: var(--pf-global--spacer--md);
     }
 
     .ins-c__flex-row-margin {
-        margin-right: 5px;
+        margin-right: var(--pf-global--spacer--xs);
     }
 }
