@@ -151,8 +151,6 @@ export async function getEntities(items, {
 
         return data;
     } else if (!hasItems) {
-        const insightsConnectedFilter = filters?.registeredWithFilter?.filter(filter => filter !== 'nil');
-
         return hosts.apiHostGetHostList(
             undefined,
             undefined,
@@ -168,7 +166,7 @@ export async function getEntities(items, {
                 ...constructTags(filters.tagFilters),
                 ...options.tags || []
             ],
-            insightsConnectedFilter,
+            filters?.registeredWithFilter,
             undefined,
             undefined,
             {
@@ -217,8 +215,6 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         osFilter,
         hostnameOrId
     } = filters ? filters.reduce(filtersReducer, defaultFilters) : defaultFilters;
-    const insightsConnectedFilter = registeredWithFilter?.filter(filter => filter !== 'nil');
-
     return tags.apiTagGetTags(
         [
             ...tagFilters ? constructTags(tagFilters) : [],
@@ -230,7 +226,7 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         (pagination && pagination.page) || 1,
         staleFilter,
         search || hostnameOrId,
-        insightsConnectedFilter,
+        registeredWithFilter,
         undefined,
         {
             query: {
