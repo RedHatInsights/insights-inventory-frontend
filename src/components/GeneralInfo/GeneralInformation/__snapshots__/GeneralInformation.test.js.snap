@@ -7607,6 +7607,13 @@ exports[`GeneralInformation custom components should render custom CollectionCar
         </div>
       </div>
     </div>
+    <div
+      class="pf-l-grid__item"
+    >
+      <div>
+        test
+      </div>
+    </div>
   </div>
 </div>
 `;

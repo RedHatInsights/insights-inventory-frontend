@@ -33,9 +33,9 @@ const DataCollectorsCard = ({
             <Thead>
                 <Tr className="ins-c__no-border">
                     <Th />
-                    <Th>{'Name'}</Th>
-                    <Th>{'Status'}</Th>
-                    <Th>{'Last upload'}</Th>
+                    <Th>Name</Th>
+                    <Th>Status</Th>
+                    <Th>Last upload</Th>
                 </Tr>
             </Thead>
             {dataMapper ? dataMapper(data, isExpanded, setExpanded) : data.map((collector, rowIndex) => (

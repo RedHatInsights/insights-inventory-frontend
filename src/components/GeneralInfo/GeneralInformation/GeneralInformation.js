@@ -69,6 +69,7 @@ class GeneralInformation extends Component {
             ConfigurationCardWrapper,
             SystemStatusCardWrapper,
             DataCollectorsCardWrapper,
+            CollectionCardWrapper,
             children
         } = this.props;
         const Wrapper = store ? Provider : Fragment;
@@ -96,6 +97,9 @@ class GeneralInformation extends Component {
                         </GridItem>}
                         {DataCollectorsCardWrapper && <GridItem>
                             <DataCollectorsCardWrapper handleClick={ this.handleModalToggle } />
+                        </GridItem>}
+                        {CollectionCardWrapper && <GridItem>
+                            <CollectionCardWrapper handleClick={ this.handleModalToggle } />
                         </GridItem>}
                         {children}
                         <Modal
@@ -135,6 +139,7 @@ GeneralInformation.propTypes = {
     ConfigurationCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     SystemStatusCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     DataCollectorsCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+    CollectionCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     children: PropTypes.node
 };
 GeneralInformation.defaultProps = {
@@ -145,7 +150,8 @@ GeneralInformation.defaultProps = {
     InfrastructureCardWrapper: InfrastructureCard,
     ConfigurationCardWrapper: ConfigurationCard,
     SystemStatusCardWrapper: SystemStatusCard,
-    DataCollectorsCardWrapper: DataCollectorsCard
+    DataCollectorsCardWrapper: DataCollectorsCard,
+    CollectionCardWrapper: false
 };
 
 const mapStateToProps = ({
