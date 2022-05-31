@@ -16,7 +16,7 @@ export const registered = [
     { label: 'subscription-manager', value: 'rhsm-conduit',
         idName: 'Subscription manager id', idValue: 'subscription_manager_id' },
     { label: 'Satellite/Discovery', value: 'yupana' },
-    { label: 'insights-client not connected', value: 'nil' }
+    { label: 'insights-client not connected', value: '!puptoo' }
 ];
 export const InventoryContext = createContext({});
 export const defaultFilters = {

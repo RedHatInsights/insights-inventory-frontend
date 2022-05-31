@@ -259,7 +259,7 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
@@ -540,7 +540,7 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
@@ -837,7 +837,7 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
@@ -1153,7 +1153,7 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
@@ -1441,7 +1441,7 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
@@ -1727,7 +1727,7 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
@@ -2015,7 +2015,7 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
@@ -2309,7 +2309,7 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
@@ -2633,7 +2633,7 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
               },
               Object {
                 "label": "insights-client not connected",
-                "value": "nil",
+                "value": "!puptoo",
               },
             ],
             "onChange": [Function],
