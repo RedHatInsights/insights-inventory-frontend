@@ -176,6 +176,7 @@ Object {
   },
   "label": "Operating System",
   "type": "group",
+  "value": "os-filter",
 }
 `;
 
@@ -345,6 +346,7 @@ Object {
   },
   "label": "Operating System",
   "type": "group",
+  "value": "os-filter",
 }
 `;
 
