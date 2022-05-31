@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { registered } from '../../../Utilities/index';
 
 function safeParser(toParse, key) {
     try {
@@ -93,4 +94,22 @@ export const collectionInformationSelector = ({
 } = {}) => ({
     client: insights_client_version,
     egg: insights_egg_version
+});
+
+export const getDefaultCollectors = (entity) =>
+    registered?.filter(reporter => reporter.label !== 'insights-client not connected')
+    .map(reporter => ({
+        name: reporter.label,
+        status: entity?.per_reporter_staleness[reporter.value]?.check_in_succeeded,
+        updated: entity?.per_reporter_staleness[reporter.value]?.last_check_in,
+        details: {
+            name: reporter.idName,
+            id: entity?.[reporter.idValue]
+        }
+    }));
+
+export const systemStatus = ({
+    stale_timestamp
+} = {}) => ({
+    stale: new Date() > new Date(stale_timestamp)
 });
