@@ -132,7 +132,7 @@ const EntityTable = ({
                     onSort={ (event, index, direction) => {
                         onSortChange(
                             event,
-                            cells?.[index - Boolean(hasCheckbox) - Boolean(expandable)]?.key,
+                            cells?.[index - Boolean(hasCheckbox) - Boolean(expandable)]?.sortKey,
                             direction,
                             index
                         );

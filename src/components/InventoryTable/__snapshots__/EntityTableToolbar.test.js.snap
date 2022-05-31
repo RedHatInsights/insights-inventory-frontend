@@ -235,7 +235,7 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
@@ -516,7 +516,7 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
@@ -813,7 +813,7 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
@@ -1129,7 +1129,7 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
@@ -1417,7 +1417,7 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
@@ -1703,7 +1703,7 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
@@ -1991,7 +1991,7 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
@@ -2285,7 +2285,7 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
@@ -2609,7 +2609,7 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
           "label": "Operating System",
           "onChange": [Function],
           "type": "group",
-          "value": undefined,
+          "value": "os-filter",
         },
         Object {
           "filterValues": Object {
