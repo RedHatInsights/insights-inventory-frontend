@@ -184,6 +184,6 @@ Object {
   "label": "Operating System",
   "onChange": [Function],
   "type": "group",
-  "value": Array [],
+  "value": "os-filter",
 }
 `;

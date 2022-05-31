@@ -25,6 +25,7 @@ export const groupOSVersions = (osVersions) => {
 export const buildOSFilterConfig = (config = {}) => ({
     ...config,
     label: 'Operating System',
+    value: 'os-filter',
     type: 'group',
     filterValues: {
         selected: config.value,
