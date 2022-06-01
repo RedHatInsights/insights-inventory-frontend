@@ -15,7 +15,8 @@ import SystemCard from '../SystemCard';
 import BiosCard from '../BiosCard';
 import InfrastructureCard from '../InfrastructureCard';
 import ConfigurationCard from '../ConfigurationCard';
-import CollectionCard from '../CollectionCard';
+import SystemStatusCard from '../SystemStatusCard';
+import DataCollectorsCard from '../DataCollectorsCard/DataCollectorsCard';
 import { Provider } from 'react-redux';
 import './general-information.scss';
 
@@ -66,6 +67,8 @@ class GeneralInformation extends Component {
             BiosCardWrapper,
             InfrastructureCardWrapper,
             ConfigurationCardWrapper,
+            SystemStatusCardWrapper,
+            DataCollectorsCardWrapper,
             CollectionCardWrapper,
             children
         } = this.props;
@@ -73,21 +76,27 @@ class GeneralInformation extends Component {
         return (
             <Wrapper {...(store && { store })}>
                 <div className="ins-c-general-information">
-                    <Grid sm={ 12 } md={ 6 } hasGutter>
+                    <Grid sm={12} md={6} hasGutter>
                         {SystemCardWrapper && <GridItem>
                             <SystemCardWrapper handleClick={ this.handleModalToggle } writePermissions={writePermissions} />
                         </GridItem>}
                         {OperatingSystemCardWrapper && <GridItem>
                             <OperatingSystemCardWrapper handleClick={ this.handleModalToggle } />
                         </GridItem>}
-                        {BiosCardWrapper && <GridItem>
-                            <BiosCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
                         {InfrastructureCardWrapper && <GridItem>
                             <InfrastructureCardWrapper handleClick={ this.handleModalToggle } />
                         </GridItem>}
+                        {BiosCardWrapper && <GridItem>
+                            <BiosCardWrapper handleClick={ this.handleModalToggle } />
+                        </GridItem>}
+                        {SystemStatusCardWrapper && <GridItem>
+                            <SystemStatusCardWrapper handleClick={ this.handleModalToggle } />
+                        </GridItem>}
                         {ConfigurationCardWrapper && <GridItem>
                             <ConfigurationCardWrapper handleClick={ this.handleModalToggle } />
+                        </GridItem>}
+                        {DataCollectorsCardWrapper && <GridItem>
+                            <DataCollectorsCardWrapper handleClick={ this.handleModalToggle } />
                         </GridItem>}
                         {CollectionCardWrapper && <GridItem>
                             <CollectionCardWrapper handleClick={ this.handleModalToggle } />
@@ -128,6 +137,8 @@ GeneralInformation.propTypes = {
     BiosCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     InfrastructureCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     ConfigurationCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+    SystemStatusCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+    DataCollectorsCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     CollectionCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     children: PropTypes.node
 };
@@ -138,7 +149,9 @@ GeneralInformation.defaultProps = {
     BiosCardWrapper: BiosCard,
     InfrastructureCardWrapper: InfrastructureCard,
     ConfigurationCardWrapper: ConfigurationCard,
-    CollectionCardWrapper: CollectionCard
+    SystemStatusCardWrapper: SystemStatusCard,
+    DataCollectorsCardWrapper: DataCollectorsCard,
+    CollectionCardWrapper: false
 };
 
 const mapStateToProps = ({

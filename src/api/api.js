@@ -61,7 +61,7 @@ export const constructTags = (tagFilters) => {
     ) || '';
 };
 
-export const calculateSystemProfile = (osFilter, nonInsights) => {
+export const calculateSystemProfile = (osFilter) => {
     let systemProfile = {};
     const osFilterValues = Array.isArray(osFilter) ? osFilter : Object.values(osFilter || {})
     .flatMap((majorOsVersion) => Object.keys(majorOsVersion));
@@ -74,10 +74,6 @@ export const calculateSystemProfile = (osFilter, nonInsights) => {
                 }
             }
         };
-    }
-
-    if (nonInsights) {
-        systemProfile.insights_client_version = 'nil';
     }
 
     return generateFilter({ system_profile: systemProfile });
@@ -155,9 +151,6 @@ export async function getEntities(items, {
 
         return data;
     } else if (!hasItems) {
-        const insightsConnectedFilter = filters?.registeredWithFilter?.filter(filter => filter !== 'nil');
-        const hasNonInsightHostFilter = filters?.registeredWithFilter?.filter(filter => filter === 'nil').length > 0;
-
         return hosts.apiHostGetHostList(
             undefined,
             undefined,
@@ -173,14 +166,14 @@ export async function getEntities(items, {
                 ...constructTags(filters.tagFilters),
                 ...options.tags || []
             ],
-            insightsConnectedFilter,
+            filters?.registeredWithFilter,
             undefined,
             undefined,
             {
                 cancelToken: controller && controller.token,
                 query: {
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
-                    ...(calculateSystemProfile(filters.osFilter, hasNonInsightHostFilter)),
+                    ...(calculateSystemProfile(filters.osFilter)),
                     ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields'))
                 }
             }
@@ -222,9 +215,6 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         osFilter,
         hostnameOrId
     } = filters ? filters.reduce(filtersReducer, defaultFilters) : defaultFilters;
-    const insightsConnectedFilter = registeredWithFilter?.filter(filter => filter !== 'nil');
-    const hasNonInsightHostFilter = registeredWithFilter?.filter(filter => filter === 'nil').length > 0;
-
     return tags.apiTagGetTags(
         [
             ...tagFilters ? constructTags(tagFilters) : [],
@@ -236,11 +226,11 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         (pagination && pagination.page) || 1,
         staleFilter,
         search || hostnameOrId,
-        insightsConnectedFilter,
+        registeredWithFilter,
         undefined,
         {
             query: {
-                ...(calculateSystemProfile(osFilter, hasNonInsightHostFilter))
+                ...(calculateSystemProfile(osFilter))
             }
         }
     );

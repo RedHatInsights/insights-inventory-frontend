@@ -29,7 +29,8 @@ describe('GeneralInformation', () => {
         initialState = {
             entityDetails: {
                 entity: {
-                    id: 'test-id'
+                    id: 'test-id',
+                    per_reporter_staleness: {}
                 }
             },
             systemProfileStore: {
@@ -113,7 +114,8 @@ describe('GeneralInformation', () => {
                 systemProfileStore: {},
                 entityDetails: {
                     entity: {
-                        id: 'test-id'
+                        id: 'test-id',
+                        per_reporter_staleness: {}
                     }
                 } });
             mount(<Provider store={ store }>
