@@ -8,7 +8,6 @@ import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/Prima
 import { fetchAllTags, clearFilters, toggleTagModal, setFilter } from '../../store/actions';
 import { defaultFilters } from '../../Utilities/constants';
 import debounce from 'lodash/debounce';
-import flatMap from 'lodash/flatMap';
 import {
     TagsModal,
     TEXT_FILTER,
@@ -291,20 +290,6 @@ const EntityTableToolbar = ({
         };
     };
 
-    /**
-     * Function to calculate if any filter is applied.
-     */
-    const isFilterSelected = () => {
-        return textFilter.length > 0 || flatMap(
-            Object.values(selectedTags),
-            (value) => Object.values(value).filter(Boolean)
-        ).filter(Boolean).length > 0 ||
-        (staleFilter?.length > 0) ||
-        (registeredWithFilter?.length > 0) ||
-        (osFilter?.length > 0) ||
-        (activeFiltersConfig?.filters?.length > 0);
-    };
-
     const inventoryFilters = [
         ...!hasItems ? [
             ...enabledFilters.name ? [nameFilter] : [],
@@ -342,7 +327,7 @@ const EntityTableToolbar = ({
                     }))
                 }
             }}
-            { ...isFilterSelected() && hasAccess && { activeFiltersConfig: constructFilters() } }
+            { ...hasAccess && { activeFiltersConfig: constructFilters() } }
             actionsConfig={ loaded ? actionsConfig : null }
             pagination={loaded ? {
                 page,
