@@ -107,6 +107,7 @@ const Inventory = ({
             options.filters = Object.entries(defaultFilters).map(([key, val]) => ({ [key]: val }));
         }
 
+        let results = options?.filters.filter(({ osFilter }) => osFilter);
         const { status, source, tagsFilter, filterbyName, operatingSystem } = (options?.filters || []).reduce((acc, curr) => ({
             ...acc,
             ...curr?.staleFilter && { status: curr.staleFilter },
@@ -114,11 +115,12 @@ const Inventory = ({
             ...curr?.tagFilters && { tagsFilter: curr.tagFilters },
             ...curr?.value === 'hostname_or_id' && { filterbyName: curr.filter },
             ...curr?.osFilter && {
-                operatingSystem: Object.values(curr.osFilter || {}).flatMap((majorOsVersion) => Object.keys(majorOsVersion))
+                operatingSystem: results[0].osFilter.length > 0
+                    ? results[0].osFilter
+                    : Object.values(curr.osFilter || {}).flatMap((majorOsVersion) => Object.keys(majorOsVersion))
             }
         }), { status: undefined, source: undefined, tagsFilter: undefined, filterbyName: undefined, operatingSystem: undefined });
         options.filters = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem);
-
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
         calculateFilters(searchParams, options?.filters);
