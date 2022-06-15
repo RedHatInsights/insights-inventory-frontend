@@ -89,7 +89,7 @@ const Inventory = ({
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
-    const { loading, writePermissions } = useSelector(
+    const { writePermissions } = useSelector(
         ({ permissionsReducer }) =>
             ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
         shallowEqual
@@ -188,7 +188,7 @@ const Inventory = ({
                 <Grid gutter="md">
                     <GridItem span={12}>
                         {
-                            !loading && InvCmp && <InvCmp
+                            InvCmp && <InvCmp
                                 history={history}
                                 store={store}
                                 customFilters={globalFilter}
