@@ -16,7 +16,7 @@ const DetailRenderer = ({ showInventoryDrawer, isRbacEnabled, ...props }) => {
     } else if (isRbacEnabled && hasAccess === false) {
         return <AccessDenied />;
     } else {
-        return showInventoryDrawer ? <DetailWrapper {...props} /> : <React.Fragment {...props} />;
+        return showInventoryDrawer ? <DetailWrapper {...props} /> : <React.Fragment />;
     }
 };
 
