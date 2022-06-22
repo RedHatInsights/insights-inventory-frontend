@@ -372,7 +372,7 @@ EntityTableToolbar.propTypes = {
     showTags: PropTypes.bool,
     getTags: PropTypes.func,
     hasAccess: PropTypes.bool,
-    filterConfig: PrimaryToolbar.propTypes.filterConfig,
+    filterConfig: PrimaryToolbar.propTypes?.filterConfig,
     total: PropTypes.number,
     filters: PropTypes.array,
     hasItems: PropTypes.bool,
@@ -381,9 +381,9 @@ EntityTableToolbar.propTypes = {
     toggleTagModal: PropTypes.func,
     perPage: PropTypes.number,
     children: PropTypes.node,
-    pagination: PrimaryToolbar.propTypes.pagination,
-    actionsConfig: PrimaryToolbar.propTypes.actionsConfig,
-    activeFiltersConfig: PrimaryToolbar.propTypes.activeFiltersConfig,
+    pagination: PrimaryToolbar.propTypes?.pagination,
+    actionsConfig: PrimaryToolbar.propTypes?.actionsConfig,
+    activeFiltersConfig: PrimaryToolbar.propTypes?.activeFiltersConfig,
     onRefreshData: PropTypes.func,
     customFilters: PropTypes.shape({
         tags: PropTypes.oneOfType([
