@@ -17,6 +17,7 @@ plugins.push(
             // System detail
             './SystemDetail': resolve(__dirname, '../src/components/SystemDetails/GeneralInfo.js'),
             // System detail cards
+            './GeneralInformation': resolve(__dirname, '../src/components/GeneralInfo/GeneralInformation/GeneralInformation.js'),
             './SystemCard': resolve(__dirname, '../src/components/GeneralInfo/SystemCard/SystemCard.js'),
             './OperatingSystemCard':
               resolve(__dirname, '../src/components/GeneralInfo/OperatingSystemCard/OperatingSystemCard.js'),
@@ -24,6 +25,7 @@ plugins.push(
             './ConfigurationCard': resolve(__dirname, '../src/components/GeneralInfo/ConfigurationCard/ConfigurationCard.js'),
             './CollectionCard': resolve(__dirname, '../src/components/GeneralInfo/CollectionCard/CollectionCard.js'),
             './BiosCard': resolve(__dirname, '../src/components/GeneralInfo/BiosCard/BiosCard.js'),
+            './DataCollectorsCard': resolve(__dirname, '../src/components/GeneralInfo/DataCollectorsCard/DataCollectorsCard.js'),
             // System detail data providers
             './selectors': resolve(__dirname, '../src/components/GeneralInfo/selectors/index.js'),
             './dataMapper': resolve(__dirname, '../src/components/GeneralInfo/dataMapper/index.js'),
