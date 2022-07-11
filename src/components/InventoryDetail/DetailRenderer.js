@@ -1,32 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { Spinner } from '@patternfly/react-core';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import DetailWrapper from './DetailWrapper';
 import AccessDenied from '../../Utilities/AccessDenied';
 
-const DetailRenderer = ({ showInventoryDrawer, isRbacEnabled, ...props }) => {
-    const { hasAccess, isLoading } = usePermissions('inventory', [
+const DetailRenderer = ({ isRbacEnabled, ...props }) => {
+    const { hasAccess } = usePermissionsWithContext([
         'inventory:*:*',
         'inventory:*:read',
         'inventory:hosts:read'
-    ], true);
-    if (isLoading) {
-        return <Spinner />;
-    } else if (isRbacEnabled && hasAccess === false) {
+    ]);
+
+    if (isRbacEnabled && hasAccess === false) {
         return <AccessDenied />;
     } else {
-        return showInventoryDrawer ? <DetailWrapper {...props} /> : <React.Fragment />;
+        return <DetailWrapper {...props} />;
     }
 };
 
 DetailRenderer.propTypes = {
-    showInventoryDrawer: PropTypes.bool,
     isRbacEnabled: PropTypes.bool
-};
-
-DetailRenderer.defaultProps = {
-    showInventoryDrawer: false
 };
 
 export default DetailRenderer;

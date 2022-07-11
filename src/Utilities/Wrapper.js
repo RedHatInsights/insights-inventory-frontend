@@ -1,25 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { Spinner } from '@patternfly/react-core';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 const RenderWrapper = ({ cmp: Component, hideLoader, isRbacEnabled, inventoryRef, store, ...props }) => {
-    const { hasAccess, isLoading } = usePermissions('inventory', [
+    const { hasAccess } = usePermissionsWithContext([
         'inventory:*:*',
         'inventory:*:read',
         'inventory:hosts:read'
-    ], true);
+    ]);
     return (
-        (isLoading && !hideLoader) ?
-            <Spinner /> :
-            <Component
-                {...props}
-                { ...inventoryRef && {
-                    ref: inventoryRef
-                }}
-                hasAccess={isRbacEnabled ? hasAccess : true}
-                store={ store }
-            />
+        <Component
+            {...props}
+            { ...inventoryRef && {
+                ref: inventoryRef
+            }}
+            hasAccess={isRbacEnabled ? hasAccess : true}
+            store={ store }
+        />
     );
 };
 

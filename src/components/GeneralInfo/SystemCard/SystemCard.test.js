@@ -15,7 +15,7 @@ const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () => ({
     esModule: true,
-    usePermissions: () => ({ hasAccess: true })
+    usePermissionsWithContext: () => ({ hasAccess: true })
 }));
 
 describe('SystemCard', () => {

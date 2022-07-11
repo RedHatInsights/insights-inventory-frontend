@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector, shallowEqual, useStore } from 'react-redux';
+import { useSelector, useStore, useDispatch } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import './inventory.scss';
 import { Link, useHistory } from 'react-router-dom';
@@ -8,25 +8,27 @@ import { entitesDetailReducer, RegistryContext } from '../store';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
-import routerParams from '@redhat-cloud-services/frontend-components-utilities/RouterParams';
 import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 import InventoryDetailHead from '../modules/InventoryDetailHead';
 import AppInfo from '../modules/AppInfo';
 import DetailWrapper from '../modules/DetailWrapper';
+import { useWritePermissions } from '../Utilities/constants';
 
-const Inventory = ({ entity, currentApp, clearNotifications }) => {
+const Inventory = () => {
     const store = useStore();
     const history = useHistory();
+    const dispatch = useDispatch();
     const { params: { inventoryId } } = useRouteMatch('/:inventoryId');
     const { getRegistry } = useContext(RegistryContext);
-    const { writePermissions } = useSelector(
-        ({ permissionsReducer }) =>
-            ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
-        shallowEqual
-    );
+    const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
+    const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
+    const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp?.appName);
+    const firstApp = useSelector(({ entityDetails }) => entityDetails?.activeApps?.[0]);
+    const currentApp = activeApp || (firstApp && firstApp.name);
+    const clearNotifications = () => dispatch(actions.clearNotifications());
 
     useEffect(() => {
         insights.chrome?.hideGlobalFilter?.(true);
@@ -113,27 +115,4 @@ Inventory.contextTypes = {
     store: PropTypes.object
 };
 
-Inventory.propTypes = {
-    history: PropTypes.object,
-    entity: PropTypes.object,
-    loadEntity: PropTypes.func,
-    clearNotifications: PropTypes.func,
-    currentApp: PropTypes.string
-};
-
-function mapStateToProps({ entityDetails }) {
-    const activeApp = entityDetails && entityDetails.activeApp && entityDetails.activeApp.appName;
-    const firstApp = entityDetails && entityDetails.activeApps && entityDetails.activeApps[0];
-    return {
-        entity: entityDetails && entityDetails.entity,
-        currentApp: activeApp || (firstApp && firstApp.name)
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        clearNotifications: () => dispatch(actions.clearNotifications())
-    };
-}
-
-export default routerParams(connect(mapStateToProps, mapDispatchToProps)(Inventory));
+export default Inventory;

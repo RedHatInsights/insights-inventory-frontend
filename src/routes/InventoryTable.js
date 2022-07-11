@@ -15,6 +15,7 @@ import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter } from '../Utilities/constants';
 import { inventoryConnector } from '../Utilities/inventoryConnector';
+import { useWritePermissions } from '../Utilities/constants';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -89,11 +90,7 @@ const Inventory = ({
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
-    const { writePermissions } = useSelector(
-        ({ permissionsReducer }) =>
-            ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
-        shallowEqual
-    );
+    const writePermissions = useWritePermissions();
 
     const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
     const loaded = useSelector(({ entities }) => entities?.loaded);

@@ -106,3 +106,9 @@ export const extraShape = PropTypes.shape({
     plural: PropTypes.node,
     onClick: PropTypes.func
 });
+
+export const INVENTORY_WRITE_PERMISSIONS = [
+    'inventory:*:*',
+    'inventory:hosts:write',
+    'inventory:*:write'
+];
