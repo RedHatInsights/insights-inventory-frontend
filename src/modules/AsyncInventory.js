@@ -4,34 +4,30 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import LoadingFallback from '../components/SpinnerFallback';
 
+import { inventoryConnector } from '../Utilities/inventoryConnector';
+import * as storeMod from '../store/redux';
+import * as utils from '../Utilities/index';
+import * as apiMod from '../api/index';
+
 const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...props }) => {
     const [Component, setComponent] = useState();
     useEffect(() => {
-        (async () => {
-            const { inventoryConnector, mergeWithDetail, shared, api, ...rest } = await Promise.all([
-                import(
-                    /* webpackChunkName: "inventoryConnector" */
-                    '../Utilities/inventoryConnector'
-                ),
-                import(/* webpackChunkName: "inventoryRedux" */ '../store/redux'),
-                import(/* webpackChunkName: "inventoryShared" */ '../Utilities/index'),
-                import(/* webpackChunkName: "inventoryApi" */ '../api/index')
-            ]).then(([{ inventoryConnector }, { mergeWithDetail, ...rest }, shared, api]) => ({
-                inventoryConnector,
-                mergeWithDetail,
-                shared,
-                api,
-                ...rest
-            }));
-            const { [componentName]: InvCmp } = inventoryConnector(store, undefined, undefined, true);
-            onLoad({
-                ...rest,
-                ...shared,
-                api,
-                mergeWithDetail
-            });
-            setComponent(() => InvCmp);
-        })();
+        const [{ mergeWithDetail, ...rest }, shared, api] = [
+            storeMod,
+            utils,
+            apiMod
+        ];
+        const { [componentName]: InvCmp } = inventoryConnector(store, undefined, true, true);
+
+        onLoad({
+            ...rest,
+            ...shared,
+            api,
+            mergeWithDetail
+        });
+
+        setComponent(() => InvCmp);
+
     }, [componentName]);
 
     return (

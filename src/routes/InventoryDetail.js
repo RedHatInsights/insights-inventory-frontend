@@ -21,7 +21,7 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
     const history = useHistory();
     const { params: { inventoryId } } = useRouteMatch('/:inventoryId');
     const { getRegistry } = useContext(RegistryContext);
-    const { loading, writePermissions } = useSelector(
+    const { writePermissions } = useSelector(
         ({ permissionsReducer }) =>
             ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
         shallowEqual
@@ -81,7 +81,7 @@ const Inventory = ({ entity, currentApp, clearNotifications }) => {
                     </BreadcrumbItem>
                 </Breadcrumb>
                 {
-                    !loading && <InventoryDetailHead
+                    <InventoryDetailHead
                         store={store}
                         history={history}
                         fallback=""
