@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
+import { RBACProvider } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import LoadingFallback from '../components/SpinnerFallback';
 
 import { inventoryConnector } from '../Utilities/inventoryConnector';
@@ -17,7 +18,7 @@ const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...pr
             utils,
             apiMod
         ];
-        const { [componentName]: InvCmp } = inventoryConnector(store, undefined, true, true);
+        const { [componentName]: InvCmp } = inventoryConnector(store, undefined, undefined, true);
 
         onLoad({
             ...rest,
@@ -33,7 +34,9 @@ const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...pr
     return (
         <Provider store={store}>
             <Router history={history}>
-                {Component && <Component {...props} fallback={<LoadingFallback />} ref={innerRef} />}
+                <RBACProvider appName="inventory">
+                    {Component && <Component {...props} fallback={<LoadingFallback />} ref={innerRef} />}
+                </RBACProvider>
             </Router>
         </Provider>
     );

@@ -7,7 +7,7 @@ import EditButton from './EditButton';
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () => ({
     esModule: true,
-    usePermissions: () => ({ hasAccess: true })
+    usePermissionsWithContext: () => ({ hasAccess: true })
 }));
 
 describe('EditButton with access', () => {

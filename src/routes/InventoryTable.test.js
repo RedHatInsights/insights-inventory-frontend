@@ -12,6 +12,18 @@ import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
 import { RegistryContext } from '../store';
 
+import { useWritePermissions } from '../Utilities/constants';
+
+jest.mock('../Utilities/constants', () => ({
+    ...jest.requireActual('../Utilities/constants'),
+    useWritePermissions: jest.fn(() => (true))
+}));
+
+jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () => ({
+    esModule: true,
+    usePermissionsWithContext: () => ({ hasAccess: true })
+}));
+
 describe('InventoryTable', () => {
     let mockStore;
 
@@ -80,7 +92,6 @@ describe('InventoryTable', () => {
             total: 1
         },
         notifications: [],
-        permissionsReducer: { loading: false, writePermissions: true },
         routerData: { params: {}, path: '/' },
         systemProfileStore: { systemProfile: { loaded: false } }
     };
@@ -99,6 +110,7 @@ describe('InventoryTable', () => {
 
     beforeEach(() => {
         mockStore = configureStore();
+        useWritePermissions.mockImplementation(() => (true));
     });
 
     it('renders correctly when write permissions', async () => {
@@ -118,11 +130,8 @@ describe('InventoryTable', () => {
 
     it('renders correctly when no write permissions', async () => {
         let wrapper;
-
-        const store = mockStore({
-            ...initialStore,
-            permissionsReducer: { loading: false, writePermissions: false }
-        });
+        useWritePermissions.mockImplementation(() => (false));
+        const store = mockStore(initialStore);
 
         await act(async () => {
             wrapper = mount(<InventoryTable initialLoading={false} />, store);

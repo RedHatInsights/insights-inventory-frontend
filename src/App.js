@@ -4,7 +4,7 @@ import { Routes } from './Routes';
 import './App.scss';
 import { INVENTORY_ROOT } from './config';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
-import PermissionLoader from './components/PermissionsLoader';
+import { RBACProvider } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 const App = () => {
     const history = useHistory();
@@ -26,8 +26,9 @@ const App = () => {
     return (
         <div className="inventory">
             <NotificationsPortal />
-            <PermissionLoader />
-            <Routes />
+            <RBACProvider appName="inventory">
+                <Routes />
+            </RBACProvider>
         </div>
     );
 };
