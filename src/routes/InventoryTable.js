@@ -201,6 +201,7 @@ const Inventory = ({
                                 hasCheckbox={writePermissions}
                                 autoRefresh
                                 initialLoading={initialLoading}
+                                activeFiltersConfig={{ showDeleteButton: true }}
                                 {...(writePermissions && {
                                     actions: [
                                         {

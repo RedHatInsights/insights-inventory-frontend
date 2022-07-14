@@ -6,7 +6,6 @@ exports[`InventoryTable should render correctly - no data 1`] = `
     activeFiltersConfig={
       Object {
         "deleteTitle": "Reset filters",
-        "showDeleteButton": true,
       }
     }
     filters={Array []}
@@ -48,7 +47,6 @@ exports[`InventoryTable should render correctly - with no access 1`] = `
     activeFiltersConfig={
       Object {
         "deleteTitle": "Reset filters",
-        "showDeleteButton": true,
       }
     }
     filters={Array []}
@@ -127,7 +125,6 @@ exports[`InventoryTable should render correctly 1`] = `
     activeFiltersConfig={
       Object {
         "deleteTitle": "Reset filters",
-        "showDeleteButton": true,
       }
     }
     filters={Array []}
@@ -239,7 +236,6 @@ exports[`InventoryTable should render correctly with items 1`] = `
     activeFiltersConfig={
       Object {
         "deleteTitle": "Reset filters",
-        "showDeleteButton": true,
       }
     }
     filters={Array []}
@@ -351,7 +347,6 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
     activeFiltersConfig={
       Object {
         "deleteTitle": "Reset filters",
-        "showDeleteButton": true,
       }
     }
     filters={Array []}

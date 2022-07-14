@@ -341,4 +341,24 @@ describe('EntityTableToolbar', () => {
             );
         });
     });
+
+    describe('Passes activeFilterConfig correctly', () => {
+        it('Uses the activeFilterConfig  when passed it, uses the text passed in instead of the default', () => {
+            const store = mockStore(initialState);
+            const wrapper = mount(<Provider store={store}>
+                <EntityTableToolbar hasItems onRefreshData={onRefreshData} loaded
+                    activeFiltersConfig={{ deleteTitle: 'Test Reset Filters' }}/>
+            </Provider>);
+            expect(toJson(wrapper.find('Test Reset Filter')));
+            expect(toJson(wrapper.find('Reset Filter'))).toBeFalsy();
+        });
+        it('Uses the default activeFilterConfig when nothing is passed in, finds default text', () => {
+            const store = mockStore(initialState);
+            const wrapper = mount(<Provider store={store}>
+                <EntityTableToolbar hasItems onRefreshData={onRefreshData} loaded/>
+            </Provider>);
+            expect(toJson(wrapper.find('Reset Filter')));
+            expect(toJson(wrapper.find('Test Reset Filter'))).toBeFalsy();
+        });
+    });
 });
