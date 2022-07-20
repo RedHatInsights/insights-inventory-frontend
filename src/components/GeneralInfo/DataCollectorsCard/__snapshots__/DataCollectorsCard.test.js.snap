@@ -36,6 +36,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
         class=""
       >
         <tr
+          aria-label=""
           class="ins-c__no-border"
           data-ouia-component-id="OUIA-Generated-TableRow-1"
           data-ouia-component-type="PF4/TableRow"
@@ -69,6 +70,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
         role="rowgroup"
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-2"
           data-ouia-component-type="PF4/TableRow"
@@ -129,6 +131,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
           </td>
         </tr>
         <tr
+          aria-label=""
           class="pf-c-table__expandable-row"
           data-ouia-component-id="OUIA-Generated-TableRow-3"
           data-ouia-component-type="PF4/TableRow"
@@ -168,6 +171,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
         role="rowgroup"
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-4"
           data-ouia-component-type="PF4/TableRow"
@@ -228,6 +232,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
           </td>
         </tr>
         <tr
+          aria-label=""
           class="pf-c-table__expandable-row"
           data-ouia-component-id="OUIA-Generated-TableRow-5"
           data-ouia-component-type="PF4/TableRow"
@@ -267,6 +272,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
         role="rowgroup"
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-6"
           data-ouia-component-type="PF4/TableRow"
@@ -336,6 +342,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
         class=""
       >
         <tr
+          aria-label=""
           class="ins-c__no-border"
           data-ouia-component-id="OUIA-Generated-TableRow-7"
           data-ouia-component-type="PF4/TableRow"
@@ -369,6 +376,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
         role="rowgroup"
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-8"
           data-ouia-component-type="PF4/TableRow"
@@ -429,6 +437,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
           </td>
         </tr>
         <tr
+          aria-label=""
           class="pf-c-table__expandable-row"
           data-ouia-component-id="OUIA-Generated-TableRow-9"
           data-ouia-component-type="PF4/TableRow"
@@ -468,6 +477,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
         role="rowgroup"
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-10"
           data-ouia-component-type="PF4/TableRow"
@@ -528,6 +538,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
           </td>
         </tr>
         <tr
+          aria-label=""
           class="pf-c-table__expandable-row"
           data-ouia-component-id="OUIA-Generated-TableRow-11"
           data-ouia-component-type="PF4/TableRow"
@@ -567,6 +578,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
         role="rowgroup"
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-12"
           data-ouia-component-type="PF4/TableRow"
@@ -636,6 +648,7 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
         class=""
       >
         <tr
+          aria-label=""
           class="ins-c__no-border"
           data-ouia-component-id="OUIA-Generated-TableRow-13"
           data-ouia-component-type="PF4/TableRow"
@@ -669,6 +682,7 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
         role="rowgroup"
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-14"
           data-ouia-component-type="PF4/TableRow"
@@ -729,6 +743,7 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
           </td>
         </tr>
         <tr
+          aria-label=""
           class="pf-c-table__expandable-row"
           data-ouia-component-id="OUIA-Generated-TableRow-15"
           data-ouia-component-type="PF4/TableRow"

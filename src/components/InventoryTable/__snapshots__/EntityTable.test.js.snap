@@ -13,6 +13,7 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
     class=""
   >
     <tr
+      aria-label=""
       class=""
       data-ouia-component-id="OUIA-Generated-TableRow-35"
       data-ouia-component-type="PF4/TableRow"
@@ -23,11 +24,13 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
         data-key="0"
         data-label=""
       >
-        <input
-          aria-label="Select all rows"
-          name="check-all"
-          type="checkbox"
-        />
+        <label>
+          <input
+            aria-label="Select all rows"
+            name="check-all"
+            type="checkbox"
+          />
+        </label>
       </td>
       <th
         aria-sort="none"
@@ -75,6 +78,7 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
     role="rowgroup"
   >
     <tr
+      aria-label=""
       class=""
       data-ouia-component-id="OUIA-Generated-TableRow-36"
       data-ouia-component-type="PF4/TableRow"
@@ -84,11 +88,13 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
         class="pf-c-table__check"
         data-key="0"
       >
-        <input
-          aria-label="Select row 0"
-          name="checkrow0"
-          type="checkbox"
-        />
+        <label>
+          <input
+            aria-label="Select row 0"
+            name="checkrow0"
+            type="checkbox"
+          />
+        </label>
       </td>
       <td
         class=""
@@ -120,6 +126,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
 <Table
   aria-label="Host inventory"
   borders={true}
+  canCollapseAll={false}
   canSelectAll={true}
   canSortFavorites={true}
   cells={
@@ -181,6 +188,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
     ]
   }
   className="ins-c-entity-table"
+  collapseAllAriaLabel=""
   contentId="expanded-content"
   dropdownDirection="down"
   dropdownPosition="right"
@@ -230,6 +238,7 @@ exports[`EntityTable DOM should render correctly - is expandable 1`] = `
 <Table
   aria-label="Host inventory"
   borders={true}
+  canCollapseAll={false}
   canSelectAll={true}
   canSortFavorites={true}
   cells={
@@ -249,6 +258,7 @@ exports[`EntityTable DOM should render correctly - is expandable 1`] = `
     ]
   }
   className="ins-c-entity-table"
+  collapseAllAriaLabel=""
   contentId="expanded-content"
   dropdownDirection="down"
   dropdownPosition="right"
@@ -335,6 +345,7 @@ exports[`EntityTable DOM should render correctly - no rows 1`] = `
     class=""
   >
     <tr
+      aria-label=""
       class=""
       data-ouia-component-id="OUIA-Generated-TableRow-17"
       data-ouia-component-type="PF4/TableRow"
@@ -355,6 +366,7 @@ exports[`EntityTable DOM should render correctly - no rows 1`] = `
     role="rowgroup"
   >
     <tr
+      aria-label=""
       class=""
       data-ouia-component-id="OUIA-Generated-TableRow-18"
       data-ouia-component-type="PF4/TableRow"
@@ -397,6 +409,7 @@ exports[`EntityTable DOM should render correctly - with actions 1`] = `
   actions={Array []}
   aria-label="Host inventory"
   borders={true}
+  canCollapseAll={false}
   canSelectAll={true}
   canSortFavorites={true}
   cells={
@@ -414,6 +427,7 @@ exports[`EntityTable DOM should render correctly - with actions 1`] = `
     ]
   }
   className="ins-c-entity-table"
+  collapseAllAriaLabel=""
   contentId="expanded-content"
   dropdownDirection="down"
   dropdownPosition="right"
@@ -484,6 +498,7 @@ exports[`EntityTable DOM should render correctly - with customNoSystemsTable 1`]
     class=""
   >
     <tr
+      aria-label=""
       class=""
       data-ouia-component-id="OUIA-Generated-TableRow-19"
       data-ouia-component-type="PF4/TableRow"
@@ -504,6 +519,7 @@ exports[`EntityTable DOM should render correctly - with customNoSystemsTable 1`]
     role="rowgroup"
   >
     <tr
+      aria-label=""
       class=""
       data-ouia-component-id="OUIA-Generated-TableRow-20"
       data-ouia-component-type="PF4/TableRow"
@@ -527,6 +543,7 @@ exports[`EntityTable DOM should render correctly - without checkbox 1`] = `
 <Table
   aria-label="Host inventory"
   borders={true}
+  canCollapseAll={false}
   canSelectAll={true}
   canSortFavorites={true}
   cells={
@@ -544,6 +561,7 @@ exports[`EntityTable DOM should render correctly - without checkbox 1`] = `
     ]
   }
   className="ins-c-entity-table"
+  collapseAllAriaLabel=""
   contentId="expanded-content"
   dropdownDirection="down"
   dropdownPosition="right"
@@ -613,6 +631,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
     class=""
   >
     <tr
+      aria-label=""
       class=""
       data-ouia-component-id="OUIA-Generated-TableRow-39"
       data-ouia-component-type="PF4/TableRow"
@@ -623,11 +642,13 @@ exports[`EntityTable DOM should render correctly 1`] = `
         data-key="0"
         data-label=""
       >
-        <input
-          aria-label="Select all rows"
-          name="check-all"
-          type="checkbox"
-        />
+        <label>
+          <input
+            aria-label="Select all rows"
+            name="check-all"
+            type="checkbox"
+          />
+        </label>
       </td>
       <th
         aria-sort="none"
@@ -675,6 +696,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
     role="rowgroup"
   >
     <tr
+      aria-label=""
       class=""
       data-ouia-component-id="OUIA-Generated-TableRow-40"
       data-ouia-component-type="PF4/TableRow"
@@ -684,11 +706,13 @@ exports[`EntityTable DOM should render correctly 1`] = `
         class="pf-c-table__check"
         data-key="0"
       >
-        <input
-          aria-label="Select row 0"
-          name="checkrow0"
-          type="checkbox"
-        />
+        <label>
+          <input
+            aria-label="Select row 0"
+            name="checkrow0"
+            type="checkbox"
+          />
+        </label>
       </td>
       <td
         class=""
@@ -722,6 +746,7 @@ exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
 <Table
   aria-label="Host inventory"
   borders={true}
+  canCollapseAll={false}
   canSelectAll={true}
   canSortFavorites={true}
   cells={
@@ -741,6 +766,7 @@ exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
     ]
   }
   className="ins-c-entity-table"
+  collapseAllAriaLabel=""
   contentId="expanded-content"
   dropdownDirection="down"
   dropdownPosition="right"
@@ -803,6 +829,7 @@ exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] 
 <Table
   aria-label="Host inventory"
   borders={true}
+  canCollapseAll={false}
   canSelectAll={true}
   canSortFavorites={true}
   cells={
@@ -820,6 +847,7 @@ exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] 
     ]
   }
   className="ins-c-entity-table"
+  collapseAllAriaLabel=""
   contentId="expanded-content"
   dropdownDirection="down"
   dropdownPosition="right"
@@ -880,6 +908,7 @@ exports[`EntityTable DOM sort by should render correctly 1`] = `
 <Table
   aria-label="Host inventory"
   borders={true}
+  canCollapseAll={false}
   canSelectAll={true}
   canSortFavorites={true}
   cells={
@@ -897,6 +926,7 @@ exports[`EntityTable DOM sort by should render correctly 1`] = `
     ]
   }
   className="ins-c-entity-table"
+  collapseAllAriaLabel=""
   contentId="expanded-content"
   dropdownDirection="down"
   dropdownPosition="right"
