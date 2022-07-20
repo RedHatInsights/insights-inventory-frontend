@@ -33,7 +33,7 @@ const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...pr
     return (
         <Provider store={store}>
             <Router history={history}>
-                {Component && <Component {...props} fallback={LoadingFallback} ref={innerRef} />}
+                {Component && <Component {...props} fallback={<LoadingFallback />} ref={innerRef} />}
             </Router>
         </Provider>
     );
