@@ -9,28 +9,42 @@ import { inventoryConnector } from '../Utilities/inventoryConnector';
 import * as storeMod from '../store/redux';
 import * as utils from '../Utilities/index';
 import * as apiMod from '../api/index';
+const { mergeWithDetail, ...rest } = storeMod;
 
-const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...props }) => {
-    const { [componentName]: Component } = useMemo(() => inventoryConnector(store, undefined, undefined, true), [componentName]);
+const ConnectorWithFallBack = ({ componentName, Component, innerRef, ...props }) =>
+    (Component && componentName) ?
+        <Component {...props} fallback={<LoadingFallback />} ref={innerRef} /> : 'No AsyncComponent "' + componentName + '"';
+
+ConnectorWithFallBack.propTypes = {
+    componentName: PropTypes.string,
+    Component: PropTypes.node,
+    innerRef: PropTypes.shape({
+        current: PropTypes.any
+    })
+};
+
+const AsyncInventory = ({ componentName, onLoad, store, history, ...props }) => {
+    const { [componentName]: Component } = useMemo(() => (
+        inventoryConnector(store, undefined, undefined, true)
+    ), [componentName]);
 
     useEffect(() => {
-        const { mergeWithDetail, ...rest } = storeMod;
-        onLoad?.({
+        componentName && onLoad?.({
             ...rest,
             ...utils,
             api: apiMod,
             mergeWithDetail
         });
-    }, []);
+    }, [componentName]);
 
     return (
-        <Provider store={store}>
-            <RBACProvider appName="inventory">
+        <RBACProvider appName="inventory">
+            <Provider store={store}>
                 <Router history={history}>
-                    <Component {...props} fallback={<LoadingFallback />} ref={innerRef} />
+                    <ConnectorWithFallBack {...props} componentName={componentName} Component={Component} />
                 </Router>
-            </RBACProvider>
-        </Provider>
+            </Provider>
+        </RBACProvider>
     );
 };
 
@@ -38,10 +52,7 @@ AsyncInventory.propTypes = {
     store: PropTypes.object,
     onLoad: PropTypes.func,
     componentName: PropTypes.string,
-    history: PropTypes.object,
-    innerRef: PropTypes.shape({
-        current: PropTypes.any
-    })
+    history: PropTypes.object
 };
 
 AsyncInventory.defaultProps = {
