@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -11,33 +11,25 @@ import * as utils from '../Utilities/index';
 import * as apiMod from '../api/index';
 
 const AsyncInventory = ({ componentName, onLoad, store, history, innerRef, ...props }) => {
-    const [Component, setComponent] = useState();
-    useEffect(() => {
-        const [{ mergeWithDetail, ...rest }, shared, api] = [
-            storeMod,
-            utils,
-            apiMod
-        ];
-        const { [componentName]: InvCmp } = inventoryConnector(store, undefined, undefined, true);
+    const { [componentName]: Component } = useMemo(() => inventoryConnector(store, undefined, undefined, true), [componentName]);
 
-        onLoad({
+    useEffect(() => {
+        const { mergeWithDetail, ...rest } = storeMod;
+        onLoad?.({
             ...rest,
-            ...shared,
-            api,
+            ...utils,
+            api: apiMod,
             mergeWithDetail
         });
-
-        setComponent(() => InvCmp);
-
-    }, [componentName]);
+    }, []);
 
     return (
         <Provider store={store}>
-            <Router history={history}>
-                <RBACProvider appName="inventory">
-                    {Component && <Component {...props} fallback={<LoadingFallback />} ref={innerRef} />}
-                </RBACProvider>
-            </Router>
+            <RBACProvider appName="inventory">
+                <Router history={history}>
+                    <Component {...props} fallback={<LoadingFallback />} ref={innerRef} />
+                </Router>
+            </RBACProvider>
         </Provider>
     );
 };
