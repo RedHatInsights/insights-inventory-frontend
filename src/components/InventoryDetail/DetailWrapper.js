@@ -20,9 +20,9 @@ import FactsInfo from './FactsInfo';
 const DetailWrapper = ({ children, hideInvLink, showTags, Wrapper, className, appName, ...props }) => {
     const dispatch = useDispatch();
     const store = useStore();
-    const isExpanded = useSelector(({ entityDetails: { isToggleOpened } }) => isToggleOpened);
-    const entity = useSelector(({ entityDetails: { entity } }) => entity);
-    const loaded = useSelector(({ entityDetails: { loaded } }) => loaded);
+    const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
+    const isExpanded = useSelector(({ entityDetails }) => entityDetails?.isToggleOpened);
+    const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
 
     return <Drawer
         className={`ins-c-inventory__drawer ${className || ''}`}
