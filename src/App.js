@@ -4,7 +4,7 @@ import { Routes } from './Routes';
 import './App.scss';
 import { INVENTORY_ROOT } from './config';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
-import { RBACProvider } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 
 const App = () => {
     const history = useHistory();

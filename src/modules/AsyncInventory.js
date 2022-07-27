@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import { RBACProvider } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 import LoadingFallback from '../components/SpinnerFallback';
 
 import { inventoryConnector } from '../Utilities/inventoryConnector';
