@@ -222,12 +222,15 @@ describe('EntityTable', () => {
                     columns: defaultColumns,
                     rows: [{
                         id: 'testing-id',
-                        insights_id: null,
                         system_profile: {}
                     }, {
                         id: 'testing-id-1',
-                        insights_id: 'some-id-herse',
-                        system_profile: {}
+                        system_profile: {},
+                        per_reporter_staleness: {
+                            puptoo: {
+                                stale_timestamp: '2022-07-07T18:22:04.663407+00:00'
+                            }
+                        }
                     }]
                 }
             };
