@@ -95,6 +95,21 @@ describe('DetailWrapper', () => {
         });
 
         it('should render disabled isnights icon when no insights_id', () => {
+            initialState = {
+                entityDetails: {
+                    loaded: true,
+                    entity: {
+                        id: 'some-id',
+                        updated: new Date(),
+                        culled_timestamp: new Date(),
+                        stale_warning_timestamp: new Date(),
+                        stale_timestamp: new Date(),
+                        per_reporter_staleness: {}
+                    },
+                    isToggleOpened: true
+                }
+            };
+
             const store = mockStore(initialState);
             const wrapper = mount(<Provider store={ store }>
                 <DetailWrapper Wrapper={() => <div className="test">something</div>}/>

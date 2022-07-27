@@ -21,6 +21,7 @@ import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
 import { defaultFilters } from '../Utilities/constants';
+import { verifyDisconnectedSystem } from '../Utilities/sharedFunctions';
 
 export const defaultState = {
     loaded: false,
@@ -65,7 +66,8 @@ export const defaultColumns = [
             value,
             _id,
             {
-                culled_timestamp: culled, stale_warning_timestamp: staleWarn, stale_timestamp: stale, insights_id: insightsId
+                culled_timestamp: culled, stale_warning_timestamp: staleWarn, stale_timestamp: stale,
+                per_reporter_staleness: perReporterStaleness
             }) => {
             return CullingInformation ? <CullingInformation
                 culled={culled}
@@ -78,7 +80,7 @@ export const defaultColumns = [
                         Last seen:{` `}
                         </React.Fragment>
                     ) }/>
-                    {!insightsId && <InsightsDisconnected />}
+                    {verifyDisconnectedSystem(perReporterStaleness) && <InsightsDisconnected />}
                 </React.Fragment>
                 }
             > <DateFormat date={ value } /> </CullingInformation> : new Date(value).toLocaleString();
