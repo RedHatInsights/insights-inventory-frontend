@@ -30,7 +30,7 @@ const InsightsPrompt = () => {
                                 <CardBody>Make sure the client is properly installed and registered</CardBody>
                                 <CardFooter>
                                     <ClipboardCopy isCode isReadOnly variant={'expansion'}>
-                                        {'yum install -y insights \ninsights-client --register'}
+                                        {'yum install -y insights-client \ninsights-client --register'}
                                     </ClipboardCopy>
                                 </CardFooter>
                             </Card>
