@@ -10,13 +10,15 @@ import InventoryTable, { calculatePagination } from './InventoryTable';
 import DeleteModal from '../Utilities/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
-import { RegistryContext } from '../store';
 
-import { useWritePermissions } from '../Utilities/constants';
+import { useWritePermissions, useGetRegistry } from '../Utilities/constants';
 
 jest.mock('../Utilities/constants', () => ({
     ...jest.requireActual('../Utilities/constants'),
-    useWritePermissions: jest.fn(() => (true))
+    useWritePermissions: jest.fn(() => (true)),
+    useGetRegistry: jest.fn(() => ({
+        getRegistry: () => ({})
+    }))
 }));
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () => ({
@@ -97,20 +99,17 @@ describe('InventoryTable', () => {
     };
 
     const mount = (children, store) => enzymeMount(
-        <RegistryContext.Provider value={{
-            getRegistry: () => ({ register: jest.fn() })
-        }}>
-            <ReactRouterDOM.MemoryRouter>
-                <Provider store={store}>
-                    {children}
-                </Provider>
-            </ReactRouterDOM.MemoryRouter>
-        </RegistryContext.Provider>
+        <ReactRouterDOM.MemoryRouter>
+            <Provider store={store}>
+                {children}
+            </Provider>
+        </ReactRouterDOM.MemoryRouter>
     );
 
     beforeEach(() => {
         mockStore = configureStore();
         useWritePermissions.mockImplementation(() => (true));
+        useGetRegistry.mockImplementation(() => (() => ({ register: () => ({}) })));
     });
 
     it('renders correctly when write permissions', async () => {

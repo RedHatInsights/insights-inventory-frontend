@@ -13,7 +13,7 @@ import { addNotification as addNotificationAction } from '@redhat-cloud-services
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
-import { defaultFilters, generateFilter } from '../Utilities/constants';
+import { defaultFilters, generateFilter, useGetRegistry } from '../Utilities/constants';
 import { inventoryConnector } from '../Utilities/inventoryConnector';
 import { useWritePermissions } from '../Utilities/constants';
 
@@ -83,7 +83,7 @@ const Inventory = ({
     document.title = 'Inventory | Red Hat Insights';
     const history = useHistory();
     const store = useStore();
-    const { getRegistry } = useContext(RegistryContext);
+    const getRegistry = useGetRegistry();
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
