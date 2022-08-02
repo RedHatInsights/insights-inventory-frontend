@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
-import { tableReducer, RegistryContext } from '../store';
+import { tableReducer } from '../store';
 import { mergeWithEntities } from '../store/reducers';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
