@@ -12,7 +12,7 @@ const InventoryApp = () => {
     const store = registry?.getStore();
 
     useEffect(() => {
-        setRegistry(init(IS_DEV ? logger : undefined));
+        setRegistry(IS_DEV ? init(logger) : init());
 
         return () => {
             setRegistry(undefined);
