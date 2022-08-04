@@ -22,8 +22,6 @@ import entityDetailsReducer, { entityDefaultState as entityDefault } from './ent
 
 export { entitiesReducer, entityDetailsReducer };
 
-import permissionsReducer from './permissions/reducer';
-
 const defaultState = { loaded: false, selected: new Map() };
 
 function entitiesLoaded(state, { payload }) {
@@ -158,8 +156,7 @@ function onSetPagination(state, { payload }) {
 
 let reducers = {
     notifications: notificationsReducer,
-    systemProfileStore,
-    permissionsReducer
+    systemProfileStore
 };
 
 export const tableReducer = applyReducerHash(

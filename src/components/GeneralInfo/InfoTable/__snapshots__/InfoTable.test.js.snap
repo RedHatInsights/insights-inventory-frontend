@@ -61,6 +61,7 @@ exports[`InfoTable api expandable should open 1`] = `
       className=" ins-c-primary-toolbar"
       id="ins-primary-data-toolbar"
       ouiaId="PrimaryToolbar"
+      toggleIsExpanded={[Function]}
     >
       <div
         className="pf-c-toolbar  ins-c-primary-toolbar"
@@ -807,7 +808,6 @@ exports[`InfoTable api expandable should open 1`] = `
           }
           clearFiltersButtonText="Clear all filters"
           collapseListedFiltersBreakpoint="lg"
-          isExpanded={false}
           numberOfFilters={0}
           showClearFiltersButton={false}
         >

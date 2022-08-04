@@ -1,5 +1,9 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { INVENTORY_WRITE_PERMISSIONS } from '../constants';
+import { RegistryContext } from '../store';
 import { loadEntities } from '../store/actions';
+
 export const TEXT_FILTER = 'hostname_or_id';
 export const TEXTUAL_CHIP = 'textual';
 export const TAG_CHIP = 'tags';
@@ -258,3 +262,15 @@ export const generateFilter = (status, source, tagsFilter, filterbyName, operati
         osFilter: Array.isArray(operatingSystem) ? operatingSystem : [operatingSystem]
     }
 ].filter(Boolean));
+
+export const useWritePermissions = () => {
+    const { hasAccess } = usePermissionsWithContext(INVENTORY_WRITE_PERMISSIONS);
+
+    return hasAccess;
+};
+
+export const useGetRegistry = () => {
+    const { getRegistry } = useContext(RegistryContext);
+
+    return getRegistry;
+};

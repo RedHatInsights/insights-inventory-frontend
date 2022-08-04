@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
-import { tableReducer, RegistryContext } from '../store';
+import { tableReducer } from '../store';
 import { mergeWithEntities } from '../store/reducers';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
@@ -13,8 +13,9 @@ import { addNotification as addNotificationAction } from '@redhat-cloud-services
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
-import { defaultFilters, generateFilter } from '../Utilities/constants';
+import { defaultFilters, generateFilter, useGetRegistry } from '../Utilities/constants';
 import { inventoryConnector } from '../Utilities/inventoryConnector';
+import { useWritePermissions } from '../Utilities/constants';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -82,18 +83,14 @@ const Inventory = ({
     document.title = 'Inventory | Red Hat Insights';
     const history = useHistory();
     const store = useStore();
-    const { getRegistry } = useContext(RegistryContext);
+    const getRegistry = useGetRegistry();
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState([]);
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
-    const { writePermissions } = useSelector(
-        ({ permissionsReducer }) =>
-            ({ loading: permissionsReducer?.loading, writePermissions: permissionsReducer?.writePermissions }),
-        shallowEqual
-    );
+    const writePermissions = useWritePermissions();
 
     const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
     const loaded = useSelector(({ entities }) => entities?.loaded);

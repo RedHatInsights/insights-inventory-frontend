@@ -1,10 +1,10 @@
 import React from 'react';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 
-const fallback = (
+const Fallback = () => (
     <Bullseye>
         <Spinner size="xl" />
     </Bullseye>
 );
 
-export default fallback;
+export default Fallback;

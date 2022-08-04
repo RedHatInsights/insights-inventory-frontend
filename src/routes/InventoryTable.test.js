@@ -10,7 +10,21 @@ import InventoryTable, { calculatePagination } from './InventoryTable';
 import DeleteModal from '../Utilities/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
-import { RegistryContext } from '../store';
+
+import { useWritePermissions, useGetRegistry } from '../Utilities/constants';
+
+jest.mock('../Utilities/constants', () => ({
+    ...jest.requireActual('../Utilities/constants'),
+    useWritePermissions: jest.fn(() => (true)),
+    useGetRegistry: jest.fn(() => ({
+        getRegistry: () => ({})
+    }))
+}));
+
+jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () => ({
+    esModule: true,
+    usePermissionsWithContext: () => ({ hasAccess: true })
+}));
 
 describe('InventoryTable', () => {
     let mockStore;
@@ -80,25 +94,22 @@ describe('InventoryTable', () => {
             total: 1
         },
         notifications: [],
-        permissionsReducer: { loading: false, writePermissions: true },
         routerData: { params: {}, path: '/' },
         systemProfileStore: { systemProfile: { loaded: false } }
     };
 
     const mount = (children, store) => enzymeMount(
-        <RegistryContext.Provider value={{
-            getRegistry: () => ({ register: jest.fn() })
-        }}>
-            <ReactRouterDOM.MemoryRouter>
-                <Provider store={store}>
-                    {children}
-                </Provider>
-            </ReactRouterDOM.MemoryRouter>
-        </RegistryContext.Provider>
+        <ReactRouterDOM.MemoryRouter>
+            <Provider store={store}>
+                {children}
+            </Provider>
+        </ReactRouterDOM.MemoryRouter>
     );
 
     beforeEach(() => {
         mockStore = configureStore();
+        useWritePermissions.mockImplementation(() => (true));
+        useGetRegistry.mockImplementation(() => (() => ({ register: () => ({}) })));
     });
 
     it('renders correctly when write permissions', async () => {
@@ -118,11 +129,8 @@ describe('InventoryTable', () => {
 
     it('renders correctly when no write permissions', async () => {
         let wrapper;
-
-        const store = mockStore({
-            ...initialStore,
-            permissionsReducer: { loading: false, writePermissions: false }
-        });
+        useWritePermissions.mockImplementation(() => (false));
+        const store = mockStore(initialStore);
 
         await act(async () => {
             wrapper = mount(<InventoryTable initialLoading={false} />, store);

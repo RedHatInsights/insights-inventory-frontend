@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 import { PencilAltIcon } from '@patternfly/react-icons';
 
@@ -23,7 +23,7 @@ InnerButton.propTypes = {
 let permissionsCache = undefined;
 
 const EditButtonUnknownPermissions = (props) => {
-    const { hasAccess } = usePermissions('inventory', [
+    const { hasAccess } = usePermissionsWithContext([
         'inventory:*:*',
         'inventory:hosts:write',
         'inventory:*:write'
