@@ -108,6 +108,7 @@ exports[`InfoTable api expandable should open 1`] = `
                     ouiaSafe={true}
                     page={1}
                     perPage={10}
+                    perPageComponent="div"
                     perPageOptions={
                       Array [
                         Object {
@@ -134,8 +135,9 @@ exports[`InfoTable api expandable should open 1`] = `
                         "items": "",
                         "itemsPerPage": "Items per page",
                         "ofWord": "of",
-                        "optionsToggle": "Items per page",
+                        "optionsToggle": "",
                         "page": "",
+                        "pages": "",
                         "paginationTitle": "Pagination",
                         "perPageSuffix": "per page",
                         "toFirstPage": "Go to first page",
@@ -144,7 +146,6 @@ exports[`InfoTable api expandable should open 1`] = `
                         "toPreviousPage": "Go to previous page",
                       }
                     }
-                    toggleTemplate={[Function]}
                     variant="top"
                     widgetId="pagination-options-menu"
                   >
@@ -190,10 +191,12 @@ exports[`InfoTable api expandable should open 1`] = `
                         itemsTitle=""
                         lastIndex={4}
                         lastPage={1}
+                        ofWord="of"
                         onPerPageSelect={[Function]}
-                        optionsToggle="Items per page"
+                        optionsToggle=""
                         page={1}
                         perPage={10}
+                        perPageComponent="div"
                         perPageOptions={
                           Array [
                             Object {
@@ -271,9 +274,11 @@ exports[`InfoTable api expandable should open 1`] = `
                               </DropdownItem>,
                             ]
                           }
+                          isFlipEnabled={false}
                           isGrouped={false}
                           isOpen={false}
                           isPlain={true}
+                          isText={false}
                           menuAppendTo="inline"
                           onSelect={[Function]}
                           position="left"
@@ -286,9 +291,11 @@ exports[`InfoTable api expandable should open 1`] = `
                               itemsPerPageTitle="Items per page"
                               itemsTitle=""
                               lastIndex={4}
+                              ofWord="of"
                               onToggle={[Function]}
-                              optionsToggle="Items per page"
+                              optionsToggle=""
                               parentRef={null}
+                              perPageComponent="div"
                               showToggle={true}
                               toggleTemplate={[Function]}
                               widgetId="pagination-options-menu"
@@ -308,14 +315,16 @@ exports[`InfoTable api expandable should open 1`] = `
                               isDisabled={false}
                               isOpen={false}
                               isPlain={true}
+                              isText={false}
                               itemCount={4}
                               itemsPerPageTitle="Items per page"
                               itemsTitle=""
                               key=".0"
                               lastIndex={4}
+                              ofWord="of"
                               onEnter={[Function]}
                               onToggle={[Function]}
-                              optionsToggle="Items per page"
+                              optionsToggle=""
                               parentRef={
                                 Object {
                                   "current": <div
@@ -345,6 +354,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       </span>
                                       <button
                                         aria-expanded="false"
+                                        aria-haspopup="listbox"
                                         aria-label="Items per page"
                                         class="  pf-c-options-menu__toggle-button"
                                         data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
@@ -375,6 +385,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                   </div>,
                                 }
                               }
+                              perPageComponent="div"
                               showToggle={true}
                               toggleTemplate={[Function]}
                               widgetId="pagination-options-menu"
@@ -390,6 +401,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     itemCount={4}
                                     itemsTitle=""
                                     lastIndex={4}
+                                    ofWord="of"
                                   >
                                     <b>
                                       1
@@ -406,6 +418,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                   </ToggleTemplate>
                                 </span>
                                 <DropdownToggle
+                                  aria-haspopup="listbox"
                                   aria-label="Items per page"
                                   className="pf-c-options-menu__toggle-button"
                                   id="pagination-options-menu-toggle-1"
@@ -442,6 +455,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                           </span>
                                           <button
                                             aria-expanded="false"
+                                            aria-haspopup="listbox"
                                             aria-label="Items per page"
                                             class="  pf-c-options-menu__toggle-button"
                                             data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
@@ -474,6 +488,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                   }
                                 >
                                   <Toggle
+                                    aria-haspopup="listbox"
                                     aria-label="Items per page"
                                     bubbleEvent={false}
                                     className="pf-c-options-menu__toggle-button"
@@ -488,6 +503,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     isPlain={false}
                                     isPrimary={false}
                                     isSplitButton={false}
+                                    isText={false}
                                     onEnter={[Function]}
                                     onToggle={[Function]}
                                     parentRef={
@@ -519,6 +535,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                             </span>
                                             <button
                                               aria-expanded="false"
+                                              aria-haspopup="listbox"
                                               aria-label="Items per page"
                                               class="  pf-c-options-menu__toggle-button"
                                               data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
@@ -549,9 +566,11 @@ exports[`InfoTable api expandable should open 1`] = `
                                         </div>,
                                       }
                                     }
+                                    toggleVariant="default"
                                   >
                                     <button
                                       aria-expanded={false}
+                                      aria-haspopup="listbox"
                                       aria-label="Items per page"
                                       className="  pf-c-options-menu__toggle-button"
                                       data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
@@ -605,6 +624,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         firstPage={1}
                         isCompact={true}
                         isDisabled={false}
+                        itemCount={4}
                         lastPage={1}
                         ofWord="of"
                         onFirstClick={[Function]}
@@ -615,6 +635,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         onSetPage={[Function]}
                         page={1}
                         pagesTitle=""
+                        pagesTitlePlural=""
                         paginationTitle="Pagination"
                         perPage={10}
                         toFirstPage="Go to first page"
@@ -809,6 +830,7 @@ exports[`InfoTable api expandable should open 1`] = `
           clearFiltersButtonText="Clear all filters"
           collapseListedFiltersBreakpoint="lg"
           numberOfFilters={0}
+          numberOfFiltersText={[Function]}
           showClearFiltersButton={false}
         >
           <div
@@ -835,6 +857,7 @@ exports[`InfoTable api expandable should open 1`] = `
   <Table
     aria-label="General information dialog table"
     borders={true}
+    canCollapseAll={false}
     canSelectAll={true}
     canSortFavorites={true}
     cells={
@@ -844,6 +867,7 @@ exports[`InfoTable api expandable should open 1`] = `
       ]
     }
     className=""
+    collapseAllAriaLabel=""
     contentId="expanded-content"
     dropdownDirection="down"
     dropdownPosition="right"
@@ -953,10 +977,13 @@ exports[`InfoTable api expandable should open 1`] = `
               "actionResolver": undefined,
               "actions": undefined,
               "actionsToggle": undefined,
+              "allRowsExpanded": false,
               "allRowsSelected": false,
               "areActionsDisabled": undefined,
+              "canCollapseAll": false,
               "canSelectAll": true,
               "canSortFavorites": true,
+              "collapseAllAriaLabel": "",
               "contentId": "expanded-content",
               "dropdownDirection": "down",
               "dropdownPosition": "right",
@@ -980,7 +1007,6 @@ exports[`InfoTable api expandable should open 1`] = `
               "formatters": Array [],
               "label": "",
               "transforms": Array [
-                [Function],
                 [Function],
                 [Function],
               ],
@@ -1007,10 +1033,13 @@ exports[`InfoTable api expandable should open 1`] = `
               "actionResolver": undefined,
               "actions": undefined,
               "actionsToggle": undefined,
+              "allRowsExpanded": false,
               "allRowsSelected": false,
               "areActionsDisabled": undefined,
+              "canCollapseAll": false,
               "canSelectAll": true,
               "canSortFavorites": true,
+              "collapseAllAriaLabel": "",
               "contentId": "expanded-content",
               "dropdownDirection": "down",
               "dropdownPosition": "right",
@@ -1060,10 +1089,13 @@ exports[`InfoTable api expandable should open 1`] = `
               "actionResolver": undefined,
               "actions": undefined,
               "actionsToggle": undefined,
+              "allRowsExpanded": false,
               "allRowsSelected": false,
               "areActionsDisabled": undefined,
+              "canCollapseAll": false,
               "canSelectAll": true,
               "canSortFavorites": true,
+              "collapseAllAriaLabel": "",
               "contentId": "expanded-content",
               "dropdownDirection": "down",
               "dropdownPosition": "right",
@@ -1180,10 +1212,13 @@ exports[`InfoTable api expandable should open 1`] = `
                             "actionResolver": undefined,
                             "actions": undefined,
                             "actionsToggle": undefined,
+                            "allRowsExpanded": false,
                             "allRowsSelected": false,
                             "areActionsDisabled": undefined,
+                            "canCollapseAll": false,
                             "canSelectAll": true,
                             "canSortFavorites": true,
+                            "collapseAllAriaLabel": "",
                             "contentId": "expanded-content",
                             "dropdownDirection": "down",
                             "dropdownPosition": "right",
@@ -1207,7 +1242,6 @@ exports[`InfoTable api expandable should open 1`] = `
                             "formatters": Array [],
                             "label": "",
                             "transforms": Array [
-                              [Function],
                               [Function],
                               [Function],
                             ],
@@ -1234,10 +1268,13 @@ exports[`InfoTable api expandable should open 1`] = `
                             "actionResolver": undefined,
                             "actions": undefined,
                             "actionsToggle": undefined,
+                            "allRowsExpanded": false,
                             "allRowsSelected": false,
                             "areActionsDisabled": undefined,
+                            "canCollapseAll": false,
                             "canSelectAll": true,
                             "canSortFavorites": true,
+                            "collapseAllAriaLabel": "",
                             "contentId": "expanded-content",
                             "dropdownDirection": "down",
                             "dropdownPosition": "right",
@@ -1287,10 +1324,13 @@ exports[`InfoTable api expandable should open 1`] = `
                             "actionResolver": undefined,
                             "actions": undefined,
                             "actionsToggle": undefined,
+                            "allRowsExpanded": false,
                             "allRowsSelected": false,
                             "areActionsDisabled": undefined,
+                            "canCollapseAll": false,
                             "canSelectAll": true,
                             "canSortFavorites": true,
+                            "collapseAllAriaLabel": "",
                             "contentId": "expanded-content",
                             "dropdownDirection": "down",
                             "dropdownPosition": "right",
@@ -1395,10 +1435,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "actionResolver": undefined,
                                     "actions": undefined,
                                     "actionsToggle": undefined,
+                                    "allRowsExpanded": false,
                                     "allRowsSelected": false,
                                     "areActionsDisabled": undefined,
+                                    "canCollapseAll": false,
                                     "canSelectAll": true,
                                     "canSortFavorites": true,
+                                    "collapseAllAriaLabel": "",
                                     "contentId": "expanded-content",
                                     "dropdownDirection": "down",
                                     "dropdownPosition": "right",
@@ -1422,7 +1465,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "formatters": Array [],
                                     "label": "",
                                     "transforms": Array [
-                                      [Function],
                                       [Function],
                                       [Function],
                                     ],
@@ -1449,10 +1491,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "actionResolver": undefined,
                                     "actions": undefined,
                                     "actionsToggle": undefined,
+                                    "allRowsExpanded": false,
                                     "allRowsSelected": false,
                                     "areActionsDisabled": undefined,
+                                    "canCollapseAll": false,
                                     "canSelectAll": true,
                                     "canSortFavorites": true,
+                                    "collapseAllAriaLabel": "",
                                     "contentId": "expanded-content",
                                     "dropdownDirection": "down",
                                     "dropdownPosition": "right",
@@ -1502,10 +1547,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "actionResolver": undefined,
                                     "actions": undefined,
                                     "actionsToggle": undefined,
+                                    "allRowsExpanded": false,
                                     "allRowsSelected": false,
                                     "areActionsDisabled": undefined,
+                                    "canCollapseAll": false,
                                     "canSelectAll": true,
                                     "canSortFavorites": true,
+                                    "collapseAllAriaLabel": "",
                                     "contentId": "expanded-content",
                                     "dropdownDirection": "down",
                                     "dropdownPosition": "right",
@@ -1555,7 +1603,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                   hidden={false}
                                 >
                                   <HeaderCell
-                                    component="td"
                                     data-key={0}
                                     data-label=""
                                     key="0-header"
@@ -1563,7 +1610,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                   >
                                     <Th
                                       className=""
-                                      component="td"
+                                      component="th"
                                       data-key={0}
                                       data-label=""
                                       onMouseEnter={[Function]}
@@ -1573,7 +1620,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     >
                                       <ThBase
                                         className=""
-                                        component="td"
+                                        component="th"
                                         data-key={0}
                                         data-label=""
                                         innerRef={null}
@@ -1582,7 +1629,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                         textCenter={false}
                                         tooltip=""
                                       >
-                                        <td
+                                        <th
                                           className=""
                                           data-key={0}
                                           data-label=""
@@ -1702,10 +1749,13 @@ exports[`InfoTable api expandable should open 1`] = `
                         "actionResolver": undefined,
                         "actions": undefined,
                         "actionsToggle": undefined,
+                        "allRowsExpanded": false,
                         "allRowsSelected": false,
                         "areActionsDisabled": undefined,
+                        "canCollapseAll": false,
                         "canSelectAll": true,
                         "canSortFavorites": true,
+                        "collapseAllAriaLabel": "",
                         "contentId": "expanded-content",
                         "dropdownDirection": "down",
                         "dropdownPosition": "right",
@@ -1729,7 +1779,6 @@ exports[`InfoTable api expandable should open 1`] = `
                         "formatters": Array [],
                         "label": "",
                         "transforms": Array [
-                          [Function],
                           [Function],
                           [Function],
                         ],
@@ -1756,10 +1805,13 @@ exports[`InfoTable api expandable should open 1`] = `
                         "actionResolver": undefined,
                         "actions": undefined,
                         "actionsToggle": undefined,
+                        "allRowsExpanded": false,
                         "allRowsSelected": false,
                         "areActionsDisabled": undefined,
+                        "canCollapseAll": false,
                         "canSelectAll": true,
                         "canSortFavorites": true,
+                        "collapseAllAriaLabel": "",
                         "contentId": "expanded-content",
                         "dropdownDirection": "down",
                         "dropdownPosition": "right",
@@ -1809,10 +1861,13 @@ exports[`InfoTable api expandable should open 1`] = `
                         "actionResolver": undefined,
                         "actions": undefined,
                         "actionsToggle": undefined,
+                        "allRowsExpanded": false,
                         "allRowsSelected": false,
                         "areActionsDisabled": undefined,
+                        "canCollapseAll": false,
                         "canSelectAll": true,
                         "canSortFavorites": true,
+                        "collapseAllAriaLabel": "",
                         "contentId": "expanded-content",
                         "dropdownDirection": "down",
                         "dropdownPosition": "right",
@@ -2323,10 +2378,13 @@ exports[`InfoTable api expandable should open 1`] = `
                             "actionResolver": undefined,
                             "actions": undefined,
                             "actionsToggle": undefined,
+                            "allRowsExpanded": false,
                             "allRowsSelected": false,
                             "areActionsDisabled": undefined,
+                            "canCollapseAll": false,
                             "canSelectAll": true,
                             "canSortFavorites": true,
+                            "collapseAllAriaLabel": "",
                             "contentId": "expanded-content",
                             "dropdownDirection": "down",
                             "dropdownPosition": "right",
@@ -2350,7 +2408,6 @@ exports[`InfoTable api expandable should open 1`] = `
                             "formatters": Array [],
                             "label": "",
                             "transforms": Array [
-                              [Function],
                               [Function],
                               [Function],
                             ],
@@ -2377,10 +2434,13 @@ exports[`InfoTable api expandable should open 1`] = `
                             "actionResolver": undefined,
                             "actions": undefined,
                             "actionsToggle": undefined,
+                            "allRowsExpanded": false,
                             "allRowsSelected": false,
                             "areActionsDisabled": undefined,
+                            "canCollapseAll": false,
                             "canSelectAll": true,
                             "canSortFavorites": true,
+                            "collapseAllAriaLabel": "",
                             "contentId": "expanded-content",
                             "dropdownDirection": "down",
                             "dropdownPosition": "right",
@@ -2430,10 +2490,13 @@ exports[`InfoTable api expandable should open 1`] = `
                             "actionResolver": undefined,
                             "actions": undefined,
                             "actionsToggle": undefined,
+                            "allRowsExpanded": false,
                             "allRowsSelected": false,
                             "areActionsDisabled": undefined,
+                            "canCollapseAll": false,
                             "canSelectAll": true,
                             "canSortFavorites": true,
+                            "collapseAllAriaLabel": "",
                             "contentId": "expanded-content",
                             "dropdownDirection": "down",
                             "dropdownPosition": "right",
@@ -3104,10 +3167,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -3131,7 +3197,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "formatters": Array [],
                                       "label": "",
                                       "transforms": Array [
-                                        [Function],
                                         [Function],
                                         [Function],
                                       ],
@@ -3158,10 +3223,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -3211,10 +3279,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -3551,10 +3622,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -3578,7 +3652,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "formatters": Array [],
                                       "label": "",
                                       "transforms": Array [
-                                        [Function],
                                         [Function],
                                         [Function],
                                       ],
@@ -3605,10 +3678,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -3658,10 +3734,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -3918,10 +3997,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -3945,7 +4027,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "formatters": Array [],
                                       "label": "",
                                       "transforms": Array [
-                                        [Function],
                                         [Function],
                                         [Function],
                                       ],
@@ -3972,10 +4053,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -4025,10 +4109,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -4324,10 +4411,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -4351,7 +4441,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "formatters": Array [],
                                       "label": "",
                                       "transforms": Array [
-                                        [Function],
                                         [Function],
                                         [Function],
                                       ],
@@ -4378,10 +4467,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -4431,10 +4523,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -4691,10 +4786,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -4718,7 +4816,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "formatters": Array [],
                                       "label": "",
                                       "transforms": Array [
-                                        [Function],
                                         [Function],
                                         [Function],
                                       ],
@@ -4745,10 +4842,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -4798,10 +4898,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -5138,10 +5241,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -5165,7 +5271,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "formatters": Array [],
                                       "label": "",
                                       "transforms": Array [
-                                        [Function],
                                         [Function],
                                         [Function],
                                       ],
@@ -5192,10 +5297,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -5245,10 +5353,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -5505,10 +5616,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -5532,7 +5646,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "formatters": Array [],
                                       "label": "",
                                       "transforms": Array [
-                                        [Function],
                                         [Function],
                                         [Function],
                                       ],
@@ -5559,10 +5672,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -5612,10 +5728,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -5907,10 +6026,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -5934,7 +6056,6 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "formatters": Array [],
                                       "label": "",
                                       "transforms": Array [
-                                        [Function],
                                         [Function],
                                         [Function],
                                       ],
@@ -5961,10 +6082,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -6014,10 +6138,13 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "actionResolver": undefined,
                                       "actions": undefined,
                                       "actionsToggle": undefined,
+                                      "allRowsExpanded": false,
                                       "allRowsSelected": false,
                                       "areActionsDisabled": undefined,
+                                      "canCollapseAll": false,
                                       "canSelectAll": true,
                                       "canSortFavorites": true,
+                                      "collapseAllAriaLabel": "",
                                       "contentId": "expanded-content",
                                       "dropdownDirection": "down",
                                       "dropdownPosition": "right",
@@ -6292,6 +6419,7 @@ exports[`InfoTable api expandable should open 1`] = `
             ouiaSafe={true}
             page={1}
             perPage={10}
+            perPageComponent="div"
             perPageOptions={
               Array [
                 Object {
@@ -6318,8 +6446,9 @@ exports[`InfoTable api expandable should open 1`] = `
                 "items": "",
                 "itemsPerPage": "Items per page",
                 "ofWord": "of",
-                "optionsToggle": "Items per page",
+                "optionsToggle": "",
                 "page": "",
+                "pages": "",
                 "paginationTitle": "Pagination",
                 "perPageSuffix": "per page",
                 "toFirstPage": "Go to first page",
@@ -6328,7 +6457,6 @@ exports[`InfoTable api expandable should open 1`] = `
                 "toPreviousPage": "Go to previous page",
               }
             }
-            toggleTemplate={[Function]}
             variant="bottom"
             widgetId="pagination-options-menu"
           >
@@ -6350,10 +6478,12 @@ exports[`InfoTable api expandable should open 1`] = `
                 itemsTitle=""
                 lastIndex={4}
                 lastPage={1}
+                ofWord="of"
                 onPerPageSelect={[Function]}
-                optionsToggle="Items per page"
+                optionsToggle=""
                 page={1}
                 perPage={10}
+                perPageComponent="div"
                 perPageOptions={
                   Array [
                     Object {
@@ -6431,9 +6561,11 @@ exports[`InfoTable api expandable should open 1`] = `
                       </DropdownItem>,
                     ]
                   }
+                  isFlipEnabled={false}
                   isGrouped={false}
                   isOpen={false}
                   isPlain={true}
+                  isText={false}
                   menuAppendTo="inline"
                   onSelect={[Function]}
                   position="left"
@@ -6446,9 +6578,11 @@ exports[`InfoTable api expandable should open 1`] = `
                       itemsPerPageTitle="Items per page"
                       itemsTitle=""
                       lastIndex={4}
+                      ofWord="of"
                       onToggle={[Function]}
-                      optionsToggle="Items per page"
+                      optionsToggle=""
                       parentRef={null}
+                      perPageComponent="div"
                       showToggle={true}
                       toggleTemplate={[Function]}
                       widgetId="pagination-options-menu"
@@ -6468,14 +6602,16 @@ exports[`InfoTable api expandable should open 1`] = `
                       isDisabled={false}
                       isOpen={false}
                       isPlain={true}
+                      isText={false}
                       itemCount={4}
                       itemsPerPageTitle="Items per page"
                       itemsTitle=""
                       key=".0"
                       lastIndex={4}
+                      ofWord="of"
                       onEnter={[Function]}
                       onToggle={[Function]}
-                      optionsToggle="Items per page"
+                      optionsToggle=""
                       parentRef={
                         Object {
                           "current": <div
@@ -6505,6 +6641,7 @@ exports[`InfoTable api expandable should open 1`] = `
                               </span>
                               <button
                                 aria-expanded="false"
+                                aria-haspopup="listbox"
                                 aria-label="Items per page"
                                 class="  pf-c-options-menu__toggle-button"
                                 data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
@@ -6535,6 +6672,7 @@ exports[`InfoTable api expandable should open 1`] = `
                           </div>,
                         }
                       }
+                      perPageComponent="div"
                       showToggle={true}
                       toggleTemplate={[Function]}
                       widgetId="pagination-options-menu"
@@ -6550,6 +6688,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             itemCount={4}
                             itemsTitle=""
                             lastIndex={4}
+                            ofWord="of"
                           >
                             <b>
                               1
@@ -6566,6 +6705,7 @@ exports[`InfoTable api expandable should open 1`] = `
                           </ToggleTemplate>
                         </span>
                         <DropdownToggle
+                          aria-haspopup="listbox"
                           aria-label="Items per page"
                           className="pf-c-options-menu__toggle-button"
                           id="pagination-options-menu-toggle-1"
@@ -6602,6 +6742,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                   </span>
                                   <button
                                     aria-expanded="false"
+                                    aria-haspopup="listbox"
                                     aria-label="Items per page"
                                     class="  pf-c-options-menu__toggle-button"
                                     data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
@@ -6634,6 +6775,7 @@ exports[`InfoTable api expandable should open 1`] = `
                           }
                         >
                           <Toggle
+                            aria-haspopup="listbox"
                             aria-label="Items per page"
                             bubbleEvent={false}
                             className="pf-c-options-menu__toggle-button"
@@ -6648,6 +6790,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             isPlain={false}
                             isPrimary={false}
                             isSplitButton={false}
+                            isText={false}
                             onEnter={[Function]}
                             onToggle={[Function]}
                             parentRef={
@@ -6679,6 +6822,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     </span>
                                     <button
                                       aria-expanded="false"
+                                      aria-haspopup="listbox"
                                       aria-label="Items per page"
                                       class="  pf-c-options-menu__toggle-button"
                                       data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
@@ -6709,9 +6853,11 @@ exports[`InfoTable api expandable should open 1`] = `
                                 </div>,
                               }
                             }
+                            toggleVariant="default"
                           >
                             <button
                               aria-expanded={false}
+                              aria-haspopup="listbox"
                               aria-label="Items per page"
                               className="  pf-c-options-menu__toggle-button"
                               data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
@@ -6765,6 +6911,7 @@ exports[`InfoTable api expandable should open 1`] = `
                 firstPage={1}
                 isCompact={false}
                 isDisabled={false}
+                itemCount={4}
                 lastPage={1}
                 ofWord="of"
                 onFirstClick={[Function]}
@@ -6775,6 +6922,7 @@ exports[`InfoTable api expandable should open 1`] = `
                 onSetPage={[Function]}
                 page={1}
                 pagesTitle=""
+                pagesTitlePlural=""
                 paginationTitle="Pagination"
                 perPage={10}
                 toFirstPage="Go to first page"
@@ -7069,6 +7217,7 @@ exports[`InfoTable api expandable should open 1`] = `
             collapseListedFiltersBreakpoint="lg"
             isExpanded={false}
             numberOfFilters={0}
+            numberOfFiltersText={[Function]}
             showClearFiltersButton={false}
           >
             <div
@@ -7442,6 +7591,7 @@ exports[`InfoTable should render expandable set to true 1`] = `
   <Table
     aria-label="General information dialog table"
     borders={true}
+    canCollapseAll={false}
     canSelectAll={true}
     canSortFavorites={true}
     cells={
@@ -7451,6 +7601,7 @@ exports[`InfoTable should render expandable set to true 1`] = `
       ]
     }
     className=""
+    collapseAllAriaLabel=""
     contentId="expanded-content"
     dropdownDirection="down"
     dropdownPosition="right"
@@ -7547,6 +7698,7 @@ exports[`InfoTable should render expandable set to true 1`] = `
       ouiaSafe={true}
       page={1}
       perPage={10}
+      perPageComponent="div"
       perPageOptions={
         Array [
           Object {
@@ -7573,8 +7725,9 @@ exports[`InfoTable should render expandable set to true 1`] = `
           "items": "",
           "itemsPerPage": "Items per page",
           "ofWord": "of",
-          "optionsToggle": "Items per page",
+          "optionsToggle": "",
           "page": "",
+          "pages": "",
           "paginationTitle": "Pagination",
           "perPageSuffix": "per page",
           "toFirstPage": "Go to first page",
@@ -7583,7 +7736,6 @@ exports[`InfoTable should render expandable set to true 1`] = `
           "toPreviousPage": "Go to previous page",
         }
       }
-      toggleTemplate={[Function]}
       variant="bottom"
       widgetId="pagination-options-menu"
     />
@@ -7613,6 +7765,7 @@ exports[`InfoTable should render multiple cells 1`] = `
   <Table
     aria-label="General information dialog table"
     borders={true}
+    canCollapseAll={false}
     canSelectAll={true}
     canSortFavorites={true}
     cells={
@@ -7622,6 +7775,7 @@ exports[`InfoTable should render multiple cells 1`] = `
       ]
     }
     className=""
+    collapseAllAriaLabel=""
     contentId="expanded-content"
     dropdownDirection="down"
     dropdownPosition="right"
@@ -7690,6 +7844,7 @@ exports[`InfoTable should render multiple cells 1`] = `
       ouiaSafe={true}
       page={1}
       perPage={10}
+      perPageComponent="div"
       perPageOptions={
         Array [
           Object {
@@ -7716,8 +7871,9 @@ exports[`InfoTable should render multiple cells 1`] = `
           "items": "",
           "itemsPerPage": "Items per page",
           "ofWord": "of",
-          "optionsToggle": "Items per page",
+          "optionsToggle": "",
           "page": "",
+          "pages": "",
           "paginationTitle": "Pagination",
           "perPageSuffix": "per page",
           "toFirstPage": "Go to first page",
@@ -7726,7 +7882,6 @@ exports[`InfoTable should render multiple cells 1`] = `
           "toPreviousPage": "Go to previous page",
         }
       }
-      toggleTemplate={[Function]}
       variant="bottom"
       widgetId="pagination-options-menu"
     />
@@ -7756,10 +7911,12 @@ exports[`InfoTable should render no data 1`] = `
   <Table
     aria-label="General information dialog table"
     borders={true}
+    canCollapseAll={false}
     canSelectAll={true}
     canSortFavorites={true}
     cells={Array []}
     className=""
+    collapseAllAriaLabel=""
     contentId="expanded-content"
     dropdownDirection="down"
     dropdownPosition="right"
@@ -7811,6 +7968,7 @@ exports[`InfoTable should render no data 1`] = `
       ouiaSafe={true}
       page={1}
       perPage={10}
+      perPageComponent="div"
       perPageOptions={
         Array [
           Object {
@@ -7837,8 +7995,9 @@ exports[`InfoTable should render no data 1`] = `
           "items": "",
           "itemsPerPage": "Items per page",
           "ofWord": "of",
-          "optionsToggle": "Items per page",
+          "optionsToggle": "",
           "page": "",
+          "pages": "",
           "paginationTitle": "Pagination",
           "perPageSuffix": "per page",
           "toFirstPage": "Go to first page",
@@ -7847,7 +8006,6 @@ exports[`InfoTable should render no data 1`] = `
           "toPreviousPage": "Go to previous page",
         }
       }
-      toggleTemplate={[Function]}
       variant="bottom"
       widgetId="pagination-options-menu"
     />
@@ -7877,6 +8035,7 @@ exports[`InfoTable should render onSort set 1`] = `
   <Table
     aria-label="General information dialog table"
     borders={true}
+    canCollapseAll={false}
     canSelectAll={true}
     canSortFavorites={true}
     cells={
@@ -7891,6 +8050,7 @@ exports[`InfoTable should render onSort set 1`] = `
       ]
     }
     className=""
+    collapseAllAriaLabel=""
     contentId="expanded-content"
     dropdownDirection="down"
     dropdownPosition="right"
@@ -7959,6 +8119,7 @@ exports[`InfoTable should render onSort set 1`] = `
       ouiaSafe={true}
       page={1}
       perPage={10}
+      perPageComponent="div"
       perPageOptions={
         Array [
           Object {
@@ -7985,8 +8146,9 @@ exports[`InfoTable should render onSort set 1`] = `
           "items": "",
           "itemsPerPage": "Items per page",
           "ofWord": "of",
-          "optionsToggle": "Items per page",
+          "optionsToggle": "",
           "page": "",
+          "pages": "",
           "paginationTitle": "Pagination",
           "perPageSuffix": "per page",
           "toFirstPage": "Go to first page",
@@ -7995,7 +8157,6 @@ exports[`InfoTable should render onSort set 1`] = `
           "toPreviousPage": "Go to previous page",
         }
       }
-      toggleTemplate={[Function]}
       variant="bottom"
       widgetId="pagination-options-menu"
     />
@@ -8068,6 +8229,7 @@ exports[`InfoTable should render one cell 1`] = `
       ouiaSafe={true}
       page={1}
       perPage={10}
+      perPageComponent="div"
       perPageOptions={
         Array [
           Object {
@@ -8094,8 +8256,9 @@ exports[`InfoTable should render one cell 1`] = `
           "items": "",
           "itemsPerPage": "Items per page",
           "ofWord": "of",
-          "optionsToggle": "Items per page",
+          "optionsToggle": "",
           "page": "",
+          "pages": "",
           "paginationTitle": "Pagination",
           "perPageSuffix": "per page",
           "toFirstPage": "Go to first page",
@@ -8104,7 +8267,6 @@ exports[`InfoTable should render one cell 1`] = `
           "toPreviousPage": "Go to previous page",
         }
       }
-      toggleTemplate={[Function]}
       variant="bottom"
       widgetId="pagination-options-menu"
     />
