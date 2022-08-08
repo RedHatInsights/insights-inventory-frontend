@@ -28,7 +28,7 @@ const TitleWithPopover = ({ title, content }) => (
     </React.Fragment>
 );
 
-class SystemCard extends Component {
+class SystemCardCore extends Component {
     state = {
         isDisplayNameModalOpen: false,
         isAnsibleHostModalOpen: false
@@ -187,7 +187,7 @@ class SystemCard extends Component {
     }
 }
 
-SystemCard.propTypes = {
+SystemCardCore.propTypes = {
     detailLoaded: PropTypes.bool,
     entity: PropTypes.shape({
         // eslint-disable-next-line camelcase
@@ -227,7 +227,7 @@ SystemCard.propTypes = {
     hasRAM: PropTypes.bool,
     extra: PropTypes.arrayOf(extraShape)
 };
-SystemCard.defaultProps = {
+SystemCardCore.defaultProps = {
     detailLoaded: false,
     entity: {},
     properties: {},
@@ -270,7 +270,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(({
+export const SystemCard = connect(({
     entityDetails: {
         entity
     },
@@ -281,4 +281,9 @@ export default connect(({
     entity,
     detailLoaded: systemProfile && systemProfile.loaded,
     properties: propertiesSelector(systemProfile, entity)
-}), mapDispatchToProps)(SystemCard);
+}), mapDispatchToProps)(SystemCardCore);
+
+SystemCard.propTypes = SystemCardCore.propTypes;
+SystemCard.defaultProps = SystemCardCore.defaultProps;
+
+export default SystemCard;

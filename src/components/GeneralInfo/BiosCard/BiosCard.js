@@ -6,7 +6,7 @@ import { biosSelector } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import { extraShape, isDate } from '../../../constants';
 
-const BiosCard = ({ bios, detailLoaded, hasVendor, hasVersion, handleClick, hasReleaseDate, extra }) => (<LoadingCard
+const BiosCardCore = ({ bios, detailLoaded, hasVendor, hasVersion, handleClick, hasReleaseDate, extra }) => (<LoadingCard
     title="BIOS"
     isLoading={ !detailLoaded }
     items={ [
@@ -23,7 +23,7 @@ const BiosCard = ({ bios, detailLoaded, hasVendor, hasVersion, handleClick, hasR
     ] }
 />);
 
-BiosCard.propTypes = {
+BiosCardCore.propTypes = {
     detailLoaded: PropTypes.bool,
     handleClick: PropTypes.func,
     bios: PropTypes.shape({
@@ -37,7 +37,7 @@ BiosCard.propTypes = {
     hasReleaseDate: PropTypes.bool,
     extra: PropTypes.arrayOf(extraShape)
 };
-BiosCard.defaultProps = {
+BiosCardCore.defaultProps = {
     detailLoaded: false,
     handleClick: () => undefined,
     extra: [],
@@ -46,11 +46,16 @@ BiosCard.defaultProps = {
     hasReleaseDate: true
 };
 
-export default connect(({
+export const BiosCard = connect(({
     systemProfileStore: {
         systemProfile
     }
 }) => ({
     detailLoaded: systemProfile && systemProfile.loaded,
     bios: biosSelector(systemProfile)
-}))(BiosCard);
+}))(BiosCardCore);
+
+BiosCard.propTypes = BiosCardCore.propTypes;
+BiosCard.defaultProps = BiosCardCore.defaultProps;
+
+export default BiosCard;

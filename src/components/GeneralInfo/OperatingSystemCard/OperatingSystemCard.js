@@ -8,7 +8,7 @@ import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import { extraShape, isDate } from '../../../constants';
 import OperatingSystemFormatter from '../../../Utilities/OperatingSystemFormatter';
 
-const OperatingSystemCard = ({
+const OperatingSystemCardCore = ({
     systemInfo,
     detailLoaded,
     handleClick,
@@ -51,7 +51,7 @@ const OperatingSystemCard = ({
     />
 );
 
-OperatingSystemCard.propTypes = {
+OperatingSystemCardCore.propTypes = {
     detailLoaded: PropTypes.bool,
     handleClick: PropTypes.func,
     systemInfo: PropTypes.shape({
@@ -68,7 +68,7 @@ OperatingSystemCard.propTypes = {
     hasKernelModules: PropTypes.bool,
     extra: PropTypes.arrayOf(extraShape)
 };
-OperatingSystemCard.defaultProps = {
+OperatingSystemCardCore.defaultProps = {
     detailLoaded: false,
     handleClick: () => undefined,
     hasRelease: true,
@@ -79,7 +79,7 @@ OperatingSystemCard.defaultProps = {
     extra: []
 };
 
-export default connect(({
+export const OperatingSystemCard = connect(({
     entityDetails: {
         entity
     },
@@ -89,4 +89,9 @@ export default connect(({
 }) => ({
     detailLoaded: systemProfile && systemProfile.loaded,
     systemInfo: operatingSystem(systemProfile, entity)
-}))(OperatingSystemCard);
+}))(OperatingSystemCardCore);
+
+OperatingSystemCard.propTypes = OperatingSystemCardCore.propTypes;
+OperatingSystemCard.defaultProps = OperatingSystemCardCore.defaultProps;
+
+export default OperatingSystemCard;

@@ -92,7 +92,7 @@ describe('SystemCard', () => {
         it('should calculate correct ansible host - direct ansible host', () => {
             const store = mockStore(initialState);
             const wrapper = mount(<SystemCard store={ store } />);
-            expect(wrapper.find('SystemCard').first().instance().getAnsibleHost()).toBe('test-ansible-host');
+            expect(wrapper.find('SystemCardCore').first().instance().getAnsibleHost()).toBe('test-ansible-host');
         });
 
         it('should calculate correct ansible host - fqdn', () => {
@@ -107,7 +107,7 @@ describe('SystemCard', () => {
                 }
             });
             const wrapper = mount(<SystemCard store={ store } />);
-            expect(wrapper.find('SystemCard').first().instance().getAnsibleHost()).toBe('test-fqdn');
+            expect(wrapper.find('SystemCardCore').first().instance().getAnsibleHost()).toBe('test-fqdn');
         });
 
         it('should calculate correct ansible host - fqdn', () => {
@@ -122,7 +122,7 @@ describe('SystemCard', () => {
                 }
             });
             const wrapper = mount(<SystemCard store={ store } />);
-            expect(wrapper.find('SystemCard').first().instance().getAnsibleHost()).toBe('test-id');
+            expect(wrapper.find('SystemCardCore').first().instance().getAnsibleHost()).toBe('test-id');
         });
 
         it('should show edit display name', () => {

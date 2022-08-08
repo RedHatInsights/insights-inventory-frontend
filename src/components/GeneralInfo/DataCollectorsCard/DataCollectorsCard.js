@@ -8,7 +8,7 @@ import { TableComposable, Thead, Tr, Th, Tbody, Td, TableVariant, ExpandableRowC
 import { Flex, FlexItem } from '@patternfly/react-core';
 import { getDefaultCollectors } from '../selectors/selectors';
 
-const DataCollectorsCard = ({
+const DataCollectorsCardCore = ({
     detailLoaded,
     collectors,
     entity,
@@ -84,7 +84,7 @@ const DataCollectorsCard = ({
     </LoadingCard>);
 };
 
-DataCollectorsCard.propTypes = {
+DataCollectorsCardCore.propTypes = {
     detailLoaded: PropTypes.bool,
     collectors: PropTypes.array,
     dataMapper: PropTypes.func,
@@ -92,11 +92,11 @@ DataCollectorsCard.propTypes = {
         per_reporter_staleness: PropTypes.object
     })
 };
-DataCollectorsCard.defaultProps = {
+DataCollectorsCardCore.defaultProps = {
     detailLoaded: false
 };
 
-export default connect(({
+export const DataCollectorsCard = connect(({
     entityDetails: {
         entity
     },
@@ -108,4 +108,9 @@ export default connect(({
     systemProfile,
     detailLoaded: systemProfile?.loaded,
     defaultCollectors: getDefaultCollectors(entity)
-}))(DataCollectorsCard);
+}))(DataCollectorsCardCore);
+
+DataCollectorsCard.propTypes = DataCollectorsCardCore.propTypes;
+DataCollectorsCard.defaultProps = DataCollectorsCardCore.defaultProps;
+
+export default DataCollectorsCard;

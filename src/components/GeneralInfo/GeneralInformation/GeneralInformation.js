@@ -10,13 +10,14 @@ import { SortByDirection } from '@patternfly/react-table';
 
 import { systemProfile } from '../../../store/actions';
 import InfoTable from '../InfoTable';
-import OperatingSystemCard from '../OperatingSystemCard';
-import SystemCard from '../SystemCard';
-import BiosCard from '../BiosCard';
-import InfrastructureCard from '../InfrastructureCard';
-import ConfigurationCard from '../ConfigurationCard';
-import SystemStatusCard from '../SystemStatusCard';
-import DataCollectorsCard from '../DataCollectorsCard/DataCollectorsCard';
+// Since there's a problem with cards loading asynchronously we have to import the cards here as named
+import { OperatingSystemCard } from '../OperatingSystemCard';
+import { SystemCard } from '../SystemCard';
+import { BiosCard } from '../BiosCard';
+import { InfrastructureCard } from '../InfrastructureCard';
+import { ConfigurationCard } from '../ConfigurationCard';
+import { SystemStatusCard } from '../SystemStatusCard';
+import { DataCollectorsCard } from '../DataCollectorsCard/DataCollectorsCard';
 import { Provider } from 'react-redux';
 import './general-information.scss';
 
