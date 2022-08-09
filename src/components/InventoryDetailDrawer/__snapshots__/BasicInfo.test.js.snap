@@ -113,9 +113,11 @@ exports[`BasicInfo should render with tags 1`] = `
         className="pf-l-split__item"
       >
         <div
+          aria-label="Chip group category"
           className="pf-c-chip-group"
           data-ouia-component-type="PF4/ChipGroup"
           data-ouia-safe={true}
+          role="group"
         >
           <div
             className="pf-c-chip-group__main"

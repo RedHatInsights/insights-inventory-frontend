@@ -366,7 +366,10 @@ EntityTableToolbar.propTypes = {
     toggleTagModal: PropTypes.func,
     perPage: PropTypes.number,
     children: PropTypes.node,
-    pagination: PropTypes.object,
+    pagination: PropTypes.shape({
+        page: PropTypes.number,
+        perPage: PropTypes.number
+    }),
     actionsConfig: PropTypes.object,
     activeFiltersConfig: PropTypes.object,
     onRefreshData: PropTypes.func,

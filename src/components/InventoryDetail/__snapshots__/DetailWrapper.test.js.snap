@@ -171,6 +171,7 @@ exports[`DetailWrapper DOM should render with data 1`] = `
     <div
       className="pf-c-drawer__panel"
       hidden={false}
+      id="pf-drawer-panel-1"
       onTransitionEnd={[Function]}
     >
       <div
@@ -435,6 +436,7 @@ exports[`DetailWrapper DOM should render without data 1`] = `
     <div
       className="pf-c-drawer__panel"
       hidden={true}
+      id="pf-drawer-panel-0"
       onTransitionEnd={[Function]}
     />
   </div>

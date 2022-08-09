@@ -1,4 +1,4 @@
-import { Route, Switch, matchPath, useHistory } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { tagsMapper } from './constants';
 import { reducers, RegistryContext, tableReducer } from './store';
@@ -12,16 +12,6 @@ export const routes = {
     detail: '/:inventoryId'
 };
 
-function checkPaths(technology, app) {
-    return Object
-    .values(routes)
-    .some(
-        route => {
-            return matchPath(location.href, { path: `${document.baseURI}${technology}/${app}${route}` });
-        }
-    );
-}
-
 export const Routes = () => {
     const { getRegistry } = useContext(RegistryContext);
     useEffect(() => {
@@ -30,18 +20,7 @@ export const Routes = () => {
             ...mergeWithEntities(tableReducer)
         });
     }, [getRegistry]);
-    const history = useHistory();
-    const pathName = window.location.pathname.split('/');
     const searchParams = new URLSearchParams(location.search);
-    pathName.shift();
-
-    if (pathName[0] === 'beta') {
-        pathName.shift();
-    }
-
-    if (!checkPaths(pathName[0], pathName[1])) {
-        history.push(`${routes.table}${location.search}${location.hash}`);
-    }
 
     return (
         <Suspense fallback="">
@@ -60,7 +39,8 @@ export const Routes = () => {
                     />}
                     rootClass='inventory'
                 />
-                <Route path={routes.detail} component={InventoryDetail} rootClass='inventory' />
+                <Route exact path={routes.detail} component={InventoryDetail} rootClass='inventory' />
+                <Redirect path="*" to="/" />
             </Switch>
         </Suspense>
     );

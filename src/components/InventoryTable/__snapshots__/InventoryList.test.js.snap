@@ -64,6 +64,7 @@ exports[`InventoryList should render correctly 1`] = `
         class=""
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-1"
           data-ouia-component-type="PF4/TableRow"
@@ -84,6 +85,7 @@ exports[`InventoryList should render correctly 1`] = `
         role="rowgroup"
       >
         <tr
+          aria-label=""
           class=""
           data-ouia-component-id="OUIA-Generated-TableRow-2"
           data-ouia-component-type="PF4/TableRow"
