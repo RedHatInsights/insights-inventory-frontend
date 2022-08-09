@@ -1,7 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ConfigurationCard api should NOT call handleClick 1`] = `
-<Connect(ConfigurationCard)
+<Connect(ConfigurationCardCore)
+  detailLoaded={false}
+  extra={Array []}
+  handleClick={[Function]}
+  hasPackages={true}
+  hasProcesses={true}
+  hasRepositories={true}
+  hasServices={true}
   store={
     Object {
       "clearActions": [Function],
@@ -13,7 +20,7 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
     }
   }
 >
-  <ConfigurationCard
+  <ConfigurationCardCore
     configuration={
       Object {
         "packages": Array [
@@ -298,8 +305,8 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
         </div>
       </Stack>
     </LoadingCard>
-  </ConfigurationCard>
-</Connect(ConfigurationCard)>
+  </ConfigurationCardCore>
+</Connect(ConfigurationCardCore)>
 `;
 
 exports[`ConfigurationCard should not render hasPackages 1`] = `

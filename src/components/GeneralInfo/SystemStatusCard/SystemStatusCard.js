@@ -6,7 +6,7 @@ import LoadingCard from '../LoadingCard';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import { systemStatus } from '../selectors';
 
-const SystemStatusCard = ({
+const SystemStatusCardCore = ({
     detailLoaded,
     hasState,
     hasRegistered,
@@ -39,7 +39,7 @@ const SystemStatusCard = ({
         }
     />);
 
-SystemStatusCard.propTypes = {
+SystemStatusCardCore.propTypes = {
     detailLoaded: PropTypes.bool,
     entity: PropTypes.shape({
         updated: PropTypes.string,
@@ -55,7 +55,7 @@ SystemStatusCard.propTypes = {
     hasRegistered: PropTypes.bool,
     hasRHC: PropTypes.bool
 };
-SystemStatusCard.defaultProps = {
+SystemStatusCardCore.defaultProps = {
     detailLoaded: false,
     systemStatus: {},
     handleClick: () => undefined,
@@ -65,7 +65,7 @@ SystemStatusCard.defaultProps = {
     hasRHC: true
 };
 
-export default connect(({
+export const SystemStatusCard = connect(({
     entityDetails: {
         entity
     },
@@ -77,4 +77,9 @@ export default connect(({
     systemProfile,
     detailLoaded: systemProfile?.loaded,
     systemStatus: systemStatus(entity)
-}))(SystemStatusCard);
+}))(SystemStatusCardCore);
+
+SystemStatusCard.propTypes = SystemStatusCardCore.propTypes;
+SystemStatusCard.defaultProps = SystemStatusCardCore.defaultProps;
+
+export default SystemStatusCard;

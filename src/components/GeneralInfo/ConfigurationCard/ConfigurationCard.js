@@ -15,7 +15,7 @@ export function enabledRepos(repositories) {
     }
 }
 
-const ConfigurationCard = ({
+const ConfigurationCardCore = ({
     detailLoaded,
     configuration,
     handleClick,
@@ -84,7 +84,7 @@ const ConfigurationCard = ({
     ] }
 />);
 
-ConfigurationCard.propTypes = {
+ConfigurationCardCore.propTypes = {
     detailLoaded: PropTypes.bool,
     handleClick: PropTypes.func,
     configuration: PropTypes.shape({
@@ -114,7 +114,7 @@ ConfigurationCard.propTypes = {
     hasRepositories: PropTypes.bool,
     extra: PropTypes.arrayOf(extraShape)
 };
-ConfigurationCard.defaultProps = {
+ConfigurationCardCore.defaultProps = {
     detailLoaded: false,
     handleClick: () => undefined,
     hasPackages: true,
@@ -124,11 +124,16 @@ ConfigurationCard.defaultProps = {
     extra: []
 };
 
-export default connect(({
+export const ConfigurationCard = connect(({
     systemProfileStore: {
         systemProfile
     }
 }) => ({
     detailLoaded: systemProfile && systemProfile.loaded,
     configuration: configurationSelector(systemProfile)
-}))(ConfigurationCard);
+}))(ConfigurationCardCore);
+
+ConfigurationCard.propTypes = ConfigurationCardCore.propTypes;
+ConfigurationCard.defaultProps = ConfigurationCardCore.defaultProps;
+
+export default ConfigurationCard;
