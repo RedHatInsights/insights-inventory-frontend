@@ -128,7 +128,11 @@ describe('DetailWrapper', () => {
                         culled_timestamp: new Date(),
                         stale_warning_timestamp: new Date(),
                         stale_timestamp: new Date(),
-                        insights_id: '12345'
+                        per_reporter_staleness: {
+                            puptoo: {
+                                stale_timestamp: new Date()
+                            }
+                        }
                     },
                     isToggleOpened: true
                 }

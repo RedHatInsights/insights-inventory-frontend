@@ -732,9 +732,7 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
           <td
             class=""
             data-label="Status"
-          >
-            Active
-          </td>
+          />
           <td
             class=""
             data-label="Last upload"

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { registered } from '../../../Utilities/index';
-
+import { verifyCollectorStaleness } from '../../../Utilities/sharedFunctions';
 function safeParser(toParse, key) {
     try {
         return JSON.parse(toParse);
@@ -96,11 +96,17 @@ export const collectionInformationSelector = ({
     egg: insights_egg_version
 });
 
+export const getCollectorStatus = (collectorStaleness) =>{
+    return collectorStaleness ?
+        (verifyCollectorStaleness(collectorStaleness) ? 'Stale' : 'Active')
+        : 'N/A';
+};
+
 export const getDefaultCollectors = (entity) =>
     registered?.filter(reporter => reporter.label !== 'insights-client not connected')
     .map(reporter => ({
         name: reporter.label,
-        status: entity?.per_reporter_staleness[reporter.value]?.check_in_succeeded,
+        status: getCollectorStatus(entity?.per_reporter_staleness[reporter.value]),
         updated: entity?.per_reporter_staleness[reporter.value]?.last_check_in,
         details: {
             name: reporter.idName,

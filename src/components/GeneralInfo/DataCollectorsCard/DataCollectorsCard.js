@@ -55,7 +55,7 @@ const DataCollectorsCardCore = ({
                                 style={{ paddingLeft: 0 }}
                             /> : <Td />}
                         <Td dataLabel="Name">{collector.name}</Td>
-                        <Td dataLabel="Status">{collector.status ? 'Active' : 'N/A'}</Td>
+                        <Td dataLabel="Status">{collector.status}</Td>
                         <Td dataLabel="Last upload">
                             {collector.updated ?
                                 <DateFormat date={ collector.updated } type="exact" /> :

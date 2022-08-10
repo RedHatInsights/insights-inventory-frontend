@@ -4,16 +4,21 @@ export const subtractWeeks = (numOfWeeks, date = new Date()) => {
     return date;
 };
 
-export const verifyDisconnectedSystem = (perReporterStaleness) => {
-    if (perReporterStaleness && !perReporterStaleness.puptoo) {
-        return true;
-    } else if (perReporterStaleness && perReporterStaleness.puptoo) {
-        const stalenessDate = new Date(perReporterStaleness.puptoo.stale_timestamp);
-        const twoWeeksPeriod = subtractWeeks(2);
-        if (twoWeeksPeriod > stalenessDate) {
-            return true;
-        }
-    }
+export const verifyCollectorStaleness = (reporterStaleness) =>{
+    const stalenessDate = new Date(reporterStaleness.stale_timestamp);
+    const twoWeeksPeriod = subtractWeeks(2);
 
-    return false;
+    if (twoWeeksPeriod > stalenessDate) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+export const verifyStaleInsightsClient = (perReporterStaleness = {}) => {
+    if (perReporterStaleness.puptoo) {
+        return verifyCollectorStaleness(perReporterStaleness.puptoo);
+    } else {
+        return true;
+    }
 };
