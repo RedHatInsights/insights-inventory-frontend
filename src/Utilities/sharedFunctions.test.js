@@ -1,15 +1,15 @@
 /* eslint-disable no-constant-condition */
-import { subtractWeeks, verifyDisconnectedSystem } from './sharedFunctions';
+import { subtractWeeks, verifyStaleInsightsClient } from './sharedFunctions';
 
 describe('sharedFunctions', () => {
     describe('verfiyDisconnectedSystem', () => {
         it('should return false when puptoo is undefined', () => {
-            const result = verifyDisconnectedSystem({});
+            const result = verifyStaleInsightsClient({});
             expect(result).toBeTruthy();
         });
 
         it('should return false when puptoo is defined and stale_timestamp is not more recent than 2 weeks ago', () => {
-            const result = verifyDisconnectedSystem({ puptoo: new Date('2022-07-07T18:22:04.663407+00:00') });
+            const result = verifyStaleInsightsClient({ puptoo: new Date('2022-07-07T18:22:04.663407+00:00') });
             expect(result).toBeFalsy();
         });
     });
