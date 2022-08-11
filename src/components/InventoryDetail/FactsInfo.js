@@ -6,7 +6,7 @@ import { DateFormat } from '@redhat-cloud-services/frontend-components/DateForma
 import { CullingInformation } from '@redhat-cloud-services/frontend-components/CullingInfo';
 import { getFact } from './helpers';
 import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
-import { verifyStaleInsightsClient } from '../../Utilities/sharedFunctions';
+import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
 /**
  * Basic information about system.
  * UUID and last seen.
@@ -40,7 +40,7 @@ const FactsInfo = ({ entity, loaded, UUIDWrapper, LastSeenWrapper, ...props }) =
                             </LastSeenWrapper> :
                             <Skeleton size={SkeletonSize.md} fontSize="sm" />
                     }
-                    {loaded && verifyStaleInsightsClient(getFact('per_reporter_staleness', entity)) && <InsightsDisconnected />}
+                    {loaded && verifyCulledInsightsClient(getFact('per_reporter_staleness', entity)) && <InsightsDisconnected />}
                 </FlexItem>
             </Flex>
         </GridItem>

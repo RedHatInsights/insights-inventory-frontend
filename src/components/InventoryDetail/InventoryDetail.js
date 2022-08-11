@@ -12,6 +12,7 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 import ApplicationDetails from './ApplicationDetails';
 import './InventoryDetail.scss';
 import InsightsPrompt from './InsightsPrompt';
+import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
 
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
@@ -77,7 +78,7 @@ const InventoryDetail = ({
                 UUIDWrapper={UUIDWrapper}
                 LastSeenWrapper={LastSeenWrapper}
             />
-            {(loaded && !entity?.insights_id) && <InsightsPrompt />}
+            {(loaded && verifyCulledInsightsClient(entity?.per_reporter_staleness)) && <InsightsPrompt />}
             {children}
         </Fragment>
         }

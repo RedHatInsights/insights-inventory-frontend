@@ -21,7 +21,7 @@ import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
 import { defaultFilters } from '../Utilities/constants';
-import { verifyStaleInsightsClient } from '../Utilities/sharedFunctions';
+import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
 
 export const defaultState = {
     loaded: false,
@@ -80,7 +80,7 @@ export const defaultColumns = [
                         Last seen:{` `}
                         </React.Fragment>
                     ) }/>
-                    {verifyStaleInsightsClient(perReporterStaleness) && <InsightsDisconnected />}
+                    {verifyCulledInsightsClient(perReporterStaleness) && <InsightsDisconnected />}
                 </React.Fragment>
                 }
             > <DateFormat date={ value } /> </CullingInformation> : new Date(value).toLocaleString();
