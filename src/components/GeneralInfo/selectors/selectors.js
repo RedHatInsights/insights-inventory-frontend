@@ -98,7 +98,7 @@ export const collectionInformationSelector = ({
 
 export const getCollectorStatus = (collectorStaleness) =>{
     return collectorStaleness ?
-        (verifyCollectorStaleness(collectorStaleness) ? 'Stale' : 'Active')
+        (verifyCollectorStaleness(collectorStaleness) !== 'Fresh' ? 'Stale' : 'Active')
         : 'N/A';
 };
 

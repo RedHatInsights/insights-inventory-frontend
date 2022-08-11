@@ -1,15 +1,17 @@
 /* eslint-disable no-constant-condition */
-import { subtractWeeks, verifyStaleInsightsClient } from './sharedFunctions';
+import { subtractWeeks, verifyCulledInsightsClient } from './sharedFunctions';
 
 describe('sharedFunctions', () => {
     describe('verfiyDisconnectedSystem', () => {
         it('should return false when puptoo is undefined', () => {
-            const result = verifyStaleInsightsClient({});
+            const result = verifyCulledInsightsClient({});
             expect(result).toBeTruthy();
         });
 
         it('should return false when puptoo is defined and stale_timestamp is not more recent than 2 weeks ago', () => {
-            const result = verifyStaleInsightsClient({ puptoo: new Date('2022-07-07T18:22:04.663407+00:00') });
+            const testDate = subtractWeeks(1);
+            // eslint-disable-next-line camelcase
+            const result = verifyCulledInsightsClient({ puptoo: { stale_timestamp: testDate.toDateString() } });
             expect(result).toBeFalsy();
         });
     });

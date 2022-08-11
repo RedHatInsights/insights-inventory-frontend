@@ -6,18 +6,26 @@ export const subtractWeeks = (numOfWeeks, date = new Date()) => {
 
 export const verifyCollectorStaleness = (reporterStaleness) =>{
     const stalenessDate = new Date(reporterStaleness.stale_timestamp);
-    const twoWeeksPeriod = subtractWeeks(2);
+    const currentDateTime = new Date();
 
-    if (twoWeeksPeriod > stalenessDate) {
-        return true;
+    const twoWeeksPeriod = subtractWeeks(2);
+    const oneWeeksPeriod = subtractWeeks(1);
+
+    if (stalenessDate > currentDateTime) {
+        return 'Fresh';
+    } else if (oneWeeksPeriod < stalenessDate && stalenessDate < currentDateTime) {
+        return 'Stale';
+    }
+    else if (twoWeeksPeriod < stalenessDate && stalenessDate < oneWeeksPeriod) {
+        return 'Stale warning';
     } else {
-        return false;
+        return 'Culled';
     }
 };
 
-export const verifyStaleInsightsClient = (perReporterStaleness = {}) => {
+export const verifyCulledInsightsClient = (perReporterStaleness = {}) => {
     if (perReporterStaleness.puptoo) {
-        return verifyCollectorStaleness(perReporterStaleness.puptoo);
+        return verifyCollectorStaleness(perReporterStaleness.puptoo) === 'Culled';
     } else {
         return true;
     }
