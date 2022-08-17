@@ -242,7 +242,7 @@ describe('EntityTable', () => {
                 </Provider>
             </MemoryRouter>);
 
-            expect(wrapper.find(InsightsDisconnected)).toHaveLength(2);
+            expect(wrapper.find(InsightsDisconnected)).toHaveLength(1);
         });
 
         it('should render correctly - custom columns via props', () => {
