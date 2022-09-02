@@ -44,6 +44,21 @@ There is an npm script that runs the build, JS and CSS linters and unit tests. T
 
 We are serving inventory trough federated modules, this means both inventory table and inventory detail is served to you in runtime. No need to install and rebuild when something changes in inventory.
 
+### Applications using InventoryTable
+
+These applications import `InventoryTable` component through federated modules:
+
+- [vulnerability-ui](https://github.com/RedHatInsights/vulnerability-ui)
+- [insights-remediations-frontend](https://github.com/RedHatInsights/insights-remediations-frontend)
+- [sed-frontend](https://github.com/RedHatInsights/sed-frontend)
+- [tasks-frontend](https://github.com/RedHatInsights/tasks-frontend)
+- [compliance-frontend](https://github.com/RedHatInsights/compliance-frontend)
+- [patchman-ui](https://github.com/RedHatInsights/patchman-ui)
+- [malware-detection-frontend](https://github.com/RedHatInsights/malware-detection-frontend)
+- [drift-frontend](https://github.com/RedHatInsights/drift-frontend)
+- [ros-frontend](https://github.com/RedHatInsights/ros-frontend)
+- [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend)
+
 ### Documentation Links
 
 * Components
