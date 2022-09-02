@@ -58,6 +58,7 @@ These applications import `InventoryTable` component through federated modules:
 - [drift-frontend](https://github.com/RedHatInsights/drift-frontend)
 - [ros-frontend](https://github.com/RedHatInsights/ros-frontend)
 - [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend)
+- [edge-frontend](https://github.com/RedHatInsights/edge-frontend)
 
 ### Documentation Links
 
