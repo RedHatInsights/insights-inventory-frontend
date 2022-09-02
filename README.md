@@ -42,7 +42,7 @@ There is an npm script that runs the build, JS and CSS linters and unit tests. T
 
 ## Inventory table and detail
 
-We are serving inventory trough federated modules, this means both inventory table and inventory detail is served to you in runtime. No need to install and rebuild when something changes in inventory.
+We are serving inventory through federated modules, this means both inventory table and inventory detail is served to you in runtime. No need to install and rebuild when something changes in inventory.
 
 ### Applications using InventoryTable
 
