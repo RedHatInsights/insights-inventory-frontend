@@ -107,6 +107,8 @@ export async function getEntities(items, {
             undefined,
             undefined,
             undefined,
+            undefined,
+            undefined,
             { cancelToken: controller && controller.token }
         );
 
@@ -155,6 +157,8 @@ export async function getEntities(items, {
             undefined,
             undefined,
             filters.hostnameOrId,
+            undefined,
+            undefined,
             undefined,
             undefined,
             perPage,
@@ -226,6 +230,12 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
         (pagination && pagination.page) || 1,
         staleFilter,
         search || hostnameOrId,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
         registeredWithFilter,
         undefined,
         {
