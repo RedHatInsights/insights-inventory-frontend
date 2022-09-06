@@ -33,7 +33,8 @@ export const asyncInventory = [
     'SET_DISPLAY_NAME',
     'SET_ANSIBLE_HOST',
     'LOAD_TAGS',
-    'ALL_TAGS'
+    'ALL_TAGS',
+    'OPERATING_SYSTEMS'
 ];
 
 export const systemIssues = [

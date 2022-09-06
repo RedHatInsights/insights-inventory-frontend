@@ -18,7 +18,8 @@ import {
     hosts,
     getAllTags as defaultGetAllTags,
     getTags,
-    filtersReducer
+    filtersReducer,
+    getOperatingSystems
 } from '../api';
 import { defaultFilters } from '../Utilities/constants';
 
@@ -177,6 +178,11 @@ export const fetchAllTags = (search, options, getTags = defaultGetAllTags) => ({
     type: ACTION_TYPES.ALL_TAGS,
     payload: getTags(search, options),
     meta: { lastDateRequestTags: Date.now() }
+});
+
+export const fetchOperatingSystems = () => ({
+    type: ACTION_TYPES.OPERATING_SYSTEMS,
+    payload: getOperatingSystems()
 });
 
 export const deleteEntity = (systems, displayName) => ({
