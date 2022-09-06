@@ -4,12 +4,13 @@ import flatMap from 'lodash/flatMap';
 
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import { generateFilter, mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
-import { HostsApi, TagsApi } from '@redhat-cloud-services/host-inventory-client';
+import { HostsApi, TagsApi, SystemProfileApi } from '@redhat-cloud-services/host-inventory-client';
 import { defaultFilters } from '../Utilities/constants';
 
 export { instance };
 export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
 export const tags = new TagsApi(undefined, INVENTORY_API_BASE, instance);
+export const systemProfile = new SystemProfileApi(undefined, INVENTORY_API_BASE, instance);
 
 export const getEntitySystemProfile = (item) => hosts.apiHostGetHostSystemProfileById([item]);
 
@@ -244,4 +245,8 @@ export function getAllTags(search, { filters, pagination, ...options } = { pagin
             }
         }
     );
+}
+
+export function getOperatingSystems() {
+    return systemProfile.apiSystemProfileGetOperatingSystem();
 }
