@@ -8,18 +8,69 @@ describe('toGroupSelectionValue', () => {
 
 describe('buildOSFilterConfig', function () {
     it('returns a filter configuration', () => {
-        expect(buildOSFilterConfig()).toMatchSnapshot();
+        expect(buildOSFilterConfig({}, [
+            {
+                label: 'RHEL 8.0',
+                value: '8.0'
+            },
+            {
+                label: 'RHEL 8.4',
+                value: '8.4'
+            },
+            {
+                label: 'RHEL 8.3',
+                value: '8.3'
+            },
+            {
+                label: 'RHEL 9.0',
+                value: '9.0'
+            }
+        ])).toMatchSnapshot();
     });
 
     it('appends a given config', () => {
         expect(buildOSFilterConfig({
             filterValues: []
-        })).toMatchSnapshot();
+        }, [
+            {
+                label: 'RHEL 8.0',
+                value: '8.0'
+            },
+            {
+                label: 'RHEL 8.4',
+                value: '8.4'
+            },
+            {
+                label: 'RHEL 8.3',
+                value: '8.3'
+            },
+            {
+                label: 'RHEL 9.0',
+                value: '9.0'
+            }
+        ])).toMatchSnapshot();
     });
 });
 
 describe('buildOSChip', function () {
     it('returnd chips', () => {
-        expect(buildOSChip(['7.9'])).toMatchSnapshot();
+        expect(buildOSChip(['8.4'], [
+            {
+                label: 'RHEL 8.0',
+                value: '8.0'
+            },
+            {
+                label: 'RHEL 8.4',
+                value: '8.4'
+            },
+            {
+                label: 'RHEL 8.3',
+                value: '8.3'
+            },
+            {
+                label: 'RHEL 9.0',
+                value: '9.0'
+            }
+        ])).toMatchSnapshot();
     });
 });

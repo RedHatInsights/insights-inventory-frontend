@@ -13,6 +13,7 @@ import ReducerRegistry, { applyReducerHash } from '@redhat-cloud-services/fronte
 import promise from 'redux-promise-middleware';
 import entitiesReducer from '../../store/entities';
 import debounce from 'lodash/debounce';
+import { mockSystemProfile } from '../../__mocks__/hostApi';
 
 jest.mock('lodash/debounce');
 
@@ -39,6 +40,7 @@ describe('InventoryTable - initial loading', () => {
             }
         };
         spy = jest.spyOn(actions, 'loadSystems').mockImplementation(() => ({ type: 'reload' }));
+        mockSystemProfile.onGet().reply(200, { results: [] });
     });
 
     afterEach(() => {

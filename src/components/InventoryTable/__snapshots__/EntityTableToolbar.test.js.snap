@@ -69,164 +69,7 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
         },
         Object {
           "filterValues": Object {
-            "groups": Array [
-              Object {
-                "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
-                "value": "9.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
-                  Object {
-                    "label": "RHEL 8.4",
-                    "type": "checkbox",
-                    "value": "8.4",
-                  },
-                  Object {
-                    "label": "RHEL 8.3",
-                    "type": "checkbox",
-                    "value": "8.3",
-                  },
-                  Object {
-                    "label": "RHEL 8.2",
-                    "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
-                  },
-                ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
-                "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
-              },
-            ],
+            "groups": Array [],
             "isDisabled": false,
             "onChange": [Function],
             "placeholder": "Filter by operating system",
@@ -353,24 +196,20 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
             "groups": Array [
               Object {
                 "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "noFilter": true,
                 "value": "9.0",
               },
               Object {
                 "groupSelectable": true,
                 "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
                   Object {
                     "label": "RHEL 8.4",
                     "type": "checkbox",
@@ -382,130 +221,14 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
                     "value": "8.3",
                   },
                   Object {
-                    "label": "RHEL 8.2",
+                    "label": "RHEL 8.0",
                     "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
+                    "value": "8.0",
                   },
                 ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
+                "label": "RHEL 8",
+                "noFilter": true,
                 "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
               },
             ],
             "isDisabled": false,
@@ -650,24 +373,20 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
             "groups": Array [
               Object {
                 "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "noFilter": true,
                 "value": "9.0",
               },
               Object {
                 "groupSelectable": true,
                 "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
                   Object {
                     "label": "RHEL 8.4",
                     "type": "checkbox",
@@ -679,130 +398,14 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
                     "value": "8.3",
                   },
                   Object {
-                    "label": "RHEL 8.2",
+                    "label": "RHEL 8.0",
                     "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
+                    "value": "8.0",
                   },
                 ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
+                "label": "RHEL 8",
+                "noFilter": true,
                 "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
               },
             ],
             "isDisabled": false,
@@ -966,24 +569,20 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
             "groups": Array [
               Object {
                 "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "noFilter": true,
                 "value": "9.0",
               },
               Object {
                 "groupSelectable": true,
                 "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
                   Object {
                     "label": "RHEL 8.4",
                     "type": "checkbox",
@@ -995,130 +594,14 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
                     "value": "8.3",
                   },
                   Object {
-                    "label": "RHEL 8.2",
+                    "label": "RHEL 8.0",
                     "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
+                    "value": "8.0",
                   },
                 ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
+                "label": "RHEL 8",
+                "noFilter": true,
                 "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
               },
             ],
             "isDisabled": false,
@@ -1254,24 +737,20 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
             "groups": Array [
               Object {
                 "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "noFilter": true,
                 "value": "9.0",
               },
               Object {
                 "groupSelectable": true,
                 "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
                   Object {
                     "label": "RHEL 8.4",
                     "type": "checkbox",
@@ -1283,130 +762,14 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
                     "value": "8.3",
                   },
                   Object {
-                    "label": "RHEL 8.2",
+                    "label": "RHEL 8.0",
                     "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
+                    "value": "8.0",
                   },
                 ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
+                "label": "RHEL 8",
+                "noFilter": true,
                 "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
               },
             ],
             "isDisabled": false,
@@ -1540,24 +903,20 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
             "groups": Array [
               Object {
                 "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "noFilter": true,
                 "value": "9.0",
               },
               Object {
                 "groupSelectable": true,
                 "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
                   Object {
                     "label": "RHEL 8.4",
                     "type": "checkbox",
@@ -1569,130 +928,14 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
                     "value": "8.3",
                   },
                   Object {
-                    "label": "RHEL 8.2",
+                    "label": "RHEL 8.0",
                     "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
+                    "value": "8.0",
                   },
                 ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
+                "label": "RHEL 8",
+                "noFilter": true,
                 "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
               },
             ],
             "isDisabled": false,
@@ -1828,24 +1071,20 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
             "groups": Array [
               Object {
                 "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "noFilter": true,
                 "value": "9.0",
               },
               Object {
                 "groupSelectable": true,
                 "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
                   Object {
                     "label": "RHEL 8.4",
                     "type": "checkbox",
@@ -1857,130 +1096,14 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
                     "value": "8.3",
                   },
                   Object {
-                    "label": "RHEL 8.2",
+                    "label": "RHEL 8.0",
                     "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
+                    "value": "8.0",
                   },
                 ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
+                "label": "RHEL 8",
+                "noFilter": true,
                 "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
               },
             ],
             "isDisabled": true,
@@ -2122,24 +1245,20 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
             "groups": Array [
               Object {
                 "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "noFilter": true,
                 "value": "9.0",
               },
               Object {
                 "groupSelectable": true,
                 "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
                   Object {
                     "label": "RHEL 8.4",
                     "type": "checkbox",
@@ -2151,130 +1270,14 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
                     "value": "8.3",
                   },
                   Object {
-                    "label": "RHEL 8.2",
+                    "label": "RHEL 8.0",
                     "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
+                    "value": "8.0",
                   },
                 ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
+                "label": "RHEL 8",
+                "noFilter": true,
                 "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
               },
             ],
             "isDisabled": false,
@@ -2446,24 +1449,20 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
             "groups": Array [
               Object {
                 "groupSelectable": true,
-                "items": Array [],
-                "label": "RHEL 9.0",
-                "type": "checkbox",
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "noFilter": true,
                 "value": "9.0",
               },
               Object {
                 "groupSelectable": true,
                 "items": Array [
-                  Object {
-                    "label": "RHEL 8.6",
-                    "type": "checkbox",
-                    "value": "8.6",
-                  },
-                  Object {
-                    "label": "RHEL 8.5",
-                    "type": "checkbox",
-                    "value": "8.5",
-                  },
                   Object {
                     "label": "RHEL 8.4",
                     "type": "checkbox",
@@ -2475,130 +1474,14 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
                     "value": "8.3",
                   },
                   Object {
-                    "label": "RHEL 8.2",
+                    "label": "RHEL 8.0",
                     "type": "checkbox",
-                    "value": "8.2",
-                  },
-                  Object {
-                    "label": "RHEL 8.1",
-                    "type": "checkbox",
-                    "value": "8.1",
+                    "value": "8.0",
                   },
                 ],
-                "label": "RHEL 8.0",
-                "type": "checkbox",
+                "label": "RHEL 8",
+                "noFilter": true,
                 "value": "8.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 7.9",
-                    "type": "checkbox",
-                    "value": "7.9",
-                  },
-                  Object {
-                    "label": "RHEL 7.8",
-                    "type": "checkbox",
-                    "value": "7.8",
-                  },
-                  Object {
-                    "label": "RHEL 7.7",
-                    "type": "checkbox",
-                    "value": "7.7",
-                  },
-                  Object {
-                    "label": "RHEL 7.6",
-                    "type": "checkbox",
-                    "value": "7.6",
-                  },
-                  Object {
-                    "label": "RHEL 7.5",
-                    "type": "checkbox",
-                    "value": "7.5",
-                  },
-                  Object {
-                    "label": "RHEL 7.4",
-                    "type": "checkbox",
-                    "value": "7.4",
-                  },
-                  Object {
-                    "label": "RHEL 7.3",
-                    "type": "checkbox",
-                    "value": "7.3",
-                  },
-                  Object {
-                    "label": "RHEL 7.2",
-                    "type": "checkbox",
-                    "value": "7.2",
-                  },
-                  Object {
-                    "label": "RHEL 7.1",
-                    "type": "checkbox",
-                    "value": "7.1",
-                  },
-                ],
-                "label": "RHEL 7.0",
-                "type": "checkbox",
-                "value": "7.0",
-              },
-              Object {
-                "groupSelectable": true,
-                "items": Array [
-                  Object {
-                    "label": "RHEL 6.10",
-                    "type": "checkbox",
-                    "value": "6.10",
-                  },
-                  Object {
-                    "label": "RHEL 6.9",
-                    "type": "checkbox",
-                    "value": "6.9",
-                  },
-                  Object {
-                    "label": "RHEL 6.8",
-                    "type": "checkbox",
-                    "value": "6.8",
-                  },
-                  Object {
-                    "label": "RHEL 6.7",
-                    "type": "checkbox",
-                    "value": "6.7",
-                  },
-                  Object {
-                    "label": "RHEL 6.6",
-                    "type": "checkbox",
-                    "value": "6.6",
-                  },
-                  Object {
-                    "label": "RHEL 6.5",
-                    "type": "checkbox",
-                    "value": "6.5",
-                  },
-                  Object {
-                    "label": "RHEL 6.4",
-                    "type": "checkbox",
-                    "value": "6.4",
-                  },
-                  Object {
-                    "label": "RHEL 6.3",
-                    "type": "checkbox",
-                    "value": "6.3",
-                  },
-                  Object {
-                    "label": "RHEL 6.2",
-                    "type": "checkbox",
-                    "value": "6.2",
-                  },
-                  Object {
-                    "label": "RHEL 6.1",
-                    "type": "checkbox",
-                    "value": "6.1",
-                  },
-                ],
-                "label": "RHEL 6.0",
-                "type": "checkbox",
-                "value": "6.0",
               },
             ],
             "isDisabled": false,

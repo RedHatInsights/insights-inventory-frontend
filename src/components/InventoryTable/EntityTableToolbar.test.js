@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import toJson from 'enzyme-to-json';
-import { mockTags } from '../../__mocks__/hostApi';
+import { mockTags, mockSystemProfile } from '../../__mocks__/hostApi';
 import TitleColumn from './TitleColumn';
 import debounce from 'lodash/debounce';
 import { defaultFilters } from '../../Utilities';
@@ -20,6 +20,8 @@ describe('EntityTableToolbar', () => {
     let onRefreshData;
 
     beforeEach(() => {
+        mockTags.onGet().reply(200, { results: [] });
+        mockSystemProfile.onGet().reply(200, { results: [] });
         onRefreshData = jest.fn();
         debounce.mockImplementation(jest.requireActual('lodash/debounce'));
         mockStore = configureStore([promiseMiddleware()]);
@@ -58,7 +60,26 @@ describe('EntityTableToolbar', () => {
                             } }
                         ]
                     }
-                ]
+                ],
+                operatingSystems: [
+                    {
+                        label: 'RHEL 8.0',
+                        value: '8.0'
+                    },
+                    {
+                        label: 'RHEL 8.4',
+                        value: '8.4'
+                    },
+                    {
+                        label: 'RHEL 8.3',
+                        value: '8.3'
+                    },
+                    {
+                        label: 'RHEL 9.0',
+                        value: '9.0'
+                    }
+                ],
+                operatingSystemsLoaded: true
             }
         };
     });
@@ -183,7 +204,6 @@ describe('EntityTableToolbar', () => {
     describe('API', () => {
         describe('pagination', () => {
             it('should set page ', () => {
-                mockTags.onGet(/\/api\/inventory\/v1.*/).reply(200, { results: [] });
                 const store = mockStore(initialState);
                 const wrapper = mount(<Provider store={store}>
                     <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
@@ -194,7 +214,6 @@ describe('EntityTableToolbar', () => {
             });
 
             it('should set per page ', () => {
-                mockTags.onGet(/\/api\/inventory\/v1.*/).reply(200, { results: [] });
                 const store = mockStore(initialState);
                 const wrapper = mount(<Provider store={store}>
                     <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
@@ -210,7 +229,6 @@ describe('EntityTableToolbar', () => {
             it('should dispatch action on delete filter', async () => {
                 debounce.mockImplementation(fn => fn);
 
-                mockTags.onGet(/\/api\/inventory\/v1.*/).reply(200, { results: [] });
                 const store = mockStore(initialState);
                 const wrapper = mount(<Provider store={store}>
                     <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
@@ -236,7 +254,6 @@ describe('EntityTableToolbar', () => {
 
             it('should remove textual filter', async () => {
                 debounce.mockImplementation(fn => fn);
-                mockTags.onGet(/\/api\/inventory\/v1.*/).reply(200, { results: [] });
                 const store = mockStore({
                     entities: {
                         ...initialState.entities,
@@ -259,7 +276,6 @@ describe('EntityTableToolbar', () => {
 
             it('should remove tag filter', async () => {
                 debounce.mockImplementation(fn => fn);
-                mockTags.onGet(/\/api\/inventory\/v1.*/).reply(200, { results: [] });
                 const store = mockStore({
                     entities: {
                         ...initialState.entities,
@@ -288,20 +304,18 @@ describe('EntityTableToolbar', () => {
             });
 
             it('should dispatch action on delete all filters', () => {
-                mockTags.onGet(/\/api\/inventory\/v1.*/).reply(200, { results: [] });
                 const store = mockStore(initialState);
                 const wrapper = mount(<Provider store={store}>
                     <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
                 </Provider>);
                 wrapper.find('.ins-c-chip-filters button.pf-m-link').last().simulate('click');
                 const actions = store.getActions();
-                expect(actions.length).toBe(2);
+                expect(actions.length).toBe(3);
                 expect(actions[actions.length - 2]).toMatchObject({ type: 'CLEAR_FILTERS' });
                 expect(onRefreshData).toHaveBeenCalledWith({ filters: [defaultFilters], page: 1 });
             });
 
             it('should call function on delete filter', () => {
-                mockTags.onGet(/\/api\/inventory\/v1.*/).reply(200, { results: [] });
                 const onDelete = jest.fn();
                 const store = mockStore(initialState);
                 const wrapper = mount(<Provider store={store}>
@@ -317,7 +331,6 @@ describe('EntityTableToolbar', () => {
         it('trim leading/trailling whitespace ', async () => {
             debounce.mockImplementation(fn => fn);
 
-            mockTags.onGet(/\/api\/inventory\/v1.*/).reply(200, { results: [] });
             const store = mockStore(initialState);
 
             const wrapper = mount(<Provider store={store}>

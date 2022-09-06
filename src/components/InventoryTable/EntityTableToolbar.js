@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { tagsFilterState, tagsFilterReducer, mapGroups } from '@redhat-cloud-services/frontend-components/FilterHooks';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
-import { fetchAllTags, clearFilters, toggleTagModal, setFilter } from '../../store/actions';
+import { fetchAllTags, clearFilters, toggleTagModal, setFilter, fetchOperatingSystems } from '../../store/actions';
 import { defaultFilters } from '../../Utilities/constants';
 import debounce from 'lodash/debounce';
 import {
@@ -83,10 +83,16 @@ const EntityTableToolbar = ({
     const allTagsLoaded = useSelector(({ entities: { allTagsLoaded } }) => allTagsLoaded);
     const allTags = useSelector(({ entities: { allTags } }) => allTags);
     const additionalTagsCount = useSelector(({ entities: { additionalTagsCount } }) => additionalTagsCount);
+    const operatingSystems = useSelector(({ entities: { operatingSystems } }) => operatingSystems);
+    const areOperatingSystemsLoaded = useSelector(({ entities: { operatingSystemsLoaded } }) => operatingSystemsLoaded);
     const [nameFilter, nameChip, textFilter, setTextFilter] = useTextFilter(reducer);
     const [stalenessFilter, stalenessChip, staleFilter, setStaleFilter] = useStalenessFilter(reducer);
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
-    const [operatingSystemFilter, operatingSystemChip, osFilter, setOsFilter] = useOperatingSystemFilter(reducer);
+    const [operatingSystemFilter, operatingSystemChip, osFilter, setOsFilter] = useOperatingSystemFilter(
+        operatingSystems,
+        areOperatingSystemsLoaded,
+        reducer
+    );
     const {
         tagsFilter,
         tagsChip,
@@ -193,6 +199,10 @@ const EntityTableToolbar = ({
     };
 
     const shouldReload = page && perPage && filters && (!hasItems || items);
+
+    useEffect(() => {
+        dispatch(fetchOperatingSystems());
+    }, []);
 
     useEffect(() => {
         if (shouldReload && showTags && enabledFilters.tags) {
