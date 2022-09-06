@@ -12,6 +12,7 @@ import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
 
 import { useWritePermissions, useGetRegistry } from '../Utilities/constants';
+import { mockSystemProfile } from '../__mocks__/hostApi';
 
 jest.mock('../Utilities/constants', () => ({
     ...jest.requireActual('../Utilities/constants'),
@@ -91,7 +92,9 @@ describe('InventoryTable', () => {
             rows: [system1],
             sortBy: { key: 'updated', direction: 'desc' },
             tagsLoaded: false,
-            total: 1
+            total: 1,
+            operatingSystems: [],
+            operatingSystemsLoaded: true
         },
         notifications: [],
         routerData: { params: {}, path: '/' },
@@ -110,6 +113,7 @@ describe('InventoryTable', () => {
         mockStore = configureStore();
         useWritePermissions.mockImplementation(() => (true));
         useGetRegistry.mockImplementation(() => (() => ({ register: () => ({}) })));
+        mockSystemProfile.onGet().reply(200, { results: [] });
     });
 
     it('renders correctly when write permissions', async () => {

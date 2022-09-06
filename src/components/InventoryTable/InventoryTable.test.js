@@ -11,6 +11,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import toJson from 'enzyme-to-json';
 import { ConditionalFilter } from '@redhat-cloud-services/frontend-components/ConditionalFilter';
 import * as actions from '../../Utilities/constants';
+import { mockSystemProfile } from '../../__mocks__/hostApi';
 
 jest.mock('../../store/actions', () => {
     const actions = jest.requireActual('../../store/actions');
@@ -50,6 +51,7 @@ describe('InventoryTable', () => {
             }
         };
         spy = jest.spyOn(actions, 'loadSystems').mockImplementation(() => ({ type: 'reload' }));
+        mockSystemProfile.onGet().reply(200, { results: [] });
     });
 
     afterEach(() => {

@@ -26,7 +26,8 @@
     "react-router-dom": "5.3.0",
     "redux": "^4.1.2",
     "redux-logger": "^3.0.6",
-    "redux-promise-middleware": "^6.1.2"
+    "redux-promise-middleware": "^6.1.2",
+    "semver": "^7.3.7"
   },
   "jest": {
     "testEnvironment": "jsdom",
