@@ -80,6 +80,7 @@ const Inventory = ({
     initialLoading
 }) => {
     const [InvCmp, setInvCmp] = useState();
+    // TODO: don't modify document.title directly, but use insights chroming instead
     document.title = 'Inventory | Red Hat Insights';
     const history = useHistory();
     const store = useStore();
