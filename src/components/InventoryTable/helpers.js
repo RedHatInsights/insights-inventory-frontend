@@ -31,22 +31,36 @@ export const createRows = (rows = [], columns = [], { actions, expandable, noSys
         }];
     }
 
-    return flatten(rows.map((oneItem, key) => ([{
-        ...oneItem,
-        ...oneItem.children && expandable && { isOpen: !!oneItem.isOpen },
-        cells: buildCells(oneItem, columns, extra),
-        actionProps: {
-            'data-ouia-component-id': `${oneItem.id}-actions-kebab`
-        }
-    }, oneItem.children && expandable && {
-        cells: [
-            {
-                title: typeof oneItem.children === 'function' ? oneItem.children() : oneItem.children
-            }
-        ],
-        parent: key * 2,
-        fullWidth: true
-    }]))).filter(Boolean);
+    return flatten(rows.map((oneItem, key) => {
+        //makes the row column key and sort key consistent, otherwise sorting does not work
+        const rowItem = {
+            ...oneItem,
+            // eslint-disable-next-line camelcase
+            operating_system: oneItem.system_profile?.operating_system
+        };
+
+        return (
+            [
+                {
+                    ...rowItem,
+                    ...rowItem.children && expandable && { isOpen: !!rowItem.isOpen },
+                    cells: buildCells(rowItem, columns, extra),
+                    actionProps: {
+                        'data-ouia-component-id': `${rowItem.id}-actions-kebab`
+                    }
+                },
+                rowItem.children && expandable && {
+                    cells: [
+                        {
+                            title: typeof rowItem.children === 'function' ? rowItem.children() : rowItem.children
+                        }
+                    ],
+                    parent: key * 2,
+                    fullWidth: true
+                }
+            ]
+        );
+    })).filter(Boolean);
 };
 
 export const onDeleteFilter = (deleted, currFilter = []) => {
