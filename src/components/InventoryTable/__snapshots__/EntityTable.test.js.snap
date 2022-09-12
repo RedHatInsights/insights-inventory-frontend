@@ -4,7 +4,7 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
 <table
   aria-label="Host inventory"
   class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-compact pf-m-sticky-header"
-  data-ouia-component-id="OUIA-Generated-Table-22"
+  data-ouia-component-id="OUIA-Generated-Table-26"
   data-ouia-component-type="PF4/Table"
   data-ouia-safe="true"
   role="grid"
@@ -15,7 +15,7 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
     <tr
       aria-label=""
       class=""
-      data-ouia-component-id="OUIA-Generated-TableRow-35"
+      data-ouia-component-id="OUIA-Generated-TableRow-39"
       data-ouia-component-type="PF4/TableRow"
       data-ouia-safe="true"
     >
@@ -80,7 +80,7 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
     <tr
       aria-label=""
       class=""
-      data-ouia-component-id="OUIA-Generated-TableRow-36"
+      data-ouia-component-id="OUIA-Generated-TableRow-40"
       data-ouia-component-type="PF4/TableRow"
       data-ouia-safe="true"
     >
@@ -622,7 +622,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
 <table
   aria-label="Host inventory"
   class="ins-c-entity-table pf-c-table pf-m-grid-md pf-m-compact pf-m-sticky-header"
-  data-ouia-component-id="OUIA-Generated-Table-26"
+  data-ouia-component-id="OUIA-Generated-Table-30"
   data-ouia-component-type="PF4/Table"
   data-ouia-safe="true"
   role="grid"
@@ -633,7 +633,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
     <tr
       aria-label=""
       class=""
-      data-ouia-component-id="OUIA-Generated-TableRow-39"
+      data-ouia-component-id="OUIA-Generated-TableRow-43"
       data-ouia-component-type="PF4/TableRow"
       data-ouia-safe="true"
     >
@@ -698,7 +698,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
     <tr
       aria-label=""
       class=""
-      data-ouia-component-id="OUIA-Generated-TableRow-40"
+      data-ouia-component-id="OUIA-Generated-TableRow-44"
       data-ouia-component-type="PF4/TableRow"
       data-ouia-safe="true"
     >
