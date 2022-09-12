@@ -139,7 +139,12 @@ const EntityTable = ({
                         );
                     } }
                     sortBy={ {
-                        index: cells?.findIndex(item => sortBy?.key === item.key) + Boolean(hasCheckbox) + Boolean(expandable),
+                        //Inventory API has different sortBy key than system_profile
+                        index:
+                            cells?.findIndex(
+                                item => (sortBy?.key === item.key)
+                                || (sortBy?.key === 'operating_system' && item.key === 'system_profile')
+                            ) + Boolean(hasCheckbox) + Boolean(expandable),
                         direction: sortBy?.direction
                     } }
                     { ...{
