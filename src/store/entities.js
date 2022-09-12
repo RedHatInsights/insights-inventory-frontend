@@ -38,6 +38,7 @@ export const defaultState = {
 export const defaultColumns = [
     {
         key: 'display_name',
+        sortKey: 'display_name',
         title: 'Name',
         renderFunc: TitleColumn
     },
@@ -49,15 +50,19 @@ export const defaultColumns = [
         renderFunc: (value, systemId) => <TagWithDialog count={value.length} systemId={systemId} />
     },
     {
-        key: 'operating_system',
+        key: 'system_profile',
+        sortKey: 'operating_system',
         dataLabel: 'OS',
         title: <Tooltip content={<span>Operating system</span>}><span>OS</span></Tooltip>,
-        renderFunc: (operatingSystem) => <OperatingSystemFormatter operatingSystem={operatingSystem} />,
+        // eslint-disable-next-line react/display-name
+        renderFunc: (systemProfile) => <OperatingSystemFormatter operatingSystem={systemProfile?.operating_system} />,
         props: { width: 10 }
     },
     {
         key: 'updated',
+        sortKey: 'updated',
         title: 'Last seen',
+        // eslint-disable-next-line react/display-name
         renderFunc: (
             value,
             _id,

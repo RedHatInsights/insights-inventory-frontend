@@ -28,7 +28,7 @@ describe('EntityTable', () => {
                 rows: [{
                     id: 'testing-id',
                     one: 'data',
-                    system_profile: { operating_system: { major: 9, name: 'RHEL' } }
+                    system_profile: {}
                 }],
                 columns: [{ key: 'one', sortKey: 'one', title: 'One', renderFunc: TitleColumn }],
                 page: 1,
