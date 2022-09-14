@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { propertiesSelector } from '../selectors';
-import { editDisplayName, editAnsibleHost, systemProfile } from '../../../store/actions';
+import { editDisplayName, editAnsibleHost } from '../../../store/actions';
 import TextInputModal from '../TextInputModal';
-import { loadEntity } from '../../../store/actions';
 import { Popover, Button } from '@patternfly/react-core';
 import EditButton from '../EditButton';
 import { generalMapper } from '../dataMapper';
@@ -41,9 +40,9 @@ class SystemCardCore extends Component {
         });
     };
 
-    onSubmit = (fn) => (value) => {
+    onSubmit = (fn, origValue) => (value) => {
         const { entity } = this.props;
-        fn(entity.id, value);
+        fn(entity.id, value, origValue);
         this.onCancel();
     }
 
@@ -168,7 +167,7 @@ class SystemCardCore extends Component {
                     confirmOuiaId="confirm-edit-display-name"
                     inputOuiaId="input-edit-display-name"
                     onCancel={ this.onCancel }
-                    onSubmit={ this.onSubmit(setDisplayName) }
+                    onSubmit={ this.onSubmit(setDisplayName, entity && entity.display_name) }
                 />
                 <TextInputModal
                     isOpen={ isAnsibleHostModalOpen }
@@ -180,7 +179,7 @@ class SystemCardCore extends Component {
                     confirmOuiaId="confirm-edit-ansible-name"
                     inputOuiaId="input-edit-ansible-name"
                     onCancel={ this.onCancel }
-                    onSubmit={ this.onSubmit(setAnsibleHost) }
+                    onSubmit={ this.onSubmit(setAnsibleHost, entity && this.getAnsibleHost()) }
                 />
             </Fragment>
         );
@@ -249,23 +248,13 @@ TitleWithPopover.propTypes = {
 };
 
 function mapDispatchToProps(dispatch) {
-    const reloadWrapper = (id, event) => {
-        event.payload.then(data => {
-            dispatch(systemProfile(id, { hasItems: true }));
-            dispatch(loadEntity(id, { hasItems: true }, { showTags: true }));
-            return data;
-        });
-
-        return event;
-    };
-
     return {
-        setDisplayName: (id, value) => {
-            dispatch(reloadWrapper(id, editDisplayName(id, value)));
+        setDisplayName: (id, value, origValue) => {
+            dispatch(editDisplayName(id, value, origValue));
         },
 
-        setAnsibleHost: (id, value) => {
-            dispatch(reloadWrapper(id, editAnsibleHost(id, value)));
+        setAnsibleHost: (id, value, origValue) => {
+            dispatch(editAnsibleHost(id, value, origValue));
         }
     };
 }
