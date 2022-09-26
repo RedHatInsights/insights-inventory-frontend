@@ -8,7 +8,6 @@ exports[`InventoryTable should render correctly - no data 1`] = `
         "deleteTitle": "Reset filters",
       }
     }
-    filters={Array []}
     hasAccess={true}
     hasItems={false}
     hideFilters={Object {}}
@@ -49,7 +48,6 @@ exports[`InventoryTable should render correctly - with no access 1`] = `
         "deleteTitle": "Reset filters",
       }
     }
-    filters={Array []}
     hasAccess={false}
     hasItems={false}
     hideFilters={Object {}}
@@ -127,7 +125,6 @@ exports[`InventoryTable should render correctly 1`] = `
         "deleteTitle": "Reset filters",
       }
     }
-    filters={Array []}
     hasAccess={true}
     hasItems={false}
     hideFilters={Object {}}
@@ -238,7 +235,6 @@ exports[`InventoryTable should render correctly with items 1`] = `
         "deleteTitle": "Reset filters",
       }
     }
-    filters={Array []}
     hasAccess={true}
     hasItems={true}
     hideFilters={Object {}}
@@ -349,7 +345,6 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
         "deleteTitle": "Reset filters",
       }
     }
-    filters={Array []}
     hasAccess={true}
     hasItems={true}
     hideFilters={Object {}}

@@ -44,7 +44,6 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     total: propsTotal,
     page: propsPage,
     perPage: propsPerPage,
-    filters,
     showTags,
     sortBy: propsSortBy,
     customFilters,
@@ -188,7 +187,6 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
                     customFilters={customFilters}
                     hasAccess={hasAccess}
                     items={ items }
-                    filters={ filters }
                     hasItems={ hasItems }
                     total={ pagination.total }
                     page={ pagination.page }
@@ -246,7 +244,6 @@ InventoryTable.propTypes = {
     total: PropTypes.number,
     page: PropTypes.number,
     perPage: PropTypes.number,
-    filters: PropTypes.any,
     showTags: PropTypes.bool,
     getTags: PropTypes.func,
     sortBy: PropTypes.object,
