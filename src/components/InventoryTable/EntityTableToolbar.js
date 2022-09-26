@@ -108,7 +108,7 @@ const EntityTableToolbar = ({
     const debounceGetAllTags = useCallback(debounce((config, options) => {
         if (showTags && !hasItems && hasAccess) {
             dispatch(fetchAllTags(config, {
-                ...options
+                ...options?.pagination
             },  getTags));
         }
     }, 800), [customFilters?.tags]);
