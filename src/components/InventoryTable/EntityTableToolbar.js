@@ -369,7 +369,6 @@ EntityTableToolbar.propTypes = {
     hasAccess: PropTypes.bool,
     filterConfig: PropTypes.object,
     total: PropTypes.number,
-    filters: PropTypes.array,
     hasItems: PropTypes.bool,
     page: PropTypes.number,
     onClearFilters: PropTypes.func,
@@ -413,7 +412,6 @@ EntityTableToolbar.defaultProps = {
     showTags: false,
     hasAccess: true,
     activeFiltersConfig: {},
-    filters: [],
     hideFilters: {}
 };
 
