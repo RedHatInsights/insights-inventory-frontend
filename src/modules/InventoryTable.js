@@ -6,3 +6,5 @@ const BaseInventoryTable = (props) => <AsyncInventory componentName="InventoryTa
 const InventoryTable = React.forwardRef((props, ref) => <BaseInventoryTable innerRef={ref} {...props} />);
 
 export default InventoryTable;
+
+export { useOperatingSystemFilter } from '../components/filters';

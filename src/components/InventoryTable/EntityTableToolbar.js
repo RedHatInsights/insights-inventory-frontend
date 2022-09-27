@@ -2,10 +2,11 @@
 import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import xor from 'lodash/xor';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { tagsFilterState, tagsFilterReducer, mapGroups } from '@redhat-cloud-services/frontend-components/FilterHooks';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
-import { fetchAllTags, clearFilters, toggleTagModal, setFilter, fetchOperatingSystems } from '../../store/actions';
+import { fetchAllTags, clearFilters, toggleTagModal, setFilter } from '../../store/actions';
 import { defaultFilters } from '../../Utilities/constants';
 import debounce from 'lodash/debounce';
 import {
@@ -19,10 +20,9 @@ import {
     TAG_CHIP,
     arrayToSelection
 } from '../../Utilities/index';
-import { onDeleteFilter, onDeleteTag, onDeleteOsFilter } from './helpers';
+import { onDeleteFilter, onDeleteTag } from './helpers';
 import {
     useStalenessFilter,
-    useOperatingSystemFilter,
     useTextFilter,
     useRegisteredWithFilter,
     useTagsFilter,
@@ -36,6 +36,7 @@ import {
     registeredWithFilterReducer,
     registeredWithFilterState
 } from '../filters';
+import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -83,16 +84,12 @@ const EntityTableToolbar = ({
     const allTagsLoaded = useSelector(({ entities: { allTagsLoaded } }) => allTagsLoaded);
     const allTags = useSelector(({ entities: { allTags } }) => allTags);
     const additionalTagsCount = useSelector(({ entities: { additionalTagsCount } }) => additionalTagsCount);
-    const operatingSystems = useSelector(({ entities: { operatingSystems } }) => operatingSystems);
-    const areOperatingSystemsLoaded = useSelector(({ entities: { operatingSystemsLoaded } }) => operatingSystemsLoaded);
     const [nameFilter, nameChip, textFilter, setTextFilter] = useTextFilter(reducer);
     const [stalenessFilter, stalenessChip, staleFilter, setStaleFilter] = useStalenessFilter(reducer);
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
-    const [operatingSystemFilter, operatingSystemChip, osFilter, setOsFilter] = useOperatingSystemFilter(
-        operatingSystems,
-        areOperatingSystemsLoaded,
-        reducer
-    );
+
+    const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
+
     const {
         tagsFilter,
         tagsChip,
@@ -162,7 +159,7 @@ const EntityTableToolbar = ({
         enabledFilters.stale && setStaleFilter(staleFilter);
         enabledFilters.registeredWith && setRegisteredWithFilter(registeredWithFilter);
         enabledFilters.tags && setSelectedTags(tagFilters);
-        enabledFilters.operatingSystem && setOsFilter(osFilter);
+        enabledFilters.operatingSystem && setOsFilterValue(osFilter);
     }, []);
 
     /**
@@ -201,10 +198,6 @@ const EntityTableToolbar = ({
     const shouldReload = page && perPage && filters && (!hasItems || items);
 
     useEffect(() => {
-        dispatch(fetchOperatingSystems());
-    }, []);
-
-    useEffect(() => {
         if (shouldReload && showTags && enabledFilters.tags) {
             debounceGetAllTags(filterTagsBy, { filters });
         }
@@ -236,9 +229,9 @@ const EntityTableToolbar = ({
 
     useEffect(() => {
         if (shouldReload && enabledFilters.operatingSystem) {
-            onSetFilter(osFilter, 'osFilter', debouncedRefresh);
+            onSetFilter(osFilterValue, 'osFilter', debouncedRefresh);
         }
-    }, [osFilter]);
+    }, [osFilterValue]);
 
     /**
      * Mapper to simplify removing of any filter.
@@ -256,7 +249,7 @@ const EntityTableToolbar = ({
         [REGISTERED_CHIP]: (deleted) => setRegisteredWithFilter(
             onDeleteFilter(deleted, registeredWithFilter)
         ),
-        [OS_CHIP]: (deleted) => setOsFilter(onDeleteOsFilter(deleted, osFilter))
+        [OS_CHIP]: (deleted) => setOsFilterValue(xor(osFilterValue, deleted.chips.map(({ value }) => value)))
     };
     /**
      * Function to reset all filters with 'Reset Filter' is clicked
@@ -266,7 +259,7 @@ const EntityTableToolbar = ({
         enabledFilters.stale && setStaleFilter(defaultFilters.staleFilter);
         enabledFilters.registeredWith && setRegisteredWithFilter([]);
         enabledFilters.tags && setSelectedTags({});
-        enabledFilters.operatingSystem && setOsFilter([]);
+        enabledFilters.operatingSystem && setOsFilterValue([]);
         dispatch(setFilter([defaultFilters]));
         updateData({ page: 1, filters: [defaultFilters] });
     };
@@ -282,7 +275,7 @@ const EntityTableToolbar = ({
                 ...!hasItems && enabledFilters.name ? nameChip : [],
                 ...!hasItems && enabledFilters.stale ? stalenessChip : [],
                 ...!hasItems && enabledFilters.registeredWith ? registeredChip : [],
-                ...!hasItems && enabledFilters.operatingSystem ? operatingSystemChip : [],
+                ...!hasItems && enabledFilters.operatingSystem ? osFilterChips : [],
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -304,7 +297,7 @@ const EntityTableToolbar = ({
         ...!hasItems ? [
             ...enabledFilters.name ? [nameFilter] : [],
             ...enabledFilters.stale ? [stalenessFilter] : [],
-            ...enabledFilters.operatingSystem ? [operatingSystemFilter] : [],
+            ...enabledFilters.operatingSystem ? [osFilterConfig] : [],
             ...enabledFilters.registeredWith ? [registeredFilter] : [],
             ...showTags && enabledFilters.tags ? [tagsFilter] : []
         ] : [],

@@ -54,22 +54,6 @@ export const onDeleteFilter = (deleted, currFilter = []) => {
     return  currFilter.filter((item) => item !== deletedItem);
 };
 
-export const onDeleteOsFilter = (deleted, currentFilter = []) => {
-    const { value: deletedItem } = deleted?.chips?.[0] || {};
-    const majorVersion = `${deletedItem.split('.')[0]}.0`;
-
-    return {
-        ...currentFilter,
-        [majorVersion]: Object.keys(currentFilter[majorVersion]).reduce((acc, item) => {
-            if (item !== deletedItem) {
-                acc[item] = true;
-            }
-
-            return acc;
-        }, {})
-    };
-};
-
 export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
     const deletedItem = deleted?.chips?.[0];
     if (selectedTags?.[deleted?.key]?.[deletedItem?.key] !== undefined) {
