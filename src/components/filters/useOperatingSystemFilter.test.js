@@ -14,19 +14,23 @@ describe('useOperatingSystemFilter', () => {
     });
 
     describe('with operating systems yet not loaded', () => {
+        const wrapper = ({ children }) => (
+            <Provider store={mockStore({})}>
+                {children}
+            </Provider>
+        );
+
         it('should initiate an API request', async () => {
-            const wrapper = ({ children }) => (
-                <Provider
-                    store={mockStore({})}
-                >
-                    {children}
-                </Provider>
-            );
             renderHook(useOperatingSystemFilter, { wrapper });
             await waitFor(() => {
                 expect(mockSystemProfile.history.get.length).toBe(1);
             });
             mockSystemProfile.resetHistory();
+        });
+
+        it('should return empty state value', () => {
+            const { result } = renderHook(useOperatingSystemFilter, { wrapper });
+            expect(result.current).toMatchSnapshot();
         });
     });
 
@@ -87,6 +91,22 @@ describe('useOperatingSystemFilter', () => {
             expect(valueUpdated).toEqual(['8.4']);
             expect(chipsUpdated).toMatchSnapshot();
         });
-    });
 
+        it('should return empty state value if no versions obtained', () => {
+            const wrapper = ({ children }) => (
+                <Provider
+                    store={mockStore({
+                        entities: {
+                            operatingSystems: [],
+                            operatingSystemsLoaded: true
+                        }
+                    })}
+                >
+                    {children}
+                </Provider>
+            );
+            const { result } = renderHook(useOperatingSystemFilter, { wrapper });
+            expect(result.current).toMatchSnapshot();
+        });
+    });
 });

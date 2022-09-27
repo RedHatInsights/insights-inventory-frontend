@@ -79,3 +79,53 @@ Array [
   },
 ]
 `;
+
+exports[`useOperatingSystemFilter with operating systems loaded should return empty state value if no versions obtained 1`] = `
+Array [
+  Object {
+    "filterValues": Object {
+      "groups": Array [
+        Object {
+          "items": Array [
+            Object {
+              "label": "No versions available",
+            },
+          ],
+        },
+      ],
+      "onChange": [Function],
+      "selected": Object {},
+    },
+    "label": "Operating System",
+    "type": "group",
+  },
+  Array [],
+  Array [],
+  [Function],
+]
+`;
+
+exports[`useOperatingSystemFilter with operating systems yet not loaded should return empty state value 1`] = `
+Array [
+  Object {
+    "filterValues": Object {
+      "groups": Array [
+        Object {
+          "items": Array [
+            Object {
+              "label": "No versions available",
+            },
+          ],
+        },
+      ],
+      "onChange": [Function],
+      "selected": Object {},
+    },
+    "label": "Operating System",
+    "type": "group",
+  },
+  Array [],
+  Array [],
+  [Function],
+]
+`;

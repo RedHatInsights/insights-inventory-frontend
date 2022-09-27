@@ -35,7 +35,10 @@ const useOperatingSystemFilter = (apiParams = []) => {
     }, []);
 
     useEffect(() => {
-        setGroups(groupOSFilterVersions(operatingSystems));
+        const newGroups = groupOSFilterVersions(operatingSystems);
+        setGroups((operatingSystems || []).length === 0
+            ? [{ items: [{ label: 'No versions available' }] }]
+            : newGroups);
         setSelected(
             toGroupSelection(
                 getSelectedOsFilterVersions(selected),

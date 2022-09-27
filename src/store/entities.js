@@ -280,7 +280,6 @@ export default {
     [ACTION_TYPES.ALL_TAGS_REJECTED]: loadingRejected,
     [ACTION_TYPES.OPERATING_SYSTEMS_PENDING]: (state) => ({ ...state, operatingSystemsLoaded: false }),
     [ACTION_TYPES.OPERATING_SYSTEMS_FULFILLED]: versionsLoaded,
-    [ACTION_TYPES.OPERATING_SYSTEMS_REJECTED]: loadingRejected,
     [UPDATE_ENTITIES]: entitiesLoaded,
     [SHOW_ENTITIES]: (state, action) => entitiesLoaded(state, {
         payload: {
