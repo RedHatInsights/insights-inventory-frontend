@@ -202,6 +202,18 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                 class=""
                 data-pf-content="true"
               >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
                 Number of CPUs
               </dt>
               <dd
@@ -1169,6 +1181,18 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                 data-pf-content="true"
               >
                 Not available
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
               </dd>
               <dt
                 class=""
@@ -2220,6 +2244,18 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                 class=""
                 data-pf-content="true"
               >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
                 Number of CPUs
               </dt>
               <dd
@@ -3164,6 +3200,18 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                 class=""
                 data-pf-content="true"
               >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
                 Number of CPUs
               </dt>
               <dd
@@ -4095,6 +4143,18 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                 data-pf-content="true"
               >
                 Not available
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
               </dd>
               <dt
                 class=""
@@ -5836,6 +5896,18 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                 class=""
                 data-pf-content="true"
               >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
                 Number of CPUs
               </dt>
               <dd
@@ -6810,6 +6882,18 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                 data-pf-content="true"
               >
                 Not available
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
               </dd>
               <dt
                 class=""
@@ -7868,6 +7952,18 @@ exports[`GeneralInformation custom components should render custom Configuration
                 class=""
                 data-pf-content="true"
               >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
                 Number of CPUs
               </dt>
               <dd
@@ -8819,6 +8915,18 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                 class=""
                 data-pf-content="true"
               >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
                 Number of CPUs
               </dt>
               <dd
@@ -9757,6 +9865,18 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                 data-pf-content="true"
               >
                 Not available
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
               </dd>
               <dt
                 class=""
@@ -11501,6 +11621,24 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                 class=""
                 data-pf-content="true"
               >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
                 Number of CPUs
               </dt>
               <dd
@@ -12668,6 +12806,18 @@ exports[`GeneralInformation should render correctly 1`] = `
                 data-pf-content="true"
               >
                 Not available
+              </dd>
+              <dt
+                class=""
+                data-pf-content="true"
+              >
+                System purpose
+              </dt>
+              <dd
+                class=""
+                data-pf-content="true"
+              >
+                Production
               </dd>
               <dt
                 class=""

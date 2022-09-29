@@ -16,6 +16,7 @@ export const propertiesSelector = ({
     ramSize,
     disk_devices,
     sap_sids,
+    system_purpose,
     cpu_flags
 } = {}, { facts } = { }) => ({
     cpuNumber: number_of_cpus || facts?.rhsm?.CPU_CORES,
@@ -35,6 +36,7 @@ export const propertiesSelector = ({
     })
     ),
     sapIds: sap_sids,
+    systemPurpose: system_purpose?.usage,
     cpuFlags: cpu_flags
 });
 
