@@ -79,6 +79,7 @@ class SystemCardCore extends Component {
             hasDisplayName,
             hasAnsibleHostname,
             hasSAP,
+            hasSystemPurpose,
             hasCPUs,
             hasSockets,
             hasCores,
@@ -141,6 +142,7 @@ class SystemCardCore extends Component {
                                 );
                             }
                         }] : [],
+                        ...hasSystemPurpose ? [{ title: 'System purpose', value: properties.systemPurpose }] : [],
                         ...hasCPUs ? [{ title: 'Number of CPUs', value: properties.cpuNumber }] : [],
                         ...hasSockets ? [{ title: 'Sockets', value: properties.sockets }] : [],
                         ...hasCores ? [{ title: 'Cores per socket', value: properties.coresPerSocket }] : [],
@@ -210,6 +212,7 @@ SystemCardCore.propTypes = {
             type: PropTypes.string
         })),
         sapIds: PropTypes.arrayOf(PropTypes.string),
+        systemPurpose: PropTypes.string,
         cpuFlags: PropTypes.array
     }),
     setDisplayName: PropTypes.func,
@@ -220,6 +223,7 @@ SystemCardCore.propTypes = {
     hasDisplayName: PropTypes.bool,
     hasAnsibleHostname: PropTypes.bool,
     hasSAP: PropTypes.bool,
+    hasSystemPurpose: PropTypes.bool,
     hasCPUs: PropTypes.bool,
     hasSockets: PropTypes.bool,
     hasCores: PropTypes.bool,
@@ -235,6 +239,7 @@ SystemCardCore.defaultProps = {
     hasDisplayName: true,
     hasAnsibleHostname: true,
     hasSAP: true,
+    hasSystemPurpose: true,
     hasCPUs: true,
     hasSockets: true,
     hasCores: true,

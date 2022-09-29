@@ -48,7 +48,10 @@
                 ],
                 "infrastructure_type": "virtual",
                 "system_memory_bytes": 512073728,
-                "infrastructure_vendor": "qemu"
+                "infrastructure_vendor": "qemu",
+                "system_purpose": {
+                    "usage": "Production"
+                }
             }
         }
     ]

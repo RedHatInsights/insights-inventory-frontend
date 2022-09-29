@@ -50,6 +50,9 @@ Object {
   ],
   "satellite_managed": false,
   "system_memory_bytes": 512073728,
+  "system_purpose": Object {
+    "usage": "Production",
+  },
   "yum_repos": Array [
     Object {
       "enabled": false,

@@ -5,7 +5,10 @@ export const testProperties = {
     cores_per_socket: 1,
     ramSize: '5 MB',
     disk_devices: [],
-    cpu_flags: []
+    cpu_flags: [],
+    system_purpose: {
+        usage: 'Production'
+    }
 };
 
 export const osTest = {
