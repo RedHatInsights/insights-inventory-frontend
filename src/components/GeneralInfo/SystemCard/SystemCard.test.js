@@ -231,6 +231,7 @@ describe('SystemCard', () => {
         'hasDisplayName',
         'hasAnsibleHostname',
         'hasSAP',
+        'hasSystemPurpose',
         'hasCPUs',
         'hasSockets',
         'hasCores',
