@@ -32,14 +32,45 @@ function entitiesLoaded(state, { payload }) {
     };
 }
 
-function updateEntity(state, { meta }) {
+function updateEntity(state, { meta }, useOrigValue) {
+    const value = useOrigValue ? meta?.origValue : meta?.value;
     return {
         ...state,
-        rows: state.rows.map((row) => row.id === meta?.id ? ({
-            ...row,
-            // eslint-disable-next-line camelcase
-            display_name: meta?.value
-        }) : row)
+        ...state.rows && {
+            rows: state.rows.map((row) => row.id === meta?.id ? ({
+                ...row,
+                // eslint-disable-next-line camelcase
+                display_name: value
+            }) : row)
+        },
+        ...state.entity && {
+            entity: {
+                ...state.entity,
+                // eslint-disable-next-line camelcase
+                display_name: value
+            }
+        }
+    };
+}
+
+function updateAnsibleName(state, { meta }, useOrigValue) {
+    const value = useOrigValue ? meta?.origValue : meta?.value;
+    return {
+        ...state,
+        ...state.rows && {
+            rows: state.rows.map((row) => row.id === meta?.id ? ({
+                ...row,
+                // eslint-disable-next-line camelcase
+                ansible_host: value
+            }) : row)
+        },
+        ...state.entity && {
+            entity: {
+                ...state.entity,
+                // eslint-disable-next-line camelcase
+                ansible_host: value
+            }
+        }
     };
 }
 
@@ -176,7 +207,11 @@ export const tableReducer = applyReducerHash(
 export const entitesDetailReducer = () => applyReducerHash(
     {
         [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded,
-        [INVENTORY_ACTION_TYPES.LOAD_SYSTEM_PROFILE_FULFILLED]: resourceOptTabVisibility
+        [INVENTORY_ACTION_TYPES.LOAD_SYSTEM_PROFILE_FULFILLED]: resourceOptTabVisibility,
+        [ACTION_TYPES.UPDATE_DISPLAY_NAME_PENDING]: updateEntity,
+        [ACTION_TYPES.SET_ANSIBLE_HOST_PENDING]: updateAnsibleName,
+        [ACTION_TYPES.UPDATE_DISPLAY_NAME_ERROR]: (state, payload) => updateEntity(state, payload, true),
+        [ACTION_TYPES.SET_ANSIBLE_HOST_ERROR]: (state, payload) => updateAnsibleName(state, payload, true)
     },
     defaultState
 );
