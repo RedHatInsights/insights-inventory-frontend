@@ -8,7 +8,6 @@ import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 
 const TagsModal = ({
-    customFilters,
     filterTagsBy,
     onToggleModal,
     onApply,
@@ -48,7 +47,7 @@ const TagsModal = ({
             ...flatten(tags.map(({ tag }) => tag))
         ]), []);
     });
-    const filters = useSelector(({ entities, entityDetails }) => (entities || entityDetails)?.activeFilters);
+
     const tagsCount = useSelector(({ entities, entityDetails }) => {
         const activeTags = (entities?.activeSystemTag?.tags || entityDetails?.entity?.tags)?.filter(
             (tag) => Object.values(tag).some((val) => val?.includes(filterBy))
@@ -62,7 +61,7 @@ const TagsModal = ({
 
     const fetchTags = (pagination, filterBy) => {
         if (!activeSystemTag) {
-            dispatch(fetchAllTags(filterBy, { ...customFilters, pagination, filters }, getTags));
+            dispatch(fetchAllTags(filterBy, { pagination }, getTags));
         } else {
             setStatePagination(() => pagination);
         }

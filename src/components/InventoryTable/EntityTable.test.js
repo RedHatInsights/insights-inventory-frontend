@@ -183,6 +183,44 @@ describe('EntityTable', () => {
                 </MemoryRouter>);
                 expect(toJson(wrapper.find('Table'), { mode: 'shallow' })).toMatchSnapshot();
             });
+
+            it('should mark OS column as sorted in Asc order', () => {
+                const store = mockStore(initialState);
+                const wrapper = mount(<MemoryRouter>
+                    <Provider store={store}>
+                        <EntityTable
+                            loaded
+                            expandable
+                            disableDefaultColumns
+                            sortBy={{
+                                key: 'system_profile',
+                                direction: 'asc'
+                            }}
+                        />
+                    </Provider>
+                </MemoryRouter>);
+
+                expect(wrapper.find('Table').props().sortBy).toEqual({ index: 1, direction: 'asc' });
+            });
+
+            it('should mark OS column as sorted in Desc order', () => {
+                const store = mockStore(initialState);
+                const wrapper = mount(<MemoryRouter>
+                    <Provider store={store}>
+                        <EntityTable
+                            loaded
+                            expandable
+                            disableDefaultColumns
+                            sortBy={{
+                                key: 'system_profile',
+                                direction: 'desc'
+                            }}
+                        />
+                    </Provider>
+                </MemoryRouter>);
+
+                expect(wrapper.find('Table').props().sortBy).toEqual({ index: 1, direction: 'desc' });
+            });
         });
 
         it('should render correctly - compact', () => {

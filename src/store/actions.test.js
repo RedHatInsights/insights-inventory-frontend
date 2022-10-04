@@ -26,6 +26,7 @@ describe('editDisplayName', () => {
         expect(meta).toEqual({
             id: '4',
             value: 'test-value',
+            origValue: undefined,
             notifications: {
                 fulfilled: {
                     variant: 'success',
@@ -46,6 +47,9 @@ describe('editAnsibleHost', () => {
         const { type, meta } = await editAnsibleHost('4', 'test-value');
         expect(type).toBe('SET_ANSIBLE_HOST');
         expect(meta).toEqual({
+            id: '4',
+            value: 'test-value',
+            origValue: undefined,
             notifications: {
                 fulfilled: {
                     variant: 'success',

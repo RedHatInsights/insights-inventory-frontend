@@ -23,7 +23,8 @@ it('propertiesSelector should return correct data', () => {
         coresPerSocket: 1,
         ramSize: '5 MB',
         storage: [],
-        cpuFlags: []
+        cpuFlags: [],
+        systemPurpose: 'Production'
     });
 });
 
@@ -33,7 +34,8 @@ it('propertiesSelector - no data', () => {
         sockets: undefined,
         coresPerSocket: undefined,
         ramSize: undefined,
-        storage: undefined
+        storage: undefined,
+        systemPurpose: undefined
     });
 });
 

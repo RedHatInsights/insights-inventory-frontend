@@ -114,7 +114,6 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
       ],
     }
   }
-  filters={Array []}
   pagination={
     <Skeleton
       size="lg"
@@ -284,7 +283,6 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
       ],
     }
   }
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": false,
@@ -500,7 +498,6 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
       ],
     }
   }
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": false,
@@ -682,7 +679,6 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
       ],
     }
   }
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": false,
@@ -852,7 +848,6 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
       ],
     }
   }
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": false,
@@ -1027,7 +1022,6 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
       ],
     }
   }
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": false,
@@ -1050,7 +1044,6 @@ exports[`EntityTableToolbar DOM should render correctly - with items 1`] = `
     }
   }
   className="ins-c-inventory__table--toolbar ins-c-inventory__table--toolbar-has-items"
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": false,
@@ -1204,7 +1197,6 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
       ],
     }
   }
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": true,
@@ -1417,7 +1409,6 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
       ],
     }
   }
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": false,
@@ -1600,7 +1591,6 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
       ],
     }
   }
-  filters={Array []}
   pagination={
     Object {
       "isDisabled": false,

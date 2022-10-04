@@ -105,23 +105,10 @@ const EntityTableToolbar = ({
     const debounceGetAllTags = useCallback(debounce((config, options) => {
         if (showTags && !hasItems && hasAccess) {
             dispatch(fetchAllTags(config, {
-                ...customFilters,
                 ...options
             },  getTags));
         }
     }, 800), [customFilters?.tags]);
-
-    /**
-     * Function to dispatch load systems and fetch all tags.
-     */
-    const onRefreshDataInner = useCallback((options) => {
-        if (hasAccess) {
-            onRefreshData(options);
-            if (showTags && !hasItems) {
-                dispatch(fetchAllTags(filterTagsBy, { ...customFilters, filters: options?.filters || filters }, getTags));
-            }
-        }
-    }, [customFilters?.tags]);
 
     const enabledFilters = {
         name: !(hideFilters.all && hideFilters.name !== false) && !hideFilters.name,
@@ -130,6 +117,18 @@ const EntityTableToolbar = ({
         operatingSystem: !(hideFilters.all && hideFilters.operatingSystem !== false) && !hideFilters.operatingSystem,
         tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags
     };
+
+    /**
+     * Function to dispatch load systems and fetch all tags.
+     */
+    const onRefreshDataInner = useCallback((options) => {
+        if (hasAccess) {
+            onRefreshData(options);
+            if (showTags && !hasItems) {
+                dispatch(fetchAllTags(filterTagsBy, {}, getTags));
+            }
+        }
+    }, [customFilters?.tags]);
 
     /**
      * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
@@ -199,7 +198,7 @@ const EntityTableToolbar = ({
 
     useEffect(() => {
         if (shouldReload && showTags && enabledFilters.tags) {
-            debounceGetAllTags(filterTagsBy, { filters });
+            debounceGetAllTags(filterTagsBy);
         }
     }, [filterTagsBy, customFilters?.tags]);
 
@@ -346,7 +345,6 @@ const EntityTableToolbar = ({
         </PrimaryToolbar>
         {
             (showTags || enabledFilters.tags || showTagModal) && <TagsModal
-                customFilters={customFilters}
                 filterTagsBy={filterTagsBy}
                 onApply={(selected) => setSelectedTags(arrayToSelection(selected))}
                 onToggleModal={() => seFilterTagsBy('')}
@@ -362,7 +360,6 @@ EntityTableToolbar.propTypes = {
     hasAccess: PropTypes.bool,
     filterConfig: PropTypes.object,
     total: PropTypes.number,
-    filters: PropTypes.array,
     hasItems: PropTypes.bool,
     page: PropTypes.number,
     onClearFilters: PropTypes.func,
@@ -406,7 +403,6 @@ EntityTableToolbar.defaultProps = {
     showTags: false,
     hasAccess: true,
     activeFiltersConfig: {},
-    filters: [],
     hideFilters: {}
 };
 
