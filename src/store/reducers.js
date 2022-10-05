@@ -18,7 +18,7 @@ import { applyReducerHash } from '@redhat-cloud-services/frontend-components-uti
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import entitiesReducer, { defaultState as entitiesDefault } from './entities';
-import entityDetailsReducer, { entityDefaultState as entityDefault } from './entityDetails';
+import entityDetailsReducer, { entityDefaultState as entityDefault, updateEntity } from './entityDetails';
 
 export { entitiesReducer, entityDetailsReducer };
 
@@ -29,48 +29,6 @@ function entitiesLoaded(state, { payload }) {
         ...state,
         rows: mergeArraysByKey([state.rows, payload.results]),
         entities: mergeArraysByKey([state.entities, payload.results])
-    };
-}
-
-function updateEntity(state, { meta }, useOrigValue) {
-    const value = useOrigValue ? meta?.origValue : meta?.value;
-    return {
-        ...state,
-        ...state.rows && {
-            rows: state.rows.map((row) => row.id === meta?.id ? ({
-                ...row,
-                // eslint-disable-next-line camelcase
-                display_name: value
-            }) : row)
-        },
-        ...state.entity && {
-            entity: {
-                ...state.entity,
-                // eslint-disable-next-line camelcase
-                display_name: value
-            }
-        }
-    };
-}
-
-function updateAnsibleName(state, { meta }, useOrigValue) {
-    const value = useOrigValue ? meta?.origValue : meta?.value;
-    return {
-        ...state,
-        ...state.rows && {
-            rows: state.rows.map((row) => row.id === meta?.id ? ({
-                ...row,
-                // eslint-disable-next-line camelcase
-                ansible_host: value
-            }) : row)
-        },
-        ...state.entity && {
-            entity: {
-                ...state.entity,
-                // eslint-disable-next-line camelcase
-                ansible_host: value
-            }
-        }
     };
 }
 
@@ -207,11 +165,7 @@ export const tableReducer = applyReducerHash(
 export const entitesDetailReducer = () => applyReducerHash(
     {
         [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded,
-        [INVENTORY_ACTION_TYPES.LOAD_SYSTEM_PROFILE_FULFILLED]: resourceOptTabVisibility,
-        [ACTION_TYPES.UPDATE_DISPLAY_NAME_PENDING]: updateEntity,
-        [ACTION_TYPES.SET_ANSIBLE_HOST_PENDING]: updateAnsibleName,
-        [ACTION_TYPES.UPDATE_DISPLAY_NAME_ERROR]: (state, payload) => updateEntity(state, payload, true),
-        [ACTION_TYPES.SET_ANSIBLE_HOST_ERROR]: (state, payload) => updateAnsibleName(state, payload, true)
+        [INVENTORY_ACTION_TYPES.LOAD_SYSTEM_PROFILE_FULFILLED]: resourceOptTabVisibility
     },
     defaultState
 );
