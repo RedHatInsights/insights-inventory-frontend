@@ -5,7 +5,7 @@ import flatMap from 'lodash/flatMap';
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import { generateFilter, mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { HostsApi, TagsApi, SystemProfileApi } from '@redhat-cloud-services/host-inventory-client';
-import { defaultFilters } from '../Utilities/constants';
+import { allStaleFilters } from '../Utilities/constants';
 
 export { instance };
 export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
@@ -212,38 +212,25 @@ export function getTags(systemId, search, { pagination } = { pagination: {} }) {
     );
 }
 
-export function getAllTags(search, { filters, pagination, ...options } = { pagination: {} }) {
-    const {
-        tagFilters,
-        staleFilter,
-        registeredWithFilter,
-        osFilter,
-        hostnameOrId
-    } = filters ? filters.reduce(filtersReducer, defaultFilters) : defaultFilters;
+export function getAllTags(search, pagination = {}) {
     return tags.apiTagGetTags(
-        [
-            ...tagFilters ? constructTags(tagFilters) : [],
-            ...options.tags || []
-        ],
+        [],
         'tag',
         'ASC',
-        (pagination && pagination.perPage) || 10,
-        (pagination && pagination.page) || 1,
-        staleFilter,
-        search || hostnameOrId,
+        pagination.perPage || 10,
+        pagination.page || 1,
+        //TODO: ask the backend to return all tags by default.
+        allStaleFilters,
+        search,
         undefined,
         undefined,
         undefined,
         undefined,
         undefined,
         undefined,
-        registeredWithFilter,
         undefined,
-        {
-            query: {
-                ...(calculateSystemProfile(osFilter))
-            }
-        }
+        undefined,
+        undefined
     );
 }
 

@@ -61,7 +61,7 @@ const TagsModal = ({
 
     const fetchTags = (pagination, filterBy) => {
         if (!activeSystemTag) {
-            dispatch(fetchAllTags(filterBy, { pagination }, getTags));
+            dispatch(fetchAllTags(filterBy, pagination, getTags));
         } else {
             setStatePagination(() => pagination);
         }

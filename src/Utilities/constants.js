@@ -155,3 +155,5 @@ export const useGetRegistry = () => {
 
     return getRegistry;
 };
+
+export const allStaleFilters = ['fresh', 'stale', 'stale_warning', 'unknown'];

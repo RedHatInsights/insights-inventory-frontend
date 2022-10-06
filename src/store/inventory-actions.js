@@ -174,9 +174,9 @@ export const toggleTagModal = (isOpen) => ({
     payload: { isOpen }
 });
 
-export const fetchAllTags = (search, options, getTags = defaultGetAllTags) => ({
+export const fetchAllTags = (search, pagination, getTags = defaultGetAllTags) => ({
     type: ACTION_TYPES.ALL_TAGS,
-    payload: getTags(search, options),
+    payload: getTags(search, pagination),
     meta: { lastDateRequestTags: Date.now() }
 });
 
