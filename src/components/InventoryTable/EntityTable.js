@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { selectEntity, setSort } from '../../store/actions';
+import { selectEntity, setSort, loadTags, toggleTagModal } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
@@ -14,7 +14,7 @@ import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-uti
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components/SkeletonTable';
 import NoSystemsTable from './NoSystemsTable';
 import { createRows, createColumns } from './helpers';
-import { defaultColumns } from '../../store/entities';
+import { dynamicDefaultColumns } from '../../store/entities';
 
 /**
  * The actual (PF)table component. It calculates each cell and every table property.
@@ -65,6 +65,15 @@ const EntityTable = ({
 
         onSort?.({ index, key, direction });
     };
+
+    const dispatchLoadTags = (systemId, count) => {
+        if (systemId) {
+            dispatch(toggleTagModal(true));
+            dispatch(loadTags(systemId, undefined, undefined, count));
+        }
+    };
+
+    const defaultColumns = dynamicDefaultColumns(dispatchLoadTags);
 
     const columns = useRef([]);
     useMemo(() => {

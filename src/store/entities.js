@@ -15,6 +15,8 @@ import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-uti
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import { CullingInformation } from '@redhat-cloud-services/frontend-components/CullingInfo';
 import { TagWithDialog } from '../Utilities/index';
+import { TagWithDialog as UnconnectedTagWithDialog } from '../Utilities/TagWithDialog';
+
 import groupBy from 'lodash/groupBy';
 import TitleColumn from '../components/InventoryTable/TitleColumn';
 import InsightsDisconnected from '../Utilities/InsightsDisconnected';
@@ -89,6 +91,20 @@ export const defaultColumns = [
         props: { width: 10 }
     }
 ];
+
+export const dynamicDefaultColumns = (loadTags) => {
+    const allColumns = defaultColumns.filter(({ key }) => key !== 'tags');
+    const tagsColumn = {
+        ...defaultColumns.find(({ key }) => key === 'tags'),
+        // eslint-disable-next-line react/display-name
+        renderFunc: (value, systemId) => <UnconnectedTagWithDialog loadTags={loadTags} count={value.length} systemId={systemId} />
+    };
+
+    return [
+        ...allColumns,
+        tagsColumn
+    ];
+};
 
 function entitiesPending(state, { meta }) {
     return {

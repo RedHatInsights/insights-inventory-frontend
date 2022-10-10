@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TagCount } from '@redhat-cloud-services/frontend-components/TagCount';
 import { loadTags, toggleTagModal } from '../store/actions';
 
-const TagWithDialog = ({ count, loadTags, systemId }) => (
+export const TagWithDialog = ({ count, loadTags, systemId }) => (
     <span
         onClick={(e) => e.stopPropagation()}
         className="ins-c-inventory__list-tags"
