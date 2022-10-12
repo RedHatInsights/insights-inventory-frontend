@@ -7,7 +7,7 @@
     "npm": ">=7.0.0"
   },
   "dependencies": {
-    "@patternfly/react-core": "^4.224.1",
+    "@patternfly/react-core": "^4.250.1",
     "@patternfly/react-icons": "^4.75.1",
     "@patternfly/react-table": "^4.93.1",
     "@redhat-cloud-services/frontend-components": "^3.9.13",
