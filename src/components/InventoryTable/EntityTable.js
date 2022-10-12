@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { selectEntity, setSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -66,21 +66,20 @@ const EntityTable = ({
         onSort?.({ index, key, direction });
     };
 
-    const columns = useRef([]);
-    useMemo(() => {
+    const columns = useMemo(() => {
         if (typeof columnsProp === 'function') {
-            columns.current = columnsProp(defaultColumns);
+            return columnsProp(defaultColumns());
         } else if (columnsProp) {
             const disabledColumns = Array.isArray(disableDefaultColumns) ? disableDefaultColumns : [];
-            const defaultColumnsFiltered = defaultColumns.filter(({ key }) =>
+            const defaultColumnsFiltered = defaultColumns().filter(({ key }) =>
                 (key === 'tags' && showTags) || (key !== 'tags' && !disabledColumns.includes(key))
             );
-            columns.current = mergeArraysByKey([
+            return mergeArraysByKey([
                 typeof disableDefaultColumns === 'boolean' && disableDefaultColumns ? [] : defaultColumnsFiltered,
                 columnsProp
             ], 'key');
         } else {
-            columns.current = columnsRedux;
+            return columnsRedux;
         }
     }, [
         showTags,
@@ -92,7 +91,7 @@ const EntityTable = ({
         columnsCounter
     ]);
 
-    const cells = loaded && createColumns(columns.current, hasItems, rows, isExpandable);
+    const cells = loaded && createColumns(columns, hasItems, rows, isExpandable);
 
     const defaultRowClick = (_event, key) => {
         history.push(`${location.pathname}${location.pathname.slice(-1) === '/' ? '' : '/'}${key}`);
@@ -112,7 +111,7 @@ const EntityTable = ({
                     cells={ cells }
                     rows={ createRows(
                         rows,
-                        columns.current,
+                        columns,
                         {
                             actions,
                             expandable,
@@ -124,7 +123,7 @@ const EntityTable = ({
                         })
                     }
                     gridBreakPoint={
-                        columns.current?.length > 5 ?
+                        columns?.length > 5 ?
                             TableGridBreakpoint.gridLg :
                             TableGridBreakpoint.gridMd
                     }
@@ -159,7 +158,7 @@ const EntityTable = ({
                     <TableBody />
                 </PfTable> :
                 <SkeletonTable
-                    colSize={ columns.current?.length || 3 }
+                    colSize={ columns?.length || 3 }
                     rowSize={ 15 }
                     variant={variant ?? tableProps.variant}
                 />
