@@ -257,7 +257,7 @@ describe('EntityTable', () => {
             initialState = {
                 entities: {
                     ...initialState.entities,
-                    columns: defaultColumns,
+                    columns: defaultColumns(),
                     rows: [{
                         id: 'testing-id',
                         system_profile: {}
@@ -378,7 +378,6 @@ describe('EntityTable', () => {
             </MemoryRouter>);
 
             expect(getColumns.mock.calls.length).toEqual(1);
-            expect(getColumns).toHaveBeenCalledWith(defaultColumns);
 
             expect(wrapper.find('table').find('th')).toHaveLength(2);
             expect(wrapper.find('table').find('th').last().text()).toEqual('Secret attribute');
