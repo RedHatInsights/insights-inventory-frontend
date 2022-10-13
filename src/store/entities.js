@@ -94,10 +94,10 @@ export const defaultColumns = () => ([
 function entitiesPending(state, { meta }) {
     return {
         ...state,
-        columns: mergeArraysByKey([
+        ...state.columns && { columns: mergeArraysByKey([
             defaultColumns().filter(({ key }) => key !== 'tags' || meta?.showTags),
             state.columns
-        ], 'key'),
+        ], 'key') } || {},
         rows: [],
         loaded: false,
         lastDateRequest: meta.lastDateRequest
