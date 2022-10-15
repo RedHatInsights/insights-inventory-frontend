@@ -31,7 +31,7 @@ export const Clickable = ({ item: { onClick, value, target, plural, singular } }
             event.preventDefault();
             onClick(event, { value, target });
         } }
-        href={ `${window.location.href}/${target}` }
+        href={ `${window.location.href.split('#')[0]}/${target}` }
     >
         { valueToText(value, singular, plural) }
     </a>
