@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment } from 'react';
-import { useParams } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadEntity, deleteEntity } from '../../store/actions';
@@ -36,7 +36,7 @@ const InventoryDetail = ({
     ActionsWrapper,
     children
 }) => {
-    const { inventoryId } = useParams();
+    const { params: { inventoryId } } = useRouteMatch('/:inventoryId');
     const dispatch = useDispatch();
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded || false);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);

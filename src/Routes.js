@@ -9,7 +9,8 @@ const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 
 export const routes = {
     table: '/',
-    detail: '/:inventoryId'
+    detail: '/:inventoryId',
+    detailWithModal: '/:inventoryId/:modalId'
 };
 
 export const Routes = () => {
@@ -39,6 +40,7 @@ export const Routes = () => {
                     />}
                     rootClass='inventory'
                 />
+                <Route exact path={routes.detailWithModal} component={InventoryDetail} rootClass='inventory' />
                 <Route exact path={routes.detail} component={InventoryDetail} rootClass='inventory' />
                 <Redirect path="*" to="/" />
             </Switch>
