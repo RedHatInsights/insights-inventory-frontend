@@ -9,16 +9,16 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import toJson from 'enzyme-to-json';
-import routeData from 'react-router';
+import { Router } from 'react-router';
 import { MemoryRouter } from 'react-router-dom';
 import TitleColumn from './TitleColumn';
 import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
 import { defaultColumns } from '../../store/entities';
+import { createMemoryHistory } from 'history';
 
 describe('EntityTable', () => {
     let initialState;
     let mockStore;
-    const routerPush = jest.fn();
     beforeEach(() => {
         mockStore = configureStore([promiseMiddleware()]);
         initialState = {
@@ -36,9 +36,6 @@ describe('EntityTable', () => {
                 total: 500
             }
         };
-        jest.spyOn(routeData, 'useHistory').mockReturnValue({
-            push: routerPush
-        });
     });
 
     describe('DOM', () => {
@@ -534,14 +531,15 @@ describe('EntityTable', () => {
 
     describe('API', () => {
         it('should call default onRowClick', () => {
+            const history = createMemoryHistory();
             const store = mockStore(initialState);
-            const wrapper = mount(<MemoryRouter>
+            const wrapper = mount(<Router history={history}>
                 <Provider store={ store }>
                     <EntityTable loaded disableDefaultColumns/>
                 </Provider>
-            </MemoryRouter>);
+            </Router>);
             wrapper.find('table tbody tr a[widget="col"]').first().simulate('click');
-            expect(routerPush).toHaveBeenCalled();
+            expect(history.location.pathname).toBe('/testing-id');
         });
 
         it('should call onRowClick', () => {
