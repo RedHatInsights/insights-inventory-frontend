@@ -8,6 +8,18 @@ jest.mock('react', () => ({
     useLayoutEffect: jest.requireActual('react').useEffect
 }));
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useRouteMatch: () => ({
+        path: '/:inventoryId',
+        url: '/07c86de4-dadd-4681-8e6c-fe0baaaef479',
+        isExact: true,
+        params: {
+            inventoryId: '07c86de4-dadd-4681-8e6c-fe0baaaef479'
+        }
+    })
+}));
+
 configure({ adapter: new Adapter() });
 
 global.insights = {
