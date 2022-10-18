@@ -70,6 +70,8 @@ export const buildOSFilterConfig = (config = {}, operatingSystems = []) => ({
                 // eliminate versions that are set to false
                 return { ...prev, [major]: Object.fromEntries(Object.entries(minors).filter((version) => version[1] === true)) };
             }, {})),
-        groups: groupOSVersions(operatingSystems)
+        groups: operatingSystems.length === 0
+            ? [{ items: [{ label: 'No versions available' }] }]
+            : groupOSVersions(operatingSystems)
     }
 });

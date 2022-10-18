@@ -69,7 +69,15 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
         },
         Object {
           "filterValues": Object {
-            "groups": Array [],
+            "groups": Array [
+              Object {
+                "items": Array [
+                  Object {
+                    "label": "No versions available",
+                  },
+                ],
+              },
+            ],
             "isDisabled": false,
             "onChange": [Function],
             "placeholder": "Filter by operating system",
