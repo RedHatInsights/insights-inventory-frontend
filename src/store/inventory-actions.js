@@ -180,9 +180,9 @@ export const fetchAllTags = (search, pagination, getTags = defaultGetAllTags) =>
     meta: { lastDateRequestTags: Date.now() }
 });
 
-export const fetchOperatingSystems = () => ({
+export const fetchOperatingSystems = (params = []) => ({
     type: ACTION_TYPES.OPERATING_SYSTEMS,
-    payload: getOperatingSystems()
+    payload: getOperatingSystems(params)
 });
 
 export const deleteEntity = (systems, displayName) => ({

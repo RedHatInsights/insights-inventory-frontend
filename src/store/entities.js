@@ -27,6 +27,7 @@ export const defaultState = {
     loaded: false,
     tagsLoaded: false,
     allTagsLoaded: false,
+    operatingSystems: [],
     operatingSystemsLoaded: false,
     invConfig: {},
     sortBy: {
