@@ -36,7 +36,7 @@ export const defaultState = {
     }
 };
 
-export const defaultColumns = [
+export const defaultColumns = () => ([
     {
         key: 'display_name',
         sortKey: 'display_name',
@@ -89,13 +89,13 @@ export const defaultColumns = [
         },
         props: { width: 10 }
     }
-];
+]);
 
 function entitiesPending(state, { meta }) {
     return {
         ...state,
         columns: mergeArraysByKey([
-            defaultColumns.filter(({ key }) => key !== 'tags' || meta?.showTags),
+            defaultColumns().filter(({ key }) => key !== 'tags' || meta?.showTags),
             state.columns
         ], 'key'),
         rows: [],
