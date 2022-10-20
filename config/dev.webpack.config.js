@@ -66,7 +66,8 @@ plugins.push(
             './InventoryDetail': resolve(__dirname, '../src/modules/InventoryDetail.js'),
             './TagWithDialog': resolve(__dirname, '../src/modules/TagWithDialog.js'),
             './DetailWrapper': resolve(__dirname, '../src/modules/DetailWrapper.js'),
-            './OsFilterHelpers': resolve(__dirname, '../src/modules/OsFilterHelpers.js')
+            './OsFilterHelpers': resolve(__dirname, '../src/modules/OsFilterHelpers.js'),
+            './systemProfileStore': resolve(__dirname, '../src/store/systemProfileStore.js')
         }
     })
 );
