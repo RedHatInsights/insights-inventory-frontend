@@ -234,6 +234,6 @@ export function getAllTags(search, pagination = {}) {
     );
 }
 
-export function getOperatingSystems() {
-    return systemProfile.apiSystemProfileGetOperatingSystem();
+export function getOperatingSystems(params = []) {
+    return systemProfile.apiSystemProfileGetOperatingSystem(...params);
 }
