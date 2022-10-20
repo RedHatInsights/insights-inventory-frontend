@@ -12,8 +12,7 @@ import {
     TextListItem
 } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { useRouteMatch } from 'react-router-dom';
-import { routes } from '../../../Routes';
+import { useParams } from 'react-router-dom';
 
 const valueToText = (value, singular, plural) => {
     if ((value || value === 0) && singular) {
@@ -54,8 +53,7 @@ Clickable.defaultProps = {
 };
 
 const LoadingCard = ({ title, isLoading, items, children }) => {
-    const urlMatch = useRouteMatch(routes.detailWithModal);
-    const modalId = urlMatch?.params?.modalId;
+    const { modalId } = useParams();
     return (
         <Stack hasGutter>
             <StackItem>
