@@ -12,7 +12,7 @@ import {
     TextListItem
 } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const valueToText = (value, singular, plural) => {
     if ((value || value === 0) && singular) {
@@ -26,7 +26,7 @@ const valueToText = (value, singular, plural) => {
     return value || 'Not available';
 };
 
-export const Clickable = ({ value, target, plural, singular, onClick }) => {
+export const Clickable = ({ onClick, value, target, plural, singular }) => {
     const history = useHistory();
     const { pathname } = useLocation();
     const modalId = pathname.split('/').pop();

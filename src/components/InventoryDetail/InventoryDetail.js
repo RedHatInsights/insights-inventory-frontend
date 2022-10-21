@@ -128,7 +128,6 @@ InventoryDetail.defaultProps = {
 
 const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
     const { inventoryId: entityId } = useParams();
-    /*eslint-disable no-console*/
     if (!inventoryId) {
         console.warn('~~~~~~~~~~');
         console.warn('~~~~~~~~~~');
@@ -136,7 +135,6 @@ const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
         console.warn('~~~~~~~~~~');
         console.warn('~~~~~~~~~~');
     }
-    /*eslint-enable no-console*/
 
     return <InventoryDetail
         inventoryId={inventoryId || entityId || location.pathname.replace(/\/$/, '').split('/').pop()}
@@ -146,4 +144,4 @@ const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
 
 InventoryDetailWrapper.propTypes = InventoryDetail.propTypes;
 
-export default InventoryDetailWrapper;
+export default InventoryDetail;

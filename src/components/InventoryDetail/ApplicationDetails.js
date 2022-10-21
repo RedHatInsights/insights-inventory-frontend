@@ -14,14 +14,11 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const searchParams = new URLSearchParams(search);
-    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps || [])
+    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps || appList)
     .filter(({ isVisible }) => isVisible !== false);
-    const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp);
     const disabledApps = useSelector(({ systemProfileStore }) => systemProfileStore?.disabledApps);
-    const defaultApp = activeApp?.appName || appList?.find(({ pageId, name }) => items?.[0]?.name === (
-        pageId || name))?.name || items?.[0]?.name;
-    let applications = appList || items;
-    const [activeTabs, setActiveTabs] = useState(applications);
+    const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp?.appName || items[0].name);
+    const [activeTabs, setActiveTabs] = useState(items);
 
     useEffect(() => {
         /**
@@ -34,22 +31,22 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     }, []);
 
     useEffect(() => {
-        const filteredResult = applications.filter(app => !disabledApps?.includes(app.name));
+        const filteredResult = items.filter(app => !disabledApps?.includes(app.name));
         if (filteredResult !== 0 && typeof filteredResult !== undefined) {
             setActiveTabs(filteredResult);
         }
         else {
-            setActiveTabs(applications);
+            setActiveTabs(items);
         }
     }, [disabledApps]);
 
     return (
         <React.Fragment>
             {
-                applications?.length > 1 &&
+                activeTabs?.length > 1 &&
                 <Tabs
                     {...props}
-                    activeKey={ defaultApp }
+                    activeKey={ activeApp }
                     onSelect={ (event, item) => {
                         const activeItem = activeTabs.find(oneApp => oneApp.name === item);
                         if (onTabSelect) {

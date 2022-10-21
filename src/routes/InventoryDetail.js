@@ -1,33 +1,66 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import './inventory.scss';
 import { Link, useHistory } from 'react-router-dom';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import classnames from 'classnames';
 import { routes } from '../Routes';
 import InventoryDetailHead from '../modules/InventoryDetailHead';
 import AppInfo from '../modules/AppInfo';
 import DetailWrapper from '../modules/DetailWrapper';
 import { useWritePermissions } from '../Utilities/constants';
-import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import {
+    ComplianceTab,
+    VulnerabilityTab,
+    AdvisorTab,
+    GeneralInformationTab,
+    PatchTab,
+    RosTab
+} from '../components/SystemDetails';
+
+const activeApps = [
+    { title: 'General information', name: 'general_information', component: GeneralInformationTab },
+    { title: 'Advisor', name: 'advisor', component: AdvisorTab },
+    {
+        title: 'Vulnerability',
+        name: 'vulnerabilities',
+        component: VulnerabilityTab
+    },
+    {
+        title: 'Compliance',
+        name: 'compliance',
+        component: ComplianceTab
+    },
+    {
+        title: 'Patch',
+        name: 'patch',
+        component: PatchTab
+    },
+    {
+        title: 'Resource Optimization',
+        name: 'ros',
+        isVisible: false,
+        component: RosTab
+    }
+];
 
 const Inventory = () => {
     const chrome = useChrome();
     const { inventoryId } = useParams();
+    const [activeApp, setActiveApp] = useState(activeApps[0]);
     const store = useStore();
+    const { search } = useLocation();
     const history = useHistory();
     const dispatch = useDispatch();
     const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
-    const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp?.appName);
-    const firstApp = useSelector(({ entityDetails }) => entityDetails?.activeApps?.[0]);
-    const currentApp = activeApp || (firstApp && firstApp.name);
     const clearNotifications = () => dispatch(actions.clearNotifications());
     useEffect(() => {
         chrome?.hideGlobalFilter?.(true);
@@ -35,13 +68,21 @@ const Inventory = () => {
         clearNotifications();
     }, []);
 
+    const searchParams = new URLSearchParams(search);
+
     const additionalClasses = {
-        'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'
+        'ins-c-inventory__detail--general-info': activeApp?.name === 'general_information'
     };
 
     if (entity) {
         document.title = `${entity.display_name} | Inventory | Red Hat Insights`;
     }
+
+    useEffect(() => {
+        if (search) {
+            setActiveApp(activeApps.find(({ name }) => name === searchParams.get('appName')));
+        }
+    }, [search]);
 
     useEffect(() => {
         insights?.chrome?.appObjectId?.(entity?.id);
@@ -65,7 +106,7 @@ const Inventory = () => {
                                 entity ?
                                     entity.display_name :
                                     entityLoaded !== true ?
-                                        <Skeleton size={SkeletonSize.xs} /> : inventoryId
+                                        <Skeleton size={SkeletonSize.xs} /> : entity?.id
                             }
                         </div>
                     </BreadcrumbItem>
@@ -78,9 +119,14 @@ const Inventory = () => {
                         hideBack
                         showTags
                         hideInvLink
+                        appList={activeApps}
+                        inventoryId={inventoryId}
+                        onTabSelect={(_e, tabId) => {
+                            history.push({ search: `appName=${tabId}` });
+                            setActiveApp(activeApps.find(({ name }) => name === tabId));
+                        }}
                         showDelete={writePermissions}
                         hideInvDrawer
-                        inventoryId={inventoryId}
                     />
                 }
             </PageHeader>
@@ -92,6 +138,8 @@ const Inventory = () => {
                             fallback=""
                             store={store}
                             history={history}
+                            activeApp={activeApp}
+                            componentMapper={activeApp?.component}
                         />
                     </GridItem>
                 </Grid>

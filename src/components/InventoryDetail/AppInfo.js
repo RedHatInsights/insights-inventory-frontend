@@ -10,24 +10,16 @@ import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-componen
  * This component detail is accessed from redux if no component found `missing component` is displayed.
  * @param {*} props `componentsMapper` if you want to pass different components list.
  */
-const AppInfo = ({ componentMapper, appList }) => {
+const AppInfo = ({ componentMapper, activeApp }) => {
     const store = useStore();
-    const { search } = useLocation();
-    const searchParams = new URLSearchParams(search);
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
-    const activeApp = useSelector(({ entityDetails }) => {
-        if (entityDetails?.loaded) {
-            return (appList || entityDetails?.activeApps)?.find?.(item => item?.name === (
-                searchParams.get('appName') || entityDetails?.activeApp?.appName
-            )) || entityDetails?.activeApps?.[0];
-        }
-    });
-    const Cmp = componentMapper || activeApp?.component;
 
     if (loaded === true && !entity) {
         return null;
     }
+
+    const Cmp = componentMapper;
 
     return (
         <Fragment>
@@ -50,11 +42,33 @@ const AppInfo = ({ componentMapper, appList }) => {
 
 AppInfo.propTypes = {
     componentMapper: PropTypes.element,
-    appList: PropTypes.arrayOf(PropTypes.shape({
+    activeApp: PropTypes.shape({
         title: PropTypes.node,
         name: PropTypes.string,
         pageId: PropTypes.string
-    }))
+    })
 };
 
-export default AppInfo;
+/**
+ * This component can be removed once all apps migrate to componentMapper and activeApp.
+ * @param { componentMapper, activeApp } props.
+ * @returns AppInfo component
+ */
+const AppInfoWrapper = ({ componentMapper, activeApp, ...props }) => {
+    const { search } = useLocation();
+    const searchParams = new URLSearchParams(search);
+    if (!componentMapper || !activeApp) {
+        console.warn('Please pass componentMapper and activeApp. We will be deprecating the old store controls');
+    }
+
+    const currApp = useSelector(({ entityDetails }) => {
+        const activeItem = searchParams.get('appName') || entityDetails?.activeApp?.appName;
+        return entityDetails?.activeApps?.find?.(item => item?.name === activeItem) || entityDetails?.activeApps?.[0];
+    });
+
+    return <AppInfo componentMapper={componentMapper || activeApp?.component} activeApp={activeApp || currApp} {...props} />;
+};
+
+AppInfoWrapper.propTypes = AppInfo.propTypes;
+
+export default AppInfoWrapper;

@@ -8,6 +8,7 @@ import * as storeMod from '../store/redux';
 import * as utils from '../Utilities/index';
 import * as apiMod from '../api/index';
 import RenderWrapper from '../Utilities/Wrapper';
+import { getBaseName } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 const { mergeWithDetail, ...rest } = storeMod;
 
 const AsyncInventory = ({ component, onLoad, store, history, innerRef, ...props }) => {
@@ -23,7 +24,7 @@ const AsyncInventory = ({ component, onLoad, store, history, innerRef, ...props 
     return (
         <RBACProvider appName="inventory">
             <Provider store={store}>
-                <Router history={history}>
+                <Router history={history} basename={getBaseName(window.location.pathname)}>
                     <RenderWrapper
                         { ...props }
                         isRbacEnabled
