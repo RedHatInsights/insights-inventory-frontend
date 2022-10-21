@@ -19,6 +19,7 @@ import { ConfigurationCard } from '../ConfigurationCard';
 import { SystemStatusCard } from '../SystemStatusCard';
 import { DataCollectorsCard } from '../DataCollectorsCard/DataCollectorsCard';
 import { Provider } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import './general-information.scss';
 
 class GeneralInformation extends Component {
@@ -44,6 +45,10 @@ class GeneralInformation extends Component {
 
     handleModalToggle = (modalTitle = '', { cells, rows, expandable, filters } = {}, modalVariant = 'small') => {
         rows && this.onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
+        if (this.state.isModalOpen) {
+            this.props.history.push(this.props.location.pathname.split('/').slice(0, -1).join('/'));
+        }
+
         this.setState(({ isModalOpen }) => ({
             isModalOpen: !isModalOpen,
             modalTitle,
@@ -141,7 +146,9 @@ GeneralInformation.propTypes = {
     SystemStatusCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     DataCollectorsCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     CollectionCardWrapper: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-    children: PropTypes.node
+    children: PropTypes.node,
+    history: PropTypes.any,
+    location: PropTypes.any
 };
 GeneralInformation.defaultProps = {
     entity: {},
@@ -166,4 +173,4 @@ const mapDispatchToProps = (dispatch) => ({
     loadSystemDetail: (itemId) => dispatch(systemProfile(itemId))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GeneralInformation);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GeneralInformation));

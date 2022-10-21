@@ -40,6 +40,7 @@ const InfrastructureCardCore = ({
             value: infrastructure.ipv6?.length,
             plural: 'addresses',
             singular: 'address',
+            target: 'ipv6',
             onClick: () => {
                 handleClick(
                     'IPv6',
