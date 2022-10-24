@@ -10,11 +10,10 @@ import {
     TableGridBreakpoint,
     TableVariant
 } from '@patternfly/react-table';
-import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components/SkeletonTable';
 import NoSystemsTable from './NoSystemsTable';
 import { createRows, createColumns } from './helpers';
-import { defaultColumns } from '../../store/entities';
+import useColumns from './hooks/useColumns';
 
 /**
  * The actual (PF)table component. It calculates each cell and every table property.
@@ -45,13 +44,8 @@ const EntityTable = ({
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
+    const columns = useColumns(columnsProp, disableDefaultColumns, showTags, columnsCounter);
     const rows = useSelector(({ entities: { rows } }) => rows);
-    const columnsRedux = useSelector(
-        ({ entities: { columns } }) => columns,
-        (next, prev) => next.every(
-            ({ key }, index) => prev.findIndex(({ key: prevKey }) => prevKey === key) === index
-        )
-    );
 
     const onItemSelect = (_event, checked, rowId) => {
         const row = isExpandable ? rows[rowId / 2] : rows[rowId];
@@ -66,32 +60,9 @@ const EntityTable = ({
         onSort?.({ index, key, direction });
     };
 
-    const columns = useMemo(() => {
-        if (typeof columnsProp === 'function') {
-            return columnsProp(defaultColumns());
-        } else if (columnsProp) {
-            const disabledColumns = Array.isArray(disableDefaultColumns) ? disableDefaultColumns : [];
-            const defaultColumnsFiltered = defaultColumns().filter(({ key }) =>
-                (key === 'tags' && showTags) || (key !== 'tags' && !disabledColumns.includes(key))
-            );
-            return mergeArraysByKey([
-                typeof disableDefaultColumns === 'boolean' && disableDefaultColumns ? [] : defaultColumnsFiltered,
-                columnsProp
-            ], 'key');
-        } else {
-            return columnsRedux;
-        }
-    }, [
-        showTags,
-        Array.isArray(disableDefaultColumns) ? disableDefaultColumns.join() : disableDefaultColumns,
-        Array.isArray(columnsProp) ?
-            columnsProp.map(({ key }) => key).join() :
-            typeof columnsProp === 'function' ? 'function' : columnsProp,
-        Array.isArray(columnsRedux) ? columnsRedux.map(({ key }) => key).join() : columnsRedux,
-        columnsCounter
-    ]);
-
-    const cells = loaded && createColumns(columns, hasItems, rows, isExpandable);
+    const cells = useMemo(() =>
+        loaded && createColumns(columns, hasItems, rows, isExpandable)
+    , [loaded, columns, hasItems, rows, isExpandable]);
 
     const defaultRowClick = (_event, key) => {
         history.push(`${location.pathname}${location.pathname.slice(-1) === '/' ? '' : '/'}${key}`);
