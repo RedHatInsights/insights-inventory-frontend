@@ -70,7 +70,7 @@
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@babel/runtime": "^7.16.0",
-    "@redhat-cloud-services/frontend-components-config": "^4.6.18",
+    "@redhat-cloud-services/frontend-components-config": "^4.6.25",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
