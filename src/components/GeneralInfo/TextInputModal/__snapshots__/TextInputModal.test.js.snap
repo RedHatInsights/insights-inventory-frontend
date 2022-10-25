@@ -175,7 +175,7 @@ exports[`TextInputModal API onSubmit should NOT be called 1`] = `
           <div
             className="pf-c-backdrop"
           >
-            <FocusTrap
+            <ForwardRef
               active={true}
               className="pf-l-bullseye"
               focusTrapOptions={
@@ -186,212 +186,225 @@ exports[`TextInputModal API onSubmit should NOT be called 1`] = `
                   },
                 }
               }
-              paused={false}
-              preventScrollOnDeactivate={false}
             >
-              <div
+              <FocusTrap
+                active={true}
                 className="pf-l-bullseye"
+                focusTrapOptions={
+                  Object {
+                    "clickOutsideDeactivates": true,
+                    "tabbableOptions": Object {
+                      "displayCheck": "none",
+                    },
+                  }
+                }
+                innerRef={null}
+                paused={false}
+                preventScrollOnDeactivate={false}
               >
-                <ModalBox
-                  aria-describedby="pf-modal-part-5"
-                  aria-label="input text - modal"
-                  aria-labelledby="pf-modal-part-3"
-                  className="ins-c-inventory__detail--edit"
-                  data-ouia-component-id="OUIA-Generated-Modal-small-4"
-                  data-ouia-component-type="PF4/ModalContent"
-                  data-ouia-safe={true}
-                  id="pf-modal-part-3"
-                  style={Object {}}
-                  variant="small"
+                <div
+                  className="pf-l-bullseye"
                 >
-                  <div
+                  <ModalBox
                     aria-describedby="pf-modal-part-5"
                     aria-label="input text - modal"
                     aria-labelledby="pf-modal-part-3"
-                    aria-modal="true"
-                    className="pf-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
+                    className="ins-c-inventory__detail--edit"
                     data-ouia-component-id="OUIA-Generated-Modal-small-4"
                     data-ouia-component-type="PF4/ModalContent"
                     data-ouia-safe={true}
                     id="pf-modal-part-3"
-                    role="dialog"
                     style={Object {}}
+                    variant="small"
                   >
-                    <ModalBoxCloseButton
-                      onClose={[Function]}
-                      ouiaId="OUIA-Generated-Modal-small-4"
+                    <div
+                      aria-describedby="pf-modal-part-5"
+                      aria-label="input text - modal"
+                      aria-labelledby="pf-modal-part-3"
+                      aria-modal="true"
+                      className="pf-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
+                      data-ouia-component-id="OUIA-Generated-Modal-small-4"
+                      data-ouia-component-type="PF4/ModalContent"
+                      data-ouia-safe={true}
+                      id="pf-modal-part-3"
+                      role="dialog"
+                      style={Object {}}
                     >
-                      <Button
-                        aria-label="Close"
-                        className=""
-                        onClick={[Function]}
-                        ouiaId="OUIA-Generated-Modal-small-4-ModalBoxCloseButton"
-                        variant="plain"
+                      <ModalBoxCloseButton
+                        onClose={[Function]}
+                        ouiaId="OUIA-Generated-Modal-small-4"
                       >
-                        <ButtonBase
+                        <Button
                           aria-label="Close"
                           className=""
-                          innerRef={null}
                           onClick={[Function]}
                           ouiaId="OUIA-Generated-Modal-small-4-ModalBoxCloseButton"
                           variant="plain"
                         >
-                          <button
-                            aria-disabled={false}
+                          <ButtonBase
                             aria-label="Close"
-                            className="pf-c-button pf-m-plain"
-                            data-ouia-component-id="OUIA-Generated-Modal-small-4-ModalBoxCloseButton"
-                            data-ouia-component-type="PF4/Button"
-                            data-ouia-safe={true}
-                            disabled={false}
-                            onClick={[Function]}
-                            role={null}
-                            type="button"
-                          >
-                            <TimesIcon
-                              color="currentColor"
-                              noVerticalAlign={false}
-                              size="sm"
-                            >
-                              <svg
-                                aria-hidden={true}
-                                aria-labelledby={null}
-                                fill="currentColor"
-                                height="1em"
-                                role="img"
-                                style={
-                                  Object {
-                                    "verticalAlign": "-0.125em",
-                                  }
-                                }
-                                viewBox="0 0 352 512"
-                                width="1em"
-                              >
-                                <path
-                                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                                />
-                              </svg>
-                            </TimesIcon>
-                          </button>
-                        </ButtonBase>
-                      </Button>
-                    </ModalBoxCloseButton>
-                    <ModalBoxBody
-                      id="pf-modal-part-5"
-                    >
-                      <div
-                        className="pf-c-modal-box__body"
-                        id="pf-modal-part-5"
-                      >
-                        <TextInput
-                          aria-label="input text"
-                          onChange={[Function]}
-                          type="text"
-                          value=""
-                        >
-                          <TextInputBase
-                            aria-label="input text"
                             className=""
                             innerRef={null}
-                            isDisabled={false}
-                            isIconSprite={false}
-                            isLeftTruncated={false}
-                            isReadOnly={false}
-                            isRequired={false}
-                            onChange={[Function]}
-                            ouiaSafe={true}
-                            type="text"
-                            validated="default"
-                            value=""
+                            onClick={[Function]}
+                            ouiaId="OUIA-Generated-Modal-small-4-ModalBoxCloseButton"
+                            variant="plain"
                           >
-                            <input
-                              aria-invalid={false}
-                              aria-label="input text"
-                              className="pf-c-form-control"
-                              data-ouia-component-id="OUIA-Generated-TextInputBase-4"
-                              data-ouia-component-type="PF4/TextInput"
+                            <button
+                              aria-disabled={false}
+                              aria-label="Close"
+                              className="pf-c-button pf-m-plain"
+                              data-ouia-component-id="OUIA-Generated-Modal-small-4-ModalBoxCloseButton"
+                              data-ouia-component-type="PF4/Button"
                               data-ouia-safe={true}
                               disabled={false}
-                              onBlur={[Function]}
-                              onChange={[Function]}
-                              onFocus={[Function]}
-                              readOnly={false}
-                              required={false}
-                              type="text"
-                              value=""
-                            />
-                          </TextInputBase>
-                        </TextInput>
-                      </div>
-                    </ModalBoxBody>
-                    <ModalBoxFooter>
-                      <footer
-                        className="pf-c-modal-box__footer"
+                              onClick={[Function]}
+                              role={null}
+                              type="button"
+                            >
+                              <TimesIcon
+                                color="currentColor"
+                                noVerticalAlign={false}
+                                size="sm"
+                              >
+                                <svg
+                                  aria-hidden={true}
+                                  aria-labelledby={null}
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style={
+                                    Object {
+                                      "verticalAlign": "-0.125em",
+                                    }
+                                  }
+                                  viewBox="0 0 352 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                                  />
+                                </svg>
+                              </TimesIcon>
+                            </button>
+                          </ButtonBase>
+                        </Button>
+                      </ModalBoxCloseButton>
+                      <ModalBoxBody
+                        id="pf-modal-part-5"
                       >
-                        <Button
-                          data-action="cancel"
-                          key="cancel"
-                          onClick={[Function]}
-                          variant="secondary"
+                        <div
+                          className="pf-c-modal-box__body"
+                          id="pf-modal-part-5"
                         >
-                          <ButtonBase
+                          <TextInput
+                            aria-label="input text"
+                            onChange={[Function]}
+                            type="text"
+                            value=""
+                          >
+                            <TextInputBase
+                              aria-label="input text"
+                              className=""
+                              innerRef={null}
+                              isDisabled={false}
+                              isIconSprite={false}
+                              isLeftTruncated={false}
+                              isReadOnly={false}
+                              isRequired={false}
+                              onChange={[Function]}
+                              ouiaSafe={true}
+                              type="text"
+                              validated="default"
+                              value=""
+                            >
+                              <input
+                                aria-invalid={false}
+                                aria-label="input text"
+                                className="pf-c-form-control"
+                                data-ouia-component-id="OUIA-Generated-TextInputBase-4"
+                                data-ouia-component-type="PF4/TextInput"
+                                data-ouia-safe={true}
+                                disabled={false}
+                                onBlur={[Function]}
+                                onChange={[Function]}
+                                onFocus={[Function]}
+                                required={false}
+                                type="text"
+                                value=""
+                              />
+                            </TextInputBase>
+                          </TextInput>
+                        </div>
+                      </ModalBoxBody>
+                      <ModalBoxFooter>
+                        <footer
+                          className="pf-c-modal-box__footer"
+                        >
+                          <Button
                             data-action="cancel"
-                            innerRef={null}
+                            key="cancel"
                             onClick={[Function]}
                             variant="secondary"
                           >
-                            <button
-                              aria-disabled={false}
-                              aria-label={null}
-                              className="pf-c-button pf-m-secondary"
+                            <ButtonBase
                               data-action="cancel"
-                              data-ouia-component-id="OUIA-Generated-Button-secondary-4"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe={true}
-                              disabled={false}
+                              innerRef={null}
                               onClick={[Function]}
-                              role={null}
-                              type="button"
+                              variant="secondary"
                             >
-                              Cancel
-                            </button>
-                          </ButtonBase>
-                        </Button>
-                        <Button
-                          data-action="confirm"
-                          key="confirm"
-                          onClick={[Function]}
-                          variant="primary"
-                        >
-                          <ButtonBase
+                              <button
+                                aria-disabled={false}
+                                aria-label={null}
+                                className="pf-c-button pf-m-secondary"
+                                data-action="cancel"
+                                data-ouia-component-id="OUIA-Generated-Button-secondary-4"
+                                data-ouia-component-type="PF4/Button"
+                                data-ouia-safe={true}
+                                disabled={false}
+                                onClick={[Function]}
+                                role={null}
+                                type="button"
+                              >
+                                Cancel
+                              </button>
+                            </ButtonBase>
+                          </Button>
+                          <Button
                             data-action="confirm"
-                            innerRef={null}
+                            key="confirm"
                             onClick={[Function]}
                             variant="primary"
                           >
-                            <button
-                              aria-disabled={false}
-                              aria-label={null}
-                              className="pf-c-button pf-m-primary"
+                            <ButtonBase
                               data-action="confirm"
-                              data-ouia-component-id="OUIA-Generated-Button-primary-4"
-                              data-ouia-component-type="PF4/Button"
-                              data-ouia-safe={true}
-                              disabled={false}
+                              innerRef={null}
                               onClick={[Function]}
-                              role={null}
-                              type="button"
+                              variant="primary"
                             >
-                              Save
-                            </button>
-                          </ButtonBase>
-                        </Button>
-                      </footer>
-                    </ModalBoxFooter>
-                  </div>
-                </ModalBox>
-              </div>
-            </FocusTrap>
+                              <button
+                                aria-disabled={false}
+                                aria-label={null}
+                                className="pf-c-button pf-m-primary"
+                                data-action="confirm"
+                                data-ouia-component-id="OUIA-Generated-Button-primary-4"
+                                data-ouia-component-type="PF4/Button"
+                                data-ouia-safe={true}
+                                disabled={false}
+                                onClick={[Function]}
+                                role={null}
+                                type="button"
+                              >
+                                Save
+                              </button>
+                            </ButtonBase>
+                          </Button>
+                        </footer>
+                      </ModalBoxFooter>
+                    </div>
+                  </ModalBox>
+                </div>
+              </FocusTrap>
+            </ForwardRef>
           </div>
         </Backdrop>
       </ModalContent>

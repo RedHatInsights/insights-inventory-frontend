@@ -678,6 +678,7 @@ exports[`should return DOWN 1`] = `
       "top-start": "pf-m-top-left",
     }
   }
+  removeFindDomNode={false}
   trigger={
     <OutlinedArrowAltCircleDownIcon
       className="ins-c-inventory__detail--down"
@@ -756,6 +757,7 @@ exports[`should return UP 1`] = `
       "top-start": "pf-m-top-left",
     }
   }
+  removeFindDomNode={false}
   trigger={
     <OutlinedArrowAltCircleUpIcon
       className="ins-c-inventory__detail--up"
@@ -834,6 +836,7 @@ exports[`should return false 1`] = `
       "top-start": "pf-m-top-left",
     }
   }
+  removeFindDomNode={false}
   trigger={
     <TimesIcon
       className="ins-c-inventory__detail--disabled"
@@ -912,6 +915,7 @@ exports[`should return true 1`] = `
       "top-start": "pf-m-top-left",
     }
   }
+  removeFindDomNode={false}
   trigger={
     <CheckCircleIcon
       className="ins-c-inventory__detail--enabled"
