@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
@@ -13,9 +13,9 @@ import { addNotification as addNotificationAction } from '@redhat-cloud-services
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
-import { generateFilter, useGetRegistry } from '../Utilities/constants';
-import { inventoryConnector } from '../Utilities/inventoryConnector';
-import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY } from '../Utilities/constants';
+import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter, useGetRegistry } from '../Utilities/constants';
+import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
+import RenderWrapper from '../Utilities/Wrapper';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -84,11 +84,9 @@ const Inventory = ({
     perPage,
     initialLoading
 }) => {
-    const [InvCmp, setInvCmp] = useState();
     // TODO: don't modify document.title directly, but use insights chroming instead
     document.title = 'Inventory | Red Hat Insights';
     const history = useHistory();
-    const store = useStore();
     const getRegistry = useGetRegistry();
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
@@ -170,11 +168,6 @@ const Inventory = ({
             });
         });
         dispatch(actions.clearNotifications());
-        const { InventoryTable } = inventoryConnector(store, undefined, undefined, true);
-        setInvCmp(() => InventoryTable);
-        getRegistry().register({
-            ...mergeWithEntities(tableReducer)
-        });
 
         const filtersList =
             generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter);
@@ -186,6 +179,10 @@ const Inventory = ({
                 Array.isArray(perPage) ? perPage[0] : perPage
             ));
         }
+
+        getRegistry().register({
+            ...mergeWithEntities(tableReducer)
+        });
     }, []);
 
     const calculateSelected = () => selected ? selected.size : 0;
@@ -199,12 +196,12 @@ const Inventory = ({
                 <Grid gutter="md">
                     <GridItem span={12}>
                         {
-                            InvCmp && <InvCmp
-                                history={history}
-                                store={store}
+                            <RenderWrapper
+                                isRbacEnabled
+                                cmp={InventoryTableCmp}
                                 customFilters={globalFilter}
                                 isFullView
-                                ref={inventory}
+                                inventoryRef={inventory}
                                 showTags
                                 onRefresh={onRefresh}
                                 hasCheckbox={writePermissions}
@@ -321,10 +318,10 @@ Inventory.propTypes = {
     status: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     source: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     operatingSystem: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
-    filterbyName: PropTypes.string,
+    filterbyName: PropTypes.arrayOf(PropTypes.string),
     tagsFilter: PropTypes.any,
-    page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    page: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+    perPage: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     initialLoading: PropTypes.bool,
     rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     updateMethodFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])

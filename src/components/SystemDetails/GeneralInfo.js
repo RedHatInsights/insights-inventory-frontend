@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 import GeneralInformation from '../GeneralInfo/GeneralInformation';
 export { default as TextInputModal } from '../GeneralInfo/TextInputModal';
-import fallback from '../SpinnerFallback';
+import Fallback from '../SpinnerFallback';
 import systemProfileStore from '../../store/systemProfileStore';
 
 const GeneralInfoTab = ({ getRegistry, ...props }) => {
@@ -21,7 +21,7 @@ const GeneralInfoTab = ({ getRegistry, ...props }) => {
         }}
     >
         <GeneralInformation {...props} />
-    </Wrapper> : fallback;
+    </Wrapper> : <Fallback />;
 };
 
 GeneralInfoTab.propTypes = {

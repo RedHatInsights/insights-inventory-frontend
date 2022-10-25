@@ -39,7 +39,7 @@ const AsyncInventory = ({ component, onLoad, store, history, innerRef, ...props 
 AsyncInventory.propTypes = {
     store: PropTypes.object,
     onLoad: PropTypes.func,
-    component: PropTypes.node.isRequired,
+    component: PropTypes.elementType.isRequired,
     history: PropTypes.object,
     innerRef: PropTypes.shape({
         current: PropTypes.any
@@ -50,4 +50,4 @@ AsyncInventory.defaultProps = {
     onLoad: () => undefined
 };
 
-export default AsyncInventory;
+export default React.forwardRef((props, ref) => <AsyncInventory {...props} innerRef={ref} />);

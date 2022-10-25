@@ -55,7 +55,11 @@ OperatingSystemCardCore.propTypes = {
     detailLoaded: PropTypes.bool,
     handleClick: PropTypes.func,
     systemInfo: PropTypes.shape({
-        release: PropTypes.string,
+        release: PropTypes.shape({
+            name: PropTypes.string,
+            major: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+            minor: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        }),
         architecture: PropTypes.string,
         kernelRelease: PropTypes.string,
         bootTime: PropTypes.string,

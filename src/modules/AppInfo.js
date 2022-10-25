@@ -2,8 +2,6 @@ import React from 'react';
 import AsyncInventory from './AsyncInventory';
 import { AppInfo as AppInfoCmp } from '../components/InventoryDetail';
 
-const BaseAppInfo = (props) => <AsyncInventory component={AppInfoCmp} {...props} />;
-
-const AppInfo = React.forwardRef((props, ref) => <BaseAppInfo innerRef={ref} {...props} />);
+const AppInfo = (props) => <AsyncInventory {...props} component={AppInfoCmp} />;
 
 export default AppInfo;

@@ -59,6 +59,10 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     initialLoading,
     ignoreRefresh,
     showTagModal,
+    tableProps,
+    isRbacEnabled,
+    hasCheckbox,
+    onRowClick,
     ...props
 }, ref) => {
     const hasItems = Boolean(items);
@@ -205,6 +209,9 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
                 </EntityTableToolbar>
                 <InventoryList
                     { ...props }
+                    hasCheckbox={hasCheckbox}
+                    onRowClick={onRowClick}
+                    tableProps={tableProps}
                     customFilters={customFilters}
                     hasAccess={hasAccess}
                     ref={ref}
@@ -258,7 +265,11 @@ InventoryTable.propTypes = {
     initialLoading: PropTypes.bool,
     ignoreRefresh: PropTypes.bool,
     showTagModal: PropTypes.bool,
-    activeFiltersConfig: PropTypes.object
+    activeFiltersConfig: PropTypes.object,
+    tableProps: PropTypes.object,
+    isRbacEnabled: PropTypes.bool,
+    hasCheckbox: PropTypes.bool,
+    onRowClick: PropTypes.func
 };
 
 export default InventoryTable;
