@@ -5,6 +5,16 @@ import toJson from 'enzyme-to-json';
 import SystemStatusCard from './SystemStatusCard';
 import configureStore from 'redux-mock-store';
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: 'localhost:3000/example/path'
+    }),
+    useHistory: () => ({
+        push: () => undefined
+    })
+}));
+
 describe('SystemStatusCard', () => {
     let initialState;
     let mockStore;

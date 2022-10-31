@@ -6,6 +6,16 @@ import BiosCard from './BiosCard';
 import configureStore from 'redux-mock-store';
 import { biosTest } from '../../../__mocks__/selectors';
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: 'localhost:3000/example/path'
+    }),
+    useHistory: () => ({
+        push: () => undefined
+    })
+}));
+
 describe('BiosCard', () => {
     let initialState;
     let mockStore;
