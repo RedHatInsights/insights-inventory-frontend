@@ -8,7 +8,7 @@ exports[`Pagination render should render correctly - with no access 1`] = `
   data-ouia-component-id="OUIA-Generated-Pagination-top-2"
   data-ouia-component-type="PF4/Pagination"
   data-ouia-safe="true"
-  id="pagination-options-menu-1"
+  id="options-menu-top-pagination"
 >
   <div
     class="pf-c-pagination__total-items"
@@ -51,7 +51,7 @@ exports[`Pagination render should render correctly - with no access 1`] = `
         data-ouia-component-type="PF4/DropdownToggle"
         data-ouia-safe="true"
         disabled=""
-        id="pagination-options-menu-toggle-1"
+        id="options-menu-top-toggle"
         type="button"
       >
         <span
@@ -222,7 +222,7 @@ exports[`Pagination render should render correctly with data 1`] = `
   data-ouia-component-id="OUIA-Generated-Pagination-top-1"
   data-ouia-component-type="PF4/Pagination"
   data-ouia-safe="true"
-  id="pagination-options-menu-0"
+  id="options-menu-top-pagination"
 >
   <div
     class="pf-c-pagination__total-items"
@@ -264,7 +264,7 @@ exports[`Pagination render should render correctly with data 1`] = `
         data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
         data-ouia-component-type="PF4/DropdownToggle"
         data-ouia-safe="true"
-        id="pagination-options-menu-toggle-0"
+        id="options-menu-top-toggle"
         type="button"
       >
         <span
@@ -435,7 +435,7 @@ exports[`Pagination render should render correctly with data and isFull 1`] = `
   data-ouia-component-id="OUIA-Generated-Pagination-bottom-1"
   data-ouia-component-type="PF4/Pagination"
   data-ouia-safe="true"
-  id="pagination-options-menu-3"
+  id="options-menu-bottom-pagination"
 >
   <div
     class="pf-c-options-menu pf-m-top"
@@ -465,7 +465,7 @@ exports[`Pagination render should render correctly with data and isFull 1`] = `
         data-ouia-component-id="OUIA-Generated-DropdownToggle-4"
         data-ouia-component-type="PF4/DropdownToggle"
         data-ouia-safe="true"
-        id="pagination-options-menu-toggle-3"
+        id="options-menu-bottom-toggle"
         type="button"
       >
         <span
@@ -633,7 +633,7 @@ exports[`Pagination render should render correctly with data and props 1`] = `
   data-ouia-component-id="OUIA-Generated-Pagination-top-3"
   data-ouia-component-type="PF4/Pagination"
   data-ouia-safe="true"
-  id="pagination-options-menu-2"
+  id="options-menu-top-pagination"
 >
   <div
     class="pf-c-pagination__total-items"
@@ -675,7 +675,7 @@ exports[`Pagination render should render correctly with data and props 1`] = `
         data-ouia-component-id="OUIA-Generated-DropdownToggle-3"
         data-ouia-component-type="PF4/DropdownToggle"
         data-ouia-safe="true"
-        id="pagination-options-menu-toggle-2"
+        id="options-menu-top-toggle"
         type="button"
       >
         <span

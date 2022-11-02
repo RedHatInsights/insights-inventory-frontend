@@ -147,14 +147,14 @@ exports[`InfoTable api expandable should open 1`] = `
                       }
                     }
                     variant="top"
-                    widgetId="pagination-options-menu"
+                    widgetId="options-menu"
                   >
                     <div
                       className="pf-c-pagination pf-m-compact"
                       data-ouia-component-id="CompactPagination"
                       data-ouia-component-type="PF4/Pagination"
                       data-ouia-safe={true}
-                      id="pagination-options-menu-1"
+                      id="options-menu-top-pagination"
                     >
                       <div
                         className="pf-c-pagination__total-items"
@@ -219,7 +219,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         }
                         perPageSuffix="per page"
                         toggleTemplate={[Function]}
-                        widgetId="pagination-options-menu"
+                        widgetId="options-menu-top"
                       >
                         <DropdownWithContext
                           autoFocus={true}
@@ -274,7 +274,7 @@ exports[`InfoTable api expandable should open 1`] = `
                               </DropdownItem>,
                             ]
                           }
-                          isFlipEnabled={false}
+                          isFlipEnabled={true}
                           isGrouped={false}
                           isOpen={false}
                           isPlain={true}
@@ -298,7 +298,7 @@ exports[`InfoTable api expandable should open 1`] = `
                               perPageComponent="div"
                               showToggle={true}
                               toggleTemplate={[Function]}
-                              widgetId="pagination-options-menu"
+                              widgetId="options-menu-top"
                             />
                           }
                         >
@@ -360,7 +360,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                         data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                                         data-ouia-component-type="PF4/DropdownToggle"
                                         data-ouia-safe="true"
-                                        id="pagination-options-menu-toggle-1"
+                                        id="options-menu-top-toggle"
                                         type="button"
                                       >
                                         <span
@@ -388,7 +388,7 @@ exports[`InfoTable api expandable should open 1`] = `
                               perPageComponent="div"
                               showToggle={true}
                               toggleTemplate={[Function]}
-                              widgetId="pagination-options-menu"
+                              widgetId="options-menu-top"
                             >
                               <div
                                 className="pf-c-options-menu__toggle pf-m-plain pf-m-text"
@@ -421,7 +421,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                   aria-haspopup="listbox"
                                   aria-label="Items per page"
                                   className="pf-c-options-menu__toggle-button"
-                                  id="pagination-options-menu-toggle-1"
+                                  id="options-menu-top-toggle"
                                   isDisabled={false}
                                   isOpen={false}
                                   onEnter={[Function]}
@@ -461,7 +461,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                             data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                                             data-ouia-component-type="PF4/DropdownToggle"
                                             data-ouia-safe="true"
-                                            id="pagination-options-menu-toggle-1"
+                                            id="options-menu-top-toggle"
                                             type="button"
                                           >
                                             <span
@@ -496,7 +496,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     data-ouia-component-type="PF4/DropdownToggle"
                                     data-ouia-safe={true}
                                     getMenuRef={null}
-                                    id="pagination-options-menu-toggle-1"
+                                    id="options-menu-top-toggle"
                                     isActive={false}
                                     isDisabled={false}
                                     isOpen={false}
@@ -541,7 +541,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                               data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                                               data-ouia-component-type="PF4/DropdownToggle"
                                               data-ouia-safe="true"
-                                              id="pagination-options-menu-toggle-1"
+                                              id="options-menu-top-toggle"
                                               type="button"
                                             >
                                               <span
@@ -577,7 +577,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-type="PF4/DropdownToggle"
                                       data-ouia-safe={true}
                                       disabled={false}
-                                      id="pagination-options-menu-toggle-1"
+                                      id="options-menu-top-toggle"
                                       onClick={[Function]}
                                       onKeyDown={[Function]}
                                       type="button"
@@ -6458,14 +6458,14 @@ exports[`InfoTable api expandable should open 1`] = `
               }
             }
             variant="bottom"
-            widgetId="pagination-options-menu"
+            widgetId="options-menu"
           >
             <div
               className="pf-c-pagination pf-m-bottom"
               data-ouia-component-id="OUIA-Generated-Pagination-bottom-1"
               data-ouia-component-type="PF4/Pagination"
               data-ouia-safe={true}
-              id="pagination-options-menu-1"
+              id="options-menu-bottom-pagination"
             >
               <PaginationOptionsMenu
                 className=""
@@ -6506,7 +6506,7 @@ exports[`InfoTable api expandable should open 1`] = `
                 }
                 perPageSuffix="per page"
                 toggleTemplate={[Function]}
-                widgetId="pagination-options-menu"
+                widgetId="options-menu-bottom"
               >
                 <DropdownWithContext
                   autoFocus={true}
@@ -6561,7 +6561,7 @@ exports[`InfoTable api expandable should open 1`] = `
                       </DropdownItem>,
                     ]
                   }
-                  isFlipEnabled={false}
+                  isFlipEnabled={true}
                   isGrouped={false}
                   isOpen={false}
                   isPlain={true}
@@ -6585,7 +6585,7 @@ exports[`InfoTable api expandable should open 1`] = `
                       perPageComponent="div"
                       showToggle={true}
                       toggleTemplate={[Function]}
-                      widgetId="pagination-options-menu"
+                      widgetId="options-menu-bottom"
                     />
                   }
                 >
@@ -6647,7 +6647,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                 data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                                 data-ouia-component-type="PF4/DropdownToggle"
                                 data-ouia-safe="true"
-                                id="pagination-options-menu-toggle-1"
+                                id="options-menu-bottom-toggle"
                                 type="button"
                               >
                                 <span
@@ -6675,7 +6675,7 @@ exports[`InfoTable api expandable should open 1`] = `
                       perPageComponent="div"
                       showToggle={true}
                       toggleTemplate={[Function]}
-                      widgetId="pagination-options-menu"
+                      widgetId="options-menu-bottom"
                     >
                       <div
                         className="pf-c-options-menu__toggle pf-m-plain pf-m-text"
@@ -6708,7 +6708,7 @@ exports[`InfoTable api expandable should open 1`] = `
                           aria-haspopup="listbox"
                           aria-label="Items per page"
                           className="pf-c-options-menu__toggle-button"
-                          id="pagination-options-menu-toggle-1"
+                          id="options-menu-bottom-toggle"
                           isDisabled={false}
                           isOpen={false}
                           onEnter={[Function]}
@@ -6748,7 +6748,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                                     data-ouia-component-type="PF4/DropdownToggle"
                                     data-ouia-safe="true"
-                                    id="pagination-options-menu-toggle-1"
+                                    id="options-menu-bottom-toggle"
                                     type="button"
                                   >
                                     <span
@@ -6783,7 +6783,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             data-ouia-component-type="PF4/DropdownToggle"
                             data-ouia-safe={true}
                             getMenuRef={null}
-                            id="pagination-options-menu-toggle-1"
+                            id="options-menu-bottom-toggle"
                             isActive={false}
                             isDisabled={false}
                             isOpen={false}
@@ -6828,7 +6828,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       data-ouia-component-id="OUIA-Generated-DropdownToggle-1"
                                       data-ouia-component-type="PF4/DropdownToggle"
                                       data-ouia-safe="true"
-                                      id="pagination-options-menu-toggle-1"
+                                      id="options-menu-bottom-toggle"
                                       type="button"
                                     >
                                       <span
@@ -6864,7 +6864,7 @@ exports[`InfoTable api expandable should open 1`] = `
                               data-ouia-component-type="PF4/DropdownToggle"
                               data-ouia-safe={true}
                               disabled={false}
-                              id="pagination-options-menu-toggle-1"
+                              id="options-menu-bottom-toggle"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               type="button"
@@ -7737,7 +7737,7 @@ exports[`InfoTable should render expandable set to true 1`] = `
         }
       }
       variant="bottom"
-      widgetId="pagination-options-menu"
+      widgetId="options-menu"
     />
   </TableToolbar>
 </Fragment>
@@ -7883,7 +7883,7 @@ exports[`InfoTable should render multiple cells 1`] = `
         }
       }
       variant="bottom"
-      widgetId="pagination-options-menu"
+      widgetId="options-menu"
     />
   </TableToolbar>
 </Fragment>
@@ -8007,7 +8007,7 @@ exports[`InfoTable should render no data 1`] = `
         }
       }
       variant="bottom"
-      widgetId="pagination-options-menu"
+      widgetId="options-menu"
     />
   </TableToolbar>
 </Fragment>
@@ -8158,7 +8158,7 @@ exports[`InfoTable should render onSort set 1`] = `
         }
       }
       variant="bottom"
-      widgetId="pagination-options-menu"
+      widgetId="options-menu"
     />
   </TableToolbar>
 </Fragment>
@@ -8268,7 +8268,7 @@ exports[`InfoTable should render one cell 1`] = `
         }
       }
       variant="bottom"
-      widgetId="pagination-options-menu"
+      widgetId="options-menu"
     />
   </TableToolbar>
 </Fragment>
