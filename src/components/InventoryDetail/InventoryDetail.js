@@ -144,4 +144,4 @@ const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
 
 InventoryDetailWrapper.propTypes = InventoryDetail.propTypes;
 
-export default InventoryDetail;
+export default InventoryDetailWrapper;
