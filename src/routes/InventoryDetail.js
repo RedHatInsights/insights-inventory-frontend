@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore, useDispatch } from 'react-redux';
-import { useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './inventory.scss';
 import { Link, useHistory } from 'react-router-dom';
 import { entitesDetailReducer, RegistryContext } from '../store';
@@ -17,10 +17,10 @@ import DetailWrapper from '../modules/DetailWrapper';
 import { useWritePermissions } from '../Utilities/constants';
 
 const Inventory = () => {
+    const { inventoryId } = useParams();
     const store = useStore();
     const history = useHistory();
     const dispatch = useDispatch();
-    const { params: { inventoryId } } = useRouteMatch('/:inventoryId');
     const { getRegistry } = useContext(RegistryContext);
     const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
@@ -83,6 +83,7 @@ const Inventory = () => {
                         hideInvLink
                         showDelete={writePermissions}
                         hideInvDrawer
+                        inventoryId={inventoryId}
                     />
                 }
             </PageHeader>

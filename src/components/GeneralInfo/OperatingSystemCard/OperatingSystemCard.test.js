@@ -6,11 +6,22 @@ import OperatingSystemCard from './OperatingSystemCard';
 import configureStore from 'redux-mock-store';
 import { osTest, rhsmFacts } from '../../../__mocks__/selectors';
 
+const location = {};
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => location,
+    useHistory: () => ({
+        push: () => undefined
+    })
+}));
+
 describe('OperatingSystemCard', () => {
     let initialState;
     let mockStore;
 
     beforeEach(() => {
+        location.pathname = 'localhost:3000/example/path';
         mockStore = configureStore();
         initialState = {
             systemProfileStore: {
@@ -94,6 +105,7 @@ describe('OperatingSystemCard', () => {
 
             const store = mockStore(initialState);
             const onClick = jest.fn();
+            location.pathname = 'localhost:3000/example/kernel_modules';
             const wrapper = mount(<OperatingSystemCard handleClick={ onClick } store={ store } />);
             wrapper.find('dd a').first().simulate('click');
             expect(onClick).toHaveBeenCalled();

@@ -6,11 +6,22 @@ import InfrastructureCard from './InfrastructureCard';
 import configureStore from 'redux-mock-store';
 import { infraTest, rhsmFacts } from '../../../__mocks__/selectors';
 
+const location = {};
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => location,
+    useHistory: () => ({
+        push: () => undefined
+    })
+}));
+
 describe('InfrastructureCard', () => {
     let initialState;
     let mockStore;
 
     beforeEach(() => {
+        location.pathname = 'localhost:3000/example/path';
         mockStore = configureStore();
         initialState = {
             systemProfileStore: {
@@ -77,25 +88,28 @@ describe('InfrastructureCard', () => {
             expect(onClick).not.toHaveBeenCalled();
         });
 
-        it('should call handleClick on packages', () => {
+        it('should call handleClick on ipv4', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
+            location.pathname = 'localhost:3000/example/ipv4';
             const wrapper = mount(<InfrastructureCard handleClick={ onClick } store={ store } />);
             wrapper.find('dd a').first().simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
 
-        it('should call handleClick on services', () => {
+        it('should call handleClick on ipv6', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
+            location.pathname = 'localhost:3000/example/ipv6';
             const wrapper = mount(<InfrastructureCard handleClick={ onClick } store={ store } />);
             wrapper.find('dd a').at(1).simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
 
-        it('should call handleClick on services', () => {
+        it('should call handleClick on interfaces', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
+            location.pathname = 'localhost:3000/example/interfaces';
             const wrapper = mount(<InfrastructureCard handleClick={ onClick } store={ store } />);
             wrapper.find('dd a').at(2).simulate('click');
             expect(onClick).toHaveBeenCalled();

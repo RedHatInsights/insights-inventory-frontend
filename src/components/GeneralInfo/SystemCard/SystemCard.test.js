@@ -13,6 +13,16 @@ import mockedData from '../../../__mocks__/mockedData.json';
 
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
+const location = {};
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => location,
+    useHistory: () => ({
+        push: () => undefined
+    })
+}));
+
 jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () => ({
     esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: true })
@@ -27,6 +37,8 @@ describe('SystemCard', () => {
         mock.onGet('/api/inventory/v1/hosts/test-id/system_profile').reply(200, mockedData);
         mock.onGet('/api/inventory/v1/hosts/test-id').reply(200, mockedData);
         mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
+
+        location.pathname = 'localhost:3000/example/path';
 
         initialState = {
             entityDetails: {
@@ -181,6 +193,7 @@ describe('SystemCard', () => {
                 }
             });
             const handleClick = jest.fn();
+            location.pathname = 'localhost:3000/example/sap_sids';
 
             const wrapper = mount(<SystemCard store={ store } handleClick={handleClick}/>);
             wrapper.find('dd a').last().simulate('click');
@@ -209,6 +222,7 @@ describe('SystemCard', () => {
                 }
             });
             const handleClick = jest.fn();
+            location.pathname = 'localhost:3000/example/flag';
 
             const wrapper = mount(<SystemCard store={ store } handleClick={handleClick}/>);
             wrapper.find('dd a').last().simulate('click');

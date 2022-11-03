@@ -6,6 +6,16 @@ import ConfigurationCard from './ConfigurationCard';
 import configureStore from 'redux-mock-store';
 import { configTest } from '../../../__mocks__/selectors';
 
+const location = {};
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => location,
+    useHistory: () => ({
+        push: () => undefined
+    })
+}));
+
 describe('ConfigurationCard', () => {
     let initialState;
     let mockStore;
@@ -20,6 +30,7 @@ describe('ConfigurationCard', () => {
                 }
             }
         };
+        location.pathname = 'localhost:3000/example/path';
     });
 
     it('should render correctly - no data', () => {
@@ -68,6 +79,7 @@ describe('ConfigurationCard', () => {
         it('should call handleClick on packages', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
+            location.pathname = 'localhost:3000/example/installed_packages';
             const wrapper = mount(<ConfigurationCard handleClick={ onClick } store={ store } />);
             wrapper.find('dd a').first().simulate('click');
             expect(onClick).toHaveBeenCalled();
@@ -76,22 +88,25 @@ describe('ConfigurationCard', () => {
         it('should call handleClick on services', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
+            location.pathname = 'localhost:3000/example/services';
             const wrapper = mount(<ConfigurationCard handleClick={ onClick } store={ store } />);
             wrapper.find('dd a').at(1).simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
 
-        it('should call handleClick on services', () => {
+        it('should call handleClick on processes', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
+            location.pathname = 'localhost:3000/example/running_processes';
             const wrapper = mount(<ConfigurationCard handleClick={ onClick } store={ store } />);
             wrapper.find('dd a').at(2).simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
 
-        it('should call handleClick on services', () => {
+        it('should call handleClick on repositories', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
+            location.pathname = 'localhost:3000/example/repositories';
             const wrapper = mount(<ConfigurationCard handleClick={ onClick } store={ store } />);
             wrapper.find('dd a').at(3).simulate('click');
             expect(onClick).toHaveBeenCalled();

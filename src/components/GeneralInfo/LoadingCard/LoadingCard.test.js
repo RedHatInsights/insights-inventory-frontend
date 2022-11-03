@@ -3,6 +3,18 @@ import { shallow, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import LoadingCard, { Clickable } from './LoadingCard';
 
+const history = {
+    push: () => undefined
+};
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: 'localhost:3000/example/path'
+    }),
+    useHistory: () => history
+}));
+
 describe('LoadingCard', () => {
     [true, false].map(isLoading => {
         it(`Loading card render - isLoading: ${isLoading}`, () => {
@@ -219,11 +231,8 @@ describe('LoadingCard', () => {
 
     it('Clickable should render', () => {
         const onClick = jest.fn();
-        const wrapper = shallow(<Clickable item={ {
-            onClick,
-            value: 15,
-            target: 'some-target'
-        } } />);
+        history.push = onClick;
+        const wrapper = shallow(<Clickable value="15" target="some-target" />);
         wrapper.find('a').first().simulate('click', {
             preventDefault: () => {
             }
@@ -232,13 +241,19 @@ describe('LoadingCard', () => {
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
+    it('clickable should click', () => {
+        const onClick = jest.fn();
+        const wrapper = mount(<Clickable onClick={onClick} value="15" target="path"/>);
+        wrapper.find('a').first().simulate('click', {
+            preventDefault: () => {
+            }
+        });
+        expect(onClick).toHaveBeenCalled();
+    });
+
     it('Clickable should render - 0 value', () => {
         const onClick = jest.fn();
-        const wrapper = shallow(<Clickable item={ {
-            onClick,
-            value: 0,
-            target: 'some-target'
-        } } />);
+        const wrapper = shallow(<Clickable onClick={onClick} value={0} target="some-target" />);
         expect(onClick).not.toHaveBeenCalled();
         expect(toJson(wrapper)).toMatchSnapshot();
     });
