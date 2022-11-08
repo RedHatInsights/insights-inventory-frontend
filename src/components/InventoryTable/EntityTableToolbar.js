@@ -32,7 +32,6 @@ import {
     stalenessFilterReducer,
     stalenessFilterState,
     operatingSystemFilterReducer,
-    operatingSystemFilterState,
     registeredWithFilterReducer,
     registeredWithFilterState
 } from '../filters';
@@ -77,8 +76,7 @@ const EntityTableToolbar = ({
         ...textFilterState,
         ...stalenessFilterState,
         ...registeredWithFilterState,
-        ...tagsFilterState,
-        ...operatingSystemFilterState
+        ...tagsFilterState
     });
     const filters = useSelector(({ entities: { activeFilters } }) => activeFilters);
     const allTagsLoaded = useSelector(({ entities: { allTagsLoaded } }) => allTagsLoaded);
