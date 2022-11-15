@@ -15,6 +15,8 @@ import InventoryDetailHead from '../modules/InventoryDetailHead';
 import AppInfo from '../modules/AppInfo';
 import DetailWrapper from '../modules/DetailWrapper';
 import { useWritePermissions } from '../Utilities/constants';
+import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
+import { getFact } from '../components/InventoryDetail/helpers';
 
 const Inventory = () => {
     const { inventoryId } = useParams();
@@ -35,8 +37,12 @@ const Inventory = () => {
         clearNotifications();
     }, []);
 
+    const notConnected = verifyCulledInsightsClient(
+        getFact('per_reporter_staleness', entity)
+    );
+
     const additionalClasses = {
-        'ins-c-inventory__detail--general-info': currentApp && currentApp === 'general_information'
+        'ins-c-inventory__detail--general-info': (currentApp && !notConnected) && currentApp === 'general_information'
     };
 
     if (entity) {
@@ -95,6 +101,7 @@ const Inventory = () => {
                             fallback=""
                             store={store}
                             history={history}
+                            notConnected={notConnected}
                         />
                     </GridItem>
                 </Grid>

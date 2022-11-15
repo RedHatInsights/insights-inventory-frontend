@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useStore, useSelector } from 'react-redux';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
+import { NotConnected } from '@redhat-cloud-services/frontend-components/NotConnected';
 
 /**
  * Small component that just renders active detail with some specific class.
  * This component detail is accessed from redux if no component found `missing component` is displayed.
  * @param {*} props `componentsMapper` if you want to pass different components list.
  */
-const AppInfo = ({ componentMapper, appList }) => {
+const AppInfo = ({ componentMapper, appList, notConnected }) => {
     const store = useStore();
     const { search } = useLocation();
     const searchParams = new URLSearchParams(search);
@@ -32,17 +33,21 @@ const AppInfo = ({ componentMapper, appList }) => {
     return (
         <Fragment>
             {
-                loaded ? activeApp && (
-                    <div className={ `ins-active-app-${activeApp?.name}` }>
-                        { Cmp ?
-                            <Cmp
-                                store={store}
-                                inventoryId={entity?.id}
-                                appName={activeApp?.name}
-                            /> :
-                            'missing component'}
-                    </div>
-                ) : <Skeleton size={ SkeletonSize.md } />
+                loaded ?
+                    (
+                        notConnected && <NotConnected />
+                        || activeApp && (
+                            <div className={ `ins-active-app-${activeApp?.name}` }>
+                                { Cmp ?
+                                    <Cmp
+                                        store={store}
+                                        inventoryId={entity?.id}
+                                        appName={activeApp?.name}
+                                    /> :
+                                    'missing component'}
+                            </div>)
+                    )
+                    : <Skeleton size={ SkeletonSize.md } />
             }
         </Fragment>
     );
@@ -54,7 +59,8 @@ AppInfo.propTypes = {
         title: PropTypes.node,
         name: PropTypes.string,
         pageId: PropTypes.string
-    }))
+    })),
+    notConnected: PropTypes.bool
 };
 
 export default AppInfo;
