@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Stack,
@@ -12,7 +12,7 @@ import {
     TextListItem
 } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { useParams } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 const valueToText = (value, singular, plural) => {
     if ((value || value === 0) && singular) {
@@ -26,70 +26,76 @@ const valueToText = (value, singular, plural) => {
     return value || 'Not available';
 };
 
-export const Clickable = ({ item: { onClick, value, target, plural, singular } }) => (
-    <a
-        onClick={ event => {
-            event.preventDefault();
-            onClick(event, { value, target });
-        } }
-        href={ `${window.location.href.split('#')[0]}/${target}` }
-    >
-        { valueToText(value, singular, plural) }
-    </a>
-);
-
-Clickable.propTypes = {
-    item: PropTypes.shape({
-        value: PropTypes.node,
-        target: PropTypes.string,
-        onClick: PropTypes.func,
-        plural: PropTypes.string,
-        singular: PropTypes.string
-    })
-};
-
-Clickable.defaultProps = {
-    item: {}
-};
-
-const LoadingCard = ({ title, isLoading, items, children }) => {
-    const { modalId } = useParams();
+export const Clickable = ({ value, target, plural, singular, onClick }) => {
+    const history = useHistory();
+    const { pathname } = useLocation();
+    const modalId = pathname.split('/').pop();
+    useEffect(() => {
+        if (target === modalId) {
+            onClick({ value, target });
+        }
+    }, [modalId, target]);
     return (
-        <Stack hasGutter>
-            <StackItem>
-                <TextContent>
-                    <Text component={ TextVariants.h1 }>
-                        { title }
-                    </Text>
-                </TextContent>
-            </StackItem>
-            <StackItem isFilled>
-                {items.length ?
-                    (<TextContent>
-                        <TextList component={ TextListVariants.dl }>
-                            { items.map((item, key) => (
-                                <Fragment key={ key }>
-                                    <TextListItem component={ TextListItemVariants.dt }>
-                                        { item.title }
-                                    </TextListItem>
-                                    <TextListItem component={ TextListItemVariants.dd }>
-                                        { isLoading && <Skeleton size={ item.size || SkeletonSize.sm } /> }
-                                        { modalId && item.onClick && item.target === modalId && item.onClick()}
-                                        { !isLoading && (
-                                            item.onClick && item.value ?
-                                                <Clickable item={ item }/> :
-                                                valueToText(item.value, item.singular, item.plural)
-                                        ) }
-                                    </TextListItem>
-                                </Fragment>
-                            )) }
-                        </TextList>
-                    </TextContent>) : null}
-                {children}
-            </StackItem>
-        </Stack>
+        <a
+            onClick={ event => {
+                event.preventDefault();
+                history.push(`${pathname}/${target}`);
+            } }
+            href={ `${window.location.origin}${window.location.pathname}/${target}` }
+        >
+            { valueToText(value, singular, plural) }
+        </a>
     );
 };
+
+Clickable.propTypes = {
+    value: PropTypes.node,
+    target: PropTypes.string,
+    onClick: PropTypes.func,
+    plural: PropTypes.string,
+    singular: PropTypes.string
+};
+
+const LoadingCard = ({ title, isLoading, items, children }) => (
+    <Stack hasGutter>
+        <StackItem>
+            <TextContent>
+                <Text component={ TextVariants.h1 }>
+                    { title }
+                </Text>
+            </TextContent>
+        </StackItem>
+        <StackItem isFilled>
+            {items.length ?
+                (<TextContent>
+                    <TextList component={ TextListVariants.dl }>
+                        { items.map(({ onClick, value, target, plural, singular, size, title: itemTitle }, key) => (
+                            <Fragment key={key}>
+                                <TextListItem component={ TextListItemVariants.dt }>
+                                    { itemTitle }
+                                </TextListItem>
+                                <TextListItem component={ TextListItemVariants.dd }>
+                                    { isLoading && <Skeleton size={ size || SkeletonSize.sm } /> }
+                                    { !isLoading && (
+                                        onClick && value ?
+                                            <Clickable
+                                                onClick={onClick}
+                                                value={value}
+                                                target={target}
+                                                plural={plural}
+                                                singular={singular}
+                                            /> :
+                                            valueToText(value, singular, plural)
+                                    ) }
+                                </TextListItem>
+                            </Fragment>
+                        ))}
+                    </TextList>
+                </TextContent>) : null}
+            {children}
+        </StackItem>
+    </Stack>
+);
 
 LoadingCard.propTypes = {
     title: PropTypes.node.isRequired,

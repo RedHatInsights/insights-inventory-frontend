@@ -94,14 +94,8 @@ exports[`LoadingCard Loading card render 1`] = `
           component="dd"
         >
           <Clickable
-            item={
-              Object {
-                "onClick": [MockFunction],
-                "size": "md",
-                "title": "test-title",
-                "value": "some value",
-              }
-            }
+            onClick={[MockFunction]}
+            value="some value"
           />
         </TextListItem>
         <TextListItem

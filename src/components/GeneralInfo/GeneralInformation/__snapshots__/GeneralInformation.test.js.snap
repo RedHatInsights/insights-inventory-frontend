@@ -459,7 +459,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -1443,7 +1443,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -2501,7 +2501,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -4305,7 +4305,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -5095,7 +5095,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -6153,7 +6153,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -7144,7 +7144,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -8209,7 +8209,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -10034,7 +10034,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -10831,7 +10831,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>
@@ -13068,7 +13068,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                 data-pf-content="true"
               >
                 <a
-                  href="http://localhost:5000//undefined"
+                  href="http://localhost:5000//ipv6"
                 >
                   2 addresses
                 </a>

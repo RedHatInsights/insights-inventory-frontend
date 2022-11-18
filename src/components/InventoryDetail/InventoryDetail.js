@@ -34,23 +34,22 @@ const InventoryDetail = ({
     TagsWrapper,
     DeleteWrapper,
     ActionsWrapper,
+    inventoryId,
     children
 }) => {
-    const { inventoryId } = useParams();
     const dispatch = useDispatch();
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded || false);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
     useEffect(() => {
-        const currId = inventoryId || location.pathname.replace(/\/$/, '').split('/').pop();
-        if (!entity || !(entity?.id === currId) || !loaded) {
-            dispatch(loadEntity(currId, { hasItems: true }, { showTags }));
+        if (!entity || !(entity?.id === inventoryId) || !loaded) {
+            dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
         }
     }, []);
     return <div className="ins-entity-detail">
         {loaded && !entity ? (
             <SystemNotFound
                 onBackToListClick={onBackToListClick}
-                inventoryId={location.pathname.split('/')[location.pathname.split('/').length - 1]}
+                inventoryId={inventoryId}
             />
         ) : <Fragment>
             <TopBar
@@ -112,7 +111,8 @@ InventoryDetail.propTypes = {
     TitleWrapper: PropTypes.elementType,
     TagsWrapper: PropTypes.elementType,
     DeleteWrapper: PropTypes.elementType,
-    ActionsWrapper: PropTypes.elementType
+    ActionsWrapper: PropTypes.elementType,
+    inventoryId: PropTypes.string
 };
 InventoryDetail.defaultProps = {
     actions: [],
@@ -126,4 +126,24 @@ InventoryDetail.defaultProps = {
     ActionsWrapper: Fragment
 };
 
-export default InventoryDetail;
+const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
+    const { inventoryId: entityId } = useParams();
+    /*eslint-disable no-console*/
+    if (!inventoryId) {
+        console.warn('~~~~~~~~~~');
+        console.warn('~~~~~~~~~~');
+        console.warn('Missing inventoryId! Please provide one, we will remove the fallback from URL soon.');
+        console.warn('~~~~~~~~~~');
+        console.warn('~~~~~~~~~~');
+    }
+    /*eslint-enable no-console*/
+
+    return <InventoryDetail
+        inventoryId={inventoryId || entityId || location.pathname.replace(/\/$/, '').split('/').pop()}
+        {...props}
+    />;
+};
+
+InventoryDetailWrapper.propTypes = InventoryDetail.propTypes;
+
+export default InventoryDetailWrapper;

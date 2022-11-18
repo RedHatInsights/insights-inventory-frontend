@@ -8,6 +8,7 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { osTest, biosTest, collectInfoTest, configTest, infraTest, testProperties } from '../../../__mocks__/selectors';
 import promiseMiddleware from 'redux-promise-middleware';
+import { MemoryRouter } from 'react-router-dom';
 
 import { hosts } from '../../../api/api';
 import MockAdapter from 'axios-mock-adapter';
@@ -20,11 +21,22 @@ jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () =>
     usePermissionsWithContext: () => ({ hasAccess: true })
 }));
 
+const location = {};
+const history = {};
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => location,
+    useHistory: () => history
+}));
+
 describe('GeneralInformation', () => {
     let initialState;
     let mockStore;
 
     beforeEach(() => {
+        location.pathname = 'localhost:3000/example/path';
+        history.push = () => undefined;
         mockStore = configureStore([promiseMiddleware]);
         initialState = {
             entityDetails: {
@@ -66,17 +78,21 @@ describe('GeneralInformation', () => {
 
     it('should render correctly - no data', () => {
         const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-        const wrapper = render(<Provider store={ store }>
-            <GeneralInformation />
-        </Provider>);
+        const wrapper = render(<MemoryRouter>
+            <Provider store={ store }>
+                <GeneralInformation />
+            </Provider>
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('should render correctly', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<Provider store={ store }>
-            <GeneralInformation />
-        </Provider>);
+        const wrapper = render(<MemoryRouter>
+            <Provider store={ store }>
+                <GeneralInformation />
+            </Provider>
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
@@ -91,17 +107,21 @@ describe('GeneralInformation', () => {
         ].map((item) => {
             it(`should not render ${item}`, () => {
                 const store = mockStore(initialState);
-                const wrapper = render(<Provider store={ store }>
-                    <GeneralInformation {...{ [item]: false }} />
-                </Provider>);
+                const wrapper = render(<MemoryRouter>
+                    <Provider store={ store }>
+                        <GeneralInformation {...{ [item]: false }} />
+                    </Provider>
+                </MemoryRouter>);
                 expect(toJson(wrapper)).toMatchSnapshot();
             });
 
             it(`should render custom ${item}`, () => {
                 const store = mockStore(initialState);
-                const wrapper = render(<Provider store={ store }>
-                    <GeneralInformation {...{ [item]: () => <div>test</div> }} />
-                </Provider>);
+                const wrapper = render(<MemoryRouter>
+                    <Provider store={ store }>
+                        <GeneralInformation {...{ [item]: () => <div>test</div> }} />
+                    </Provider>
+                </MemoryRouter>);
                 expect(toJson(wrapper)).toMatchSnapshot();
             });
         });
@@ -118,18 +138,26 @@ describe('GeneralInformation', () => {
                         per_reporter_staleness: {}
                     }
                 } });
-            mount(<Provider store={ store }>
-                <GeneralInformation />
-            </Provider>);
+            mount(<MemoryRouter>
+                <Provider store={ store }>
+                    <GeneralInformation />
+                </Provider>
+            </MemoryRouter>);
             expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
         });
 
         it('should open modal', () => {
             const store = mockStore(initialState);
-            const wrapper = mount(<Provider store={ store }>
-                <GeneralInformation />
-            </Provider>);
+            history.push = jest.fn();
+            location.pathname = 'localhost:3000/example/interfaces';
+
+            const wrapper = mount(<MemoryRouter>
+                <Provider store={ store }>
+                    <GeneralInformation />
+                </Provider>
+            </MemoryRouter>);
             wrapper.find('a[href$="interfaces"]').first().simulate('click');
+            expect(history.push).toBeCalledWith(`${location.pathname}/interfaces`);
             wrapper.update();
             expect(wrapper.find('GeneralInformation').instance().state.isModalOpen).toBe(true);
             expect(wrapper.find('GeneralInformation').instance().state.modalTitle).toBe('Interfaces/NICs');
@@ -137,9 +165,12 @@ describe('GeneralInformation', () => {
 
         it('should update on sort', () => {
             const store = mockStore(initialState);
-            const wrapper = mount(<Provider store={ store }>
-                <GeneralInformation />
-            </Provider>);
+            location.pathname = 'localhost:3000/example/interfaces';
+            const wrapper = mount(<MemoryRouter>
+                <Provider store={ store }>
+                    <GeneralInformation />
+                </Provider>
+            </MemoryRouter>);
             wrapper.find('a[href$="interfaces"]').first().simulate('click');
             wrapper.update();
             const [firstRow, secondRow] = wrapper.find('GeneralInformation').instance().state.rows;
@@ -151,9 +182,12 @@ describe('GeneralInformation', () => {
 
         it('should open modal', () => {
             const store = mockStore(initialState);
-            const wrapper = mount(<Provider store={ store }>
-                <GeneralInformation />
-            </Provider>);
+            location.pathname = 'localhost:3000/example/interfaces';
+            const wrapper = mount(<MemoryRouter>
+                <Provider store={ store }>
+                    <GeneralInformation />
+                </Provider>
+            </MemoryRouter>);
             wrapper.find('a[href$="interfaces"]').first().simulate('click');
             wrapper.update();
             wrapper.find('.ins-c-inventory__detail--dialog button.pf-m-plain').first().simulate('click');
@@ -163,9 +197,11 @@ describe('GeneralInformation', () => {
 
         it('should calculate first index when expandable', () => {
             const store = mockStore(initialState);
-            const wrapper = mount(<Provider store={ store }>
-                <GeneralInformation />
-            </Provider>);
+            const wrapper = mount(<MemoryRouter>
+                <Provider store={ store }>
+                    <GeneralInformation />
+                </Provider>
+            </MemoryRouter>);
             wrapper.find('GeneralInformation').instance().handleModalToggle('title', {
                 cells: [{ title: 'one' }, { title: 'two' }],
                 rows: [

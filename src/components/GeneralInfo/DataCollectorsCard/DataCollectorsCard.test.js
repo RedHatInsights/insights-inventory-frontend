@@ -5,6 +5,16 @@ import toJson from 'enzyme-to-json';
 import DataCollectorsCard from './DataCollectorsCard';
 import configureStore from 'redux-mock-store';
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => ({
+        pathname: 'localhost:3000/example/path'
+    }),
+    useHistory: () => ({
+        push: () => undefined
+    })
+}));
+
 describe('DataCollectorsCard', () => {
     let initialState;
     let mockStore;

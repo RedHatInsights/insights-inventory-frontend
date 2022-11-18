@@ -166,15 +166,10 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                           data-pf-content={true}
                         >
                           <Clickable
-                            item={
-                              Object {
-                                "onClick": [Function],
-                                "singular": "package",
-                                "target": "installed_packages",
-                                "title": "Installed packages",
-                                "value": 1,
-                              }
-                            }
+                            onClick={[Function]}
+                            singular="package"
+                            target="installed_packages"
+                            value={1}
                           >
                             <a
                               href="http://localhost:5000//installed_packages"
@@ -203,15 +198,10 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                           data-pf-content={true}
                         >
                           <Clickable
-                            item={
-                              Object {
-                                "onClick": [Function],
-                                "singular": "service",
-                                "target": "services",
-                                "title": "Services",
-                                "value": 1,
-                              }
-                            }
+                            onClick={[Function]}
+                            singular="service"
+                            target="services"
+                            value={1}
                           >
                             <a
                               href="http://localhost:5000//services"
@@ -240,16 +230,11 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                           data-pf-content={true}
                         >
                           <Clickable
-                            item={
-                              Object {
-                                "onClick": [Function],
-                                "plural": "processes",
-                                "singular": "process",
-                                "target": "running_processes",
-                                "title": "Running processes",
-                                "value": 1,
-                              }
-                            }
+                            onClick={[Function]}
+                            plural="processes"
+                            singular="process"
+                            target="running_processes"
+                            value={1}
                           >
                             <a
                               href="http://localhost:5000//running_processes"
@@ -278,14 +263,9 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                           data-pf-content={true}
                         >
                           <Clickable
-                            item={
-                              Object {
-                                "onClick": [Function],
-                                "target": "repositories",
-                                "title": "Repositories",
-                                "value": "1 enabled",
-                              }
-                            }
+                            onClick={[Function]}
+                            target="repositories"
+                            value="1 enabled"
                           >
                             <a
                               href="http://localhost:5000//repositories"

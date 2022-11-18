@@ -56,6 +56,7 @@ plugins.push(
             './CollectionCard': resolve(__dirname, '../src/components/GeneralInfo/CollectionCard/CollectionCard.js'),
             './BiosCard': resolve(__dirname, '../src/components/GeneralInfo/BiosCard/BiosCard.js'),
             './DataCollectorsCard': resolve(__dirname, '../src/components/GeneralInfo/DataCollectorsCard/DataCollectorsCard.js'),
+            './LoadingCard': resolve(__dirname, '../src/components/GeneralInfo/LoadingCard/LoadingCard.js'),
             // System detail data providers
             './selectors': resolve(__dirname, '../src/components/GeneralInfo/selectors/index.js'),
             './dataMapper': resolve(__dirname, '../src/components/GeneralInfo/dataMapper/index.js'),

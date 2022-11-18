@@ -50,6 +50,7 @@ const useOperatingSystemFilter = (apiParams = []) => {
     // PrimaryToolbar filter configuration
     const config = useMemo(() => ({
         label: 'Operating System',
+        value: 'operating-system-filter',
         type: 'group',
         filterValues: {
             selected,
