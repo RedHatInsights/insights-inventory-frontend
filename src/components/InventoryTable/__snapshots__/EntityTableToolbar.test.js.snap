@@ -120,6 +120,27 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
           "type": "checkbox",
           "value": "data-collector-registered-with",
         },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
+        },
       ],
     }
   }
@@ -289,6 +310,27 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
           "label": "Data Collector",
           "type": "checkbox",
           "value": "data-collector-registered-with",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
         },
       ],
     }
@@ -475,6 +517,27 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
           "label": "Data Collector",
           "type": "checkbox",
           "value": "data-collector-registered-with",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
         },
         Object {
           "filterValues": Object {
@@ -684,6 +747,27 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
         Object {
           "filterValues": Object {
             "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
             "placeholder": "Filter by filter by text",
           },
           "label": "Filter by text",
@@ -857,6 +941,27 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
           "label": "Data Collector",
           "type": "checkbox",
           "value": "data-collector-registered-with",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
         },
       ],
     }
@@ -1033,6 +1138,27 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
           "type": "checkbox",
           "value": "data-collector-registered-with",
         },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
+        },
       ],
     }
   }
@@ -1208,6 +1334,27 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
           "label": "Data Collector",
           "type": "checkbox",
           "value": "data-collector-registered-with",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": true,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
         },
       ],
     }
@@ -1391,6 +1538,27 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
           "label": "Data Collector",
           "type": "checkbox",
           "value": "data-collector-registered-with",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
         },
         Object {
           "filterValues": Object {
@@ -1604,6 +1772,27 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
           "label": "Data Collector",
           "type": "checkbox",
           "value": "data-collector-registered-with",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": undefined,
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
         },
       ],
     }

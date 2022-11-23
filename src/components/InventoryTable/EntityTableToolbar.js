@@ -18,7 +18,8 @@ import {
     REGISTERED_CHIP,
     OS_CHIP,
     TAG_CHIP,
-    arrayToSelection
+    arrayToSelection,
+    RHCD_FILTER_KEY
 } from '../../Utilities/index';
 import { onDeleteFilter, onDeleteTag } from './helpers';
 import {
@@ -26,6 +27,7 @@ import {
     useTextFilter,
     useRegisteredWithFilter,
     useTagsFilter,
+    useRhcdFilter,
     textFilterState,
     textFilterReducer,
     filtersReducer,
@@ -33,7 +35,9 @@ import {
     stalenessFilterState,
     operatingSystemFilterReducer,
     registeredWithFilterReducer,
-    registeredWithFilterState
+    registeredWithFilterState,
+    rhcdFilterReducer,
+    rhcdFilterState
 } from '../filters';
 import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 
@@ -71,12 +75,14 @@ const EntityTableToolbar = ({
         stalenessFilterReducer,
         registeredWithFilterReducer,
         tagsFilterReducer,
-        operatingSystemFilterReducer
+        operatingSystemFilterReducer,
+        rhcdFilterReducer
     ]), {
         ...textFilterState,
         ...stalenessFilterState,
         ...registeredWithFilterState,
-        ...tagsFilterState
+        ...tagsFilterState,
+        ...rhcdFilterState
     });
     const filters = useSelector(({ entities: { activeFilters } }) => activeFilters);
     const allTagsLoaded = useSelector(({ entities: { allTagsLoaded } }) => allTagsLoaded);
@@ -85,7 +91,7 @@ const EntityTableToolbar = ({
     const [nameFilter, nameChip, textFilter, setTextFilter] = useTextFilter(reducer);
     const [stalenessFilter, stalenessChip, staleFilter, setStaleFilter] = useStalenessFilter(reducer);
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
-
+    const [rhcdFilterConfig, rhcdFilterChips, rhcdFilterValue, setRhcdFilterValue] = useRhcdFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
 
     const {
@@ -113,7 +119,8 @@ const EntityTableToolbar = ({
         stale: !(hideFilters.all && hideFilters.stale !== false) && !hideFilters.stale,
         registeredWith: !(hideFilters.all && hideFilters.registeredWith !== false) && !hideFilters.registeredWith,
         operatingSystem: !(hideFilters.all && hideFilters.operatingSystem !== false) && !hideFilters.operatingSystem,
-        tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags
+        tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags,
+        rhcdFilter: !(hideFilters.all && hideFilters.rhcdFilter !== false) && !hideFilters.rhcdFilter
     };
 
     /**
@@ -150,13 +157,14 @@ const EntityTableToolbar = ({
      * Component did mount effect to calculate actual filters from redux.
      */
     useEffect(() => {
-        const { textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter } = reduceFilters(filters);
+        const { textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter, rhcdFilter } = reduceFilters(filters);
         debouncedRefresh();
         enabledFilters.name && setTextFilter(textFilter);
         enabledFilters.stale && setStaleFilter(staleFilter);
         enabledFilters.registeredWith && setRegisteredWithFilter(registeredWithFilter);
         enabledFilters.tags && setSelectedTags(tagFilters);
         enabledFilters.operatingSystem && setOsFilterValue(osFilter);
+        enabledFilters.rhcdFilter && setRhcdFilterValue(rhcdFilter);
     }, []);
 
     /**
@@ -230,6 +238,12 @@ const EntityTableToolbar = ({
         }
     }, [osFilterValue]);
 
+    useEffect(() => {
+        if (shouldReload && enabledFilters.rhcdFilter) {
+            onSetFilter(rhcdFilterValue, 'rhcdFilter', debouncedRefresh);
+        }
+    }, [rhcdFilterValue]);
+
     /**
      * Mapper to simplify removing of any filter.
      */
@@ -246,7 +260,8 @@ const EntityTableToolbar = ({
         [REGISTERED_CHIP]: (deleted) => setRegisteredWithFilter(
             onDeleteFilter(deleted, registeredWithFilter)
         ),
-        [OS_CHIP]: (deleted) => setOsFilterValue(xor(osFilterValue, deleted.chips.map(({ value }) => value)))
+        [OS_CHIP]: (deleted) => setOsFilterValue(xor(osFilterValue, deleted.chips.map(({ value }) => value))),
+        [RHCD_FILTER_KEY]: (deleted) => setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue))
     };
     /**
      * Function to reset all filters with 'Reset Filter' is clicked
@@ -257,6 +272,7 @@ const EntityTableToolbar = ({
         enabledFilters.registeredWith && setRegisteredWithFilter([]);
         enabledFilters.tags && setSelectedTags({});
         enabledFilters.operatingSystem && setOsFilterValue([]);
+        enabledFilters.rhcdFilter && setRhcdFilterValue([]);
         dispatch(setFilter([defaultFilters]));
         updateData({ page: 1, filters: [defaultFilters] });
     };
@@ -273,6 +289,7 @@ const EntityTableToolbar = ({
                 ...!hasItems && enabledFilters.stale ? stalenessChip : [],
                 ...!hasItems && enabledFilters.registeredWith ? registeredChip : [],
                 ...!hasItems && enabledFilters.operatingSystem ? osFilterChips : [],
+                ...!hasItems && enabledFilters.rhcdFilter ? rhcdFilterChips : [],
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -296,6 +313,7 @@ const EntityTableToolbar = ({
             ...enabledFilters.stale ? [stalenessFilter] : [],
             ...enabledFilters.operatingSystem ? [osFilterConfig] : [],
             ...enabledFilters.registeredWith ? [registeredFilter] : [],
+            ...enabledFilters.rhcdFilter ? [rhcdFilterConfig] : [],
             ...showTags && enabledFilters.tags ? [tagsFilter] : []
         ] : [],
         ...filterConfig?.items || []
@@ -383,6 +401,7 @@ EntityTableToolbar.propTypes = {
         registeredWith: PropTypes.bool,
         stale: PropTypes.bool,
         operatingSystem: PropTypes.bool,
+        rhcdFilter: PropTypes.bool,
         all: PropTypes.bool
     }),
     paginationProps: PropTypes.object,
