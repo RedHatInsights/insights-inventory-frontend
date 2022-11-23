@@ -5,7 +5,7 @@ import flatMap from 'lodash/flatMap';
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import { generateFilter, mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { HostsApi, TagsApi, SystemProfileApi } from '@redhat-cloud-services/host-inventory-client';
-import { allStaleFilters } from '../Utilities/constants';
+import { allStaleFilters, RHCD_FILTER_KEY } from '../Utilities/constants';
 
 export { instance };
 export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
@@ -62,7 +62,7 @@ export const constructTags = (tagFilters) => {
     ) || '';
 };
 
-export const calculateSystemProfile = (osFilter) => {
+export const calculateSystemProfile = ({ osFilter, rhcdFilter }) => {
     let systemProfile = {};
     const osFilterValues = Array.isArray(osFilter) ? osFilter : Object.values(osFilter || {})
     .flatMap((majorOsVersion) => Object.keys(majorOsVersion));
@@ -77,6 +77,10 @@ export const calculateSystemProfile = (osFilter) => {
         };
     }
 
+    if (rhcdFilter) {
+        systemProfile[RHCD_FILTER_KEY] = rhcdFilter;
+    }
+
     return generateFilter({ system_profile: systemProfile });
 };
 
@@ -86,7 +90,8 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'tagFilters' in filter && { tagFilters: filter.tagFilters },
     ...'staleFilter' in filter && { staleFilter: filter.staleFilter },
     ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter },
-    ...'osFilter' in filter && { osFilter: filter.osFilter }
+    ...'osFilter' in filter && { osFilter: filter.osFilter },
+    ...'rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter }
 });
 
 export async function getEntities(items, {
@@ -178,7 +183,7 @@ export async function getEntities(items, {
                 cancelToken: controller && controller.token,
                 query: {
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
-                    ...(calculateSystemProfile(filters.osFilter)),
+                    ...(calculateSystemProfile(filters)),
                     ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields'))
                 }
             }

@@ -15,7 +15,7 @@ import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter, useGetRegistry } from '../Utilities/constants';
 import { inventoryConnector } from '../Utilities/inventoryConnector';
-import { useWritePermissions } from '../Utilities/constants';
+import { useWritePermissions, RHCD_FILTER_KEY } from '../Utilities/constants';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -48,7 +48,8 @@ const filterMapper = {
     tagFilters: ({ tagFilters }, searchParams) => tagFilters?.length > 0 && searchParams.append(
         'tags',
         flatMap(tagFilters, mapTags)
-    )
+    ),
+    rhcdFilter: ({ rhcdFilter }, searchParams) => rhcdFilter?.forEach(item => searchParams.append(RHCD_FILTER_KEY, item))
 };
 
 const calculateFilters = (searchParams, filters = []) => {
@@ -75,6 +76,7 @@ const Inventory = ({
     filterbyName,
     tagsFilter,
     operatingSystem,
+    rhcdFilter,
     page,
     perPage,
     initialLoading
@@ -106,19 +108,24 @@ const Inventory = ({
         }
 
         let results = options?.filters.filter(({ osFilter }) => osFilter);
-        const { status, source, tagsFilter, filterbyName, operatingSystem } = (options?.filters || []).reduce((acc, curr) => ({
-            ...acc,
-            ...curr?.staleFilter && { status: curr.staleFilter },
-            ...curr?.registeredWithFilter && { source: curr.registeredWithFilter },
-            ...curr?.tagFilters && { tagsFilter: curr.tagFilters },
-            ...curr?.value === 'hostname_or_id' && { filterbyName: curr.filter },
-            ...curr?.osFilter && {
-                operatingSystem: results[0].osFilter.length > 0
-                    ? results[0].osFilter
-                    : Object.values(curr.osFilter || {}).flatMap((majorOsVersion) => Object.keys(majorOsVersion))
-            }
-        }), { status: undefined, source: undefined, tagsFilter: undefined, filterbyName: undefined, operatingSystem: undefined });
-        options.filters = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem);
+        const { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter }
+        = (options?.filters || []).reduce(
+            (acc, curr) => ({
+                ...acc,
+                ...curr?.staleFilter && { status: curr.staleFilter },
+                ...curr?.registeredWithFilter && { source: curr.registeredWithFilter },
+                ...curr?.tagFilters && { tagsFilter: curr.tagFilters },
+                ...curr?.value === 'hostname_or_id' && { filterbyName: curr.filter },
+                ...curr?.osFilter && {
+                    operatingSystem: results[0].osFilter.length > 0
+                        ? results[0].osFilter
+                        : Object.values(curr.osFilter || {}).flatMap((majorOsVersion) => Object.keys(majorOsVersion))
+                },
+                ...curr.rhcdFilter && { rhcdFilter: curr.rhcdFilter }
+            }),
+            {}
+        );
+        options.filters = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter);
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
         calculateFilters(searchParams, options?.filters);
@@ -166,7 +173,7 @@ const Inventory = ({
             ...mergeWithEntities(tableReducer)
         });
 
-        const filtersList = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem);
+        const filtersList = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter);
         filtersList?.length > 0 && dispatch(actions.setFilter(filtersList));
 
         if (perPage || page) {
@@ -315,7 +322,8 @@ Inventory.propTypes = {
     tagsFilter: PropTypes.any,
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    initialLoading: PropTypes.bool
+    initialLoading: PropTypes.bool,
+    rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
 };
 
 Inventory.defaultProps = {

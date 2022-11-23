@@ -10,6 +10,7 @@ export const TAG_CHIP = 'tags';
 export const STALE_CHIP = 'staleness';
 export const REGISTERED_CHIP = 'registered_with';
 export const OS_CHIP = 'operating_system';
+export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const staleness = [
     { label: 'Fresh', value: 'fresh' },
     { label: 'Stale', value: 'stale' },
@@ -26,6 +27,10 @@ export const InventoryContext = createContext({});
 export const defaultFilters = {
     staleFilter: ['fresh', 'stale']
 };
+export const rhcdOptions = [
+    { label: 'Active', value: 'not_nil' },
+    { label: 'Inactive', value: 'nil' }
+];
 
 export function filterToGroup(filter = [], valuesKey = 'values') {
     return filter.reduce((accGroup, group) => ({
@@ -71,7 +76,7 @@ export function reduceFilters(filters = []) {
             };
         }
 
-        const foundKey = ['staleFilter', 'registeredWithFilter', 'osFilter', '']
+        const foundKey = ['staleFilter', 'registeredWithFilter', 'osFilter', 'rhcdFilter', '']
         .find(item => Object.keys(oneFilter).includes(item));
 
         return {
@@ -119,7 +124,7 @@ export const reloadWrapper = (event, callback) => {
 
 export const isEmpty = (check) => !check || check?.length === 0;
 
-export const generateFilter = (status, source, tagsFilter, filterbyName, operatingSystem) => ([
+export const generateFilter = (status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter) => ([
     !isEmpty(status) && {
         staleFilter: Array.isArray(status) ? status : [status]
     },
@@ -141,6 +146,9 @@ export const generateFilter = (status, source, tagsFilter, filterbyName, operati
     },
     !isEmpty(operatingSystem) && {
         osFilter: Array.isArray(operatingSystem) ? operatingSystem : [operatingSystem]
+    },
+    !isEmpty(rhcdFilter) && {
+        rhcdFilter: Array.isArray(rhcdFilter) ? rhcdFilter : [rhcdFilter]
     }
 ].filter(Boolean));
 
