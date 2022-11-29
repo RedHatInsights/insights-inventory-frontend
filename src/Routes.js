@@ -3,7 +3,7 @@ import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { tagsMapper } from './constants';
 import { reducers, RegistryContext, tableReducer } from './store';
 import { mergeWithEntities } from './store/reducers';
-import { RHCD_FILTER_KEY } from './Utilities/constants';
+import { RHCD_FILTER_KEY, UPDATE_METHOD_KEY } from './Utilities/constants';
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 
@@ -36,6 +36,7 @@ export const Routes = () => {
                         tagsFilter={searchParams.getAll('tags')?.[0]?.split?.(',').reduce?.(tagsMapper, [])}
                         operatingSystem={searchParams.getAll('operating_system')}
                         rhcdFilter={searchParams.getAll(RHCD_FILTER_KEY)}
+                        updateMethodFilter={searchParams.getAll(UPDATE_METHOD_KEY)}
                         page={searchParams.getAll('page')}
                         perPage={searchParams.getAll('per_page')}
                     />}

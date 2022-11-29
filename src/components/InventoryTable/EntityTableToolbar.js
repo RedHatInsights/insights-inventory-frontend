@@ -19,7 +19,8 @@ import {
     OS_CHIP,
     TAG_CHIP,
     arrayToSelection,
-    RHCD_FILTER_KEY
+    RHCD_FILTER_KEY,
+    UPDATE_METHOD_KEY
 } from '../../Utilities/index';
 import { onDeleteFilter, onDeleteTag } from './helpers';
 import {
@@ -28,6 +29,7 @@ import {
     useRegisteredWithFilter,
     useTagsFilter,
     useRhcdFilter,
+    useUpdateMethodFilter,
     textFilterState,
     textFilterReducer,
     filtersReducer,
@@ -37,7 +39,9 @@ import {
     registeredWithFilterReducer,
     registeredWithFilterState,
     rhcdFilterReducer,
-    rhcdFilterState
+    rhcdFilterState,
+    updateMethodFilterReducer,
+    updateMethodFilterState
 } from '../filters';
 import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 
@@ -76,13 +80,15 @@ const EntityTableToolbar = ({
         registeredWithFilterReducer,
         tagsFilterReducer,
         operatingSystemFilterReducer,
-        rhcdFilterReducer
+        rhcdFilterReducer,
+        updateMethodFilterReducer
     ]), {
         ...textFilterState,
         ...stalenessFilterState,
         ...registeredWithFilterState,
         ...tagsFilterState,
-        ...rhcdFilterState
+        ...rhcdFilterState,
+        ...updateMethodFilterState
     });
     const filters = useSelector(({ entities: { activeFilters } }) => activeFilters);
     const allTagsLoaded = useSelector(({ entities: { allTagsLoaded } }) => allTagsLoaded);
@@ -93,6 +99,7 @@ const EntityTableToolbar = ({
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
     const [rhcdFilterConfig, rhcdFilterChips, rhcdFilterValue, setRhcdFilterValue] = useRhcdFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
+    const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
 
     const {
         tagsFilter,
@@ -120,7 +127,8 @@ const EntityTableToolbar = ({
         registeredWith: !(hideFilters.all && hideFilters.registeredWith !== false) && !hideFilters.registeredWith,
         operatingSystem: !(hideFilters.all && hideFilters.operatingSystem !== false) && !hideFilters.operatingSystem,
         tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags,
-        rhcdFilter: !(hideFilters.all && hideFilters.rhcdFilter !== false) && !hideFilters.rhcdFilter
+        rhcdFilter: !(hideFilters.all && hideFilters.rhcdFilter !== false) && !hideFilters.rhcdFilter,
+        updateMethodFilter: !(hideFilters.all && hideFilters.updateMethodFilter !== false) && !hideFilters.updateMethodFilter
     };
 
     /**
@@ -157,7 +165,10 @@ const EntityTableToolbar = ({
      * Component did mount effect to calculate actual filters from redux.
      */
     useEffect(() => {
-        const { textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter, rhcdFilter } = reduceFilters(filters);
+        const {
+            textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter, rhcdFilter, updateMethodFilter
+        } = reduceFilters(filters);
+
         debouncedRefresh();
         enabledFilters.name && setTextFilter(textFilter);
         enabledFilters.stale && setStaleFilter(staleFilter);
@@ -165,6 +176,7 @@ const EntityTableToolbar = ({
         enabledFilters.tags && setSelectedTags(tagFilters);
         enabledFilters.operatingSystem && setOsFilterValue(osFilter);
         enabledFilters.rhcdFilter && setRhcdFilterValue(rhcdFilter);
+        enabledFilters.updateMethodFilter && setUpdateMethodValue(updateMethodFilter);
     }, []);
 
     /**
@@ -244,6 +256,12 @@ const EntityTableToolbar = ({
         }
     }, [rhcdFilterValue]);
 
+    useEffect(() => {
+        if (shouldReload && enabledFilters.updateMethodFilter) {
+            onSetFilter(updateMethodValue, 'updateMethodFilter', debouncedRefresh);
+        }
+    }, [updateMethodValue]);
+
     /**
      * Mapper to simplify removing of any filter.
      */
@@ -261,7 +279,8 @@ const EntityTableToolbar = ({
             onDeleteFilter(deleted, registeredWithFilter)
         ),
         [OS_CHIP]: (deleted) => setOsFilterValue(xor(osFilterValue, deleted.chips.map(({ value }) => value))),
-        [RHCD_FILTER_KEY]: (deleted) => setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue))
+        [RHCD_FILTER_KEY]: (deleted) => setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
+        [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue))
     };
     /**
      * Function to reset all filters with 'Reset Filter' is clicked
@@ -273,6 +292,7 @@ const EntityTableToolbar = ({
         enabledFilters.tags && setSelectedTags({});
         enabledFilters.operatingSystem && setOsFilterValue([]);
         enabledFilters.rhcdFilter && setRhcdFilterValue([]);
+        enabledFilters.updateMethodFilter && setUpdateMethodValue([]);
         dispatch(setFilter([defaultFilters]));
         updateData({ page: 1, filters: [defaultFilters] });
     };
@@ -290,6 +310,7 @@ const EntityTableToolbar = ({
                 ...!hasItems && enabledFilters.registeredWith ? registeredChip : [],
                 ...!hasItems && enabledFilters.operatingSystem ? osFilterChips : [],
                 ...!hasItems && enabledFilters.rhcdFilter ? rhcdFilterChips : [],
+                ...!hasItems && enabledFilters.updateMethodFilter ? updateMethodChips : [],
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -314,6 +335,7 @@ const EntityTableToolbar = ({
             ...enabledFilters.operatingSystem ? [osFilterConfig] : [],
             ...enabledFilters.registeredWith ? [registeredFilter] : [],
             ...enabledFilters.rhcdFilter ? [rhcdFilterConfig] : [],
+            ...enabledFilters.updateMethodFilter ? [updateMethodConfig] : [],
             ...showTags && enabledFilters.tags ? [tagsFilter] : []
         ] : [],
         ...filterConfig?.items || []
@@ -402,6 +424,7 @@ EntityTableToolbar.propTypes = {
         stale: PropTypes.bool,
         operatingSystem: PropTypes.bool,
         rhcdFilter: PropTypes.bool,
+        updateMethodFilter: PropTypes.bool,
         all: PropTypes.bool
     }),
     paginationProps: PropTypes.object,
