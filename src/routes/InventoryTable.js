@@ -15,7 +15,7 @@ import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { defaultFilters, generateFilter, useGetRegistry } from '../Utilities/constants';
 import { inventoryConnector } from '../Utilities/inventoryConnector';
-import { useWritePermissions, RHCD_FILTER_KEY } from '../Utilities/constants';
+import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY } from '../Utilities/constants';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -49,7 +49,9 @@ const filterMapper = {
         'tags',
         flatMap(tagFilters, mapTags)
     ),
-    rhcdFilter: ({ rhcdFilter }, searchParams) => rhcdFilter?.forEach(item => searchParams.append(RHCD_FILTER_KEY, item))
+    rhcdFilter: ({ rhcdFilter }, searchParams) => rhcdFilter?.forEach(item => searchParams.append(RHCD_FILTER_KEY, item)),
+    updateMethodFilter: ({ updateMethodFilter }, searchParams) =>
+        updateMethodFilter?.forEach(item => searchParams.append(UPDATE_METHOD_KEY, item))
 };
 
 const calculateFilters = (searchParams, filters = []) => {
@@ -77,6 +79,7 @@ const Inventory = ({
     tagsFilter,
     operatingSystem,
     rhcdFilter,
+    updateMethodFilter,
     page,
     perPage,
     initialLoading
@@ -108,7 +111,7 @@ const Inventory = ({
         }
 
         let results = options?.filters.filter(({ osFilter }) => osFilter);
-        const { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter }
+        const { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter }
         = (options?.filters || []).reduce(
             (acc, curr) => ({
                 ...acc,
@@ -121,11 +124,14 @@ const Inventory = ({
                         ? results[0].osFilter
                         : Object.values(curr.osFilter || {}).flatMap((majorOsVersion) => Object.keys(majorOsVersion))
                 },
-                ...curr.rhcdFilter && { rhcdFilter: curr.rhcdFilter }
+                ...curr.rhcdFilter && { rhcdFilter: curr.rhcdFilter },
+                ...curr.updateMethodFilter && { updateMethodFilter: curr.updateMethodFilter }
             }),
             {}
         );
-        options.filters = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter);
+        options.filters =
+            generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter);
+
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
         calculateFilters(searchParams, options?.filters);
@@ -173,7 +179,8 @@ const Inventory = ({
             ...mergeWithEntities(tableReducer)
         });
 
-        const filtersList = generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter);
+        const filtersList =
+            generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter);
         filtersList?.length > 0 && dispatch(actions.setFilter(filtersList));
 
         if (perPage || page) {
@@ -323,7 +330,8 @@ Inventory.propTypes = {
     page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     perPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     initialLoading: PropTypes.bool,
-    rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
+    rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    updateMethodFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
 };
 
 Inventory.defaultProps = {
