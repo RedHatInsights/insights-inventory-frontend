@@ -29,11 +29,9 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -64,13 +62,11 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -101,7 +97,6 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -125,85 +120,71 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -242,11 +223,9 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -277,13 +256,11 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -314,7 +291,6 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -338,7 +314,6 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -369,7 +344,6 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -393,73 +367,61 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -498,11 +460,9 @@ exports[`SystemCard should not render hasCPUs 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -533,13 +493,11 @@ exports[`SystemCard should not render hasCPUs 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -570,7 +528,6 @@ exports[`SystemCard should not render hasCPUs 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -594,7 +551,6 @@ exports[`SystemCard should not render hasCPUs 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -625,7 +581,6 @@ exports[`SystemCard should not render hasCPUs 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -649,73 +604,61 @@ exports[`SystemCard should not render hasCPUs 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -754,11 +697,9 @@ exports[`SystemCard should not render hasCores 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -789,13 +730,11 @@ exports[`SystemCard should not render hasCores 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -826,7 +765,6 @@ exports[`SystemCard should not render hasCores 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -850,7 +788,6 @@ exports[`SystemCard should not render hasCores 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -881,7 +818,6 @@ exports[`SystemCard should not render hasCores 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -905,73 +841,61 @@ exports[`SystemCard should not render hasCores 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -1010,11 +934,9 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -1045,13 +967,11 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -1082,7 +1002,6 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -1106,85 +1025,71 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -1223,11 +1128,9 @@ exports[`SystemCard should not render hasHostName 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -1258,7 +1161,6 @@ exports[`SystemCard should not render hasHostName 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -1282,7 +1184,6 @@ exports[`SystemCard should not render hasHostName 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -1313,7 +1214,6 @@ exports[`SystemCard should not render hasHostName 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -1337,85 +1237,71 @@ exports[`SystemCard should not render hasHostName 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -1454,11 +1340,9 @@ exports[`SystemCard should not render hasRAM 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -1489,13 +1373,11 @@ exports[`SystemCard should not render hasRAM 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -1526,7 +1408,6 @@ exports[`SystemCard should not render hasRAM 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -1550,7 +1431,6 @@ exports[`SystemCard should not render hasRAM 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -1581,7 +1461,6 @@ exports[`SystemCard should not render hasRAM 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -1605,73 +1484,61 @@ exports[`SystemCard should not render hasRAM 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
@@ -1710,11 +1577,9 @@ exports[`SystemCard should not render hasSAP 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -1745,13 +1610,11 @@ exports[`SystemCard should not render hasSAP 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -1782,7 +1645,6 @@ exports[`SystemCard should not render hasSAP 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -1806,7 +1668,6 @@ exports[`SystemCard should not render hasSAP 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -1837,7 +1698,6 @@ exports[`SystemCard should not render hasSAP 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -1861,73 +1721,61 @@ exports[`SystemCard should not render hasSAP 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -1966,11 +1814,9 @@ exports[`SystemCard should not render hasSockets 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -2001,13 +1847,11 @@ exports[`SystemCard should not render hasSockets 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -2038,7 +1882,6 @@ exports[`SystemCard should not render hasSockets 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -2062,7 +1905,6 @@ exports[`SystemCard should not render hasSockets 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -2093,7 +1935,6 @@ exports[`SystemCard should not render hasSockets 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -2117,73 +1958,61 @@ exports[`SystemCard should not render hasSockets 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -2222,11 +2051,9 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -2257,13 +2084,11 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -2294,7 +2119,6 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -2318,7 +2142,6 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -2349,7 +2172,6 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -2373,73 +2195,61 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -2478,11 +2288,9 @@ exports[`SystemCard should render correctly - no data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -2513,7 +2321,6 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -2525,7 +2332,6 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -2556,7 +2362,6 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -2568,7 +2373,6 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -2599,7 +2403,6 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -2611,13 +2414,11 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2629,13 +2430,11 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2647,13 +2446,11 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2665,13 +2462,11 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2683,13 +2478,11 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2701,13 +2494,11 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2719,13 +2510,11 @@ exports[`SystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2770,11 +2559,9 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -2805,13 +2592,11 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -2842,7 +2627,6 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -2866,7 +2650,6 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -2897,7 +2680,6 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -2921,13 +2703,11 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//sap_sids"
@@ -2937,73 +2717,61 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -3042,11 +2810,9 @@ exports[`SystemCard should render correctly with data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -3077,13 +2843,11 @@ exports[`SystemCard should render correctly with data 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -3114,7 +2878,6 @@ exports[`SystemCard should render correctly with data 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -3138,7 +2901,6 @@ exports[`SystemCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -3169,7 +2931,6 @@ exports[`SystemCard should render correctly with data 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -3193,85 +2954,71 @@ exports[`SystemCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
@@ -3310,11 +3057,9 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -3345,13 +3090,11 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -3382,7 +3125,6 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -3406,7 +3148,6 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -3437,7 +3178,6 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -3461,85 +3201,71 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           2
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           2
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           2 GB
         </dd>
@@ -3578,11 +3304,9 @@ exports[`SystemCard should render extra 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Host name
@@ -3613,13 +3337,11 @@ exports[`SystemCard should render extra 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Display name
@@ -3650,7 +3372,6 @@ exports[`SystemCard should render extra 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-display-name
           <a
@@ -3674,7 +3395,6 @@ exports[`SystemCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           <span>
             Ansible hostname
@@ -3705,7 +3425,6 @@ exports[`SystemCard should render extra 1`] = `
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-ansible-host
           <a
@@ -3729,109 +3448,91 @@ exports[`SystemCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           SAP
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           System purpose
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Production
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Number of CPUs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Sockets
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Cores per socket
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           1
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           CPU flags
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 flags
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RAM
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           5 MB
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           something
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           with click
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//undefined"

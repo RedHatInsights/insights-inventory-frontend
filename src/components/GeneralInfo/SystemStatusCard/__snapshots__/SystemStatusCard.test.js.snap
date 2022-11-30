@@ -29,41 +29,34 @@ exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Current state
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Active
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014 00:00 UTC
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RHC
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Connected
         </dd>
@@ -102,41 +95,34 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Current state
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Active
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014 00:00 UTC
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last upload
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014 00:00 UTC
         </dd>
@@ -175,41 +161,34 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Current state
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Active
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last upload
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014 00:00 UTC
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RHC
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Connected
         </dd>
@@ -248,41 +227,34 @@ exports[`SystemStatusCard should not render hasState 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014 00:00 UTC
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last upload
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014 00:00 UTC
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RHC
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Connected
         </dd>
@@ -321,17 +293,14 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Current state
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -343,13 +312,11 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -361,13 +328,11 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last upload
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -379,13 +344,11 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RHC
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -430,53 +393,44 @@ exports[`SystemStatusCard should render correctly with data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Current state
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Active
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014 00:00 UTC
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last upload
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014 00:00 UTC
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           RHC
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Connected
         </dd>

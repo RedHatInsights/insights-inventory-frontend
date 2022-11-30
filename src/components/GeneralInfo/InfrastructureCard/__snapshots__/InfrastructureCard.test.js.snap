@@ -29,41 +29,34 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-type
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv6"
@@ -73,13 +66,11 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//interfaces"
@@ -122,41 +113,34 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-type
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv4"
@@ -166,13 +150,11 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//interfaces"
@@ -215,41 +197,34 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-type
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv4"
@@ -259,13 +234,11 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv6"
@@ -308,29 +281,24 @@ exports[`InfrastructureCard should not render hasType 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv4"
@@ -340,13 +308,11 @@ exports[`InfrastructureCard should not render hasType 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv6"
@@ -356,13 +322,11 @@ exports[`InfrastructureCard should not render hasType 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//interfaces"
@@ -405,29 +369,24 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-type
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv4"
@@ -437,13 +396,11 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv6"
@@ -453,13 +410,11 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//interfaces"
@@ -502,17 +457,14 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -524,13 +476,11 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -542,13 +492,11 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -560,13 +508,11 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -578,13 +524,11 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -629,41 +573,34 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-type
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv4"
@@ -673,13 +610,11 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv6"
@@ -689,13 +624,11 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//interfaces"
@@ -738,65 +671,54 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           virtual
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -835,41 +757,34 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-type
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv4"
@@ -879,13 +794,11 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv6"
@@ -895,13 +808,11 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//interfaces"
@@ -944,41 +855,34 @@ exports[`InfrastructureCard should render extra 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Type
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-type
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv4 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv4"
@@ -988,13 +892,11 @@ exports[`InfrastructureCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           IPv6 addresses
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//ipv6"
@@ -1004,13 +906,11 @@ exports[`InfrastructureCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Interfaces/NICs
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//interfaces"
@@ -1020,25 +920,21 @@ exports[`InfrastructureCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           something
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           with click
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//undefined"

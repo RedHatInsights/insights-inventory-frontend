@@ -29,53 +29,44 @@ exports[`CollectionCard should not render hasClient 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Last check-in
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights id
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Reporter
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -114,17 +105,14 @@ exports[`CollectionCard should not render hasInsightsId 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights client
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-client
@@ -132,37 +120,31 @@ exports[`CollectionCard should not render hasInsightsId 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last check-in
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Reporter
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -201,17 +183,14 @@ exports[`CollectionCard should not render hasLastCheckIn 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights client
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-client
@@ -219,37 +198,31 @@ exports[`CollectionCard should not render hasLastCheckIn 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights id
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Reporter
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -288,17 +261,14 @@ exports[`CollectionCard should not render hasRegistered 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights client
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-client
@@ -306,37 +276,31 @@ exports[`CollectionCard should not render hasRegistered 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last check-in
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights id
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Reporter
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -375,17 +339,14 @@ exports[`CollectionCard should not render hasReporter 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights client
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-client
@@ -393,37 +354,31 @@ exports[`CollectionCard should not render hasReporter 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last check-in
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights id
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -462,17 +417,14 @@ exports[`CollectionCard should render correctly - no data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights client
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -484,13 +436,11 @@ exports[`CollectionCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last check-in
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -502,13 +452,11 @@ exports[`CollectionCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -520,13 +468,11 @@ exports[`CollectionCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights id
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -538,13 +484,11 @@ exports[`CollectionCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Reporter
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -589,17 +533,14 @@ exports[`CollectionCard should render correctly with data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights client
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-client
@@ -607,49 +548,41 @@ exports[`CollectionCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last check-in
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights id
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Reporter
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -688,17 +621,14 @@ exports[`CollectionCard should render extra 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights client
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-client
@@ -706,73 +636,61 @@ exports[`CollectionCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last check-in
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Jun 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Registered
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Insights id
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Reporter
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           something
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           with click
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//undefined"
