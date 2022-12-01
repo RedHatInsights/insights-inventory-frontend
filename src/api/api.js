@@ -118,8 +118,8 @@ export async function getEntities(items, {
             undefined,
             undefined,
             undefined,
-            undefined,
-            undefined,
+            orderBy,
+            orderDirection,
             undefined,
             undefined,
             { cancelToken: controller && controller.token }
