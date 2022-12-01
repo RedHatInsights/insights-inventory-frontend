@@ -5,7 +5,7 @@ import flatMap from 'lodash/flatMap';
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import { generateFilter, mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { HostsApi, TagsApi, SystemProfileApi } from '@redhat-cloud-services/host-inventory-client';
-import { allStaleFilters, RHCD_FILTER_KEY } from '../Utilities/constants';
+import { allStaleFilters, RHCD_FILTER_KEY, UPDATE_METHOD_KEY } from '../Utilities/constants';
 
 export { instance };
 export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
@@ -62,7 +62,7 @@ export const constructTags = (tagFilters) => {
     ) || '';
 };
 
-export const calculateSystemProfile = ({ osFilter, rhcdFilter }) => {
+export const calculateSystemProfile = ({ osFilter, rhcdFilter, updateMethodFilter }) => {
     let systemProfile = {};
     const osFilterValues = Array.isArray(osFilter) ? osFilter : Object.values(osFilter || {})
     .flatMap((majorOsVersion) => Object.keys(majorOsVersion));
@@ -81,6 +81,12 @@ export const calculateSystemProfile = ({ osFilter, rhcdFilter }) => {
         systemProfile[RHCD_FILTER_KEY] = rhcdFilter;
     }
 
+    if (updateMethodFilter) {
+        systemProfile[UPDATE_METHOD_KEY] =  {
+            eq: updateMethodFilter
+        };
+    }
+
     return generateFilter({ system_profile: systemProfile });
 };
 
@@ -91,7 +97,8 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'staleFilter' in filter && { staleFilter: filter.staleFilter },
     ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter },
     ...'osFilter' in filter && { osFilter: filter.osFilter },
-    ...'rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter }
+    ...'rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter },
+    ...'updateMethodFilter' in filter && { updateMethodFilter: filter.updateMethodFilter }
 });
 
 export async function getEntities(items, {
