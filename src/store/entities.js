@@ -20,7 +20,6 @@ import TitleColumn from '../components/InventoryTable/TitleColumn';
 import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
-import { defaultFilters } from '../Utilities/constants';
 import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
 
 export const defaultState = {
@@ -107,7 +106,7 @@ function entitiesPending(state, { meta }) {
 function clearFilters(state) {
     return {
         ...state,
-        activeFilters: [defaultFilters]
+        activeFilters: []
     };
 }
 
