@@ -29,17 +29,14 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-release
@@ -47,37 +44,31 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-kernel
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 modules
         </dd>
@@ -116,17 +107,14 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-release
@@ -134,37 +122,31 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-kernel
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-arch
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -203,17 +185,14 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-release
@@ -221,37 +200,31 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-arch
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 modules
         </dd>
@@ -290,17 +263,14 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-release
@@ -308,37 +278,31 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-kernel
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-arch
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 modules
         </dd>
@@ -377,53 +341,44 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-kernel
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-arch
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 modules
         </dd>
@@ -462,17 +417,14 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -484,13 +436,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -502,13 +452,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -520,13 +468,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -538,13 +484,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -589,17 +533,14 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-release
@@ -607,49 +548,41 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-kernel
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-arch
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 modules
         </dd>
@@ -688,17 +621,14 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             Not available
@@ -706,49 +636,41 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           x86_64
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -787,17 +709,14 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-release
@@ -805,49 +724,41 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-kernel
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-arch
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 modules
         </dd>
@@ -886,17 +797,14 @@ exports[`OperatingSystemCard should render extra 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <span>
             test-release
@@ -904,73 +812,61 @@ exports[`OperatingSystemCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel release
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-kernel
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Architecture
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-arch
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Last boot time
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Kernel modules
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           0 modules
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           something
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           with click
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//undefined"

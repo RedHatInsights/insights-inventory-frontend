@@ -29,29 +29,24 @@ exports[`BiosCard should not render hasReleaseDate 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Version
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-version
         </dd>
@@ -90,29 +85,24 @@ exports[`BiosCard should not render hasVendor 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Version
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-version
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Release date
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
@@ -151,29 +141,24 @@ exports[`BiosCard should not render hasVersion 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Release date
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
@@ -212,17 +197,14 @@ exports[`BiosCard should render correctly - no data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -234,13 +216,11 @@ exports[`BiosCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Version
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -252,13 +232,11 @@ exports[`BiosCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Release date
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -303,41 +281,34 @@ exports[`BiosCard should render correctly with data - wrong date 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Version
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-version
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Release date
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           Not available
         </dd>
@@ -376,41 +347,34 @@ exports[`BiosCard should render correctly with data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Version
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-version
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Release date
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
@@ -449,65 +413,54 @@ exports[`BiosCard should render extra 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Vendor
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-vendor
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Version
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test-version
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Release date
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           01 Apr 2014
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           something
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           with click
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//undefined"

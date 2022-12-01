@@ -146,14 +146,12 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                   >
                     <dl
                       className=""
-                      data-pf-content={true}
                     >
                       <TextListItem
                         component="dt"
                       >
                         <dt
                           className=""
-                          data-pf-content={true}
                         >
                           Installed packages
                         </dt>
@@ -163,7 +161,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                       >
                         <dd
                           className=""
-                          data-pf-content={true}
                         >
                           <Clickable
                             onClick={[Function]}
@@ -185,7 +182,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                       >
                         <dt
                           className=""
-                          data-pf-content={true}
                         >
                           Services
                         </dt>
@@ -195,7 +191,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                       >
                         <dd
                           className=""
-                          data-pf-content={true}
                         >
                           <Clickable
                             onClick={[Function]}
@@ -217,7 +212,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                       >
                         <dt
                           className=""
-                          data-pf-content={true}
                         >
                           Running processes
                         </dt>
@@ -227,7 +221,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                       >
                         <dd
                           className=""
-                          data-pf-content={true}
                         >
                           <Clickable
                             onClick={[Function]}
@@ -250,7 +243,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                       >
                         <dt
                           className=""
-                          data-pf-content={true}
                         >
                           Repositories
                         </dt>
@@ -260,7 +252,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                       >
                         <dd
                           className=""
-                          data-pf-content={true}
                         >
                           <Clickable
                             onClick={[Function]}
@@ -318,17 +309,14 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Services
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//services"
@@ -338,13 +326,11 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Running processes
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//running_processes"
@@ -354,13 +340,11 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Repositories
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//repositories"
@@ -403,17 +387,14 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Installed packages
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//installed_packages"
@@ -423,13 +404,11 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Services
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//services"
@@ -439,13 +418,11 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Repositories
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//repositories"
@@ -488,17 +465,14 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Installed packages
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//installed_packages"
@@ -508,13 +482,11 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Services
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//services"
@@ -524,13 +496,11 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Running processes
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//running_processes"
@@ -573,17 +543,14 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Installed packages
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//installed_packages"
@@ -593,13 +560,11 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Running processes
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//running_processes"
@@ -609,13 +574,11 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Repositories
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//repositories"
@@ -658,17 +621,14 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Installed packages
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -680,13 +640,11 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Services
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -698,13 +656,11 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Running processes
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -716,13 +672,11 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Repositories
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <div
             class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -767,17 +721,14 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Installed packages
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//installed_packages"
@@ -787,13 +738,11 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Services
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//services"
@@ -803,13 +752,11 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Running processes
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//running_processes"
@@ -819,13 +766,11 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Repositories
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//repositories"
@@ -868,17 +813,14 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Installed packages
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//installed_packages"
@@ -888,13 +830,11 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Services
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//services"
@@ -904,13 +844,11 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Running processes
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//running_processes"
@@ -920,13 +858,11 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Repositories
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//repositories"
@@ -969,17 +905,14 @@ exports[`ConfigurationCard should render extra 1`] = `
     >
       <dl
         class=""
-        data-pf-content="true"
       >
         <dt
           class=""
-          data-pf-content="true"
         >
           Installed packages
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//installed_packages"
@@ -989,13 +922,11 @@ exports[`ConfigurationCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Services
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//services"
@@ -1005,13 +936,11 @@ exports[`ConfigurationCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Running processes
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//running_processes"
@@ -1021,13 +950,11 @@ exports[`ConfigurationCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           Repositories
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//repositories"
@@ -1037,25 +964,21 @@ exports[`ConfigurationCard should render extra 1`] = `
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           something
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           test
         </dd>
         <dt
           class=""
-          data-pf-content="true"
         >
           with click
         </dt>
         <dd
           class=""
-          data-pf-content="true"
         >
           <a
             href="http://localhost:5000//undefined"

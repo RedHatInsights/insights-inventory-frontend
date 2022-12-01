@@ -38,11 +38,9 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -73,13 +71,11 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -110,7 +106,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -133,7 +128,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -164,7 +158,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -188,85 +181,71 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -306,17 +285,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -324,49 +300,41 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -406,41 +374,34 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -450,13 +411,11 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -466,13 +425,11 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -516,53 +473,44 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -602,17 +550,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -622,13 +567,11 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -638,13 +581,11 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -654,13 +595,11 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -1022,11 +961,9 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -1057,13 +994,11 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -1094,7 +1029,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -1117,7 +1051,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -1148,7 +1081,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -1172,85 +1104,71 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -1290,17 +1208,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -1308,49 +1223,41 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -1390,41 +1297,34 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -1434,13 +1334,11 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -1450,13 +1348,11 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -1500,41 +1396,34 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -1574,53 +1463,44 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -1660,17 +1540,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -1680,13 +1557,11 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -1696,13 +1571,11 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -1712,13 +1585,11 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -2080,11 +1951,9 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -2115,13 +1984,11 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -2152,7 +2019,6 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -2175,7 +2041,6 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -2206,7 +2071,6 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -2230,85 +2094,71 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -2348,17 +2198,14 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -2366,49 +2213,41 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -2448,41 +2287,34 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -2492,13 +2324,11 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -2508,13 +2338,11 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -2558,41 +2386,34 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -2632,53 +2453,44 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -3036,11 +2848,9 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -3071,13 +2881,11 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -3108,7 +2916,6 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -3131,7 +2938,6 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -3162,7 +2968,6 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -3186,85 +2991,71 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -3304,17 +3095,14 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -3322,49 +3110,41 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -3404,41 +3184,34 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -3478,53 +3251,44 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -3564,17 +3328,14 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -3584,13 +3345,11 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -3600,13 +3359,11 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -3616,13 +3373,11 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -3984,11 +3739,9 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -4019,13 +3772,11 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -4056,7 +3807,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -4079,7 +3829,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -4110,7 +3859,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -4134,85 +3882,71 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -4252,41 +3986,34 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -4296,13 +4023,11 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -4312,13 +4037,11 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -4362,41 +4085,34 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -4436,53 +4152,44 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -4522,17 +4229,14 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -4542,13 +4246,11 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -4558,13 +4260,11 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -4574,13 +4274,11 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -4942,17 +4640,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -4960,49 +4655,41 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -5042,41 +4729,34 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -5086,13 +4766,11 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -5102,13 +4780,11 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -5152,41 +4828,34 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -5226,53 +4895,44 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -5312,17 +4972,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -5332,13 +4989,11 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -5348,13 +5003,11 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -5364,13 +5017,11 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -5732,11 +5383,9 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -5767,13 +5416,11 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -5804,7 +5451,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -5827,7 +5473,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -5858,7 +5503,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -5882,85 +5526,71 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -6000,17 +5630,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -6018,49 +5645,41 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -6100,41 +5719,34 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -6144,13 +5756,11 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -6160,13 +5770,11 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -6217,53 +5825,44 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -6303,17 +5902,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -6323,13 +5919,11 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -6339,13 +5933,11 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -6355,13 +5947,11 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -6723,11 +6313,9 @@ exports[`GeneralInformation custom components should render custom CollectionCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -6758,13 +6346,11 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -6795,7 +6381,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -6818,7 +6403,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -6849,7 +6433,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -6873,85 +6456,71 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -6991,17 +6560,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -7009,49 +6575,41 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -7091,41 +6649,34 @@ exports[`GeneralInformation custom components should render custom CollectionCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -7135,13 +6686,11 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -7151,13 +6700,11 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -7201,41 +6748,34 @@ exports[`GeneralInformation custom components should render custom CollectionCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -7275,53 +6815,44 @@ exports[`GeneralInformation custom components should render custom CollectionCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -7361,17 +6892,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -7381,13 +6909,11 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -7397,13 +6923,11 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -7413,13 +6937,11 @@ exports[`GeneralInformation custom components should render custom CollectionCar
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -7788,11 +7310,9 @@ exports[`GeneralInformation custom components should render custom Configuration
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -7823,13 +7343,11 @@ exports[`GeneralInformation custom components should render custom Configuration
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -7860,7 +7378,6 @@ exports[`GeneralInformation custom components should render custom Configuration
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -7883,7 +7400,6 @@ exports[`GeneralInformation custom components should render custom Configuration
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -7914,7 +7430,6 @@ exports[`GeneralInformation custom components should render custom Configuration
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -7938,85 +7453,71 @@ exports[`GeneralInformation custom components should render custom Configuration
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -8056,17 +7557,14 @@ exports[`GeneralInformation custom components should render custom Configuration
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -8074,49 +7572,41 @@ exports[`GeneralInformation custom components should render custom Configuration
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -8156,41 +7646,34 @@ exports[`GeneralInformation custom components should render custom Configuration
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -8200,13 +7683,11 @@ exports[`GeneralInformation custom components should render custom Configuration
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -8216,13 +7697,11 @@ exports[`GeneralInformation custom components should render custom Configuration
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -8266,41 +7745,34 @@ exports[`GeneralInformation custom components should render custom Configuration
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -8340,53 +7812,44 @@ exports[`GeneralInformation custom components should render custom Configuration
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -8751,11 +8214,9 @@ exports[`GeneralInformation custom components should render custom Infrastructur
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -8786,13 +8247,11 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -8823,7 +8282,6 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -8846,7 +8304,6 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -8877,7 +8334,6 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -8901,85 +8357,71 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -9019,17 +8461,14 @@ exports[`GeneralInformation custom components should render custom Infrastructur
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -9037,49 +8476,41 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -9126,41 +8557,34 @@ exports[`GeneralInformation custom components should render custom Infrastructur
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -9200,53 +8624,44 @@ exports[`GeneralInformation custom components should render custom Infrastructur
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -9286,17 +8701,14 @@ exports[`GeneralInformation custom components should render custom Infrastructur
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -9306,13 +8718,11 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -9322,13 +8732,11 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -9338,13 +8746,11 @@ exports[`GeneralInformation custom components should render custom Infrastructur
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -9706,11 +9112,9 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -9741,13 +9145,11 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -9778,7 +9180,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -9801,7 +9202,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -9832,7 +9232,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -9856,85 +9255,71 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -9981,41 +9366,34 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -10025,13 +9403,11 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -10041,13 +9417,11 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -10091,41 +9465,34 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -10165,53 +9532,44 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -10251,17 +9609,14 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -10271,13 +9626,11 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -10287,13 +9640,11 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -10303,13 +9654,11 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -10678,17 +10027,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -10696,49 +10042,41 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -10778,41 +10116,34 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -10822,13 +10153,11 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -10838,13 +10167,11 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -10888,41 +10215,34 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -10962,53 +10282,44 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -11048,17 +10359,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -11068,13 +10376,11 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -11084,13 +10390,11 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -11100,13 +10404,11 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
@@ -11468,11 +10770,9 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -11503,7 +10803,6 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -11515,7 +10814,6 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -11546,7 +10844,6 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -11558,7 +10855,6 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -11589,7 +10885,6 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -11601,13 +10896,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11619,13 +10912,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11637,13 +10928,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11655,13 +10944,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11673,13 +10960,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11691,13 +10976,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11709,13 +10992,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11761,17 +11042,14 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11783,13 +11061,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11801,13 +11077,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11819,13 +11093,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11837,13 +11109,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11889,17 +11159,14 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11911,13 +11178,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11929,13 +11194,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11947,13 +11210,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -11965,13 +11226,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12017,17 +11276,14 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12039,13 +11295,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12057,13 +11311,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12109,17 +11361,14 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12131,13 +11380,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12149,13 +11396,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12167,13 +11412,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12219,17 +11462,14 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12241,13 +11481,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12259,13 +11497,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12277,13 +11513,11 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -12647,11 +11881,9 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Host name
@@ -12682,13 +11914,11 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Display name
@@ -12719,7 +11949,6 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   class="ins-c-inventory__detail--action"
@@ -12742,7 +11971,6 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   Ansible hostname
@@ -12773,7 +12001,6 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-id
                 <a
@@ -12797,85 +12024,71 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 SAP
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 System purpose
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Production
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Number of CPUs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Sockets
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Cores per socket
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 1
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 CPU flags
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 flags
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RAM
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 5 MB
               </dd>
@@ -12915,17 +12128,14 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <span>
                   test-release
@@ -12933,49 +12143,41 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel release
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-kernel
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Architecture
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-arch
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last boot time
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Kernel modules
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 0 modules
               </dd>
@@ -13015,41 +12217,34 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Type
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-type
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv4 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv4"
@@ -13059,13 +12254,11 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 IPv6 addresses
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//ipv6"
@@ -13075,13 +12268,11 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Interfaces/NICs
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//interfaces"
@@ -13125,41 +12316,34 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Vendor
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-vendor
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Version
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 test-version
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Release date
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 01 Apr 2014
               </dd>
@@ -13199,53 +12383,44 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Current state
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Active
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Registered
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Last upload
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Invalid date
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 RHC
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 Not available
               </dd>
@@ -13285,17 +12460,14 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <dl
               class=""
-              data-pf-content="true"
             >
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Installed packages
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//installed_packages"
@@ -13305,13 +12477,11 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Services
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//services"
@@ -13321,13 +12491,11 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Running processes
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//running_processes"
@@ -13337,13 +12505,11 @@ exports[`GeneralInformation should render correctly 1`] = `
               </dd>
               <dt
                 class=""
-                data-pf-content="true"
               >
                 Repositories
               </dt>
               <dd
                 class=""
-                data-pf-content="true"
               >
                 <a
                   href="http://localhost:5000//repositories"
