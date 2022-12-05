@@ -70,6 +70,8 @@
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@babel/runtime": "^7.16.0",
+    "@cypress/react": "^7.0.2",
+    "@patternfly/patternfly": "^4.221.2",
     "@redhat-cloud-services/frontend-components-config": "^4.6.34",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
@@ -79,10 +81,12 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.3.1",
     "babel-plugin-transform-imports": "^2.0.0",
+    "cypress": "^11.2.0",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-react": "^7.26.1",
     "fetch-mock": "^9.11.0",
     "identity-obj-proxy": "^3.0.0",
@@ -111,7 +115,9 @@
     "travis:verify": "npm-run-all travis:build lint test",
     "verify": "npm-run-all build lint test",
     "nightly": "npm run travis:verify",
-    "start:federated": "fec static --config config/dev.webpack.config.js"
+    "start:federated": "fec static --config config/dev.webpack.config.js",
+    "test:ct": "cypress run --component",
+    "test:openct": "cypress open --component"
   },
   "insights": {
     "appname": "inventory"
