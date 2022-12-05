@@ -25,3 +25,7 @@ sitemap.xml
 cypress/downloads
 cypress/screenshots
 cypress/videos
+
+codecov*
+.nyc_output
+reports

@@ -9,7 +9,7 @@ install:
 script:
   - npm run verify
   - npm run test:ct
-  - npx codecov
+  - npm run coverage
 after_success:
 - curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
