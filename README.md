@@ -1,4 +1,4 @@
-[![Build Status](https://jenkins-insights-jenkins.1b13.insights.openshiftapps.com/buildStatus/icon?job=insights-inventory-frontend/insights-inventory-frontend-ci)](https://jenkins-insights-jenkins.1b13.insights.openshiftapps.com/job/insights-inventory-frontend/job/insights-inventory-frontend-ci/)
+[![Build Status](https://app.travis-ci.com/RedHatInsights/insights-inventory-frontend.svg?branch=master)](https://app.travis-ci.com/RedHatInsights/insights-inventory-frontend) [![codecov](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend/branch/master/graph/badge.svg?token=XC4AD7NQFW)](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend)
 
 # Insights Inventory Frontend
 
