@@ -13,7 +13,7 @@ import { addNotification as addNotificationAction } from '@redhat-cloud-services
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
-import { defaultFilters, generateFilter, useGetRegistry } from '../Utilities/constants';
+import { generateFilter, useGetRegistry } from '../Utilities/constants';
 import { inventoryConnector } from '../Utilities/inventoryConnector';
 import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY } from '../Utilities/constants';
 
@@ -106,11 +106,8 @@ const Inventory = ({
     const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
 
     const onRefresh = (options, callback) => {
-        if (!options?.filters) {
-            options.filters = Object.entries(defaultFilters).map(([key, val]) => ({ [key]: val }));
-        }
 
-        let results = options?.filters.filter(({ osFilter }) => osFilter);
+        let results = options?.filters?.filter(({ osFilter }) => osFilter);
         const { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter }
         = (options?.filters || []).reduce(
             (acc, curr) => ({
@@ -213,7 +210,6 @@ const Inventory = ({
                                 hasCheckbox={writePermissions}
                                 autoRefresh
                                 initialLoading={initialLoading}
-                                activeFiltersConfig={{ showDeleteButton: true }}
                                 {...(writePermissions && {
                                     actions: [
                                         {

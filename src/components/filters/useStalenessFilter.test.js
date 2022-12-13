@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Fragment, useEffect } from 'react';
 import { useStalenessFilter } from './useStalenessFilter';
+import { staleness } from '../../Utilities';
 import { mount } from 'enzyme';
 
 const HookRender = ({ hookAccessor, hookNotify }) => {
@@ -26,11 +27,7 @@ describe('useStalenessFilter', () => {
                 type: 'checkbox'
             });
             expect(filter.filterValues.value.length).toBe(0);
-            expect(filter.filterValues.items).toMatchObject([
-                { label: 'Fresh', value: 'fresh' },
-                { label: 'Stale', value: 'stale' },
-                { label: 'Stale warning', value: 'stale_warning' }
-            ]);
+            expect(filter.filterValues.items).toMatchObject(staleness);
         };
 
         mount(<HookRender hookAccessor={hookAccessor} />);

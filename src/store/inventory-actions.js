@@ -21,7 +21,6 @@ import {
     filtersReducer,
     getOperatingSystems
 } from '../api';
-import { defaultFilters } from '../Utilities/constants';
 
 export const loadEntities = (items = [], { filters, ...config }, { showTags } = {}, getEntities = defaultGetEntities) => {
     const itemIds = items.reduce((acc, curr) => (
@@ -35,12 +34,11 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
     (config.hideFilters?.all && config.hideFilters?.[name] !== false);
 
     const updatedFilters = filters ? filters.reduce(filtersReducer, {
-        ...defaultFilters,
         ...filters.length === 0 && { registeredWithFilter: [] },
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
         ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
         ...(isFilterDisabled('operating_system') && { osFilter: undefined })
-    }) : { ...defaultFilters,
+    }) : {
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
         ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
         ...(isFilterDisabled('operating_system') && { osFilter: undefined })

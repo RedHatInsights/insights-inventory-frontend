@@ -16,7 +16,8 @@ export const UPDATE_METHOD_KEY = 'system_update_method';
 export const staleness = [
     { label: 'Fresh', value: 'fresh' },
     { label: 'Stale', value: 'stale' },
-    { label: 'Stale warning', value: 'stale_warning' }
+    { label: 'Stale warning', value: 'stale_warning' },
+    { label: 'Unknown', value: 'unknown' }
 ];
 export const registered = [
     { label: 'insights-client', value: 'puptoo', idName: 'Insights id', idValue: 'insights_id' },
@@ -26,9 +27,7 @@ export const registered = [
     { label: 'insights-client not connected', value: '!puptoo' }
 ];
 export const InventoryContext = createContext({});
-export const defaultFilters = {
-    staleFilter: ['fresh', 'stale']
-};
+
 export const rhcdOptions = [
     { label: 'Active', value: 'not_nil' },
     { label: 'Inactive', value: 'nil' }
@@ -93,8 +92,7 @@ export function reduceFilters(filters = []) {
         };
     }, {
         textFilter: '',
-        tagFilters: {},
-        ...defaultFilters
+        tagFilters: {}
     });
 }
 

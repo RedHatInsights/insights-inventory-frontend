@@ -10,12 +10,12 @@ import toJson from 'enzyme-to-json';
 import { mockTags, mockSystemProfile } from '../../__mocks__/hostApi';
 import TitleColumn from './TitleColumn';
 import debounce from 'lodash/debounce';
-import { defaultFilters } from '../../Utilities';
 
 jest.mock('lodash/debounce');
 
 describe('EntityTableToolbar', () => {
     let initialState;
+    let stateWithActiveFilter;
     let mockStore;
     let onRefreshData;
 
@@ -80,6 +80,13 @@ describe('EntityTableToolbar', () => {
                     }
                 ],
                 operatingSystemsLoaded: true
+            }
+        };
+        stateWithActiveFilter = {
+            entities: {
+                ...initialState.entities,
+                loaded: true,
+                activeFilters: [{ value: 'hostname_or_id', filter: 'test' }]
             }
         };
     });
@@ -229,7 +236,7 @@ describe('EntityTableToolbar', () => {
             it('should dispatch action on delete filter', async () => {
                 debounce.mockImplementation(fn => fn);
 
-                const store = mockStore(initialState);
+                const store = mockStore(stateWithActiveFilter);
                 const wrapper = mount(<Provider store={store}>
                     <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
                 </Provider>);
@@ -240,15 +247,7 @@ describe('EntityTableToolbar', () => {
                 });
                 wrapper.update();
                 expect(onRefreshData).toHaveBeenCalledWith(
-                    { filters: [{}, { filter: '', value: 'hostname_or_id' }, { staleFilter: ['stale'] }], page: 1, perPage: 50 }
-                );
-                onRefreshData.mockClear();
-                await act(async () => {
-                    wrapper.find('.pf-c-chip-group__list li div button').last().simulate('click');
-                });
-                wrapper.update();
-                expect(onRefreshData).toHaveBeenCalledWith(
-                    { filters: [{}, { filter: '', value: 'hostname_or_id' }, { staleFilter: [] }], page: 1, perPage: 50 }
+                    { filters: [{ filter: '', value: 'hostname_or_id' }], page: 1, perPage: 50 }
                 );
             });
 
@@ -304,7 +303,7 @@ describe('EntityTableToolbar', () => {
             });
 
             it('should dispatch action on delete all filters', () => {
-                const store = mockStore(initialState);
+                const store = mockStore(stateWithActiveFilter);
                 const wrapper = mount(<Provider store={store}>
                     <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
                 </Provider>);
@@ -312,12 +311,12 @@ describe('EntityTableToolbar', () => {
                 const actions = store.getActions();
                 expect(actions.length).toBe(3);
                 expect(actions[actions.length - 2]).toMatchObject({ type: 'CLEAR_FILTERS' });
-                expect(onRefreshData).toHaveBeenCalledWith({ filters: [defaultFilters], page: 1 });
+                expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
             });
 
             it('should call function on delete filter', () => {
                 const onDelete = jest.fn();
-                const store = mockStore(initialState);
+                const store = mockStore(stateWithActiveFilter);
                 const wrapper = mount(<Provider store={store}>
                     <EntityTableToolbar page={1} total={500} perPage={50} activeFiltersConfig={{
                         onDelete
