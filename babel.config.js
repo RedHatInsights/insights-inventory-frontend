@@ -98,5 +98,12 @@ module.exports = {
             },
             'frontend-notifications'
         ]
-    ]
+    ],
+    env: {
+        componentTest: {
+            plugins: [
+                'istanbul'
+            ]
+        }
+    }
 };

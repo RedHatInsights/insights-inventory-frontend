@@ -20,3 +20,12 @@ coverage
 .DS_Store
 coverage
 sitemap.xml
+
+# cypress
+cypress/downloads
+cypress/screenshots
+cypress/videos
+
+codecov*
+.nyc_output
+reports

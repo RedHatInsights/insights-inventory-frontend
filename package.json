@@ -7,7 +7,7 @@
     "npm": ">=7.0.0"
   },
   "dependencies": {
-    "@patternfly/react-core": "^4.264.1",
+    "@patternfly/react-core": "^4.265.2",
     "@patternfly/react-icons": "^4.93.0",
     "@patternfly/react-table": "^4.111.45",
     "@redhat-cloud-services/frontend-components": "^3.9.25",
@@ -31,7 +31,7 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
-    "coverageDirectory": "./coverage/",
+    "coverageDirectory": "./codecov-jest/",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.js",
@@ -70,6 +70,9 @@
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@babel/runtime": "^7.16.0",
+    "@cypress/code-coverage": "^3.10.0",
+    "@cypress/react": "^7.0.2",
+    "@patternfly/patternfly": "^4.221.2",
     "@redhat-cloud-services/frontend-components-config": "^4.6.34",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
@@ -78,11 +81,14 @@
     "axios-mock-adapter": "^1.20.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.3.1",
+    "babel-plugin-istanbul": "^6.1.1",
     "babel-plugin-transform-imports": "^2.0.0",
+    "cypress": "^11.2.0",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-react": "^7.26.1",
     "fetch-mock": "^9.11.0",
     "identity-obj-proxy": "^3.0.0",
@@ -111,9 +117,21 @@
     "travis:verify": "npm-run-all travis:build lint test",
     "verify": "npm-run-all build lint test",
     "nightly": "npm run travis:verify",
-    "start:federated": "fec static --config config/dev.webpack.config.js"
+    "start:federated": "fec static --config config/dev.webpack.config.js",
+    "test:ct": "BABEL_ENV=componentTest cypress run --component",
+    "test:openct": "BABEL_ENV=componentTest cypress open --component",
+    "coverage": "bash coverage.sh"
   },
   "insights": {
     "appname": "inventory"
+  },
+  "nyc": {
+    "report-dir": "codecov-cypress",
+    "include": [
+      "src/**/*"
+    ],
+    "exclude": [
+      "src/**/*.test.js"
+    ]
   }
 }
