@@ -206,6 +206,19 @@ describe('EntityTableToolbar', () => {
             </Provider>);
             expect(toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })).toMatchSnapshot();
         });
+
+        it('should render correctly - with customFilters', () => {
+            const store = mockStore(initialState);
+            const wrapper = mount(<Provider store={store}>
+                <EntityTableToolbar onRefreshData={onRefreshData} loaded customFilters={{
+                    filters: [{
+                        rhcdFilter: ['not_nil']
+                    }]
+                }} showTags />
+            </Provider>);
+            expect(toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })).toMatchSnapshot();
+        });
+
     });
 
     describe('API', () => {
