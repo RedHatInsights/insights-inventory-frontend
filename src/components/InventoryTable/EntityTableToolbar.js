@@ -166,7 +166,7 @@ const EntityTableToolbar = ({
     useEffect(() => {
         const {
             textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter, rhcdFilter, updateMethodFilter
-        } = reduceFilters(filters);
+        } = reduceFilters([...filters || [], ...customFilters?.filters || []]);
 
         debouncedRefresh();
         enabledFilters.name && setTextFilter(textFilter);
@@ -414,7 +414,8 @@ EntityTableToolbar.propTypes = {
         tags: PropTypes.oneOfType([
             PropTypes.object,
             PropTypes.arrayOf(PropTypes.string)
-        ])
+        ]),
+        filters: PropTypes.array
     }),
     hideFilters: PropTypes.shape({
         tags: PropTypes.bool,

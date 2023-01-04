@@ -833,6 +833,256 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
 />
 `;
 
+exports[`EntityTableToolbar DOM should render correctly - with customFilters 1`] = `
+<PrimaryToolbar
+  activeFiltersConfig={
+    Object {
+      "filters": Array [
+        Object {
+          "category": "RHC status",
+          "chips": Array [
+            Object {
+              "name": "Active",
+              "value": "not_nil",
+            },
+          ],
+          "type": "rhc_client_id",
+        },
+      ],
+      "onDelete": [Function],
+    }
+  }
+  className="ins-c-inventory__table--toolbar "
+  filterConfig={
+    Object {
+      "isDisabled": false,
+      "items": Array [
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "onChange": [Function],
+            "placeholder": "Filter by name",
+            "value": "",
+          },
+          "label": "Name",
+          "value": "name-filter",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Fresh",
+                "value": "fresh",
+              },
+              Object {
+                "label": "Stale",
+                "value": "stale",
+              },
+              Object {
+                "label": "Stale warning",
+                "value": "stale_warning",
+              },
+              Object {
+                "label": "Unknown",
+                "value": "unknown",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by status",
+            "value": undefined,
+          },
+          "label": "Status",
+          "type": "checkbox",
+          "value": "stale-status",
+        },
+        Object {
+          "filterValues": Object {
+            "groups": Array [
+              Object {
+                "groupSelectable": true,
+                "items": Array [
+                  Object {
+                    "label": "RHEL 9.0",
+                    "type": "checkbox",
+                    "value": "9.0",
+                  },
+                ],
+                "label": "RHEL 9",
+                "type": "checkbox",
+                "value": "9",
+              },
+              Object {
+                "groupSelectable": true,
+                "items": Array [
+                  Object {
+                    "label": "RHEL 8.4",
+                    "type": "checkbox",
+                    "value": "8.4",
+                  },
+                  Object {
+                    "label": "RHEL 8.3",
+                    "type": "checkbox",
+                    "value": "8.3",
+                  },
+                  Object {
+                    "label": "RHEL 8.0",
+                    "type": "checkbox",
+                    "value": "8.0",
+                  },
+                ],
+                "label": "RHEL 8",
+                "type": "checkbox",
+                "value": "8",
+              },
+            ],
+            "isDisabled": false,
+            "onChange": [Function],
+            "placeholder": "Filter by operating system",
+            "selected": Object {
+              "8": Object {
+                "8": false,
+                "8.0": false,
+                "8.3": false,
+                "8.4": false,
+              },
+              "9": Object {
+                "9": false,
+                "9.0": false,
+              },
+            },
+          },
+          "label": "Operating System",
+          "type": "group",
+          "value": "operating-system-filter",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "idName": "Insights id",
+                "idValue": "insights_id",
+                "label": "insights-client",
+                "value": "puptoo",
+              },
+              Object {
+                "idName": "Subscription manager id",
+                "idValue": "subscription_manager_id",
+                "label": "subscription-manager",
+                "value": "rhsm-conduit",
+              },
+              Object {
+                "label": "Satellite/Discovery",
+                "value": "yupana",
+              },
+              Object {
+                "label": "insights-client not connected",
+                "value": "!puptoo",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by data collector",
+            "value": undefined,
+          },
+          "label": "Data Collector",
+          "type": "checkbox",
+          "value": "data-collector-registered-with",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "Active",
+                "value": "not_nil",
+              },
+              Object {
+                "label": "Inactive",
+                "value": "nil",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by rhc status",
+            "value": Array [
+              "not_nil",
+            ],
+          },
+          "label": "RHC status",
+          "type": "checkbox",
+          "value": "rhc-status",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "label": "yum",
+                "value": "yum",
+              },
+              Object {
+                "label": "dnf",
+                "value": "dnf",
+              },
+              Object {
+                "label": "rpm-ostree",
+                "value": "rpm-ostree",
+              },
+            ],
+            "onChange": [Function],
+            "placeholder": "Filter by system update method",
+            "value": undefined,
+          },
+          "label": "System Update Method",
+          "type": "checkbox",
+          "value": "update-method",
+        },
+        Object {
+          "filterValues": Object {
+            "className": "ins-c-tagfilter",
+            "filterBy": "",
+            "isDisabled": false,
+            "items": Array [
+              Object {
+                "className": "ins-c-tagfilter__tail",
+                "isDisabled": true,
+                "label": <span>
+                   
+                  <Spinner
+                    size="md"
+                  />
+                   
+                </span>,
+                "value": "",
+              },
+            ],
+            "onChange": [Function],
+            "onFilter": [Function],
+            "placeholder": "Filter by tags",
+            "selected": Object {},
+            "value": "",
+          },
+          "label": "Tags",
+          "placeholder": "Filter system by tag",
+          "type": "group",
+          "value": "tags",
+        },
+      ],
+    }
+  }
+  pagination={
+    Object {
+      "isDisabled": false,
+      "itemCount": undefined,
+      "onPerPageSelect": [Function],
+      "onSetPage": [Function],
+      "page": undefined,
+      "perPage": undefined,
+    }
+  }
+/>
+`;
+
 exports[`EntityTableToolbar DOM should render correctly - with default filters 1`] = `
 <PrimaryToolbar
   activeFiltersConfig={

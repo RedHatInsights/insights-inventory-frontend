@@ -70,6 +70,8 @@ You can disable default columns. If you set this prop to `true`, then all the de
 
 *object*
 
+You can pass consumer application specific filters to the InventoryTable using `customFilters`. Whenever those passed filters get changed, the Inventory table fires onRefresh function and reloads. This prop also allows you to pass default values for shared filters e.g OS, tag and stale filters
+
 ## hasCheckbox
 
 *boolean*
