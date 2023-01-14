@@ -138,7 +138,7 @@ function onSetPagination(state, { payload }) {
     const page = parseInt(payload.page, 10);
     return {
         ...state,
-        perPage: isNaN(perPage) ? 50 : perPage,
+        perPage: isNaN(perPage) ? 20 : perPage,
         page: isNaN(page) ? 1 : page
     };
 }

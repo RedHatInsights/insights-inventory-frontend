@@ -70,7 +70,7 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     )
     , shallowEqual);
     const perPage = useSelector(({ entities: { perPage: invPerPage } }) => (
-        hasItems ? propsPerPage : (invPerPage || 50)
+        hasItems ? propsPerPage : (invPerPage || 20)
     )
     , shallowEqual);
     const total = useSelector(({ entities: { total: invTotal } }) => {

@@ -13,7 +13,7 @@ exports[`InventoryTable should render correctly - no data 1`] = `
     hideFilters={Object {}}
     onRefreshData={[Function]}
     page={1}
-    perPage={50}
+    perPage={20}
     showTags={false}
   />
   <ForwardRef
@@ -21,14 +21,14 @@ exports[`InventoryTable should render correctly - no data 1`] = `
     hasItems={false}
     onRefreshData={[Function]}
     page={1}
-    perPage={50}
+    perPage={20}
   >
     <ContextInventoryList
       hasItems={false}
       ignoreRefresh={true}
       onRefreshData={[Function]}
       page={1}
-      perPage={50}
+      perPage={20}
     />
   </ForwardRef>
   <TableToolbar

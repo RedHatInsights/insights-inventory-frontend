@@ -80,7 +80,7 @@ ContextInventoryList.propTypes = {
     ignoreRefresh: PropTypes.bool
 };
 ContextInventoryList.defaultProps = {
-    perPage: 50,
+    perPage: 20,
     page: 1,
     ignoreRefresh: true
 };
