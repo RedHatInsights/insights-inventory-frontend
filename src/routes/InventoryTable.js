@@ -5,17 +5,16 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
-import { tableReducer } from '../store';
-import { mergeWithEntities } from '../store/reducers';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
-import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter, useGetRegistry } from '../Utilities/constants';
+import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import RenderWrapper from '../Utilities/Wrapper';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -84,10 +83,8 @@ const Inventory = ({
     perPage,
     initialLoading
 }) => {
-    // TODO: don't modify document.title directly, but use insights chroming instead
-    document.title = 'Inventory | Red Hat Insights';
     const history = useHistory();
-    const getRegistry = useGetRegistry();
+    const chrome = useChrome();
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
@@ -95,7 +92,6 @@ const Inventory = ({
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
     const writePermissions = useWritePermissions();
-
     const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
     const loaded = useSelector(({ entities }) => entities?.loaded);
     const selected = useSelector(({ entities }) => entities?.selected);
@@ -146,11 +142,12 @@ const Inventory = ({
     };
 
     useEffect(() => {
-        insights.chrome?.hideGlobalFilter?.(false);
-        insights.chrome.appAction('system-list');
-        insights.chrome.appObjectId();
-        insights.chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
-            const [workloads, SID, tags] = insights.chrome?.mapGlobalFilter?.(data, false, true);
+        chrome.updateDocumentTitle('Inventory | Red Hat Insights');
+        chrome?.hideGlobalFilter?.(false);
+        chrome.appAction('system-list');
+        chrome.appObjectId();
+        chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
+            const [workloads, SID, tags] = chrome?.mapGlobalFilter?.(data, false, true);
             setGlobalFilter({
                 tags,
                 filter: {
@@ -179,10 +176,6 @@ const Inventory = ({
                 Array.isArray(perPage) ? perPage[0] : perPage
             ));
         }
-
-        getRegistry().register({
-            ...mergeWithEntities(tableReducer)
-        });
     }, []);
 
     const calculateSelected = () => selected ? selected.size : 0;
@@ -195,79 +188,77 @@ const Inventory = ({
             <Main>
                 <Grid gutter="md">
                     <GridItem span={12}>
-                        {
-                            <RenderWrapper
-                                isRbacEnabled
-                                cmp={InventoryTableCmp}
-                                customFilters={globalFilter}
-                                isFullView
-                                inventoryRef={inventory}
-                                showTags
-                                onRefresh={onRefresh}
-                                hasCheckbox={writePermissions}
-                                autoRefresh
-                                initialLoading={initialLoading}
-                                {...(writePermissions && {
-                                    actions: [
-                                        {
-                                            title: 'Delete',
-                                            onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
-                                                activateSystem(() => ({
-                                                    id: systemId,
-                                                    displayName
-                                                }));
-                                                handleModalToggle(() => true);
-                                            }
-                                        }, {
-                                            title: 'Edit',
-                                            onClick: (_event, _index, data) => {
-                                                activateSystem(() => data);
-                                                onEditOpen(() => true);
-                                            }
+                        <RenderWrapper
+                            isRbacEnabled
+                            cmp={InventoryTableCmp}
+                            customFilters={globalFilter}
+                            isFullView
+                            inventoryRef={inventory}
+                            showTags
+                            onRefresh={onRefresh}
+                            hasCheckbox={writePermissions}
+                            autoRefresh
+                            initialLoading={initialLoading}
+                            {...(writePermissions && {
+                                actions: [
+                                    {
+                                        title: 'Delete',
+                                        onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                                            activateSystem(() => ({
+                                                id: systemId,
+                                                displayName
+                                            }));
+                                            handleModalToggle(() => true);
                                         }
-                                    ],
-                                    actionsConfig: {
-                                        actions: [{
-                                            label: 'Delete',
-                                            props: {
-                                                isDisabled: calculateSelected() === 0,
-                                                variant: 'secondary',
-                                                onClick: () => {
-                                                    activateSystem(Array.from(selected.values()));
-                                                    handleModalToggle(true);
-                                                }
-                                            }
-                                        }]
-                                    },
-                                    bulkSelect: {
-                                        count: calculateSelected(),
-                                        id: 'bulk-select-systems',
-                                        items: [{
-                                            title: 'Select none (0)',
-                                            onClick: () => {
-                                                onSelectRows(-1, false);
-                                            }
-                                        },
-                                        {
-                                            ...loaded && rows && rows.length > 0 ? {
-                                                title: `Select page (${ rows.length })`,
-                                                onClick: () => {
-                                                    onSelectRows(0, true);
-                                                }
-                                            } : {}
-                                        }],
-                                        checked: calculateChecked(rows, selected),
-                                        onSelect: (value) => {
-                                            onSelectRows(0, value);
+                                    }, {
+                                        title: 'Edit',
+                                        onClick: (_event, _index, data) => {
+                                            activateSystem(() => data);
+                                            onEditOpen(() => true);
                                         }
                                     }
-                                })}
-                                tableProps={{
-                                    canSelectAll: false
-                                }}
-                                onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
-                            />
-                        }
+                                ],
+                                actionsConfig: {
+                                    actions: [{
+                                        label: 'Delete',
+                                        props: {
+                                            isDisabled: calculateSelected() === 0,
+                                            variant: 'secondary',
+                                            onClick: () => {
+                                                activateSystem(Array.from(selected.values()));
+                                                handleModalToggle(true);
+                                            }
+                                        }
+                                    }]
+                                },
+                                bulkSelect: {
+                                    count: calculateSelected(),
+                                    id: 'bulk-select-systems',
+                                    items: [{
+                                        title: 'Select none (0)',
+                                        onClick: () => {
+                                            onSelectRows(-1, false);
+                                        }
+                                    },
+                                    {
+                                        ...loaded && rows && rows.length > 0 ? {
+                                            title: `Select page (${ rows.length })`,
+                                            onClick: () => {
+                                                onSelectRows(0, true);
+                                            }
+                                        } : {}
+                                    }],
+                                    checked: calculateChecked(rows, selected),
+                                    onSelect: (value) => {
+                                        onSelectRows(0, value);
+                                    }
+                                }
+                            })}
+                            tableProps={{
+                                canSelectAll: false
+                            }}
+                            onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
+                        />
                     </GridItem>
                 </Grid>
             </Main>

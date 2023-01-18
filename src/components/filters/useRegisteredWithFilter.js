@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { REGISTERED_CHIP, registered } from '../../Utilities/index';
+import { REGISTERED_CHIP, registered } from '../../Utilities/constants';
 
 export const registeredWithFilterState = { registeredWithFilter: [] };
 export const REGISTERED_WITH_FILTER = 'REGISTERED_WITH_FILTER';

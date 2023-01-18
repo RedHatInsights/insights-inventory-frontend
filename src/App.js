@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Routes } from './Routes';
 import './App.scss';
-import { INVENTORY_ROOT } from './config';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
 import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 const App = () => {
     const history = useHistory();
+    const chrome = useChrome();
     useEffect(() => {
-        insights.chrome.init();
-        insights.chrome.identifyApp(INVENTORY_ROOT);
-        return insights.chrome.on(
+        chrome.init();
+        return chrome.on(
             'APP_NAVIGATION',
             event => {
                 if (event.navId === 'inventory') {

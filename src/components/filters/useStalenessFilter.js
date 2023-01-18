@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { STALE_CHIP, staleness } from '../../Utilities/index';
+import { STALE_CHIP, staleness } from '../../Utilities/constants';
 
 export const stalenessFilterState = { stalenessFilter: [] };
 export const STALENESS_FILTER = 'STALENESS_FILTER';

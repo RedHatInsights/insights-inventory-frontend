@@ -8,7 +8,7 @@ import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorStat
 import InventoryList from './InventoryList';
 import Pagination from './Pagination';
 import AccessDenied from '../../Utilities/AccessDenied';
-import { loadSystems } from '../../Utilities/index';
+import { loadSystems } from '../../Utilities/constants';
 import isEqual from 'lodash/isEqual';
 import { entitiesLoading } from '../../store/actions';
 
