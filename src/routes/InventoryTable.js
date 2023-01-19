@@ -13,7 +13,6 @@ import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
 import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
-import RenderWrapper from '../Utilities/Wrapper';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 const reloadWrapper = (event, callback) => {
@@ -81,7 +80,8 @@ const Inventory = ({
     updateMethodFilter,
     page,
     perPage,
-    initialLoading
+    initialLoading,
+    hasAccess
 }) => {
     const history = useHistory();
     const chrome = useChrome();
@@ -188,9 +188,9 @@ const Inventory = ({
             <Main>
                 <Grid gutter="md">
                     <GridItem span={12}>
-                        <RenderWrapper
+                        <InventoryTableCmp
+                            hasAccess={hasAccess}
                             isRbacEnabled
-                            cmp={InventoryTableCmp}
                             customFilters={globalFilter}
                             isFullView
                             inventoryRef={inventory}
@@ -315,7 +315,8 @@ Inventory.propTypes = {
     perPage: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     initialLoading: PropTypes.bool,
     rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
-    updateMethodFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
+    updateMethodFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    hasAccess: PropTypes.bool
 };
 
 Inventory.defaultProps = {
