@@ -116,8 +116,8 @@ export async function getEntities(items, {
         let data = await hosts.apiHostGetHostById(
             items,
             undefined,
-            undefined,
-            undefined,
+            perPage,
+            page,
             orderBy,
             orderDirection,
             undefined,
