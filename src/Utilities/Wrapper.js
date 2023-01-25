@@ -8,12 +8,14 @@ const RenderWrapper = ({ cmp: Component, isRbacEnabled, inventoryRef, store, ...
         'inventory:*:read',
         'inventory:hosts:read'
     ]);
+
     return (
         <Component
             {...props}
             { ...inventoryRef && {
                 ref: inventoryRef
             }}
+            isRbacEnabled={isRbacEnabled}
             hasAccess={isRbacEnabled ? hasAccess : true}
             store={ store }
         />

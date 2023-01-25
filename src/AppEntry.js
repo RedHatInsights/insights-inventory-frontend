@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { init, RegistryContext } from './store';
+import { getStore, RegistryContext, updateReducers } from './store';
 import App from './App';
 import { getBaseName } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import logger from 'redux-logger';
 import Fallback from './components/SpinnerFallback';
 
 const InventoryApp = () => {
-    const [registry, setRegistry] = useState();
-    const store = registry?.getStore();
-
-    useEffect(() => {
-        setRegistry(IS_DEV ? init(logger) : init());
-
-        return () => {
-            setRegistry(undefined);
+    const registry = useMemo(() => {
+        const store = IS_DEV ? getStore(logger) : getStore();
+        return {
+            register: (newReducers) => store.replaceReducer(updateReducers(newReducers)),
+            getStore: () => store
         };
     }, []);
 
@@ -23,7 +20,7 @@ const InventoryApp = () => {
         <RegistryContext.Provider value={{
             getRegistry: () => registry
         }}>
-            <Provider store={store}>
+            <Provider store={registry.getStore()}>
                 <Router basename={getBaseName(window.location.pathname)}>
                     <App />
                 </Router>

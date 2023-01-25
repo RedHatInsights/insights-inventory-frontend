@@ -17,7 +17,7 @@ import { toggleDrawer } from '../../store/actions';
 import { BasicInfo, SystemIssues } from '../InventoryDetailDrawer';
 import FactsInfo from './FactsInfo';
 
-const DetailWrapper = ({ children, hideInvLink, showTags, Wrapper, className, appName, ...props }) => {
+const DetailWrapper = ({ children, hideInvLink, showTags, Wrapper, className, hasAccess, appName, ...props }) => {
     const dispatch = useDispatch();
     const store = useStore();
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
@@ -81,7 +81,8 @@ DetailWrapper.propTypes = {
         'patch'
     ]),
     className: PropTypes.string,
-    Wrapper: PropTypes.elementType
+    Wrapper: PropTypes.elementType,
+    hasAccess: PropTypes.bool
 };
 
 DetailWrapper.defaultProps = {

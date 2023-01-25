@@ -27,8 +27,8 @@ const { config: webpackConfig, plugins } = config({
                     return {
                         ...acc,
                         [`/apps/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
-                        [`/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
-                        [`/beta/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
+                        // [`/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
+                        // [`/beta/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
                         [`/beta/apps/${appName}`]: { host: `${protocol}://localhost:${appPort}` }
                     };
                 }, {})

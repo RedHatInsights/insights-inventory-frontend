@@ -8,7 +8,7 @@ import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorStat
 import InventoryList from './InventoryList';
 import Pagination from './Pagination';
 import AccessDenied from '../../Utilities/AccessDenied';
-import { loadSystems } from '../../Utilities/index';
+import { loadSystems } from '../../Utilities/constants';
 import isEqual from 'lodash/isEqual';
 import { entitiesLoading } from '../../store/actions';
 
@@ -59,6 +59,10 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     initialLoading,
     ignoreRefresh,
     showTagModal,
+    tableProps,
+    isRbacEnabled,
+    hasCheckbox,
+    onRowClick,
     ...props
 }, ref) => {
     const hasItems = Boolean(items);
@@ -205,6 +209,9 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
                 </EntityTableToolbar>
                 <InventoryList
                     { ...props }
+                    hasCheckbox={hasCheckbox}
+                    onRowClick={onRowClick}
+                    tableProps={tableProps}
                     customFilters={customFilters}
                     hasAccess={hasAccess}
                     ref={ref}
@@ -258,7 +265,11 @@ InventoryTable.propTypes = {
     initialLoading: PropTypes.bool,
     ignoreRefresh: PropTypes.bool,
     showTagModal: PropTypes.bool,
-    activeFiltersConfig: PropTypes.object
+    activeFiltersConfig: PropTypes.object,
+    tableProps: PropTypes.object,
+    isRbacEnabled: PropTypes.bool,
+    hasCheckbox: PropTypes.bool,
+    onRowClick: PropTypes.func
 };
 
 export default InventoryTable;
