@@ -36,6 +36,7 @@ function entityLoaded(state) {
     return {
         ...state,
         loaded: true,
+        //TODO: improve rendering active app in Inventory detail
         activeApps: [
             { title: 'General information', name: 'general_information', component: GeneralInformationTab },
             { title: 'Advisor', name: 'advisor', component: AdvisorTab },
