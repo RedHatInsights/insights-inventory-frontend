@@ -5,7 +5,7 @@ import InventoryTable from './InventoryTable';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import * as actions from '../../Utilities/constants';
+import * as loadSystems from '../../Utilities/sharedFunctions';
 import SkeletonTable from '@redhat-cloud-services/frontend-components/SkeletonTable';
 import { Pagination } from '@patternfly/react-core';
 
@@ -39,7 +39,7 @@ describe('InventoryTable - initial loading', () => {
                 }
             }
         };
-        spy = jest.spyOn(actions, 'loadSystems').mockImplementation(() => ({ type: 'reload' }));
+        spy = jest.spyOn(loadSystems, 'loadSystems').mockImplementation(() => ({ type: 'reload' }));
         mockSystemProfile.onGet().reply(200, { results: [] });
     });
 

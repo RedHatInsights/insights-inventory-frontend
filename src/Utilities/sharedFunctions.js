@@ -1,3 +1,5 @@
+import { loadEntities } from '../store/inventory-actions';
+
 export const subtractWeeks = (numOfWeeks, date = new Date()) => {
     date.setDate(date.getDate() - numOfWeeks * 7);
 
@@ -33,4 +35,27 @@ export const verifyCulledInsightsClient = (perReporterStaleness) => {
     } else {
         return true;
     }
+};
+
+export const loadSystems = (options, showTags, getEntities) => {
+    const limitedItems = options?.items?.length > options.per_page ? options?.items?.slice(
+        (options?.page - 1) * options.per_page, options?.page * options.per_page
+    ) : options?.items;
+
+    const config = {
+        ...options.hasItems && {
+            sortBy: options?.sortBy?.key,
+            orderDirection: options?.sortBy?.direction?.toUpperCase()
+        },
+        ...options,
+        filters: options?.filters || options?.activeFilters,
+        orderBy: options?.orderBy || options?.sortBy?.key,
+        orderDirection: options?.orderDirection?.toUpperCase() || options?.sortBy?.direction?.toUpperCase(),
+        ...limitedItems?.length > 0 && {
+            itemsPage: options?.page,
+            page: 1
+        }
+    };
+
+    return loadEntities(limitedItems, config, { showTags }, getEntities);
 };

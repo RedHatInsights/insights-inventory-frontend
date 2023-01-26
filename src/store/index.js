@@ -1,5 +1,4 @@
 
-import { createContext } from 'react';
 import MiddlewareListener from '@redhat-cloud-services/frontend-components-utilities/MiddlewareListener';
 import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import promise  from 'redux-promise-middleware';
@@ -7,10 +6,6 @@ import reducers, { entitesDetailReducer, mergeWithDetail, mergeWithEntities, tab
 export { default as reducers, tableReducer, entitesDetailReducer } from './reducers';
 import { applyMiddleware, combineReducers, compose, legacy_createStore as createStore } from 'redux';
 import { INVENTORY_ACTION_TYPES } from './action-types';
-
-export const RegistryContext = createContext({
-    getRegistry: () => {}
-});
 
 let middlewareListener;
 

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { RegistryContext } from '../../store';
+import RegistryContext from '../../store/registeryContext';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 
 const PatchTab = () => {

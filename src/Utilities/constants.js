@@ -1,8 +1,6 @@
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { INVENTORY_WRITE_PERMISSIONS } from '../constants';
-import { RegistryContext } from '../store';
-import { loadEntities } from '../store/actions';
 
 export const TEXT_FILTER = 'hostname_or_id';
 export const TEXTUAL_CHIP = 'textual';
@@ -96,29 +94,6 @@ export function reduceFilters(filters = []) {
     });
 }
 
-export const loadSystems = (options, showTags, getEntities) => {
-    const limitedItems = options?.items?.length > options.per_page ? options?.items?.slice(
-        (options?.page - 1) * options.per_page, options?.page * options.per_page
-    ) : options?.items;
-
-    const config = {
-        ...options.hasItems && {
-            sortBy: options?.sortBy?.key,
-            orderDirection: options?.sortBy?.direction?.toUpperCase()
-        },
-        ...options,
-        filters: options?.filters || options?.activeFilters,
-        orderBy: options?.orderBy || options?.sortBy?.key,
-        orderDirection: options?.orderDirection?.toUpperCase() || options?.sortBy?.direction?.toUpperCase(),
-        ...limitedItems?.length > 0 && {
-            itemsPage: options?.page,
-            page: 1
-        }
-    };
-
-    return loadEntities(limitedItems, config, { showTags }, getEntities);
-};
-
 export const reloadWrapper = (event, callback) => {
     event.payload.then(data => {
         callback();
@@ -165,12 +140,6 @@ export const useWritePermissions = () => {
     const { hasAccess } = usePermissionsWithContext(INVENTORY_WRITE_PERMISSIONS);
 
     return hasAccess;
-};
-
-export const useGetRegistry = () => {
-    const { getRegistry } = useContext(RegistryContext);
-
-    return getRegistry;
 };
 
 export const allStaleFilters = ['fresh', 'stale', 'stale_warning', 'unknown'];
