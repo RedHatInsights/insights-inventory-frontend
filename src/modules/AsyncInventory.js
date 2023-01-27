@@ -50,4 +50,4 @@ AsyncInventory.defaultProps = {
     onLoad: () => undefined
 };
 
-export default React.forwardRef((props, ref) => <AsyncInventory {...props} innerRef={ref} />);
+export default AsyncInventory;
