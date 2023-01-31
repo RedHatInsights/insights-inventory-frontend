@@ -1,6 +1,6 @@
 {
   "name": "insights-inventory-frontend",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": false,
   "engines": {
     "node": ">=15.0.0",
@@ -29,6 +29,53 @@
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^6.1.2",
     "semver": "^7.3.7"
+  },
+  "release": {
+    "branches": "master",
+    "analyzeCommits": {
+      "preset": "angular",
+      "releaseRules": [
+        {
+          "type": "refactor",
+          "release": "patch"
+        },
+        {
+          "type": "style",
+          "release": "patch"
+        },
+        {
+          "type": "update",
+          "release": "patch"
+        },
+        {
+          "type": "docs",
+          "release": "patch"
+        },
+        {
+          "type": "test",
+          "release": "patch"
+        }
+      ]
+    },
+    "prepare": [
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/changelog",
+      "@semantic-release/git"
+    ],
+    "publish": [
+      "@semantic-release/github",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ]
+    ]
   },
   "jest": {
     "testEnvironment": "jsdom",
@@ -75,6 +122,8 @@
     "@cypress/react": "^7.0.2",
     "@patternfly/patternfly": "^4.221.2",
     "@redhat-cloud-services/frontend-components-config": "^4.6.39",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
@@ -97,6 +146,7 @@
     "node-fetch": "^2.6.7",
     "npm-run-all": "^4.1.5",
     "redux-mock-store": "^1.5.4",
+    "semantic-release": "^19.0.5",
     "stylelint": "^13.13.1",
     "stylelint-config-recommended-scss": "^4.3.0",
     "stylelint-scss": "^3.21.0",

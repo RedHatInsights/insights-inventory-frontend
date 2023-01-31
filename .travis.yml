@@ -6,13 +6,17 @@ node_js:
 - '16'
 install:
   - npm ci
-script:
-  - npm run verify
-  - npm run test:ct
-  - npm run coverage
+jobs:
+  include:
+  - stage: Lint, tests
+    script: npm run verify && npm run test:ct && npm run coverage
+  - stage: Release tag
+    if: fork = false
+    script: npx semantic-release
 after_success:
 - curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
     global:
     - REPO="git@github.com:RedHatInsights/insights-inventory-frontend-build"
     - REPO_DIR="insights-inventory-frontend-build"
+    - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
