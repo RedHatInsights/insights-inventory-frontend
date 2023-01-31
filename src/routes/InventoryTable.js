@@ -88,7 +88,9 @@ const Inventory = ({
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
-    const [filters, onSetfilters] = useState([]);
+    const [filters, onSetfilters] = useState(
+        generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter)
+    );
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
     const writePermissions = useWritePermissions();
@@ -100,29 +102,6 @@ const Inventory = ({
     const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
 
     const onRefresh = (options, callback) => {
-
-        let results = options?.filters?.filter(({ osFilter }) => osFilter);
-        const { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter }
-        = (options?.filters || []).reduce(
-            (acc, curr) => ({
-                ...acc,
-                ...curr?.staleFilter && { status: curr.staleFilter },
-                ...curr?.registeredWithFilter && { source: curr.registeredWithFilter },
-                ...curr?.tagFilters && { tagsFilter: curr.tagFilters },
-                ...curr?.value === 'hostname_or_id' && { filterbyName: curr.filter },
-                ...curr?.osFilter && {
-                    operatingSystem: results[0].osFilter.length > 0
-                        ? results[0].osFilter
-                        : Object.values(curr.osFilter || {}).flatMap((majorOsVersion) => Object.keys(majorOsVersion))
-                },
-                ...curr.rhcdFilter && { rhcdFilter: curr.rhcdFilter },
-                ...curr.updateMethodFilter && { updateMethodFilter: curr.updateMethodFilter }
-            }),
-            {}
-        );
-        options.filters =
-            generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter);
-
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
         calculateFilters(searchParams, options?.filters);
@@ -134,9 +113,7 @@ const Inventory = ({
             hash: location.hash
         });
 
-        if (!callback && inventory?.current) {
-            inventory.current.onRefreshData(options);
-        } else if (callback) {
+        if (callback) {
             callback(options);
         }
     };
@@ -166,10 +143,6 @@ const Inventory = ({
         });
         dispatch(actions.clearNotifications());
 
-        const filtersList =
-            generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter);
-        filtersList?.length > 0 && dispatch(actions.setFilter(filtersList));
-
         if (perPage || page) {
             dispatch(actions.setPagination(
                 Array.isArray(page) ? page[0] : page,
@@ -191,7 +164,7 @@ const Inventory = ({
                         <InventoryTableCmp
                             hasAccess={hasAccess}
                             isRbacEnabled
-                            customFilters={globalFilter}
+                            customFilters={{ filters, globalFilter }}
                             isFullView
                             inventoryRef={inventory}
                             showTags

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { RHCD_FILTER_KEY, UPDATE_METHOD_KEY } from './Utilities/constants';
 
 export const tagsMapper = (acc, curr) => {
     let [namespace, keyValue] = curr.split('/');
@@ -112,3 +113,17 @@ export const INVENTORY_WRITE_PERMISSIONS = [
     'inventory:hosts:write',
     'inventory:*:write'
 ];
+
+export const getSearchParams = () => {
+    const searchParams = new URLSearchParams(location.search);
+    const status = searchParams.getAll('status');
+    const source = searchParams.getAll('source');
+    const filterbyName = searchParams.getAll('hostname_or_id');
+    const tagsFilter = searchParams.getAll('tags')?.[0]?.split?.(',').reduce?.(tagsMapper, []);
+    const operatingSystem = searchParams.getAll('operating_system');
+    const rhcdFilter = searchParams.getAll(RHCD_FILTER_KEY);
+    const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
+    const page = searchParams.getAll('page');
+    const perPage = searchParams.getAll('per_page');
+    return { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter, page, perPage };
+};
