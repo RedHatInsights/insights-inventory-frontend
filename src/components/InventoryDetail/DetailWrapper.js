@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Drawer,
     DrawerPanelContent,
@@ -13,16 +13,22 @@ import {
 } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch, useStore } from 'react-redux';
-import { toggleDrawer } from '../../store/actions';
+import { toggleDrawer, loadEntity } from '../../store/actions';
 import { BasicInfo, SystemIssues } from '../InventoryDetailDrawer';
 import FactsInfo from './FactsInfo';
 
-const DetailWrapper = ({ children, hideInvLink, showTags, Wrapper, className, hasAccess, appName, ...props }) => {
+const DetailWrapper = ({ children, hideInvLink, showTags, Wrapper, className, hasAccess, appName, inventoryId, ...props }) => {
     const dispatch = useDispatch();
     const store = useStore();
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
     const isExpanded = useSelector(({ entityDetails }) => entityDetails?.isToggleOpened);
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
+
+    useEffect(() => {
+        if (!entity || !(entity?.id === inventoryId) || !loaded) {
+            dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
+        }
+    }, []);
 
     return <Drawer
         className={`ins-c-inventory__drawer ${className || ''}`}
@@ -82,7 +88,8 @@ DetailWrapper.propTypes = {
     ]),
     className: PropTypes.string,
     Wrapper: PropTypes.elementType,
-    hasAccess: PropTypes.bool
+    hasAccess: PropTypes.bool,
+    inventoryId: PropTypes.string.isRequired
 };
 
 DetailWrapper.defaultProps = {
