@@ -124,6 +124,7 @@
     "@redhat-cloud-services/frontend-components-config": "^4.6.39",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
+    "@stoplight/prism-cli": "^4.10.5",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
@@ -171,7 +172,9 @@
     "start:federated": "fec static --config config/dev.webpack.config.js",
     "test:ct": "BABEL_ENV=componentTest cypress run --component",
     "test:openct": "BABEL_ENV=componentTest cypress open --component",
-    "coverage": "bash coverage.sh"
+    "coverage": "bash coverage.sh",
+    "startMockServer": "prism mock -d $npm_package_config_api_schema_path",
+    "start:mock": "MOCK=true run-p startMockServer start:proxy"
   },
   "insights": {
     "appname": "inventory"
@@ -184,5 +187,8 @@
     "exclude": [
       "src/**/*.test.js"
     ]
+  },
+  "config": {
+    "api_schema_path": "https://raw.githubusercontent.com/RedHatInsights/insights-host-inventory/master/swagger/openapi.json"
   }
 }

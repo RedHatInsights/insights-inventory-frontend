@@ -40,6 +40,14 @@ LOCAL_API=advisor:8003~https,vulnerability:8004
 There is an npm script that runs the build, JS and CSS linters and unit tests. The script can be invoked by
 `npm run verify`
 
+## Mocking Inventory API
+
+Inventory frontend has support for https://github.com/stoplightio/prism CLI. The CLI reads the OpenAPI schema, spins up a localhost server and serves dynamically generated responses for Inventory API endpoints (/hosts, /groups, etc.).
+
+1. Verify package.json `config` section for the correct URL to OpenAPI schema (contains remote URL by default).
+2. Verify dev.webpack.config.js `customProxy` settings. There you can specify which endpoints to proxy and modify request/response headers. 
+3. Run `npm run start:mock` to start the mock server and webpack server in parallel.
+
 ## Inventory table and detail
 
 We are serving inventory through federated modules, this means both inventory table and inventory detail is served to you in runtime. No need to install and rebuild when something changes in inventory.
@@ -60,7 +68,7 @@ These applications import `InventoryTable` component through federated modules:
 - [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend)
 - [edge-frontend](https://github.com/RedHatInsights/edge-frontend)
 
-### Documentation Links
+## Documentation Links
 
 * Components
   * [inventory](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory.md)
