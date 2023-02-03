@@ -7,6 +7,9 @@
     "npm": ">=7.0.0"
   },
   "dependencies": {
+    "@data-driven-forms/common": "^3.19.3",
+    "@data-driven-forms/pf4-component-mapper": "^3.19.3",
+    "@data-driven-forms/react-form-renderer": "^3.19.3",
     "@patternfly/react-core": "^4.265.2",
     "@patternfly/react-icons": "^4.93.6",
     "@patternfly/react-table": "^4.111.45",
