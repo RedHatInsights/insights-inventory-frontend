@@ -22,7 +22,7 @@ const RepoModal = ({
 }) => {
     return (
         <Modal
-            ouiaId="create-group-name-modal"
+            ouiaId="group-modal"
             variant={size ?? 'small'}
             title={title}
             titleIconVariant={titleIconVariant ?? null}

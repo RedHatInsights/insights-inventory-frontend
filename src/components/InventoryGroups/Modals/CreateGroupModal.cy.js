@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { getStore } from '../../../store';
 
-const MODAL = ouiaId('create-group-name-modal');
+const MODAL = ouiaId('group-modal');
 
 describe('render Create Group Modal', () => {
     beforeEach(() => {
