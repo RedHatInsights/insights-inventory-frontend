@@ -5,7 +5,7 @@ import componentTypes from '@data-driven-forms/react-form-renderer/component-typ
 import Modal from './Modal';
 import { nameValidator } from '../helpers/validate';
 import apiWithToast from '../utils/apiWithToast';
-import { createGroup } from '../utils/api';
+import { createGroup, addSystemsToGroup } from '../utils/api';
 import { useDispatch } from 'react-redux';
 
 const asyncGroupNameValidation = async (value = '') => {
@@ -64,28 +64,28 @@ const CreateGroupModal = ({
         return apiWithToast(dispatch, () => createGroup(values), statusMessages);
     };
 
-    const handleAddDevicesToNewGroup = async () => {
-        /* const { ID } = await handleCreateGroup(values); */
+    const handleAddDevicesToNewGroup = async (values) => {
+        const { ID } = await handleCreateGroup(values);
 
-        /* const statusMessages = {
+        const statusMessages = {
             onSuccess: {
                 title: 'Success',
                 description: `System(s) have been added to ${values.name} successfully`
             },
             onError: { title: 'Error', description: 'Failed to add system to group' }
-        }; */
+        };
 
-        /* apiWithToast(
+        apiWithToast(
             dispatch,
-            () => addDevicesToGroup(parseInt(ID), deviceIds),
+            () => addSystemsToGroup(parseInt(ID), deviceIds),
             statusMessages
-        ); */
+        );
     };
 
     return (
         <Modal
-            //for the time it is true to make it render for the tests
-            isOpen='true'
+            //for the time it is true to make it render for the tests later it will be passed via props from table
+            isOpen={true}
             closeModal={() => setIsModalOpen(false)}
             title="Create group"
             submitLabel="Create"

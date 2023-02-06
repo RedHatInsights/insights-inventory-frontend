@@ -48,6 +48,7 @@ const RepoModal = ({
                         ? { ...additionalMappers, ...componentMapper }
                         : componentMapper
                 }
+                //reload comes from the table and fetches fresh data
                 onSubmit={async (values) => {
                     await onSubmit(values);
                     setTimeout(async () => await reloadData(), 500);
