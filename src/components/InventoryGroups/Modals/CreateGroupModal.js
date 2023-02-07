@@ -5,21 +5,23 @@ import componentTypes from '@data-driven-forms/react-form-renderer/component-typ
 import Modal from './Modal';
 import { nameValidator } from '../helpers/validate';
 import apiWithToast from '../utils/apiWithToast';
-import { createGroup, addSystemsToGroup } from '../utils/api';
+import { createGroup, addSystemsToGroup, validateGroupName } from '../utils/api';
 import { useDispatch } from 'react-redux';
+import { debounce } from 'lodash';
 
-const asyncGroupNameValidation = async (value = '') => {
+const asyncGroupNameValidation = debounce(async (value = '') => {
     // do not fire validation request for empty name
     if (value.length === 0) {
         return undefined;
     }
+
     //api call to check that the name is valid and unique
-    /* const resp = await validateGroupName(value);
+    const resp = await validateGroupName(value);
     if (resp.data.isValid) {
     // async validator has to throw error, not return it
         throw 'Group name already exists';
-    } */
-};
+    }
+}, 800);
 
 const validatorMapper = {
     groupName: () => asyncGroupNameValidation
@@ -49,7 +51,8 @@ const createGroupSchema = {
 const CreateGroupModal = ({
     setIsModalOpen,
     deviceIds,
-    reloadData
+    reloadData,
+    isOpen
 }) => {
     const dispatch = useDispatch();
 
@@ -84,14 +87,13 @@ const CreateGroupModal = ({
 
     return (
         <Modal
-            //for the time it is true to make it render for the tests later it will be passed via props from table
-            isOpen={true}
+            isOpen={isOpen}
             closeModal={() => setIsModalOpen(false)}
             title="Create group"
             submitLabel="Create"
             schema={createGroupSchema}
-            onSubmit={deviceIds ? handleAddDevicesToNewGroup : handleCreateGroup}
             reloadData={reloadData}
+            onSubmit={deviceIds ? handleAddDevicesToNewGroup : handleCreateGroup}
             validatorMapper={validatorMapper}
         />
     );
@@ -103,5 +105,6 @@ CreateGroupModal.propTypes = {
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
     reloadData: PropTypes.func,
-    deviceIds: PropTypes.array
+    deviceIds: PropTypes.array,
+    isOpen: PropTypes.bool
 };
