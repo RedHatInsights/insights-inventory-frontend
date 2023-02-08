@@ -12,6 +12,9 @@ import toJson from 'enzyme-to-json';
 import { ConditionalFilter } from '@redhat-cloud-services/frontend-components/ConditionalFilter';
 import * as loadSystems from '../../Utilities/sharedFunctions';
 import { mockSystemProfile } from '../../__mocks__/hostApi';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+
+jest.mock('../../Utilities/useFeatureFlag');
 
 describe('InventoryTable', () => {
     let initialState;
@@ -208,6 +211,7 @@ describe('InventoryTable', () => {
         });
 
         it('should disable only one filter', () => {
+            useFeatureFlag.mockReturnValue(true);
             const store = mockStore(initialState);
             const wrapper = mount(<Provider store={ store }>
                 <Router>
