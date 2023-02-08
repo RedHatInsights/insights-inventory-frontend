@@ -10,7 +10,7 @@ import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-componen
  * This component detail is accessed from redux if no component found `missing component` is displayed.
  * @param {*} props `componentsMapper` if you want to pass different components list.
  */
-const AppInfo = ({ componentMapper, activeApp }) => {
+const AppInfo = ({ componentMapper: Cmp, activeApp }) => {
     const store = useStore();
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
@@ -18,8 +18,6 @@ const AppInfo = ({ componentMapper, activeApp }) => {
     if (loaded === true && !entity) {
         return null;
     }
-
-    const Cmp = componentMapper;
 
     return (
         <Fragment>
@@ -41,7 +39,7 @@ const AppInfo = ({ componentMapper, activeApp }) => {
 };
 
 AppInfo.propTypes = {
-    componentMapper: PropTypes.element,
+    componentMapper: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     activeApp: PropTypes.shape({
         title: PropTypes.node,
         name: PropTypes.string,
@@ -66,7 +64,9 @@ const AppInfoWrapper = ({ componentMapper, activeApp, ...props }) => {
         return entityDetails?.activeApps?.find?.(item => item?.name === activeItem) || entityDetails?.activeApps?.[0];
     });
 
-    return <AppInfo componentMapper={componentMapper || activeApp?.component} activeApp={activeApp || currApp} {...props} />;
+    const currComponent = componentMapper || (activeApp || currApp)?.component;
+
+    return <AppInfo componentMapper={currComponent} activeApp={activeApp || currApp} {...props} />;
 };
 
 AppInfoWrapper.propTypes = AppInfo.propTypes;

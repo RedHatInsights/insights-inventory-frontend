@@ -14,10 +14,11 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const searchParams = new URLSearchParams(search);
-    const items = useSelector(({ entityDetails }) => entityDetails?.activeApps || appList)
-    .filter(({ isVisible }) => isVisible !== false);
+    const items = useSelector(({ entityDetails }) => {
+        return (entityDetails?.activeApps || appList || []).filter(({ isVisible }) => isVisible !== false);
+    });
     const disabledApps = useSelector(({ systemProfileStore }) => systemProfileStore?.disabledApps);
-    const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp?.appName || items[0].name);
+    const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp?.appName || items?.[0]?.name);
     const [activeTabs, setActiveTabs] = useState(items);
 
     useEffect(() => {
