@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.0.0...v1.1.0) (2023-02-08)
+
+
+### Features
+
+* **ESSNTL-3724:** Add /groups route & empty state ([#1760](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1760)) ([868eb69](https://github.com/RedHatInsights/insights-inventory-frontend/commit/868eb69f572a280ba162a1623027133932a9284a))
+
 # 1.0.0 (2023-02-01)
 
 
