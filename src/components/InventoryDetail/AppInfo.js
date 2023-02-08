@@ -71,4 +71,9 @@ const AppInfoWrapper = ({ componentMapper, activeApp, ...props }) => {
 
 AppInfoWrapper.propTypes = AppInfo.propTypes;
 
-export default AppInfoWrapper;
+// TODO: Remove once all apps send `componentMapper` and `activeApp` and use directly AppInfo
+const AppInfoCmp = (props) => (props.componentMapper && props.activeApp) ? <AppInfo {...props} /> : <AppInfoWrapper {...props} />
+
+AppInfoCmp.propTypes = AppInfo.propTypes;
+
+export default AppInfoCmp;

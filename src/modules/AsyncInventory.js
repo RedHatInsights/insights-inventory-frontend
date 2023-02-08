@@ -24,7 +24,7 @@ const AsyncInventory = ({ component, onLoad, store, history, innerRef, ...props 
     return (
         <RBACProvider appName="inventory">
             <Provider store={store}>
-                <Router history={history} basename={getBaseName(window.location.pathname)}>
+                <Router history={history}>
                     <RenderWrapper
                         { ...props }
                         isRbacEnabled
