@@ -146,4 +146,9 @@ const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
 
 InventoryDetailWrapper.propTypes = InventoryDetail.propTypes;
 
+// TODO: Remove once all apps send `inventoryId` and use directly InventoryDetail
+const InventoryDetailCmp = (props) => props.inventoryId ? <InventoryDetail {...props} /> : <InventoryDetailWrapper {...props} />;
+
+InventoryDetailCmp.propTypes = InventoryDetail.propTypes;
+
 export default InventoryDetailWrapper;

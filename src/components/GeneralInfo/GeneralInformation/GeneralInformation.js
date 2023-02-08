@@ -135,6 +135,7 @@ GeneralInformation.propTypes = {
     entity: PropTypes.shape({
         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     }),
+    openedModal: PropTypes.string,
     loadSystemDetail: PropTypes.func,
     store: PropTypes.any,
     writePermissions: PropTypes.bool,
