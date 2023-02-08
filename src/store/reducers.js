@@ -6,14 +6,6 @@ import {
     SET_PAGINATION
 } from './action-types';
 import systemProfileStore from './systemProfileStore';
-import {
-    ComplianceTab,
-    VulnerabilityTab,
-    AdvisorTab,
-    GeneralInformationTab,
-    PatchTab,
-    RosTab
-} from '../components/SystemDetails';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
@@ -35,33 +27,7 @@ function entitiesLoaded(state, { payload }) {
 function entityLoaded(state) {
     return {
         ...state,
-        loaded: true,
-        //TODO: improve rendering active app in Inventory detail
-        activeApps: [
-            { title: 'General information', name: 'general_information', component: GeneralInformationTab },
-            { title: 'Advisor', name: 'advisor', component: AdvisorTab },
-            {
-                title: 'Vulnerability',
-                name: 'vulnerabilities',
-                component: VulnerabilityTab
-            },
-            {
-                title: 'Compliance',
-                name: 'compliance',
-                component: ComplianceTab
-            },
-            {
-                title: 'Patch',
-                name: 'patch',
-                component: PatchTab
-            },
-            {
-                title: 'Resource Optimization',
-                name: 'ros',
-                isVisible: false,
-                component: RosTab
-            }
-        ].filter(Boolean)
+        loaded: true
     };
 }
 
