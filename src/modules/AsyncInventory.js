@@ -8,7 +8,6 @@ import * as storeMod from '../store/redux';
 import * as utils from '../Utilities/index';
 import * as apiMod from '../api/index';
 import RenderWrapper from '../Utilities/Wrapper';
-import { getBaseName } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 const { mergeWithDetail, ...rest } = storeMod;
 
 const AsyncInventory = ({ component, onLoad, store, history, innerRef, ...props }) => {

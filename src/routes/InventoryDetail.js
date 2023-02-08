@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, Link, useHistory } from 'react-router-dom';
 import './inventory.scss';
-import { Link, useHistory } from 'react-router-dom';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
@@ -23,6 +22,7 @@ import {
     PatchTab,
     RosTab
 } from '../components/SystemDetails';
+import { detailSelect } from '../store/actions';
 
 const activeApps = [
     { title: 'General information', name: 'general_information', component: GeneralInformationTab },
@@ -58,6 +58,7 @@ const Inventory = () => {
     const { search } = useLocation();
     const history = useHistory();
     const dispatch = useDispatch();
+    const searchParams = new URLSearchParams(search);
     const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
@@ -66,9 +67,12 @@ const Inventory = () => {
         chrome?.hideGlobalFilter?.(true);
         chrome.appAction('system-detail');
         clearNotifications();
+        const appName = searchParams.get('appName');
+        if (appName) {
+            dispatch(detailSelect(appName));
+            setActiveApp(activeApps.find(({ name }) => name === appName));
+        }
     }, []);
-
-    const searchParams = new URLSearchParams(search);
 
     const additionalClasses = {
         'ins-c-inventory__detail--general-info': activeApp?.name === 'general_information'
@@ -77,12 +81,6 @@ const Inventory = () => {
     if (entity) {
         document.title = `${entity.display_name} | Inventory | Red Hat Insights`;
     }
-
-    useEffect(() => {
-        if (search) {
-            setActiveApp(activeApps.find(({ name }) => name === searchParams.get('appName')));
-        }
-    }, [search]);
 
     useEffect(() => {
         insights?.chrome?.appObjectId?.(entity?.id);
@@ -106,7 +104,7 @@ const Inventory = () => {
                                 entity ?
                                     entity.display_name :
                                     entityLoaded !== true ?
-                                        <Skeleton size={SkeletonSize.xs} /> : entity?.id
+                                        <Skeleton size={SkeletonSize.xs} /> : inventoryId
                             }
                         </div>
                     </BreadcrumbItem>
