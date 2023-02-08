@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.1.0...v1.1.1) (2023-02-08)
+
+
+### Performance Improvements
+
+* **RHIF-167:** Refactor inventory detail to simplify the usage ([#1674](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1674)) ([6343202](https://github.com/RedHatInsights/insights-inventory-frontend/commit/63432025fc195685c01f287e77f4d69ddba58962))
+
 # [1.1.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.0.0...v1.1.0) (2023-02-08)
 
 
