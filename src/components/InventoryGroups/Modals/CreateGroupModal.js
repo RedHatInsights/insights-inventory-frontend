@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
-import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
+import { createGroupSchema } from './ModalSchemas/schemes';
 import Modal from './Modal';
-import { nameValidator } from '../helpers/validate';
 import apiWithToast from '../utils/apiWithToast';
-import { createGroup, addSystemsToGroup, validateGroupName } from '../utils/api';
+import {
+    createGroup,
+    addSystemsToGroup,
+    validateGroupName
+} from '../utils/api';
 import { useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
@@ -27,27 +29,6 @@ const validatorMapper = {
     groupName: () => asyncGroupNameValidation
 };
 
-const createGroupSchema = {
-    fields: [
-        {
-            component: componentTypes.TEXT_FIELD,
-            name: 'name',
-            label: 'Group name',
-            helperText:
-        'Can only contain letters, numbers, spaces, hyphens ( - ), and underscores( _ ).',
-            isRequired: true,
-            autoFocus: true,
-            validate: [
-                // async validator has to be first in the list
-                { type: 'groupName' },
-                { type: validatorTypes.REQUIRED },
-                { type: validatorTypes.MAX_LENGTH, threshold: 50 },
-                nameValidator
-            ]
-        }
-    ]
-};
-
 const CreateGroupModal = ({
     setIsModalOpen,
     deviceIds,
@@ -56,16 +37,19 @@ const CreateGroupModal = ({
 }) => {
     const dispatch = useDispatch();
 
-    const handleCreateGroup = (values) => {
-        const statusMessages = {
-            onSuccess: {
-                title: 'Success',
-                description: `${values.name} has been created successfully`
-            },
-            onError: { title: 'Error', description: 'Failed to create group' }
-        };
-        return apiWithToast(dispatch, () => createGroup(values), statusMessages);
-    };
+    const handleCreateGroup = useCallback(
+        (values) => {
+            const statusMessages = {
+                onSuccess: {
+                    title: 'Success',
+                    description: `${values.name} has been created successfully`
+                },
+                onError: { title: 'Error', description: 'Failed to create group' }
+            };
+            return apiWithToast(dispatch, () => createGroup(values), statusMessages);
+        },
+        [deviceIds]
+    );
 
     const handleAddDevicesToNewGroup = async (values) => {
         const { ID } = await handleCreateGroup(values);
