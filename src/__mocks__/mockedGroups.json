@@ -1,0 +1,18 @@
+{
+  "total": 1,
+  "count": 1,
+  "page": 1,
+  "per_page": 50,
+  "results": [
+    {
+      "name": "aute",
+      "id": "FC7CDc2A-EbCd-36F5-f2cc-72f7f2fB960F",
+      "host_ids": [
+        "2Ab5EF47-a25f-eC8D-459D-e48Ca051b1F2",
+        "EdE9F657-B7FD-E56c-2E66-6a93ee8aabcC"
+      ],
+      "created_at": "2009-01-31T23:00:00.0Z",
+      "updated_at": "1981-07-06T22:00:00.0Z"
+    }
+  ]
+}

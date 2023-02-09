@@ -34,7 +34,8 @@ export const asyncInventory = [
     'SET_ANSIBLE_HOST',
     'LOAD_TAGS',
     'ALL_TAGS',
-    'OPERATING_SYSTEMS'
+    'OPERATING_SYSTEMS',
+    'GROUPS'
 ];
 
 export const systemIssues = [
