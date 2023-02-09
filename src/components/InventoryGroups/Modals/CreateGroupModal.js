@@ -5,11 +5,10 @@ import Modal from './Modal';
 import apiWithToast from '../utils/apiWithToast';
 import {
     createGroup,
-    addSystemsToGroup,
     validateGroupName
 } from '../utils/api';
 import { useDispatch } from 'react-redux';
-import { debounce } from 'lodash';
+import debounce  from 'lodash/debounce';
 
 const asyncGroupNameValidation = debounce(async (value = '') => {
     // do not fire validation request for empty name
@@ -19,7 +18,7 @@ const asyncGroupNameValidation = debounce(async (value = '') => {
 
     //api call to check that the name is valid and unique
     const resp = await validateGroupName(value);
-    if (resp.data.isValid) {
+    if (resp?.data?.isValid) {
     // async validator has to throw error, not return it
         throw 'Group name already exists';
     }
@@ -31,7 +30,6 @@ const validatorMapper = {
 
 const CreateGroupModal = ({
     setIsModalOpen,
-    deviceIds,
     reloadData,
     isOpen
 }) => {
@@ -48,26 +46,8 @@ const CreateGroupModal = ({
             };
             return apiWithToast(dispatch, () => createGroup(values), statusMessages);
         },
-        [deviceIds]
+        [setIsModalOpen]
     );
-
-    const handleAddDevicesToNewGroup = async (values) => {
-        const { ID } = await handleCreateGroup(values);
-
-        const statusMessages = {
-            onSuccess: {
-                title: 'Success',
-                description: `System(s) have been added to ${values.name} successfully`
-            },
-            onError: { title: 'Error', description: 'Failed to add system to group' }
-        };
-
-        apiWithToast(
-            dispatch,
-            () => addSystemsToGroup(parseInt(ID), deviceIds),
-            statusMessages
-        );
-    };
 
     return (
         <Modal
@@ -78,7 +58,7 @@ const CreateGroupModal = ({
             submitLabel="Create"
             schema={createGroupSchema}
             reloadData={reloadData}
-            onSubmit={deviceIds ? handleAddDevicesToNewGroup : handleCreateGroup}
+            onSubmit={handleCreateGroup}
             validatorMapper={validatorMapper}
         />
     );

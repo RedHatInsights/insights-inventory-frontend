@@ -9,7 +9,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { getStore } from '../../../store';
 
 describe('render Create Group Modal', () => {
-    beforeEach(() => {
+    before(() => {
         cy.window().then(window => window.insights = {
             chrome: {
                 isProd: false,
@@ -20,15 +20,17 @@ describe('render Create Group Modal', () => {
                 }
             }
         });
-        cy.intercept('GET', '**/api/inventory/v1/groups/query', {
-            statusCode: 200
-        }).as('validate');
+    });
+
+    beforeEach(() => {
+
         cy.intercept('POST', '**/api/inventory/v1/groups', {
             statusCode: 504
         }).as('create_group');
-        cy.intercept('GET', '**/api/inventory/v1/groups/group_name', {
+        cy.intercept('GET', '**/api/inventory/v1/groups', {
             statusCode: 200
-        }).as('group_name');
+        }).as('validate');
+
         mount(
             <MemoryRouter>
                 <Provider store={getStore()}>
@@ -38,21 +40,22 @@ describe('render Create Group Modal', () => {
         );
     });
 
-    it('Input is fillable and firing a validation request', () => {
-        cy.get(TEXT_INPUT).type('query');
+    it('Input is fillable and firing a validation request that succeeds', () => {
+        cy.get(TEXT_INPUT).type('sre-group0');
         cy.wait('@validate').then((xhr) => {
-            expect(xhr.request.url).to.contain('groups/query');}
+            expect(xhr.request.url).to.contain('groups');}
         );
+        cy.get(`button[type="submit"]`).should('have.attr', 'aria-disabled', 'false');
     });
 
     it('Input is fillable and firing a create group', () => {
-        cy.get(TEXT_INPUT).type('group_name');
+        cy.get(TEXT_INPUT).type('sre-group5');
+        cy.wait('@validate').then((xhr) => {
+            expect(xhr.request.url).to.contain('groups');}
+        );
         cy.get(`button[type="submit"]`).click();
         cy.wait('@create_group').then((xhr) => {
             expect(xhr.request.url).to.contain('groups');}
-        );
-        cy.wait('@group_name').then((xhr) => {
-            expect(xhr.request.url).to.contain('groups/group_name');}
         );
     });
 });

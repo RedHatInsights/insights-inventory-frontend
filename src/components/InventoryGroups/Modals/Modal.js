@@ -17,7 +17,6 @@ const RepoModal = ({
     reloadData,
     size,
     onSubmit,
-    additionalMappers,
     validatorMapper
 }) => {
     return (
@@ -43,11 +42,7 @@ const RepoModal = ({
                     />
                 )}
                 initialValues={initialValues}
-                componentMapper={
-                    additionalMappers
-                        ? { ...additionalMappers, ...componentMapper }
-                        : componentMapper
-                }
+                componentMapper={componentMapper}
                 //reload comes from the table and fetches fresh data
                 onSubmit={async (values) => {
                     await onSubmit(values);
