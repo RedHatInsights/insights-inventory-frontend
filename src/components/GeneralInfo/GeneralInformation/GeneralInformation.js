@@ -60,7 +60,7 @@ class GeneralInformation extends Component {
     };
 
     componentDidMount() {
-        this.props.loadSystemDetail && this.props.loadSystemDetail(this.props.entity.id);
+        this.props.loadSystemDetail && this.props.loadSystemDetail(this.props.inventoryId);
     };
 
     render() {
@@ -160,7 +160,8 @@ GeneralInformation.propTypes = {
     CollectionCardWrapper: PropTypes.oneOfType([PropTypes.elementType, PropTypes.bool]),
     children: PropTypes.node,
     history: PropTypes.any,
-    location: PropTypes.any
+    location: PropTypes.any,
+    inventoryId: PropTypes.string.isRequired
 };
 GeneralInformation.defaultProps = {
     entity: {},

@@ -58,11 +58,12 @@ const InventoryDetail = ({
             {...headerProps}
         />
         }
-        {loaded && entity && appList.length > 1 && (
+        {appList.length > 1 && (
             <ApplicationDetails
                 onTabSelect={onTabSelect}
                 activeApp={activeApp}
                 appList={appList}
+                inventoryId={inventoryId}
             />
         )}
     </div>;

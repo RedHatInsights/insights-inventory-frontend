@@ -1,13 +1,14 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useStore } from 'react-redux';
 import { Tabs, Tab, Spinner, TabContent } from '@patternfly/react-core';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
  * @param {*} props onTabSelect can be used to notify parent component that detail has been selected.
  */
-const ApplicationDetails = ({ onTabSelect, appList, activeApp, ...props }) => {
+const ApplicationDetails = ({ onTabSelect, appList, activeApp, inventoryId, ...props }) => {
+    const store = useStore();
     const items = useSelector(({ entityDetails }) => {
         return (entityDetails?.activeApps || appList || [])
         .filter(({ isVisible }) => isVisible !== false)
@@ -70,7 +71,10 @@ const ApplicationDetails = ({ onTabSelect, appList, activeApp, ...props }) => {
                         >
                             {item.name === currentApp && <Suspense fallback={Spinner}>
                                 <section className='pf-c-page__main-section'>
-                                    <Cmp/>
+                                    <Cmp
+                                        inventoryId={inventoryId}
+                                        store={store}
+                                    />
                                 </section>
                             </Suspense>}
                         </TabContent>
@@ -88,7 +92,8 @@ ApplicationDetails.propTypes = {
         pageId: PropTypes.string
     })),
     onTabSelect: PropTypes.func,
-    activeApp: PropTypes.string
+    activeApp: PropTypes.string.isRequired,
+    inventoryId: PropTypes.string.isRequired
 };
 
 export default ApplicationDetails;
