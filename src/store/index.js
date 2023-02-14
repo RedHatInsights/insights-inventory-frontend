@@ -15,9 +15,11 @@ const appReducers = {
     ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
 };
 
+const composeEnhancers = IS_DEV ? (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose) : compose;
+
 export const getStore = (...middleware) => {
     middlewareListener = new MiddlewareListener();
-    return createStore(combineReducers(appReducers), {}, compose(applyMiddleware(...[
+    return createStore(combineReducers(appReducers), {}, composeEnhancers(applyMiddleware(...[
         middlewareListener.getMiddleware(),
         promise,
         notificationsMiddleware({

@@ -11,6 +11,7 @@ import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-uti
 import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import entitiesReducer, { defaultState as entitiesDefault } from './entities';
 import entityDetailsReducer, { entityDefaultState as entityDefault, updateEntity } from './entityDetails';
+import groups from './groups';
 
 export { entitiesReducer, entityDetailsReducer };
 
@@ -112,7 +113,8 @@ function onSetPagination(state, { payload }) {
 
 let reducers = {
     notifications: notificationsReducer,
-    systemProfileStore
+    systemProfileStore,
+    groups
 };
 
 export const tableReducer = applyReducerHash(
