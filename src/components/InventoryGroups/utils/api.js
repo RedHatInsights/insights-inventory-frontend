@@ -1,8 +1,9 @@
 import { instance } from '@redhat-cloud-services/frontend-components-utilities/interceptors/interceptors';
 import { INVENTORY_API_BASE } from '../../../api';
+import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
 
-export const getGroups = (search = {}, pagination = { page: 1, perPage: 20 }) => {
+export const getGroups = (search = {}, pagination = { page: 1, perPage: TABLE_DEFAULT_PAGINATION }) => {
     const parameters = new URLSearchParams({
         ...search,
         ...pagination
