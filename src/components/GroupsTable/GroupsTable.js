@@ -15,7 +15,7 @@ import {
 } from '@redhat-cloud-services/frontend-components';
 import debounce from 'lodash/debounce';
 import upperCase from 'lodash/upperCase';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TABLE_DEFAULT_PAGINATION } from '../../constants';
