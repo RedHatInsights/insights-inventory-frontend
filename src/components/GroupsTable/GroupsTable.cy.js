@@ -20,6 +20,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import fixtures from '../../../cypress/fixtures/groups.json';
+import { groupsInterceptors as interceptors } from '../../../cypress/support/interceptors';
 import { getStore } from '../../store';
 import GroupsTable from './GroupsTable';
 
@@ -31,29 +32,6 @@ const ORDER_TO_URL = {
 const DEFAULT_ROW_COUNT = 50;
 const TABLE_HEADERS = ['Name', 'Total systems', 'Last modified'];
 const ROOT = 'div[id="groups-table"]';
-
-const interceptors = {
-    'successful with some items': () =>
-        cy.intercept('GET', '/api/inventory/v1/groups*', fixtures).as('getGroups'),
-    'successful empty': () =>
-        cy
-        .intercept('GET', '/api/inventory/v1/groups*', {
-            count: 0,
-            page: 1,
-            per_page: DEFAULT_ROW_COUNT,
-            total: 0
-        })
-        .as('getGroups'),
-    'failed with server error': () =>
-    {
-        Cypress.on('uncaught:exception', (err, runnable) => {
-            return false;
-        });
-        cy
-        .intercept('GET', '/api/inventory/v1/groups*', { statusCode: 500 })
-        .as('getGroups');
-    }
-};
 
 const mountTable = () =>
     mount(
