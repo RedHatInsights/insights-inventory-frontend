@@ -60,7 +60,7 @@ class GeneralInformation extends Component {
     };
 
     componentDidMount() {
-        this.props.loadSystemDetail && this.props.loadSystemDetail(this.props.inventoryId);
+        this.props.loadSystemDetail?.(this.props.inventoryId || this.props.entity.id);
     };
 
     render() {

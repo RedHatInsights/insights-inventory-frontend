@@ -28,7 +28,7 @@ const DetailWrapper = ({ children, hideInvLink, showTags, Wrapper, className, ha
         if (!entity || !(entity?.id === inventoryId) || !loaded) {
             dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
         }
-    }, []);
+    }, [entity, inventoryId, loaded]);
 
     return <Drawer
         className={`ins-c-inventory__drawer ${className || ''}`}

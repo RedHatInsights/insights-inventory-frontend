@@ -45,6 +45,24 @@ const appList = [
     }
 ];
 
+const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
+    <Breadcrumb ouiaId="systems-list">
+        <BreadcrumbItem>
+            <Link to={routes.table}>Inventory</Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem isActive>
+            <div className="ins-c-inventory__detail--breadcrumb-name">
+                {
+                    entity ?
+                        entity.display_name :
+                        entityLoaded !== true ?
+                            <Skeleton size={SkeletonSize.xs} /> : inventoryId
+                }
+            </div>
+        </BreadcrumbItem>
+    </Breadcrumb>
+);
+
 const Inventory = () => {
     const chrome = useChrome();
     const { inventoryId } = useParams();
@@ -83,23 +101,7 @@ const Inventory = () => {
         history.push({
             search
         });
-    }, []);
-
-    const BreadcrumbWrapper = (<Breadcrumb ouiaId="systems-list">
-        <BreadcrumbItem>
-            <Link to={routes.table}>Inventory</Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem isActive>
-            <div className="ins-c-inventory__detail--breadcrumb-name">
-                {
-                    entity ?
-                        entity.display_name :
-                        entityLoaded !== true ?
-                            <Skeleton size={SkeletonSize.xs} /> : inventoryId
-                }
-            </div>
-        </BreadcrumbItem>
-    </Breadcrumb>);
+    }, [searchParams]);
 
     return (
         <InventoryDetail
@@ -115,12 +117,20 @@ const Inventory = () => {
             history={history}
             isInventoryApp
             shouldWrapAsPage
-            BreadcrumbWrapper={BreadcrumbWrapper}
+            BreadcrumbWrapper={
+                <BreadcrumbWrapper entity={entity} entityLoaded={entityLoaded} inventoryId={inventoryId}/>
+            }
             activeApp={activeApp}
             appList={appList}
             onTabSelect={onTabSelect}
         />
     );
+};
+
+BreadcrumbWrapper.propTypes = {
+    entity: PropTypes.object,
+    entityLoaded: PropTypes.bool,
+    inventoryId: PropTypes.string
 };
 
 Inventory.contextTypes = {

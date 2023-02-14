@@ -9,63 +9,31 @@ import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
 import { PageHeader } from '@redhat-cloud-services/frontend-components';
 import classnames from 'classnames';
 
-const DetailHeader = ({
-    entity,
-    hideInvLink,
-    loaded,
-    addNotification,
-    deleteEntity,
-    onBackToListClick,
-    actions,
-    UUIDWrapper,
-    LastSeenWrapper,
-    children,
-    showInventoryDrawer,
-    shouldWrapAsPage,
-    BreadcrumbWrapper,
-    additionalClasses,
-    showDelete,
-    showTags,
-    TitleWrapper,
-    TagsWrapper,
-    DeleteWrapper,
-    ActionsWrapper
-}) => {
-    const HeaderInfo = (<Fragment>
-        <TopBar
-            entity={entity}
-            loaded={loaded}
-            onBackToListClick={onBackToListClick}
-            actions={actions}
-            deleteEntity={deleteEntity}
-            addNotification={addNotification}
-            hideInvLink={hideInvLink}
-            showInventoryDrawer={showInventoryDrawer}
-            showDelete={showDelete}
-            showTags={showTags}
-            TitleWrapper={TitleWrapper}
-            TagsWrapper={TagsWrapper}
-            DeleteWrapper={DeleteWrapper}
-            ActionsWrapper={ActionsWrapper}
-        />
-        <FactsInfo
-            loaded={loaded}
-            entity={entity}
-            UUIDWrapper={UUIDWrapper}
-            LastSeenWrapper={LastSeenWrapper}
-        />
-        {(loaded && verifyCulledInsightsClient(entity?.per_reporter_staleness)) && <InsightsPrompt />}
-        {children}
-    </Fragment>);
+const HeaderInfo = ({ entity, loaded, UUIDWrapper, LastSeenWrapper, children, ...props }) => (<Fragment>
+    <TopBar
+        entity={entity}
+        loaded={loaded}
+        {...props}
+    />
+    <FactsInfo
+        loaded={loaded}
+        entity={entity}
+        UUIDWrapper={UUIDWrapper}
+        LastSeenWrapper={LastSeenWrapper}
+    />
+    {(loaded && verifyCulledInsightsClient(entity?.per_reporter_staleness)) && <InsightsPrompt />}
+    {children}
+</Fragment>);
 
+const DetailHeader = ({ shouldWrapAsPage, BreadcrumbWrapper, additionalClasses, ...props }) => {
     return (shouldWrapAsPage ?
         (<PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
             {BreadcrumbWrapper}
-            {HeaderInfo}
+            <HeaderInfo {...props} />
         </PageHeader>) : HeaderInfo);
 };
 
-DetailHeader.propTypes = {
+HeaderInfo.propTypes = {
     hideInvLink: PropTypes.bool,
     showTags: PropTypes.bool,
     showDelete: PropTypes.bool,
@@ -83,14 +51,16 @@ DetailHeader.propTypes = {
     TagsWrapper: PropTypes.elementType,
     DeleteWrapper: PropTypes.elementType,
     ActionsWrapper: PropTypes.elementType,
-    BreadcrumbWrapper: PropTypes.elementType,
     inventoryId: PropTypes.string,
-    shouldWrapAsPage: PropTypes.bool,
-    additionalClasses: PropTypes.object,
+    deleteEntity: PropTypes.func,
     entity: PropTypes.object,
     loaded: PropTypes.bool,
-    addNotification: PropTypes.func,
-    deleteEntity: PropTypes.func
+    addNotification: PropTypes.func
+};
+DetailHeader.propTypes = {
+    BreadcrumbWrapper: PropTypes.elementType,
+    shouldWrapAsPage: PropTypes.bool,
+    additionalClasses: PropTypes.object
 };
 
 export default DetailHeader;
