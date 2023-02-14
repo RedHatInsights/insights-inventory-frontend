@@ -8,30 +8,12 @@ import {
     validateGroupName
 } from '../utils/api';
 import { useDispatch } from 'react-redux';
-import debounce  from 'lodash/debounce';
-
-const asyncGroupNameValidation = debounce(async (value = '') => {
-    // do not fire validation request for empty name
-    if (value.length === 0) {
-        return undefined;
-    }
-
-    //api call to check that the name is valid and unique
-    const resp = await validateGroupName(value);
-    if (resp?.data?.isValid) {
-    // async validator has to throw error, not return it
-        throw 'Group name already exists';
-    }
-}, 800);
-
-const validatorMapper = {
-    groupName: () => asyncGroupNameValidation
-};
+import awesomeDebouncePromise from 'awesome-debounce-promise';
 
 const CreateGroupModal = ({
+    isModalOpen,
     setIsModalOpen,
-    reloadData,
-    isOpen
+    reloadData
 }) => {
     const dispatch = useDispatch();
 
@@ -46,14 +28,14 @@ const CreateGroupModal = ({
             };
             return apiWithToast(dispatch, () => createGroup(values), statusMessages);
         },
-        [setIsModalOpen]
+        [isModalOpen]
     );
 
     const schema = useMemo(() => {
         const check = async (value) => {
             const results = await validateGroupName(value);
             if (results === true) {
-                throw 'error';
+                throw 'Group name already exists';
             }
 
             return undefined;
@@ -67,14 +49,13 @@ const CreateGroupModal = ({
     return (
         <Modal
             data-testid="create-group-modal"
-            isOpen={isOpen}
+            isModalOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
             title="Create group"
             submitLabel="Create"
             schema={schema}
             reloadData={reloadData}
             onSubmit={handleCreateGroup}
-            validatorMapper={validatorMapper}
         />
     );
 };

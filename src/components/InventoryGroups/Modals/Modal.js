@@ -6,7 +6,7 @@ import componentMapper from '@data-driven-forms/pf4-component-mapper/component-m
 import PropTypes from 'prop-types';
 
 const RepoModal = ({
-    isOpen,
+    isModalOpen,
     title,
     titleIconVariant,
     closeModal,
@@ -16,8 +16,7 @@ const RepoModal = ({
     variant,
     reloadData,
     size,
-    onSubmit,
-    validatorMapper
+    onSubmit
 }) => {
     return (
         <Modal
@@ -25,12 +24,11 @@ const RepoModal = ({
             variant={size ?? 'small'}
             title={title}
             titleIconVariant={titleIconVariant ?? null}
-            isOpen={isOpen}
+            isOpen={isModalOpen}
             onClose={closeModal}
         >
             <FormRenderer
                 schema={schema}
-                validatorMapper={validatorMapper}
                 FormTemplate={(props) => (
                     <FormTemplate
                         {...props}
@@ -56,7 +54,7 @@ const RepoModal = ({
 };
 
 RepoModal.propTypes = {
-    isOpen: PropTypes.bool,
+    isModalOpen: PropTypes.bool,
     title: PropTypes.string,
     closeModal: PropTypes.func,
     reloadData: PropTypes.func,

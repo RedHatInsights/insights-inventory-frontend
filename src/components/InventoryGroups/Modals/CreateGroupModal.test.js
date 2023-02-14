@@ -12,7 +12,7 @@ describe('CreateGroupModal', () => {
         render(
             <MemoryRouter>
                 <Provider store={getStore()}>
-                    <CreateGroupModal isOpen={true} reloadData={() => console.log('data reloaded')}/>
+                    <CreateGroupModal isModalOpen={true} reloadData={() => console.log('data reloaded')}/>
                 </Provider>
             </MemoryRouter>
         );
