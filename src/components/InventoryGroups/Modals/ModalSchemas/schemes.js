@@ -2,7 +2,7 @@ import validatorTypes from '@data-driven-forms/react-form-renderer/validator-typ
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import { nameValidator } from '../../helpers/validate';
 
-export const createGroupSchema = {
+export const createGroupSchema = (namePresenceValidator) => ({
     fields: [
         {
             component: componentTypes.TEXT_FIELD,
@@ -14,11 +14,11 @@ export const createGroupSchema = {
             autoFocus: true,
             validate: [
                 // async validator has to be first in the list
-                { type: 'groupName' },
+                namePresenceValidator,
                 { type: validatorTypes.REQUIRED },
                 { type: validatorTypes.MAX_LENGTH, threshold: 50 },
                 nameValidator
             ]
         }
     ]
-};
+});

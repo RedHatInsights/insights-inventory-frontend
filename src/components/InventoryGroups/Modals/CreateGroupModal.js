@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { createGroupSchema } from './ModalSchemas/schemes';
 import Modal from './Modal';
@@ -49,6 +49,21 @@ const CreateGroupModal = ({
         [setIsModalOpen]
     );
 
+    const schema = useMemo(() => {
+        const check = async (value) => {
+            const results = await validateGroupName(value);
+            if (results === true) {
+                throw 'error';
+            }
+
+            return undefined;
+        };
+
+        // eslint-disable-next-line new-cap
+        const d = awesomeDebouncePromise(check, 500, { onlyResolvesLast: false });
+        return createGroupSchema(d);
+    }, []);
+
     return (
         <Modal
             data-testid="create-group-modal"
@@ -56,7 +71,7 @@ const CreateGroupModal = ({
             closeModal={() => setIsModalOpen(false)}
             title="Create group"
             submitLabel="Create"
-            schema={createGroupSchema}
+            schema={schema}
             reloadData={reloadData}
             onSubmit={handleCreateGroup}
             validatorMapper={validatorMapper}

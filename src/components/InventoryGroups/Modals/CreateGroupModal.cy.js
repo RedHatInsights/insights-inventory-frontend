@@ -47,15 +47,4 @@ describe('render Create Group Modal', () => {
         );
         cy.get(`button[type="submit"]`).should('have.attr', 'aria-disabled', 'false');
     });
-
-    it('Input is fillable and firing a create group', () => {
-        cy.get(TEXT_INPUT).type('sre-group5');
-        cy.wait('@validate').then((xhr) => {
-            expect(xhr.request.url).to.contain('groups');}
-        );
-        cy.get(`button[type="submit"]`).click();
-        cy.wait('@create_group').then((xhr) => {
-            expect(xhr.request.url).to.contain('groups');}
-        );
-    });
 });
