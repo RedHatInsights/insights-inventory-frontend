@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import { TABLE_DEFAULT_PAGINATION } from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
 import { generateLoadingRows } from '../InventoryTable/helpers';
-import NoSystemsTable from '../InventoryTable/NoSystemsTable';
+import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 
 const GROUPS_TABLE_INITIAL_STATE = {
     perPage: TABLE_DEFAULT_PAGINATION,
@@ -115,6 +115,8 @@ const GroupsTable = () => {
         }
     ];
 
+    const onResetFilters = () => setFilters(GROUPS_TABLE_INITIAL_STATE);
+
     const activeFiltersConfig = {
         showDeleteButton: !!filters.hostname_or_id,
         deleteTitle: 'Reset filters',
@@ -129,7 +131,7 @@ const GroupsTable = () => {
             ]
             : [],
         // always reset to initial filters since there is only one filter currently
-        onDelete: () => setFilters(GROUPS_TABLE_INITIAL_STATE)
+        onDelete: onResetFilters
     };
 
     const onSetPage = (event, page) => setFilters({ ...filters, page });
@@ -151,9 +153,8 @@ const GroupsTable = () => {
                     isCompact: true,
                     ouiaId: 'pager',
                     isDisabled: rejected
-
                 }}
-                filterConfig={{ items: filterConfigItems  }}
+                filterConfig={{ items: filterConfigItems }}
                 activeFiltersConfig={activeFiltersConfig}
             />
             <Table
@@ -165,13 +166,20 @@ const GroupsTable = () => {
                 rows={
                     uninitialized || loading
                         ? generateLoadingRows(GROUPS_TABLE_COLUMNS.length, filters.perPage)
-                        : (rejected || rows.length === 0)
+                        : rejected || rows.length === 0
                             ? [
                                 {
                                     fullWidth: true,
                                     cells: [
                                         {
-                                            title: rejected ? <ErrorState /> : <NoSystemsTable />,
+                                            title: rejected ? (
+                                                <ErrorState />
+                                            ) : (
+                                                <NoEntitiesFound
+                                                    entities="groups"
+                                                    onClearAll={onResetFilters}
+                                                />
+                                            ),
                                             props: {
                                                 colSpan: GROUPS_TABLE_COLUMNS.length + 1
                                             }

@@ -197,7 +197,7 @@ describe('edge cases', () => {
         mountTable();
 
         cy.wait('@getGroups').then(() => {
-            checkEmptyState('No matching systems found');
+            checkEmptyState('No matching groups found', true);
             checkPaginationTotal(0);
         });
     });
