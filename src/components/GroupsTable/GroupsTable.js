@@ -1,5 +1,9 @@
 /* eslint-disable camelcase */
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import {
+    Pagination,
+    PaginationVariant,
+    SearchInput
+} from '@patternfly/react-core';
 import {
     cellWidth,
     sortable,
@@ -103,14 +107,29 @@ const GroupsTable = () => {
 
     const filterConfigItems = [
         {
+            type: 'custom',
             label: 'Name',
             filterValues: {
-                key: 'name-filter',
-                onChange: (event, value) =>
-                    setFilters({ ...filters, hostname_or_id: value }),
-                value: filters.hostname_or_id,
-                placeholder: 'Filter by name',
-                isDisabled: rejected
+                children: (
+                    <SearchInput
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-component-id="name-filter"
+                        placeholder="Filter by name"
+                        value={filters.hostname_or_id || ''}
+                        onChange={(value) => {
+                            const { hostname_or_id, ...fs } = filters;
+                            return setFilters({
+                                ...fs,
+                                ...(value.length > 0 ? { hostname_or_id: value } : {})
+                            });
+                        }}
+                        onClear={() => {
+                            const { hostname_or_id, ...fs } = filters;
+                            return setFilters(fs);
+                        }}
+                        isDisabled={rejected}
+                    />
+                )
             }
         }
     ];

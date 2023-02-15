@@ -209,7 +209,7 @@ describe('edge cases', () => {
         cy.wait('@getGroups').then(() => {
             cy.get('.pf-c-empty-state').find('h4').contains('Something went wrong');
             // the filter is disabled
-            cy.ouiaId('ConditionalFilter').should('have.attr', 'disabled');
+            cy.ouiaId('name-filter').find('input').should('have.attr', 'disabled');
             cy.ouiaId('pager').find('button').should('have.attr', 'disabled');
         });
     });
