@@ -192,6 +192,7 @@ const GroupsTable = () => {
                                     cells: [
                                         {
                                             title: rejected ? (
+                                                // TODO: don't render the primary button (requires change in FF)
                                                 <ErrorState />
                                             ) : (
                                                 <NoEntitiesFound
