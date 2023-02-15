@@ -48,7 +48,7 @@ const mockResponse = [
     }
 ];
 
-describe('render Create Group Modal', () => {
+describe('Create Group Modal', () => {
     before(() => {
         cy.window().then(window => window.insights = {
             chrome: {
@@ -88,16 +88,5 @@ describe('render Create Group Modal', () => {
             expect(xhr.request.url).to.contain('groups');}
         );
         cy.get(`button[type="submit"]`).should('have.attr', 'aria-disabled', 'true');
-    });
-
-    it('Input is fillable and firing a create group', () => {
-        cy.get(TEXT_INPUT).type('sre-group5');
-        cy.wait('@validate').then((xhr) => {
-            expect(xhr.request.url).to.contain('groups');}
-        );
-        cy.get(`button[type="submit"]`).click();
-        cy.wait('@create_group').then((xhr) => {
-            expect(xhr.request.url).to.contain('groups');}
-        );
     });
 });

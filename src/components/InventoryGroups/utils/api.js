@@ -11,7 +11,7 @@ export const createGroup = (payload) => {
 
 export const validateGroupName = (name) => {
     return instance.get(`${INVENTORY_API_BASE}/groups`)
-    .then((resp) => resp[0]?.results.some((group) => group.name === name));
+    .then((resp) => resp?.results.some((group) => group.name === name));
 };
 
 export const getGroups = () => {
