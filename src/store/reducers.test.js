@@ -1,5 +1,5 @@
 import { INVENTORY_ACTION_TYPES } from './action-types';
-import { tableReducer, entitesDetailReducer } from './index';
+import { tableReducer, entitesDetailReducer } from './reducers';
 
 describe('tableReducer', () => {
     test('should show default state', () => {
