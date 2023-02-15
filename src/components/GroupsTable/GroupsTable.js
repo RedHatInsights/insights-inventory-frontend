@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import {
-    fitContent,
+    cellWidth,
     sortable,
     Table,
     TableBody,
@@ -31,15 +31,15 @@ const GROUPS_TABLE_INITIAL_STATE = {
 const GROUPS_TABLE_COLUMNS = [
     {
         title: 'Name',
-        transforms: [sortable]
+        transforms: [sortable, cellWidth(40)]
     },
     {
         title: 'Total systems',
-        transforms: [sortable, fitContent]
+        transforms: [sortable, cellWidth(20)]
     },
     {
         title: 'Last modified',
-        transforms: [sortable, fitContent]
+        transforms: [sortable, cellWidth(20)]
     }
 ];
 
