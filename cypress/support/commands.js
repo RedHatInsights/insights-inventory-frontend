@@ -13,7 +13,7 @@
 // Cypress.Commands.add('login', (email, password) => { ... })
 //
 //
-// -- This is a child command --
+// -- This iws a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
 //
 //
@@ -23,22 +23,3 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
-Cypress.Commands.add(
-    'ouiaId',
-    { prevSubject: 'optional' },
-    (subject, item, el = '') => {
-        const attr = `${el}[data-ouia-component-id="${item}"]`;
-        return subject ? cy.wrap(subject).find(attr) : cy.get(attr);
-    }
-);
-
-Cypress.Commands.add(
-    'ouiaType',
-    { prevSubject: 'optional' },
-    (subject, item, el = '') => {
-        const attr = `${el}[data-ouia-component-type="${item}"]`;
-        return subject ? cy.wrap(subject).find(attr) : cy.get(attr);
-    }
-);
-
