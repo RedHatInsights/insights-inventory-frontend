@@ -29,8 +29,8 @@ const DetailHeader = ({ shouldWrapAsPage, BreadcrumbWrapper, additionalClasses, 
     return (shouldWrapAsPage ?
         (<PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
             {BreadcrumbWrapper}
-            <HeaderInfo {...props} />
-        </PageHeader>) : HeaderInfo);
+            <HeaderInfo {...props}/>
+        </PageHeader>) : <HeaderInfo  {...props} />);
 };
 
 HeaderInfo.propTypes = {

@@ -25,10 +25,10 @@ const DetailWrapper = ({ children, hideInvLink, showTags, Wrapper, className, ha
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
 
     useEffect(() => {
-        if (!entity || !(entity?.id === inventoryId) || !loaded) {
+        if (inventoryId && !entity || !(entity?.id === inventoryId)) {
             dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
         }
-    }, [entity, inventoryId, loaded]);
+    }, [entity, inventoryId]);
 
     return <Drawer
         className={`ins-c-inventory__drawer ${className || ''}`}
