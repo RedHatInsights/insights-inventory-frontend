@@ -105,34 +105,37 @@ const GroupsTable = () => {
         setFilters({ ...filters, sortIndex: index, sortDirection: direction });
     };
 
-    const filterConfigItems = [
-        {
-            type: 'custom',
-            label: 'Name',
-            filterValues: {
-                children: (
-                    <SearchInput
-                        data-ouia-component-type="PF4/TextInput"
-                        data-ouia-component-id="name-filter"
-                        placeholder="Filter by name"
-                        value={filters.hostname_or_id || ''}
-                        onChange={(value) => {
-                            const { hostname_or_id, ...fs } = filters;
-                            return setFilters({
-                                ...fs,
-                                ...(value.length > 0 ? { hostname_or_id: value } : {})
-                            });
-                        }}
-                        onClear={() => {
-                            const { hostname_or_id, ...fs } = filters;
-                            return setFilters(fs);
-                        }}
-                        isDisabled={rejected}
-                    />
-                )
+    const filterConfigItems = useMemo(
+        () => [
+            {
+                type: 'custom',
+                label: 'Name',
+                filterValues: {
+                    children: (
+                        <SearchInput
+                            data-ouia-component-type="PF4/TextInput"
+                            data-ouia-component-id="name-filter"
+                            placeholder="Filter by name"
+                            value={filters.hostname_or_id || ''}
+                            onChange={(value) => {
+                                const { hostname_or_id, ...fs } = filters;
+                                return setFilters({
+                                    ...fs,
+                                    ...(value.length > 0 ? { hostname_or_id: value } : {})
+                                });
+                            }}
+                            onClear={() => {
+                                const { hostname_or_id, ...fs } = filters;
+                                return setFilters(fs);
+                            }}
+                            isDisabled={rejected}
+                        />
+                    )
+                }
             }
-        }
-    ];
+        ],
+        [filters.hostname_or_id, rejected]
+    );
 
     const onResetFilters = () => setFilters(GROUPS_TABLE_INITIAL_STATE);
 
