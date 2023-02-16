@@ -4,7 +4,7 @@ import validatorTypes from '@data-driven-forms/react-form-renderer/validator-typ
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import Modal from './Modal';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
-import { validateGroupName } from '../utils/api';
+import { validateGroupName, updateGroupById } from '../utils/api';
 import { nameValidator } from '../helpers/validate';
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
@@ -30,11 +30,11 @@ const renameGroupSchema = (namePresenceValidator) => ({
 
 const RenameGroupModal = ({
     isModalOpen,
-    setIsModalOpen
-    //reloadData a way to reload data after renaming
-    //modalState we receive the id from the table component
+    setIsModalOpen,
+    modalState = { id: '1', name: 'name' }
+    //remove default values for modalState when you connect it to the table
 }) => {
-    /* const { id, name } = modalState; */
+    const { id, name } = modalState;
     const dispatch = useDispatch();
 
     const handleRenameModal = (values) => {
@@ -45,8 +45,7 @@ const RenameGroupModal = ({
             },
             onError: { title: 'Error', description: 'Failed to rename group' }
         };
-        /* apiWithToast(dispatch, () => updateGroupById(id, values), statusMessages); */
-        apiWithToast(dispatch, () => console.log('notification dispatched'), statusMessages);
+        apiWithToast(dispatch, () => updateGroupById(id, values), statusMessages);
     };
 
     const schema = useMemo(() => {
@@ -73,7 +72,6 @@ const RenameGroupModal = ({
             schema={schema}
             //initialValues={modalState}
             onSubmit={handleRenameModal}
-            //reloadData={reloadData}
         />
     );
 };
@@ -82,7 +80,7 @@ RenameGroupModal.propTypes = {
     id: PropTypes.number,
     modalState: PropTypes.object,
     isModalOpen: PropTypes.bool,
-    setIsModalOpen: PropTypes.func,
-    reloadData: PropTypes.func
+    setIsModalOpen: PropTypes.func
 };
+
 export default RenameGroupModal;

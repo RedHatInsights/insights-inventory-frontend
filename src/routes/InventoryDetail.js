@@ -23,7 +23,6 @@ import {
     RosTab
 } from '../components/SystemDetails';
 import { detailSelect } from '../store/actions';
-import RenameGroupModal from '../components/InventoryGroups/Modals/RenameGroupModal';
 
 const activeApps = [
     { title: 'General information', name: 'general_information', component: GeneralInformationTab },
@@ -94,7 +93,6 @@ const Inventory = () => {
             store={store}
             history={history}
         >
-            <RenameGroupModal isModalOpen={true}/>
             <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
                 <Breadcrumb ouiaId="systems-list">
                     <BreadcrumbItem>

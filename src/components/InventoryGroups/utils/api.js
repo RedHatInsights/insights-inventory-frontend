@@ -25,6 +25,13 @@ export const validateGroupName = (name) => {
     .then((resp) => resp?.results.some((group) => group.name === name));
 };
 
+export const updateGroupById = (id, payload) => {
+    return instance.put(`${INVENTORY_API_BASE}/groups/${id}`, {
+        Name: payload.name,
+        Type: 'static'
+    });
+};
+
 getGroups.propTypes = {
     search: PropTypes.shape({
     // eslint-disable-next-line camelcase
