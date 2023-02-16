@@ -43,6 +43,7 @@ import {
     updateMethodFilterState
 } from '../filters';
 import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -100,6 +101,8 @@ const EntityTableToolbar = ({
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
     const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
 
+    const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
+
     const {
         tagsFilter,
         tagsChip,
@@ -127,7 +130,10 @@ const EntityTableToolbar = ({
         operatingSystem: !(hideFilters.all && hideFilters.operatingSystem !== false) && !hideFilters.operatingSystem,
         tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags,
         rhcdFilter: !(hideFilters.all && hideFilters.rhcdFilter !== false) && !hideFilters.rhcdFilter,
-        updateMethodFilter: !(hideFilters.all && hideFilters.updateMethodFilter !== false) && !hideFilters.updateMethodFilter
+        //hides the filter untill API is ready. JIRA: RHIF-169
+        updateMethodFilter: isUpdateMethodEnabled &&
+            !(hideFilters.all && hideFilters.updateMethodFilter !== false)
+                && !hideFilters.updateMethodFilter
     };
 
     /**

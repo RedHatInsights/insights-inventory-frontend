@@ -12,6 +12,19 @@ export const getGroups = (search = {}, pagination = { page: 1, perPage: TABLE_DE
     return instance.get(`${INVENTORY_API_BASE}/groups?${parameters}` /* , { headers: { Prefer: 'code=404' } } */);
 };
 
+export const createGroup = (payload) => {
+    return instance.post(`${INVENTORY_API_BASE}/groups`, {
+        name: payload.name,
+        // eslint-disable-next-line camelcase
+        host_ids: []
+    });
+};
+
+export const validateGroupName = (name) => {
+    return instance.get(`${INVENTORY_API_BASE}/groups`)
+    .then((resp) => resp?.results.some((group) => group.name === name));
+};
+
 getGroups.propTypes = {
     search: PropTypes.shape({
     // eslint-disable-next-line camelcase

@@ -36,6 +36,7 @@ jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
         on: jest.fn()
     })
 }));
+jest.mock('../Utilities/useFeatureFlag');
 
 describe('InventoryTable', () => {
     let mockStore;

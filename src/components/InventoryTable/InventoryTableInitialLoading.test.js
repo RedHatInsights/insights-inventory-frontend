@@ -16,6 +16,7 @@ import debounce from 'lodash/debounce';
 import { mockSystemProfile } from '../../__mocks__/hostApi';
 
 jest.mock('lodash/debounce');
+jest.mock('../../Utilities/useFeatureFlag');
 
 describe('InventoryTable - initial loading', () => {
     let initialState;
