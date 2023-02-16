@@ -161,6 +161,36 @@ const GroupsTable = () => {
     const onPerPageSelect = (event, perPage) =>
         setFilters({ ...filters, perPage, page: 1 }); // will also reset the page to first
 
+    const tableRows = useMemo(
+        () =>
+            uninitialized || loading
+                ? generateLoadingRows(GROUPS_TABLE_COLUMNS.length, filters.perPage)
+                : rejected || rows.length === 0
+                    ? [
+                        {
+                            fullWidth: true,
+                            cells: [
+                                {
+                                    title: rejected ? (
+                                        // TODO: don't render the primary button (requires change in FF)
+                                        <ErrorState />
+                                    ) : (
+                                        <NoEntitiesFound
+                                            entities="groups"
+                                            onClearAll={onResetFilters}
+                                        />
+                                    ),
+                                    props: {
+                                        colSpan: GROUPS_TABLE_COLUMNS.length + 1
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                    : rows,
+        [uninitialized, loading, rejected, rows, filters.perPage]
+    );
+
     // TODO: use ouiaSafe to indicate the loading state for e2e tests
 
     return (
@@ -185,33 +215,7 @@ const GroupsTable = () => {
                 /* ouiaSafe={!loadingState}> */
                 variant={TableVariant.compact}
                 cells={GROUPS_TABLE_COLUMNS}
-                rows={
-                    uninitialized || loading
-                        ? generateLoadingRows(GROUPS_TABLE_COLUMNS.length, filters.perPage)
-                        : rejected || rows.length === 0
-                            ? [
-                                {
-                                    fullWidth: true,
-                                    cells: [
-                                        {
-                                            title: rejected ? (
-                                                // TODO: don't render the primary button (requires change in FF)
-                                                <ErrorState />
-                                            ) : (
-                                                <NoEntitiesFound
-                                                    entities="groups"
-                                                    onClearAll={onResetFilters}
-                                                />
-                                            ),
-                                            props: {
-                                                colSpan: GROUPS_TABLE_COLUMNS.length + 1
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                            : rows
-                }
+                rows={tableRows}
                 sortBy={{
                     index: filters.sortIndex,
                     direction: filters.sortDirection
