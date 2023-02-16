@@ -127,3 +127,5 @@ export const getSearchParams = () => {
     const perPage = searchParams.getAll('per_page');
     return { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter, page, perPage };
 };
+
+export const TABLE_DEFAULT_PAGINATION = 50; // from UX table audit

@@ -64,7 +64,7 @@ describe('editAnsibleHost', () => {
 
 describe('fetchGroups', () => {
     it('should call correct endpoint', async () => {
-        mocked.onGet('/api/inventory/v1/groups').reply(() => {
+        mocked.onGet(new RegExp('/api/inventory/v1/groups*')).reply(() => {
             return [200, mockedGroups];
         });
         const { type, payload } = await fetchGroups();

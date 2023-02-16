@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import TitleColumn from './TitleColumn';
 import { Fragment } from 'react';
+import { Skeleton } from '@patternfly/react-core';
 
 export const buildCells = (item, columns, extra) => {
     return columns.map(({ key, composed, renderFunc }) => {
@@ -85,3 +86,8 @@ export const createColumns = (columns, hasItems, rows, isExpandable) => (
     }))
 );
 
+export const generateLoadingRows = (colsNumber, rowsNumber) =>
+    Array(rowsNumber).fill({
+        fullWidth: true,
+        cells: Array(colsNumber).fill({ title: <Skeleton /> })
+    });
