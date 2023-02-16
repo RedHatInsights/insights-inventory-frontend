@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.2.0...v1.3.0) (2023-02-16)
+
+
+### Features
+
+* **ESSNTL-4194:** Show groups in a table ([#1767](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1767)) ([b80c00e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/b80c00e956d40932aa42f462989ff476a7a3f9ec))
+
 # [1.2.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.1.2...v1.2.0) (2023-02-15)
 
 

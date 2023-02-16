@@ -6,6 +6,7 @@ export const initialState = {
     loading: false,
     rejected: false,
     fulfilled: false,
+    uninitialized: true,
     error: null,
     data: null
 };
@@ -15,7 +16,8 @@ export default applyReducerHash(
         [ACTION_TYPES.GROUPS_PENDING]: (state) => {
             return {
                 ...state,
-                loading: true
+                loading: true,
+                uninitialized: false
             };
         },
         [ACTION_TYPES.GROUPS_FULFILLED]: (state, { payload }) => {
@@ -23,18 +25,19 @@ export default applyReducerHash(
                 ...state,
                 loading: false,
                 rejected: false,
+                uninitialized: false,
                 fulfilled: true,
                 data: payload
             };
         },
-        [ACTION_TYPES.GROUPS_REJECTED]: (state, { payload: { code, status } }) => {
+        [ACTION_TYPES.GROUPS_REJECTED]: (state, { payload }) => {
             return {
                 ...state,
                 loading: false,
                 rejected: true,
+                uninitialized: false,
                 fulfilled: false,
-                code,
-                status
+                error: payload
             };
         }
     },

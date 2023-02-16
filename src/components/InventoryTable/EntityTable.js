@@ -11,7 +11,7 @@ import {
     TableVariant
 } from '@patternfly/react-table';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components/SkeletonTable';
-import NoSystemsTable from './NoSystemsTable';
+import NoEntitiesFound from './NoEntitiesFound';
 import { createRows, createColumns } from './helpers';
 import useColumns from './hooks/useColumns';
 
@@ -34,7 +34,7 @@ const EntityTable = ({
     expandable: isExpandable,
     onRowClick,
     noDetail,
-    noSystemsTable = <NoSystemsTable />,
+    noSystemsTable = <NoEntitiesFound />,
     showTags,
     columns: columnsProp,
     disableDefaultColumns,
