@@ -12,7 +12,11 @@ describe('CreateGroupModal', () => {
         render(
             <MemoryRouter>
                 <Provider store={getStore()}>
-                    <RenameGroupModal isModalOpen={true} />
+                    <RenameGroupModal
+                        isModalOpen={true}
+                        reloadData={() => console.log('data reloaded')}
+                        modalState={{ id: '1', name: 'sre-group' }}
+                    />
                 </Provider>
             </MemoryRouter>
         );

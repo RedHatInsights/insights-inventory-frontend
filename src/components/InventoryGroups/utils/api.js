@@ -27,8 +27,7 @@ export const validateGroupName = (name) => {
 
 export const updateGroupById = (id, payload) => {
     return instance.put(`${INVENTORY_API_BASE}/groups/${id}`, {
-        Name: payload.name,
-        Type: 'static'
+        name: payload.name
     });
 };
 

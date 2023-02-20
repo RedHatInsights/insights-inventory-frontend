@@ -14,7 +14,7 @@ const renameGroupSchema = (namePresenceValidator) => ({
         {
             component: componentTypes.TEXT_FIELD,
             name: 'name',
-            label: 'Group name',
+            label: 'Name',
             helperText:
           'Can only contain letters, numbers, spaces, hyphens ( - ), and underscores( _ ).',
             isRequired: true,
@@ -31,8 +31,8 @@ const renameGroupSchema = (namePresenceValidator) => ({
 const RenameGroupModal = ({
     isModalOpen,
     setIsModalOpen,
-    modalState = { id: '1', name: 'name' }
-    //remove default values for modalState when you connect it to the table
+    modalState,
+    reloadData
 }) => {
     const { id, name } = modalState;
     const dispatch = useDispatch();
@@ -70,8 +70,9 @@ const RenameGroupModal = ({
             title="Rename group"
             submitLabel="Save"
             schema={schema}
-            //initialValues={modalState}
+            initialValues={modalState}
             onSubmit={handleRenameModal}
+            reloadData={reloadData}
         />
     );
 };
@@ -80,7 +81,8 @@ RenameGroupModal.propTypes = {
     id: PropTypes.number,
     modalState: PropTypes.object,
     isModalOpen: PropTypes.bool,
-    setIsModalOpen: PropTypes.func
+    setIsModalOpen: PropTypes.func,
+    reloadData: PropTypes.func
 };
 
 export default RenameGroupModal;

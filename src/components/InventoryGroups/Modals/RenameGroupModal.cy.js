@@ -63,30 +63,42 @@ describe('render Rename Group Modal', () => {
     });
 
     beforeEach(() => {
-
-        cy.intercept('POST', '**/api/inventory/v1/groups', {
-            statusCode: 504
-        }).as('create_group');
         cy.intercept('GET', '**/api/inventory/v1/groups', {
             statusCode: 200, body: {
-                ...mockResponse
+                ...mockResponse[0]
             }
         }).as('validate');
+        cy.intercept('PUT', '**/api/inventory/v1/groups/1', {
+            statusCode: 200, body: {
+                ...mockResponse[0]
+            }
+        }).as('rename');
 
         mount(
             <MemoryRouter>
                 <Provider store={getStore()}>
-                    <RenameGroupModal isModalOpen={true} reloadData={() => console.log('data reloaded')}/>
+                    <RenameGroupModal
+                        isModalOpen={true}
+                        reloadData={() => console.log('data reloaded')}
+                        modalState={{ id: '1', name: 'sre-group' }}
+                    />
                 </Provider>
             </MemoryRouter>
         );
     });
 
     it('Input is fillable and firing a validation request that succeeds', () => {
-        cy.get(TEXT_INPUT).type('sre-group0');
+        cy.get(TEXT_INPUT).type('0');
         cy.wait('@validate').then((xhr) => {
             expect(xhr.request.url).to.contain('groups');}
         );
         cy.get(`button[type="submit"]`).should('have.attr', 'aria-disabled', 'true');
+    });
+
+    it('User can rename the group', () => {
+        cy.get(TEXT_INPUT).type('newname');
+        cy.get(`button[type="submit"]`).should('have.attr', 'aria-disabled', 'false');
+        cy.get(`button[type="submit"]`).click();
+        cy.wait('@rename');
     });
 });
