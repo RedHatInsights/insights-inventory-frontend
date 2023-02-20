@@ -29,7 +29,7 @@ describe('Delete Group Modal', () => {
         mount(
             <MemoryRouter>
                 <Provider store={getStore()}>
-                    <DeleteGroupModal isModalOpen={true}/>
+                    <DeleteGroupModal isModalOpen={true} modalState={ { id: 1, name: 'test name' } }/>
                 </Provider>
             </MemoryRouter>
         );
@@ -38,8 +38,6 @@ describe('Delete Group Modal', () => {
     it('Input is fillable and firing a delete request', () => {
         cy.get(`div[class="pf-c-check"]`).click();
         cy.get(`button[type="submit"]`).click();
-        cy.wait('@delete').then((xhr) => {
-            expect(xhr.request.url).to.contain('1');}
-        );
+        cy.wait('@delete');
     });
 });

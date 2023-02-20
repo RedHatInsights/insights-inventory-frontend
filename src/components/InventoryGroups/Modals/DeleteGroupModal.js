@@ -33,17 +33,13 @@ const schema = (name) => ({
     ]
 });
 
-const WarningIcon = () => (
-    <ExclamationTriangleIcon color={warningColor.value} />
-);
-
 const defaultValueToBeRemoved = () => console.log('data reloaded');
 
 const DeleteGroupModal = ({
     isModalOpen,
     setIsModalOpen,
     reloadData = defaultValueToBeRemoved,
-    modalState = { id: 1, name: 'name' }
+    modalState
 }) => {
     const { id, name } = modalState;
     const dispatch = useDispatch();
@@ -63,8 +59,8 @@ const DeleteGroupModal = ({
         <Modal
             isModalOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
-            title="Delete group"
-            titleIconVariant={WarningIcon}
+            title="Delete group?"
+            titleIconVariant={() => (<ExclamationTriangleIcon color={warningColor.value} />)}
             variant="danger"
             submitLabel="Delete"
             schema={schema(name)}
