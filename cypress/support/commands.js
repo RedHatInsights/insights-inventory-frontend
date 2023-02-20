@@ -13,7 +13,7 @@
 // Cypress.Commands.add('login', (email, password) => { ... })
 //
 //
-// -- This is a child command --
+// -- This iws a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
 //
 //

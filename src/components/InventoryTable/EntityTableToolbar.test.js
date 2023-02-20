@@ -10,8 +10,10 @@ import toJson from 'enzyme-to-json';
 import { mockTags, mockSystemProfile } from '../../__mocks__/hostApi';
 import TitleColumn from './TitleColumn';
 import debounce from 'lodash/debounce';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 jest.mock('lodash/debounce');
+jest.mock('../../Utilities/useFeatureFlag');
 
 describe('EntityTableToolbar', () => {
     let initialState;
@@ -92,6 +94,8 @@ describe('EntityTableToolbar', () => {
     });
 
     describe('DOM', () => {
+        useFeatureFlag.mockReturnValue(true);
+
         it('should render correctly - no data', () => {
             const store = mockStore({
                 entities: {
@@ -384,6 +388,18 @@ describe('EntityTableToolbar', () => {
             </Provider>);
             expect(toJson(wrapper.find('Reset Filter')));
             expect(toJson(wrapper.find('Test Reset Filter'))).toBeFalsy();
+        });
+    });
+
+    describe('System update method filter', () => {
+        it('Should hide the filter when flag is disabled', () => {
+            useFeatureFlag.mockReturnValue(false);
+            const store = mockStore(initialState);
+            const wrapper = mount(<Provider store={store}>
+                <EntityTableToolbar hasItems onRefreshData={onRefreshData} loaded
+                    activeFiltersConfig={{ deleteTitle: 'Test Reset Filters' }} />
+            </Provider>);
+            expect(toJson(wrapper.find('System Update Method'))).toBeFalsy();
         });
     });
 });

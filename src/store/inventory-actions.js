@@ -20,6 +20,7 @@ import {
     filtersReducer,
     getOperatingSystems
 } from '../api';
+import { getGroups } from '../components/InventoryGroups/utils/api';
 
 export const loadEntities = (items = [], { filters, ...config }, { showTags } = {}, getEntities = defaultGetEntities) => {
     const itemIds = items.reduce((acc, curr) => (
@@ -170,6 +171,11 @@ export const fetchAllTags = (search, pagination, getTags = defaultGetAllTags) =>
     type: ACTION_TYPES.ALL_TAGS,
     payload: getTags(search, pagination),
     meta: { lastDateRequestTags: Date.now() }
+});
+
+export const fetchGroups = (search, pagination) => ({
+    type: ACTION_TYPES.GROUPS,
+    payload: getGroups(search, pagination)
 });
 
 export const fetchOperatingSystems = (params = []) => ({

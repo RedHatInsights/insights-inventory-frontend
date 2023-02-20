@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
-import { editAnsibleHost, editDisplayName, systemProfile } from './actions';
+import { editAnsibleHost, editDisplayName, fetchGroups, systemProfile } from './actions';
 import { hosts } from '../api';
 import mockedData from '../__mocks__/mockedData.json';
+import mockedGroups from '../__mocks__/mockedGroups.json';
 import MockAdapter from 'axios-mock-adapter';
 
 const mocked = new MockAdapter(hosts.axios);
@@ -58,5 +59,16 @@ describe('editAnsibleHost', () => {
                 }
             }
         });
+    });
+});
+
+describe('fetchGroups', () => {
+    it('should call correct endpoint', async () => {
+        mocked.onGet(new RegExp('/api/inventory/v1/groups*')).reply(() => {
+            return [200, mockedGroups];
+        });
+        const { type, payload } = await fetchGroups();
+        expect(type).toBe('GROUPS');
+        expect(await payload).toEqual(mockedGroups);
     });
 });

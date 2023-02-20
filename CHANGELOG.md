@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.2.0...v1.3.0) (2023-02-16)
+
+
+### Features
+
+* **ESSNTL-4194:** Show groups in a table ([#1767](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1767)) ([b80c00e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/b80c00e956d40932aa42f462989ff476a7a3f9ec))
+
+# [1.2.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.1.2...v1.2.0) (2023-02-15)
+
+
+### Features
+
+* **inventory grops:** group name modal  ([#1755](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1755)) ([d9f1925](https://github.com/RedHatInsights/insights-inventory-frontend/commit/d9f1925e8b534ec3351a5a55dd45d17b00dd646b))
+
 ## [1.1.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.1.1...v1.1.2) (2023-02-08)
 
 ## [1.1.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.1.0...v1.1.1) (2023-02-08)
