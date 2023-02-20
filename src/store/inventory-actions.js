@@ -21,7 +21,7 @@ import {
     filtersReducer,
     getOperatingSystems
 } from '../api';
-import { getGroups } from '../components/InventoryGroups/utils/api';
+import { getGroupDetail, getGroups } from '../components/InventoryGroups/utils/api';
 
 export const loadEntities = (items = [], { filters, ...config }, { showTags } = {}, getEntities = defaultGetEntities) => {
     const itemIds = items.reduce((acc, curr) => (
@@ -182,6 +182,11 @@ export const fetchAllTags = (search, pagination, getTags = defaultGetAllTags) =>
 export const fetchGroups = (search, pagination) => ({
     type: ACTION_TYPES.GROUPS,
     payload: getGroups(search, pagination)
+});
+
+export const fetchGroupDetail = (groupId) => ({
+    type: ACTION_TYPES.GROUP_DETAIL,
+    payload: getGroupDetail(groupId)
 });
 
 export const fetchOperatingSystems = (params = []) => ({
