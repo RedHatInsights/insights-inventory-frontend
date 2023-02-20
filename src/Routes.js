@@ -9,12 +9,14 @@ import useFeatureFlag from './Utilities/useFeatureFlag';
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
+const InventoryGroupDetail = lazy(() => import('./routes/InventoryGroupDetail'));
 
 export const routes = {
     table: '/',
     detail: '/:inventoryId',
     detailWithModal: '/:inventoryId/:modalId',
-    groups: '/groups'
+    groups: '/groups',
+    groupDetail: '/groups/:groupId'
 };
 
 export const Routes = () => {
@@ -51,6 +53,15 @@ export const Routes = () => {
                     }
                     rootClass="inventory"
                 />
+                <Route exact path={routes.groupDetail} component={groupsEnabled
+                    ? InventoryGroupDetail
+                    : () => (
+                        <EmptyState>
+                            <EmptyStateBody>
+                                <InvalidObject />
+                            </EmptyStateBody>
+                        </EmptyState>
+                    )} rootClass='inventory' />
                 <Route exact path={routes.detailWithModal} component={InventoryDetail} rootClass='inventory' />
                 <Route exact path={routes.detail} component={InventoryDetail} rootClass='inventory' />
                 <Redirect path="*" to="/" />
