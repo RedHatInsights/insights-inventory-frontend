@@ -25,8 +25,15 @@ export const validateGroupName = (name) => {
     .then((resp) => resp?.results.some((group) => group.name === name));
 };
 
+export const updateGroupById = (id, payload) => {
+    return instance.patch(`${INVENTORY_API_BASE}/groups/${id}`, {
+        name: payload.name
+    });
+};
+
 export const deleteGroupById = (id) => {
     return instance.delete(`${INVENTORY_API_BASE}/groups/${id}`);
+
 };
 
 getGroups.propTypes = {
