@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { getStore } from '../../../store';
+import { getStore } from '../../../../store';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
-import CreateGroupModal from './CreateGroupModal';
+import CreateGroupModal from '../CreateGroupModal';
 
 describe('CreateGroupModal', () => {
     it('renders correctly', () => {

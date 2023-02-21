@@ -25,6 +25,10 @@ export const validateGroupName = (name) => {
     .then((resp) => resp?.results.some((group) => group.name === name));
 };
 
+export const deleteGroupById = (id) => {
+    return instance.delete(`${INVENTORY_API_BASE}/groups/${id}`);
+};
+
 getGroups.propTypes = {
     search: PropTypes.shape({
     // eslint-disable-next-line camelcase
