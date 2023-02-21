@@ -68,7 +68,7 @@ describe('render Rename Group Modal', () => {
                 ...mockResponse[0]
             }
         }).as('validate');
-        cy.intercept('PUT', '**/api/inventory/v1/groups/1', {
+        cy.intercept('PATCH', '**/api/inventory/v1/groups/1', {
             statusCode: 200, body: {
                 ...mockResponse[0]
             }
