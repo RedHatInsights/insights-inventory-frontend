@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../store/inventory-actions';
@@ -8,13 +7,12 @@ import { useState } from 'react';
 import GroupDetailHeader from './GroupDetailHeader';
 import GroupDetailSystems from './GroupDetailSystems';
 import GroupDetailInfo from './GroupDetailInfo';
+import PropTypes from 'prop-types';
 
-const InventoryGroupDetail = () => {
+const InventoryGroupDetail = ({ groupId }) => {
     const dispatch = useDispatch();
     const { data } = useSelector((state) => state.groupDetail);
     const chrome = useChrome();
-
-    const { groupId } = useParams();
 
     useEffect(() => {
         dispatch(fetchGroupDetail(groupId));
@@ -22,7 +20,7 @@ const InventoryGroupDetail = () => {
 
     useEffect(() => {
         // if available, change ID to the group's name in the window title
-        chrome.updateDocumentTitle(
+        chrome?.updateDocumentTitle?.(
             `${data?.name || groupId} - Inventory Groups | Red Hat Insights`
         );
     }, [data]);
@@ -31,7 +29,7 @@ const InventoryGroupDetail = () => {
 
     return (
         <React.Fragment>
-            <GroupDetailHeader />
+            <GroupDetailHeader groupId={groupId} />
             <PageSection variant='light' type='tabs'>
                 <Tabs
                     activeKey={activeTabKey}
@@ -55,6 +53,10 @@ const InventoryGroupDetail = () => {
             </PageSection>
         </React.Fragment>
     );
+};
+
+InventoryGroupDetail.propTypes = {
+    groupId: PropTypes.string.isRequired
 };
 
 export default InventoryGroupDetail;

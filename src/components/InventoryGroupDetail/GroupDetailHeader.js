@@ -5,18 +5,18 @@ import {
 } from '@redhat-cloud-services/frontend-components';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { routes } from '../../Routes';
+import PropTypes from 'prop-types';
 
-const GroupDetailHeader = () => {
+const GroupDetailHeader = ({ groupId }) => {
     const { uninitialized, loading, data } = useSelector((state) => state.groupDetail);
-    const { groupId } = useParams();
 
     const nameOrId = uninitialized || loading ? (
         <Skeleton width="250px" screenreaderText="Loading group details" />
     ) : (
         // in case of error, render just id from URL
-        data?.name || groupId
+        data?.results?.[0]?.name || groupId
     );
 
     return (
@@ -30,6 +30,10 @@ const GroupDetailHeader = () => {
             <PageHeaderTitle title={nameOrId} />
         </PageHeader>
     );
+};
+
+GroupDetailHeader.propTypes = {
+    groupId: PropTypes.string.isRequired
 };
 
 export default GroupDetailHeader;
