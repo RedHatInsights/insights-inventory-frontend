@@ -29,6 +29,17 @@ export const getGroupDetail = (groupId) => {
     return instance.get(`${INVENTORY_API_BASE}/groups/${groupId}`);
 };
 
+export const updateGroupById = (id, payload) => {
+    return instance.patch(`${INVENTORY_API_BASE}/groups/${id}`, {
+        name: payload.name
+    });
+};
+
+export const deleteGroupById = (id) => {
+    return instance.delete(`${INVENTORY_API_BASE}/groups/${id}`);
+
+};
+
 getGroups.propTypes = {
     search: PropTypes.shape({
     // eslint-disable-next-line camelcase
