@@ -2,17 +2,14 @@ import React, { useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { loadEntity, deleteEntity } from '../../store/actions';
+import { loadEntity, deleteEntity as deleteEntityAction } from '../../store/actions';
 import './InventoryDetail.scss';
 import SystemNotFound from './SystemNotFound';
-import TopBar from './TopBar';
-import FactsInfo from './FactsInfo';
 import { reloadWrapper } from '../../Utilities/index';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import ApplicationDetails from './ApplicationDetails';
 import './InventoryDetail.scss';
-import InsightsPrompt from './InsightsPrompt';
-import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
+import DetailHeader from './DetailHeader';
 
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
@@ -20,99 +17,70 @@ import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
  * @param {*} props additional features from parent component.
  */
 const InventoryDetail = ({
-    actions,
     showTags,
-    hideInvLink,
     onTabSelect,
     onBackToListClick,
-    showDelete,
-    appList,
-    showInventoryDrawer,
-    UUIDWrapper,
-    LastSeenWrapper,
-    TitleWrapper,
-    TagsWrapper,
-    DeleteWrapper,
-    ActionsWrapper,
     inventoryId,
-    children
+    additionalClasses,
+    activeApp,
+    appList,
+    ...headerProps
 }) => {
     const dispatch = useDispatch();
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded || false);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
+
+    //TODO: one all apps migrate to away from AppAinfo, remove this
     useEffect(() => {
         if (!entity || !(entity?.id === inventoryId) || !loaded) {
             dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
         }
     }, []);
+    const deleteEntity = (systems, displayName, callback) => {
+        const action = deleteEntityAction(systems, displayName);
+        dispatch(reloadWrapper(action, callback));
+    };
+
+    const addNotification = (payload) => dispatch(addNotificationAction(payload));
+
     return <div className="ins-entity-detail">
         {loaded && !entity ? (
             <SystemNotFound
                 onBackToListClick={onBackToListClick}
                 inventoryId={inventoryId}
             />
-        ) : <Fragment>
-            <TopBar
-                entity={ entity }
-                loaded={ loaded }
-                onBackToListClick={ onBackToListClick }
-                actions={ actions }
-                deleteEntity={ (systems, displayName, callback) => {
-                    const action = deleteEntity(systems, displayName);
-                    dispatch(reloadWrapper(action, callback));
-                } }
-                addNotification={ (payload) => dispatch(addNotification(payload))}
-                hideInvLink={ hideInvLink }
-                showInventoryDrawer={ showInventoryDrawer }
-                showDelete={ showDelete }
-                showTags={ showTags }
-                TitleWrapper={TitleWrapper}
-                TagsWrapper={TagsWrapper}
-                DeleteWrapper={DeleteWrapper}
-                ActionsWrapper={ActionsWrapper}
-            />
-            <FactsInfo
-                loaded={ loaded }
-                entity={ entity }
-                UUIDWrapper={UUIDWrapper}
-                LastSeenWrapper={LastSeenWrapper}
-            />
-            {(loaded && verifyCulledInsightsClient(entity?.per_reporter_staleness)) && <InsightsPrompt />}
-            {children}
-        </Fragment>
+        ) : <DetailHeader
+            entity={entity}
+            loaded={ loaded }
+            onBackToListClick={ onBackToListClick }
+            deleteEntity={deleteEntity}
+            addNotification={addNotification}
+            {...headerProps}
+        />
         }
-        {loaded && entity && (
-            <ApplicationDetails onTabSelect={ onTabSelect } appList={ appList } />
+        {appList.length > 1 && (
+            <ApplicationDetails
+                onTabSelect={onTabSelect}
+                activeApp={activeApp}
+                appList={appList}
+                inventoryId={inventoryId}
+            />
         )}
     </div>;
 };
 
 InventoryDetail.propTypes = {
-    hideInvLink: PropTypes.bool,
-    hideBack: PropTypes.bool,
     showTags: PropTypes.bool,
-    showDelete: PropTypes.bool,
-    showInventoryDrawer: PropTypes.bool,
-    actions: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.node,
-        onClick: PropTypes.func,
-        key: PropTypes.string
-    })),
-    appList: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.node,
-        name: PropTypes.string,
-        pageId: PropTypes.string
-    })),
     onTabSelect: PropTypes.func,
     onBackToListClick: PropTypes.func,
-    children: PropTypes.node,
-    UUIDWrapper: PropTypes.elementType,
-    LastSeenWrapper: PropTypes.elementType,
-    TitleWrapper: PropTypes.elementType,
-    TagsWrapper: PropTypes.elementType,
-    DeleteWrapper: PropTypes.elementType,
-    ActionsWrapper: PropTypes.elementType,
-    inventoryId: PropTypes.string
+    inventoryId: PropTypes.string,
+    additionalClasses: PropTypes.object,
+    activeApp: PropTypes.string,
+    appList: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.node,
+        name: PropTypes.string.isRequired,
+        pageId: PropTypes.string
+    }))
 };
 InventoryDetail.defaultProps = {
     actions: [],
@@ -123,7 +91,8 @@ InventoryDetail.defaultProps = {
     TitleWrapper: Fragment,
     TagsWrapper: Fragment,
     DeleteWrapper: Fragment,
-    ActionsWrapper: Fragment
+    ActionsWrapper: Fragment,
+    appList: []
 };
 
 const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
@@ -133,6 +102,8 @@ const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
         console.warn('~~~~~~~~~~');
         console.warn('~~~~~~~~~~');
         console.warn('Missing inventoryId! Please provide one, we will remove the fallback from URL soon.');
+        console.warn(`Please use DetailHead component in the fed-mod to render 
+            only Inventory header. Migrate away InventoryDetailHead`);
         console.warn('~~~~~~~~~~');
         console.warn('~~~~~~~~~~');
     }

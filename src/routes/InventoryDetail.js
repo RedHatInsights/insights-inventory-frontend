@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore, useDispatch } from 'react-redux';
 import { useLocation, useParams, Link, useHistory } from 'react-router-dom';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
-import { Grid, GridItem } from '@patternfly/react-core';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
-import { Skeleton, SkeletonSize, PageHeader, Main } from '@redhat-cloud-services/frontend-components';
-import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
-import classnames from 'classnames';
+import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components';
 import { routes } from '../Routes';
-import InventoryDetailHead from '../modules/InventoryDetailHead';
-import AppInfo from '../modules/AppInfo';
-import DetailWrapper from '../modules/DetailWrapper';
+import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import { useWritePermissions } from '../Utilities/constants';
 import {
     ComplianceTab,
@@ -22,9 +18,8 @@ import {
     PatchTab,
     RosTab
 } from '../components/SystemDetails';
-import { detailSelect } from '../store/actions';
 
-const activeApps = [
+const appList = [
     { title: 'General information', name: 'general_information', component: GeneralInformationTab },
     { title: 'Advisor', name: 'advisor', component: AdvisorTab },
     {
@@ -50,32 +45,46 @@ const activeApps = [
     }
 ];
 
+const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
+    <Breadcrumb ouiaId="systems-list">
+        <BreadcrumbItem>
+            <Link to={routes.table}>Inventory</Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem isActive>
+            <div className="ins-c-inventory__detail--breadcrumb-name">
+                {
+                    entity ?
+                        entity.display_name :
+                        entityLoaded !== true ?
+                            <Skeleton size={SkeletonSize.xs} /> : inventoryId
+                }
+            </div>
+        </BreadcrumbItem>
+    </Breadcrumb>
+);
+
 const Inventory = () => {
     const chrome = useChrome();
     const { inventoryId } = useParams();
-    const [activeApp, setActiveApp] = useState(activeApps[0]);
-    const store = useStore();
     const { search } = useLocation();
+    const searchParams = new URLSearchParams(search);
+    const [activeApp] = useState(searchParams.get('appName') || appList[0].name);
+    const store = useStore();
     const history = useHistory();
     const dispatch = useDispatch();
-    const searchParams = new URLSearchParams(search);
     const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
     const clearNotifications = () => dispatch(actions.clearNotifications());
+
     useEffect(() => {
         chrome?.hideGlobalFilter?.(true);
         chrome.appAction('system-detail');
         clearNotifications();
-        const appName = searchParams.get('appName');
-        if (appName) {
-            dispatch(detailSelect(appName));
-            setActiveApp(activeApps.find(({ name }) => name === appName));
-        }
     }, []);
 
     const additionalClasses = {
-        'ins-c-inventory__detail--general-info': activeApp?.name === 'general_information'
+        'ins-c-inventory__detail--general-info': activeApp === 'general_information'
     };
 
     if (entity) {
@@ -86,64 +95,42 @@ const Inventory = () => {
         insights?.chrome?.appObjectId?.(entity?.id);
     }, [entity?.id]);
 
+    const onTabSelect = useCallback((_, activeApp, appName) => {
+        searchParams.set('appName', appName);
+        const search = searchParams.toString();
+        history.push({
+            search
+        });
+    }, [searchParams]);
+
     return (
-        <DetailWrapper
+        <InventoryDetail
+            additionalClasses={additionalClasses}
+            hideInvDrawer
+            showDelete={writePermissions}
             hideInvLink
+            hideBack
+            inventoryId={inventoryId}
             showTags
+            fallback=""
             store={store}
             history={history}
-        >
-            <PageHeader className={classnames('pf-m-light ins-inventory-detail', additionalClasses)} >
-                <Breadcrumb ouiaId="systems-list">
-                    <BreadcrumbItem>
-                        <Link to={routes.table}>Inventory</Link>
-                    </BreadcrumbItem>
-                    <BreadcrumbItem isActive>
-                        <div className="ins-c-inventory__detail--breadcrumb-name">
-                            {
-                                entity ?
-                                    entity.display_name :
-                                    entityLoaded !== true ?
-                                        <Skeleton size={SkeletonSize.xs} /> : inventoryId
-                            }
-                        </div>
-                    </BreadcrumbItem>
-                </Breadcrumb>
-                {
-                    <InventoryDetailHead
-                        store={store}
-                        history={history}
-                        fallback=""
-                        hideBack
-                        showTags
-                        hideInvLink
-                        appList={activeApps}
-                        inventoryId={inventoryId}
-                        onTabSelect={(_e, tabId) => {
-                            history.push({ search: `appName=${tabId}` });
-                            setActiveApp(activeApps.find(({ name }) => name === tabId));
-                        }}
-                        showDelete={writePermissions}
-                        hideInvDrawer
-                    />
-                }
-            </PageHeader>
-            <Main className={classnames(additionalClasses)}>
-                <Grid gutter="md">
-                    <GridItem span={12}>
-                        <AppInfo
-                            showTags
-                            fallback=""
-                            store={store}
-                            history={history}
-                            activeApp={activeApp}
-                            componentMapper={activeApp?.component}
-                        />
-                    </GridItem>
-                </Grid>
-            </Main>
-        </DetailWrapper>
+            isInventoryApp
+            shouldWrapAsPage
+            BreadcrumbWrapper={
+                <BreadcrumbWrapper entity={entity} entityLoaded={entityLoaded} inventoryId={inventoryId}/>
+            }
+            activeApp={activeApp}
+            appList={appList}
+            onTabSelect={onTabSelect}
+        />
     );
+};
+
+BreadcrumbWrapper.propTypes = {
+    entity: PropTypes.object,
+    entityLoaded: PropTypes.bool,
+    inventoryId: PropTypes.string
 };
 
 Inventory.contextTypes = {

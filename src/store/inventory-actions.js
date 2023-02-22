@@ -3,7 +3,6 @@ import {
     SELECT_ENTITY,
     CHANGE_SORT,
     FILTER_ENTITIES,
-    APPLICATION_SELECTED,
     FILTER_SELECT,
     UPDATE_ENTITIES,
     ENTITIES_LOADING,
@@ -110,11 +109,6 @@ export const setSort = (data) => ({
 export const filterEntities = (key, filterString) => ({
     type: FILTER_ENTITIES,
     payload: { key, filterString }
-});
-
-export const detailSelect = (appName) => ({
-    type: APPLICATION_SELECTED,
-    payload: { appName }
 });
 
 export const entitiesLoading = (isLoading = true) => ({

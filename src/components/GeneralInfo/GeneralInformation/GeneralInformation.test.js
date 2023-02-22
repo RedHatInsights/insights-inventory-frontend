@@ -80,7 +80,7 @@ describe('GeneralInformation', () => {
         const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
         const wrapper = render(<MemoryRouter>
             <Provider store={ store }>
-                <GeneralInformation />
+                <GeneralInformation inventoryId={'test-id'}/>
             </Provider>
         </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
@@ -109,7 +109,7 @@ describe('GeneralInformation', () => {
                 const store = mockStore(initialState);
                 const wrapper = render(<MemoryRouter>
                     <Provider store={ store }>
-                        <GeneralInformation {...{ [item]: false }} />
+                        <GeneralInformation {...{ [item]: false }} inventoryId={'test-id'} />
                     </Provider>
                 </MemoryRouter>);
                 expect(toJson(wrapper)).toMatchSnapshot();
@@ -119,7 +119,7 @@ describe('GeneralInformation', () => {
                 const store = mockStore(initialState);
                 const wrapper = render(<MemoryRouter>
                     <Provider store={ store }>
-                        <GeneralInformation {...{ [item]: () => <div>test</div> }} />
+                        <GeneralInformation {...{ [item]: () => <div>test</div> }} inventoryId={'test-id'} />
                     </Provider>
                 </MemoryRouter>);
                 expect(toJson(wrapper)).toMatchSnapshot();
@@ -140,7 +140,7 @@ describe('GeneralInformation', () => {
                 } });
             mount(<MemoryRouter>
                 <Provider store={ store }>
-                    <GeneralInformation />
+                    <GeneralInformation inventoryId={'test-id'} />
                 </Provider>
             </MemoryRouter>);
             expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
@@ -153,7 +153,7 @@ describe('GeneralInformation', () => {
 
             const wrapper = mount(<MemoryRouter>
                 <Provider store={ store }>
-                    <GeneralInformation />
+                    <GeneralInformation inventoryId={'test-id'} />
                 </Provider>
             </MemoryRouter>);
             wrapper.find('a[href$="interfaces"]').first().simulate('click');
@@ -168,7 +168,7 @@ describe('GeneralInformation', () => {
             location.pathname = 'localhost:3000/example/interfaces';
             const wrapper = mount(<MemoryRouter>
                 <Provider store={ store }>
-                    <GeneralInformation />
+                    <GeneralInformation inventoryId={'test-id'} />
                 </Provider>
             </MemoryRouter>);
             wrapper.find('a[href$="interfaces"]').first().simulate('click');
@@ -185,7 +185,7 @@ describe('GeneralInformation', () => {
             location.pathname = 'localhost:3000/example/interfaces';
             const wrapper = mount(<MemoryRouter>
                 <Provider store={ store }>
-                    <GeneralInformation />
+                    <GeneralInformation inventoryId={'test-id'} />
                 </Provider>
             </MemoryRouter>);
             wrapper.find('a[href$="interfaces"]').first().simulate('click');
@@ -199,7 +199,7 @@ describe('GeneralInformation', () => {
             const store = mockStore(initialState);
             const wrapper = mount(<MemoryRouter>
                 <Provider store={ store }>
-                    <GeneralInformation />
+                    <GeneralInformation inventoryId={'test-id'} />
                 </Provider>
             </MemoryRouter>);
             wrapper.find('GeneralInformation').instance().handleModalToggle('title', {

@@ -60,7 +60,7 @@ class GeneralInformation extends Component {
     };
 
     componentDidMount() {
-        this.props.loadSystemDetail && this.props.loadSystemDetail(this.props.entity.id);
+        this.props.loadSystemDetail?.(this.props.inventoryId || this.props.entity.id);
     };
 
     render() {
@@ -82,31 +82,42 @@ class GeneralInformation extends Component {
         return (
             <Wrapper {...(store && { store })}>
                 <div className="ins-c-general-information">
-                    <Grid sm={12} md={6} hasGutter>
-                        {SystemCardWrapper && <GridItem>
-                            <SystemCardWrapper handleClick={ this.handleModalToggle } writePermissions={writePermissions} />
-                        </GridItem>}
-                        {OperatingSystemCardWrapper && <GridItem>
-                            <OperatingSystemCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
-                        {InfrastructureCardWrapper && <GridItem>
-                            <InfrastructureCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
-                        {BiosCardWrapper && <GridItem>
-                            <BiosCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
-                        {SystemStatusCardWrapper && <GridItem>
-                            <SystemStatusCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
-                        {ConfigurationCardWrapper && <GridItem>
-                            <ConfigurationCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
-                        {DataCollectorsCardWrapper && <GridItem>
-                            <DataCollectorsCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
-                        {CollectionCardWrapper && <GridItem>
-                            <CollectionCardWrapper handleClick={ this.handleModalToggle } />
-                        </GridItem>}
+                    <Grid hasGutter>
+                        <GridItem md={6} sm={12}>
+                            <Grid hasGutter>
+                                {SystemCardWrapper && <GridItem>
+                                    <SystemCardWrapper handleClick={this.handleModalToggle} writePermissions={writePermissions} />
+                                </GridItem>}
+                                {InfrastructureCardWrapper && <GridItem>
+                                    <InfrastructureCardWrapper handleClick={this.handleModalToggle} />
+                                </GridItem>}
+                                {SystemStatusCardWrapper && <GridItem>
+                                    <SystemStatusCardWrapper handleClick={this.handleModalToggle} />
+                                </GridItem>}
+                                {DataCollectorsCardWrapper && <GridItem>
+                                    <DataCollectorsCardWrapper handleClick={this.handleModalToggle} />
+                                </GridItem>}
+                            </Grid>
+                        </GridItem>
+                        <GridItem md={6} sm={12} >
+                            <Grid hasGutter>
+                                {OperatingSystemCardWrapper && <GridItem>
+                                    <OperatingSystemCardWrapper handleClick={this.handleModalToggle} />
+                                </GridItem>}
+
+                                {BiosCardWrapper && <GridItem>
+                                    <BiosCardWrapper handleClick={this.handleModalToggle} />
+                                </GridItem>}
+
+                                {ConfigurationCardWrapper && <GridItem>
+                                    <ConfigurationCardWrapper handleClick={this.handleModalToggle} />
+                                </GridItem>}
+
+                                {CollectionCardWrapper && <GridItem>
+                                    <CollectionCardWrapper handleClick={this.handleModalToggle} />
+                                </GridItem>}
+                            </Grid>
+                        </GridItem>
                         {children}
                         <Modal
                             title={ modalTitle || '' }
@@ -149,7 +160,8 @@ GeneralInformation.propTypes = {
     CollectionCardWrapper: PropTypes.oneOfType([PropTypes.elementType, PropTypes.bool]),
     children: PropTypes.node,
     history: PropTypes.any,
-    location: PropTypes.any
+    location: PropTypes.any,
+    inventoryId: PropTypes.string.isRequired
 };
 GeneralInformation.defaultProps = {
     entity: {},
