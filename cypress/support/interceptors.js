@@ -16,7 +16,7 @@ export const groupsInterceptors = {
         })
         .as('getGroups'),
     'failed with server error': () => {
-        Cypress.on('uncaught:exception', (err, runnable) => {
+        Cypress.on('uncaught:exception', () => {
             return false;
         });
         cy.intercept('GET', '/api/inventory/v1/groups*', { statusCode: 500 }).as(
