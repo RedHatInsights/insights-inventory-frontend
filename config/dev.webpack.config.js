@@ -78,6 +78,7 @@ plugins.push(
             './InventoryTable': resolve(__dirname, '../src/modules/InventoryTable.js'),
             './AppInfo': resolve(__dirname, '../src/modules/AppInfo.js'),
             './InventoryDetailHead': resolve(__dirname, '../src/modules/InventoryDetailHead.js'),
+            './DetailHeader': resolve(__dirname, '../src/modules/DetailHeader.js'),
             './InventoryDetail': resolve(__dirname, '../src/modules/InventoryDetail.js'),
             './TagWithDialog': resolve(__dirname, '../src/modules/TagWithDialog.js'),
             './DetailWrapper': resolve(__dirname, '../src/modules/DetailWrapper.js'),

@@ -1,4 +1,4 @@
-import { ACTION_TYPES, APPLICATION_SELECTED, TOGGLE_TAG_MODAL, TOGGLE_DRAWER } from './action-types';
+import { ACTION_TYPES, TOGGLE_TAG_MODAL, TOGGLE_DRAWER } from './action-types';
 import { showTags, toggleTagModalReducer } from './entities';
 import systemIssuesReducer from './systemIssues';
 export const entityDefaultState = { loaded: false };
@@ -15,13 +15,6 @@ function entityDetailLoaded(state, { payload }) {
         ...state,
         loaded: true,
         entity: payload.results[0]
-    };
-}
-
-function onApplicationSelected(state, { payload }) {
-    return {
-        ...state,
-        activeApp: payload
     };
 }
 
@@ -85,7 +78,6 @@ export default {
     [ACTION_TYPES.LOAD_ENTITIES_PENDING]: () => entityDefaultState,
     [ACTION_TYPES.LOAD_ENTITY_PENDING]: entityDetailPending,
     [ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityDetailLoaded,
-    [APPLICATION_SELECTED]: onApplicationSelected,
     [ACTION_TYPES.LOAD_TAGS]: showTags,
     [ACTION_TYPES.LOAD_TAGS_PENDING]: showTagsPending,
     [ACTION_TYPES.LOAD_TAGS_FULFILLED]: showTags,

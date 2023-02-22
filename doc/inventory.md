@@ -747,7 +747,6 @@ These actions are fired from inventory component. If action is marked with `*` i
 * `SELECT_ENTITY` - if user clicks on checkbox in entity list
 * `CHANGE_SORT` - when user changes sort
 * `FILTER_ENTITIES` - when user wants to filter entities
-* `APPLICATION_SELECTED` - fired after user clicks on application detail
 
 ## Store shape
 As mentioned before the async loader will load two functions `mergeWithEntities` and `mergeWithDetail` both have access to your store and they will create specific keys in store. Please do not change the data directly, since that can break the inventory component.

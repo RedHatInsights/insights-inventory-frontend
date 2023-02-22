@@ -1,6 +1,6 @@
 import React from 'react';
 import AsyncInventory from './AsyncInventory';
-import InventoryDetailCmp from '../components/InventoryDetail/FullDetail';
+import InventoryDetailCmp from '../components/InventoryDetail/InventoryDetail';
 
 const BaseInventoryDetail = (props) => <AsyncInventory {...props} component={InventoryDetailCmp}  />;
 
