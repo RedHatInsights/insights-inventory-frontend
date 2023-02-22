@@ -35,7 +35,8 @@ export const asyncInventory = [
     'LOAD_TAGS',
     'ALL_TAGS',
     'OPERATING_SYSTEMS',
-    'GROUPS'
+    'GROUPS',
+    'GROUP_DETAIL'
 ];
 
 export const systemIssues = [
