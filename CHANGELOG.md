@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.3.0...v1.3.1) (2023-02-22)
+
+
+### Performance Improvements
+
+* **RHIF-167:** get rid of activeApps in redux ([#1754](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1754)) ([11be618](https://github.com/RedHatInsights/insights-inventory-frontend/commit/11be61800eb591bda38908c04cd85578fc611105))
+
 # [1.3.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.2.0...v1.3.0) (2023-02-16)
 
 
