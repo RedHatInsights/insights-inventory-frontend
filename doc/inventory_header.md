@@ -1,5 +1,5 @@
 ::: warning Removed
-This feature has been removed. Inventory detail header and main section are independent as of v1.3.1. Please have a look (doc/inventory_header.md)
+This feature has been removed. Inventory detail header and main section are independent as of v1.3.1. Please have a look (doc/inventory_detail.md)
 :::
 
 # Inventory detail
