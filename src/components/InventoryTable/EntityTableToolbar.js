@@ -19,7 +19,8 @@ import {
     TAG_CHIP,
     arrayToSelection,
     RHCD_FILTER_KEY,
-    UPDATE_METHOD_KEY
+    UPDATE_METHOD_KEY,
+    HOST_GROUP_CHIP
 } from '../../Utilities/index';
 import { onDeleteFilter, onDeleteTag } from './helpers';
 import {
@@ -40,10 +41,12 @@ import {
     rhcdFilterReducer,
     rhcdFilterState,
     updateMethodFilterReducer,
-    updateMethodFilterState
+    updateMethodFilterState,
+    groupFilterReducer
 } from '../filters';
 import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
+import useGroupFilter from '../filters/useGroupFilter';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -81,7 +84,8 @@ const EntityTableToolbar = ({
         tagsFilterReducer,
         operatingSystemFilterReducer,
         rhcdFilterReducer,
-        updateMethodFilterReducer
+        updateMethodFilterReducer,
+        groupFilterReducer
     ]), {
         ...textFilterState,
         ...stalenessFilterState,
@@ -100,6 +104,7 @@ const EntityTableToolbar = ({
     const [rhcdFilterConfig, rhcdFilterChips, rhcdFilterValue, setRhcdFilterValue] = useRhcdFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
     const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
+    const [hostGroupChips, hostGroupConfig, hostGroupValue, setHostGroupValue] = useGroupFilter();
 
     const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
 
@@ -118,7 +123,7 @@ const EntityTableToolbar = ({
     const debounceGetAllTags = useCallback(debounce((config, options) => {
         if (showTags && !hasItems && hasAccess) {
             dispatch(fetchAllTags(config, {
-                ...options?.pagination
+                ...options?.paginationhideFilters
             },  getTags));
         }
     }, 800), [customFilters?.tags]);
@@ -133,7 +138,8 @@ const EntityTableToolbar = ({
         //hides the filter untill API is ready. JIRA: RHIF-169
         updateMethodFilter: isUpdateMethodEnabled &&
             !(hideFilters.all && hideFilters.updateMethodFilter !== false)
-                && !hideFilters.updateMethodFilter
+                && !hideFilters.updateMethodFilter,
+        hostGroupFilter: true
     };
 
     /**
@@ -171,7 +177,7 @@ const EntityTableToolbar = ({
      */
     useEffect(() => {
         const {
-            textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter, rhcdFilter, updateMethodFilter
+            textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter, rhcdFilter, updateMethodFilter, groupFilter
         } = reduceFilters([...filters || [], ...customFilters?.filters || []]);
 
         debouncedRefresh();
@@ -182,6 +188,7 @@ const EntityTableToolbar = ({
         enabledFilters.operatingSystem && setOsFilterValue(osFilter);
         enabledFilters.rhcdFilter && setRhcdFilterValue(rhcdFilter);
         enabledFilters.updateMethodFilter && setUpdateMethodValue(updateMethodFilter);
+        enabledFilters.hostGroupFilter && setHostGroupValue(groupFilter);
     }, []);
 
     /**
@@ -267,6 +274,12 @@ const EntityTableToolbar = ({
         }
     }, [updateMethodValue]);
 
+    useEffect(() => {
+        if (shouldReload && enabledFilters.hostGroupFilter) {
+            onSetFilter(hostGroupValue, 'hostGroupFilter', debouncedRefresh);
+        }
+    }, [hostGroupValue]);
+
     /**
      * Mapper to simplify removing of any filter.
      */
@@ -285,7 +298,8 @@ const EntityTableToolbar = ({
         ),
         [OS_CHIP]: (deleted) => setOsFilterValue(xor(osFilterValue, deleted.chips.map(({ value }) => value))),
         [RHCD_FILTER_KEY]: (deleted) => setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
-        [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue))
+        [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
+        [HOST_GROUP_CHIP]: (deleted) => setHostGroupValue(hostGroupValue, deleted.chips.map(({ value }) => value))
     };
     /**
      * Function to reset all filters with 'Reset Filter' is clicked
@@ -298,6 +312,7 @@ const EntityTableToolbar = ({
         enabledFilters.operatingSystem && setOsFilterValue([]);
         enabledFilters.rhcdFilter && setRhcdFilterValue([]);
         enabledFilters.updateMethodFilter && setUpdateMethodValue([]);
+        enabledFilters.hostGroupFilter && setHostGroupValue([]);
         dispatch(setFilter([]));
         updateData({ page: 1, filters: [] });
     };
@@ -316,6 +331,7 @@ const EntityTableToolbar = ({
                 ...!hasItems && enabledFilters.operatingSystem ? osFilterChips : [],
                 ...!hasItems && enabledFilters.rhcdFilter ? rhcdFilterChips : [],
                 ...!hasItems && enabledFilters.updateMethodFilter ? updateMethodChips : [],
+                ...!hasItems && enabledFilters.hostGroupFilter ? hostGroupChips : [],
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -341,7 +357,8 @@ const EntityTableToolbar = ({
             ...enabledFilters.registeredWith ? [registeredFilter] : [],
             ...enabledFilters.rhcdFilter ? [rhcdFilterConfig] : [],
             ...enabledFilters.updateMethodFilter ? [updateMethodConfig] : [],
-            ...showTags && enabledFilters.tags ? [tagsFilter] : []
+            ...showTags && enabledFilters.tags ? [tagsFilter] : [],
+            ...enabledFilters && enabledFilters.hostGroupFilter ? [hostGroupConfig] : []
         ] : [],
         ...filterConfig?.items || []
     ];
@@ -431,6 +448,7 @@ EntityTableToolbar.propTypes = {
         operatingSystem: PropTypes.bool,
         rhcdFilter: PropTypes.bool,
         updateMethodFilter: PropTypes.bool,
+        hostGroupFilter: PropTypes.bool,
         all: PropTypes.bool
     }),
     paginationProps: PropTypes.object,

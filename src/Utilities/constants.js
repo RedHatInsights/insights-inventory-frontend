@@ -10,6 +10,7 @@ export const REGISTERED_CHIP = 'registered_with';
 export const OS_CHIP = 'operating_system';
 export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const UPDATE_METHOD_KEY = 'system_update_method';
+export const HOST_GROUP_CHIP = 'host_group';
 
 export const staleness = [
     { label: 'Fresh', value: 'fresh' },

@@ -28,6 +28,7 @@ export const defaultState = {
     allTagsLoaded: false,
     operatingSystems: [],
     operatingSystemsLoaded: false,
+    groups: [],
     invConfig: {},
     sortBy: {
         key: 'updated',
