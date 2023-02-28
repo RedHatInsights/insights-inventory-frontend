@@ -1,16 +1,13 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
-import { defaultColumns, newDefaultColumns } from '../../../store/entities';
-import useFeatureFlag from '../../../Utilities/useFeatureFlag';
+import { defaultColumns } from '../../../store/entities';
 
 const isColumnEnabled = (key, disableColumns, showTags) =>
     (key === 'tags' && showTags) ||
     (key !== 'tags' && (Array.isArray(disableColumns) && !(disableColumns).includes(key)));
 
 const useColumns = (columnsProp, disableDefaultColumns, showTags, columnsCounter) => {
-    const groupsColumnEnabled = useFeatureFlag('hbi.ui.inventory-groups');
-
     const columnsRedux = useSelector(
         ({ entities: { columns } }) => columns,
         (next, prev) => next.every(
@@ -18,15 +15,10 @@ const useColumns = (columnsProp, disableDefaultColumns, showTags, columnsCounter
         )
     );
     const disabledColumns = Array.isArray(disableDefaultColumns) ? disableDefaultColumns : [];
-    //condition for the newDefaultColumns should be removed after inventory groups is released
     const defaultColumnsFiltered = useMemo(() => (disableDefaultColumns === true) ?
-        [] : groupsColumnEnabled ?
-            newDefaultColumns().filter(({ key }) =>
-                isColumnEnabled(key, disabledColumns, showTags)
-            ) :
-            defaultColumns().filter(({ key }) =>
-                isColumnEnabled(key, disabledColumns, showTags)
-            ), [disabledColumns, disableDefaultColumns, showTags]);
+        [] : defaultColumns().filter(({ key }) =>
+            isColumnEnabled(key, disabledColumns, showTags)
+        ), [disabledColumns, disableDefaultColumns, showTags]);
 
     return useMemo(() => {
         if (typeof columnsProp === 'function') {
