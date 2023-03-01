@@ -1,3 +1,15 @@
+# [1.5.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.4.0...v1.5.0) (2023-03-01)
+
+
+### Bug Fixes
+
+* **ESSNTL-4387:** Pass down inventoryId to Advisor ([#1773](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1773)) ([72e017e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/72e017ebb0eb461ddc9e3a38cec47fa41685f97e))
+
+
+### Features
+
+* **ESSNTL-4365:** Select rows in the groups table ([#1775](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1775)) ([2d81ac7](https://github.com/RedHatInsights/insights-inventory-frontend/commit/2d81ac7e5f873361b887b0bfa8a1e4eb4e613c79))
+
 # [1.4.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.3.1...v1.4.0) (2023-02-22)
 
 
