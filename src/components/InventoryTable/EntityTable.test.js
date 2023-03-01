@@ -16,7 +16,10 @@ import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
 import { defaultColumns } from '../../store/entities';
 import { createMemoryHistory } from 'history';
 
+jest.mock('../../Utilities/useFeatureFlag');
+
 describe('EntityTable', () => {
+
     let initialState;
     let mockStore;
     beforeEach(() => {
@@ -39,6 +42,7 @@ describe('EntityTable', () => {
     });
 
     describe('DOM', () => {
+
         it('should render correctly - no data', () => {
             const store = mockStore({
                 entities: {
@@ -463,6 +467,7 @@ describe('EntityTable', () => {
         });
 
         it('should disable just one default column', () => {
+            jest.mock('../../Utilities/useFeatureFlag');
             initialState = {
                 entities: {
                     ...initialState.entities,
@@ -530,6 +535,7 @@ describe('EntityTable', () => {
     });
 
     describe('API', () => {
+        jest.mock('../../Utilities/useFeatureFlag');
         it('should call default onRowClick', () => {
             const history = createMemoryHistory();
             const store = mockStore(initialState);
