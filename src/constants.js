@@ -65,7 +65,6 @@ export const generateFilters = (cells = [], filters = [], activeFilters = {}, on
     filters.map((filter, key) => {
         const activeKey = filter.index || key;
         const activeLabel = cells[activeKey] && (cells[activeKey].title || cells[activeKey]);
-
         return ({
             value: String(activeKey),
             label: activeLabel,
@@ -125,7 +124,9 @@ export const getSearchParams = () => {
     const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
     const page = searchParams.getAll('page');
     const perPage = searchParams.getAll('per_page');
-    return { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter, page, perPage };
+    // const lastSeenFilter = searchParams.getAll('last_seen');
+    return { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter,
+        page, perPage };
 };
 
 export const TABLE_DEFAULT_PAGINATION = 50; // from UX table audit
