@@ -23,17 +23,6 @@ import { Tooltip } from '@patternfly/react-core';
 import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 
-export const useFeatureFlagIgnoringInvalidHookCall = () => {
-    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
-    return groupsEnabled ? {
-        key: 'groups',
-        sortKey: 'groups',
-        title: 'Groups',
-        props: { width: 10 },
-        renderFunc: () => <React.Fragment>N/A</React.Fragment>
-    } : {};
-};
-
 export const defaultState = {
     loaded: false,
     tagsLoaded: false,
@@ -48,14 +37,20 @@ export const defaultState = {
     }
 };
 
-export const defaultColumns = () => [
+export const defaultColumns = (groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups')) => [
     {
         key: 'display_name',
         sortKey: 'display_name',
         title: 'Name',
         renderFunc: TitleColumn
     },
-    useFeatureFlagIgnoringInvalidHookCall(),
+    ...(groupsEnabled ? [{
+        key: 'groups',
+        sortKey: 'groups',
+        title: 'Groups',
+        props: { width: 10 },
+        renderFunc: () => <React.Fragment>N/A</React.Fragment>
+    }] : []),
     {
         key: 'tags',
         title: 'Tags',
@@ -69,17 +64,9 @@ export const defaultColumns = () => [
         key: 'system_profile',
         sortKey: 'operating_system',
         dataLabel: 'OS',
-        title: (
-            <Tooltip content={<span>Operating system</span>}>
-                <span>OS</span>
-            </Tooltip>
-        ),
+        title: <Tooltip content={<span>Operating system</span>}><span>OS</span></Tooltip>,
         // eslint-disable-next-line react/display-name
-        renderFunc: (systemProfile) => (
-            <OperatingSystemFormatter
-                operatingSystem={systemProfile?.operating_system}
-            />
-        ),
+        renderFunc: (systemProfile) => <OperatingSystemFormatter operatingSystem={systemProfile?.operating_system} />,
         props: { width: 10 }
     },
     {
@@ -91,9 +78,7 @@ export const defaultColumns = () => [
             value,
             _id,
             {
-                culled_timestamp: culled,
-                stale_warning_timestamp: staleWarn,
-                stale_timestamp: stale,
+                culled_timestamp: culled, stale_warning_timestamp: staleWarn, stale_timestamp: stale,
                 per_reporter_staleness: perReporterStaleness
             }
         ) => {
@@ -133,18 +118,10 @@ export const defaultColumns = () => [
 function entitiesPending(state, { meta }) {
     return {
         ...state,
-        ...((state.columns && {
-            columns: mergeArraysByKey(
-                [
-                    defaultColumns().filter(
-                        ({ key }) => key !== 'tags' || meta?.showTags
-                    ),
-                    state.columns
-                ],
-                'key'
-            )
-        }) ||
-      {}),
+        ...state.columns && { columns: mergeArraysByKey([
+            defaultColumns().filter(({ key }) => key !== 'tags' || meta?.showTags),
+            state.columns
+        ], 'key') } || {},
         rows: [],
         loaded: false,
         lastDateRequest: meta.lastDateRequest
