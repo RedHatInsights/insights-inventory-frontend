@@ -71,9 +71,10 @@ const DeleteGroupModal = ({
 };
 
 DeleteGroupModal.propTypes = {
-    id: PropTypes.number,
-    name: PropTypes.string,
-    modalState: PropTypes.object,
+    modalState: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string
+    }),
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
     reloadData: PropTypes.func
