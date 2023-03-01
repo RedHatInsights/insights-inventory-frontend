@@ -28,138 +28,154 @@ exports[`LoadingCard Clickable should render 1`] = `
 `;
 
 exports[`LoadingCard Loading card render - isLoading: false 1`] = `
-<Stack
-  hasGutter={true}
->
-  <StackItem>
-    <TextContent>
-      <Text
-        component="h1"
-      >
-        Card that is loaded
-      </Text>
-    </TextContent>
-  </StackItem>
-  <StackItem
-    isFilled={true}
-  />
-</Stack>
+<Card>
+  <CardBody>
+    <Stack
+      hasGutter={true}
+    >
+      <StackItem>
+        <TextContent>
+          <Text
+            component="h1"
+          >
+            Card that is loaded
+          </Text>
+        </TextContent>
+      </StackItem>
+      <StackItem
+        isFilled={true}
+      />
+    </Stack>
+  </CardBody>
+</Card>
 `;
 
 exports[`LoadingCard Loading card render - isLoading: true 1`] = `
-<Stack
-  hasGutter={true}
->
-  <StackItem>
-    <TextContent>
-      <Text
-        component="h1"
-      >
-        Card that is loading
-      </Text>
-    </TextContent>
-  </StackItem>
-  <StackItem
-    isFilled={true}
-  />
-</Stack>
+<Card>
+  <CardBody>
+    <Stack
+      hasGutter={true}
+    >
+      <StackItem>
+        <TextContent>
+          <Text
+            component="h1"
+          >
+            Card that is loading
+          </Text>
+        </TextContent>
+      </StackItem>
+      <StackItem
+        isFilled={true}
+      />
+    </Stack>
+  </CardBody>
+</Card>
 `;
 
 exports[`LoadingCard Loading card render 1`] = `
-<Stack
-  hasGutter={true}
->
-  <StackItem>
-    <TextContent>
-      <Text
-        component="h1"
+<Card>
+  <CardBody>
+    <Stack
+      hasGutter={true}
+    >
+      <StackItem>
+        <TextContent>
+          <Text
+            component="h1"
+          >
+            Some title
+          </Text>
+        </TextContent>
+      </StackItem>
+      <StackItem
+        isFilled={true}
       >
-        Some title
-      </Text>
-    </TextContent>
-  </StackItem>
-  <StackItem
-    isFilled={true}
-  >
-    <TextContent>
-      <TextList
-        component="dl"
-      >
-        <TextListItem
-          component="dt"
-        >
-          test-title
-        </TextListItem>
-        <TextListItem
-          component="dd"
-        >
-          <Clickable
-            onClick={[MockFunction]}
-            value="some value"
-          />
-        </TextListItem>
-        <TextListItem
-          component="dt"
-        >
-          just title
-        </TextListItem>
-        <TextListItem
-          component="dd"
-        >
-          Not available
-        </TextListItem>
-      </TextList>
-    </TextContent>
-  </StackItem>
-</Stack>
+        <TextContent>
+          <TextList
+            component="dl"
+          >
+            <TextListItem
+              component="dt"
+            >
+              test-title
+            </TextListItem>
+            <TextListItem
+              component="dd"
+            >
+              <Clickable
+                onClick={[MockFunction]}
+                value="some value"
+              />
+            </TextListItem>
+            <TextListItem
+              component="dt"
+            >
+              just title
+            </TextListItem>
+            <TextListItem
+              component="dd"
+            >
+              Not available
+            </TextListItem>
+          </TextList>
+        </TextContent>
+      </StackItem>
+    </Stack>
+  </CardBody>
+</Card>
 `;
 
 exports[`LoadingCard should render loading bars 1`] = `
-<Stack
-  hasGutter={true}
->
-  <StackItem>
-    <TextContent>
-      <Text
-        component="h1"
+<Card>
+  <CardBody>
+    <Stack
+      hasGutter={true}
+    >
+      <StackItem>
+        <TextContent>
+          <Text
+            component="h1"
+          >
+            Some title
+          </Text>
+        </TextContent>
+      </StackItem>
+      <StackItem
+        isFilled={true}
       >
-        Some title
-      </Text>
-    </TextContent>
-  </StackItem>
-  <StackItem
-    isFilled={true}
-  >
-    <TextContent>
-      <TextList
-        component="dl"
-      >
-        <TextListItem
-          component="dt"
-        >
-          test-title
-        </TextListItem>
-        <TextListItem
-          component="dd"
-        >
-          <Skeleton
-            size="md"
-          />
-        </TextListItem>
-        <TextListItem
-          component="dt"
-        >
-          just title
-        </TextListItem>
-        <TextListItem
-          component="dd"
-        >
-          <Skeleton
-            size="sm"
-          />
-        </TextListItem>
-      </TextList>
-    </TextContent>
-  </StackItem>
-</Stack>
+        <TextContent>
+          <TextList
+            component="dl"
+          >
+            <TextListItem
+              component="dt"
+            >
+              test-title
+            </TextListItem>
+            <TextListItem
+              component="dd"
+            >
+              <Skeleton
+                size="md"
+              />
+            </TextListItem>
+            <TextListItem
+              component="dt"
+            >
+              just title
+            </TextListItem>
+            <TextListItem
+              component="dd"
+            >
+              <Skeleton
+                size="sm"
+              />
+            </TextListItem>
+          </TextList>
+        </TextContent>
+      </StackItem>
+    </Stack>
+  </CardBody>
+</Card>
 `;

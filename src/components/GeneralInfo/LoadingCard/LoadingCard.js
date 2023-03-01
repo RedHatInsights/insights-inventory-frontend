@@ -9,7 +9,9 @@ import {
     TextVariants,
     TextListItemVariants,
     TextListVariants,
-    TextListItem
+    TextListItem,
+    Card,
+    CardBody
 } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -57,44 +59,50 @@ Clickable.propTypes = {
 };
 
 const LoadingCard = ({ title, isLoading, items, children }) => (
-    <Stack hasGutter>
-        <StackItem>
-            <TextContent>
-                <Text component={ TextVariants.h1 }>
-                    { title }
-                </Text>
-            </TextContent>
-        </StackItem>
-        <StackItem isFilled>
-            {items.length ?
-                (<TextContent>
-                    <TextList component={ TextListVariants.dl }>
-                        { items.map(({ onClick, value, target, plural, singular, size, title: itemTitle }, key) => (
-                            <Fragment key={key}>
-                                <TextListItem component={ TextListItemVariants.dt }>
-                                    { itemTitle }
-                                </TextListItem>
-                                <TextListItem component={ TextListItemVariants.dd }>
-                                    { isLoading && <Skeleton size={ size || SkeletonSize.sm } /> }
-                                    { !isLoading && (
-                                        onClick && value ?
-                                            <Clickable
-                                                onClick={onClick}
-                                                value={value}
-                                                target={target}
-                                                plural={plural}
-                                                singular={singular}
-                                            /> :
-                                            valueToText(value, singular, plural)
-                                    ) }
-                                </TextListItem>
-                            </Fragment>
-                        ))}
-                    </TextList>
-                </TextContent>) : null}
-            {children}
-        </StackItem>
-    </Stack>
+    <Card>
+        <CardBody>
+            <Stack hasGutter>
+                <StackItem>
+                    <TextContent>
+                        <Text component={TextVariants.h1}>
+                            {title}
+                        </Text>
+                    </TextContent>
+                </StackItem>
+                <StackItem isFilled>
+                    {items.length ?
+                        (<TextContent>
+                            <TextList component={TextListVariants.dl}>
+                                {items.map(({ onClick, value, target, plural, singular, size, title: itemTitle }, key) => (
+                                    <Fragment key={key}>
+                                        <TextListItem component={TextListItemVariants.dt}>
+                                            {itemTitle}
+                                        </TextListItem>
+                                        <TextListItem component={TextListItemVariants.dd}>
+                                            {isLoading && <Skeleton size={size || SkeletonSize.sm} />}
+                                            {!isLoading && (
+                                                onClick && value ?
+                                                    <Clickable
+                                                        onClick={onClick}
+                                                        value={value}
+                                                        target={target}
+                                                        plural={plural}
+                                                        singular={singular}
+                                                    /> :
+                                                    valueToText(value, singular, plural)
+                                            )}
+                                        </TextListItem>
+                                    </Fragment>
+                                ))}
+                            </TextList>
+                        </TextContent>) : null}
+                    {children}
+                </StackItem>
+            </Stack>
+        </CardBody>
+
+    </Card>
+
 );
 
 LoadingCard.propTypes = {

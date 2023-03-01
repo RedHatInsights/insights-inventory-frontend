@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { Tabs, Tab } from '@patternfly/react-core';
-import { detailSelect } from '../../store/actions';
+import { useSelector, useStore } from 'react-redux';
+import { Tabs, Tab, Spinner, TabContent } from '@patternfly/react-core';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
  * @param {*} props onTabSelect can be used to notify parent component that detail has been selected.
  */
-const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
-    const dispatch = useDispatch();
+const ApplicationDetails = ({ onTabSelect, appList, activeApp, inventoryId, ...props }) => {
+    const store = useStore();
     const items = useSelector(({ entityDetails }) => {
-        return (entityDetails?.activeApps || appList || []).filter(({ isVisible }) => isVisible !== false);
+        return (entityDetails?.activeApps || appList || [])
+        .filter(({ isVisible }) => isVisible !== false)
+        .map(app => ({
+            ...app,
+            tabRef: React.createRef()
+        }));
     });
     const disabledApps = useSelector(({ systemProfileStore }) => systemProfileStore?.disabledApps);
-    const activeApp = useSelector(({ entityDetails }) => entityDetails?.activeApp?.appName || items?.[0]?.name);
     const [activeTabs, setActiveTabs] = useState(items);
+    const [currentApp, setCurrentApp] = useState(activeApp || items?.[0]?.name);
 
     useEffect(() => {
         const filteredResult = items.filter(app => !disabledApps?.includes(app.name));
@@ -29,27 +33,54 @@ const ApplicationDetails = ({ onTabSelect, appList, ...props }) => {
 
     return (
         <React.Fragment>
-            {
-                activeTabs?.length > 1 &&
+            <section className='pf-u-pr-lg pf-u-pl-lg pf-u-background-color-100-on-md'>
                 <Tabs
                     {...props}
-                    activeKey={ activeApp }
-                    onSelect={ (event, item) => {
+                    activeKey={currentApp}
+                    onSelect={(event, item) => {
                         const activeItem = activeTabs.find(oneApp => oneApp.name === item);
                         if (onTabSelect) {
-                            onTabSelect(event, item, activeItem);
+                            onTabSelect(event, item, activeItem.name || item);
                         }
 
-                        dispatch(detailSelect(activeItem.name));
-                    } }
-                    isFilled
+                        setCurrentApp(activeItem.name);
+                    }}
                     className="ins-c-inventory-detail__app-tabs"
+                    inset={'insetMd'}
                 >
-                    { activeTabs?.map((item, key) => (
-                        <Tab key={ key } eventKey={ item.name } title={ item.title }></Tab>
-                    )) }
+                    {activeTabs?.map((item, key) => (
+                        <Tab
+                            key={key}
+                            eventKey={item.name}
+                            title={item.title}
+                            tabContentRef={item.tabRef}
+                        />
+                    ))}
                 </Tabs>
-            }
+            </section>
+            <section>
+                {activeTabs?.length && activeTabs?.map((item) => {
+                    const Cmp = item.component;
+                    return (
+                        <TabContent
+                            eventKey={item.name}
+                            id={item.name}
+                            ref={item.tabRef}
+                            aria-label={item.title}
+                            key={item.name}
+                        >
+                            {item.name === currentApp && <Suspense fallback={Spinner}>
+                                <section className='pf-c-page__main-section'>
+                                    <Cmp
+                                        inventoryId={inventoryId}
+                                        store={store}
+                                    />
+                                </section>
+                            </Suspense>}
+                        </TabContent>
+                    );}
+                )}
+            </section>
         </React.Fragment>
     );
 };
@@ -60,7 +91,9 @@ ApplicationDetails.propTypes = {
         name: PropTypes.string.isRequired,
         pageId: PropTypes.string
     })),
-    onTabSelect: PropTypes.func
+    onTabSelect: PropTypes.func,
+    activeApp: PropTypes.string.isRequired,
+    inventoryId: PropTypes.string.isRequired
 };
 
 export default ApplicationDetails;

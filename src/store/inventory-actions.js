@@ -3,7 +3,6 @@ import {
     SELECT_ENTITY,
     CHANGE_SORT,
     FILTER_ENTITIES,
-    APPLICATION_SELECTED,
     FILTER_SELECT,
     UPDATE_ENTITIES,
     ENTITIES_LOADING,
@@ -21,7 +20,7 @@ import {
     filtersReducer,
     getOperatingSystems
 } from '../api';
-import { getGroups } from '../components/InventoryGroups/utils/api';
+import { getGroupDetail, getGroups } from '../components/InventoryGroups/utils/api';
 
 export const loadEntities = (items = [], { filters, ...config }, { showTags } = {}, getEntities = defaultGetEntities) => {
     const itemIds = items.reduce((acc, curr) => (
@@ -112,11 +111,6 @@ export const filterEntities = (key, filterString) => ({
     payload: { key, filterString }
 });
 
-export const detailSelect = (appName) => ({
-    type: APPLICATION_SELECTED,
-    payload: { appName }
-});
-
 export const entitiesLoading = (isLoading = true) => ({
     type: ENTITIES_LOADING,
     payload: { isLoading }
@@ -182,6 +176,11 @@ export const fetchAllTags = (search, pagination, getTags = defaultGetAllTags) =>
 export const fetchGroups = (search, pagination) => ({
     type: ACTION_TYPES.GROUPS,
     payload: getGroups(search, pagination)
+});
+
+export const fetchGroupDetail = (groupId) => ({
+    type: ACTION_TYPES.GROUP_DETAIL,
+    payload: getGroupDetail(groupId)
 });
 
 export const fetchOperatingSystems = (params = []) => ({
