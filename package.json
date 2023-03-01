@@ -24,6 +24,7 @@
     "html-webpack-plugin": "^5.5.0",
     "lodash": "^4.17.21",
     "marked": "^4.0.10",
+    "p-all": "^4.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-intl": "^5.21.0",
@@ -177,9 +178,11 @@
     "start:federated": "fec static --config config/dev.webpack.config.js",
     "test:ct": "BABEL_ENV=componentTest cypress run --component",
     "test:openct": "BABEL_ENV=componentTest cypress open --component",
+    "test:openct:mock": "MOCK=true npm run test:openct",
     "coverage": "bash coverage.sh",
-    "startMockServer": "prism mock $npm_package_config_api_schema_path",
-    "start:mock": "MOCK=true run-p startMockServer start:proxy"
+    "mock-server": "prism mock -d $npm_package_config_api_schema_path",
+    "start:mock": "MOCK=true npm run start:proxy",
+    "start:mock:beta": "MOCK=true npm run start:proxy:beta"
   },
   "insights": {
     "appname": "inventory"

@@ -1,11 +1,14 @@
 /* eslint-disable camelcase */
 import { DEFAULT_ROW_COUNT } from '@redhat-cloud-services/frontend-components-utilities';
 import fixtures from '../fixtures/groups.json';
+import groupsSecondPage from '../fixtures/groupsSecondPage.json';
 import groupDetailFixtures from '../fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
 
 export const groupsInterceptors = {
     'successful with some items': () =>
         cy.intercept('GET', '/api/inventory/v1/groups*', fixtures).as('getGroups'),
+    'successful with some items second page': () =>
+        cy.intercept('GET', '/api/inventory/v1/groups?*page=2&perPage=50*', groupsSecondPage).as('getGroupsSecond'),
     'successful empty': () =>
         cy
         .intercept('GET', '/api/inventory/v1/groups*', {

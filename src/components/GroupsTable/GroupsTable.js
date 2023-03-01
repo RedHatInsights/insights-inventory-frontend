@@ -18,12 +18,18 @@ import {
     PrimaryToolbar
 } from '@redhat-cloud-services/frontend-components';
 import debounce from 'lodash/debounce';
+import difference from 'lodash/difference';
+import flatten from 'lodash/flatten';
+import map from 'lodash/map';
+import union from 'lodash/union';
 import upperCase from 'lodash/upperCase';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TABLE_DEFAULT_PAGINATION } from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
+import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
+import { getGroups } from '../InventoryGroups/utils/api';
 import { generateLoadingRows } from '../InventoryTable/helpers';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 
@@ -48,9 +54,10 @@ const GROUPS_TABLE_COLUMNS = [
 ];
 
 const GROUPS_TABLE_COLUMNS_TO_URL = {
-    0: 'name',
-    1: 'host_ids',
-    2: 'updated_at'
+    0: '', // reserved for selection boxes
+    1: 'name',
+    2: 'host_ids',
+    3: 'updated_at'
 };
 
 const REQUEST_DEBOUNCE_TIMEOUT = 500;
@@ -62,7 +69,9 @@ const GroupsTable = () => {
     );
     const [filters, setFilters] = useState(GROUPS_TABLE_INITIAL_STATE);
     const [rows, setRows] = useState([]);
+    const [selectedIds, setSelectedIds] = useState([]);
     const groups = useMemo(() => data?.results || [], [data]);
+    const { fetchBatched } = useFetchBatched();
 
     const fetchData = useCallback(
         debounce((filters) => {
@@ -94,10 +103,12 @@ const GroupsTable = () => {
                 </span>,
                 <span key={index}>{(group.host_ids || []).length.toString()}</span>,
                 <span key={index}>{<DateFormat date={group.updated_at} />}</span>
-            ]
+            ],
+            groupId: group.id,
+            selected: selectedIds.includes(group.id)
         }));
         setRows(newRows);
-    }, [groups]);
+    }, [groups, selectedIds]);
 
     // TODO: convert initial URL params to filters
 
@@ -172,7 +183,7 @@ const GroupsTable = () => {
                             cells: [
                                 {
                                     title: rejected ? (
-                                        // TODO: don't render the primary button (requires change in FF)
+                                    // TODO: don't render the primary button (requires change in FF)
                                         <ErrorState />
                                     ) : (
                                         <NoEntitiesFound
@@ -193,6 +204,33 @@ const GroupsTable = () => {
 
     // TODO: use ouiaSafe to indicate the loading state for e2e tests
 
+    const onSelect = (event, isSelected, rowId, rowData) => {
+        const { groupId } = rowData;
+        if (isSelected) {
+            setSelectedIds(union(selectedIds, [groupId]));
+        } else {
+            setSelectedIds(difference(selectedIds, [groupId]));
+        }
+    };
+
+    const fetchAllGroupIds = useCallback((filters, total) => {
+        const { sortIndex, sortDirection, perPage, page, ...search } = filters;
+        // exclude sort parameters
+
+        return fetchBatched(getGroups, total, search);
+    }, []);
+
+    const selectAllIds = async () => {
+        const results = await fetchAllGroupIds(filters, data?.total);
+        const ids = map(flatten(map(results, 'results')), 'id');
+        setSelectedIds(ids);
+    };
+
+    const allSelected = selectedIds.length === data?.total;
+    const noneSelected = selectedIds.length === 0;
+    const displayedIds = map(rows, 'groupId');
+    const pageSelected = difference(displayedIds, selectedIds).length === 0;
+
     return (
         <div id="groups-table">
             <PrimaryToolbar
@@ -208,6 +246,47 @@ const GroupsTable = () => {
                 }}
                 filterConfig={{ items: filterConfigItems }}
                 activeFiltersConfig={activeFiltersConfig}
+                bulkSelect={{
+                    items: [
+                        {
+                            title: 'Select none',
+                            onClick: () => setSelectedIds([]),
+                            props: { isDisabled: noneSelected }
+                        },
+                        {
+                            title: `${pageSelected ? 'Deselect' : 'Select'} page (${data?.count || 0} items)`,
+                            onClick: () => {
+                                if (pageSelected) {
+                                    // exclude groups on the page from the selected ids
+                                    const newRows = difference(selectedIds, displayedIds);
+                                    setSelectedIds(newRows);
+                                } else {
+                                    setSelectedIds(union(selectedIds, displayedIds));
+                                }
+                            }
+                        },
+                        {
+                            title: `${allSelected ? 'Deselect' : 'Select'} all (${data?.total || 0} items)`,
+                            onClick: async () => {
+                                if (allSelected) {
+                                    setSelectedIds([]);
+                                } else {
+                                    await selectAllIds();
+                                }
+                            }
+                        }
+                    ],
+                    checked: selectedIds.length > 0, // TODO: support partial selection (dash sign) in FEC BulkSelect
+                    onSelect: async (checked) => {
+                        if (checked) {
+                            await selectAllIds();
+                        } else {
+                            setSelectedIds([]);
+                        }
+                    },
+                    ouiaId: 'groups-selector',
+                    count: selectedIds.length
+                }}
             />
             <Table
                 aria-label="Groups table"
@@ -222,6 +301,8 @@ const GroupsTable = () => {
                 }}
                 onSort={onSort}
                 isStickyHeader
+                onSelect={onSelect}
+                canSelectAll={false}
             >
                 <TableHeader />
                 <TableBody />
