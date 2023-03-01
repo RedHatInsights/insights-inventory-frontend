@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from '../../store/inventory-actions';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 
-/* export const onHostGroupsChange = (event, selection) => {
-    adding chips doesn't work yet
-    const newSelection = Object.assign({}, selection);
+export const onHostGroupsChange = (event, selection) => {
+    const newSelection = [...selection];
     return newSelection;
-}; */
+};
 
 export const GROUP_FILTER = 'GROUP_FILTER';
 export const groupFilterReducer = (_state, { type, payload }) => ({
@@ -62,7 +61,7 @@ const mockApiResponse = [
 
 //receive the array of selected groups and return chips based on the name of selected groups
 export const buildHostGroupChips = (selectedGroups = []) => {
-    const chips = selectedGroups?.filter((value) => value);
+    const chips = selectedGroups?.map((group) => ({ name: group, value: group }));
     return chips?.length > 0
         ? [
             {
@@ -81,8 +80,6 @@ const useGroupFilter = (apiParams = []) => {
 
     const dispatch = useDispatch();
     const hostGroupsLoaded = useSelector(({ entities }) => entities?.groups);
-    // we need to extract names from hostGroupsLoaded and populate the filter with them
-
     useEffect(() => {
         setHostGroupValue(hostGroupsLoaded);
     }, []);
@@ -103,8 +100,8 @@ const useGroupFilter = (apiParams = []) => {
         value: 'host-groups-filter',
         type: 'checkbox',
         filterValues: {
-            onChange: (event, value) => {
-                setSelected(value);
+            onChange: (event, value, clickedGroup) => {
+                setSelected(onHostGroupsChange(event, value, clickedGroup));
             },
             selected,
             items: buildHostGroupsValues
