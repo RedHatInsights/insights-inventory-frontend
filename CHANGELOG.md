@@ -1,3 +1,17 @@
+# [1.4.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.3.1...v1.4.0) (2023-02-22)
+
+
+### Features
+
+* **ESSNTL-3726:** Add the /groups/%id page (group detail) ([#1771](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1771)) ([ca24e55](https://github.com/RedHatInsights/insights-inventory-frontend/commit/ca24e555ac3a3db7d7fe06acce90fa7b986dbc1c))
+
+## [1.3.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.3.0...v1.3.1) (2023-02-22)
+
+
+### Performance Improvements
+
+* **RHIF-167:** get rid of activeApps in redux ([#1754](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1754)) ([11be618](https://github.com/RedHatInsights/insights-inventory-frontend/commit/11be61800eb591bda38908c04cd85578fc611105))
+
 # [1.3.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.2.0...v1.3.0) (2023-02-16)
 
 

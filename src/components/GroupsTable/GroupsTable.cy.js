@@ -10,10 +10,12 @@ import {
     CHIP_GROUP,
     hasChip,
     PAGINATION_VALUES,
+    ROW,
     SORTING_ORDERS,
     TEXT_INPUT,
     TOOLBAR,
-    TOOLBAR_FILTER
+    TOOLBAR_FILTER,
+    DROPDOWN_TOGGLE
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
 import React from 'react';
@@ -32,6 +34,18 @@ const ORDER_TO_URL = {
 const DEFAULT_ROW_COUNT = 50;
 const TABLE_HEADERS = ['Name', 'Total systems', 'Last modified'];
 const ROOT = 'div[id="groups-table"]';
+
+export const checkSelectedNumber = (number) => {
+    if (number === 0) {
+        cy.get('#toggle-checkbox-text').should('not.exist');
+    } else {
+        cy.get('#toggle-checkbox-text').should('have.text', `${number} selected`);
+    }
+};
+
+export const selectRowN = (number) => {
+    cy.get(ROW).eq(number).find('.pf-c-table__check').click();
+};
 
 const mountTable = () =>
     mount(
@@ -60,7 +74,7 @@ before(() => {
 
 describe('renders correctly', () => {
     beforeEach(() => {
-        interceptors['successful with some items']();
+        interceptors['successful with some items'](); // comment out if the mock server is running
         mountTable();
     });
 
@@ -122,6 +136,12 @@ describe('pagination', () => {
             });
         });
     });
+
+    it('can change page', () => {
+        cy.wait('@getGroups');
+        cy.get('button[data-action=next]').eq(0).click(); // click "next page" button
+        cy.wait('@getGroups').its('request.url').should('include', `page=2`);
+    });
 });
 
 describe('sorting', () => {
@@ -162,9 +182,9 @@ describe('filtering', () => {
         mountTable();
     });
 
-    const applyNameFilter = () => {
+    const applyNameFilter = () =>
         cy.get('.ins-c-primary-toolbar__filter').find('input').type('lorem');
-    };
+    ;
 
     it('renders filter chip', () => {
         applyNameFilter();
@@ -172,14 +192,16 @@ describe('filtering', () => {
     });
 
     it('sends correct request', () => {
-        applyNameFilter();
-        cy.wait('@getGroups')
-        .its('request.url')
-        .should('include', 'hostname_or_id=lorem');
+        applyNameFilter().then(() => {
+            cy.wait('@getGroups')
+            .its('request.url')
+            .should('include', 'hostname_or_id=lorem');
+        });
     });
 
     it('can remove the chip or reset filters', () => {
         applyNameFilter();
+        cy.wait('@getGroups');
         cy.get(CHIP_GROUP)
         .find(CHIP)
         .ouiaId('close', 'button')
@@ -187,7 +209,49 @@ describe('filtering', () => {
             cy.get(CHIP_GROUP).find(CHIP).ouiaId('close', 'button');
         });
         cy.get('button').contains('Reset filters').click();
+        cy.wait('@getGroups');
         cy.get(CHIP_GROUP).should('not.exist');
+
+    });
+});
+
+describe('selection and bulk selection', () => {
+    beforeEach(() => {
+        interceptors['successful with some items'](); // comment out if the mock server is running
+        interceptors['successful with some items second page']();
+        mountTable();
+
+        cy.wait('@getGroups'); // first initial request
+    });
+
+    it('can select and deselect groups', () => {
+        const middleRow = Math.ceil(DEFAULT_ROW_COUNT / 2);
+        selectRowN(middleRow);
+        checkSelectedNumber(1);
+        selectRowN(Math.ceil(middleRow / 2));
+        checkSelectedNumber(2);
+        selectRowN(middleRow);
+        checkSelectedNumber(1);
+    });
+
+    it('can select all in dropdown toggle', () => {
+        cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
+        cy.get('.pf-c-dropdown__menu > li').eq(2).click();
+        checkSelectedNumber(fixtures.total);
+    });
+
+    it('can select all by clicking checkbox', () => {
+        cy.get('#toggle-checkbox').eq(0).click();
+        checkSelectedNumber(fixtures.total);
+        cy.get('#toggle-checkbox').eq(0).click();
+        checkSelectedNumber(0);
+    });
+
+    it('can select none', () => {
+        selectRowN(1);
+        cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
+        cy.get('.pf-c-dropdown__menu > li').eq(1).click();
+        checkSelectedNumber(0);
     });
 });
 

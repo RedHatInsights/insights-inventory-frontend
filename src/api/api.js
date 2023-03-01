@@ -112,7 +112,7 @@ export async function getEntities(items, {
     fields = { system_profile: ['operating_system'] },
     ...options
 }, showTags) {
-    if (hasItems && items.length > 0) {
+    if (hasItems && items?.length > 0) {
         let data = await hosts.apiHostGetHostById(
             items,
             undefined,
