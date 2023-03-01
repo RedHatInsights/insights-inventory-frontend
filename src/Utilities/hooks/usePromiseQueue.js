@@ -4,19 +4,24 @@ import pAll from 'p-all';
 const DEFAULT_CONCURRENT_PROMISES = 2;
 
 const usePromiseQueue = (limit = DEFAULT_CONCURRENT_PROMISES) => {
-    const [isResolving, setIsResolving] = useState(false);
-    const [promiseResults, setPromiseResults] = useState();
+    const [results, setResults] = useState({
+        isResolving: false,
+        promiseResults: undefined
+    });
 
     const resolve = useCallback(
         async (fns) => {
-            await setPromiseResults(undefined);
-            await setIsResolving(true);
+            await setResults((state) => ({
+                ...state,
+                isResolving: true
+            }));
             const results = await pAll(fns, {
                 concurrency: limit
             });
-
-            await setIsResolving(false);
-            await setPromiseResults(results);
+            await setResults({
+                isResolving: false,
+                promiseResults: results
+            });
 
             return results;
         },
@@ -24,8 +29,8 @@ const usePromiseQueue = (limit = DEFAULT_CONCURRENT_PROMISES) => {
     );
 
     return {
-        isResolving,
-        results: promiseResults,
+        isResolving: results.isResolving,
+        results: results.promiseResults,
         resolve
     };
 };
