@@ -5,7 +5,13 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
   actionsConfig={null}
   activeFiltersConfig={
     Object {
-      "filters": Array [],
+      "filters": Array [
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
+        },
+      ],
       "onDelete": [Function],
     }
   }
@@ -142,7 +148,13 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
 <PrimaryToolbar
   activeFiltersConfig={
     Object {
-      "filters": Array [],
+      "filters": Array [
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
+        },
+      ],
       "onDelete": [Function],
     }
   }
@@ -325,6 +337,11 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
   activeFiltersConfig={
     Object {
       "filters": Array [
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
+        },
         Object {
           "category": "Some",
           "chips": Array [
@@ -548,7 +565,13 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
 <PrimaryToolbar
   activeFiltersConfig={
     Object {
-      "filters": Array [],
+      "filters": Array [
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
+        },
+      ],
       "onDelete": [Function],
     }
   }
@@ -747,6 +770,11 @@ exports[`EntityTableToolbar DOM should render correctly - with customFilters 1`]
             },
           ],
           "type": "rhc_client_id",
+        },
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
         },
       ],
       "onDelete": [Function],
@@ -973,6 +1001,11 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
           ],
           "type": "staleness",
         },
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
+        },
       ],
       "onDelete": [Function],
     }
@@ -1157,7 +1190,13 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
 <PrimaryToolbar
   activeFiltersConfig={
     Object {
-      "filters": Array [],
+      "filters": Array [
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
+        },
+      ],
       "onDelete": [Function],
     }
   }
@@ -1545,7 +1584,13 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
 <PrimaryToolbar
   activeFiltersConfig={
     Object {
-      "filters": Array [],
+      "filters": Array [
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
+        },
+      ],
       "onDelete": [Function],
     }
   }
@@ -1765,7 +1810,13 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
 <PrimaryToolbar
   activeFiltersConfig={
     Object {
-      "filters": Array [],
+      "filters": Array [
+        Object {
+          "category": "Last Seen",
+          "chips": Array [],
+          "type": "last_seen",
+        },
+      ],
       "onDelete": [Function],
     }
   }
