@@ -100,15 +100,15 @@ const useGroupFilter = (apiParams = []) => {
         value: 'host-groups-filter',
         type: 'checkbox',
         filterValues: {
-            onChange: (event, value, clickedGroup) => {
-                setSelected(onHostGroupsChange(event, value, clickedGroup));
+            onChange: (event, value) => {
+                setSelected(onHostGroupsChange(event, value));
             },
             selected,
             items: buildHostGroupsValues
         }
     }), [selected, hostGroupValue]);
 
-    return [chips, hostGroupConfig, hostGroupValue, setHostGroupValue];
+    return [chips, hostGroupConfig, selected, setHostGroupValue];
 };
 
 export default useGroupFilter;
