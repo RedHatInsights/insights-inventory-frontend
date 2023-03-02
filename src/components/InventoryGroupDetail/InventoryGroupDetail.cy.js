@@ -1,9 +1,10 @@
 import { mount } from '@cypress/react';
+import { DROPDOWN, DROPDOWN_ITEM, MODAL } from '@redhat-cloud-services/frontend-components-utilities';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import groupDetailFixtures from '../../../cypress/fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
-import { groupDetailInterceptors as interceptors } from '../../../cypress/support/interceptors';
+import { groupDetailInterceptors as interceptors, groupsInterceptors } from '../../../cypress/support/interceptors';
 import { getStore } from '../../store';
 import InventoryGroupDetail from './InventoryGroupDetail';
 
@@ -58,5 +59,39 @@ describe('group detail page', () => {
         cy.get('[data-ouia-component-type="PF4/Breadcrumb"] li').last().find('.pf-c-skeleton');
         cy.get('h1').find('.pf-c-skeleton');
         cy.get('.pf-c-empty-state').find('.pf-c-spinner');
+    });
+
+    it('can open rename group modal', () => {
+        interceptors.successful();
+        interceptors['patch successful']();
+        groupsInterceptors['successful with some items'](); // intercept modal validation requests
+        mountPage();
+
+        cy.wait('@getGroupDetail');
+
+        cy.get(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Rename').click();
+
+        cy.get(MODAL).find('input').type('1');
+        cy.get(MODAL).find('button[type=submit]').click();
+
+        cy.wait('@patchGroup').its('request.body')
+        .should('deep.equal', { name: `${groupDetailFixtures.results[0].name}1` });
+        cy.wait('@getGroupDetail'); // the page is refreshed after submition
+    });
+
+    it('can open delete group modal', () => {
+        interceptors.successful();
+        interceptors['delete successful']();
+        mountPage();
+        cy.wait('@getGroupDetail');
+
+        cy.get(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Delete').click();
+
+        cy.get(`div[class="pf-c-check"]`).click();
+        cy.get(`button[type="submit"]`).click();
+        cy.wait('@deleteGroup').its('request.url')
+        .should('contain', groupDetailFixtures.results[0].id);
     });
 });
