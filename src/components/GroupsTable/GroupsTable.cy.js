@@ -293,7 +293,7 @@ describe('actions', () => {
     it('can delete a group, 1', () => {
         cy.get(ROW).eq(TEST_ID + 1).find(`${DROPDOWN} button`).click();
         cy.get(DROPDOWN_ITEM).contains('Delete group').click();
-        cy.get(MODAL).find('h1').should('contain.text', 'Delete group');
+        cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
         cy.get(MODAL).find('p').should('contain.text', fixtures.results[TEST_ID].name);
     });
 
@@ -301,8 +301,18 @@ describe('actions', () => {
         selectRowN(TEST_ID + 1);
         cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
         cy.get(DROPDOWN_ITEM).contains('Delete group').click();
-        cy.get(MODAL).find('h1').should('contain.text', 'Delete group');
+        cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
         cy.get(MODAL).find('p').should('contain.text', fixtures.results[TEST_ID].name);
+    });
+
+    it('can delete more groups', () => {
+        const TEST_ROWS = [2, 3];
+        TEST_ROWS.forEach((row) => selectRowN(row));
+
+        cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+        cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
+        cy.get(MODAL).find('h1').should('contain.text', 'Delete groups?');
+        cy.get(MODAL).find('p').should('contain.text', `${TEST_ROWS.length} groups and all their data`);
     });
 
     it('can create a group', () => {

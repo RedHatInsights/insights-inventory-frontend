@@ -261,7 +261,9 @@ const GroupsTable = () => {
                 isModalOpen={deleteModalOpen}
                 setIsModalOpen={setDeleteModalOpen}
                 reloadData={() => fetchData(filters)}
-                modalState={selectedGroup}
+                modalState={selectedIds.length > 1 ? {
+                    ids: selectedIds
+                } : selectedGroup}
             />
             <PrimaryToolbar
                 pagination={{
@@ -331,10 +333,10 @@ const GroupsTable = () => {
                             }
                         },
                         {
-                            label: 'Delete group',
+                            label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
                             onClick: () => setDeleteModalOpen(true),
                             props: {
-                                isDisabled: selectedIds.length !== 1
+                                isDisabled: selectedIds.length === 0
                             }
                         }
                     ] }}
