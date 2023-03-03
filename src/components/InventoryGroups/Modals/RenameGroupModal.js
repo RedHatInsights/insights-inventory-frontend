@@ -78,8 +78,10 @@ const RenameGroupModal = ({
 };
 
 RenameGroupModal.propTypes = {
-    id: PropTypes.number,
-    modalState: PropTypes.object,
+    modalState: PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string
+    }),
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
     reloadData: PropTypes.func
