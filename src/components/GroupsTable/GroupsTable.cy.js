@@ -200,9 +200,9 @@ describe('filtering', () => {
         });
     });
 
-    it('can remove the chip or reset filters', () => {
+    it.only('can remove the chip or reset filters', () => {
         applyNameFilter();
-        cy.wait('@getGroups');
+        cy.wait('@getGroups').its('request.url').should('contain', 'hostname_or_id=lorem');
         cy.get(CHIP_GROUP)
         .find(CHIP)
         .ouiaId('close', 'button')
@@ -210,7 +210,7 @@ describe('filtering', () => {
             cy.get(CHIP_GROUP).find(CHIP).ouiaId('close', 'button');
         });
         cy.get('button').contains('Reset filters').click();
-        cy.wait('@getGroups');
+        cy.wait('@getGroups').its('request.url').should('not.contain', 'hostname_or_id');
         cy.get(CHIP_GROUP).should('not.exist');
 
     });
