@@ -29,7 +29,7 @@ export const currentDate = new Date().toISOString();
 export const lastSeenItems = [
     {
         value: { updatedStart: subtractDate(1), updatedEnd: currentDate, mark: 'last24' },
-        label: 'Within last 24 hours'    },
+        label: 'Within the last 24 hours'    },
     {
         value: {  updatedEnd: subtractDate(1), mark: '24more' },
         label: 'More than 1 day ago'

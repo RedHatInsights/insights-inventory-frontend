@@ -24,7 +24,8 @@ export const uselastSeenFilter = ([state, dispatch] = [lastSeenFilterState]) => 
             items: lastSeenItems
         }
     };
-    const chip = !Array.isArray(lastSeenValue) ? [{
+
+    const chip = (!Array.isArray(lastSeenValue) && lastSeenValue !== undefined)  ? [{
         category: 'Last seen',
         type: LAST_SEEN_CHIP,
         chips: lastSeenItems.filter(({ value }) => value?.mark === lastSeenValue?.mark)
