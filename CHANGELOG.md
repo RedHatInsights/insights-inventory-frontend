@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.5.0...v1.6.0) (2023-03-03)
+
+
+### Features
+
+* **ESSNTL-4365:** Enable actions in the groups table ([#1779](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1779)) ([aa8ed51](https://github.com/RedHatInsights/insights-inventory-frontend/commit/aa8ed51285637b8a00917d92f715a99689278233))
+
 # [1.5.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.4.0...v1.5.0) (2023-03-01)
 
 

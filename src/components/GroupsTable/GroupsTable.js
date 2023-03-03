@@ -29,6 +29,9 @@ import { Link } from 'react-router-dom';
 import { TABLE_DEFAULT_PAGINATION } from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
+import CreateGroupModal from '../InventoryGroups/Modals/CreateGroupModal';
+import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
+import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { getGroups } from '../InventoryGroups/utils/api';
 import { generateLoadingRows } from '../InventoryTable/helpers';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
@@ -70,6 +73,10 @@ const GroupsTable = () => {
     const [filters, setFilters] = useState(GROUPS_TABLE_INITIAL_STATE);
     const [rows, setRows] = useState([]);
     const [selectedIds, setSelectedIds] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState({});
+    const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [renameModalOpen, setRenameModalOpen] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const groups = useMemo(() => data?.results || [], [data]);
     const { fetchBatched } = useFetchBatched();
 
@@ -105,9 +112,15 @@ const GroupsTable = () => {
                 <span key={index}>{<DateFormat date={group.updated_at} />}</span>
             ],
             groupId: group.id,
+            groupName: group.name,
             selected: selectedIds.includes(group.id)
         }));
         setRows(newRows);
+
+        setSelectedGroup({
+            id: selectedIds[0],
+            name: groups.find(({ id }) => id === selectedIds[0])?.name
+        });
     }, [groups, selectedIds]);
 
     // TODO: convert initial URL params to filters
@@ -233,6 +246,25 @@ const GroupsTable = () => {
 
     return (
         <div id="groups-table">
+            <CreateGroupModal
+                isModalOpen={createModalOpen}
+                setIsModalOpen={setCreateModalOpen}
+                reloadData={() => {fetchData(filters);}}
+            />
+            <RenameGroupModal
+                isModalOpen={renameModalOpen}
+                setIsModalOpen={setRenameModalOpen}
+                reloadData={() => fetchData(filters)}
+                modalState={selectedGroup}
+            />
+            <DeleteGroupModal
+                isModalOpen={deleteModalOpen}
+                setIsModalOpen={setDeleteModalOpen}
+                reloadData={() => fetchData(filters)}
+                modalState={selectedIds.length > 1 ? {
+                    ids: selectedIds
+                } : selectedGroup}
+            />
             <PrimaryToolbar
                 pagination={{
                     itemCount: data?.total || 0,
@@ -287,6 +319,27 @@ const GroupsTable = () => {
                     ouiaId: 'groups-selector',
                     count: selectedIds.length
                 }}
+                actionsConfig={{
+                    actions: [
+                        {
+                            label: 'Create group',
+                            onClick: () => setCreateModalOpen(true)
+                        },
+                        {
+                            label: 'Rename group',
+                            onClick: () => setRenameModalOpen(true),
+                            props: {
+                                isDisabled: selectedIds.length !== 1
+                            }
+                        },
+                        {
+                            label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
+                            onClick: () => setDeleteModalOpen(true),
+                            props: {
+                                isDisabled: selectedIds.length === 0
+                            }
+                        }
+                    ] }}
             />
             <Table
                 aria-label="Groups table"
@@ -303,6 +356,28 @@ const GroupsTable = () => {
                 isStickyHeader
                 onSelect={onSelect}
                 canSelectAll={false}
+                actions={[
+                    {
+                        title: 'Rename group',
+                        onClick: (event, rowIndex, { groupId, groupName }) => {
+                            setSelectedGroup({
+                                id: groupId,
+                                name: groupName
+                            });
+                            setRenameModalOpen(true);
+                        }
+                    },
+                    {
+                        title: 'Delete group',
+                        onClick: (event, rowIndex, { groupId, groupName }) => {
+                            setSelectedGroup({
+                                id: groupId,
+                                name: groupName
+                            });
+                            setDeleteModalOpen(true);
+                        }
+                    }
+                ]}
             >
                 <TableHeader />
                 <TableBody />
