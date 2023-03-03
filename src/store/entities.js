@@ -21,7 +21,6 @@ import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
 import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
-import useFeatureFlag from '../Utilities/useFeatureFlag';
 
 export const defaultState = {
     loaded: false,
@@ -37,7 +36,7 @@ export const defaultState = {
     }
 };
 
-export const defaultColumns = (groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups')) => [
+export const defaultColumns = (groupsEnabled = false) => ([
     {
         key: 'display_name',
         sortKey: 'display_name',
@@ -56,9 +55,7 @@ export const defaultColumns = (groupsEnabled = useFeatureFlag('hbi.ui.inventory-
         title: 'Tags',
         props: { width: 10, isStatic: true },
         // eslint-disable-next-line react/display-name
-        renderFunc: (value, systemId) => (
-            <TagWithDialog count={value.length} systemId={systemId} />
-        )
+        renderFunc: (value, systemId) => <TagWithDialog count={value.length} systemId={systemId} />
     },
     {
         key: 'system_profile',
@@ -80,40 +77,26 @@ export const defaultColumns = (groupsEnabled = useFeatureFlag('hbi.ui.inventory-
             {
                 culled_timestamp: culled, stale_warning_timestamp: staleWarn, stale_timestamp: stale,
                 per_reporter_staleness: perReporterStaleness
-            }
-        ) => {
-            return CullingInformation ? (
-                <CullingInformation
-                    culled={culled}
-                    staleWarning={staleWarn}
-                    stale={stale}
-                    render={({ msg }) => (
+            }) => {
+            return CullingInformation ? <CullingInformation
+                culled={culled}
+                staleWarning={staleWarn}
+                stale={stale}
+                render={({ msg }) => <React.Fragment>
+                    <DateFormat date={ value } extraTitle={ (
                         <React.Fragment>
-                            <DateFormat
-                                date={value}
-                                extraTitle={
-                                    <React.Fragment>
-                                        <div>{msg}</div>
-                    Last seen:{` `}
-                                    </React.Fragment>
-                                }
-                            />
-                            {verifyCulledInsightsClient(perReporterStaleness) && (
-                                <InsightsDisconnected />
-                            )}
+                            <div>{ msg }</div>
+                        Last seen:{` `}
                         </React.Fragment>
-                    )}
-                >
-                    {' '}
-                    <DateFormat date={value} />{' '}
-                </CullingInformation>
-            ) : (
-                new Date(value).toLocaleString()
-            );
+                    ) }/>
+                    {verifyCulledInsightsClient(perReporterStaleness) && <InsightsDisconnected />}
+                </React.Fragment>
+                }
+            > <DateFormat date={ value } /> </CullingInformation> : new Date(value).toLocaleString();
         },
         props: { width: 10 }
     }
-];
+]);
 
 function entitiesPending(state, { meta }) {
     return {

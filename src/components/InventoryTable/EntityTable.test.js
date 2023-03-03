@@ -19,7 +19,6 @@ import { createMemoryHistory } from 'history';
 jest.mock('../../Utilities/useFeatureFlag');
 
 describe('EntityTable', () => {
-
     let initialState;
     let mockStore;
     beforeEach(() => {
@@ -42,7 +41,6 @@ describe('EntityTable', () => {
     });
 
     describe('DOM', () => {
-
         it('should render correctly - no data', () => {
             const store = mockStore({
                 entities: {
