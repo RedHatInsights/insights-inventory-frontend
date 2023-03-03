@@ -65,7 +65,5 @@ export default CreateGroupModal;
 CreateGroupModal.propTypes = {
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
-    reloadData: PropTypes.func,
-    deviceIds: PropTypes.array,
-    isOpen: PropTypes.bool
+    reloadData: PropTypes.func
 };

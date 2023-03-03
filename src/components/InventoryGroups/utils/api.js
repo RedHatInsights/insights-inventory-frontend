@@ -35,8 +35,8 @@ export const updateGroupById = (id, payload) => {
     });
 };
 
-export const deleteGroupById = (id) => {
-    return instance.delete(`${INVENTORY_API_BASE}/groups/${id}`);
+export const deleteGroupsById = (ids = []) => {
+    return instance.delete(`${INVENTORY_API_BASE}/groups/${ids.join(',')}`);
 
 };
 

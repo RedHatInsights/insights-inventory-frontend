@@ -3,34 +3,41 @@
 # --------------------------------------------
 # Export vars for helper scripts to use
 # --------------------------------------------
-# name of app-sre "application" folder this component lives in; needs to match for quay
-export COMPONENT="host-inventory"
+export COMPONENT_NAME="host-inventory-frontend"
 # IMAGE should match the quay repo set by app.yaml in app-interface
 export IMAGE="quay.io/cloudservices/insights-inventory-frontend"
 export WORKSPACE=${WORKSPACE:-$APP_ROOT} # if running in jenkins, use the build's workspace
+export IMAGE_TAG=$(git rev-parse --short=7 HEAD)
+export GIT_COMMIT=$(git rev-parse HEAD)
 export APP_ROOT=$(pwd)
 export NODE_BUILD_VERSION=15
 COMMON_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master
 
-# --------------------------------------------
-# Options that must be configured by app owner
-# --------------------------------------------
-IQE_PLUGINS="host_inventory"
-IQE_MARKER_EXPRESSION="smoke"
-IQE_FILTER_EXPRESSION=""
 
-set -exv
+export IQE_PLUGINS="host-inventory-frontend"
+export IQE_MARKER_EXPRESSION="smoke"
+export IQE_ENV="ephemeral"
+export IQE_SELENIUM="true"
+export IQE_CJI_TIMEOUT="30m"
+export REF_ENV="insights-stage"
+
+
+# Install bonfire repo/initialize
+CICD_URL=https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd
+# shellcheck source=/dev/null
+curl -s $CICD_URL/bootstrap.sh > .cicd_bootstrap.sh && source .cicd_bootstrap.sh
 # source is preferred to | bash -s in this case to avoid a subshell
 source <(curl -sSL $COMMON_BUILDER/src/frontend-build.sh)
-BUILD_RESULTS=$?
 
-# Stubbed out for now
-mkdir -p $WORKSPACE/artifacts
-cat << EOF > $WORKSPACE/artifacts/junit-dummy.xml
-<testsuite tests="1">
-    <testcase classname="dummy" name="dummytest"/>
-</testsuite>
-EOF
+# reserve ephemeral namespace
+export DEPLOY_FRONTENDS="true"
+export APP_NAME="host-inventory"
 
-# teardown_docker
-exit $BUILD_RESULTS
+# Run smoke tests
+# shellcheck source=/dev/null
+source "${CICD_ROOT}/deploy_ephemeral_env.sh"
+# shellcheck source=/dev/null
+export COMPONENT_NAME="host-inventory"
+source "${CICD_ROOT}/cji_smoke_test.sh"
+# shellcheck source=/dev/null
+source "${CICD_ROOT}/post_test_results.sh"
