@@ -42,7 +42,6 @@ global.insights = {
         getUserPermissions: () => Promise.resolve(['inventory:*:*'])
     }
 };
-jest.useFakeTimers('modern').setSystemTime(new Date('2020-01-01').getTime());
 
 global.shallow = shallow;
 global.render = render;
