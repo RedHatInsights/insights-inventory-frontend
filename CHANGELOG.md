@@ -1,3 +1,36 @@
+## [1.7.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.0...v1.7.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* **ADVISOR-3016:** Add perPage arg to getEntities ([#1777](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1777)) ([6b42a24](https://github.com/RedHatInsights/insights-inventory-frontend/commit/6b42a24cb93f9b89fcb5df6d11dd370be29d2c22))
+
+# [1.7.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.6.0...v1.7.0) (2023-03-03)
+
+
+### Features
+
+* **Inventory table:** Add static groups column ([#1772](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1772)) ([94db33f](https://github.com/RedHatInsights/insights-inventory-frontend/commit/94db33fb6f1268271a1d5f8b7bb4d6b747eb3940))
+
+# [1.6.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.5.0...v1.6.0) (2023-03-03)
+
+
+### Features
+
+* **ESSNTL-4365:** Enable actions in the groups table ([#1779](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1779)) ([aa8ed51](https://github.com/RedHatInsights/insights-inventory-frontend/commit/aa8ed51285637b8a00917d92f715a99689278233))
+
+# [1.5.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.4.0...v1.5.0) (2023-03-01)
+
+
+### Bug Fixes
+
+* **ESSNTL-4387:** Pass down inventoryId to Advisor ([#1773](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1773)) ([72e017e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/72e017ebb0eb461ddc9e3a38cec47fa41685f97e))
+
+
+### Features
+
+* **ESSNTL-4365:** Select rows in the groups table ([#1775](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1775)) ([2d81ac7](https://github.com/RedHatInsights/insights-inventory-frontend/commit/2d81ac7e5f873361b887b0bfa8a1e4eb4e613c79))
+
 # [1.4.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.3.1...v1.4.0) (2023-02-22)
 
 
