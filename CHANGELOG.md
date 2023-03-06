@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.6.0...v1.7.0) (2023-03-03)
+
+
+### Features
+
+* **Inventory table:** Add static groups column ([#1772](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1772)) ([94db33f](https://github.com/RedHatInsights/insights-inventory-frontend/commit/94db33fb6f1268271a1d5f8b7bb4d6b747eb3940))
+
 # [1.6.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.5.0...v1.6.0) (2023-03-03)
 
 

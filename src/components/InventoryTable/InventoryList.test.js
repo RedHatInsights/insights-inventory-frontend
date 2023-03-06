@@ -8,6 +8,8 @@ import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { MemoryRouter } from 'react-router-dom';
 import toJson from 'enzyme-to-json';
 
+jest.mock('../../Utilities/useFeatureFlag.js');
+
 jest.mock('../../store/actions', () => {
     const actions = jest.requireActual('../../store/actions');
     const { ACTION_TYPES } = jest.requireActual('../../store/action-types');
