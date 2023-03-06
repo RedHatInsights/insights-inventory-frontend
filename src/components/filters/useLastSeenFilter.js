@@ -9,7 +9,7 @@ export const lastSeenFilterReducer = (_state, { type, payload }) => ({
     }
 });
 
-export const uselastSeenFilter = ([state, dispatch] = [lastSeenFilterState]) => {
+export const useLastSeenFilter = ([state, dispatch] = [lastSeenFilterState]) => {
     let [lastSeenStateValue, setLastSeenValue] = useState({});
     const lastSeenValue = dispatch ? state.lastSeenFilter : [lastSeenStateValue];
     const setValue = dispatch ? (newValue) => dispatch({ type: LAST_SEEN_FILTER, payload: newValue }) : setLastSeenValue;
@@ -32,5 +32,21 @@ export const uselastSeenFilter = ([state, dispatch] = [lastSeenFilterState]) => 
         .map(({ label, ...props }) => ({ name: label, ...props }))
     }] : [];
 
-    return [filter, chip, lastSeenValue, setValue];
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+
+    const toValidator = date => date >= startDate ? '' : 'To date must be less than from date';
+
+    const onFromChange = (_str, date) => {
+        setStartDate((date));
+        setValue({ ...lastSeenValue, updatedStart: new Date(date).toISOString() });
+        date.setDate(date.getDate() + 1);
+    };
+
+    const onToChange = (date) => {
+        setEndDate(date);
+        setValue({ ...lastSeenValue, updatedEnd: new Date(date).toISOString() });
+    };
+
+    return [filter, chip, lastSeenValue, setValue, toValidator, onFromChange, onToChange, endDate, startDate];
 };
