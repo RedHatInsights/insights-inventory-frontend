@@ -106,7 +106,7 @@ const EntityTableToolbar = ({
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
     const [rhcdFilterConfig, rhcdFilterChips, rhcdFilterValue, setRhcdFilterValue] = useRhcdFilter(reducer);
     const [lastSeenFilter, lastSeenChip, lastSeenFilterValue, setLastSeenFilterValue,
-        toValidator, onFromChange, onToChange, endDate, startDate] = useLastSeenFilter(reducer);
+        toValidator, onFromChange, onToChange, endDate, startDate, rangeValidator] = useLastSeenFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
     const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
 
@@ -411,6 +411,8 @@ const EntityTableToolbar = ({
                     <DatePicker
                         onChange={onFromChange}
                         aria-label="Start date"
+                        validators={[rangeValidator]}
+
                     />
                 </SplitItem>
                 <SplitItem style={{ padding: '6px 12px 0 12px' }}>
