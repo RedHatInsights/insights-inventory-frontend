@@ -45,7 +45,7 @@ export const newDefaultColumns = () => [
     },
     {
         key: 'groups',
-        sortKey: 'groups',
+        sortKey: 'host_group',
         title: 'Groups',
         props: { width: 10 },
         renderFunc: () =>

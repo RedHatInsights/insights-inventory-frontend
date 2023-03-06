@@ -49,7 +49,9 @@ const filterMapper = {
     ),
     rhcdFilter: ({ rhcdFilter }, searchParams) => rhcdFilter?.forEach(item => searchParams.append(RHCD_FILTER_KEY, item)),
     updateMethodFilter: ({ updateMethodFilter }, searchParams) =>
-        updateMethodFilter?.forEach(item => searchParams.append(UPDATE_METHOD_KEY, item))
+        updateMethodFilter?.forEach(item => searchParams.append(UPDATE_METHOD_KEY, item)),
+    groupHostFilter: ({ groupHostFilter }, searchParams) => groupHostFilter
+    ?.forEach(item => searchParams.append('host_group', item))
 };
 
 const calculateFilters = (searchParams, filters = []) => {
@@ -81,7 +83,8 @@ const Inventory = ({
     page,
     perPage,
     initialLoading,
-    hasAccess
+    hasAccess,
+    groupHostsFilter
 }) => {
     const history = useHistory();
     const chrome = useChrome();
@@ -89,7 +92,14 @@ const Inventory = ({
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState(
-        generateFilter(status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter)
+        generateFilter(status,
+            source,
+            tagsFilter,
+            filterbyName,
+            operatingSystem,
+            rhcdFilter,
+            updateMethodFilter,
+            groupHostsFilter)
     );
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
@@ -289,7 +299,8 @@ Inventory.propTypes = {
     initialLoading: PropTypes.bool,
     rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     updateMethodFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
-    hasAccess: PropTypes.bool
+    hasAccess: PropTypes.bool,
+    groupHostsFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
 };
 
 Inventory.defaultProps = {

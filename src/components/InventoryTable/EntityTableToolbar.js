@@ -107,6 +107,7 @@ const EntityTableToolbar = ({
     const [hostGroupChips, hostGroupConfig, hostGroupValue, setHostGroupValue] = useGroupFilter();
 
     const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
+    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
 
     const {
         tagsFilter,
@@ -139,7 +140,7 @@ const EntityTableToolbar = ({
         updateMethodFilter: isUpdateMethodEnabled &&
             !(hideFilters.all && hideFilters.updateMethodFilter !== false)
                 && !hideFilters.updateMethodFilter,
-        hostGroupFilter: true
+        hostGroupFilter: groupsEnabled
     };
 
     /**
@@ -188,7 +189,7 @@ const EntityTableToolbar = ({
         enabledFilters.operatingSystem && setOsFilterValue(osFilter);
         enabledFilters.rhcdFilter && setRhcdFilterValue(rhcdFilter);
         enabledFilters.updateMethodFilter && setUpdateMethodValue(updateMethodFilter);
-        enabledFilters.hostGroupFilter && setHostGroupValue(groupFilter);
+        groupsEnabled && setHostGroupValue(groupFilter);
     }, []);
 
     /**
@@ -275,7 +276,7 @@ const EntityTableToolbar = ({
     }, [updateMethodValue]);
 
     useEffect(() => {
-        if (shouldReload && enabledFilters.hostGroupFilter) {
+        if (shouldReload && groupsEnabled) {
             onSetFilter(hostGroupValue, 'hostGroupFilter', debouncedRefresh);
         }
     }, [hostGroupValue]);
@@ -312,7 +313,7 @@ const EntityTableToolbar = ({
         enabledFilters.operatingSystem && setOsFilterValue([]);
         enabledFilters.rhcdFilter && setRhcdFilterValue([]);
         enabledFilters.updateMethodFilter && setUpdateMethodValue([]);
-        enabledFilters.hostGroupFilter && setHostGroupValue([]);
+        groupsEnabled && setHostGroupValue([]);
         dispatch(setFilter([]));
         updateData({ page: 1, filters: [] });
     };
@@ -331,7 +332,7 @@ const EntityTableToolbar = ({
                 ...!hasItems && enabledFilters.operatingSystem ? osFilterChips : [],
                 ...!hasItems && enabledFilters.rhcdFilter ? rhcdFilterChips : [],
                 ...!hasItems && enabledFilters.updateMethodFilter ? updateMethodChips : [],
-                ...!hasItems && enabledFilters.hostGroupFilter ? hostGroupChips : [],
+                ...!hasItems && groupsEnabled ? hostGroupChips : [],
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -358,7 +359,7 @@ const EntityTableToolbar = ({
             ...enabledFilters.rhcdFilter ? [rhcdFilterConfig] : [],
             ...enabledFilters.updateMethodFilter ? [updateMethodConfig] : [],
             ...showTags && enabledFilters.tags ? [tagsFilter] : [],
-            ...enabledFilters && enabledFilters.hostGroupFilter ? [hostGroupConfig] : []
+            ...enabledFilters && groupsEnabled ? [hostGroupConfig] : []
         ] : [],
         ...filterConfig?.items || []
     ];

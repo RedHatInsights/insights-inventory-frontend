@@ -4,11 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from '../../store/inventory-actions';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 
-export const onHostGroupsChange = (event, selection) => {
-    const newSelection = [...selection];
-    return newSelection;
-};
-
+//for attaching this filter to the redux
+export const groupFilterState = { groupHostFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
 export const groupFilterReducer = (_state, { type, payload }) => ({
     ...type === GROUP_FILTER && {
@@ -61,7 +58,9 @@ const mockApiResponse = [
 
 //receive the array of selected groups and return chips based on the name of selected groups
 export const buildHostGroupChips = (selectedGroups = []) => {
-    const chips = selectedGroups?.map((group) => ({ name: group, value: group }));
+    //we use new Set to make sure that chips are unique
+    const uniqueGroups = [...new Set(selectedGroups)];
+    const chips = uniqueGroups?.map((group) => ({ name: group, value: group }));
     return chips?.length > 0
         ? [
             {
@@ -74,34 +73,40 @@ export const buildHostGroupChips = (selectedGroups = []) => {
 };
 
 const useGroupFilter = (apiParams = []) => {
-    //we need to load all groups and then show their names
-    const [selected, setSelected] = useState([]);
-    const [hostGroupValue, setHostGroupValue] = useState([]);
-
-    const dispatch = useDispatch();
-    const hostGroupsLoaded = useSelector(({ entities }) => entities?.groups);
-    useEffect(() => {
-        setHostGroupValue(hostGroupsLoaded);
-    }, []);
-
+    //currently mockApiResponse is replacing a proper API response
+    //buildHostGroupsValues build an array of objects to populate dropdown
     const buildHostGroupsValues = mockApiResponse.reduce((acc, group) => {
         acc.push({ label: group.name, value: group.name });
         return acc;
     }, []);
+    //selected are the groups we selected
+    const [selected, setSelected] = useState([]);
+    //host group values are all of the host group values available to the user
+    const [hostGroupValue, setHostGroupValue] = useState(buildHostGroupsValues);
 
-    const chips = useMemo(() => buildHostGroupChips(selected), [selected, hostGroupsLoaded]);
+    const onHostGroupsChange = (event, selection) => {
+        return setSelected(selected => [...selected, selection].flat(1));
+    };
 
+    const hostGroupsLoaded = useSelector(({ entities }) => entities?.groups);
     useEffect(() => {
-        dispatch(fetchGroups(apiParams));
+        setHostGroupValue(hostGroupsLoaded);
     }, []);
+    const chips = useMemo(() => buildHostGroupChips(selected), [selected]);
+    /*
+   const dispatch = useDispatch();
+   useEffect(() => {
+        dispatch(fetchGroups(apiParams));
+    }, []); */
 
+    //hostGroupConfig is a config that we use in EntityTableToolbar.js
     const hostGroupConfig = useMemo(() => ({
         label: 'Group',
-        value: 'host-groups-filter',
+        value: 'group-host-filter',
         type: 'checkbox',
         filterValues: {
             onChange: (event, value) => {
-                setSelected(onHostGroupsChange(event, value));
+                onHostGroupsChange(event, value);
             },
             selected,
             items: buildHostGroupsValues

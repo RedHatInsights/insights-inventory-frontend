@@ -98,7 +98,8 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter },
     ...'osFilter' in filter && { osFilter: filter.osFilter },
     ...'rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter },
-    ...'updateMethodFilter' in filter && { updateMethodFilter: filter.updateMethodFilter }
+    ...'updateMethodFilter' in filter && { updateMethodFilter: filter.updateMethodFilter },
+    ...'groupHostFilter' in filter && { groupHostFilter: filter.groupHostFilter }
 });
 
 export async function getEntities(items, {

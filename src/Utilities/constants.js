@@ -106,7 +106,15 @@ export const reloadWrapper = (event, callback) => {
 
 export const isEmpty = (check) => !check || check?.length === 0;
 
-export const generateFilter = (status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter) => ([
+export const generateFilter = (status,
+    source,
+    tagsFilter,
+    filterbyName,
+    operatingSystem,
+    rhcdFilter,
+    updateMethodFilter,
+    hostGroup
+) => ([
     !isEmpty(status) && {
         staleFilter: Array.isArray(status) ? status : [status]
     },
@@ -134,6 +142,9 @@ export const generateFilter = (status, source, tagsFilter, filterbyName, operati
     },
     !isEmpty(updateMethodFilter) && {
         updateMethodFilter: Array.isArray(updateMethodFilter) ? updateMethodFilter : [updateMethodFilter]
+    },
+    !isEmpty(hostGroup) && {
+        hostGroupFilter: Array.isArray(hostGroup) ? hostGroup : [hostGroup]
     }
 ].filter(Boolean));
 
