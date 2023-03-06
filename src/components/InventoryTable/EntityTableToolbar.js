@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { Fragment, useEffect, useCallback, useReducer, useState } from 'react';
+import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import xor from 'lodash/xor';
@@ -29,7 +29,7 @@ import {
     useRegisteredWithFilter,
     useTagsFilter,
     useRhcdFilter,
-    uselastSeenFilter,
+    useLastSeenFilter,
     useUpdateMethodFilter,
     textFilterState,
     textFilterReducer,
@@ -105,7 +105,8 @@ const EntityTableToolbar = ({
     const [stalenessFilter, stalenessChip, staleFilter, setStaleFilter] = useStalenessFilter(reducer);
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
     const [rhcdFilterConfig, rhcdFilterChips, rhcdFilterValue, setRhcdFilterValue] = useRhcdFilter(reducer);
-    const [lastSeenFilter, lastSeenChip, lastSeenFilterValue, setLastSeenFilterValue] = uselastSeenFilter(reducer);
+    const [lastSeenFilter, lastSeenChip, lastSeenFilterValue, setLastSeenFilterValue,
+        toValidator, onFromChange, onToChange, endDate, startDate] = useLastSeenFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
     const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
 
@@ -365,20 +366,6 @@ const EntityTableToolbar = ({
         ] : [],
         ...filterConfig?.items || []
     ];
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
-
-    const toValidator = date => date >= startDate ? '' : 'To date must be less than from date';
-    const onFromChange = (_str, date) => {
-        setStartDate((date));
-        setLastSeenFilterValue({ ...lastSeenFilterValue, updatedStart: new Date(date).toISOString() });
-        date.setDate(date.getDate() + 1);
-    };
-
-    const onToChange = (date) => {
-        setEndDate(date);
-        setLastSeenFilterValue({ ...lastSeenFilterValue, updatedEnd: new Date(date).toISOString() });
-    };
 
     return <Fragment>
         <PrimaryToolbar
