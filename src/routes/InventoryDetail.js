@@ -112,6 +112,7 @@ const Inventory = () => {
             hideBack
             inventoryId={inventoryId}
             showTags
+            showMainSection
             fallback=""
             store={store}
             history={history}
