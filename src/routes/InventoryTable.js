@@ -251,6 +251,7 @@ const Inventory = ({
                 </Grid>
             </Main>
             <DeleteModal
+                className ='sentry-mask data-hj-suppress'
                 handleModalToggle={handleModalToggle}
                 isModalOpen={isModalOpen}
                 currentSytems={currentSytem}

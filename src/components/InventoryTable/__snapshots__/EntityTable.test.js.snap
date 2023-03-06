@@ -102,7 +102,7 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
         data-label="One"
       >
         <div
-          class="ins-composed-col"
+          class="ins-composed-col sentry-mask data-hj-suppress"
         >
           <div />
           <div
@@ -283,7 +283,7 @@ exports[`EntityTable DOM should render correctly - is expandable 1`] = `
         "cells": Array [
           <React.Fragment>
             <div
-              className="ins-composed-col"
+              className="ins-composed-col sentry-mask data-hj-suppress"
             >
               <div />
               <div
@@ -468,7 +468,7 @@ exports[`EntityTable DOM should render correctly - with actions 1`] = `
         "cells": Array [
           <React.Fragment>
             <div
-              className="ins-composed-col"
+              className="ins-composed-col sentry-mask data-hj-suppress"
             >
               <div />
               <div
@@ -601,7 +601,7 @@ exports[`EntityTable DOM should render correctly - without checkbox 1`] = `
         "cells": Array [
           <React.Fragment>
             <div
-              className="ins-composed-col"
+              className="ins-composed-col sentry-mask data-hj-suppress"
             >
               <div />
               <div
@@ -737,7 +737,7 @@ exports[`EntityTable DOM should render correctly 1`] = `
         data-label="One"
       >
         <div
-          class="ins-composed-col"
+          class="ins-composed-col sentry-mask data-hj-suppress"
         >
           <div />
           <div
@@ -808,7 +808,7 @@ exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
         "cells": Array [
           <React.Fragment>
             <div
-              className="ins-composed-col"
+              className="ins-composed-col sentry-mask data-hj-suppress"
             >
               <div />
               <div
@@ -887,7 +887,7 @@ exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] 
         "cells": Array [
           <React.Fragment>
             <div
-              className="ins-composed-col"
+              className="ins-composed-col sentry-mask data-hj-suppress"
             >
               <div />
               <div
@@ -967,7 +967,7 @@ exports[`EntityTable DOM sort by should render correctly 1`] = `
         "cells": Array [
           <React.Fragment>
             <div
-              className="ins-composed-col"
+              className="ins-composed-col sentry-mask data-hj-suppress"
             >
               <div />
               <div
