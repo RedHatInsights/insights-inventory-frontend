@@ -129,7 +129,7 @@ export async function getEntities(items, {
             try {
                 const result = await hosts.apiHostGetHostSystemProfileById(
                     items,
-                    undefined,
+                    perPage,
                     undefined,
                     undefined,
                     undefined,

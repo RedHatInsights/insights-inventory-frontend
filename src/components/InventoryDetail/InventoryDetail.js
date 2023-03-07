@@ -24,6 +24,7 @@ const InventoryDetail = ({
     additionalClasses,
     activeApp,
     appList,
+    showMainSection,
     ...headerProps
 }) => {
     const dispatch = useDispatch();
@@ -49,23 +50,28 @@ const InventoryDetail = ({
                 onBackToListClick={onBackToListClick}
                 inventoryId={inventoryId}
             />
-        ) : <DetailHeader
-            entity={entity}
-            loaded={ loaded }
-            onBackToListClick={ onBackToListClick }
-            deleteEntity={deleteEntity}
-            addNotification={addNotification}
-            {...headerProps}
-        />
+        ) : (
+            <>
+                <DetailHeader
+                    entity={entity}
+                    loaded={loaded}
+                    onBackToListClick={onBackToListClick}
+                    deleteEntity={deleteEntity}
+                    addNotification={addNotification}
+                    showTags={showTags}
+                    {...headerProps}
+                />
+                {showMainSection && (
+                    <ApplicationDetails
+                        onTabSelect={onTabSelect}
+                        activeApp={activeApp}
+                        appList={appList}
+                        inventoryId={inventoryId}
+                    />
+                )}
+            </>)
         }
-        {appList.length > 1 && (
-            <ApplicationDetails
-                onTabSelect={onTabSelect}
-                activeApp={activeApp}
-                appList={appList}
-                inventoryId={inventoryId}
-            />
-        )}
+
     </div>;
 };
 
