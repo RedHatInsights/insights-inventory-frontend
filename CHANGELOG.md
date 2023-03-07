@@ -1,3 +1,5 @@
+## [1.7.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.1...v1.7.2) (2023-03-07)
+
 ## [1.7.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.0...v1.7.1) (2023-03-06)
 
 
