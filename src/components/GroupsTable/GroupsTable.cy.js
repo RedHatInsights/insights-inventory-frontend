@@ -15,7 +15,10 @@ import {
     TEXT_INPUT,
     TOOLBAR,
     TOOLBAR_FILTER,
-    DROPDOWN_TOGGLE
+    DROPDOWN_TOGGLE,
+    DROPDOWN,
+    DROPDOWN_ITEM,
+    MODAL
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
 import React from 'react';
@@ -76,6 +79,8 @@ describe('renders correctly', () => {
     beforeEach(() => {
         interceptors['successful with some items'](); // comment out if the mock server is running
         mountTable();
+
+        cy.wait('@getGroups'); // first initial call
     });
 
     it('the root container is rendered', () => {
@@ -95,10 +100,11 @@ describe('defaults', () => {
     beforeEach(() => {
         interceptors['successful with some items']();
         mountTable();
+
+        cy.wait('@getGroups'); // first initial call
     });
 
     it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
-        cy.wait('@getGroups');
         cy.get('.pf-c-options-menu__toggle-text')
         .find('b')
         .eq(0)
@@ -114,6 +120,8 @@ describe('pagination', () => {
     beforeEach(() => {
         interceptors['successful with some items']();
         mountTable();
+
+        cy.wait('@getGroups'); // first initial call
     });
 
     it('shows correct total number of groups', () => {
@@ -125,20 +133,16 @@ describe('pagination', () => {
     });
 
     it('can change page limit', () => {
-        cy.wait('@getGroups').then(() => {
-            // first initial call
-            cy.wrap(PAGINATION_VALUES).each((el) => {
-                changePagination(el).then(() => {
-                    cy.wait('@getGroups')
-                    .its('request.url')
-                    .should('include', `perPage=${el}`);
-                });
+        PAGINATION_VALUES.forEach((el) => {
+            changePagination(el).then(() => {
+                cy.wait('@getGroups')
+                .its('request.url')
+                .should('include', `perPage=${el}`);
             });
         });
     });
 
     it('can change page', () => {
-        cy.wait('@getGroups');
         cy.get('button[data-action=next]').eq(0).click(); // click "next page" button
         cy.wait('@getGroups').its('request.url').should('include', `page=2`);
     });
@@ -148,6 +152,8 @@ describe('sorting', () => {
     beforeEach(() => {
         interceptors['successful with some items']();
         mountTable();
+
+        cy.wait('@getGroups'); // first initial call
     });
 
     const checkSorting = (label, order, dataField) => {
@@ -180,6 +186,8 @@ describe('filtering', () => {
     beforeEach(() => {
         interceptors['successful with some items']();
         mountTable();
+
+        cy.wait('@getGroups'); // first initial call
     });
 
     const applyNameFilter = () =>
@@ -189,6 +197,7 @@ describe('filtering', () => {
     it('renders filter chip', () => {
         applyNameFilter();
         hasChip('Name', 'lorem');
+        cy.wait('@getGroups');
     });
 
     it('sends correct request', () => {
@@ -252,6 +261,73 @@ describe('selection and bulk selection', () => {
         cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
         cy.get('.pf-c-dropdown__menu > li').eq(1).click();
         checkSelectedNumber(0);
+    });
+});
+
+describe('actions', () => {
+    beforeEach(() => {
+        interceptors['successful with some items']();
+        mountTable();
+
+        cy.wait('@getGroups'); // first initial request
+    });
+
+    const TEST_ID = 0;
+
+    it('bulk rename and delete actions are disabled when no items selected', () => {
+        cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+        cy.get(DROPDOWN_ITEM).should('have.class', 'pf-m-disabled');
+    });
+
+    it('can rename a group, 1', () => {
+        cy.get(ROW).eq(TEST_ID + 1).find(`${DROPDOWN} button`).click();
+        cy.get(DROPDOWN_ITEM).contains('Rename group').click();
+        cy.get(MODAL).find('h1').should('contain.text', 'Rename group');
+        cy.get(MODAL).find('input').should('have.value', fixtures.results[TEST_ID].name);
+
+        cy.wait('@getGroups'); // validate request
+    });
+
+    it('can rename a group, 2', () => {
+        selectRowN(TEST_ID + 1);
+        cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+        cy.get(DROPDOWN_ITEM).contains('Rename group').click();
+        cy.get(MODAL).find('h1').should('contain.text', 'Rename group');
+        cy.get(MODAL).find('input').should('have.value', fixtures.results[TEST_ID].name);
+
+        cy.wait('@getGroups'); // validate request
+    });
+
+    it('can delete a group, 1', () => {
+        cy.get(ROW).eq(TEST_ID + 1).find(`${DROPDOWN} button`).click();
+        cy.get(DROPDOWN_ITEM).contains('Delete group').click();
+        cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
+        cy.get(MODAL).find('p').should('contain.text', fixtures.results[TEST_ID].name);
+    });
+
+    it('can delete a group, 2', () => {
+        selectRowN(TEST_ID + 1);
+        cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+        cy.get(DROPDOWN_ITEM).contains('Delete group').click();
+        cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
+        cy.get(MODAL).find('p').should('contain.text', fixtures.results[TEST_ID].name);
+    });
+
+    it('can delete more groups', () => {
+        const TEST_ROWS = [2, 3];
+        TEST_ROWS.forEach((row) => selectRowN(row));
+
+        cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+        cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
+        cy.get(MODAL).find('h1').should('contain.text', 'Delete groups?');
+        cy.get(MODAL).find('p').should('contain.text', `${TEST_ROWS.length} groups and all their data`);
+    });
+
+    it('can create a group', () => {
+        cy.get(TOOLBAR).find('button').contains('Create group').click();
+        cy.get(MODAL).find('h1').should('contain.text', 'Create group');
+
+        cy.wait('@getGroups'); // validate request
     });
 });
 

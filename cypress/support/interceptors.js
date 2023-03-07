@@ -62,3 +62,16 @@ export const groupDetailInterceptors = {
         }).as('getGroupDetail');
     }
 };
+
+export const deleteGroupsInterceptors = {
+    'successful deletion': () => {
+        cy.intercept('DELETE', '/api/inventory/v1/groups/*', {
+            statusCode: 204
+        }).as('deleteGroups');
+    },
+    'failed deletion (invalid request)': () => {
+        cy.intercept('DELETE', '/api/inventory/v1/groups/*', {
+            statusCode: 400
+        }).as('deleteGroups');
+    }
+};
