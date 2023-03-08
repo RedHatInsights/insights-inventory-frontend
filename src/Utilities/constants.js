@@ -178,7 +178,8 @@ export const generateFilter = (status,
         rhcdFilter: Array.isArray(rhcdFilter) ? rhcdFilter : [rhcdFilter]
     },
     !isEmpty(lastSeenFilter) && {
-        lastSeenFilter: Array.isArray(lastSeenFilter) ? lastSeenFilter : [lastSeenFilter]
+        lastSeenFilter: Array.isArray(lastSeenFilter)
+            ? lastSeenItems.filter((item)=> item.value.mark === lastSeenFilter[0])[0].value : [lastSeenFilter]
     },
     !isEmpty(updateMethodFilter) && {
         updateMethodFilter: Array.isArray(updateMethodFilter) ? updateMethodFilter : [updateMethodFilter]
