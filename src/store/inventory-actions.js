@@ -41,6 +41,7 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
         ...(isFilterDisabled('host_group')) && { groupHostFilter: undefined }
     }) : {
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
+        ...(isFilterDisabled('last_seen') && { lastSeenFilter: undefined }),
         ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
         ...(isFilterDisabled('operating_system') && { osFilter: undefined }),
         ...(isFilterDisabled('host_group')) && { groupHostFilter: undefined }

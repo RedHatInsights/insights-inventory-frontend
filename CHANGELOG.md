@@ -1,3 +1,12 @@
+# [1.8.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.2...v1.8.0) (2023-03-07)
+
+
+### Features
+
+* **ESSNTL-4056:** Add lastSeen filter ([#1781](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1781)) ([7bb6ac8](https://github.com/RedHatInsights/insights-inventory-frontend/commit/7bb6ac85fcb5fc7c31514066c2ef174868213687))
+
+## [1.7.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.1...v1.7.2) (2023-03-07)
+
 ## [1.7.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.0...v1.7.1) (2023-03-06)
 
 

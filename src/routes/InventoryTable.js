@@ -48,6 +48,9 @@ const filterMapper = {
         flatMap(tagFilters, mapTags)
     ),
     rhcdFilter: ({ rhcdFilter }, searchParams) => rhcdFilter?.forEach(item => searchParams.append(RHCD_FILTER_KEY, item)),
+    //TODO: Add a way to add to url in a way that allows shareable links
+    // lastSeenFilter: ({ lastSeenFilter }, searchParams) =>
+    //     Object.values(lastSeenFilter)?.forEach(item => searchParams.append('last_seen', item)),
     updateMethodFilter: ({ updateMethodFilter }, searchParams) =>
         updateMethodFilter?.forEach(item => searchParams.append(UPDATE_METHOD_KEY, item)),
     groupHostFilter: ({ groupHostFilter }, searchParams) => groupHostFilter
@@ -60,7 +63,6 @@ const calculateFilters = (searchParams, filters = []) => {
             filterMapper?.[key]?.(filter, searchParams);
         });
     });
-
     return searchParams;
 };
 
@@ -80,6 +82,7 @@ const Inventory = ({
     operatingSystem,
     rhcdFilter,
     updateMethodFilter,
+    lastSeenFilter,
     page,
     perPage,
     initialLoading,
@@ -92,14 +95,16 @@ const Inventory = ({
     const [isModalOpen, handleModalToggle] = useState(false);
     const [currentSytem, activateSystem] = useState({});
     const [filters, onSetfilters] = useState(
-        generateFilter(status,
+        generateFilter(
+            status,
             source,
             tagsFilter,
             filterbyName,
             operatingSystem,
             rhcdFilter,
             updateMethodFilter,
-            groupHostsFilter)
+            groupHostsFilter,
+            lastSeenFilter)
     );
     const [ediOpen, onEditOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
@@ -300,7 +305,8 @@ Inventory.propTypes = {
     rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     updateMethodFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     hasAccess: PropTypes.bool,
-    groupHostsFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
+    groupHostsFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    lastSeenFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
 };
 
 Inventory.defaultProps = {

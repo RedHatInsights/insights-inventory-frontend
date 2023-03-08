@@ -14,6 +14,12 @@ import debounce from 'lodash/debounce';
 jest.mock('lodash/debounce');
 jest.mock('../../Utilities/useFeatureFlag');
 
+jest.mock('../../Utilities/constants', () => ({
+    ...jest.requireActual('../../Utilities/constants'),
+    lastSeenItems: jest.fn().mockReturnValue([])
+
+}));
+
 describe('EntityTableToolbar', () => {
     let initialState;
     let stateWithActiveFilter;
