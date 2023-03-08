@@ -1,15 +1,17 @@
 /* eslint-disable camelcase */
+import { union } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from '../../store/inventory-actions';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
+import  remove  from 'lodash/remove';
 
 //for attaching this filter to the redux
 export const groupFilterState = { groupHostFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
 export const groupFilterReducer = (_state, { type, payload }) => ({
     ...type === GROUP_FILTER && {
-        groupFilter: payload
+        groupHostFilter: payload
     }
 });
 
@@ -59,8 +61,7 @@ const mockApiResponse = [
 //receive the array of selected groups and return chips based on the name of selected groups
 export const buildHostGroupChips = (selectedGroups = []) => {
     //we use new Set to make sure that chips are unique
-    const uniqueGroups = [...new Set(selectedGroups)];
-    const chips = uniqueGroups?.map((group) => ({ name: group, value: group }));
+    const chips = [...selectedGroups]?.map((group) => ({ name: group, value: group }));
     return chips?.length > 0
         ? [
             {
@@ -79,13 +80,20 @@ const useGroupFilter = (apiParams = []) => {
         acc.push({ label: group.name, value: group.name });
         return acc;
     }, []);
+    const dispatch = useDispatch();
+
     //selected are the groups we selected
     const [selected, setSelected] = useState([]);
     //host group values are all of the host group values available to the user
     const [hostGroupValue, setHostGroupValue] = useState(buildHostGroupsValues);
+    const [hostGroupsFetched, setHostGroupsFetched] = useState([]);
+
+    useEffect(() => {
+        setHostGroupsFetched(dispatch(fetchGroups(apiParams)));
+    }, []);
 
     const onHostGroupsChange = (event, selection) => {
-        return setSelected(selected => [...selected, selection].flat(1));
+        setSelected(union(selected, selection));
     };
 
     const hostGroupsLoaded = useSelector(({ entities }) => entities?.groups);
@@ -93,11 +101,6 @@ const useGroupFilter = (apiParams = []) => {
         setHostGroupValue(hostGroupsLoaded);
     }, []);
     const chips = useMemo(() => buildHostGroupChips(selected), [selected]);
-    /*
-   const dispatch = useDispatch();
-   useEffect(() => {
-        dispatch(fetchGroups(apiParams));
-    }, []); */
 
     //hostGroupConfig is a config that we use in EntityTableToolbar.js
     const hostGroupConfig = useMemo(() => ({
@@ -108,12 +111,17 @@ const useGroupFilter = (apiParams = []) => {
             onChange: (event, value) => {
                 onHostGroupsChange(event, value);
             },
-            selected,
+            value: selected,
             items: buildHostGroupsValues
         }
     }), [selected, hostGroupValue]);
 
-    return [chips, hostGroupConfig, selected, setHostGroupValue];
+    const setSelectedValues = (currentValue = [], valueToRemove) => {
+        const newValues = remove(currentValue, valueToRemove);
+        setSelected(newValues);
+    };
+
+    return [chips, hostGroupConfig, selected, setSelectedValues];
 };
 
 export default useGroupFilter;
