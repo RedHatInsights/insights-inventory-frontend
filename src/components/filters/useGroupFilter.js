@@ -1,10 +1,8 @@
 /* eslint-disable camelcase */
 import { union } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGroups } from '../../store/inventory-actions';
+import { useSelector } from 'react-redux';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
-import  remove  from 'lodash/remove';
 
 //for attaching this filter to the redux
 export const groupFilterState = { groupHostFilter: null };
@@ -73,24 +71,17 @@ export const buildHostGroupChips = (selectedGroups = []) => {
         : [];
 };
 
-const useGroupFilter = (apiParams = []) => {
+const useGroupFilter = () => {
     //currently mockApiResponse is replacing a proper API response
     //buildHostGroupsValues build an array of objects to populate dropdown
     const buildHostGroupsValues = mockApiResponse.reduce((acc, group) => {
         acc.push({ label: group.name, value: group.name });
         return acc;
     }, []);
-    const dispatch = useDispatch();
-
     //selected are the groups we selected
     const [selected, setSelected] = useState([]);
     //host group values are all of the host group values available to the user
     const [hostGroupValue, setHostGroupValue] = useState(buildHostGroupsValues);
-    const [hostGroupsFetched, setHostGroupsFetched] = useState([]);
-
-    useEffect(() => {
-        setHostGroupsFetched(dispatch(fetchGroups(apiParams)));
-    }, []);
 
     const onHostGroupsChange = (event, selection) => {
         setSelected(union(selected, selection));
@@ -116,12 +107,11 @@ const useGroupFilter = (apiParams = []) => {
         }
     }), [selected, hostGroupValue]);
 
-    const setSelectedValues = (currentValue = [], valueToRemove) => {
-        const newValues = remove(currentValue, valueToRemove);
-        setSelected(newValues);
+    const setSelectedValues = (currentValue = []) => {
+        setSelected(currentValue);
     };
 
-    return [chips, hostGroupConfig, selected, setSelectedValues];
+    return [hostGroupConfig, chips, selected, setSelectedValues];
 };
 
 export default useGroupFilter;

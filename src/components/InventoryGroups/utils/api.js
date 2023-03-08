@@ -4,8 +4,6 @@ import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
 
 export const getGroups = (search = {}, pagination = { page: 1, perPage: TABLE_DEFAULT_PAGINATION }) => {
-    console.log(search)
-    console.log(pagination)
     const parameters = new URLSearchParams({
         ...search,
         ...pagination

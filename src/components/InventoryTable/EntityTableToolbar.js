@@ -115,7 +115,7 @@ const EntityTableToolbar = ({
         toValidator, onFromChange, onToChange, endDate, startDate, rangeValidator] = useLastSeenFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
     const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
-    const [hostGroupChips, hostGroupConfig, hostGroupValue, setHostGroupValue] = useGroupFilter();
+    const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] = useGroupFilter();
 
     const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
     const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
@@ -328,7 +328,7 @@ const EntityTableToolbar = ({
         [RHCD_FILTER_KEY]: (deleted) => setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
         [LAST_SEEN_CHIP]: (deleted) => setLastSeenFilterValue(onDeleteFilter(deleted, [lastSeenFilterValue.mark])),
         [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
-        [HOST_GROUP_CHIP]: (deleted) => setHostGroupValue(hostGroupValue, deleted.chips.map(({ value }) => value))
+        [HOST_GROUP_CHIP]: (deleted) => setHostGroupValue(onDeleteFilter(deleted, hostGroupValue))
     };
     /**
      * Function to reset all filters with 'Reset Filter' is clicked
