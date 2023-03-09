@@ -4,24 +4,7 @@ exports[`useGroupFilter with groups loaded should match snapshot 1`] = `
 Array [
   Object {
     "filterValues": Object {
-      "items": Array [
-        Object {
-          "label": "sre-group0",
-          "value": "sre-group0",
-        },
-        Object {
-          "label": "sre-group1",
-          "value": "sre-group1",
-        },
-        Object {
-          "label": "sre-group2",
-          "value": "sre-group2",
-        },
-        Object {
-          "label": "sre-group3",
-          "value": "sre-group3",
-        },
-      ],
+      "items": undefined,
       "onChange": [Function],
       "value": Array [],
     },
@@ -50,28 +33,29 @@ Array [
 ]
 `;
 
+exports[`useGroupFilter with groups loaded should return empty state value if no groups obtained 1`] = `
+Array [
+  Object {
+    "filterValues": Object {
+      "items": undefined,
+      "onChange": [Function],
+      "value": Array [],
+    },
+    "label": "Group",
+    "type": "checkbox",
+    "value": "group-host-filter",
+  },
+  Array [],
+  Array [],
+  [Function],
+]
+`;
+
 exports[`useGroupFilter with groups yet not loaded should return empty state value 1`] = `
 Array [
   Object {
     "filterValues": Object {
-      "items": Array [
-        Object {
-          "label": "sre-group0",
-          "value": "sre-group0",
-        },
-        Object {
-          "label": "sre-group1",
-          "value": "sre-group1",
-        },
-        Object {
-          "label": "sre-group2",
-          "value": "sre-group2",
-        },
-        Object {
-          "label": "sre-group3",
-          "value": "sre-group3",
-        },
-      ],
+      "items": undefined,
       "onChange": [Function],
       "value": Array [],
     },
