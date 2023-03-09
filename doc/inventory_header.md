@@ -1,3 +1,7 @@
+::: warning Removed
+This feature has been removed. Inventory detail header and main section are independent as of v1.3.1. Please have a look (doc/inventory_detail.md)
+:::
+
 # Inventory detail
 If you want to learn how to comunicate with inventory check out [Inventory](inventory.md), this documentation is for showing how to include inventory information at top and app info in bottom screen of inventory detail.
 

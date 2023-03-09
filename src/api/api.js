@@ -98,6 +98,7 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter },
     ...'osFilter' in filter && { osFilter: filter.osFilter },
     ...'rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter },
+    ...'lastSeenFilter' in filter && { lastSeenFilter: filter.lastSeenFilter },
     ...'updateMethodFilter' in filter && { updateMethodFilter: filter.updateMethodFilter }
 });
 
@@ -112,6 +113,7 @@ export async function getEntities(items, {
     fields = { system_profile: ['operating_system'] },
     ...options
 }, showTags) {
+
     if (hasItems && items?.length > 0) {
         let data = await hosts.apiHostGetHostById(
             items,
@@ -129,7 +131,7 @@ export async function getEntities(items, {
             try {
                 const result = await hosts.apiHostGetHostSystemProfileById(
                     items,
-                    undefined,
+                    perPage,
                     undefined,
                     undefined,
                     undefined,
@@ -191,7 +193,9 @@ export async function getEntities(items, {
                 query: {
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
                     ...(calculateSystemProfile(filters)),
-                    ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields'))
+                    ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields')),
+                    ...filters?.lastSeenFilter?.updatedStart && { updated_start: filters.lastSeenFilter.updatedStart },
+                    ...filters?.lastSeenFilter?.updatedEnd && { updated_end: filters.lastSeenFilter.updatedEnd }
                 }
             }
         )

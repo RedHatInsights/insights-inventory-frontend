@@ -79,6 +79,8 @@ describe('renders correctly', () => {
     beforeEach(() => {
         interceptors['successful with some items'](); // comment out if the mock server is running
         mountTable();
+
+        cy.wait('@getGroups'); // first initial call
     });
 
     it('the root container is rendered', () => {
@@ -98,10 +100,11 @@ describe('defaults', () => {
     beforeEach(() => {
         interceptors['successful with some items']();
         mountTable();
+
+        cy.wait('@getGroups'); // first initial call
     });
 
     it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
-        cy.wait('@getGroups');
         cy.get('.pf-c-options-menu__toggle-text')
         .find('b')
         .eq(0)
@@ -117,6 +120,8 @@ describe('pagination', () => {
     beforeEach(() => {
         interceptors['successful with some items']();
         mountTable();
+
+        cy.wait('@getGroups'); // first initial call
     });
 
     it('shows correct total number of groups', () => {
@@ -128,7 +133,6 @@ describe('pagination', () => {
     });
 
     it('can change page limit', () => {
-        cy.wait('@getGroups'); // first initial call
         PAGINATION_VALUES.forEach((el) => {
             changePagination(el).then(() => {
                 cy.wait('@getGroups')
@@ -139,7 +143,6 @@ describe('pagination', () => {
     });
 
     it('can change page', () => {
-        cy.wait('@getGroups');
         cy.get('button[data-action=next]').eq(0).click(); // click "next page" button
         cy.wait('@getGroups').its('request.url').should('include', `page=2`);
     });

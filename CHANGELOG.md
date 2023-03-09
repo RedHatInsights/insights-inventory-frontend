@@ -1,3 +1,19 @@
+# [1.8.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.2...v1.8.0) (2023-03-07)
+
+
+### Features
+
+* **ESSNTL-4056:** Add lastSeen filter ([#1781](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1781)) ([7bb6ac8](https://github.com/RedHatInsights/insights-inventory-frontend/commit/7bb6ac85fcb5fc7c31514066c2ef174868213687))
+
+## [1.7.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.1...v1.7.2) (2023-03-07)
+
+## [1.7.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.0...v1.7.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* **ADVISOR-3016:** Add perPage arg to getEntities ([#1777](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1777)) ([6b42a24](https://github.com/RedHatInsights/insights-inventory-frontend/commit/6b42a24cb93f9b89fcb5df6d11dd370be29d2c22))
+
 # [1.7.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.6.0...v1.7.0) (2023-03-03)
 
 
