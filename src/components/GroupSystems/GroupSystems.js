@@ -1,19 +1,25 @@
-import { fitContent } from '@patternfly/react-table';
+import { fitContent, TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import React from 'react';
 import InventoryTable from '../InventoryTable/InventoryTable';
 
 const prepareColumns = (initialColumns) => {
-    // hides the "groups" and additionally inserts the "update methods" columns
+    // hides the "groups" column
     const columns = initialColumns.filter(({ key }) => key !== 'groups');
 
+    // additionally insert the "update methods" column
     columns.splice(columns.length - 1 /* must be penultimate */, 0, {
         key: 'update_method',
         title: 'Update methods',
         sortKey: 'update_method',
         transforms: [fitContent],
         renderFunc: (value, hostId, systemData) =>
-            systemData?.system_profile?.system_update_method || 'N/A'
+            systemData?.system_profile?.system_update_method || 'N/A',
+        props: {
+            // TODO: remove isStatic when the sorting is supported by API
+            isStatic: true,
+            width: 10
+        }
     });
 
     return columns;
@@ -30,6 +36,10 @@ const GroupSystems = ({ groupName }) => {
                 showTags
             )
         }
+        tableProps={{
+            isStickyHeader: true,
+            variant: TableVariant.compact
+        }}
     />;
 };
 
