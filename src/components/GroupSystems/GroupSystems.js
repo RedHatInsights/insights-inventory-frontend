@@ -43,50 +43,52 @@ const GroupSystems = ({ groupName }) => {
     difference(displayedIds, [...selected.keys()]).length === 0;
 
     return (
-        <InventoryTable
-            columns={prepareColumns}
-            getEntities={async (items, config, showTags, defaultGetEntities) =>
-                await defaultGetEntities(
-                    items,
-                    // filter systems by the group name
-                    {
-                        ...config,
-                        filters: {
-                            ...config.filters,
-                            groupName: [groupName] // TODO: the param is not yet supported by `apiHostGetHostList`
+        <div id='group-systems-table'>
+            <InventoryTable
+                columns={prepareColumns}
+                getEntities={async (items, config, showTags, defaultGetEntities) =>
+                    await defaultGetEntities(
+                        items,
+                        // filter systems by the group name
+                        {
+                            ...config,
+                            filters: {
+                                ...config.filters,
+                                groupName: [groupName] // TODO: the param is not yet supported by `apiHostGetHostList`
+                            }
+                        },
+                        showTags
+                    )
+                }
+                tableProps={{
+                    isStickyHeader: true,
+                    variant: TableVariant.compact,
+                    canSelectAll: false
+                }}
+                bulkSelect={{
+                    count: selected.size,
+                    id: 'bulk-select-groups',
+                    items: [
+                        {
+                            title: 'Select none (0)',
+                            onClick: () => dispatch(selectEntity(-1, false)),
+                            props: { isDisabled: noneSelected }
+                        },
+                        {
+                            title: `${pageSelected ? 'Deselect' : 'Select'} page (${
+                                rows.length
+                            } items)`,
+                            onClick: () => dispatch(selectEntity(0, !pageSelected))
                         }
-                    },
-                    showTags
-                )
-            }
-            tableProps={{
-                isStickyHeader: true,
-                variant: TableVariant.compact,
-                canSelectAll: false
-            }}
-            bulkSelect={{
-                count: selected.size,
-                id: 'bulk-select-groups',
-                items: [
-                    {
-                        title: 'Select none (0)',
-                        onClick: () => dispatch(selectEntity(-1, false)),
-                        props: { isDisabled: noneSelected }
-                    },
-                    {
-                        title: `${pageSelected ? 'Deselect' : 'Select'} page (${
-              rows.length
-            } items)`,
-                        onClick: () => dispatch(selectEntity(0, !pageSelected))
-                    }
                     // TODO: Implement "select all"
-                ],
-                onSelect: (value) => {
-                    dispatch(selectEntity(0, value));
-                },
-                checked: selected.size > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
-            }}
-        />
+                    ],
+                    onSelect: (value) => {
+                        dispatch(selectEntity(0, value));
+                    },
+                    checked: selected.size > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
+                }}
+            />
+        </div>
     );
 };
 

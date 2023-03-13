@@ -21,6 +21,7 @@ import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
 import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
+import { fitContent } from '@patternfly/react-table';
 
 export const defaultState = {
     loaded: false,
@@ -94,7 +95,8 @@ export const defaultColumns = (groupsEnabled = false) => ([
                 }
             > <DateFormat date={ value } /> </CullingInformation> : new Date(value).toLocaleString();
         },
-        props: { width: 10 }
+        props: { width: 10 },
+        transforms: [fitContent]
     }
 ]);
 
