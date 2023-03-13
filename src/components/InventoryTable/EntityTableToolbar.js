@@ -328,7 +328,11 @@ const EntityTableToolbar = ({
         [OS_CHIP]: (deleted) => setOsFilterValue(xor(osFilterValue, deleted.chips.map(({ value }) => value))),
         [RHCD_FILTER_KEY]: (deleted) => setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
         [LAST_SEEN_CHIP]: (deleted) =>
-        {setLastSeenFilterValue(onDeleteFilter(deleted, [lastSeenFilterValue.mark])), setStartDate(), setEndDate();},
+        {
+            setLastSeenFilterValue(onDeleteFilter(deleted, [lastSeenFilterValue.mark])),
+            setStartDate(),
+            setEndDate();
+        },
         [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
         [HOST_GROUP_CHIP]: (deleted) => setHostGroupValue(onDeleteFilter(deleted, hostGroupValue))
     };
