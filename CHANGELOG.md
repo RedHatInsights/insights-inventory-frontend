@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.9.1...v1.9.2) (2023-03-13)
+
+
+### Bug Fixes
+
+* **ESSNTL-4404:** global filters and tags ([#1788](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1788)) ([b10ce31](https://github.com/RedHatInsights/insights-inventory-frontend/commit/b10ce310766b6b463d82b5ed675328b411a28a14))
+
 ## [1.9.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.9.0...v1.9.1) (2023-03-13)
 
 # [1.9.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.8.0...v1.9.0) (2023-03-13)
