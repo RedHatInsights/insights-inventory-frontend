@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.8.0...v1.9.0) (2023-03-13)
+
+
+### Features
+
+* **ESSNTL-3737, -3735:** Rename and delete group ([#1780](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1780)) ([bdf4c6a](https://github.com/RedHatInsights/insights-inventory-frontend/commit/bdf4c6ac30688e2f76f1e2e164e9e1438e255485))
+
 # [1.8.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.2...v1.8.0) (2023-03-07)
 
 
