@@ -1,19 +1,32 @@
-import { EmptyState, EmptyStateBody, Spinner } from '@patternfly/react-core';
-import { InvalidObject } from '@redhat-cloud-services/frontend-components';
+import {
+    Button,
+    Card,
+    CardTitle,
+    CardBody,
+    CardHeader,
+    CardActions } from '@patternfly/react-core';
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 const GroupDetailInfo = () => {
-    const { uninitialized, loading } = useSelector((state) => state.groupDetail);
-
-    // TODO: implement according to mocks
-
     return (
-        <EmptyState>
-            <EmptyStateBody>
-                {uninitialized || loading ? <Spinner /> : <InvalidObject />}
-            </EmptyStateBody>
-        </EmptyState>
+        <Card>
+            <CardHeader>
+                <CardActions>
+                    <Button variant="secondary" isSmall="true" >
+                        <a
+                            href={`${window.location.origin}/iam/user-access`}
+                        >Manage access</a>
+                    </Button>
+                </CardActions>
+                <CardTitle className="pf-c-title pf-m-md card-title">User access configuration</CardTitle>
+            </CardHeader>
+            <CardBody>
+                    Manage your inventory group access configuration under
+                <a
+                    href={`${window.location.origin}/iam/user-access`}
+                > Identity & Access Management {'>'} User Access.</a>
+            </CardBody>
+        </Card>
     );
 };
 
