@@ -87,7 +87,18 @@ export const groupDetailInterceptors = {
                 body: groupDetailFixtures,
                 delay: 42000000 // milliseconds
             }
-        ).as('getGroupDetail');
+        )
+        .as('getGroupDetail');
+    },
+    'patch successful': () => {
+        cy
+        .intercept('PATCH', '/api/inventory/v1/groups/*', { statusCode: 200 })
+        .as('patchGroup');
+    },
+    'delete successful': () => {
+        cy
+        .intercept('DELETE', '/api/inventory/v1/groups/*', { statusCode: 204 })
+        .as('deleteGroup');
     }
 };
 
