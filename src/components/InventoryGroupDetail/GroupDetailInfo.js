@@ -8,22 +8,24 @@ import {
 import React from 'react';
 
 const GroupDetailInfo = () => {
+    const address =  window.location.href.includes('beta') ? '/beta/iam/user-access' : '/iam/user-access';
+
     return (
         <Card>
             <CardHeader>
                 <CardActions>
-                    <Button variant="secondary" isSmall="true" >
+                    <Button variant="secondary" >
                         <a
                             href={`${window.location.origin}/iam/user-access`}
                         >Manage access</a>
                     </Button>
                 </CardActions>
-                <CardTitle className="pf-c-title pf-m-md card-title">User access configuration</CardTitle>
+                <CardTitle className="pf-c-title pf-m-lg card-title">User access configuration</CardTitle>
             </CardHeader>
             <CardBody>
-                    Manage your inventory group access configuration under
+                    Manage your inventory group user access configuration under
                 <a
-                    href={`${window.location.origin}/iam/user-access`}
+                    href={`${window.location.origin}${address}`}
                 > Identity & Access Management {'>'} User Access.</a>
             </CardBody>
         </Card>
