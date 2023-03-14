@@ -2,12 +2,15 @@ import React, { useState, useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore } from 'react-redux';
 import { Tabs, Tab, Spinner, TabContent } from '@patternfly/react-core';
+import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
+import { getFact } from './helpers';
+import { NotConnected } from '@redhat-cloud-services/frontend-components/NotConnected';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
  * @param {*} props onTabSelect can be used to notify parent component that detail has been selected.
  */
-const ApplicationDetails = ({ onTabSelect, appList, activeApp, inventoryId, ...props }) => {
+const ApplicationDetails = ({ onTabSelect, appList, activeApp, inventoryId, entity, ...props }) => {
     const store = useStore();
     const items = useSelector(({ entityDetails }) => {
         return (entityDetails?.activeApps || appList || [])
@@ -30,6 +33,8 @@ const ApplicationDetails = ({ onTabSelect, appList, activeApp, inventoryId, ...p
             setActiveTabs(items);
         }
     }, [disabledApps]);
+
+    const isDisconnected = verifyCulledInsightsClient(getFact('per_reporter_staleness', entity));
 
     return (
         <React.Fragment>
@@ -71,10 +76,12 @@ const ApplicationDetails = ({ onTabSelect, appList, activeApp, inventoryId, ...p
                         >
                             {item.name === currentApp && <Suspense fallback={Spinner}>
                                 <section className='pf-c-page__main-section'>
-                                    <Cmp
-                                        inventoryId={inventoryId}
-                                        store={store}
-                                    />
+                                    {isDisconnected && ['patch', 'vulnerabilities', 'advisor']
+                                    .includes(currentApp) ? <NotConnected/>
+                                        : <Cmp
+                                            inventoryId={inventoryId}
+                                            store={store}
+                                        />}
                                 </section>
                             </Suspense>}
                         </TabContent>
@@ -93,7 +100,8 @@ ApplicationDetails.propTypes = {
     })),
     onTabSelect: PropTypes.func,
     activeApp: PropTypes.string.isRequired,
-    inventoryId: PropTypes.string.isRequired
+    inventoryId: PropTypes.string.isRequired,
+    entity: PropTypes.object
 };
 
 export default ApplicationDetails;
