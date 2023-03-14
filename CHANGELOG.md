@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.9.2...v1.10.0) (2023-03-14)
+
+
+### Features
+
+* **ESSNTL-3727:** Display group systems ([#1790](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1790)) ([08408ad](https://github.com/RedHatInsights/insights-inventory-frontend/commit/08408addd3fb27a333e2c376e9290b9049757860))
+
 ## [1.9.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.9.1...v1.9.2) (2023-03-13)
 
 
