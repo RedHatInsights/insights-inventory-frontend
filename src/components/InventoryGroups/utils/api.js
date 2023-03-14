@@ -2,14 +2,22 @@ import { instance } from '@redhat-cloud-services/frontend-components-utilities/i
 import { INVENTORY_API_BASE } from '../../../api';
 import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
+import fixtureGroups from '../../../../cypress/fixtures/groups.json';
+import fixtureGroupsDetails from '../../../../cypress/fixtures/groups/Ba8B79ab5adC8E41e255D5f8aDb8f1F3.json';
 
-export const getGroups = (search = {}, pagination = { page: 1, perPage: TABLE_DEFAULT_PAGINATION }) => {
-    const parameters = new URLSearchParams({
-        ...search,
-        ...pagination
-    }).toString();
+// eslint-disable-next-line camelcase
+export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }) => {
+    if (window.Cypress) {
+        const parameters = new URLSearchParams({
+            ...search,
+            ...pagination
+        }).toString();
 
-    return instance.get(`${INVENTORY_API_BASE}/groups?${parameters}` /* , { headers: { Prefer: 'code=404' } } */);
+        return instance.get(`${INVENTORY_API_BASE}/groups?${parameters}`);
+    }
+
+    // FIXME: remove mock data when API is implemented
+    return Promise.resolve(fixtureGroups);
 };
 
 export const createGroup = (payload) => {
@@ -21,12 +29,22 @@ export const createGroup = (payload) => {
 };
 
 export const validateGroupName = (name) => {
-    return instance.get(`${INVENTORY_API_BASE}/groups`)
-    .then((resp) => resp?.results.some((group) => group.name === name));
+    if (window.Cypress) {
+        return instance.get(`${INVENTORY_API_BASE}/groups`)
+        .then((resp) => resp?.results.some((group) => group.name === name));
+    }
+
+    // FIXME: remove mock data when API is implemented
+    return Promise.resolve(fixtureGroups).then((resp) => resp?.results.some((group) => group.name === name));
 };
 
 export const getGroupDetail = (groupId) => {
-    return instance.get(`${INVENTORY_API_BASE}/groups/${groupId}`);
+    if (window.Cypress) {
+        return instance.get(`${INVENTORY_API_BASE}/groups/${groupId}`);
+    }
+
+    // FIXME: remove mock data when API is implemented
+    return Promise.resolve(fixtureGroupsDetails);
 };
 
 export const updateGroupById = (id, payload) => {
