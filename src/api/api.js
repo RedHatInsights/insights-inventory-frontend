@@ -110,7 +110,7 @@ export async function getEntities(items, {
     page,
     orderBy,
     orderDirection,
-    fields = { system_profile: ['operating_system'] },
+    fields = { system_profile: ['operating_system', /* needed by inventory groups */ 'system_update_method'] },
     ...options
 }, showTags) {
 
@@ -182,8 +182,8 @@ export async function getEntities(items, {
             orderDirection,
             filters.staleFilter,
             [
-                ...constructTags(filters.tagFilters),
-                ...options.tags || []
+                ...constructTags(filters?.tagFilters),
+                ...options?.globalFilter?.tags || []
             ],
             filters?.registeredWithFilter,
             undefined,
@@ -191,6 +191,7 @@ export async function getEntities(items, {
             {
                 cancelToken: controller && controller.token,
                 query: {
+                    ...(options?.globalFilter?.filter && generateFilter(options.globalFilter.filter)),
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
                     ...(calculateSystemProfile(filters)),
                     ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields')),
