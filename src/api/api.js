@@ -110,7 +110,7 @@ export async function getEntities(items, {
     page,
     orderBy,
     orderDirection,
-    fields = { system_profile: ['operating_system'] },
+    fields = { system_profile: ['operating_system', /* needed by inventory groups */ 'system_update_method'] },
     ...options
 }, showTags) {
 

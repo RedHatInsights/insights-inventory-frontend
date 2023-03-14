@@ -10,28 +10,7 @@
       "account": "irure ea exercitation adipisicing velit",
       "org_id": "non",
       "created_at": "1994-07-28T22:00:00.0Z",
-      "host_ids": [
-        "eEfb7FAa-1f0b-Bde3-a4FF-fDdCd5faA764",
-        "bb7417faE7f9eCdacEDDd0Fcae9Cf4BB",
-        "2095BB72Aa6E1d2D1DC48bdecF1085eb",
-        "E645A3Fb42B77c4eBf9faEfCad8f6F5a",
-        "7fb4fa758Cbc0A861C2Cb21695aeA9d6",
-        "f6BE4AafA6bF543693Fa3F1fadFaA4E9",
-        "D608C33f-5e6D-BBEF-Cab5-0FFE8eB1bAc4",
-        "Dd4De9b6-7f3a-ED3d-2a84-D60e4Af2Cd9d",
-        "ae08E8dd-FFdB-cBC1-BA2A-d0aaC61C1B55",
-        "dcaD88bD4CeaaDC8bceD5d730ffba4cF",
-        "5a9F9CDAE74F3116a9c848Eeb1C65EA0",
-        "f53eDCBe3Fb957BE5dBec9322f030F94",
-        "c6fbBE38-30D7-D7e9-C8C7-72F4a61Bea9c",
-        "20E5EedA1e3f2aC2dCaADDCa4BFEED5B",
-        "adEcDf6ac4A999ccecdbCe7E9e01e23C",
-        "Bf0E2e8C-7e96-f0C8-9fea-1bD5fa9E18ce",
-        "6349ADdf-8d6B-bF1e-F5AE-13f0B7ca4acE",
-        "DBD5E149-C967-12b3-Cc6B-6c9220bA32e1",
-        "4EC19BbD-b556-ED9E-33E7-Eb5Be40AaeDe",
-        "CE05B39b3FdDad8dDE2b5DebB7CABe7D"
-      ]
+      "host_ids": []
     }
   ],
   "total": 1
