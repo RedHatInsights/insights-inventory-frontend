@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { union } from 'lodash';
+import union from 'lodash/union';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from '../../store/inventory-actions';
@@ -46,10 +46,10 @@ const useGroupFilter = (apiParams = []) => {
             acc.push({ label: group.name, value: group.name });
             return acc;
         }, []));
-    }, [fetchedValues]);
+    }, [fetchedValues, selected]);
     //this is used in the filter config as a way to select values onChange
-    const onHostGroupsChange = (event, selection) => {
-        setSelected(union(selected, selection));
+    const onHostGroupsChange = (event, selection, item) => {
+        setSelected(union(selection, item));
     };
 
     const chips = useMemo(() => buildHostGroupChips(selected), [selected]);
@@ -61,8 +61,8 @@ const useGroupFilter = (apiParams = []) => {
         value: 'group-host-filter',
         type: 'checkbox',
         filterValues: {
-            onChange: (event, value) => {
-                onHostGroupsChange(event, value);
+            onChange: (event, value, item) => {
+                onHostGroupsChange(event, value, item);
             },
             value: selected,
             items: buildHostGroupsValues
