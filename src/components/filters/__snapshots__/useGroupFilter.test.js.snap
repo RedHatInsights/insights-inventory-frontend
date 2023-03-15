@@ -68,7 +68,7 @@ exports[`useGroupFilter with groups yet not loaded should return empty state val
 Array [
   Object {
     "filterValues": Object {
-      "items": undefined,
+      "items": Array [],
       "onChange": [Function],
       "value": Array [],
     },
