@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.10.1...v1.11.0) (2023-03-15)
+
+
+### Features
+
+* **ESSNTL-4196:** Show group detail info tab ([#1792](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1792)) ([f0f421b](https://github.com/RedHatInsights/insights-inventory-frontend/commit/f0f421b0b5b2f577c3fd594f663c699ffcd44358))
+
 ## [1.10.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.10.0...v1.10.1) (2023-03-14)
 
 
