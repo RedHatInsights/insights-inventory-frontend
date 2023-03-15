@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.10.0...v1.10.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* **ESSNTL-3760:** handle insights disconnected hosts for patch, advisor, vuln tabs ([#1791](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1791)) ([f8d7afd](https://github.com/RedHatInsights/insights-inventory-frontend/commit/f8d7afd9fde1f1a85aa1ff2033a6cdceb3019235))
+
 # [1.10.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.9.2...v1.10.0) (2023-03-14)
 
 
