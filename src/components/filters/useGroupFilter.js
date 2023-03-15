@@ -42,7 +42,7 @@ const useGroupFilter = (apiParams = []) => {
     const [buildHostGroupsValues, setBuildHostGroupsValues] = useState([]);
     //hostGroupValue is used for config items
     useEffect(() => {
-        setBuildHostGroupsValues(fetchedValues?.reduce((acc, group) => {
+        setBuildHostGroupsValues((fetchedValues || []).reduce((acc, group) => {
             acc.push({ label: group.name, value: group.name });
             return acc;
         }, []));

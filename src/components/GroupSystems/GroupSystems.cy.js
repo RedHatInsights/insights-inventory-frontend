@@ -21,6 +21,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import {
     featureFlagsInterceptors,
+    groupsInterceptors,
     hostsInterceptors,
     systemProfileInterceptors
 } from '../../../cypress/support/interceptors';
@@ -76,6 +77,7 @@ describe('renders correctly', () => {
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
+        groupsInterceptors['successful with some items']();
         mountTable();
 
         cy.wait('@getHosts');
@@ -99,6 +101,7 @@ describe('defaults', () => {
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
+        groupsInterceptors['successful with some items']();
         mountTable();
 
         cy.wait('@getHosts');
@@ -121,6 +124,7 @@ describe('pagination', () => {
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
+        groupsInterceptors['successful with some items']();
         mountTable();
 
         cy.wait('@getHosts');
@@ -155,6 +159,7 @@ describe('sorting', () => {
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
+        groupsInterceptors['successful with some items']();
         mountTable();
 
         cy.wait('@getHosts');
@@ -194,6 +199,7 @@ describe('filtering', () => {
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
+        groupsInterceptors['successful with some items']();
         mountTable();
 
         cy.wait('@getHosts');
@@ -243,6 +249,7 @@ describe('selection and bulk selection', () => {
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
+        groupsInterceptors['successful with some items']();
         mountTable();
 
         cy.wait('@getHosts');
@@ -301,6 +308,7 @@ describe('edge cases', () => {
         hostsInterceptors['successful empty']();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
+        groupsInterceptors['successful with some items']();
         mountTable();
 
         cy.wait('@getHosts');
