@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useGroupFilter with groups loaded should match snapshot 1`] = `
+Array [
+  Object {
+    "filterValues": Object {
+      "items": Array [
+        Object {
+          "label": "nisi ut consequat ad",
+          "value": "nisi ut consequat ad",
+        },
+        Object {
+          "label": "nisi ut consequat ad1",
+          "value": "nisi ut consequat ad1",
+        },
+        Object {
+          "label": "nisi ut consequat ad2",
+          "value": "nisi ut consequat ad2",
+        },
+      ],
+      "onChange": [Function],
+      "value": Array [],
+    },
+    "label": "Group",
+    "type": "checkbox",
+    "value": "group-host-filter",
+  },
+  Array [],
+  Array [],
+  [Function],
+]
+`;
+
+exports[`useGroupFilter with groups loaded should return correct chips array, current value and value setter 1`] = `
+Array [
+  Object {
+    "category": "Group",
+    "chips": Array [
+      Object {
+        "name": "nisi ut consequat ad1",
+        "value": "nisi ut consequat ad1",
+      },
+    ],
+    "type": "host_group",
+  },
+]
+`;
+
+exports[`useGroupFilter with groups loaded should return empty state value if no groups obtained 1`] = `
+Array [
+  Object {
+    "filterValues": Object {
+      "items": Array [],
+      "onChange": [Function],
+      "value": Array [],
+    },
+    "label": "Group",
+    "type": "checkbox",
+    "value": "group-host-filter",
+  },
+  Array [],
+  Array [],
+  [Function],
+]
+`;
+
+exports[`useGroupFilter with groups yet not loaded should return empty state value 1`] = `
+Array [
+  Object {
+    "filterValues": Object {
+      "items": Array [],
+      "onChange": [Function],
+      "value": Array [],
+    },
+    "label": "Group",
+    "type": "checkbox",
+    "value": "group-host-filter",
+  },
+  Array [],
+  Array [],
+  [Function],
+]
+`;

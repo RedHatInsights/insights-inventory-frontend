@@ -11,6 +11,7 @@ export const OS_CHIP = 'operating_system';
 export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const UPDATE_METHOD_KEY = 'system_update_method';
 export const LAST_SEEN_CHIP = 'last_seen';
+export const HOST_GROUP_CHIP = 'host_group';
 
 export function subtractDate(days) {
     const date = new Date();
@@ -141,8 +142,16 @@ export const reloadWrapper = (event, callback) => {
 
 export const isEmpty = (check) => !check || check?.length === 0;
 
-export const generateFilter = (status, source, tagsFilter, filterbyName,
-    operatingSystem, rhcdFilter, lastSeenFilter, updateMethodFilter) => ([
+export const generateFilter = (status,
+    source,
+    tagsFilter,
+    filterbyName,
+    operatingSystem,
+    rhcdFilter,
+    updateMethodFilter,
+    hostGroup,
+    lastSeenFilter
+) => ([
     !isEmpty(status) && {
         staleFilter: Array.isArray(status) ? status : [status]
     },
@@ -173,6 +182,9 @@ export const generateFilter = (status, source, tagsFilter, filterbyName,
     },
     !isEmpty(updateMethodFilter) && {
         updateMethodFilter: Array.isArray(updateMethodFilter) ? updateMethodFilter : [updateMethodFilter]
+    },
+    !isEmpty(hostGroup) && {
+        hostGroupFilter: Array.isArray(hostGroup) ? hostGroup : [hostGroup]
     }
 ].filter(Boolean));
 

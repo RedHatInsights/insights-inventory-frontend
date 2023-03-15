@@ -330,7 +330,7 @@ describe('EntityTableToolbar', () => {
                 </Provider>);
                 wrapper.find('.ins-c-chip-filters button.pf-m-link').last().simulate('click');
                 const actions = store.getActions();
-                expect(actions.length).toBe(3);
+                expect(actions.length).toBe(4);
                 expect(actions[actions.length - 2]).toMatchObject({ type: 'CLEAR_FILTERS' });
                 expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
             });
@@ -355,7 +355,7 @@ describe('EntityTableToolbar', () => {
 
             const wrapper = mount(<Provider store={store}>
                 <EntityTableToolbar
-                    hideFilters={{ all: true, name: false }}
+                    hideFilters={{ all: true, name: false, group: true }}
                     page={1}
                     total={500}
                     perPage={50}
