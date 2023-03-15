@@ -67,6 +67,7 @@ const InventoryDetail = ({
                         activeApp={activeApp}
                         appList={appList}
                         inventoryId={inventoryId}
+                        entity={entity}
                     />
                 )}
             </>)
