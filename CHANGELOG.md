@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.11.0...v1.12.0) (2023-03-15)
+
+
+### Features
+
+* **ESSNTL-4195:** Inventory table - group filter ([#1776](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1776)) ([358400e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/358400ec23e1f64933cd2dfea3cd92fc568459b8))
+
 # [1.11.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.10.1...v1.11.0) (2023-03-15)
 
 
