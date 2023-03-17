@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
-import { Button, Modal as PfModal } from '@patternfly/react-core';
+import { Alert, Button, Flex, FlexItem, Modal as PfModal } from '@patternfly/react-core';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { fitContent, TableVariant } from '@patternfly/react-table';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,6 +47,9 @@ const AddSystemsToGroupModal = ({ isModalOpen, setIsModalOpen }) => {
 
     // TODO: must show warning message if any of selected hosts is already in a group
 
+    // eslint-disable-next-line camelcase
+    const showWarning = [...selected].some(({ group_name }) => group_name !== undefined && group_name !== '');
+
     return isModalOpen ? (
         <>
             {/** confirmation modal */}
@@ -64,27 +67,41 @@ const AddSystemsToGroupModal = ({ isModalOpen, setIsModalOpen }) => {
                 title="Add systems"
                 isOpen={systemsSelectModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                actions={[
-                    <Button
-                        key="confirm"
-                        variant="primary"
-                        onClick={() => {
-                            setSystemSelectModalOpen(false);
-                            setConfirmationModalOpen(true);
-                        }
-                        }
-                        isDisabled={noneSelected}
-                    >
-                        Add systems
-                    </Button>,
-                    <Button
-                        key="cancel"
-                        variant="link"
-                        onClick={() => setIsModalOpen(false)}
-                    >
-                        Cancel
-                    </Button>
-                ]}
+                footer={
+                    <Flex direction={{ default: 'column' }} style={{ width: '100%' }}>
+                        <FlexItem fullWidth={{ default: 'fullWidth' }}>
+                            {showWarning &&
+                            <Alert
+                                variant="warning"
+                                isInline
+                                title="One or more of the selected systems already belong to a group. Adding these systems to a different group may impact system configuration."
+                            />}
+                        </FlexItem>
+                        <FlexItem>
+                            <Button
+                                key="confirm"
+                                variant="primary"
+                                onClick={() => {
+                                    setSystemSelectModalOpen(false);
+                                    setConfirmationModalOpen(true);
+                                }
+                                }
+                                isDisabled={noneSelected}
+                            >
+                                Add systems
+                            </Button>
+                            <Button
+                                key="cancel"
+                                variant="link"
+                                onClick={() => setIsModalOpen(false)}
+                            >
+                                Cancel
+                            </Button>
+                        </FlexItem>
+                    </Flex>
+
+                }
+                variant="large"
             >
                 <InventoryTable
                     columns={prepareColumns}
@@ -108,7 +125,7 @@ const AddSystemsToGroupModal = ({ isModalOpen, setIsModalOpen }) => {
                                 } items)`,
                                 onClick: () => dispatch(selectEntity(0, !pageSelected))
                             }
-                        // TODO: Implement "select all"
+                            // TODO: Implement "select all"
                         ],
                         onSelect: (value) => {
                             dispatch(selectEntity(0, value));

@@ -162,7 +162,16 @@ export const featureFlagsInterceptors = {
         cy.intercept('GET', '/feature_flags*', {
             statusCode: 200,
             body: {
-                toggles: []
+                toggles: [
+                    {
+                        name: 'hbi.ui.inventory-groups',
+                        enabled: true,
+                        variant: {
+                            name: 'disabled',
+                            enabled: true
+                        }
+                    }
+                ]
             }
         }).as('getFeatureFlag');
     }
