@@ -2,7 +2,7 @@ import { EmptyState, EmptyStateBody, Spinner } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import NoGroupsEmptyState from '../InventoryGroups/NoGroupsEmptyState';
+import NoSystemsEmptyState from '../InventoryGroupDetail/NoSystemsEmptyState';
 import GroupSystems from './GroupSystems';
 
 const GroupSystemsWrapper = ({ groupName }) => {
@@ -18,7 +18,7 @@ const GroupSystemsWrapper = ({ groupName }) => {
     ) : hosts.length > 0 ? (
         <GroupSystems groupName={groupName}/>
     ) :
-        <NoGroupsEmptyState />;
+        <NoSystemsEmptyState />;
 };
 
 GroupSystemsWrapper.propTypes = {

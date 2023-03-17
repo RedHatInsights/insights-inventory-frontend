@@ -31,7 +31,7 @@ const NoSystemsEmptyState = () => {
                     variant="link"
                     icon={<ExternalLinkAltIcon />}
                     iconPosition="right"
-                    // TODO: component={(props) => <a href='' {...props} />}
+                    component={() => <a href='/x' />}
                 >
                     Learn more about system groups
                 </Button>

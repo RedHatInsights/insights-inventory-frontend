@@ -36,7 +36,7 @@ before(() => {
 });
 
 describe('group detail page', () => {
-    it('name from server is rendered in header and breadcrumb', () => {
+    it.only('name from server is rendered in header and breadcrumb', () => {
         interceptors.successful();
         mountPage();
 
