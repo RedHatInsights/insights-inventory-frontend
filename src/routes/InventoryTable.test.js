@@ -27,15 +27,6 @@ jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () =>
     usePermissionsWithContext: () => ({ hasAccess: true })
 }));
 
-jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
-    __esModule: true,
-    default: () => ({
-        updateDocumentTitle: jest.fn(),
-        appAction: jest.fn(),
-        appObjectId: jest.fn(),
-        on: jest.fn()
-    })
-}));
 jest.mock('../Utilities/useFeatureFlag');
 
 describe('InventoryTable', () => {
