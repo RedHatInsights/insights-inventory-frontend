@@ -1,28 +1,22 @@
 /* eslint-disable max-len */
 import {
-    componentTypes,
-    FormSpy,
-    useFormApi,
-    validatorTypes
-} from '@data-driven-forms/react-form-renderer';
-import {
     Alert,
     Button,
     Flex,
     FlexItem,
     Modal as PfModal
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { fitContent, TableVariant } from '@patternfly/react-table';
-import warningColor from '@patternfly/react-tokens/dist/esm/global_warning_color_100';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectEntity } from '../../../store/inventory-actions';
 import InventoryTable from '../../InventoryTable/InventoryTable';
-import Modal from './Modal';
+import { addHostsToGroupById } from '../utils/api';
+import apiWithToast from '../utils/apiWithToast';
+import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
 
 export const prepareColumns = (initialColumns) => {
     // hides the "groups" column
@@ -46,7 +40,7 @@ export const prepareColumns = (initialColumns) => {
     return columns;
 };
 
-const AddSystemsToGroupModal = ({ isModalOpen, setIsModalOpen, reloadData }) => {
+const AddSystemsToGroupModal = ({ isModalOpen, setIsModalOpen, reloadData, groupId }) => {
     const dispatch = useDispatch();
 
     const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
@@ -61,79 +55,42 @@ const AddSystemsToGroupModal = ({ isModalOpen, setIsModalOpen, reloadData }) => 
     const pageSelected =
     difference(displayedIds, [...selected.keys()]).length === 0;
 
-    // TODO: must show warning message if any of selected hosts is already in a group
-
     const alreadyHasGroup = [...selected].filter(
         // eslint-disable-next-line camelcase
         ({ group_name }) => group_name !== undefined && group_name !== ''
     );
-    const showWarning = /* alreadyHasGroup.length > 0; */ true;
+    const showWarning = alreadyHasGroup.length > 0;
+
+    const handleSystemAddition = useCallback(
+        (hostIds) => {
+            const statusMessages = {
+                onSuccess: {
+                    title: 'Success',
+                    description: `${hostIds} has been created successfully`
+                },
+                onError: { title: 'Error', description: 'Failed to create group' }
+            };
+            return apiWithToast(dispatch, () => addHostsToGroupById(groupId, hostIds), statusMessages);
+        },
+        [isModalOpen]
+    );
 
     return isModalOpen && (
         <>
             {/** confirmation modal */}
-            <Modal
+            <ConfirmSystemsAddModal
                 isModalOpen={confirmationModalOpen}
-                title={'Add all selected systems to group?'}
-                titleIconVariant={() => (
-                    <ExclamationTriangleIcon color={warningColor.value} />
-                )}
-                closeModal={() => setIsModalOpen(false)}
-                schema={{
-                    fields: [
-                        {
-                            component: componentTypes.PLAIN_TEXT,
-                            name: 'warning-message',
-                            label: `${alreadyHasGroup.length} of the systems you selected already belong to a group. Moving them to a different group will impact their configuration.`
-                        },
-                        {
-                            component: componentTypes.CHECKBOX,
-                            name: 'confirmation',
-                            label: 'I acknowledge that this action cannot be undone.',
-                            validate: [{ type: validatorTypes.REQUIRED }]
-                        }
-                    ]
+                onSubmit={async () => {
+                    await handleSystemAddition([...selected.keys()]);
+                    setTimeout(async () => await reloadData(), 500);
+                    setIsModalOpen(false);
                 }}
-                customFormTemplate={({ formFields, schema }) => {
-                    const { getState } = useFormApi();
-                    const { submitting, valid } = getState();
-
-                    return (
-                        <form onSubmit={async () => {
-                            await console.log('TODO: fire the PATCH request');
-                            setTimeout(async () => await reloadData(), 500);
-                            setIsModalOpen(false);
-                        }}>
-                            <Flex direction={{ default: 'column' }} spaceItems={{ default: 'spaceItemsLg' }}>
-                                {schema.title}
-                                {formFields}
-                                <FormSpy>
-                                    {() => (
-                                        <Flex>
-                                            <Button
-                                                isDisabled={submitting || !valid}
-                                                type="submit"
-                                                color="primary"
-                                                variant="primary"
-                                            >
-                                                Yes, add all systems to group
-                                            </Button>
-                                            <Button onClick={() => {
-                                                setConfirmationModalOpen(false);
-                                                setSystemSelectModalOpen(true);
-                                            }} variant="secondary">
-                                                Back
-                                            </Button>
-                                            <Button variant="link" onClick={() => setIsModalOpen(false)}>
-                                                Cancel
-                                            </Button>
-                                        </Flex>
-                                    )}
-                                </FormSpy>
-                            </Flex>
-                        </form>
-                    );
+                onBack={() => {
+                    setConfirmationModalOpen(false);
+                    setSystemSelectModalOpen(true);
                 }}
+                onCancel={() => setIsModalOpen(false)}
+                hostsNumber={alreadyHasGroup.length}
             />
             {/** hosts selection modal */}
             <PfModal
@@ -213,7 +170,8 @@ const AddSystemsToGroupModal = ({ isModalOpen, setIsModalOpen, reloadData }) => 
 AddSystemsToGroupModal.propTypes = {
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
-    reloadData: PropTypes.func
+    reloadData: PropTypes.func,
+    groupId: PropTypes.string
 };
 
 export default AddSystemsToGroupModal;

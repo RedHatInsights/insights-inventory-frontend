@@ -22,3 +22,19 @@ export const createGroupSchema = (namePresenceValidator) => ({
         }
     ]
 });
+
+export const confirmSystemsAddSchema = (hostsNumber) => ({
+    fields: [
+        {
+            component: componentTypes.PLAIN_TEXT,
+            name: 'warning-message',
+            label: `${hostsNumber} of the systems you selected already belong to a group. Moving them to a different group will impact their configuration.`
+        },
+        {
+            component: componentTypes.CHECKBOX,
+            name: 'confirmation',
+            label: 'I acknowledge that this action cannot be undone.',
+            validate: [{ type: validatorTypes.REQUIRED }]
+        }
+    ]
+});
