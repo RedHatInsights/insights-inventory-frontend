@@ -22,6 +22,17 @@ jest.mock('react-redux', () => {
     };
 });
 
+jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
+    __esModule: true,
+
+    default: () => ({
+        updateDocumentTitle: jest.fn(),
+        appAction: jest.fn(),
+        appObjectId: jest.fn(),
+        on: jest.fn()
+    })
+}));
+
 describe('group detail page component', () => {
     let getByRole;
     let container;
