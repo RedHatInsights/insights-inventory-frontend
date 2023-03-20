@@ -16,7 +16,7 @@ const GroupSystemsWrapper = ({ groupName, groupId }) => {
             </EmptyStateBody>
         </EmptyState>
     ) : hosts.length > 0 ? (
-        <GroupSystems groupName={groupName}/>
+        <GroupSystems groupId={groupId} groupName={groupName} />
     ) :
         <NoSystemsEmptyState groupId={groupId} groupName={groupName} />;
 };

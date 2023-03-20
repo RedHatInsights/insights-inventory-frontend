@@ -1,10 +1,12 @@
+import { Button } from '@patternfly/react-core';
 import { fitContent, TableVariant } from '@patternfly/react-table';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectEntity } from '../../store/inventory-actions';
+import { clearFilters, selectEntity } from '../../store/inventory-actions';
+import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
 
 const prepareColumns = (initialColumns) => {
@@ -29,7 +31,7 @@ const prepareColumns = (initialColumns) => {
     return columns;
 };
 
-const GroupSystems = ({ groupName }) => {
+const GroupSystems = ({ groupName, groupId }) => {
     const dispatch = useDispatch();
 
     const selected = useSelector(
@@ -42,58 +44,98 @@ const GroupSystems = ({ groupName }) => {
     const pageSelected =
     difference(displayedIds, [...selected.keys()]).length === 0;
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const resetTable = () => {
+        dispatch(clearFilters());
+        dispatch(selectEntity(-1, false));
+    };
+
+    useEffect(() => {
+        return () => {
+            resetTable();
+        };
+    }, []);
+
     return (
         <div id='group-systems-table'>
-            <InventoryTable
-                columns={prepareColumns}
-                getEntities={async (items, config, showTags, defaultGetEntities) =>
-                    await defaultGetEntities(
-                        items,
-                        // filter systems by the group name
-                        {
-                            ...config,
-                            filters: {
-                                ...config.filters,
-                                groupName: [groupName] // TODO: the param is not yet supported by `apiHostGetHostList`
-                            }
-                        },
-                        showTags
-                    )
-                }
-                tableProps={{
-                    isStickyHeader: true,
-                    variant: TableVariant.compact,
-                    canSelectAll: false
-                }}
-                bulkSelect={{
-                    count: selected.size,
-                    id: 'bulk-select-groups',
-                    items: [
-                        {
-                            title: 'Select none (0)',
-                            onClick: () => dispatch(selectEntity(-1, false)),
-                            props: { isDisabled: noneSelected }
-                        },
-                        {
-                            title: `${pageSelected ? 'Deselect' : 'Select'} page (${
+            {
+                isModalOpen && <AddSystemsToGroupModal
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={(value) => {
+                        resetTable();
+                        setIsModalOpen(value);
+                    }
+                    }
+                    groupId={groupId}
+                    groupName={groupName}
+                />
+            }
+            {
+                !isModalOpen &&
+                <InventoryTable
+                    columns={prepareColumns}
+                    getEntities={async (items, config, showTags, defaultGetEntities) =>
+                        await defaultGetEntities(
+                            items,
+                            // filter systems by the group name
+                            {
+                                ...config,
+                                filters: {
+                                    ...config.filters,
+                                    groupName: [groupName] // TODO: the param is not yet supported by `apiHostGetHostList`
+                                }
+                            },
+                            showTags
+                        )
+                    }
+                    tableProps={{
+                        isStickyHeader: true,
+                        variant: TableVariant.compact,
+                        canSelectAll: false
+                    }}
+                    bulkSelect={{
+                        count: selected.size,
+                        id: 'bulk-select-groups',
+                        items: [
+                            {
+                                title: 'Select none (0)',
+                                onClick: () => dispatch(selectEntity(-1, false)),
+                                props: { isDisabled: noneSelected }
+                            },
+                            {
+                                title: `${pageSelected ? 'Deselect' : 'Select'} page (${
                                 rows.length
                             } items)`,
-                            onClick: () => dispatch(selectEntity(0, !pageSelected))
-                        }
-                    // TODO: Implement "select all"
-                    ],
-                    onSelect: (value) => {
-                        dispatch(selectEntity(0, value));
-                    },
-                    checked: selected.size > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
-                }}
-            />
+                                onClick: () => dispatch(selectEntity(0, !pageSelected))
+                            }
+                        // TODO: Implement "select all"
+                        ],
+                        onSelect: (value) => {
+                            dispatch(selectEntity(0, value));
+                        },
+                        checked: selected.size > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
+                    }}
+                >
+                    <Button
+                        variant='primary'
+                        onClick={() => {
+                            resetTable();
+                            setIsModalOpen(true);
+                        }}
+
+                    >
+                    Add systems
+                    </Button>
+                </InventoryTable>
+            }
         </div>
     );
 };
 
 GroupSystems.propTypes = {
-    groupName: PropTypes.string.isRequired
+    groupName: PropTypes.string.isRequired,
+    groupId: PropTypes.string.isRequired
 };
 
 export default GroupSystems;

@@ -172,6 +172,7 @@ const AddSystemsToGroupModal = ({
                             },
                             checked: selected.size > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
                         }}
+                        initialLoading={true}
                     />
                 </Modal>
             </>
