@@ -53,7 +53,7 @@ const InventoryGroupDetail = ({ groupId }) => {
                         aria-label="Group systems tab"
                     >
                         <PageSection>
-                            <GroupSystems groupName={groupName}/>
+                            <GroupSystems groupName={groupName} groupId={groupId}/>
                         </PageSection>
                     </Tab>
                     <Tab

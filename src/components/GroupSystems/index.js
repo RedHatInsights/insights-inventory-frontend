@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import NoSystemsEmptyState from '../InventoryGroupDetail/NoSystemsEmptyState';
 import GroupSystems from './GroupSystems';
 
-const GroupSystemsWrapper = ({ groupName }) => {
+const GroupSystemsWrapper = ({ groupName, groupId }) => {
     const { uninitialized, loading, data } = useSelector((state) => state.groupDetail);
     const hosts = data?.results?.[0]?.host_ids /* can be null */ || [];
 
@@ -18,11 +18,12 @@ const GroupSystemsWrapper = ({ groupName }) => {
     ) : hosts.length > 0 ? (
         <GroupSystems groupName={groupName}/>
     ) :
-        <NoSystemsEmptyState />;
+        <NoSystemsEmptyState groupId={groupId} groupName={groupName} />;
 };
 
 GroupSystemsWrapper.propTypes = {
-    groupName: PropTypes.string.isRequired
+    groupName: PropTypes.string.isRequired,
+    groupId: PropTypes.string.isRequired
 };
 
 export default GroupSystemsWrapper;

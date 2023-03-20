@@ -57,6 +57,7 @@ export const deleteGroupsById = (ids = []) => {
 };
 
 export const addHostsToGroupById = (id, hostIds) => {
+    // the current hosts must be fetched before merging with the new ones
     return getGroupDetail(id).then((response) =>
         updateGroupById(id, {
             // eslint-disable-next-line camelcase
