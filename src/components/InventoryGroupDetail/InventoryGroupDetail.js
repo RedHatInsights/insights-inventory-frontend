@@ -3,8 +3,7 @@ import {
     PageSection,
     Spinner,
     Tab,
-    Tabs,
-    TabTitleText
+    Tabs
 } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import PropTypes from 'prop-types';
@@ -50,7 +49,7 @@ const InventoryGroupDetail = ({ groupId }) => {
                 >
                     <Tab
                         eventKey={0}
-                        title={<TabTitleText>Systems</TabTitleText>}
+                        title='Systems'
                         aria-label="Group systems tab"
                     >
                         <PageSection>
@@ -59,7 +58,7 @@ const InventoryGroupDetail = ({ groupId }) => {
                     </Tab>
                     <Tab
                         eventKey={1}
-                        title={<TabTitleText>Group info</TabTitleText>}
+                        title='Group info'
                         aria-label="Group info tab"
                     >
                         {activeTabKey === 1 && ( // helps to lazy load the component
