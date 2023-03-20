@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { instance } from '@redhat-cloud-services/frontend-components-utilities/interceptors/interceptors';
 import { INVENTORY_API_BASE } from '../../../api';
 import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
@@ -56,6 +57,12 @@ export const updateGroupById = (id, payload) => {
 export const deleteGroupsById = (ids = []) => {
     return instance.delete(`${INVENTORY_API_BASE}/groups/${ids.join(',')}`);
 
+};
+
+export const addHostToGroup = (groupId, newHostId) => {
+    return instance.post(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${newHostId}`, {
+        host_ids: newHostId
+    });
 };
 
 getGroups.propTypes = {

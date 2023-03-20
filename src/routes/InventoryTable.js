@@ -14,6 +14,10 @@ import flatMap from 'lodash/flatMap';
 import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
+import { fetchGroups } from '../store/inventory-actions';
+import useFeatureFlag from '../Utilities/useFeatureFlag';
+import CreateGroupModal from '../components/InventoryGroups/Modals/CreateGroupModal';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -107,15 +111,17 @@ const Inventory = ({
             lastSeenFilter)
     );
     const [ediOpen, onEditOpen] = useState(false);
+    const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
     const writePermissions = useWritePermissions();
+    const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
     const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
     const loaded = useSelector(({ entities }) => entities?.loaded);
     const selected = useSelector(({ entities }) => entities?.selected);
     const dispatch = useDispatch();
+    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
 
     const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
-
     const onRefresh = (options, callback) => {
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
@@ -157,6 +163,8 @@ const Inventory = ({
             });
         });
         dispatch(actions.clearNotifications());
+        //we have to fetch groups to make them available in state
+        dispatch(fetchGroups());
 
         if (perPage || page) {
             dispatch(actions.setPagination(
@@ -167,6 +175,49 @@ const Inventory = ({
     }, []);
 
     const calculateSelected = () => selected ? selected.size : 0;
+
+    //This wrapping of table actions allows to pass feature flag status and receive a prepared array of actions
+    const tableActions = (groupsUiStatus) => {
+        const standardActions = [
+            {
+                title: 'Edit',
+                onClick: (_event, _index, data) => {
+                    activateSystem(() => data);
+                    onEditOpen(() => true);
+                }
+            },
+            {
+                title: 'Delete',
+                onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                    activateSystem(() => ({
+                        id: systemId,
+                        displayName
+                    }));
+                    handleModalToggle(() => true);
+                }
+            }
+        ];
+
+        const actionsBehindFeatureFlag = [
+            {
+                title: 'Add to group',
+                onClick: () => setAddHostGroupModalOpen(true)
+            },
+            {
+                title: 'Remove from group'
+            }
+        ];
+
+        const insert = (arr, index, newItem) => [
+            ...arr.slice(0, index),
+            ...newItem,
+            ...arr.slice(index)
+        ];
+
+        const prepareActionsHiddenByFeatureFlag = groupsUiStatus ?
+            insert(standardActions, 0, actionsBehindFeatureFlag) : standardActions;
+        return prepareActionsHiddenByFeatureFlag;
+    };
 
     return (
         <React.Fragment>
@@ -188,24 +239,7 @@ const Inventory = ({
                             autoRefresh
                             initialLoading={initialLoading}
                             {...(writePermissions && {
-                                actions: [
-                                    {
-                                        title: 'Delete',
-                                        onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
-                                            activateSystem(() => ({
-                                                id: systemId,
-                                                displayName
-                                            }));
-                                            handleModalToggle(() => true);
-                                        }
-                                    }, {
-                                        title: 'Edit',
-                                        onClick: (_event, _index, data) => {
-                                            activateSystem(() => data);
-                                            onEditOpen(() => true);
-                                        }
-                                    }
-                                ],
+                                actions: tableActions(groupsEnabled),
                                 actionsConfig: {
                                     actions: [{
                                         label: 'Delete',
@@ -278,7 +312,6 @@ const Inventory = ({
                     handleModalToggle(false);
                 }}
             />
-
             <TextInputModal
                 title="Edit display name"
                 isOpen={ediOpen}
@@ -289,6 +322,22 @@ const Inventory = ({
                     onEditOpen(false);
                 }}
             />
+            <AddHostToGroupModal
+                isModalOpen={addHostGroupModalOpen}
+                setIsModalOpen={setAddHostGroupModalOpen}
+                modalState={{ id: 1, name: 'name', groupName: 'groupName' }}
+                reloadData={() => console.log('data reloaded')}
+                setIsCreateGroupModalOpen={setIsCreateGroupModalOpen}
+                //deviceIds should pass the id
+                deviceIds={['123']}
+            />
+            {isCreateGroupModalOpen && (
+                <CreateGroupModal
+                    isModalOpen={isCreateGroupModalOpen}
+                    setIsModalOpen={setIsCreateGroupModalOpen}
+                    reloadData={() => console.log('data reloaded')}
+                />
+            )}
         </React.Fragment>
     );
 };
