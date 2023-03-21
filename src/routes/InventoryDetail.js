@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore, useDispatch } from 'react-redux';
 import { useLocation, useParams, Link, useHistory } from 'react-router-dom';
@@ -75,6 +75,11 @@ const Inventory = () => {
     const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
+    const cloudProvider = useSelector(({ systemProfileStore }) => systemProfileStore?.systemProfile?.cloud_provider);
+    const availableApps = useMemo(() => appList.map((app) => app.name === 'ros' ? {
+        ...app,
+        isVisible: ['aws', 'azure'].includes(cloudProvider)
+    } : app), [cloudProvider]);
     const clearNotifications = () => dispatch(actions.clearNotifications());
 
     useEffect(() => {
@@ -122,7 +127,7 @@ const Inventory = () => {
                 <BreadcrumbWrapper entity={entity} entityLoaded={entityLoaded} inventoryId={inventoryId}/>
             }
             activeApp={activeApp}
-            appList={appList}
+            appList={availableApps}
             onTabSelect={onTabSelect}
         />
     );
