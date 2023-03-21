@@ -78,7 +78,7 @@ const Inventory = () => {
     const cloudProvider = useSelector(({ systemProfileStore }) => systemProfileStore?.systemProfile?.cloud_provider);
     const availableApps = useMemo(() => appList.map((app) => app.name === 'ros' ? {
         ...app,
-        isVisible: ['aws', 'azure'].includes(cloudProvider)
+        isVisible: cloudProvider === 'aws'
     } : app), [cloudProvider]);
     const clearNotifications = () => dispatch(actions.clearNotifications());
 
