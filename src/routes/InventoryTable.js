@@ -49,7 +49,7 @@ const filterMapper = {
     ),
     rhcdFilter: ({ rhcdFilter }, searchParams) => rhcdFilter?.forEach(item => searchParams.append(RHCD_FILTER_KEY, item)),
     lastSeenFilter: ({ lastSeenFilter }, searchParams) =>
-        Object.keys(lastSeenFilter)?.forEach(item => item === 'mark' &&
+        Object.keys(lastSeenFilter || {})?.forEach(item => item === 'mark' &&
         searchParams.append('last_seen', lastSeenFilter[item])),
     updateMethodFilter: ({ updateMethodFilter }, searchParams) =>
         updateMethodFilter?.forEach(item => searchParams.append(UPDATE_METHOD_KEY, item)),
