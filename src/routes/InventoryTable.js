@@ -204,7 +204,8 @@ const Inventory = ({
                 onClick: () => setAddHostGroupModalOpen(true)
             },
             {
-                title: 'Remove from group'
+                title: 'Remove from group',
+                isDisabled: true
             }
         ];
 

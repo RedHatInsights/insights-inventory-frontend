@@ -6,13 +6,10 @@ import {
     Select,
     SelectOption
 } from '@patternfly/react-core';
-import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import { debounce } from 'lodash';
-import { fetchGroups } from '../../../store/inventory-actions';
 
-const SearchInput = (props) => {
-    useFieldApi(props);
+const SearchInput = () => {
     const [storeGroups, setStoreGroups] = useState();
     const [isLoading, setIsLoading] = useState(true);
     //fetch data from the store
@@ -65,19 +62,24 @@ const SearchInput = (props) => {
 
     const clearSelection = () => {
         setSearchTerm('');
-        fetchGroups();
         updateSelection(null);
     };
 
     const onFilter = (_event, value) => {
-    /* This handler is called on input changes as well as when children change.
-       _event is null when the children change. Only update searchTerm state
-       and fetch results from the API only if there was an actual input change.
-    */
-        if (_event && value !== searchTerm) {
-            setSearchTerm(value);
-            fetchGroups({ name: encodeURIComponent(value) });
+        // Only filter the groups data if there is a search term
+        if (value) {
+            const filteredGroups = fetchedGroupValues.filter(group =>
+                group.name.toLowerCase().includes(value.toLowerCase())
+            );
+            // Update the state with the filtered groups data
+            setStoreGroups(filteredGroups);
+        } else {
+            // If the search term is empty, use the original groups data from the store
+            setStoreGroups(fetchedGroupValues);
         }
+
+        // Update the search term state
+        setSearchTerm(value);
     };
 
     return (
