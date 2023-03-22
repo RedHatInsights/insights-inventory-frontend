@@ -10,7 +10,6 @@ const App = () => {
     const history = useHistory();
     const chrome = useChrome();
     useEffect(() => {
-        chrome.init();
         return chrome.on(
             'APP_NAVIGATION',
             event => {
