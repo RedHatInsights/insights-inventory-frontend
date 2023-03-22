@@ -52,9 +52,9 @@ const filterMapper = {
         flatMap(tagFilters, mapTags)
     ),
     rhcdFilter: ({ rhcdFilter }, searchParams) => rhcdFilter?.forEach(item => searchParams.append(RHCD_FILTER_KEY, item)),
-    //TODO: Add a way to add to url in a way that allows shareable links
-    // lastSeenFilter: ({ lastSeenFilter }, searchParams) =>
-    //     Object.values(lastSeenFilter)?.forEach(item => searchParams.append('last_seen', item)),
+    lastSeenFilter: ({ lastSeenFilter }, searchParams) =>
+        Object.keys(lastSeenFilter || {})?.forEach(item => item === 'mark' &&
+        searchParams.append('last_seen', lastSeenFilter[item])),
     updateMethodFilter: ({ updateMethodFilter }, searchParams) =>
         updateMethodFilter?.forEach(item => searchParams.append(UPDATE_METHOD_KEY, item)),
     groupHostFilter: ({ groupHostFilter }, searchParams) => groupHostFilter
@@ -286,6 +286,7 @@ const Inventory = ({
                 </Grid>
             </Main>
             <DeleteModal
+                className ='sentry-mask data-hj-suppress'
                 handleModalToggle={handleModalToggle}
                 isModalOpen={isModalOpen}
                 currentSytems={currentSytem}

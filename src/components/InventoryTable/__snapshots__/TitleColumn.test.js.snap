@@ -3,7 +3,7 @@
 exports[`TitleColumn should render correctly no detail with data 1`] = `
 <Cmp>
   <div
-    className="ins-composed-col"
+    className="ins-composed-col sentry-mask data-hj-suppress"
   >
     <div
       key="os_release"
@@ -23,7 +23,7 @@ exports[`TitleColumn should render correctly no detail with data 1`] = `
 exports[`TitleColumn should render correctly with NO data 1`] = `
 <Cmp>
   <div
-    className="ins-composed-col"
+    className="ins-composed-col sentry-mask data-hj-suppress"
   >
     <div
       key="os_release"
@@ -45,7 +45,7 @@ exports[`TitleColumn should render correctly with NO data 1`] = `
 exports[`TitleColumn should render correctly with data 1`] = `
 <Cmp>
   <div
-    className="ins-composed-col"
+    className="ins-composed-col sentry-mask data-hj-suppress"
   >
     <div
       key="os_release"

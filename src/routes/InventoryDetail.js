@@ -92,7 +92,7 @@ const Inventory = () => {
     }
 
     useEffect(() => {
-        insights?.chrome?.appObjectId?.(entity?.id);
+        chrome?.appObjectId?.(entity?.id);
     }, [entity?.id]);
 
     const onTabSelect = useCallback((_, activeApp, appName) => {
