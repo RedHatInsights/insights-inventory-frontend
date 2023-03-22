@@ -9,6 +9,13 @@ jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () =>
     usePermissionsWithContext: () => ({ hasAccess: false })
 }));
 
+jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
+    __esModule: true,
+    default: () => ({
+        isProd: () => true
+    })
+}));
+
 describe('EditButton with no access', () => {
     let onClick;
     let link;
@@ -18,32 +25,10 @@ describe('EditButton with no access', () => {
         link = 'some-link';
     });
 
-    it('do not render with no permission', () => {
+    it('render on production', () => {
         const wrapper = mount(<EditButton
             onClick={onClick}
             link={link}
-        />);
-
-        expect(wrapper.find(PencilAltIcon)).toHaveLength(0);
-        expect(wrapper.find('a')).toHaveLength(0);
-    });
-
-    it('do not render with no permission - write permissions set to false', () => {
-        const wrapper = mount(<EditButton
-            onClick={onClick}
-            link={link}
-            writePermissions={false}
-        />);
-
-        expect(wrapper.find(PencilAltIcon)).toHaveLength(0);
-        expect(wrapper.find('a')).toHaveLength(0);
-    });
-
-    it('render when write permissions are set to true', () => {
-        const wrapper = mount(<EditButton
-            onClick={onClick}
-            link={link}
-            writePermissions={true}
         />);
 
         expect(wrapper.find(PencilAltIcon)).toHaveLength(1);
