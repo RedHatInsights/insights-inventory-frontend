@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.0...v1.12.1) (2023-03-22)
+
+
+### Bug Fixes
+
+* Fix the CI error related to lastSeen filter ([#1802](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1802)) ([a19f6aa](https://github.com/RedHatInsights/insights-inventory-frontend/commit/a19f6aa92e7fa31d8b4bf5356784f2922f213ddc))
+
 # [1.12.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.11.0...v1.12.0) (2023-03-15)
 
 
