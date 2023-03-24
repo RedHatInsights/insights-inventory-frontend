@@ -251,7 +251,7 @@ describe('InventoryTable', () => {
         expect(wrapper.find('DropdownMenu')).toHaveLength(0);
 
         await act(async () => {
-            wrapper.find('KebabToggle').at(1).simulate('click');
+            wrapper.find('KebabToggle').at(4).simulate('click');
         });
         wrapper.update();
 
