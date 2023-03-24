@@ -251,15 +251,19 @@ describe('InventoryTable', () => {
         expect(wrapper.find('DropdownMenu')).toHaveLength(0);
 
         await act(async () => {
-            wrapper.find('KebabToggle').at(4).simulate('click');
+            wrapper.find('KebabToggle').at(1).simulate('click');
         });
         wrapper.update();
 
         expect(wrapper.find('DropdownMenu')).toHaveLength(1);
 
         await act(async () => {
-            wrapper.find('DropdownItem').first().find('button').simulate('click');
+            const dropdownItems = wrapper.find('DropdownItem');
+
+            const deleteDropdown = dropdownItems.at(1);
+            deleteDropdown.find('button').simulate('click');
         });
+
         wrapper.update();
 
         expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(true);
