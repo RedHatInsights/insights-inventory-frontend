@@ -236,6 +236,7 @@ const Inventory = ({
                             onRefresh={onRefresh}
                             hasCheckbox={writePermissions}
                             autoRefresh
+                            ignoreRefresh
                             initialLoading={initialLoading}
                             tableProps={
                                 (writePermissions && {
