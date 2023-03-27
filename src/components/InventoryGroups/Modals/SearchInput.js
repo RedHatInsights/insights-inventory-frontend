@@ -7,7 +7,7 @@ import {
     SelectOption
 } from '@patternfly/react-core';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 const SearchInput = () => {
     const [storeGroups, setStoreGroups] = useState();

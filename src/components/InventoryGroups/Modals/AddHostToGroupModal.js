@@ -13,7 +13,7 @@ const CreateGroupButton = ({ closeModal }) => (
     <>
         <Text>Or</Text>
         <Button variant="secondary" className="pf-u-w-50" onClick={closeModal}>
-        Create Group
+        Create a new group
         </Button>
     </>
 );
@@ -22,24 +22,22 @@ CreateGroupButton.propTypes = {
     closeModal: PropTypes.func
 };
 
-const createDescription = (deviceIds) => {
-    const systemText =
-      deviceIds.length > 1 ? `${deviceIds?.length} systems` : deviceIds[0].name;
+const createDescription = (systemName) => {
     return (
         <Text>
-        Select a group to add <strong>{systemText} </strong> or create a new one.
+        Select a group to add <strong>{systemName}</strong> to, or create a new one.
         </Text>
     );
 };
 
 //this is a custom schema that is passed via additional mappers to the Modal component
 //it allows to create custom item types in the modal
-const createSchema = (deviceIds) => ({
+const createSchema = (systemName) => ({
     fields: [
         {
             component: componentTypes.PLAIN_TEXT,
             name: 'description',
-            label: createDescription(deviceIds)
+            label: createDescription(systemName)
         },
         {
             component: 'search-input',
@@ -57,8 +55,7 @@ const AddHostToGroupModal = ({
     setIsModalOpen,
     modalState,
     reloadData,
-    setIsCreateGroupModalOpen,
-    deviceIds
+    setIsCreateGroupModalOpen
 }) => {
     const dispatch = useDispatch();
 
@@ -69,12 +66,12 @@ const AddHostToGroupModal = ({
                 title: 'Success',
                 description: `System(s) have been added to ${group.toString()} successfully`
             },
-            onError: { title: 'Error', description: 'Failed to add system to group' }
+            onError: { title: 'Error', description: `Failed to add ${modalState.name} to ${modalState.groupName}` }
         };
 
         apiWithToast(
             dispatch,
-            () => addHostToGroup(parseInt(group.groupId), deviceIds),
+            () => addHostToGroup(parseInt(group.groupId), modalState.id),
             statusMessages
         );
     };
@@ -85,7 +82,7 @@ const AddHostToGroupModal = ({
             closeModal={() => setIsModalOpen(false)}
             title="Add to group"
             submitLabel="Add"
-            schema={createSchema(deviceIds)}
+            schema={createSchema(modalState.name)}
             additionalMappers={{
                 'search-input': {
                     component: SearchInput

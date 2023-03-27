@@ -201,7 +201,14 @@ const Inventory = ({
         const actionsBehindFeatureFlag = [
             {
                 title: 'Add to group',
-                onClick: () => setAddHostGroupModalOpen(true)
+                onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                    activateSystem(() => ({
+                        id: systemId,
+                        name: displayName,
+                        groupName: 'new group'
+                    }));
+                    setAddHostGroupModalOpen(true);
+                }
             },
             {
                 title: 'Remove from group',
@@ -327,11 +334,9 @@ const Inventory = ({
             <AddHostToGroupModal
                 isModalOpen={addHostGroupModalOpen}
                 setIsModalOpen={setAddHostGroupModalOpen}
-                modalState={{ id: 1, name: 'name', groupName: 'groupName' }}
+                modalState={currentSytem}
                 reloadData={() => console.log('data reloaded')}
                 setIsCreateGroupModalOpen={setIsCreateGroupModalOpen}
-                //deviceIds should pass the id
-                deviceIds={['123']}
             />
             {isCreateGroupModalOpen && (
                 <CreateGroupModal
