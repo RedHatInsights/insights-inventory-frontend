@@ -174,7 +174,7 @@ const Inventory = ({
     //This wrapping of table actions allows to pass feature flag status and receive a prepared array of actions
     const tableActions = (groupsUiStatus, row) => {
         const isGroupPresentForThisRow = (row) => {
-            return row && row.groups.title !== '';
+            return row && row?.groups?.title !== '';
         };
 
         const standardActions = [

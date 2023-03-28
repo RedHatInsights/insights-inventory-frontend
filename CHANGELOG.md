@@ -1,3 +1,10 @@
+## [1.12.3](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.2...v1.12.3) (2023-03-28)
+
+
+### Bug Fixes
+
+* **RHCLOUD-24793:** Show ROS tab is azure or aws cloud provider ([#1800](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1800)) ([2331f03](https://github.com/RedHatInsights/insights-inventory-frontend/commit/2331f0364a73c1916c19b864c04a4e512a10cd6a))
+
 ## [1.12.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.1...v1.12.2) (2023-03-22)
 
 ## [1.12.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.0...v1.12.1) (2023-03-22)
