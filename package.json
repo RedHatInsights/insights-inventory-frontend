@@ -1,6 +1,6 @@
 {
   "name": "insights-inventory-frontend",
-  "version": "1.12.2",
+  "version": "1.12.3",
   "private": false,
   "engines": {
     "node": ">=15.0.0",
