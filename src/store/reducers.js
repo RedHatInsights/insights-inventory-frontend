@@ -58,17 +58,6 @@ function entitySelected(state, { payload }) {
     };
 }
 
-function resourceOptTabVisibility(state, { payload }) {
-    return {
-        ...state,
-        activeApps: state.activeApps?.map((entity) => entity.name === 'ros' ? ({
-            ...entity,
-            isVisible: payload
-        }) : entity
-        )
-    };
-}
-
 function entityDeleted(state, { meta }) {
     const selected = state.selected || (new Map());
     meta.systems.forEach(id => selected.delete(id));
@@ -135,8 +124,7 @@ export const tableReducer = applyReducerHash(
 
 export const entitesDetailReducer = () => applyReducerHash(
     {
-        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded,
-        [INVENTORY_ACTION_TYPES.LOAD_SYSTEM_PROFILE_FULFILLED]: resourceOptTabVisibility
+        [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded
     },
     defaultState
 );
