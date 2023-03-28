@@ -15,9 +15,7 @@ import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
-import { fetchGroups } from '../store/inventory-actions';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
-import CreateGroupModal from '../components/InventoryGroups/Modals/CreateGroupModal';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -114,7 +112,6 @@ const Inventory = ({
     const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
     const writePermissions = useWritePermissions();
-    const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
     const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
     const loaded = useSelector(({ entities }) => entities?.loaded);
     const selected = useSelector(({ entities }) => entities?.selected);
@@ -163,8 +160,6 @@ const Inventory = ({
             });
         });
         dispatch(actions.clearNotifications());
-        //we have to fetch groups to make them available in state
-        dispatch(fetchGroups());
 
         if (perPage || page) {
             dispatch(actions.setPagination(
@@ -335,16 +330,9 @@ const Inventory = ({
                 isModalOpen={addHostGroupModalOpen}
                 setIsModalOpen={setAddHostGroupModalOpen}
                 modalState={currentSytem}
+                //should be replaced with a fetch to update the values in the table
                 reloadData={() => console.log('data reloaded')}
-                setIsCreateGroupModalOpen={setIsCreateGroupModalOpen}
             />
-            {isCreateGroupModalOpen && (
-                <CreateGroupModal
-                    isModalOpen={isCreateGroupModalOpen}
-                    setIsModalOpen={setIsCreateGroupModalOpen}
-                    reloadData={() => console.log('data reloaded')}
-                />
-            )}
         </React.Fragment>
     );
 };

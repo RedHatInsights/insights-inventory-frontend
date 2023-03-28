@@ -1,63 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
-import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import Modal from './Modal';
 import { addHostToGroup } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
-import { Button, Text } from '@patternfly/react-core';
+import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
 import SearchInput from './SearchInput';
-
-const CreateGroupButton = ({ closeModal }) => (
-    <>
-        <Text>Or</Text>
-        <Button variant="secondary" className="pf-u-w-50" onClick={closeModal}>
-        Create a new group
-        </Button>
-    </>
-);
-
-CreateGroupButton.propTypes = {
-    closeModal: PropTypes.func
-};
-
-const createDescription = (systemName) => {
-    return (
-        <Text>
-        Select a group to add <strong>{systemName}</strong> to, or create a new one.
-        </Text>
-    );
-};
-
-//this is a custom schema that is passed via additional mappers to the Modal component
-//it allows to create custom item types in the modal
-const createSchema = (systemName) => ({
-    fields: [
-        {
-            component: componentTypes.PLAIN_TEXT,
-            name: 'description',
-            label: createDescription(systemName)
-        },
-        {
-            component: 'search-input',
-            name: 'group',
-            label: 'Select a group',
-            isRequired: true,
-            validate: [{ type: validatorTypes.REQUIRED }]
-        },
-        { component: 'create-group-btn', name: 'create-group-btn' }
-    ]
-});
+import { fetchGroups } from '../../../store/inventory-actions';
+import { addHostSchema } from './ModalSchemas/schemes';
+import CreateGroupModal from './CreateGroupModal';
 
 const AddHostToGroupModal = ({
     isModalOpen,
     setIsModalOpen,
     modalState,
-    reloadData,
-    setIsCreateGroupModalOpen
+    reloadData
 }) => {
     const dispatch = useDispatch();
+    //we have to fetch groups to make them available in state
+    useEffect(() => {
+        dispatch(fetchGroups());
+
+    }, []);
+    const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
 
     const handleAddDevices = (values) => {
         const { group } = values;
@@ -77,28 +42,37 @@ const AddHostToGroupModal = ({
     };
 
     return (
-        <Modal
-            isModalOpen={isModalOpen}
-            closeModal={() => setIsModalOpen(false)}
-            title="Add to group"
-            submitLabel="Add"
-            schema={createSchema(modalState.name)}
-            additionalMappers={{
-                'search-input': {
-                    component: SearchInput
-                },
-                'create-group-btn': {
-                    component: CreateGroupButton,
-                    closeModal: () => {
-                        setIsCreateGroupModalOpen(true);
-                        setIsModalOpen(false);
+        <>
+            <Modal
+                isModalOpen={isModalOpen}
+                closeModal={() => setIsModalOpen(false)}
+                title="Add to group"
+                submitLabel="Add"
+                schema={addHostSchema(modalState.name)}
+                additionalMappers={{
+                    'search-input': {
+                        component: SearchInput
+                    },
+                    'create-group-btn': {
+                        component: CreateGroupButton,
+                        closeModal: () => {
+                            setIsCreateGroupModalOpen(true);
+                            setIsModalOpen(false);
+                        }
                     }
-                }
-            }}
-            initialValues={modalState}
-            onSubmit={handleAddDevices}
-            reloadData={reloadData}
-        />
+                }}
+                initialValues={modalState}
+                onSubmit={handleAddDevices}
+                reloadData={reloadData}
+            />
+            {isCreateGroupModalOpen && (
+                <CreateGroupModal
+                    isModalOpen={isCreateGroupModalOpen}
+                    setIsModalOpen={setIsCreateGroupModalOpen}
+                    reloadData={() => console.log('data reloaded')}
+                />
+            )}
+        </>
     );
 };
 
