@@ -14,7 +14,7 @@ jobs:
       after_success: npm run coverage
     - stage: Deploy
       if: (fork = false) AND (branch IN (master, master-stable, prod-beta, prod-stable))
-      script: curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
+      script: npm run build && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
     - stage: Tag
       if: (fork = false) AND (branch = master)
       script: npx semantic-release
