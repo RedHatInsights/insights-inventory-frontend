@@ -172,7 +172,11 @@ const Inventory = ({
     const calculateSelected = () => selected ? selected.size : 0;
 
     //This wrapping of table actions allows to pass feature flag status and receive a prepared array of actions
-    const tableActions = (groupsUiStatus) => {
+    const tableActions = (groupsUiStatus, row) => {
+        const isGroupPresentForThisRow = (row) => {
+            return row && row.groups.title !== '';
+        };
+
         const standardActions = [
             {
                 title: 'Edit',
@@ -207,7 +211,7 @@ const Inventory = ({
             },
             {
                 title: 'Remove from group',
-                isDisabled: true
+                isDisabled: isGroupPresentForThisRow(row)
             }
         ];
 
@@ -241,8 +245,9 @@ const Inventory = ({
                             hasCheckbox={writePermissions}
                             autoRefresh
                             initialLoading={initialLoading}
+                            tableProps={{
+                                actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false }}
                             {...(writePermissions && {
-                                actions: tableActions(groupsEnabled),
                                 actionsConfig: {
                                     actions: [{
                                         label: 'Delete',
@@ -279,9 +284,6 @@ const Inventory = ({
                                     }
                                 }
                             })}
-                            tableProps={{
-                                canSelectAll: false
-                            }}
                             onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
                         />
                     </GridItem>
