@@ -245,8 +245,9 @@ const Inventory = ({
                             hasCheckbox={writePermissions}
                             autoRefresh
                             initialLoading={initialLoading}
-                            tableProps={{
-                                actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false }}
+                            tableProps={
+                                (writePermissions && {
+                                    actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
                             {...(writePermissions && {
                                 actionsConfig: {
                                     actions: [{
