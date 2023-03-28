@@ -92,7 +92,7 @@ Function called when table is refreshed.
 
 Props passed to table component. In addition it is used to pass `actionResolver` props.
 That will give you access to the row data, that way you can map through each row and enable/disable kebab action depending on the value. You cannot use both `actions` and `actionResolver` props - choose one.
-Example in [Patchman UI](https://github.com/RedHatInsights/patchman-ui/blob/master/src/SmartComponents/Systems/Systems.js#L191)
+Example in [Patchman UI]([inventory.md](https://github.com/RedHatInsights/patchman-ui/blob/master/src/SmartComponents/Systems/Systems.js#L191))
 
 ## paginationProps
 
