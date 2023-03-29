@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import {
     HelperText,
@@ -6,10 +6,11 @@ import {
     Select,
     SelectOption
 } from '@patternfly/react-core';
-import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import debounce from 'lodash/debounce';
+import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 
 const SearchInput = () => {
+    const { change } = useFormApi();
     const [storeGroups, setStoreGroups] = useState();
     const [isLoading, setIsLoading] = useState(true);
     //fetch data from the store
@@ -38,7 +39,6 @@ const SearchInput = () => {
         setIsLoading(false);
     }, [storeGroups]);
 
-    const { change } = useFormApi();
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -51,21 +51,26 @@ const SearchInput = () => {
     // Update state when an option has been selected.
         setSelected(value);
         setIsOpen(false);
+        //this is requried to make select component pass the saved data up to the modal
         change('group', value);
-    };
-
-    const onSelect = (_event, selection) => {
-        if (_event) {
-            updateSelection(selection);
-        }
     };
 
     const clearSelection = () => {
         setSearchTerm('');
         updateSelection(null);
+        setIsOpen(false);
     };
 
-    const onFilter = (_event, value) => {
+    const onSelect = (_event, selection, isPlaceholder) => {
+        if (isPlaceholder) {
+            clearSelection();
+        }
+        else {
+            updateSelection(selection);
+        }
+    };
+
+    const onFilter = useCallback(debounce((_event, value) => {
         // Only filter the groups data if there is a search term
         if (value) {
             const filteredGroups = fetchedGroupValues.filter(group =>
@@ -80,7 +85,7 @@ const SearchInput = () => {
 
         // Update the search term state
         setSearchTerm(value);
-    };
+    }, 100), []);
 
     return (
         <>
@@ -103,7 +108,7 @@ const SearchInput = () => {
                 onClear={clearSelection}
                 selections={selected ? selected : searchTerm}
                 isOpen={isOpen}
-                onFilter={debounce(onFilter, 300)}
+                onFilter={(_event, value) => onFilter(_event, value)}
                 aria-labelledby="typeahead-select-id-1"
                 placeholderText="Type or click to select a group"
                 isInputValuePersisted={true}

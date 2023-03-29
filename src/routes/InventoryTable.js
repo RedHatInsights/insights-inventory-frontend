@@ -200,11 +200,11 @@ const Inventory = ({
         const actionsBehindFeatureFlag = [
             {
                 title: 'Add to group',
-                onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                onClick: (_event, _index, { id: systemId, display_name: displayName, group_name: groupName }) => {
                     activateSystem(() => ({
                         id: systemId,
                         name: displayName,
-                        groupName: 'new group'
+                        groupName
                     }));
                     setAddHostGroupModalOpen(true);
                 }
@@ -215,15 +215,7 @@ const Inventory = ({
             }
         ];
 
-        const insert = (arr, index, newItem) => [
-            ...arr.slice(0, index),
-            ...newItem,
-            ...arr.slice(index)
-        ];
-
-        const prepareActionsHiddenByFeatureFlag = groupsUiStatus ?
-            insert(standardActions, 0, actionsBehindFeatureFlag) : standardActions;
-        return prepareActionsHiddenByFeatureFlag;
+        return [...(groupsUiStatus ? actionsBehindFeatureFlag : []), ...standardActions];
     };
 
     return (
