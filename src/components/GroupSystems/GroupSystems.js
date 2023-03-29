@@ -36,10 +36,10 @@ const prepareColumns = (initialColumns) => {
     // hides the "groups" column
     const columns = initialColumns.filter(({ key }) => key !== 'groups');
 
-    // additionally insert the "update methods" column
+    // additionally insert the "update method" column
     columns.splice(columns.length - 1 /* must be penultimate */, 0, {
         key: 'update_method',
-        title: 'Update methods',
+        title: 'Update method',
         sortKey: 'update_method',
         transforms: [fitContent],
         renderFunc: (value, hostId, systemData) =>

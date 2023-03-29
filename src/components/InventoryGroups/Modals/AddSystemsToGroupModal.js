@@ -21,10 +21,10 @@ import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
 export const prepareColumns = (initialColumns) => {
     const columns = initialColumns;
 
-    // additionally insert the "update methods" column
+    // additionally insert the "update method" column
     columns.splice(columns.length - 2 /* must be the 3rd col from the end */, 0, {
         key: 'update_method',
-        title: 'Update methods',
+        title: 'Update method',
         sortKey: 'update_method',
         transforms: [fitContent],
         renderFunc: (value, hostId, systemData) =>
