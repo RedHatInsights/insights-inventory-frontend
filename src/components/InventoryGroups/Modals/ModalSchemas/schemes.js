@@ -28,7 +28,8 @@ export const confirmSystemsAddSchema = (hostsNumber) => ({
         {
             component: componentTypes.PLAIN_TEXT,
             name: 'warning-message',
-            label: `${hostsNumber} of the systems you selected already belong to a group. Moving them to a different group will impact their configuration.`
+            label: `${hostsNumber} of the systems you selected already belong to a group.
+             Moving them to a different group will impact their configuration.`
         },
         {
             component: componentTypes.CHECKBOX,

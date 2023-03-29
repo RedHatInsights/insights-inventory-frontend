@@ -133,8 +133,16 @@ const AddSystemsToGroupModal = ({
                                             setSystemSelectModalOpen(false);
                                             setConfirmationModalOpen(true); // switch to the confirmation modal
                                         } else {
-                                            await handleSystemAddition([...selected.keys()]);
-                                            setTimeout(() => dispatch(fetchGroupDetail(groupId)), 500); // refetch data for this group
+                                            await handleSystemAddition([
+                                                ...selected.keys()
+                                            ]);
+                                            setTimeout(
+                                                () =>
+                                                    dispatch(
+                                                        fetchGroupDetail(groupId)
+                                                    ),
+                                                500
+                                            ); // refetch data for this group
                                             setIsModalOpen(false);
                                         }
                                     }}
