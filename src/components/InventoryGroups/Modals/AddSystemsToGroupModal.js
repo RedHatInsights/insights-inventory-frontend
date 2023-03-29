@@ -11,14 +11,14 @@ import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGroupDetail, selectEntity } from '../../../store/inventory-actions';
+import { fetchGroupDetail } from '../../../store/inventory-actions';
+import { bulkSelectConfig } from '../../GroupSystems/GroupSystems';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
 import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
 
 export const prepareColumns = (initialColumns) => {
-    // hides the "groups" column
     const columns = initialColumns;
 
     // additionally insert the "update methods" column
@@ -169,26 +169,7 @@ const AddSystemsToGroupModal = ({
                             isStickyHeader: false,
                             canSelectAll: false
                         }}
-                        bulkSelect={{
-                            count: selected.size,
-                            id: 'bulk-select-groups',
-                            items: [
-                                {
-                                    title: 'Select none (0)',
-                                    onClick: () => dispatch(selectEntity(-1, false)),
-                                    props: { isDisabled: noneSelected }
-                                },
-                                {
-                                    title: `${pageSelected ? 'Deselect' : 'Select'} page (${rows.length} items)`,
-                                    onClick: () => dispatch(selectEntity(0, !pageSelected))
-                                }
-                                // TODO: Implement "select all"
-                            ],
-                            onSelect: (value) => {
-                                dispatch(selectEntity(0, value));
-                            },
-                            checked: selected.size > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
-                        }}
+                        bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
                         initialLoading={true}
                     />
                 </Modal>

@@ -9,6 +9,29 @@ import { clearFilters, selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
 
+export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSelected, rowsNumber) => ({
+    count: selectedNumber,
+    id: 'bulk-select-groups',
+    items: [
+        {
+            title: 'Select none (0)',
+            onClick: () => dispatch(selectEntity(-1, false)),
+            props: { isDisabled: noneSelected }
+        },
+        {
+            title: `${pageSelected ? 'Deselect' : 'Select'} page (${
+                rowsNumber
+            } items)`,
+            onClick: () => dispatch(selectEntity(0, !pageSelected))
+        }
+        // TODO: Implement "select all"
+    ],
+    onSelect: (value) => {
+        dispatch(selectEntity(0, value));
+    },
+    checked: selectedNumber > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
+});
+
 const prepareColumns = (initialColumns) => {
     // hides the "groups" column
     const columns = initialColumns.filter(({ key }) => key !== 'groups');
@@ -94,28 +117,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                         variant: TableVariant.compact,
                         canSelectAll: false
                     }}
-                    bulkSelect={{
-                        count: selected.size,
-                        id: 'bulk-select-groups',
-                        items: [
-                            {
-                                title: 'Select none (0)',
-                                onClick: () => dispatch(selectEntity(-1, false)),
-                                props: { isDisabled: noneSelected }
-                            },
-                            {
-                                title: `${pageSelected ? 'Deselect' : 'Select'} page (${
-                                rows.length
-                            } items)`,
-                                onClick: () => dispatch(selectEntity(0, !pageSelected))
-                            }
-                        // TODO: Implement "select all"
-                        ],
-                        onSelect: (value) => {
-                            dispatch(selectEntity(0, value));
-                        },
-                        checked: selected.size > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
-                    }}
+                    bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
                 >
                     <Button
                         variant='primary'
