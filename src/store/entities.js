@@ -22,6 +22,7 @@ import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
 import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
 import { fitContent } from '@patternfly/react-table';
+import isEmpty from 'lodash/isEmpty';
 
 export const defaultState = {
     loaded: false,
@@ -47,9 +48,11 @@ export const defaultColumns = (groupsEnabled = false) => ([
     ...(groupsEnabled ? [{
         key: 'groups',
         sortKey: 'groups',
-        title: 'Groups',
+        title: 'Group',
         props: { width: 10 },
-        renderFunc: () => <React.Fragment>N/A</React.Fragment>
+        // eslint-disable-next-line camelcase
+        renderFunc: (value, systemId, { group_name }) => isEmpty(group_name) ? 'N/A' : group_name,
+        transforms: [fitContent]
     }] : []),
     {
         key: 'tags',

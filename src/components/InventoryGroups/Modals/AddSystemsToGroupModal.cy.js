@@ -11,6 +11,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import {
+    featureFlagsInterceptors,
     groupDetailInterceptors,
     hostsFixtures,
     hostsInterceptors
@@ -22,7 +23,7 @@ import {
 import { getStore } from '../../../store';
 import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 
-const TABLE_HEADERS = ['Name', 'Tags', 'Update methods', 'OS', 'Last seen'];
+const TABLE_HEADERS = ['Name', 'Group', 'Tags', 'Update methods', 'OS', 'Last seen'];
 
 const ALERT = '[data-ouia-component-type="PF4/Alert"]';
 
@@ -80,6 +81,7 @@ describe('AddSystemsToGroupModal', () => {
         cy.viewport(1920, 1080); // to accomadate the inventory table
         cy.intercept('*', { statusCode: 200 });
         hostsInterceptors.successful(); // default hosts list
+        featureFlagsInterceptors.successful(); // to enable the Group column
     });
 
     it('renders correct header and buttons', () => {
