@@ -22,12 +22,14 @@ const ConfirmSystemsAddModal = ({
         )}
         closeModal={onCancel}
         schema={confirmSystemsAddSchema(hostsNumber)}
+        reloadData={() => {}}
+        onSubmit={onSubmit}
         customFormTemplate={({ formFields, schema }) => {
-            const { getState } = useFormApi();
+            const { handleSubmit, getState } = useFormApi();
             const { submitting, valid } = getState();
 
             return (
-                <form onSubmit={onSubmit}>
+                <form onSubmit={handleSubmit}>
                     <Flex
                         direction={{ default: 'column' }}
                         spaceItems={{ default: 'spaceItemsLg' }}
@@ -45,7 +47,7 @@ const ConfirmSystemsAddModal = ({
                                     >
                                         Yes, add all systems to group
                                     </Button>
-                                    <Button onClick={onBack} variant="secondary">
+                                    <Button variant="secondary" onClick={onBack}>
                                         Back
                                     </Button>
                                     <Button variant="link" onClick={onCancel}>

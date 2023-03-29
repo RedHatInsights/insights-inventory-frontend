@@ -9,6 +9,7 @@ import {
     CHIP_GROUP,
     DROPDOWN_TOGGLE,
     hasChip,
+    MODAL,
     PAGINATION_VALUES,
     SORTING_ORDERS,
     TEXT_INPUT,
@@ -300,7 +301,21 @@ describe('selection and bulk selection', () => {
 });
 
 describe('actions', () => {
-    // TBA
+    beforeEach(() => {
+        cy.intercept('*', { statusCode: 200 });
+        hostsInterceptors.successful();
+
+        mountTable();
+
+        cy.wait('@getHosts');
+    });
+
+    it('can open systems add modal', () => {
+        cy.get('button').contains('Add systems').click();
+        cy.get(MODAL).find('h1').contains('Add systems');
+
+        cy.wait('@getHosts');
+    });
 });
 
 describe('edge cases', () => {

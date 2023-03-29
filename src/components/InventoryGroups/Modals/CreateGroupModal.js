@@ -48,7 +48,6 @@ const CreateGroupModal = ({
 
     return (
         <Modal
-            data-testid="create-group-modal"
             isModalOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
             title="Create group"

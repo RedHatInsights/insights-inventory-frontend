@@ -60,7 +60,9 @@ const AddSystemsToGroupModal = ({
 
     const alreadyHasGroup = [...selected].filter(
     // eslint-disable-next-line camelcase
-        ({ group_name }) => group_name !== undefined && group_name !== ''
+        (entry) => {
+            return entry[1].group_name !== undefined && entry[1].group_name !== '';
+        }
     );
     const showWarning = alreadyHasGroup.length > 0;
 
@@ -95,6 +97,7 @@ const AddSystemsToGroupModal = ({
                         await handleSystemAddition([...selected.keys()]);
                         setTimeout(() => dispatch(fetchGroupDetail(groupId)), 500); // refetch data for this group
                         setIsModalOpen(false);
+
                     }}
                     onBack={() => {
                         setConfirmationModalOpen(false);
@@ -125,9 +128,15 @@ const AddSystemsToGroupModal = ({
                                 <Button
                                     key="confirm"
                                     variant="primary"
-                                    onClick={() => {
-                                        setSystemSelectModalOpen(false);
-                                        setConfirmationModalOpen(true); // switch to the confirmation modal
+                                    onClick={async () => {
+                                        if (showWarning) {
+                                            setSystemSelectModalOpen(false);
+                                            setConfirmationModalOpen(true); // switch to the confirmation modal
+                                        } else {
+                                            await handleSystemAddition([...selected.keys()]);
+                                            setTimeout(() => dispatch(fetchGroupDetail(groupId)), 500); // refetch data for this group
+                                            setIsModalOpen(false);
+                                        }
                                     }}
                                     isDisabled={noneSelected}
                                 >
