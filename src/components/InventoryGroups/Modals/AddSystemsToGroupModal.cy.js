@@ -23,7 +23,14 @@ import {
 import { getStore } from '../../../store';
 import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 
-const TABLE_HEADERS = ['Name', 'Group', 'Tags', 'Update method', 'OS', 'Last seen'];
+const TABLE_HEADERS = [
+    'Name',
+    'OS',
+    'Tags',
+    'Update method',
+    'Group',
+    'Last seen'
+];
 
 const ALERT = '[data-ouia-component-type="PF4/Alert"]';
 

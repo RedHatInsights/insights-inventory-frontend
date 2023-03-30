@@ -36,7 +36,15 @@ export const prepareColumns = (initialColumns) => {
         }
     });
 
-    return columns;
+    // map columns to the speicifc order
+    return [
+        'display_name',
+        'system_profile',
+        'tags',
+        'update_method',
+        'groups',
+        'updated'
+    ].map((colKey) => columns.find(({ key }) => key === colKey));
 };
 
 const AddSystemsToGroupModal = ({
