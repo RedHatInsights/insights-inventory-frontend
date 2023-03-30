@@ -175,7 +175,7 @@ function selectEntity(state, { payload }) {
 function versionsLoaded(state, { payload: { results } }) {
     return {
         ...state,
-        operatingSystems: results.map(entry => {
+        operatingSystems: (results || []).map(entry => {
             const { name, major, minor } = entry.value;
             const versionStringified = `${major}.${minor}`;
             return { label: `${name} ${versionStringified}`, value: versionStringified };
