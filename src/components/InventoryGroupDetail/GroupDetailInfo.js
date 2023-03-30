@@ -6,30 +6,41 @@ import {
     CardHeader,
     CardActions } from '@patternfly/react-core';
 import React from 'react';
+import PropTypes from 'prop-types';
+import ChromeLoader from '../../Utilities/ChromeLoader';
 
-const GroupDetailInfo = () => {
-    const address =  window.location.href.includes('beta') ? '/beta/iam/user-access' : '/iam/user-access';
+const GroupDetailInfo = ({ chrome }) => {
+    const path = `${chrome.isBeta() ? '/beta' : ''}/iam/user-access`;
 
     return (
         <Card>
             <CardHeader>
                 <CardActions>
-                    <Button variant="secondary" >
-                        <a
-                            href={`${window.location.origin}/iam/user-access`}
-                        >Manage access</a>
+                    <Button component="a" href={path} variant="secondary">
+                        Manage access
                     </Button>
                 </CardActions>
-                <CardTitle className="pf-c-title pf-m-lg card-title">User access configuration</CardTitle>
+                <CardTitle className="pf-c-title pf-m-lg card-title">
+                    User access configuration
+                </CardTitle>
             </CardHeader>
             <CardBody>
-                    Manage your inventory group user access configuration under
-                <a
-                    href={`${window.location.origin}${address}`}
-                > Identity & Access Management {'>'} User Access.</a>
+                Manage your inventory group user access configuration under
+                <a href={path}> Identity & Access Management {'>'} User Access.</a>
             </CardBody>
         </Card>
     );
 };
 
-export default GroupDetailInfo;
+GroupDetailInfo.propTypes = {
+    chrome: PropTypes.object
+};
+
+const GroupDetailInfoWithChrome = () => (
+    <ChromeLoader>
+        <GroupDetailInfo />
+    </ChromeLoader>
+);
+
+export { GroupDetailInfo };
+export default GroupDetailInfoWithChrome;
