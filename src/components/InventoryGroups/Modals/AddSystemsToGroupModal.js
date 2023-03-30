@@ -44,7 +44,8 @@ export const prepareColumns = (initialColumns) => {
         'update_method',
         'groups',
         'updated'
-    ].map((colKey) => columns.find(({ key }) => key === colKey));
+    ].map((colKey) => columns.find(({ key }) => key === colKey))
+    .filter(Boolean); // eliminate possible undefined's
 };
 
 const AddSystemsToGroupModal = ({
