@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.3...v1.13.0) (2023-03-29)
+
+
+### Features
+
+* **ESSNTL-3729:** Add new actions to kebab and new modal ([#1794](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1794)) ([011f64c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/011f64c998573f9b8e9012c0c8c70f63e2d08532))
+
 ## [1.12.3](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.2...v1.12.3) (2023-03-28)
 
 

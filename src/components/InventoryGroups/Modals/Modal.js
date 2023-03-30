@@ -17,7 +17,8 @@ const RepoModal = ({
     reloadData,
     size,
     onSubmit,
-    customFormTemplate
+    customFormTemplate,
+    additionalMappers
 }) => {
     return (
         <Modal
@@ -41,7 +42,9 @@ const RepoModal = ({
                     />
                 )}
                 initialValues={initialValues}
-                componentMapper={componentMapper}
+                componentMapper={additionalMappers
+                    ? { ...additionalMappers, ...componentMapper }
+                    : componentMapper}
                 //reload comes from the table and fetches fresh data
                 onSubmit={async (values) => {
                     await onSubmit(values);
