@@ -14,6 +14,8 @@ import flatMap from 'lodash/flatMap';
 import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
+import useFeatureFlag from '../Utilities/useFeatureFlag';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -107,15 +109,16 @@ const Inventory = ({
             lastSeenFilter)
     );
     const [ediOpen, onEditOpen] = useState(false);
+    const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
     const writePermissions = useWritePermissions();
     const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
     const loaded = useSelector(({ entities }) => entities?.loaded);
     const selected = useSelector(({ entities }) => entities?.selected);
     const dispatch = useDispatch();
+    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
 
     const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
-
     const onRefresh = (options, callback) => {
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
@@ -168,6 +171,53 @@ const Inventory = ({
 
     const calculateSelected = () => selected ? selected.size : 0;
 
+    //This wrapping of table actions allows to pass feature flag status and receive a prepared array of actions
+    const tableActions = (groupsUiStatus, row) => {
+        const isGroupPresentForThisRow = (row) => {
+            return row && row?.groups?.title !== '';
+        };
+
+        const standardActions = [
+            {
+                title: 'Edit',
+                onClick: (_event, _index, data) => {
+                    activateSystem(() => data);
+                    onEditOpen(() => true);
+                }
+            },
+            {
+                title: 'Delete',
+                onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
+                    activateSystem(() => ({
+                        id: systemId,
+                        displayName
+                    }));
+                    handleModalToggle(() => true);
+                }
+            }
+        ];
+
+        const actionsBehindFeatureFlag = [
+            {
+                title: 'Add to group',
+                onClick: (_event, _index, { id: systemId, display_name: displayName, group_name: groupName }) => {
+                    activateSystem(() => ({
+                        id: systemId,
+                        name: displayName,
+                        groupName
+                    }));
+                    setAddHostGroupModalOpen(true);
+                }
+            },
+            {
+                title: 'Remove from group',
+                isDisabled: isGroupPresentForThisRow(row)
+            }
+        ];
+
+        return [...(groupsUiStatus ? actionsBehindFeatureFlag : []), ...standardActions];
+    };
+
     return (
         <React.Fragment>
             <PageHeader className="pf-m-light">
@@ -187,25 +237,10 @@ const Inventory = ({
                             hasCheckbox={writePermissions}
                             autoRefresh
                             initialLoading={initialLoading}
+                            tableProps={
+                                (writePermissions && {
+                                    actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
                             {...(writePermissions && {
-                                actions: [
-                                    {
-                                        title: 'Delete',
-                                        onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
-                                            activateSystem(() => ({
-                                                id: systemId,
-                                                displayName
-                                            }));
-                                            handleModalToggle(() => true);
-                                        }
-                                    }, {
-                                        title: 'Edit',
-                                        onClick: (_event, _index, data) => {
-                                            activateSystem(() => data);
-                                            onEditOpen(() => true);
-                                        }
-                                    }
-                                ],
                                 actionsConfig: {
                                     actions: [{
                                         label: 'Delete',
@@ -242,9 +277,6 @@ const Inventory = ({
                                     }
                                 }
                             })}
-                            tableProps={{
-                                canSelectAll: false
-                            }}
                             onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
                         />
                     </GridItem>
@@ -279,7 +311,6 @@ const Inventory = ({
                     handleModalToggle(false);
                 }}
             />
-
             <TextInputModal
                 title="Edit display name"
                 isOpen={ediOpen}
@@ -289,6 +320,13 @@ const Inventory = ({
                     dispatch(actions.editDisplayName(currentSytem.id, value));
                     onEditOpen(false);
                 }}
+            />
+            <AddHostToGroupModal
+                isModalOpen={addHostGroupModalOpen}
+                setIsModalOpen={setAddHostGroupModalOpen}
+                modalState={currentSytem}
+                //should be replaced with a fetch to update the values in the table
+                reloadData={() => console.log('data reloaded')}
             />
         </React.Fragment>
     );
