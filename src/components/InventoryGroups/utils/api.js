@@ -3,6 +3,7 @@ import { instance } from '@redhat-cloud-services/frontend-components-utilities/i
 import { INVENTORY_API_BASE } from '../../../api';
 import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
+import union from 'lodash/union';
 import fixtureGroups from '../../../../cypress/fixtures/groups.json';
 import fixtureGroupsDetails from '../../../../cypress/fixtures/groups/Ba8B79ab5adC8E41e255D5f8aDb8f1F3.json';
 
@@ -49,14 +50,21 @@ export const getGroupDetail = (groupId) => {
 };
 
 export const updateGroupById = (id, payload) => {
-    return instance.patch(`${INVENTORY_API_BASE}/groups/${id}`, {
-        name: payload.name
-    });
+    return instance.patch(`${INVENTORY_API_BASE}/groups/${id}`, payload);
 };
 
 export const deleteGroupsById = (ids = []) => {
     return instance.delete(`${INVENTORY_API_BASE}/groups/${ids.join(',')}`);
+};
 
+export const addHostsToGroupById = (id, hostIds) => {
+    // the current hosts must be fetched before merging with the new ones
+    return getGroupDetail(id).then((response) =>
+        updateGroupById(id, {
+            // eslint-disable-next-line camelcase
+            host_ids: union(response.results[0].host_ids, hostIds)
+        })
+    );
 };
 
 export const addHostToGroup = (groupId, newHostId) => {

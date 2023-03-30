@@ -9,6 +9,7 @@ import {
     CHIP_GROUP,
     DROPDOWN_TOGGLE,
     hasChip,
+    MODAL,
     PAGINATION_VALUES,
     SORTING_ORDERS,
     TEXT_INPUT,
@@ -38,7 +39,7 @@ import _ from 'lodash';
 
 const GROUP_NAME = 'foobar';
 const ROOT = 'div[id="group-systems-table"]';
-const TABLE_HEADERS = ['Name', 'Tags', 'OS', 'Update methods', 'Last seen'];
+const TABLE_HEADERS = ['Name', 'Tags', 'OS', 'Update method', 'Last seen'];
 const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 
@@ -300,7 +301,21 @@ describe('selection and bulk selection', () => {
 });
 
 describe('actions', () => {
-    // TBA
+    beforeEach(() => {
+        cy.intercept('*', { statusCode: 200 });
+        hostsInterceptors.successful();
+
+        mountTable();
+
+        cy.wait('@getHosts');
+    });
+
+    it('can open systems add modal', () => {
+        cy.get('button').contains('Add systems').click();
+        cy.get(MODAL).find('h1').contains('Add systems');
+
+        cy.wait('@getHosts');
+    });
 });
 
 describe('edge cases', () => {

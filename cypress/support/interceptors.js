@@ -7,6 +7,7 @@ import groupsSecondPage from '../fixtures/groupsSecondPage.json';
 import groupDetailFixtures from '../fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
 import hostsFixtures from '../fixtures/hosts.json';
 
+export { hostsFixtures, groupDetailFixtures };
 export const groupsInterceptors = {
     'successful with some items': () =>
         cy
@@ -60,6 +61,23 @@ export const groupDetailInterceptors = {
             {
                 statusCode: 200,
                 body: groupDetailFixtures
+            }
+        )
+        .as('getGroupDetail'),
+    'successful with hosts': () =>
+        cy
+        .intercept(
+            'GET',
+            '/api/inventory/v1/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C',
+            {
+                statusCode: 200,
+                body: {
+                    ...groupDetailFixtures,
+                    results: [{
+                        ...groupDetailFixtures.results[0],
+                        host_ids: ['host-1', 'host-2']
+                    }]
+                }
             }
         )
         .as('getGroupDetail'),
@@ -162,7 +180,16 @@ export const featureFlagsInterceptors = {
         cy.intercept('GET', '/feature_flags*', {
             statusCode: 200,
             body: {
-                toggles: []
+                toggles: [
+                    {
+                        name: 'hbi.ui.inventory-groups',
+                        enabled: true,
+                        variant: {
+                            name: 'disabled',
+                            enabled: true
+                        }
+                    }
+                ]
             }
         }).as('getFeatureFlag');
     }
