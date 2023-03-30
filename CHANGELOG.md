@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.13.0...v1.14.0) (2023-03-30)
+
+
+### Features
+
+* **ESSNTL-3728:** Enable multiple hosts addition to group ([#1798](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1798)) ([c9a1d4e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/c9a1d4e1899df65004878eec1574613e355dab7a))
+
 # [1.13.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.3...v1.13.0) (2023-03-29)
 
 
