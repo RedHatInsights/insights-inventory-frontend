@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.0...v1.14.1) (2023-03-30)
+
+
+### Bug Fixes
+
+* **ESSNTL-4196:** Tie URLs to chrome isBeta ([#1817](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1817)) ([7c686e5](https://github.com/RedHatInsights/insights-inventory-frontend/commit/7c686e5a2d104197ac05122d3cf532b899ed66a2))
+
 # [1.14.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.13.0...v1.14.0) (2023-03-30)
 
 
