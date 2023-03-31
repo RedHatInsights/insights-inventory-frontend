@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSelected, rowsNumber) => ({
     count: selectedNumber,
-    id: 'bulk-select-groups',
+    id: 'bulk-select-systems',
     items: [
         {
             title: 'Select none (0)',

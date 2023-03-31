@@ -44,7 +44,7 @@ const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 
 const checkSelectedNumber = (number) =>
-    checkSelectedNumber_(number, '#bulk-select-groups-toggle-checkbox-text');
+    checkSelectedNumber_(number, '#bulk-select-systems-toggle-checkbox-text');
 
 const mountTable = () =>
     mount(
@@ -298,9 +298,9 @@ describe('selection and bulk selection', () => {
     });
 
     it('can select page by clicking checkbox', () => {
-        cy.get('#bulk-select-groups-toggle-checkbox').eq(0).click();
+        cy.get('#bulk-select-systems-toggle-checkbox').eq(0).click();
         checkSelectedNumber(fixtures.count);
-        cy.get('#bulk-select-groups-toggle-checkbox').eq(0).click();
+        cy.get('#bulk-select-systems-toggle-checkbox').eq(0).click();
         checkSelectedNumber(0);
     });
 
