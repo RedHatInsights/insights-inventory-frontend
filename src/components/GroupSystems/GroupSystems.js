@@ -30,7 +30,7 @@ export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSel
     onSelect: (value) => {
         dispatch(selectEntity(0, value));
     },
-    checked: selectedNumber > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
+    checked: selectedNumber > 0 && pageSelected // TODO: support partial selection (dash sign) in FEC BulkSelect
 });
 
 const prepareColumns = (initialColumns) => {
