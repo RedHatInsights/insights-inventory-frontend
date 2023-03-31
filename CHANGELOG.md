@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.1...v1.14.2) (2023-03-31)
+
+
+### Bug Fixes
+
+* **ESSNTL-3727:** Fix minor issues for groups/%id view ([#1820](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1820)) ([1fa8d01](https://github.com/RedHatInsights/insights-inventory-frontend/commit/1fa8d013cf45c291891b58f9158eed6e95de7dd2))
+
 ## [1.14.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.0...v1.14.1) (2023-03-30)
 
 
