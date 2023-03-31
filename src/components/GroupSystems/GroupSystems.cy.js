@@ -44,7 +44,7 @@ const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 
 const checkSelectedNumber = (number) =>
-    checkSelectedNumber_(number, '#bulk-select-groups-toggle-checkbox-text');
+    checkSelectedNumber_(number, '#bulk-select-systems-toggle-checkbox-text');
 
 const mountTable = () =>
     mount(
@@ -75,13 +75,15 @@ before(() => {
 
 describe('renders correctly', () => {
     beforeEach(() => {
+        cy.intercept('*', { statusCode: 200, body: { results: [] } });
+
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
     it('the root container is rendered', () => {
@@ -99,6 +101,7 @@ describe('renders correctly', () => {
 
 describe('defaults', () => {
     beforeEach(() => {
+        cy.intercept('*', { statusCode: 200, body: { results: [] } });
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
@@ -106,6 +109,7 @@ describe('defaults', () => {
         mountTable();
 
         cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
     it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
@@ -122,6 +126,7 @@ describe('defaults', () => {
 
 describe('pagination', () => {
     beforeEach(() => {
+        cy.intercept('*', { statusCode: 200, body: { results: [] } });
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
@@ -129,6 +134,7 @@ describe('pagination', () => {
         mountTable();
 
         cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
     it('shows correct total number of groups', () => {
@@ -157,6 +163,7 @@ describe('pagination', () => {
 
 describe('sorting', () => {
     beforeEach(() => {
+        cy.intercept('*', { statusCode: 200, body: { results: [] } });
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
@@ -164,6 +171,7 @@ describe('sorting', () => {
         mountTable();
 
         cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
     const checkSorting = (label, order, dataField) => {
@@ -197,6 +205,7 @@ describe('sorting', () => {
 
 describe('filtering', () => {
     beforeEach(() => {
+        cy.intercept('*', { statusCode: 200, body: { results: [] } });
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
@@ -204,6 +213,7 @@ describe('filtering', () => {
         mountTable();
 
         cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
     const applyNameFilter = () =>
@@ -247,6 +257,7 @@ describe('filtering', () => {
 
 describe('selection and bulk selection', () => {
     beforeEach(() => {
+        cy.intercept('*', { statusCode: 200, body: { results: [] } });
         hostsInterceptors.successful();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
@@ -254,6 +265,7 @@ describe('selection and bulk selection', () => {
         mountTable();
 
         cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
     it('can select and deselect systems', () => {
@@ -286,9 +298,9 @@ describe('selection and bulk selection', () => {
     });
 
     it('can select page by clicking checkbox', () => {
-        cy.get('#bulk-select-groups-toggle-checkbox').eq(0).click();
+        cy.get('#bulk-select-systems-toggle-checkbox').eq(0).click();
         checkSelectedNumber(fixtures.count);
-        cy.get('#bulk-select-groups-toggle-checkbox').eq(0).click();
+        cy.get('#bulk-select-systems-toggle-checkbox').eq(0).click();
         checkSelectedNumber(0);
     });
 
@@ -309,6 +321,7 @@ describe('actions', () => {
         mountTable();
 
         cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
     it('can open systems add modal', () => {
@@ -321,6 +334,7 @@ describe('actions', () => {
 
 describe('edge cases', () => {
     it('no groups match', () => {
+        cy.intercept('*', { statusCode: 200, body: { results: [] } });
         hostsInterceptors['successful empty']();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
@@ -334,6 +348,7 @@ describe('edge cases', () => {
     });
 
     it('failed request', () => {
+        cy.intercept('*', { statusCode: 200, body: { results: [] } });
         hostsInterceptors['failed with server error']();
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();

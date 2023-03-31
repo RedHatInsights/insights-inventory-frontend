@@ -150,7 +150,8 @@ export const hostsInterceptors = {
                 count: 0,
                 page: 1,
                 per_page: DEFAULT_ROW_COUNT,
-                total: 0
+                total: 0,
+                results: []
             }
         }).as('getHosts');
     },

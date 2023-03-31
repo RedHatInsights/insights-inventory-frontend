@@ -8,10 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearFilters, selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
+import { Link } from 'react-router-dom';
 
 export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSelected, rowsNumber) => ({
     count: selectedNumber,
-    id: 'bulk-select-groups',
+    id: 'bulk-select-systems',
     items: [
         {
             title: 'Select none (0)',
@@ -29,7 +30,7 @@ export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSel
     onSelect: (value) => {
         dispatch(selectEntity(0, value));
     },
-    checked: selectedNumber > 0 // TODO: support partial selection (dash sign) in FEC BulkSelect
+    checked: selectedNumber > 0 && pageSelected // TODO: support partial selection (dash sign) in FEC BulkSelect
 });
 
 const prepareColumns = (initialColumns) => {
@@ -50,6 +51,15 @@ const prepareColumns = (initialColumns) => {
             width: 10
         }
     });
+
+    columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc =
+      (value, hostId) =>  (
+          <div className="sentry-mask data-hj-suppress">
+              <Link to={`/${hostId}`}>
+                  {value}
+              </Link>
+          </div>
+      );
 
     return columns;
 };
@@ -118,6 +128,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                         canSelectAll: false
                     }}
                     bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
+                    showTags
                 >
                     <Button
                         variant='primary'
