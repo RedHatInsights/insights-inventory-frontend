@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearFilters, selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
+import { Link } from 'react-router-dom';
 
 export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSelected, rowsNumber) => ({
     count: selectedNumber,
@@ -50,6 +51,15 @@ const prepareColumns = (initialColumns) => {
             width: 10
         }
     });
+
+    columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc =
+      (value, hostId) =>  (
+          <div className="sentry-mask data-hj-suppress">
+              <Link to={`/${hostId}`}>
+                  {value}
+              </Link>
+          </div>
+      );
 
     return columns;
 };
