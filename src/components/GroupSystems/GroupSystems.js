@@ -128,6 +128,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                         canSelectAll: false
                     }}
                     bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
+                    showTags
                 >
                     <Button
                         variant='primary'
