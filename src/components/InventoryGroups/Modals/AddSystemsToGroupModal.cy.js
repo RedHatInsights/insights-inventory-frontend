@@ -127,7 +127,7 @@ describe('AddSystemsToGroupModal', () => {
         groupDetailInterceptors['successful with hosts']();
         mountModal();
 
-        cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
         cy.get('button').contains('Add systems').should('be.disabled');
         selectRowN(1);
         cy.get('button').contains('Add systems').click();
@@ -145,7 +145,7 @@ describe('AddSystemsToGroupModal', () => {
         groupDetailInterceptors['successful with hosts']();
         mountModal();
 
-        cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
         const i =
       hostsFixtures.results.findIndex(
           // eslint-disable-next-line camelcase
