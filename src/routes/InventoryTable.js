@@ -167,6 +167,10 @@ const Inventory = ({
                 Array.isArray(perPage) ? perPage[0] : perPage
             ));
         }
+
+        return () => {
+            dispatch(actions.clearEntitiesAction());
+        };
     }, []);
 
     const calculateSelected = () => selected ? selected.size : 0;
@@ -236,6 +240,7 @@ const Inventory = ({
                             onRefresh={onRefresh}
                             hasCheckbox={writePermissions}
                             autoRefresh
+                            ignoreRefresh
                             initialLoading={initialLoading}
                             tableProps={
                                 (writePermissions && {
