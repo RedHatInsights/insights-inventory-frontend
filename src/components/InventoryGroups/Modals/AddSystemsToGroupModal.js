@@ -150,6 +150,7 @@ const AddSystemsToGroupModal = ({
                         }}
                         bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
                         initialLoading={true}
+                        showTags
                     />
                 </Modal>
             </>
