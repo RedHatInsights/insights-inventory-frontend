@@ -117,6 +117,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                 !isModalOpen &&
                 <InventoryTable
                     columns={(columns) => prepareColumns(columns, true)}
+                    hideFilters={{ hostGroupFilter: true }}
                     getEntities={async (items, config, showTags, defaultGetEntities) =>
                         await defaultGetEntities(
                             items,
