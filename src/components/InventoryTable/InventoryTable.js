@@ -11,6 +11,7 @@ import AccessDenied from '../../Utilities/AccessDenied';
 import { loadSystems } from '../../Utilities/sharedFunctions';
 import isEqual from 'lodash/isEqual';
 import { entitiesLoading } from '../../store/actions';
+import cloneDeep from 'lodash/cloneDeep';
 
 /**
  * A helper function to store props and to always return the latest state.
@@ -18,14 +19,17 @@ import { entitiesLoading } from '../../store/actions';
  * to get the latest props and not the props at the time of when the function is
  * being wrapped in callback.
  */
-const propsCache = () => {
+const inventoryCache = () => {
     let cache = {};
 
-    const updateProps = (props) => { cache = props; };
+    const updateProps = (props) => { cache = cloneDeep({ ...cache, props }); };
 
-    const getProps = () => cache;
+    const updateParams = (params) => { cache = cloneDeep({ ...cache, params }); };
 
-    return { updateProps, getProps };
+    const getProps = () => cache.props;
+    const getParams = () => cache.params;
+
+    return { updateProps, updateParams, getProps, getParams };
 };
 
 /**
@@ -71,12 +75,10 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     ));
     const page = useSelector(({ entities: { page: invPage } }) => (
         hasItems ? propsPage : (invPage || 1)
-    )
-    , shallowEqual);
+    ), shallowEqual);
     const perPage = useSelector(({ entities: { perPage: invPerPage } }) => (
         hasItems ? propsPerPage : (invPerPage || 50)
-    )
-    , shallowEqual);
+    ), shallowEqual);
     const total = useSelector(({ entities: { total: invTotal } }) => {
         if (hasItems) {
             return propsTotal !== undefined ? propsTotal : items?.length;
@@ -112,7 +114,7 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     const dispatch = useDispatch();
     const store = useStore();
 
-    const cache = useRef(propsCache());
+    const cache = useRef(inventoryCache());
     cache.current.updateProps({
         page,
         perPage,
@@ -134,7 +136,7 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
         const cachedProps = cache.current?.getProps() || {};
         const currPerPage = options?.per_page || options?.perPage || cachedProps.perPage;
 
-        const params = {
+        const newParams = {
             page: cachedProps.page,
             per_page: currPerPage,
             items: cachedProps.items,
@@ -146,25 +148,29 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
             ...options
         };
 
-        if (onRefresh && !disableOnRefresh) {
-            dispatch(entitiesLoading());
-            onRefresh(params, (options) => {
+        const cachedParams = cache.current.getParams();
+        if (!isEqual(cachedParams, newParams)) {
+            cache.current.updateParams(newParams);
+            if (onRefresh && !disableOnRefresh) {
+                dispatch(entitiesLoading());
+                onRefresh(newParams, (options) => {
+                    dispatch(
+                        loadSystems(
+                            { ...newParams, ...options },
+                            cachedProps.showTags,
+                            cachedProps.getEntities
+                        )
+                    );
+                });
+            } else {
                 dispatch(
                     loadSystems(
-                        { ...params, ...options },
+                        newParams,
                         cachedProps.showTags,
                         cachedProps.getEntities
                     )
                 );
-            });
-        } else {
-            dispatch(
-                loadSystems(
-                    params,
-                    cachedProps.showTags,
-                    cachedProps.getEntities
-                )
-            );
+            }
         }
     };
 

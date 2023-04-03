@@ -220,7 +220,7 @@ const EntityTableToolbar = ({
      * @param {*} debounced if debounce function should be used.
      */
     const onSetTextFilter = (value, debounced = true) => {
-        const trimmedValue = value.trim();
+        const trimmedValue = value?.trim();
 
         const textualFilter = filters?.find(oneFilter => oneFilter.value === TEXT_FILTER);
         if (textualFilter) {

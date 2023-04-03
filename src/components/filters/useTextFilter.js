@@ -23,7 +23,7 @@ export const useTextFilter = ([state, dispatch] = [textFilterState]) => {
             onChange: (_e, value) => setValue(value)
         }
     };
-    const chip = value.length > 0 ? [{
+    const chip = value?.length > 0 ? [{
         category: 'Display name',
         type: TEXTUAL_CHIP,
         chips: [

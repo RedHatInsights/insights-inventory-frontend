@@ -9,7 +9,8 @@ import {
     ENTITIES_LOADING,
     CLEAR_FILTERS,
     TOGGLE_TAG_MODAL,
-    CONFIG_CHANGED
+    CONFIG_CHANGED,
+    CLEAR_ENTITIES
 } from './action-types';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
@@ -122,6 +123,10 @@ function clearFilters(state) {
         activeFilters: []
     };
 }
+
+const clearEntities = () => {
+    return defaultState;
+};
 
 // eslint-disable-next-line camelcase
 function entitiesLoaded(state, { payload: { results, per_page: perPage, page, count, total, loaded, filters }, meta }) {
@@ -305,5 +310,6 @@ export default {
     [CLEAR_FILTERS]: clearFilters,
     [ENTITIES_LOADING]: (state, { payload: { isLoading } }) => ({ ...state, loaded: !isLoading }),
     [TOGGLE_TAG_MODAL]: toggleTagModalReducer,
-    [CONFIG_CHANGED]: (state, { payload }) => ({ ...state, invConfig: payload })
+    [CONFIG_CHANGED]: (state, { payload }) => ({ ...state, invConfig: payload }),
+    [CLEAR_ENTITIES]: clearEntities
 };
