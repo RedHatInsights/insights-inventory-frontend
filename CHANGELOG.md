@@ -1,3 +1,10 @@
+## [1.14.4](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.3...v1.14.4) (2023-04-03)
+
+
+### Bug Fixes
+
+* **ESSNTL-3728:** Fix links, show missing tags filter ([#1824](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1824)) ([ebfad9c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/ebfad9cdafcdb2d68176de9d5290a3db52579d2f))
+
 ## [1.14.3](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.2...v1.14.3) (2023-04-03)
 
 
