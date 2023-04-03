@@ -1,3 +1,10 @@
+## [1.14.5](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.4...v1.14.5) (2023-04-03)
+
+
+### Bug Fixes
+
+* **RHIF-232:** flickering inventory table is fixed, api reqs are reduced to 1 ([97af8a3](https://github.com/RedHatInsights/insights-inventory-frontend/commit/97af8a327d04e4aa4c676f5376502312bf44cbeb))
+
 ## [1.14.4](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.3...v1.14.4) (2023-04-03)
 
 
