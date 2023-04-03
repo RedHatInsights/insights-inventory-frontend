@@ -1,3 +1,17 @@
+## [1.14.4](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.3...v1.14.4) (2023-04-03)
+
+
+### Bug Fixes
+
+* **ESSNTL-3728:** Fix links, show missing tags filter ([#1824](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1824)) ([ebfad9c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/ebfad9cdafcdb2d68176de9d5290a3db52579d2f))
+
+## [1.14.3](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.2...v1.14.3) (2023-04-03)
+
+
+### Bug Fixes
+
+* **ESSNTL-3727:** Hide Group filter ([#1823](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1823)) ([7657a7e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/7657a7e33e74008a5121ea3253c823d92b761290))
+
 ## [1.14.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.1...v1.14.2) (2023-03-31)
 
 

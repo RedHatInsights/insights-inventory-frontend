@@ -7,6 +7,7 @@ import {
     checkTableHeaders,
     CHIP,
     CHIP_GROUP,
+    DROPDOWN_ITEM,
     DROPDOWN_TOGGLE,
     hasChip,
     MODAL,
@@ -39,7 +40,7 @@ import _ from 'lodash';
 
 const GROUP_NAME = 'foobar';
 const ROOT = 'div[id="group-systems-table"]';
-const TABLE_HEADERS = ['Name', 'Tags', 'OS', 'Update method', 'Last seen'];
+const TABLE_HEADERS = ['Name', 'OS', 'Tags', 'Update method', 'Last seen'];
 const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 
@@ -252,6 +253,10 @@ describe('filtering', () => {
         cy.wait('@getHosts'); // TODO: reset filters shouldn't trigger this second extra call
     });
 
+    it('should not contain group filter', () => {
+        cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+        cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
+    });
     // TODO: add more filter cases
 });
 

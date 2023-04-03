@@ -5,48 +5,18 @@ import {
     FlexItem,
     Modal
 } from '@patternfly/react-core';
-import { fitContent, TableVariant } from '@patternfly/react-table';
+import {  TableVariant } from '@patternfly/react-table';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../../store/inventory-actions';
-import { bulkSelectConfig } from '../../GroupSystems/GroupSystems';
+import { bulkSelectConfig, prepareColumns } from '../../GroupSystems/GroupSystems';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
 import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
-
-export const prepareColumns = (initialColumns) => {
-    const columns = initialColumns;
-
-    // additionally insert the "update method" column
-    columns.splice(columns.length - 2 /* must be the 3rd col from the end */, 0, {
-        key: 'update_method',
-        title: 'Update method',
-        sortKey: 'update_method',
-        transforms: [fitContent],
-        renderFunc: (value, hostId, systemData) =>
-            systemData?.system_profile?.system_update_method || 'N/A',
-        props: {
-            // TODO: remove isStatic when the sorting is supported by API
-            isStatic: true,
-            width: 10
-        }
-    });
-
-    // map columns to the speicifc order
-    return [
-        'display_name',
-        'system_profile',
-        'tags',
-        'update_method',
-        'groups',
-        'updated'
-    ].map((colKey) => columns.find(({ key }) => key === colKey))
-    .filter(Boolean); // eliminate possible undefined's
-};
 
 const AddSystemsToGroupModal = ({
     isModalOpen,
@@ -172,7 +142,7 @@ const AddSystemsToGroupModal = ({
                     variant="large" // required to accomodate the systems table
                 >
                     <InventoryTable
-                        columns={prepareColumns}
+                        columns={(columns) => prepareColumns(columns, false)}
                         variant={TableVariant.compact} // TODO: this doesn't affect the table variant
                         tableProps={{
                             isStickyHeader: false,
@@ -180,6 +150,7 @@ const AddSystemsToGroupModal = ({
                         }}
                         bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
                         initialLoading={true}
+                        showTags
                     />
                 </Modal>
             </>
