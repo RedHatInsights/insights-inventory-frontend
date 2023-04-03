@@ -33,12 +33,12 @@ export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSel
     checked: selectedNumber > 0 && pageSelected // TODO: support partial selection (dash sign) in FEC BulkSelect
 });
 
-const prepareColumns = (initialColumns) => {
+export const prepareColumns = (initialColumns, hideGroupColumn) => {
     // hides the "groups" column
-    const columns = initialColumns.filter(({ key }) => key !== 'groups');
+    const columns = hideGroupColumn ? initialColumns.filter(({ key }) => key !== 'groups') : initialColumns;
 
     // additionally insert the "update method" column
-    columns.splice(columns.length - 1 /* must be penultimate */, 0, {
+    columns.splice(columns.length - 2 /* must be the 3rd col from the end */, 0, {
         key: 'update_method',
         title: 'Update method',
         sortKey: 'update_method',
@@ -53,15 +53,24 @@ const prepareColumns = (initialColumns) => {
     });
 
     columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc =
-      (value, hostId) =>  (
-          <div className="sentry-mask data-hj-suppress">
-              <Link to={`/${hostId}`}>
-                  {value}
-              </Link>
-          </div>
-      );
+    (value, hostId) =>  (
+        <div className="sentry-mask data-hj-suppress">
+            <Link to={`/${hostId}`}>
+                {value}
+            </Link>
+        </div>
+    );
 
-    return columns;
+    // map columns to the speicifc order
+    return [
+        'display_name',
+        'system_profile',
+        'tags',
+        'update_method',
+        'groups',
+        'updated'
+    ].map((colKey) => columns.find(({ key }) => key === colKey))
+    .filter(Boolean); // eliminate possible undefined's
 };
 
 const GroupSystems = ({ groupName, groupId }) => {
@@ -107,7 +116,7 @@ const GroupSystems = ({ groupName, groupId }) => {
             {
                 !isModalOpen &&
                 <InventoryTable
-                    columns={prepareColumns}
+                    columns={(columns) => prepareColumns(columns, true)}
                     getEntities={async (items, config, showTags, defaultGetEntities) =>
                         await defaultGetEntities(
                             items,
