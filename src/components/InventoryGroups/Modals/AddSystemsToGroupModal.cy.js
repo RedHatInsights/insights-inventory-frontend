@@ -1,6 +1,7 @@
 import { mount } from '@cypress/react';
 import {
     checkTableHeaders,
+    DROPDOWN_ITEM,
     MODAL,
     ouiaId,
     TABLE
@@ -30,6 +31,17 @@ const TABLE_HEADERS = [
     'Update method',
     'Group',
     'Last seen'
+];
+
+const AVAILABLE_FILTER_NAMES = [
+    'Name',
+    'Status',
+    'Operating System',
+    'Data Collector',
+    'RHC status',
+    'Last seen',
+    'Group',
+    'Tags'
 ];
 
 const ALERT = '[data-ouia-component-type="PF4/Alert"]';
@@ -115,7 +127,7 @@ describe('AddSystemsToGroupModal', () => {
         groupDetailInterceptors['successful with hosts']();
         mountModal();
 
-        cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
         cy.get('button').contains('Add systems').should('be.disabled');
         selectRowN(1);
         cy.get('button').contains('Add systems').click();
@@ -133,7 +145,7 @@ describe('AddSystemsToGroupModal', () => {
         groupDetailInterceptors['successful with hosts']();
         mountModal();
 
-        cy.wait('@getHosts');
+        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
         const i =
       hostsFixtures.results.findIndex(
           // eslint-disable-next-line camelcase
@@ -154,6 +166,19 @@ describe('AddSystemsToGroupModal', () => {
         .should('deep.equal', {
             // eslint-disable-next-line camelcase
             host_ids: ['host-1', 'host-2', 'anim commodo'] // sends the merged list of hosts
+        });
+    });
+
+    describe('filters', () => {
+        it('has correct list of filters', () => {
+            groupDetailInterceptors['successful with hosts']();
+            mountModal();
+
+            cy.wait('@getHosts');
+            cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+            cy.get(DROPDOWN_ITEM).each(($item, i) => {
+                expect($item.text()).to.equal(AVAILABLE_FILTER_NAMES[i]);
+            });
         });
     });
 });
