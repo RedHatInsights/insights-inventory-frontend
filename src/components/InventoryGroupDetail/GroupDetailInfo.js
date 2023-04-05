@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import ChromeLoader from '../../Utilities/ChromeLoader';
 
 const GroupDetailInfo = ({ chrome }) => {
-    const path = `${chrome.isBeta() ? '/beta' : ''}/iam/user-access`;
+    const path = `${chrome.isBeta() ? '/preview' : ''}/iam/user-access`;
 
     return (
         <Card>
