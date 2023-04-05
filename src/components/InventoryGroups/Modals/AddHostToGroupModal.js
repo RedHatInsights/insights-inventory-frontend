@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import Modal from './Modal';
 import { addHostToGroup } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
-import SearchInput from './SearchInput';
 import { fetchGroups } from '../../../store/inventory-actions';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
-import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 
 const AddHostToGroupModal = ({
     isModalOpen,
@@ -17,15 +15,14 @@ const AddHostToGroupModal = ({
     modalState,
     reloadData
 }) => {
-    // change is a parf ot DFD api and required to properly disable "add" button
-    // eslint-disable-next-line no-unused-vars
-    const { change } = useFormApi();
     const dispatch = useDispatch();
     //we have to fetch groups to make them available in state
     useEffect(() => {
         dispatch(fetchGroups());
-
     }, []);
+
+    const groups = useSelector(({ groups }) => groups?.data?.results);
+
     const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
 
     const handleAddDevices = (values) => {
@@ -52,11 +49,8 @@ const AddHostToGroupModal = ({
                 closeModal={() => setIsModalOpen(false)}
                 title="Add to group"
                 submitLabel="Add"
-                schema={addHostSchema(modalState.name)}
+                schema={addHostSchema(modalState.name, groups)}
                 additionalMappers={{
-                    'search-input': {
-                        component: SearchInput
-                    },
                     'create-group-btn': {
                         component: CreateGroupButton,
                         closeModal: () => {

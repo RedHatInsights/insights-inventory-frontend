@@ -53,7 +53,7 @@ const createDescription = (systemName) => {
 //this is a custom schema that is passed via additional mappers to the Modal component
 //it allows to create custom item types in the modal
 
-export const addHostSchema = (systemName) => ({
+export const addHostSchema = (systemName, groups) => ({
     fields: [
         {
             component: componentTypes.PLAIN_TEXT,
@@ -61,13 +61,20 @@ export const addHostSchema = (systemName) => ({
             label: createDescription(systemName)
         },
         {
-            component: 'search-input',
+            component: 'select',
             name: 'group',
             label: 'Select a group',
+            simpleValue: true,
+            isSearchable: true, // enables typeahead
             isRequired: true,
-            validate: [{ type: validatorTypes.REQUIRED }],
-            validateOnMount: true
+            isClearable: true,
+            placeholder: 'Type or click to select a group',
+            options: (groups || []).map(({ id, name }) => ({
+                label: name,
+                value: id
+            })),
+            validate: [{ type: validatorTypes.REQUIRED }]
         },
-        { component: 'create-group-btn', name: 'create-group-btn' }
+        { component: 'create-group-btn', name: 'create-group-btn', isRequired: true }
     ]
 });
