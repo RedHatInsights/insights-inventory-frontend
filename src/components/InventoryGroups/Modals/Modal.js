@@ -70,7 +70,6 @@ RepoModal.propTypes = {
     size: PropTypes.string,
     additionalMappers: PropTypes.object,
     titleIconVariant: PropTypes.any,
-    validatorMapper: PropTypes.object,
     customFormTemplate: PropTypes.node
 };
 

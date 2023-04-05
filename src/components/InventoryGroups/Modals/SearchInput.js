@@ -7,8 +7,10 @@ import {
     SelectOption
 } from '@patternfly/react-core';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
+import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 
-const SearchInput = () => {
+const SearchInput = (props) => {
+    useFieldApi(props);
     const { change } = useFormApi();
     const [isLoading, setIsLoading] = useState(true);
     //fetch data from the store
@@ -36,7 +38,8 @@ const SearchInput = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
+
+    const [searchTerm, setSearchTerm] = useState();
 
     const onToggle = (isOpen) => {
         setIsOpen(isOpen);
@@ -47,7 +50,10 @@ const SearchInput = () => {
         setSelected(value);
         setIsOpen(false);
         //this is requried to make select component pass the saved data up to the modal
-        change('group', value);
+        const found = storeGroups.some(el => el.name === value.name);
+        if (found || searchTerm === '') {
+            change('group', value);
+        }
     };
 
     const clearSelection = () => {
@@ -88,6 +94,7 @@ const SearchInput = () => {
                 isOpen={isOpen}
                 aria-labelledby="typeahead-select-id-1"
                 placeholderText="Type or click to select a group"
+                noResultsFoundText={isLoading ? 'Loading...' : 'No results found'}
                 isInputValuePersisted={true}
                 maxHeight={'180px'}
             >
@@ -98,7 +105,8 @@ const SearchInput = () => {
                             key={DeviceGroup.ID}
                             value={{
                                 toString: () => DeviceGroup.Name,
-                                groupId: DeviceGroup.ID
+                                groupId: DeviceGroup.ID,
+                                name: DeviceGroup.Name
                             }}
                             {...(DeviceGroup.description && {
                                 description: DeviceGroup.description

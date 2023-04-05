@@ -65,7 +65,8 @@ export const addHostSchema = (systemName) => ({
             name: 'group',
             label: 'Select a group',
             isRequired: true,
-            validate: [{ type: validatorTypes.REQUIRED }]
+            validate: [{ type: validatorTypes.REQUIRED }],
+            validateOnMount: true
         },
         { component: 'create-group-btn', name: 'create-group-btn' }
     ]
