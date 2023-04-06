@@ -15,6 +15,7 @@ const AddHostToGroupModal = ({
     modalState,
     reloadData
 }) => {
+
     const dispatch = useDispatch();
     //we have to fetch groups to make them available in state
     useEffect(() => {
@@ -24,15 +25,14 @@ const AddHostToGroupModal = ({
     const groups = useSelector(({ groups }) => groups?.data?.results);
 
     const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
-
     const handleAddDevices = (values) => {
         const { group } = values;
         const statusMessages = {
             onSuccess: {
                 title: 'Success',
-                description: `System(s) have been added to ${group.toString()} successfully`
+                description: `System(s) have been added to ${group.name} successfully`
             },
-            onError: { title: 'Error', description: `Failed to add ${modalState.name} to ${modalState.groupName}` }
+            onError: { title: 'Error', description: `Failed to add ${modalState.name} to ${group.name}` }
         };
 
         apiWithToast(

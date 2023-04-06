@@ -71,7 +71,7 @@ export const addHostSchema = (systemName, groups) => ({
             placeholder: 'Type or click to select a group',
             options: (groups || []).map(({ id, name }) => ({
                 label: name,
-                value: id
+                value: { name, id }
             })),
             validate: [{ type: validatorTypes.REQUIRED }]
         },

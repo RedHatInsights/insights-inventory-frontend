@@ -52,6 +52,7 @@ const RepoModal = ({
                     closeModal();
                 }}
                 onCancel={() => closeModal()}
+                subscription={{ values: true }}
             />
         </Modal>
     );
