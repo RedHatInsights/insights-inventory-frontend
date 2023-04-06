@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createGroupSchema } from './ModalSchemas/schemes';
 import Modal from './Modal';
@@ -18,6 +18,7 @@ const CreateGroupModal = ({
     setterOfModalBefore
 }) => {
     const dispatch = useDispatch();
+    const [returnToPrevModal, setReturnToPrevModal] = useState(modalBefore);
 
     const handleCreateGroup = useCallback(
         (values) => {
@@ -48,8 +49,16 @@ const CreateGroupModal = ({
         return createGroupSchema(d);
     }, []);
 
+    const onSubmit = () => {
+        if (returnToPrevModal) {
+            setReturnToPrevModal(false);
+        }
+
+        return handleCreateGroup;
+    };
+
     const onClose = () => {
-        if (modalBefore) {
+        if (returnToPrevModal) {
             setIsModalOpen(false);
             setterOfModalBefore(true);
         } else {
@@ -65,7 +74,7 @@ const CreateGroupModal = ({
             submitLabel="Create"
             schema={schema}
             reloadData={reloadData}
-            onSubmit={handleCreateGroup}
+            onSubmit={onSubmit()}
         />
     );
 };
