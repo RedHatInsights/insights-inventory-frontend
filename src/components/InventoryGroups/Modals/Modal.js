@@ -52,6 +52,7 @@ const RepoModal = ({
                     closeModal();
                 }}
                 onCancel={() => closeModal()}
+                subscription={{ values: true }}
             />
         </Modal>
     );
@@ -70,7 +71,6 @@ RepoModal.propTypes = {
     size: PropTypes.string,
     additionalMappers: PropTypes.object,
     titleIconVariant: PropTypes.any,
-    validatorMapper: PropTypes.object,
     customFormTemplate: PropTypes.node
 };
 

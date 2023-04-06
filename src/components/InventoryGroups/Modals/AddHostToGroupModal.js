@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import Modal from './Modal';
 import { addHostToGroup } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
-import SearchInput from './SearchInput';
 import { fetchGroups } from '../../../store/inventory-actions';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
@@ -16,22 +15,24 @@ const AddHostToGroupModal = ({
     modalState,
     reloadData
 }) => {
+
     const dispatch = useDispatch();
     //we have to fetch groups to make them available in state
     useEffect(() => {
         dispatch(fetchGroups());
-
     }, []);
-    const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
 
+    const groups = useSelector(({ groups }) => groups?.data?.results);
+
+    const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
     const handleAddDevices = (values) => {
         const { group } = values;
         const statusMessages = {
             onSuccess: {
                 title: 'Success',
-                description: `System(s) have been added to ${group.toString()} successfully`
+                description: `System(s) have been added to ${group.name} successfully`
             },
-            onError: { title: 'Error', description: `Failed to add ${modalState.name} to ${modalState.groupName}` }
+            onError: { title: 'Error', description: `Failed to add ${modalState.name} to ${group.name}` }
         };
 
         apiWithToast(
@@ -48,11 +49,8 @@ const AddHostToGroupModal = ({
                 closeModal={() => setIsModalOpen(false)}
                 title="Add to group"
                 submitLabel="Add"
-                schema={addHostSchema(modalState.name)}
+                schema={addHostSchema(modalState.name, groups)}
                 additionalMappers={{
-                    'search-input': {
-                        component: SearchInput
-                    },
                     'create-group-btn': {
                         component: CreateGroupButton,
                         closeModal: () => {
@@ -70,6 +68,10 @@ const AddHostToGroupModal = ({
                     isModalOpen={isCreateGroupModalOpen}
                     setIsModalOpen={setIsCreateGroupModalOpen}
                     reloadData={() => console.log('data reloaded')}
+                    //modal before prop tells create group modal that it should
+                    //reopen add host modal when user closes create group modal
+                    modalBefore={true}
+                    setterOfModalBefore={setIsModalOpen}
                 />
             )}
         </>
