@@ -1,3 +1,10 @@
+## [1.14.6](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.5...v1.14.6) (2023-04-06)
+
+
+### Bug Fixes
+
+* **ESSNTL-3729:** Fix add button behavior ([#1825](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1825)) ([cdf9848](https://github.com/RedHatInsights/insights-inventory-frontend/commit/cdf9848dd9059052133cab8bf649c53ce2829109))
+
 ## [1.14.5](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.4...v1.14.5) (2023-04-03)
 
 
