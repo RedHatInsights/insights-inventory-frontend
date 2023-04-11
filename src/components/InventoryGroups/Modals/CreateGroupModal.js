@@ -49,12 +49,12 @@ const CreateGroupModal = ({
         return createGroupSchema(d);
     }, []);
 
-    const onSubmit = () => {
+    const onSubmit = (values) => {
         if (returnToPrevModal) {
             setReturnToPrevModal(false);
         }
 
-        return handleCreateGroup;
+        return handleCreateGroup(values);
     };
 
     const onClose = () => {
@@ -74,7 +74,7 @@ const CreateGroupModal = ({
             submitLabel="Create"
             schema={schema}
             reloadData={reloadData}
-            onSubmit={onSubmit()}
+            onSubmit={(values) => onSubmit(values)}
         />
     );
 };
