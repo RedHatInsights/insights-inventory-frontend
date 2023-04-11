@@ -26,8 +26,8 @@ import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 
 const TABLE_HEADERS = [
     'Name',
-    'OS',
     'Tags',
+    'OS',
     'Update method',
     'Group',
     'Last seen'
