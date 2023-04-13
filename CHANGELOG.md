@@ -1,3 +1,10 @@
+## [1.14.8](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.7...v1.14.8) (2023-04-13)
+
+
+### Reverts
+
+* Revert "ESSNTL(4056): Adds checks against edge cases for last seen filter (#1787)" ([1f0b70c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/1f0b70c15749126a7d8a605c8e890fa6d0881df6)), closes [#1787](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1787)
+
 ## [1.14.7](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.6...v1.14.7) (2023-04-11)
 
 
