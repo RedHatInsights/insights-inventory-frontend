@@ -64,10 +64,10 @@ export const prepareColumns = (initialColumns, hideGroupColumn) => {
     // map columns to the speicifc order
     return [
         'display_name',
-        'system_profile',
-        'tags',
-        'update_method',
         'groups',
+        'tags',
+        'system_profile',
+        'update_method',
         'updated'
     ].map((colKey) => columns.find(({ key }) => key === colKey))
     .filter(Boolean); // eliminate possible undefined's
