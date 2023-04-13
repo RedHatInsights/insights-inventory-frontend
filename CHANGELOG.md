@@ -1,3 +1,10 @@
+## [1.14.7](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.6...v1.14.7) (2023-04-11)
+
+
+### Bug Fixes
+
+* **inventory groups:** changed the column order to allign with the app ([#1828](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1828)) ([3124e53](https://github.com/RedHatInsights/insights-inventory-frontend/commit/3124e53dd63208a5c8a7a29e1e604b4850f6f204))
+
 ## [1.14.6](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.5...v1.14.6) (2023-04-06)
 
 
