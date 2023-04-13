@@ -44,80 +44,29 @@ export const useLastSeenFilter = (
 
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
-    const todaysDate = new Date();
-
-    const manageStartDate = (apiStartDate, apiEndDate)=> {
-        if (isNaN(apiEndDate) &&  isNaN(apiStartDate)) {
-            setValue({ ...lastSeenValue, updatedStart: null, updatedEnd: null });
-        } else if (apiStartDate > apiEndDate || isNaN(apiStartDate) || apiStartDate > todaysDate) {
-            setValue({ ...lastSeenValue, updatedStart: null, updatedEnd: apiEndDate.toISOString() });
-        } else {
-            setValue({ ...lastSeenValue, updatedStart: apiStartDate.toISOString() });
-        }
-    };
-
-    const manageEndDate = (apiStartDate, apiEndDate)=> {
-        if (isNaN(apiEndDate) &&  isNaN(apiStartDate)) {
-            setValue({ ...lastSeenValue, updatedStart: null, updatedEnd: null });
-        } else if (apiStartDate > apiEndDate || isNaN(apiEndDate)) {
-            setValue({ ...lastSeenValue, updatedStart: apiStartDate.toISOString(), updatedEnd: null });
-        } else {
-            setValue({ ...lastSeenValue, updatedEnd: apiEndDate.toISOString() });
-        }
-    };
 
     const toValidator = (date) => {
-        const newDate = new Date(date);
-        const minDate = new Date(startDate);
-
-        if (minDate >= newDate) {
-            return 'Start date must be earlier than End date.';
-        } else if (newDate > todaysDate) {
-            return `Date must be ${todaysDate.toISOString().split('T')[0]} or earlier`;
-        } else {
-            return '';
-        }
+        date >= startDate ? '' : 'To date must be less than from date.';
     };
 
-    const fromValidator = (date) => {
+    const rangeValidator = (date) => {
         const minDate = new Date(1950, 1, 1);
-        const maxDate = new Date(endDate);
-
         if (date < minDate) {
             return 'Date is before the allowable range.';
-        } else if (date > maxDate) {
-            return `End date must be later than Start date.`;
-        } else if (date > todaysDate) {
-            return ' Start date must be earlier than End date.';
         } else {
             return '';
         }
     };
 
-    const onFromChange = (date) => {
-        const newToDate = new Date(endDate);
-        if (date > newToDate) {
-            setStartDate();
-            return 'End date must be later than Start date.';
-        }
-
+    const onFromChange = (_str, date) => {
         setStartDate(date);
-        const apiStartDate = new Date(date);
-        apiStartDate.setUTCHours(0);
-        manageStartDate(apiStartDate, newToDate);
+        setValue({ ...lastSeenValue, updatedStart: new Date(date).toISOString() });
+        date.setDate(date.getDate() + 1);
     };
 
     const onToChange = (date) => {
-        if (startDate > new Date(date)) {
-            return 'Start date must be earlier than End date.';
-        } else if (new Date(date) > todaysDate) {
-            return 'End date must be later than Start date.';
-        } else {
-            setEndDate(date);
-            const apiEndDate = new Date(date);
-            apiEndDate.setUTCHours(23, 59);
-            manageEndDate(new Date(startDate), apiEndDate);
-        }
+        setEndDate(date);
+        setValue({ ...lastSeenValue, updatedEnd: new Date(date).toISOString() });
     };
 
     return [
@@ -130,8 +79,6 @@ export const useLastSeenFilter = (
         onToChange,
         endDate,
         startDate,
-        fromValidator,
-        setStartDate,
-        setEndDate
+        rangeValidator
     ];
 };
