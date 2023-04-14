@@ -112,7 +112,8 @@ const EntityTableToolbar = ({
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
     const [rhcdFilterConfig, rhcdFilterChips, rhcdFilterValue, setRhcdFilterValue] = useRhcdFilter(reducer);
     const [lastSeenFilter, lastSeenChip, lastSeenFilterValue, setLastSeenFilterValue,
-        toValidator, onFromChange, onToChange, endDate, startDate, rangeValidator] = useLastSeenFilter(reducer);
+        toValidator, onFromChange, onToChange, endDate, startDate, fromValidator,
+        setStartDate, setEndDate] = useLastSeenFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
     const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
     const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] = useGroupFilter();
@@ -326,8 +327,12 @@ const EntityTableToolbar = ({
         ),
         [OS_CHIP]: (deleted) => setOsFilterValue(xor(osFilterValue, deleted.chips.map(({ value }) => value))),
         [RHCD_FILTER_KEY]: (deleted) => setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
-        [LAST_SEEN_CHIP]: (deleted) => setLastSeenFilterValue(onDeleteFilter(deleted, [lastSeenFilterValue.mark])),
-        [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
+        [LAST_SEEN_CHIP]: (deleted) =>
+        {
+            setLastSeenFilterValue(onDeleteFilter(deleted, [lastSeenFilterValue.mark])),
+            setStartDate(),
+            setEndDate();
+        },        [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
         [HOST_GROUP_CHIP]: (deleted) => setHostGroupValue(onDeleteFilter(deleted, hostGroupValue))
     };
     /**
@@ -439,8 +444,8 @@ const EntityTableToolbar = ({
                     <DatePicker
                         onChange={onFromChange}
                         aria-label="Start date"
-                        validators={[rangeValidator]}
-
+                        validators={[fromValidator]}
+                        placeholder='Start'
                     />
                 </SplitItem>
                 <SplitItem style={{ padding: '6px 12px 0 12px' }}>
@@ -453,6 +458,7 @@ const EntityTableToolbar = ({
                         rangeStart={startDate}
                         validators={[toValidator]}
                         aria-label="End date"
+                        placeholder='End'
                     />
                 </SplitItem>
             </Split>}
