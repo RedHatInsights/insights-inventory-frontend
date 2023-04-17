@@ -1,7 +1,7 @@
 /* eslint-disable rulesdir/disallow-fec-relative-imports */
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Routes } from './Routes';
+import { useNavigate } from 'react-router-dom';
+import { InventoryRoutes } from './Routes';
 import './App.scss';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
@@ -24,7 +24,7 @@ const App = () => {
     <div className="inventory">
       <NotificationsPortal />
       <RBACProvider appName="inventory" checkResourceDefinitions>
-        <Routes />
+        <InventoryRoutes />
       </RBACProvider>
     </div>
   );
