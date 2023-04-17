@@ -5,7 +5,6 @@ import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
-// import InventoryTable from './routes/InventoryTable';
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
