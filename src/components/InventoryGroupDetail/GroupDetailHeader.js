@@ -14,7 +14,7 @@ import {
 } from '@redhat-cloud-services/frontend-components';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { routes } from '../../Routes';
 import PropTypes from 'prop-types';
 import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
@@ -39,7 +39,7 @@ const GroupDetailHeader = ({ groupId }) => {
           name || groupId // in case of error, render just id from URL
       );
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     return (
         <PageHeader>
@@ -59,7 +59,7 @@ const GroupDetailHeader = ({ groupId }) => {
                     id: groupId,
                     name: name || groupId
                 }}
-                reloadData={() => history.push('/groups')}
+                reloadData={() => navigate('/groups')}
             />
             <Breadcrumb>
                 <BreadcrumbItem>

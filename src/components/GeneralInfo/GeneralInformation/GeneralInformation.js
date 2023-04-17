@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     Grid,
     GridItem,
@@ -19,18 +19,27 @@ import { ConfigurationCard } from '../ConfigurationCard';
 import { SystemStatusCard } from '../SystemStatusCard';
 import { DataCollectorsCard } from '../DataCollectorsCard/DataCollectorsCard';
 import { Provider } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import './general-information.scss';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-class GeneralInformation extends Component {
-    state = {
+const GeneralInformation = (props) => {
+    const navigate =  useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch();
+
+    const entity = useSelector(({ entityDetails }) => entityDetails.entity);
+    const [modalState, setModalState] = useState({
         isModalOpen: false,
         modalTitle: '',
-        modalVariant: 'small'
-    };
+        modalVariant: 'small',
+        cells: [],
+        expandable: true,
+        filters: undefined
+    });
 
-    onSort = (_event, index, direction, customRows) => {
-        const { rows } = this.state;
+    const [rows, setRows] = useState([]);
+
+    const onSort = (_event, index, direction, customRows) => {
         const sorted = (customRows || rows).sort((a, b) => {
             const firstRow = a.cells || a;
             const secondRow = b.cells || b;
@@ -38,18 +47,16 @@ class GeneralInformation extends Component {
             const bSortBy = ('' + (secondRow[index].sortValue || secondRow[index])).toLocaleLowerCase();
             return (aSortBy > bSortBy) ? -1 : 1;
         });
-        this.setState({
-            rows: direction === SortByDirection.asc ? sorted : sorted.reverse()
-        });
-    }
+        setRows(direction === SortByDirection.asc ? sorted : sorted.reverse());
+    };
 
-    handleModalToggle = (modalTitle = '', { cells, rows, expandable, filters } = {}, modalVariant = 'small') => {
-        rows && this.onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
-        if (this.state.isModalOpen) {
-            this.props.history.push(this.props.location.pathname.split('/').slice(0, -1).join('/'));
+    const handleModalToggle = (modalTitle = '', { cells, rows, expandable, filters } = {}, modalVariant = 'small') => {
+        rows && onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
+        if (modalState.isModalOpen) {
+            navigate(location.pathname.split('/').slice(0, -1).join('/'));
         }
 
-        this.setState(({ isModalOpen }) => ({
+        setModalState(({ isModalOpen }) => ({
             isModalOpen: !isModalOpen,
             modalTitle,
             cells,
@@ -59,93 +66,89 @@ class GeneralInformation extends Component {
         }));
     };
 
-    componentDidMount() {
-        this.props.loadSystemDetail?.(this.props.inventoryId || this.props.entity.id);
-    };
+    useEffect(() => {
+        dispatch(systemProfile(props.inventoryId || entity.id));
+    }, []);
 
-    render() {
-        const { isModalOpen, modalTitle, cells, rows, expandable, filters, modalVariant } = this.state;
-        const {
-            store,
-            writePermissions,
-            SystemCardWrapper,
-            OperatingSystemCardWrapper,
-            BiosCardWrapper,
-            InfrastructureCardWrapper,
-            ConfigurationCardWrapper,
-            SystemStatusCardWrapper,
-            DataCollectorsCardWrapper,
-            CollectionCardWrapper,
-            children
-        } = this.props;
-        const Wrapper = store ? Provider : Fragment;
-        return (
-            <Wrapper {...(store && { store })}>
-                <div className="ins-c-general-information">
-                    <Grid hasGutter>
-                        <GridItem md={6} sm={12}>
-                            <Grid hasGutter>
-                                {SystemCardWrapper && <GridItem>
-                                    <SystemCardWrapper handleClick={this.handleModalToggle} writePermissions={writePermissions} />
-                                </GridItem>}
-                                {InfrastructureCardWrapper && <GridItem>
-                                    <InfrastructureCardWrapper handleClick={this.handleModalToggle} />
-                                </GridItem>}
-                                {SystemStatusCardWrapper && <GridItem>
-                                    <SystemStatusCardWrapper handleClick={this.handleModalToggle} />
-                                </GridItem>}
-                                {DataCollectorsCardWrapper && <GridItem>
-                                    <DataCollectorsCardWrapper handleClick={this.handleModalToggle} />
-                                </GridItem>}
-                            </Grid>
-                        </GridItem>
-                        <GridItem md={6} sm={12} >
-                            <Grid hasGutter>
-                                {OperatingSystemCardWrapper && <GridItem>
-                                    <OperatingSystemCardWrapper handleClick={this.handleModalToggle} />
-                                </GridItem>}
+    const {
+        store,
+        writePermissions,
+        SystemCardWrapper,
+        OperatingSystemCardWrapper,
+        BiosCardWrapper,
+        InfrastructureCardWrapper,
+        ConfigurationCardWrapper,
+        SystemStatusCardWrapper,
+        DataCollectorsCardWrapper,
+        CollectionCardWrapper,
+        children
+    } = props;
+    const Wrapper = store ? Provider : Fragment;
 
-                                {BiosCardWrapper && <GridItem>
-                                    <BiosCardWrapper handleClick={this.handleModalToggle} />
-                                </GridItem>}
+    return (
+        <Wrapper {...(store && { store })}>
+            <div className="ins-c-general-information">
+                <Grid hasGutter>
+                    <GridItem md={6} sm={12}>
+                        <Grid hasGutter>
+                            {SystemCardWrapper && <GridItem>
+                                <SystemCardWrapper handleClick={handleModalToggle} writePermissions={writePermissions} />
+                            </GridItem>}
+                            {InfrastructureCardWrapper && <GridItem>
+                                <InfrastructureCardWrapper handleClick={handleModalToggle} />
+                            </GridItem>}
+                            {SystemStatusCardWrapper && <GridItem>
+                                <SystemStatusCardWrapper handleClick={handleModalToggle} />
+                            </GridItem>}
+                            {DataCollectorsCardWrapper && <GridItem>
+                                <DataCollectorsCardWrapper handleClick={handleModalToggle} />
+                            </GridItem>}
+                        </Grid>
+                    </GridItem>
+                    <GridItem md={6} sm={12} >
+                        <Grid hasGutter>
+                            {OperatingSystemCardWrapper && <GridItem>
+                                <OperatingSystemCardWrapper handleClick={handleModalToggle} />
+                            </GridItem>}
 
-                                {ConfigurationCardWrapper && <GridItem>
-                                    <ConfigurationCardWrapper handleClick={this.handleModalToggle} />
-                                </GridItem>}
+                            {BiosCardWrapper && <GridItem>
+                                <BiosCardWrapper handleClick={handleModalToggle} />
+                            </GridItem>}
 
-                                {CollectionCardWrapper && <GridItem>
-                                    <CollectionCardWrapper handleClick={this.handleModalToggle} />
-                                </GridItem>}
-                            </Grid>
-                        </GridItem>
-                        {children}
-                        <Modal
-                            title={ modalTitle || '' }
-                            aria-label={`${modalTitle || ''} modal`}
-                            isOpen={ isModalOpen }
-                            onClose={ () => this.handleModalToggle() }
-                            className="ins-c-inventory__detail--dialog"
-                            variant={ modalVariant }
-                        >
-                            <InfoTable
-                                cells={ cells }
-                                rows={ rows }
-                                expandable={ expandable }
-                                onSort={ this.onSort }
-                                filters={ filters }
-                            />
-                        </Modal>
-                    </Grid>
-                </div>
-            </Wrapper>
-        );
-    }
-}
+                            {ConfigurationCardWrapper && <GridItem>
+                                <ConfigurationCardWrapper handleClick={handleModalToggle} />
+                            </GridItem>}
+
+                            {CollectionCardWrapper && <GridItem>
+                                <CollectionCardWrapper handleClick={handleModalToggle} />
+                            </GridItem>}
+                        </Grid>
+                    </GridItem>
+                    {children}
+                    <Modal
+                        title={ modalState.modalTitle || '' }
+                        aria-label={`${modalState.modalTitle || ''} modal`}
+                        isOpen={ modalState.isModalOpen }
+                        onClose={ () => handleModalToggle() }
+                        className="ins-c-inventory__detail--dialog"
+                        variant={ modalState.modalVariant }
+                    >
+                        <InfoTable
+                            cells={ modalState.cells }
+                            rows={ rows }
+                            expandable={ modalState.expandable }
+                            onSort={ onSort }
+                            filters={ modalState.filters }
+                        />
+                    </Modal>
+                </Grid>
+            </div>
+        </Wrapper>
+    );
+
+};
 
 GeneralInformation.propTypes = {
-    entity: PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    }),
     openedModal: PropTypes.string,
     loadSystemDetail: PropTypes.func,
     store: PropTypes.any,
@@ -159,7 +162,6 @@ GeneralInformation.propTypes = {
     DataCollectorsCardWrapper: PropTypes.oneOfType([PropTypes.elementType, PropTypes.bool]),
     CollectionCardWrapper: PropTypes.oneOfType([PropTypes.elementType, PropTypes.bool]),
     children: PropTypes.node,
-    history: PropTypes.any,
     location: PropTypes.any,
     inventoryId: PropTypes.string.isRequired
 };
@@ -175,15 +177,4 @@ GeneralInformation.defaultProps = {
     CollectionCardWrapper: false
 };
 
-const mapStateToProps = ({
-    entityDetails: {
-        entity
-    }
-}) => ({
-    entity
-});
-const mapDispatchToProps = (dispatch) => ({
-    loadSystemDetail: (itemId) => dispatch(systemProfile(itemId))
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GeneralInformation));
+export default GeneralInformation;

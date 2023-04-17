@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -7,67 +7,53 @@ import {
     TextInput
 } from '@patternfly/react-core';
 
-export default class TextInputModal extends Component {
-    constructor (props) {
-        super(props);
-        this.state = {};
-    }
+const TextInputModal = ({
+    title,
+    isOpen,
+    onCancel,
+    onSubmit,
+    ariaLabel,
+    modalOuiaId,
+    cancelOuiaId,
+    confirmOuiaId,
+    inputOuiaId
+}) => {
+    const [value, setValue] = useState();
 
-    static getDerivedStateFromProps (props, state) {
-        if (!props.isOpen) {
-            return { value: undefined };
-        }
-
-        if (state.value !== undefined) {
-            return null;
-        }
-
-        return {
-            value: props.value || ''
-        };
-    };
-
-    render () {
-        const {
-            title, isOpen, onCancel, onSubmit, ariaLabel, modalOuiaId, cancelOuiaId, confirmOuiaId, inputOuiaId
-        } = this.props;
-        const { value } = this.state;
-
-        return (
-            <Modal
-                variant="small"
-                title={ title }
-                className="ins-c-inventory__detail--edit"
-                aria-label={ ariaLabel ? `${ariaLabel} - modal` : 'input modal' }
-                ouiaId={ modalOuiaId }
-                isOpen={ isOpen }
-                onClose={ event => onCancel(event) }
-                actions={ [
-                    <Button key="cancel" data-action="cancel" variant="secondary" onClick={ onCancel } ouiaId={ cancelOuiaId }>
+    return (
+        <Modal
+            variant="small"
+            title={ title }
+            className="ins-c-inventory__detail--edit"
+            aria-label={ ariaLabel ? `${ariaLabel} - modal` : 'input modal' }
+            ouiaId={ modalOuiaId }
+            isOpen={ isOpen }
+            onClose={ event => onCancel(event) }
+            actions={ [
+                <Button key="cancel" data-action="cancel" variant="secondary" onClick={ onCancel } ouiaId={ cancelOuiaId }>
                         Cancel
-                    </Button>,
-                    <Button
-                        key="confirm"
-                        data-action="confirm"
-                        variant="primary"
-                        onClick={ () => onSubmit(this.state.value) }
-                        ouiaId={ confirmOuiaId }
-                    >
+                </Button>,
+                <Button
+                    key="confirm"
+                    data-action="confirm"
+                    variant="primary"
+                    onClick={ () => onSubmit(value) }
+                    ouiaId={ confirmOuiaId }
+                >
                         Save
-                    </Button>
-                ] }
-            >
-                <TextInput
-                    value={ value }
-                    type="text"
-                    ouiaId={ inputOuiaId }
-                    onChange={ value => this.setState({ value }) }
-                    aria-label={ ariaLabel  }
-                />
-            </Modal>
-        );
-    }
-}
+                </Button>
+            ] }
+        >
+            <TextInput
+                value={ value }
+                type="text"
+                ouiaId={ inputOuiaId }
+                onChange={ value => setValue(value) }
+                aria-label={ ariaLabel  }
+            />
+        </Modal>
+    );
+};
 
 TextInputModal.propTypes = {
     title: PropTypes.string,
@@ -89,3 +75,5 @@ TextInputModal.defaultProps = {
     title: '',
     ariaLabel: 'input text'
 };
+
+export default TextInputModal;

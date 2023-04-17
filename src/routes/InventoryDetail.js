@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore, useDispatch } from 'react-redux';
-import { useLocation, useParams, Link, useHistory } from 'react-router-dom';
+import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
@@ -70,7 +70,7 @@ const Inventory = () => {
     const searchParams = new URLSearchParams(search);
     const [activeApp] = useState(searchParams.get('appName') || appList[0].name);
     const store = useStore();
-    const history = useHistory();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
@@ -103,9 +103,7 @@ const Inventory = () => {
     const onTabSelect = useCallback((_, activeApp, appName) => {
         searchParams.set('appName', appName);
         const search = searchParams.toString();
-        history.push({
-            search
-        });
+        navigate(`?${search}`);
     }, [searchParams]);
 
     return (

@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
 import * as actions from '../store/actions';
@@ -91,7 +91,7 @@ const Inventory = ({
     hasAccess,
     groupHostsFilter
 }) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const chrome = useChrome();
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
@@ -126,10 +126,7 @@ const Inventory = ({
         // eslint-disable-next-line camelcase
         calculatePagination(searchParams, options?.page, options?.per_page);
         const search = searchParams.toString();
-        history.push({
-            search,
-            hash: location.hash
-        });
+        navigate(`?${search}#${location.hash}`);
 
         if (callback) {
             callback(options);

@@ -40,7 +40,12 @@ plugins.push(
             './DetailWrapper': resolve(__dirname, '../src/modules/DetailWrapper.js'),
             './OsFilterHelpers': resolve(__dirname, '../src/modules/OsFilterHelpers.js'),
             './systemProfileStore': resolve(__dirname, '../src/store/systemProfileStore.js')
-        }
+        },
+        shared: [
+            {
+                'react-router-dom': { singleton: true, requiredVersion: '*' }
+            }
+        ]
     })
 );
 

@@ -14,7 +14,7 @@ import {
     CardBody
 } from '@patternfly/react-core';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const valueToText = (value, singular, plural) => {
     if ((value || value === 0) && singular) {
@@ -29,7 +29,7 @@ const valueToText = (value, singular, plural) => {
 };
 
 export const Clickable = ({ value, target, plural, singular, onClick }) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { pathname } = useLocation();
     const modalId = pathname.split('/').pop();
     useEffect(() => {
@@ -41,7 +41,7 @@ export const Clickable = ({ value, target, plural, singular, onClick }) => {
         <a
             onClick={ event => {
                 event.preventDefault();
-                history.push(`${pathname}/${target}`);
+                navigate(`${pathname}/${target}`);
             } }
             href={ `${window.location.origin}${window.location.pathname}/${target}` }
         >

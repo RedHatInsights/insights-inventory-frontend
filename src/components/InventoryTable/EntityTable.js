@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { selectEntity, setSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Table as PfTable,
     TableBody,
@@ -42,7 +42,7 @@ const EntityTable = ({
     columnsCounter
 }) => {
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
     const location = useLocation();
     const columns = useColumns(columnsProp, disableDefaultColumns, showTags, columnsCounter);
     const rows = useSelector(({ entities: { rows } }) => rows);
@@ -65,7 +65,8 @@ const EntityTable = ({
     , [loaded, columns, hasItems, rows, isExpandable]);
 
     const defaultRowClick = (_event, key) => {
-        history.push(`${location.pathname}${location.pathname.slice(-1) === '/' ? '' : '/'}${key}`);
+        console.log(location.pathname, 'pathname');
+        navigate(`/${key}`);
     };
 
     delete tableProps.RowWrapper;
