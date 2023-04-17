@@ -5,7 +5,6 @@ import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
-// import InventoryTable from './routes/InventoryTable';
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
@@ -18,7 +17,7 @@ export const routes = {
     groupDetail: '/groups/:groupId'
 };
 
-const SuspenseWrapped = ({ Component, ...componentProps }) => (
+const SuspenseWrapped = ({ Component }) => (
     <Suspense>
         <Component />
     </Suspense>
@@ -42,7 +41,7 @@ export const InventoryRoutes = () => {
                 </Suspense>}
                 rootClass='inventory'
             />
-            {/* <Route
+            <Route
                 exact
                 path={routes.groups}
                 element={<SuspenseWrapped Component={groupsEnabled ? InventoryGroups : LostPage} />}
@@ -53,7 +52,7 @@ export const InventoryRoutes = () => {
                 path={routes.groupDetail}
                 element={<SuspenseWrapped Component={groupsEnabled ? <InventoryGroupDetail/> : LostPage} />}
                 rootClass="inventory"
-            /> */}
+            />
             <Route
                 exact
                 path={routes.detail}
