@@ -135,6 +135,7 @@ const TopBar = ({
             }
             { isModalOpen && (
                 <DeleteModal
+                    className ='sentry-mask data-hj-suppress'
                     handleModalToggle={() => setIsModalOpen(!isModalOpen)}
                     isModalOpen={isModalOpen}
                     currentSytems={entity}

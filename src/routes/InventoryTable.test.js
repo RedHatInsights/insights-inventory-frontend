@@ -27,15 +27,6 @@ jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook', () =>
     usePermissionsWithContext: () => ({ hasAccess: true })
 }));
 
-jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
-    __esModule: true,
-    default: () => ({
-        updateDocumentTitle: jest.fn(),
-        appAction: jest.fn(),
-        appObjectId: jest.fn(),
-        on: jest.fn()
-    })
-}));
 jest.mock('../Utilities/useFeatureFlag');
 
 describe('InventoryTable', () => {
@@ -258,8 +249,12 @@ describe('InventoryTable', () => {
         expect(wrapper.find('DropdownMenu')).toHaveLength(1);
 
         await act(async () => {
-            wrapper.find('DropdownItem').first().find('button').simulate('click');
+            const dropdownItems = wrapper.find('DropdownItem');
+
+            const deleteDropdown = dropdownItems.at(1);
+            deleteDropdown.find('button').simulate('click');
         });
+
         wrapper.update();
 
         expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(true);

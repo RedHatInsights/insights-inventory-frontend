@@ -1,19 +1,17 @@
-import React, { lazy, Suspense, useEffect } from 'react';
-import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGroupDetail } from '../../store/inventory-actions';
 import {
     Bullseye,
     PageSection,
     Spinner,
     Tab,
-    Tabs,
-    TabTitleText
+    Tabs
 } from '@patternfly/react-core';
-import { useState } from 'react';
-import GroupDetailHeader from './GroupDetailHeader';
-import GroupDetailSystems from './GroupDetailSystems';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import PropTypes from 'prop-types';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGroupDetail } from '../../store/inventory-actions';
+import GroupSystems from '../GroupSystems';
+import GroupDetailHeader from './GroupDetailHeader';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 
@@ -21,6 +19,7 @@ const InventoryGroupDetail = ({ groupId }) => {
     const dispatch = useDispatch();
     const { data } = useSelector((state) => state.groupDetail);
     const chrome = useChrome();
+    const groupName = data?.results?.[0]?.name;
 
     useEffect(() => {
         dispatch(fetchGroupDetail(groupId));
@@ -29,7 +28,7 @@ const InventoryGroupDetail = ({ groupId }) => {
     useEffect(() => {
     // if available, change ID to the group's name in the window title
         chrome?.updateDocumentTitle?.(
-      `${data?.name || groupId} - Inventory Groups | Red Hat Insights`
+      `${groupName || groupId} - Inventory Groups | Red Hat Insights`
         );
     }, [data]);
 
@@ -50,16 +49,16 @@ const InventoryGroupDetail = ({ groupId }) => {
                 >
                     <Tab
                         eventKey={0}
-                        title={<TabTitleText>Systems</TabTitleText>}
+                        title='Systems'
                         aria-label="Group systems tab"
                     >
                         <PageSection>
-                            <GroupDetailSystems />
+                            <GroupSystems groupName={groupName} groupId={groupId}/>
                         </PageSection>
                     </Tab>
                     <Tab
                         eventKey={1}
-                        title={<TabTitleText>Group info</TabTitleText>}
+                        title='Group info'
                         aria-label="Group info tab"
                     >
                         {activeTabKey === 1 && ( // helps to lazy load the component

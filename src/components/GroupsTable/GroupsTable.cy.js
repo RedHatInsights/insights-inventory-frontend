@@ -26,29 +26,13 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import fixtures from '../../../cypress/fixtures/groups.json';
 import { groupsInterceptors as interceptors } from '../../../cypress/support/interceptors';
+import { checkSelectedNumber, ORDER_TO_URL, selectRowN } from '../../../cypress/support/utils';
 import { getStore } from '../../store';
 import GroupsTable from './GroupsTable';
-
-const ORDER_TO_URL = {
-    ascending: 'ASC',
-    descending: 'DESC'
-};
 
 const DEFAULT_ROW_COUNT = 50;
 const TABLE_HEADERS = ['Name', 'Total systems', 'Last modified'];
 const ROOT = 'div[id="groups-table"]';
-
-export const checkSelectedNumber = (number) => {
-    if (number === 0) {
-        cy.get('#toggle-checkbox-text').should('not.exist');
-    } else {
-        cy.get('#toggle-checkbox-text').should('have.text', `${number} selected`);
-    }
-};
-
-export const selectRowN = (number) => {
-    cy.get(ROW).eq(number).find('.pf-c-table__check').click();
-};
 
 const mountTable = () =>
     mount(
@@ -153,7 +137,7 @@ describe('sorting', () => {
         interceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getGroups'); // first initial call
+        cy.wait('@getGroups'); // first initial request
     });
 
     const checkSorting = (label, order, dataField) => {
@@ -187,7 +171,7 @@ describe('filtering', () => {
         interceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getGroups'); // first initial call
+        cy.wait('@getGroups'); // first initial request
     });
 
     const applyNameFilter = () =>
@@ -201,16 +185,13 @@ describe('filtering', () => {
     });
 
     it('sends correct request', () => {
-        applyNameFilter().then(() => {
-            cy.wait('@getGroups')
-            .its('request.url')
-            .should('include', 'hostname_or_id=lorem');
-        });
+        applyNameFilter();
+        cy.wait('@getGroups').its('request.url').should('include', 'hostname_or_id=lorem');
     });
 
     it('can remove the chip or reset filters', () => {
         applyNameFilter();
-        cy.wait('@getGroups');
+        cy.wait('@getGroups').its('request.url').should('contain', 'hostname_or_id=lorem');
         cy.get(CHIP_GROUP)
         .find(CHIP)
         .ouiaId('close', 'button')
@@ -218,7 +199,7 @@ describe('filtering', () => {
             cy.get(CHIP_GROUP).find(CHIP).ouiaId('close', 'button');
         });
         cy.get('button').contains('Reset filters').click();
-        cy.wait('@getGroups');
+        cy.wait('@getGroups').its('request.url').should('not.contain', 'hostname_or_id');
         cy.get(CHIP_GROUP).should('not.exist');
 
     });

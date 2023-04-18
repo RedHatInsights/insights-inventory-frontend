@@ -17,6 +17,7 @@ const useColumns = (columnsProp, disableDefaultColumns, showTags, columnsCounter
         )
     );
     const disabledColumns = Array.isArray(disableDefaultColumns) ? disableDefaultColumns : [];
+    //condition for the newDefaultColumns should be removed after inventory groups is released
     const defaultColumnsFiltered = useMemo(() => (disableDefaultColumns === true) ?
         [] : defaultColumns(groupsEnabled).filter(({ key }) =>
             isColumnEnabled(key, disabledColumns, showTags)

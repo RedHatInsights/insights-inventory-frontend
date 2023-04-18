@@ -2,25 +2,11 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { getStore } from '../../../store';
 import InventoryGroupDetail from '../InventoryGroupDetail';
+import { Provider } from 'react-redux';
 
-jest.mock('react-redux', () => {
-    return {
-        ...jest.requireActual('react-redux'),
-        useSelector: () => ({
-            uninitialized: false,
-            loading: false,
-            data: {
-                results: [
-                    {
-                        name: 'group-name-1'
-                    }
-                ]
-            }
-        }),
-        useDispatch: () => () => {}
-    };
-});
+jest.mock('../../../Utilities/useFeatureFlag');
 
 describe('group detail page component', () => {
     let getByRole;
@@ -29,7 +15,9 @@ describe('group detail page component', () => {
     beforeEach(() => {
         const rendered = render(
             <MemoryRouter>
-                <InventoryGroupDetail groupId="group-id-2" />
+                <Provider store={getStore()}>
+                    <InventoryGroupDetail groupId="group-id-2" />
+                </Provider>
             </MemoryRouter>
         );
         getByRole = rendered.getByRole;
