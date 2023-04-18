@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { RHCD_FILTER_KEY, UPDATE_METHOD_KEY } from './Utilities/constants';
+import { RHCD_FILTER_KEY, UPDATE_METHOD_KEY, HOST_GROUP_CHIP } from './Utilities/constants';
 
 export const tagsMapper = (acc, curr) => {
     let [namespace, keyValue] = curr.split('/');
@@ -65,7 +65,6 @@ export const generateFilters = (cells = [], filters = [], activeFilters = {}, on
     filters.map((filter, key) => {
         const activeKey = filter.index || key;
         const activeLabel = cells[activeKey] && (cells[activeKey].title || cells[activeKey]);
-
         return ({
             value: String(activeKey),
             label: activeLabel,
@@ -123,9 +122,12 @@ export const getSearchParams = () => {
     const operatingSystem = searchParams.getAll('operating_system');
     const rhcdFilter = searchParams.getAll(RHCD_FILTER_KEY);
     const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
+    const groupHostsFilter = searchParams.getAll(HOST_GROUP_CHIP);
     const page = searchParams.getAll('page');
     const perPage = searchParams.getAll('per_page');
-    return { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter, page, perPage };
+    const lastSeenFilter = searchParams.getAll('last_seen');
+    return { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter, lastSeenFilter,
+        page, perPage, groupHostsFilter };
 };
 
 export const TABLE_DEFAULT_PAGINATION = 50; // from UX table audit

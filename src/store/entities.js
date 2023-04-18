@@ -9,7 +9,8 @@ import {
     ENTITIES_LOADING,
     CLEAR_FILTERS,
     TOGGLE_TAG_MODAL,
-    CONFIG_CHANGED
+    CONFIG_CHANGED,
+    CLEAR_ENTITIES
 } from './action-types';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
@@ -21,6 +22,8 @@ import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
 import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
+import { fitContent } from '@patternfly/react-table';
+import isEmpty from 'lodash/isEmpty';
 
 export const defaultState = {
     loaded: false,
@@ -46,9 +49,11 @@ export const defaultColumns = (groupsEnabled = false) => ([
     ...(groupsEnabled ? [{
         key: 'groups',
         sortKey: 'groups',
-        title: 'Groups',
+        title: 'Group',
         props: { width: 10 },
-        renderFunc: () => <React.Fragment>N/A</React.Fragment>
+        // eslint-disable-next-line camelcase
+        renderFunc: (value, systemId, { group_name }) => isEmpty(group_name) ? 'N/A' : group_name,
+        transforms: [fitContent]
     }] : []),
     {
         key: 'tags',
@@ -94,7 +99,8 @@ export const defaultColumns = (groupsEnabled = false) => ([
                 }
             > <DateFormat date={ value } /> </CullingInformation> : new Date(value).toLocaleString();
         },
-        props: { width: 10 }
+        props: { width: 10 },
+        transforms: [fitContent]
     }
 ]);
 
@@ -117,6 +123,10 @@ function clearFilters(state) {
         activeFilters: []
     };
 }
+
+const clearEntities = () => {
+    return defaultState;
+};
 
 // eslint-disable-next-line camelcase
 function entitiesLoaded(state, { payload: { results, per_page: perPage, page, count, total, loaded, filters }, meta }) {
@@ -170,7 +180,7 @@ function selectEntity(state, { payload }) {
 function versionsLoaded(state, { payload: { results } }) {
     return {
         ...state,
-        operatingSystems: results.map(entry => {
+        operatingSystems: (results || []).map(entry => {
             const { name, major, minor } = entry.value;
             const versionStringified = `${major}.${minor}`;
             return { label: `${name} ${versionStringified}`, value: versionStringified };
@@ -300,5 +310,6 @@ export default {
     [CLEAR_FILTERS]: clearFilters,
     [ENTITIES_LOADING]: (state, { payload: { isLoading } }) => ({ ...state, loaded: !isLoading }),
     [TOGGLE_TAG_MODAL]: toggleTagModalReducer,
-    [CONFIG_CHANGED]: (state, { payload }) => ({ ...state, invConfig: payload })
+    [CONFIG_CHANGED]: (state, { payload }) => ({ ...state, invConfig: payload }),
+    [CLEAR_ENTITIES]: clearEntities
 };

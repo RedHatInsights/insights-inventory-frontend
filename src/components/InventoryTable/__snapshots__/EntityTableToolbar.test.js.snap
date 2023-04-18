@@ -127,6 +127,18 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
           "type": "checkbox",
           "value": "rhc-status",
         },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
+        },
       ],
     }
   }
@@ -303,6 +315,18 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
           "label": "RHC status",
           "type": "checkbox",
           "value": "rhc-status",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
         },
       ],
     }
@@ -497,6 +521,18 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
           "label": "RHC status",
           "type": "checkbox",
           "value": "rhc-status",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
         },
         Object {
           "filterValues": Object {
@@ -713,6 +749,18 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
         Object {
           "filterValues": Object {
             "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
             "placeholder": "Filter by filter by text",
           },
           "label": "Filter by text",
@@ -911,6 +959,18 @@ exports[`EntityTableToolbar DOM should render correctly - with customFilters 1`]
           "label": "RHC status",
           "type": "checkbox",
           "value": "rhc-status",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
         },
         Object {
           "filterValues": Object {
@@ -1137,6 +1197,18 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
           "type": "checkbox",
           "value": "rhc-status",
         },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
+        },
       ],
     }
   }
@@ -1318,6 +1390,18 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
           "label": "RHC status",
           "type": "checkbox",
           "value": "rhc-status",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
         },
       ],
     }
@@ -1517,6 +1601,18 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
           "type": "checkbox",
           "value": "rhc-status",
         },
+        Object {
+          "filterValues": Object {
+            "isDisabled": true,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
+        },
       ],
     }
   }
@@ -1706,6 +1802,18 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
           "label": "RHC status",
           "type": "checkbox",
           "value": "rhc-status",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
         },
         Object {
           "filterValues": Object {
@@ -1926,6 +2034,18 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
           "label": "RHC status",
           "type": "checkbox",
           "value": "rhc-status",
+        },
+        Object {
+          "filterValues": Object {
+            "isDisabled": false,
+            "items": [MockFunction],
+            "onChange": [Function],
+            "placeholder": "Filter by last seen",
+            "value": undefined,
+          },
+          "label": "Last seen",
+          "type": "radio",
+          "value": "last_seen",
         },
       ],
     }

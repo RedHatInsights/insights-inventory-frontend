@@ -32,7 +32,7 @@ const onRowClick = (event, key, { loaded, onRowClick: rowClick, noDetail }) => {
  * @param {*} props additional props passed from `EntityTable` - holds any props passed to inventory table.
  */
 const TitleColumn = (data, id, item, props) => (
-    <div className="ins-composed-col">
+    <div className="ins-composed-col sentry-mask data-hj-suppress">
         <div key="os_release">{item?.os_release}</div>
         <div key="data" className={props?.noDetail ? 'ins-m-nodetail' : ''}>
             { props?.noDetail ?

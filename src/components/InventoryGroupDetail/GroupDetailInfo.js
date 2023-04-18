@@ -1,20 +1,46 @@
-import { EmptyState, EmptyStateBody, Spinner } from '@patternfly/react-core';
-import { InvalidObject } from '@redhat-cloud-services/frontend-components';
+import {
+    Button,
+    Card,
+    CardTitle,
+    CardBody,
+    CardHeader,
+    CardActions } from '@patternfly/react-core';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import ChromeLoader from '../../Utilities/ChromeLoader';
 
-const GroupDetailInfo = () => {
-    const { uninitialized, loading } = useSelector((state) => state.groupDetail);
-
-    // TODO: implement according to mocks
+const GroupDetailInfo = ({ chrome }) => {
+    const path = `${chrome.isBeta() ? '/beta' : ''}/iam/user-access`;
 
     return (
-        <EmptyState>
-            <EmptyStateBody>
-                {uninitialized || loading ? <Spinner /> : <InvalidObject />}
-            </EmptyStateBody>
-        </EmptyState>
+        <Card>
+            <CardHeader>
+                <CardActions>
+                    <Button component="a" href={path} variant="secondary">
+                        Manage access
+                    </Button>
+                </CardActions>
+                <CardTitle className="pf-c-title pf-m-lg card-title">
+                    User access configuration
+                </CardTitle>
+            </CardHeader>
+            <CardBody>
+                Manage your inventory group user access configuration under
+                <a href={path}> Identity & Access Management {'>'} User Access.</a>
+            </CardBody>
+        </Card>
     );
 };
 
-export default GroupDetailInfo;
+GroupDetailInfo.propTypes = {
+    chrome: PropTypes.object
+};
+
+const GroupDetailInfoWithChrome = () => (
+    <ChromeLoader>
+        <GroupDetailInfo />
+    </ChromeLoader>
+);
+
+export { GroupDetailInfo };
+export default GroupDetailInfoWithChrome;

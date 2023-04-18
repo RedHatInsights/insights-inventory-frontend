@@ -1,3 +1,152 @@
+## [1.14.8](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.7...v1.14.8) (2023-04-14)
+
+
+### Bug Fixes
+
+* **LastSeenFilter:** Add edge cases for new filter ([f53155a](https://github.com/RedHatInsights/insights-inventory-frontend/commit/f53155a89bb874c9c5d6665a9f6dce23b029ecb9))
+
+
+### Reverts
+
+* Revert "ESSNTL(4056): Adds checks against edge cases for last seen filter (#1787)" ([1f0b70c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/1f0b70c15749126a7d8a605c8e890fa6d0881df6)), closes [#1787](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1787)
+
+## [1.14.8](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.7...v1.14.8) (2023-04-13)
+
+
+### Reverts
+
+* Revert "ESSNTL(4056): Adds checks against edge cases for last seen filter (#1787)" ([1f0b70c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/1f0b70c15749126a7d8a605c8e890fa6d0881df6)), closes [#1787](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1787)
+
+## [1.14.7](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.6...v1.14.7) (2023-04-11)
+
+
+### Bug Fixes
+
+* **inventory groups:** changed the column order to allign with the app ([#1828](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1828)) ([3124e53](https://github.com/RedHatInsights/insights-inventory-frontend/commit/3124e53dd63208a5c8a7a29e1e604b4850f6f204))
+
+## [1.14.6](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.5...v1.14.6) (2023-04-06)
+
+
+### Bug Fixes
+
+* **ESSNTL-3729:** Fix add button behavior ([#1825](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1825)) ([cdf9848](https://github.com/RedHatInsights/insights-inventory-frontend/commit/cdf9848dd9059052133cab8bf649c53ce2829109))
+
+## [1.14.5](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.4...v1.14.5) (2023-04-03)
+
+
+### Bug Fixes
+
+* **RHIF-232:** flickering inventory table is fixed, api reqs are reduced to 1 ([97af8a3](https://github.com/RedHatInsights/insights-inventory-frontend/commit/97af8a327d04e4aa4c676f5376502312bf44cbeb))
+
+## [1.14.4](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.3...v1.14.4) (2023-04-03)
+
+
+### Bug Fixes
+
+* **ESSNTL-3728:** Fix links, show missing tags filter ([#1824](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1824)) ([ebfad9c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/ebfad9cdafcdb2d68176de9d5290a3db52579d2f))
+
+## [1.14.3](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.2...v1.14.3) (2023-04-03)
+
+
+### Bug Fixes
+
+* **ESSNTL-3727:** Hide Group filter ([#1823](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1823)) ([7657a7e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/7657a7e33e74008a5121ea3253c823d92b761290))
+
+## [1.14.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.1...v1.14.2) (2023-03-31)
+
+
+### Bug Fixes
+
+* **ESSNTL-3727:** Fix minor issues for groups/%id view ([#1820](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1820)) ([1fa8d01](https://github.com/RedHatInsights/insights-inventory-frontend/commit/1fa8d013cf45c291891b58f9158eed6e95de7dd2))
+
+## [1.14.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.0...v1.14.1) (2023-03-30)
+
+
+### Bug Fixes
+
+* **ESSNTL-4196:** Tie URLs to chrome isBeta ([#1817](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1817)) ([7c686e5](https://github.com/RedHatInsights/insights-inventory-frontend/commit/7c686e5a2d104197ac05122d3cf532b899ed66a2))
+
+# [1.14.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.13.0...v1.14.0) (2023-03-30)
+
+
+### Features
+
+* **ESSNTL-3728:** Enable multiple hosts addition to group ([#1798](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1798)) ([c9a1d4e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/c9a1d4e1899df65004878eec1574613e355dab7a))
+
+# [1.13.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.3...v1.13.0) (2023-03-29)
+
+
+### Features
+
+* **ESSNTL-3729:** Add new actions to kebab and new modal ([#1794](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1794)) ([011f64c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/011f64c998573f9b8e9012c0c8c70f63e2d08532))
+
+## [1.12.3](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.2...v1.12.3) (2023-03-28)
+
+
+### Bug Fixes
+
+* **RHCLOUD-24793:** Show ROS tab is azure or aws cloud provider ([#1800](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1800)) ([2331f03](https://github.com/RedHatInsights/insights-inventory-frontend/commit/2331f0364a73c1916c19b864c04a4e512a10cd6a))
+
+## [1.12.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.1...v1.12.2) (2023-03-22)
+
+## [1.12.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.12.0...v1.12.1) (2023-03-22)
+
+
+### Bug Fixes
+
+* Fix the CI error related to lastSeen filter ([#1802](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1802)) ([a19f6aa](https://github.com/RedHatInsights/insights-inventory-frontend/commit/a19f6aa92e7fa31d8b4bf5356784f2922f213ddc))
+
+# [1.12.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.11.0...v1.12.0) (2023-03-15)
+
+
+### Features
+
+* **ESSNTL-4195:** Inventory table - group filter ([#1776](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1776)) ([358400e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/358400ec23e1f64933cd2dfea3cd92fc568459b8))
+
+# [1.11.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.10.1...v1.11.0) (2023-03-15)
+
+
+### Features
+
+* **ESSNTL-4196:** Show group detail info tab ([#1792](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1792)) ([f0f421b](https://github.com/RedHatInsights/insights-inventory-frontend/commit/f0f421b0b5b2f577c3fd594f663c699ffcd44358))
+
+## [1.10.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.10.0...v1.10.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* **ESSNTL-3760:** handle insights disconnected hosts for patch, advisor, vuln tabs ([#1791](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1791)) ([f8d7afd](https://github.com/RedHatInsights/insights-inventory-frontend/commit/f8d7afd9fde1f1a85aa1ff2033a6cdceb3019235))
+
+# [1.10.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.9.2...v1.10.0) (2023-03-14)
+
+
+### Features
+
+* **ESSNTL-3727:** Display group systems ([#1790](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1790)) ([08408ad](https://github.com/RedHatInsights/insights-inventory-frontend/commit/08408addd3fb27a333e2c376e9290b9049757860))
+
+## [1.9.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.9.1...v1.9.2) (2023-03-13)
+
+
+### Bug Fixes
+
+* **ESSNTL-4404:** global filters and tags ([#1788](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1788)) ([b10ce31](https://github.com/RedHatInsights/insights-inventory-frontend/commit/b10ce310766b6b463d82b5ed675328b411a28a14))
+
+## [1.9.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.9.0...v1.9.1) (2023-03-13)
+
+# [1.9.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.8.0...v1.9.0) (2023-03-13)
+
+
+### Features
+
+* **ESSNTL-3737, -3735:** Rename and delete group ([#1780](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1780)) ([bdf4c6a](https://github.com/RedHatInsights/insights-inventory-frontend/commit/bdf4c6ac30688e2f76f1e2e164e9e1438e255485))
+
+# [1.8.0](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.2...v1.8.0) (2023-03-07)
+
+
+### Features
+
+* **ESSNTL-4056:** Add lastSeen filter ([#1781](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1781)) ([7bb6ac8](https://github.com/RedHatInsights/insights-inventory-frontend/commit/7bb6ac85fcb5fc7c31514066c2ef174868213687))
+
 ## [1.7.2](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.1...v1.7.2) (2023-03-07)
 
 ## [1.7.1](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.7.0...v1.7.1) (2023-03-06)
