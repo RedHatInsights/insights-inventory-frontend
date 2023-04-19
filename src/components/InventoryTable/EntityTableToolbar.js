@@ -19,9 +19,7 @@ import {
     TAG_CHIP,
     arrayToSelection,
     RHCD_FILTER_KEY,
-    UPDATE_METHOD_KEY,
-    LAST_SEEN_CHIP,
-    HOST_GROUP_CHIP
+    UPDATE_METHOD_KEY
 } from '../../Utilities/index';
 import { onDeleteFilter, onDeleteTag } from './helpers';
 import {
@@ -30,7 +28,6 @@ import {
     useRegisteredWithFilter,
     useTagsFilter,
     useRhcdFilter,
-    useLastSeenFilter,
     useUpdateMethodFilter,
     textFilterState,
     textFilterReducer,
@@ -43,16 +40,10 @@ import {
     rhcdFilterReducer,
     rhcdFilterState,
     updateMethodFilterReducer,
-    updateMethodFilterState,
-    lastSeenFilterReducer,
-    lastSeenFilterState,
-    groupFilterReducer,
-    groupFilterState
+    updateMethodFilterState
 } from '../filters';
 import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import useGroupFilter from '../filters/useGroupFilter';
-import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -90,18 +81,14 @@ const EntityTableToolbar = ({
         tagsFilterReducer,
         operatingSystemFilterReducer,
         rhcdFilterReducer,
-        lastSeenFilterReducer,
-        updateMethodFilterReducer,
-        groupFilterReducer
+        updateMethodFilterReducer
     ]), {
         ...textFilterState,
         ...stalenessFilterState,
         ...registeredWithFilterState,
         ...tagsFilterState,
         ...rhcdFilterState,
-        ...updateMethodFilterState,
-        ...lastSeenFilterState,
-        ...groupFilterState
+        ...updateMethodFilterState
     });
     const filters = useSelector(({ entities: { activeFilters } }) => activeFilters);
     const allTagsLoaded = useSelector(({ entities: { allTagsLoaded } }) => allTagsLoaded);
@@ -111,15 +98,11 @@ const EntityTableToolbar = ({
     const [stalenessFilter, stalenessChip, staleFilter, setStaleFilter] = useStalenessFilter(reducer);
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
     const [rhcdFilterConfig, rhcdFilterChips, rhcdFilterValue, setRhcdFilterValue] = useRhcdFilter(reducer);
-    const [lastSeenFilter, lastSeenChip, lastSeenFilterValue, setLastSeenFilterValue,
-        toValidator, onFromChange, onToChange, endDate, startDate, fromValidator,
-        setStartDate, setEndDate] = useLastSeenFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
     const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
-    const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] = useGroupFilter();
 
     const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
-    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+
     const {
         tagsFilter,
         tagsChip,
@@ -135,7 +118,7 @@ const EntityTableToolbar = ({
     const debounceGetAllTags = useCallback(debounce((config, options) => {
         if (showTags && !hasItems && hasAccess) {
             dispatch(fetchAllTags(config, {
-                ...options?.paginationhideFilters
+                ...options?.pagination
             },  getTags));
         }
     }, 800), [customFilters?.tags]);
@@ -147,13 +130,10 @@ const EntityTableToolbar = ({
         operatingSystem: !(hideFilters.all && hideFilters.operatingSystem !== false) && !hideFilters.operatingSystem,
         tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags,
         rhcdFilter: !(hideFilters.all && hideFilters.rhcdFilter !== false) && !hideFilters.rhcdFilter,
-        lastSeenFilter: !(hideFilters.all && hideFilters.lastSeen !== false) && !hideFilters.lastSeen,
         //hides the filter untill API is ready. JIRA: RHIF-169
         updateMethodFilter: isUpdateMethodEnabled &&
             !(hideFilters.all && hideFilters.updateMethodFilter !== false)
-                && !hideFilters.updateMethodFilter,
-        hostGroupFilter: groupsEnabled && !(hideFilters.all && hideFilters.hostGroupFilter !== false)
-                && !hideFilters.hostGroupFilter
+                && !hideFilters.updateMethodFilter
     };
 
     /**
@@ -191,15 +171,7 @@ const EntityTableToolbar = ({
      */
     useEffect(() => {
         const {
-            textFilter,
-            tagFilters,
-            staleFilter,
-            registeredWithFilter,
-            osFilter,
-            rhcdFilter,
-            lastSeenFilter,
-            updateMethodFilter,
-            groupFilter
+            textFilter, tagFilters, staleFilter, registeredWithFilter, osFilter, rhcdFilter, updateMethodFilter
         } = reduceFilters([...filters || [], ...customFilters?.filters || []]);
 
         debouncedRefresh();
@@ -210,8 +182,6 @@ const EntityTableToolbar = ({
         enabledFilters.operatingSystem && setOsFilterValue(osFilter);
         enabledFilters.rhcdFilter && setRhcdFilterValue(rhcdFilter);
         enabledFilters.updateMethodFilter && setUpdateMethodValue(updateMethodFilter);
-        enabledFilters.lastSeenFilter && setLastSeenFilterValue(lastSeenFilter);
-        enabledFilters.hostGroupFilter && setHostGroupValue(groupFilter);
     }, []);
 
     /**
@@ -220,7 +190,7 @@ const EntityTableToolbar = ({
      * @param {*} debounced if debounce function should be used.
      */
     const onSetTextFilter = (value, debounced = true) => {
-        const trimmedValue = value?.trim();
+        const trimmedValue = value.trim();
 
         const textualFilter = filters?.find(oneFilter => oneFilter.value === TEXT_FILTER);
         if (textualFilter) {
@@ -292,22 +262,10 @@ const EntityTableToolbar = ({
     }, [rhcdFilterValue]);
 
     useEffect(() => {
-        if (shouldReload && enabledFilters.lastSeenFilter) {
-            onSetFilter(lastSeenFilterValue, 'lastSeenFilter', debouncedRefresh);
-        }
-    }, [lastSeenFilterValue]);
-
-    useEffect(() => {
         if (shouldReload && enabledFilters.updateMethodFilter) {
             onSetFilter(updateMethodValue, 'updateMethodFilter', debouncedRefresh);
         }
     }, [updateMethodValue]);
-
-    useEffect(() => {
-        if (shouldReload && enabledFilters.hostGroupFilter) {
-            onSetFilter(hostGroupValue, 'hostGroupFilter', debouncedRefresh);
-        }
-    }, [hostGroupValue]);
 
     /**
      * Mapper to simplify removing of any filter.
@@ -327,13 +285,7 @@ const EntityTableToolbar = ({
         ),
         [OS_CHIP]: (deleted) => setOsFilterValue(xor(osFilterValue, deleted.chips.map(({ value }) => value))),
         [RHCD_FILTER_KEY]: (deleted) => setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
-        [LAST_SEEN_CHIP]: (deleted) =>
-        {
-            setLastSeenFilterValue(onDeleteFilter(deleted, [lastSeenFilterValue.mark])),
-            setStartDate(),
-            setEndDate();
-        },        [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
-        [HOST_GROUP_CHIP]: (deleted) => setHostGroupValue(onDeleteFilter(deleted, hostGroupValue))
+        [UPDATE_METHOD_KEY]: (deleted) => setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue))
     };
     /**
      * Function to reset all filters with 'Reset Filter' is clicked
@@ -345,9 +297,7 @@ const EntityTableToolbar = ({
         enabledFilters.tags && setSelectedTags({});
         enabledFilters.operatingSystem && setOsFilterValue([]);
         enabledFilters.rhcdFilter && setRhcdFilterValue([]);
-        enabledFilters.lastSeenFilter && setLastSeenFilterValue([]);
         enabledFilters.updateMethodFilter && setUpdateMethodValue([]);
-        enabledFilters.hostGroupFilter && setHostGroupValue([]);
         dispatch(setFilter([]));
         updateData({ page: 1, filters: [] });
     };
@@ -366,8 +316,6 @@ const EntityTableToolbar = ({
                 ...!hasItems && enabledFilters.operatingSystem ? osFilterChips : [],
                 ...!hasItems && enabledFilters.rhcdFilter ? rhcdFilterChips : [],
                 ...!hasItems && enabledFilters.updateMethodFilter ? updateMethodChips : [],
-                ...!hasItems && enabledFilters.lastSeenFilter ? lastSeenChip : [],
-                ...!hasItems && enabledFilters.hostGroupFilter ? hostGroupChips : [],
                 ...activeFiltersConfig?.filters || []
             ],
             onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -393,8 +341,6 @@ const EntityTableToolbar = ({
             ...enabledFilters.registeredWith ? [registeredFilter] : [],
             ...enabledFilters.rhcdFilter ? [rhcdFilterConfig] : [],
             ...enabledFilters.updateMethodFilter ? [updateMethodConfig] : [],
-            ...enabledFilters.lastSeenFilter ? [lastSeenFilter] : [],
-            ...enabledFilters.hostGroupFilter ? [hostGroupConfig] : [],
             ...showTags && enabledFilters.tags ? [tagsFilter] : []
         ] : [],
         ...filterConfig?.items || []
@@ -438,32 +384,7 @@ const EntityTableToolbar = ({
                 ...paginationProps
             } : <Skeleton size={SkeletonSize.lg} />}
         >
-            {lastSeenFilterValue?.mark === 'custom' &&
-            <Split>
-                <SplitItem>
-                    <DatePicker
-                        onChange={onFromChange}
-                        aria-label="Start date"
-                        validators={[fromValidator]}
-                        placeholder='Start'
-                    />
-                </SplitItem>
-                <SplitItem style={{ padding: '6px 12px 0 12px' }}>
-            to
-                </SplitItem>
-                <SplitItem>
-                    <DatePicker
-                        value={endDate}
-                        onChange={onToChange}
-                        rangeStart={startDate}
-                        validators={[toValidator]}
-                        aria-label="End date"
-                        placeholder='End'
-                    />
-                </SplitItem>
-            </Split>}
             { children }
-
         </PrimaryToolbar>
         {
             (showTags || enabledFilters.tags || showTagModal) && <TagsModal
@@ -509,9 +430,7 @@ EntityTableToolbar.propTypes = {
         stale: PropTypes.bool,
         operatingSystem: PropTypes.bool,
         rhcdFilter: PropTypes.bool,
-        lastSeen: PropTypes.bool,
         updateMethodFilter: PropTypes.bool,
-        hostGroupFilter: PropTypes.bool,
         all: PropTypes.bool
     }),
     paginationProps: PropTypes.object,

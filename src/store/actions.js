@@ -1,5 +1,4 @@
-import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SET_INVENTORY_FILTER, SET_PAGINATION,
-    CLEAR_ENTITIES } from './action-types';
+import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SET_INVENTORY_FILTER, SET_PAGINATION } from './action-types';
 import { hosts, getEntitySystemProfile } from '../api';
 export * from './system-issues-actions';
 export * from './inventory-actions';
@@ -77,9 +76,4 @@ export const editAnsibleHost = (id, value, origValue) => ({
             }
         }
     }
-});
-
-export const clearEntitiesAction = () => ({
-    type: CLEAR_ENTITIES,
-    payload: []
 });

@@ -27,7 +27,7 @@ const DeleteModal = ({ handleModalToggle, isModalOpen, currentSytems, onConfirm 
     return <Modal
         variant="small"
         title="Remove from inventory"
-        className="ins-c-inventory__table--remove sentry-mask data-hj-suppress"
+        className="ins-c-inventory__table--remove"
         ouiaId="inventory-delete-modal"
         isOpen={isModalOpen}
         onClose={() => handleModalToggle(false)}

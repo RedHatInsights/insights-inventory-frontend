@@ -98,9 +98,7 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'registeredWithFilter' in filter && { registeredWithFilter: filter.registeredWithFilter },
     ...'osFilter' in filter && { osFilter: filter.osFilter },
     ...'rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter },
-    ...'lastSeenFilter' in filter && { lastSeenFilter: filter.lastSeenFilter },
-    ...'updateMethodFilter' in filter && { updateMethodFilter: filter.updateMethodFilter },
-    ...'groupHostFilter' in filter && { groupHostFilter: filter.groupHostFilter }
+    ...'updateMethodFilter' in filter && { updateMethodFilter: filter.updateMethodFilter }
 });
 
 export async function getEntities(items, {
@@ -111,10 +109,9 @@ export async function getEntities(items, {
     page,
     orderBy,
     orderDirection,
-    fields = { system_profile: ['operating_system', /* needed by inventory groups */ 'system_update_method'] },
+    fields = { system_profile: ['operating_system'] },
     ...options
 }, showTags) {
-
     if (hasItems && items?.length > 0) {
         let data = await hosts.apiHostGetHostById(
             items,
@@ -183,8 +180,8 @@ export async function getEntities(items, {
             orderDirection,
             filters.staleFilter,
             [
-                ...constructTags(filters?.tagFilters),
-                ...options?.globalFilter?.tags || []
+                ...constructTags(filters.tagFilters),
+                ...options.tags || []
             ],
             filters?.registeredWithFilter,
             undefined,
@@ -192,12 +189,9 @@ export async function getEntities(items, {
             {
                 cancelToken: controller && controller.token,
                 query: {
-                    ...(options?.globalFilter?.filter && generateFilter(options.globalFilter.filter)),
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
                     ...(calculateSystemProfile(filters)),
-                    ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields')),
-                    ...filters?.lastSeenFilter?.updatedStart && { updated_start: filters.lastSeenFilter.updatedStart },
-                    ...filters?.lastSeenFilter?.updatedEnd && { updated_end: filters.lastSeenFilter.updatedEnd }
+                    ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields'))
                 }
             }
         )

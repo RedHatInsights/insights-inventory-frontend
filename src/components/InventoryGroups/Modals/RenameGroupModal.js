@@ -45,7 +45,7 @@ const RenameGroupModal = ({
             },
             onError: { title: 'Error', description: 'Failed to rename group' }
         };
-        apiWithToast(dispatch, () => updateGroupById(id, { name: values.name }), statusMessages);
+        apiWithToast(dispatch, () => updateGroupById(id, values), statusMessages);
     };
 
     const schema = useMemo(() => {

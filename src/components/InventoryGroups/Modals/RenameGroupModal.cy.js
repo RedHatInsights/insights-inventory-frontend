@@ -8,9 +8,45 @@ import {
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { getStore } from '../../../store';
-import groups from '../../../../cypress/fixtures/groups.json';
 
-const mockResponse = [groups];
+const mockResponse = [
+    {
+        count: 50,
+        page: 20,
+        per_page: 20,
+        total: 50,
+        results: [
+            {
+                created_at: '2020-02-09T10:16:07.996Z',
+                host_ids: ['bA6deCFc19564430AB814bf8F70E8cEf'],
+                id: '3f01b55457674041b75e41829bcee1dca',
+                name: 'sre-group0',
+                updated_at: '2020-02-09T10:16:07.996Z'
+            },
+            {
+                created_at: '2020-02-09T10:16:07.996Z',
+                host_ids: ['bA6deCFc19564430AB814bf8F70E8cEf'],
+                id: '3f01b55457674041b75e41829bcee1dca',
+                name: 'sre-group1',
+                updated_at: '2020-02-09T10:16:07.996Z'
+            },
+            {
+                created_at: '2020-02-09T10:16:07.996Z',
+                host_ids: ['bA6deCFc19564430AB814bf8F70E8cEf'],
+                id: '3f01b55457674041b75e41829bcee1dca',
+                name: 'sre-group2',
+                updated_at: '2020-02-09T10:16:07.996Z'
+            },
+            {
+                created_at: '2020-02-09T10:16:07.996Z',
+                host_ids: ['bA6deCFc19564430AB814bf8F70E8cEf'],
+                id: '3f01b55457674041b75e41829bcee1dca',
+                name: 'sre-group3',
+                updated_at: '2020-02-09T10:16:07.996Z'
+            }
+        ]
+    }
+];
 
 describe('render Rename Group Modal', () => {
     before(() => {
@@ -38,28 +74,6 @@ describe('render Rename Group Modal', () => {
             }
         }).as('rename');
 
-    });
-
-    it('Input is fillable and firing a validation request that succeeds', () => {
-        mount(
-            <MemoryRouter>
-                <Provider store={getStore()}>
-                    <RenameGroupModal
-                        isModalOpen={true}
-                        reloadData={() => console.log('data reloaded')}
-                        modalState={{ id: '1', name: 'Ut occaeca' }}
-                    />
-                </Provider>
-            </MemoryRouter>
-        );
-        cy.get(TEXT_INPUT).type('t');
-        cy.wait('@validate').then((xhr) => {
-            expect(xhr.request.url).to.contain('groups');}
-        );
-        cy.get(`button[type="submit"]`).should('have.attr', 'aria-disabled', 'true');
-    });
-
-    it('User can rename the group', () => {
         mount(
             <MemoryRouter>
                 <Provider store={getStore()}>
@@ -71,6 +85,17 @@ describe('render Rename Group Modal', () => {
                 </Provider>
             </MemoryRouter>
         );
+    });
+
+    it('Input is fillable and firing a validation request that succeeds', () => {
+        cy.get(TEXT_INPUT).type('0');
+        cy.wait('@validate').then((xhr) => {
+            expect(xhr.request.url).to.contain('groups');}
+        );
+        cy.get(`button[type="submit"]`).should('have.attr', 'aria-disabled', 'true');
+    });
+
+    it('User can rename the group', () => {
         cy.get(TEXT_INPUT).type('newname');
         cy.get(`button[type="submit"]`).should('have.attr', 'aria-disabled', 'false');
         cy.get(`button[type="submit"]`).click();
