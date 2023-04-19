@@ -16,9 +16,7 @@ const RepoModal = ({
     variant,
     reloadData,
     size,
-    onSubmit,
-    customFormTemplate,
-    additionalMappers
+    onSubmit
 }) => {
     return (
         <Modal
@@ -31,7 +29,7 @@ const RepoModal = ({
         >
             <FormRenderer
                 schema={schema}
-                FormTemplate={customFormTemplate ? customFormTemplate : (props) => (
+                FormTemplate={(props) => (
                     <FormTemplate
                         {...props}
                         submitLabel={submitLabel}
@@ -42,9 +40,7 @@ const RepoModal = ({
                     />
                 )}
                 initialValues={initialValues}
-                componentMapper={additionalMappers
-                    ? { ...additionalMappers, ...componentMapper }
-                    : componentMapper}
+                componentMapper={componentMapper}
                 //reload comes from the table and fetches fresh data
                 onSubmit={async (values) => {
                     await onSubmit(values);
@@ -52,7 +48,6 @@ const RepoModal = ({
                     closeModal();
                 }}
                 onCancel={() => closeModal()}
-                subscription={{ values: true }}
             />
         </Modal>
     );
@@ -71,7 +66,7 @@ RepoModal.propTypes = {
     size: PropTypes.string,
     additionalMappers: PropTypes.object,
     titleIconVariant: PropTypes.any,
-    customFormTemplate: PropTypes.node
+    validatorMapper: PropTypes.object
 };
 
 export default RepoModal;

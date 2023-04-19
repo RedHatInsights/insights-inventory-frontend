@@ -1,20 +1,22 @@
 import { EmptyState, EmptyStateBody, Spinner } from '@patternfly/react-core';
-import { InvalidObject } from '@redhat-cloud-services/frontend-components';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import NoSystemsEmptyState from './NoSystemsEmptyState';
 
-const GroupDetailInfo = () => {
+const GroupDetailSystems = () => {
     const { uninitialized, loading } = useSelector((state) => state.groupDetail);
 
-    // TODO: implement according to mocks
+    // TODO: integrate the inventory table
 
-    return (
+    return (uninitialized || loading ?
         <EmptyState>
             <EmptyStateBody>
-                {uninitialized || loading ? <Spinner /> : <InvalidObject />}
+                <Spinner />
             </EmptyStateBody>
         </EmptyState>
+        : <NoSystemsEmptyState />
+
     );
 };
 
-export default GroupDetailInfo;
+export default GroupDetailSystems;

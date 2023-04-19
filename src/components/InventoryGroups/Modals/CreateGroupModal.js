@@ -13,9 +13,7 @@ import awesomeDebouncePromise from 'awesome-debounce-promise';
 const CreateGroupModal = ({
     isModalOpen,
     setIsModalOpen,
-    reloadData,
-    modalBefore = false,
-    setterOfModalBefore
+    reloadData
 }) => {
     const dispatch = useDispatch();
 
@@ -48,19 +46,11 @@ const CreateGroupModal = ({
         return createGroupSchema(d);
     }, []);
 
-    const onClose = () => {
-        if (modalBefore) {
-            setIsModalOpen(false);
-            setterOfModalBefore(true);
-        } else {
-            setIsModalOpen(false);
-        }
-    };
-
     return (
         <Modal
+            data-testid="create-group-modal"
             isModalOpen={isModalOpen}
-            closeModal={onClose}
+            closeModal={() => setIsModalOpen(false)}
             title="Create group"
             submitLabel="Create"
             schema={schema}
@@ -75,7 +65,5 @@ export default CreateGroupModal;
 CreateGroupModal.propTypes = {
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
-    reloadData: PropTypes.func,
-    modalBefore: PropTypes.bool,
-    setterOfModalBefore: PropTypes.func
+    reloadData: PropTypes.func
 };

@@ -170,7 +170,6 @@ class SystemCardCore extends Component {
                     inputOuiaId="input-edit-display-name"
                     onCancel={ this.onCancel }
                     onSubmit={ this.onSubmit(setDisplayName, entity && entity.display_name) }
-                    className ='sentry-mask data-hj-suppress'
                 />
                 <TextInputModal
                     isOpen={ isAnsibleHostModalOpen }
@@ -183,7 +182,6 @@ class SystemCardCore extends Component {
                     inputOuiaId="input-edit-ansible-name"
                     onCancel={ this.onCancel }
                     onSubmit={ this.onSubmit(setAnsibleHost, entity && this.getAnsibleHost()) }
-                    className ='sentry-mask data-hj-suppress'
                 />
             </Fragment>
         );
