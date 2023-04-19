@@ -53,6 +53,7 @@ import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
+import { fromValidator, toValidator } from '../filters/helpers';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -112,7 +113,7 @@ const EntityTableToolbar = ({
     const [registeredFilter, registeredChip, registeredWithFilter, setRegisteredWithFilter] = useRegisteredWithFilter(reducer);
     const [rhcdFilterConfig, rhcdFilterChips, rhcdFilterValue, setRhcdFilterValue] = useRhcdFilter(reducer);
     const [lastSeenFilter, lastSeenChip, lastSeenFilterValue, setLastSeenFilterValue,
-        toValidator, onFromChange, onToChange, endDate, startDate, fromValidator,
+        onFromChange, onToChange, endDate, startDate,
         setStartDate, setEndDate] = useLastSeenFilter(reducer);
     const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] = useOperatingSystemFilter();
     const [updateMethodConfig, updateMethodChips, updateMethodValue, setUpdateMethodValue] = useUpdateMethodFilter(reducer);
@@ -348,6 +349,8 @@ const EntityTableToolbar = ({
         enabledFilters.lastSeenFilter && setLastSeenFilterValue([]);
         enabledFilters.updateMethodFilter && setUpdateMethodValue([]);
         enabledFilters.hostGroupFilter && setHostGroupValue([]);
+        setEndDate();
+        setStartDate();
         dispatch(setFilter([]));
         updateData({ page: 1, filters: [] });
     };
@@ -444,7 +447,7 @@ const EntityTableToolbar = ({
                     <DatePicker
                         onChange={onFromChange}
                         aria-label="Start date"
-                        validators={[fromValidator]}
+                        validators={[fromValidator(endDate)]}
                         placeholder='Start'
                     />
                 </SplitItem>
@@ -455,8 +458,9 @@ const EntityTableToolbar = ({
                     <DatePicker
                         value={endDate}
                         onChange={onToChange}
-                        rangeStart={startDate}
-                        validators={[toValidator]}
+                        rangeStart={new Date(startDate)
+                        }
+                        validators={[toValidator(startDate)]}
                         aria-label="End date"
                         placeholder='End'
                     />

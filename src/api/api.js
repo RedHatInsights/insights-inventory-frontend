@@ -196,8 +196,10 @@ export async function getEntities(items, {
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
                     ...(calculateSystemProfile(filters)),
                     ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields')),
-                    ...filters?.lastSeenFilter?.updatedStart && { updated_start: filters.lastSeenFilter.updatedStart },
-                    ...filters?.lastSeenFilter?.updatedEnd && { updated_end: filters.lastSeenFilter.updatedEnd }
+                    ...filters?.lastSeenFilter?.updatedStart &&
+                     filters?.lastSeenFilter?.updatedStart.length > 0 && { updated_start: filters.lastSeenFilter.updatedStart },
+                    ...filters?.lastSeenFilter?.updatedEnd &&
+                     filters?.lastSeenFilter?.updatedEnd.length > 0 && { updated_end: filters.lastSeenFilter.updatedEnd }
                 }
             }
         )
