@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { LAST_SEEN_CHIP, lastSeenItems } from '../../Utilities/constants';
-
+import moment from 'moment';
+import { oldestDate } from './helpers.js';
 export const lastSeenFilterState = { lastSeenFilter: [] };
 export const LAST_SEEN_FILTER = 'LAST_SEEN_FILTER';
 export const lastSeenFilterReducer = (_state, { type, payload }) => ({
@@ -42,81 +43,74 @@ export const useLastSeenFilter = (
         ]
         : [];
 
-    const [startDate, setStartDate] = useState();
+    const [startDate, setStartDate] = useState(oldestDate);
     const [endDate, setEndDate] = useState();
-    const todaysDate = new Date();
+    const todaysDate = moment();
 
-    const manageStartDate = (apiStartDate, apiEndDate)=> {
-        if (isNaN(apiEndDate) &&  isNaN(apiStartDate)) {
+    const manageStartDate = (apiStartDate, apiEndDate) => {
+        const newApiStartDate = apiStartDate;
+        const newApiEndDate = apiEndDate;
+        if (isNaN(newApiEndDate) && isNaN(newApiStartDate)) {
             setValue({ ...lastSeenValue, updatedStart: null, updatedEnd: null });
-        } else if (apiStartDate > apiEndDate || isNaN(apiStartDate) || apiStartDate > todaysDate) {
-            setValue({ ...lastSeenValue, updatedStart: null, updatedEnd: apiEndDate.toISOString() });
+        } else if (
+            newApiStartDate > newApiEndDate ||
+      isNaN(newApiStartDate) ||
+      newApiStartDate > todaysDate
+        ) {
+            setValue({
+                ...lastSeenValue,
+                updatedStart: null,
+                updatedEnd: newApiEndDate
+            });
         } else {
-            setValue({ ...lastSeenValue, updatedStart: apiStartDate.toISOString() });
+            setValue({
+                ...lastSeenValue,
+                updatedStart: `${newApiStartDate.format('YYYY-MM-DD')}T00:00:00.000Z`
+            });
         }
     };
 
-    const manageEndDate = (apiStartDate, apiEndDate)=> {
-        if (isNaN(apiEndDate) &&  isNaN(apiStartDate)) {
+    const manageEndDate = (apiStartDate, apiEndDate) => {
+        const newApiStartDate = apiStartDate.startOf('day');
+        const newApiEndDate = apiEndDate.endOf('day');
+
+        if (isNaN(newApiEndDate) && isNaN(newApiStartDate)) {
             setValue({ ...lastSeenValue, updatedStart: null, updatedEnd: null });
-        } else if (apiStartDate > apiEndDate || isNaN(apiEndDate)) {
-            setValue({ ...lastSeenValue, updatedStart: apiStartDate.toISOString(), updatedEnd: null });
+        } else if (newApiStartDate > newApiEndDate || isNaN(newApiEndDate)) {
+            setValue({
+                ...lastSeenValue,
+                updatedStart: newApiStartDate,
+                updatedEnd: null
+            });
         } else {
-            setValue({ ...lastSeenValue, updatedEnd: apiEndDate.toISOString() });
+            setValue({ ...lastSeenValue, updatedEnd: `${newApiEndDate.format('YYYY-MM-DD')}T23:59:00.000Z` });
         }
     };
 
-    const toValidator = (date) => {
-        const newDate = new Date(date);
-        const minDate = new Date(startDate);
-
-        if (minDate >= newDate) {
-            return 'Start date must be earlier than End date.';
-        } else if (newDate > todaysDate) {
-            return `Date must be ${todaysDate.toISOString().split('T')[0]} or earlier`;
-        } else {
-            return '';
-        }
-    };
-
-    const fromValidator = (date) => {
-        const minDate = new Date(1950, 1, 1);
-        const maxDate = new Date(endDate);
-
-        if (date < minDate) {
-            return 'Date is before the allowable range.';
-        } else if (date > maxDate) {
-            return `End date must be later than Start date.`;
-        } else if (date > todaysDate) {
-            return ' Start date must be earlier than End date.';
-        } else {
-            return '';
-        }
-    };
-
+    //This date comes from patternfly component. This manages the 1st date picker
     const onFromChange = (date) => {
-        const newToDate = new Date(endDate);
+        const newToDate = moment(endDate).endOf('day');
         if (date > newToDate) {
             setStartDate();
             return 'End date must be later than Start date.';
         }
 
         setStartDate(date);
-        const apiStartDate = new Date(date);
-        apiStartDate.setUTCHours(0);
+        const apiStartDate = moment(date).startOf('day');
+
         manageStartDate(apiStartDate, newToDate);
     };
 
+    //This date comes from patternfly component. This manages the 2nd date picker
     const onToChange = (date) => {
-        if (startDate > new Date(date)) {
+        if (startDate > moment(date)) {
             return 'Start date must be earlier than End date.';
-        } else if (new Date(date) > todaysDate) {
+        } else if (moment(date) > todaysDate) {
             return 'End date must be later than Start date.';
         } else {
             setEndDate(date);
-            const apiEndDate = new Date(date);
-            apiEndDate.setUTCHours(23, 59);
-            manageEndDate(new Date(startDate), apiEndDate);
+            const apiEndDate = moment(date).endOf('day');
+            manageEndDate(moment(startDate), apiEndDate);
         }
     };
 
@@ -125,12 +119,10 @@ export const useLastSeenFilter = (
         chip,
         lastSeenValue,
         setValue,
-        toValidator,
         onFromChange,
         onToChange,
         endDate,
         startDate,
-        fromValidator,
         setStartDate,
         setEndDate
     ];
