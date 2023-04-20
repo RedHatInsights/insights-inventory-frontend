@@ -15,11 +15,13 @@ import {
   testProperties,
 } from '../../../__mocks__/selectors';
 import promiseMiddleware from 'redux-promise-middleware';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import { hosts } from '../../../api/api';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
+import { act } from 'react-dom/test-utils';
 
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
@@ -35,9 +37,8 @@ const location = {};
 const history = {};
 
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => location,
-  useHistory: () => history,
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => location
 }));
 
 describe('GeneralInformation', () => {

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React, { Suspense, lazy, useMemo } from 'react';
 import { getSearchParams } from './constants';

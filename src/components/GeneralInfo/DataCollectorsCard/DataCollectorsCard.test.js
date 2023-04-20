@@ -4,15 +4,16 @@ import { render } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import DataCollectorsCard from './DataCollectorsCard';
 import configureStore from 'redux-mock-store';
+import { MemoryRouter } from 'react-router-dom';
 
+const mockedUsedNavigate = jest.fn();
+const location = {};
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({
     pathname: 'localhost:3000/example/path',
   }),
-  useHistory: () => ({
-    push: () => undefined,
-  }),
+  useNavigate: () => mockedUsedNavigate
 }));
 
 describe('DataCollectorsCard', () => {
@@ -76,4 +77,37 @@ describe('DataCollectorsCard', () => {
     );
     expect(toJson(wrapper)).toMatchSnapshot();
   });
+    it('should render correctly - no data', () => {
+        const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
+        const wrapper = render(<MemoryRouter>
+            <DataCollectorsCard store={ store } />
+        </MemoryRouter>);
+        expect(toJson(wrapper)).toMatchSnapshot();
+    });
+
+    it('should render correctly with data', () => {
+        const store = mockStore(initialState);
+        const wrapper = render(<MemoryRouter>
+            <DataCollectorsCard store={ store } />
+        </MemoryRouter>);
+        expect(toJson(wrapper)).toMatchSnapshot();
+    });
+
+    it('should render custom collectors', () => {
+        const store = mockStore(initialState);
+        const wrapper = render(<MemoryRouter>
+            <DataCollectorsCard store={ store } {...{ collectors: [
+                {
+                    name: 'collector name',
+                    status: true,
+                    updated: '2260-01-01T00:00:00+00:00',
+                    details: {
+                        name: 'reporter id',
+                        id: '1234567'
+                    }
+                }
+            ] }} />
+        </MemoryRouter>);
+        expect(toJson(wrapper)).toMatchSnapshot();
+    });
 });

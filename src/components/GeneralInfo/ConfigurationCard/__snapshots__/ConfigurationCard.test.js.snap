@@ -1,299 +1,333 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ConfigurationCard api should NOT call handleClick 1`] = `
-<Connect(ConfigurationCardCore)
-  detailLoaded={false}
-  extra={Array []}
-  handleClick={[Function]}
-  hasPackages={true}
-  hasProcesses={true}
-  hasRepositories={true}
-  hasServices={true}
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <ConfigurationCardCore
-    configuration={
+<MemoryRouter>
+  <Router
+    location={
       Object {
-        "packages": Array [
-          "packages",
-        ],
-        "processes": Array [
-          "processes",
-        ],
-        "repositories": Object {
-          "disabled": Array [],
-          "enabled": Array [
-            Object {
-              "base_url": "test-url",
-              "enabled": true,
-              "gpgcheck": true,
-              "name": "test-name",
-            },
-          ],
-        },
-        "services": Array [
-          "services",
-        ],
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
       }
     }
-    detailLoaded={true}
-    dispatch={[Function]}
-    extra={Array []}
-    handleClick={[Function]}
-    hasPackages={true}
-    hasProcesses={true}
-    hasRepositories={true}
-    hasServices={true}
-    store={
+    navigationType="POP"
+    navigator={
       Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
+        "action": "POP",
+        "createHref": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
       }
     }
   >
-    <LoadingCard
-      isLoading={false}
-      items={
-        Array [
-          Object {
-            "onClick": [Function],
-            "singular": "package",
-            "target": "installed_packages",
-            "title": "Installed packages",
-            "value": 1,
-          },
-          Object {
-            "onClick": [Function],
-            "singular": "service",
-            "target": "services",
-            "title": "Services",
-            "value": 1,
-          },
-          Object {
-            "onClick": [Function],
-            "plural": "processes",
-            "singular": "process",
-            "target": "running_processes",
-            "title": "Running processes",
-            "value": 1,
-          },
-          Object {
-            "onClick": [Function],
-            "target": "repositories",
-            "title": "Repositories",
-            "value": "1 enabled",
-          },
-        ]
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={true}
+      hasRepositories={true}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
       }
-      title="Configuration"
     >
-      <Card>
-        <article
-          className="pf-c-card"
-          data-ouia-component-id="OUIA-Generated-Card-4"
-          data-ouia-component-type="PF4/Card"
-          data-ouia-safe={true}
-          id=""
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [],
+              "enabled": Array [
+                Object {
+                  "base_url": "test-url",
+                  "enabled": true,
+                  "gpgcheck": true,
+                  "name": "test-name",
+                },
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={true}
+        hasRepositories={true}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
+      >
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": "1 enabled",
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <CardBody>
-            <div
-              className="pf-c-card__body"
+          <Card>
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="OUIA-Generated-Card-4"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              <Stack
-                hasGutter={true}
-              >
+              <CardBody>
                 <div
-                  className="pf-l-stack pf-m-gutter"
+                  className="pf-c-card__body"
                 >
-                  <StackItem>
-                    <div
-                      className="pf-l-stack__item"
-                    >
-                      <TextContent>
-                        <div
-                          className="pf-c-content"
-                        >
-                          <Text
-                            component="h1"
-                          >
-                            <h1
-                              className=""
-                              data-ouia-component-id="OUIA-Generated-Text-4"
-                              data-ouia-component-type="PF4/Text"
-                              data-ouia-safe={true}
-                              data-pf-content={true}
-                            >
-                              Configuration
-                            </h1>
-                          </Text>
-                        </div>
-                      </TextContent>
-                    </div>
-                  </StackItem>
-                  <StackItem
-                    isFilled={true}
+                  <Stack
+                    hasGutter={true}
                   >
                     <div
-                      className="pf-l-stack__item pf-m-fill"
+                      className="pf-l-stack pf-m-gutter"
                     >
-                      <TextContent>
+                      <StackItem>
                         <div
-                          className="pf-c-content"
+                          className="pf-l-stack__item"
                         >
-                          <TextList
-                            component="dl"
-                          >
-                            <dl
-                              className=""
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
                             >
-                              <TextListItem
-                                component="dt"
+                              <Text
+                                component="h1"
                               >
-                                <dt
+                                <h1
                                   className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-4"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
                                 >
-                                  Installed packages
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                              >
-                                <dd
-                                  className=""
-                                >
-                                  <Clickable
-                                    onClick={[Function]}
-                                    singular="package"
-                                    target="installed_packages"
-                                    value={1}
-                                  >
-                                    <a
-                                      href="http://localhost:5000//installed_packages"
-                                      onClick={[Function]}
-                                    >
-                                      1 package
-                                    </a>
-                                  </Clickable>
-                                </dd>
-                              </TextListItem>
-                              <TextListItem
-                                component="dt"
-                              >
-                                <dt
-                                  className=""
-                                >
-                                  Services
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                              >
-                                <dd
-                                  className=""
-                                >
-                                  <Clickable
-                                    onClick={[Function]}
-                                    singular="service"
-                                    target="services"
-                                    value={1}
-                                  >
-                                    <a
-                                      href="http://localhost:5000//services"
-                                      onClick={[Function]}
-                                    >
-                                      1 service
-                                    </a>
-                                  </Clickable>
-                                </dd>
-                              </TextListItem>
-                              <TextListItem
-                                component="dt"
-                              >
-                                <dt
-                                  className=""
-                                >
-                                  Running processes
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                              >
-                                <dd
-                                  className=""
-                                >
-                                  <Clickable
-                                    onClick={[Function]}
-                                    plural="processes"
-                                    singular="process"
-                                    target="running_processes"
-                                    value={1}
-                                  >
-                                    <a
-                                      href="http://localhost:5000//running_processes"
-                                      onClick={[Function]}
-                                    >
-                                      1 process
-                                    </a>
-                                  </Clickable>
-                                </dd>
-                              </TextListItem>
-                              <TextListItem
-                                component="dt"
-                              >
-                                <dt
-                                  className=""
-                                >
-                                  Repositories
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                              >
-                                <dd
-                                  className=""
-                                >
-                                  <Clickable
-                                    onClick={[Function]}
-                                    target="repositories"
-                                    value="1 enabled"
-                                  >
-                                    <a
-                                      href="http://localhost:5000//repositories"
-                                      onClick={[Function]}
-                                    >
-                                      1 enabled
-                                    </a>
-                                  </Clickable>
-                                </dd>
-                              </TextListItem>
-                            </dl>
-                          </TextList>
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
                         </div>
-                      </TextContent>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                  >
+                                    <dt
+                                      className=""
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                  >
+                                    <dd
+                                      className=""
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="package"
+                                        target="installed_packages"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//installed_packages"
+                                          onClick={[Function]}
+                                        >
+                                          1 package
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                  >
+                                    <dt
+                                      className=""
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                  >
+                                    <dd
+                                      className=""
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="service"
+                                        target="services"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//services"
+                                          onClick={[Function]}
+                                        >
+                                          1 service
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                  >
+                                    <dt
+                                      className=""
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                  >
+                                    <dd
+                                      className=""
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        plural="processes"
+                                        singular="process"
+                                        target="running_processes"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//running_processes"
+                                          onClick={[Function]}
+                                        >
+                                          1 process
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                  >
+                                    <dt
+                                      className=""
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                  >
+                                    <dd
+                                      className=""
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        target="repositories"
+                                        value="1 enabled"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//repositories"
+                                          onClick={[Function]}
+                                        >
+                                          1 enabled
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
                     </div>
-                  </StackItem>
+                  </Stack>
                 </div>
-              </Stack>
-            </div>
-          </CardBody>
-        </article>
-      </Card>
-    </LoadingCard>
-  </ConfigurationCardCore>
-</Connect(ConfigurationCardCore)>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should not render hasPackages 1`] = `

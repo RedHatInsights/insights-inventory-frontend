@@ -3,16 +3,12 @@ import { mount, shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import LoadingCard, { Clickable } from './LoadingCard';
 
-const history = {
-  push: () => undefined,
-};
-
+const mockedUsedNavigate = jest.fn();
+const location = { pathname: 'localhost:/insights/inventory/targetPath' };
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: 'localhost:3000/example/path',
-  }),
-  useHistory: () => history,
+    ...jest.requireActual('react-router-dom'),
+    useLocation: () => location,
+    useNavigate: () => mockedUsedNavigate
 }));
 
 describe('LoadingCard', () => {

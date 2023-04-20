@@ -3,7 +3,6 @@
 exports[`EntityTable DOM should render with count 1`] = `
 <TagWithDialog
   count={10}
-  loadTags={[Function]}
   store={
     Object {
       "clearActions": [Function],

@@ -54,7 +54,7 @@ const GeneralInformation = (props) => {
     const handleModalToggle = (modalTitle = '', { cells, rows, expandable, filters } = {}, modalVariant = 'small') => {
         rows && onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
         if (modalState.isModalOpen) {
-            navigate(location.pathname.split('/').slice(0, -1).join('/'));
+            navigate(`../${location.pathname.split('/').slice(0, -1).join('/')}`);
         }
 
         setModalState(({ isModalOpen }) => ({

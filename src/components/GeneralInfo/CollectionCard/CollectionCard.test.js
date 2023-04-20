@@ -6,17 +6,19 @@ import CollectionCard from './CollectionCard';
 import configureStore from 'redux-mock-store';
 import { collectInfoTest } from '../../../__mocks__/selectors';
 import { Tooltip } from '@patternfly/react-core';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
+const mockedUsedNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({
     pathname: 'localhost:3000/example/path',
   }),
-  useHistory: () => ({
-    push: () => undefined,
-  }),
+  useNavigate: () => mockedUsedNavigate
 }));
 
+let history = {};
 describe('CollectionCard', () => {
   let initialState;
   let mockStore;

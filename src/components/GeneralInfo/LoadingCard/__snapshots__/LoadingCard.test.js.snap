@@ -19,12 +19,35 @@ exports[`LoadingCard Clickable should render - no data 1`] = `
 `;
 
 exports[`LoadingCard Clickable should render 1`] = `
-<a
-  href="http://localhost:5000//some-target"
-  onClick={[Function]}
+<Clickable
+  onClick={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "target": "targetPath",
+            "value": "15",
+          },
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  target="targetPath"
+  value="15"
 >
-  15
-</a>
+  <a
+    href="http://localhost:5000//targetPath"
+    onClick={[Function]}
+  >
+    15
+  </a>
+</Clickable>
 `;
 
 exports[`LoadingCard Loading card render - isLoading: false 1`] = `

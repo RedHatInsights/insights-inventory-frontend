@@ -64,12 +64,14 @@ const InfoTable = ({ cells, rows, expandable, filters, onSort }) => {
                 ...value.length !== 0 && {
                     [key]: { key, value, label }
                 }
-            }
+            },
+            pagination: { ...params.pagination, page: 1 }
         });
     };
 
     const triggerDeleteFilter = (_e, [deleted], deleteAll) => {
         setParams({
+            ...params,
             activeFilters: onDeleteFilter(
                 deleted,
                 deleteAll,

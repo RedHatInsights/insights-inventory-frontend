@@ -1,5 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SystemCard API should calculate correct ansible host - direct ansible host 1`] = `
+<React.Fragment>
+  test-ansible-host
+  <EditButtonWrapper
+    link="ansible_name"
+    onClick={[Function]}
+  />
+</React.Fragment>
+`;
+
+exports[`SystemCard API should calculate correct ansible host - fqdn 1`] = `
+<React.Fragment>
+  test-fqdn
+  <EditButtonWrapper
+    link="ansible_name"
+    onClick={[Function]}
+  />
+</React.Fragment>
+`;
+
+exports[`SystemCard API should calculate correct ansible host - fqdn 2`] = `
+<React.Fragment>
+  test-id
+  <EditButtonWrapper
+    link="ansible_name"
+    onClick={[Function]}
+  />
+</React.Fragment>
+`;
+
 exports[`SystemCard should not render hasAnsibleHostname 1`] = `
 <article
   class="pf-c-card"
