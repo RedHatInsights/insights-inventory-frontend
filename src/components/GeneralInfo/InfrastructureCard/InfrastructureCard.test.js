@@ -6,16 +6,13 @@ import InfrastructureCard from './InfrastructureCard';
 import configureStore from 'redux-mock-store';
 import { infraTest, rhsmFacts } from '../../../__mocks__/selectors';
 
+const mockedUsedNavigate = jest.fn();
 const location = {};
-
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useLocation: () => location,
-    useHistory: () => ({
-        push: () => undefined
-    })
+    useNavigate: () => mockedUsedNavigate
 }));
-
 describe('InfrastructureCard', () => {
     let initialState;
     let mockStore;

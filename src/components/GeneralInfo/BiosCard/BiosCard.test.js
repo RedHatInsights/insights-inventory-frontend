@@ -5,16 +5,7 @@ import toJson from 'enzyme-to-json';
 import BiosCard from './BiosCard';
 import configureStore from 'redux-mock-store';
 import { biosTest } from '../../../__mocks__/selectors';
-
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useLocation: () => ({
-        pathname: 'localhost:3000/example/path'
-    }),
-    useHistory: () => ({
-        push: () => undefined
-    })
-}));
+import { MemoryRouter } from 'react-router-dom';
 
 describe('BiosCard', () => {
     let initialState;
@@ -33,13 +24,15 @@ describe('BiosCard', () => {
 
     it('should render correctly - no data', () => {
         const store = mockStore({ systemProfileStore: {} });
-        const wrapper = render(<BiosCard store={ store } />);
+        const wrapper = render(<MemoryRouter><BiosCard store={ store } /></MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('should render correctly with data', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<BiosCard store={ store } />);
+        const wrapper = render(<MemoryRouter>
+            <BiosCard store={ store } />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
@@ -54,22 +47,28 @@ describe('BiosCard', () => {
                 }
             }
         });
-        const wrapper = render(<BiosCard store={ store } />);
+        const wrapper = render(<MemoryRouter>
+            <BiosCard store={ store } />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     ['hasVendor', 'hasVersion', 'hasReleaseDate'].map((item) => it(`should not render ${item}`, () => {
         const store = mockStore(initialState);
-        const wrapper = render(<BiosCard store={ store } {...{ [item]: false }} />);
+        const wrapper = render(<MemoryRouter>
+            <BiosCard store={ store } {...{ [item]: false }} />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     }));
 
     it('should render extra', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<BiosCard store={ store } extra={[
-            { title: 'something', value: 'test' },
-            { title: 'with click', value: '1 tests', onClick: (_e, handleClick) => handleClick('Something', {}, 'small') }
-        ]} />);
+        const wrapper = render(<MemoryRouter>
+            <BiosCard store={ store } extra={[
+                { title: 'something', value: 'test' },
+                { title: 'with click', value: '1 tests', onClick: (_e, handleClick) => handleClick('Something', {}, 'small') }
+            ]} />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 });

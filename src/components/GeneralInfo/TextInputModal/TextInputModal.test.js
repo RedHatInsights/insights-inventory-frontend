@@ -5,32 +5,6 @@ import toJson from 'enzyme-to-json';
 import TextInputModal from './TextInputModal';
 
 describe('TextInputModal', () => {
-    describe('getDerivedStateFromProps', () => {
-        it('should set state value to undefined', () => {
-            expect(TextInputModal.getDerivedStateFromProps({
-                isOpen: false,
-                value: 'some-value'
-            }, { value: 'test' })).toEqual({
-                value: undefined
-            });
-        });
-
-        it('should keep the value same if isOpen set and state value set', () => {
-            expect(TextInputModal.getDerivedStateFromProps({
-                isOpen: true,
-                value: 'some-value'
-            }, { value: 'test' })).toBe(null);
-        });
-
-        it('should set the state value', () => {
-            expect(TextInputModal.getDerivedStateFromProps({
-                isOpen: true,
-                value: 'some-value'
-            }, { value: undefined })).toEqual({
-                value: 'some-value'
-            });
-        });
-    });
 
     describe('render', () => {
         it('should render without any props', () => {
@@ -55,12 +29,6 @@ describe('TextInputModal', () => {
     });
 
     describe('API', () => {
-        it('getDerivedStateFromProps should be called', () => {
-            const getDerivedStateFromProps = jest.spyOn(TextInputModal, 'getDerivedStateFromProps');
-            const wrapper = mount(<TextInputModal isOpen />);
-            wrapper.find('input[type="text"]').first().simulate('change', { target: { value: 'some' } });
-            expect(getDerivedStateFromProps).toHaveBeenCalled();
-        });
 
         it('onCancel should NOT be called', () => {
             const onCancel = jest.fn();

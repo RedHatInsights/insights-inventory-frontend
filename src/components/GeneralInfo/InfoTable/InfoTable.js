@@ -6,6 +6,7 @@ import TableToolbar from '@redhat-cloud-services/frontend-components/TableToolba
 import { Table, TableHeader, TableBody, TableVariant, SortByDirection } from '@patternfly/react-table';
 import flatMap from 'lodash/flatMap';
 import { prepareRows, filterRows, generateFilters, onDeleteFilter } from '../../../constants';
+
 const InfoTable = ({ cells, rows, expandable, filters, onSort }) => {
     const [params, setParams] = useState({
         sortBy: { index: 0, direction: SortByDirection.asc },
@@ -52,12 +53,14 @@ const InfoTable = ({ cells, rows, expandable, filters, onSort }) => {
                 ...value.length !== 0 && {
                     [key]: { key, value, label }
                 }
-            }
+            },
+            pagination: { ...params.pagination, page: 1 }
         });
     };
 
     const triggerDeleteFilter = (_e, [deleted], deleteAll) => {
         setParams({
+            ...params,
             activeFilters: onDeleteFilter(
                 deleted,
                 deleteAll,

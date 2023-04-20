@@ -5,19 +5,7 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import toJson from 'enzyme-to-json';
-
-jest.mock('../store/actions', () => {
-    const actions = jest.requireActual('../store/actions');
-    const ACTION_TYPES = jest.requireActual('../store/action-types');
-    return {
-        __esModule: true,
-        ...actions,
-        loadTags: () => ({
-            type: ACTION_TYPES.LOAD_TAGS,
-            payload: () => Promise.resolve([])
-        })
-    };
-});
+import { Provider } from 'react-redux';
 
 describe('EntityTable', () => {
     let mockStore;
@@ -28,7 +16,9 @@ describe('EntityTable', () => {
     describe('DOM', () => {
         it('should render with count', () => {
             const store = mockStore({});
-            const wrapper = mount(<TagWithDialog store={store} count={10} />);
+            const wrapper = mount(<Provider store={ store }>
+                <TagWithDialog store={store} count={10} />
+            </Provider>);
             expect(toJson(wrapper.find('TagWithDialog').first(), { mode: 'shallow' })).toMatchSnapshot();
         });
     });
@@ -36,7 +26,9 @@ describe('EntityTable', () => {
     describe('API', () => {
         it('should NOT call actions', () => {
             const store = mockStore({});
-            const wrapper = mount(<TagWithDialog store={store} count={10} />);
+            const wrapper = mount(<Provider store={ store }>
+                <TagWithDialog store={store} count={10} />
+            </Provider>);
             wrapper.find('button').first().simulate('click');
             const actions = store.getActions();
             expect(actions.length).toBe(0);
@@ -44,7 +36,9 @@ describe('EntityTable', () => {
 
         it('should call actions', () => {
             const store = mockStore({});
-            const wrapper = mount(<TagWithDialog store={store} count={10} systemId="something" />);
+            const wrapper = mount(<Provider store={ store }>
+                <TagWithDialog store={store} count={10} systemId="something" />
+            </Provider>);
             wrapper.find('button').first().simulate('click');
             const actions = store.getActions();
             expect(actions.length).toBe(2);

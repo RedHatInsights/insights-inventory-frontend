@@ -5,15 +5,14 @@ import toJson from 'enzyme-to-json';
 import ConfigurationCard from './ConfigurationCard';
 import configureStore from 'redux-mock-store';
 import { configTest } from '../../../__mocks__/selectors';
+import { MemoryRouter } from 'react-router-dom';
 
+const mockedUsedNavigate = jest.fn();
 const location = {};
-
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useLocation: () => location,
-    useHistory: () => ({
-        push: () => undefined
-    })
+    useNavigate: () => mockedUsedNavigate
 }));
 
 describe('ConfigurationCard', () => {
@@ -41,7 +40,7 @@ describe('ConfigurationCard', () => {
 
     it('should render correctly with data', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<ConfigurationCard store={ store } />);
+        const wrapper = render(<MemoryRouter><ConfigurationCard store={ store } /></MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
@@ -62,7 +61,9 @@ describe('ConfigurationCard', () => {
                 }
             }
         });
-        const wrapper = render(<ConfigurationCard store={ store } />);
+        const wrapper = render(<MemoryRouter>
+            <ConfigurationCard store={ store } />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
@@ -70,7 +71,9 @@ describe('ConfigurationCard', () => {
         it('should NOT call handleClick', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
-            const wrapper = mount(<ConfigurationCard store={ store } />);
+            const wrapper = mount(<MemoryRouter>
+                <ConfigurationCard store={ store } />
+            </MemoryRouter>);
             wrapper.find('dd a').first().simulate('click');
             expect(onClick).not.toHaveBeenCalled();
             expect(toJson(wrapper)).toMatchSnapshot();
@@ -80,7 +83,9 @@ describe('ConfigurationCard', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
             location.pathname = 'localhost:3000/example/installed_packages';
-            const wrapper = mount(<ConfigurationCard handleClick={ onClick } store={ store } />);
+            const wrapper = mount(<MemoryRouter initialEntries={['/insights/inventory/test-id']}>
+                <ConfigurationCard handleClick={ onClick } store={ store } />
+            </MemoryRouter>);
             wrapper.find('dd a').first().simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
@@ -89,7 +94,9 @@ describe('ConfigurationCard', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
             location.pathname = 'localhost:3000/example/services';
-            const wrapper = mount(<ConfigurationCard handleClick={ onClick } store={ store } />);
+            const wrapper = mount(<MemoryRouter initialEntries={['/insights/inventory/test-id']}>
+                <ConfigurationCard handleClick={ onClick } store={ store } />
+            </MemoryRouter>);
             wrapper.find('dd a').at(1).simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
@@ -98,7 +105,9 @@ describe('ConfigurationCard', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
             location.pathname = 'localhost:3000/example/running_processes';
-            const wrapper = mount(<ConfigurationCard handleClick={ onClick } store={ store } />);
+            const wrapper = mount(<MemoryRouter initialEntries={['/insights/inventory/test-id']}>
+                <ConfigurationCard handleClick={ onClick } store={ store } />
+            </MemoryRouter>);
             wrapper.find('dd a').at(2).simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
@@ -107,7 +116,9 @@ describe('ConfigurationCard', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
             location.pathname = 'localhost:3000/example/repositories';
-            const wrapper = mount(<ConfigurationCard handleClick={ onClick } store={ store } />);
+            const wrapper = mount(<MemoryRouter initialEntries={['/insights/inventory/test-id']}>
+                <ConfigurationCard handleClick={ onClick } store={ store } />
+            </MemoryRouter>);
             wrapper.find('dd a').at(3).simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
@@ -120,16 +131,20 @@ describe('ConfigurationCard', () => {
         'hasRepositories'
     ].map((item) => it(`should not render ${item}`, () => {
         const store = mockStore(initialState);
-        const wrapper = render(<ConfigurationCard store={ store } {...{ [item]: false }} />);
+        const wrapper = render(<MemoryRouter initialEntries={['/insights/inventory/test-id']}>
+            <ConfigurationCard store={ store } {...{ [item]: false }} />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     }));
 
     it('should render extra', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<ConfigurationCard store={ store } extra={[
-            { title: 'something', value: 'test' },
-            { title: 'with click', value: '1 tests', onClick: (_e, handleClick) => handleClick('Something', {}, 'small') }
-        ]} />);
+        const wrapper = render(<MemoryRouter initialEntries={['/insights/inventory/test-id']}>
+            <ConfigurationCard store={ store } extra={[
+                { title: 'something', value: 'test' },
+                { title: 'with click', value: '1 tests', onClick: (_e, handleClick) => handleClick('Something', {}, 'small') }
+            ]} />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 });

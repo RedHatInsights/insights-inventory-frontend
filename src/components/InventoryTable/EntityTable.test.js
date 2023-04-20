@@ -9,14 +9,17 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import toJson from 'enzyme-to-json';
-import { Router } from 'react-router';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Router } from 'react-router-dom';
 import TitleColumn from './TitleColumn';
 import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
 import { defaultColumns } from '../../store/entities';
 import { createMemoryHistory } from 'history';
 
 jest.mock('../../Utilities/useFeatureFlag');
+jest.mock('../../Utilities', () => ({
+    ...jest.requireActual('../../Utilities'),
+    TagWithDialog: jest.fn(() => <div></div>)
+}));
 
 describe('EntityTable', () => {
     let initialState;
@@ -537,7 +540,7 @@ describe('EntityTable', () => {
         it('should call default onRowClick', () => {
             const history = createMemoryHistory();
             const store = mockStore(initialState);
-            const wrapper = mount(<Router history={history}>
+            const wrapper = mount(<Router location={history.location} navigator={history}>
                 <Provider store={ store }>
                     <EntityTable loaded disableDefaultColumns/>
                 </Provider>

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React, { Suspense, lazy, useMemo } from 'react';
 import { getSearchParams } from './constants';
@@ -11,8 +11,8 @@ const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
 const InventoryGroupDetail = lazy(() => import('./routes/InventoryGroupDetail'));
 
 export const routes = {
-    table: '/*',
-    detail: '/:inventoryId',
+    table: '/inventory',
+    detail: '/:inventoryId/*',
     groups: '/groups',
     groupDetail: '/groups/:groupId'
 };
@@ -42,7 +42,6 @@ export const InventoryRoutes = () => {
                 rootClass='inventory'
             />
             <Route
-                exact
                 path={routes.groups}
                 element={<SuspenseWrapped Component={groupsEnabled ? InventoryGroups : LostPage} />}
                 rootClass="inventory"
@@ -57,7 +56,13 @@ export const InventoryRoutes = () => {
                 exact
                 path={routes.detail}
                 element={<SuspenseWrapped Component={InventoryDetail} />}
-                rootClass='inventory' />
+                rootClass='inventory'
+            />
+            <Route
+                key={'Inventory'}
+                path="/"
+                element={<Navigate replace to="../inventory" />}
+            ></Route>
         </Routes>
     );
 };

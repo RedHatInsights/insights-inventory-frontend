@@ -3,16 +3,12 @@ import { shallow, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import LoadingCard, { Clickable } from './LoadingCard';
 
-const history = {
-    push: () => undefined
-};
-
+const mockedUsedNavigate = jest.fn();
+const location = { pathname: 'localhost:/insights/inventory/targetPath' };
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useLocation: () => ({
-        pathname: 'localhost:3000/example/path'
-    }),
-    useHistory: () => history
+    useLocation: () => location,
+    useNavigate: () => mockedUsedNavigate
 }));
 
 describe('LoadingCard', () => {
@@ -231,8 +227,9 @@ describe('LoadingCard', () => {
 
     it('Clickable should render', () => {
         const onClick = jest.fn();
-        history.push = onClick;
-        const wrapper = shallow(<Clickable value="15" target="some-target" />);
+        const wrapper = mount(
+            <Clickable value="15" onClick={onClick} target="targetPath" />
+        );
         wrapper.find('a').first().simulate('click', {
             preventDefault: () => {
             }
@@ -243,7 +240,7 @@ describe('LoadingCard', () => {
 
     it('clickable should click', () => {
         const onClick = jest.fn();
-        const wrapper = mount(<Clickable onClick={onClick} value="15" target="path"/>);
+        const wrapper = mount(<Clickable onClick={onClick} value="15" target="targetPath"/>);
         wrapper.find('a').first().simulate('click', {
             preventDefault: () => {
             }

@@ -9,7 +9,7 @@ import { Popover, Button } from '@patternfly/react-core';
 import EditButton from '../EditButton';
 import { generalMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
-import { useSelector, dispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const TitleWithPopover = ({ title, content }) => (
     <React.Fragment>
@@ -42,6 +42,7 @@ const SystemCard = ({
     hasRAM,
     extra
 }) => {
+    const dispatch = useDispatch();
     const [modalsState, setModalsState] = useState({
         isDisplayNameModalOpen: false,
         isAnsibleHostModalOpen: false

@@ -8,11 +8,13 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { osTest, biosTest, collectInfoTest, configTest, infraTest, testProperties } from '../../../__mocks__/selectors';
 import promiseMiddleware from 'redux-promise-middleware';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import { hosts } from '../../../api/api';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
+import { act } from 'react-dom/test-utils';
 
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
@@ -26,8 +28,7 @@ const history = {};
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useLocation: () => location,
-    useHistory: () => history
+    useLocation: () => location
 }));
 
 describe('GeneralInformation', () => {
@@ -140,7 +141,7 @@ describe('GeneralInformation', () => {
                 } });
             mount(<MemoryRouter>
                 <Provider store={ store }>
-                    <GeneralInformation inventoryId={'test-id'} />
+                    <GeneralInformation inventoryId={'test-id'} SystemCardWrapper={() => <div></div>} />
                 </Provider>
             </MemoryRouter>);
             expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
@@ -148,19 +149,22 @@ describe('GeneralInformation', () => {
 
         it('should open modal', () => {
             const store = mockStore(initialState);
-            history.push = jest.fn();
+            const history = createMemoryHistory();
             location.pathname = 'localhost:3000/example/interfaces';
 
-            const wrapper = mount(<MemoryRouter>
+            const wrapper = mount(<Router location={history.location} navigator={history}>
                 <Provider store={ store }>
                     <GeneralInformation inventoryId={'test-id'} />
                 </Provider>
-            </MemoryRouter>);
-            wrapper.find('a[href$="interfaces"]').first().simulate('click');
-            expect(history.push).toBeCalledWith(`${location.pathname}/interfaces`);
+            </Router>);
+            act(
+                () => { wrapper.find('a[href$="interfaces"]').first().simulate('click'); }
+            );
+
+            expect(history.location.pathname).toBe(`/${location.pathname}/interfaces`);
             wrapper.update();
-            expect(wrapper.find('GeneralInformation').instance().state.isModalOpen).toBe(true);
-            expect(wrapper.find('GeneralInformation').instance().state.modalTitle).toBe('Interfaces/NICs');
+            expect(wrapper.find('Modal').props().isOpen).toBe(true);
+            expect(wrapper.find('Modal').props().title).toBe('Interfaces/NICs');
         });
 
         it('should update on sort', () => {
@@ -173,11 +177,11 @@ describe('GeneralInformation', () => {
             </MemoryRouter>);
             wrapper.find('a[href$="interfaces"]').first().simulate('click');
             wrapper.update();
-            const [firstRow, secondRow] = wrapper.find('GeneralInformation').instance().state.rows;
+            const [firstRow, secondRow] = wrapper.find('InfoTable').props().rows;
             wrapper.find('table th button').first().simulate('click');
             wrapper.update();
-            expect(wrapper.find('GeneralInformation').instance().state.rows[0]).toEqual(secondRow);
-            expect(wrapper.find('GeneralInformation').instance().state.rows[1]).toEqual(firstRow);
+            expect(wrapper.find('InfoTable').props().rows[0]).toEqual(secondRow);
+            expect(wrapper.find('InfoTable').props().rows[1]).toEqual(firstRow);
         });
 
         it('should open modal', () => {
@@ -192,7 +196,7 @@ describe('GeneralInformation', () => {
             wrapper.update();
             wrapper.find('.ins-c-inventory__detail--dialog button.pf-m-plain').first().simulate('click');
             wrapper.update();
-            expect(wrapper.find('GeneralInformation').instance().state.isModalOpen).toBe(false);
+            expect(wrapper.find('Modal').props().isOpen).toBe(false);
         });
 
         it('should calculate first index when expandable', () => {
@@ -202,7 +206,7 @@ describe('GeneralInformation', () => {
                     <GeneralInformation inventoryId={'test-id'} />
                 </Provider>
             </MemoryRouter>);
-            wrapper.find('GeneralInformation').instance().handleModalToggle('title', {
+            wrapper.find('Modal').props().onClose('title', {
                 cells: [{ title: 'one' }, { title: 'two' }],
                 rows: [
                     { cells: ['a', 'aa'] },

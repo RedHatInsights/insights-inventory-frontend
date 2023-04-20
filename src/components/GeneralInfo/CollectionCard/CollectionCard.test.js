@@ -6,23 +6,24 @@ import CollectionCard from './CollectionCard';
 import configureStore from 'redux-mock-store';
 import { collectInfoTest } from '../../../__mocks__/selectors';
 import { Tooltip } from '@patternfly/react-core';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
+const mockedUsedNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useLocation: () => ({
-        pathname: 'localhost:3000/example/path'
-    }),
-    useHistory: () => ({
-        push: () => undefined
-    })
+    useNavigate: () => mockedUsedNavigate
 }));
 
+let history = {};
 describe('CollectionCard', () => {
     let initialState;
     let mockStore;
 
     beforeEach(() => {
         mockStore = configureStore();
+        history = createMemoryHistory();
+
         initialState = {
             entityDetails: {
                 entity: {
@@ -41,19 +42,25 @@ describe('CollectionCard', () => {
 
     it('should render correctly - no data', () => {
         const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-        const wrapper = render(<CollectionCard store={ store } />);
+        const wrapper = render(<Router location={history.location} navigator={history}>
+            <CollectionCard store={ store } />
+        </Router>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('should render correctly with data', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<CollectionCard store={ store } />);
+        const wrapper = render(<Router location={history.location} navigator={history}>
+            <CollectionCard store={ store } />
+        </Router>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('renders tooltip for version', () => {
         const store = mockStore(initialState);
-        const wrapper = mount(<CollectionCard store={ store } />);
+        const wrapper = mount(<Router location={history.location} navigator={history}>
+            <CollectionCard store={ store } />
+        </Router>);
         const tooltip = mount(wrapper.find(Tooltip).props().content);
         expect(tooltip.first().text()).toEqual(
             'RPM version: test-client'
@@ -71,16 +78,20 @@ describe('CollectionCard', () => {
         'hasReporter'
     ].map((item) => it(`should not render ${item}`, () => {
         const store = mockStore(initialState);
-        const wrapper = render(<CollectionCard store={ store } {...{ [item]: false }} />);
+        const wrapper = render(<Router location={history.location} navigator={history}>
+            <CollectionCard store={ store } {...{ [item]: false }} />
+        </Router>);
         expect(toJson(wrapper)).toMatchSnapshot();
     }));
 
     it('should render extra', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<CollectionCard store={ store } extra={[
-            { title: 'something', value: 'test' },
-            { title: 'with click', value: '1 tests', onClick: (_e, handleClick) => handleClick('Something', {}, 'small') }
-        ]} />);
+        const wrapper = render(<Router location={history.location} navigator={history}>
+            <CollectionCard store={ store } extra={[
+                { title: 'something', value: 'test' },
+                { title: 'with click', value: '1 tests', onClick: (_e, handleClick) => handleClick('Something', {}, 'small') }
+            ]} />
+        </Router>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 });

@@ -5,15 +5,14 @@ import toJson from 'enzyme-to-json';
 import OperatingSystemCard from './OperatingSystemCard';
 import configureStore from 'redux-mock-store';
 import { osTest, rhsmFacts } from '../../../__mocks__/selectors';
+import { MemoryRouter } from 'react-router-dom';
 
+const mockedUsedNavigate = jest.fn();
 const location = {};
-
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useLocation: () => location,
-    useHistory: () => ({
-        push: () => undefined
-    })
+    useNavigate: () => mockedUsedNavigate
 }));
 
 describe('OperatingSystemCard', () => {
@@ -41,13 +40,17 @@ describe('OperatingSystemCard', () => {
 
     it('should render correctly - no data', () => {
         const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-        const wrapper = render(<OperatingSystemCard store={ store } />);
+        const wrapper = render(<MemoryRouter>
+            <OperatingSystemCard store={ store } />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     it('should render correctly with data', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<OperatingSystemCard store={ store } />);
+        const wrapper = render(<MemoryRouter>
+            <OperatingSystemCard store={ store } />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
@@ -62,7 +65,9 @@ describe('OperatingSystemCard', () => {
                 entity: {}
             }
         });
-        const wrapper = render(<OperatingSystemCard store={ store } />);
+        const wrapper = render(<MemoryRouter>
+            <OperatingSystemCard store={ store } />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
@@ -75,14 +80,18 @@ describe('OperatingSystemCard', () => {
                 }
             }
         });
-        const wrapper = render(<OperatingSystemCard store={ store } />);
+        const wrapper = render(<MemoryRouter>
+            <OperatingSystemCard store={ store } />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 
     describe('api', () => {
         it('should not render modules clickable', () => {
             const store = mockStore(initialState);
-            const wrapper = mount(<OperatingSystemCard store={ store } />);
+            const wrapper = mount(<MemoryRouter>
+                <OperatingSystemCard store={ store } />
+            </MemoryRouter>);
             expect(wrapper.find('dd a')).toHaveLength(0);
         });
 
@@ -106,7 +115,9 @@ describe('OperatingSystemCard', () => {
             const store = mockStore(initialState);
             const onClick = jest.fn();
             location.pathname = 'localhost:3000/example/kernel_modules';
-            const wrapper = mount(<OperatingSystemCard handleClick={ onClick } store={ store } />);
+            const wrapper = mount(<MemoryRouter>
+                <OperatingSystemCard handleClick={ onClick } store={ store } />
+            </MemoryRouter>);
             wrapper.find('dd a').first().simulate('click');
             expect(onClick).toHaveBeenCalled();
         });
@@ -120,16 +131,20 @@ describe('OperatingSystemCard', () => {
         'hasKernelModules'
     ].map((item) => it(`should not render ${item}`, () => {
         const store = mockStore(initialState);
-        const wrapper = render(<OperatingSystemCard store={ store } {...{ [item]: false }} />);
+        const wrapper = render(<MemoryRouter>
+            <OperatingSystemCard store={ store } {...{ [item]: false }} />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     }));
 
     it('should render extra', () => {
         const store = mockStore(initialState);
-        const wrapper = render(<OperatingSystemCard store={ store } extra={[
-            { title: 'something', value: 'test' },
-            { title: 'with click', value: '1 tests', onClick: (_e, handleClick) => handleClick('Something', {}, 'small') }
-        ]} />);
+        const wrapper = render(<MemoryRouter>
+            <OperatingSystemCard store={ store } extra={[
+                { title: 'something', value: 'test' },
+                { title: 'with click', value: '1 tests', onClick: (_e, handleClick) => handleClick('Something', {}, 'small') }
+            ]} />
+        </MemoryRouter>);
         expect(toJson(wrapper)).toMatchSnapshot();
     });
 });
