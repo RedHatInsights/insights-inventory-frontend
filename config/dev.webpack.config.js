@@ -13,7 +13,7 @@ const { config: webpackConfig, plugins } = config({
         env: `${process.env.ENVIRONMENT || 'stage'}-${
           process.env.BETA ? 'beta' : 'stable'
         }`, // for accessing prod-beta start your app with ENVIRONMENT=prod and BETA=true
-        appUrl: process.env.BETA ? '/beta/insights/inventory' : '/insights/inventory',
+        appUrl: process.env.BETA ? ['/beta/insights/inventory', '/preview/insights/inventory'] : '/insights/inventory',
         routes: {
             ...(process.env.CONFIG_PORT && {
                 [`${process.env.BETA ? '/beta' : ''}/config`]: {

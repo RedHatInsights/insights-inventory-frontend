@@ -15,7 +15,7 @@ There is a [comprehensive quick start guide in the Storybook Documentation](http
 ## Running locally
 1. Install dependencies with `npm install`
 2. Run development server with `npm run start:proxy:beta`
-3. Local version of the app will be available at https://stage.foo.redhat.com:1337/beta/insights/inventory/
+3. Local version of the app will be available at https://stage.foo.redhat.com:1337/preview/insights/inventory/
 
 ## Running with another app
 
