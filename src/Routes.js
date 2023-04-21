@@ -11,7 +11,7 @@ const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
 const InventoryGroupDetail = lazy(() => import('./routes/InventoryGroupDetail'));
 
 export const routes = {
-    table: '/inventory',
+    table: '/',
     detail: '/:inventoryId/*',
     groups: '/groups',
     groupDetail: '/groups/:groupId'
