@@ -33,7 +33,7 @@ describe('group detail information page', () => {
 
         it('in beta environment', () => {
             mountPage({ chrome: { isBeta: () => true } });
-            cy.get('a').should('have.attr', 'href', '/beta/iam/user-access');
+            cy.get('a').should('have.attr', 'href', '/preview/iam/user-access');
         });
     });
 });

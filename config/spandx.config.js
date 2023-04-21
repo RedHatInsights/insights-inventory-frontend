@@ -16,8 +16,8 @@ module.exports = {
                 ...acc,
                 [`/apps/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
                 [`/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
-                [`/beta/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
-                [`/beta/apps/${appName}`]: { host: `${protocol}://localhost:${appPort}` }
+                [`/preview/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
+                [`/preview/apps/${appName}`]: { host: `${protocol}://localhost:${appPort}` }
             };
         }, {})
     }
