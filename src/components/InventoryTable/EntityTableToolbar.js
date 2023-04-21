@@ -53,7 +53,7 @@ import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
-import { fromValidator, toValidator } from '../filters/helpers';
+import { fromValidator, oldestDate, toValidator } from '../filters/helpers';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -350,7 +350,7 @@ const EntityTableToolbar = ({
         enabledFilters.updateMethodFilter && setUpdateMethodValue([]);
         enabledFilters.hostGroupFilter && setHostGroupValue([]);
         setEndDate();
-        setStartDate();
+        setStartDate(oldestDate);
         dispatch(setFilter([]));
         updateData({ page: 1, filters: [] });
     };
