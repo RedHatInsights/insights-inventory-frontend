@@ -63,6 +63,7 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
     initialLoading,
     ignoreRefresh,
     showTagModal,
+    activeFiltersConfig,
     tableProps,
     isRbacEnabled,
     hasCheckbox,
@@ -124,7 +125,8 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
         showTags,
         getEntities,
         customFilters,
-        hasItems
+        hasItems,
+        activeFiltersConfig
     });
 
     /**
@@ -144,6 +146,7 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
             hideFilters: cachedProps.hideFilters,
             filters: activeFilters,
             hasItems: cachedProps.hasItems,
+            activeFiltersConfig: cachedProps.activeFiltersConfig,
             ...cachedProps.customFilters,
             ...options
         };
@@ -209,7 +212,7 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
                     paginationProps={paginationProps}
                     loaded={loaded}
                     showTagModal={showTagModal}
-                    activeFiltersConfig={{ deleteTitle: 'Reset filters', ...props.activeFiltersConfig }}
+                    activeFiltersConfig={{ deleteTitle: 'Reset filters', ...activeFiltersConfig }}
                 >
                     { children }
                 </EntityTableToolbar>

@@ -60,7 +60,7 @@ export const useLastSeenFilter = (
             setValue({
                 ...lastSeenValue,
                 updatedStart: null,
-                updatedEnd: newApiEndDate
+                updatedEnd: `${newApiEndDate.format('YYYY-MM-DD')}T23:59:00.000Z`
             });
         } else {
             setValue({
@@ -79,7 +79,7 @@ export const useLastSeenFilter = (
         } else if (newApiStartDate > newApiEndDate || isNaN(newApiEndDate)) {
             setValue({
                 ...lastSeenValue,
-                updatedStart: newApiStartDate,
+                updatedStart: `${newApiStartDate.format('YYYY-MM-DD')}T00:00:00.000Z`,
                 updatedEnd: null
             });
         } else {
