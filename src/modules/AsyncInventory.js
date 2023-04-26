@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
 import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 
 import * as storeMod from '../store/redux';
@@ -30,15 +29,13 @@ const AsyncInventory = ({
   return (
     <RBACProvider appName="inventory" checkResourceDefinitions>
       <Provider store={store}>
-        <Router history={history}>
-          <RenderWrapper
-            {...props}
-            isRbacEnabled
-            inventoryRef={innerRef}
-            store={store}
-            cmp={component}
-          />
-        </Router>
+        <RenderWrapper
+          {...props}
+          isRbacEnabled
+          inventoryRef={innerRef}
+          store={store}
+          cmp={component}
+        />
       </Provider>
     </RBACProvider>
   );

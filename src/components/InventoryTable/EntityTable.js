@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { selectEntity, setSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate, useHistory } from 'react-router-dom';
 import {
   Table as PfTable,
   TableBody,
@@ -69,9 +69,13 @@ const EntityTable = ({
     () => loaded && createColumns(columns, hasItems, rows, isExpandable),
     [loaded, columns, hasItems, rows, isExpandable]
   );
+
   const defaultRowClick = (_event, key) => {
-    navigate(`/${key}`);
-};
+    // TODO: after depenent applications migrate to router v6, use following proper navigation
+    // navigate(`/${key}`);
+    window.history.pushState({}, null, `/${window.location.pathname}/${key}`);
+  };
+
 
   delete tableProps.RowWrapper;
   if (rows?.length === 0) {
