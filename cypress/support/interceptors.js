@@ -18,7 +18,7 @@ export const groupsInterceptors = {
         .as('getGroups'),
     'successful with some items second page': () =>
         cy
-        .intercept('GET', '/api/inventory/v1/groups?*page=2&perPage=50*', {
+        .intercept('GET', '/api/inventory/v1/groups?*page=2&per_page=50*', {
             statusCode: 200,
             body: groupsSecondPage
         })

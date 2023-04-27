@@ -4,22 +4,14 @@ import { INVENTORY_API_BASE } from '../../../api';
 import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
 import union from 'lodash/union';
-import fixtureGroups from '../../../../cypress/fixtures/groups.json';
-import fixtureGroupsDetails from '../../../../cypress/fixtures/groups/Ba8B79ab5adC8E41e255D5f8aDb8f1F3.json';
 
-// eslint-disable-next-line camelcase
 export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }) => {
-    if (window.Cypress) {
-        const parameters = new URLSearchParams({
-            ...search,
-            ...pagination
-        }).toString();
+    const parameters = new URLSearchParams({
+        ...search,
+        ...pagination
+    }).toString();
 
-        return instance.get(`${INVENTORY_API_BASE}/groups?${parameters}`);
-    }
-
-    // FIXME: remove mock data when API is implemented
-    return Promise.resolve(fixtureGroups);
+    return instance.get(`${INVENTORY_API_BASE}/groups?${parameters}` /* , { headers: { Prefer: 'code=404' } } */);
 };
 
 export const createGroup = (payload) => {
@@ -31,22 +23,12 @@ export const createGroup = (payload) => {
 };
 
 export const validateGroupName = (name) => {
-    if (window.Cypress) {
-        return instance.get(`${INVENTORY_API_BASE}/groups`)
-        .then((resp) => resp?.results.some((group) => group.name === name));
-    }
-
-    // FIXME: remove mock data when API is implemented
-    return Promise.resolve(fixtureGroups).then((resp) => resp?.results.some((group) => group.name === name));
+    return instance.get(`${INVENTORY_API_BASE}/groups`)
+    .then((resp) => resp?.results.some((group) => group.name === name));
 };
 
 export const getGroupDetail = (groupId) => {
-    if (window.Cypress) {
-        return instance.get(`${INVENTORY_API_BASE}/groups/${groupId}`);
-    }
-
-    // FIXME: remove mock data when API is implemented
-    return Promise.resolve(fixtureGroupsDetails);
+    return instance.get(`${INVENTORY_API_BASE}/groups/${groupId}`);
 };
 
 export const updateGroupById = (id, payload) => {
@@ -75,11 +57,10 @@ export const addHostToGroup = (groupId, newHostId) => {
 
 getGroups.propTypes = {
     search: PropTypes.shape({
-    // eslint-disable-next-line camelcase
-        hostname_or_id: PropTypes.string
+        name: PropTypes.string
     }),
     pagination: PropTypes.shape({
-        perPage: PropTypes.number,
+        per_page: PropTypes.number,
         page: PropTypes.number
     })
 };
