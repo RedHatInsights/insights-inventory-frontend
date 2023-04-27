@@ -5,7 +5,7 @@ import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
 import union from 'lodash/union';
 
-export const getGroups = (search = {}, pagination = { page: 1, perPage: TABLE_DEFAULT_PAGINATION }) => {
+export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }) => {
     const parameters = new URLSearchParams({
         ...search,
         ...pagination
@@ -57,11 +57,10 @@ export const addHostToGroup = (groupId, newHostId) => {
 
 getGroups.propTypes = {
     search: PropTypes.shape({
-    // eslint-disable-next-line camelcase
-        hostname_or_id: PropTypes.string
+        name: PropTypes.string
     }),
     pagination: PropTypes.shape({
-        perPage: PropTypes.number,
+        per_page: PropTypes.number,
         page: PropTypes.number
     })
 };
