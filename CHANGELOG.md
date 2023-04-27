@@ -3,6 +3,24 @@
 
 ### Bug Fixes
 
+* **ESSNTL-4714:** fix display name unwanted reset on sort ([#1846](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1846)) ([38ff4c4](https://github.com/RedHatInsights/insights-inventory-frontend/commit/38ff4c4a3bcca4f4babfcb384626d6d2fc406500))
+* **InventoryTable:** Pass on activeFiltersConfig properly ([#1840](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1840)) ([a8cec1d](https://github.com/RedHatInsights/insights-inventory-frontend/commit/a8cec1d364f56af5e9bc23798caeaf7f51c72d80))
+* **InventroyTable:** Add activeFiltersConfig to prop cache to trigger refresh ([#1838](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1838)) ([82b3acb](https://github.com/RedHatInsights/insights-inventory-frontend/commit/82b3acb1aedb55959bd6291cbb7153fa1a2b440a))
+* **LastSeenFilter:** Add edge cases for new filter ([f53155a](https://github.com/RedHatInsights/insights-inventory-frontend/commit/f53155a89bb874c9c5d6665a9f6dce23b029ecb9))
+* **LastSeenFilter:** Fixes Validators and adds test ([#1837](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1837)) ([f4d6e6e](https://github.com/RedHatInsights/insights-inventory-frontend/commit/f4d6e6ebd841592793f8273409b87b93c4f3d1d7))
+* RHINENG-383 - Fix typo in the tooltip when insights client is not reporting ([#1842](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1842)) ([01b6c8a](https://github.com/RedHatInsights/insights-inventory-frontend/commit/01b6c8a3b16735098ce5447b715db952c83e608c))
+
+
+### Reverts
+
+* Revert Inventory groups back end mocks (#1845) ([e633f77](https://github.com/RedHatInsights/insights-inventory-frontend/commit/e633f77dc2977d1e6a68b2f415f643a0e5a18b6c)), closes [#1845](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1845) [#1793](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1793)
+* Revert "ESSNTL(4056): Adds checks against edge cases for last seen filter (#1787)" ([1f0b70c](https://github.com/RedHatInsights/insights-inventory-frontend/commit/1f0b70c15749126a7d8a605c8e890fa6d0881df6)), closes [#1787](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1787)
+
+## [1.14.8](https://github.com/RedHatInsights/insights-inventory-frontend/compare/v1.14.7...v1.14.8) (2023-04-27)
+
+
+### Bug Fixes
+
 * **InventoryTable:** Pass on activeFiltersConfig properly ([#1840](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1840)) ([a8cec1d](https://github.com/RedHatInsights/insights-inventory-frontend/commit/a8cec1d364f56af5e9bc23798caeaf7f51c72d80))
 * **InventroyTable:** Add activeFiltersConfig to prop cache to trigger refresh ([#1838](https://github.com/RedHatInsights/insights-inventory-frontend/issues/1838)) ([82b3acb](https://github.com/RedHatInsights/insights-inventory-frontend/commit/82b3acb1aedb55959bd6291cbb7153fa1a2b440a))
 * **LastSeenFilter:** Add edge cases for new filter ([f53155a](https://github.com/RedHatInsights/insights-inventory-frontend/commit/f53155a89bb874c9c5d6665a9f6dce23b029ecb9))
