@@ -120,7 +120,7 @@ const EntityTableToolbar = ({
     const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] = useGroupFilter();
 
     const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
-    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+    const groupsEnabled = true;
     const {
         tagsFilter,
         tagsChip,

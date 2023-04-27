@@ -2,14 +2,13 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
 import { defaultColumns } from '../../../store/entities';
-import  useFeatureFlag from '../../../Utilities/useFeatureFlag';
 
 const isColumnEnabled = (key, disableColumns, showTags) =>
     (key === 'tags' && showTags) ||
     (key !== 'tags' && (Array.isArray(disableColumns) && !(disableColumns).includes(key)));
 
 const useColumns = (columnsProp, disableDefaultColumns, showTags, columnsCounter) => {
-    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+    const groupsEnabled = true;
     const columnsRedux = useSelector(
         ({ entities: { columns } }) => columns,
         (next, prev) => next.every(

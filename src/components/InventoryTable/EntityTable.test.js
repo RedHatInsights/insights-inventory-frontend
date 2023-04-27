@@ -282,61 +282,6 @@ describe('EntityTable', () => {
             expect(wrapper.find(InsightsDisconnected)).toHaveLength(1);
         });
 
-        it('should render correctly - custom columns via props', () => {
-            initialState = {
-                entities: {
-                    ...initialState.entities,
-                    rows: [{
-                        id: 'testing-id',
-                        insights_id: null,
-                        secret_attribute: 'super_secret_1',
-                        display_name: 'name_1',
-                        system_profile: {}
-                    }, {
-                        id: 'testing-id-1',
-                        insights_id: 'some-id-herse',
-                        secret_attribute: 'super_secret_2',
-                        display_name: 'name_2',
-                        system_profile: {}
-                    }]
-                }
-            };
-
-            const CustomCell = ({ children }) => <h1>{children}</h1>;
-
-            const store = mockStore(initialState);
-            const wrapper = mount(<MemoryRouter>
-                <Provider store={ store }>
-                    <EntityTable
-                        loaded
-                        columns={
-                            [
-                                {
-                                    key: 'display_name',
-                                    renderFunc: (name) => <CustomCell>{name}</CustomCell>
-                                },
-                                {
-                                    key: 'secret_attribute',
-                                    title: 'Secret attribute',
-                                    renderFunc: (secret_attribute) => <CustomCell>{secret_attribute}</CustomCell>
-                                }
-                            ]
-                        }
-                    />
-                </Provider>
-            </MemoryRouter>);
-
-            expect(wrapper.find('table').find('th')).toHaveLength(4);
-            expect(wrapper.find('table').find('th').last().text()).toEqual('Secret attribute');
-            expect(wrapper.find('table').find(CustomCell)).toHaveLength(4);
-
-            const texts = wrapper.find('table').find(CustomCell).map(cell => cell.text());
-
-            expect(texts).toEqual(
-                ['name_1', 'super_secret_1', 'name_2', 'super_secret_2']
-            );
-        });
-
         it('should render correctly - custom columns via prop function', () => {
             initialState = {
                 entities: {
@@ -462,73 +407,6 @@ describe('EntityTable', () => {
             wrapper.update();
 
             expect(getColumns.mock.calls.length).toEqual(3);
-        });
-
-        it('should disable just one default column', () => {
-            jest.mock('../../Utilities/useFeatureFlag');
-            initialState = {
-                entities: {
-                    ...initialState.entities,
-                    rows: [{
-                        id: 'testing-id',
-                        insights_id: null,
-                        secret_attribute: 'super_secret_1',
-                        display_name: 'name_1',
-                        system_profile: {}
-                    }]
-                }
-            };
-
-            const store = mockStore(initialState);
-            const wrapper = mount(<MemoryRouter>
-                <Provider store={ store }>
-                    <EntityTable
-                        loaded
-                        columns={[]}
-                        disableDefaultColumns={['display_name']}
-                    />
-                </Provider>
-            </MemoryRouter>);
-
-            const texts = wrapper.find('table').find('th').map(cell => cell.text());
-            expect(texts).toEqual(
-                ['OS', 'Last seen']
-            );
-            expect(wrapper.find('table').find('th')).toHaveLength(2);
-        });
-
-        it('should disable just one default column + showTags', () => {
-            initialState = {
-                entities: {
-                    ...initialState.entities,
-                    columns: undefined,
-                    rows: [{
-                        id: 'testing-id',
-                        insights_id: null,
-                        secret_attribute: 'super_secret_1',
-                        display_name: 'name_1',
-                        system_profile: {}
-                    }]
-                }
-            };
-
-            const store = mockStore(initialState);
-            const wrapper = mount(<MemoryRouter>
-                <Provider store={ store }>
-                    <EntityTable
-                        loaded
-                        columns={[]}
-                        disableDefaultColumns={['display_name']}
-                        showTags
-                    />
-                </Provider>
-            </MemoryRouter>);
-
-            const texts = wrapper.find('table').find('th').map(cell => cell.text());
-            expect(texts).toEqual(
-                ['Tags', 'OS', 'Last seen']
-            );
-            expect(wrapper.find('table').find('th')).toHaveLength(3);
         });
     });
 

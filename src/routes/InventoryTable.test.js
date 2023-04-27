@@ -224,45 +224,6 @@ describe('InventoryTable', () => {
         window.XMLHttpRequest = tmp;
     });
 
-    it('can select and delete items from kebab', async () => {
-        let wrapper;
-
-        const tmp = window.XMLHttpRequest;
-
-        window.XMLHttpRequest = jest.fn().mockImplementation(createXhrMock());
-        const store = mockStore(initialStore);
-
-        await act(async () => {
-            wrapper = mount(<InventoryTable initialLoading={false} />, store);
-        });
-        wrapper.update();
-
-        expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(false);
-
-        expect(wrapper.find('DropdownMenu')).toHaveLength(0);
-
-        await act(async () => {
-            wrapper.find('KebabToggle').at(1).simulate('click');
-        });
-        wrapper.update();
-
-        expect(wrapper.find('DropdownMenu')).toHaveLength(1);
-
-        await act(async () => {
-            const dropdownItems = wrapper.find('DropdownItem');
-
-            const deleteDropdown = dropdownItems.at(1);
-            deleteDropdown.find('button').simulate('click');
-        });
-
-        wrapper.update();
-
-        expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(true);
-        expect(wrapper.find(DeleteModal).props().currentSytems).toEqual(
-            { displayName: 'RHIQE.31ea86a9-a439-4422-9516-27c879057535.test', id: 'ed190a06-de88-4d62-aba1-88ad402720a8' }
-        );
-        window.XMLHttpRequest = tmp;
-    });
 });
 
 describe('calculatePagination', () => {

@@ -2,7 +2,6 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import React, { lazy, Suspense, useMemo } from 'react';
 import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
-import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
 
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
@@ -20,7 +19,7 @@ export const routes = {
 
 export const Routes = () => {
     const searchParams = useMemo(() => getSearchParams(), []);
-    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+    const groupsEnabled = true;
 
     return (
         <Suspense fallback="">

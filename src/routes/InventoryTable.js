@@ -15,7 +15,6 @@ import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
-import useFeatureFlag from '../Utilities/useFeatureFlag';
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -116,7 +115,7 @@ const Inventory = ({
     const loaded = useSelector(({ entities }) => entities?.loaded);
     const selected = useSelector(({ entities }) => entities?.selected);
     const dispatch = useDispatch();
-    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+    const groupsEnabled = true;
 
     const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
     const onRefresh = (options, callback) => {
