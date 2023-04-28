@@ -95,7 +95,7 @@ const Inventory = ({
     const chrome = useChrome();
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
-    const [currentSytem, activateSystem] = useState({});
+    const [currentSystem, setCurrentSystem] = useState({});
     const [filters, onSetfilters] = useState(
         generateFilter(
             status,
@@ -185,14 +185,14 @@ const Inventory = ({
             {
                 title: 'Edit',
                 onClick: (_event, _index, data) => {
-                    activateSystem(() => data);
+                    setCurrentSystem(() => data);
                     onEditOpen(() => true);
                 }
             },
             {
                 title: 'Delete',
                 onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
-                    activateSystem(() => ({
+                    setCurrentSystem(() => ({
                         id: systemId,
                         displayName
                     }));
@@ -205,7 +205,7 @@ const Inventory = ({
             {
                 title: 'Add to group',
                 onClick: (_event, _index, { id: systemId, display_name: displayName, group_name: groupName }) => {
-                    activateSystem(() => ({
+                    setCurrentSystem(() => ({
                         id: systemId,
                         name: displayName,
                         groupName
@@ -253,7 +253,7 @@ const Inventory = ({
                                             isDisabled: calculateSelected() === 0,
                                             variant: 'secondary',
                                             onClick: () => {
-                                                activateSystem(Array.from(selected.values()));
+                                                setCurrentSystem(Array.from(selected.values()));
                                                 handleModalToggle(true);
                                             }
                                         }
@@ -291,18 +291,18 @@ const Inventory = ({
                 className ='sentry-mask data-hj-suppress'
                 handleModalToggle={handleModalToggle}
                 isModalOpen={isModalOpen}
-                currentSytems={currentSytem}
+                currentSytems={currentSystem}
                 onConfirm={() => {
                     let displayName;
                     let removeSystems;
-                    if (Array.isArray(currentSytem)) {
-                        removeSystems = currentSytem.map(({ id }) => id);
-                        displayName = currentSytem.length > 1 ?
-                            `${currentSytem.length} systems` :
-                            currentSytem[0].display_name;
+                    if (Array.isArray(currentSystem)) {
+                        removeSystems = currentSystem.map(({ id }) => id);
+                        displayName = currentSystem.length > 1 ?
+                            `${currentSystem.length} systems` :
+                            currentSystem[0].display_name;
                     } else {
-                        displayName = currentSytem.displayName;
-                        removeSystems = [currentSytem.id];
+                        displayName = currentSystem.displayName;
+                        removeSystems = [currentSystem.id];
                     }
 
                     dispatch(addNotificationAction({
@@ -319,10 +319,10 @@ const Inventory = ({
             <TextInputModal
                 title="Edit display name"
                 isOpen={ediOpen}
-                value={currentSytem.display_name}
+                value={currentSystem.display_name}
                 onCancel={() => onEditOpen(false)}
                 onSubmit={(value) => {
-                    dispatch(actions.editDisplayName(currentSytem.id, value));
+                    dispatch(actions.editDisplayName(currentSystem.id, value));
                     onEditOpen(false);
                 }}
             />
@@ -331,7 +331,7 @@ const Inventory = ({
                 <AddHostToGroupModal
                     isModalOpen={addHostGroupModalOpen}
                     setIsModalOpen={setAddHostGroupModalOpen}
-                    modalState={currentSytem}
+                    modalState={currentSystem}
                     //should be replaced with a fetch to update the values in the table
                     reloadData={() => console.log('data reloaded')}
                 />
