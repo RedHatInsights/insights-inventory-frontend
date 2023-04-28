@@ -11,7 +11,7 @@ import { addNotification as addNotificationAction } from '@redhat-cloud-services
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
-import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter } from '../Utilities/constants';
+import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter, HOST_GROUP_CHIP } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
@@ -55,8 +55,8 @@ const filterMapper = {
         searchParams.append('last_seen', lastSeenFilter[item])),
     updateMethodFilter: ({ updateMethodFilter }, searchParams) =>
         updateMethodFilter?.forEach(item => searchParams.append(UPDATE_METHOD_KEY, item)),
-    groupHostFilter: ({ groupHostFilter }, searchParams) => groupHostFilter
-    ?.forEach(item => searchParams.append('host_group', item))
+    hostGroupFilter: ({ hostGroupFilter }, searchParams) => hostGroupFilter
+    ?.forEach(item => searchParams.append(HOST_GROUP_CHIP, item))
 };
 
 const calculateFilters = (searchParams, filters = []) => {
@@ -89,7 +89,7 @@ const Inventory = ({
     perPage,
     initialLoading,
     hasAccess,
-    groupHostsFilter
+    hostGroupFilter
 }) => {
     const history = useHistory();
     const chrome = useChrome();
@@ -105,7 +105,7 @@ const Inventory = ({
             operatingSystem,
             rhcdFilter,
             updateMethodFilter,
-            groupHostsFilter,
+            hostGroupFilter,
             lastSeenFilter)
     );
     const [ediOpen, onEditOpen] = useState(false);
@@ -349,7 +349,7 @@ Inventory.propTypes = {
     rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     updateMethodFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     hasAccess: PropTypes.bool,
-    groupHostsFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    hostGroupFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     lastSeenFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
 };
 
