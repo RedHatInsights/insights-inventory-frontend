@@ -47,11 +47,12 @@ export const lastSeenItems = [
     {
         value: { updatedEnd: subtractDate(30), mark: '30more' },
         label: 'More than 30 days ago'
-    },
-    {
-        value: { mark: 'custom' },
-        label: 'Custom'
     }
+    //Temporarily disabled
+    // {
+    //     value: { mark: 'custom' },
+    //     label: 'Custom'
+    // }
 ];
 export const registered = [
     { label: 'insights-client', value: 'puptoo', idName: 'Insights id', idValue: 'insights_id' },

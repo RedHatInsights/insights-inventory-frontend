@@ -121,7 +121,7 @@ describe('pagination', () => {
             changePagination(el).then(() => {
                 cy.wait('@getGroups')
                 .its('request.url')
-                .should('include', `perPage=${el}`);
+                .should('include', `per_page=${el}`);
             });
         });
     });
@@ -186,12 +186,12 @@ describe('filtering', () => {
 
     it('sends correct request', () => {
         applyNameFilter();
-        cy.wait('@getGroups').its('request.url').should('include', 'hostname_or_id=lorem');
+        cy.wait('@getGroups').its('request.url').should('include', 'name=lorem');
     });
 
     it('can remove the chip or reset filters', () => {
         applyNameFilter();
-        cy.wait('@getGroups').its('request.url').should('contain', 'hostname_or_id=lorem');
+        cy.wait('@getGroups').its('request.url').should('contain', 'name=lorem');
         cy.get(CHIP_GROUP)
         .find(CHIP)
         .ouiaId('close', 'button')
@@ -199,7 +199,7 @@ describe('filtering', () => {
             cy.get(CHIP_GROUP).find(CHIP).ouiaId('close', 'button');
         });
         cy.get('button').contains('Reset filters').click();
-        cy.wait('@getGroups').its('request.url').should('not.contain', 'hostname_or_id');
+        cy.wait('@getGroups').its('request.url').should('not.contain', 'name');
         cy.get(CHIP_GROUP).should('not.exist');
 
     });

@@ -88,10 +88,10 @@ const GroupsTable = () => {
                 const order_by = GROUPS_TABLE_COLUMNS_TO_URL[sortIndex];
                 const order_how = upperCase(sortDirection);
                 return dispatch(
-                    fetchGroups({ ...search, order_by, order_how }, { page, perPage })
+                    fetchGroups({ ...search, order_by, order_how }, { page, per_page: perPage })
                 );
             } else {
-                return dispatch(fetchGroups(search, { page, perPage }));
+                return dispatch(fetchGroups(search, { page, per_page: perPage }));
             }
         }, REQUEST_DEBOUNCE_TIMEOUT), // wait the timeout before making the final fetch
         []
@@ -140,16 +140,16 @@ const GroupsTable = () => {
                             data-ouia-component-type="PF4/TextInput"
                             data-ouia-component-id="name-filter"
                             placeholder="Filter by name"
-                            value={filters.hostname_or_id || ''}
+                            value={filters.name || ''}
                             onChange={(value) => {
-                                const { hostname_or_id, ...fs } = filters;
+                                const { name, ...fs } = filters;
                                 return setFilters({
                                     ...fs,
-                                    ...(value.length > 0 ? { hostname_or_id: value } : {})
+                                    ...(value.length > 0 ? { name: value } : {})
                                 });
                             }}
                             onClear={() => {
-                                const { hostname_or_id, ...fs } = filters;
+                                const { name, ...fs } = filters;
                                 return setFilters(fs);
                             }}
                             isDisabled={rejected}
@@ -158,20 +158,20 @@ const GroupsTable = () => {
                 }
             }
         ],
-        [filters.hostname_or_id, rejected]
+        [filters.name, rejected]
     );
 
     const onResetFilters = () => setFilters(GROUPS_TABLE_INITIAL_STATE);
 
     const activeFiltersConfig = {
-        showDeleteButton: !!filters.hostname_or_id,
+        showDeleteButton: !!filters.name,
         deleteTitle: 'Reset filters',
-        filters: filters.hostname_or_id
+        filters: filters.name
             ? [
                 {
                     category: 'Name',
                     chips: [
-                        { name: filters.hostname_or_id, value: filters.hostname_or_id }
+                        { name: filters.name, value: filters.name }
                     ]
                 }
             ]
