@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
 import * as actions from '../store/actions';
@@ -17,14 +17,7 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-const InventoryCard = (props) => 
-    (
-    <AsyncComponent
-      appName="edge"
-      module="./Inventory"
-      {...props}
-    />
-  );
+
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -304,13 +297,18 @@ const Inventory = ({
                         </GridItem>
                     </Grid>
                 </Tab>
+               
                 <Tab eventKey={1} title={<TabTitleText>Immutable</TabTitleText>}>
-                 {/* <AsyncComponent
+                  <AsyncComponent
                                 appName="edge"
                                 module="./Inventory"
-                            /> */}
-                            <InventoryCard/>
-                </Tab>                  
+                                historyProp={useHistory}
+                                locationProp={useLocation}
+                            /> 
+                           
+                </Tab> 
+                
+                           
             </Tabs>
             </Main>
             <DeleteModal
