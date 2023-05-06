@@ -297,11 +297,19 @@ const Inventory = ({
                         </GridItem>
                     </Grid>
                 </Tab>
-               
                 <Tab eventKey={1} title={<TabTitleText>Immutable</TabTitleText>}>
                   <AsyncComponent
                                 appName="edge"
                                 module="./Inventory"
+                                historyProp={useHistory}
+                                locationProp={useLocation}
+                            /> 
+                           
+                </Tab> 
+                <Tab eventKey={2} title={<TabTitleText>Image</TabTitleText>}>
+                  <AsyncComponent
+                                appName="edge"
+                                module="./Images"
                                 historyProp={useHistory}
                                 locationProp={useLocation}
                             /> 
