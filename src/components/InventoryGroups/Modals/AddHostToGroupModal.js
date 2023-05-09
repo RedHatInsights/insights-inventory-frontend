@@ -37,7 +37,7 @@ const AddHostToGroupModal = ({
 
         apiWithToast(
             dispatch,
-            () => addHostToGroup(group.groupId, modalState.id),
+            () => addHostToGroup(group.id, modalState.id),
             statusMessages
         );
     };
