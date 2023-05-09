@@ -50,9 +50,7 @@ export const addHostsToGroupById = (id, hostIds) => {
 };
 
 export const addHostToGroup = (groupId, newHostId) => {
-    return instance.post(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${newHostId}`, {
-        host_ids: newHostId
-    });
+    return instance.post(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${newHostId}`);
 };
 
 getGroups.propTypes = {
