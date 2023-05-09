@@ -7,11 +7,11 @@ import { HOST_GROUP_CHIP } from '../../Utilities/index';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 //for attaching this filter to the redux
-export const groupFilterState = { groupHostFilter: null };
+export const groupFilterState = { hostGroupFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
 export const groupFilterReducer = (_state, { type, payload }) => ({
     ...type === GROUP_FILTER && {
-        groupHostFilter: payload
+        hostGroupFilter: payload
     }
 });
 

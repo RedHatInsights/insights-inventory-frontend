@@ -200,7 +200,7 @@ const EntityTableToolbar = ({
             rhcdFilter,
             lastSeenFilter,
             updateMethodFilter,
-            groupFilter
+            hostGroupFilter
         } = reduceFilters([...filters || [], ...customFilters?.filters || []]);
 
         debouncedRefresh();
@@ -212,7 +212,7 @@ const EntityTableToolbar = ({
         enabledFilters.rhcdFilter && setRhcdFilterValue(rhcdFilter);
         enabledFilters.updateMethodFilter && setUpdateMethodValue(updateMethodFilter);
         enabledFilters.lastSeenFilter && setLastSeenFilterValue(lastSeenFilter);
-        enabledFilters.hostGroupFilter && setHostGroupValue(groupFilter);
+        enabledFilters.hostGroupFilter && setHostGroupValue(hostGroupFilter);
     }, []);
 
     /**

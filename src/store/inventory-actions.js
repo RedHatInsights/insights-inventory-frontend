@@ -38,13 +38,13 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
         ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
         ...(isFilterDisabled('operating_system') && { osFilter: undefined }),
-        ...(isFilterDisabled('host_group')) && { groupHostFilter: undefined }
+        ...(isFilterDisabled('host_group')) && { hostGroupFilter: undefined }
     }) : {
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
         ...(isFilterDisabled('last_seen') && { lastSeenFilter: undefined }),
         ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
         ...(isFilterDisabled('operating_system') && { osFilter: undefined }),
-        ...(isFilterDisabled('host_group')) && { groupHostFilter: undefined }
+        ...(isFilterDisabled('host_group')) && { hostGroupFilter: undefined }
     };
 
     const orderBy = config.orderBy || 'updated';
