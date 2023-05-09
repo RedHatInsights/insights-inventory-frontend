@@ -41,7 +41,7 @@ Array [
         "value": "nisi ut consequat ad1",
       },
     ],
-    "type": "host_group",
+    "type": "group_name",
   },
 ]
 `;
