@@ -13,7 +13,7 @@
     "@patternfly/react-core": "^4.265.2",
     "@patternfly/react-icons": "^4.93.6",
     "@patternfly/react-table": "^4.111.45",
-    "@redhat-cloud-services/frontend-components": "^3.9.33",
+    "@redhat-cloud-services/frontend-components": "^3.9.35",
     "@redhat-cloud-services/frontend-components-notifications": "^3.2.12",
     "@redhat-cloud-services/frontend-components-utilities": "^3.5.0",
     "@redhat-cloud-services/host-inventory-client": "1.2.3",
@@ -63,24 +63,9 @@
         }
       ]
     },
-    "prepare": [
-      [
-        "@semantic-release/npm",
-        {
-          "npmPublish": false
-        }
-      ],
-      "@semantic-release/changelog",
-      "@semantic-release/git"
-    ],
+    "prepare": [],
     "publish": [
-      "@semantic-release/github",
-      [
-        "@semantic-release/npm",
-        {
-          "npmPublish": false
-        }
-      ]
+      "@semantic-release/github"
     ]
   },
   "jest": {
@@ -127,7 +112,7 @@
     "@cypress/code-coverage": "^3.10.0",
     "@cypress/react": "^7.0.2",
     "@patternfly/patternfly": "^4.224.2",
-    "@redhat-cloud-services/frontend-components-config": "^4.6.39",
+    "@redhat-cloud-services/frontend-components-config": "^4.7.3",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@stoplight/prism-cli": "^4.10.5",

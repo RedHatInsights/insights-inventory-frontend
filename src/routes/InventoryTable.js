@@ -326,13 +326,16 @@ const Inventory = ({
                     onEditOpen(false);
                 }}
             />
-            <AddHostToGroupModal
-                isModalOpen={addHostGroupModalOpen}
-                setIsModalOpen={setAddHostGroupModalOpen}
-                modalState={currentSytem}
-                //should be replaced with a fetch to update the values in the table
-                reloadData={() => console.log('data reloaded')}
-            />
+            {
+                groupsEnabled === true &&
+                <AddHostToGroupModal
+                    isModalOpen={addHostGroupModalOpen}
+                    setIsModalOpen={setAddHostGroupModalOpen}
+                    modalState={currentSytem}
+                    //should be replaced with a fetch to update the values in the table
+                    reloadData={() => console.log('data reloaded')}
+                />
+            }
         </React.Fragment>
     );
 };
