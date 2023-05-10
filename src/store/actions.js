@@ -6,7 +6,7 @@ export * from './inventory-actions';
 
 export const deleteEntity = (systems, displayName) => ({
     type: ACTION_TYPES.REMOVE_ENTITY,
-    payload: hosts.apiHostDeleteById(systems),
+    payload: hosts.apiHostDeleteHostById(systems),
     meta: {
         notifications: {
             fulfilled: {
