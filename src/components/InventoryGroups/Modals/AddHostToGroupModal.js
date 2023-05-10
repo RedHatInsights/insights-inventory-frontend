@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import { addHostToGroup } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch  } from 'react-redux';
 import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
-import { fetchGroups } from '../../../store/inventory-actions';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
 
@@ -15,14 +14,7 @@ const AddHostToGroupModal = ({
     modalState,
     reloadData
 }) => {
-
     const dispatch = useDispatch();
-    //we have to fetch groups to make them available in state
-    useEffect(() => {
-        dispatch(fetchGroups());
-    }, []);
-
-    const groups = useSelector(({ groups }) => groups?.data?.results);
 
     const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
     const handleAddDevices = (values) => {
@@ -49,7 +41,7 @@ const AddHostToGroupModal = ({
                 closeModal={() => setIsModalOpen(false)}
                 title="Add to group"
                 submitLabel="Add"
-                schema={addHostSchema(modalState.name, groups)}
+                schema={addHostSchema(modalState.name)}
                 additionalMappers={{
                     'create-group-btn': {
                         component: CreateGroupButton,
@@ -67,7 +59,6 @@ const AddHostToGroupModal = ({
                 <CreateGroupModal
                     isModalOpen={isCreateGroupModalOpen}
                     setIsModalOpen={setIsCreateGroupModalOpen}
-                    reloadData={() => console.log('data reloaded')}
                     //modal before prop tells create group modal that it should
                     //reopen add host modal when user closes create group modal
                     modalBefore={true}

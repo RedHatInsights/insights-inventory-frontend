@@ -3,6 +3,7 @@ import validatorTypes from '@data-driven-forms/react-form-renderer/validator-typ
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import { nameValidator } from '../../helpers/validate';
 import { Text } from '@patternfly/react-core';
+import { getGroups } from '../../utils/api';
 
 export const createGroupSchema = (namePresenceValidator) => ({
     fields: [
@@ -45,7 +46,8 @@ export const confirmSystemsAddSchema = (hostsNumber) => ({
 const createDescription = (systemName) => {
     return (
         <Text>
-        Select a group to add <strong>{systemName}</strong> to, or create a new one.
+      Select a group to add <strong>{systemName}</strong> to, or create a new
+      one.
         </Text>
     );
 };
@@ -53,7 +55,7 @@ const createDescription = (systemName) => {
 //this is a custom schema that is passed via additional mappers to the Modal component
 //it allows to create custom item types in the modal
 
-export const addHostSchema = (systemName, groups) => ({
+export const addHostSchema = (systemName) => ({
     fields: [
         {
             component: componentTypes.PLAIN_TEXT,
@@ -69,12 +71,26 @@ export const addHostSchema = (systemName, groups) => ({
             isRequired: true,
             isClearable: true,
             placeholder: 'Type or click to select a group',
-            options: (groups || []).map(({ id, name }) => ({
-                label: name,
-                value: { name, id }
-            })),
+            loadOptions: (searchValue = '') =>
+                getGroups().then(({ results = [] }) => {
+                    return results.reduce((acc, { name, id }) => {
+                        if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
+                            return [
+                                ...acc,
+                                {
+                                    label: name,
+                                    value: { name, id }
+                                }
+                            ];
+                        }
+                    }, []);
+                }),
             validate: [{ type: validatorTypes.REQUIRED }]
         },
-        { component: 'create-group-btn', name: 'create-group-btn', isRequired: true }
+        {
+            component: 'create-group-btn',
+            name: 'create-group-btn',
+            isRequired: true
+        }
     ]
 });
