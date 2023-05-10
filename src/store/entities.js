@@ -162,7 +162,18 @@ function loadingRejected(state, { payload }) {
 
 function selectEntity(state, { payload }) {
     const rows = [...state.rows];
-    const toSelect = [].concat(payload);
+    let toSelect = [];
+    if (Array.isArray(payload.id)) {
+        toSelect = payload.id.map(item => {
+            return {
+                id: item,
+                selected: payload?.selected
+            };
+        });
+    } else {
+        toSelect = [].concat(payload);
+    }
+
     toSelect.forEach(({ id, selected }) => {
         const entity = rows.find(entity => entity.id === id);
         if (entity) {

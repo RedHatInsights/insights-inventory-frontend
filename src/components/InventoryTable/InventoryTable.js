@@ -19,7 +19,7 @@ import cloneDeep from 'lodash/cloneDeep';
  * to get the latest props and not the props at the time of when the function is
  * being wrapped in callback.
  */
-const inventoryCache = () => {
+export const inventoryCache = () => {
     let cache = {};
 
     const updateProps = (props) => { cache = cloneDeep({ ...cache, props }); };
