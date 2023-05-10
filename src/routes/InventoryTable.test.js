@@ -155,7 +155,7 @@ describe('InventoryTable', () => {
 
         window.XMLHttpRequest = jest.fn().mockImplementation(createXhrMock());
 
-        hosts.apiHostDeleteById = jest.fn().mockImplementation(() => Promise.resolve());
+        hosts.apiHostDeleteHostById = jest.fn().mockImplementation(() => Promise.resolve());
         const selected = new Map();
         selected.set(system1.id, system1);
 
