@@ -31,7 +31,7 @@ import { getStore } from '../../src/store';
 import { MemoryRouter, Switch, Route } from 'react-router-dom';
 import { mount } from '@cypress/react';
 
-Cypress.Commands.add('mountWithContext', (Component, options = {}) => {
+Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
     const { path, routerProps = { initialEntries: ['/'] } } = options;
 
     return mount(
@@ -46,10 +46,10 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}) => {
                 <MemoryRouter {...routerProps}>
                     {path ? (
                         <Switch>
-                            <Route path={options.path} component={Component} rootClass='inventory' />
+                            <Route path={options.path} component={() => <Component {...props} />} rootClass='inventory' />
                         </Switch>
                     ) : (
-                        <Component />
+                        <Component {...props} />
                     )}
                 </MemoryRouter>
             </Provider>

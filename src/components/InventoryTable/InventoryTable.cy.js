@@ -1,3 +1,7 @@
+/**
+ * Cypress tests aim mainly to verify the correct behavior of network calls,
+ * compliance with the filter, sorting and pagination scenarios.
+ */
 import {
     CHIP,
     CHIP_GROUP,
@@ -28,12 +32,26 @@ const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 
-const mountTable = () => {
-    cy.mountWithContext(InventoryTable);
+const mountTable = (props) => {
+    cy.mountWithContext(InventoryTable, {}, props);
+};
+
+const waitForTable = (waitNetwork = false) => {
+    if (waitNetwork) {
+        // required for correct requests verifying in sub tests
+        cy.wait('@getHosts');
+    }
+
+    // indicating the table is loaded
+    cy.get('table[aria-label="Host inventory"]').should(
+        'have.attr',
+        'data-ouia-safe',
+        'true'
+    );
 };
 
 before(() => {
-    cy.window().then(
+    cy.window().then( // one of the fec dependencies talks to window.insights.chrome
         (window) =>
             (window.insights = {
                 chrome: {
@@ -48,23 +66,14 @@ before(() => {
     );
 });
 
-describe('InventoryTable', () => {
+describe('with default parameters', () => {
     beforeEach(() => {
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
         groupsInterceptors['successful with some items']();
         hostsInterceptors.successful();
         mountTable();
-
-        // required for correct requests verifying in sub tests
-        cy.wait('@getHosts');
-
-        // indicating the table is loaded
-        cy.get('table[aria-label="Host inventory"]').should(
-            'have.attr',
-            'data-ouia-safe',
-            'true'
-        );
+        waitForTable(true);
     });
 
     describe('renders correctly', () => {
@@ -183,5 +192,4 @@ describe('InventoryTable', () => {
 
     // TODO: add more filter cases
     });
-
 });
