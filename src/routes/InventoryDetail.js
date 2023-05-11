@@ -48,7 +48,7 @@ const appList = [
 const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
     <Breadcrumb ouiaId="systems-list">
         <BreadcrumbItem>
-            <Link to={routes.table}>Inventory</Link>
+            <Link to={routes.table}>Systems</Link>
         </BreadcrumbItem>
         <BreadcrumbItem isActive>
             <div className="ins-c-inventory__detail--breadcrumb-name">
@@ -93,7 +93,7 @@ const Inventory = () => {
     };
 
     if (entity) {
-        document.title = `${entity.display_name} | Inventory | Red Hat Insights`;
+        document.title = `${entity.display_name} | Systems | Red Hat Insights`;
     }
 
     useEffect(() => {
