@@ -5,17 +5,28 @@ import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
 
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import { useHistory, useLocation } from 'react-router-dom';
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
 const InventoryGroupDetail = lazy(() => import('./routes/InventoryGroupDetail'));
+
+const EdgeInventoryUpdate = lazy(() =>  import(<AsyncComponent
+                                appName="edge"
+                                module="./UpdateSystem"
+                                historyProp={useHistory}
+                                locationProp={useLocation}
+                            />));
+
 
 export const routes = {
     table: '/',
     detail: '/:inventoryId',
     detailWithModal: '/:inventoryId/:modalId',
     groups: '/groups',
-    groupDetail: '/groups/:groupId'
+    groupDetail: '/groups/:groupId',
+    update: '/:inventoryId/update'
 };
 
 export const Routes = () => {
@@ -40,6 +51,7 @@ export const Routes = () => {
                     exact
                     path={routes.groups}
                     component={groupsEnabled ? InventoryGroups : LostPage}
+                    // component={<p>Group</p>}
                     rootClass="inventory"
                 />
                 <Route
@@ -50,6 +62,7 @@ export const Routes = () => {
                 />
                 <Route exact path={routes.detailWithModal} component={InventoryDetail} rootClass='inventory' />
                 <Route exact path={routes.detail} component={InventoryDetail} rootClass='inventory' />
+                <Route exact path={routes.update} component={<p>djkfjd</p>} rootClass='inventory' />
                 <Redirect path="*" to="/" />
             </Switch>
         </Suspense>

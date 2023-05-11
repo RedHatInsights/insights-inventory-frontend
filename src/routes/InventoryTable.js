@@ -306,15 +306,7 @@ const Inventory = ({
                             /> 
                            
                 </Tab> 
-                <Tab eventKey={2} title={<TabTitleText>Image</TabTitleText>}>
-                  <AsyncComponent
-                                appName="edge"
-                                module="./Images"
-                                historyProp={useHistory}
-                                locationProp={useLocation}
-                            /> 
-                           
-                </Tab> 
+                
                 
                            
             </Tabs>
