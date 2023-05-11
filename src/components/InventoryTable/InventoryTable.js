@@ -149,7 +149,8 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
             //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
             activeFiltersConfig: cachedProps.activeFiltersConfig,
             ...customFilters,
-            ...options
+            ...options,
+            globalFilter: cachedProps?.customFilters?.globalFilter
         };
 
         const cachedParams = cache.current.getParams();
