@@ -16,17 +16,7 @@ import { InventoryTable as InventoryTableCmp } from '../components/InventoryTabl
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
-
-const reloadWrapper = (event, callback) => {
-    event.payload.then(callback);
-    return event;
-};
-
-const calculateChecked = (rows = [], selected) => (
-    rows.every(({ id }) => selected && selected.has(id))
-        ? rows.length > 0
-        : rows.some(({ id }) => selected && selected.has(id)) && null
-);
+import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 
 const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
     category ? `${category}/` : ''
@@ -115,10 +105,11 @@ const Inventory = ({
     const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
     const loaded = useSelector(({ entities }) => entities?.loaded);
     const selected = useSelector(({ entities }) => entities?.selected);
+    const total = useSelector(({ entities }) => entities?.total);
     const dispatch = useDispatch();
     const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+    const bulkSelectConfig = useBulkSelectConfig(selected, globalFilter, total, rows, loaded);
 
-    const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
     const onRefresh = (options, callback) => {
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
@@ -259,28 +250,7 @@ const Inventory = ({
                                         }
                                     }]
                                 },
-                                bulkSelect: {
-                                    count: calculateSelected(),
-                                    id: 'bulk-select-systems',
-                                    items: [{
-                                        title: 'Select none (0)',
-                                        onClick: () => {
-                                            onSelectRows(-1, false);
-                                        }
-                                    },
-                                    {
-                                        ...loaded && rows && rows.length > 0 ? {
-                                            title: `Select page (${ rows.length })`,
-                                            onClick: () => {
-                                                onSelectRows(0, true);
-                                            }
-                                        } : {}
-                                    }],
-                                    checked: calculateChecked(rows, selected),
-                                    onSelect: (value) => {
-                                        onSelectRows(0, value);
-                                    }
-                                }
+                                bulkSelect: bulkSelectConfig
                             })}
                             onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
                         />
@@ -312,7 +282,7 @@ const Inventory = ({
                         description: `Removal of ${displayName} started.`,
                         dismissable: false
                     }));
-                    dispatch(reloadWrapper(actions.deleteEntity(removeSystems, displayName), () => onRefresh({ filters })));
+                    dispatch(actions.deleteEntity(removeSystems, displayName));
                     handleModalToggle(false);
                 }}
             />
