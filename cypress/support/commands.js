@@ -23,3 +23,37 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import React from 'react';
+import FlagProvider from '@unleash/proxy-client-react';
+import { Provider } from 'react-redux';
+import { getStore } from '../../src/store';
+import { MemoryRouter, Switch, Route } from 'react-router-dom';
+import { mount } from '@cypress/react';
+
+Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
+    const { path, routerProps = { initialEntries: ['/'] } } = options;
+
+    return mount(
+        <FlagProvider
+            config={{
+                url: 'http://localhost:8002/feature_flags',
+                clientKey: 'abc',
+                appName: 'abc'
+            }}
+        >
+            <Provider store={getStore()}>
+                <MemoryRouter {...routerProps}>
+                    {path ? (
+                        <Switch>
+                            <Route path={options.path} component={() => <Component {...props} />} rootClass='inventory' />
+                        </Switch>
+                    ) : (
+                        <Component {...props} />
+                    )}
+                </MemoryRouter>
+            </Provider>
+        </FlagProvider>
+    );
+});
+
