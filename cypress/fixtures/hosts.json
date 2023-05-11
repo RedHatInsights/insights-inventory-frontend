@@ -113,7 +113,17 @@
       "provider_id": null,
       "display_name": null,
       "created": "2006-03-24T23:00:00.0Z",
-      "culled_timestamp": null
+      "culled_timestamp": null,
+      "groups": [
+        {
+          "id": "54b302e4-07d2-45c5-b2f8-92a286847f9d",
+          "name": "ancd",
+          "account": "12345",
+          "org_id": "54321",
+          "created_on": null,
+          "modified_on": null
+        }
+      ]
     },
     {
       "org_id": "consectetur elit",
@@ -256,7 +266,8 @@
       "fqdn": null,
       "provider_id": null,
       "bios_uuid": "anim nulla ex eiusmod voluptate",
-      "culled_timestamp": null
+      "culled_timestamp": null,
+      "groups": []
     },
     {
       "org_id": "deserunt sit irure",
@@ -369,7 +380,8 @@
         }
       },
       "culled_timestamp": null,
-      "fqdn": null
+      "fqdn": null,
+      "groups": []
     },
     {
       "org_id": "fugiat in quis ea",
@@ -512,7 +524,8 @@
         "nu"
       ],
       "fqdn": null,
-      "id": "ea qui dolor voluptate"
+      "id": "ea qui dolor voluptate",
+      "groups": []
     },
     {
       "org_id": "ut do pariatur consequat",
@@ -665,7 +678,8 @@
         "Duis dolore dolore temp",
         "enim ut in ipsum Excepteur",
         "ut dolor consequat aliquip ea"
-      ]
+      ],
+      "groups": []
     },
     {
       "org_id": "irure magna est ipsum commodo",
@@ -782,7 +796,8 @@
       "ansible_host": null,
       "created": "2016-06-02T22:00:00.0Z",
       "insights_id": null,
-      "provider_id": "ipsum Ut id tempor cupid"
+      "provider_id": "ipsum Ut id tempor cupid",
+      "groups": []
     },
     {
       "org_id": "t",
@@ -899,7 +914,8 @@
       "provider_type": "in",
       "id": "in",
       "updated": "2004-12-06T23:00:00.0Z",
-      "culled_timestamp": null
+      "culled_timestamp": null,
+      "groups": []
     },
     {
       "org_id": "sit sint",
@@ -995,7 +1011,8 @@
       ],
       "display_name": null,
       "mac_addresses": null,
-      "insights_id": "in id fugiat dolor quis"
+      "insights_id": "in id fugiat dolor quis",
+      "groups": []
     },
     {
       "org_id": "est sunt nulla voluptate r",
@@ -1112,7 +1129,8 @@
       "fqdn": null,
       "culled_timestamp": "1989-12-30T00:00:00.0Z",
       "reporter": "do i",
-      "subscription_manager_id": null
+      "subscription_manager_id": null,
+      "groups": []
     },
     {
       "org_id": "ipsum ",
@@ -1224,7 +1242,8 @@
       },
       "subscription_manager_id": "in ea ut tempor",
       "provider_type": "Ut incididunt sit officia mollit",
-      "provider_id": null
+      "provider_id": null,
+      "groups": []
     },
     {
       "org_id": "aliqua labore velit veniam dolore",
@@ -1341,7 +1360,8 @@
       "culled_timestamp": "1971-03-30T23:00:00.0Z",
       "provider_id": "off",
       "created": "2008-08-15T22:00:00.0Z",
-      "stale_timestamp": "2001-07-05T22:00:00.0Z"
+      "stale_timestamp": "2001-07-05T22:00:00.0Z",
+      "groups": []
     },
     {
       "org_id": "irure anim labore ut",
@@ -1479,7 +1499,8 @@
         "aliquip pariatur voluptate o",
         "veniam ut dolore"
       ],
-      "provider_type": null
+      "provider_type": null,
+      "groups": []
     },
     {
       "org_id": "nostrud ullamco sed dolor",
@@ -1622,7 +1643,8 @@
       "culled_timestamp": "2008-02-13T23:00:00.0Z",
       "stale_warning_timestamp": null,
       "subscription_manager_id": null,
-      "display_name": "nostrud dolor cillum elit velit"
+      "display_name": "nostrud dolor cillum elit velit",
+      "groups": []
     },
     {
       "org_id": "amet cillum laboris velit enim",
@@ -1744,7 +1766,8 @@
           "namespace": "cillum"
         }
       ],
-      "subscription_manager_id": null
+      "subscription_manager_id": null,
+      "groups": []
     },
     {
       "org_id": "ex commodo ",
@@ -1877,7 +1900,8 @@
       "stale_timestamp": null,
       "reporter": "ex ut ad nostrud",
       "id": "eu quis nostrud",
-      "ansible_host": null
+      "ansible_host": null,
+      "groups": []
     },
     {
       "org_id": "irure consectetur cillum Excepteur",
@@ -2004,7 +2028,8 @@
       "subscription_manager_id": null,
       "bios_uuid": "minim enim cillum quis",
       "fqdn": null,
-      "stale_warning_timestamp": "1998-10-05T22:00:00.0Z"
+      "stale_warning_timestamp": "1998-10-05T22:00:00.0Z",
+      "groups": []
     },
     {
       "org_id": "Duis magna do",
@@ -2121,7 +2146,8 @@
       "created": "1954-10-15T00:00:00.0Z",
       "bios_uuid": "ipsum est in dolor occaecat",
       "account": "labori",
-      "subscription_manager_id": "sed ani"
+      "subscription_manager_id": "sed ani",
+      "groups": []
     },
     {
       "org_id": "dolor",
@@ -2233,7 +2259,8 @@
       "provider_type": null,
       "culled_timestamp": null,
       "reporter": "laboris q",
-      "created": "2003-04-02T22:00:00.0Z"
+      "created": "2003-04-02T22:00:00.0Z",
+      "groups": []
     },
     {
       "org_id": "voluptate dolor sit",
@@ -2371,7 +2398,8 @@
         "commodo labore fugiat"
       ],
       "culled_timestamp": null,
-      "id": "dolor culpa"
+      "id": "dolor culpa",
+      "groups": []
     },
     {
       "org_id": "esse irure reprehenderit ad",
@@ -2498,7 +2526,8 @@
       "display_name": null,
       "stale_warning_timestamp": "1958-08-14T23:00:00.0Z",
       "stale_timestamp": null,
-      "mac_addresses": null
+      "mac_addresses": null,
+      "groups": []
     }
   ],
   "total": 630
