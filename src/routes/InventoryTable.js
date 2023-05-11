@@ -137,7 +137,7 @@ const Inventory = ({
     };
 
     useEffect(() => {
-        chrome.updateDocumentTitle('Inventory | Red Hat Insights');
+        chrome.updateDocumentTitle('Systems | Red Hat Insights');
         chrome?.hideGlobalFilter?.(false);
         chrome.appAction('system-list');
         chrome.appObjectId();
@@ -225,7 +225,7 @@ const Inventory = ({
     return (
         <React.Fragment>
             <PageHeader className="pf-m-light">
-                <PageHeaderTitle title='Inventory'/>
+                <PageHeaderTitle title='Systems'/>
             </PageHeader>
             <Main>
                 <Grid gutter="md">
