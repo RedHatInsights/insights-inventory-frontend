@@ -4,6 +4,7 @@ import componentTypes from '@data-driven-forms/react-form-renderer/component-typ
 import { nameValidator } from '../../helpers/validate';
 import { Text } from '@patternfly/react-core';
 import { getGroups } from '../../utils/api';
+import awesomeDebouncePromise from 'awesome-debounce-promise';
 
 export const createGroupSchema = (namePresenceValidator) => ({
     fields: [
@@ -71,20 +72,21 @@ export const addHostSchema = (systemName) => ({
             isRequired: true,
             isClearable: true,
             placeholder: 'Type or click to select a group',
-            loadOptions: (searchValue = '') =>
-                getGroups().then(({ results = [] }) => {
-                    return results.reduce((acc, { name, id }) => {
-                        if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
-                            return [
-                                ...acc,
-                                {
-                                    label: name,
-                                    value: { name, id }
-                                }
-                            ];
-                        }
-                    }, []);
-                }),
+            loadOptions: async (searchValue = '') => {
+                // add a slight delay for scenarios when a new group has been just created
+                const data = await awesomeDebouncePromise(getGroups, 500)();
+                return (data?.results || []).reduce((acc, { name, id }) => {
+                    if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
+                        return [
+                            ...acc,
+                            {
+                                label: name,
+                                value: { name, id }
+                            }
+                        ];
+                    }
+                }, []);
+            },
             validate: [{ type: validatorTypes.REQUIRED }]
         },
         {
