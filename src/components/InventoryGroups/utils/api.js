@@ -53,6 +53,10 @@ export const addHostToGroup = (groupId, newHostId) => {
     return instance.post(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${newHostId}`);
 };
 
+export const removeHostsFromGroup = (groupId, hostIds) => {
+    return instance.delete(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${hostIds.join(',')}`);
+};
+
 getGroups.propTypes = {
     search: PropTypes.shape({
         name: PropTypes.string
