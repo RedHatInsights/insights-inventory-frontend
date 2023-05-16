@@ -15,19 +15,7 @@ const mountPage = () =>  mount(
 );
 
 before(() => {
-    cy.window().then(
-        (window) =>
-            (window.insights = {
-                chrome: {
-                    isProd: false,
-                    auth: {
-                        getUser: () => {
-                            return Promise.resolve({});
-                        }
-                    }
-                }
-            })
-    );
+    cy.mockWindowChrome();
 });
 
 describe('groups table page', () => {
