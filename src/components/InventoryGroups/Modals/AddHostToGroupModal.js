@@ -15,6 +15,7 @@ const AddHostToGroupModal = ({
     reloadData
 }) => {
     const dispatch = useDispatch();
+    const { display_name: displayName, id } = modalState;
 
     const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
     const handleAddDevices = (values) => {
@@ -24,12 +25,12 @@ const AddHostToGroupModal = ({
                 title: 'Success',
                 description: `System(s) have been added to ${group.name} successfully`
             },
-            onError: { title: 'Error', description: `Failed to add ${modalState.name} to ${group.name}` }
+            onError: { title: 'Error', description: `Failed to add ${displayName} to ${group.name}` }
         };
 
         apiWithToast(
             dispatch,
-            () => addHostToGroup(group.id, modalState.id),
+            () => addHostToGroup(group.id, id),
             statusMessages
         );
     };
@@ -41,7 +42,7 @@ const AddHostToGroupModal = ({
                 closeModal={() => setIsModalOpen(false)}
                 title="Add to group"
                 submitLabel="Add"
-                schema={addHostSchema(modalState.name)}
+                schema={addHostSchema(displayName)}
                 additionalMappers={{
                     'create-group-btn': {
                         component: CreateGroupButton,
@@ -51,7 +52,6 @@ const AddHostToGroupModal = ({
                         }
                     }
                 }}
-                initialValues={modalState}
                 onSubmit={handleAddDevices}
                 reloadData={reloadData}
             />
@@ -72,14 +72,12 @@ const AddHostToGroupModal = ({
 AddHostToGroupModal.propTypes = {
     modalState: PropTypes.shape({
         id: PropTypes.string,
-        name: PropTypes.string,
-        groupName: PropTypes.string
+        // eslint-disable-next-line camelcase
+        display_name: PropTypes.string
     }),
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
-    reloadData: PropTypes.func,
-    setIsCreateGroupModalOpen: PropTypes.func,
-    deviceIds: PropTypes.array
+    reloadData: PropTypes.func
 };
 
 export default AddHostToGroupModal;
