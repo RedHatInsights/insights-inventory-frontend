@@ -74,7 +74,7 @@ export const addHostSchema = (systemName) => ({
             placeholder: 'Type or click to select a group',
             loadOptions: async (searchValue = '') => {
                 // add a slight delay for scenarios when a new group has been just created
-                const data = await awesomeDebouncePromise(getGroups, 500)();
+                const data = await awesomeDebouncePromise(() => getGroups({ name: searchValue }, {}), 500)();
                 return (data?.results || []).reduce((acc, { name, id }) => {
                     if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
                         return [
