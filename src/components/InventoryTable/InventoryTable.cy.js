@@ -55,6 +55,7 @@ before(() => {
         (window) =>
             (window.insights = {
                 chrome: {
+                    getUserPermissions: () => ['inventory:*:*'], // enable all read/write features
                     isProd: false,
                     auth: {
                         getUser: () => {
