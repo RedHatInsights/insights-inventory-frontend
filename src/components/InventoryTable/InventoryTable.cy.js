@@ -51,7 +51,20 @@ const waitForTable = (waitNetwork = false) => {
 };
 
 before(() => {
-    cy.mockWindowChrome();
+    cy.window().then( // one of the fec dependencies talks to window.insights.chrome
+        (window) =>
+            (window.insights = {
+                chrome: {
+                    getUserPermissions: () => ['inventory:*:*'], // enable all read/write features
+                    isProd: false,
+                    auth: {
+                        getUser: () => {
+                            return Promise.resolve({});
+                        }
+                    }
+                }
+            })
+    );
 });
 
 describe('with default parameters', () => {

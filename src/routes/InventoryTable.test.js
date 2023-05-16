@@ -53,7 +53,8 @@ describe('InventoryTable', () => {
         stale_warning_timestamp: '2020-11-04T12:07:14.263615+00:00',
         subscription_manager_id: 'dd9714be-20fc-46c7-8fc0-ef2e4d5112cf',
         tags: [],
-        updated: '2020-10-27T10:07:14.453072+00:00'
+        updated: '2020-10-27T10:07:14.453072+00:00',
+        groups: []
     };
 
     const initialStore = {
@@ -250,7 +251,6 @@ describe('InventoryTable', () => {
 
         await act(async () => {
             const dropdownItems = wrapper.find('DropdownItem');
-
             const deleteDropdown = dropdownItems.at(1);
             deleteDropdown.find('button').simulate('click');
         });
@@ -258,9 +258,10 @@ describe('InventoryTable', () => {
         wrapper.update();
 
         expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(true);
-        expect(wrapper.find(DeleteModal).props().currentSytems).toEqual(
-            { displayName: 'RHIQE.31ea86a9-a439-4422-9516-27c879057535.test', id: 'ed190a06-de88-4d62-aba1-88ad402720a8' }
+        expect(wrapper.find(DeleteModal).props().currentSytems.display_name).toEqual(
+            'RHIQE.31ea86a9-a439-4422-9516-27c879057535.test'
         );
+        expect(wrapper.find(DeleteModal).props().currentSytems.id).toEqual('ed190a06-de88-4d62-aba1-88ad402720a8');
         window.XMLHttpRequest = tmp;
     });
 });
