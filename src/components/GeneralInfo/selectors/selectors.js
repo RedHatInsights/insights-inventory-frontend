@@ -45,13 +45,15 @@ export const operatingSystem = ({
     operating_system,
     os_kernel_version,
     last_boot_time,
-    kernel_modules
+    kernel_modules,
+    system_update_method
 } = {}, { facts } = {}) => ({
     release: operating_system,
     kernelRelease: os_kernel_version,
     architecture: arch || facts?.rhsm?.ARCHITECTURE,
     bootTime: last_boot_time,
-    kernelModules: kernel_modules
+    kernelModules: kernel_modules,
+    systemUpdateMethod: system_update_method
 });
 
 export const biosSelector = ({
