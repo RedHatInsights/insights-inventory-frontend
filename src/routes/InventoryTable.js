@@ -140,6 +140,8 @@ const Inventory = ({
         }
     };
 
+     const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
+
     useEffect(() => {
         chrome.updateDocumentTitle('Inventory | Red Hat Insights');
         chrome?.hideGlobalFilter?.(false);
@@ -297,16 +299,16 @@ const Inventory = ({
                         </GridItem>
                     </Grid>
                 </Tab>
+                {!EdgeParityEnabled ?
                 <Tab eventKey={1} title={<TabTitleText>Immutable</TabTitleText>}>
-                  <AsyncComponent
+                    <AsyncComponent
                                 appName="edge"
                                 module="./Inventory"
                                 historyProp={useHistory}
                                 locationProp={useLocation}
                             /> 
-                           
-                </Tab> 
-                
+                </Tab> : null  
+                 }
                 
                            
             </Tabs>
