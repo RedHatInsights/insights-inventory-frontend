@@ -77,9 +77,7 @@ AddHostToGroupModal.propTypes = {
     }),
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
-    reloadData: PropTypes.func,
-    setIsCreateGroupModalOpen: PropTypes.func,
-    deviceIds: PropTypes.array
+    reloadData: PropTypes.func
 };
 
 export default AddHostToGroupModal;
