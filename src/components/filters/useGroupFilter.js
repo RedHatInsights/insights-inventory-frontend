@@ -36,7 +36,7 @@ const useGroupFilter = (apiParams = []) => {
 
     useEffect(() => {
         if (groupsEnabled === true) {
-            dispatch(fetchGroups(apiParams));
+            dispatch(fetchGroups(apiParams)); // TODO: make the request paginated (to show all the groups)
         }
     }, [groupsEnabled]);
     //fetched values
