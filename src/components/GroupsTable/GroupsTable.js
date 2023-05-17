@@ -77,6 +77,7 @@ const GroupsTable = () => {
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [renameModalOpen, setRenameModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [kebabDeleteGroup, setKebabDeleteGroup] = useState(false);
     const groups = useMemo(() => data?.results || [], [data]);
     const { fetchBatched } = useFetchBatched();
 
@@ -261,9 +262,11 @@ const GroupsTable = () => {
                 isModalOpen={deleteModalOpen}
                 setIsModalOpen={setDeleteModalOpen}
                 reloadData={() => fetchData(filters)}
-                modalState={selectedIds.length > 1 ? {
-                    ids: selectedIds
-                } : selectedGroup}
+                modalState={
+                    kebabDeleteGroup ? selectedGroup :
+                        selectedIds.length > 1 ? {
+                            ids: selectedIds
+                        } : selectedGroup}
             />
             <PrimaryToolbar
                 pagination={{
@@ -334,7 +337,9 @@ const GroupsTable = () => {
                         },
                         {
                             label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
-                            onClick: () => setDeleteModalOpen(true),
+                            onClick: () => {
+                                setKebabDeleteGroup(false);
+                                setDeleteModalOpen(true);},
                             props: {
                                 isDisabled: selectedIds.length === 0
                             }
@@ -370,6 +375,7 @@ const GroupsTable = () => {
                     {
                         title: 'Delete group',
                         onClick: (event, rowIndex, { groupId, groupName }) => {
+                            setKebabDeleteGroup(true);
                             setSelectedGroup({
                                 id: groupId,
                                 name: groupName
