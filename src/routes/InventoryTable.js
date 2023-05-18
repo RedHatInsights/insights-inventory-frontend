@@ -228,78 +228,83 @@ const Inventory = ({
         return [...(groupsUiStatus ? actionsBehindFeatureFlag : []), ...standardActions];
     };
 
+    const traditionalDevices = [ <Grid gutter="md">
+    <GridItem span={12}>
+        <InventoryTableCmp
+            hasAccess={hasAccess}
+            isRbacEnabled
+            customFilters={{ filters, globalFilter }}
+            isFullView
+            inventoryRef={inventory}
+            showTags
+            onRefresh={onRefresh}
+            hasCheckbox={writePermissions}
+            autoRefresh
+            ignoreRefresh
+            initialLoading={initialLoading}
+            tableProps={
+                (writePermissions && {
+                    actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
+            {...(writePermissions && {
+                actionsConfig: {
+                    actions: [{
+                        label: 'Delete',
+                        props: {
+                            isDisabled: calculateSelected() === 0,
+                            variant: 'secondary',
+                            onClick: () => {
+                                activateSystem(Array.from(selected.values()));
+                                handleModalToggle(true);
+                            }
+                        }
+                    }]
+                },
+                bulkSelect: {
+                    count: calculateSelected(),
+                    id: 'bulk-select-systems',
+                    items: [{
+                        title: 'Select none (0)',
+                        onClick: () => {
+                            onSelectRows(-1, false);
+                        }
+                    },
+                    {
+                        ...loaded && rows && rows.length > 0 ? {
+                            title: `Select page (${ rows.length })`,
+                            onClick: () => {
+                                onSelectRows(0, true);
+                            }
+                        } : {}
+                    }],
+                    checked: calculateChecked(rows, selected),
+                    onSelect: (value) => {
+                        onSelectRows(0, value);
+                    }
+                }
+            })}
+            onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
+        />
+    </GridItem>
+</Grid>
+]
+
     return (
+
         <React.Fragment>
             <PageHeader className="pf-m-light">
                 <PageHeaderTitle title='Inventory'/>
             </PageHeader>
             <Main>
+            {EdgeParityEnabled ?
             <Tabs
                 className="pf-u-ml-md"
                 activeKey={activeTabKey}
                 onSelect={handleTabClick}
             >
                 <Tab eventKey={0} title={<TabTitleText>Traditional</TabTitleText>}>
-                    <Grid gutter="md">
-                        <GridItem span={12}>
-                            <InventoryTableCmp
-                                hasAccess={hasAccess}
-                                isRbacEnabled
-                                customFilters={{ filters, globalFilter }}
-                                isFullView
-                                inventoryRef={inventory}
-                                showTags
-                                onRefresh={onRefresh}
-                                hasCheckbox={writePermissions}
-                                autoRefresh
-                                ignoreRefresh
-                                initialLoading={initialLoading}
-                                tableProps={
-                                    (writePermissions && {
-                                        actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
-                                {...(writePermissions && {
-                                    actionsConfig: {
-                                        actions: [{
-                                            label: 'Delete',
-                                            props: {
-                                                isDisabled: calculateSelected() === 0,
-                                                variant: 'secondary',
-                                                onClick: () => {
-                                                    activateSystem(Array.from(selected.values()));
-                                                    handleModalToggle(true);
-                                                }
-                                            }
-                                        }]
-                                    },
-                                    bulkSelect: {
-                                        count: calculateSelected(),
-                                        id: 'bulk-select-systems',
-                                        items: [{
-                                            title: 'Select none (0)',
-                                            onClick: () => {
-                                                onSelectRows(-1, false);
-                                            }
-                                        },
-                                        {
-                                            ...loaded && rows && rows.length > 0 ? {
-                                                title: `Select page (${ rows.length })`,
-                                                onClick: () => {
-                                                    onSelectRows(0, true);
-                                                }
-                                            } : {}
-                                        }],
-                                        checked: calculateChecked(rows, selected),
-                                        onSelect: (value) => {
-                                            onSelectRows(0, value);
-                                        }
-                                    }
-                                })}
-                                onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
-                            />
-                        </GridItem>
-                    </Grid>
+                    {traditionalDevices}
                 </Tab>
-                {!EdgeParityEnabled ?
+                
                 <Tab eventKey={1} title={<TabTitleText>Immutable</TabTitleText>}>
                     <AsyncComponent
                                 appName="edge"
@@ -307,11 +312,10 @@ const Inventory = ({
                                 historyProp={useHistory}
                                 locationProp={useLocation}
                             /> 
-                </Tab> : null  
-                 }
+                </Tab>   
+            </Tabs>  :  traditionalDevices }
                 
                            
-            </Tabs>
             </Main>
             <DeleteModal
                 className ='sentry-mask data-hj-suppress'
