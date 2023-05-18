@@ -6,6 +6,8 @@ import fixtures from '../fixtures/groups.json';
 import groupsSecondPage from '../fixtures/groupsSecondPage.json';
 import groupDetailFixtures from '../fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
 import hostsFixtures from '../fixtures/hosts.json';
+import edgeSystemProfile from '../fixtures/edgeSystemProfile.json';
+import hostDetail from '../fixtures/hostDetail.json';
 
 export { hostsFixtures, groupDetailFixtures };
 export const groupsInterceptors = {
@@ -136,6 +138,32 @@ export const deleteGroupsInterceptors = {
     }
 };
 
+export const hostsDetailInterceptors = {
+    successful: () => {
+        cy.intercept('GET', '/api/inventory/v1/hosts/*', {
+            statusCode: 200,
+            body: hostDetail
+        }).as('getHostDetail');
+    }
+};
+
+export const hostsDetailTagsInterceptors = {
+    successful: () => {
+        cy.intercept('GET', '/api/inventory/v1/hosts/*/tags*', {
+            statusCode: 200,
+            body: {
+                total: 1,
+                count: 1,
+                page: 1,
+                per_page: 50,
+                results: {
+                    'fbe52803-d68a-40e1-9e39-5f9bae4a4bd0': []
+                }
+            }
+        }).as('getHostDetailTags');
+    }
+};
+
 export const hostsInterceptors = {
     successful: () => {
         cy.intercept('GET', '/api/inventory/v1/hosts*', {
@@ -173,6 +201,12 @@ export const systemProfileInterceptors = {
                 results: []
             }
         }).as('getSystemProfile');
+    },
+    'full system profile, successful with response': () => {
+        cy.intercept('GET', '/api/inventory/v1/hosts/*/system_profile*', {
+            statusCode: 200,
+            body: edgeSystemProfile
+        }).as('getFullSystemProfile');
     }
 };
 

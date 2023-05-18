@@ -57,3 +57,19 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
     );
 });
 
+// one of the fec dependencies talks to window.insights.chrome
+Cypress.Commands.add('mockWindowChrome', () => {
+    cy.window().then(
+        (window) =>
+            (window.insights = {
+                chrome: {
+                    isProd: false,
+                    auth: {
+                        getUser: () => {
+                            return Promise.resolve({});
+                        }
+                    }
+                }
+            })
+    );
+});

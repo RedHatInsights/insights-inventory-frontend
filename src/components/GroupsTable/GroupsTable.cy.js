@@ -44,19 +44,7 @@ const mountTable = () =>
     );
 
 before(() => {
-    cy.window().then(
-        (window) =>
-            (window.insights = {
-                chrome: {
-                    isProd: false,
-                    auth: {
-                        getUser: () => {
-                            return Promise.resolve({});
-                        }
-                    }
-                }
-            })
-    );
+    cy.mockWindowChrome();
 });
 
 describe('renders correctly', () => {

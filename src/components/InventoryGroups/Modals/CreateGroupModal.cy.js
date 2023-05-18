@@ -50,16 +50,7 @@ const mockResponse = [
 
 describe('Create Group Modal', () => {
     before(() => {
-        cy.window().then(window => window.insights = {
-            chrome: {
-                isProd: false,
-                auth: {
-                    getUser: () => {
-                        return Promise.resolve({});
-                    }
-                }
-            }
-        });
+        cy.mockWindowChrome();
     });
 
     beforeEach(() => {
