@@ -1,5 +1,7 @@
 export default () => ({
     updateDocumentTitle: () => undefined,
     isBeta: () => false,
-    appAction: () => {}
+    appAction: () => {},
+    appObjectId: () => {},
+    on: () => {}
 });
