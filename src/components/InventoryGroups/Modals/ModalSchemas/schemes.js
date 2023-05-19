@@ -56,7 +56,7 @@ const createDescription = (systemName) => {
 //this is a custom schema that is passed via additional mappers to the Modal component
 //it allows to create custom item types in the modal
 
-const loadOptions = async (searchValue = '') => {
+const loadOptions = awesomeDebouncePromise(async (searchValue = '') => {
     // add a slight delay for scenarios when a new group has been just created
     const data = await awesomeDebouncePromise(() => getGroups({ name: searchValue }, {}), 500)();
     // TODO: make the getGroups requests paginated
@@ -71,7 +71,7 @@ const loadOptions = async (searchValue = '') => {
             ];
         }
     }, []);
-};
+}, 500, { onlyResolvesLast: false });
 
 export const addHostSchema = (systemName) => ({
     fields: [
