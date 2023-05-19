@@ -51,19 +51,7 @@ const waitForTable = (waitNetwork = false) => {
 };
 
 before(() => {
-    cy.window().then( // one of the fec dependencies talks to window.insights.chrome
-        (window) =>
-            (window.insights = {
-                chrome: {
-                    isProd: false,
-                    auth: {
-                        getUser: () => {
-                            return Promise.resolve({});
-                        }
-                    }
-                }
-            })
-    );
+    cy.mockWindowChrome();
 });
 
 describe('with default parameters', () => {
