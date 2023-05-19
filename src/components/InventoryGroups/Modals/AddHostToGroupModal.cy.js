@@ -15,18 +15,7 @@ const mountModal = (props =
 };
 
 before(() => {
-    cy.window().then(
-        (window) =>
-            (window.insights = {
-                chrome: {
-                    auth: {
-                        getUser: () => {
-                            return Promise.resolve({});
-                        }
-                    }
-                }
-            })
-    );
+    cy.mockWindowChrome();
 });
 
 describe('AddHostToGroupModal', () => {
