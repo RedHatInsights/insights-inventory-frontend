@@ -222,13 +222,13 @@ const Inventory = ({
                             isRbacEnabled
                             customFilters={{ filters, globalFilter }}
                             isFullView
-                            inventoryRef={inventory}
                             showTags
                             onRefresh={onRefresh}
                             hasCheckbox={writePermissions}
                             autoRefresh
                             ignoreRefresh
                             initialLoading={initialLoading}
+                            ref={inventory}
                             tableProps={
                                 (writePermissions && {
                                     actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
@@ -299,9 +299,7 @@ const Inventory = ({
                             isModalOpen={addHostGroupModalOpen}
                             setIsModalOpen={setAddHostGroupModalOpen}
                             modalState={currentSystem}
-                            reloadData={() => {
-                                // TODO
-                            }}
+                            reloadData={() => inventory.current.onRefreshData(filters, false, true)}
                         />
                         {
                             removeHostsFromGroupModalOpen &&
@@ -309,9 +307,7 @@ const Inventory = ({
                                 isModalOpen={removeHostsFromGroupModalOpen}
                                 setIsModalOpen={setRemoveHostsFromGroupModalOpen}
                                 modalState={currentSystem}
-                                reloadData={() => {
-                                    // TODO
-                                }}
+                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
                             />
                         }
                     </>
