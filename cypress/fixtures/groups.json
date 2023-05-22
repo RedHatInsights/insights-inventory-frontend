@@ -39,11 +39,11 @@
       "created_at": "1966-12-21T00:00:00.0Z"
     },
     {
-      "host_ids": null,
+      "host_ids": ["anim commodo", "dolor"],
       "updated_at": "2012-07-06T22:00:00.0Z",
-      "id": "B9bcBF737A9BA20482f9bc9f5ACcbe04",
+      "id": "54b302e4-07d2-45c5-b2f8-92a286847f9d",
       "created_at": "1944-12-04T23:00:00.0Z",
-      "name": "dolor labore dolore commodo"
+      "name": "ancd"
     },
     {
       "updated_at": "1997-03-05T23:00:00.0Z",

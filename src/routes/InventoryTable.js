@@ -168,6 +168,21 @@ const Inventory = ({
 
     const calculateSelected = () => selected ? selected.size : 0;
 
+    const isRemoveFromGroupsEnabled = () => {
+        if (calculateSelected() > 0) {
+            const selectedHosts = Array.from(selected.values());
+
+            return (
+                selectedHosts.every(({ groups }) => groups.length !== 0) &&
+                    selectedHosts.every(
+                        ({ groups }) => groups[0].name === selectedHosts[0].groups[0].name
+                    )
+            );
+        }
+
+        return false;
+    };
+
     //This wrapping of table actions allows to pass feature flag status and receive a prepared array of actions
     const tableActions = (groupsUiStatus, row) => {
         const standardActions = [
@@ -244,7 +259,18 @@ const Inventory = ({
                                                 handleModalToggle(true);
                                             }
                                         }
-                                    }]
+                                    },
+                                    {
+                                        label: 'Remove from group',
+                                        props: {
+                                            isDisabled: !isRemoveFromGroupsEnabled()
+                                        },
+                                        onClick: () => {
+                                            setCurrentSystem(Array.from(selected.values()));
+                                            setRemoveHostsFromGroupModalOpen(true);
+                                        }
+                                    }
+                                    ]
                                 },
                                 bulkSelect: bulkSelectConfig
                             })}
