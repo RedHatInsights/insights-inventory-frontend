@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import { mount } from '@cypress/react';
 import {
     changePagination,
     checkEmptyState,
@@ -21,31 +20,38 @@ import {
     MODAL
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 import fixtures from '../../../cypress/fixtures/groups.json';
 import { groupsInterceptors as interceptors } from '../../../cypress/support/interceptors';
 import { checkSelectedNumber, ORDER_TO_URL, selectRowN } from '../../../cypress/support/utils';
-import { getStore } from '../../store';
 import GroupsTable from './GroupsTable';
 
 const DEFAULT_ROW_COUNT = 50;
 const TABLE_HEADERS = ['Name', 'Total systems', 'Last modified'];
 const ROOT = 'div[id="groups-table"]';
 
-const mountTable = () =>
-    mount(
-        <Provider store={getStore()}>
-            <MemoryRouter>
-                <GroupsTable />
-            </MemoryRouter>
-        </Provider>
-    );
+const mountTable = (initialEntry = '/') =>
+    cy.mountWithContext(GroupsTable, {
+        routerProps: { initialEntries: [initialEntry], initialIndex: 0 }
+    });
 
 before(() => {
     cy.mockWindowChrome();
 });
+
+const checkSorting = (label, order, dataField) => {
+    // get appropriate locators
+    const header = `th[data-label="${label}"]`;
+    if (order === 'ascending') {
+        cy.get(header).find('button').click();
+    } else {
+        cy.get(header).find('button').click().click();
+    }
+
+    cy.wait('@getGroups')
+    .its('request.url')
+    .should('include', `order_how=${ORDER_TO_URL[order]}`)
+    .and('include', `order_by=${dataField}`);
+};
 
 describe('renders correctly', () => {
     beforeEach(() => {
@@ -120,6 +126,34 @@ describe('pagination', () => {
     });
 });
 
+describe('url search parameters', () => {
+    beforeEach(() => {
+        interceptors['successful with some items']();
+    });
+
+    it('applies pagination', () => {
+        mountTable('/?per_page=10&page=2');
+
+        cy.wait('@getGroups').its('request.url').should('contain', 'per_page=10').and('contain', 'page=2');
+        cy.ouiaId('pager').eq(0).find(DROPDOWN_TOGGLE).click();
+        cy.get(DROPDOWN_ITEM).contains('10 per page').should('have.class', 'pf-m-selected');
+        cy.get('[data-ouia-component-id="pager"] .pf-c-form-control').should('have.value', 2);
+    });
+
+    it('applies filters', () => {
+        mountTable('/?name=123');
+
+        cy.wait('@getGroups').its('request.url').should('contain', 'name=123');
+        cy.get('.ins-c-primary-toolbar__filter').find('input').should('have.value', '123');
+    });
+
+    it('applies sorting', () => {
+        mountTable('/?order_by=host_ids&order_how=desc');
+
+        checkSorting('Total systems', 'descending', 'host_ids');
+    });
+});
+
 describe('sorting', () => {
     beforeEach(() => {
         interceptors['successful with some items']();
@@ -127,21 +161,6 @@ describe('sorting', () => {
 
         cy.wait('@getGroups'); // first initial request
     });
-
-    const checkSorting = (label, order, dataField) => {
-    // get appropriate locators
-        const header = `th[data-label="${label}"]`;
-        if (order === 'ascending') {
-            cy.get(header).find('button').click();
-        } else {
-            cy.get(header).find('button').click().click();
-        }
-
-        cy.wait('@getGroups')
-        .its('request.url')
-        .should('include', `order_how=${ORDER_TO_URL[order]}`)
-        .and('include', `order_by=${dataField}`);
-    };
 
     _.zip(['name', 'host_ids', 'updated_at'], TABLE_HEADERS).forEach(
         ([category, label]) => {

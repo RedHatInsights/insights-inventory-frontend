@@ -35,6 +35,11 @@ import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { getGroups } from '../InventoryGroups/utils/api';
 import { generateLoadingRows } from '../InventoryTable/helpers';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
+import {
+    readURLSearchParams,
+    updateURLSearchParams
+} from '../../Utilities/URLSearchParams';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 const GROUPS_TABLE_INITIAL_STATE = {
     perPage: TABLE_DEFAULT_PAGINATION,
@@ -65,12 +70,43 @@ const GROUPS_TABLE_COLUMNS_TO_URL = {
 
 const REQUEST_DEBOUNCE_TIMEOUT = 500;
 
+const groupsTableFiltersConfig = {
+    name: {
+        paramName: 'name'
+    },
+    perPage: {
+        paramName: 'per_page',
+        transformFromParam: (value) => parseInt(value)
+    },
+    page: {
+        paramName: 'page',
+        transformFromParam: (value) => parseInt(value)
+    },
+    sortIndex: {
+        paramName: 'order_by',
+        transformToParam: (value) => GROUPS_TABLE_COLUMNS_TO_URL[value],
+        transformFromParam: (value) =>
+            parseInt(
+                Object.entries(GROUPS_TABLE_COLUMNS_TO_URL).find(
+                    ([, name]) => name === value
+                )[0]
+            )
+    },
+    sortDirection: {
+        paramName: 'order_how'
+    }
+};
+
 const GroupsTable = () => {
     const dispatch = useDispatch();
     const { rejected, uninitialized, loading, data } = useSelector(
         (state) => state.groups
     );
-    const [filters, setFilters] = useState(GROUPS_TABLE_INITIAL_STATE);
+    const location = useLocation();
+    const [filters, setFilters] = useState({
+        ...GROUPS_TABLE_INITIAL_STATE,
+        ...readURLSearchParams(location.search, groupsTableFiltersConfig)
+    });
     const [rows, setRows] = useState([]);
     const [selectedIds, setSelectedIds] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState({});
@@ -99,6 +135,7 @@ const GroupsTable = () => {
     );
 
     useEffect(() => {
+        updateURLSearchParams(filters, groupsTableFiltersConfig);
         fetchData(filters);
     }, [filters]);
 
