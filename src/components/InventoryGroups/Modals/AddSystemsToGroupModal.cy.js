@@ -79,7 +79,7 @@ describe('test data', () => {
             // eslint-disable-next-line camelcase
             ({ group_name }) => !_.isEmpty(group_name)
         );
-        expect(alreadyInGroup[0].id).to.eq('anim commodo');
+        expect(alreadyInGroup[0].id).to.eq('anim');
     });
 });
 
@@ -153,7 +153,7 @@ describe('AddSystemsToGroupModal', () => {
         .its('request.body')
         .should('deep.equal', {
             // eslint-disable-next-line camelcase
-            host_ids: ['host-1', 'host-2', 'anim commodo'] // sends the merged list of hosts
+            host_ids: ['host-1', 'host-2', 'anim'] // sends the merged list of hosts
         });
     });
 

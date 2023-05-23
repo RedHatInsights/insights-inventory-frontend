@@ -5,10 +5,11 @@ const mountModal = (props =
 {
     isModalOpen: true,
     setIsModalOpen: () => {},
-    modalState: {
-        name: 'host1',
+    modalState: [{
+        // eslint-disable-next-line camelcase
+        display_name: 'host1',
         id: 'host1-id'
-    },
+    }],
     reloadData: () => {}
 }) => {
     cy.mountWithContext(AddSelectedHostsToGroupModal, {}, props);
