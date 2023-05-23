@@ -14,10 +14,10 @@ import flatMap from 'lodash/flatMap';
 import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter, HOST_GROUP_CHIP } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
-import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
+import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
-import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
+import RemoveSelectedHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveSelectedHostsFromGroupModal';
 
 const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
     category ? `${category}/` : ''
@@ -168,7 +168,7 @@ const Inventory = ({
 
     const calculateSelected = () => selected ? selected.size : 0;
 
-    const isRemoveFromGroupsEnabled = () => {
+    const isBulkRemoveFromGroupsEnabled = () => {
         if (calculateSelected() > 0) {
             const selectedHosts = Array.from(selected.values());
 
@@ -178,6 +178,16 @@ const Inventory = ({
                         ({ groups }) => groups[0].name === selectedHosts[0].groups[0].name
                     )
             );
+        }
+
+        return false;
+    };
+
+    const isBulkAddHostsToGroupsEnabled = () => {
+        if (calculateSelected() > 0) {
+            const selectedHosts = Array.from(selected.values());
+
+            return selectedHosts.every(({ groups }) => groups.length === 0);
         }
 
         return false;
@@ -206,7 +216,7 @@ const Inventory = ({
             {
                 title: 'Add to group',
                 onClick: (_event, _index, rowData) => {
-                    setCurrentSystem(rowData);
+                    setCurrentSystem([rowData]);
                     setAddHostGroupModalOpen(true);
                 },
                 isDisabled: row.groups.length > 0
@@ -261,9 +271,19 @@ const Inventory = ({
                                         }
                                     },
                                     {
+                                        label: 'Add to group',
+                                        props: {
+                                            isDisabled: !isBulkAddHostsToGroupsEnabled()
+                                        },
+                                        onClick: () => {
+                                            setCurrentSystem(Array.from(selected.values()));
+                                            setAddHostGroupModalOpen(true);
+                                        }
+                                    },
+                                    {
                                         label: 'Remove from group',
                                         props: {
-                                            isDisabled: !isRemoveFromGroupsEnabled()
+                                            isDisabled: !isBulkRemoveFromGroupsEnabled()
                                         },
                                         onClick: () => {
                                             setCurrentSystem(Array.from(selected.values()));
@@ -321,15 +341,18 @@ const Inventory = ({
             {
                 groupsEnabled === true &&
                     <>
-                        <AddHostToGroupModal
-                            isModalOpen={addHostGroupModalOpen}
-                            setIsModalOpen={setAddHostGroupModalOpen}
-                            modalState={currentSystem}
-                            reloadData={() => inventory.current.onRefreshData(filters, false, true)}
-                        />
+                        {
+                            addHostGroupModalOpen &&
+                            <AddSelectedHostsToGroupModal
+                                isModalOpen={addHostGroupModalOpen}
+                                setIsModalOpen={setAddHostGroupModalOpen}
+                                modalState={currentSystem}
+                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                            />
+                        }
                         {
                             removeHostsFromGroupModalOpen &&
-                            <RemoveHostsFromGroupModal
+                            <RemoveSelectedHostsFromGroupModal
                                 isModalOpen={removeHostsFromGroupModalOpen}
                                 setIsModalOpen={setRemoveHostsFromGroupModalOpen}
                                 modalState={currentSystem}

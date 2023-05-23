@@ -159,12 +159,12 @@ describe('inventory table', () => {
         it('can remove more hosts from the same group', () => {
             cy.intercept(
                 'DELETE',
-                `/api/inventory/v1/groups/${
-                hostsFixtures.results[0].groups[0].id
-                }/hosts/${hostsFixtures.results
-                .slice(0, 2)
-                .map(({ id }) => id)
-                .join(',')}`
+        `/api/inventory/v1/groups/${
+          hostsFixtures.results[0].groups[0].id
+        }/hosts/${hostsFixtures.results
+        .slice(0, 2)
+        .map(({ id }) => id)
+        .join(',')}`
             ).as('request');
 
             cy.get(ROW).find('[type="checkbox"]').eq(0).click();
@@ -177,6 +177,36 @@ describe('inventory table', () => {
 
             cy.get(MODAL).within(() => {
                 cy.get('h1').should('have.text', 'Remove from group');
+                cy.get('button[type="submit"]').click();
+                cy.wait('@request');
+            });
+            cy.wait('@getHosts'); // data must be reloaded
+        });
+
+        it('can add more hosts to existing group', () => {
+            cy.intercept(
+                'POST',
+                `/api/inventory/v1/groups/${
+                groupsFixtures.results.find(({ name }) => name === TEST_GROUP)?.id
+                }/hosts/${hostsFixtures.results
+                .slice(3, 5)
+                .map(({ id }) => id)
+                .join(',')}`
+            ).as('request');
+
+            cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+            cy.get(ROW).find('[type="checkbox"]').eq(4).click();
+
+            // TODO: implement ouia selector for this component
+            cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+
+            cy.get(DROPDOWN_ITEM).contains('Add to group').click();
+
+            cy.get(MODAL).within(() => {
+                cy.get('h1').should('have.text', 'Add to group');
+                cy.wait('@getGroups');
+                cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
+                cy.get('.pf-c-select__menu-item').contains(TEST_GROUP).click();
                 cy.get('button[type="submit"]').click();
                 cy.wait('@request');
             });

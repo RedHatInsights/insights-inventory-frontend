@@ -1,5 +1,5 @@
 import { groupsInterceptors } from '../../../../cypress/support/interceptors';
-import AddHostToGroupModal from './AddHostToGroupModal';
+import AddSelectedHostsToGroupModal from './AddSelectedHostsToGroupModal';
 
 const mountModal = (props =
 {
@@ -11,14 +11,14 @@ const mountModal = (props =
     },
     reloadData: () => {}
 }) => {
-    cy.mountWithContext(AddHostToGroupModal, {}, props);
+    cy.mountWithContext(AddSelectedHostsToGroupModal, {}, props);
 };
 
 before(() => {
     cy.mockWindowChrome();
 });
 
-describe('AddHostToGroupModal', () => {
+describe('AddSelectedHostsToGroupModal', () => {
     it('makes separate requests when searching groups', () => {
         groupsInterceptors['successful with some items']();
         mountModal();
