@@ -99,6 +99,7 @@ describe('inventory table', () => {
                 cy.get('button[type="submit"]').click();
                 cy.wait('@request');
             });
+            cy.wait('@getHosts'); // data must be reloaded
         });
 
         it('can add to existing group', () => {
@@ -115,6 +116,7 @@ describe('inventory table', () => {
                 cy.get('button[type="submit"]').click();
                 cy.wait('@request');
             });
+            cy.wait('@getHosts'); // data must be reloaded
         });
     });
 });

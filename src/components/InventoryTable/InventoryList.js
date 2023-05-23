@@ -56,7 +56,7 @@ const InventoryList = React.forwardRef(({ hasAccess, onRefreshData, ...props }, 
 
     if (ref) {
         ref.current = {
-            onRefreshData: (params, disableRefresh = true) => onRefreshData(params, disableRefresh)
+            onRefreshData: (params, disableRefresh = true, forceRefresh) => onRefreshData(params, disableRefresh, forceRefresh)
         };
     }
 
