@@ -40,6 +40,7 @@ import {
     updateURLSearchParams
 } from '../../Utilities/URLSearchParams';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import isNil from 'lodash/isNil';
 
 const GROUPS_TABLE_INITIAL_STATE = {
     perPage: TABLE_DEFAULT_PAGINATION,
@@ -146,8 +147,8 @@ const GroupsTable = () => {
                 <span key={index}>
                     <Link to={`groups/${group.id}`}>{group.name || group.id}</Link>
                 </span>,
-                <span key={index}>{(group.host_ids || []).length.toString()}</span>,
-                <span key={index}>{<DateFormat date={group.updated_at} />}</span>
+                <span key={index}>{isNil(group.host_count) ? 'N/A' : group.host_count.toString()}</span>,
+                <span key={index}>{isNil(group.updated) ? 'N/A' : <DateFormat date={group.updated} />}</span>
             ],
             groupId: group.id,
             groupName: group.name,
