@@ -126,7 +126,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                                 ...config,
                                 filters: {
                                     ...config.filters,
-                                    groupName: [groupName] // TODO: the param is not yet supported by `apiHostGetHostList`
+                                    hostGroupFilter: [groupName]
                                 }
                             },
                             showTags
