@@ -77,7 +77,7 @@ export const groupDetailInterceptors = {
                     ...groupDetailFixtures,
                     results: [{
                         ...groupDetailFixtures.results[0],
-                        host_ids: ['host-1', 'host-2']
+                        host_count: 2
                     }]
                 }
             }
