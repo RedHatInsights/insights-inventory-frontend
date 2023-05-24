@@ -16,9 +16,7 @@ export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_D
 
 export const createGroup = (payload) => {
     return instance.post(`${INVENTORY_API_BASE}/groups`, {
-        name: payload.name,
-        // eslint-disable-next-line camelcase
-        host_ids: []
+        name: payload.name
     });
 };
 
