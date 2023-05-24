@@ -3,7 +3,6 @@ import { instance } from '@redhat-cloud-services/frontend-components-utilities/i
 import { INVENTORY_API_BASE } from '../../../api';
 import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
-import union from 'lodash/union';
 
 export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }) => {
     const parameters = new URLSearchParams({
