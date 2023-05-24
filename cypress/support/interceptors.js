@@ -118,6 +118,11 @@ export const groupDetailInterceptors = {
         .intercept('PATCH', '/api/inventory/v1/groups/*', { statusCode: 200 })
         .as('patchGroup');
     },
+    'post hosts successful': () => {
+        cy
+        .intercept('POST', '/api/inventory/v1/groups/*/hosts', { statusCode: 200 })
+        .as('postHosts');
+    },
     'delete successful': () => {
         cy
         .intercept('DELETE', '/api/inventory/v1/groups/*', { statusCode: 204 })
