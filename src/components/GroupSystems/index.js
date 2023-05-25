@@ -7,7 +7,6 @@ import GroupSystems from './GroupSystems';
 
 const GroupSystemsWrapper = ({ groupName, groupId }) => {
     const { uninitialized, loading, data } = useSelector((state) => state.groupDetail);
-    const hosts = data?.results?.[0]?.host_ids /* can be null */ || [];
 
     return uninitialized || loading ? (
         <EmptyState>
@@ -15,7 +14,7 @@ const GroupSystemsWrapper = ({ groupName, groupId }) => {
                 <Spinner />
             </EmptyStateBody>
         </EmptyState>
-    ) : hosts.length > 0 ? (
+    ) : (data?.results?.[0]?.host_count || 0) > 0 ? (
         <GroupSystems groupId={groupId} groupName={groupName} />
     ) :
         <NoSystemsEmptyState groupId={groupId} groupName={groupName} />;
