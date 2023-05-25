@@ -111,26 +111,20 @@ describe('AddSystemsToGroupModal', () => {
     });
 
     it('can add systems that are not yet in group', () => {
-        groupDetailInterceptors['patch successful']();
-        groupDetailInterceptors['successful with hosts']();
+        groupDetailInterceptors['post hosts successful']();
         mountModal();
 
         cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
         cy.get('button').contains('Add systems').should('be.disabled');
         selectRowN(1);
         cy.get('button').contains('Add systems').click();
-        cy.wait('@getGroupDetail'); // requests the current hosts list
-        cy.wait('@patchGroup')
+        cy.wait('@postHosts')
         .its('request.body')
-        .should('deep.equal', {
-            // eslint-disable-next-line camelcase
-            host_ids: ['host-1', 'host-2', 'dolor'] // sends the merged list of hosts
-        });
+        .should('deep.equal', ['dolor']);
     });
 
     it('can add systems that are already in group', () => {
-        groupDetailInterceptors['patch successful']();
-        groupDetailInterceptors['successful with hosts']();
+        groupDetailInterceptors['post hosts successful']();
         mountModal();
 
         cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
@@ -148,13 +142,9 @@ describe('AddSystemsToGroupModal', () => {
         .should('be.disabled');
         cy.get('input[name="confirmation"]').check();
         cy.get('button').contains('Yes, add all systems to group').click();
-        cy.wait('@getGroupDetail');
-        cy.wait('@patchGroup')
+        cy.wait('@postHosts')
         .its('request.body')
-        .should('deep.equal', {
-            // eslint-disable-next-line camelcase
-            host_ids: ['host-1', 'host-2', 'anim commodo'] // sends the merged list of hosts
-        });
+        .should('deep.equal', ['anim commodo']);
     });
 
     describe('filters', () => {
