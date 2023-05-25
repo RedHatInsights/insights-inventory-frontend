@@ -172,11 +172,10 @@ const Inventory = ({
         if (calculateSelected() > 0) {
             const selectedHosts = Array.from(selected.values());
 
-            return (
-                selectedHosts.every(({ groups }) => groups.length !== 0) &&
-                    selectedHosts.every(
-                        ({ groups }) => groups[0].name === selectedHosts[0].groups[0].name
-                    )
+            return selectedHosts.every(
+                ({ groups }) =>
+                    groups.length !== 0 &&
+                groups[0].name === selectedHosts[0].groups[0].name
             );
         }
 
