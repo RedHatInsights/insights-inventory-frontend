@@ -39,7 +39,7 @@ import {
     readURLSearchParams,
     updateURLSearchParams
 } from '../../Utilities/URLSearchParams';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation } from 'react-router-dom';
 import isNil from 'lodash/isNil';
 
 const GROUPS_TABLE_INITIAL_STATE = {
