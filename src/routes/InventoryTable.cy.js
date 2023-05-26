@@ -104,7 +104,7 @@ describe('inventory table', () => {
 
         it('can add to existing group', () => {
             cy.intercept('POST',
-            `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts/${hostsFixtures.results[1].id}`
+            `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
             ).as('request');
             cy.get(ROW).eq(2).find(DROPDOWN).click();
             cy.get(DROPDOWN_ITEM).contains('Add to group').click();
@@ -114,7 +114,7 @@ describe('inventory table', () => {
                 cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
                 cy.get('.pf-c-select__menu-item').eq(0).click();
                 cy.get('button[type="submit"]').click();
-                cy.wait('@request');
+                cy.wait('@request').its('request.body').should('deep.equal', [hostsFixtures.results[1].id]);
             });
             cy.wait('@getHosts'); // data must be reloaded
         });
