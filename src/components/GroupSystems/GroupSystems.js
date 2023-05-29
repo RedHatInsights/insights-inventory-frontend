@@ -1,4 +1,3 @@
-import { Button } from '@patternfly/react-core';
 import { fitContent, TableVariant } from '@patternfly/react-table';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
@@ -9,6 +8,7 @@ import { clearFilters, selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
 import { Link } from 'react-router-dom';
+import { useWritePermissions } from '../../Utilities/constants';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
 export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSelected, rowsNumber) => ({
@@ -76,6 +76,7 @@ export const prepareColumns = (initialColumns, hideGroupColumn) => {
 
 const GroupSystems = ({ groupName, groupId }) => {
     const dispatch = useDispatch();
+    const writePermissions = useWritePermissions();
     const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] = useState(false);
     const [currentSystem, setCurrentSystem] = useState([]);
     const inventory = useRef(null);
@@ -152,7 +153,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                         isStickyHeader: true,
                         variant: TableVariant.compact,
                         canSelectAll: false,
-                        actionResolver: () => [
+                        actionResolver: () => writePermissions ? [
                             {
                                 title: 'Remove from group',
                                 onClick: (event, index, rowData) => {
@@ -160,10 +161,10 @@ const GroupSystems = ({ groupName, groupId }) => {
                                     setRemoveHostsFromGroupModalOpen(true);
                                 }
                             }
-                        ]
+                        ] : []
                     }}
                     actionsConfig={{
-                        actions: [
+                        actions: writePermissions ? [
                             {
                                 label: 'Add systems',
                                 onClick: () => {
@@ -181,7 +182,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                                     setRemoveHostsFromGroupModalOpen(true);
                                 }
                             }
-                        ]
+                        ] : []
                     } }
                     bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
                     showTags
