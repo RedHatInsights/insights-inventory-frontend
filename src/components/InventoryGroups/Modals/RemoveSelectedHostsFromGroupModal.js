@@ -28,7 +28,7 @@ const schema = (groupName, hosts) => ({
     ]
 });
 
-const RemoveHostsFromGroupModal = ({
+const RemoveSelectedHostsFromGroupModal = ({
     isModalOpen,
     setIsModalOpen,
     modalState: hosts,
@@ -77,7 +77,7 @@ const RemoveHostsFromGroupModal = ({
     );
 };
 
-RemoveHostsFromGroupModal.propTypes = {
+RemoveSelectedHostsFromGroupModal.propTypes = {
     modalState: PropTypes.arrayOf(
         PropTypes.shape({
             // eslint-disable-next-line camelcase
@@ -96,4 +96,4 @@ RemoveHostsFromGroupModal.propTypes = {
     reloadData: PropTypes.func
 };
 
-export default RemoveHostsFromGroupModal;
+export default RemoveSelectedHostsFromGroupModal;
