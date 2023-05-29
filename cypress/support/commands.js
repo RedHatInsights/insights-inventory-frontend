@@ -30,6 +30,7 @@ import { Provider } from 'react-redux';
 import { getStore } from '../../src/store';
 import { MemoryRouter, Switch, Route } from 'react-router-dom';
 import { mount } from '@cypress/react';
+import { RBACProvider } from '@redhat-cloud-services/frontend-components';
 
 Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
     const { path, routerProps = { initialEntries: ['/'] } } = options;
@@ -44,16 +45,35 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
         >
             <Provider store={getStore()}>
                 <MemoryRouter {...routerProps}>
-                    {path ? (
-                        <Switch>
-                            <Route path={options.path} component={() => <Component {...props} />} rootClass='inventory' />
-                        </Switch>
-                    ) : (
-                        <Component {...props} />
-                    )}
+                    <RBACProvider appName='inventory'>
+                        {path ? (
+                            <Switch>
+                                <Route path={options.path} component={() => <Component {...props} />} rootClass='inventory' />
+                            </Switch>
+                        ) : (
+                            <Component {...props} />
+                        )}
+                    </RBACProvider>
                 </MemoryRouter>
             </Provider>
         </FlagProvider>
     );
 });
 
+// one of the fec dependencies talks to window.insights.chrome
+Cypress.Commands.add('mockWindowChrome', () => {
+    cy.window().then(
+        // one of the fec dependencies talks to window.insights.chrome
+        (window) =>
+            (window.insights = {
+                chrome: {
+                    getUserPermissions: () => ['inventory:*:*'], // enable all read/write features
+                    auth: {
+                        getUser: () => {
+                            return Promise.resolve({});
+                        }
+                    }
+                }
+            })
+    );
+});

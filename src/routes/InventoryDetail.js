@@ -20,8 +20,18 @@ import {
 } from '../components/SystemDetails';
 
 const appList = [
-    { title: 'General information', name: 'general_information', component: GeneralInformationTab },
-    { title: 'Advisor', name: 'advisor', component: AdvisorTab },
+    {
+        title: 'General information',
+        name: 'general_information',
+        component: GeneralInformationTab,
+        //use this if you want to prefetch systemProfile above GeneralInformationTab
+        systemProfilePrefetched: true
+    },
+    {
+        title: 'Advisor',
+        name: 'advisor',
+        component: AdvisorTab
+    },
     {
         title: 'Vulnerability',
         name: 'vulnerabilities',
@@ -30,18 +40,21 @@ const appList = [
     {
         title: 'Compliance',
         name: 'compliance',
-        component: ComplianceTab
+        component: ComplianceTab,
+        nonEdge: true
     },
     {
         title: 'Patch',
         name: 'patch',
-        component: PatchTab
+        component: PatchTab,
+        nonEdge: true
     },
     {
         title: 'Resource Optimization',
         name: 'ros',
         isVisible: false,
-        component: RosTab
+        component: RosTab,
+        nonEdge: true
     }
 ];
 
@@ -75,7 +88,9 @@ const Inventory = () => {
     const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
-    const cloudProvider = useSelector(({ systemProfileStore }) => systemProfileStore?.systemProfile?.cloud_provider);
+    const { cloudProvider, host_type: hostType } = useSelector(
+        ({ systemProfileStore }) => systemProfileStore?.systemProfile || []
+    );
     const availableApps = useMemo(() => appList.map((app) => app.name === 'ros' ? {
         ...app,
         isVisible: cloudProvider === 'aws'
@@ -86,6 +101,8 @@ const Inventory = () => {
         chrome?.hideGlobalFilter?.(true);
         chrome.appAction('system-detail');
         clearNotifications();
+
+        inventoryId && dispatch(actions.systemProfile(inventoryId));
     }, []);
 
     const additionalClasses = {
@@ -108,6 +125,13 @@ const Inventory = () => {
         });
     }, [searchParams]);
 
+    const apps =  availableApps?.map(app => {
+        app.isDisabled = app.nonEdge && hostType === 'edge' ? true : false;
+        app['data-cy'] = `${app.name}-tab`;
+
+        return app;
+    }) || [];
+
     return (
         <InventoryDetail
             additionalClasses={additionalClasses}
@@ -127,7 +151,7 @@ const Inventory = () => {
                 <BreadcrumbWrapper entity={entity} entityLoaded={entityLoaded} inventoryId={inventoryId}/>
             }
             activeApp={activeApp}
-            appList={availableApps}
+            appList={apps}
             onTabSelect={onTabSelect}
         />
     );

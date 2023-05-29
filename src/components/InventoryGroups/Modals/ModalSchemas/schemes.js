@@ -56,6 +56,23 @@ const createDescription = (systemName) => {
 //this is a custom schema that is passed via additional mappers to the Modal component
 //it allows to create custom item types in the modal
 
+const loadOptions = awesomeDebouncePromise(async (searchValue = '') => {
+    // add a slight delay for scenarios when a new group has been just created
+    const data = await awesomeDebouncePromise(() => getGroups({ name: searchValue }, {}), 500)();
+    // TODO: make the getGroups requests paginated
+    return (data?.results || []).reduce((acc, { name, id }) => {
+        if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
+            return [
+                ...acc,
+                {
+                    label: name,
+                    value: { name, id }
+                }
+            ];
+        }
+    }, []);
+}, 500, { onlyResolvesLast: false });
+
 export const addHostSchema = (systemName) => ({
     fields: [
         {
@@ -72,21 +89,7 @@ export const addHostSchema = (systemName) => ({
             isRequired: true,
             isClearable: true,
             placeholder: 'Type or click to select a group',
-            loadOptions: async (searchValue = '') => {
-                // add a slight delay for scenarios when a new group has been just created
-                const data = await awesomeDebouncePromise(getGroups, 500)();
-                return (data?.results || []).reduce((acc, { name, id }) => {
-                    if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
-                        return [
-                            ...acc,
-                            {
-                                label: name,
-                                value: { name, id }
-                            }
-                        ];
-                    }
-                }, []);
-            },
+            loadOptions,
             validate: [{ type: validatorTypes.REQUIRED }]
         },
         {
