@@ -19,7 +19,7 @@ import cloneDeep from 'lodash/cloneDeep';
  * to get the latest props and not the props at the time of when the function is
  * being wrapped in callback.
  */
-const inventoryCache = () => {
+export const inventoryCache = () => {
     let cache = {};
 
     const updateProps = (props) => { cache = cloneDeep({ ...cache, props }); };
@@ -133,7 +133,7 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
      * If consumer wants to change data they can call this function via component ref.
      * @param {*} options new options to be applied, like pagination, filters, etc.
      */
-    const onRefreshData = (options = {}, disableOnRefresh) => {
+    const onRefreshData = (options = {}, disableOnRefresh, forceRefresh = false) => {
         const { activeFilters } = store.getState().entities;
         const cachedProps = cache.current?.getProps() || {};
         const currPerPage = options?.per_page || options?.perPage || cachedProps.perPage;
@@ -149,11 +149,12 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
             //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
             activeFiltersConfig: cachedProps.activeFiltersConfig,
             ...customFilters,
-            ...options
+            ...options,
+            globalFilter: cachedProps?.customFilters?.globalFilter
         };
 
         const cachedParams = cache.current.getParams();
-        if (!isEqual(cachedParams, newParams)) {
+        if (!isEqual(cachedParams, newParams) || forceRefresh) {
             cache.current.updateParams(newParams);
             if (onRefresh && !disableOnRefresh) {
                 dispatch(entitiesLoading());

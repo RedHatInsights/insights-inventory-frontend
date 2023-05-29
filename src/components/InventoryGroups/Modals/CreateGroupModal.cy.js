@@ -18,28 +18,28 @@ const mockResponse = [
         results: [
             {
                 created_at: '2020-02-09T10:16:07.996Z',
-                host_ids: ['bA6deCFc19564430AB814bf8F70E8cEf'],
+                host_count: 1,
                 id: '3f01b55457674041b75e41829bcee1dca',
                 name: 'sre-group0',
                 updated_at: '2020-02-09T10:16:07.996Z'
             },
             {
                 created_at: '2020-02-09T10:16:07.996Z',
-                host_ids: ['bA6deCFc19564430AB814bf8F70E8cEf'],
+                host_count: 1,
                 id: '3f01b55457674041b75e41829bcee1dca',
                 name: 'sre-group1',
                 updated_at: '2020-02-09T10:16:07.996Z'
             },
             {
                 created_at: '2020-02-09T10:16:07.996Z',
-                host_ids: ['bA6deCFc19564430AB814bf8F70E8cEf'],
+                host_count: 1,
                 id: '3f01b55457674041b75e41829bcee1dca',
                 name: 'sre-group2',
                 updated_at: '2020-02-09T10:16:07.996Z'
             },
             {
                 created_at: '2020-02-09T10:16:07.996Z',
-                host_ids: ['bA6deCFc19564430AB814bf8F70E8cEf'],
+                host_count: 1,
                 id: '3f01b55457674041b75e41829bcee1dca',
                 name: 'sre-group3',
                 updated_at: '2020-02-09T10:16:07.996Z'
@@ -50,16 +50,7 @@ const mockResponse = [
 
 describe('Create Group Modal', () => {
     before(() => {
-        cy.window().then(window => window.insights = {
-            chrome: {
-                isProd: false,
-                auth: {
-                    getUser: () => {
-                        return Promise.resolve({});
-                    }
-                }
-            }
-        });
+        cy.mockWindowChrome();
     });
 
     beforeEach(() => {

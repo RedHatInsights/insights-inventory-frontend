@@ -11,7 +11,7 @@ export const OS_CHIP = 'operating_system';
 export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const UPDATE_METHOD_KEY = 'system_update_method';
 export const LAST_SEEN_CHIP = 'last_seen';
-export const HOST_GROUP_CHIP = 'host_group';
+export const HOST_GROUP_CHIP = 'group_name'; // use the same naming as for the back end parameter
 
 export function subtractDate(days) {
     const date = new Date();
@@ -119,7 +119,7 @@ export function reduceFilters(filters = []) {
         }
 
         const foundKey = ['staleFilter', 'registeredWithFilter', 'osFilter', 'rhcdFilter', 'updateMethodFilter',
-            'lastSeenFilter', '']
+            'lastSeenFilter', 'hostGroupFilter', '']
         .find(item => Object.keys(oneFilter).includes(item));
 
         return {
@@ -150,7 +150,7 @@ export const generateFilter = (status,
     operatingSystem,
     rhcdFilter,
     updateMethodFilter,
-    hostGroup,
+    hostGroupFilter,
     lastSeenFilter
 ) => ([
     !isEmpty(status) && {
@@ -185,8 +185,8 @@ export const generateFilter = (status,
     !isEmpty(updateMethodFilter) && {
         updateMethodFilter: Array.isArray(updateMethodFilter) ? updateMethodFilter : [updateMethodFilter]
     },
-    !isEmpty(hostGroup) && {
-        hostGroupFilter: Array.isArray(hostGroup) ? hostGroup : [hostGroup]
+    !isEmpty(hostGroupFilter) && {
+        hostGroupFilter: Array.isArray(hostGroupFilter) ? hostGroupFilter : [hostGroupFilter]
     }
 ].filter(Boolean));
 

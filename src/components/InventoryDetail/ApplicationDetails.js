@@ -59,6 +59,7 @@ const ApplicationDetails = ({ onTabSelect, appList, activeApp, inventoryId, enti
                             eventKey={item.name}
                             title={item.title}
                             tabContentRef={item.tabRef}
+                            {...item}
                         />
                     ))}
                 </Tabs>
@@ -81,6 +82,7 @@ const ApplicationDetails = ({ onTabSelect, appList, activeApp, inventoryId, enti
                                         : <Cmp
                                             inventoryId={inventoryId}
                                             store={store}
+                                            {...item}
                                         />}
                                 </section>
                             </Suspense>}
