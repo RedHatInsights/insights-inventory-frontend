@@ -44,25 +44,30 @@ const schema = (name, groupsCount) => ({
     ]
 });
 
-const defaultValueToBeRemoved = () => console.log('data reloaded');
-
 const DeleteGroupModal = ({
     isModalOpen,
     setIsModalOpen,
-    reloadData = defaultValueToBeRemoved,
+    reloadData,
     modalState
 }) => {
-    const { id, name, ids } = modalState;
-    const isMultiple = (ids || []).length > 0;
+    const { id, name, ids = [] } = modalState;
+    const isMultiple = ids.length > 0;
     const dispatch = useDispatch();
 
     const handleDeleteGroup = () => {
         const statusMessages = {
             onSuccess: {
                 title: 'Success',
-                description: `${name} has been removed successfully`
+                description: isMultiple
+                    ? `${ids.length} groups deleted`
+                    : `${name} deleted`
             },
-            onError: { title: 'Error', description: 'Failed to delete group' }
+            onError: {
+                title: 'Error',
+                description: isMultiple
+                    ? `Failed to delete ${ids.length} groups`
+                    : `Failed to delete ${name}`
+            }
         };
         apiWithToast(dispatch, () => deleteGroupsById(isMultiple ? ids : [id]), statusMessages);
     };
