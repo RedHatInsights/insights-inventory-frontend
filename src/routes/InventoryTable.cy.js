@@ -128,9 +128,8 @@ describe('inventory table', () => {
         });
 
         it('can add to existing group', () => {
-            cy.intercept(
-                'POST',
-        `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts/${hostsFixtures.results[3].id}`
+            cy.intercept('POST',
+            `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
             ).as('request');
             cy.get(ROW).eq(4).find(DROPDOWN).click();
             cy.get(DROPDOWN_ITEM).contains('Add to group').click();
@@ -140,7 +139,9 @@ describe('inventory table', () => {
                 cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
                 cy.get('.pf-c-select__menu-item').eq(0).click();
                 cy.get('button[type="submit"]').click();
-                cy.wait('@request');
+                cy.wait('@request')
+                .its('request.body')
+                .should('deep.equal', [hostsFixtures.results[3].id]);
             });
             cy.wait('@getHosts'); // data must be reloaded
         });
@@ -186,12 +187,9 @@ describe('inventory table', () => {
         it('can add more hosts to existing group', () => {
             cy.intercept(
                 'POST',
-                `/api/inventory/v1/groups/${
-                groupsFixtures.results.find(({ name }) => name === TEST_GROUP)?.id
-                }/hosts/${hostsFixtures.results
-                .slice(3, 5)
-                .map(({ id }) => id)
-                .join(',')}`
+        `/api/inventory/v1/groups/${
+          groupsFixtures.results.find(({ name }) => name === TEST_GROUP)?.id
+        }/hosts`
             ).as('request');
 
             cy.get(ROW).find('[type="checkbox"]').eq(3).click();
@@ -208,7 +206,12 @@ describe('inventory table', () => {
                 cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
                 cy.get('.pf-c-select__menu-item').contains(TEST_GROUP).click();
                 cy.get('button[type="submit"]').click();
-                cy.wait('@request');
+                cy.wait('@request')
+                .its('request.body')
+                .should(
+                    'deep.equal',
+                    hostsFixtures.results.slice(3, 5).map(({ id }) => id)
+                );
             });
             cy.wait('@getHosts'); // data must be reloaded
         });

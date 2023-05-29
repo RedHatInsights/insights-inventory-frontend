@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
-import { addHostsToGroup } from '../utils/api';
+import { addHostsToGroupById } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
 import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
@@ -34,11 +34,7 @@ const AddSelectedHostsToGroupModal = ({
 
         apiWithToast(
             dispatch,
-            () =>
-                addHostsToGroup(
-                    group.id,
-                    hosts.map(({ id }) => id)
-                ),
+            () => addHostsToGroupById(group.id, hosts.map(({ id }) => id)),
             statusMessages
         );
     };

@@ -40,10 +40,6 @@ export const addHostsToGroupById = (id, hostIds) => {
     return instance.post(`${INVENTORY_API_BASE}/groups/${id}/hosts`, hostIds);
 };
 
-export const addHostsToGroup = (groupId, hostIds) => {
-    return instance.post(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${hostIds.join(',')}`);
-};
-
 export const removeHostsFromGroup = (groupId, hostIds) => {
     return instance.delete(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${hostIds.join(',')}`);
 };
