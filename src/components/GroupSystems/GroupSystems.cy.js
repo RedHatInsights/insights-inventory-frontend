@@ -31,14 +31,21 @@ import {
     ORDER_TO_URL,
     selectRowN
 } from '../../../cypress/support/utils';
-import hostsAllInGroupFixtures from '../../../cypress/fixtures/hostsAllInGroup.json';
-import _ from 'lodash';
+import _, { cloneDeep } from 'lodash';
 
 const GROUP_NAME = 'foobar';
 const ROOT = 'div[id="group-systems-table"]';
 const TABLE_HEADERS = ['Name', 'Tags', 'OS', 'Update method', 'Last seen'];
 const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
+
+const hostsAllInGroupFixtures = cloneDeep(fixtures);
+hostsAllInGroupFixtures.results = hostsAllInGroupFixtures.results.map(host => ({ ...host, groups: [
+    {
+        id: '54b302e4-07d2-45c5-b2f8-92a286847f9d',
+        name: 'ancd'
+    }
+] }));
 
 const checkSelectedNumber = (number) =>
     checkSelectedNumber_(number, '#bulk-select-systems-toggle-checkbox-text');
