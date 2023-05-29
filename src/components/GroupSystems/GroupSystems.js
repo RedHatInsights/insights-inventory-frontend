@@ -103,6 +103,8 @@ const GroupSystems = ({ groupName, groupId }) => {
         };
     }, []);
 
+    const calculateSelected = () => selected ? selected.size : 0;
+
     return (
         <div id='group-systems-table'>
             {
@@ -160,21 +162,31 @@ const GroupSystems = ({ groupName, groupId }) => {
                             }
                         ]
                     }}
+                    actionsConfig={{
+                        actions: [
+                            {
+                                label: 'Add systems',
+                                onClick: () => {
+                                    resetTable();
+                                    setAddToGroupModalOpen(true);
+                                }
+                            },
+                            {
+                                label: 'Remove from group',
+                                props: {
+                                    isDisabled: calculateSelected() === 0
+                                },
+                                onClick: () => {
+                                    setCurrentSystem(Array.from(selected.values()));
+                                    setRemoveHostsFromGroupModalOpen(true);
+                                }
+                            }
+                        ]
+                    } }
                     bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
                     showTags
                     ref={inventory}
-                >
-                    <Button
-                        variant='primary'
-                        onClick={() => {
-                            resetTable();
-                            setAddToGroupModalOpen(true);
-                        }}
-
-                    >
-                    Add systems
-                    </Button>
-                </InventoryTable>
+                />
             }
         </div>
     );
