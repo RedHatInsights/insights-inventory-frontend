@@ -299,7 +299,10 @@ const GroupsTable = () => {
             <DeleteGroupModal
                 isModalOpen={deleteModalOpen}
                 setIsModalOpen={setDeleteModalOpen}
-                reloadData={() => fetchData(filters)}
+                reloadData={() => {
+                    fetchData(filters);
+                    setSelectedIds([]);
+                }}
                 modalState={
                     kebabDeleteGroup ? selectedGroup :
                         selectedIds.length > 1 ? {
