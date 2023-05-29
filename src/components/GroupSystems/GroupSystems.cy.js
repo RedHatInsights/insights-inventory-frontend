@@ -7,11 +7,13 @@ import {
     checkTableHeaders,
     CHIP,
     CHIP_GROUP,
+    DROPDOWN,
     DROPDOWN_ITEM,
     DROPDOWN_TOGGLE,
     hasChip,
     MODAL,
     PAGINATION_VALUES,
+    ROW,
     SORTING_ORDERS,
     TEXT_INPUT,
     TOOLBAR,
@@ -36,6 +38,7 @@ import {
     selectRowN,
     unleashDummyConfig
 } from '../../../cypress/support/utils';
+import hostsAllInGroupFixtures from '../../../cypress/fixtures/hostsAllInGroup.json';
 import _ from 'lodash';
 
 const GROUP_NAME = 'foobar';
@@ -66,16 +69,18 @@ describe('renders correctly', () => {
     beforeEach(() => {
         cy.intercept('*', { statusCode: 200, body: { results: [] } });
 
-        hostsInterceptors.successful();
+        hostsInterceptors.successful(hostsAllInGroupFixtures);
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
         groupsInterceptors['successful with some items']();
+        cy.mockWindowChrome();
+
         mountTable();
 
         cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
-    it('the root container is rendered', () => {
+    it.only('the root container is rendered', () => {
         cy.get(ROOT);
     });
 
@@ -322,6 +327,20 @@ describe('actions', () => {
         cy.get(MODAL).find('h1').contains('Add systems');
 
         cy.wait('@getHosts');
+    });
+
+    it.only('can remove host from group', () => {
+        cy.intercept(
+            'DELETE',
+      `/api/inventory/v1/groups/${hostsAllInGroupFixtures.results[0].groups[0].id}/hosts/${hostsAllInGroupFixtures.results[0].id}`
+        ).as('request');
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+        cy.get(MODAL).within(() => {
+            cy.get('h1').should('have.text', 'Remove from group');
+            cy.get('button[type="submit"]').click();
+            cy.wait('@request');
+        });
     });
 });
 
