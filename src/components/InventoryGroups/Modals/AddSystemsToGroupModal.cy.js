@@ -79,7 +79,7 @@ describe('test data', () => {
             // eslint-disable-next-line camelcase
             ({ group_name }) => !_.isEmpty(group_name)
         );
-        expect(alreadyInGroup[0].id).to.eq('anim commodo');
+        expect(alreadyInGroup[0].id).to.eq('anim');
     });
 });
 
@@ -144,7 +144,7 @@ describe('AddSystemsToGroupModal', () => {
         cy.get('button').contains('Yes, add all systems to group').click();
         cy.wait('@postHosts')
         .its('request.body')
-        .should('deep.equal', ['anim commodo']);
+        .should('deep.equal', ['anim']);
     });
 
     describe('filters', () => {

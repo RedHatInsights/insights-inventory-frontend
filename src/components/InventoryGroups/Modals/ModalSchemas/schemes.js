@@ -44,11 +44,14 @@ export const confirmSystemsAddSchema = (hostsNumber) => ({
     ]
 });
 
-const createDescription = (systemName) => {
+const createDescription = (hosts) => {
     return (
         <Text>
-      Select a group to add <strong>{systemName}</strong> to, or create a new
-      one.
+      Select a group to add{' '}
+            <strong>
+                {hosts.length > 1 ? `${hosts.length} systems` : hosts[0].display_name}
+            </strong>{' '}
+      to, or create a new one.
         </Text>
     );
 };
@@ -56,29 +59,36 @@ const createDescription = (systemName) => {
 //this is a custom schema that is passed via additional mappers to the Modal component
 //it allows to create custom item types in the modal
 
-const loadOptions = awesomeDebouncePromise(async (searchValue = '') => {
-    // add a slight delay for scenarios when a new group has been just created
-    const data = await awesomeDebouncePromise(() => getGroups({ name: searchValue }, {}), 500)();
-    // TODO: make the getGroups requests paginated
-    return (data?.results || []).reduce((acc, { name, id }) => {
-        if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
-            return [
-                ...acc,
-                {
-                    label: name,
-                    value: { name, id }
-                }
-            ];
-        }
-    }, []);
-}, 500, { onlyResolvesLast: false });
+const loadOptions = awesomeDebouncePromise(
+    async (searchValue = '') => {
+        // add a slight delay for scenarios when a new group has been just created
+        const data = await awesomeDebouncePromise(
+            () => getGroups({ name: searchValue }, {}),
+            500
+        )();
+        // TODO: make the getGroups requests paginated
+        return (data?.results || []).reduce((acc, { name, id }) => {
+            if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
+                return [
+                    ...acc,
+                    {
+                        label: name,
+                        value: { name, id }
+                    }
+                ];
+            }
+        }, []);
+    },
+    500,
+    { onlyResolvesLast: false }
+);
 
-export const addHostSchema = (systemName) => ({
+export const addHostSchema = (hosts) => ({
     fields: [
         {
             component: componentTypes.PLAIN_TEXT,
             name: 'description',
-            label: createDescription(systemName)
+            label: createDescription(hosts)
         },
         {
             component: 'select',
