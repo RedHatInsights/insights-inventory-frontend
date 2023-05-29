@@ -346,7 +346,13 @@ const Inventory = ({
                                 isModalOpen={addHostGroupModalOpen}
                                 setIsModalOpen={setAddHostGroupModalOpen}
                                 modalState={currentSystem}
-                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                                reloadData={() => {
+                                    if (calculateSelected() > 0) {
+                                        dispatch(actions.selectEntity(-1, false));
+                                    }
+
+                                    inventory.current.onRefreshData(filters, false, true);
+                                }}
                             />
                         }
                         {
@@ -355,7 +361,13 @@ const Inventory = ({
                                 isModalOpen={removeHostsFromGroupModalOpen}
                                 setIsModalOpen={setRemoveHostsFromGroupModalOpen}
                                 modalState={currentSystem}
-                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                                reloadData={() => {
+                                    if (calculateSelected() > 0) {
+                                        dispatch(actions.selectEntity(-1, false));
+                                    }
+
+                                    inventory.current.onRefreshData(filters, false, true);
+                                }}
                             />
                         }
                     </>

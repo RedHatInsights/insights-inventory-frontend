@@ -127,7 +127,13 @@ const GroupSystems = ({ groupName, groupId }) => {
                         isModalOpen={removeHostsFromGroupModalOpen}
                         setIsModalOpen={setRemoveHostsFromGroupModalOpen}
                         modalState={currentSystem}
-                        reloadData={() => inventory.current.onRefreshData({}, false, true)}
+                        reloadData={() => {
+                            if (calculateSelected() > 0) {
+                                dispatch(selectEntity(-1, false));
+                            }
+
+                            inventory.current.onRefreshData({}, false, true);
+                        }}
                     />
             }
             {
