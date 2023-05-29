@@ -10,7 +10,8 @@ const useFetchBatched = () => {
 
             const results = resolve(
                 [...new Array(pages)].map(
-                    (_, pageIdx) => () => fetchFunction(filter, { page: pageIdx + 1, perPage: batchSize })
+                    // eslint-disable-next-line camelcase
+                    (_, pageIdx) => () => fetchFunction(filter, { page: pageIdx + 1, per_page: batchSize })
                 )
             );
 

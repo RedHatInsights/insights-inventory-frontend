@@ -11,22 +11,13 @@ import { addNotification as addNotificationAction } from '@redhat-cloud-services
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
 import flatMap from 'lodash/flatMap';
-import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter } from '../Utilities/constants';
+import { useWritePermissions, RHCD_FILTER_KEY, UPDATE_METHOD_KEY, generateFilter, HOST_GROUP_CHIP } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
-
-const reloadWrapper = (event, callback) => {
-    event.payload.then(callback);
-    return event;
-};
-
-const calculateChecked = (rows = [], selected) => (
-    rows.every(({ id }) => selected && selected.has(id))
-        ? rows.length > 0
-        : rows.some(({ id }) => selected && selected.has(id)) && null
-);
+import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
+import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
 const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
     category ? `${category}/` : ''
@@ -55,8 +46,8 @@ const filterMapper = {
         searchParams.append('last_seen', lastSeenFilter[item])),
     updateMethodFilter: ({ updateMethodFilter }, searchParams) =>
         updateMethodFilter?.forEach(item => searchParams.append(UPDATE_METHOD_KEY, item)),
-    groupHostFilter: ({ groupHostFilter }, searchParams) => groupHostFilter
-    ?.forEach(item => searchParams.append('host_group', item))
+    hostGroupFilter: ({ hostGroupFilter }, searchParams) => hostGroupFilter
+    ?.forEach(item => searchParams.append(HOST_GROUP_CHIP, item))
 };
 
 const calculateFilters = (searchParams, filters = []) => {
@@ -89,13 +80,13 @@ const Inventory = ({
     perPage,
     initialLoading,
     hasAccess,
-    groupHostsFilter
+    hostGroupFilter
 }) => {
     const history = useHistory();
     const chrome = useChrome();
     const inventory = useRef(null);
     const [isModalOpen, handleModalToggle] = useState(false);
-    const [currentSytem, activateSystem] = useState({});
+    const [currentSystem, setCurrentSystem] = useState({});
     const [filters, onSetfilters] = useState(
         generateFilter(
             status,
@@ -105,20 +96,22 @@ const Inventory = ({
             operatingSystem,
             rhcdFilter,
             updateMethodFilter,
-            groupHostsFilter,
+            hostGroupFilter,
             lastSeenFilter)
     );
     const [ediOpen, onEditOpen] = useState(false);
     const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
+    const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] = useState(false);
     const [globalFilter, setGlobalFilter] = useState();
     const writePermissions = useWritePermissions();
     const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
     const loaded = useSelector(({ entities }) => entities?.loaded);
     const selected = useSelector(({ entities }) => entities?.selected);
+    const total = useSelector(({ entities }) => entities?.total);
     const dispatch = useDispatch();
     const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+    const bulkSelectConfig = useBulkSelectConfig(selected, globalFilter, total, rows, loaded);
 
-    const onSelectRows = (id, isSelected) => dispatch(actions.selectEntity(id, isSelected));
     const onRefresh = (options, callback) => {
         onSetfilters(options?.filters);
         const searchParams = new URLSearchParams();
@@ -137,7 +130,7 @@ const Inventory = ({
     };
 
     useEffect(() => {
-        chrome.updateDocumentTitle('Inventory | Red Hat Insights');
+        chrome.updateDocumentTitle('Systems | Red Hat Insights');
         chrome?.hideGlobalFilter?.(false);
         chrome.appAction('system-list');
         chrome.appObjectId();
@@ -177,25 +170,18 @@ const Inventory = ({
 
     //This wrapping of table actions allows to pass feature flag status and receive a prepared array of actions
     const tableActions = (groupsUiStatus, row) => {
-        const isGroupPresentForThisRow = (row) => {
-            return row && row?.groups?.title !== '';
-        };
-
         const standardActions = [
             {
                 title: 'Edit',
-                onClick: (_event, _index, data) => {
-                    activateSystem(() => data);
+                onClick: (_event, _index, rowData) => {
+                    setCurrentSystem(rowData);
                     onEditOpen(() => true);
                 }
             },
             {
                 title: 'Delete',
-                onClick: (_event, _index, { id: systemId, display_name: displayName }) => {
-                    activateSystem(() => ({
-                        id: systemId,
-                        displayName
-                    }));
+                onClick: (_event, _index, rowData) => {
+                    setCurrentSystem(rowData);
                     handleModalToggle(() => true);
                 }
             }
@@ -204,18 +190,19 @@ const Inventory = ({
         const actionsBehindFeatureFlag = [
             {
                 title: 'Add to group',
-                onClick: (_event, _index, { id: systemId, display_name: displayName, group_name: groupName }) => {
-                    activateSystem(() => ({
-                        id: systemId,
-                        name: displayName,
-                        groupName
-                    }));
+                onClick: (_event, _index, rowData) => {
+                    setCurrentSystem(rowData);
                     setAddHostGroupModalOpen(true);
-                }
+                },
+                isDisabled: row.groups.length > 0
             },
             {
                 title: 'Remove from group',
-                isDisabled: isGroupPresentForThisRow(row)
+                onClick: (event, index, rowData) => {
+                    setCurrentSystem([rowData]);
+                    setRemoveHostsFromGroupModalOpen(true);
+                },
+                isDisabled: row.groups.length === 0
             }
         ];
 
@@ -225,7 +212,7 @@ const Inventory = ({
     return (
         <React.Fragment>
             <PageHeader className="pf-m-light">
-                <PageHeaderTitle title='Inventory'/>
+                <PageHeaderTitle title='Systems'/>
             </PageHeader>
             <Main>
                 <Grid gutter="md">
@@ -235,13 +222,13 @@ const Inventory = ({
                             isRbacEnabled
                             customFilters={{ filters, globalFilter }}
                             isFullView
-                            inventoryRef={inventory}
                             showTags
                             onRefresh={onRefresh}
                             hasCheckbox={writePermissions}
                             autoRefresh
                             ignoreRefresh
                             initialLoading={initialLoading}
+                            ref={inventory}
                             tableProps={
                                 (writePermissions && {
                                     actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
@@ -253,34 +240,13 @@ const Inventory = ({
                                             isDisabled: calculateSelected() === 0,
                                             variant: 'secondary',
                                             onClick: () => {
-                                                activateSystem(Array.from(selected.values()));
+                                                setCurrentSystem(Array.from(selected.values()));
                                                 handleModalToggle(true);
                                             }
                                         }
                                     }]
                                 },
-                                bulkSelect: {
-                                    count: calculateSelected(),
-                                    id: 'bulk-select-systems',
-                                    items: [{
-                                        title: 'Select none (0)',
-                                        onClick: () => {
-                                            onSelectRows(-1, false);
-                                        }
-                                    },
-                                    {
-                                        ...loaded && rows && rows.length > 0 ? {
-                                            title: `Select page (${ rows.length })`,
-                                            onClick: () => {
-                                                onSelectRows(0, true);
-                                            }
-                                        } : {}
-                                    }],
-                                    checked: calculateChecked(rows, selected),
-                                    onSelect: (value) => {
-                                        onSelectRows(0, value);
-                                    }
-                                }
+                                bulkSelect: bulkSelectConfig
                             })}
                             onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
                         />
@@ -291,18 +257,18 @@ const Inventory = ({
                 className ='sentry-mask data-hj-suppress'
                 handleModalToggle={handleModalToggle}
                 isModalOpen={isModalOpen}
-                currentSytems={currentSytem}
+                currentSytems={currentSystem}
                 onConfirm={() => {
                     let displayName;
                     let removeSystems;
-                    if (Array.isArray(currentSytem)) {
-                        removeSystems = currentSytem.map(({ id }) => id);
-                        displayName = currentSytem.length > 1 ?
-                            `${currentSytem.length} systems` :
-                            currentSytem[0].display_name;
+                    if (Array.isArray(currentSystem)) {
+                        removeSystems = currentSystem.map(({ id }) => id);
+                        displayName = currentSystem.length > 1 ?
+                            `${currentSystem.length} systems` :
+                            currentSystem[0].display_name;
                     } else {
-                        displayName = currentSytem.displayName;
-                        removeSystems = [currentSytem.id];
+                        displayName = currentSystem.display_name;
+                        removeSystems = [currentSystem.id];
                     }
 
                     dispatch(addNotificationAction({
@@ -312,27 +278,40 @@ const Inventory = ({
                         description: `Removal of ${displayName} started.`,
                         dismissable: false
                     }));
-                    dispatch(reloadWrapper(actions.deleteEntity(removeSystems, displayName), () => onRefresh({ filters })));
+                    dispatch(actions.deleteEntity(removeSystems, displayName));
                     handleModalToggle(false);
                 }}
             />
             <TextInputModal
                 title="Edit display name"
                 isOpen={ediOpen}
-                value={currentSytem.display_name}
+                value={currentSystem.display_name}
                 onCancel={() => onEditOpen(false)}
                 onSubmit={(value) => {
-                    dispatch(actions.editDisplayName(currentSytem.id, value));
+                    dispatch(actions.editDisplayName(currentSystem.id, value));
                     onEditOpen(false);
                 }}
             />
-            <AddHostToGroupModal
-                isModalOpen={addHostGroupModalOpen}
-                setIsModalOpen={setAddHostGroupModalOpen}
-                modalState={currentSytem}
-                //should be replaced with a fetch to update the values in the table
-                reloadData={() => console.log('data reloaded')}
-            />
+            {
+                groupsEnabled === true &&
+                    <>
+                        <AddHostToGroupModal
+                            isModalOpen={addHostGroupModalOpen}
+                            setIsModalOpen={setAddHostGroupModalOpen}
+                            modalState={currentSystem}
+                            reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                        />
+                        {
+                            removeHostsFromGroupModalOpen &&
+                            <RemoveHostsFromGroupModal
+                                isModalOpen={removeHostsFromGroupModalOpen}
+                                setIsModalOpen={setRemoveHostsFromGroupModalOpen}
+                                modalState={currentSystem}
+                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                            />
+                        }
+                    </>
+            }
         </React.Fragment>
     );
 };
@@ -349,7 +328,7 @@ Inventory.propTypes = {
     rhcdFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     updateMethodFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     hasAccess: PropTypes.bool,
-    groupHostsFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
+    hostGroupFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string]),
     lastSeenFilter: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.string])
 };
 

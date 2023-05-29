@@ -36,7 +36,12 @@ function entityLoaded(state) {
 function entitySelected(state, { payload }) {
     const selected = state.selected || (new Map());
     if (payload.selected) {
-        if (payload.id === 0) {
+        if (Array.isArray(payload.id)) {
+            payload.id.forEach(item => {
+                selected.set(item.id, item);
+            });
+        }
+        else if (payload.id === 0) {
             state.rows.forEach(row => selected.set(row.id, row));
         } else {
             const selectedRow = state.rows && state.rows.find(({ id }) => id === payload.id);

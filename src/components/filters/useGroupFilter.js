@@ -4,13 +4,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from '../../store/inventory-actions';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 //for attaching this filter to the redux
-export const groupFilterState = { groupHostFilter: null };
+export const groupFilterState = { hostGroupFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
 export const groupFilterReducer = (_state, { type, payload }) => ({
     ...type === GROUP_FILTER && {
-        groupHostFilter: payload
+        hostGroupFilter: payload
     }
 });
 
@@ -31,9 +32,13 @@ export const buildHostGroupChips = (selectedGroups = []) => {
 
 const useGroupFilter = (apiParams = []) => {
     const dispatch = useDispatch();
+    const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+
     useEffect(() => {
-        dispatch(fetchGroups(apiParams));
-    }, []);
+        if (groupsEnabled === true) {
+            dispatch(fetchGroups(apiParams)); // TODO: make the request paginated (to show all the groups)
+        }
+    }, [groupsEnabled]);
     //fetched values
     const fetchedValues = useSelector(({ groups })  => groups?.data?.results);
     //selected are the groups we selected

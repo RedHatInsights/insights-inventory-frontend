@@ -43,6 +43,7 @@ const OperatingSystemCardCore = ({
                     );
                 }
             }] : [],
+            ...systemInfo.systemUpdateMethod ? [{ title: 'Update method', value: systemInfo.systemUpdateMethod }] : [],
             ...extra.map(({ onClick, ...item }) => ({
                 ...item,
                 ...onClick && { onClick: (e) => onClick(e, handleClick) }

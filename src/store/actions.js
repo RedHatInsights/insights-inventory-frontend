@@ -1,12 +1,13 @@
 import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SET_INVENTORY_FILTER, SET_PAGINATION,
     CLEAR_ENTITIES } from './action-types';
 import { hosts, getEntitySystemProfile } from '../api';
+import { deleteSystemsById } from '../components/InventoryTable/utils/api';
 export * from './system-issues-actions';
 export * from './inventory-actions';
 
 export const deleteEntity = (systems, displayName) => ({
     type: ACTION_TYPES.REMOVE_ENTITY,
-    payload: hosts.apiHostDeleteById(systems),
+    payload: deleteSystemsById(systems),
     meta: {
         notifications: {
             fulfilled: {
@@ -35,7 +36,7 @@ export const clearNotifications = () => {
 
 export const editDisplayName = (id, value, origValue) => ({
     type: ACTION_TYPES.UPDATE_DISPLAY_NAME,
-    payload: hosts.apiHostPatchById([id], { display_name: value }), // eslint-disable-line camelcase
+    payload: hosts.apiHostPatchHostById([id], { display_name: value }), // eslint-disable-line camelcase
     meta: {
         id,
         value,
@@ -64,7 +65,7 @@ export const systemProfile = (itemId) => ({
 
 export const editAnsibleHost = (id, value, origValue) => ({
     type: ACTION_TYPES.SET_ANSIBLE_HOST,
-    payload: hosts.apiHostPatchById([id], { ansible_host: value }), // eslint-disable-line camelcase
+    payload: hosts.apiHostPatchHostById([id], { ansible_host: value }), // eslint-disable-line camelcase
     meta: {
         id,
         value,

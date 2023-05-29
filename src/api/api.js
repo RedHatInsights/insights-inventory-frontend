@@ -100,7 +100,7 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter },
     ...'lastSeenFilter' in filter && { lastSeenFilter: filter.lastSeenFilter },
     ...'updateMethodFilter' in filter && { updateMethodFilter: filter.updateMethodFilter },
-    ...'groupHostFilter' in filter && { groupHostFilter: filter.groupHostFilter }
+    ...'hostGroupFilter' in filter && { hostGroupFilter: filter.hostGroupFilter }
 });
 
 export async function getEntities(items, {
@@ -177,6 +177,9 @@ export async function getEntities(items, {
             undefined,
             undefined,
             undefined,
+            undefined,
+            filters.hostGroupFilter,
+            undefined,
             perPage,
             page,
             orderBy,
@@ -196,10 +199,8 @@ export async function getEntities(items, {
                     ...(options.filter && Object.keys(options.filter).length && generateFilter(options.filter)),
                     ...(calculateSystemProfile(filters)),
                     ...(fields && Object.keys(fields).length && generateFilter(fields, 'fields')),
-                    ...filters?.lastSeenFilter?.updatedStart &&
-                     filters?.lastSeenFilter?.updatedStart.length > 0 && { updated_start: filters.lastSeenFilter.updatedStart },
-                    ...filters?.lastSeenFilter?.updatedEnd &&
-                     filters?.lastSeenFilter?.updatedEnd.length > 0 && { updated_end: filters.lastSeenFilter.updatedEnd }
+                    ...filters?.lastSeenFilter?.updatedStart && { updated_start: filters.lastSeenFilter.updatedStart },
+                    ...filters?.lastSeenFilter?.updatedEnd && { updated_end: filters.lastSeenFilter.updatedEnd }
                 }
             }
         )

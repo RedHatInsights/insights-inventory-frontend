@@ -15,7 +15,7 @@ const InsightsDisconnected = () => (
                 </GridItem>
                 <GridItem>
                     From the main navigation, open
-                    &quot;Registration Assitant&quot; to learn
+                    &quot;Registration Assistant&quot; to learn
                     how to set up Insights.
                 </GridItem>
             </Grid>

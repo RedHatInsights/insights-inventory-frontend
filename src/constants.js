@@ -122,12 +122,12 @@ export const getSearchParams = () => {
     const operatingSystem = searchParams.getAll('operating_system');
     const rhcdFilter = searchParams.getAll(RHCD_FILTER_KEY);
     const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
-    const groupHostsFilter = searchParams.getAll(HOST_GROUP_CHIP);
+    const hostGroupFilter = searchParams.getAll(HOST_GROUP_CHIP);
     const page = searchParams.getAll('page');
     const perPage = searchParams.getAll('per_page');
     const lastSeenFilter = searchParams.getAll('last_seen');
     return { status, source, tagsFilter, filterbyName, operatingSystem, rhcdFilter, updateMethodFilter, lastSeenFilter,
-        page, perPage, groupHostsFilter };
+        page, perPage, hostGroupFilter };
 };
 
 export const TABLE_DEFAULT_PAGINATION = 50; // from UX table audit

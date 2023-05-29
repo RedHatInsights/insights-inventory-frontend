@@ -6,6 +6,8 @@ import fixtures from '../fixtures/groups.json';
 import groupsSecondPage from '../fixtures/groupsSecondPage.json';
 import groupDetailFixtures from '../fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
 import hostsFixtures from '../fixtures/hosts.json';
+import edgeSystemProfile from '../fixtures/edgeSystemProfile.json';
+import hostDetail from '../fixtures/hostDetail.json';
 
 export { hostsFixtures, groupDetailFixtures };
 export const groupsInterceptors = {
@@ -18,7 +20,7 @@ export const groupsInterceptors = {
         .as('getGroups'),
     'successful with some items second page': () =>
         cy
-        .intercept('GET', '/api/inventory/v1/groups?*page=2&perPage=50*', {
+        .intercept('GET', '/api/inventory/v1/groups?*page=2&per_page=50*', {
             statusCode: 200,
             body: groupsSecondPage
         })
@@ -75,7 +77,7 @@ export const groupDetailInterceptors = {
                     ...groupDetailFixtures,
                     results: [{
                         ...groupDetailFixtures.results[0],
-                        host_ids: ['host-1', 'host-2']
+                        host_count: 2
                     }]
                 }
             }
@@ -116,6 +118,11 @@ export const groupDetailInterceptors = {
         .intercept('PATCH', '/api/inventory/v1/groups/*', { statusCode: 200 })
         .as('patchGroup');
     },
+    'post hosts successful': () => {
+        cy
+        .intercept('POST', '/api/inventory/v1/groups/*/hosts', { statusCode: 200 })
+        .as('postHosts');
+    },
     'delete successful': () => {
         cy
         .intercept('DELETE', '/api/inventory/v1/groups/*', { statusCode: 204 })
@@ -133,6 +140,32 @@ export const deleteGroupsInterceptors = {
         cy.intercept('DELETE', '/api/inventory/v1/groups/*', {
             statusCode: 400
         }).as('deleteGroups');
+    }
+};
+
+export const hostsDetailInterceptors = {
+    successful: () => {
+        cy.intercept('GET', '/api/inventory/v1/hosts/*', {
+            statusCode: 200,
+            body: hostDetail
+        }).as('getHostDetail');
+    }
+};
+
+export const hostsDetailTagsInterceptors = {
+    successful: () => {
+        cy.intercept('GET', '/api/inventory/v1/hosts/*/tags*', {
+            statusCode: 200,
+            body: {
+                total: 1,
+                count: 1,
+                page: 1,
+                per_page: 50,
+                results: {
+                    'fbe52803-d68a-40e1-9e39-5f9bae4a4bd0': []
+                }
+            }
+        }).as('getHostDetailTags');
     }
 };
 
@@ -173,6 +206,12 @@ export const systemProfileInterceptors = {
                 results: []
             }
         }).as('getSystemProfile');
+    },
+    'full system profile, successful with response': () => {
+        cy.intercept('GET', '/api/inventory/v1/hosts/*/system_profile*', {
+            statusCode: 200,
+            body: edgeSystemProfile
+        }).as('getFullSystemProfile');
     }
 };
 

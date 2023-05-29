@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import { addHostToGroup } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch  } from 'react-redux';
 import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
-import { fetchGroups } from '../../../store/inventory-actions';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
 
@@ -15,14 +14,8 @@ const AddHostToGroupModal = ({
     modalState,
     reloadData
 }) => {
-
     const dispatch = useDispatch();
-    //we have to fetch groups to make them available in state
-    useEffect(() => {
-        dispatch(fetchGroups());
-    }, []);
-
-    const groups = useSelector(({ groups }) => groups?.data?.results);
+    const { display_name: displayName, id } = modalState;
 
     const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
     const handleAddDevices = (values) => {
@@ -32,12 +25,12 @@ const AddHostToGroupModal = ({
                 title: 'Success',
                 description: `System(s) have been added to ${group.name} successfully`
             },
-            onError: { title: 'Error', description: `Failed to add ${modalState.name} to ${group.name}` }
+            onError: { title: 'Error', description: `Failed to add ${displayName} to ${group.name}` }
         };
 
         apiWithToast(
             dispatch,
-            () => addHostToGroup(group.groupId, modalState.id),
+            () => addHostToGroup(group.id, id),
             statusMessages
         );
     };
@@ -49,7 +42,7 @@ const AddHostToGroupModal = ({
                 closeModal={() => setIsModalOpen(false)}
                 title="Add to group"
                 submitLabel="Add"
-                schema={addHostSchema(modalState.name, groups)}
+                schema={addHostSchema(displayName)}
                 additionalMappers={{
                     'create-group-btn': {
                         component: CreateGroupButton,
@@ -59,7 +52,6 @@ const AddHostToGroupModal = ({
                         }
                     }
                 }}
-                initialValues={modalState}
                 onSubmit={handleAddDevices}
                 reloadData={reloadData}
             />
@@ -67,7 +59,6 @@ const AddHostToGroupModal = ({
                 <CreateGroupModal
                     isModalOpen={isCreateGroupModalOpen}
                     setIsModalOpen={setIsCreateGroupModalOpen}
-                    reloadData={() => console.log('data reloaded')}
                     //modal before prop tells create group modal that it should
                     //reopen add host modal when user closes create group modal
                     modalBefore={true}
@@ -81,14 +72,12 @@ const AddHostToGroupModal = ({
 AddHostToGroupModal.propTypes = {
     modalState: PropTypes.shape({
         id: PropTypes.string,
-        name: PropTypes.string,
-        groupName: PropTypes.string
+        // eslint-disable-next-line camelcase
+        display_name: PropTypes.string
     }),
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
-    reloadData: PropTypes.func,
-    setIsCreateGroupModalOpen: PropTypes.func,
-    deviceIds: PropTypes.array
+    reloadData: PropTypes.func
 };
 
 export default AddHostToGroupModal;

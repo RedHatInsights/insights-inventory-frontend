@@ -1,0 +1,44 @@
+{
+    "total": 1,
+    "count": 1,
+    "page": 1,
+    "per_page": 50,
+    "results": [
+        {
+            "insights_id": "insights_id-1",
+            "subscription_manager_id": "subscription_manager_id-1",
+            "satellite_id": null,
+            "bios_uuid": "bios_uuid-1",
+            "ip_addresses": [
+                "0.0.0.0"
+            ],
+            "fqdn": "fqdn-1",
+            "mac_addresses": [
+                "00:00:00:00:00:00",
+                "00:00:00:00:00:00"
+            ],
+            "provider_id": null,
+            "provider_type": null,
+            "id": "host_id-1",
+            "account": "0000000",
+            "org_id": "0000000",
+            "display_name": "host-1",
+            "ansible_host": null,
+            "facts": [],
+            "reporter": "reporter-1",
+            "per_reporter_staleness": {
+                "puptoo": {
+                    "check_in_succeeded": true,
+                    "stale_timestamp": "2023-05-17T13:19:15.515884+00:00",
+                    "last_check_in": "2023-05-16T08:19:15.851412+00:00"
+                }
+            },
+            "stale_timestamp": "2023-05-17T13:19:15.515884+00:00",
+            "stale_warning_timestamp": "2023-05-24T13:19:15.515884+00:00",
+            "culled_timestamp": "2023-05-31T13:19:15.515884+00:00",
+            "created": "2023-05-16T08:19:15.870093+00:00",
+            "updated": "2023-05-16T08:19:15.870097+00:00",
+            "groups": []
+        }
+    ]
+}

@@ -60,7 +60,10 @@ class GeneralInformation extends Component {
     };
 
     componentDidMount() {
-        this.props.loadSystemDetail?.(this.props.inventoryId || this.props.entity.id);
+        //Avoids duplicate profile fetch if consumer app already fetched, while staying backwards compatible
+        if (!this.props.systemProfilePrefetched) {
+            this.props.loadSystemDetail?.(this.props.inventoryId || this.props.entity.id);
+        }
     };
 
     render() {
@@ -161,7 +164,8 @@ GeneralInformation.propTypes = {
     children: PropTypes.node,
     history: PropTypes.any,
     location: PropTypes.any,
-    inventoryId: PropTypes.string.isRequired
+    inventoryId: PropTypes.string.isRequired,
+    systemProfilePrefetched: PropTypes.bool
 };
 GeneralInformation.defaultProps = {
     entity: {},
@@ -172,7 +176,8 @@ GeneralInformation.defaultProps = {
     ConfigurationCardWrapper: ConfigurationCard,
     SystemStatusCardWrapper: SystemStatusCard,
     DataCollectorsCardWrapper: DataCollectorsCard,
-    CollectionCardWrapper: false
+    CollectionCardWrapper: false,
+    systemProfilePrefetched: false
 };
 
 const mapStateToProps = ({

@@ -6,6 +6,11 @@ import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { mockSystemProfile } from '../../__mocks__/hostApi';
 import useGroupFilter from './useGroupFilter';
 
+jest.mock('../../Utilities/useFeatureFlag', () => ({
+    __esModule: true,
+    default: () => true
+}));
+
 describe('useGroupFilter', () => {
     const mockStore = configureStore([promiseMiddleware()]);
     beforeEach(() => {
