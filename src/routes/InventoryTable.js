@@ -17,7 +17,7 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
-import RemoveSelectedHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveSelectedHostsFromGroupModal';
+import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
 const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
     category ? `${category}/` : ''
@@ -351,7 +351,7 @@ const Inventory = ({
                         }
                         {
                             removeHostsFromGroupModalOpen &&
-                            <RemoveSelectedHostsFromGroupModal
+                            <RemoveHostsFromGroupModal
                                 isModalOpen={removeHostsFromGroupModalOpen}
                                 setIsModalOpen={setRemoveHostsFromGroupModalOpen}
                                 modalState={currentSystem}
