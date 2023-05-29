@@ -117,157 +117,9 @@
       "groups": [
         {
           "id": "54b302e4-07d2-45c5-b2f8-92a286847f9d",
-          "name": "ancd",
-          "account": "12345",
-          "org_id": "54321",
-          "created_on": null,
-          "modified_on": null
+          "name": "ancd"
         }
       ]
-    },
-    {
-      "org_id": "consectetur elit",
-      "stale_timestamp": "2013-06-07T22:00:00.0Z",
-      "facts": [
-        {
-          "namespace": "adipisicing"
-        },
-        {
-          "namespace": "occaecat sunt"
-        },
-        {
-          "namespace": "Ut labore est velit enim"
-        },
-        {
-          "namespace": "cupidatat aliqua tempor amet"
-        },
-        {
-          "namespace": "consequat enim Ut"
-        },
-        {
-          "namespace": "incididunt"
-        },
-        {
-          "namespace": "nulla do"
-        },
-        {
-          "namespace": "proident tempor enim ut quis"
-        },
-        {
-          "namespace": "laborum"
-        },
-        {
-          "namespace": "aliqua deserunt"
-        },
-        {
-          "namespace": "velit"
-        },
-        {
-          "namespace": "et incididunt laboris non anim"
-        },
-        {
-          "namespace": "do"
-        },
-        {
-          "namespace": "est et ea "
-        },
-        {
-          "namespace": "in"
-        },
-        {
-          "namespace": "minim"
-        },
-        {
-          "namespace": "fugiat Excepteur"
-        },
-        {
-          "namespace": "dolore mollit qui"
-        },
-        {
-          "namespace": "ad"
-        },
-        {
-          "namespace": "ut sint"
-        }
-      ],
-      "ip_addresses": [
-        "ullamco",
-        "culpa officia eiusmod voluptate quis",
-        "commodo non Excepteur dolore",
-        "consequat",
-        "cillum labor",
-        "nostrud amet deserunt dolor",
-        "reprehenderit",
-        "ea in nisi",
-        "in",
-        "fugiat adipisicing",
-        "sit est in qui",
-        "ea i",
-        "exercitation adipisic",
-        "sunt exercitation",
-        "fugiat sunt est dolore sint",
-        "eiusmod nulla aute",
-        "do deserunt",
-        "commodo nostrud cupidatat Excepteur id",
-        "non irure cillum minim",
-        "tempor nulla culpa non sunt"
-      ],
-      "display_name": null,
-      "updated": "1966-08-09T23:00:00.0Z",
-      "per_reporter_staleness": {
-        "eiusmodc2": {
-          "last_check_in": "1943-10-27T00:00:00.0Z",
-          "check_in_succeeded": true,
-          "stale_timestamp": "2012-12-31T23:00:00.0Z"
-        },
-        "do_39f": {
-          "last_check_in": "1950-02-01T23:00:00.0Z",
-          "stale_timestamp": "1970-04-16T23:00:00.0Z",
-          "check_in_succeeded": false
-        },
-        "labore7": {
-          "check_in_succeeded": true,
-          "last_check_in": "1981-06-13T22:00:00.0Z",
-          "stale_timestamp": "1945-09-29T22:00:00.0Z"
-        }
-      },
-      "provider_type": null,
-      "stale_warning_timestamp": "2007-11-12T00:00:00.0Z",
-      "insights_id": null,
-      "reporter": null,
-      "satellite_id": "consequat occaecat Ut",
-      "subscription_manager_id": "magna ullamco in Ut",
-      "account": "dolore voluptate",
-      "mac_addresses": [
-        "cupidatat nisi officia magna do",
-        "commodo ad",
-        "sint est id",
-        "irure eiusmod",
-        "ea magna aute occaecat dolor",
-        "aute voluptate",
-        "esse",
-        "nisi et",
-        "et aute qui nostrud in",
-        "dolore ut",
-        "ut veniam",
-        "mollit in eu aliqua",
-        "mollit in ut Lorem",
-        "amet",
-        "Duis qui sit adipisicing sunt",
-        "dolor",
-        "do sed",
-        "adipisicing in cupidatat",
-        "anim in consectetur sit",
-        "enim minim ex labore"
-      ],
-      "ansible_host": null,
-      "id": "aute",
-      "created": "1990-07-14T22:00:00.0Z",
-      "fqdn": null,
-      "provider_id": null,
-      "bios_uuid": "anim nulla ex eiusmod voluptate",
-      "culled_timestamp": null,
-      "groups": []
     },
     {
       "org_id": "deserunt sit irure",
@@ -294,7 +146,7 @@
         "in reprehenderit ut aute",
         ""
       ],
-      "id": "anim commodo",
+      "id": "anim",
       "display_name": null,
       "insights_id": null,
       "provider_type": null,
@@ -381,7 +233,12 @@
       },
       "culled_timestamp": null,
       "fqdn": null,
-      "groups": []
+      "groups": [
+        {
+          "id": "54b302e4-07d2-45c5-b2f8-92a286847f9d",
+          "name": "ancd"
+        }
+      ]
     },
     {
       "org_id": "fugiat in quis ea",
@@ -524,8 +381,13 @@
         "nu"
       ],
       "fqdn": null,
-      "id": "ea qui dolor voluptate",
-      "groups": []
+      "id": "ea",
+      "groups": [
+        {
+          "id": "54b303e4-07d2-45c5-b2f8-92a286847f9d",
+          "name": "foobar"
+        }
+      ]
     },
     {
       "org_id": "ut do pariatur consequat",
@@ -760,7 +622,7 @@
           "namespace": "Ut"
         }
       ],
-      "id": "quis enim et",
+      "id": "quis",
       "culled_timestamp": null,
       "fqdn": "cupidatat nisi ut",
       "stale_warning_timestamp": null,
