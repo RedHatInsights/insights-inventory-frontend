@@ -162,7 +162,7 @@ describe('sorting', () => {
         cy.wait('@getGroups'); // first initial request
     });
 
-    _.zip(['name', 'host_ids', 'updated_at'], TABLE_HEADERS).forEach(
+    _.zip(['name', 'host_ids'], TABLE_HEADERS).forEach(
         ([category, label]) => {
             SORTING_ORDERS.forEach((order) => {
                 it(`${order} by ${label}`, () => {

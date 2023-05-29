@@ -58,7 +58,7 @@ const GROUPS_TABLE_COLUMNS = [
     },
     {
         title: 'Last modified',
-        transforms: [sortable, cellWidth(20)]
+        transforms: [cellWidth(20)]
     }
 ];
 
