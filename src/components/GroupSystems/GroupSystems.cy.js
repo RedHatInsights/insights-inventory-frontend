@@ -342,6 +342,33 @@ describe('actions', () => {
             cy.wait('@request');
         });
     });
+
+    it.only('can remove more hosts from the same group', () => {
+        cy.intercept(
+            'DELETE',
+      `/api/inventory/v1/groups/${
+        hostsAllInGroupFixtures.results[0].groups[0].id
+      }/hosts/${hostsAllInGroupFixtures.results
+      .slice(0, 2)
+      .map(({ id }) => id)
+      .join(',')}`
+        ).as('request');
+
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+
+        // TODO: implement ouia selector for this component
+        cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+
+        cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+
+        cy.get(MODAL).within(() => {
+            cy.get('h1').should('have.text', 'Remove from group');
+            cy.get('button[type="submit"]').click();
+            cy.wait('@request');
+        });
+        cy.wait('@getHosts'); // data must be reloaded
+    });
 });
 
 describe('edge cases', () => {
