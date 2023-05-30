@@ -9,9 +9,6 @@ This is the frontend application for [Insights Inventory](https://github.com/Red
 2. Run [script to patch your `/etc/hosts`](https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh)
 3. Make sure you are using [Red Hat proxy](http://hdn.corp.redhat.com/proxy.pac)
 
-### Comprehensive documentation
-There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an Insights environment.
-
 ## Running locally
 1. Install dependencies with `npm install`
 2. Run development server with `npm run start:proxy:beta`
@@ -75,7 +72,7 @@ These applications import `InventoryTable` component through federated modules:
   * [inventory](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory.md)
     * [props table](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/props_table.md)
     * [props detail](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/props_detail.md)
-    * [custom fetch function](https://github.com/RedHatInsights/insights-inventory-frontend/blob/doc/custom_fetch.md)
+    * [custom fetch function](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/custom_fetch.md)
     * [hide filters](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/hide_filters.md)
     * [general info tab](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/general_info.md)
   * [inventory_header](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory_header.md)
