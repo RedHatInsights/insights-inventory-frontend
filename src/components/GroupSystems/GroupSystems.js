@@ -9,6 +9,7 @@ import { clearFilters, selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
 import { Link } from 'react-router-dom';
+import { updateURLSearchParams } from '../../Utilities/URLSearchParams';
 
 export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSelected, rowsNumber) => ({
     count: selectedNumber,
@@ -71,6 +72,61 @@ export const prepareColumns = (initialColumns, hideGroupColumn) => {
         'updated'
     ].map((colKey) => columns.find(({ key }) => key === colKey))
     .filter(Boolean); // eliminate possible undefined's
+};
+
+const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
+    category ? `${category}/` : ''
+}${
+    tagKey
+}${
+    value ? `=${value}` : ''
+}`);
+
+import flatMap from 'lodash/flatMap';
+
+const groupSystemsTableFiltersConfig = {
+    name: {
+        paramName: 'hostname_or_id'
+    },
+    staleFilter: {
+        paramName: 'status',
+        isSeparated: true // is array and requires each value to be a separate parameter
+    },
+    osFilter: {
+        paramName: 'operating_system',
+        isSeparated: true
+    },
+    registeredWithFilter: {
+        paramName: 'source',
+        isSeparated: true
+    },
+    tagFilters: {
+        paramName: 'tags',
+        transformToParam: (value) => flatMap(value, mapTags)
+    },
+    rhcdFilter: {
+        paramName: 'rhc_client_id',
+        isSeparated: true
+    },
+    lastSeenFilter: {
+        paramName: 'last_seen',
+        isSeparated: true,
+        transformToParam: (value) => Object.entries(value).filter(([key]) => key === 'mark').map(([, value]) => value)
+    },
+    updateMethodFilter: {
+        paramName: 'system_update_method',
+        isSeparated: true
+    },
+    // eslint-disable-next-line camelcase
+    per_page: {
+        paramName: 'per_page',
+        transformFromParam: (value) => parseInt(value)
+    },
+    page: {
+        paramName: 'page',
+        transformFromParam: (value) => parseInt(value)
+    }
+    // TODO: support sort parameters
 };
 
 const GroupSystems = ({ groupName, groupId }) => {
@@ -139,17 +195,45 @@ const GroupSystems = ({ groupName, groupId }) => {
                     }}
                     bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
                     showTags
+                    onRefresh={(options, callback) => {
+                        updateURLSearchParams(
+                            {
+                                page: options.page,
+                                // eslint-disable-next-line camelcase
+                                per_page: options.per_page,
+                                ...(options?.filters || []).reduce(
+                                    // `filters` have specific structure this this reducer exists
+                                    (prev, cur) => {
+                                        if (cur?.value === 'hostname_or_id') {
+                                            if (cur.filter.length > 0) {
+                                                return { ...prev, name: cur.filter };
+                                            }
+                                            else {
+                                                return prev; // ignore empty name filter
+                                            }
+                                        }
+
+                                        const filterValue = Object.entries(cur)[0];
+                                        return ({
+                                            ...prev,
+                                            [filterValue[0]]: filterValue[1]
+                                        });
+                                    },
+                                    {}
+                                )
+                            }, groupSystemsTableFiltersConfig);
+
+                        if (callback) {
+                            callback(options);
+                        }
+                    }}
                 >
                     <Button
                         variant='primary'
                         onClick={() => {
                             resetTable();
                             setIsModalOpen(true);
-                        }}
-
-                    >
-                    Add systems
-                    </Button>
+                        }}>Add systems</Button>
                 </InventoryTable>
             }
         </div>
