@@ -53,6 +53,20 @@ const checkSelectedNumber = (number) =>
 const mountTable = () =>
     cy.mountWithContext(GroupSystems, {}, { groupName: GROUP_NAME });
 
+const waitForTable = (waitNetwork = false) => {
+    if (waitNetwork) {
+        // required for correct requests verifying in sub tests
+        cy.wait('@getHosts');
+    }
+
+    // indicating the table is loaded
+    cy.get('table[aria-label="Host inventory"]').should(
+        'have.attr',
+        'data-ouia-safe',
+        'true'
+    );
+};
+
 before(() => {
     cy.mockWindowChrome();
 });
@@ -68,11 +82,7 @@ describe('renders correctly', () => {
 
         mountTable();
 
-        cy.get('table[aria-label="Host inventory"]').should(
-            'have.attr',
-            'data-ouia-safe',
-            'true'
-        );
+        waitForTable();
     });
 
     it('the root container is rendered', () => {
@@ -97,12 +107,7 @@ describe('defaults', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should(
-            'have.attr',
-            'data-ouia-safe',
-            'true'
-        );
+        waitForTable(true);
     });
 
     it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
@@ -126,12 +131,7 @@ describe('pagination', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should(
-            'have.attr',
-            'data-ouia-safe',
-            'true'
-        );
+        waitForTable(true);
     });
 
     it('shows correct total number of hosts', () => {
@@ -167,12 +167,7 @@ describe('sorting', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should(
-            'have.attr',
-            'data-ouia-safe',
-            'true'
-        );
+        waitForTable(true);
     });
 
     const checkSorting = (label, order, dataField) => {
@@ -213,12 +208,7 @@ describe('filtering', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should(
-            'have.attr',
-            'data-ouia-safe',
-            'true'
-        );
+        waitForTable(true);
     });
 
     const applyNameFilter = () =>
@@ -273,12 +263,7 @@ describe('selection and bulk selection', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should(
-            'have.attr',
-            'data-ouia-safe',
-            'true'
-        );
+        waitForTable(true);
     });
 
     it('can select and deselect systems', () => {
@@ -332,13 +317,7 @@ describe('actions', () => {
         featureFlagsInterceptors.successful(); // make Groups col available
 
         mountTable();
-
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should(
-            'have.attr',
-            'data-ouia-safe',
-            'true'
-        );
+        waitForTable(true);
     });
 
     it('can open systems add modal', () => {
@@ -399,7 +378,7 @@ describe('edge cases', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
+        waitForTable();
 
         checkEmptyState('No matching systems found', true);
         checkPaginationTotal(0);
