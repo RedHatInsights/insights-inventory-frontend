@@ -18,17 +18,17 @@ This is the frontend application for [Insights Inventory](https://github.com/Red
 
 If you want to see changes made in inventory table in another application you will have to run both inventory and desired application. We'll take for example [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend) application as app that uses system detail.
 
-Open new terminal and navigate to desired application (for instance insights-adviror-frontend) and run it (make sure to run it on different port)
+Open new terminal and navigate to desired application (for instance insights-advisor-frontend) and run it (make sure to run it on a different port):
 ```
-npm start
+npm run start:proxy -- --port:8003
 ```
 
-Run the inventory application with proxy enabled and list of additional applications
+Run the Inventory application with proxy enabled and list of additional applications:
 ```
 LOCAL_API=advisor:8003~https npm run start:proxy
 ```
 
-If you want to run advisor and for instance vulnerability just add new entry to LOCAL_API
+Or, if you want to run Advisor and, for instance, Vulnerability, then just add a new entry to LOCAL_API:
 ```
 LOCAL_API=advisor:8003~https,vulnerability:8004
 ```
