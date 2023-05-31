@@ -19,17 +19,7 @@ const match = reg => x =>
     reg?.test(x);
 
 // filter an array by a predicate
-// const filter = f => a => a.filter(a)
-const filter = f => a => {
-    const ret = [];
-    let ii = 0;
-    let ll = a?.length;
-    for (;ii < ll; ii++) {
-        if (f(a[ii])) {ret?.push(a[ii]);}
-    }
-
-    return ret;
-};
+const filter = f => a => a?.filter(f);
 
 export const filterArrOfObjByValueUsingRegexp = value => {
     // create a regular expression based on your search value
