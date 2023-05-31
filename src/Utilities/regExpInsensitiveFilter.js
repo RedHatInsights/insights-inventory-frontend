@@ -5,8 +5,6 @@ const hasValue = f => o => {
     let key;
     for (key in o) {
         if (f(o[key])) {return true;}
-
-        ;
     }
 
     return false;
@@ -28,8 +26,6 @@ const filter = f => a => {
     let ll = a?.length;
     for (;ii < ll; ii++) {
         if (f(a[ii])) {ret?.push(a[ii]);}
-
-        ;
     }
 
     return ret;

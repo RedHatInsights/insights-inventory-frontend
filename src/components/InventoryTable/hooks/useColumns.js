@@ -25,6 +25,8 @@ const useColumns = (columnsProp, disableDefaultColumns, showTags, columnsCounter
 
     return useMemo(() => {
         if (typeof columnsProp === 'function') {
+            console.log(defaultColumns, 'defaultColumns')
+            console.log(groupsEnabled, 'groupsEnabled')
             return columnsProp(defaultColumns(groupsEnabled));
         } else if (columnsProp) {
             return mergeArraysByKey([
