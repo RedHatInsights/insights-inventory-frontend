@@ -155,7 +155,7 @@ describe('url search parameters', () => {
     });
 });
 
-describe.only('sorting', () => {
+describe('sorting', () => {
     beforeEach(() => {
         interceptors['successful with some items']();
         mountTable();
