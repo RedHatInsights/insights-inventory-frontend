@@ -6,7 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import './inventory.scss';
 import { PageHeader, PageHeaderTitle, Main } from '@redhat-cloud-services/frontend-components';
 import * as actions from '../store/actions';
-import { Tabs, Tab, TabTitleText, Grid, GridItem }from '@patternfly/react-core';
+import { Tabs, Tab, TabTitleText, Grid, GridItem } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
@@ -17,7 +17,6 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddHostToGroupModal from '../components/InventoryGroups/Modals/AddHostToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-
 
 const reloadWrapper = (event, callback) => {
     event.payload.then(callback);
@@ -140,7 +139,7 @@ const Inventory = ({
         }
     };
 
-     const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
+    const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
 
     useEffect(() => {
         chrome.updateDocumentTitle('Inventory | Red Hat Insights');
@@ -228,65 +227,64 @@ const Inventory = ({
         return [...(groupsUiStatus ? actionsBehindFeatureFlag : []), ...standardActions];
     };
 
-    const traditionalDevices = [ <Grid gutter="md">
-    <GridItem span={12}>
-        <InventoryTableCmp
-            hasAccess={hasAccess}
-            isRbacEnabled
-            customFilters={{ filters, globalFilter }}
-            isFullView
-            inventoryRef={inventory}
-            showTags
-            onRefresh={onRefresh}
-            hasCheckbox={writePermissions}
-            autoRefresh
-            ignoreRefresh
-            initialLoading={initialLoading}
-            tableProps={
-                (writePermissions && {
-                    actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
-            {...(writePermissions && {
-                actionsConfig: {
-                    actions: [{
-                        label: 'Delete',
-                        props: {
-                            isDisabled: calculateSelected() === 0,
-                            variant: 'secondary',
-                            onClick: () => {
-                                activateSystem(Array.from(selected.values()));
-                                handleModalToggle(true);
+    const traditionalDevices = <Grid gutter="md">
+        <GridItem span={12}>
+            <InventoryTableCmp
+                hasAccess={hasAccess}
+                isRbacEnabled
+                customFilters={{ filters, globalFilter }}
+                isFullView
+                inventoryRef={inventory}
+                showTags
+                onRefresh={onRefresh}
+                hasCheckbox={writePermissions}
+                autoRefresh
+                ignoreRefresh
+                initialLoading={initialLoading}
+                tableProps={
+                    (writePermissions && {
+                        actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
+                {...(writePermissions && {
+                    actionsConfig: {
+                        actions: [{
+                            label: 'Delete',
+                            props: {
+                                isDisabled: calculateSelected() === 0,
+                                variant: 'secondary',
+                                onClick: () => {
+                                    activateSystem(Array.from(selected.values()));
+                                    handleModalToggle(true);
+                                }
                             }
-                        }
-                    }]
-                },
-                bulkSelect: {
-                    count: calculateSelected(),
-                    id: 'bulk-select-systems',
-                    items: [{
-                        title: 'Select none (0)',
-                        onClick: () => {
-                            onSelectRows(-1, false);
-                        }
+                        }]
                     },
-                    {
-                        ...loaded && rows && rows.length > 0 ? {
-                            title: `Select page (${ rows.length })`,
+                    bulkSelect: {
+                        count: calculateSelected(),
+                        id: 'bulk-select-systems',
+                        items: [{
+                            title: 'Select none (0)',
                             onClick: () => {
-                                onSelectRows(0, true);
+                                onSelectRows(-1, false);
                             }
-                        } : {}
-                    }],
-                    checked: calculateChecked(rows, selected),
-                    onSelect: (value) => {
-                        onSelectRows(0, value);
+                        },
+                        {
+                            ...loaded && rows && rows.length > 0 ? {
+                                title: `Select page (${ rows.length })`,
+                                onClick: () => {
+                                    onSelectRows(0, true);
+                                }
+                            } : {}
+                        }],
+                        checked: calculateChecked(rows, selected),
+                        onSelect: (value) => {
+                            onSelectRows(0, value);
+                        }
                     }
-                }
-            })}
-            onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
-        />
-    </GridItem>
-</Grid>
-]
+                })}
+                onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
+            />
+        </GridItem>
+    </Grid>;
 
     return (
 
@@ -295,27 +293,24 @@ const Inventory = ({
                 <PageHeaderTitle title='Inventory'/>
             </PageHeader>
             <Main>
-            {EdgeParityEnabled ?
-            <Tabs
-                className="pf-u-ml-md"
-                activeKey={activeTabKey}
-                onSelect={handleTabClick}
-            >
-                <Tab eventKey={0} title={<TabTitleText>Traditional</TabTitleText>}>
-                    {traditionalDevices}
-                </Tab>
-                
-                <Tab eventKey={1} title={<TabTitleText>Immutable</TabTitleText>}>
-                    <AsyncComponent
+                {EdgeParityEnabled ?
+                    <Tabs
+                        className="pf-u-ml-md"
+                        activeKey={activeTabKey}
+                        onSelect={handleTabClick}
+                    >
+                        <Tab eventKey={0} title={<TabTitleText>Traditional</TabTitleText>}>
+                            {traditionalDevices}
+                        </Tab>
+                        <Tab eventKey={1} title={<TabTitleText>Immutable</TabTitleText>}>
+                            <AsyncComponent
                                 appName="edge"
                                 module="./Inventory"
                                 historyProp={useHistory}
                                 locationProp={useLocation}
-                            /> 
-                </Tab>   
-            </Tabs>  :  traditionalDevices }
-                
-                           
+                            />
+                        </Tab>
+                    </Tabs>  :  traditionalDevices }
             </Main>
             <DeleteModal
                 className ='sentry-mask data-hj-suppress'
