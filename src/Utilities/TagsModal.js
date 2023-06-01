@@ -6,7 +6,6 @@ import { TagModal } from '@redhat-cloud-services/frontend-components/TagModal';
 import { cellWidth } from '@patternfly/react-table';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
-import { filterArrOfObjByValueUsingRegexp } from './regExpInsensitiveFilter';
 
 const TagsModal = ({
     filterTagsBy,
@@ -39,8 +38,9 @@ const TagsModal = ({
         const activeTags = entities?.activeSystemTag?.tags || entityDetails?.entity?.tags;
 
         if (activeTags) {
-            return filterArrOfObjByValueUsingRegexp(filterBy)(activeTags)
-            .slice(statePagination?.perPage * (statePagination?.page - 1), statePagination?.perPage * statePagination?.page);
+            return activeTags?.filter(
+                (tag) => Object.values(tag).some((val) => val?.toLowerCase().includes(filterBy.toLowerCase()))
+            ).slice(statePagination?.perPage * (statePagination?.page - 1), statePagination?.perPage * statePagination?.page);
         }
 
         return entities?.allTags?.reduce((acc, { tags }) => ([
