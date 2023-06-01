@@ -19,7 +19,7 @@ import cloneDeep from 'lodash/cloneDeep';
  * to get the latest props and not the props at the time of when the function is
  * being wrapped in callback.
  */
-const inventoryCache = () => {
+export const inventoryCache = () => {
     let cache = {};
 
     const updateProps = (props) => { cache = cloneDeep({ ...cache, props }); };
@@ -149,7 +149,8 @@ const InventoryTable = forwardRef(({ // eslint-disable-line react/display-name
             //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
             activeFiltersConfig: cachedProps.activeFiltersConfig,
             ...customFilters,
-            ...options
+            ...options,
+            globalFilter: cachedProps?.customFilters?.globalFilter
         };
 
         const cachedParams = cache.current.getParams();

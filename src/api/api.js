@@ -100,7 +100,7 @@ export const filtersReducer = (acc, filter = {}) => ({
     ...'rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter },
     ...'lastSeenFilter' in filter && { lastSeenFilter: filter.lastSeenFilter },
     ...'updateMethodFilter' in filter && { updateMethodFilter: filter.updateMethodFilter },
-    ...'groupHostFilter' in filter && { groupHostFilter: filter.groupHostFilter }
+    ...'hostGroupFilter' in filter && { hostGroupFilter: filter.hostGroupFilter }
 });
 
 export async function getEntities(items, {
@@ -176,6 +176,9 @@ export async function getEntities(items, {
             undefined,
             undefined,
             undefined,
+            undefined,
+            undefined,
+            filters.hostGroupFilter,
             undefined,
             perPage,
             page,

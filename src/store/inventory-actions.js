@@ -38,13 +38,13 @@ export const loadEntities = (items = [], { filters, ...config }, { showTags } = 
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
         ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
         ...(isFilterDisabled('operating_system') && { osFilter: undefined }),
-        ...(isFilterDisabled('host_group')) && { groupHostFilter: undefined }
+        ...(isFilterDisabled('host_group')) && { hostGroupFilter: undefined }
     }) : {
         ...(isFilterDisabled('stale') && { staleFilter: undefined }),
         ...(isFilterDisabled('last_seen') && { lastSeenFilter: undefined }),
         ...(isFilterDisabled('registeredWith') && { registeredWithFilter: undefined }),
         ...(isFilterDisabled('operating_system') && { osFilter: undefined }),
-        ...(isFilterDisabled('host_group')) && { groupHostFilter: undefined }
+        ...(isFilterDisabled('host_group')) && { hostGroupFilter: undefined }
     };
 
     const orderBy = config.orderBy || 'updated';
@@ -130,7 +130,7 @@ export const systemProfile = (itemId) => ({
 
 export const editDisplayName = (id, value) => ({
     type: ACTION_TYPES.SET_DISPLAY_NAME,
-    payload: hosts.apiHostPatchHost(id, { display_name: value }), // eslint-disable-line camelcase
+    payload: hosts.apiHostPatchHostById(id, { display_name: value }), // eslint-disable-line camelcase
     meta: {
         notifications: {
             fulfilled: {
@@ -144,7 +144,7 @@ export const editDisplayName = (id, value) => ({
 
 export const editAnsibleHost = (id, value) => ({
     type: ACTION_TYPES.SET_ANSIBLE_HOST,
-    payload: hosts.apiHostPatchHost(id, { ansible_host: value }), // eslint-disable-line camelcase
+    payload: hosts.apiHostPatchHostById(id, { ansible_host: value }), // eslint-disable-line camelcase
     meta: {
         notifications: {
             fulfilled: {
@@ -193,7 +193,7 @@ export const fetchOperatingSystems = (params = []) => ({
 
 export const deleteEntity = (systems, displayName) => ({
     type: ACTION_TYPES.REMOVE_ENTITY,
-    payload: hosts.apiHostDeleteById(systems),
+    payload: hosts.apiHostDeleteHostById(systems),
     meta: {
         notifications: {
             fulfilled: {

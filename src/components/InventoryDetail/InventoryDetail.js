@@ -10,7 +10,6 @@ import { addNotification as addNotificationAction } from '@redhat-cloud-services
 import ApplicationDetails from './ApplicationDetails';
 import './InventoryDetail.scss';
 import DetailHeader from './DetailHeader';
-
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
  * This component is connected to redux and reads `loaded` and `entity`.
@@ -30,7 +29,6 @@ const InventoryDetail = ({
     const dispatch = useDispatch();
     const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded || false);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
-
     //TODO: one all apps migrate to away from AppAinfo, remove this
     useEffect(() => {
         if (!entity || !(entity?.id === inventoryId) || !loaded) {
