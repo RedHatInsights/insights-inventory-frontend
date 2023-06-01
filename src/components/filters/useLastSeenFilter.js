@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LAST_SEEN_CHIP, lastSeenItems } from '../../Utilities/constants';
 import moment from 'moment';
-import { oldestDate } from './helpers.js';
+import { containsSpecialChars, oldestDate } from './helpers.js';
 export const lastSeenFilterState = { lastSeenFilter: [] };
 export const LAST_SEEN_FILTER = 'LAST_SEEN_FILTER';
 export const lastSeenFilterReducer = (_state, { type, payload }) => ({
@@ -90,28 +90,34 @@ export const useLastSeenFilter = (
     //This date comes from patternfly component. This manages the 1st date picker
     const onFromChange = (date) => {
         const newToDate = moment(endDate).endOf('day');
-        if (date > newToDate) {
-            setStartDate();
-            return 'End date must be later than Start date.';
+        const todaysDate = moment().endOf('day');
+        const selectedFromDate = moment(date).startOf('day');
+
+        if (!containsSpecialChars(date) && selectedFromDate < todaysDate) {
+            if (date > newToDate) {
+                setStartDate();
+                return 'End date must be later than Start date.';
+            }
+
+            setStartDate(date);
+            const apiStartDate = moment(date).startOf('day');
+            manageStartDate(apiStartDate, newToDate);
         }
-
-        setStartDate(date);
-        const apiStartDate = moment(date).startOf('day');
-
-        manageStartDate(apiStartDate, newToDate);
     };
 
     //This date comes from patternfly component. This manages the 2nd date picker
     const onToChange = (date) => {
-        if (startDate > moment(date)) {
-            return 'Start date must be earlier than End date.';
-        } else if (moment(date) > todaysDate) {
-            return 'End date must be later than Start date.';
-        } else {
-            setEndDate(date);
-            const apiEndDate = moment(date).endOf('day');
-            manageEndDate(moment(startDate), apiEndDate);
-        }
+
+        if (!containsSpecialChars(date)) {
+            if (startDate > moment(date)) {
+                return 'Start date must be earlier than End date.';
+            } else if (moment(date) > todaysDate) {
+                return 'End date must be later than Start date.';
+            } else {
+                setEndDate(date);
+                const apiEndDate = moment(date).endOf('day');
+                manageEndDate(moment(startDate), apiEndDate);
+            }}
     };
 
     return [
