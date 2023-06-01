@@ -15,23 +15,28 @@ const InventoryGroups = () => {
     const [hasGroups, setHasGroups] = useState(false);
     const [hasError, setHasError] = useState(false);
 
-    const checkForGroups = async () => {
-        try {
-            const { total } = await getGroups();
+    useEffect(() => {
+        let ignore = false; // https://react.dev/learn/synchronizing-with-effects#fetching-data
+        const checkForGroups = async () => {
+            try {
+                const { total } = await getGroups();
 
-            if (total > 0) {
-                setHasGroups(true);
+                if (total > 0) {
+                    !ignore && setHasGroups(true);
+                }
+            } catch (error) {
+                !ignore && setHasError(true);
             }
-        } catch (error) {
-            setHasError(true);
-        }
 
-        setIsLoading(false);
-    };
+            !ignore && setIsLoading(false);
+        };
 
-    useEffect(async () => {
         // make initial request to check if there is at least one group available
         checkForGroups();
+
+        return () => {
+            ignore = true;
+        };
     }, []);
 
     return (
