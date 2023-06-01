@@ -50,9 +50,9 @@ export const defaultColumns = (groupsEnabled = false) => ([
         key: 'groups',
         sortKey: 'groups',
         title: 'Group',
-        props: { width: 10 },
+        props: { width: 10, isStatic: true },
         // eslint-disable-next-line camelcase
-        renderFunc: (value, systemId, { group_name }) => isEmpty(group_name) ? 'N/A' : group_name,
+        renderFunc: (groups) => isEmpty(groups) ? 'N/A' : groups[0].name, // currently, one group at maximum is supported
         transforms: [fitContent]
     }] : []),
     {
@@ -162,7 +162,18 @@ function loadingRejected(state, { payload }) {
 
 function selectEntity(state, { payload }) {
     const rows = [...state.rows];
-    const toSelect = [].concat(payload);
+    let toSelect = [];
+    if (Array.isArray(payload.id)) {
+        toSelect = payload.id.map(item => {
+            return {
+                id: item,
+                selected: payload?.selected
+            };
+        });
+    } else {
+        toSelect = [].concat(payload);
+    }
+
     toSelect.forEach(({ id, selected }) => {
         const entity = rows.find(entity => entity.id === id);
         if (entity) {

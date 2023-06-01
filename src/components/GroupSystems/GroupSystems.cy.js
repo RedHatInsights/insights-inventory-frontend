@@ -59,19 +59,7 @@ const mountTable = () =>
     );
 
 before(() => {
-    cy.window().then(
-        (window) =>
-            (window.insights = {
-                chrome: {
-                    isProd: false,
-                    auth: {
-                        getUser: () => {
-                            return Promise.resolve({});
-                        }
-                    }
-                }
-            })
-    );
+    cy.mockWindowChrome();
 });
 
 describe('renders correctly', () => {
@@ -138,7 +126,7 @@ describe('pagination', () => {
         cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
     });
 
-    it('shows correct total number of groups', () => {
+    it('shows correct total number of hosts', () => {
         checkPaginationTotal(fixtures.total);
     });
 

@@ -1,0 +1,72 @@
+{
+    "total": 1,
+    "count": 1,
+    "page": 1,
+    "per_page": 50,
+    "results": [
+        {
+            "id": "test-system-profile-1",
+            "system_profile": {
+                "insights_egg_version": "3.0.246-1",
+                "host_type": "edge",
+                "cloud_provider": "aws",
+                "dnf_modules": [
+                    {
+                        "stream": "rhel",
+                        "name": "virt"
+                    }
+                ],
+                "yum_repos": [],
+                "os_release": "8.7",
+                "installed_products": [
+                    {
+                        "id": "479"
+                    }
+                ],
+                "installed_packages": [],
+                "infrastructure_type": "virtual",
+                "cores_per_socket": 1,
+                "basearch": "x86_64",
+                "installed_services": [],
+                "bios_vendor": "SeaBIOS",
+                "number_of_cpus": 1,
+                "system_update_method": "dnf",
+                "insights_client_version": "3.1.7",
+                "kernel_modules": [],
+                "cpu_model": "Intel Xeon Processor (Icelake)",
+                "system_memory_bytes": 1898639360,
+                "is_marketplace": false,
+                "operating_system": {
+                    "major": 8,
+                    "minor": 7,
+                    "name": "RHEL"
+                },
+                "selinux_current_mode": "enforcing",
+                "last_boot_time": "2023-05-02T13:55:57+00:00",
+                "enabled_services": [],
+                "number_of_sockets": 1,
+                "rhsm": {
+                    "version": ""
+                },
+                "gpg_pubkeys": [
+                    "gpg-pubkey-d4082792-5b32db75",
+                    "gpg-pubkey-fd431d51-4ae0493b"
+                ],
+                "running_processes": [],
+                "bios_release_date": "04/01/2014",
+                "selinux_config_file": "enforcing",
+                "bios_version": "1.13.0-2.module+el8.2.1+7284+aa32a2c4",
+                "os_kernel_version": "4.18.0",
+                "releasever": "8",
+                "captured_date": "2023-05-02T14:02:57+00:00",
+                "cpu_flags": [],
+                "network_interfaces": [],
+                "installed_packages_delta": [],
+                "tuned_profile": "virtual-guest",
+                "arch": "x86_64",
+                "satellite_managed": false,
+                "infrastructure_vendor": "vendor"
+            }
+        }
+    ]
+}
