@@ -1,4 +1,3 @@
-import { mount } from '@cypress/react';
 import {
     changePagination,
     checkEmptyState,
@@ -7,36 +6,32 @@ import {
     checkTableHeaders,
     CHIP,
     CHIP_GROUP,
+    DROPDOWN,
     DROPDOWN_ITEM,
     DROPDOWN_TOGGLE,
     hasChip,
     MODAL,
     PAGINATION_VALUES,
+    ROW,
     SORTING_ORDERS,
     TEXT_INPUT,
     TOOLBAR,
     TOOLBAR_FILTER
 } from '@redhat-cloud-services/frontend-components-utilities';
-import FlagProvider from '@unleash/proxy-client-react';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 import {
     featureFlagsInterceptors,
     groupsInterceptors,
     hostsInterceptors,
     systemProfileInterceptors
 } from '../../../cypress/support/interceptors';
-import { getStore } from '../../store';
 import GroupSystems from './GroupSystems';
 import fixtures from '../../../cypress/fixtures/hosts.json';
 import {
     checkSelectedNumber as checkSelectedNumber_,
     ORDER_TO_URL,
-    selectRowN,
-    unleashDummyConfig
+    selectRowN
 } from '../../../cypress/support/utils';
-import _ from 'lodash';
+import _, { cloneDeep } from 'lodash';
 
 const GROUP_NAME = 'foobar';
 const ROOT = 'div[id="group-systems-table"]';
@@ -44,19 +39,33 @@ const TABLE_HEADERS = ['Name', 'Tags', 'OS', 'Update method', 'Last seen'];
 const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 
+const hostsAllInGroupFixtures = cloneDeep(fixtures);
+hostsAllInGroupFixtures.results = hostsAllInGroupFixtures.results.map(host => ({ ...host, groups: [
+    {
+        id: '54b302e4-07d2-45c5-b2f8-92a286847f9d',
+        name: 'ancd'
+    }
+] }));
+
 const checkSelectedNumber = (number) =>
     checkSelectedNumber_(number, '#bulk-select-systems-toggle-checkbox-text');
 
 const mountTable = () =>
-    mount(
-        <FlagProvider config={unleashDummyConfig}>
-            <Provider store={getStore()}>
-                <MemoryRouter>
-                    <GroupSystems groupName={GROUP_NAME} />
-                </MemoryRouter>
-            </Provider>
-        </FlagProvider>
+    cy.mountWithContext(GroupSystems, {}, { groupName: GROUP_NAME });
+
+const waitForTable = (waitNetwork = false) => {
+    if (waitNetwork) {
+        // required for correct requests verifying in sub tests
+        cy.wait('@getHosts');
+    }
+
+    // indicating the table is loaded
+    cy.get('table[aria-label="Host inventory"]').should(
+        'have.attr',
+        'data-ouia-safe',
+        'true'
     );
+};
 
 before(() => {
     cy.mockWindowChrome();
@@ -66,13 +75,14 @@ describe('renders correctly', () => {
     beforeEach(() => {
         cy.intercept('*', { statusCode: 200, body: { results: [] } });
 
-        hostsInterceptors.successful();
+        hostsInterceptors.successful(hostsAllInGroupFixtures);
         featureFlagsInterceptors.successful();
         systemProfileInterceptors['operating system, successful empty']();
         groupsInterceptors['successful with some items']();
+
         mountTable();
 
-        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
+        waitForTable();
     });
 
     it('the root container is rendered', () => {
@@ -97,8 +107,7 @@ describe('defaults', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
+        waitForTable(true);
     });
 
     it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
@@ -122,8 +131,7 @@ describe('pagination', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
+        waitForTable(true);
     });
 
     it('shows correct total number of hosts', () => {
@@ -159,8 +167,7 @@ describe('sorting', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
+        waitForTable(true);
     });
 
     const checkSorting = (label, order, dataField) => {
@@ -201,8 +208,7 @@ describe('filtering', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
+        waitForTable(true);
     });
 
     const applyNameFilter = () =>
@@ -257,8 +263,7 @@ describe('selection and bulk selection', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
+        waitForTable(true);
     });
 
     it('can select and deselect systems', () => {
@@ -312,9 +317,7 @@ describe('actions', () => {
         featureFlagsInterceptors.successful(); // make Groups col available
 
         mountTable();
-
-        cy.wait('@getHosts');
-        cy.get('table[aria-label="Host inventory"]').should('have.attr', 'data-ouia-safe', 'true');
+        waitForTable(true);
     });
 
     it('can open systems add modal', () => {
@@ -322,6 +325,47 @@ describe('actions', () => {
         cy.get(MODAL).find('h1').contains('Add systems');
 
         cy.wait('@getHosts');
+    });
+
+    it('can remove host from group', () => {
+        cy.intercept(
+            'DELETE',
+      `/api/inventory/v1/groups/${hostsAllInGroupFixtures.results[0].groups[0].id}/hosts/${hostsAllInGroupFixtures.results[0].id}`
+        ).as('request');
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+        cy.get(MODAL).within(() => {
+            cy.get('h1').should('have.text', 'Remove from group');
+            cy.get('button[type="submit"]').click();
+            cy.wait('@request');
+        });
+    });
+
+    it('can remove more hosts from the same group', () => {
+        cy.intercept(
+            'DELETE',
+      `/api/inventory/v1/groups/${
+        hostsAllInGroupFixtures.results[0].groups[0].id
+      }/hosts/${hostsAllInGroupFixtures.results
+      .slice(0, 2)
+      .map(({ id }) => id)
+      .join(',')}`
+        ).as('request');
+
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+
+        // TODO: implement ouia selector for this component
+        cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+
+        cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+
+        cy.get(MODAL).within(() => {
+            cy.get('h1').should('have.text', 'Remove from group');
+            cy.get('button[type="submit"]').click();
+            cy.wait('@request');
+        });
+        cy.wait('@getHosts'); // data must be reloaded
     });
 });
 
@@ -334,7 +378,7 @@ describe('edge cases', () => {
         groupsInterceptors['successful with some items']();
         mountTable();
 
-        cy.wait('@getHosts');
+        waitForTable();
 
         checkEmptyState('No matching systems found', true);
         checkPaginationTotal(0);

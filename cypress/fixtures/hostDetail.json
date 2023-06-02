@@ -29,7 +29,7 @@
             "per_reporter_staleness": {
                 "puptoo": {
                     "check_in_succeeded": true,
-                    "stale_timestamp": "2023-05-17T13:19:15.515884+00:00",
+                    "stale_timestamp": "2999-05-17T13:19:15.515884+00:00",
                     "last_check_in": "2023-05-16T08:19:15.851412+00:00"
                 }
             },

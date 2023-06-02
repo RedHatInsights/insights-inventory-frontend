@@ -3,7 +3,6 @@ import { instance } from '@redhat-cloud-services/frontend-components-utilities/i
 import { INVENTORY_API_BASE } from '../../../api';
 import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
-import union from 'lodash/union';
 
 export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }) => {
     const parameters = new URLSearchParams({
@@ -16,9 +15,7 @@ export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_D
 
 export const createGroup = (payload) => {
     return instance.post(`${INVENTORY_API_BASE}/groups`, {
-        name: payload.name,
-        // eslint-disable-next-line camelcase
-        host_ids: []
+        name: payload.name
     });
 };
 
@@ -40,17 +37,7 @@ export const deleteGroupsById = (ids = []) => {
 };
 
 export const addHostsToGroupById = (id, hostIds) => {
-    // the current hosts must be fetched before merging with the new ones
-    return getGroupDetail(id).then((response) =>
-        updateGroupById(id, {
-            // eslint-disable-next-line camelcase
-            host_ids: union(response.results[0].host_ids, hostIds)
-        })
-    );
-};
-
-export const addHostToGroup = (groupId, newHostId) => {
-    return instance.post(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${newHostId}`);
+    return instance.post(`${INVENTORY_API_BASE}/groups/${id}/hosts`, hostIds);
 };
 
 export const removeHostsFromGroup = (groupId, hostIds) => {

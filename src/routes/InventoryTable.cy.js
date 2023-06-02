@@ -22,6 +22,8 @@ import {
     ROW
 } from '@redhat-cloud-services/frontend-components-utilities';
 
+const TEST_GROUP = 'ancd';
+
 const mountTable = () => {
     cy.mountWithContext(Inventory);
 };
@@ -45,12 +47,25 @@ before(() => {
 });
 
 describe('test data', () => {
-    it('first host is in a group', () => {
-        expect(hostsFixtures.results[0].groups.length > 0).to.be.true;
+    it(`first two hosts in the group ${TEST_GROUP}`, () => {
+        expect(
+            hostsFixtures.results
+            .slice(0, 2)
+            .every(({ groups }) => groups[0].name === TEST_GROUP)
+        ).to.be.true;
     });
 
-    it('the second host is not in a group', () => {
-        expect(hostsFixtures.results[1].groups.length === 0).to.be.true;
+    it(`the third host has a group differente that ${TEST_GROUP}`, () => {
+        expect(hostsFixtures.results[2].groups[0].name !== TEST_GROUP).to.be.true;
+    });
+
+    it(`groups has the group ${TEST_GROUP}`, () => {
+        expect(groupsFixtures.results.some(({ name }) => name === TEST_GROUP)).to.be
+        .true;
+    });
+
+    it('the fourth host is not in a group', () => {
+        expect(hostsFixtures.results[3].groups.length === 0).to.be.true;
     });
 });
 
@@ -69,7 +84,7 @@ describe('inventory table', () => {
         groupsInterceptors['successful with some items']();
         hostsInterceptors.successful();
         mountTable();
-        waitForTable();
+        waitForTable(true);
     });
 
     describe('has groups actions', () => {
@@ -81,7 +96,17 @@ describe('inventory table', () => {
         });
 
         it('cannot remove host without group', () => {
-            cy.get(ROW).eq(2).find(DROPDOWN).click();
+            cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+
+            // TODO: implement ouia selector for this component
+            cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+            cy.get(DROPDOWN_ITEM)
+            .contains('Remove from group')
+            .should('have.attr', 'aria-disabled', 'true');
+        });
+
+        it('cannot remove host without group, bulk select', () => {
+            cy.get(ROW).eq(4).find(DROPDOWN).click();
             cy.get(DROPDOWN_ITEM)
             .contains('Remove from group')
             .should('have.attr', 'aria-disabled', 'true');
@@ -104,9 +129,9 @@ describe('inventory table', () => {
 
         it('can add to existing group', () => {
             cy.intercept('POST',
-            `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts/${hostsFixtures.results[1].id}`
+            `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
             ).as('request');
-            cy.get(ROW).eq(2).find(DROPDOWN).click();
+            cy.get(ROW).eq(4).find(DROPDOWN).click();
             cy.get(DROPDOWN_ITEM).contains('Add to group').click();
             cy.get(MODAL).within(() => {
                 cy.get('h1').should('have.text', 'Add to group');
@@ -114,7 +139,79 @@ describe('inventory table', () => {
                 cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
                 cy.get('.pf-c-select__menu-item').eq(0).click();
                 cy.get('button[type="submit"]').click();
+                cy.wait('@request')
+                .its('request.body')
+                .should('deep.equal', [hostsFixtures.results[3].id]);
+            });
+            cy.wait('@getHosts'); // data must be reloaded
+        });
+
+        it('cannot remove hosts from different groups', () => {
+            cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+            cy.get(ROW).find('[type="checkbox"]').eq(2).click();
+
+            // TODO: implement ouia selector for this component
+            cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+            cy.get(DROPDOWN_ITEM)
+            .contains('Remove from group')
+            .should('have.attr', 'aria-disabled', 'true');
+        });
+
+        it('can remove more hosts from the same group', () => {
+            cy.intercept(
+                'DELETE',
+        `/api/inventory/v1/groups/${
+          hostsFixtures.results[0].groups[0].id
+        }/hosts/${hostsFixtures.results
+        .slice(0, 2)
+        .map(({ id }) => id)
+        .join(',')}`
+            ).as('request');
+
+            cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+            cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+
+            // TODO: implement ouia selector for this component
+            cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+
+            cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+
+            cy.get(MODAL).within(() => {
+                cy.get('h1').should('have.text', 'Remove from group');
+                cy.get('button[type="submit"]').click();
                 cy.wait('@request');
+            });
+            cy.wait('@getHosts'); // data must be reloaded
+        });
+
+        it('can add more hosts to existing group', () => {
+            cy.intercept(
+                'POST',
+        `/api/inventory/v1/groups/${
+          groupsFixtures.results.find(({ name }) => name === TEST_GROUP)?.id
+        }/hosts`
+            ).as('request');
+
+            cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+            cy.get(ROW).find('[type="checkbox"]').eq(4).click();
+
+            // TODO: implement ouia selector for this component
+            cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+
+            cy.get(DROPDOWN_ITEM).contains('Add to group').click();
+
+            cy.get(MODAL).within(() => {
+                cy.get('h1').should('have.text', 'Add to group');
+                cy.wait('@getGroups');
+                cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
+                cy.get('.pf-c-select__menu-item').contains(TEST_GROUP).click();
+                cy.get('button[type="submit"]').click();
+                cy.wait('@request')
+                .its('request.body')
+                .should(
+                    'deep.equal',
+                    hostsFixtures.results.slice(3, 5).map(({ id }) => id)
+                );
             });
             cy.wait('@getHosts'); // data must be reloaded
         });

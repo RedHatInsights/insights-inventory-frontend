@@ -77,7 +77,7 @@ export const groupDetailInterceptors = {
                     ...groupDetailFixtures,
                     results: [{
                         ...groupDetailFixtures.results[0],
-                        host_ids: ['host-1', 'host-2']
+                        host_count: 2
                     }]
                 }
             }
@@ -117,6 +117,11 @@ export const groupDetailInterceptors = {
         cy
         .intercept('PATCH', '/api/inventory/v1/groups/*', { statusCode: 200 })
         .as('patchGroup');
+    },
+    'post hosts successful': () => {
+        cy
+        .intercept('POST', '/api/inventory/v1/groups/*/hosts', { statusCode: 200 })
+        .as('postHosts');
     },
     'delete successful': () => {
         cy
@@ -165,10 +170,10 @@ export const hostsDetailTagsInterceptors = {
 };
 
 export const hostsInterceptors = {
-    successful: () => {
+    successful: (fixtures = hostsFixtures) => {
         cy.intercept('GET', '/api/inventory/v1/hosts*', {
             statusCode: 200,
-            body: hostsFixtures
+            body: fixtures
         }).as('getHosts');
     },
     'successful empty': () => {
