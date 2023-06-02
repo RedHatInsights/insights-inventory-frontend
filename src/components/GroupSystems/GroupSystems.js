@@ -1,15 +1,16 @@
-import { Button } from '@patternfly/react-core';
 import { fitContent, TableVariant } from '@patternfly/react-table';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearFilters, selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
 import { Link } from 'react-router-dom';
 import { updateURLSearchParams } from '../../Utilities/URLSearchParams';
+import { useWritePermissions } from '../../Utilities/constants';
+import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
 export const bulkSelectConfig = (dispatch, selectedNumber, noneSelected, pageSelected, rowsNumber) => ({
     count: selectedNumber,
@@ -131,6 +132,10 @@ const groupSystemsTableFiltersConfig = {
 
 const GroupSystems = ({ groupName, groupId }) => {
     const dispatch = useDispatch();
+    const writePermissions = useWritePermissions();
+    const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] = useState(false);
+    const [currentSystem, setCurrentSystem] = useState([]);
+    const inventory = useRef(null);
 
     const selected = useSelector(
         (state) => state?.entities?.selected || new Map()
@@ -142,7 +147,7 @@ const GroupSystems = ({ groupName, groupId }) => {
     const pageSelected =
     difference(displayedIds, [...selected.keys()]).length === 0;
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [addToGroupModalOpen, setAddToGroupModalOpen] = useState(false);
 
     const resetTable = () => {
         dispatch(clearFilters());
@@ -155,22 +160,40 @@ const GroupSystems = ({ groupName, groupId }) => {
         };
     }, []);
 
+    const calculateSelected = () => selected ? selected.size : 0;
+
     return (
         <div id='group-systems-table'>
             {
-                isModalOpen && <AddSystemsToGroupModal
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={(value) => {
-                        resetTable();
-                        setIsModalOpen(value);
-                    }
-                    }
-                    groupId={groupId}
-                    groupName={groupName}
-                />
+                addToGroupModalOpen &&
+                    <AddSystemsToGroupModal
+                        isModalOpen={addToGroupModalOpen}
+                        setIsModalOpen={(value) => {
+                            resetTable();
+                            setAddToGroupModalOpen(value);
+                        }
+                        }
+                        groupId={groupId}
+                        groupName={groupName}
+                    />
             }
             {
-                !isModalOpen &&
+                removeHostsFromGroupModalOpen &&
+                    <RemoveHostsFromGroupModal
+                        isModalOpen={removeHostsFromGroupModalOpen}
+                        setIsModalOpen={setRemoveHostsFromGroupModalOpen}
+                        modalState={currentSystem}
+                        reloadData={() => {
+                            if (calculateSelected() > 0) {
+                                dispatch(selectEntity(-1, false));
+                            }
+
+                            inventory.current.onRefreshData({}, false, true);
+                        }}
+                    />
+            }
+            {
+                !addToGroupModalOpen &&
                 <InventoryTable
                     columns={(columns) => prepareColumns(columns, true)}
                     hideFilters={{ hostGroupFilter: true }}
@@ -191,8 +214,38 @@ const GroupSystems = ({ groupName, groupId }) => {
                     tableProps={{
                         isStickyHeader: true,
                         variant: TableVariant.compact,
-                        canSelectAll: false
+                        canSelectAll: false,
+                        actionResolver: () => writePermissions ? [
+                            {
+                                title: 'Remove from group',
+                                onClick: (event, index, rowData) => {
+                                    setCurrentSystem([rowData]);
+                                    setRemoveHostsFromGroupModalOpen(true);
+                                }
+                            }
+                        ] : []
                     }}
+                    actionsConfig={{
+                        actions: writePermissions ? [
+                            {
+                                label: 'Add systems',
+                                onClick: () => {
+                                    resetTable();
+                                    setAddToGroupModalOpen(true);
+                                }
+                            },
+                            {
+                                label: 'Remove from group',
+                                props: {
+                                    isDisabled: calculateSelected() === 0
+                                },
+                                onClick: () => {
+                                    setCurrentSystem(Array.from(selected.values()));
+                                    setRemoveHostsFromGroupModalOpen(true);
+                                }
+                            }
+                        ] : []
+                    } }
                     bulkSelect={bulkSelectConfig(dispatch, selected.size, noneSelected, pageSelected, rows.length)}
                     showTags
                     onRefresh={(options, callback) => {
@@ -227,14 +280,8 @@ const GroupSystems = ({ groupName, groupId }) => {
                             callback(options);
                         }
                     }}
-                >
-                    <Button
-                        variant='primary'
-                        onClick={() => {
-                            resetTable();
-                            setIsModalOpen(true);
-                        }}>Add systems</Button>
-                </InventoryTable>
+                    ref={inventory}
+                />
             }
         </div>
     );
