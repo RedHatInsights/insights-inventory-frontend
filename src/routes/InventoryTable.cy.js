@@ -84,7 +84,7 @@ describe('inventory table', () => {
         groupsInterceptors['successful with some items']();
         hostsInterceptors.successful();
         mountTable();
-        waitForTable();
+        waitForTable(true);
     });
 
     describe('has groups actions', () => {

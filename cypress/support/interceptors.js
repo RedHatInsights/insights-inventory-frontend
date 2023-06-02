@@ -170,10 +170,10 @@ export const hostsDetailTagsInterceptors = {
 };
 
 export const hostsInterceptors = {
-    successful: () => {
+    successful: (fixtures = hostsFixtures) => {
         cy.intercept('GET', '/api/inventory/v1/hosts*', {
             statusCode: 200,
-            body: hostsFixtures
+            body: fixtures
         }).as('getHosts');
     },
     'successful empty': () => {
