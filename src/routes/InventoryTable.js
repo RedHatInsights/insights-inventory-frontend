@@ -269,26 +269,27 @@ const Inventory = ({
                                             }
                                         }
                                     },
-                                    {
-                                        label: 'Add to group',
-                                        props: {
-                                            isDisabled: !isBulkAddHostsToGroupsEnabled()
+                                    ...groupsEnabled ? [
+                                        {
+                                            label: 'Add to group',
+                                            props: {
+                                                isDisabled: !isBulkAddHostsToGroupsEnabled()
+                                            },
+                                            onClick: () => {
+                                                setCurrentSystem(Array.from(selected.values()));
+                                                setAddHostGroupModalOpen(true);
+                                            }
                                         },
-                                        onClick: () => {
-                                            setCurrentSystem(Array.from(selected.values()));
-                                            setAddHostGroupModalOpen(true);
-                                        }
-                                    },
-                                    {
-                                        label: 'Remove from group',
-                                        props: {
-                                            isDisabled: !isBulkRemoveFromGroupsEnabled()
-                                        },
-                                        onClick: () => {
-                                            setCurrentSystem(Array.from(selected.values()));
-                                            setRemoveHostsFromGroupModalOpen(true);
-                                        }
-                                    }
+                                        {
+                                            label: 'Remove from group',
+                                            props: {
+                                                isDisabled: !isBulkRemoveFromGroupsEnabled()
+                                            },
+                                            onClick: () => {
+                                                setCurrentSystem(Array.from(selected.values()));
+                                                setRemoveHostsFromGroupModalOpen(true);
+                                            }
+                                        }] : []
                                     ]
                                 },
                                 bulkSelect: bulkSelectConfig
