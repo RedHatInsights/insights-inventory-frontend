@@ -13,6 +13,15 @@ export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_D
     return instance.get(`${INVENTORY_API_BASE}/groups?${parameters}` /* , { headers: { Prefer: 'code=404' } } */);
 };
 
+export const getGroupByIds = (groupIds, search = {}) => {
+    const parameters = new URLSearchParams(search).toString();
+    const path = `${INVENTORY_API_BASE}/groups${groupIds.join(',')}${
+        parameters !== '' ? '?' + parameters : ''
+    }`;
+
+    return instance.get(path);
+};
+
 export const createGroup = (payload) => {
     return instance.post(`${INVENTORY_API_BASE}/groups`, {
         name: payload.name
