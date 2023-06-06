@@ -11,7 +11,7 @@ const SystemUpdate = () => {
     }, [chrome]);
     const { inventoryId } = useParams();
 
-    return inventoryId != null ? <AsyncComponent
+    return inventoryId !== null ? <AsyncComponent
         appName="edge"
         module="./UpdateSystem"
         historyProp={useHistory}
