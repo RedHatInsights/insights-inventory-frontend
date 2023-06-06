@@ -18,7 +18,7 @@ import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/A
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
-import RemoveSelectedHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveSelectedHostsFromGroupModal';
+import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
 const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
     category ? `${category}/` : ''
@@ -239,35 +239,36 @@ const Inventory = ({
     };
 
     const traditionalDevices = <Grid gutter="md">
-        <GridItem span={12}>
-            <InventoryTableCmp
-                hasAccess={hasAccess}
-                isRbacEnabled
-                customFilters={{ filters, globalFilter }}
-                isFullView
-                showTags
-                onRefresh={onRefresh}
-                hasCheckbox={writePermissions}
-                autoRefresh
-                ignoreRefresh
-                initialLoading={initialLoading}
-                ref={inventory}
-                tableProps={
-                    (writePermissions && {
-                        actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
-                {...(writePermissions && {
-                    actionsConfig: {
-                        actions: [{
-                            label: 'Delete',
-                            props: {
-                                isDisabled: calculateSelected() === 0,
-                                variant: 'secondary',
-                                onClick: () => {
-                                    setCurrentSystem(Array.from(selected.values()));
-                                    handleModalToggle(true);
-                                }
+    <GridItem span={12}>
+        <InventoryTableCmp
+            hasAccess={hasAccess}
+            isRbacEnabled
+            customFilters={{ filters, globalFilter }}
+            isFullView
+            showTags
+            onRefresh={onRefresh}
+            hasCheckbox={writePermissions}
+            autoRefresh
+            ignoreRefresh
+            initialLoading={initialLoading}
+            ref={inventory}
+            tableProps={
+                (writePermissions && {
+                    actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
+            {...(writePermissions && {
+                actionsConfig: {
+                    actions: [{
+                        label: 'Delete',
+                        props: {
+                            isDisabled: calculateSelected() === 0,
+                            variant: 'secondary',
+                            onClick: () => {
+                                setCurrentSystem(Array.from(selected.values()));
+                                handleModalToggle(true);
                             }
-                        },
+                        }
+                    },
+                    ...groupsEnabled ? [
                         {
                             label: 'Add to group',
                             props: {
@@ -287,15 +288,15 @@ const Inventory = ({
                                 setCurrentSystem(Array.from(selected.values()));
                                 setRemoveHostsFromGroupModalOpen(true);
                             }
-                        }
-                        ]
-                    },
-                    bulkSelect: bulkSelectConfig
-                })}
-                onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
-            />
-        </GridItem>
-    </Grid>;
+                        }] : []
+                    ]
+                },
+                bulkSelect: bulkSelectConfig
+            })}
+            onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
+        />
+    </GridItem>
+</Grid>;
 
     return (
 
@@ -304,6 +305,7 @@ const Inventory = ({
                 <PageHeaderTitle title='Systems'/>
             </PageHeader>
             <Main>
+
                 {EdgeParityEnabled ?
                     <Tabs
                         className="pf-u-ml-md"
@@ -322,6 +324,7 @@ const Inventory = ({
                             />
                         </Tab>
                     </Tabs>  :  traditionalDevices }
+
             </Main>
             <DeleteModal
                 className ='sentry-mask data-hj-suppress'
@@ -371,16 +374,28 @@ const Inventory = ({
                                 isModalOpen={addHostGroupModalOpen}
                                 setIsModalOpen={setAddHostGroupModalOpen}
                                 modalState={currentSystem}
-                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                                reloadData={() => {
+                                    if (calculateSelected() > 0) {
+                                        dispatch(actions.selectEntity(-1, false));
+                                    }
+
+                                    inventory.current.onRefreshData(filters, false, true);
+                                }}
                             />
                         }
                         {
                             removeHostsFromGroupModalOpen &&
-                            <RemoveSelectedHostsFromGroupModal
+                            <RemoveHostsFromGroupModal
                                 isModalOpen={removeHostsFromGroupModalOpen}
                                 setIsModalOpen={setRemoveHostsFromGroupModalOpen}
                                 modalState={currentSystem}
-                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                                reloadData={() => {
+                                    if (calculateSelected() > 0) {
+                                        dispatch(actions.selectEntity(-1, false));
+                                    }
+
+                                    inventory.current.onRefreshData(filters, false, true);
+                                }}
                             />
                         }
                     </>
