@@ -239,64 +239,64 @@ const Inventory = ({
     };
 
     const traditionalDevices = <Grid gutter="md">
-    <GridItem span={12}>
-        <InventoryTableCmp
-            hasAccess={hasAccess}
-            isRbacEnabled
-            customFilters={{ filters, globalFilter }}
-            isFullView
-            showTags
-            onRefresh={onRefresh}
-            hasCheckbox={writePermissions}
-            autoRefresh
-            ignoreRefresh
-            initialLoading={initialLoading}
-            ref={inventory}
-            tableProps={
-                (writePermissions && {
-                    actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
-            {...(writePermissions && {
-                actionsConfig: {
-                    actions: [{
-                        label: 'Delete',
-                        props: {
-                            isDisabled: calculateSelected() === 0,
-                            variant: 'secondary',
-                            onClick: () => {
-                                setCurrentSystem(Array.from(selected.values()));
-                                handleModalToggle(true);
-                            }
-                        }
-                    },
-                    ...groupsEnabled ? [
-                        {
-                            label: 'Add to group',
+        <GridItem span={12}>
+            <InventoryTableCmp
+                hasAccess={hasAccess}
+                isRbacEnabled
+                customFilters={{ filters, globalFilter }}
+                isFullView
+                showTags
+                onRefresh={onRefresh}
+                hasCheckbox={writePermissions}
+                autoRefresh
+                ignoreRefresh
+                initialLoading={initialLoading}
+                ref={inventory}
+                tableProps={
+                    (writePermissions && {
+                        actionResolver: (row) => tableActions(groupsEnabled, row), canSelectAll: false })}
+                {...(writePermissions && {
+                    actionsConfig: {
+                        actions: [{
+                            label: 'Delete',
                             props: {
-                                isDisabled: !isBulkAddHostsToGroupsEnabled()
-                            },
-                            onClick: () => {
-                                setCurrentSystem(Array.from(selected.values()));
-                                setAddHostGroupModalOpen(true);
+                                isDisabled: calculateSelected() === 0,
+                                variant: 'secondary',
+                                onClick: () => {
+                                    setCurrentSystem(Array.from(selected.values()));
+                                    handleModalToggle(true);
+                                }
                             }
                         },
-                        {
-                            label: 'Remove from group',
-                            props: {
-                                isDisabled: !isBulkRemoveFromGroupsEnabled()
+                        ...groupsEnabled ? [
+                            {
+                                label: 'Add to group',
+                                props: {
+                                    isDisabled: !isBulkAddHostsToGroupsEnabled()
+                                },
+                                onClick: () => {
+                                    setCurrentSystem(Array.from(selected.values()));
+                                    setAddHostGroupModalOpen(true);
+                                }
                             },
-                            onClick: () => {
-                                setCurrentSystem(Array.from(selected.values()));
-                                setRemoveHostsFromGroupModalOpen(true);
-                            }
-                        }] : []
-                    ]
-                },
-                bulkSelect: bulkSelectConfig
-            })}
-            onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
-        />
-    </GridItem>
-</Grid>;
+                            {
+                                label: 'Remove from group',
+                                props: {
+                                    isDisabled: !isBulkRemoveFromGroupsEnabled()
+                                },
+                                onClick: () => {
+                                    setCurrentSystem(Array.from(selected.values()));
+                                    setRemoveHostsFromGroupModalOpen(true);
+                                }
+                            }] : []
+                        ]
+                    },
+                    bulkSelect: bulkSelectConfig
+                })}
+                onRowClick={(_e, id, app) => history.push(`/${id}${app ? `/${app}` : ''}`)}
+            />
+        </GridItem>
+    </Grid>;
 
     return (
 

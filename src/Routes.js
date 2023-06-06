@@ -11,7 +11,6 @@ const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
 const InventoryGroupDetail = lazy(() => import('./routes/InventoryGroupDetail'));
 const EdgeInventoryUpdate = lazy(() => import('./routes/SystemUpdate'));
 
-
 export const routes = {
     table: '/',
     detail: '/:inventoryId',

@@ -151,6 +151,7 @@
     "test": "TZ=UTC jest --verbose --no-cache",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint config src",
+    "lint:js:fix": "eslint config src --fix",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelint.json",
     "prod": "NODE_ENV=production webpack serve --config config/dev.webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
