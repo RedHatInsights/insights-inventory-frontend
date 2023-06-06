@@ -17,6 +17,7 @@ const SystemUpdate = () => {
                 historyProp={useHistory}
                 locationProp={useLocation} 
                 routeMatchProp={useRouteMatch}
+                paramsProp={useParams}
                 inventoryId={inventoryId}
         />  : <></> ;
 };
