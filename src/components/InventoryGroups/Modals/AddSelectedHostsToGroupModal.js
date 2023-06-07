@@ -41,6 +41,7 @@ const AddSelectedHostsToGroupModal = ({
 
     return (
         <>
+            {!isCreateGroupModalOpen &&
             <Modal
                 isModalOpen={isModalOpen}
                 closeModal={() => setIsModalOpen(false)}
@@ -50,15 +51,13 @@ const AddSelectedHostsToGroupModal = ({
                 additionalMappers={{
                     'create-group-btn': {
                         component: CreateGroupButton,
-                        closeModal: () => {
-                            setIsCreateGroupModalOpen(true);
-                            setIsModalOpen(false);
-                        }
+                        closeModal: () => setIsCreateGroupModalOpen(true)
                     }
                 }}
                 onSubmit={handleAddDevices}
                 reloadData={reloadData}
             />
+            }
             {isCreateGroupModalOpen && (
                 <CreateGroupModal
                     isModalOpen={isCreateGroupModalOpen}
