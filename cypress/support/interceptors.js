@@ -46,7 +46,7 @@ export const groupsInterceptors = {
         );
     },
     'long responding': (fixtures = groupsFixtures) => {
-        cy.intercept('GET', '/api/inventory/v1/groups*', {
+        cy.intercept('GET', /\/api\/inventory\/v1\/groups.*/, {
             statusCode: 200,
             body: fixtures,
             delay: 42000000 // milliseconds

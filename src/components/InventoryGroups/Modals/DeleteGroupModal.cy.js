@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { CHECKBOX } from '@redhat-cloud-services/frontend-components-utilities';
+import { CHECKBOX, MODAL } from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
 import groupsFixtures from '../../../../cypress/fixtures/groups.json';
 import { deleteGroupsInterceptors, groupsInterceptors } from '../../../../cypress/support/interceptors';
@@ -143,5 +143,15 @@ describe('Delete Group Modal', () => {
             cy.get('@setIsModalOpen').should('be.calledOnce');
             cy.get('@reloadData').should('be.calledOnce');
         });
+    });
+
+    it('renders spinner when loading', () => {
+        groupsInterceptors['long responding']();
+        mountModal({
+            isModalOpen: true,
+            groupIds: GROUPS.map(({ id }) => id)
+        });
+        cy.get('[role="progressbar"]');
+        cy.get(MODAL).should('not.exist');
     });
 });

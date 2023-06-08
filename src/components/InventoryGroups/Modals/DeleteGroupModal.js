@@ -7,7 +7,7 @@ import { deleteGroupsById, getGroupsByIds } from '../utils/api';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import warningColor from '@patternfly/react-tokens/dist/esm/global_warning_color_100';
 import dangerColor from '@patternfly/react-tokens/dist/esm/global_danger_color_100';
-import { Text } from '@patternfly/react-core';
+import { Backdrop, Bullseye, Spinner, Text } from '@patternfly/react-core';
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
@@ -97,6 +97,7 @@ const DeleteGroupModal = ({
     const dispatch = useDispatch();
     const [fetchedGroups, setFetchedGroups] = useState(undefined);
     const groupsAreEmpty = (fetchedGroups || []).every(({ host_count: hostCount }) => hostCount === 0);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // check that all groups are empty before deletion
@@ -107,6 +108,7 @@ const DeleteGroupModal = ({
 
             if (!ignore) {
                 setFetchedGroups(fetchedGroups.results);
+                setIsLoading(false);
             }
 
             // TODO: treat the error case
@@ -139,31 +141,15 @@ const DeleteGroupModal = ({
         apiWithToast(dispatch, () => deleteGroupsById(groupIds), statusMessages);
     };
 
-    return (
-        <Modal
+    return (isLoading ?
+        <Backdrop>
+            <Bullseye>
+                <Spinner aria-label="Loading the modal spinner" aria-valueText="Loading..." />
+            </Bullseye>
+        </Backdrop>
+        : <Modal
             isModalOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
-            /* title={generateTitle(groupsAreEmpty, groupIds.length)}
-            titleIconVariant={generateIcon(groupsAreEmpty)}
-            variant={groupsAreEmpty ? 'danger' : 'primary'}
-            submitLabel={groupsAreEmpty ? 'Delete' : 'Close'}
-            schema={
-                isLoading
-                ? {
-                    fields: [
-                        {
-                            component: componentTypes.PLAIN_TEXT,
-                            name: 'loading-message',
-                            label: (
-                                <EmptyState>
-                                <EmptyStateIcon variant="container" component={Spinner} />
-                                </EmptyState>
-                                )
-                            }
-                        ]
-                    }
-                    : generateSchema(groupsAreEmpty, groupIds.length, name)
-                } */
             onSubmit={groupsAreEmpty ? handleDeleteGroup : () => setIsModalOpen(false)}
             reloadData={reloadData}
             {...generateContent(fetchedGroups, groupsAreEmpty)}
