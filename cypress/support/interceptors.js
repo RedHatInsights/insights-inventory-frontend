@@ -13,7 +13,7 @@ export { hostsFixtures, groupDetailFixtures };
 export const groupsInterceptors = {
     'successful with some items': (fixtures = groupsFixtures) =>
         cy
-        .intercept('GET', '/api/inventory/v1/groups*', {
+        .intercept('GET', /\/api\/inventory\/v1\/groups.*/, {
             statusCode: 200,
             body: fixtures
         })
