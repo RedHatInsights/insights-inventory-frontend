@@ -114,8 +114,6 @@ export async function getEntities(items, {
     fields = { system_profile: ['operating_system', /* needed by inventory groups */ 'system_update_method'] },
     ...options
 }, showTags) {
-    let groups = await groupsApi.apiGroupGetGroupList(undefined, 50, undefined, 'name', 'ASC', undefined);
-    console.log(groups, 'groups');
     if (hasItems && items?.length > 0) {
         let data = await hosts.apiHostGetHostById(
             items,
@@ -162,7 +160,6 @@ export async function getEntities(items, {
         data = {
             ...data,
             filters,
-            groups,
             results: data.results.map(result => mapData({
                 ...result,
                 display_name: result.display_name || result.fqdn || result.id

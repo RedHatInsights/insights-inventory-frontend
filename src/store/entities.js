@@ -210,6 +210,16 @@ function changeSort(state, { payload: { key, direction } }) {
     };
 }
 
+function groupsLoaded(state, { payload }) {
+    return {
+        ...state,
+        groups: payload
+        /* Promise.resolve(groupsApi.apiGroupGetGroupList(undefined, 50, undefined, 'name', 'ASC', undefined))
+        .then(response => response)
+        .catch(error => error) */
+    };
+}
+
 function selectFilter(state, { payload: { item: { items, ...item }, selected } }) {
     let { activeFilters = [] } = state;
     if (selected) {
@@ -322,5 +332,7 @@ export default {
     [ENTITIES_LOADING]: (state, { payload: { isLoading } }) => ({ ...state, loaded: !isLoading }),
     [TOGGLE_TAG_MODAL]: toggleTagModalReducer,
     [CONFIG_CHANGED]: (state, { payload }) => ({ ...state, invConfig: payload }),
-    [CLEAR_ENTITIES]: clearEntities
+    [CLEAR_ENTITIES]: clearEntities,
+    [ACTION_TYPES.GROUPS_FOR_ENTITIES_PENDING]: (state) => ({ ...state, groups: [] }),
+    [ACTION_TYPES.GROUPS_FOR_ENTITIES_FULFILLED]: (state, action) => groupsLoaded(state, { payload: { ...action.payload } })
 };
