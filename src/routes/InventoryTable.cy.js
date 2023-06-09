@@ -215,5 +215,13 @@ describe('inventory table', () => {
             });
             cy.wait('@getHosts'); // data must be reloaded
         });
+
+        it('can add to a new group', () => {
+            cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+            cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+            cy.get(DROPDOWN_ITEM).contains('Add to group').click();
+            cy.get(MODAL).find('button').contains('Create a new group').click();
+            cy.get(MODAL).find('h1').should('have.text', 'Create group');
+        });
     });
 });
