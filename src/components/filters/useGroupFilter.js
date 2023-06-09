@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups } from '../../store/inventory-actions';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import { getGroupsListFromTheApi } from '../../api';
 //for attaching this filter to the redux
 export const groupFilterState = { hostGroupFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
@@ -39,12 +38,8 @@ const useGroupFilter = (apiParams = []) => {
             dispatch(fetchGroups(apiParams)); // TODO: make the request paginated (to show all the groups)
         }
     }, [groupsEnabled]);
-
-    console.log(dispatch(getGroupsListFromTheApi(apiParams)))
     //fetched values
     const fetchedValues = useSelector(({ groups })  => groups?.data?.results);
-    const test = useSelector(({ entities }) => entities?.groups);
-    console.log(test, 'test')
     //selected are the groups we selected
     const [selected, setSelected] = useState([]);
     //buildHostGroupsValues build an array of objects to populate dropdown
