@@ -4,7 +4,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import groupDetailFixtures from '../../../cypress/fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
-import { groupDetailInterceptors as interceptors, groupsInterceptors } from '../../../cypress/support/interceptors';
+import { groupDetailInterceptors, groupsInterceptors } from '../../../cypress/support/interceptors';
 import { getStore } from '../../store';
 import InventoryGroupDetail from './InventoryGroupDetail';
 
@@ -25,7 +25,7 @@ before(() => {
 
 describe('group detail page', () => {
     it('name from server is rendered in header and breadcrumb', () => {
-        interceptors.successful();
+        groupDetailInterceptors.successful();
         mountPage();
 
         cy.wait('@getGroupDetail');
@@ -52,9 +52,9 @@ describe('group detail page', () => {
     */
 
     it('can open rename group modal', () => {
-        interceptors.successful();
-        interceptors['patch successful']();
         groupsInterceptors['successful with some items'](); // intercept modal validation requests
+        groupDetailInterceptors.successful();
+        groupDetailInterceptors['patch successful']();
         mountPage();
 
         cy.wait('@getGroupDetail');
@@ -71,8 +71,8 @@ describe('group detail page', () => {
     });
 
     it('can open delete group modal', () => {
-        interceptors.successful();
-        interceptors['delete successful']();
+        groupDetailInterceptors.successful();
+        groupDetailInterceptors['delete successful']();
         mountPage();
         cy.wait('@getGroupDetail');
 
