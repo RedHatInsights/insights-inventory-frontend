@@ -43,24 +43,27 @@ const GroupDetailHeader = ({ groupId }) => {
 
     return (
         <PageHeader>
-            <RenameGroupModal
-                isModalOpen={renameModalOpen}
-                setIsModalOpen={() => setRenameModalOpen(false)}
-                modalState={{
-                    id: groupId,
-                    name: name || groupId
-                }}
-                reloadData={() => dispatch(fetchGroupDetail(groupId))}
-            />
-            <DeleteGroupModal
-                isModalOpen={deleteModalOpen}
-                setIsModalOpen={() => setDeleteModalOpen(false)}
-                modalState={{
-                    id: groupId,
-                    name: name || groupId
-                }}
-                reloadData={() => history.push('/groups')}
-            />
+            {
+                renameModalOpen &&
+                <RenameGroupModal
+                    isModalOpen={renameModalOpen}
+                    setIsModalOpen={() => setRenameModalOpen(false)}
+                    modalState={{
+                        id: groupId,
+                        name: name || groupId
+                    }}
+                    reloadData={() => dispatch(fetchGroupDetail(groupId))}
+                />
+            }
+            {
+                deleteModalOpen &&
+                <DeleteGroupModal
+                    isModalOpen={deleteModalOpen}
+                    setIsModalOpen={() => setDeleteModalOpen(false)}
+                    reloadData={() => history.push('/groups')}
+                    groupIds={[groupId]}
+                />
+            }
             <Breadcrumb>
                 <BreadcrumbItem>
                     <Link to={routes.groups}>Groups</Link>
