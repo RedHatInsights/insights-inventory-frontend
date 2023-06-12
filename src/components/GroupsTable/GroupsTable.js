@@ -110,11 +110,10 @@ const GroupsTable = () => {
     });
     const [rows, setRows] = useState([]);
     const [selectedIds, setSelectedIds] = useState([]);
-    const [selectedGroup, setSelectedGroup] = useState({});
+    const [selectedGroup, setSelectedGroup] = useState(undefined); // for per-row actions
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [renameModalOpen, setRenameModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    const [kebabDeleteGroup, setKebabDeleteGroup] = useState(false);
     const groups = useMemo(() => data?.results || [], [data]);
     const { fetchBatched } = useFetchBatched();
 
@@ -156,10 +155,12 @@ const GroupsTable = () => {
         }));
         setRows(newRows);
 
-        setSelectedGroup({
-            id: selectedIds[0],
-            name: groups.find(({ id }) => id === selectedIds[0])?.name
-        });
+        if (selectedIds.length <= 1) {
+            setSelectedGroup(selectedIds.length === 0 ? undefined : {
+                id: selectedIds[0],
+                name: groups.find(({ id }) => id === selectedIds[0])?.name
+            });
+        }
     }, [groups, selectedIds]);
 
     // TODO: convert initial URL params to filters
@@ -285,27 +286,46 @@ const GroupsTable = () => {
 
     return (
         <div id="groups-table">
-            <CreateGroupModal
-                isModalOpen={createModalOpen}
-                setIsModalOpen={setCreateModalOpen}
-                reloadData={() => {fetchData(filters);}}
-            />
-            <RenameGroupModal
-                isModalOpen={renameModalOpen}
-                setIsModalOpen={setRenameModalOpen}
-                reloadData={() => fetchData(filters)}
-                modalState={selectedGroup}
-            />
-            <DeleteGroupModal
-                isModalOpen={deleteModalOpen}
-                setIsModalOpen={setDeleteModalOpen}
-                reloadData={() => fetchData(filters)}
-                modalState={
-                    kebabDeleteGroup ? selectedGroup :
-                        selectedIds.length > 1 ? {
-                            ids: selectedIds
-                        } : selectedGroup}
-            />
+            {
+                createModalOpen &&
+                <CreateGroupModal
+                    isModalOpen={createModalOpen}
+                    setIsModalOpen={setCreateModalOpen}
+                    reloadData={() => {
+                        fetchData(filters);
+                    }}
+                />
+            }
+            {
+                renameModalOpen &&
+                <RenameGroupModal
+                    isModalOpen={renameModalOpen}
+                    setIsModalOpen={(value) => {
+                        if (value === false) {
+                            setSelectedGroup(undefined);
+                        }
+
+                        setRenameModalOpen(value);
+                    }}
+                    reloadData={() => fetchData(filters)}
+                    modalState={selectedGroup}
+                />
+            }
+            {
+                deleteModalOpen &&
+                <DeleteGroupModal
+                    isModalOpen={deleteModalOpen}
+                    setIsModalOpen={(value) => {
+                        if (value === false) {
+                            setSelectedGroup(undefined);
+                        }
+
+                        setDeleteModalOpen(value);
+                    }}
+                    reloadData={() => fetchData(filters)}
+                    groupIds={selectedGroup !== undefined ? [selectedGroup.id] : selectedIds}
+                />
+            }
             <PrimaryToolbar
                 pagination={{
                     itemCount: data?.total || 0,
@@ -375,14 +395,13 @@ const GroupsTable = () => {
                         },
                         {
                             label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
-                            onClick: () => {
-                                setKebabDeleteGroup(false);
-                                setDeleteModalOpen(true);},
+                            onClick: () => setDeleteModalOpen(true),
                             props: {
                                 isDisabled: selectedIds.length === 0
                             }
                         }
-                    ] }}
+                    ]
+                }}
             />
             <Table
                 aria-label="Groups table"
@@ -413,7 +432,6 @@ const GroupsTable = () => {
                     {
                         title: 'Delete group',
                         onClick: (event, rowIndex, { groupId, groupName }) => {
-                            setKebabDeleteGroup(true);
                             setSelectedGroup({
                                 id: groupId,
                                 name: groupName
