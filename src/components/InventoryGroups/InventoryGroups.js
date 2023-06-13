@@ -15,8 +15,8 @@ const InventoryGroups = () => {
     const [hasGroups, setHasGroups] = useState(false);
     const [hasError, setHasError] = useState(false);
 
-    useEffect(async () => {
-    // make initial request to check if there is at least one group available
+    const handleLoading = async () => {
+        // make initial request to check if there is at least one group available
         try {
             const { total } = await getGroups();
 
@@ -28,6 +28,10 @@ const InventoryGroups = () => {
         }
 
         setIsLoading(false);
+    };
+
+    useEffect(() => {
+        handleLoading();
     }, []);
 
     return (
