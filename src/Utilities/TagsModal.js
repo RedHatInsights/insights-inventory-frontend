@@ -36,9 +36,10 @@ const TagsModal = ({
     const activeSystemTag = useSelector(({ entities, entityDetails }) => entities?.activeSystemTag || entityDetails?.entity);
     const tags = useSelector(({ entities, entityDetails }) => {
         const activeTags = entities?.activeSystemTag?.tags || entityDetails?.entity?.tags;
+
         if (activeTags) {
             return activeTags?.filter(
-                (tag) => Object.values(tag).some((val) => val?.includes(filterBy))
+                (tag) => Object.values(tag).some((val) => val?.toLowerCase().includes(filterBy.toLowerCase()))
             ).slice(statePagination?.perPage * (statePagination?.page - 1), statePagination?.perPage * statePagination?.page);
         }
 

@@ -36,3 +36,9 @@ export const toValidator = (minDate) => (dateToValidate) => {
         return '';
     }
 };
+
+export const containsSpecialChars = (str) => {
+    // eslint-disable-next-line no-useless-escape
+    const specialChars = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
+    return specialChars.test(str);
+};
