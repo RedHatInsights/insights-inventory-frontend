@@ -308,19 +308,20 @@ const Inventory = ({
 
                 {EdgeParityEnabled ?
                     <Tabs
-                        className="pf-u-ml-md"
+                        className="pf-m-light pf-c-table"
                         activeKey={activeTabKey}
                         onSelect={handleTabClick}
                     >
-                        <Tab eventKey={0} title={<TabTitleText>Traditional</TabTitleText>}>
+                        <Tab eventKey={0} title={<TabTitleText>Traditional (RPM-DNF)</TabTitleText>}>
                             {traditionalDevices}
                         </Tab>
-                        <Tab eventKey={1} title={<TabTitleText>Immutable</TabTitleText>}>
+                        <Tab eventKey={1} title={<TabTitleText>Immutable (OSTree)</TabTitleText>}>
                             <AsyncComponent
                                 appName="edge"
                                 module="./Inventory"
                                 historyProp={useHistory}
                                 locationProp={useLocation}
+                                showHeaderProp={false}
                             />
                         </Tab>
                     </Tabs>  :  traditionalDevices }
