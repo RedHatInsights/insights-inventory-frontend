@@ -144,7 +144,6 @@ export async function getEntities(items, {
 
                 data = {
                     ...data,
-                    groups,
                     results: mergeArraysByKey([
                         data?.results,
                         result?.results || []
