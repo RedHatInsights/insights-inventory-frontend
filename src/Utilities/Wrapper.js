@@ -4,7 +4,6 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 
 const RenderWrapper = ({ cmp: Component, isRbacEnabled, inventoryRef, store, ...props }) => {
     const { hasAccess } = usePermissionsWithContext([
-        'inventory:*:*',
         'inventory:*:read',
         'inventory:hosts:read'
     ]);
@@ -12,12 +11,12 @@ const RenderWrapper = ({ cmp: Component, isRbacEnabled, inventoryRef, store, ...
     return (
         <Component
             {...props}
-            { ...inventoryRef && {
+            {...inventoryRef && {
                 ref: inventoryRef
             }}
             isRbacEnabled={isRbacEnabled}
             hasAccess={isRbacEnabled ? hasAccess : true}
-            store={ store }
+            store={store}
         />
     );
 };
