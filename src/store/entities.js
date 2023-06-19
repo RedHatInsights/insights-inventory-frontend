@@ -52,7 +52,7 @@ export const defaultColumns = (groupsEnabled = false) => ([
         title: 'Group',
         props: { width: 10, isStatic: true },
         // eslint-disable-next-line camelcase
-        renderFunc: (groups) => isEmpty(groups) ? 'N/A' : groups[0].name, // currently, one group at maximum is supported
+        renderFunc: (groups) => isEmpty(groups) ? 'N/A' : groups[0]?.name, // currently, one group at maximum is supported
         transforms: [fitContent]
     }] : []),
     {
