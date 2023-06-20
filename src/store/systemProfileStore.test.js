@@ -29,8 +29,8 @@ it('should calculate repos', () => {
     }, {
         enabled: false
     }]);
-    expect(repos.disabled.length).toBe(2);
-    expect(repos.enabled.length).toBe(1);
+    expect(repos.disabled.length).toBe(1);
+    expect(repos.enabled.length).toBe(2);
 });
 
 it('should calculate NIC', () => {

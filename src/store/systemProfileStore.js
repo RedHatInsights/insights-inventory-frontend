@@ -27,7 +27,7 @@ export function systemProfilePending(state) {
 export function calculateRepos(repos) {
     return repos && repos.reduce((acc, curr) => ({
         ...acc,
-        ...curr.enabled ? {
+        ...!('enabled' in curr) || curr.enabled ? {
             enabled: [...acc.enabled, curr]
         } : {
             disabled: [...acc.disabled, curr]

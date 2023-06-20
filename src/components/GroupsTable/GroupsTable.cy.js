@@ -54,6 +54,16 @@ const checkSorting = (label, order, dataField) => {
     .and('include', `order_by=${dataField}`);
 };
 
+describe('test data', () => {
+    it('first two rows do not have hosts', () => {
+        expect(fixtures.results.slice(0, 2).every(({ host_count }) => host_count === 0)).to.be.true;
+    });
+
+    it('the third row has at least one host', () => {
+        expect(fixtures.results[2].host_count > 0).to.be.true;
+    });
+});
+
 describe('renders correctly', () => {
     beforeEach(() => {
         interceptors['successful with some items'](); // comment out if the mock server is running
@@ -287,29 +297,65 @@ describe('actions', () => {
         cy.wait('@getGroups'); // validate request
     });
 
-    it('can delete a group, 1', () => {
-        cy.get(ROW).eq(TEST_ID + 1).find(`${DROPDOWN} button`).click();
-        cy.get(DROPDOWN_ITEM).contains('Delete group').click();
-        cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
-        cy.get(MODAL).find('p').should('contain.text', fixtures.results[TEST_ID].name);
-    });
+    describe('deletion', () => {
+        beforeEach(() => {
+            const fixturesOneGroup = _.cloneDeep(fixtures);
+            fixturesOneGroup.results = fixturesOneGroup.results.slice(0, 1);
+            interceptors['successful with some items'](fixturesOneGroup);
+        });
 
-    it('can delete a group, 2', () => {
-        selectRowN(TEST_ID + 1);
-        cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
-        cy.get(DROPDOWN_ITEM).contains('Delete group').click();
-        cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
-        cy.get(MODAL).find('p').should('contain.text', fixtures.results[TEST_ID].name);
-    });
+        it('can delete a group, 1', () => {
+            cy.get(ROW).eq(TEST_ID + 1).find(`${DROPDOWN} button`).click();
+            cy.get(DROPDOWN_ITEM).contains('Delete group').click();
+            cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
+            cy.get(MODAL).find('p').should('contain.text', `${fixtures.results[TEST_ID].name} and all its data will be deleted.`);
+        });
 
-    it('can delete more groups', () => {
-        const TEST_ROWS = [2, 3];
-        TEST_ROWS.forEach((row) => selectRowN(row));
+        it('can delete a group, 2', () => {
+            selectRowN(TEST_ID + 1);
+            cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+            cy.get(DROPDOWN_ITEM).contains('Delete group').click();
+            cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
+            cy.get(MODAL).find('p').should('contain.text', `${fixtures.results[TEST_ID].name} and all its data will be deleted.`);
+        });
 
-        cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
-        cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
-        cy.get(MODAL).find('h1').should('contain.text', 'Delete groups?');
-        cy.get(MODAL).find('p').should('contain.text', `${TEST_ROWS.length} groups and all their data`);
+        it('cannot delete a non-empty group', () => {
+            const fixturesOneGroup = _.cloneDeep(fixtures);
+            fixturesOneGroup.results = fixturesOneGroup.results.slice(2, 3);
+            interceptors['successful with some items'](fixturesOneGroup);
+
+            selectRowN(3);
+            cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+            cy.get(DROPDOWN_ITEM).contains('Delete group').click();
+            cy.get(MODAL).find('h1').should('contain.text', 'Cannot delete group at this time');
+        });
+
+        it('can delete more groups', () => {
+            const fixturesTwoGroups = _.cloneDeep(fixtures);
+            fixturesTwoGroups.results = fixturesTwoGroups.results.slice(0, 2);
+            interceptors['successful with some items'](fixturesTwoGroups);
+
+            const TEST_ROWS = [1, 2];
+            TEST_ROWS.forEach((row) => selectRowN(row));
+
+            cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+            cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
+            cy.get(MODAL).find('h1').should('contain.text', 'Delete groups?');
+            cy.get(MODAL).find('p').should('contain.text', `${TEST_ROWS.length} groups and all their data will be deleted.`);
+        });
+
+        it('cannot delete groups if at least one is not empty', () => {
+            const fixturesThreeGroups = _.cloneDeep(fixtures);
+            fixturesThreeGroups.results = fixturesThreeGroups.results.slice(0, 3);
+            interceptors['successful with some items'](fixturesThreeGroups);
+
+            const TEST_ROWS = [1, 2, 3];
+            TEST_ROWS.forEach((row) => selectRowN(row));
+
+            cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+            cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
+            cy.get(MODAL).find('h1').should('contain.text', 'Cannot delete groups at this time');
+        });
     });
 
     it('can create a group', () => {

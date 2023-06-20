@@ -17,7 +17,8 @@ const InventoryGroups = () => {
 
     const ignore = useRef(false); // https://react.dev/learn/synchronizing-with-effects#fetching-data
 
-    const checkForGroups = async () => {
+    const handleLoading = async () => {
+        // make initial request to check if there is at least one group available
         try {
             const { total } = await getGroups();
 
@@ -32,8 +33,7 @@ const InventoryGroups = () => {
     };
 
     useEffect(() => {
-        // make initial request to check if there is at least one group available
-        checkForGroups();
+        handleLoading();
 
         return () => {
             ignore.current = true;
@@ -55,7 +55,7 @@ const InventoryGroups = () => {
                 ) : hasGroups ? (
                     <GroupsTable />
                 ) : (
-                    <NoGroupsEmptyState reloadData={checkForGroups}/>
+                    <NoGroupsEmptyState reloadData={handleLoading}/>
                 )}
             </section>
         </React.Fragment>

@@ -17,7 +17,7 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
-import RemoveSelectedHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveSelectedHostsFromGroupModal';
+import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
 const mapTags = ({ category, values }) => values.map(({ tagKey, value }) => `${
     category ? `${category}/` : ''
@@ -269,26 +269,27 @@ const Inventory = ({
                                             }
                                         }
                                     },
-                                    {
-                                        label: 'Add to group',
-                                        props: {
-                                            isDisabled: !isBulkAddHostsToGroupsEnabled()
+                                    ...groupsEnabled ? [
+                                        {
+                                            label: 'Add to group',
+                                            props: {
+                                                isDisabled: !isBulkAddHostsToGroupsEnabled()
+                                            },
+                                            onClick: () => {
+                                                setCurrentSystem(Array.from(selected.values()));
+                                                setAddHostGroupModalOpen(true);
+                                            }
                                         },
-                                        onClick: () => {
-                                            setCurrentSystem(Array.from(selected.values()));
-                                            setAddHostGroupModalOpen(true);
-                                        }
-                                    },
-                                    {
-                                        label: 'Remove from group',
-                                        props: {
-                                            isDisabled: !isBulkRemoveFromGroupsEnabled()
-                                        },
-                                        onClick: () => {
-                                            setCurrentSystem(Array.from(selected.values()));
-                                            setRemoveHostsFromGroupModalOpen(true);
-                                        }
-                                    }
+                                        {
+                                            label: 'Remove from group',
+                                            props: {
+                                                isDisabled: !isBulkRemoveFromGroupsEnabled()
+                                            },
+                                            onClick: () => {
+                                                setCurrentSystem(Array.from(selected.values()));
+                                                setRemoveHostsFromGroupModalOpen(true);
+                                            }
+                                        }] : []
                                     ]
                                 },
                                 bulkSelect: bulkSelectConfig
@@ -346,16 +347,28 @@ const Inventory = ({
                                 isModalOpen={addHostGroupModalOpen}
                                 setIsModalOpen={setAddHostGroupModalOpen}
                                 modalState={currentSystem}
-                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                                reloadData={() => {
+                                    if (calculateSelected() > 0) {
+                                        dispatch(actions.selectEntity(-1, false));
+                                    }
+
+                                    inventory.current.onRefreshData(filters, false, true);
+                                }}
                             />
                         }
                         {
                             removeHostsFromGroupModalOpen &&
-                            <RemoveSelectedHostsFromGroupModal
+                            <RemoveHostsFromGroupModal
                                 isModalOpen={removeHostsFromGroupModalOpen}
                                 setIsModalOpen={setRemoveHostsFromGroupModalOpen}
                                 modalState={currentSystem}
-                                reloadData={() => inventory.current.onRefreshData(filters, false, true)}
+                                reloadData={() => {
+                                    if (calculateSelected() > 0) {
+                                        dispatch(actions.selectEntity(-1, false));
+                                    }
+
+                                    inventory.current.onRefreshData(filters, false, true);
+                                }}
                             />
                         }
                     </>
