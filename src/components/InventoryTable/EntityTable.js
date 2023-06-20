@@ -98,7 +98,7 @@ const EntityTable = ({
                             TableGridBreakpoint.gridLg :
                             TableGridBreakpoint.gridMd
                     }
-                    className="ins-c-entity-table"
+                    className="ins-c-entity-table sentry-mask data-hj-suppress"
                     onSort={ (event, index, direction) => {
                         onSortChange(
                             event,
