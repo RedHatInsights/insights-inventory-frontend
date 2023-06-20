@@ -155,11 +155,13 @@ const GroupsTable = () => {
         }));
         setRows(newRows);
 
-        if (selectedIds.length <= 1) {
-            setSelectedGroup(selectedIds.length === 0 ? undefined : {
+        if (selectedIds.length === 1) {
+            setSelectedGroup({
                 id: selectedIds[0],
                 name: groups.find(({ id }) => id === selectedIds[0])?.name
             });
+        } else {
+            setSelectedGroup(undefined);
         }
     }, [groups, selectedIds]);
 
@@ -322,7 +324,10 @@ const GroupsTable = () => {
 
                         setDeleteModalOpen(value);
                     }}
-                    reloadData={() => fetchData(filters)}
+                    reloadData={() => {
+                        fetchData(filters);
+                        setSelectedIds([]);
+                    }}
                     groupIds={selectedGroup !== undefined ? [selectedGroup.id] : selectedIds}
                 />
             }
