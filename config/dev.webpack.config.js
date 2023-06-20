@@ -71,6 +71,7 @@ plugins.push(
             './BiosCard': resolve(__dirname, '../src/components/GeneralInfo/BiosCard/BiosCard.js'),
             './DataCollectorsCard': resolve(__dirname, '../src/components/GeneralInfo/DataCollectorsCard/DataCollectorsCard.js'),
             './LoadingCard': resolve(__dirname, '../src/components/GeneralInfo/LoadingCard/LoadingCard.js'),
+            './TextInputModal': resolve(__dirname, '../src/components/GeneralInfo/TextInputModal/TextInputModal.js'),
             // System detail data providers
             './selectors': resolve(__dirname, '../src/components/GeneralInfo/selectors/index.js'),
             './dataMapper': resolve(__dirname, '../src/components/GeneralInfo/dataMapper/index.js'),
@@ -83,7 +84,9 @@ plugins.push(
             './TagWithDialog': resolve(__dirname, '../src/modules/TagWithDialog.js'),
             './DetailWrapper': resolve(__dirname, '../src/modules/DetailWrapper.js'),
             './OsFilterHelpers': resolve(__dirname, '../src/modules/OsFilterHelpers.js'),
-            './systemProfileStore': resolve(__dirname, '../src/store/systemProfileStore.js')
+            './systemProfileStore': resolve(__dirname, '../src/store/systemProfileStore.js'),
+            './DeleteModal': resolve(__dirname, '../src/Utilities/DeleteModal.js')
+
         }
     })
 );
