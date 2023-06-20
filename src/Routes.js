@@ -14,12 +14,12 @@ const InventoryGroupDetail = lazy(() =>
 const EdgeInventoryUpdate = lazy(() => import('./routes/SystemUpdate'));
 
 export const routes = {
-  table: '/',
-  detail: '/:inventoryId',
-  detailWithModal: '/:inventoryId/:modalId',
-  groups: '/groups',
-  groupDetail: '/groups/:groupId',
-  update: '/:inventoryId/update',
+    table: '/',
+    detail: '/:inventoryId',
+    detailWithModal: '/:inventoryId/:modalId',
+    groups: '/groups',
+    groupDetail: '/groups/:groupId',
+    update: '/:inventoryId/update',
 };
 
 export const Routes = () => {
