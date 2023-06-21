@@ -11,7 +11,7 @@ module.exports = {
     '/insights/inventory': { host: `http://${localhost}:8002` },
     '/apps/inventory': { host: `http://${localhost}:8002` },
     ...process.env.LOCAL_API?.split(',')?.reduce((acc, curr) => {
-      const [appName, appConfig] = curr?.split(':');
+      const [appName, appConfig] = (curr || '').split(':');
       const [appPort = 8003, protocol = 'http'] = appConfig.split('~');
       return {
         ...acc,

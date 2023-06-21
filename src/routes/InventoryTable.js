@@ -161,11 +161,7 @@ const Inventory = ({
     chrome.appAction('system-list');
     chrome.appObjectId();
     chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
-      const [workloads, SID, tags] = chrome?.mapGlobalFilter?.(
-        data,
-        false,
-        true
-      );
+      const [workloads, SID, tags] = chrome.mapGlobalFilter(data, false, true);
       setGlobalFilter({
         tags,
         filter: {

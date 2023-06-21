@@ -328,7 +328,7 @@ const EntityTableToolbar = ({
    */
   const onSetFilter = (value, filterKey, refresh) => {
     const newFilters = [
-      ...filters?.filter(
+      ...(filters || []).filter(
         (oneFilter) =>
           !Object.prototype.hasOwnProperty.call(oneFilter, filterKey)
       ),
