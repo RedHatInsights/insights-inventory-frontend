@@ -6,76 +6,82 @@ import componentMapper from '@data-driven-forms/pf4-component-mapper/component-m
 import PropTypes from 'prop-types';
 
 const RepoModal = ({
-    isModalOpen,
-    title,
-    titleIconVariant,
-    closeModal,
-    submitLabel,
-    schema,
-    initialValues,
-    variant,
-    reloadData,
-    size,
-    onSubmit,
-    customFormTemplate,
-    additionalMappers
+  isModalOpen,
+  title,
+  titleIconVariant,
+  closeModal,
+  submitLabel,
+  schema,
+  initialValues,
+  variant,
+  reloadData,
+  size,
+  onSubmit,
+  customFormTemplate,
+  additionalMappers,
 }) => {
-    return (
-        <Modal
-            ouiaId="group-modal"
-            variant={size ?? 'small'}
-            title={title}
-            titleIconVariant={titleIconVariant ?? null}
-            isOpen={isModalOpen}
-            onClose={closeModal}
-        >
-            <FormRenderer
-                schema={schema}
-                FormTemplate={customFormTemplate ? customFormTemplate : (props) => (
-                    <FormTemplate
-                        {...props}
-                        submitLabel={submitLabel}
-                        disableSubmit={['invalid']}
-                        buttonsProps={{
-                            submit: { variant }
-                        }}
-                    />
-                )}
-                initialValues={initialValues}
-                componentMapper={additionalMappers
-                    ? { ...additionalMappers, ...componentMapper }
-                    : componentMapper}
-                //reload comes from the table and fetches fresh data
-                onSubmit={async (values) => {
-                    await onSubmit(values);
+  return (
+    <Modal
+      ouiaId="group-modal"
+      variant={size ?? 'small'}
+      title={title}
+      titleIconVariant={titleIconVariant ?? null}
+      isOpen={isModalOpen}
+      onClose={closeModal}
+    >
+      <FormRenderer
+        schema={schema}
+        FormTemplate={
+          customFormTemplate
+            ? customFormTemplate
+            : (props) => (
+                <FormTemplate
+                  {...props}
+                  submitLabel={submitLabel}
+                  disableSubmit={['invalid']}
+                  buttonsProps={{
+                    submit: { variant },
+                  }}
+                />
+              )
+        }
+        initialValues={initialValues}
+        componentMapper={
+          additionalMappers
+            ? { ...additionalMappers, ...componentMapper }
+            : componentMapper
+        }
+        //reload comes from the table and fetches fresh data
+        onSubmit={async (values) => {
+          await onSubmit(values);
 
-                    if (reloadData !== undefined) {
-                        setTimeout(async () => await reloadData(), 500);
-                    }
+          if (reloadData !== undefined) {
+            setTimeout(async () => await reloadData(), 500);
+          }
 
-                    closeModal();
-                }}
-                onCancel={() => closeModal()}
-                subscription={{ values: true }}
-            />
-        </Modal>
-    );
+          closeModal();
+        }}
+        onCancel={() => closeModal()}
+        subscription={{ values: true }}
+      />
+    </Modal>
+  );
 };
 
 RepoModal.propTypes = {
-    isModalOpen: PropTypes.bool,
-    title: PropTypes.string,
-    closeModal: PropTypes.func,
-    reloadData: PropTypes.func,
-    submitLabel: PropTypes.string,
-    schema: PropTypes.object,
-    initialValues: PropTypes.object,
-    variant: PropTypes.string,
-    onSubmit: PropTypes.func,
-    size: PropTypes.string,
-    additionalMappers: PropTypes.object,
-    titleIconVariant: PropTypes.any,
-    customFormTemplate: PropTypes.node
+  isModalOpen: PropTypes.bool,
+  title: PropTypes.string,
+  closeModal: PropTypes.func,
+  reloadData: PropTypes.func,
+  submitLabel: PropTypes.string,
+  schema: PropTypes.object,
+  initialValues: PropTypes.object,
+  variant: PropTypes.string,
+  onSubmit: PropTypes.func,
+  size: PropTypes.string,
+  additionalMappers: PropTypes.object,
+  titleIconVariant: PropTypes.any,
+  customFormTemplate: PropTypes.node,
 };
 
 export default RepoModal;

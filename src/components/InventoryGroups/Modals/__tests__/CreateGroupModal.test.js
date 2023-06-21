@@ -8,17 +8,22 @@ import { MemoryRouter } from 'react-router-dom';
 import CreateGroupModal from '../CreateGroupModal';
 
 describe('CreateGroupModal', () => {
-    it('renders correctly', () => {
-        render(
-            <MemoryRouter>
-                <Provider store={getStore()}>
-                    <CreateGroupModal isModalOpen={true} reloadData={() => console.log('data reloaded')}/>
-                </Provider>
-            </MemoryRouter>
-        );
-        expect(screen.getByRole('heading', { name: /Create group/ })).toBeInTheDocument();
-        expect(screen.getByRole('textbox')).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /Create/ })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /Cancel/ })).toBeInTheDocument();
-    });
+  it('renders correctly', () => {
+    render(
+      <MemoryRouter>
+        <Provider store={getStore()}>
+          <CreateGroupModal
+            isModalOpen={true}
+            reloadData={() => console.log('data reloaded')}
+          />
+        </Provider>
+      </MemoryRouter>
+    );
+    expect(
+      screen.getByRole('heading', { name: /Create group/ })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Create/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Cancel/ })).toBeInTheDocument();
+  });
 });

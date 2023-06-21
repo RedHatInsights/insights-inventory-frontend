@@ -1,17 +1,15 @@
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    Dropdown,
-    DropdownItem,
-    DropdownToggle,
-    Flex,
-    FlexItem,
-    Skeleton
+  Breadcrumb,
+  BreadcrumbItem,
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+  Flex,
+  FlexItem,
+  Skeleton,
 } from '@patternfly/react-core';
-import {
-    PageHeader,
-    PageHeaderTitle
-} from '@redhat-cloud-services/frontend-components';
+import PageHeader from '@redhat-cloud-services/frontend-components/PageHeader';
+import PageHeaderTitle from '@redhat-cloud-services/frontend-components/PageHeaderTitle';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -22,96 +20,97 @@ import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 
 const GroupDetailHeader = ({ groupId }) => {
-    const dispatch = useDispatch();
-    const { uninitialized, loading, data } = useSelector(
-        (state) => state.groupDetail
+  const dispatch = useDispatch();
+  const { uninitialized, loading, data } = useSelector(
+    (state) => state.groupDetail
+  );
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [renameModalOpen, setRenameModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const name = data?.results?.[0]?.name;
+  const title =
+    uninitialized || loading ? (
+      <Skeleton width="250px" screenreaderText="Loading group details" />
+    ) : (
+      name || groupId // in case of error, render just id from URL
     );
 
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [renameModalOpen, setRenameModalOpen] = useState(false);
-    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const history = useHistory();
 
-    const name = data?.results?.[0]?.name;
-    const title =
-      uninitialized || loading ? (
-          <Skeleton width="250px" screenreaderText="Loading group details" />
-      ) : (
-          name || groupId // in case of error, render just id from URL
-      );
-
-    const history = useHistory();
-
-    return (
-        <PageHeader>
-            {
-                renameModalOpen &&
-                <RenameGroupModal
-                    isModalOpen={renameModalOpen}
-                    setIsModalOpen={() => setRenameModalOpen(false)}
-                    modalState={{
-                        id: groupId,
-                        name: name || groupId
-                    }}
-                    reloadData={() => dispatch(fetchGroupDetail(groupId))}
-                />
+  return (
+    <PageHeader>
+      {renameModalOpen && (
+        <RenameGroupModal
+          isModalOpen={renameModalOpen}
+          setIsModalOpen={() => setRenameModalOpen(false)}
+          modalState={{
+            id: groupId,
+            name: name || groupId,
+          }}
+          reloadData={() => dispatch(fetchGroupDetail(groupId))}
+        />
+      )}
+      {deleteModalOpen && (
+        <DeleteGroupModal
+          isModalOpen={deleteModalOpen}
+          setIsModalOpen={() => setDeleteModalOpen(false)}
+          reloadData={() => history.push('/groups')}
+          groupIds={[groupId]}
+        />
+      )}
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <Link to={routes.groups}>Groups</Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem isActive>{title}</BreadcrumbItem>
+      </Breadcrumb>
+      <Flex
+        id="group-header"
+        justifyContent={{ default: 'justifyContentSpaceBetween' }}
+      >
+        <FlexItem>
+          <PageHeaderTitle title={title} />
+        </FlexItem>
+        <FlexItem id="group-header-dropdown">
+          <Dropdown
+            onSelect={() => setDropdownOpen(!dropdownOpen)}
+            autoFocus={false}
+            isOpen={dropdownOpen}
+            toggle={
+              <DropdownToggle
+                id="group-dropdown-toggle"
+                onToggle={(isOpen) => setDropdownOpen(isOpen)}
+                toggleVariant="secondary"
+                isDisabled={uninitialized || loading}
+              >
+                Group actions
+              </DropdownToggle>
             }
-            {
-                deleteModalOpen &&
-                <DeleteGroupModal
-                    isModalOpen={deleteModalOpen}
-                    setIsModalOpen={() => setDeleteModalOpen(false)}
-                    reloadData={() => history.push('/groups')}
-                    groupIds={[groupId]}
-                />
-            }
-            <Breadcrumb>
-                <BreadcrumbItem>
-                    <Link to={routes.groups}>Groups</Link>
-                </BreadcrumbItem>
-                <BreadcrumbItem isActive>{title}</BreadcrumbItem>
-            </Breadcrumb>
-            <Flex id="group-header" justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-                <FlexItem>
-                    <PageHeaderTitle title={title} />
-                </FlexItem>
-                <FlexItem id="group-header-dropdown">
-                    <Dropdown
-                        onSelect={() => setDropdownOpen(!dropdownOpen)}
-                        autoFocus={false}
-                        isOpen={dropdownOpen}
-                        toggle={
-                            <DropdownToggle
-                                id="group-dropdown-toggle"
-                                onToggle={(isOpen) => setDropdownOpen(isOpen)}
-                                toggleVariant="secondary"
-                                isDisabled={uninitialized || loading}
-                            >
-                                Group actions
-                            </DropdownToggle>
-                        }
-                        dropdownItems={[
-                            <DropdownItem
-                                key="rename-group"
-                                onClick={() => setRenameModalOpen(true)}
-                            >
-                                Rename
-                            </DropdownItem>,
-                            <DropdownItem
-                                key="delete-group"
-                                onClick={() => setDeleteModalOpen(true)}
-                            >
-                                Delete
-                            </DropdownItem>
-                        ]}
-                    />
-                </FlexItem>
-            </Flex>
-        </PageHeader>
-    );
+            dropdownItems={[
+              <DropdownItem
+                key="rename-group"
+                onClick={() => setRenameModalOpen(true)}
+              >
+                Rename
+              </DropdownItem>,
+              <DropdownItem
+                key="delete-group"
+                onClick={() => setDeleteModalOpen(true)}
+              >
+                Delete
+              </DropdownItem>,
+            ]}
+          />
+        </FlexItem>
+      </Flex>
+    </PageHeader>
+  );
 };
 
 GroupDetailHeader.propTypes = {
-    groupId: PropTypes.string.isRequired
+  groupId: PropTypes.string.isRequired,
 };
 
 export default GroupDetailHeader;

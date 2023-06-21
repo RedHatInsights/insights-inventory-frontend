@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import InventoryGroupDetail from './InventoryGroupDetail';
 
 const InventoryGroupDetailWrapper = () => {
-    const { groupId } = useParams();
+  const { groupId } = useParams();
 
-    return <InventoryGroupDetail groupId={groupId} />;
+  return <InventoryGroupDetail groupId={groupId} />;
 };
 
 export default InventoryGroupDetailWrapper;

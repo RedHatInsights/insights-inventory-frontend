@@ -1,86 +1,92 @@
-import { ACTION_TYPES, CLEAR_NOTIFICATIONS, SET_INVENTORY_FILTER, SET_PAGINATION,
-    CLEAR_ENTITIES } from './action-types';
-import { hosts, getEntitySystemProfile } from '../api';
+import {
+  ACTION_TYPES,
+  CLEAR_ENTITIES,
+  CLEAR_NOTIFICATIONS,
+  SET_INVENTORY_FILTER,
+  SET_PAGINATION,
+} from './action-types';
+import { getEntitySystemProfile, hosts } from '../api';
 import { deleteSystemsById } from '../components/InventoryTable/utils/api';
 export * from './system-issues-actions';
 export * from './inventory-actions';
 
 export const deleteEntity = (systems, displayName) => ({
-    type: ACTION_TYPES.REMOVE_ENTITY,
-    payload: deleteSystemsById(systems),
-    meta: {
-        notifications: {
-            fulfilled: {
-                variant: 'success',
-                title: 'Delete operation finished',
-                description: `${displayName} has been successfully removed.`,
-                dismissable: true
-            }
-        },
-        systems
-    }
+  type: ACTION_TYPES.REMOVE_ENTITY,
+  payload: deleteSystemsById(systems),
+  meta: {
+    notifications: {
+      fulfilled: {
+        variant: 'success',
+        title: 'Delete operation finished',
+        description: `${displayName} has been successfully removed.`,
+        dismissable: true,
+      },
+    },
+    systems,
+  },
 });
 
 export const setFilter = (filtersList) => ({
-    type: SET_INVENTORY_FILTER,
-    payload: {
-        filtersList
-    }
+  type: SET_INVENTORY_FILTER,
+  payload: {
+    filtersList,
+  },
 });
 
 export const clearNotifications = () => {
-    return ({
-        type: CLEAR_NOTIFICATIONS
-    });
+  return {
+    type: CLEAR_NOTIFICATIONS,
+  };
 };
 
 export const editDisplayName = (id, value, origValue) => ({
-    type: ACTION_TYPES.UPDATE_DISPLAY_NAME,
-    payload: hosts.apiHostPatchHostById([id], { display_name: value }), // eslint-disable-line camelcase
-    meta: {
-        id,
-        value,
-        origValue,
-        notifications: {
-            fulfilled: {
-                variant: 'success',
-                title: `Display name for entity with ID ${id} has been changed to ${value}`,
-                dismissable: true
-            }
-        }
-    }
+  type: ACTION_TYPES.UPDATE_DISPLAY_NAME,
+  payload: hosts.apiHostPatchHostById([id], { display_name: value }), // eslint-disable-line camelcase
+  meta: {
+    id,
+    value,
+    origValue,
+    notifications: {
+      fulfilled: {
+        variant: 'success',
+        title: `Display name for entity with ID ${id} has been changed to ${value}`,
+        dismissable: true,
+      },
+    },
+  },
 });
 
 export const setPagination = (page, perPage) => ({
-    type: SET_PAGINATION,
-    payload: {
-        page, perPage
-    }
+  type: SET_PAGINATION,
+  payload: {
+    page,
+    perPage,
+  },
 });
 
 export const systemProfile = (itemId) => ({
-    type: ACTION_TYPES.LOAD_SYSTEM_PROFILE,
-    payload: getEntitySystemProfile(itemId, {})
+  type: ACTION_TYPES.LOAD_SYSTEM_PROFILE,
+  payload: getEntitySystemProfile(itemId, {}),
 });
 
 export const editAnsibleHost = (id, value, origValue) => ({
-    type: ACTION_TYPES.SET_ANSIBLE_HOST,
-    payload: hosts.apiHostPatchHostById([id], { ansible_host: value }), // eslint-disable-line camelcase
-    meta: {
-        id,
-        value,
-        origValue,
-        notifications: {
-            fulfilled: {
-                variant: 'success',
-                title: 'Ansible hostname has been updated',
-                dismissable: true
-            }
-        }
-    }
+  type: ACTION_TYPES.SET_ANSIBLE_HOST,
+  payload: hosts.apiHostPatchHostById([id], { ansible_host: value }), // eslint-disable-line camelcase
+  meta: {
+    id,
+    value,
+    origValue,
+    notifications: {
+      fulfilled: {
+        variant: 'success',
+        title: 'Ansible hostname has been updated',
+        dismissable: true,
+      },
+    },
+  },
 });
 
 export const clearEntitiesAction = () => ({
-    type: CLEAR_ENTITIES,
-    payload: []
+  type: CLEAR_ENTITIES,
+  payload: [],
 });

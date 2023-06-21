@@ -1,14 +1,14 @@
 const createXhrMock = () => {
-    const xhrMockObj = {
-        open: jest.fn(),
-        send: jest.fn(),
-        setRequestHeader: jest.fn(),
-        readyState: 4,
-        status,
-        response: {}
-    };
+  const xhrMockObj = {
+    open: jest.fn(),
+    send: jest.fn(),
+    setRequestHeader: jest.fn(),
+    readyState: 4,
+    status,
+    response: {},
+  };
 
-    return () => xhrMockObj;
+  return () => xhrMockObj;
 };
 
 export default createXhrMock;

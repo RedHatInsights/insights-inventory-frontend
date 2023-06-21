@@ -28,52 +28,56 @@ import React from 'react';
 import FlagProvider from '@unleash/proxy-client-react';
 import { Provider } from 'react-redux';
 import { getStore } from '../../src/store';
-import { MemoryRouter, Switch, Route } from 'react-router-dom';
+import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { mount } from '@cypress/react';
-import { RBACProvider } from '@redhat-cloud-services/frontend-components';
+import RBACProvider from '@redhat-cloud-services/frontend-components/RBACProvider';
 
 Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
-    const { path, routerProps = { initialEntries: ['/'] } } = options;
+  const { path, routerProps = { initialEntries: ['/'] } } = options;
 
-    return mount(
-        <FlagProvider
-            config={{
-                url: 'http://localhost:8002/feature_flags',
-                clientKey: 'abc',
-                appName: 'abc'
-            }}
-        >
-            <Provider store={getStore()}>
-                <MemoryRouter {...routerProps}>
-                    <RBACProvider appName='inventory'>
-                        {path ? (
-                            <Switch>
-                                <Route path={options.path} component={() => <Component {...props} />} rootClass='inventory' />
-                            </Switch>
-                        ) : (
-                            <Component {...props} />
-                        )}
-                    </RBACProvider>
-                </MemoryRouter>
-            </Provider>
-        </FlagProvider>
-    );
+  return mount(
+    <FlagProvider
+      config={{
+        url: 'http://localhost:8002/feature_flags',
+        clientKey: 'abc',
+        appName: 'abc',
+      }}
+    >
+      <Provider store={getStore()}>
+        <MemoryRouter {...routerProps}>
+          <RBACProvider appName="inventory">
+            {path ? (
+              <Switch>
+                <Route
+                  path={options.path}
+                  component={() => <Component {...props} />}
+                  rootClass="inventory"
+                />
+              </Switch>
+            ) : (
+              <Component {...props} />
+            )}
+          </RBACProvider>
+        </MemoryRouter>
+      </Provider>
+    </FlagProvider>
+  );
 });
 
 // one of the fec dependencies talks to window.insights.chrome
 Cypress.Commands.add('mockWindowChrome', () => {
-    cy.window().then(
-        // one of the fec dependencies talks to window.insights.chrome
-        (window) =>
-            (window.insights = {
-                chrome: {
-                    getUserPermissions: () => ['inventory:*:*'], // enable all read/write features
-                    auth: {
-                        getUser: () => {
-                            return Promise.resolve({});
-                        }
-                    }
-                }
-            })
-    );
+  cy.window().then(
+    // one of the fec dependencies talks to window.insights.chrome
+    (window) =>
+      (window.insights = {
+        chrome: {
+          getUserPermissions: () => ['inventory:*:*'], // enable all read/write features
+          auth: {
+            getUser: () => {
+              return Promise.resolve({});
+            },
+          },
+        },
+      })
+  );
 });

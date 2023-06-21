@@ -9,25 +9,30 @@ import logger from 'redux-logger';
 import Fallback from './components/SpinnerFallback';
 
 const InventoryApp = () => {
-    const registry = useMemo(() => {
-        const store = IS_DEV ? getStore(logger) : getStore();
-        return {
-            register: (newReducers) => store.replaceReducer(updateReducers(newReducers)),
-            getStore: () => store
-        };
-    }, []);
+  const registry = useMemo(() => {
+    const store = IS_DEV ? getStore(logger) : getStore();
+    return {
+      register: (newReducers) =>
+        store.replaceReducer(updateReducers(newReducers)),
+      getStore: () => store,
+    };
+  }, []);
 
-    return (registry ? (
-        <RegistryContext.Provider value={{
-            getRegistry: () => registry
-        }}>
-            <Provider store={registry.getStore()}>
-                <Router basename={getBaseName(window.location.pathname)}>
-                    <App />
-                </Router>
-            </Provider>
-        </RegistryContext.Provider>
-    ) : <Fallback />);
+  return registry ? (
+    <RegistryContext.Provider
+      value={{
+        getRegistry: () => registry,
+      }}
+    >
+      <Provider store={registry.getStore()}>
+        <Router basename={getBaseName(window.location.pathname)}>
+          <App />
+        </Router>
+      </Provider>
+    </RegistryContext.Provider>
+  ) : (
+    <Fallback />
+  );
 };
 
 export default InventoryApp;

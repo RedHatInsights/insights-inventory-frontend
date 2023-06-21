@@ -5,21 +5,21 @@ import DetailWrapper from './DetailWrapper';
 import AccessDenied from '../../Utilities/AccessDenied';
 
 const DetailRenderer = ({ isRbacEnabled, ...props }) => {
-    const { hasAccess } = usePermissionsWithContext([
-        'inventory:*:*',
-        'inventory:*:read',
-        'inventory:hosts:read'
-    ]);
+  const { hasAccess } = usePermissionsWithContext([
+    'inventory:*:*',
+    'inventory:*:read',
+    'inventory:hosts:read',
+  ]);
 
-    if (isRbacEnabled && hasAccess === false) {
-        return <AccessDenied />;
-    } else {
-        return <DetailWrapper {...props} />;
-    }
+  if (isRbacEnabled && hasAccess === false) {
+    return <AccessDenied />;
+  } else {
+    return <DetailWrapper {...props} />;
+  }
 };
 
 DetailRenderer.propTypes = {
-    isRbacEnabled: PropTypes.bool
+  isRbacEnabled: PropTypes.bool,
 };
 
 export default DetailRenderer;

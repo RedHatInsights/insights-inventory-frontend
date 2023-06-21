@@ -1,7 +1,7 @@
 export default () => ({
-    updateDocumentTitle: () => undefined,
-    isBeta: () => false,
-    appAction: () => {},
-    appObjectId: () => {},
-    on: () => {}
+  updateDocumentTitle: () => undefined,
+  isBeta: () => false,
+  appAction: () => {},
+  appObjectId: () => {},
+  on: () => {},
 });
