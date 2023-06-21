@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';

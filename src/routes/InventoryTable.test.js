@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import React from 'react';
 import { mount as enzymeMount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
