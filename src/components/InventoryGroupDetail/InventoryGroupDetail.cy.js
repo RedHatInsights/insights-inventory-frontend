@@ -1,23 +1,20 @@
-import { mount } from '@cypress/react';
-import { DROPDOWN, DROPDOWN_ITEM, MODAL } from '@redhat-cloud-services/frontend-components-utilities';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import {
+    DROPDOWN_ITEM,
+    MODAL
+} from '@redhat-cloud-services/frontend-components-utilities';
 import groupDetailFixtures from '../../../cypress/fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
-import { groupDetailInterceptors, groupsInterceptors } from '../../../cypress/support/interceptors';
-import { getStore } from '../../store';
+import {
+    groupDetailInterceptors,
+    groupsInterceptors
+} from '../../../cypress/support/interceptors';
 import InventoryGroupDetail from './InventoryGroupDetail';
 
 const TEST_GROUP_ID = '620f9ae75A8F6b83d78F3B55Af1c4b2C';
 
 const mountPage = () =>
-    mount(
-        <Provider store={getStore()}>
-            <MemoryRouter>
-                <InventoryGroupDetail groupId={TEST_GROUP_ID} />
-            </MemoryRouter>
-        </Provider>
-    );
+    cy.mountWithContext(InventoryGroupDetail, undefined, {
+        groupId: TEST_GROUP_ID
+    });
 
 before(() => {
     cy.mockWindowChrome();
@@ -35,31 +32,22 @@ describe('group detail page', () => {
         .should('have.text', groupDetailFixtures.results[0].name);
     });
 
-    /*  TODO: fix this test (affected the execution of the next tests and made them flaky)
-        it('skeletons rendered while fetching data', () => {
-        // TODO: after each hook fails for some reason for this particular test
-        Cypress.on('uncaught:exception', () => {
-            return false;
-        });
-
-        interceptors['long responding']();
+    it('skeletons rendered while fetching data', () => {
+        groupDetailInterceptors['long responding']();
         mountPage();
 
         cy.get('[data-ouia-component-type="PF4/Breadcrumb"] li').last().find('.pf-c-skeleton');
         cy.get('h1').find('.pf-c-skeleton');
         cy.get('.pf-c-empty-state').find('.pf-c-spinner');
     });
-    */
 
-    it('can open rename group modal', () => {
+    it('can rename group', () => {
         groupsInterceptors['successful with some items'](); // intercept modal validation requests
         groupDetailInterceptors.successful();
         groupDetailInterceptors['patch successful']();
         mountPage();
 
-        cy.wait('@getGroupDetail');
-
-        cy.get(DROPDOWN).click();
+        cy.ouiaId('group-actions-dropdown-toggle').should('be.enabled').click();
         cy.get(DROPDOWN_ITEM).contains('Rename').click();
 
         cy.get(MODAL).find('input').type('1');
@@ -70,13 +58,12 @@ describe('group detail page', () => {
         cy.wait('@getGroupDetail'); // the page is refreshed after submition
     });
 
-    it('can open delete group modal', () => {
+    it('can delete an empty group', () => {
         groupDetailInterceptors.successful();
         groupDetailInterceptors['delete successful']();
         mountPage();
-        cy.wait('@getGroupDetail');
 
-        cy.get(DROPDOWN).click();
+        cy.ouiaId('group-actions-dropdown-toggle').should('be.enabled').click();
         cy.get(DROPDOWN_ITEM).contains('Delete').click();
 
         cy.get(`div[class="pf-c-check"]`).click();

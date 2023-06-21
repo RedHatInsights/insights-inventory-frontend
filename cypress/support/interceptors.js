@@ -55,14 +55,14 @@ export const groupsInterceptors = {
 };
 
 export const groupDetailInterceptors = {
-    successful: () =>
+    successful: (fixtures = groupDetailFixtures) =>
         cy
         .intercept(
             'GET',
             '/api/inventory/v1/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C',
             {
                 statusCode: 200,
-                body: groupDetailFixtures
+                body: fixtures
             }
         )
         .as('getGroupDetail'),
