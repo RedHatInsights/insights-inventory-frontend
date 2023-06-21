@@ -48,7 +48,11 @@ const RepoModal = ({
                 //reload comes from the table and fetches fresh data
                 onSubmit={async (values) => {
                     await onSubmit(values);
-                    setTimeout(async () => await reloadData(), 500);
+
+                    if (reloadData !== undefined) {
+                        setTimeout(async () => await reloadData(), 500);
+                    }
+
                     closeModal();
                 }}
                 onCancel={() => closeModal()}
