@@ -1,4 +1,3 @@
-/* global module, __dirname */
 require.extensions['.css'] = () => undefined;
 const path = require('path');
 const glob = require('glob');
