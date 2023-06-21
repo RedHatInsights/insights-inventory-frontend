@@ -88,7 +88,7 @@ const Inventory = () => {
     const writePermissions = useWritePermissions();
     const entityLoaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
     const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
-    const { cloudProvider, host_type: hostType } = useSelector(
+    const { cloud_provider: cloudProvider, host_type: hostType } = useSelector(
         ({ systemProfileStore }) => systemProfileStore?.systemProfile || []
     );
     const availableApps = useMemo(() => appList.map((app) => app.name === 'ros' ? {
