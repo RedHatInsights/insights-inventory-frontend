@@ -99,6 +99,7 @@ const DeleteGroupModal = ({
     const groupsAreEmpty = (fetchedGroups || []).every(({ host_count: hostCount }) => hostCount === 0);
     const [isLoading, setIsLoading] = useState(true);
 
+    console.log('###', groupIds);
     useEffect(() => {
         // check that all groups are empty before deletion
         let ignore = false;
@@ -128,14 +129,14 @@ const DeleteGroupModal = ({
                 description:
           groupIds.length > 1
               ? `${groupIds.length} groups deleted`
-              : `${name} has been removed successfully`
+              : `${fetchedGroups?.[0]?.name} has been removed successfully`
             },
             onError: {
                 title: 'Error',
                 description:
                 groupIds.length > 1
                     ? `Failed to delete ${groupIds.length} groups`
-                    : `Failed to delete group ${name}`
+                    : `Failed to delete group ${fetchedGroups?.[0]?.name}`
             }
         };
         apiWithToast(dispatch, () => deleteGroupsById(groupIds), statusMessages);

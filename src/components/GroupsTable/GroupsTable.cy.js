@@ -27,6 +27,7 @@ import GroupsTable from './GroupsTable';
 
 const DEFAULT_ROW_COUNT = 50;
 const TABLE_HEADERS = ['Name', 'Total systems', 'Last modified'];
+const SORTABLE_HEADERS = ['Name', 'Total systems'];
 const ROOT = 'div[id="groups-table"]';
 
 const mountTable = (initialEntry = '/') =>
@@ -172,7 +173,7 @@ describe('sorting', () => {
         cy.wait('@getGroups'); // first initial request
     });
 
-    _.zip(['name', 'host_ids', 'updated_at'], TABLE_HEADERS).forEach(
+    _.zip(['name', 'host_ids'], SORTABLE_HEADERS).forEach(
         ([category, label]) => {
             SORTING_ORDERS.forEach((order) => {
                 it(`${order} by ${label}`, () => {

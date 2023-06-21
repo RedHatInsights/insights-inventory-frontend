@@ -8,11 +8,12 @@ import {
     Title
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, PlusCircleIcon } from '@patternfly/react-icons';
+import PropTypes from 'prop-types';
 
 import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
 import CreateGroupModal from './Modals/CreateGroupModal';
 
-const NoGroupsEmptyState = () => {
+const NoGroupsEmptyState = ({ reloadData }) => {
     const [createGroupModalOpen, setCreateGroupModalOpen] = useState(false);
 
     return (
@@ -24,7 +25,7 @@ const NoGroupsEmptyState = () => {
             <CreateGroupModal
                 isModalOpen={createGroupModalOpen}
                 setIsModalOpen={setCreateGroupModalOpen}
-            //Todo: reloadData={reloadData}  add refetch data so the list of groups will update
+                reloadData={reloadData}
             />
             <EmptyStateIcon icon={PlusCircleIcon} color={globalPaletteBlack600.value} />
             <Title headingLevel="h4" size="lg">
@@ -46,5 +47,9 @@ const NoGroupsEmptyState = () => {
             </EmptyStateSecondaryActions>
         </EmptyState>
     );};
+
+NoGroupsEmptyState.propTypes = {
+    reloadData: PropTypes.func
+};
 
 export default NoGroupsEmptyState;

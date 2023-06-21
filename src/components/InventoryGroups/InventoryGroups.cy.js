@@ -22,6 +22,7 @@ describe('groups table page', () => {
     it('renders table if there is at least one group', () => {
         interceptors['successful with some items']();
         mountPage();
+        cy.wait('@getGroups');
 
         cy.get('h1').contains('Groups');
         cy.get('#groups-table');
@@ -30,6 +31,7 @@ describe('groups table page', () => {
     it('renders only empty state when there are no groups', () => {
         interceptors['successful empty']();
         mountPage();
+        cy.wait('@getGroups');
 
         cy.get('h1').contains('Groups');
         cy.get('#groups-table').should('not.exist');
@@ -39,6 +41,7 @@ describe('groups table page', () => {
     it('renders error message when request fails', () => {
         interceptors['failed with server error']();
         mountPage();
+        cy.wait('@getGroups');
 
         cy.get('h1').contains('Groups');
         cy.get('#groups-table').should('not.exist');
