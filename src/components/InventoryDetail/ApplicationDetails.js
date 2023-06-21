@@ -37,7 +37,7 @@ const ApplicationDetails = ({
     const filteredResult = items.filter(
       (app) => !disabledApps?.includes(app.name)
     );
-    if (filteredResult !== 0 && typeof filteredResult !== undefined) {
+    if (filteredResult !== 0 && typeof filteredResult !== 'undefined') {
       setActiveTabs(filteredResult);
     } else {
       setActiveTabs(items);
