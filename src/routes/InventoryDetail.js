@@ -6,8 +6,10 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
 import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
-import Skeleton from '@redhat-cloud-services/frontend-components/Skeleton';
-import SkeletonSize from '@redhat-cloud-services/frontend-components/SkeletonSize';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@redhat-cloud-services/frontend-components/Skeleton';
 import { routes } from '../Routes';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import { useWritePermissions } from '../Utilities/constants';

@@ -1,6 +1,9 @@
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
-import PageHeader from '@redhat-cloud-services/frontend-components/PageHeader';
-import PageHeaderTitle from '@redhat-cloud-services/frontend-components/PageHeaderTitle';
+import {
+  PageHeader,
+  PageHeaderTitle,
+} from '@redhat-cloud-services/frontend-components/PageHeader';
+
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Bullseye, Spinner } from '@patternfly/react-core';

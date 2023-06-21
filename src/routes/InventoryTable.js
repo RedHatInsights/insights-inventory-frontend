@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './inventory.scss';
-import PageHeader from '@redhat-cloud-services/frontend-components/PageHeader';
-import PageHeaderTitle from '@redhat-cloud-services/frontend-components/PageHeaderTitle';
+import {
+  PageHeader,
+  PageHeaderTitle,
+} from '@redhat-cloud-services/frontend-components/PageHeader';
+
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import * as actions from '../store/actions';
 import { Grid, GridItem } from '@patternfly/react-core';

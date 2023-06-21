@@ -8,8 +8,10 @@ import {
   FlexItem,
   Skeleton,
 } from '@patternfly/react-core';
-import PageHeader from '@redhat-cloud-services/frontend-components/PageHeader';
-import PageHeaderTitle from '@redhat-cloud-services/frontend-components/PageHeaderTitle';
+import {
+  PageHeader,
+  PageHeaderTitle,
+} from '@redhat-cloud-services/frontend-components/PageHeader';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
