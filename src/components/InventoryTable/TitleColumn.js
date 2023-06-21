@@ -39,6 +39,7 @@ const TitleColumn = (data, id, item, props) => (
         data
       ) : (
         <a
+          // eslint-disable-next-line react/no-unknown-property
           widget="col"
           href={`${location.pathname}${
             location.pathname.substr(-1) === '/' ? '' : '/'

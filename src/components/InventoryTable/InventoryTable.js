@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 /* eslint-disable camelcase */
 import React, {
   Fragment,
@@ -53,7 +54,6 @@ export const inventoryCache = () => {
 const InventoryTable = forwardRef(
   (
     {
-      // eslint-disable-line react/display-name
       onRefresh,
       children,
       inventoryRef,
