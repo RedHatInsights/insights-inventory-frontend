@@ -162,7 +162,7 @@
     "verify": "npm-run-all build lint test",
     "nightly": "npm run travis:verify",
     "start:federated": "fec static --config config/dev.webpack.config.js",
-    "test:ct": "BABEL_ENV=componentTest cypress run --component --browser chromium",
+    "test:ct": "BABEL_ENV=componentTest cypress run --component --browser chrome",
     "test:openct": "BABEL_ENV=componentTest cypress open --component",
     "test:openct:mock": "MOCK=true npm run test:openct",
     "coverage": "bash coverage.sh",
