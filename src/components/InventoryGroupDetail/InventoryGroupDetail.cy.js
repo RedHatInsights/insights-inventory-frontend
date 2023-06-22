@@ -1,7 +1,11 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import { mount } from '@cypress/react';
-import DROPDOWN from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN';
-import DROPDOWN_ITEM from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN_ITEM';
-import MODAL from '@redhat-cloud-services/frontend-components-utilities/MODAL';
+
+import {
+  DROPDOWN,
+  DROPDOWN_ITEM,
+  MODAL,
+} from '@redhat-cloud-services/frontend-components-utilities';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';

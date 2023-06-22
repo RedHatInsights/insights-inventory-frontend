@@ -1,3 +1,4 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -30,7 +31,7 @@ import { Provider } from 'react-redux';
 import { getStore } from '../../src/store';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { mount } from '@cypress/react';
-import RBACProvider from '@redhat-cloud-services/frontend-components/RBACProvider';
+import { RBACProvider } from '@redhat-cloud-services/frontend-components';
 
 Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
   const { path, routerProps = { initialEntries: ['/'] } } = options;

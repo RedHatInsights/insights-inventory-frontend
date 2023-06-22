@@ -1,4 +1,5 @@
-import ROW from '@redhat-cloud-services/frontend-components-utilities/ROW';
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
+import { ROW } from '@redhat-cloud-services/frontend-components-utilities';
 
 export const ORDER_TO_URL = {
   ascending: 'ASC',

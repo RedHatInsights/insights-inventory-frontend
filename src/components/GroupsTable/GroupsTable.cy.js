@@ -1,22 +1,25 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 /* eslint-disable camelcase */
-import changePagination from '@redhat-cloud-services/frontend-components-utilities/changePagination';
-import checkEmptyState from '@redhat-cloud-services/frontend-components-utilities/checkEmptyState';
-import checkPaginationTotal from '@redhat-cloud-services/frontend-components-utilities/checkPaginationTotal';
-import checkPaginationValues from '@redhat-cloud-services/frontend-components-utilities/checkPaginationValues';
-import checkTableHeaders from '@redhat-cloud-services/frontend-components-utilities/checkTableHeaders';
-import CHIP from '@redhat-cloud-services/frontend-components-utilities/CHIP';
-import CHIP_GROUP from '@redhat-cloud-services/frontend-components-utilities/CHIP_GROUP';
-import hasChip from '@redhat-cloud-services/frontend-components-utilities/hasChip';
-import PAGINATION_VALUES from '@redhat-cloud-services/frontend-components-utilities/PAGINATION_VALUES';
-import ROW from '@redhat-cloud-services/frontend-components-utilities/ROW';
-import SORTING_ORDERS from '@redhat-cloud-services/frontend-components-utilities/SORTING_ORDERS';
-import TEXT_INPUT from '@redhat-cloud-services/frontend-components-utilities/TEXT_INPUT';
-import TOOLBAR from '@redhat-cloud-services/frontend-components-utilities/TOOLBAR';
-import TOOLBAR_FILTER from '@redhat-cloud-services/frontend-components-utilities/TOOLBAR_FILTER';
-import DROPDOWN_TOGGLE from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN_TOGGLE';
-import DROPDOWN from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN';
-import DROPDOWN_ITEM from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN_ITEM';
-import MODAL from '@redhat-cloud-services/frontend-components-utilities/MODAL';
+import {
+  CHIP,
+  CHIP_GROUP,
+  DROPDOWN,
+  DROPDOWN_ITEM,
+  DROPDOWN_TOGGLE,
+  MODAL,
+  PAGINATION_VALUES,
+  ROW,
+  SORTING_ORDERS,
+  TEXT_INPUT,
+  TOOLBAR,
+  TOOLBAR_FILTER,
+  changePagination,
+  checkEmptyState,
+  checkPaginationTotal,
+  checkPaginationValues,
+  checkTableHeaders,
+  hasChip,
+} from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
 import fixtures from '../../../cypress/fixtures/groups.json';
 import { groupsInterceptors as interceptors } from '../../../cypress/support/interceptors';

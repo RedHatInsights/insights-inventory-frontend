@@ -1,20 +1,23 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 /**
  * Cypress tests aim mainly to verify the correct behavior of network calls,
  * compliance with the filter, sorting and pagination scenarios.
  */
-import CHIP from '@redhat-cloud-services/frontend-components-utilities/CHIP';
-import CHIP_GROUP from '@redhat-cloud-services/frontend-components-utilities/CHIP_GROUP';
-import PAGINATION_VALUES from '@redhat-cloud-services/frontend-components-utilities/PAGINATION_VALUES';
-import SORTING_ORDERS from '@redhat-cloud-services/frontend-components-utilities/SORTING_ORDERS';
-import TABLE from '@redhat-cloud-services/frontend-components-utilities/TABLE';
-import TEXT_INPUT from '@redhat-cloud-services/frontend-components-utilities/TEXT_INPUT';
-import TOOLBAR from '@redhat-cloud-services/frontend-components-utilities/TOOLBAR';
-import TOOLBAR_FILTER from '@redhat-cloud-services/frontend-components-utilities/TOOLBAR_FILTER';
-import changePagination from '@redhat-cloud-services/frontend-components-utilities/changePagination';
-import checkPaginationTotal from '@redhat-cloud-services/frontend-components-utilities/checkPaginationTotal';
-import checkPaginationValues from '@redhat-cloud-services/frontend-components-utilities/checkPaginationValues';
-import checkTableHeaders from '@redhat-cloud-services/frontend-components-utilities/checkTableHeaders';
-import hasChip from '@redhat-cloud-services/frontend-components-utilities/hasChip';
+import {
+  CHIP,
+  CHIP_GROUP,
+  PAGINATION_VALUES,
+  SORTING_ORDERS,
+  TABLE,
+  TEXT_INPUT,
+  TOOLBAR,
+  TOOLBAR_FILTER,
+  changePagination,
+  checkPaginationTotal,
+  checkPaginationValues,
+  checkTableHeaders,
+  hasChip,
+} from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
 import {
   featureFlagsInterceptors,

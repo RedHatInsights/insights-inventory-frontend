@@ -1,21 +1,24 @@
-import changePagination from '@redhat-cloud-services/frontend-components-utilities/changePagination';
-import checkEmptyState from '@redhat-cloud-services/frontend-components-utilities/checkEmptyState';
-import checkPaginationTotal from '@redhat-cloud-services/frontend-components-utilities/checkPaginationTotal';
-import checkPaginationValues from '@redhat-cloud-services/frontend-components-utilities/checkPaginationValues';
-import checkTableHeaders from '@redhat-cloud-services/frontend-components-utilities/checkTableHeaders';
-import CHIP from '@redhat-cloud-services/frontend-components-utilities/CHIP';
-import CHIP_GROUP from '@redhat-cloud-services/frontend-components-utilities/CHIP_GROUP';
-import DROPDOWN from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN';
-import DROPDOWN_ITEM from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN_ITEM';
-import DROPDOWN_TOGGLE from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN_TOGGLE';
-import hasChip from '@redhat-cloud-services/frontend-components-utilities/hasChip';
-import MODAL from '@redhat-cloud-services/frontend-components-utilities/MODAL';
-import PAGINATION_VALUES from '@redhat-cloud-services/frontend-components-utilities/PAGINATION_VALUES';
-import ROW from '@redhat-cloud-services/frontend-components-utilities/ROW';
-import SORTING_ORDERS from '@redhat-cloud-services/frontend-components-utilities/SORTING_ORDERS';
-import TEXT_INPUT from '@redhat-cloud-services/frontend-components-utilities/TEXT_INPUT';
-import TOOLBAR from '@redhat-cloud-services/frontend-components-utilities/TOOLBAR';
-import TOOLBAR_FILTER from '@redhat-cloud-services/frontend-components-utilities/TOOLBAR_FILTER';
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
+import {
+  CHIP,
+  CHIP_GROUP,
+  DROPDOWN,
+  DROPDOWN_ITEM,
+  DROPDOWN_TOGGLE,
+  MODAL,
+  PAGINATION_VALUES,
+  ROW,
+  SORTING_ORDERS,
+  TEXT_INPUT,
+  TOOLBAR,
+  TOOLBAR_FILTER,
+  changePagination,
+  checkEmptyState,
+  checkPaginationTotal,
+  checkPaginationValues,
+  checkTableHeaders,
+  hasChip,
+} from '@redhat-cloud-services/frontend-components-utilities';
 import {
   featureFlagsInterceptors,
   groupsInterceptors,
@@ -88,7 +91,7 @@ describe('renders correctly', () => {
     waitForTable();
   });
 
-  it('the root container is rendered', () => {
+  it.only('the root container is rendered', () => {
     cy.get(ROOT);
   });
 

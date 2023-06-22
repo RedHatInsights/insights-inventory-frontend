@@ -1,6 +1,5 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 /* eslint-disable camelcase */
-import CHECKBOX from '@redhat-cloud-services/frontend-components-utilities/CHECKBOX';
-import MODAL from '@redhat-cloud-services/frontend-components-utilities/MODAL';
 import _ from 'lodash';
 import groupsFixtures from '../../../../cypress/fixtures/groups.json';
 import {
@@ -8,6 +7,10 @@ import {
   groupsInterceptors,
 } from '../../../../cypress/support/interceptors';
 import DeleteGroupModal from './DeleteGroupModal';
+import {
+  CHECKBOX,
+  MODAL,
+} from '@redhat-cloud-services/frontend-components-utilities';
 
 const mountModal = (props) =>
   cy.mountWithContext(DeleteGroupModal, undefined, props);

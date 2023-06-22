@@ -1,9 +1,6 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import { mount } from '@cypress/react';
-import checkTableHeaders from '@redhat-cloud-services/frontend-components-utilities/checkTableHeaders';
-import DROPDOWN_ITEM from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN_ITEM';
-import MODAL from '@redhat-cloud-services/frontend-components-utilities/MODAL';
-import ouiaId from '@redhat-cloud-services/frontend-components-utilities/ouiaId';
-import TABLE from '@redhat-cloud-services/frontend-components-utilities/TABLE';
+
 import FlagProvider from '@unleash/proxy-client-react';
 import _ from 'lodash';
 import React from 'react';
@@ -21,6 +18,13 @@ import {
 } from '../../../../cypress/support/utils';
 import { getStore } from '../../../store';
 import AddSystemsToGroupModal from './AddSystemsToGroupModal';
+import {
+  DROPDOWN_ITEM,
+  MODAL,
+  TABLE,
+  checkTableHeaders,
+  ouiaId,
+} from '@redhat-cloud-services/frontend-components-utilities';
 
 const TABLE_HEADERS = [
   'Name',

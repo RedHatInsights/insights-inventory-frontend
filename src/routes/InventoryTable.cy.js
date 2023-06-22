@@ -1,3 +1,4 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 /**
  * The file contains the tests relevant to the Inventory table (/inventory).
  * The tests for the federal module are implemented in another cy spec.
@@ -14,11 +15,12 @@ import hostTagsFixtures from '../../cypress/fixtures/hostsTags.json';
 import tagsFixtures from '../../cypress/fixtures/tags.json';
 import hostsFixtures from '../../cypress/fixtures/hosts.json';
 import groupsFixtures from '../../cypress/fixtures/groups.json';
-
-import DROPDOWN from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN';
-import DROPDOWN_ITEM from '@redhat-cloud-services/frontend-components-utilities/DROPDOWN_ITEM';
-import MODAL from '@redhat-cloud-services/frontend-components-utilities/MODAL';
-import ROW from '@redhat-cloud-services/frontend-components-utilities/ROW';
+import {
+  DROPDOWN,
+  DROPDOWN_ITEM,
+  MODAL,
+  ROW,
+} from '@redhat-cloud-services/frontend-components-utilities';
 
 const TEST_GROUP = 'ancd';
 

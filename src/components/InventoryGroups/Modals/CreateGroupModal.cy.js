@@ -1,8 +1,9 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 /* eslint-disable camelcase */
 import React from 'react';
 import { mount } from '@cypress/react';
 import CreateGroupModal from './CreateGroupModal';
-import TEXT_INPUT from '@redhat-cloud-services/frontend-components-utilities/TEXT_INPUT';
+import { TEXT_INPUT } from '@redhat-cloud-services/frontend-components-utilities';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { getStore } from '../../../store';
