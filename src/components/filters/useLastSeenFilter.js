@@ -4,6 +4,7 @@ import moment from 'moment';
 import { containsSpecialChars, oldestDate } from './helpers.js';
 export const lastSeenFilterState = { lastSeenFilter: [] };
 export const LAST_SEEN_FILTER = 'LAST_SEEN_FILTER';
+export const DEFAULT_DATE_LENGTH = 9;
 export const lastSeenFilterReducer = (_state, { type, payload }) => ({
     ...(type === LAST_SEEN_FILTER && {
         lastSeenFilter: payload
@@ -93,7 +94,10 @@ export const useLastSeenFilter = (
         const todaysDate = moment().endOf('day');
         const selectedFromDate = moment(date).startOf('day');
 
-        if (!containsSpecialChars(date) && selectedFromDate < todaysDate && date.length > 9 && selectedFromDate > oldestDate) {
+        if (!containsSpecialChars(date) &&
+         selectedFromDate < todaysDate &&
+          date.length > DEFAULT_DATE_LENGTH &&
+           selectedFromDate > oldestDate) {
             if (date > newToDate) {
                 setStartDate();
                 return 'End date must be later than Start date.';
@@ -108,7 +112,7 @@ export const useLastSeenFilter = (
     //This date comes from patternfly component. This manages the 2nd date picker
     const onToChange = (date) => {
 
-        if (!containsSpecialChars(date) && date.length > 9) {
+        if (!containsSpecialChars(date) && date.length > DEFAULT_DATE_LENGTH) {
             if (startDate > moment(date)) {
                 return 'Start date must be earlier than End date.';
             } else if (moment(date) > todaysDate) {
