@@ -323,7 +323,7 @@ describe('EntityTableToolbar', () => {
                 );
             });
 
-            it('should dispatch action on delete all filters', () => {
+            it.only('should dispatch action on delete all filters', () => {
                 const store = mockStore(stateWithActiveFilter);
                 const wrapper = mount(<Provider store={store}>
                     <EntityTableToolbar page={1} total={500} perPage={50} onRefreshData={onRefreshData} loaded />
@@ -332,6 +332,7 @@ describe('EntityTableToolbar', () => {
                 const actions = store.getActions();
                 expect(actions.length).toBe(4);
                 expect(actions[actions.length - 3]).toMatchObject({ type: 'CLEAR_FILTERS' });
+                expect(actions[4]).toMatchObject({ type: 'GROUPS_FOR_ENTITIES_PENDING' });
                 expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
             });
 

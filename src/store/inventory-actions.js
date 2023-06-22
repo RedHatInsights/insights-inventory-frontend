@@ -218,7 +218,7 @@ export const toggleDrawer = (isOpened) => ({
     payload: { isOpened }
 });
 
-export const fetchGroupsForEntities = () => ({
+export const fetchGroupsForEntities = (params) => ({
     type: ACTION_TYPES.GROUPS_FOR_ENTITIES,
-    payload: groupsApi.apiGroupGetGroupList(undefined, 50, undefined, 'name', 'ASC', undefined)
+    payload: groupsApi.apiGroupGetGroupList(params)
 });

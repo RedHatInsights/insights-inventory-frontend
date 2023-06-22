@@ -11,7 +11,7 @@ export { instance };
 export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
 export const tags = new TagsApi(undefined, INVENTORY_API_BASE, instance);
 export const systemProfile = new SystemProfileApi(undefined, INVENTORY_API_BASE, instance);
-export const groupsApi = new GroupsApi(undefined, `${INVENTORY_API_BASE}`, instance);
+export const groupsApi = new GroupsApi(undefined, INVENTORY_API_BASE, instance);
 export const getEntitySystemProfile = (item) => hosts.apiHostGetHostSystemProfileById([item]);
 
 /* eslint camelcase: off */

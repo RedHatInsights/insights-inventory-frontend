@@ -39,7 +39,7 @@ const useGroupFilter = (apiParams = []) => {
         }
     }, [groupsEnabled]);
     //fetched values
-    const fetchedValues = useSelector(({ entities })  => entities?.groups?.results);
+    const fetchedValues = useSelector(({ entities })  => entities?.groups);
     //selected are the groups we selected
     const [selected, setSelected] = useState([]);
     //buildHostGroupsValues build an array of objects to populate dropdown

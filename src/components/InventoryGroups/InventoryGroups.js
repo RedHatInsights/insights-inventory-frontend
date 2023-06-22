@@ -15,6 +15,7 @@ const InventoryGroups = () => {
     const [hasGroups, setHasGroups] = useState(false);
     const [hasError, setHasError] = useState(false);
 
+    // make initial request to check if there is at least one group available
     const initialRequestForGroups = async () => {
         try {
             const { total } = await getGroups();

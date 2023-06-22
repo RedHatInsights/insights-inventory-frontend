@@ -2389,12 +2389,7 @@
       "stale_warning_timestamp": "1958-08-14T23:00:00.0Z",
       "stale_timestamp": null,
       "mac_addresses": null,
-      "groups": {
-          "total": 37,
-          "count": 37,
-          "page": 1,
-          "per_page": 50,
-          "results": [
+      "groups": [
               {
                   "id": "b0342ab4-50eb-4eb6-bc29-f47b51bad418",
                   "org_id": "11789772",
@@ -2730,7 +2725,6 @@
               }
           ]
       }
-    }
   ],
   "total": 630
 }
