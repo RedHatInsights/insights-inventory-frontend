@@ -78,7 +78,7 @@
       "!src/entry-dev.js"
     ],
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!(@patternfly/react-core/|@patternfly/react-icons/|@redhat-cloud-services|@patternfly/react-table|@patternfly/react-tokens|p-all)).*$"
+      "<rootDir>/node_modules/(?!(@patternfly/react-core/|@patternfly/react-icons/|@redhat-cloud-services|@openshift|lodash-es|@patternfly/react-table|@patternfly/react-tokens|p-all)).*$"
     ],
     "setupFiles": [
       "<rootDir>/config/setupTests.js"
@@ -151,6 +151,7 @@
     "test": "TZ=UTC jest --verbose --no-cache",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint config src",
+    "lint:js:fix": "eslint config src --fix",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelint.json",
     "prod": "NODE_ENV=production webpack serve --config config/dev.webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
