@@ -3,7 +3,7 @@ import {
     PageHeader,
     PageHeaderTitle
 } from '@redhat-cloud-services/frontend-components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import GroupsTable from '../GroupsTable/GroupsTable';
@@ -15,22 +15,30 @@ const InventoryGroups = () => {
     const [hasGroups, setHasGroups] = useState(false);
     const [hasError, setHasError] = useState(false);
 
-    // make initial request to check if there is at least one group available
-    const initialRequestForGroups = async () => {
+    const ignore = useRef(false); // https://react.dev/learn/synchronizing-with-effects#fetching-data
+
+    const handleLoading = async () => {
+        // make initial request to check if there is at least one group available
         try {
             const { total } = await getGroups();
 
             if (total > 0) {
-                setHasGroups(true);
+                !ignore.current && setHasGroups(true);
             }
         } catch (error) {
-            setHasError(true);
+            !ignore.current && setHasError(true);
         }
 
-        setIsLoading(false);
+        !ignore.current && setIsLoading(false);
     };
 
-    useEffect(() => initialRequestForGroups(), []);
+    useEffect(() => {
+        handleLoading();
+
+        return () => {
+            ignore.current = true;
+        };
+    }, []);
 
     return (
         <React.Fragment>
@@ -47,7 +55,7 @@ const InventoryGroups = () => {
                 ) : hasGroups ? (
                     <GroupsTable />
                 ) : (
-                    <NoGroupsEmptyState />
+                    <NoGroupsEmptyState reloadData={handleLoading}/>
                 )}
             </section>
         </React.Fragment>
