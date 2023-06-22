@@ -5,7 +5,7 @@ import { Routes } from './Routes';
 import './App.scss';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications/';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
-import { RBACProvider } from '@redhat-cloud-services/frontend-components';
+import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 
 const App = () => {
   const history = useHistory();

@@ -31,7 +31,7 @@ import { Provider } from 'react-redux';
 import { getStore } from '../../src/store';
 import { MemoryRouter, Route, Switch } from 'react-router-dom';
 import { mount } from '@cypress/react';
-import { RBACProvider } from '@redhat-cloud-services/frontend-components';
+import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 
 Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
   const { path, routerProps = { initialEntries: ['/'] } } = options;
