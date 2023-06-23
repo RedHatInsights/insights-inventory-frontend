@@ -6,7 +6,7 @@ import xor from 'lodash/xor';
 import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { tagsFilterState, tagsFilterReducer, mapGroups } from '@redhat-cloud-services/frontend-components/FilterHooks';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
-import { fetchAllTags, clearFilters, toggleTagModal, setFilter } from '../../store/actions';
+import { fetchAllTags, clearFilters, toggleTagModal, setFilter, fetchGroupsForEntities } from '../../store/actions';
 import debounce from 'lodash/debounce';
 import {
     TagsModal,
@@ -166,6 +166,8 @@ const EntityTableToolbar = ({
             if (showTags && !hasItems) {
                 dispatch(fetchAllTags(filterTagsBy, {}, getTags));
             }
+
+            dispatch(fetchGroupsForEntities(undefined, 50, undefined, 'name', 'ASC', undefined));
         }
     }, [customFilters?.tags]);
 
