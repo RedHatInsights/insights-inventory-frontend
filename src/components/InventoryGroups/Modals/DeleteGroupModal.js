@@ -1,39 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import Modal from './Modal';
-import { deleteGroupsById } from '../utils/api';
+import { deleteGroupsById, getGroupsByIds } from '../utils/api';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import warningColor from '@patternfly/react-tokens/dist/esm/global_warning_color_100';
-import { Text } from '@patternfly/react-core';
+import dangerColor from '@patternfly/react-tokens/dist/esm/global_danger_color_100';
+import {
+    Backdrop,
+    Bullseye,
+    Button,
+    Modal as PfModal,
+    Spinner,
+    Text
+} from '@patternfly/react-core';
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
+import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
-const description = (name = '', groupsCount) => {
-    const isMultiple = name === '' && groupsCount;
-
-    return isMultiple ? (
-        <Text>
-            <strong>{groupsCount}</strong> groups and all their data will be
-            permanently deleted. Associated systems will be removed from the
-            groups but will not be deleted.
-        </Text>
-    ) : (
-        <Text>
-            <strong>{name}</strong> and all its data will be
-            permanently deleted. Associated systems will be removed from the
-            group but will not be deleted.
-        </Text>
-    );
-};
-
-const schema = (name, groupsCount) => ({
+const generateSchema = (groups) => ({
     fields: [
         {
             component: componentTypes.PLAIN_TEXT,
             name: 'warning-message',
-            label: description(name, groupsCount)
+            label: groups.length > 1 ? (
+                <Text>
+                    <strong>{groups.length}</strong> groups and all their data will be deleted.
+                </Text>
+            ) : (
+                <Text>
+                    <strong>{groups[0]?.name}</strong> and all its data will be deleted.
+                </Text>
+            )
         },
         {
             component: componentTypes.CHECKBOX,
@@ -44,52 +43,120 @@ const schema = (name, groupsCount) => ({
     ]
 });
 
-const defaultValueToBeRemoved = () => console.log('data reloaded');
+const generateContent = (groups = []) => ({
+    title: groups.length > 1 ? 'Delete groups?' : 'Delete group?',
+    titleIconVariant: () => (
+        <ExclamationTriangleIcon color={warningColor.value} />
+    ),
+    variant: 'danger',
+    submitLabel: 'Delete',
+    schema: generateSchema(groups)
+});
 
 const DeleteGroupModal = ({
     isModalOpen,
     setIsModalOpen,
-    reloadData = defaultValueToBeRemoved,
-    modalState
+    reloadData,
+    groupIds
 }) => {
-    const { id, name, ids } = modalState;
-    const isMultiple = (ids || []).length > 0;
     const dispatch = useDispatch();
+    const [fetchedGroups, setFetchedGroups] = useState(undefined);
+    const groupsAreEmpty = (fetchedGroups || []).every(({ host_count: hostCount }) => hostCount === 0);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // check that all groups are empty before deletion
+        let ignore = false;
+
+        const verifyGroupsAreEmpty = async () => {
+            const fetchedGroups = await getGroupsByIds(groupIds);
+
+            if (!ignore) {
+                setFetchedGroups(fetchedGroups.results);
+                setIsLoading(false);
+            }
+
+            // TODO: treat the error case
+        };
+
+        verifyGroupsAreEmpty();
+
+        return () => {
+            ignore = true;
+        };
+    }, []);
 
     const handleDeleteGroup = () => {
         const statusMessages = {
             onSuccess: {
                 title: 'Success',
-                description: `${name} has been removed successfully`
+                description:
+          groupIds.length > 1
+              ? `${groupIds.length} groups deleted`
+              : `${fetchedGroups?.[0]?.name} has been removed successfully`
             },
-            onError: { title: 'Error', description: 'Failed to delete group' }
+            onError: {
+                title: 'Error',
+                description:
+                groupIds.length > 1
+                    ? `Failed to delete ${groupIds.length} groups`
+                    : `Failed to delete group ${fetchedGroups?.[0]?.name}`
+            }
         };
-        apiWithToast(dispatch, () => deleteGroupsById(isMultiple ? ids : [id]), statusMessages);
+        apiWithToast(dispatch, () => deleteGroupsById(groupIds), statusMessages);
     };
 
-    return (
+    return isLoading ? (
+        <Backdrop>
+            <Bullseye>
+                <Spinner aria-label="Loading the modal spinner" aria-valueText="Loading..." />
+            </Bullseye>
+        </Backdrop>
+    ) : !groupsAreEmpty ? ( // groups must have no systems to be deleted
+        <PfModal
+            variant="small"
+            title={
+                fetchedGroups.length > 1
+                    ? 'Cannot delete groups at this time'
+                    : 'Cannot delete group at this time'
+            }
+            titleIconVariant={() => <ExclamationCircleIcon color={dangerColor.value} />}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            actions={[
+                <Button
+                    key="close"
+                    variant="primary"
+                    onClick={() => setIsModalOpen(false)}
+                >Close</Button>
+            ]}
+        >
+            {fetchedGroups.length > 1 ? (
+                <Text>
+                    Groups containing systems cannot be deleted. To delete groups, first
+                    remove all of the systems from them.
+                </Text>
+            ) : (
+                <Text>
+                    Groups containing systems cannot be deleted. To delete{' '}
+                    <strong>{fetchedGroups[0].name}</strong>, first remove all of the
+                    systems from it.
+                </Text>
+            )}
+        </PfModal>
+    ) : (
         <Modal
             isModalOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
-            title={isMultiple ? 'Delete groups?' : 'Delete group?'}
-            titleIconVariant={() => (
-                <ExclamationTriangleIcon color={warningColor.value} />
-            )}
-            variant="danger"
-            submitLabel="Delete"
-            schema={schema(name, (ids || []).length)}
             onSubmit={handleDeleteGroup}
             reloadData={reloadData}
+            {...generateContent(fetchedGroups)}
         />
     );
 };
 
 DeleteGroupModal.propTypes = {
-    modalState: PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        ids: PropTypes.array
-    }),
+    groupIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     isModalOpen: PropTypes.bool,
     setIsModalOpen: PropTypes.func,
     reloadData: PropTypes.func

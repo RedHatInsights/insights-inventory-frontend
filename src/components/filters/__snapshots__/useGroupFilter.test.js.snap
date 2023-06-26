@@ -4,20 +4,7 @@ exports[`useGroupFilter with groups loaded should match snapshot 1`] = `
 Array [
   Object {
     "filterValues": Object {
-      "items": Array [
-        Object {
-          "label": "nisi ut consequat ad",
-          "value": "nisi ut consequat ad",
-        },
-        Object {
-          "label": "nisi ut consequat ad1",
-          "value": "nisi ut consequat ad1",
-        },
-        Object {
-          "label": "nisi ut consequat ad2",
-          "value": "nisi ut consequat ad2",
-        },
-      ],
+      "items": Array [],
       "onChange": [Function],
       "value": Array [],
     },

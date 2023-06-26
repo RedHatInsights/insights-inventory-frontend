@@ -18,7 +18,8 @@ import {
     getAllTags as defaultGetAllTags,
     getTags,
     filtersReducer,
-    getOperatingSystems
+    getOperatingSystems,
+    groupsApi
 } from '../api';
 import { getGroupDetail, getGroups } from '../components/InventoryGroups/utils/api';
 
@@ -215,4 +216,9 @@ export const configChanged = (config) => ({
 export const toggleDrawer = (isOpened) => ({
     type: TOGGLE_DRAWER,
     payload: { isOpened }
+});
+
+export const fetchGroupsForEntities = (params) => ({
+    type: ACTION_TYPES.GROUPS_FOR_ENTITIES,
+    payload: groupsApi.apiGroupGetGroupList(params)
 });
