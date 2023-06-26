@@ -85,6 +85,7 @@ const GroupDetailHeader = ({ groupId }) => {
                                 onToggle={(isOpen) => setDropdownOpen(isOpen)}
                                 toggleVariant="secondary"
                                 isDisabled={uninitialized || loading}
+                                ouiaId='group-actions-dropdown-toggle'
                             >
                                 Group actions
                             </DropdownToggle>

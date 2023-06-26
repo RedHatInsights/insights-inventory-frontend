@@ -7,86 +7,51 @@ import { deleteGroupsById, getGroupsByIds } from '../utils/api';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import warningColor from '@patternfly/react-tokens/dist/esm/global_warning_color_100';
 import dangerColor from '@patternfly/react-tokens/dist/esm/global_danger_color_100';
-import { Backdrop, Bullseye, Spinner, Text } from '@patternfly/react-core';
+import {
+    Backdrop,
+    Bullseye,
+    Button,
+    Modal as PfModal,
+    Spinner,
+    Text
+} from '@patternfly/react-core';
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
-const generateTitle = (groups, groupsAreEmpty) => {
-    if (groupsAreEmpty) {
-        return groups.length > 1 ? 'Delete groups?' : 'Delete group?';
-    }
-
-    return groups.length > 1
-        ? 'Cannot delete groups at this time'
-        : 'Cannot delete group at this time';
-};
-
-const generateIcon = (groupsAreEmpty) =>
-    groupsAreEmpty ? (
-        <ExclamationTriangleIcon color={warningColor.value} />
-    ) : (
-        <ExclamationCircleIcon color={dangerColor.value} />
-    );
-
-const generateSchema = (groups, groupsAreEmpty) =>
-    groupsAreEmpty
-        ? {
-            fields: [
-                {
-                    component: componentTypes.PLAIN_TEXT,
-                    name: 'warning-message',
-                    label:
-                    groups.length > 1 ? (
-                        <Text>
-                            <strong>{groups.length}</strong> groups and all their data will
-                  be deleted.
-                        </Text>
-                    ) : (
-                        <Text>
-                            <strong>{groups[0]?.name}</strong> and all its data will be deleted.
-                        </Text>
-                    )
-                },
-                {
-                    component: componentTypes.CHECKBOX,
-                    name: 'confirmation',
-                    label: 'I understand that this action cannot be undone.',
-                    validate: [{ type: validatorTypes.REQUIRED }]
-                }
-            ]
-        } : {
-            fields: [
-                {
-                    component: componentTypes.PLAIN_TEXT,
-                    name: 'danger-message',
-                    label:
-          groups.length > 1 ? (
-              <Text>
-              Groups containing systems cannot be deleted. To delete groups,
-              first remove all of the systems from them.
-              </Text>
-          ) : (
-              <Text>
-              Groups containing systems cannot be deleted. To delete{' '}
-                  <strong>{groups[0].name}</strong>, first remove all of the systems
-              from it.
-              </Text>
-          )
-                }
-            ]
+const generateSchema = (groups) => ({
+    fields: [
+        {
+            component: componentTypes.PLAIN_TEXT,
+            name: 'warning-message',
+            label: groups.length > 1 ? (
+                <Text>
+                    <strong>{groups.length}</strong> groups and all their data will be deleted.
+                </Text>
+            ) : (
+                <Text>
+                    <strong>{groups[0]?.name}</strong> and all its data will be deleted.
+                </Text>
+            )
+        },
+        {
+            component: componentTypes.CHECKBOX,
+            name: 'confirmation',
+            label: 'I understand that this action cannot be undone.',
+            validate: [{ type: validatorTypes.REQUIRED }]
         }
-     ;
+    ]
+});
 
-const generateContent = (groups = [], groupsAreEmpty) => {
-    return {
-        title: generateTitle(groups, groupsAreEmpty),
-        titleIconVariant: () => generateIcon(groupsAreEmpty),
-        variant: groupsAreEmpty ? 'danger' : 'primary',
-        submitLabel: groupsAreEmpty ? 'Delete' : 'Close',
-        schema: generateSchema(groups, groupsAreEmpty)
-    };
-};
+const generateContent = (groups = []) => ({
+    title: groups.length > 1 ? 'Delete groups?' : 'Delete group?',
+    titleIconVariant: () => (
+        <ExclamationTriangleIcon color={warningColor.value} />
+    ),
+    variant: 'danger',
+    submitLabel: 'Delete',
+    schema: generateSchema(groups)
+});
 
 const DeleteGroupModal = ({
     isModalOpen,
@@ -99,7 +64,6 @@ const DeleteGroupModal = ({
     const groupsAreEmpty = (fetchedGroups || []).every(({ host_count: hostCount }) => hostCount === 0);
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log('###', groupIds);
     useEffect(() => {
         // check that all groups are empty before deletion
         let ignore = false;
@@ -142,18 +106,51 @@ const DeleteGroupModal = ({
         apiWithToast(dispatch, () => deleteGroupsById(groupIds), statusMessages);
     };
 
-    return (isLoading ?
+    return isLoading ? (
         <Backdrop>
             <Bullseye>
                 <Spinner aria-label="Loading the modal spinner" aria-valueText="Loading..." />
             </Bullseye>
         </Backdrop>
-        : <Modal
+    ) : !groupsAreEmpty ? ( // groups must have no systems to be deleted
+        <PfModal
+            variant="small"
+            title={
+                fetchedGroups.length > 1
+                    ? 'Cannot delete groups at this time'
+                    : 'Cannot delete group at this time'
+            }
+            titleIconVariant={() => <ExclamationCircleIcon color={dangerColor.value} />}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            actions={[
+                <Button
+                    key="close"
+                    variant="primary"
+                    onClick={() => setIsModalOpen(false)}
+                >Close</Button>
+            ]}
+        >
+            {fetchedGroups.length > 1 ? (
+                <Text>
+                    Groups containing systems cannot be deleted. To delete groups, first
+                    remove all of the systems from them.
+                </Text>
+            ) : (
+                <Text>
+                    Groups containing systems cannot be deleted. To delete{' '}
+                    <strong>{fetchedGroups[0].name}</strong>, first remove all of the
+                    systems from it.
+                </Text>
+            )}
+        </PfModal>
+    ) : (
+        <Modal
             isModalOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
-            onSubmit={groupsAreEmpty ? handleDeleteGroup : () => setIsModalOpen(false)}
+            onSubmit={handleDeleteGroup}
             reloadData={reloadData}
-            {...generateContent(fetchedGroups, groupsAreEmpty)}
+            {...generateContent(fetchedGroups)}
         />
     );
 };
