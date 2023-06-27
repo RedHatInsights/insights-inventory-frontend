@@ -39,6 +39,7 @@ import {
 } from '../../Utilities/URLSearchParams';
 import { useLocation } from 'react-router-dom';
 import isNil from 'lodash/isNil';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 const GROUPS_TABLE_INITIAL_STATE = {
   perPage: TABLE_DEFAULT_PAGINATION,
@@ -96,6 +97,8 @@ const groupsTableFiltersConfig = {
   },
 };
 
+const REQUIRED_PERMISSIONS_MODIFY = ['inventory:groups:write'];
+
 const GroupsTable = () => {
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, data } = useSelector(
@@ -114,6 +117,11 @@ const GroupsTable = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const groups = useMemo(() => data?.results || [], [data]);
   const { fetchBatched } = useFetchBatched();
+  const loadingState = uninitialized || loading;
+
+  const { hasAccess: canModify } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_MODIFY
+  );
 
   const fetchData = useCallback(
     debounce((filters) => {
@@ -346,78 +354,83 @@ const GroupsTable = () => {
         }}
         filterConfig={{ items: filterConfigItems }}
         activeFiltersConfig={activeFiltersConfig}
-        bulkSelect={{
-          items: [
-            {
-              title: 'Select none',
-              onClick: () => setSelectedIds([]),
-              props: { isDisabled: noneSelected },
-            },
-            {
-              title: `${pageSelected ? 'Deselect' : 'Select'} page (${
-                data?.count || 0
-              } items)`,
-              onClick: () => {
-                if (pageSelected) {
-                  // exclude groups on the page from the selected ids
-                  const newRows = difference(selectedIds, displayedIds);
-                  setSelectedIds(newRows);
-                } else {
-                  setSelectedIds(union(selectedIds, displayedIds));
-                }
+        {...(canModify
+          ? {
+              bulkSelect: {
+                items: [
+                  {
+                    title: 'Select none',
+                    onClick: () => setSelectedIds([]),
+                    props: { isDisabled: noneSelected },
+                  },
+                  {
+                    title: `${pageSelected ? 'Deselect' : 'Select'} page (${
+                      data?.count || 0
+                    } items)`,
+                    onClick: () => {
+                      if (pageSelected) {
+                        // exclude groups on the page from the selected ids
+                        const newRows = difference(selectedIds, displayedIds);
+                        setSelectedIds(newRows);
+                      } else {
+                        setSelectedIds(union(selectedIds, displayedIds));
+                      }
+                    },
+                  },
+                  {
+                    title: `${allSelected ? 'Deselect' : 'Select'} all (${
+                      data?.total || 0
+                    } items)`,
+                    onClick: async () => {
+                      if (allSelected) {
+                        setSelectedIds([]);
+                      } else {
+                        await selectAllIds();
+                      }
+                    },
+                  },
+                ],
+                checked: selectedIds.length > 0, // TODO: support partial selection (dash sign) in FEC BulkSelect
+                onSelect: async (checked) => {
+                  if (checked) {
+                    await selectAllIds();
+                  } else {
+                    setSelectedIds([]);
+                  }
+                },
+                ouiaId: 'groups-selector',
+                count: selectedIds.length,
               },
-            },
-            {
-              title: `${allSelected ? 'Deselect' : 'Select'} all (${
-                data?.total || 0
-              } items)`,
-              onClick: async () => {
-                if (allSelected) {
-                  setSelectedIds([]);
-                } else {
-                  await selectAllIds();
-                }
+              actionsConfig: {
+                actions: [
+                  {
+                    label: 'Create group',
+                    onClick: () => setCreateModalOpen(true),
+                  },
+                  {
+                    label: 'Rename group',
+                    onClick: () => setRenameModalOpen(true),
+                    props: {
+                      isDisabled: selectedIds.length !== 1,
+                    },
+                  },
+                  {
+                    label:
+                      selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
+                    onClick: () => setDeleteModalOpen(true),
+                    props: {
+                      isDisabled: selectedIds.length === 0,
+                    },
+                  },
+                ],
               },
-            },
-          ],
-          checked: selectedIds.length > 0, // TODO: support partial selection (dash sign) in FEC BulkSelect
-          onSelect: async (checked) => {
-            if (checked) {
-              await selectAllIds();
-            } else {
-              setSelectedIds([]);
             }
-          },
-          ouiaId: 'groups-selector',
-          count: selectedIds.length,
-        }}
-        actionsConfig={{
-          actions: [
-            {
-              label: 'Create group',
-              onClick: () => setCreateModalOpen(true),
-            },
-            {
-              label: 'Rename group',
-              onClick: () => setRenameModalOpen(true),
-              props: {
-                isDisabled: selectedIds.length !== 1,
-              },
-            },
-            {
-              label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
-              onClick: () => setDeleteModalOpen(true),
-              props: {
-                isDisabled: selectedIds.length === 0,
-              },
-            },
-          ],
-        }}
+          : {})}
       />
       <Table
         aria-label="Groups table"
         ouiaId="groups-table"
-        /* ouiaSafe={!loadingState}> */
+        ouiaSafe={!loadingState}
         variant={TableVariant.compact}
         cells={GROUPS_TABLE_COLUMNS}
         rows={tableRows}
@@ -427,30 +440,34 @@ const GroupsTable = () => {
         }}
         onSort={onSort}
         isStickyHeader
-        onSelect={onSelect}
+        {...(canModify
+          ? {
+              onSelect,
+              actions: [
+                {
+                  title: 'Rename group',
+                  onClick: (event, rowIndex, { groupId, groupName }) => {
+                    setSelectedGroup({
+                      id: groupId,
+                      name: groupName,
+                    });
+                    setRenameModalOpen(true);
+                  },
+                },
+                {
+                  title: 'Delete group',
+                  onClick: (event, rowIndex, { groupId, groupName }) => {
+                    setSelectedGroup({
+                      id: groupId,
+                      name: groupName,
+                    });
+                    setDeleteModalOpen(true);
+                  },
+                },
+              ],
+            }
+          : {})}
         canSelectAll={false}
-        actions={[
-          {
-            title: 'Rename group',
-            onClick: (event, rowIndex, { groupId, groupName }) => {
-              setSelectedGroup({
-                id: groupId,
-                name: groupName,
-              });
-              setRenameModalOpen(true);
-            },
-          },
-          {
-            title: 'Delete group',
-            onClick: (event, rowIndex, { groupId, groupName }) => {
-              setSelectedGroup({
-                id: groupId,
-                name: groupName,
-              });
-              setDeleteModalOpen(true);
-            },
-          },
-        ]}
       >
         <TableHeader />
         <TableBody />

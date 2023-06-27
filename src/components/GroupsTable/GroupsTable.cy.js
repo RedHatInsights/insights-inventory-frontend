@@ -430,3 +430,30 @@ describe('edge cases', () => {
     });
   });
 });
+
+describe('integration with rbac', () => {
+  before(() => {
+    cy.mockWindowChrome(['inventory:groups:read']);
+  });
+
+  beforeEach(() => {
+    interceptors['successful with some items'](); // comment out if the mock server is running
+    mountTable();
+
+    cy.get('table[aria-label="Groups table"]').should(
+      'have.attr',
+      'data-ouia-safe',
+      'true'
+    );
+  });
+
+  it('disables selection', () => {
+    cy.ouiaId('groups-selector').should('not.exist');
+    cy.get(`${ROW} .pf-c-table__check`).should('not.exist');
+  });
+
+  it('disables actions', () => {
+    cy.ouiaId('Actions').should('not.exist');
+    cy.get(ROW).find(`${DROPDOWN} button`).should('not.exist');
+  });
+});
