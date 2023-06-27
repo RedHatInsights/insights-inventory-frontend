@@ -168,14 +168,17 @@ class GeneralInformation extends Component {
                     />
                   </GridItem>
                 )}
-                 {this.props.showImageDetails && (
-                    <GridItem>
-                      <AsyncComponent
-                        appName="edge"
-                        module="./ImagesInformationCard"
-                        deviceIdProps={(this.props.inventoryId || this.props.entity.id)}
-                      />
-                    </GridItem>
+
+                {this.props.showImageDetails && (
+                  <GridItem>
+                    <AsyncComponent
+                      appName="edge"
+                      module="./ImagesInformationCard"
+                      deviceIdProps={
+                        this.props.inventoryId || this.props.entity.id
+                      }
+                    />
+                  </GridItem>
                 )}
               </Grid>
             </GridItem>
@@ -245,6 +248,7 @@ GeneralInformation.propTypes = {
   location: PropTypes.any,
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
+  showImageDetails: PropTypes.bool,
 };
 GeneralInformation.defaultProps = {
   entity: {},
@@ -257,6 +261,7 @@ GeneralInformation.defaultProps = {
   DataCollectorsCardWrapper: DataCollectorsCard,
   CollectionCardWrapper: false,
   systemProfilePrefetched: false,
+  showImageDetails: false,
 };
 
 const mapStateToProps = ({ entityDetails: { entity } }) => ({
