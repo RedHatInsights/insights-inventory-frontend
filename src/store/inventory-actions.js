@@ -253,8 +253,3 @@ export const fetchGroupsForEntities = (params) => ({
   type: ACTION_TYPES.GROUPS_FOR_ENTITIES,
   payload: groupsApi.apiGroupGetGroupList(params),
 });
-
-export const fetchGroupsForEntities = (params) => ({
-    type: ACTION_TYPES.GROUPS_FOR_ENTITIES,
-    payload: groupsApi.apiGroupGetGroupList(params)
-});
