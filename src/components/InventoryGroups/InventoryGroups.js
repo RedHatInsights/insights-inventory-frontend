@@ -1,9 +1,4 @@
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
-import {
-  PageHeader,
-  PageHeaderTitle,
-} from '@redhat-cloud-services/frontend-components/PageHeader';
-
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Bullseye, Spinner } from '@patternfly/react-core';
@@ -42,24 +37,22 @@ const InventoryGroups = () => {
   }, []);
 
   return (
-    <React.Fragment>
-      <PageHeader>
-        <PageHeaderTitle title="Groups" />
-      </PageHeader>
-      <section className="pf-l-page__main-section pf-c-page__main-section">
-        {hasError ? (
-          <ErrorState />
-        ) : isLoading ? (
-          <Bullseye>
-            <Spinner />
-          </Bullseye>
-        ) : hasGroups ? (
-          <GroupsTable />
-        ) : (
-          <NoGroupsEmptyState reloadData={handleLoading} />
-        )}
-      </section>
-    </React.Fragment>
+    <section
+      className="pf-l-page__main-section pf-c-page__main-section"
+      data-ouia-component-id="groups-table-wrapper"
+    >
+      {hasError ? (
+        <ErrorState />
+      ) : isLoading ? (
+        <Bullseye>
+          <Spinner />
+        </Bullseye>
+      ) : hasGroups ? (
+        <GroupsTable />
+      ) : (
+        <NoGroupsEmptyState reloadData={handleLoading} />
+      )}
+    </section>
   );
 };
 
