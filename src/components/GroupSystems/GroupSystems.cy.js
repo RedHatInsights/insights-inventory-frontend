@@ -91,7 +91,7 @@ describe('renders correctly', () => {
     waitForTable();
   });
 
-  it.only('the root container is rendered', () => {
+  it('the root container is rendered', () => {
     cy.get(ROOT);
   });
 
