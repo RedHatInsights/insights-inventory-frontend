@@ -39,7 +39,9 @@ exports[`EntityTable DOM should render correctly 1`] = `
         <StackItem>
            will be removed from all 
           localhost:5000
-           applications and services. You need to re-register the 
+           
+          applications and services. You need to re-register the
+           
           system
            to add it back to your inventory.
         </StackItem>
@@ -136,7 +138,9 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 1
           something
            will be removed from all 
           localhost:5000
-           applications and services. You need to re-register the 
+           
+          applications and services. You need to re-register the
+           
           system
            to add it back to your inventory.
         </StackItem>
@@ -233,7 +237,9 @@ exports[`EntityTable DOM should render correctly with multiple systems - count 2
           2 systems
            will be removed from all 
           localhost:5000
-           applications and services. You need to re-register the 
+           
+          applications and services. You need to re-register the
+           
           systems
            to add it back to your inventory.
         </StackItem>
@@ -330,7 +336,9 @@ exports[`EntityTable DOM should render correctly with one system 1`] = `
           something
            will be removed from all 
           localhost:5000
-           applications and services. You need to re-register the 
+           
+          applications and services. You need to re-register the
+           
           system
            to add it back to your inventory.
         </StackItem>
@@ -427,7 +435,9 @@ exports[`EntityTable DOM should render correctly with one system 2`] = `
           something
            will be removed from all 
           localhost:5000
-           applications and services. You need to re-register the 
+           
+          applications and services. You need to re-register the
+           
           system
            to add it back to your inventory.
         </StackItem>

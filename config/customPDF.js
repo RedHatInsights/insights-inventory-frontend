@@ -1,9 +1,7 @@
-/* global module */
-
 module.exports = {
-    Text: () => '',
-    View: () => '',
-    StyleSheet: {
-        create: () => ''
-    }
+  Text: () => '',
+  View: () => '',
+  StyleSheet: {
+    create: () => '',
+  },
 };

@@ -6,52 +6,53 @@ import { groupsInterceptors as interceptors } from '../../../cypress/support/int
 import { getStore } from '../../store';
 import InventoryGroups from './InventoryGroups';
 
-const mountPage = () =>  mount(
+const mountPage = () =>
+  mount(
     <Provider store={getStore()}>
-        <MemoryRouter>
-            <InventoryGroups />
-        </MemoryRouter>
+      <MemoryRouter>
+        <InventoryGroups />
+      </MemoryRouter>
     </Provider>
-);
+  );
 
 before(() => {
-    cy.mockWindowChrome();
+  cy.mockWindowChrome();
 });
 
 describe('groups table page', () => {
-    it('renders table if there is at least one group', () => {
-        interceptors['successful with some items']();
-        mountPage();
-        cy.wait('@getGroups');
+  it('renders table if there is at least one group', () => {
+    interceptors['successful with some items']();
+    mountPage();
+    cy.wait('@getGroups');
 
-        cy.get('h1').contains('Groups');
-        cy.get('#groups-table');
-    });
+    cy.get('h1').contains('Groups');
+    cy.get('#groups-table');
+  });
 
-    it('renders only empty state when there are no groups', () => {
-        interceptors['successful empty']();
-        mountPage();
-        cy.wait('@getGroups');
+  it('renders only empty state when there are no groups', () => {
+    interceptors['successful empty']();
+    mountPage();
+    cy.wait('@getGroups');
 
-        cy.get('h1').contains('Groups');
-        cy.get('#groups-table').should('not.exist');
-        cy.get('.pf-c-empty-state').find('h4').contains('Create a system group');
-    });
+    cy.get('h1').contains('Groups');
+    cy.get('#groups-table').should('not.exist');
+    cy.get('.pf-c-empty-state').find('h4').contains('Create a system group');
+  });
 
-    it('renders error message when request fails', () => {
-        interceptors['failed with server error']();
-        mountPage();
-        cy.wait('@getGroups');
+  it('renders error message when request fails', () => {
+    interceptors['failed with server error']();
+    mountPage();
+    cy.wait('@getGroups');
 
-        cy.get('h1').contains('Groups');
-        cy.get('#groups-table').should('not.exist');
-        cy.get('.pf-c-empty-state').find('h4').contains('Something went wrong');
-    });
+    cy.get('h1').contains('Groups');
+    cy.get('#groups-table').should('not.exist');
+    cy.get('.pf-c-empty-state').find('h4').contains('Something went wrong');
+  });
 
-    it('renders spinner when loading', () => {
-        interceptors['long responding']();
-        mountPage();
+  it('renders spinner when loading', () => {
+    interceptors['long responding']();
+    mountPage();
 
-        cy.get('[role=progressbar]').should('have.class', 'pf-c-spinner pf-m-xl');
-    });
+    cy.get('[role=progressbar]').should('have.class', 'pf-c-spinner pf-m-xl');
+  });
 });

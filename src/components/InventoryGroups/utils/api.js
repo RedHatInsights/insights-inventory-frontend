@@ -4,65 +4,73 @@ import { INVENTORY_API_BASE } from '../../../api';
 import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
 import PropTypes from 'prop-types';
 
-export const getGroups = (search = {}, pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }) => {
-    const parameters = new URLSearchParams({
-        ...search,
-        ...pagination
-    }).toString();
+export const getGroups = (
+  search = {},
+  pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }
+) => {
+  const parameters = new URLSearchParams({
+    ...search,
+    ...pagination,
+  }).toString();
 
-    return instance.get(`${INVENTORY_API_BASE}/groups?${parameters}` /* , { headers: { Prefer: 'code=404' } } */);
+  return instance.get(
+    `${INVENTORY_API_BASE}/groups?${parameters}` /* , { headers: { Prefer: 'code=404' } } */
+  );
 };
 
 export const getGroupsByIds = (groupIds, search = {}) => {
-    const parameters = new URLSearchParams(search).toString();
-    const path = `${INVENTORY_API_BASE}/groups/${groupIds.join(',')}${
-        parameters !== '' ? '?' + parameters : ''
-    }`;
+  const parameters = new URLSearchParams(search).toString();
+  const path = `${INVENTORY_API_BASE}/groups/${groupIds.join(',')}${
+    parameters !== '' ? '?' + parameters : ''
+  }`;
 
-    return instance.get(path);
+  return instance.get(path);
 };
 
 export const createGroup = (payload) => {
-    return instance.post(`${INVENTORY_API_BASE}/groups`, {
-        name: payload.name
-    });
+  return instance.post(`${INVENTORY_API_BASE}/groups`, {
+    name: payload.name,
+  });
 };
 
 export const validateGroupName = (name) => {
-    return instance.get(`${INVENTORY_API_BASE}/groups`)
+  return instance
+    .get(`${INVENTORY_API_BASE}/groups`)
     .then((resp) => resp?.results.some((group) => group.name === name));
 };
 
 export const getGroupDetail = (groupId) => {
-    return instance.get(`${INVENTORY_API_BASE}/groups/${groupId}`);
+  return instance.get(`${INVENTORY_API_BASE}/groups/${groupId}`);
 };
 
 export const updateGroupById = (id, payload) => {
-    return instance.patch(`${INVENTORY_API_BASE}/groups/${id}`, payload);
+  return instance.patch(`${INVENTORY_API_BASE}/groups/${id}`, payload);
 };
 
 export const deleteGroupsById = (ids = []) => {
-    return instance.delete(`${INVENTORY_API_BASE}/groups/${ids.join(',')}`);
+  return instance.delete(`${INVENTORY_API_BASE}/groups/${ids.join(',')}`);
 };
 
 export const addHostsToGroupById = (id, hostIds) => {
-    return instance.post(`${INVENTORY_API_BASE}/groups/${id}/hosts`, hostIds);
+  return instance.post(`${INVENTORY_API_BASE}/groups/${id}/hosts`, hostIds);
 };
 
 export const removeHostsFromGroup = (groupId, hostIds) => {
-    return instance.delete(`${INVENTORY_API_BASE}/groups/${groupId}/hosts/${hostIds.join(',')}`);
+  return instance.delete(
+    `${INVENTORY_API_BASE}/groups/${groupId}/hosts/${hostIds.join(',')}`
+  );
 };
 
 getGroups.propTypes = {
-    search: PropTypes.shape({
-        name: PropTypes.string
-    }),
-    pagination: PropTypes.shape({
-        per_page: PropTypes.number,
-        page: PropTypes.number
-    })
+  search: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  pagination: PropTypes.shape({
+    per_page: PropTypes.number,
+    page: PropTypes.number,
+  }),
 };
 
 getGroupDetail.propTypes = {
-    groupId: PropTypes.string.isRequired
+  groupId: PropTypes.string.isRequired,
 };

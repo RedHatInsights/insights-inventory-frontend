@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 const RegistryContext = createContext({
-    getRegistry: () => { }
+  getRegistry: () => {},
 });
 
 export default RegistryContext;
