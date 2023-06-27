@@ -16,6 +16,10 @@ export const HOST_GROUP_CHIP = 'group_name'; // use the same naming as for the b
 export const REPORTER_PUPTOO = 'puptoo';
 export const REPORTER_RHSM_CONDUIT = 'rhsm-conduit';
 export const REPORTER_RHSM_PROFILE_BRIDGE = 'rhsm-system-profile-bridge';
+//APP NAMES
+export const APP_NAME_VULNERABILITY = 'vulnerabilities';
+export const APP_NAME_ADVISOR = 'advisor';
+export const APP_NAME_PATCH = 'patch';
 
 export function subtractDate(days) {
   const date = new Date();
