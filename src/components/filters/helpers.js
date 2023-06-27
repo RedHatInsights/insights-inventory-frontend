@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const oldestDate = new Date(1950, 1, 1);
+export const oldestDate = new Date(1970, 1, 1);
 //validators control what date ranges can be selected in the component.
 //both validators need to keep in mind todays date, and the other components inputed date.
 

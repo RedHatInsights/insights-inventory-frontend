@@ -521,9 +521,12 @@ describe('EntityTableToolbar', () => {
           .last()
           .simulate('click');
         const actions = store.getActions();
-        expect(actions.length).toBe(3);
-        expect(actions[actions.length - 2]).toMatchObject({
+        expect(actions.length).toBe(4);
+        expect(actions[actions.length - 3]).toMatchObject({
           type: 'CLEAR_FILTERS',
+        });
+        expect(actions[3]).toMatchObject({
+          type: 'GROUPS_FOR_ENTITIES_PENDING',
         });
         expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
       });

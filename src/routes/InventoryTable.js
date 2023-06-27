@@ -2,16 +2,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import './inventory.scss';
 import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
-
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import * as actions from '../store/actions';
-import { Grid, GridItem } from '@patternfly/react-core';
+import {
+  Grid,
+  GridItem,
+  Tab,
+  TabTitleText,
+  Tabs,
+} from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../Utilities/DeleteModal';
 import { TextInputModal } from '../components/SystemDetails/GeneralInfo';
@@ -27,6 +32,7 @@ import { InventoryTable as InventoryTableCmp } from '../components/InventoryTabl
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
@@ -121,6 +127,8 @@ const Inventory = ({
       lastSeenFilter
     )
   );
+  const [activeTabKey, setActiveTabkey] = useState(0);
+  const handleTabClick = (_event, tabIndex) => setActiveTabkey(tabIndex);
   const [ediOpen, onEditOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
@@ -157,6 +165,8 @@ const Inventory = ({
       callback(options);
     }
   };
+
+  const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
 
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
@@ -270,80 +280,111 @@ const Inventory = ({
     ];
   };
 
+  const traditionalDevices = (
+    <Grid gutter="md">
+      <GridItem span={12}>
+        <InventoryTableCmp
+          hasAccess={hasAccess}
+          isRbacEnabled
+          customFilters={{ filters, globalFilter }}
+          isFullView
+          showTags
+          onRefresh={onRefresh}
+          hasCheckbox={writePermissions}
+          autoRefresh
+          ignoreRefresh
+          initialLoading={initialLoading}
+          ref={inventory}
+          tableProps={
+            writePermissions && {
+              actionResolver: (row) => tableActions(groupsEnabled, row),
+              canSelectAll: false,
+            }
+          }
+          {...(writePermissions && {
+            actionsConfig: {
+              actions: [
+                {
+                  label: 'Delete',
+                  props: {
+                    isDisabled: calculateSelected() === 0,
+                    variant: 'secondary',
+                    onClick: () => {
+                      setCurrentSystem(Array.from(selected.values()));
+                      handleModalToggle(true);
+                    },
+                  },
+                },
+                ...(groupsEnabled
+                  ? [
+                      {
+                        label: 'Add to group',
+                        props: {
+                          isDisabled: !isBulkAddHostsToGroupsEnabled(),
+                        },
+                        onClick: () => {
+                          setCurrentSystem(Array.from(selected.values()));
+                          setAddHostGroupModalOpen(true);
+                        },
+                      },
+                      {
+                        label: 'Remove from group',
+                        props: {
+                          isDisabled: !isBulkRemoveFromGroupsEnabled(),
+                        },
+                        onClick: () => {
+                          setCurrentSystem(Array.from(selected.values()));
+                          setRemoveHostsFromGroupModalOpen(true);
+                        },
+                      },
+                    ]
+                  : []),
+              ],
+            },
+            bulkSelect: bulkSelectConfig,
+          })}
+          onRowClick={(_e, id, app) =>
+            history.push(`/${id}${app ? `/${app}` : ''}`)
+          }
+        />
+      </GridItem>
+    </Grid>
+  );
+
   return (
     <React.Fragment>
       <PageHeader className="pf-m-light">
         <PageHeaderTitle title="Systems" />
       </PageHeader>
       <Main>
-        <Grid gutter="md">
-          <GridItem span={12}>
-            <InventoryTableCmp
-              hasAccess={hasAccess}
-              isRbacEnabled
-              customFilters={{ filters, globalFilter }}
-              isFullView
-              showTags
-              onRefresh={onRefresh}
-              hasCheckbox={writePermissions}
-              autoRefresh
-              ignoreRefresh
-              initialLoading={initialLoading}
-              ref={inventory}
-              tableProps={
-                writePermissions && {
-                  actionResolver: (row) => tableActions(groupsEnabled, row),
-                  canSelectAll: false,
-                }
-              }
-              {...(writePermissions && {
-                actionsConfig: {
-                  actions: [
-                    {
-                      label: 'Delete',
-                      props: {
-                        isDisabled: calculateSelected() === 0,
-                        variant: 'secondary',
-                        onClick: () => {
-                          setCurrentSystem(Array.from(selected.values()));
-                          handleModalToggle(true);
-                        },
-                      },
-                    },
-                    ...(groupsEnabled
-                      ? [
-                          {
-                            label: 'Add to group',
-                            props: {
-                              isDisabled: !isBulkAddHostsToGroupsEnabled(),
-                            },
-                            onClick: () => {
-                              setCurrentSystem(Array.from(selected.values()));
-                              setAddHostGroupModalOpen(true);
-                            },
-                          },
-                          {
-                            label: 'Remove from group',
-                            props: {
-                              isDisabled: !isBulkRemoveFromGroupsEnabled(),
-                            },
-                            onClick: () => {
-                              setCurrentSystem(Array.from(selected.values()));
-                              setRemoveHostsFromGroupModalOpen(true);
-                            },
-                          },
-                        ]
-                      : []),
-                  ],
-                },
-                bulkSelect: bulkSelectConfig,
-              })}
-              onRowClick={(_e, id, app) =>
-                history.push(`/${id}${app ? `/${app}` : ''}`)
-              }
-            />
-          </GridItem>
-        </Grid>
+        {EdgeParityEnabled ? (
+          <Tabs
+            className="pf-m-light pf-c-table"
+            activeKey={activeTabKey}
+            onSelect={handleTabClick}
+          >
+            <Tab
+              eventKey={0}
+              title={<TabTitleText>Traditional (RPM-DNF)</TabTitleText>}
+            >
+              {traditionalDevices}
+            </Tab>
+            <Tab
+              eventKey={1}
+              title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
+            >
+              <AsyncComponent
+                appName="edge"
+                module="./Inventory"
+                historyProp={useHistory}
+                locationProp={useLocation}
+                showHeaderProp={false}
+              />
+            </Tab>
+          </Tabs>
+        ) : (
+          traditionalDevices
+        )}
       </Main>
       <DeleteModal
         className="sentry-mask data-hj-suppress"

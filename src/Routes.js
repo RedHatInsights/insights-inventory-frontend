@@ -11,6 +11,7 @@ const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
 const InventoryGroupDetail = lazy(() =>
   import('./routes/InventoryGroupDetail')
 );
+const EdgeInventoryUpdate = lazy(() => import('./routes/SystemUpdate'));
 
 export const routes = {
   table: '/',
@@ -18,6 +19,7 @@ export const routes = {
   detailWithModal: '/:inventoryId/:modalId',
   groups: '/groups',
   groupDetail: '/groups/:groupId',
+  update: '/:inventoryId/update',
 };
 
 export const Routes = () => {
@@ -27,6 +29,12 @@ export const Routes = () => {
   return (
     <Suspense fallback="">
       <Switch>
+        <Route
+          exact
+          path={routes.update}
+          component={EdgeInventoryUpdate}
+          rootClass="inventory"
+        />
         <Route
           exact
           path={routes.table}

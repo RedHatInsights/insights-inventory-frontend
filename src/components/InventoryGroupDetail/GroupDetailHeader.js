@@ -1,3 +1,4 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,7 +12,7 @@ import {
 import {
   PageHeader,
   PageHeaderTitle,
-} from '@redhat-cloud-services/frontend-components/PageHeader';
+} from '@redhat-cloud-services/frontend-components';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -86,6 +87,7 @@ const GroupDetailHeader = ({ groupId }) => {
                 onToggle={(isOpen) => setDropdownOpen(isOpen)}
                 toggleVariant="secondary"
                 isDisabled={uninitialized || loading}
+                ouiaId="group-actions-dropdown-toggle"
               >
                 Group actions
               </DropdownToggle>

@@ -8,6 +8,7 @@ import {
   mergeArraysByKey,
 } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import {
+  GroupsApi,
   HostsApi,
   SystemProfileApi,
   TagsApi,
@@ -26,7 +27,7 @@ export const systemProfile = new SystemProfileApi(
   INVENTORY_API_BASE,
   instance
 );
-
+export const groupsApi = new GroupsApi(undefined, INVENTORY_API_BASE, instance);
 export const getEntitySystemProfile = (item) =>
   hosts.apiHostGetHostSystemProfileById([item]);
 
@@ -189,7 +190,6 @@ export async function getEntities(
       undefined,
       { cancelToken: controller && controller.token }
     );
-
     if (fields && Object.keys(fields).length) {
       try {
         const result = await hosts.apiHostGetHostSystemProfileById(
