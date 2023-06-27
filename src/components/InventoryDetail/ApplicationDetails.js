@@ -2,9 +2,10 @@ import React, { Suspense, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore } from 'react-redux';
 import { Spinner, Tab, TabContent, Tabs } from '@patternfly/react-core';
-import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
+import { verifyCulledReporter } from '../../Utilities/sharedFunctions';
 import { getFact } from './helpers';
 import { NotConnected } from '@redhat-cloud-services/frontend-components/NotConnected';
+import { REPORTER_PUPTOO } from '../../Utilities/constants';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
@@ -44,8 +45,9 @@ const ApplicationDetails = ({
     }
   }, [disabledApps]);
 
-  const isDisconnected = verifyCulledInsightsClient(
-    getFact('per_reporter_staleness', entity)
+  const isDisconnected = verifyCulledReporter(
+    getFact('per_reporter_staleness', entity),
+    REPORTER_PUPTOO
   );
 
   return (

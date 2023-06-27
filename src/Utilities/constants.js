@@ -12,6 +12,10 @@ export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const UPDATE_METHOD_KEY = 'system_update_method';
 export const LAST_SEEN_CHIP = 'last_seen';
 export const HOST_GROUP_CHIP = 'group_name'; // use the same naming as for the back end parameter
+//REPORTERS
+export const REPORTER_PUPTOO = 'puptoo';
+export const REPORTER_RHSM_CONDUIT = 'rhsm-conduit';
+export const REPORTER_RHSM_PROFILE_BRIDGE = 'rhsm-system-profile-bridge';
 
 export function subtractDate(days) {
   const date = new Date();

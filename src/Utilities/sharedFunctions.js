@@ -27,12 +27,14 @@ export const verifyCollectorStaleness = (reporterStaleness) => {
   }
 };
 
-export const verifyCulledInsightsClient = (perReporterStaleness) => {
+export const verifyCulledReporter = (perReporterStaleness, reporter) => {
   //TODO: get rid of !perReporterStaleness condition when dependant apps have per_reporter_staleness info
   if (!perReporterStaleness) {
     return false;
-  } else if (perReporterStaleness.puptoo) {
-    return verifyCollectorStaleness(perReporterStaleness.puptoo) === 'Culled';
+  } else if (perReporterStaleness[reporter]) {
+    return (
+      verifyCollectorStaleness(perReporterStaleness[reporter]) === 'Culled'
+    );
   } else {
     return true;
   }

@@ -1,19 +1,23 @@
 /* eslint-disable no-constant-condition */
-import { subtractWeeks, verifyCulledInsightsClient } from './sharedFunctions';
+import { REPORTER_PUPTOO } from './constants';
+import { subtractWeeks, verifyCulledReporter } from './sharedFunctions';
 
 describe('sharedFunctions', () => {
   describe('verfiyDisconnectedSystem', () => {
     it('should return false when puptoo is undefined', () => {
-      const result = verifyCulledInsightsClient({});
+      const result = verifyCulledReporter({}, REPORTER_PUPTOO);
       expect(result).toBeTruthy();
     });
 
     it('should return false when puptoo is defined and stale_timestamp is not more recent than 2 weeks ago', () => {
       const testDate = subtractWeeks(1);
       // eslint-disable-next-line camelcase
-      const result = verifyCulledInsightsClient({
-        puptoo: { stale_timestamp: testDate.toDateString() },
-      });
+      const result = verifyCulledReporter(
+        {
+          puptoo: { stale_timestamp: testDate.toDateString() },
+        },
+        REPORTER_PUPTOO
+      );
       expect(result).toBeFalsy();
     });
   });
