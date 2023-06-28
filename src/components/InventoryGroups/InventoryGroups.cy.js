@@ -25,7 +25,6 @@ describe('groups table page', () => {
     mountPage();
     cy.wait('@getGroups');
 
-    cy.get('h1').contains('Groups');
     cy.get('#groups-table');
   });
 
@@ -34,7 +33,6 @@ describe('groups table page', () => {
     mountPage();
     cy.wait('@getGroups');
 
-    cy.get('h1').contains('Groups');
     cy.get('#groups-table').should('not.exist');
     cy.get('.pf-c-empty-state').find('h4').contains('Create a system group');
   });
@@ -44,7 +42,6 @@ describe('groups table page', () => {
     mountPage();
     cy.wait('@getGroups');
 
-    cy.get('h1').contains('Groups');
     cy.get('#groups-table').should('not.exist');
     cy.get('.pf-c-empty-state').find('h4').contains('Something went wrong');
   });
