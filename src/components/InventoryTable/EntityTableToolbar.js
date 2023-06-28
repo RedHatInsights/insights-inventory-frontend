@@ -245,16 +245,18 @@ const EntityTableToolbar = ({
           dispatch(fetchAllTags(filterTagsBy, {}, getTags));
         }
 
-        dispatch(
-          fetchGroupsForEntities(
-            undefined,
-            50,
-            undefined,
-            'name',
-            'ASC',
-            undefined
-          )
-        );
+        if (groupsEnabled === true) {
+          dispatch(
+            fetchGroupsForEntities(
+              undefined,
+              50,
+              undefined,
+              'name',
+              'ASC',
+              undefined
+            )
+          );
+        }
       }
     },
     [customFilters?.tags]
