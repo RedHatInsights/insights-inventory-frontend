@@ -431,7 +431,7 @@ describe('edge cases', () => {
   });
 });
 
-describe('integration with rbac', () => {
+describe.only('integration with rbac', () => {
   before(() => {
     cy.mockWindowChrome(['inventory:groups:read']);
   });
@@ -447,13 +447,29 @@ describe('integration with rbac', () => {
     );
   });
 
-  it('disables selection', () => {
-    cy.ouiaId('groups-selector').should('not.exist');
-    cy.get(`${ROW} .pf-c-table__check`).should('not.exist');
+  it.only('disables general actions', () => {
+    cy.ouiaId('Actions').should('exist').click();
+
+    cy.get(TOOLBAR)
+      .find('button')
+      .contains('Create group')
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM)
+      .contains('Rename group')
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM)
+      .contains('Delete group')
+      .should('have.attr', 'aria-disabled', 'true');
   });
 
-  it('disables actions', () => {
-    cy.ouiaId('Actions').should('not.exist');
-    cy.get(ROW).find(`${DROPDOWN} button`).should('not.exist');
+  it.only('disables per-row actions', () => {
+    cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
+
+    cy.get(DROPDOWN_ITEM)
+      .contains('Rename group')
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM)
+      .contains('Delete group')
+      .should('have.attr', 'aria-disabled', 'true');
   });
 });
