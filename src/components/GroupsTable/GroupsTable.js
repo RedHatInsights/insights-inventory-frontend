@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 import {
+  Button,
   Pagination,
   PaginationVariant,
   SearchInput,
+  Tooltip,
 } from '@patternfly/react-core';
 import {
   Table,
@@ -354,78 +356,87 @@ const GroupsTable = () => {
         }}
         filterConfig={{ items: filterConfigItems }}
         activeFiltersConfig={activeFiltersConfig}
-        {...(canModify
-          ? {
-              bulkSelect: {
-                items: [
-                  {
-                    title: 'Select none',
-                    onClick: () => setSelectedIds([]),
-                    props: { isDisabled: noneSelected },
-                  },
-                  {
-                    title: `${pageSelected ? 'Deselect' : 'Select'} page (${
-                      data?.count || 0
-                    } items)`,
-                    onClick: () => {
-                      if (pageSelected) {
-                        // exclude groups on the page from the selected ids
-                        const newRows = difference(selectedIds, displayedIds);
-                        setSelectedIds(newRows);
-                      } else {
-                        setSelectedIds(union(selectedIds, displayedIds));
-                      }
-                    },
-                  },
-                  {
-                    title: `${allSelected ? 'Deselect' : 'Select'} all (${
-                      data?.total || 0
-                    } items)`,
-                    onClick: async () => {
-                      if (allSelected) {
-                        setSelectedIds([]);
-                      } else {
-                        await selectAllIds();
-                      }
-                    },
-                  },
-                ],
-                checked: selectedIds.length > 0, // TODO: support partial selection (dash sign) in FEC BulkSelect
-                onSelect: async (checked) => {
-                  if (checked) {
-                    await selectAllIds();
-                  } else {
-                    setSelectedIds([]);
-                  }
-                },
-                ouiaId: 'groups-selector',
-                count: selectedIds.length,
+        bulkSelect={{
+          items: [
+            {
+              title: 'Select none',
+              onClick: () => setSelectedIds([]),
+              props: { isDisabled: noneSelected },
+            },
+            {
+              title: `${pageSelected ? 'Deselect' : 'Select'} page (${
+                data?.count || 0
+              } items)`,
+              onClick: () => {
+                if (pageSelected) {
+                  // exclude groups on the page from the selected ids
+                  const newRows = difference(selectedIds, displayedIds);
+                  setSelectedIds(newRows);
+                } else {
+                  setSelectedIds(union(selectedIds, displayedIds));
+                }
               },
-              actionsConfig: {
-                actions: [
-                  {
-                    label: 'Create group',
-                    onClick: () => setCreateModalOpen(true),
-                  },
-                  {
-                    label: 'Rename group',
-                    onClick: () => setRenameModalOpen(true),
-                    props: {
-                      isDisabled: selectedIds.length !== 1,
-                    },
-                  },
-                  {
-                    label:
-                      selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
-                    onClick: () => setDeleteModalOpen(true),
-                    props: {
-                      isDisabled: selectedIds.length === 0,
-                    },
-                  },
-                ],
+            },
+            {
+              title: `${allSelected ? 'Deselect' : 'Select'} all (${
+                data?.total || 0
+              } items)`,
+              onClick: async () => {
+                if (allSelected) {
+                  setSelectedIds([]);
+                } else {
+                  await selectAllIds();
+                }
               },
+            },
+          ],
+          checked: selectedIds.length > 0, // TODO: support partial selection (dash sign) in FEC BulkSelect
+          onSelect: async (checked) => {
+            if (checked) {
+              await selectAllIds();
+            } else {
+              setSelectedIds([]);
             }
-          : {})}
+          },
+          ouiaId: 'groups-selector',
+          count: selectedIds.length,
+        }}
+        actionsConfig={{
+          actions: [
+            !canModify ? ( // custom component needed since it's the first action to render (see primary toolbar implementation)
+              <Tooltip content="You do not have the necessary permissions to modify groups. Contact your organization administrator.">
+                <Button isAriaDisabled>Create group</Button>
+              </Tooltip>
+            ) : (
+              {
+                label: 'Create group',
+                onClick: () => setCreateModalOpen(true),
+              }
+            ),
+            {
+              label: 'Rename group',
+              onClick: () => setRenameModalOpen(true),
+              props: {
+                isAriaDisabled: !canModify || selectedIds.length !== 1,
+                ...(!canModify && {
+                  tooltip:
+                    'You do not have the necessary permissions to modify groups. Contact your organization administrator.',
+                }),
+              },
+            },
+            {
+              label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
+              onClick: () => setDeleteModalOpen(true),
+              props: {
+                isAriaDisabled: !canModify || selectedIds.length === 0,
+                ...(!canModify && {
+                  tooltip:
+                    'You do not have the necessary permissions to modify groups. Contact your organization administrator.',
+                }),
+              },
+            },
+          ],
+        }}
       />
       <Table
         aria-label="Groups table"
@@ -440,33 +451,41 @@ const GroupsTable = () => {
         }}
         onSort={onSort}
         isStickyHeader
-        {...(canModify
-          ? {
-              onSelect,
-              actions: [
-                {
-                  title: 'Rename group',
-                  onClick: (event, rowIndex, { groupId, groupName }) => {
-                    setSelectedGroup({
-                      id: groupId,
-                      name: groupName,
-                    });
-                    setRenameModalOpen(true);
-                  },
-                },
-                {
-                  title: 'Delete group',
-                  onClick: (event, rowIndex, { groupId, groupName }) => {
-                    setSelectedGroup({
-                      id: groupId,
-                      name: groupName,
-                    });
-                    setDeleteModalOpen(true);
-                  },
-                },
-              ],
-            }
-          : {})}
+        onSelect={onSelect}
+        actions={[
+          {
+            title: 'Rename group',
+            onClick: (event, rowIndex, { groupId, groupName }) => {
+              setSelectedGroup({
+                id: groupId,
+                name: groupName,
+              });
+              setRenameModalOpen(true);
+            },
+            ...(!canModify && {
+              tooltip: !canModify
+                ? 'You do not have the necessary permissions to modify this group. Contact your organization administrator.'
+                : '',
+              isAriaDisabled: true,
+            }),
+          },
+          {
+            title: 'Delete group',
+            onClick: (event, rowIndex, { groupId, groupName }) => {
+              setSelectedGroup({
+                id: groupId,
+                name: groupName,
+              });
+              setDeleteModalOpen(true);
+            },
+            ...(!canModify && {
+              tooltip: !canModify
+                ? 'You do not have the necessary permissions to modify this group. Contact your organization administrator.'
+                : '',
+              isAriaDisabled: true,
+            }),
+          },
+        ]}
         canSelectAll={false}
       >
         <TableHeader />
