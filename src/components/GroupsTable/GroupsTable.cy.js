@@ -286,8 +286,13 @@ describe('actions', () => {
   const TEST_ID = 0;
 
   it('bulk rename and delete actions are disabled when no items selected', () => {
-    cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
-    cy.get(DROPDOWN_ITEM).should('have.class', 'pf-m-disabled');
+    cy.ouiaId('Actions').should('exist').click();
+    cy.get(DROPDOWN_ITEM)
+      .contains('Rename group')
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM)
+      .contains('Delete group')
+      .should('have.attr', 'aria-disabled', 'true');
   });
 
   it('can rename a group, 1', () => {
