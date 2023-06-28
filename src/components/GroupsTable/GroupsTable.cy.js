@@ -431,7 +431,7 @@ describe('edge cases', () => {
   });
 });
 
-describe.only('integration with rbac', () => {
+describe('integration with rbac', () => {
   before(() => {
     cy.mockWindowChrome(['inventory:groups:read']);
   });
@@ -447,7 +447,7 @@ describe.only('integration with rbac', () => {
     );
   });
 
-  it.only('disables general actions', () => {
+  it('disables general actions', () => {
     cy.ouiaId('Actions').should('exist').click();
 
     cy.get(TOOLBAR)
@@ -462,7 +462,7 @@ describe.only('integration with rbac', () => {
       .should('have.attr', 'aria-disabled', 'true');
   });
 
-  it.only('disables per-row actions', () => {
+  it('disables per-row actions', () => {
     cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
 
     cy.get(DROPDOWN_ITEM)
