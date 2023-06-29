@@ -9,7 +9,8 @@ import { DateFormat } from '@redhat-cloud-services/frontend-components/DateForma
 import { CullingInformation } from '@redhat-cloud-services/frontend-components/CullingInfo';
 import { getFact } from './helpers';
 import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
-import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
+import { verifyCulledReporter } from '../../Utilities/sharedFunctions';
+import { REPORTER_PUPTOO } from '../../Utilities/constants';
 /**
  * Basic information about system.
  * UUID and last seen.
@@ -56,8 +57,9 @@ const FactsInfo = ({
             <Skeleton size={SkeletonSize.md} fontSize="sm" />
           )}
           {loaded &&
-            verifyCulledInsightsClient(
-              getFact('per_reporter_staleness', entity)
+            verifyCulledReporter(
+              getFact('per_reporter_staleness', entity),
+              REPORTER_PUPTOO
             ) && <InsightsDisconnected />}
         </FlexItem>
       </Flex>

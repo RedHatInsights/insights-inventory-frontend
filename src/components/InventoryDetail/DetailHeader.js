@@ -5,9 +5,10 @@ import TopBar from './TopBar';
 import FactsInfo from './FactsInfo';
 import './InventoryDetail.scss';
 import InsightsPrompt from './InsightsPrompt';
-import { verifyCulledInsightsClient } from '../../Utilities/sharedFunctions';
+import { verifyCulledReporter } from '../../Utilities/sharedFunctions';
 import PageHeader from '@redhat-cloud-services/frontend-components/PageHeader';
 import classnames from 'classnames';
+import { REPORTER_PUPTOO } from '../../Utilities/constants';
 
 const HeaderInfo = ({
   entity,
@@ -25,9 +26,10 @@ const HeaderInfo = ({
       UUIDWrapper={UUIDWrapper}
       LastSeenWrapper={LastSeenWrapper}
     />
-    {loaded && verifyCulledInsightsClient(entity?.per_reporter_staleness) && (
-      <InsightsPrompt />
-    )}
+    {loaded &&
+      verifyCulledReporter(entity?.per_reporter_staleness, REPORTER_PUPTOO) && (
+        <InsightsPrompt />
+      )}
     {children}
   </Fragment>
 );

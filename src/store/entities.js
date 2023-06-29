@@ -16,12 +16,13 @@ import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-uti
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import { CullingInformation } from '@redhat-cloud-services/frontend-components/CullingInfo';
 import { TagWithDialog } from '../Utilities/index';
+import { REPORTER_PUPTOO } from '../Utilities/constants';
 import groupBy from 'lodash/groupBy';
 import TitleColumn from '../components/InventoryTable/TitleColumn';
 import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
-import { verifyCulledInsightsClient } from '../Utilities/sharedFunctions';
+import { verifyCulledReporter } from '../Utilities/sharedFunctions';
 import { fitContent } from '@patternfly/react-table';
 import isEmpty from 'lodash/isEmpty';
 
@@ -116,7 +117,7 @@ export const defaultColumns = (groupsEnabled = false) => [
                   </React.Fragment>
                 }
               />
-              {verifyCulledInsightsClient(perReporterStaleness) && (
+              {verifyCulledReporter(perReporterStaleness, REPORTER_PUPTOO) && (
                 <InsightsDisconnected />
               )}
             </React.Fragment>
