@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 import {
+  Button,
   Pagination,
   PaginationVariant,
   SearchInput,
+  Tooltip,
 } from '@patternfly/react-core';
 import {
   Table,
@@ -39,6 +41,7 @@ import {
 } from '../../Utilities/URLSearchParams';
 import { useLocation } from 'react-router-dom';
 import isNil from 'lodash/isNil';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 const GROUPS_TABLE_INITIAL_STATE = {
   perPage: TABLE_DEFAULT_PAGINATION,
@@ -96,6 +99,8 @@ const groupsTableFiltersConfig = {
   },
 };
 
+const REQUIRED_PERMISSIONS_MODIFY = ['inventory:groups:write'];
+
 const GroupsTable = () => {
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, data } = useSelector(
@@ -114,6 +119,11 @@ const GroupsTable = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const groups = useMemo(() => data?.results || [], [data]);
   const { fetchBatched } = useFetchBatched();
+  const loadingState = uninitialized || loading;
+
+  const { hasAccess: canModify } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_MODIFY
+  );
 
   const fetchData = useCallback(
     debounce((filters) => {
@@ -393,22 +403,36 @@ const GroupsTable = () => {
         }}
         actionsConfig={{
           actions: [
-            {
-              label: 'Create group',
-              onClick: () => setCreateModalOpen(true),
-            },
+            !canModify ? ( // custom component needed since it's the first action to render (see primary toolbar implementation)
+              <Tooltip content="You do not have the necessary permissions to modify groups. Contact your organization administrator.">
+                <Button isAriaDisabled>Create group</Button>
+              </Tooltip>
+            ) : (
+              {
+                label: 'Create group',
+                onClick: () => setCreateModalOpen(true),
+              }
+            ),
             {
               label: 'Rename group',
               onClick: () => setRenameModalOpen(true),
               props: {
-                isDisabled: selectedIds.length !== 1,
+                isAriaDisabled: !canModify || selectedIds.length !== 1,
+                ...(!canModify && {
+                  tooltip:
+                    'You do not have the necessary permissions to modify groups. Contact your organization administrator.',
+                }),
               },
             },
             {
               label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
               onClick: () => setDeleteModalOpen(true),
               props: {
-                isDisabled: selectedIds.length === 0,
+                isAriaDisabled: !canModify || selectedIds.length === 0,
+                ...(!canModify && {
+                  tooltip:
+                    'You do not have the necessary permissions to modify groups. Contact your organization administrator.',
+                }),
               },
             },
           ],
@@ -417,7 +441,7 @@ const GroupsTable = () => {
       <Table
         aria-label="Groups table"
         ouiaId="groups-table"
-        /* ouiaSafe={!loadingState}> */
+        ouiaSafe={!loadingState}
         variant={TableVariant.compact}
         cells={GROUPS_TABLE_COLUMNS}
         rows={tableRows}
@@ -428,7 +452,6 @@ const GroupsTable = () => {
         onSort={onSort}
         isStickyHeader
         onSelect={onSelect}
-        canSelectAll={false}
         actions={[
           {
             title: 'Rename group',
@@ -439,6 +462,12 @@ const GroupsTable = () => {
               });
               setRenameModalOpen(true);
             },
+            ...(!canModify && {
+              tooltip: !canModify
+                ? 'You do not have the necessary permissions to modify this group. Contact your organization administrator.'
+                : '',
+              isAriaDisabled: true,
+            }),
           },
           {
             title: 'Delete group',
@@ -449,8 +478,15 @@ const GroupsTable = () => {
               });
               setDeleteModalOpen(true);
             },
+            ...(!canModify && {
+              tooltip: !canModify
+                ? 'You do not have the necessary permissions to modify this group. Contact your organization administrator.'
+                : '',
+              isAriaDisabled: true,
+            }),
           },
         ]}
+        canSelectAll={false}
       >
         <TableHeader />
         <TableBody />

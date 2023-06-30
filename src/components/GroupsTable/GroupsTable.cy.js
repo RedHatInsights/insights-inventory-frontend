@@ -286,8 +286,13 @@ describe('actions', () => {
   const TEST_ID = 0;
 
   it('bulk rename and delete actions are disabled when no items selected', () => {
-    cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
-    cy.get(DROPDOWN_ITEM).should('have.class', 'pf-m-disabled');
+    cy.ouiaId('Actions').should('exist').click();
+    cy.get(DROPDOWN_ITEM)
+      .contains('Rename group')
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM)
+      .contains('Delete group')
+      .should('have.attr', 'aria-disabled', 'true');
   });
 
   it('can rename a group, 1', () => {
@@ -428,5 +433,48 @@ describe('edge cases', () => {
       cy.ouiaId('name-filter').find('input').should('have.attr', 'disabled');
       cy.ouiaId('pager').find('button').should('have.attr', 'disabled');
     });
+  });
+});
+
+describe('integration with rbac', () => {
+  before(() => {
+    cy.mockWindowChrome(['inventory:groups:read']);
+  });
+
+  beforeEach(() => {
+    interceptors['successful with some items'](); // comment out if the mock server is running
+    mountTable();
+
+    cy.get('table[aria-label="Groups table"]').should(
+      'have.attr',
+      'data-ouia-safe',
+      'true'
+    );
+  });
+
+  it('disables general actions', () => {
+    cy.ouiaId('Actions').should('exist').click();
+
+    cy.get(TOOLBAR)
+      .find('button')
+      .contains('Create group')
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM)
+      .contains('Rename group')
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM)
+      .contains('Delete group')
+      .should('have.attr', 'aria-disabled', 'true');
+  });
+
+  it('disables per-row actions', () => {
+    cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
+
+    cy.get(DROPDOWN_ITEM)
+      .contains('Rename group')
+      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM)
+      .contains('Delete group')
+      .should('have.attr', 'aria-disabled', 'true');
   });
 });
