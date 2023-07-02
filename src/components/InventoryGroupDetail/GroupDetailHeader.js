@@ -22,7 +22,10 @@ import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
 import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { REQUIRED_PERMISSIONS_TO_READ_GROUP } from '../../constants';
+import {
+  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
+  REQUIRED_PERMISSIONS_TO_READ_GROUP,
+} from '../../constants';
 
 const GroupDetailHeader = ({ groupId }) => {
   const dispatch = useDispatch();
@@ -30,8 +33,12 @@ const GroupDetailHeader = ({ groupId }) => {
     (state) => state.groupDetail
   );
 
-  const { hasAccess: canView } = usePermissionsWithContext(
+  const { hasAccess: canRead } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
+  );
+
+  const { hasAccess: canModify } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
   );
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -40,7 +47,7 @@ const GroupDetailHeader = ({ groupId }) => {
 
   const name = data?.results?.[0]?.name;
   const title =
-    canView && (uninitialized || loading) ? (
+    canRead && (uninitialized || loading) ? (
       <Skeleton width="250px" screenreaderText="Loading group details" />
     ) : (
       name || groupId // in case of error, render just id from URL
@@ -92,7 +99,7 @@ const GroupDetailHeader = ({ groupId }) => {
                 id="group-dropdown-toggle"
                 onToggle={(isOpen) => setDropdownOpen(isOpen)}
                 toggleVariant="secondary"
-                isDisabled={!canView || uninitialized || loading}
+                isDisabled={!canModify || uninitialized || loading}
                 ouiaId="group-actions-dropdown-toggle"
               >
                 Group actions

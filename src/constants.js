@@ -185,3 +185,18 @@ export const REQUIRED_PERMISSIONS_TO_READ_GROUP = (groupId) => [
     ],
   },
 ];
+
+export const REQUIRED_PERMISSIONS_TO_MODIFY_GROUP = (groupId) => [
+  {
+    permission: 'inventory:groups:write',
+    resourceDefinitions: [
+      {
+        attributeFilter: {
+          key: 'groupd.id',
+          operation: 'equal',
+          value: groupId,
+        },
+      },
+    ],
+  },
+];
