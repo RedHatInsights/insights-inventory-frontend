@@ -21,7 +21,13 @@ const mountPage = () =>
   });
 
 before(() => {
-  cy.mockWindowChrome();
+  cy.mockWindowChrome(); // with all permissions
+});
+
+describe('test data', () => {
+  it('the group has no hosts', () => {
+    groupDetailFixtures.results[0].host_count === 0;
+  });
 });
 
 describe('group detail page', () => {
@@ -84,7 +90,7 @@ describe('group detail page', () => {
 });
 
 describe('integration with rbac', () => {
-  describe('no read permissions', () => {
+  describe('no permissions', () => {
     before(() => {
       cy.mockWindowChrome({ userPermissions: [] });
     });
@@ -114,6 +120,48 @@ describe('integration with rbac', () => {
 
     it('actions are disabled', () => {
       cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
+    });
+  });
+
+  describe('only read permissions', () => {
+    before(() => {
+      cy.mockWindowChrome({
+        userPermissions: [
+          {
+            permission: 'inventory:groups:read',
+            resourceDefinitions: [
+              {
+                attributeFilter: {
+                  key: 'groupd.id',
+                  operation: 'equal',
+                  value: TEST_GROUP_ID,
+                },
+              },
+            ],
+          },
+        ],
+      });
+    });
+
+    beforeEach(() => {
+      groupDetailInterceptors.successful();
+      mountPage();
+    });
+
+    it('actions are disabled', () => {
+      cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
+    });
+
+    it('should allow to see systems', () => {
+      cy.get(TAB_CONTENT).find('h4').should('have.text', 'No systems added');
+    });
+
+    it('should allow to see the group info tab', () => {
+      cy.get(TAB_BUTTON).contains('Group info').click();
+      cy.get(TAB_CONTENT)
+        .eq(1) // <- workaround since PF renders both tab contents and hides the first
+        .find('.pf-c-card__title') // TODO: tie to OUIA
+        .should('have.text', 'User access configuration');
     });
   });
 });
