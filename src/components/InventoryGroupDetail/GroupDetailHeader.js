@@ -21,11 +21,17 @@ import PropTypes from 'prop-types';
 import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
 import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { fetchGroupDetail } from '../../store/inventory-actions';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { REQUIRED_PERMISSIONS_TO_READ_GROUP } from '../../constants';
 
 const GroupDetailHeader = ({ groupId }) => {
   const dispatch = useDispatch();
   const { uninitialized, loading, data } = useSelector(
     (state) => state.groupDetail
+  );
+
+  const { hasAccess: canView } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
   );
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -34,7 +40,7 @@ const GroupDetailHeader = ({ groupId }) => {
 
   const name = data?.results?.[0]?.name;
   const title =
-    uninitialized || loading ? (
+    canView && (uninitialized || loading) ? (
       <Skeleton width="250px" screenreaderText="Loading group details" />
     ) : (
       name || groupId // in case of error, render just id from URL
@@ -86,7 +92,7 @@ const GroupDetailHeader = ({ groupId }) => {
                 id="group-dropdown-toggle"
                 onToggle={(isOpen) => setDropdownOpen(isOpen)}
                 toggleVariant="secondary"
-                isDisabled={uninitialized || loading}
+                isDisabled={!canView || uninitialized || loading}
                 ouiaId="group-actions-dropdown-toggle"
               >
                 Group actions
