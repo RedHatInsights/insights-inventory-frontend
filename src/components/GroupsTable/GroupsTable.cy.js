@@ -69,6 +69,10 @@ describe('test data', () => {
   it('the third row has at least one host', () => {
     expect(fixtures.results[2].host_count > 0).to.be.true;
   });
+
+  it('at least one group has known host number', () => {
+    expect(fixtures.results.some(({ host_count }) => host_count !== undefined));
+  });
 });
 
 describe('renders correctly', () => {
@@ -452,29 +456,37 @@ describe('integration with rbac', () => {
     );
   });
 
-  it('disables general actions', () => {
-    cy.ouiaId('Actions').should('exist').click();
+  describe('with only groups read', () => {
+    it('disables general actions', () => {
+      cy.ouiaId('Actions').should('exist').click();
 
-    cy.get(TOOLBAR)
-      .find('button')
-      .contains('Create group')
-      .should('have.attr', 'aria-disabled', 'true');
-    cy.get(DROPDOWN_ITEM)
-      .contains('Rename group')
-      .should('have.attr', 'aria-disabled', 'true');
-    cy.get(DROPDOWN_ITEM)
-      .contains('Delete group')
-      .should('have.attr', 'aria-disabled', 'true');
-  });
+      cy.get(TOOLBAR)
+        .find('button')
+        .contains('Create group')
+        .should('have.attr', 'aria-disabled', 'true');
+      cy.get(DROPDOWN_ITEM)
+        .contains('Rename group')
+        .should('have.attr', 'aria-disabled', 'true');
+      cy.get(DROPDOWN_ITEM)
+        .contains('Delete group')
+        .should('have.attr', 'aria-disabled', 'true');
+    });
 
-  it('disables per-row actions', () => {
-    cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
+    it('disables per-row actions', () => {
+      cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
 
-    cy.get(DROPDOWN_ITEM)
-      .contains('Rename group')
-      .should('have.attr', 'aria-disabled', 'true');
-    cy.get(DROPDOWN_ITEM)
-      .contains('Delete group')
-      .should('have.attr', 'aria-disabled', 'true');
+      cy.get(DROPDOWN_ITEM)
+        .contains('Rename group')
+        .should('have.attr', 'aria-disabled', 'true');
+      cy.get(DROPDOWN_ITEM)
+        .contains('Delete group')
+        .should('have.attr', 'aria-disabled', 'true');
+    });
+
+    it('all host numbers are unknown', () => {
+      cy.get(`tbody ${ROW}`)
+        .find('[data-label="Total systems"]')
+        .each(($el) => cy.wrap($el).should(`have.text`, 'N/A'));
+    });
   });
 });
