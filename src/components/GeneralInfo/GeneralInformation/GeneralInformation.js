@@ -37,7 +37,7 @@ class GeneralInformation extends Component {
       const bSortBy = (
         '' + (secondRow[index].sortValue || secondRow[index])
       ).toLocaleLowerCase();
-      return aSortBy > bSortBy ? -1 : 1;
+      return aSortBy < bSortBy ? -1 : 1;
     });
     this.setState({
       rows: direction === SortByDirection.asc ? sorted : sorted.reverse(),
