@@ -8,8 +8,10 @@ import { clearFilters, selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
 import { Link } from 'react-router-dom';
-import { useWritePermissions } from '../../Utilities/constants';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { REQUIRED_PERMISSIONS_TO_MODIFY_GROUP } from '../../constants';
+import { Button, Tooltip } from '@patternfly/react-core';
 
 export const bulkSelectConfig = (
   dispatch,
@@ -83,9 +85,11 @@ export const prepareColumns = (initialColumns, hideGroupColumn) => {
     .filter(Boolean); // eliminate possible undefined's
 };
 
+const TOOLTIP_MESSAGE_NO_PERMISSIONS =
+  'You do not have the necessary permissions to modify this group. Contact your organization administrator.';
+
 const GroupSystems = ({ groupName, groupId }) => {
   const dispatch = useDispatch();
-  const writePermissions = useWritePermissions();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [currentSystem, setCurrentSystem] = useState([]);
@@ -102,6 +106,10 @@ const GroupSystems = ({ groupName, groupId }) => {
     difference(displayedIds, [...selected.keys()]).length === 0;
 
   const [addToGroupModalOpen, setAddToGroupModalOpen] = useState(false);
+
+  const { hasAccess: canModify } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
+  );
 
   const resetTable = () => {
     dispatch(clearFilters());
@@ -161,45 +169,54 @@ const GroupSystems = ({ groupName, groupId }) => {
               showTags
             )
           }
+          actions={[
+            {
+              title: 'Remove from group',
+              onClick: (event, index, rowData) => {
+                setCurrentSystem([rowData]);
+                setRemoveHostsFromGroupModalOpen(true);
+              },
+              ...(!canModify && {
+                isAriaDisabled: true,
+                tooltip: TOOLTIP_MESSAGE_NO_PERMISSIONS,
+              }),
+            },
+          ]}
           tableProps={{
             isStickyHeader: true,
             variant: TableVariant.compact,
             canSelectAll: false,
-            actionResolver: () =>
-              writePermissions
-                ? [
-                    {
-                      title: 'Remove from group',
-                      onClick: (event, index, rowData) => {
-                        setCurrentSystem([rowData]);
-                        setRemoveHostsFromGroupModalOpen(true);
-                      },
-                    },
-                  ]
-                : [],
           }}
           actionsConfig={{
-            actions: writePermissions
-              ? [
-                  {
-                    label: 'Add systems',
-                    onClick: () => {
-                      resetTable();
-                      setAddToGroupModalOpen(true);
-                    },
+            actions: [
+              !canModify ? (
+                // custom component needed since it's the first action to render (see primary toolbar implementation)
+                <Tooltip content={TOOLTIP_MESSAGE_NO_PERMISSIONS}>
+                  <Button isAriaDisabled>Add systems</Button>
+                </Tooltip>
+              ) : (
+                {
+                  label: 'Add systems',
+                  onClick: () => {
+                    resetTable();
+                    setAddToGroupModalOpen(true);
                   },
-                  {
-                    label: 'Remove from group',
-                    props: {
-                      isDisabled: calculateSelected() === 0,
-                    },
-                    onClick: () => {
-                      setCurrentSystem(Array.from(selected.values()));
-                      setRemoveHostsFromGroupModalOpen(true);
-                    },
-                  },
-                ]
-              : [],
+                }
+              ),
+              {
+                label: 'Remove from group',
+                props: {
+                  isAriaDisabled: !canModify || calculateSelected() === 0,
+                  ...(!canModify && {
+                    tooltip: TOOLTIP_MESSAGE_NO_PERMISSIONS,
+                  }),
+                },
+                onClick: () => {
+                  setCurrentSystem(Array.from(selected.values()));
+                  setRemoveHostsFromGroupModalOpen(true);
+                },
+              },
+            ],
           }}
           bulkSelect={bulkSelectConfig(
             dispatch,
