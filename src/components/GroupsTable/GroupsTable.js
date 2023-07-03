@@ -99,7 +99,8 @@ const groupsTableFiltersConfig = {
   },
 };
 
-const REQUIRED_PERMISSIONS_MODIFY = ['inventory:groups:write'];
+const REQUIRED_PERMISSIONS_TO_MODIFY = ['inventory:groups:write'];
+const REQUIRED_PERMISSIONS_TO_SEE_HOSTS = ['inventory:hosts:read'];
 
 const GroupsTable = () => {
   const dispatch = useDispatch();
@@ -122,7 +123,11 @@ const GroupsTable = () => {
   const loadingState = uninitialized || loading;
 
   const { hasAccess: canModify } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_MODIFY
+    REQUIRED_PERMISSIONS_TO_MODIFY
+  );
+
+  const { hasAccess: canSeeHosts } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_TO_SEE_HOSTS
   );
 
   const fetchData = useCallback(
@@ -158,7 +163,9 @@ const GroupsTable = () => {
           <Link to={`groups/${group.id}`}>{group.name || group.id}</Link>
         </span>,
         <span key={index}>
-          {isNil(group.host_count) ? 'N/A' : group.host_count.toString()}
+          {!canSeeHosts || isNil(group.host_count)
+            ? 'N/A'
+            : group.host_count.toString()}
         </span>,
         <span key={index}>
           {isNil(group.updated) ? 'N/A' : <DateFormat date={group.updated} />}
