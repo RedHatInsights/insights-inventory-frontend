@@ -1,6 +1,5 @@
 import {
   Bullseye,
-  EmptyStateVariant,
   PageSection,
   Spinner,
   Tab,
@@ -14,8 +13,8 @@ import { fetchGroupDetail } from '../../store/inventory-actions';
 import GroupSystems from '../GroupSystems';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import AccessDenied from '../../Utilities/AccessDenied';
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP } from '../../constants';
+import EmptyStateNoAccess from './EmptyStateNoAccess';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 
@@ -27,21 +26,6 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   const { hasAccess: canView } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
-  );
-
-  const EmptyStateNoAccess = () => (
-    <AccessDenied
-      title="Access needed for systems in this group"
-      showReturnButton={false}
-      description={
-        <div>
-          You do not have the necessary inventory host permissions to see the
-          systems in this group. Contact your organization administrator for
-          access.
-        </div>
-      }
-      variant={EmptyStateVariant.large} // overrides the default "full" value
-    />
   );
 
   useEffect(() => {
