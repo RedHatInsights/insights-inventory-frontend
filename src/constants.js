@@ -170,3 +170,6 @@ export const getSearchParams = () => {
 };
 
 export const TABLE_DEFAULT_PAGINATION = 50; // from UX table audit
+
+export const NO_MODIFY_GROUPS_TOOLTIP_MESSAGE =
+  'You do not have the necessary permissions to modify groups. Contact your organization administrator.';
