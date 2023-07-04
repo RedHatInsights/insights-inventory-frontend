@@ -173,3 +173,33 @@ export const TABLE_DEFAULT_PAGINATION = 50; // from UX table audit
 
 export const NO_MODIFY_GROUPS_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify groups. Contact your organization administrator.';
+
+export const REQUIRED_PERMISSIONS_TO_READ_GROUP = (groupId) => [
+  {
+    permission: 'inventory:groups:read',
+    resourceDefinitions: [
+      {
+        attributeFilter: {
+          key: 'groupd.id',
+          operation: 'equal',
+          value: groupId,
+        },
+      },
+    ],
+  },
+];
+
+export const REQUIRED_PERMISSIONS_TO_MODIFY_GROUP = (groupId) => [
+  {
+    permission: 'inventory:groups:write',
+    resourceDefinitions: [
+      {
+        attributeFilter: {
+          key: 'groupd.id',
+          operation: 'equal',
+          value: groupId,
+        },
+      },
+    ],
+  },
+];
