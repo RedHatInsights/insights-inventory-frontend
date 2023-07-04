@@ -53,6 +53,8 @@ hostsAllInGroupFixtures.results = hostsAllInGroupFixtures.results.map(
   })
 );
 
+const TEST_ID = hostsAllInGroupFixtures.results[0].groups[0].id;
+
 const checkSelectedNumber = (number) =>
   checkSelectedNumber_(number, '#bulk-select-systems-toggle-checkbox-text');
 
@@ -72,6 +74,12 @@ const waitForTable = (waitNetwork = false) => {
     'true'
   );
 };
+
+describe('test data', () => {
+  it('first systems has name dolor', () => {
+    expect(fixtures.results[0].display_name === 'dolor');
+  });
+});
 
 before(() => {
   cy.mockWindowChrome();
@@ -336,7 +344,7 @@ describe('actions', () => {
   it('can remove host from group', () => {
     cy.intercept(
       'DELETE',
-      `/api/inventory/v1/groups/${hostsAllInGroupFixtures.results[0].groups[0].id}/hosts/${hostsAllInGroupFixtures.results[0].id}`
+      `/api/inventory/v1/groups/${TEST_ID}/hosts/${hostsAllInGroupFixtures.results[0].id}`
     ).as('request');
     cy.get(ROW).eq(1).find(DROPDOWN).click();
     cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
@@ -350,9 +358,7 @@ describe('actions', () => {
   it('can remove more hosts from the same group', () => {
     cy.intercept(
       'DELETE',
-      `/api/inventory/v1/groups/${
-        hostsAllInGroupFixtures.results[0].groups[0].id
-      }/hosts/${hostsAllInGroupFixtures.results
+      `/api/inventory/v1/groups/${TEST_ID}/hosts/${hostsAllInGroupFixtures.results
         .slice(0, 2)
         .map(({ id }) => id)
         .join(',')}`
@@ -399,5 +405,61 @@ describe('edge cases', () => {
 
     cy.wait('@getHosts');
     cy.get('.pf-c-empty-state').find('h4').contains('Something went wrong');
+  });
+});
+
+describe('integration with rbac', () => {
+  describe('has only read permissions', () => {
+    before(() => {
+      cy.mockWindowChrome({
+        userPermissions: [
+          {
+            permission: 'inventory:groups:read',
+            resourceDefinitions: [
+              {
+                attributeFilter: {
+                  key: 'groupd.id',
+                  operation: 'equal',
+                  value: TEST_ID,
+                },
+              },
+            ],
+          },
+        ],
+      });
+    });
+
+    beforeEach(() => {
+      cy.intercept('*', { statusCode: 200, body: { results: [] } });
+      hostsInterceptors.successful();
+      featureFlagsInterceptors.successful();
+      systemProfileInterceptors['operating system, successful empty']();
+      groupsInterceptors['successful with some items']();
+      mountTable();
+
+      waitForTable(true);
+    });
+
+    it('the table is rendered', () => {
+      cy.get('#group-systems-table').should('exist');
+      cy.get(ROW).contains('dolor');
+    });
+
+    it('no way to add or remove systems', () => {
+      cy.get('button')
+        .contains('Add systems')
+        .should('have.class', 'pf-m-aria-disabled');
+      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+      cy.get('button')
+        .contains('Remove from group')
+        .should('have.class', 'pf-m-aria-disabled');
+    });
+
+    it('per-row dropdown should be disabled', () => {
+      cy.get(ROW).eq(1).find(DROPDOWN).click();
+      cy.get('button')
+        .contains('Remove from group')
+        .should('have.class', 'pf-m-aria-disabled');
+    });
   });
 });
