@@ -4,6 +4,7 @@ import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
+// import { manageEdgeInventoryUrlName } from '../Utilities/edge';
 
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
@@ -20,6 +21,7 @@ export const routes = {
   groups: '/groups',
   groupDetail: '/groups/:groupId',
   update: '/:inventoryId/update',
+  edgeInventory: '/manage-edge-inventory',
 };
 
 export const Routes = () => {
@@ -38,6 +40,18 @@ export const Routes = () => {
         <Route
           exact
           path={routes.table}
+          render={() => (
+            <RenderWrapper
+              cmp={InventoryTable}
+              isRbacEnabled
+              {...searchParams}
+            />
+          )}
+          rootClass="inventory"
+        />
+        <Route
+          exact
+          path={routes.edgeInventory}
           render={() => (
             <RenderWrapper
               cmp={InventoryTable}
@@ -69,6 +83,12 @@ export const Routes = () => {
           exact
           path={routes.detail}
           component={InventoryDetail}
+          rootClass="inventory"
+        />
+        <Route
+          exact
+          path={routes.manageEdgeInventoryUrlName}
+          component={InventoryTable}
           rootClass="inventory"
         />
         <Redirect path="*" to="/" />
