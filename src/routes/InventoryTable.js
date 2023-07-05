@@ -136,6 +136,9 @@ const Inventory = ({
   const initialActiveTabKey =
     tabsPath.indexOf(pathname) >= 0 ? tabsPath.indexOf(pathname) : 0;
   const [activeTabKey, setActiveTabKey] = useState(initialActiveTabKey);
+  useEffect(() => {
+    setActiveTabKey(initialActiveTabKey);
+  }, [pathname]);
   const handleTabClick = (_event, tabIndex) => {
     const tabPath = tabsPath[tabIndex];
     if (tabPath !== undefined) {
