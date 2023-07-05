@@ -139,7 +139,6 @@ const Inventory = ({
   const handleTabClick = (_event, tabIndex) => {
     const tabPath = tabsPath[tabIndex];
     if (tabPath !== undefined) {
-      console.log(tabPath);
       history.push(`${tabPath}`);
     }
     setActiveTabKey(tabIndex);
