@@ -1,19 +1,7 @@
-import { mount } from '@cypress/react';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 import { groupsInterceptors as interceptors } from '../../../cypress/support/interceptors';
-import { getStore } from '../../store';
 import InventoryGroups from './InventoryGroups';
 
-const mountPage = () =>
-  mount(
-    <Provider store={getStore()}>
-      <MemoryRouter>
-        <InventoryGroups />
-      </MemoryRouter>
-    </Provider>
-  );
+const mountPage = () => cy.mountWithContext(InventoryGroups);
 
 before(() => {
   cy.mockWindowChrome();
@@ -51,5 +39,17 @@ describe('groups table page', () => {
     mountPage();
 
     cy.get('[role=progressbar]').should('have.class', 'pf-c-spinner pf-m-xl');
+  });
+
+  describe('integration with rbac', () => {
+    it('disables empty state button when not enough permissions', () => {
+      interceptors['successful empty']();
+      cy.mockWindowChrome([]);
+      mountPage();
+
+      cy.get('button')
+        .contains('Create group')
+        .should('have.attr', 'aria-disabled', 'true');
+    });
   });
 });

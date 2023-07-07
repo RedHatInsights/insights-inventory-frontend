@@ -4,6 +4,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import GroupDetailHeader from '../GroupDetailHeader';
 import { DROPDOWN } from '@redhat-cloud-services/frontend-components-utilities/CypressUtils/selectors';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 jest.mock('react-redux', () => {
   return {
@@ -23,9 +24,13 @@ jest.mock('react-redux', () => {
   };
 });
 
+jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook');
+
 describe('group detail header', () => {
   let getByRole;
   let container;
+
+  usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
 
   beforeEach(() => {
     const rendered = render(
