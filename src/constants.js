@@ -202,4 +202,6 @@ export const REQUIRED_PERMISSIONS_TO_MODIFY_GROUP = (groupId) => [
       },
     ],
   },
-];
+
+export const NO_MODIFY_GROUP_TOOLTIP_MESSAGE =
+  'You do not have the necessary permissions to modify this group. Contact your organization administrator.';

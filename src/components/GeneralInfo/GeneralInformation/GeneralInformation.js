@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Grid, GridItem, Modal } from '@patternfly/react-core';
 import { SortByDirection } from '@patternfly/react-table';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 
 import { systemProfile } from '../../../store/actions';
 import InfoTable from '../InfoTable';
@@ -167,6 +168,18 @@ class GeneralInformation extends Component {
                     />
                   </GridItem>
                 )}
+
+                {this.props.showImageDetails && (
+                  <GridItem>
+                    <AsyncComponent
+                      appName="edge"
+                      module="./ImagesInformationCard"
+                      deviceIdProps={
+                        this.props.inventoryId || this.props.entity.id
+                      }
+                    />
+                  </GridItem>
+                )}
               </Grid>
             </GridItem>
             {children}
@@ -235,6 +248,7 @@ GeneralInformation.propTypes = {
   location: PropTypes.any,
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
+  showImageDetails: PropTypes.bool,
 };
 GeneralInformation.defaultProps = {
   entity: {},
@@ -247,6 +261,7 @@ GeneralInformation.defaultProps = {
   DataCollectorsCardWrapper: DataCollectorsCard,
   CollectionCardWrapper: false,
   systemProfilePrefetched: false,
+  showImageDetails: false,
 };
 
 const mapStateToProps = ({ entityDetails: { entity } }) => ({
