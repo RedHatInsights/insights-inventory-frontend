@@ -123,13 +123,13 @@ const GroupsTable = () => {
   const { fetchBatched } = useFetchBatched();
   const loadingState = uninitialized || loading;
 
-  const { hasAccess: canModify } = usePermissionsWithContext(
-    GENERAL_GROUPS_WRITE_PERMISSION
-  );
+  const { hasAccess: canModify } = usePermissionsWithContext([
+    GENERAL_GROUPS_WRITE_PERMISSION,
+  ]);
 
-  const { hasAccess: canSeeHosts } = usePermissionsWithContext(
-    GENERAL_GROUPS_READ_PERMISSION
-  );
+  const { hasAccess: canSeeHosts } = usePermissionsWithContext([
+    GENERAL_GROUPS_READ_PERMISSION,
+  ]);
 
   const fetchData = useCallback(
     debounce((filters) => {
