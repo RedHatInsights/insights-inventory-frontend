@@ -6,15 +6,21 @@ import {
   EmptyStateIcon,
   EmptyStateSecondaryActions,
   Title,
+  Tooltip,
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
 import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
 import CreateGroupModal from './Modals/CreateGroupModal';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+
+const REQUIRED_PERMISSIONS = ['inventory:groups:write'];
 
 const NoGroupsEmptyState = ({ reloadData }) => {
   const [createGroupModalOpen, setCreateGroupModalOpen] = useState(false);
+  const { hasAccess: canModifyGroups } =
+    usePermissionsWithContext(REQUIRED_PERMISSIONS);
 
   return (
     <EmptyState
@@ -37,9 +43,17 @@ const NoGroupsEmptyState = ({ reloadData }) => {
       <EmptyStateBody>
         Manage device operations efficiently by creating system groups.
       </EmptyStateBody>
-      <Button variant="primary" onClick={() => setCreateGroupModalOpen(true)}>
-        Create group
-      </Button>
+      {canModifyGroups ? (
+        <Button variant="primary" onClick={() => setCreateGroupModalOpen(true)}>
+          Create group
+        </Button>
+      ) : (
+        <Tooltip content="You do not have the necessary permissions to modify groups. Contact your organization administrator.">
+          <Button variant="primary" isAriaDisabled>
+            Create group
+          </Button>
+        </Tooltip>
+      )}
       <EmptyStateSecondaryActions>
         <Button
           variant="link"
