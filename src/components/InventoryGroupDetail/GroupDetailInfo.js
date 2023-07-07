@@ -19,7 +19,8 @@ import {
 const GroupDetailInfo = ({ chrome }) => {
   const path = `${chrome.isBeta() ? '/preview' : ''}/iam/user-access`;
   const { hasAccess: isGroupsAdministrator } = usePermissionsWithContext(
-    GROUPS_ADMINISTRATOR_PERMISSIONS
+    GROUPS_ADMINISTRATOR_PERMISSIONS,
+    true // should fulfilll all requested permissions
   );
 
   return (
