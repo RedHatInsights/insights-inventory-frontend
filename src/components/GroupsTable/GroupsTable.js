@@ -26,7 +26,11 @@ import upperCase from 'lodash/upperCase';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { TABLE_DEFAULT_PAGINATION } from '../../constants';
+import {
+  GENERAL_GROUPS_READ_PERMISSION,
+  GENERAL_GROUPS_WRITE_PERMISSION,
+  TABLE_DEFAULT_PAGINATION,
+} from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import CreateGroupModal from '../InventoryGroups/Modals/CreateGroupModal';
@@ -99,9 +103,6 @@ const groupsTableFiltersConfig = {
   },
 };
 
-const REQUIRED_PERMISSIONS_TO_MODIFY = ['inventory:groups:write'];
-const REQUIRED_PERMISSIONS_TO_SEE_HOSTS = ['inventory:hosts:read'];
-
 const GroupsTable = () => {
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, data } = useSelector(
@@ -123,11 +124,11 @@ const GroupsTable = () => {
   const loadingState = uninitialized || loading;
 
   const { hasAccess: canModify } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_MODIFY
+    GENERAL_GROUPS_WRITE_PERMISSION
   );
 
   const { hasAccess: canSeeHosts } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_SEE_HOSTS
+    GENERAL_GROUPS_READ_PERMISSION
   );
 
   const fetchData = useCallback(
