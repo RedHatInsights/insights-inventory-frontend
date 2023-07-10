@@ -18,19 +18,50 @@ const mountModal = (
   cy.mountWithContext(AddSelectedHostsToGroupModal, {}, props);
 };
 
-before(() => {
-  cy.mockWindowChrome();
-});
-
 describe('AddSelectedHostsToGroupModal', () => {
-  it('makes separate requests when searching groups', () => {
-    groupsInterceptors['successful with some items']();
-    mountModal();
+  describe('without any permissions', () => {
+    before(() => {
+      cy.mockWindowChrome({
+        userPermissions: [],
+      });
+    });
 
-    cy.wait('@getGroups'); // must make initial call
-    cy.get('input').type('abc');
-    cy.wait('@getGroups').its('request.url').should('contain', '?name=abc');
-    cy.get('input').type('d');
-    cy.wait('@getGroups').its('request.url').should('contain', '?name=abcd');
+    beforeEach(() => {
+      groupsInterceptors['successful with some items']();
+      mountModal();
+    });
+
+    it('makes separate requests when searching groups', () => {
+      cy.wait('@getGroups'); // must make initial call
+      cy.get('input').type('abc');
+      cy.wait('@getGroups').its('request.url').should('contain', '?name=abc');
+      cy.get('input').type('d');
+      cy.wait('@getGroups').its('request.url').should('contain', '?name=abcd');
+    });
+
+    it('create group button is disabled', () => {
+      cy.get('button')
+        .contains('Create a new group')
+        .should('have.attr', 'aria-disabled', 'true');
+    });
+  });
+
+  describe('with groups write permission', () => {
+    before(() => {
+      cy.mockWindowChrome({
+        userPermissions: ['inventory:groups:write'],
+      });
+    });
+
+    beforeEach(() => {
+      groupsInterceptors['successful with some items']();
+      mountModal();
+    });
+
+    it('create group button is enabled', () => {
+      cy.get('button')
+        .contains('Create a new group')
+        .not('have.attr', 'aria-disabled', 'true');
+    });
   });
 });

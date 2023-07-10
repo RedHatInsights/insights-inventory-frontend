@@ -26,7 +26,10 @@ import upperCase from 'lodash/upperCase';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { TABLE_DEFAULT_PAGINATION } from '../../constants';
+import {
+  NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+  TABLE_DEFAULT_PAGINATION,
+} from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import CreateGroupModal from '../InventoryGroups/Modals/CreateGroupModal';
@@ -426,8 +429,7 @@ const GroupsTable = () => {
               props: {
                 isAriaDisabled: !canModify || selectedIds.length !== 1,
                 ...(!canModify && {
-                  tooltip:
-                    'You do not have the necessary permissions to modify groups. Contact your organization administrator.',
+                  tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
                 }),
               },
             },
@@ -437,8 +439,7 @@ const GroupsTable = () => {
               props: {
                 isAriaDisabled: !canModify || selectedIds.length === 0,
                 ...(!canModify && {
-                  tooltip:
-                    'You do not have the necessary permissions to modify groups. Contact your organization administrator.',
+                  tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
                 }),
               },
             },
