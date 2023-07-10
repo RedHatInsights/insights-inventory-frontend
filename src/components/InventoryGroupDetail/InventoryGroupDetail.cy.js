@@ -163,5 +163,12 @@ describe('integration with rbac', () => {
         .find('.pf-c-card__title') // TODO: tie to OUIA
         .should('have.text', 'User access configuration');
     });
+
+    it('cannot add systems', () => {
+      cy.get('.pf-c-empty-state').find('.pf-c-spinner').should('not.exist'); // wait
+      cy.get('button')
+        .contains('Add systems')
+        .and('have.class', 'pf-m-aria-disabled');
+    });
   });
 });

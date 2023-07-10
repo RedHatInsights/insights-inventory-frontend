@@ -408,36 +408,53 @@ describe('edge cases', () => {
   });
 });
 
+const READ_PERMISSIONS_WITH_RD = [
+  {
+    permission: 'inventory:groups:read',
+    resourceDefinitions: [
+      {
+        attributeFilter: {
+          key: 'groupd.id',
+          operation: 'equal',
+          value: TEST_ID,
+        },
+      },
+    ],
+  },
+];
+
+const WRITE_PERMISSIONS_WITH_RD = [
+  {
+    permission: 'inventory:groups:write',
+    resourceDefinitions: [
+      {
+        attributeFilter: {
+          key: 'groupd.id',
+          operation: 'equal',
+          value: TEST_ID,
+        },
+      },
+    ],
+  },
+];
+
 describe('integration with rbac', () => {
+  beforeEach(() => {
+    cy.intercept('*', { statusCode: 200, body: { results: [] } });
+    hostsInterceptors.successful();
+    featureFlagsInterceptors.successful();
+    systemProfileInterceptors['operating system, successful empty']();
+    groupsInterceptors['successful with some items']();
+    mountTable();
+
+    waitForTable(true);
+  });
+
   describe('has only read permissions', () => {
     before(() => {
       cy.mockWindowChrome({
-        userPermissions: [
-          {
-            permission: 'inventory:groups:read',
-            resourceDefinitions: [
-              {
-                attributeFilter: {
-                  key: 'groupd.id',
-                  operation: 'equal',
-                  value: TEST_ID,
-                },
-              },
-            ],
-          },
-        ],
+        userPermissions: READ_PERMISSIONS_WITH_RD,
       });
-    });
-
-    beforeEach(() => {
-      cy.intercept('*', { statusCode: 200, body: { results: [] } });
-      hostsInterceptors.successful();
-      featureFlagsInterceptors.successful();
-      systemProfileInterceptors['operating system, successful empty']();
-      groupsInterceptors['successful with some items']();
-      mountTable();
-
-      waitForTable(true);
     });
 
     it('the table is rendered', () => {
@@ -460,6 +477,49 @@ describe('integration with rbac', () => {
       cy.get('button')
         .contains('Remove from group')
         .should('have.class', 'pf-m-aria-disabled');
+    });
+  });
+
+  describe('has groups write permissions', () => {
+    before(() => {
+      cy.mockWindowChrome({
+        userPermissions: [
+          ...READ_PERMISSIONS_WITH_RD,
+          ...WRITE_PERMISSIONS_WITH_RD,
+        ],
+      });
+    });
+
+    it('can remove more hosts from group', () => {
+      cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+      cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+
+      // TODO: implement ouia selector for this component
+      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+
+      cy.get(DROPDOWN_ITEM).contains('Remove from group').should('be.enabled');
+    });
+
+    it('no way to add systems', () => {
+      cy.get('button')
+        .contains('Add systems')
+        .should('have.class', 'pf-m-aria-disabled');
+    });
+  });
+
+  describe('has additional hosts read permissions', () => {
+    before(() => {
+      cy.mockWindowChrome({
+        userPermissions: [
+          ...READ_PERMISSIONS_WITH_RD,
+          ...WRITE_PERMISSIONS_WITH_RD,
+          'inventory:hosts:read',
+        ],
+      });
+    });
+
+    it('can add systems', () => {
+      cy.get('button').contains('Add systems').should('be.enabled');
     });
   });
 });

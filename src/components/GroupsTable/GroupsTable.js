@@ -29,6 +29,7 @@ import { Link } from 'react-router-dom';
 import {
   GENERAL_GROUPS_READ_PERMISSION,
   GENERAL_GROUPS_WRITE_PERMISSION,
+  NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   TABLE_DEFAULT_PAGINATION,
 } from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
@@ -427,8 +428,7 @@ const GroupsTable = () => {
               props: {
                 isAriaDisabled: !canModify || selectedIds.length !== 1,
                 ...(!canModify && {
-                  tooltip:
-                    'You do not have the necessary permissions to modify groups. Contact your organization administrator.',
+                  tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
                 }),
               },
             },
@@ -438,8 +438,7 @@ const GroupsTable = () => {
               props: {
                 isAriaDisabled: !canModify || selectedIds.length === 0,
                 ...(!canModify && {
-                  tooltip:
-                    'You do not have the necessary permissions to modify groups. Contact your organization administrator.',
+                  tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
                 }),
               },
             },
