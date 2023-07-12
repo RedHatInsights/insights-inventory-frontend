@@ -1,10 +1,13 @@
-import { mount } from '@cypress/react';
-import React from 'react';
 import { GroupDetailInfo } from './GroupDetailInfo';
 
-const mountPage = (params) => mount(<GroupDetailInfo {...params} />);
+const mountPage = (params) =>
+  cy.mountWithContext(GroupDetailInfo, undefined, params);
 
 describe('group detail information page', () => {
+  before(() => {
+    cy.mockWindowChrome();
+  });
+
   beforeEach(() => {
     mountPage({ chrome: { isBeta: () => false } });
   });
@@ -16,10 +19,7 @@ describe('group detail information page', () => {
   });
 
   it('button is present', () => {
-    cy.get('a[class="pf-c-button pf-m-secondary"]').should(
-      'have.text',
-      'Manage access'
-    );
+    cy.get('a').contains('Manage access').should('exist');
   });
 
   it('card text is present', () => {
@@ -39,5 +39,14 @@ describe('group detail information page', () => {
       mountPage({ chrome: { isBeta: () => true } });
       cy.get('a').should('have.attr', 'href', '/preview/iam/user-access');
     });
+  });
+
+  it('button disabled if not enough permissions', () => {
+    cy.mockWindowChrome([]);
+    mountPage({ chrome: { isBeta: () => true } });
+
+    cy.get('button')
+      .contains('Manage access')
+      .should('have.attr', 'aria-disabled', 'true');
   });
 });

@@ -27,6 +27,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
+  GENERAL_GROUPS_READ_PERMISSION,
+  GENERAL_GROUPS_WRITE_PERMISSION,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   TABLE_DEFAULT_PAGINATION,
 } from '../../constants';
@@ -102,9 +104,6 @@ const groupsTableFiltersConfig = {
   },
 };
 
-const REQUIRED_PERMISSIONS_TO_MODIFY = ['inventory:groups:write'];
-const REQUIRED_PERMISSIONS_TO_SEE_HOSTS = ['inventory:hosts:read'];
-
 const GroupsTable = () => {
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, data } = useSelector(
@@ -125,13 +124,13 @@ const GroupsTable = () => {
   const { fetchBatched } = useFetchBatched();
   const loadingState = uninitialized || loading;
 
-  const { hasAccess: canModify } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_MODIFY
-  );
+  const { hasAccess: canModify } = usePermissionsWithContext([
+    GENERAL_GROUPS_WRITE_PERMISSION,
+  ]);
 
-  const { hasAccess: canSeeHosts } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_SEE_HOSTS
-  );
+  const { hasAccess: canSeeHosts } = usePermissionsWithContext([
+    GENERAL_GROUPS_READ_PERMISSION,
+  ]);
 
   const fetchData = useCallback(
     debounce((filters) => {

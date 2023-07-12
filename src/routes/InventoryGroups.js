@@ -8,8 +8,9 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
+import { GENERAL_GROUPS_READ_PERMISSION } from '../constants';
 
-const REQUIRED_PERMISSIONS = ['inventory:groups:read'];
+const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_READ_PERMISSION];
 
 const Groups = () => {
   const chrome = useChrome();

@@ -14,8 +14,9 @@ import PropTypes from 'prop-types';
 import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
 import CreateGroupModal from './Modals/CreateGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { GENERAL_GROUPS_WRITE_PERMISSION } from '../../constants';
 
-const REQUIRED_PERMISSIONS = ['inventory:groups:write'];
+const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_WRITE_PERMISSION];
 
 const NoGroupsEmptyState = ({ reloadData }) => {
   const [createGroupModalOpen, setCreateGroupModalOpen] = useState(false);

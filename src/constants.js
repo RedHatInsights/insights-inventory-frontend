@@ -206,3 +206,10 @@ export const REQUIRED_PERMISSIONS_TO_MODIFY_GROUP = (groupId) => [
 
 export const NO_MODIFY_GROUP_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this group. Contact your organization administrator.';
+
+export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';
+export const GENERAL_GROUPS_READ_PERMISSION = 'inventory:groups:read';
+export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
+  GENERAL_GROUPS_READ_PERMISSION,
+  GENERAL_GROUPS_WRITE_PERMISSION,
+];
