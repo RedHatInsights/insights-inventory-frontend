@@ -35,7 +35,8 @@ import useFeatureFlag from '../Utilities/useFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
-
+import { manageEdgeInventoryUrlName } from '../Utilities/edge';
+import { resolveRelPath } from '../Utilities/path';
 const mapTags = ({ category, values }) =>
   values.map(
     ({ tagKey, value }) =>
@@ -127,8 +128,24 @@ const Inventory = ({
       lastSeenFilter
     )
   );
-  const [activeTabKey, setActiveTabkey] = useState(0);
-  const handleTabClick = (_event, tabIndex) => setActiveTabkey(tabIndex);
+  const { pathname } = useLocation();
+  const tabsPath = [
+    resolveRelPath(''),
+    resolveRelPath(manageEdgeInventoryUrlName),
+  ];
+  const initialActiveTabKey =
+    tabsPath.indexOf(pathname) >= 0 ? tabsPath.indexOf(pathname) : 0;
+  const [activeTabKey, setActiveTabKey] = useState(initialActiveTabKey);
+  useEffect(() => {
+    setActiveTabKey(initialActiveTabKey);
+  }, [pathname]);
+  const handleTabClick = (_event, tabIndex) => {
+    const tabPath = tabsPath[tabIndex];
+    if (tabPath !== undefined) {
+      history.push(`${tabPath}`);
+    }
+    setActiveTabKey(tabIndex);
+  };
   const [ediOpen, onEditOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
@@ -365,7 +382,7 @@ const Inventory = ({
           >
             <Tab
               eventKey={0}
-              title={<TabTitleText>Traditional (RPM-DNF)</TabTitleText>}
+              title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
             >
               {traditionalDevices}
             </Tab>
@@ -379,6 +396,8 @@ const Inventory = ({
                 historyProp={useHistory}
                 locationProp={useLocation}
                 showHeaderProp={false}
+                pathPrefix={resolveRelPath('')}
+                urlName={manageEdgeInventoryUrlName}
               />
             </Tab>
           </Tabs>
