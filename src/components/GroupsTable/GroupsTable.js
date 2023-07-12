@@ -27,8 +27,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
-  GENERAL_GROUPS_READ_PERMISSION,
   GENERAL_GROUPS_WRITE_PERMISSION,
+  GENERAL_HOSTS_READ_PERMISSIONS,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   TABLE_DEFAULT_PAGINATION,
 } from '../../constants';
@@ -129,7 +129,7 @@ const GroupsTable = () => {
   ]);
 
   const { hasAccess: canSeeHosts } = usePermissionsWithContext([
-    GENERAL_GROUPS_READ_PERMISSION,
+    GENERAL_HOSTS_READ_PERMISSIONS,
   ]);
 
   const fetchData = useCallback(

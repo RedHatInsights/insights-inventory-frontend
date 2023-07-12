@@ -42,7 +42,7 @@ describe('group detail information page', () => {
   });
 
   it('button disabled if not enough permissions', () => {
-    cy.mockWindowChrome([]);
+    cy.mockWindowChrome({ userPermissions: [] });
     mountPage({ chrome: { isBeta: () => true } });
 
     cy.get('button')
