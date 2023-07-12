@@ -107,15 +107,16 @@ describe('integration with rbac', () => {
         .should('have.text', groupDetailFixtures.results[0].id);
     });
 
-    it('should default to empty state in both tabs', () => {
-      cy.get(TAB_CONTENT)
-        .find('h5')
-        .should('have.text', 'Access needed for systems in this group');
-      cy.get(TAB_BUTTON).contains('Group info').click();
-      cy.get(TAB_CONTENT)
-        .eq(1) // <- workaround since PF renders both tab contents and hides the first
-        .find('h5')
-        .should('have.text', 'Access needed for systems in this group');
+    it('should not see any tabs', () => {
+      cy.get(TAB_CONTENT).should('not.exist');
+      cy.get(TAB_BUTTON).should('not.exist');
+    });
+
+    it('empty state is rendered', () => {
+      cy.get('h5').should(
+        'have.text',
+        'Inventory group access permissions needed'
+      );
     });
 
     it('actions are disabled', () => {
@@ -152,8 +153,10 @@ describe('integration with rbac', () => {
       cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
     });
 
-    it('should allow to see systems', () => {
-      cy.get(TAB_CONTENT).find('h4').should('have.text', 'No systems added');
+    it('should not allow to see systems', () => {
+      cy.get(TAB_CONTENT)
+        .find('h5')
+        .should('have.text', 'Access needed for systems in this group');
     });
 
     it('should allow to see the group info tab', () => {
@@ -163,12 +166,40 @@ describe('integration with rbac', () => {
         .find('.pf-c-card__title') // TODO: tie to OUIA
         .should('have.text', 'User access configuration');
     });
+  });
 
-    it('cannot add systems', () => {
-      cy.get('.pf-c-empty-state').find('.pf-c-spinner').should('not.exist'); // wait
-      cy.get('button')
-        .contains('Add systems')
-        .and('have.class', 'pf-m-aria-disabled');
+  describe('only group read and hosts read permission', () => {
+    before(() => {
+      cy.mockWindowChrome({
+        userPermissions: [
+          'inventory:hosts:read',
+          {
+            permission: 'inventory:groups:read',
+            resourceDefinitions: [
+              {
+                attributeFilter: {
+                  key: 'groupd.id',
+                  operation: 'equal',
+                  value: TEST_GROUP_ID,
+                },
+              },
+            ],
+          },
+        ],
+      });
+    });
+
+    beforeEach(() => {
+      groupDetailInterceptors.successful();
+      mountPage();
+    });
+
+    it('actions are disabled', () => {
+      cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
+    });
+
+    it('should allow to see systems', () => {
+      cy.get(TAB_CONTENT).find('h4').should('have.text', 'No systems added');
     });
   });
 });
