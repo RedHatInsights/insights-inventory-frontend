@@ -5,12 +5,16 @@ import { MemoryRouter } from 'react-router-dom';
 import { getStore } from '../../../store';
 import InventoryGroupDetail from '../InventoryGroupDetail';
 import { Provider } from 'react-redux';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 jest.mock('../../../Utilities/useFeatureFlag');
+jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook');
 
 describe('group detail page component', () => {
   let getByRole;
   let container;
+
+  usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
 
   beforeEach(() => {
     const rendered = render(
