@@ -44,7 +44,7 @@ describe('groups table page', () => {
   describe('integration with rbac', () => {
     it('disables empty state button when not enough permissions', () => {
       interceptors['successful empty']();
-      cy.mockWindowChrome([]);
+      cy.mockWindowChrome({ userPermissions: [] });
       mountPage();
 
       cy.get('button')
