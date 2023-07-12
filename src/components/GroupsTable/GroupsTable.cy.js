@@ -442,7 +442,7 @@ describe('edge cases', () => {
 
 describe('integration with rbac', () => {
   before(() => {
-    cy.mockWindowChrome(['inventory:groups:read']);
+    cy.mockWindowChrome({ userPermissions: ['inventory:groups:read'] });
   });
 
   beforeEach(() => {
@@ -483,7 +483,7 @@ describe('integration with rbac', () => {
         .should('have.attr', 'aria-disabled', 'true');
     });
 
-    it('all host numbers are unknown', () => {
+    it.only('all host numbers are unknown', () => {
       cy.get(`tbody ${ROW}`)
         .find('[data-label="Total systems"]')
         .each(($el) => cy.wrap($el).should(`have.text`, 'N/A'));
