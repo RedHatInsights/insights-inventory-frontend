@@ -14,7 +14,10 @@ import GroupSystems from '../GroupSystems';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP } from '../../constants';
-import EmptyStateNoAccess from './EmptyStateNoAccess';
+import {
+  EmptyStateNoAccessToGroup,
+  EmptyStateNoAccessToSystems,
+} from './EmptyStateNoAccess';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 
@@ -24,15 +27,19 @@ const InventoryGroupDetail = ({ groupId }) => {
   const chrome = useChrome();
   const groupName = data?.results?.[0]?.name;
 
-  const { hasAccess: canView } = usePermissionsWithContext(
+  const { hasAccess: canViewGroup } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
   );
 
+  const { hasAccess: canViewHosts } = usePermissionsWithContext([
+    'inventory:hosts:read',
+  ]);
+
   useEffect(() => {
-    if (canView === true) {
+    if (canViewGroup === true && canViewHosts === true) {
       dispatch(fetchGroupDetail(groupId));
     }
-  }, [canView]);
+  }, [canViewGroup, canViewHosts]);
 
   useEffect(() => {
     // if available, change ID to the group's name in the window title
@@ -48,27 +55,27 @@ const InventoryGroupDetail = ({ groupId }) => {
   return (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
-      <PageSection variant="light" type="tabs">
-        <Tabs
-          activeKey={activeTabKey}
-          onSelect={(event, value) => setActiveTabKey(value)}
-          aria-label="Group tabs"
-          role="region"
-          inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
-        >
-          <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
-            <PageSection>
-              {canView ? (
-                <GroupSystems groupName={groupName} groupId={groupId} />
-              ) : (
-                <EmptyStateNoAccess />
-              )}
-            </PageSection>
-          </Tab>
-          <Tab eventKey={1} title="Group info" aria-label="Group info tab">
-            {activeTabKey === 1 && ( // helps to lazy load the component
+      {canViewGroup ? (
+        <PageSection variant="light" type="tabs">
+          <Tabs
+            activeKey={activeTabKey}
+            onSelect={(event, value) => setActiveTabKey(value)}
+            aria-label="Group tabs"
+            role="region"
+            inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
+          >
+            <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
               <PageSection>
-                {canView ? (
+                {canViewHosts ? (
+                  <GroupSystems groupName={groupName} groupId={groupId} />
+                ) : (
+                  <EmptyStateNoAccessToSystems />
+                )}
+              </PageSection>
+            </Tab>
+            <Tab eventKey={1} title="Group info" aria-label="Group info tab">
+              {activeTabKey === 1 && ( // helps to lazy load the component
+                <PageSection>
                   <Suspense
                     fallback={
                       <Bullseye>
@@ -78,14 +85,16 @@ const InventoryGroupDetail = ({ groupId }) => {
                   >
                     <GroupDetailInfo />
                   </Suspense>
-                ) : (
-                  <EmptyStateNoAccess />
-                )}
-              </PageSection>
-            )}
-          </Tab>
-        </Tabs>
-      </PageSection>
+                </PageSection>
+              )}
+            </Tab>
+          </Tabs>
+        </PageSection>
+      ) : (
+        <PageSection>
+          <EmptyStateNoAccessToGroup />
+        </PageSection>
+      )}
     </React.Fragment>
   );
 };
