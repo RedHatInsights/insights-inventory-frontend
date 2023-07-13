@@ -46,7 +46,7 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
     >
       <Provider store={getStore()}>
         <MemoryRouter {...routerProps}>
-          <RBACProvider appName="inventory">
+          <RBACProvider appName="inventory" checkResourceDefinitions>
             {path ? (
               <Switch>
                 <Route

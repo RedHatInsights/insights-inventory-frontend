@@ -28,7 +28,7 @@ const AsyncInventory = ({
   }, []);
 
   return (
-    <RBACProvider appName="inventory">
+    <RBACProvider appName="inventory" checkResourceDefinitions>
       <Provider store={store}>
         <Router history={history}>
           <RenderWrapper
