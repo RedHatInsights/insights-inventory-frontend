@@ -137,7 +137,7 @@ describe('integration with rbac', () => {
             resourceDefinitions: [
               {
                 attributeFilter: {
-                  key: 'groupd.id',
+                  key: 'group.id',
                   operation: 'equal',
                   value: TEST_GROUP_ID,
                 },
@@ -187,7 +187,7 @@ describe('integration with rbac', () => {
             resourceDefinitions: [
               {
                 attributeFilter: {
-                  key: 'groupd.id',
+                  key: 'group.id',
                   operation: 'equal',
                   value: TEST_GROUP_ID,
                 },

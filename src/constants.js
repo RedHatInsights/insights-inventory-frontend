@@ -180,7 +180,7 @@ export const REQUIRED_PERMISSIONS_TO_READ_GROUP = (groupId) => [
     resourceDefinitions: [
       {
         attributeFilter: {
-          key: 'groupd.id',
+          key: 'group.id',
           operation: 'equal',
           value: groupId,
         },
@@ -195,7 +195,7 @@ export const REQUIRED_PERMISSIONS_TO_MODIFY_GROUP = (groupId) => [
     resourceDefinitions: [
       {
         attributeFilter: {
-          key: 'groupd.id',
+          key: 'group.id',
           operation: 'equal',
           value: groupId,
         },
