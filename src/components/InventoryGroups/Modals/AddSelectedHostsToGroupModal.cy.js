@@ -46,6 +46,32 @@ describe('AddSelectedHostsToGroupModal', () => {
     });
   });
 
+  describe('with limited groups write permissions', () => {
+    it('should still disable the create group button', () => {
+      cy.mockWindowChrome({
+        userPermissions: [
+          {
+            resourceDefinitions: [
+              {
+                attributeFilter: {
+                  key: 'group.id',
+                  value: ['74d41845-9939-428d-933e-1bcffe141219'],
+                  operation: 'in',
+                },
+              },
+            ],
+            permission: 'inventory:groups:write',
+          },
+        ],
+      });
+
+      mountModal();
+      cy.get('button')
+        .contains('Create a new group')
+        .should('have.attr', 'aria-disabled', 'true');
+    });
+  });
+
   describe('with groups write permission', () => {
     before(() => {
       cy.mockWindowChrome({
