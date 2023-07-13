@@ -122,9 +122,13 @@ describe('integration with rbac', () => {
     it('actions are disabled', () => {
       cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
     });
+
+    it('should show group id', () => {
+      cy.get('h1').should('have.text', TEST_GROUP_ID);
+    });
   });
 
-  describe('only read permissions', () => {
+  describe('only groups read permissions', () => {
     before(() => {
       cy.mockWindowChrome({
         userPermissions: [
@@ -166,6 +170,11 @@ describe('integration with rbac', () => {
         .find('.pf-c-card__title') // TODO: tie to OUIA
         .should('have.text', 'User access configuration');
     });
+
+    it('should fetch and display group name instead id', () => {
+      cy.wait('@getGroupDetail');
+      cy.get('h1').should('have.text', groupDetailFixtures.results[0].name);
+    });
   });
 
   describe('only group read and hosts read permission', () => {
@@ -200,6 +209,11 @@ describe('integration with rbac', () => {
 
     it('should allow to see systems', () => {
       cy.get(TAB_CONTENT).find('h4').should('have.text', 'No systems added');
+    });
+
+    it('should fetch and display group name instead id', () => {
+      cy.wait('@getGroupDetail');
+      cy.get('h1').should('have.text', groupDetailFixtures.results[0].name);
     });
   });
 });

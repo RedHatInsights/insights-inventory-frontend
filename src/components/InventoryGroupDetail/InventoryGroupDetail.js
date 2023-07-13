@@ -36,10 +36,10 @@ const InventoryGroupDetail = ({ groupId }) => {
   ]);
 
   useEffect(() => {
-    if (canViewGroup === true && canViewHosts === true) {
+    if (canViewGroup === true) {
       dispatch(fetchGroupDetail(groupId));
     }
-  }, [canViewGroup, canViewHosts]);
+  }, [canViewGroup]);
 
   useEffect(() => {
     // if available, change ID to the group's name in the window title
