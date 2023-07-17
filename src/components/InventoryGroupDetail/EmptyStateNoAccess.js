@@ -14,6 +14,7 @@ const EmptyStateNoAccessToSystems = () => (
       </div>
     }
     variant={EmptyStateVariant.large} // overrides the default "full" value
+    requiredPermission="inventory:hosts:read"
   />
 );
 
@@ -28,6 +29,7 @@ const EmptyStateNoAccessToGroup = () => (
       </div>
     }
     variant={EmptyStateVariant.large} // overrides the default "full" value
+    requiredPermission="inventory:groups:read"
   />
 );
 
@@ -42,6 +44,7 @@ const EmptyStateNoAccessToGroups = () => (
       </div>
     }
     variant={EmptyStateVariant.large} // overrides the default "full" value
+    requiredPermission="inventory:groups:read"
   />
 );
 

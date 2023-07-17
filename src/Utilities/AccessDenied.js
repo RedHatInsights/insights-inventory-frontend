@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 import { NotAuthorized } from '@redhat-cloud-services/frontend-components/NotAuthorized';
 import { Tooltip } from '@patternfly/react-core';
 
-const AccessDenied = ({ title, description, ...props }) => (
+const AccessDenied = ({ title, description, requiredPermission, ...props }) => (
   <NotAuthorized
     {...props}
     className="ins-c-inventory__no--access"
     title={title}
-    description={<Tooltip content="inventory:*:read">{description}</Tooltip>}
+    description={<Tooltip content={requiredPermission}>{description}</Tooltip>}
   />
 );
 
 AccessDenied.propTypes = {
   title: PropTypes.string,
   description: PropTypes.node,
+  requiredPermission: PropTypes.string,
 };
 
 AccessDenied.defaultProps = {
@@ -25,6 +26,7 @@ AccessDenied.defaultProps = {
       Organization Administrator.
     </div>
   ),
+  requiredPermission: 'inventory:*:read',
 };
 
 export default AccessDenied;
