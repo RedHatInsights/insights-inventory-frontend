@@ -12,12 +12,15 @@ import DeleteModal from '../Utilities/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
 
-import { useGetRegistry, useWritePermissions } from '../Utilities/constants';
+import {
+  useGetRegistry,
+  useHostsWritePermissions,
+} from '../Utilities/constants';
 import { mockSystemProfile } from '../__mocks__/hostApi';
 
 jest.mock('../Utilities/constants', () => ({
   ...jest.requireActual('../Utilities/constants'),
-  useWritePermissions: jest.fn(() => true),
+  useHostsWritePermissions: jest.fn(() => true),
   useGetRegistry: jest.fn(() => ({
     getRegistry: () => ({}),
   })),
@@ -130,7 +133,7 @@ describe('InventoryTable', () => {
 
   beforeEach(() => {
     mockStore = configureStore();
-    useWritePermissions.mockImplementation(() => true);
+    useHostsWritePermissions.mockImplementation(() => true);
     useGetRegistry.mockImplementation(() => () => ({ register: () => ({}) }));
     mockSystemProfile.onGet().reply(200, { results: [] });
   });
@@ -161,7 +164,7 @@ describe('InventoryTable', () => {
 
   it('renders correctly when no write permissions', async () => {
     let wrapper;
-    useWritePermissions.mockImplementation(() => false);
+    useHostsWritePermissions.mockImplementation(() => false);
     const store = mockStore(initialStore);
 
     await act(async () => {
