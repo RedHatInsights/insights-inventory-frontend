@@ -274,6 +274,10 @@ const Inventory = ({
           setCurrentSystem(rowData);
           onEditOpen(() => true);
         },
+        ...(!hostsWritePermissions && {
+          isAriaDisabled: true,
+          tooltip: NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
+        }),
       },
       {
         title: 'Delete',
@@ -281,6 +285,10 @@ const Inventory = ({
           setCurrentSystem(rowData);
           handleModalToggle(() => true);
         },
+        ...(!hostsWritePermissions && {
+          isAriaDisabled: true,
+          tooltip: NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
+        }),
       },
     ];
 
