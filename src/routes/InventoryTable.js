@@ -333,7 +333,7 @@ const Inventory = ({
           isFullView
           showTags
           onRefresh={onRefresh}
-          hasCheckbox
+          hasCheckbox={hostsWritePermissions || canModifyGroups}
           autoRefresh
           ignoreRefresh
           initialLoading={initialLoading}
@@ -393,7 +393,9 @@ const Inventory = ({
                 : []),
             ],
           }}
-          bulkSelect={bulkSelectConfig}
+          {...((canModifyGroups || hostsWritePermissions) && {
+            bulkSelect: bulkSelectConfig,
+          })}
           onRowClick={(_e, id, app) =>
             history.push(`/${id}${app ? `/${app}` : ''}`)
           }
