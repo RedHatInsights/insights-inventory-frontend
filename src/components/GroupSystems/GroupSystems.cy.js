@@ -414,7 +414,7 @@ const READ_PERMISSIONS_WITH_RD = [
     resourceDefinitions: [
       {
         attributeFilter: {
-          key: 'groupd.id',
+          key: 'group.id',
           operation: 'equal',
           value: TEST_ID,
         },
@@ -429,7 +429,7 @@ const WRITE_PERMISSIONS_WITH_RD = [
     resourceDefinitions: [
       {
         attributeFilter: {
-          key: 'groupd.id',
+          key: 'group.id',
           operation: 'equal',
           value: TEST_ID,
         },
