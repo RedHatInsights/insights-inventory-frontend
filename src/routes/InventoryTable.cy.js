@@ -69,23 +69,25 @@ describe('test data', () => {
   });
 });
 
-describe('inventory table', () => {
-  beforeEach(() => {
-    cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
-      statusCode: 200,
-      body: hostTagsFixtures,
-    });
-    cy.intercept('/api/inventory/v1/tags*', {
-      statusCode: 200,
-      body: tagsFixtures,
-    });
-    featureFlagsInterceptors.successful();
-    systemProfileInterceptors['operating system, successful empty']();
-    groupsInterceptors['successful with some items']();
-    hostsInterceptors.successful();
-    mountTable();
-    waitForTable(true);
+const prepareTest = () => {
+  cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
+    statusCode: 200,
+    body: hostTagsFixtures,
   });
+  cy.intercept('/api/inventory/v1/tags*', {
+    statusCode: 200,
+    body: tagsFixtures,
+  });
+  featureFlagsInterceptors.successful();
+  systemProfileInterceptors['operating system, successful empty']();
+  groupsInterceptors['successful with some items']();
+  hostsInterceptors.successful();
+  mountTable();
+  waitForTable(true);
+};
+
+describe('inventory table', () => {
+  beforeEach(prepareTest);
 
   describe('has groups actions', () => {
     it('cannot add host to another group', () => {
@@ -223,6 +225,48 @@ describe('inventory table', () => {
       cy.get(DROPDOWN_ITEM).contains('Add to group').click();
       cy.get(MODAL).find('button').contains('Create a new group').click();
       cy.get(MODAL).find('h1').should('have.text', 'Create group');
+    });
+  });
+
+  describe('integration with rbac', () => {
+    describe('with only read permissions', () => {
+      before(() => {
+        cy.mockWindowChrome({
+          userPermissions: ['inventory:*:read'],
+        });
+      });
+
+      beforeEach(prepareTest);
+
+      it('all per-row actions are disabled', () => {
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).each(($el) =>
+          cy.wrap($el).should('have.attr', 'aria-disabled', 'true')
+        );
+      });
+
+      it('should render no checkboxes', () => {
+        cy.get(ROW).find('[type="checkbox"]').should('not.exist');
+      });
+
+      it('bulk actions are disabled', () => {
+        cy.get('button')
+          .contains('Delete')
+          .should('have.attr', 'aria-disabled', 'true');
+
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .should('have.attr', 'aria-disabled', 'true');
+
+        cy.get(DROPDOWN_ITEM)
+          .contains('Add to group')
+          .should('have.attr', 'aria-disabled', 'true');
+      });
     });
   });
 });
