@@ -37,6 +37,11 @@ import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { manageEdgeInventoryUrlName } from '../Utilities/edge';
 import { resolveRelPath } from '../Utilities/path';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import {
+  GENERAL_GROUPS_WRITE_PERMISSION,
+  NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+} from '../constants';
 const mapTags = ({ category, values }) =>
   values.map(
     ({ tagKey, value }) =>
@@ -185,6 +190,10 @@ const Inventory = ({
 
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
 
+  const { hasAccess: canModifyGroups } = usePermissionsWithContext([
+    GENERAL_GROUPS_WRITE_PERMISSION,
+  ]);
+
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
     chrome?.hideGlobalFilter?.(false);
@@ -230,7 +239,7 @@ const Inventory = ({
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const isBulkRemoveFromGroupsEnabled = () => {
-    if (calculateSelected() > 0) {
+    if (canModifyGroups && calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
       return selectedHosts.every(
@@ -244,7 +253,7 @@ const Inventory = ({
   };
 
   const isBulkAddHostsToGroupsEnabled = () => {
-    if (calculateSelected() > 0) {
+    if (canModifyGroups && calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
       return selectedHosts.every(({ groups }) => groups.length === 0);
@@ -279,7 +288,10 @@ const Inventory = ({
           setCurrentSystem([rowData]);
           setAddHostGroupModalOpen(true);
         },
-        isDisabled: row.groups.length > 0,
+        isAriaDisabled: row.groups.length > 0 || !canModifyGroups,
+        ...(!canModifyGroups && {
+          tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+        }),
       },
       {
         title: 'Remove from group',
@@ -287,7 +299,10 @@ const Inventory = ({
           setCurrentSystem([rowData]);
           setRemoveHostsFromGroupModalOpen(true);
         },
-        isDisabled: row.groups.length === 0,
+        isAriaDisabled: row.groups.length === 0 || !canModifyGroups,
+        ...(!canModifyGroups && {
+          tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+        }),
       },
     ];
 
@@ -337,7 +352,10 @@ const Inventory = ({
                       {
                         label: 'Add to group',
                         props: {
-                          isDisabled: !isBulkAddHostsToGroupsEnabled(),
+                          isAriaDisabled: !isBulkAddHostsToGroupsEnabled(),
+                          ...(!canModifyGroups && {
+                            tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+                          }),
                         },
                         onClick: () => {
                           setCurrentSystem(Array.from(selected.values()));
@@ -347,7 +365,10 @@ const Inventory = ({
                       {
                         label: 'Remove from group',
                         props: {
-                          isDisabled: !isBulkRemoveFromGroupsEnabled(),
+                          isAriaDisabled: !isBulkRemoveFromGroupsEnabled(),
+                          ...(!canModifyGroups && {
+                            tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+                          }),
                         },
                         onClick: () => {
                           setCurrentSystem(Array.from(selected.values()));
