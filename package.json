@@ -149,6 +149,7 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --config config/prod.webpack.config.js",
     "test": "TZ=UTC jest --verbose --no-cache",
+    "test:local": "TZ=UTC jest --verbose --collectCoverage=false",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint config src",
     "lint:js:fix": "eslint config src --fix",
@@ -161,6 +162,7 @@
     "travis:build": "NODE_ENV=production webpack --config config/prod.webpack.config.js",
     "travis:verify": "npm-run-all travis:build lint test",
     "verify": "npm-run-all build lint test",
+    "verify:local": "npm-run-all build lint test:local test:ct",
     "nightly": "npm run travis:verify",
     "start:federated": "fec static --config config/dev.webpack.config.js",
     "test:ct": "BABEL_ENV=componentTest cypress run --component --browser chrome",

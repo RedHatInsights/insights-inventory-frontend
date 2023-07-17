@@ -14,6 +14,10 @@ This is the frontend application for [Insights Inventory](https://github.com/Red
 2. Run development server with `npm run start:proxy:beta`
 3. Local version of the app will be available at https://stage.foo.redhat.com:1337/preview/insights/inventory/
 
+### Testing your changes
+
+Before opening a pull request, you can run `npm run verify:local` to make sure your changes pass automated tests (Jest and Cypress) and linter (both JS and CSS linters).
+
 ## Running with another app
 
 If you want to see changes made in inventory table in another application you will have to run both inventory and desired application. We'll take for example [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend) application as app that uses system detail.
@@ -32,10 +36,6 @@ Or, if you want to run Advisor and, for instance, Vulnerability, then just add a
 ```
 LOCAL_API=advisor:8003~https,vulnerability:8004
 ```
-
-## Testing
-There is an npm script that runs the build, JS and CSS linters and unit tests. The script can be invoked by
-`npm run verify`
 
 ## Mocking Inventory API
 
