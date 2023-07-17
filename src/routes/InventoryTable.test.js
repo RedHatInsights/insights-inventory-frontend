@@ -154,7 +154,7 @@ describe('InventoryTable', () => {
       wrapper
         .find('.ins-c-primary-toolbar__first-action')
         .find('button')
-        .props().disabled
+        .props()['aria-disabled']
     ).toEqual(true);
     expect(wrapper.find('tbody').find('tr')).toHaveLength(1);
     expect(
@@ -174,11 +174,17 @@ describe('InventoryTable', () => {
 
     expect(
       wrapper.find('.ins-c-primary-toolbar__first-action').find('button')
-    ).toHaveLength(0);
+    ).toHaveLength(1);
+    expect(
+      wrapper
+        .find('.ins-c-primary-toolbar__first-action')
+        .find('button')
+        .props()['aria-disabled']
+    ).toEqual(true);
     expect(wrapper.find('tbody').find('tr')).toHaveLength(1);
     expect(
       wrapper.find('tbody').find('tr').find('.pf-c-dropdown')
-    ).toHaveLength(0);
+    ).toHaveLength(1);
   });
 
   it('can select and delete items', async () => {
