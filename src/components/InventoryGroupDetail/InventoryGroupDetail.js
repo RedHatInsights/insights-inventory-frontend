@@ -13,7 +13,10 @@ import { fetchGroupDetail } from '../../store/inventory-actions';
 import GroupSystems from '../GroupSystems';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { REQUIRED_PERMISSIONS_TO_READ_GROUP } from '../../constants';
+import {
+  REQUIRED_PERMISSIONS_TO_READ_GROUP,
+  REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS,
+} from '../../constants';
 import {
   EmptyStateNoAccessToGroup,
   EmptyStateNoAccessToSystems,
@@ -31,9 +34,9 @@ const InventoryGroupDetail = ({ groupId }) => {
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
   );
 
-  const { hasAccess: canViewHosts } = usePermissionsWithContext([
-    'inventory:hosts:read',
-  ]);
+  const { hasAccess: canViewHosts } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
+  );
 
   useEffect(() => {
     if (canViewGroup === true) {
