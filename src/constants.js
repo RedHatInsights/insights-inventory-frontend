@@ -195,6 +195,21 @@ export const REQUIRED_PERMISSIONS_TO_MODIFY_GROUP = (groupId) => [
   },
 ];
 
+export const REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS = (groupId) => [
+  {
+    permission: 'inventory:hosts:read',
+    resourceDefinitions: [
+      {
+        attributeFilter: {
+          key: 'group.id',
+          operation: 'equal',
+          value: groupId,
+        },
+      },
+    ],
+  },
+];
+
 export const NO_MODIFY_GROUPS_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify groups. Contact your organization administrator.';
 export const NO_MODIFY_GROUP_TOOLTIP_MESSAGE =

@@ -482,11 +482,5 @@ describe('integration with rbac', () => {
         .contains('Delete group')
         .should('have.attr', 'aria-disabled', 'true');
     });
-
-    it.only('all host numbers are unknown', () => {
-      cy.get(`tbody ${ROW}`)
-        .find('[data-label="Total systems"]')
-        .each(($el) => cy.wrap($el).should(`have.text`, 'N/A'));
-    });
   });
 });

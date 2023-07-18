@@ -28,7 +28,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
-  GENERAL_HOSTS_READ_PERMISSIONS,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   TABLE_DEFAULT_PAGINATION,
 } from '../../constants';
@@ -128,10 +127,6 @@ const GroupsTable = () => {
     GENERAL_GROUPS_WRITE_PERMISSION,
   ]);
 
-  const { hasAccess: canSeeHosts } = usePermissionsWithContext([
-    GENERAL_HOSTS_READ_PERMISSIONS,
-  ]);
-
   const fetchData = useCallback(
     debounce((filters) => {
       const { perPage, page, sortIndex, sortDirection, ...search } = filters;
@@ -165,9 +160,7 @@ const GroupsTable = () => {
           <Link to={`groups/${group.id}`}>{group.name || group.id}</Link>
         </span>,
         <span key={index}>
-          {!canSeeHosts || isNil(group.host_count)
-            ? 'N/A'
-            : group.host_count.toString()}
+          {isNil(group.host_count) ? 'N/A' : group.host_count.toString()}
         </span>,
         <span key={index}>
           {isNil(group.updated) ? 'N/A' : <DateFormat date={group.updated} />}
