@@ -40,11 +40,7 @@ export const Routes = () => {
           exact
           path={routes.table}
           render={() => (
-            <RenderWrapper
-              cmp={InventoryTable}
-              isRbacEnabled
-              {...searchParams}
-            />
+            <RenderWrapper cmp={InventoryTable} {...searchParams} />
           )}
           rootClass="inventory"
         />
