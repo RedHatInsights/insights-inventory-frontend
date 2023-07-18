@@ -134,6 +134,7 @@
     "eslint-config-recommended": "^4.1.0",
     "eslint-plugin-cypress": "^2.12.1",
     "fetch-mock": "^9.11.0",
+    "husky": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.3.1",
     "node-fetch": "^2.6.7",
@@ -171,7 +172,8 @@
     "coverage": "bash coverage.sh",
     "mock-server": "prism mock -d $npm_package_config_api_schema_path",
     "start:mock": "MOCK=true npm run start:proxy",
-    "start:mock:beta": "MOCK=true npm run start:proxy:beta"
+    "start:mock:beta": "MOCK=true npm run start:proxy:beta",
+    "prepare": "husky install"
   },
   "insights": {
     "appname": "inventory"
