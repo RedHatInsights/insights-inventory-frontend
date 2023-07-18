@@ -12,7 +12,7 @@ import {
 } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { routes } from '../Routes';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
-import { useWritePermissions } from '../Utilities/constants';
+import { useHostsWritePermissions } from '../Utilities/constants';
 import {
   AdvisorTab,
   ComplianceTab,
@@ -89,7 +89,7 @@ const Inventory = () => {
   const store = useStore();
   const history = useHistory();
   const dispatch = useDispatch();
-  const writePermissions = useWritePermissions();
+  const writePermissions = useHostsWritePermissions();
   const entityLoaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded
   );

@@ -132,12 +132,6 @@ export const extraShape = PropTypes.shape({
   onClick: PropTypes.func,
 });
 
-export const INVENTORY_WRITE_PERMISSIONS = [
-  'inventory:*:*',
-  'inventory:hosts:write',
-  'inventory:*:write',
-];
-
 export const getSearchParams = () => {
   const searchParams = new URLSearchParams(location.search);
   const status = searchParams.getAll('status');
@@ -171,9 +165,6 @@ export const getSearchParams = () => {
 
 export const TABLE_DEFAULT_PAGINATION = 50; // from UX table audit
 
-export const NO_MODIFY_GROUPS_TOOLTIP_MESSAGE =
-  'You do not have the necessary permissions to modify groups. Contact your organization administrator.';
-
 export const REQUIRED_PERMISSIONS_TO_READ_GROUP = (groupId) => [
   {
     permission: 'inventory:groups:read',
@@ -204,8 +195,14 @@ export const REQUIRED_PERMISSIONS_TO_MODIFY_GROUP = (groupId) => [
   },
 ];
 
+export const NO_MODIFY_GROUPS_TOOLTIP_MESSAGE =
+  'You do not have the necessary permissions to modify groups. Contact your organization administrator.';
 export const NO_MODIFY_GROUP_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this group. Contact your organization administrator.';
+export const NO_MODIFY_HOSTS_TOOLTIP_MESSAGE =
+  'You do not have the necessary permissions to modify hosts. Contact your organization administrator.';
+export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =
+  'You do not have the necessary permissions to modify this host. Contact your organization administrator.';
 
 export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';
 export const GENERAL_GROUPS_READ_PERMISSION = 'inventory:groups:read';
@@ -214,3 +211,4 @@ export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
   GENERAL_GROUPS_WRITE_PERMISSION,
 ];
 export const GENERAL_HOSTS_READ_PERMISSIONS = 'inventory:hosts:read';
+export const GENERAL_HOSTS_WRITE_PERMISSIONS = 'inventory:hosts:write';
