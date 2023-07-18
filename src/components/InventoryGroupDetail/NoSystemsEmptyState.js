@@ -14,11 +14,18 @@ import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/r
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { REQUIRED_PERMISSIONS_TO_MODIFY_GROUP } from '../../constants';
 
 const NoSystemsEmptyState = ({ groupId, groupName }) => {
   const { hasAccess: canViewHosts } = usePermissionsWithContext([
     'inventory:hosts:read',
   ]);
+
+  const { hasAccess: canModify } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
+  );
+
+  const enableAddSystems = canModify && canViewHosts;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -44,7 +51,7 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
       <EmptyStateBody>
         To manage systems more effectively, add systems to the group.
       </EmptyStateBody>
-      {canViewHosts ? (
+      {enableAddSystems ? (
         <Button variant="primary" onClick={() => setIsModalOpen(true)}>
           Add systems
         </Button>
