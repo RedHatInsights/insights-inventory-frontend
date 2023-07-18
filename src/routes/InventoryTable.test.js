@@ -12,12 +12,15 @@ import DeleteModal from '../Utilities/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
 
-import { useGetRegistry, useWritePermissions } from '../Utilities/constants';
+import {
+  useGetRegistry,
+  useHostsWritePermissions,
+} from '../Utilities/constants';
 import { mockSystemProfile } from '../__mocks__/hostApi';
 
 jest.mock('../Utilities/constants', () => ({
   ...jest.requireActual('../Utilities/constants'),
-  useWritePermissions: jest.fn(() => true),
+  useHostsWritePermissions: jest.fn(() => true),
   useGetRegistry: jest.fn(() => ({
     getRegistry: () => ({}),
   })),
@@ -130,7 +133,7 @@ describe('InventoryTable', () => {
 
   beforeEach(() => {
     mockStore = configureStore();
-    useWritePermissions.mockImplementation(() => true);
+    useHostsWritePermissions.mockImplementation(() => true);
     useGetRegistry.mockImplementation(() => () => ({ register: () => ({}) }));
     mockSystemProfile.onGet().reply(200, { results: [] });
   });
@@ -151,7 +154,7 @@ describe('InventoryTable', () => {
       wrapper
         .find('.ins-c-primary-toolbar__first-action')
         .find('button')
-        .props().disabled
+        .props()['aria-disabled']
     ).toEqual(true);
     expect(wrapper.find('tbody').find('tr')).toHaveLength(1);
     expect(
@@ -161,7 +164,7 @@ describe('InventoryTable', () => {
 
   it('renders correctly when no write permissions', async () => {
     let wrapper;
-    useWritePermissions.mockImplementation(() => false);
+    useHostsWritePermissions.mockImplementation(() => false);
     const store = mockStore(initialStore);
 
     await act(async () => {
@@ -171,11 +174,17 @@ describe('InventoryTable', () => {
 
     expect(
       wrapper.find('.ins-c-primary-toolbar__first-action').find('button')
-    ).toHaveLength(0);
+    ).toHaveLength(1);
+    expect(
+      wrapper
+        .find('.ins-c-primary-toolbar__first-action')
+        .find('button')
+        .props()['aria-disabled']
+    ).toEqual(true);
     expect(wrapper.find('tbody').find('tr')).toHaveLength(1);
     expect(
       wrapper.find('tbody').find('tr').find('.pf-c-dropdown')
-    ).toHaveLength(0);
+    ).toHaveLength(1);
   });
 
   it('can select and delete items', async () => {
