@@ -47,7 +47,7 @@ const InventoryGroups = () => {
       data-ouia-component-id="groups-table-wrapper"
     >
       {hasError ? (
-        error.status === 403 ? (
+        error?.status === 403 || error?.response?.status === 403 ? (
           <EmptyStateNoAccessToGroups />
         ) : (
           <ErrorState />
