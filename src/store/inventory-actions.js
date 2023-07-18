@@ -211,6 +211,9 @@ export const fetchAllTags = (
 export const fetchGroups = (search, pagination) => ({
   type: ACTION_TYPES.GROUPS,
   payload: getGroups(search, pagination),
+  meta: {
+    noError: true, // turns of automatic notification
+  },
 });
 
 export const fetchGroupDetail = (groupId) => ({
@@ -252,4 +255,7 @@ export const toggleDrawer = (isOpened) => ({
 export const fetchGroupsForEntities = (params) => ({
   type: ACTION_TYPES.GROUPS_FOR_ENTITIES,
   payload: groupsApi.apiGroupGetGroupList(params),
+  meta: {
+    noError: true, // turns of automatic notification
+  },
 });
