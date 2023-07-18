@@ -89,6 +89,7 @@ exports[`InventoryTable should render correctly - with no access 1`] = `
             To view your systems, you must be granted inventory access from your Organization Administrator.
           </div>
         }
+        requiredPermission="inventory:*:read"
         showReturnButton={false}
         title="You do not have access to Inventory"
       />
@@ -112,6 +113,7 @@ exports[`InventoryTable should render correctly - with no access and full view 1
         To view the content of this page, you must be granted a minimum of inventory permissions from your Organization Administrator.
       </div>
     }
+    requiredPermission="inventory:*:read"
     title="This application requires Inventory permissions"
   />
 </ForwardRef>

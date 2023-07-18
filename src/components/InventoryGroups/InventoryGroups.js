@@ -5,11 +5,13 @@ import { Bullseye, Spinner } from '@patternfly/react-core';
 import GroupsTable from '../GroupsTable/GroupsTable';
 import { getGroups } from '../InventoryGroups/utils/api';
 import NoGroupsEmptyState from './NoGroupsEmptyState';
+import { EmptyStateNoAccessToGroups } from '../InventoryGroupDetail/EmptyStateNoAccess';
 
 const InventoryGroups = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasGroups, setHasGroups] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [error, setError] = useState(null);
 
   const ignore = useRef(false); // https://react.dev/learn/synchronizing-with-effects#fetching-data
 
@@ -22,7 +24,10 @@ const InventoryGroups = () => {
         !ignore.current && setHasGroups(true);
       }
     } catch (error) {
-      !ignore.current && setHasError(true);
+      if (!ignore.current) {
+        setHasError(true);
+        setError(error);
+      }
     }
 
     !ignore.current && setIsLoading(false);
@@ -42,7 +47,11 @@ const InventoryGroups = () => {
       data-ouia-component-id="groups-table-wrapper"
     >
       {hasError ? (
-        <ErrorState />
+        error?.status === 403 || error?.response?.status === 403 ? (
+          <EmptyStateNoAccessToGroups />
+        ) : (
+          <ErrorState />
+        )
       ) : isLoading ? (
         <Bullseye>
           <Spinner />
