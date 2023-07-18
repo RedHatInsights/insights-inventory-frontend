@@ -245,10 +245,6 @@ describe('inventory table', () => {
         );
       });
 
-      it('should render no checkboxes', () => {
-        cy.get(ROW).find('[type="checkbox"]').should('not.exist');
-      });
-
       it('bulk actions are disabled', () => {
         cy.get('button')
           .contains('Delete')
