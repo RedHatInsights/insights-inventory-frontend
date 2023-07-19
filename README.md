@@ -14,6 +14,14 @@ This is the frontend application for [Insights Inventory](https://github.com/Red
 2. Run development server with `npm run start:proxy:beta`
 3. Local version of the app will be available at https://stage.foo.redhat.com:1337/preview/insights/inventory/
 
+## Testing your changes
+
+Before opening a pull request, you can run `npm run verify:local` to make sure your changes pass automated tests (Jest and Cypress) and linter (both JS and CSS linters). We also execute [husky](https://typicode.github.io/husky/) hooks with every commit to make sure the changes pass basic lint checks.
+
+## Commit conventions
+
+In order to keep our commits style consistent and the commits history easy to read, we utilize [semantic-release](https://github.com/semantic-release/semantic-release) which follows [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format). Also, there is a commitlint check run on master, master-stable, prod-beta and prod-stable branches which ensures that all the commits meet the expected format (`<type>(<scope>): <short summary>`). Following this standard and specifying at least the type and summary for each commit helps to automatically generate a changelog of changes.
+
 ## Running with another app
 
 If you want to see changes made in inventory table in another application you will have to run both inventory and desired application. We'll take for example [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend) application as app that uses system detail.
@@ -32,10 +40,6 @@ Or, if you want to run Advisor and, for instance, Vulnerability, then just add a
 ```
 LOCAL_API=advisor:8003~https,vulnerability:8004
 ```
-
-## Testing
-There is an npm script that runs the build, JS and CSS linters and unit tests. The script can be invoked by
-`npm run verify`
 
 ## Mocking Inventory API
 
