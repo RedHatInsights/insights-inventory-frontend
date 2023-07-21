@@ -3,18 +3,25 @@
 # Insights Inventory Frontend
 
 This is the frontend application for [Insights Inventory](https://github.com/RedHatInsights/insights-inventory). It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
+
 ## First time setup
+
 ### Quick start
-1. Make sure you have [`Node.js`](https://nodejs.org/en/) and [`npm`](https://www.npmjs.com/) installed
-2. Run [script to patch your `/etc/hosts`](https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh)
-3. Make sure you are using [Red Hat proxy](http://hdn.corp.redhat.com/proxy.pac)
+
+1. Make sure you have [`Node.js`](https://nodejs.org/en/) (current LTS) and [`npm`](https://www.npmjs.com/) installed.
+2. Run [script to patch your `/etc/hosts`](https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh).
+3. Make sure you are using [Red Hat proxy](http://hdn.corp.redhat.com/proxy.pac).
 
 ## Running locally
-1. Install dependencies with `npm install`
-2. Run development server with `npm run start:proxy:beta`
-3. Local version of the app will be available at https://stage.foo.redhat.com:1337/preview/insights/inventory/
+
+1. Clone the repository.
+2. Install dependencies with `npm install`.
+3. Run development server with `npm run start:proxy:beta`. See `dev.webpack.config.js` and `package.json` (npm scripts) for more options and parameters available.
+4. Local version of the app will be available at `https://stage.foo.redhat.com:1337/preview/insights/inventory/`. If you run with slightly different setup (for example, using production environment), you should still see the generated URL in your terminal, the webpack script output.
 
 ## Testing your changes
+
+We use Jest with React Testing Library to write unit tests. For larger pieces of code or components, we utilize Cypress. For testing commands shortcuts (like `npm run test`, `npm run test:ct`, etc.), take a look at the package.json file which lists available scripts.
 
 Before opening a pull request, you can run `npm run verify:local` to make sure your changes pass automated tests (Jest and Cypress) and linter (both JS and CSS linters). We also execute [husky](https://typicode.github.io/husky/) hooks with every commit to make sure the changes pass basic lint checks.
 
@@ -24,7 +31,13 @@ In order to keep our commits style consistent and the commits history easy to re
 
 ## Running with another app
 
-If you want to see changes made in inventory table in another application you will have to run both inventory and desired application. We'll take for example [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend) application as app that uses system detail.
+Applications on console.redhat.com are webpack federated modules, and you are able to deploy some of them locally. This helps to see if new changes work well in terms of integration.
+
+If you want to see local changes to any of the Inventory components, and see how it behaves with other applications (like, for example, Inventory table is imported in Advisor), you will have to run both Inventory and desired application. 
+
+### Example
+
+We'll take for example [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend) application as app that uses system detail.
 
 Open new terminal and navigate to desired application (for instance insights-advisor-frontend) and run it (make sure to run it on a different port):
 ```
@@ -42,6 +55,8 @@ LOCAL_API=advisor:8003~https,vulnerability:8004
 ```
 
 ## Mocking Inventory API
+
+This is one of the advanced methods to test frontend locally without waiting for API to have desired endpoints available. 
 
 Inventory frontend has support for https://github.com/stoplightio/prism CLI. The CLI reads the OpenAPI schema, spins up a localhost server and serves dynamically generated responses for Inventory API endpoints (/hosts, /groups, etc.).
 
