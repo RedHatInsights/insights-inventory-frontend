@@ -180,9 +180,9 @@ describe('url search parameters', () => {
   });
 
   it('applies sorting', () => {
-    mountTable('/?order_by=host_ids&order_how=desc');
+    mountTable('/?order_by=host_count&order_how=desc');
 
-    checkSorting('Total systems', 'descending', 'host_ids');
+    checkSorting('Total systems', 'descending', 'host_count');
   });
 });
 
@@ -194,13 +194,15 @@ describe('sorting', () => {
     cy.wait('@getGroups'); // first initial request
   });
 
-  _.zip(['name', 'host_ids'], SORTABLE_HEADERS).forEach(([category, label]) => {
-    SORTING_ORDERS.forEach((order) => {
-      it(`${order} by ${label}`, () => {
-        checkSorting(label, order, category);
+  _.zip(['name', 'host_count'], SORTABLE_HEADERS).forEach(
+    ([category, label]) => {
+      SORTING_ORDERS.forEach((order) => {
+        it(`${order} by ${label}`, () => {
+          checkSorting(label, order, category);
+        });
       });
-    });
-  });
+    }
+  );
 });
 
 describe('filtering', () => {
