@@ -2,7 +2,7 @@
 import union from 'lodash/union';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGroups } from '../../store/inventory-actions';
+import { fetchGroupsForEntities } from '../../store/inventory-actions';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 //for attaching this filter to the redux
@@ -38,7 +38,7 @@ const useGroupFilter = (apiParams = []) => {
 
   useEffect(() => {
     if (groupsEnabled === true) {
-      dispatch(fetchGroups(apiParams)); // TODO: make the request paginated (to show all the groups)
+      dispatch(fetchGroupsForEntities(apiParams)); // TODO: make the request paginated (to show all the groups)
     }
   }, [groupsEnabled]);
   //fetched values
