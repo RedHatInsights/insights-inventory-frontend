@@ -105,9 +105,10 @@ const groupsTableFiltersConfig = {
 
 const GroupsTable = () => {
   const dispatch = useDispatch();
-  const { rejected, uninitialized, loading, data } = useSelector(
+  const { rejected, uninitialized, loading, fulfilled, data } = useSelector(
     (state) => state.groups
   );
+  const [rowsGenerated, setRowsGenerated] = useState(false);
   const location = useLocation();
   const [filters, setFilters] = useState({
     ...GROUPS_TABLE_INITIAL_STATE,
@@ -171,6 +172,7 @@ const GroupsTable = () => {
       selected: selectedIds.includes(group.id),
     }));
     setRows(newRows);
+    setRowsGenerated(!uninitialized && !loading); // set to true only after the API call is complete
 
     if (selectedIds.length === 1) {
       setSelectedGroup({
@@ -180,7 +182,7 @@ const GroupsTable = () => {
     } else {
       setSelectedGroup(undefined);
     }
-  }, [groups, selectedIds]);
+  }, [loading, selectedIds]);
 
   // TODO: convert initial URL params to filters
 
@@ -242,35 +244,50 @@ const GroupsTable = () => {
   const onPerPageSelect = (event, perPage) =>
     setFilters({ ...filters, perPage, page: 1 }); // will also reset the page to first
 
-  const tableRows = useMemo(
-    () =>
-      uninitialized || loading
-        ? generateLoadingRows(GROUPS_TABLE_COLUMNS.length, filters.perPage)
-        : rejected || rows.length === 0
-        ? [
-            {
-              fullWidth: true,
-              cells: [
-                {
-                  title: rejected ? (
-                    // TODO: don't render the primary button (requires change in FF)
-                    <ErrorState />
-                  ) : (
-                    <NoEntitiesFound
-                      entities="groups"
-                      onClearAll={onResetFilters}
-                    />
-                  ),
-                  props: {
-                    colSpan: GROUPS_TABLE_COLUMNS.length + 1,
-                  },
+  const tableRows = useMemo(() => {
+    if (uninitialized || loading || !rowsGenerated) {
+      return generateLoadingRows(GROUPS_TABLE_COLUMNS.length, filters.perPage);
+    }
+
+    if (fulfilled) {
+      if (rows.length === 0) {
+        return [
+          {
+            fullWidth: true,
+            cells: [
+              {
+                title: (
+                  <NoEntitiesFound
+                    entities="groups"
+                    onClearAll={onResetFilters}
+                  />
+                ),
+                props: {
+                  colSpan: GROUPS_TABLE_COLUMNS.length + 1,
                 },
-              ],
+              },
+            ],
+          },
+        ];
+      } else {
+        return rows; // the happy path
+      }
+    }
+
+    return [
+      {
+        fullWidth: true,
+        cells: [
+          {
+            title: <ErrorState />, // TODO: don't render the primary button (requires change in FF)
+            props: {
+              colSpan: GROUPS_TABLE_COLUMNS.length + 1,
             },
-          ]
-        : rows,
-    [uninitialized, loading, rejected, rows, filters.perPage]
-  );
+          },
+        ],
+      },
+    ];
+  }, [uninitialized, loading, rejected, rows, filters.perPage]);
 
   // TODO: use ouiaSafe to indicate the loading state for e2e tests
 
