@@ -70,7 +70,7 @@ const GROUPS_TABLE_COLUMNS = [
 const GROUPS_TABLE_COLUMNS_TO_URL = {
   0: '', // reserved for selection boxes
   1: 'name',
-  2: 'host_ids',
+  2: 'host_count',
   3: 'updated_at',
 };
 
