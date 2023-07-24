@@ -138,6 +138,6 @@ export const createColumns = (columns, hasItems, rows, isExpandable) =>
 
 export const generateLoadingRows = (colsNumber, rowsNumber) =>
   Array(rowsNumber).fill({
-    fullWidth: true,
+    disableSelection: true,
     cells: Array(colsNumber).fill({ title: <Skeleton /> }),
   });
