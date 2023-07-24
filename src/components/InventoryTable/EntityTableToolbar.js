@@ -16,7 +16,6 @@ import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/Prima
 import {
   clearFilters,
   fetchAllTags,
-  fetchGroupsForEntities,
   setFilter,
   toggleTagModal,
 } from '../../store/actions';
@@ -243,19 +242,6 @@ const EntityTableToolbar = ({
         onRefreshData(options);
         if (showTags && !hasItems) {
           dispatch(fetchAllTags(filterTagsBy, {}, getTags));
-        }
-
-        if (groupsEnabled === true) {
-          dispatch(
-            fetchGroupsForEntities(
-              undefined,
-              50,
-              undefined,
-              'name',
-              'ASC',
-              undefined
-            )
-          );
         }
       }
     },
