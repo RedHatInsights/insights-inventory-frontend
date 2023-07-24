@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import './EntityTableToolbar.scss';
 import React, { Fragment, useCallback, useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
