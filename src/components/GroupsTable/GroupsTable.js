@@ -95,7 +95,7 @@ const groupsTableFiltersConfig = {
       parseInt(
         Object.entries(GROUPS_TABLE_COLUMNS_TO_URL).find(
           ([, name]) => name === value
-        )[0]
+        )?.[0]
       ),
   },
   sortDirection: {
