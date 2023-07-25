@@ -64,7 +64,7 @@ Clickable.propTypes = {
 };
 
 const LoadingCard = ({ title, isLoading, items, children }) => (
-  <Card>
+  <Card ouiaId="system-properties-card">
     <CardBody>
       <Stack hasGutter>
         <StackItem>
@@ -90,10 +90,24 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
                     key
                   ) => (
                     <Fragment key={key}>
-                      <TextListItem component={TextListItemVariants.dt}>
+                      <TextListItem
+                        component={TextListItemVariants.dt}
+                        data-ouia-component-id={`${
+                          typeof itemTitle === 'string'
+                            ? itemTitle
+                            : itemTitle?.props?.title
+                        } title`}
+                      >
                         {itemTitle}
                       </TextListItem>
-                      <TextListItem component={TextListItemVariants.dd}>
+                      <TextListItem
+                        component={TextListItemVariants.dd}
+                        data-ouia-component-id={`${
+                          typeof itemTitle === 'string'
+                            ? itemTitle
+                            : itemTitle?.props?.title
+                        } value`}
+                      >
                         {isLoading && (
                           <Skeleton size={size || SkeletonSize.sm} />
                         )}
