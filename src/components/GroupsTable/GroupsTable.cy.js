@@ -291,40 +291,11 @@ describe('actions', () => {
 
   const TEST_ID = 0;
 
-  it('bulk rename and delete actions are disabled when no items selected', () => {
+  it('bulk delete action is disabled when no items selected', () => {
     cy.ouiaId('Actions').should('exist').click();
-    cy.get(DROPDOWN_ITEM)
-      .contains('Rename group')
-      .should('have.attr', 'aria-disabled', 'true');
     cy.get(DROPDOWN_ITEM)
       .contains('Delete group')
       .should('have.attr', 'aria-disabled', 'true');
-  });
-
-  it('can rename a group, 1', () => {
-    cy.get(ROW)
-      .eq(TEST_ID + 1)
-      .find(`${DROPDOWN} button`)
-      .click();
-    cy.get(DROPDOWN_ITEM).contains('Rename group').click();
-    cy.get(MODAL).find('h1').should('contain.text', 'Rename group');
-    cy.get(MODAL)
-      .find('input')
-      .should('have.value', fixtures.results[TEST_ID].name);
-
-    cy.wait('@getGroups'); // validate request
-  });
-
-  it('can rename a group, 2', () => {
-    selectRowN(TEST_ID + 1);
-    cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
-    cy.get(DROPDOWN_ITEM).contains('Rename group').click();
-    cy.get(MODAL).find('h1').should('contain.text', 'Rename group');
-    cy.get(MODAL)
-      .find('input')
-      .should('have.value', fixtures.results[TEST_ID].name);
-
-    cy.wait('@getGroups'); // validate request
   });
 
   describe('deletion', () => {
@@ -467,9 +438,6 @@ describe('integration with rbac', () => {
         .contains('Create group')
         .should('have.attr', 'aria-disabled', 'true');
       cy.get(DROPDOWN_ITEM)
-        .contains('Rename group')
-        .should('have.attr', 'aria-disabled', 'true');
-      cy.get(DROPDOWN_ITEM)
         .contains('Delete group')
         .should('have.attr', 'aria-disabled', 'true');
     });
@@ -477,9 +445,6 @@ describe('integration with rbac', () => {
     it('disables per-row actions', () => {
       cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
 
-      cy.get(DROPDOWN_ITEM)
-        .contains('Rename group')
-        .should('have.attr', 'aria-disabled', 'true');
       cy.get(DROPDOWN_ITEM)
         .contains('Delete group')
         .should('have.attr', 'aria-disabled', 'true');
