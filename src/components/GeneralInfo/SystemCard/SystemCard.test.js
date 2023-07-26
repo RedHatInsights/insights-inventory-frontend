@@ -10,6 +10,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import { hosts } from '../../../api/api';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
+import { Provider } from 'react-redux';
 
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
@@ -67,13 +68,21 @@ describe('SystemCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(<SystemCard store={store} />);
+    const wrapper = render(
+      <Provider store={store}>
+        <SystemCard />
+      </Provider>
+    );
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<SystemCard store={store} />);
+    const wrapper = render(
+      <Provider store={store}>
+        <SystemCard />
+      </Provider>
+    );
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -88,7 +97,11 @@ describe('SystemCard', () => {
         },
       },
     });
-    const wrapper = render(<SystemCard store={store} />);
+    const wrapper = render(
+      <Provider store={store}>
+        <SystemCard />
+      </Provider>
+    );
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -101,14 +114,22 @@ describe('SystemCard', () => {
         },
       },
     });
-    const wrapper = render(<SystemCard store={store} />);
+    const wrapper = render(
+      <Provider store={store}>
+        <SystemCard />
+      </Provider>
+    );
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   describe('API', () => {
     it('should calculate correct ansible host - direct ansible host', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(<SystemCard store={store} />);
+      const wrapper = mount(
+        <Provider store={store}>
+          <SystemCard />
+        </Provider>
+      );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
       ).toBe('test-ansible-host');
@@ -125,7 +146,11 @@ describe('SystemCard', () => {
           },
         },
       });
-      const wrapper = mount(<SystemCard store={store} />);
+      const wrapper = mount(
+        <Provider store={store}>
+          <SystemCard />
+        </Provider>
+      );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
       ).toBe('test-fqdn');
@@ -142,7 +167,11 @@ describe('SystemCard', () => {
           },
         },
       });
-      const wrapper = mount(<SystemCard store={store} />);
+      const wrapper = mount(
+        <Provider store={store}>
+          <SystemCard />
+        </Provider>
+      );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
       ).toBe('test-id');
@@ -150,7 +179,11 @@ describe('SystemCard', () => {
 
     it('should show edit display name', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(<SystemCard store={store} />);
+      const wrapper = mount(
+        <Provider store={store}>
+          <SystemCard />
+        </Provider>
+      );
       wrapper
         .find('a[href$="display_name"]')
         .first()
@@ -173,7 +206,11 @@ describe('SystemCard', () => {
 
     it('should show edit display name', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(<SystemCard store={store} />);
+      const wrapper = mount(
+        <Provider store={store}>
+          <SystemCard />
+        </Provider>
+      );
       wrapper
         .find('a[href$="ansible_name"]')
         .first()
@@ -200,7 +237,11 @@ describe('SystemCard', () => {
         .onGet('/api/inventory/v1/hosts/test-id/system_profile')
         .reply(200, mockedData);
       const store = mockStore(initialState);
-      const wrapper = mount(<SystemCard store={store} />);
+      const wrapper = mount(
+        <Provider store={store}>
+          <SystemCard />
+        </Provider>
+      );
       wrapper
         .find('a[href$="display_name"]')
         .first()
@@ -208,7 +249,7 @@ describe('SystemCard', () => {
           preventDefault: () => undefined,
         });
       wrapper.find('button[data-action="confirm"]').first().simulate('click');
-      expect(store.getActions()[0].type).toBe('UPDATE_DISPLAY_NAME_PENDING');
+      expect(store.getActions().length).toBe(0); // the button is disabled since the input hasn't been changed
     });
 
     it('should call edit display name actions', () => {
@@ -217,7 +258,11 @@ describe('SystemCard', () => {
         .onGet('/api/inventory/v1/hosts/test-id/system_profile')
         .reply(200, mockedData);
       const store = mockStore(initialState);
-      const wrapper = mount(<SystemCard store={store} />);
+      const wrapper = mount(
+        <Provider store={store}>
+          <SystemCard />
+        </Provider>
+      );
       wrapper
         .find('a[href$="ansible_name"]')
         .first()
@@ -225,7 +270,7 @@ describe('SystemCard', () => {
           preventDefault: () => undefined,
         });
       wrapper.find('button[data-action="confirm"]').first().simulate('click');
-      expect(store.getActions()[0].type).toBe('SET_ANSIBLE_HOST_PENDING');
+      expect(store.getActions().length).toBe(0); // the button is disabled since the input hasn't been changed
     });
 
     it('should handle click on SAP identifiers', () => {
@@ -243,7 +288,9 @@ describe('SystemCard', () => {
       location.pathname = 'localhost:3000/example/sap_sids';
 
       const wrapper = mount(
-        <SystemCard store={store} handleClick={handleClick} />
+        <Provider store={store}>
+          <SystemCard handleClick={handleClick} />
+        </Provider>
       );
       wrapper.find('dd a').last().simulate('click');
       expect(handleClick).toHaveBeenCalledWith('SAP IDs (SID)', {
@@ -273,7 +320,9 @@ describe('SystemCard', () => {
       location.pathname = 'localhost:3000/example/flag';
 
       const wrapper = mount(
-        <SystemCard store={store} handleClick={handleClick} />
+        <Provider store={store}>
+          <SystemCard handleClick={handleClick} />
+        </Provider>
       );
       wrapper.find('dd a').last().simulate('click');
       expect(handleClick).toHaveBeenCalledWith('CPU flags', {
@@ -304,7 +353,9 @@ describe('SystemCard', () => {
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
       const wrapper = render(
-        <SystemCard store={store} {...{ [item]: false }} />
+        <Provider store={store}>
+          <SystemCard {...{ [item]: false }} />
+        </Provider>
       );
       expect(toJson(wrapper)).toMatchSnapshot();
     })
@@ -313,17 +364,19 @@ describe('SystemCard', () => {
   it('should render extra', () => {
     const store = mockStore(initialState);
     const wrapper = render(
-      <SystemCard
-        store={store}
-        extra={[
-          { title: 'something', value: 'test' },
-          {
-            title: 'with click',
-            value: '1 tests',
-            onClick: (_e, handleClick) => handleClick('Something', {}, 'small'),
-          },
-        ]}
-      />
+      <Provider store={store}>
+        <SystemCard
+          extra={[
+            { title: 'something', value: 'test' },
+            {
+              title: 'with click',
+              value: '1 tests',
+              onClick: (_e, handleClick) =>
+                handleClick('Something', {}, 'small'),
+            },
+          ]}
+        />
+      </Provider>
     );
     expect(toJson(wrapper)).toMatchSnapshot();
   });

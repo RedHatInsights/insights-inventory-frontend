@@ -42,11 +42,7 @@ const EditButtonUnknownPermissions = (props) => {
 
   if (!canEditHost) {
     return (
-      <Tooltip
-        aria="none"
-        aria-live="polite"
-        content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-      >
+      <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
         <Button isAriaDisabled aria-label="Edit" variant="plain">
           <PencilAltIcon />
         </Button>
@@ -75,7 +71,9 @@ const EditButtonWrapper = ({ writePermissions, ...props }) => {
 
   return (
     <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
-      <PencilAltIcon />
+      <Button isAriaDisabled aria-label="Edit" variant="plain">
+        <PencilAltIcon />
+      </Button>
     </Tooltip>
   );
 };

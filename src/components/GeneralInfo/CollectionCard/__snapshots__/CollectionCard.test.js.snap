@@ -3,7 +3,7 @@
 exports[`CollectionCard should not render hasClient 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-4"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -42,41 +42,49 @@ exports[`CollectionCard should not render hasClient 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Last check-in title"
             >
               Last check-in
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last check-in value"
             >
               01 Jun 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Insights id title"
             >
               Insights id
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights id value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Reporter title"
             >
               Reporter
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Reporter value"
             >
               Not available
             </dd>
@@ -91,7 +99,7 @@ exports[`CollectionCard should not render hasClient 1`] = `
 exports[`CollectionCard should not render hasInsightsId 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-7"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -130,11 +138,13 @@ exports[`CollectionCard should not render hasInsightsId 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Insights client title"
             >
               Insights client
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights client value"
             >
               <span>
                 test-client
@@ -142,31 +152,37 @@ exports[`CollectionCard should not render hasInsightsId 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last check-in title"
             >
               Last check-in
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last check-in value"
             >
               01 Jun 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Reporter title"
             >
               Reporter
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Reporter value"
             >
               Not available
             </dd>
@@ -181,7 +197,7 @@ exports[`CollectionCard should not render hasInsightsId 1`] = `
 exports[`CollectionCard should not render hasLastCheckIn 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-5"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -220,11 +236,13 @@ exports[`CollectionCard should not render hasLastCheckIn 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Insights client title"
             >
               Insights client
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights client value"
             >
               <span>
                 test-client
@@ -232,31 +250,37 @@ exports[`CollectionCard should not render hasLastCheckIn 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Insights id title"
             >
               Insights id
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights id value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Reporter title"
             >
               Reporter
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Reporter value"
             >
               Not available
             </dd>
@@ -271,7 +295,7 @@ exports[`CollectionCard should not render hasLastCheckIn 1`] = `
 exports[`CollectionCard should not render hasRegistered 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-6"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -310,11 +334,13 @@ exports[`CollectionCard should not render hasRegistered 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Insights client title"
             >
               Insights client
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights client value"
             >
               <span>
                 test-client
@@ -322,31 +348,37 @@ exports[`CollectionCard should not render hasRegistered 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last check-in title"
             >
               Last check-in
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last check-in value"
             >
               01 Jun 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Insights id title"
             >
               Insights id
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights id value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Reporter title"
             >
               Reporter
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Reporter value"
             >
               Not available
             </dd>
@@ -361,7 +393,7 @@ exports[`CollectionCard should not render hasRegistered 1`] = `
 exports[`CollectionCard should not render hasReporter 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-8"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -400,11 +432,13 @@ exports[`CollectionCard should not render hasReporter 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Insights client title"
             >
               Insights client
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights client value"
             >
               <span>
                 test-client
@@ -412,31 +446,37 @@ exports[`CollectionCard should not render hasReporter 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last check-in title"
             >
               Last check-in
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last check-in value"
             >
               01 Jun 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Insights id title"
             >
               Insights id
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights id value"
             >
               Not available
             </dd>
@@ -451,7 +491,7 @@ exports[`CollectionCard should not render hasReporter 1`] = `
 exports[`CollectionCard should render correctly - no data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-1"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -490,11 +530,13 @@ exports[`CollectionCard should render correctly - no data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Insights client title"
             >
               Insights client
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights client value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -506,11 +548,13 @@ exports[`CollectionCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last check-in title"
             >
               Last check-in
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last check-in value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -522,11 +566,13 @@ exports[`CollectionCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -538,11 +584,13 @@ exports[`CollectionCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Insights id title"
             >
               Insights id
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights id value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -554,11 +602,13 @@ exports[`CollectionCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Reporter title"
             >
               Reporter
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Reporter value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -579,7 +629,7 @@ exports[`CollectionCard should render correctly - no data 1`] = `
 exports[`CollectionCard should render correctly with data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-2"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -618,11 +668,13 @@ exports[`CollectionCard should render correctly with data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Insights client title"
             >
               Insights client
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights client value"
             >
               <span>
                 test-client
@@ -630,41 +682,49 @@ exports[`CollectionCard should render correctly with data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last check-in title"
             >
               Last check-in
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last check-in value"
             >
               01 Jun 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Insights id title"
             >
               Insights id
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights id value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Reporter title"
             >
               Reporter
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Reporter value"
             >
               Not available
             </dd>
@@ -679,7 +739,7 @@ exports[`CollectionCard should render correctly with data 1`] = `
 exports[`CollectionCard should render extra 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-9"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -718,11 +778,13 @@ exports[`CollectionCard should render extra 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Insights client title"
             >
               Insights client
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights client value"
             >
               <span>
                 test-client
@@ -730,61 +792,73 @@ exports[`CollectionCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last check-in title"
             >
               Last check-in
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last check-in value"
             >
               01 Jun 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Insights id title"
             >
               Insights id
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Insights id value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Reporter title"
             >
               Reporter
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Reporter value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="something title"
             >
               something
             </dt>
             <dd
               class=""
+              data-ouia-component-id="something value"
             >
               test
             </dd>
             <dt
               class=""
+              data-ouia-component-id="with click title"
             >
               with click
             </dt>
             <dd
               class=""
+              data-ouia-component-id="with click value"
             >
               <a
                 href="http://localhost:5000//undefined"

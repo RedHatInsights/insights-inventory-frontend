@@ -3,7 +3,7 @@
 exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-4"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -42,31 +42,37 @@ exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Current state value"
             >
               Active
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014 00:00 UTC
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RHC value"
             >
               Connected
             </dd>
@@ -81,7 +87,7 @@ exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
 exports[`SystemStatusCard should not render hasRHC 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-6"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -120,31 +126,37 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Current state value"
             >
               Active
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014 00:00 UTC
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last upload value"
             >
               01 Jun 2014 00:00 UTC
             </dd>
@@ -159,7 +171,7 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
 exports[`SystemStatusCard should not render hasRegistered 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-5"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -198,31 +210,37 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Current state value"
             >
               Active
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last upload value"
             >
               01 Jun 2014 00:00 UTC
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RHC value"
             >
               Connected
             </dd>
@@ -237,7 +255,7 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
 exports[`SystemStatusCard should not render hasState 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-3"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -276,31 +294,37 @@ exports[`SystemStatusCard should not render hasState 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014 00:00 UTC
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last upload value"
             >
               01 Jun 2014 00:00 UTC
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RHC value"
             >
               Connected
             </dd>
@@ -315,7 +339,7 @@ exports[`SystemStatusCard should not render hasState 1`] = `
 exports[`SystemStatusCard should render correctly - no data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-1"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -354,11 +378,13 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Current state value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -370,11 +396,13 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -386,11 +414,13 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last upload value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -402,11 +432,13 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RHC value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -427,7 +459,7 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
 exports[`SystemStatusCard should render correctly with data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-2"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -466,41 +498,49 @@ exports[`SystemStatusCard should render correctly with data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Current state value"
             >
               Active
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Registered value"
             >
               01 Apr 2014 00:00 UTC
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Last upload value"
             >
               01 Jun 2014 00:00 UTC
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RHC value"
             >
               Connected
             </dd>

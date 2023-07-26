@@ -3,7 +3,7 @@
 exports[`InfrastructureCard should not render hasIPv4 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-11"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -42,31 +42,37 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               test-type
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv6"
@@ -76,11 +82,13 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               <a
                 href="http://localhost:5000//interfaces"
@@ -99,7 +107,7 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
 exports[`InfrastructureCard should not render hasIPv6 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-12"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -138,31 +146,37 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               test-type
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv4"
@@ -172,11 +186,13 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               <a
                 href="http://localhost:5000//interfaces"
@@ -195,7 +211,7 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
 exports[`InfrastructureCard should not render hasInterfaces 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-13"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -234,31 +250,37 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               test-type
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv4"
@@ -268,11 +290,13 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv6"
@@ -291,7 +315,7 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
 exports[`InfrastructureCard should not render hasType 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-9"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -330,21 +354,25 @@ exports[`InfrastructureCard should not render hasType 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv4"
@@ -354,11 +382,13 @@ exports[`InfrastructureCard should not render hasType 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv6"
@@ -368,11 +398,13 @@ exports[`InfrastructureCard should not render hasType 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               <a
                 href="http://localhost:5000//interfaces"
@@ -391,7 +423,7 @@ exports[`InfrastructureCard should not render hasType 1`] = `
 exports[`InfrastructureCard should not render hasVendor 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-10"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -430,21 +462,25 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               test-type
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv4"
@@ -454,11 +490,13 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv6"
@@ -468,11 +506,13 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               <a
                 href="http://localhost:5000//interfaces"
@@ -491,7 +531,7 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
 exports[`InfrastructureCard should render correctly - no data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-1"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -530,11 +570,13 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -546,11 +588,13 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -562,11 +606,13 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -578,11 +624,13 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -594,11 +642,13 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -619,7 +669,7 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
 exports[`InfrastructureCard should render correctly with data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-2"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -658,31 +708,37 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               test-type
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv4"
@@ -692,11 +748,13 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv6"
@@ -706,11 +764,13 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               <a
                 href="http://localhost:5000//interfaces"
@@ -729,7 +789,7 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
 exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-3"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -768,51 +828,61 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               virtual
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               Not available
             </dd>
@@ -827,7 +897,7 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
 exports[`InfrastructureCard should render enabled/disabled 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-4"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -866,31 +936,37 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               test-type
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv4"
@@ -900,11 +976,13 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv6"
@@ -914,11 +992,13 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               <a
                 href="http://localhost:5000//interfaces"
@@ -937,7 +1017,7 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
 exports[`InfrastructureCard should render extra 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-14"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -976,31 +1056,37 @@ exports[`InfrastructureCard should render extra 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Type title"
             >
               Type
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Type value"
             >
               test-type
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv4 addresses title"
             >
               IPv4 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv4 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv4"
@@ -1010,11 +1096,13 @@ exports[`InfrastructureCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="IPv6 addresses title"
             >
               IPv6 addresses
             </dt>
             <dd
               class=""
+              data-ouia-component-id="IPv6 addresses value"
             >
               <a
                 href="http://localhost:5000//ipv6"
@@ -1024,11 +1112,13 @@ exports[`InfrastructureCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Interfaces/NICs title"
             >
               Interfaces/NICs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Interfaces/NICs value"
             >
               <a
                 href="http://localhost:5000//interfaces"
@@ -1038,21 +1128,25 @@ exports[`InfrastructureCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="something title"
             >
               something
             </dt>
             <dd
               class=""
+              data-ouia-component-id="something value"
             >
               test
             </dd>
             <dt
               class=""
+              data-ouia-component-id="with click title"
             >
               with click
             </dt>
             <dd
               class=""
+              data-ouia-component-id="with click value"
             >
               <a
                 href="http://localhost:5000//undefined"
