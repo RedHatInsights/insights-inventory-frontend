@@ -30,8 +30,6 @@ InnerButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-let permissionsCache = undefined;
-
 const EditButtonUnknownPermissions = (props) => {
   const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
 
@@ -41,9 +39,6 @@ const EditButtonUnknownPermissions = (props) => {
       ? [REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(entity?.groups?.[0]?.id)]
       : []),
   ]);
-  if (canEditHost) {
-    permissionsCache = canEditHost;
-  }
 
   if (!canEditHost) {
     return (
@@ -70,7 +65,7 @@ EditButtonUnknownPermissions.propTypes = {
 const EditButtonWrapper = ({ writePermissions, ...props }) => {
   const { isProd } = useChrome();
 
-  if (isProd?.() || writePermissions || permissionsCache) {
+  if (isProd?.() || writePermissions) {
     return <InnerButton {...props} />;
   }
 
