@@ -3,7 +3,7 @@
 exports[`BiosCard should not render hasReleaseDate 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-6"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -42,21 +42,25 @@ exports[`BiosCard should not render hasReleaseDate 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Version title"
             >
               Version
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Version value"
             >
               test-version
             </dd>
@@ -71,7 +75,7 @@ exports[`BiosCard should not render hasReleaseDate 1`] = `
 exports[`BiosCard should not render hasVendor 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-4"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -110,21 +114,25 @@ exports[`BiosCard should not render hasVendor 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Version title"
             >
               Version
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Version value"
             >
               test-version
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Release date title"
             >
               Release date
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Release date value"
             >
               01 Apr 2014
             </dd>
@@ -139,7 +147,7 @@ exports[`BiosCard should not render hasVendor 1`] = `
 exports[`BiosCard should not render hasVersion 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-5"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -178,21 +186,25 @@ exports[`BiosCard should not render hasVersion 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Release date title"
             >
               Release date
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Release date value"
             >
               01 Apr 2014
             </dd>
@@ -207,7 +219,7 @@ exports[`BiosCard should not render hasVersion 1`] = `
 exports[`BiosCard should render correctly - no data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-1"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -246,11 +258,13 @@ exports[`BiosCard should render correctly - no data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -262,11 +276,13 @@ exports[`BiosCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Version title"
             >
               Version
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Version value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -278,11 +294,13 @@ exports[`BiosCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Release date title"
             >
               Release date
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Release date value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -303,7 +321,7 @@ exports[`BiosCard should render correctly - no data 1`] = `
 exports[`BiosCard should render correctly with data - wrong date 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-3"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -342,31 +360,37 @@ exports[`BiosCard should render correctly with data - wrong date 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Version title"
             >
               Version
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Version value"
             >
               test-version
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Release date title"
             >
               Release date
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Release date value"
             >
               Not available
             </dd>
@@ -381,7 +405,7 @@ exports[`BiosCard should render correctly with data - wrong date 1`] = `
 exports[`BiosCard should render correctly with data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-2"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -420,31 +444,37 @@ exports[`BiosCard should render correctly with data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Version title"
             >
               Version
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Version value"
             >
               test-version
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Release date title"
             >
               Release date
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Release date value"
             >
               01 Apr 2014
             </dd>
@@ -459,7 +489,7 @@ exports[`BiosCard should render correctly with data 1`] = `
 exports[`BiosCard should render extra 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-7"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -498,51 +528,61 @@ exports[`BiosCard should render extra 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Vendor title"
             >
               Vendor
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Vendor value"
             >
               test-vendor
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Version title"
             >
               Version
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Version value"
             >
               test-version
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Release date title"
             >
               Release date
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Release date value"
             >
               01 Apr 2014
             </dd>
             <dt
               class=""
+              data-ouia-component-id="something title"
             >
               something
             </dt>
             <dd
               class=""
+              data-ouia-component-id="something value"
             >
               test
             </dd>
             <dt
               class=""
+              data-ouia-component-id="with click title"
             >
               with click
             </dt>
             <dd
               class=""
+              data-ouia-component-id="with click value"
             >
               <a
                 href="http://localhost:5000//undefined"

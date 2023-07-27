@@ -28,7 +28,9 @@ exports[`LoadingCard Clickable should render 1`] = `
 `;
 
 exports[`LoadingCard Loading card render - isLoading: false 1`] = `
-<Card>
+<Card
+  ouiaId="system-properties-card"
+>
   <CardBody>
     <Stack
       hasGutter={true}
@@ -51,7 +53,9 @@ exports[`LoadingCard Loading card render - isLoading: false 1`] = `
 `;
 
 exports[`LoadingCard Loading card render - isLoading: true 1`] = `
-<Card>
+<Card
+  ouiaId="system-properties-card"
+>
   <CardBody>
     <Stack
       hasGutter={true}
@@ -74,7 +78,9 @@ exports[`LoadingCard Loading card render - isLoading: true 1`] = `
 `;
 
 exports[`LoadingCard Loading card render 1`] = `
-<Card>
+<Card
+  ouiaId="system-properties-card"
+>
   <CardBody>
     <Stack
       hasGutter={true}
@@ -97,11 +103,13 @@ exports[`LoadingCard Loading card render 1`] = `
           >
             <TextListItem
               component="dt"
+              data-ouia-component-id="test-title title"
             >
               test-title
             </TextListItem>
             <TextListItem
               component="dd"
+              data-ouia-component-id="test-title value"
             >
               <Clickable
                 onClick={[MockFunction]}
@@ -110,11 +118,13 @@ exports[`LoadingCard Loading card render 1`] = `
             </TextListItem>
             <TextListItem
               component="dt"
+              data-ouia-component-id="just title title"
             >
               just title
             </TextListItem>
             <TextListItem
               component="dd"
+              data-ouia-component-id="just title value"
             >
               Not available
             </TextListItem>
@@ -127,7 +137,9 @@ exports[`LoadingCard Loading card render 1`] = `
 `;
 
 exports[`LoadingCard should render loading bars 1`] = `
-<Card>
+<Card
+  ouiaId="system-properties-card"
+>
   <CardBody>
     <Stack
       hasGutter={true}
@@ -150,11 +162,13 @@ exports[`LoadingCard should render loading bars 1`] = `
           >
             <TextListItem
               component="dt"
+              data-ouia-component-id="test-title title"
             >
               test-title
             </TextListItem>
             <TextListItem
               component="dd"
+              data-ouia-component-id="test-title value"
             >
               <Skeleton
                 size="md"
@@ -162,11 +176,13 @@ exports[`LoadingCard should render loading bars 1`] = `
             </TextListItem>
             <TextListItem
               component="dt"
+              data-ouia-component-id="just title title"
             >
               just title
             </TextListItem>
             <TextListItem
               component="dd"
+              data-ouia-component-id="just title value"
             >
               <Skeleton
                 size="sm"

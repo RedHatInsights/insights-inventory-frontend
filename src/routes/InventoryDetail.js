@@ -12,7 +12,6 @@ import {
 } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { routes } from '../Routes';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
-import { useHostsWritePermissions } from '../Utilities/constants';
 import {
   AdvisorTab,
   ComplianceTab,
@@ -21,6 +20,8 @@ import {
   RosTab,
   VulnerabilityTab,
 } from '../components/SystemDetails';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 
 const appList = [
   {
@@ -89,7 +90,7 @@ const Inventory = () => {
   const store = useStore();
   const history = useHistory();
   const dispatch = useDispatch();
-  const writePermissions = useHostsWritePermissions();
+
   const entityLoaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded
   );
@@ -110,6 +111,13 @@ const Inventory = () => {
     [cloudProvider]
   );
   const clearNotifications = () => dispatch(actions.clearNotifications());
+
+  const { hasAccess: canDeleteHost } = usePermissionsWithContext([
+    'inventory:hosts:write',
+    ...(entity?.groups?.[0]?.id !== undefined // if the host is in a group, then we can check group level access
+      ? [REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(entity?.groups?.[0]?.id)]
+      : []),
+  ]);
 
   useEffect(() => {
     chrome?.hideGlobalFilter?.(true);
@@ -155,7 +163,7 @@ const Inventory = () => {
     <InventoryDetail
       additionalClasses={additionalClasses}
       hideInvDrawer
-      showDelete={writePermissions}
+      showDelete={canDeleteHost}
       hideInvLink
       hideBack
       inventoryId={inventoryId}

@@ -48,22 +48,23 @@ export default class TextInputModal extends Component {
         onClose={(event) => onCancel(event)}
         actions={[
           <Button
-            key="cancel"
-            data-action="cancel"
-            variant="secondary"
-            onClick={onCancel}
-            ouiaId={cancelOuiaId}
-          >
-            Cancel
-          </Button>,
-          <Button
             key="confirm"
             data-action="confirm"
             variant="primary"
             onClick={() => onSubmit(this.state.value)}
             ouiaId={confirmOuiaId}
+            isDisabled={this.props.value === this.state.value}
           >
             Save
+          </Button>,
+          <Button
+            key="cancel"
+            data-action="cancel"
+            variant="link"
+            onClick={onCancel}
+            ouiaId={cancelOuiaId}
+          >
+            Cancel
           </Button>,
         ]}
       >

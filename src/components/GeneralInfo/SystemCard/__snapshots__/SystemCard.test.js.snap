@@ -3,7 +3,7 @@
 exports[`SystemCard should not render hasAnsibleHostname 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-16"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -42,6 +42,7 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -50,7 +51,7 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-48"
+                data-ouia-component-id="OUIA-Generated-Button-plain-75"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -72,11 +73,13 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -85,7 +88,7 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-49"
+                data-ouia-component-id="OUIA-Generated-Button-plain-76"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -107,10 +110,16 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-77"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -130,71 +139,85 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -209,7 +232,7 @@ exports[`SystemCard should not render hasAnsibleHostname 1`] = `
 exports[`SystemCard should not render hasCPUFlags 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-22"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -248,6 +271,7 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -256,7 +280,7 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-65"
+                data-ouia-component-id="OUIA-Generated-Button-plain-103"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -278,11 +302,13 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -291,7 +317,7 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-66"
+                data-ouia-component-id="OUIA-Generated-Button-plain-104"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -313,10 +339,16 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-105"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -336,6 +368,7 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -344,7 +377,7 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-67"
+                data-ouia-component-id="OUIA-Generated-Button-plain-106"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -366,10 +399,16 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-107"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -389,61 +428,73 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -458,7 +509,7 @@ exports[`SystemCard should not render hasCPUFlags 1`] = `
 exports[`SystemCard should not render hasCPUs 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-19"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -497,6 +548,7 @@ exports[`SystemCard should not render hasCPUs 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -505,7 +557,7 @@ exports[`SystemCard should not render hasCPUs 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-56"
+                data-ouia-component-id="OUIA-Generated-Button-plain-88"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -527,11 +579,13 @@ exports[`SystemCard should not render hasCPUs 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -540,7 +594,7 @@ exports[`SystemCard should not render hasCPUs 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-57"
+                data-ouia-component-id="OUIA-Generated-Button-plain-89"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -562,10 +616,16 @@ exports[`SystemCard should not render hasCPUs 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-90"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -585,6 +645,7 @@ exports[`SystemCard should not render hasCPUs 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -593,7 +654,7 @@ exports[`SystemCard should not render hasCPUs 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-58"
+                data-ouia-component-id="OUIA-Generated-Button-plain-91"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -615,10 +676,16 @@ exports[`SystemCard should not render hasCPUs 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-92"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -638,61 +705,73 @@ exports[`SystemCard should not render hasCPUs 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -707,7 +786,7 @@ exports[`SystemCard should not render hasCPUs 1`] = `
 exports[`SystemCard should not render hasCores 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-21"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -746,6 +825,7 @@ exports[`SystemCard should not render hasCores 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -754,7 +834,7 @@ exports[`SystemCard should not render hasCores 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-62"
+                data-ouia-component-id="OUIA-Generated-Button-plain-98"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -776,11 +856,13 @@ exports[`SystemCard should not render hasCores 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -789,7 +871,7 @@ exports[`SystemCard should not render hasCores 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-63"
+                data-ouia-component-id="OUIA-Generated-Button-plain-99"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -811,10 +893,16 @@ exports[`SystemCard should not render hasCores 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-100"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -834,6 +922,7 @@ exports[`SystemCard should not render hasCores 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -842,7 +931,7 @@ exports[`SystemCard should not render hasCores 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-64"
+                data-ouia-component-id="OUIA-Generated-Button-plain-101"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -864,10 +953,16 @@ exports[`SystemCard should not render hasCores 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-102"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -887,61 +982,73 @@ exports[`SystemCard should not render hasCores 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -956,7 +1063,7 @@ exports[`SystemCard should not render hasCores 1`] = `
 exports[`SystemCard should not render hasDisplayName 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-15"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -995,6 +1102,7 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -1003,7 +1111,7 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-46"
+                data-ouia-component-id="OUIA-Generated-Button-plain-72"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1025,11 +1133,13 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -1038,7 +1148,7 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-47"
+                data-ouia-component-id="OUIA-Generated-Button-plain-73"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1060,10 +1170,16 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-74"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -1083,71 +1199,85 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -1162,7 +1292,7 @@ exports[`SystemCard should not render hasDisplayName 1`] = `
 exports[`SystemCard should not render hasHostName 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-14"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -1201,6 +1331,7 @@ exports[`SystemCard should not render hasHostName 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -1209,7 +1340,7 @@ exports[`SystemCard should not render hasHostName 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-44"
+                data-ouia-component-id="OUIA-Generated-Button-plain-68"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1231,10 +1362,16 @@ exports[`SystemCard should not render hasHostName 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-69"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -1254,6 +1391,7 @@ exports[`SystemCard should not render hasHostName 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -1262,7 +1400,7 @@ exports[`SystemCard should not render hasHostName 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-45"
+                data-ouia-component-id="OUIA-Generated-Button-plain-70"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1284,10 +1422,16 @@ exports[`SystemCard should not render hasHostName 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-71"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -1307,71 +1451,85 @@ exports[`SystemCard should not render hasHostName 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -1386,7 +1544,7 @@ exports[`SystemCard should not render hasHostName 1`] = `
 exports[`SystemCard should not render hasRAM 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-23"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -1425,6 +1583,7 @@ exports[`SystemCard should not render hasRAM 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -1433,7 +1592,7 @@ exports[`SystemCard should not render hasRAM 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-68"
+                data-ouia-component-id="OUIA-Generated-Button-plain-108"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1455,11 +1614,13 @@ exports[`SystemCard should not render hasRAM 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -1468,7 +1629,7 @@ exports[`SystemCard should not render hasRAM 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-69"
+                data-ouia-component-id="OUIA-Generated-Button-plain-109"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1490,10 +1651,16 @@ exports[`SystemCard should not render hasRAM 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-110"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -1513,6 +1680,7 @@ exports[`SystemCard should not render hasRAM 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -1521,7 +1689,7 @@ exports[`SystemCard should not render hasRAM 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-70"
+                data-ouia-component-id="OUIA-Generated-Button-plain-111"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1543,10 +1711,16 @@ exports[`SystemCard should not render hasRAM 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-112"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -1566,61 +1740,73 @@ exports[`SystemCard should not render hasRAM 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
@@ -1635,7 +1821,7 @@ exports[`SystemCard should not render hasRAM 1`] = `
 exports[`SystemCard should not render hasSAP 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-17"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -1674,6 +1860,7 @@ exports[`SystemCard should not render hasSAP 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -1682,7 +1869,7 @@ exports[`SystemCard should not render hasSAP 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-50"
+                data-ouia-component-id="OUIA-Generated-Button-plain-78"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1704,11 +1891,13 @@ exports[`SystemCard should not render hasSAP 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -1717,7 +1906,7 @@ exports[`SystemCard should not render hasSAP 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-51"
+                data-ouia-component-id="OUIA-Generated-Button-plain-79"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1739,10 +1928,16 @@ exports[`SystemCard should not render hasSAP 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-80"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -1762,6 +1957,7 @@ exports[`SystemCard should not render hasSAP 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -1770,7 +1966,7 @@ exports[`SystemCard should not render hasSAP 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-52"
+                data-ouia-component-id="OUIA-Generated-Button-plain-81"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1792,10 +1988,16 @@ exports[`SystemCard should not render hasSAP 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-82"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -1815,61 +2017,73 @@ exports[`SystemCard should not render hasSAP 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -1884,7 +2098,7 @@ exports[`SystemCard should not render hasSAP 1`] = `
 exports[`SystemCard should not render hasSockets 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-20"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -1923,6 +2137,7 @@ exports[`SystemCard should not render hasSockets 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -1931,7 +2146,7 @@ exports[`SystemCard should not render hasSockets 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-59"
+                data-ouia-component-id="OUIA-Generated-Button-plain-93"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1953,11 +2168,13 @@ exports[`SystemCard should not render hasSockets 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -1966,7 +2183,7 @@ exports[`SystemCard should not render hasSockets 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-60"
+                data-ouia-component-id="OUIA-Generated-Button-plain-94"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -1988,10 +2205,16 @@ exports[`SystemCard should not render hasSockets 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-95"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -2011,6 +2234,7 @@ exports[`SystemCard should not render hasSockets 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -2019,7 +2243,7 @@ exports[`SystemCard should not render hasSockets 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-61"
+                data-ouia-component-id="OUIA-Generated-Button-plain-96"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -2041,10 +2265,16 @@ exports[`SystemCard should not render hasSockets 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-97"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -2064,61 +2294,73 @@ exports[`SystemCard should not render hasSockets 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -2133,7 +2375,7 @@ exports[`SystemCard should not render hasSockets 1`] = `
 exports[`SystemCard should not render hasSystemPurpose 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-18"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -2172,6 +2414,7 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -2180,7 +2423,7 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-53"
+                data-ouia-component-id="OUIA-Generated-Button-plain-83"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -2202,11 +2445,13 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -2215,7 +2460,7 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-54"
+                data-ouia-component-id="OUIA-Generated-Button-plain-84"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -2237,10 +2482,16 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-85"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -2260,6 +2511,7 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -2268,7 +2520,7 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-55"
+                data-ouia-component-id="OUIA-Generated-Button-plain-86"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -2290,10 +2542,16 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-87"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -2313,61 +2571,73 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -2382,7 +2652,7 @@ exports[`SystemCard should not render hasSystemPurpose 1`] = `
 exports[`SystemCard should render correctly - no data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-1"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -2421,6 +2691,7 @@ exports[`SystemCard should render correctly - no data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -2451,6 +2722,7 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -2462,6 +2734,7 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -2492,6 +2765,7 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -2503,6 +2777,7 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -2533,6 +2808,7 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
@@ -2544,11 +2820,13 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2560,11 +2838,13 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2576,11 +2856,13 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2592,11 +2874,13 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2608,11 +2892,13 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2624,11 +2910,13 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2640,11 +2928,13 @@ exports[`SystemCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -2665,7 +2955,7 @@ exports[`SystemCard should render correctly - no data 1`] = `
 exports[`SystemCard should render correctly with SAP IDS 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-3"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -2704,6 +2994,7 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -2711,94 +3002,6 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
               <button
                 aria-disabled="false"
                 aria-label="Action for Host name"
-                class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-7"
-                data-ouia-component-type="PF4/Button"
-                data-ouia-safe="true"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align:-0.125em"
-                  viewBox="0 0 512 512"
-                  width="1em"
-                >
-                  <path
-                    d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
-                  />
-                </svg>
-              </button>
-            </dt>
-            <dd
-              class=""
-            >
-              Not available
-            </dd>
-            <dt
-              class=""
-            >
-              <span>
-                Display name
-              </span>
-              <button
-                aria-disabled="false"
-                aria-label="Action for Display name"
-                class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-8"
-                data-ouia-component-type="PF4/Button"
-                data-ouia-safe="true"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align:-0.125em"
-                  viewBox="0 0 512 512"
-                  width="1em"
-                >
-                  <path
-                    d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
-                  />
-                </svg>
-              </button>
-            </dt>
-            <dd
-              class=""
-            >
-              test-display-name
-              <a
-                class="ins-c-inventory__detail--action"
-                href="http://localhost:5000//display_name"
-              >
-                <svg
-                  aria-hidden="true"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  style="vertical-align:-0.125em"
-                  viewBox="0 0 512 512"
-                  width="1em"
-                >
-                  <path
-                    d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
-                  />
-                </svg>
-              </a>
-            </dd>
-            <dt
-              class=""
-            >
-              <span>
-                Ansible hostname
-              </span>
-              <button
-                aria-disabled="false"
-                aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
                 data-ouia-component-id="OUIA-Generated-Button-plain-9"
                 data-ouia-component-type="PF4/Button"
@@ -2822,10 +3025,113 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
+            >
+              Not available
+            </dd>
+            <dt
+              class=""
+              data-ouia-component-id="Display name title"
+            >
+              <span>
+                Display name
+              </span>
+              <button
+                aria-disabled="false"
+                aria-label="Action for Display name"
+                class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
+                data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style="vertical-align:-0.125em"
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
+                  />
+                </svg>
+              </button>
+            </dt>
+            <dd
+              class=""
+              data-ouia-component-id="Display name value"
+            >
+              test-display-name
+              <a
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-11"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
+                href="http://localhost:5000//display_name"
+              >
+                <svg
+                  aria-hidden="true"
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style="vertical-align:-0.125em"
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                  />
+                </svg>
+              </a>
+            </dd>
+            <dt
+              class=""
+              data-ouia-component-id="Ansible hostname title"
+            >
+              <span>
+                Ansible hostname
+              </span>
+              <button
+                aria-disabled="false"
+                aria-label="Action for Ansible hostname"
+                class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
+                data-ouia-component-id="OUIA-Generated-Button-plain-12"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style="vertical-align:-0.125em"
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
+                  />
+                </svg>
+              </button>
+            </dt>
+            <dd
+              class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-13"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -2845,11 +3151,13 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               <a
                 href="http://localhost:5000//sap_sids"
@@ -2859,61 +3167,73 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -2928,7 +3248,7 @@ exports[`SystemCard should render correctly with SAP IDS 1`] = `
 exports[`SystemCard should render correctly with data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-2"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -2967,6 +3287,7 @@ exports[`SystemCard should render correctly with data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -2997,11 +3318,13 @@ exports[`SystemCard should render correctly with data 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -3032,10 +3355,16 @@ exports[`SystemCard should render correctly with data 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-6"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -3055,6 +3384,7 @@ exports[`SystemCard should render correctly with data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -3063,7 +3393,7 @@ exports[`SystemCard should render correctly with data 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-6"
+                data-ouia-component-id="OUIA-Generated-Button-plain-7"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -3085,10 +3415,16 @@ exports[`SystemCard should render correctly with data 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -3108,71 +3444,85 @@ exports[`SystemCard should render correctly with data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
@@ -3187,7 +3537,7 @@ exports[`SystemCard should render correctly with data 1`] = `
 exports[`SystemCard should render correctly with rhsm facts 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-4"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -3226,6 +3576,7 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -3234,7 +3585,7 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                data-ouia-component-id="OUIA-Generated-Button-plain-14"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -3256,11 +3607,13 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -3269,7 +3622,7 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-11"
+                data-ouia-component-id="OUIA-Generated-Button-plain-15"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -3291,10 +3644,16 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-16"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -3314,6 +3673,7 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -3322,7 +3682,7 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-12"
+                data-ouia-component-id="OUIA-Generated-Button-plain-17"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -3344,10 +3704,16 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-18"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -3367,71 +3733,85 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               2
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               2
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               2 GB
             </dd>
@@ -3446,7 +3826,7 @@ exports[`SystemCard should render correctly with rhsm facts 1`] = `
 exports[`SystemCard should render extra 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-24"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -3485,6 +3865,7 @@ exports[`SystemCard should render extra 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Host name title"
             >
               <span>
                 Host name
@@ -3493,7 +3874,7 @@ exports[`SystemCard should render extra 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Host name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-71"
+                data-ouia-component-id="OUIA-Generated-Button-plain-113"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -3515,11 +3896,13 @@ exports[`SystemCard should render extra 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Host name value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Display name title"
             >
               <span>
                 Display name
@@ -3528,7 +3911,7 @@ exports[`SystemCard should render extra 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Display name"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-72"
+                data-ouia-component-id="OUIA-Generated-Button-plain-114"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -3550,10 +3933,16 @@ exports[`SystemCard should render extra 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Display name value"
             >
               test-display-name
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-115"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//display_name"
               >
                 <svg
@@ -3573,6 +3962,7 @@ exports[`SystemCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Ansible hostname title"
             >
               <span>
                 Ansible hostname
@@ -3581,7 +3971,7 @@ exports[`SystemCard should render extra 1`] = `
                 aria-disabled="false"
                 aria-label="Action for Ansible hostname"
                 class="pf-c-button pf-m-plain ins-active-general_information__popover-icon"
-                data-ouia-component-id="OUIA-Generated-Button-plain-73"
+                data-ouia-component-id="OUIA-Generated-Button-plain-116"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
                 type="button"
@@ -3603,10 +3993,16 @@ exports[`SystemCard should render extra 1`] = `
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Ansible hostname value"
             >
               test-ansible-host
               <a
-                class="ins-c-inventory__detail--action"
+                aria-disabled="false"
+                aria-label="Edit"
+                class="pf-c-button pf-m-plain ins-c-inventory__detail--action"
+                data-ouia-component-id="OUIA-Generated-Button-plain-117"
+                data-ouia-component-type="PF4/Button"
+                data-ouia-safe="true"
                 href="http://localhost:5000//ansible_name"
               >
                 <svg
@@ -3626,91 +4022,109 @@ exports[`SystemCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="SAP title"
             >
               SAP
             </dt>
             <dd
               class=""
+              data-ouia-component-id="SAP value"
             >
               Not available
             </dd>
             <dt
               class=""
+              data-ouia-component-id="System purpose title"
             >
               System purpose
             </dt>
             <dd
               class=""
+              data-ouia-component-id="System purpose value"
             >
               Production
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Number of CPUs title"
             >
               Number of CPUs
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Number of CPUs value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Sockets title"
             >
               Sockets
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Sockets value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Cores per socket title"
             >
               Cores per socket
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Cores per socket value"
             >
               1
             </dd>
             <dt
               class=""
+              data-ouia-component-id="CPU flags title"
             >
               CPU flags
             </dt>
             <dd
               class=""
+              data-ouia-component-id="CPU flags value"
             >
               0 flags
             </dd>
             <dt
               class=""
+              data-ouia-component-id="RAM title"
             >
               RAM
             </dt>
             <dd
               class=""
+              data-ouia-component-id="RAM value"
             >
               5 MB
             </dd>
             <dt
               class=""
+              data-ouia-component-id="something title"
             >
               something
             </dt>
             <dd
               class=""
+              data-ouia-component-id="something value"
             >
               test
             </dd>
             <dt
               class=""
+              data-ouia-component-id="with click title"
             >
               with click
             </dt>
             <dd
               class=""
+              data-ouia-component-id="with click value"
             >
               <a
                 href="http://localhost:5000//undefined"

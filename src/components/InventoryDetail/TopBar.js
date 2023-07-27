@@ -16,10 +16,12 @@ import {
   Split,
   SplitItem,
   Title,
+  Tooltip,
 } from '@patternfly/react-core';
 import { redirectToInventoryList } from './helpers';
 import { useDispatch } from 'react-redux';
 import { toggleDrawer } from '../../store/actions';
+import { NO_MODIFY_HOST_TOOLTIP_MESSAGE } from '../../constants';
 
 /**
  * Top inventory bar with title, buttons (namely remove from inventory and inventory detail button) and actions.
@@ -90,18 +92,24 @@ const TopBar = ({
         <SplitItem>
           {loaded ? (
             <Flex>
-              {showDelete && (
-                <FlexItem>
-                  <DeleteWrapper>
+              <FlexItem>
+                <DeleteWrapper>
+                  {showDelete ? (
                     <Button
                       onClick={() => setIsModalOpen(true)}
                       variant="secondary"
                     >
                       Delete
                     </Button>
-                  </DeleteWrapper>
-                </FlexItem>
-              )}
+                  ) : (
+                    <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
+                      <Button isAriaDisabled variant="secondary">
+                        Delete
+                      </Button>
+                    </Tooltip>
+                  )}
+                </DeleteWrapper>
+              </FlexItem>
               {inventoryActions?.length > 0 && (
                 <FlexItem>
                   <ActionsWrapper>

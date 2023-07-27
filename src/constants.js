@@ -195,6 +195,19 @@ export const REQUIRED_PERMISSIONS_TO_MODIFY_GROUP = (groupId) => [
   },
 ];
 
+export const REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP = (groupId) => ({
+  permission: 'inventory:hosts:write',
+  resourceDefinitions: [
+    {
+      attributeFilter: {
+        key: 'group.id',
+        operation: 'equal',
+        value: groupId,
+      },
+    },
+  ],
+});
+
 export const REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS = (groupId) => [
   {
     permission: 'inventory:hosts:read',

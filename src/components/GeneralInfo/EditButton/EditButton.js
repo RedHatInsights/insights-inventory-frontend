@@ -5,15 +5,24 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 import { PencilAltIcon } from '@patternfly/react-icons';
+import {
+  NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+  REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
+} from '../../../constants';
+import { useSelector } from 'react-redux';
+import { Button, Tooltip } from '@patternfly/react-core';
 
 const InnerButton = ({ link, onClick }) => (
-  <a
-    className="ins-c-inventory__detail--action"
+  <Button
+    component="a"
     href={`${window.location.href}/${link}`}
     onClick={onClick}
+    className="ins-c-inventory__detail--action"
+    aria-label="Edit"
+    variant="plain"
   >
     <PencilAltIcon />
-  </a>
+  </Button>
 );
 
 InnerButton.propTypes = {
@@ -21,21 +30,24 @@ InnerButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-let permissionsCache = undefined;
-
 const EditButtonUnknownPermissions = (props) => {
-  const { hasAccess } = usePermissionsWithContext([
-    'inventory:*:*',
+  const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
+
+  const { hasAccess: canEditHost } = usePermissionsWithContext([
     'inventory:hosts:write',
-    'inventory:*:write',
+    ...(entity?.groups?.[0]?.id !== undefined // if the host is in a group, then we can check group level access
+      ? [REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(entity?.groups?.[0]?.id)]
+      : []),
   ]);
 
-  if (hasAccess) {
-    permissionsCache = hasAccess;
-  }
-
-  if (!hasAccess) {
-    return null;
+  if (!canEditHost) {
+    return (
+      <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
+        <Button isAriaDisabled aria-label="Edit" variant="plain">
+          <PencilAltIcon />
+        </Button>
+      </Tooltip>
+    );
   }
 
   return <InnerButton {...props} />;
@@ -49,7 +61,7 @@ EditButtonUnknownPermissions.propTypes = {
 const EditButtonWrapper = ({ writePermissions, ...props }) => {
   const { isProd } = useChrome();
 
-  if (isProd?.() || writePermissions || permissionsCache) {
+  if (isProd?.() || writePermissions) {
     return <InnerButton {...props} />;
   }
 
@@ -57,7 +69,13 @@ const EditButtonWrapper = ({ writePermissions, ...props }) => {
     return <EditButtonUnknownPermissions {...props} />;
   }
 
-  return null;
+  return (
+    <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
+      <Button isAriaDisabled aria-label="Edit" variant="plain">
+        <PencilAltIcon />
+      </Button>
+    </Tooltip>
+  );
 };
 
 EditButtonWrapper.propTypes = {

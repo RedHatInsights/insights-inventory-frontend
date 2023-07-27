@@ -100,10 +100,12 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
       }
       title="Configuration"
     >
-      <Card>
+      <Card
+        ouiaId="system-properties-card"
+      >
         <article
           className="pf-c-card"
-          data-ouia-component-id="OUIA-Generated-Card-4"
+          data-ouia-component-id="system-properties-card"
           data-ouia-component-type="PF4/Card"
           data-ouia-safe={true}
           id=""
@@ -161,18 +163,22 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                             >
                               <TextListItem
                                 component="dt"
+                                data-ouia-component-id="Installed packages title"
                               >
                                 <dt
                                   className=""
+                                  data-ouia-component-id="Installed packages title"
                                 >
                                   Installed packages
                                 </dt>
                               </TextListItem>
                               <TextListItem
                                 component="dd"
+                                data-ouia-component-id="Installed packages value"
                               >
                                 <dd
                                   className=""
+                                  data-ouia-component-id="Installed packages value"
                                 >
                                   <Clickable
                                     onClick={[Function]}
@@ -191,18 +197,22 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                               </TextListItem>
                               <TextListItem
                                 component="dt"
+                                data-ouia-component-id="Services title"
                               >
                                 <dt
                                   className=""
+                                  data-ouia-component-id="Services title"
                                 >
                                   Services
                                 </dt>
                               </TextListItem>
                               <TextListItem
                                 component="dd"
+                                data-ouia-component-id="Services value"
                               >
                                 <dd
                                   className=""
+                                  data-ouia-component-id="Services value"
                                 >
                                   <Clickable
                                     onClick={[Function]}
@@ -221,18 +231,22 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                               </TextListItem>
                               <TextListItem
                                 component="dt"
+                                data-ouia-component-id="Running processes title"
                               >
                                 <dt
                                   className=""
+                                  data-ouia-component-id="Running processes title"
                                 >
                                   Running processes
                                 </dt>
                               </TextListItem>
                               <TextListItem
                                 component="dd"
+                                data-ouia-component-id="Running processes value"
                               >
                                 <dd
                                   className=""
+                                  data-ouia-component-id="Running processes value"
                                 >
                                   <Clickable
                                     onClick={[Function]}
@@ -252,18 +266,22 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                               </TextListItem>
                               <TextListItem
                                 component="dt"
+                                data-ouia-component-id="Repositories title"
                               >
                                 <dt
                                   className=""
+                                  data-ouia-component-id="Repositories title"
                                 >
                                   Repositories
                                 </dt>
                               </TextListItem>
                               <TextListItem
                                 component="dd"
+                                data-ouia-component-id="Repositories value"
                               >
                                 <dd
                                   className=""
+                                  data-ouia-component-id="Repositories value"
                                 >
                                   <Clickable
                                     onClick={[Function]}
@@ -299,7 +317,7 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
 exports[`ConfigurationCard should not render hasPackages 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-9"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -338,11 +356,13 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Services title"
             >
               Services
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Services value"
             >
               <a
                 href="http://localhost:5000//services"
@@ -352,11 +372,13 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Running processes title"
             >
               Running processes
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Running processes value"
             >
               <a
                 href="http://localhost:5000//running_processes"
@@ -366,11 +388,13 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Repositories title"
             >
               Repositories
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Repositories value"
             >
               <a
                 href="http://localhost:5000//repositories"
@@ -389,7 +413,7 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
 exports[`ConfigurationCard should not render hasProcesses 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-11"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -428,11 +452,13 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Installed packages title"
             >
               Installed packages
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Installed packages value"
             >
               <a
                 href="http://localhost:5000//installed_packages"
@@ -442,11 +468,13 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Services title"
             >
               Services
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Services value"
             >
               <a
                 href="http://localhost:5000//services"
@@ -456,11 +484,13 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Repositories title"
             >
               Repositories
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Repositories value"
             >
               <a
                 href="http://localhost:5000//repositories"
@@ -479,7 +509,7 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
 exports[`ConfigurationCard should not render hasRepositories 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-12"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -518,11 +548,13 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Installed packages title"
             >
               Installed packages
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Installed packages value"
             >
               <a
                 href="http://localhost:5000//installed_packages"
@@ -532,11 +564,13 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Services title"
             >
               Services
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Services value"
             >
               <a
                 href="http://localhost:5000//services"
@@ -546,11 +580,13 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Running processes title"
             >
               Running processes
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Running processes value"
             >
               <a
                 href="http://localhost:5000//running_processes"
@@ -569,7 +605,7 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
 exports[`ConfigurationCard should not render hasServices 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-10"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -608,11 +644,13 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Installed packages title"
             >
               Installed packages
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Installed packages value"
             >
               <a
                 href="http://localhost:5000//installed_packages"
@@ -622,11 +660,13 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Running processes title"
             >
               Running processes
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Running processes value"
             >
               <a
                 href="http://localhost:5000//running_processes"
@@ -636,11 +676,13 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Repositories title"
             >
               Repositories
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Repositories value"
             >
               <a
                 href="http://localhost:5000//repositories"
@@ -659,7 +701,7 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
 exports[`ConfigurationCard should render correctly - no data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-1"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -698,11 +740,13 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Installed packages title"
             >
               Installed packages
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Installed packages value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -714,11 +758,13 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Services title"
             >
               Services
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Services value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -730,11 +776,13 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Running processes title"
             >
               Running processes
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Running processes value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -746,11 +794,13 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Repositories title"
             >
               Repositories
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Repositories value"
             >
               <div
                 class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -771,7 +821,7 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
 exports[`ConfigurationCard should render correctly with data 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-2"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -810,11 +860,13 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Installed packages title"
             >
               Installed packages
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Installed packages value"
             >
               <a
                 href="http://localhost:5000//installed_packages"
@@ -824,11 +876,13 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Services title"
             >
               Services
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Services value"
             >
               <a
                 href="http://localhost:5000//services"
@@ -838,11 +892,13 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Running processes title"
             >
               Running processes
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Running processes value"
             >
               <a
                 href="http://localhost:5000//running_processes"
@@ -852,11 +908,13 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Repositories title"
             >
               Repositories
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Repositories value"
             >
               <a
                 href="http://localhost:5000//repositories"
@@ -875,7 +933,7 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
 exports[`ConfigurationCard should render enabled/disabled 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-3"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -914,11 +972,13 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Installed packages title"
             >
               Installed packages
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Installed packages value"
             >
               <a
                 href="http://localhost:5000//installed_packages"
@@ -928,11 +988,13 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Services title"
             >
               Services
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Services value"
             >
               <a
                 href="http://localhost:5000//services"
@@ -942,11 +1004,13 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Running processes title"
             >
               Running processes
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Running processes value"
             >
               <a
                 href="http://localhost:5000//running_processes"
@@ -956,11 +1020,13 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Repositories title"
             >
               Repositories
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Repositories value"
             >
               <a
                 href="http://localhost:5000//repositories"
@@ -979,7 +1045,7 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
 exports[`ConfigurationCard should render extra 1`] = `
 <article
   class="pf-c-card"
-  data-ouia-component-id="OUIA-Generated-Card-13"
+  data-ouia-component-id="system-properties-card"
   data-ouia-component-type="PF4/Card"
   data-ouia-safe="true"
   id=""
@@ -1018,11 +1084,13 @@ exports[`ConfigurationCard should render extra 1`] = `
           >
             <dt
               class=""
+              data-ouia-component-id="Installed packages title"
             >
               Installed packages
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Installed packages value"
             >
               <a
                 href="http://localhost:5000//installed_packages"
@@ -1032,11 +1100,13 @@ exports[`ConfigurationCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Services title"
             >
               Services
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Services value"
             >
               <a
                 href="http://localhost:5000//services"
@@ -1046,11 +1116,13 @@ exports[`ConfigurationCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Running processes title"
             >
               Running processes
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Running processes value"
             >
               <a
                 href="http://localhost:5000//running_processes"
@@ -1060,11 +1132,13 @@ exports[`ConfigurationCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="Repositories title"
             >
               Repositories
             </dt>
             <dd
               class=""
+              data-ouia-component-id="Repositories value"
             >
               <a
                 href="http://localhost:5000//repositories"
@@ -1074,21 +1148,25 @@ exports[`ConfigurationCard should render extra 1`] = `
             </dd>
             <dt
               class=""
+              data-ouia-component-id="something title"
             >
               something
             </dt>
             <dd
               class=""
+              data-ouia-component-id="something value"
             >
               test
             </dd>
             <dt
               class=""
+              data-ouia-component-id="with click title"
             >
               with click
             </dt>
             <dd
               class=""
+              data-ouia-component-id="with click value"
             >
               <a
                 href="http://localhost:5000//undefined"

@@ -146,10 +146,10 @@ export const deleteGroupsInterceptors = {
 };
 
 export const hostsDetailInterceptors = {
-  successful: () => {
+  successful: (fixtures = hostDetail) => {
     cy.intercept('GET', '/api/inventory/v1/hosts/*', {
       statusCode: 200,
-      body: hostDetail,
+      body: fixtures,
     }).as('getHostDetail');
   },
 };
