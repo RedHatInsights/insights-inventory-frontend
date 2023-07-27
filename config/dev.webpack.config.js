@@ -84,7 +84,7 @@ plugins.push(
         ),
         './InfrastructureCard': resolve(
           __dirname,
-            '../src/components/GeneralInfo/InfrastructureCard/InfrastructureCard.js'
+          '../src/components/GeneralInfo/InfrastructureCard/InfrastructureCard.js'
         ),
         './ConfigurationCard': resolve(
           __dirname,
@@ -154,9 +154,9 @@ plugins.push(
       },
       shared: [
         {
-            'react-router-dom': { singleton: true, requiredVersion: '*' }
-        }
-      ]
+          'react-router-dom': { singleton: true, requiredVersion: '*' },
+        },
+      ],
     }
   )
 );

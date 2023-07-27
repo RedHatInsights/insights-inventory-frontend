@@ -37,6 +37,7 @@ const GroupDetailHeader = ({ groupId }) => {
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
   );
 
+  // eslint-disable-next-line no-unused-vars
   const { hasAccess: canModify } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
   );
@@ -59,72 +60,75 @@ const GroupDetailHeader = ({ groupId }) => {
     }
     return groupId;
   };
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <PageHeader>
-            <RenameGroupModal
-                isModalOpen={renameModalOpen}
-                setIsModalOpen={() => setRenameModalOpen(false)}
-                modalState={{
-                    id: groupId,
-                    name: name || groupId
-                }}
-                reloadData={() => dispatch(fetchGroupDetail(groupId))}
-            />
-            <DeleteGroupModal
-                isModalOpen={deleteModalOpen}
-                setIsModalOpen={() => setDeleteModalOpen(false)}
-                modalState={{
-                    id: groupId,
-                    name: name || groupId
-                }}
-                reloadData={() => navigate('/groups')}
-            />
-            <Breadcrumb>
-                <BreadcrumbItem>
-                    <Link to={routes.groups}>Groups</Link>
-                </BreadcrumbItem>
-                <BreadcrumbItem isActive>{title}</BreadcrumbItem>
-            </Breadcrumb>
-            <Flex id="group-header" justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-                <FlexItem>
-                    <PageHeaderTitle title={title} />
-                </FlexItem>
-                <FlexItem id="group-header-dropdown">
-                    <Dropdown
-                        onSelect={() => setDropdownOpen(!dropdownOpen)}
-                        autoFocus={false}
-                        isOpen={dropdownOpen}
-                        toggle={
-                            <DropdownToggle
-                                id="group-dropdown-toggle"
-                                onToggle={(isOpen) => setDropdownOpen(isOpen)}
-                                toggleVariant="secondary"
-                                isDisabled={uninitialized || loading}
-                            >
-                                Group actions
-                            </DropdownToggle>
-                        }
-                        dropdownItems={[
-                            <DropdownItem
-                                key="rename-group"
-                                onClick={() => setRenameModalOpen(true)}
-                            >
-                                Rename
-                            </DropdownItem>,
-                            <DropdownItem
-                                key="delete-group"
-                                onClick={() => setDeleteModalOpen(true)}
-                            >
-                                Delete
-                            </DropdownItem>
-                        ]}
-                    />
-                </FlexItem>
-            </Flex>
-        </PageHeader>
-    );
+  return (
+    <PageHeader>
+      <RenameGroupModal
+        isModalOpen={renameModalOpen}
+        setIsModalOpen={() => setRenameModalOpen(false)}
+        modalState={{
+          id: groupId,
+          name: name || groupId,
+        }}
+        reloadData={() => dispatch(fetchGroupDetail(groupId))}
+      />
+      <DeleteGroupModal
+        isModalOpen={deleteModalOpen}
+        setIsModalOpen={() => setDeleteModalOpen(false)}
+        modalState={{
+          id: groupId,
+          name: name || groupId,
+        }}
+        reloadData={() => navigate('/groups')}
+      />
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <Link to={routes.groups}>Groups</Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem isActive>{getTitle}</BreadcrumbItem>
+      </Breadcrumb>
+      <Flex
+        id="group-header"
+        justifyContent={{ default: 'justifyContentSpaceBetween' }}
+      >
+        <FlexItem>
+          <PageHeaderTitle title={getTitle} />
+        </FlexItem>
+        <FlexItem id="group-header-dropdown">
+          <Dropdown
+            onSelect={() => setDropdownOpen(!dropdownOpen)}
+            autoFocus={false}
+            isOpen={dropdownOpen}
+            toggle={
+              <DropdownToggle
+                id="group-dropdown-toggle"
+                onToggle={(isOpen) => setDropdownOpen(isOpen)}
+                toggleVariant="secondary"
+                isDisabled={uninitialized || loading}
+              >
+                Group actions
+              </DropdownToggle>
+            }
+            dropdownItems={[
+              <DropdownItem
+                key="rename-group"
+                onClick={() => setRenameModalOpen(true)}
+              >
+                Rename
+              </DropdownItem>,
+              <DropdownItem
+                key="delete-group"
+                onClick={() => setDeleteModalOpen(true)}
+              >
+                Delete
+              </DropdownItem>,
+            ]}
+          />
+        </FlexItem>
+      </Flex>
+    </PageHeader>
+  );
 };
 
 GroupDetailHeader.propTypes = {

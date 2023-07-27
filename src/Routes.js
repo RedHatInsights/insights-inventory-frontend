@@ -1,7 +1,7 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React, { Suspense, lazy, useMemo } from 'react';
-import { getSearchParams } from './constants';
+import { getSearchParams } from './Utilities/sharedFunctions';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
@@ -23,73 +23,94 @@ export const routes = {
   edgeInventory: '/manage-edge-inventory',
 };
 
-export const Routes = () => {
-  const searchParams = useMemo(() => getSearchParams(), []);
+const SuspenseWrapped = ({ Component }) => (
+  <Suspense>
+    <Component />
+  </Suspense>
+);
+
+export const InventoryRoutes = () => {
+  const location = useLocation();
+  const searchParams = useMemo(() => getSearchParams(location), []);
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
 
   return (
-    <div>
-        <Route
-          exact
-          path={routes.update}
-          component={EdgeInventoryUpdate}
-          rootClass="inventory"
-        />
-        <Route
-          exact
-          path={routes.table}
-          render={() => (
-            <RenderWrapper cmp={InventoryTable} {...searchParams} />
-          )}
-          rootClass="inventory"
-        />
-        <Route
-          exact
-          path={routes.edgeInventory}
-          render={() => (
-            <RenderWrapper
-              cmp={InventoryTable}
-              isRbacEnabled
-              {...searchParams}
-            />
-          )}
-          rootClass="inventory"
-        />
-        <Route
-          exact
-          path={routes.groups}
-          component={groupsEnabled ? InventoryGroups : LostPage}
-          rootClass="inventory"
-        />
-        <Route
-          exact
-          path={routes.groupDetail}
-          component={groupsEnabled ? InventoryGroupDetail : LostPage}
-          rootClass="inventory"
-        />
-        <Route
-          exact
-          path={routes.detailWithModal}
-          component={InventoryDetail}
-          rootClass="inventory"
-        />
-        <Route
-          exact
-          path={routes.detail}
-          component={InventoryDetail}
-          rootClass="inventory"
-        />
-        <Route
-          exact
-          path={routes.manageEdgeInventoryUrlName}
-          component={InventoryTable}
-          rootClass="inventory"
-        />
-        <Redirect path="*" to="/" />
-    </div>
+    <Routes>
+      <Route
+        exact
+        path={routes.update}
+        component={<SuspenseWrapped Component={EdgeInventoryUpdate} />}
+        rootClass="inventory"
+      />
+      <Route
+        exact
+        path={routes.table}
+        element={
+          <SuspenseWrapped
+            Component={() => (
+              <RenderWrapper cmp={InventoryTable} {...searchParams} />
+            )}
+          />
+        }
+        rootClass="inventory"
+      />
+      <Route
+        exact
+        path={routes.edgeInventory}
+        element={
+          <SuspenseWrapped
+            Component={() => (
+              <RenderWrapper
+                cmp={InventoryTable}
+                isRbacEnabled
+                {...searchParams}
+              />
+            )}
+          />
+        }
+        rootClass="inventory"
+      />
+      <Route
+        exact
+        path={routes.groups}
+        element={
+          <SuspenseWrapped
+            Component={groupsEnabled ? InventoryGroups : LostPage}
+          />
+        }
+        rootClass="inventory"
+      />
+      <Route
+        exact
+        path={routes.groupDetail}
+        element={
+          <SuspenseWrapped
+            Component={groupsEnabled ? InventoryGroupDetail : LostPage}
+          />
+        }
+        rootClass="inventory"
+      />
+      <Route
+        exact
+        path={routes.detailWithModal}
+        element={<SuspenseWrapped Component={InventoryDetail} />}
+        rootClass="inventory"
+      />
+      <Route
+        exact
+        path={routes.detail}
+        element={<SuspenseWrapped Component={InventoryDetail} />}
+        rootClass="inventory"
+      />
+      <Route
+        exact
+        path={routes.manageEdgeInventoryUrlName}
+        element={<SuspenseWrapped Component={InventoryTable} />}
+        rootClass="inventory"
+      />
+    </Routes>
   );
 };
-
 SuspenseWrapped.propTypes = {
-    Component: PropTypes.element
+  Component: PropTypes.element,
 };

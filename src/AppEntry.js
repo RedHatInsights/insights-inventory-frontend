@@ -23,7 +23,7 @@ const InventoryApp = () => {
       }}
     >
       <Provider store={registry.getStore()}>
-          <App />
+        <App />
       </Provider>
     </RegistryContext.Provider>
   ) : (

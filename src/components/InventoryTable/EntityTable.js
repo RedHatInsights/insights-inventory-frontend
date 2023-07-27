@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { selectEntity, setSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 // import { useNavigate, useHistory } from 'react-router-dom';
@@ -43,7 +44,6 @@ const EntityTable = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const columns = useColumns(
     columnsProp,
     disableDefaultColumns,
@@ -71,11 +71,8 @@ const EntityTable = ({
   );
 
   const defaultRowClick = (_event, key) => {
-    // TODO: after depenent applications migrate to router v6, use following proper navigation
-    // navigate(`/${key}`);
-    window.history.pushState({}, null, `/${window.location.pathname}/${key}`);
+    navigate(`/${key}`);
   };
-
 
   delete tableProps.RowWrapper;
   if (rows?.length === 0) {

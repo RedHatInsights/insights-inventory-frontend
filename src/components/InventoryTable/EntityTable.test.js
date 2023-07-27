@@ -17,8 +17,8 @@ import { createMemoryHistory } from 'history';
 
 jest.mock('../../Utilities/useFeatureFlag');
 jest.mock('../../Utilities', () => ({
-    ...jest.requireActual('../../Utilities'),
-    TagWithDialog: jest.fn(() => <div></div>)
+  ...jest.requireActual('../../Utilities'),
+  TagWithDialog: jest.fn(() => <div></div>),
 }));
 
 describe('EntityTable', () => {

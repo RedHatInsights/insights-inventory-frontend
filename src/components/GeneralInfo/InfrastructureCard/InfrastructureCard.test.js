@@ -11,7 +11,7 @@ const location = {};
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
-  useNavigate: () => mockedUsedNavigate
+  useNavigate: () => mockedUsedNavigate,
 }));
 describe('InfrastructureCard', () => {
   let initialState;

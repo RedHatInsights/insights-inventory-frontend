@@ -17,7 +17,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const valueToText = (value, singular, plural) => {
   if ((value || value === 0) && singular) {
@@ -34,25 +34,25 @@ const valueToText = (value, singular, plural) => {
 };
 
 export const Clickable = ({ value, target, plural, singular, onClick }) => {
-    const navigate = useNavigate();
-    const { pathname } = useLocation();
-    const modalId = pathname.split('/').pop();
-    useEffect(() => {
-        if (target === modalId) {
-            onClick({ value, target });
-        }
-    }, [modalId, target]);
-    return (
-        <a
-            onClick={ event => {
-                event.preventDefault();
-                navigate(`${pathname}/${target}`);
-            } }
-            href={ `${window.location.origin}${window.location.pathname}/${target}` }
-        >
-            { valueToText(value, singular, plural) }
-        </a>
-    );
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const modalId = pathname.split('/').pop();
+  useEffect(() => {
+    if (target === modalId) {
+      onClick({ value, target });
+    }
+  }, [modalId, target]);
+  return (
+    <a
+      onClick={(event) => {
+        event.preventDefault();
+        navigate(`${pathname}/${target}`);
+      }}
+      href={`${window.location.origin}${window.location.pathname}/${target}`}
+    >
+      {valueToText(value, singular, plural)}
+    </a>
+  );
 };
 
 Clickable.propTypes = {

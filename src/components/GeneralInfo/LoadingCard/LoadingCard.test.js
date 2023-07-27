@@ -6,9 +6,9 @@ import LoadingCard, { Clickable } from './LoadingCard';
 const mockedUsedNavigate = jest.fn();
 const location = { pathname: 'localhost:/insights/inventory/targetPath' };
 jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useLocation: () => location,
-    useNavigate: () => mockedUsedNavigate
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => location,
+  useNavigate: () => mockedUsedNavigate,
 }));
 
 describe('LoadingCard', () => {

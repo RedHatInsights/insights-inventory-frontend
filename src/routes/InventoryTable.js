@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './inventory.scss';
 import {
   PageHeader,
@@ -196,9 +196,6 @@ const Inventory = ({
 
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
-    chrome?.hideGlobalFilter?.(false);
-    chrome.appAction('system-list');
-    chrome.appObjectId();
     chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
       const [workloads, SID, tags] = chrome.mapGlobalFilter(data, false, true);
       setGlobalFilter({
@@ -391,9 +388,9 @@ const Inventory = ({
             ],
           }}
           bulkSelect={bulkSelectConfig}
-          onRowClick={(_e, id, app) =>
-            history.push(`/${id}${app ? `/${app}` : ''}`)
-          }
+          // onRowClick={(_e, id, app) =>
+          //   history.push(`/${id}${app ? `/${app}` : ''}`)
+          // }
         />
       </GridItem>
     </Grid>
@@ -405,6 +402,7 @@ const Inventory = ({
         <PageHeaderTitle title="Systems" />
       </PageHeader>
       <Main>
+        {traditionalDevices}
         {EdgeParityEnabled ? (
           <Tabs
             className="pf-m-light pf-c-table"
@@ -414,9 +412,7 @@ const Inventory = ({
             <Tab
               eventKey={0}
               title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
-            >
-              {traditionalDevices}
-            </Tab>
+            ></Tab>
             <Tab
               eventKey={1}
               title={<TabTitleText>Immutable (OSTree)</TabTitleText>}

@@ -50,6 +50,7 @@ const checkSorting = (label, order, dataField) => {
   if (order === 'ascending') {
     cy.get(header).find('button').click();
   } else {
+    // eslint-disable-next-line cypress/unsafe-to-chain-command
     cy.get(header).find('button').click().click();
   }
 

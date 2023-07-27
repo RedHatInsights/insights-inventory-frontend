@@ -11,8 +11,8 @@ jest.mock('react-router-dom', () => ({
     pathname: 'localhost:3000/example/path',
   }),
   useNavigate: () => ({
-    push: () => undefined
-  })
+    push: () => undefined,
+  }),
 }));
 
 describe('SystemStatusCard', () => {

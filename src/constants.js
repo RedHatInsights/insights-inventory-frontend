@@ -1,42 +1,4 @@
 import PropTypes from 'prop-types';
-import {
-  HOST_GROUP_CHIP,
-  RHCD_FILTER_KEY,
-  UPDATE_METHOD_KEY,
-} from './Utilities/constants';
-
-export const tagsMapper = (acc, curr) => {
-  let [namespace, keyValue] = curr.split('/');
-  if (!keyValue) {
-    keyValue = namespace;
-    namespace = null;
-  }
-
-  const [key, value = null] = keyValue.split('=');
-  const currTagKey = acc.findIndex(({ category }) => category === namespace);
-  const currTag = acc[currTagKey] || {
-    category: namespace,
-    key: namespace,
-    type: 'tags',
-    values: [],
-  };
-  currTag.values.push({
-    name: `${key}${value ? `=${value}` : ''}`,
-    key: `${key}${value ? `=${value}` : ''}`,
-    tagKey: key,
-    value,
-    group: {
-      label: namespace,
-      value: namespace,
-      type: 'checkbox',
-    },
-  });
-  if (!acc[currTagKey]) {
-    acc.push(currTag);
-  }
-
-  return acc;
-};
 
 export const prepareRows = (rows = [], pagination = {}) =>
   rows.slice(
@@ -131,37 +93,6 @@ export const extraShape = PropTypes.shape({
   plural: PropTypes.node,
   onClick: PropTypes.func,
 });
-
-export const getSearchParams = () => {
-  const searchParams = new URLSearchParams(location.search);
-  const status = searchParams.getAll('status');
-  const source = searchParams.getAll('source');
-  const filterbyName = searchParams.getAll('hostname_or_id');
-  const tagsFilter = searchParams
-    .getAll('tags')?.[0]
-    ?.split?.(',')
-    .reduce?.(tagsMapper, []);
-  const operatingSystem = searchParams.getAll('operating_system');
-  const rhcdFilter = searchParams.getAll(RHCD_FILTER_KEY);
-  const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
-  const hostGroupFilter = searchParams.getAll(HOST_GROUP_CHIP);
-  const page = searchParams.getAll('page');
-  const perPage = searchParams.getAll('per_page');
-  const lastSeenFilter = searchParams.getAll('last_seen');
-  return {
-    status,
-    source,
-    tagsFilter,
-    filterbyName,
-    operatingSystem,
-    rhcdFilter,
-    updateMethodFilter,
-    lastSeenFilter,
-    page,
-    perPage,
-    hostGroupFilter,
-  };
-};
 
 export const TABLE_DEFAULT_PAGINATION = 50; // from UX table audit
 

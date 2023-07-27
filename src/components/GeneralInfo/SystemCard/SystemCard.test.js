@@ -6,7 +6,6 @@ import SystemCard from './SystemCard';
 import configureStore from 'redux-mock-store';
 import { rhsmFacts, testProperties } from '../../../__mocks__/selectors';
 import promiseMiddleware from 'redux-promise-middleware';
-import { Provider } from 'react-redux';
 import { hosts } from '../../../api/api';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
@@ -16,9 +15,9 @@ const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 const location = {};
 
 jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useLocation: () => location,
-    useNavigate: () => jest.fn()
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => location,
+  useNavigate: () => jest.fn(),
 }));
 
 jest.mock(

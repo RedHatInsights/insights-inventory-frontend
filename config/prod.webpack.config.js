@@ -104,9 +104,9 @@ plugins.push(
       },
       shared: [
         {
-            'react-router-dom': { singleton: true, requiredVersion: '*' }
-        }
-      ]
+          'react-router-dom': { singleton: true, requiredVersion: '*' },
+        },
+      ],
     }
   )
 );
