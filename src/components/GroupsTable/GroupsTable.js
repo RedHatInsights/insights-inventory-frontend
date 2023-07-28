@@ -433,16 +433,6 @@ const GroupsTable = () => {
               }
             ),
             {
-              label: 'Rename group',
-              onClick: () => setRenameModalOpen(true),
-              props: {
-                isAriaDisabled: !canModify || selectedIds.length !== 1,
-                ...(!canModify && {
-                  tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
-                }),
-              },
-            },
-            {
               label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
               onClick: () => setDeleteModalOpen(true),
               props: {
