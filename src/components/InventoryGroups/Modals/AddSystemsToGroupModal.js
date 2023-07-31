@@ -38,7 +38,10 @@ const AddSystemsToGroupModal = ({
   const alreadyHasGroup = [...selected].filter(
     // eslint-disable-next-line camelcase
     (entry) => {
-      return entry[1].group_name !== undefined && entry[1].group_name !== '';
+      return (
+        entry[1]?.groups?.[0]?.name !== undefined &&
+        entry[1]?.groups?.[0]?.name !== ''
+      );
     }
   );
   const showWarning = alreadyHasGroup.length > 0;
@@ -121,7 +124,7 @@ const AddSystemsToGroupModal = ({
                       setIsModalOpen(false);
                     }
                   }}
-                  isDisabled={noneSelected}
+                  isDisabled={noneSelected || showWarning}
                 >
                   Add systems
                 </Button>
