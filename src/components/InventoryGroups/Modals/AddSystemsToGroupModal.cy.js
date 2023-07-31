@@ -20,7 +20,6 @@ import { getStore } from '../../../store';
 import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 import {
   DROPDOWN_ITEM,
-  MODAL,
   TABLE,
   checkTableHeaders,
   ouiaId,
@@ -122,12 +121,14 @@ describe('AddSystemsToGroupModal', () => {
       'true'
     );
     cy.get('button').contains('Add systems').should('be.disabled');
-    selectRowN(1);
+    selectRowN(4);
     cy.get('button').contains('Add systems').click();
-    cy.wait('@postHosts').its('request.body').should('deep.equal', ['dolor']);
+    cy.wait('@postHosts')
+      .its('request.body')
+      .should('deep.equal', ['consectetur']);
   });
 
-  it('can add systems that are already in group', () => {
+  it('cannot add systems that are already in group', () => {
     groupDetailInterceptors['post hosts successful']();
     mountModal();
 
@@ -136,21 +137,11 @@ describe('AddSystemsToGroupModal', () => {
       'data-ouia-safe',
       'true'
     );
-    const i =
-      hostsFixtures.results.findIndex(
-        // eslint-disable-next-line camelcase
-        ({ group_name }) => !_.isEmpty(group_name)
-      ) + 1;
-    selectRowN(i);
+    selectRowN(1);
     cy.get(ALERT); // check the alert is shown
-    cy.get('button').contains('Add systems').click();
-    cy.get(MODAL).find('h1').contains('Add all selected systems to group?');
     cy.get('button')
-      .contains('Yes, add all systems to group')
-      .should('be.disabled');
-    cy.get('input[name="confirmation"]').check();
-    cy.get('button').contains('Yes, add all systems to group').click();
-    cy.wait('@postHosts').its('request.body').should('deep.equal', ['anim']);
+      .contains('Add systems')
+      .should('have.attr', 'aria-disabled', 'true');
   });
 
   describe('filters', () => {

@@ -111,16 +111,12 @@ const GroupSystems = ({ groupName, groupId }) => {
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
   );
 
-  const { hasAccess: canViewHosts } = usePermissionsWithContext([
-    'inventory:hosts:read',
-  ]);
-
   const resetTable = () => {
     dispatch(clearFilters());
     dispatch(selectEntity(-1, false));
   };
 
-  const enableAddSystems = canModify && canViewHosts;
+  const enableAddSystems = canModify;
 
   useEffect(() => {
     return () => {
