@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardBody,
@@ -8,37 +8,38 @@ import {
   TabTitleText,
   Tabs,
   Title,
+  Tooltip,
 } from '@patternfly/react-core';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom';
-import { resolveRelPath } from '../../Utilities/path';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import TabCard from './TabCard';
 
 const HostStalenessCard = () => {
-  const { pathname } = useLocation();
-  const tabsPath = [
-    resolveRelPath(''),
-    // resolveRelPath(manageEdgeInventoryUrlName),
-  ];
-  const initialActiveTabKey =
-    tabsPath.indexOf(pathname) >= 0 ? tabsPath.indexOf(pathname) : 0;
-  const [activeTabKey, setActiveTabKey] = useState(initialActiveTabKey);
-
-  useEffect(() => {
-    setActiveTabKey(initialActiveTabKey);
-  }, [pathname]);
+  // const [filter, setFiletr] = useState({
+  //   systemStaleness: 1,
+  //   systemStaleWarning: 7,
+  //   systemCulling: 30,
+  //   edgeStaleness: 1,
+  //   edgeStaleWarning: 2,
+  //   edgeCullding: 30,
+  // });
+  const [activeTabKey, setActiveTabKey] = useState(0);
   const handleTabClick = (_event, tabIndex) => {
-    const tabPath = tabsPath[tabIndex];
-    if (tabPath !== undefined) {
-      history.push(`${tabPath}`);
-    }
     setActiveTabKey(tabIndex);
   };
 
+  //TODO need to pass down filters to TabCards to udpate state
+  //TODO add ability to go back and forth on tabs via url
+  //TODO Create a custom table for groups
+  //Create a modal for the edit button
   return (
     <Card>
       <CardHeader>
         <Title headingLevel="h4" size="xl">
           Organization level system staleness and culling
         </Title>
+        <Tooltip content={'testing testing 123'}>
+          <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+        </Tooltip>
       </CardHeader>
       <CardBody>
         <p>
@@ -46,19 +47,35 @@ const HostStalenessCard = () => {
           options below.
         </p>
         <Tabs
-          className="pf-m-light pf-c-table"
+          className="pf-m-light pf-c-table pf-u-mb-lg pf-u-mt-lg"
           activeKey={activeTabKey}
           onSelect={handleTabClick}
         >
           <Tab
             eventKey={0}
-            title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
-          ></Tab>
+            title={
+              <TabTitleText>
+                Conventional (RPM-DNF){' '}
+                <Tooltip content={'testing testing 123'}>
+                  <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+                </Tooltip>
+              </TabTitleText>
+            }
+          >
+            <TabCard />
+          </Tab>
           <Tab
             eventKey={1}
-            title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
+            title={
+              <TabTitleText>
+                Immutable (OSTree){' '}
+                <Tooltip content={'testing testing 123'}>
+                  <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+                </Tooltip>
+              </TabTitleText>
+            }
           >
-            <h1>BLA</h1>
+            <TabCard />
           </Tab>
         </Tabs>
       </CardBody>
