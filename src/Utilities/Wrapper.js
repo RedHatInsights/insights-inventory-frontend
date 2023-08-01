@@ -21,7 +21,7 @@ const RenderWrapper = ({
         ref: inventoryRef,
       })}
       isRbacEnabled={isRbacEnabled}
-      hasAccess={isRbacEnabled ? hasAccess : true}
+      hasAccess={hasAccess}
       store={store}
     />
   );
