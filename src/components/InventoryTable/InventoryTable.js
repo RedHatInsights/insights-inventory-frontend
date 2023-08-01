@@ -181,7 +181,7 @@ const InventoryTable = forwardRef(
       };
 
       const cachedParams = cache.current.getParams();
-      if (!isEqual(cachedParams, newParams) || forceRefresh) {
+      if (hasAccess && (!isEqual(cachedParams, newParams) || forceRefresh)) {
         cache.current.updateParams(newParams);
         if (onRefresh && !disableOnRefresh) {
           dispatch(entitiesLoading());
