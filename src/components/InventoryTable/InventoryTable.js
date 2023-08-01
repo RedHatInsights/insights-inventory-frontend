@@ -180,6 +180,7 @@ const InventoryTable = forwardRef(
         globalFilter: cachedProps?.customFilters?.globalFilter,
       };
 
+      //Check for the rbac permissions
       const cachedParams = cache.current.getParams();
       if (hasAccess && (!isEqual(cachedParams, newParams) || forceRefresh)) {
         cache.current.updateParams(newParams);
