@@ -116,8 +116,6 @@ const GroupSystems = ({ groupName, groupId }) => {
     dispatch(selectEntity(-1, false));
   };
 
-  const enableAddSystems = canModify;
-
   useEffect(() => {
     return () => {
       resetTable();
@@ -191,7 +189,7 @@ const GroupSystems = ({ groupName, groupId }) => {
           }}
           actionsConfig={{
             actions: [
-              !enableAddSystems ? (
+              !canModify ? (
                 // custom component needed since it's the first action to render (see primary toolbar implementation)
                 <Tooltip content={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}>
                   <Button isAriaDisabled>Add systems</Button>
