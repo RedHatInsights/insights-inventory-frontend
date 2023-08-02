@@ -117,10 +117,28 @@ export const calculateSystemProfile = ({
       );
 
   if (osFilterValues?.length > 0) {
+    let centosVersions = [];
+    let rhelVersions = [];
+
+    osFilterValues.forEach((filterValue) => {
+      if (filterValue.osName === 'RHEL') {
+        rhelVersions.push(filterValue.value);
+      }
+
+      if (filterValue.osName === 'CentOS Linux') {
+        centosVersions.push(filterValue.value);
+      }
+    });
+
     systemProfile.operating_system = {
+      'CentOS Linux': {
+        version: {
+          eq: centosVersions,
+        },
+      },
       RHEL: {
         version: {
-          eq: osFilterValues,
+          eq: rhelVersions,
         },
       },
     };

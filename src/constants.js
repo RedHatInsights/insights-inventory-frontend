@@ -141,7 +141,18 @@ export const getSearchParams = () => {
     .getAll('tags')?.[0]
     ?.split?.(',')
     .reduce?.(tagsMapper, []);
-  const operatingSystem = searchParams.getAll('operating_system');
+  const operatingSystem = searchParams
+    .getAll('operating_system')
+    .map((osFilter) => {
+      if (typeof osFilter !== 'object') {
+        const index = osFilter.search(/\d/);
+        const osName = osFilter.substring(0, index);
+        const osVersion = osFilter.substring(index);
+        const [major] = osVersion.split('.');
+        const groupName = `${osName} ${major}`;
+        return { osName, value: osVersion, groupName };
+      }
+    });
   const rhcdFilter = searchParams.getAll(RHCD_FILTER_KEY);
   const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
   const hostGroupFilter = searchParams.getAll(HOST_GROUP_CHIP);

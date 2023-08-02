@@ -4,24 +4,42 @@ import mapValues from 'lodash/mapValues';
 import { coerce, compare, rcompare } from 'semver';
 import { OS_CHIP } from './constants';
 
-export const updateGroupSelectionIdentifier = (selection, major) =>
+export const updateGroupSelectionIdentifier = (selection, os, major) =>
   // if every minor version is selected, then mark the group as selected
   set(
     selection,
-    [major, major],
-    Object.values({ ...selection[major] })
+    `[${os}][${major}]`,
+    Object.values({ ...selection[os] })
       .filter((v) => v !== major)
       .every(Boolean)
   );
+
+const isVersionSelected = (selectedVersion, osVersion) => {
+  for (let i = 0; i < selectedVersion.length; i++) {
+    if (selectedVersion[i].value === osVersion.value) {
+      return true;
+    } else {
+      continue;
+    }
+  }
+
+  return false;
+};
 
 /** Takes an array of string versions `value` and returns an object in the format
  * required by ConditionalFilter component (group filter); */
 export const toGroupSelection = (value = [], availableVersions) =>
   (availableVersions === undefined ? value : availableVersions).reduce(
     (acc, version) => {
-      const [major] = version.split('.');
-      set(acc, [major, version], value.includes(version));
-      updateGroupSelectionIdentifier(acc, major);
+      const [major] = version.value;
+      const groupName = `${version.osName} ${major}`;
+      set(
+        acc,
+        [`${groupName}`, version.value],
+        isVersionSelected(value, version),
+        Object
+      );
+      updateGroupSelectionIdentifier(acc, groupName, major);
       return acc;
     },
     {}
@@ -32,30 +50,33 @@ export const compareVersions = (a, b, asc = true) =>
 
 /** Extracts enabled OS filter values from ConditionalFilter-like object */
 export const getSelectedOsFilterVersions = (selected = {}) =>
-  Object.values(selected).reduce((acc, versions) => {
-    Object.entries(versions).forEach(
-      ([version, enabled]) =>
-        enabled && version.match(/[0-9]+.[0-9]+/) && acc.push(version)
-    );
+  Object.entries(selected).reduce((acc, [osGroup, versions]) => {
+    Object.entries(versions).forEach(([version, enabled]) => {
+      if (enabled && version.match(/[0-9]+.[0-9]+/)) {
+        let osName = osGroup.split(' ').slice(0, -1).join(' ');
+        acc.push({ osName, osGroup, value: version });
+      }
+    });
     return acc;
   }, []);
 
 export const groupOSFilterVersions = (versions = []) => {
   const groups = Object.entries(
-    versions.reduce((prev, { label, value }) => {
+    versions.reduce((prev, { label, osName, value }) => {
       const major = value.split('.')[0];
+      const group = `${osName} ${major}`;
 
-      if (prev[major] === undefined) {
-        prev[major] = {
+      if (prev[group] === undefined) {
+        prev[group] = {
           groupSelectable: true, // without this flag, the group won't be rendered - behavior of ConditionalFilter
-          label: 'RHEL ' + major,
-          value: major,
+          label: group,
+          value: group,
           type: 'checkbox',
           items: [],
         };
       }
 
-      prev[major].items.push({
+      prev[group].items.push({
         label,
         value,
         type: 'checkbox',
@@ -82,9 +103,17 @@ export const buildOSFilterChip = (
   operatingSystems = []
 ) => {
   const minors = getSelectedOsFilterVersions(operatingSystemValue);
-  const chips = operatingSystems
-    .filter(({ value }) => minors.includes(value))
-    .map(({ label, ...props }) => ({ name: label, ...props }));
+  let filteredMinors = operatingSystems.filter(({ groupLabel, value }) => {
+    let minorsReturnedValue = minors.some(
+      (minor) => minor.value === value && minor.osGroup === groupLabel
+    );
+    return minorsReturnedValue;
+  });
+
+  const chips = filteredMinors.map(({ label, ...props }) => ({
+    name: label,
+    ...props,
+  }));
 
   return minors?.length > 0
     ? [
@@ -105,14 +134,15 @@ export const onOSFilterChange = (
 ) => {
   const newSelection = Object.assign({}, selection);
   const value = newSelection[clickedGroup.value][clickedItem.value];
-  const major = clickedGroup.value;
+  const group = clickedGroup.value;
+  const [major] = clickedItem.value.split('.');
 
-  if (clickedItem.value === major) {
+  if (clickedItem.value === group) {
     // group checkbox clicked => update all minor version selections
-    newSelection[major] = mapValues(newSelection[major], () => value);
+    newSelection[group] = mapValues(newSelection[group], () => value);
   } else {
-    newSelection[major][major] = Object.values(
-      omit(newSelection[major], major)
+    newSelection[group][major] = Object.values(
+      omit(newSelection[group], [major])
     ).every(Boolean);
   }
 
