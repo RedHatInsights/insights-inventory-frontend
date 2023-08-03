@@ -192,7 +192,9 @@ const Inventory = ({
   };
 
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
-
+  const EdgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter'
+  );
   const { hasAccess: canModifyGroups } = usePermissionsWithContext([
     GENERAL_GROUPS_WRITE_PERMISSION,
   ]);
@@ -218,6 +220,7 @@ const Inventory = ({
             ...(workloads?.['Microsoft SQL']?.isSelected && {
               mssql: 'not_nil',
             }),
+            ...(EdgeParityFilterDeviceEnabled && { host_type: 'nil' }),
             ...(SID?.length > 0 && { sap_sids: SID }),
           },
         },
