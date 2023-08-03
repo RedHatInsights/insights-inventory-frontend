@@ -1,78 +1,101 @@
-import { Card, Flex, FlexItem, Tooltip } from '@patternfly/react-core';
+import {
+  Button,
+  Card,
+  Flex,
+  FlexItem,
+  Grid,
+  GridItem,
+  Tooltip,
+} from '@patternfly/react-core';
 import React from 'react';
 import BaseDropdown from './BaseDropDown';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
-import { useState } from 'react';
+import PropTypes from 'prop-types';
+import {
+  systemCullingItems,
+  systemStalenessItems,
+  systemStalenessWarningItems,
+} from './constants';
 
-const TabCard = () => {
-  const [edit, setEdit] = useState(false);
-  const systemStalenessItems = [
-    { name: '1 day', value: '' },
-    { name: '2 days', value: 1 },
-    { name: '3 days', value: 3 },
-    { name: '4 days', value: 4 },
-    { name: '5 days', value: 5 },
-    { name: '6 days', value: 6 },
-    { name: '7 days', value: 7 },
-    { name: 'Never', value: 'Never' },
-  ];
-
-  const systemStalenessWarningItems = [
-    { name: '7 day', value: 7 },
-    { name: '14 days', value: 12 },
-    { name: '21 days', value: 21 },
-    { name: '30 days', value: 20 },
-    { name: '60 days', value: 60 },
-    { name: '90 days', value: 90 },
-    { name: '120 days', value: 120 },
-    { name: '150 days', value: 150 },
-    { name: '180 days', value: 180 },
-    { name: 'Never', value: 'Never' },
-  ];
-  const systemCullingItems = [
-    { name: '14 days', value: 12 },
-    { name: '21 days', value: 21 },
-    { name: '30 days', value: 20 },
-    { name: '60 days', value: 60 },
-    { name: '90 days', value: 90 },
-    { name: '120 days', value: 120 },
-    { name: '150 days', value: 150 },
-    { name: '180 days', value: 180 },
-    { name: 'Never', value: 'Never' },
-  ];
+const TabCard = ({
+  edit,
+  filter,
+  setFilter,
+  activeTabKey,
+  newFormValues,
+  setNewFormValues,
+}) => {
+  const resetToDefault = () => {
+    // console.log('blabla 2 here');
+  };
   return (
     <React.Fragment>
       <Card isPlain className="pf-u-mb-lg">
-        <Flex className="pf-u-mb-md">
-          <p>System Configuration</p>
-          <a onClick={() => setEdit(!edit)}>Edit</a>
-        </Flex>
         <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
           <BaseDropdown
-            dropdownItems={systemStalenessItems}
-            placeholder={'30 days'}
+            dropdownItems={systemStalenessItems(activeTabKey)}
+            currentItem={systemStalenessItems(activeTabKey)[1].name}
             disabled={!edit}
+            title={'System staleness'}
+            filter={filter}
+            setFilter={setFilter}
+            newFormValues={newFormValues}
+            setNewFormValues={setNewFormValues}
           />
           <BaseDropdown
-            dropdownItems={systemStalenessWarningItems}
-            placeholder={'30 days'}
+            dropdownItems={systemStalenessWarningItems(activeTabKey)}
+            currentItem={systemStalenessWarningItems(activeTabKey)[2].name}
             disabled={!edit}
+            title={'System stale warning'}
+            filter={filter}
+            setFilter={setFilter}
+            newFormValues={newFormValues}
+            setNewFormValues={setNewFormValues}
           />
           <BaseDropdown
-            dropdownItems={systemCullingItems}
-            placeholder={'30 days'}
+            dropdownItems={systemCullingItems(activeTabKey)}
+            currentItem={systemCullingItems(activeTabKey)[4].name}
             disabled={!edit}
+            title={'System culling'}
+            filter={filter}
+            setFilter={setFilter}
+            newFormValues={newFormValues}
+            setNewFormValues={setNewFormValues}
           />
-          <FlexItem alignSelf={{ default: 'alignSelfCenter' }}>
-            <a className="pf-u-ml-sm ">Reset to default setting</a>
-            <Tooltip content={'testing testing 123'}>
-              <OutlinedQuestionCircleIcon className="pf-u-ml-xs" />
-            </Tooltip>
-          </FlexItem>
+          {edit && (
+            <FlexItem alignSelf={{ default: 'alignSelfCenter' }}>
+              <a
+                onClick={resetToDefault(setNewFormValues /*, defaultValues*/)}
+                className="pf-u-ml-sm "
+              >
+                Reset to default setting
+              </a>
+              <Tooltip content={'testing testing 123'}>
+                <OutlinedQuestionCircleIcon className="pf-u-ml-xs" />
+              </Tooltip>
+            </FlexItem>
+          )}
         </Flex>
+        {edit && (
+          <Grid>
+            <GridItem span={2}>
+              <Button className="pf-u-mt-md" size={'sm'}>
+                Update
+              </Button>
+            </GridItem>
+          </Grid>
+        )}
       </Card>
     </React.Fragment>
   );
 };
 
+TabCard.propTypes = {
+  filter: PropTypes.string,
+  newFormValues: PropTypes.obj,
+  setNewFormValues: PropTypes.any,
+  setFilter: PropTypes.any,
+  activeTabKey: PropTypes.number,
+  edit: PropTypes.bool,
+};
 export default TabCard;

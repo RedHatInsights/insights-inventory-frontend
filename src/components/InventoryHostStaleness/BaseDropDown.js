@@ -1,34 +1,41 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Dropdown,
-  DropdownItem,
-  DropdownList,
-  DropdownToggle,
   Flex,
   FlexItem,
+  Select,
+  SelectOption,
   Tooltip,
 } from '@patternfly/react-core';
-import {
-  CaretDownIcon,
-  OutlinedQuestionCircleIcon,
-} from '@patternfly/react-icons';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 
-const BaseDropdown = ({ dropdownItems, placeholder, disabled }) => {
+const BaseDropdown = ({
+  dropdownItems,
+  currentItem,
+  disabled,
+  title,
+  newFormValues,
+  setNewFormValues,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const onSelect = (_event, value) => {
-    console.log('selected', value);
+  const [selected, setSelected] = useState(currentItem);
+  const onSelect = (event, value) => {
+    let select = dropdownItems.find((item) => item.value === value);
+    setSelected(select.name);
     setIsOpen(false);
   };
+
+  const updateFilter = (item) => {
+    setNewFormValues({ ...newFormValues, [item.apiKey]: item.value });
+  };
+
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
         <FlexItem className="pf-u-mb-sm">
           <Flex>
             <FlexItem spacer={{ default: 'spacerXs' }}>
-              <p className="pf-u-font-weight-bold pf-u-font-size-sm">
-                System Staleness
-              </p>
+              <p className="pf-u-font-weight-bold pf-u-font-size-sm">{title}</p>
             </FlexItem>
             <FlexItem>
               <Tooltip content={'testing testing 123'}>
@@ -41,34 +48,24 @@ const BaseDropdown = ({ dropdownItems, placeholder, disabled }) => {
           </Flex>
         </FlexItem>
         <FlexItem>
-          <Dropdown
+          <Select
+            id="single-select"
             isOpen={isOpen}
             onSelect={onSelect}
-            onOpenChange={(isOpen) => setIsOpen(isOpen)}
-            toggle={
-              <DropdownToggle
-                onToggle={() => setIsOpen(!isOpen)}
-                toggleIndicator={CaretDownIcon}
-                isDisabled={disabled}
-                className="dropdown-toggle"
-              >
-                {placeholder}
-              </DropdownToggle>
-            }
-            ouiaId="BasicDropdown"
+            onToggle={() => setIsOpen(!isOpen)}
+            isDisabled={disabled}
+            selections={selected}
           >
-            <DropdownList>
-              {dropdownItems.map((item) => (
-                <DropdownItem
-                  key={item.name}
-                  value={item.value}
-                  onClick={(ev) => ev.preventDefault()}
-                >
-                  {item.name}
-                </DropdownItem>
-              ))}
-            </DropdownList>
-          </Dropdown>
+            {dropdownItems.map((item) => (
+              <SelectOption
+                key={item.name}
+                value={item.value}
+                onClick={() => updateFilter(item)}
+              >
+                {item.name}
+              </SelectOption>
+            ))}
+          </Select>
         </FlexItem>
       </Flex>
     </React.Fragment>
@@ -80,6 +77,11 @@ BaseDropdown.propTypes = {
   disabled: PropTypes.bool,
   onSelect: PropTypes.bool,
   placeholder: PropTypes.string,
+  title: PropTypes.string,
+  currentItem: PropTypes.string,
+  filter: PropTypes.string,
+  newFormValues: PropTypes.obj,
+  setNewFormValues: PropTypes.any,
 };
 
 export default BaseDropdown;

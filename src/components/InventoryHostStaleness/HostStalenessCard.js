@@ -4,6 +4,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Flex,
   Tab,
   TabTitleText,
   Tabs,
@@ -14,21 +15,22 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
 
 const HostStalenessCard = () => {
-  // const [filter, setFiletr] = useState({
-  //   systemStaleness: 1,
-  //   systemStaleWarning: 7,
-  //   systemCulling: 30,
-  //   edgeStaleness: 1,
-  //   edgeStaleWarning: 2,
-  //   edgeCullding: 30,
-  // });
+  const [filter, setFilter] = useState({
+    system_staleness_delta: 1,
+    system_stale_warning_delta: 7,
+    system_culling_delta: 30,
+    edge_staleness_delta: 1,
+    edge_stale_warning_delta: 2,
+    edge_culling_delta: 30,
+  });
+  const [newFormValues, setNewFormValues] = useState(filter);
+  const [edit, setEdit] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState(0);
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
 
   //TODO need to pass down filters to TabCards to udpate state
-  //TODO add ability to go back and forth on tabs via url
   //TODO Create a custom table for groups
   //Create a modal for the edit button
   return (
@@ -46,6 +48,16 @@ const HostStalenessCard = () => {
           Keep or customize your organization's default settings using the
           options below.
         </p>
+        <Flex className="pf-u-mt-md">
+          <p>System Configuration</p>
+          <a
+            onClick={() => {
+              setEdit(!edit);
+            }}
+          >
+            Edit
+          </a>
+        </Flex>
         <Tabs
           className="pf-m-light pf-c-table pf-u-mb-lg pf-u-mt-lg"
           activeKey={activeTabKey}
@@ -62,7 +74,14 @@ const HostStalenessCard = () => {
               </TabTitleText>
             }
           >
-            <TabCard />
+            <TabCard
+              edit={edit}
+              filter={filter}
+              setFilter={setFilter}
+              activeTabKey={activeTabKey}
+              newFormValues={newFormValues}
+              setNewFormValues={setNewFormValues}
+            />
           </Tab>
           <Tab
             eventKey={1}
@@ -75,7 +94,14 @@ const HostStalenessCard = () => {
               </TabTitleText>
             }
           >
-            <TabCard />
+            <TabCard
+              edit={edit}
+              filter={filter}
+              setFilter={setFilter}
+              activeTabKey={activeTabKey}
+              newFormValues={newFormValues}
+              setNewFormValues={setNewFormValues}
+            />
           </Tab>
         </Tabs>
       </CardBody>
