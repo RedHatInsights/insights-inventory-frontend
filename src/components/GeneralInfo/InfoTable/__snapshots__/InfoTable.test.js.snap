@@ -855,6 +855,7 @@ exports[`InfoTable api expandable should open 1`] = `
     </Toolbar>
   </PrimaryToolbar>
   <Table
+    actionsMenuAppendTo="inline"
     aria-label="General information dialog table"
     borders={true}
     canCollapseAll={false}
@@ -990,6 +991,7 @@ exports[`InfoTable api expandable should open 1`] = `
               "expandId": "expandable-toggle",
               "firstUserColumnIndex": 1,
               "isHeaderSelectDisabled": false,
+              "menuAppendTo": "inline",
               "onCollapse": [Function],
               "onExpand": undefined,
               "onFavorite": undefined,
@@ -1046,6 +1048,7 @@ exports[`InfoTable api expandable should open 1`] = `
               "expandId": "expandable-toggle",
               "firstUserColumnIndex": 1,
               "isHeaderSelectDisabled": false,
+              "menuAppendTo": "inline",
               "onCollapse": [Function],
               "onExpand": undefined,
               "onFavorite": undefined,
@@ -1102,6 +1105,7 @@ exports[`InfoTable api expandable should open 1`] = `
               "expandId": "expandable-toggle",
               "firstUserColumnIndex": 1,
               "isHeaderSelectDisabled": false,
+              "menuAppendTo": "inline",
               "onCollapse": [Function],
               "onExpand": undefined,
               "onFavorite": undefined,
@@ -1225,6 +1229,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
                             "isHeaderSelectDisabled": false,
+                            "menuAppendTo": "inline",
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -1281,6 +1286,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
                             "isHeaderSelectDisabled": false,
+                            "menuAppendTo": "inline",
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -1337,6 +1343,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
                             "isHeaderSelectDisabled": false,
+                            "menuAppendTo": "inline",
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -1448,6 +1455,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "expandId": "expandable-toggle",
                                     "firstUserColumnIndex": 1,
                                     "isHeaderSelectDisabled": false,
+                                    "menuAppendTo": "inline",
                                     "onCollapse": [Function],
                                     "onExpand": undefined,
                                     "onFavorite": undefined,
@@ -1504,6 +1512,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "expandId": "expandable-toggle",
                                     "firstUserColumnIndex": 1,
                                     "isHeaderSelectDisabled": false,
+                                    "menuAppendTo": "inline",
                                     "onCollapse": [Function],
                                     "onExpand": undefined,
                                     "onFavorite": undefined,
@@ -1560,6 +1569,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                     "expandId": "expandable-toggle",
                                     "firstUserColumnIndex": 1,
                                     "isHeaderSelectDisabled": false,
+                                    "menuAppendTo": "inline",
                                     "onCollapse": [Function],
                                     "onExpand": undefined,
                                     "onFavorite": undefined,
@@ -1762,6 +1772,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         "expandId": "expandable-toggle",
                         "firstUserColumnIndex": 1,
                         "isHeaderSelectDisabled": false,
+                        "menuAppendTo": "inline",
                         "onCollapse": [Function],
                         "onExpand": undefined,
                         "onFavorite": undefined,
@@ -1818,6 +1829,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         "expandId": "expandable-toggle",
                         "firstUserColumnIndex": 1,
                         "isHeaderSelectDisabled": false,
+                        "menuAppendTo": "inline",
                         "onCollapse": [Function],
                         "onExpand": undefined,
                         "onFavorite": undefined,
@@ -1874,6 +1886,7 @@ exports[`InfoTable api expandable should open 1`] = `
                         "expandId": "expandable-toggle",
                         "firstUserColumnIndex": 1,
                         "isHeaderSelectDisabled": false,
+                        "menuAppendTo": "inline",
                         "onCollapse": [Function],
                         "onExpand": undefined,
                         "onFavorite": undefined,
@@ -2391,6 +2404,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
                             "isHeaderSelectDisabled": false,
+                            "menuAppendTo": "inline",
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -2447,6 +2461,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
                             "isHeaderSelectDisabled": false,
+                            "menuAppendTo": "inline",
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -2503,6 +2518,7 @@ exports[`InfoTable api expandable should open 1`] = `
                             "expandId": "expandable-toggle",
                             "firstUserColumnIndex": 1,
                             "isHeaderSelectDisabled": false,
+                            "menuAppendTo": "inline",
                             "onCollapse": [Function],
                             "onExpand": undefined,
                             "onFavorite": undefined,
@@ -3180,6 +3196,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3236,6 +3253,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3292,6 +3310,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3635,6 +3654,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3691,6 +3711,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -3747,6 +3768,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4010,6 +4032,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4066,6 +4089,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4122,6 +4146,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4424,6 +4449,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4480,6 +4506,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4536,6 +4563,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4799,6 +4827,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4855,6 +4884,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -4911,6 +4941,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5254,6 +5285,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5310,6 +5342,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5366,6 +5399,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5629,6 +5663,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5685,6 +5720,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -5741,6 +5777,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -6039,6 +6076,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -6095,6 +6133,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -6151,6 +6190,7 @@ exports[`InfoTable api expandable should open 1`] = `
                                       "expandId": "expandable-toggle",
                                       "firstUserColumnIndex": 1,
                                       "isHeaderSelectDisabled": false,
+                                      "menuAppendTo": "inline",
                                       "onCollapse": [Function],
                                       "onExpand": undefined,
                                       "onFavorite": undefined,
@@ -7589,6 +7629,7 @@ exports[`InfoTable should render expandable set to true 1`] = `
     }
   />
   <Table
+    actionsMenuAppendTo="inline"
     aria-label="General information dialog table"
     borders={true}
     canCollapseAll={false}
@@ -7763,6 +7804,7 @@ exports[`InfoTable should render multiple cells 1`] = `
     }
   />
   <Table
+    actionsMenuAppendTo="inline"
     aria-label="General information dialog table"
     borders={true}
     canCollapseAll={false}
@@ -7909,6 +7951,7 @@ exports[`InfoTable should render no data 1`] = `
     }
   />
   <Table
+    actionsMenuAppendTo="inline"
     aria-label="General information dialog table"
     borders={true}
     canCollapseAll={false}
@@ -8033,6 +8076,7 @@ exports[`InfoTable should render onSort set 1`] = `
     }
   />
   <Table
+    actionsMenuAppendTo="inline"
     aria-label="General information dialog table"
     borders={true}
     canCollapseAll={false}

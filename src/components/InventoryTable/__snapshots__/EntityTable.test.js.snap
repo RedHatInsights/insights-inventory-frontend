@@ -124,6 +124,7 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
 
 exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
 <Table
+  actionsMenuAppendTo="inline"
   aria-label="Host inventory"
   borders={true}
   canCollapseAll={false}
@@ -236,6 +237,7 @@ exports[`EntityTable DOM should render correctly - grid breakpoints 1`] = `
 
 exports[`EntityTable DOM should render correctly - is expandable 1`] = `
 <Table
+  actionsMenuAppendTo="inline"
   aria-label="Host inventory"
   borders={true}
   canCollapseAll={false}
@@ -424,6 +426,7 @@ exports[`EntityTable DOM should render correctly - no rows 1`] = `
 exports[`EntityTable DOM should render correctly - with actions 1`] = `
 <Table
   actions={Array []}
+  actionsMenuAppendTo="inline"
   aria-label="Host inventory"
   borders={true}
   canCollapseAll={false}
@@ -558,6 +561,7 @@ exports[`EntityTable DOM should render correctly - with customNoSystemsTable 1`]
 
 exports[`EntityTable DOM should render correctly - without checkbox 1`] = `
 <Table
+  actionsMenuAppendTo="inline"
   aria-label="Host inventory"
   borders={true}
   canCollapseAll={false}
@@ -761,6 +765,7 @@ exports[`EntityTable DOM should render correctly with has items 1`] = `null`;
 
 exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
 <Table
+  actionsMenuAppendTo="inline"
   aria-label="Host inventory"
   borders={true}
   canCollapseAll={false}
@@ -844,6 +849,7 @@ exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
 
 exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] = `
 <Table
+  actionsMenuAppendTo="inline"
   aria-label="Host inventory"
   borders={true}
   canCollapseAll={false}
@@ -923,6 +929,7 @@ exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] 
 
 exports[`EntityTable DOM sort by should render correctly 1`] = `
 <Table
+  actionsMenuAppendTo="inline"
   aria-label="Host inventory"
   borders={true}
   canCollapseAll={false}
