@@ -55,8 +55,8 @@ const RemoveHostsFromGroupModal = ({
 
     apiWithToast(
       dispatch,
-      () =>
-        removeHostsFromGroup(
+      async () =>
+        await removeHostsFromGroup(
           groupId,
           hosts.map(({ id }) => id)
         ),

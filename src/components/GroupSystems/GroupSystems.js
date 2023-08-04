@@ -132,7 +132,6 @@ const GroupSystems = ({ groupName, groupId }) => {
         <AddSystemsToGroupModal
           isModalOpen={addToGroupModalOpen}
           setIsModalOpen={(value) => {
-            resetTable();
             setAddToGroupModalOpen(value);
           }}
           groupId={groupId}
@@ -157,6 +156,7 @@ const GroupSystems = ({ groupName, groupId }) => {
         <InventoryTable
           columns={(columns) => prepareColumns(columns, true)}
           hideFilters={{ hostGroupFilter: true }}
+          initialLoading
           getEntities={async (items, config, showTags, defaultGetEntities) =>
             await defaultGetEntities(
               items,
