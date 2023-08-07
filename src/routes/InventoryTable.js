@@ -11,13 +11,11 @@ import {
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import * as actions from '../store/actions';
 import {
-  Button,
   Grid,
   GridItem,
   Tab,
   TabTitleText,
   Tabs,
-  Tooltip,
 } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../Utilities/DeleteModal';
@@ -28,7 +26,6 @@ import {
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   generateFilter,
-  useHostsWritePermissions,
 } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
@@ -39,15 +36,18 @@ import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { manageEdgeInventoryUrlName } from '../Utilities/edge';
 import { resolveRelPath } from '../Utilities/path';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
+  GENERAL_HOSTS_WRITE_PERMISSIONS,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../constants';
-import { ActionDropdownItem } from '../components/InventoryTable/ActionWithRBAC';
+import {
+  ActionButton,
+  ActionDropdownItem,
+} from '../components/InventoryTable/ActionWithRBAC';
 
 const mapTags = ({ category, values }) =>
   values.map(
@@ -107,6 +107,31 @@ export const calculatePagination = (searchParams, page, perPage) => {
   !isNaN(parseInt(newPerPage)) && searchParams.append('per_page', newPerPage);
 };
 
+const BulkDeleteButton = ({ selectedSystems, ...props }) => {
+  const requiredPermissions = selectedSystems.every(
+    ({ groups }) => groups.length > 0
+  )
+    ? selectedSystems.map(({ groups }) =>
+        REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groups[0].id)
+      )
+    : [GENERAL_HOSTS_WRITE_PERMISSIONS];
+
+  return (
+    <ActionButton
+      requiredPermissions={requiredPermissions}
+      noAccessTooltip={NO_MODIFY_HOSTS_TOOLTIP_MESSAGE}
+      checkAll
+      {...props}
+    >
+      Delete
+    </ActionButton>
+  );
+};
+
+BulkDeleteButton.propTypes = {
+  selectedSystems: PropTypes.array,
+};
+
 const Inventory = ({
   status,
   source,
@@ -163,7 +188,6 @@ const Inventory = ({
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [globalFilter, setGlobalFilter] = useState();
-  const hostsWritePermissions = useHostsWritePermissions();
   const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
   const loaded = useSelector(({ entities }) => entities?.loaded);
   const selected = useSelector(({ entities }) => entities?.selected);
@@ -196,10 +220,6 @@ const Inventory = ({
   };
 
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
-
-  const { hasAccess: canModifyGroups } = usePermissionsWithContext([
-    GENERAL_GROUPS_WRITE_PERMISSION,
-  ]);
 
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
@@ -246,7 +266,7 @@ const Inventory = ({
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const isBulkRemoveFromGroupsEnabled = () => {
-    if (canModifyGroups && calculateSelected() > 0) {
+    if (calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
       return selectedHosts.every(
@@ -260,7 +280,7 @@ const Inventory = ({
   };
 
   const isBulkAddHostsToGroupsEnabled = () => {
-    if (canModifyGroups && calculateSelected() > 0) {
+    if (calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
       return selectedHosts.every(({ groups }) => groups.length === 0);
@@ -391,49 +411,62 @@ const Inventory = ({
           }}
           actionsConfig={{
             actions: [
-              !hostsWritePermissions ? ( // custom component needed since it's the first action to render (see primary toolbar implementation)
-                <Tooltip content={NO_MODIFY_HOSTS_TOOLTIP_MESSAGE}>
-                  <Button isAriaDisabled>Delete</Button>
-                </Tooltip>
-              ) : (
-                {
-                  label: 'Delete',
-                  props: {
-                    isAriaDisabled: calculateSelected() === 0,
-                    variant: 'secondary',
-                    onClick: () => {
-                      setCurrentSystem(Array.from(selected.values()));
-                      handleModalToggle(true);
-                    },
-                  },
-                }
-              ),
+              <BulkDeleteButton
+                key="bulk-systems-delete"
+                selectedSystems={Array.from(selected?.values?.() || [])}
+                onClick={() => {
+                  setCurrentSystem(Array.from(selected.values()));
+                  handleModalToggle(true);
+                }}
+                variant="secondary"
+                isAriaDisabled={calculateSelected() === 0}
+              />,
               ...(groupsEnabled
                 ? [
                     {
-                      label: 'Add to group',
+                      label: (
+                        <ActionDropdownItem
+                          key="bulk-add-to-group"
+                          requiredPermissions={[
+                            GENERAL_GROUPS_WRITE_PERMISSION,
+                          ]}
+                          isAriaDisabled={!isBulkAddHostsToGroupsEnabled()}
+                          noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                          onClick={() => {
+                            setCurrentSystem(Array.from(selected.values()));
+                            setAddHostGroupModalOpen(true);
+                          }}
+                        >
+                          Add to group
+                        </ActionDropdownItem>
+                      ),
                       props: {
-                        isAriaDisabled: !isBulkAddHostsToGroupsEnabled(),
-                        ...(!canModifyGroups && {
-                          tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
-                        }),
-                      },
-                      onClick: () => {
-                        setCurrentSystem(Array.from(selected.values()));
-                        setAddHostGroupModalOpen(true);
+                        style: {
+                          padding: 0, // custom component creates extra padding space
+                        },
                       },
                     },
                     {
-                      label: 'Remove from group',
+                      label: (
+                        <ActionDropdownItem
+                          key="bulk-remove-from-group"
+                          requiredPermissions={[
+                            GENERAL_GROUPS_WRITE_PERMISSION,
+                          ]}
+                          isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
+                          noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                          onClick={() => {
+                            setCurrentSystem(Array.from(selected.values()));
+                            setRemoveHostsFromGroupModalOpen(true);
+                          }}
+                        >
+                          Remove from group
+                        </ActionDropdownItem>
+                      ),
                       props: {
-                        isAriaDisabled: !isBulkRemoveFromGroupsEnabled(),
-                        ...(!canModifyGroups && {
-                          tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
-                        }),
-                      },
-                      onClick: () => {
-                        setCurrentSystem(Array.from(selected.values()));
-                        setRemoveHostsFromGroupModalOpen(true);
+                        style: {
+                          padding: 0,
+                        },
                       },
                     },
                   ]

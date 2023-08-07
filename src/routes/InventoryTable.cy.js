@@ -249,6 +249,8 @@ describe('inventory table', () => {
       });
 
       it('bulk actions are disabled', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+
         cy.get('button')
           .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
@@ -319,6 +321,26 @@ describe('inventory table', () => {
           .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
       });
+
+      it('can delete hosts that are in the test group', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+
+        cy.get('button')
+          .contains('Delete')
+          .should('have.attr', 'aria-disabled', 'false')
+          .click();
+      });
+
+      it('cannot delete hosts that are not in the test group', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(2).click();
+
+        cy.get('button')
+          .contains('Delete')
+          .should('have.attr', 'aria-disabled', 'true');
+      });
     });
+
+    // TODO: test group bulk actions once granular RBAC is implemented there too
   });
 });

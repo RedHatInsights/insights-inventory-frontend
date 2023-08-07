@@ -1,6 +1,5 @@
 /**
  * This module contains Button and DropdownItem components wrapped by RBAC checks.
- * If host is in a group, then a minimum required RBAC permission is the group-level inventory:hosts:write.
  */
 import React from 'react';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
@@ -10,9 +9,13 @@ import PropTypes from 'prop-types';
 export const ActionButton = ({
   requiredPermissions,
   noAccessTooltip,
+  checkAll,
   ...props
 }) => {
-  const { hasAccess: enabled } = usePermissionsWithContext(requiredPermissions);
+  const { hasAccess: enabled } = usePermissionsWithContext(
+    requiredPermissions,
+    checkAll
+  );
 
   return enabled ? (
     <Button {...props} />
@@ -26,6 +29,11 @@ export const ActionButton = ({
 ActionButton.propTypes = {
   requiredPermissions: PropTypes.array,
   noAccessTooltip: PropTypes.string,
+  checkAll: PropTypes.bool,
+};
+
+ActionButton.defaultProps = {
+  checkAll: false,
 };
 
 export const ActionDropdownItem = ({
