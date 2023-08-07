@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import { useEffect } from 'react';
 
 const BaseDropdown = ({
   dropdownItems,
@@ -16,6 +17,7 @@ const BaseDropdown = ({
   title,
   newFormValues,
   setNewFormValues,
+  edit,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(currentItem);
@@ -29,6 +31,10 @@ const BaseDropdown = ({
     setNewFormValues({ ...newFormValues, [item.apiKey]: item.value });
   };
 
+  useEffect(() => {
+    setSelected(currentItem);
+    console.log('running useeffect here');
+  }, [edit]);
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
@@ -55,6 +61,7 @@ const BaseDropdown = ({
             onToggle={() => setIsOpen(!isOpen)}
             isDisabled={disabled}
             selections={selected}
+            width={'150px'}
           >
             {dropdownItems.map((item) => (
               <SelectOption
@@ -82,6 +89,7 @@ BaseDropdown.propTypes = {
   filter: PropTypes.string,
   newFormValues: PropTypes.obj,
   setNewFormValues: PropTypes.any,
+  edit: PropTypes.bool,
 };
 
 export default BaseDropdown;

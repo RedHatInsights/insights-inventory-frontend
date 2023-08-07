@@ -15,6 +15,7 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
 
 const HostStalenessCard = () => {
+  //need to match api key/value with item in our filter
   const [filter, setFilter] = useState({
     system_staleness_delta: 1,
     system_stale_warning_delta: 7,
@@ -30,9 +31,9 @@ const HostStalenessCard = () => {
     setActiveTabKey(tabIndex);
   };
 
-  //TODO need to pass down filters to TabCards to udpate state
-  //TODO Create a custom table for groups
   //Create a modal for the edit button
+  //turn values into strings
+  //styling and messages
   return (
     <Card>
       <CardHeader>
@@ -76,6 +77,7 @@ const HostStalenessCard = () => {
           >
             <TabCard
               edit={edit}
+              setEdit={setEdit}
               filter={filter}
               setFilter={setFilter}
               activeTabKey={activeTabKey}
@@ -96,6 +98,7 @@ const HostStalenessCard = () => {
           >
             <TabCard
               edit={edit}
+              setEdit={setEdit}
               filter={filter}
               setFilter={setFilter}
               activeTabKey={activeTabKey}

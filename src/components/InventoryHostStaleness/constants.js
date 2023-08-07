@@ -4,6 +4,7 @@ export const systemStalenessItems = (activeTabKey) => {
       name: '1 day',
       value: 1,
       apiKey: activeTabKey ? 'edge_staleness_delta' : 'system_staleness_delta',
+      title: 'System Satleness',
     },
     {
       name: '2 days',
@@ -51,6 +52,7 @@ export const systemStalenessWarningItems = (activeTabKey) => {
       apiKey: activeTabKey
         ? 'system_stale_warning_delta'
         : 'edge_stale_warning_delta',
+      title: 'System stale warning',
     },
     {
       name: '14 days',
@@ -124,6 +126,7 @@ export const systemCullingItems = (activeTabKey) => {
       name: '14 days',
       value: 14,
       apiKey: activeTabKey ? 'edge_culling_delta' : 'system_culling_delta',
+      title: 'System culling',
     },
     {
       name: '21 days',
