@@ -20,6 +20,7 @@ const BaseDropdown = ({
   edit,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  //manipulate currItem on load so that it matches the name format on dropdown
   const [selected, setSelected] = useState(currentItem);
   const onSelect = (event, value) => {
     let select = dropdownItems.find((item) => item.value === value);
@@ -33,7 +34,6 @@ const BaseDropdown = ({
 
   useEffect(() => {
     setSelected(currentItem);
-    console.log('running useeffect here');
   }, [edit]);
   return (
     <React.Fragment>
@@ -87,7 +87,7 @@ BaseDropdown.propTypes = {
   title: PropTypes.string,
   currentItem: PropTypes.string,
   filter: PropTypes.string,
-  newFormValues: PropTypes.obj,
+  newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,
   edit: PropTypes.bool,
 };

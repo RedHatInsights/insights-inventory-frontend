@@ -15,13 +15,15 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
 
 const HostStalenessCard = () => {
-  //need to match api key/value with item in our filter
+  //need to make an api request and convert those values to readable names
+  //like in array object.name
+  //e
   const [filter, setFilter] = useState({
     system_staleness_delta: 1,
     system_stale_warning_delta: 7,
     system_culling_delta: 30,
     edge_staleness_delta: 1,
-    edge_stale_warning_delta: 2,
+    edge_stale_warning_delta: 14,
     edge_culling_delta: 30,
   });
   const [newFormValues, setNewFormValues] = useState(filter);
@@ -31,9 +33,11 @@ const HostStalenessCard = () => {
     setActiveTabKey(tabIndex);
   };
 
+  //newFormValue manipulation:
   //Create a modal for the edit button
   //turn values into strings
   //styling and messages
+  // Need to update the edit button so that it makes the POST req,
   return (
     <Card>
       <CardHeader>

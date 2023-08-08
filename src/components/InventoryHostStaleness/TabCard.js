@@ -57,7 +57,7 @@ const TabCard = ({
       <Card isPlain className="pf-u-mb-lg">
         <Grid span={3}>
           {dropdownArray(activeTabKey).map((item) => (
-            <GridItem key={'item'}>
+            <GridItem key={item[0].title}>
               <BaseDropdown
                 dropdownItems={item}
                 currentItem={newFormValues[item[0].apiKey]}
@@ -113,7 +113,7 @@ const TabCard = ({
 
 TabCard.propTypes = {
   filter: PropTypes.string,
-  newFormValues: PropTypes.obj,
+  newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,
   setFilter: PropTypes.any,
   activeTabKey: PropTypes.number,
