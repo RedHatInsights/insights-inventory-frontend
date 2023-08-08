@@ -1,7 +1,6 @@
 import { createContext } from 'react';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { GENERAL_HOSTS_WRITE_PERMISSIONS } from '../constants';
-import useFeatureFlag from './useFeatureFlag';
 
 export const TEXT_FILTER = 'hostname_or_id';
 export const TEXTUAL_CHIP = 'textual';
@@ -92,13 +91,8 @@ export const rhcdOptions = [
 const initUpdateMethodOptions = [
   { label: 'yum', value: 'yum' },
   { label: 'dnf', value: 'dnf' },
+  { label: 'rpm-ostree', value: 'rpm-ostree' },
 ];
-export const EdgeParityFilterDeviceEnabled = () => {
-  useFeatureFlag('edgeParity.inventory-list-filter');
-};
-if (!EdgeParityFilterDeviceEnabled) {
-  initUpdateMethodOptions.push({ label: 'rpm-ostree', value: 'rpm-ostree' });
-}
 
 export const updateMethodOptions = initUpdateMethodOptions;
 
