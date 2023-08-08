@@ -1,6 +1,4 @@
 import { createContext } from 'react';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { GENERAL_HOSTS_WRITE_PERMISSIONS } from '../constants';
 
 export const TEXT_FILTER = 'hostname_or_id';
 export const TEXTUAL_CHIP = 'textual';
@@ -252,13 +250,5 @@ export const generateFilter = (
         : [hostGroupFilter],
     },
   ].filter(Boolean);
-
-export const useHostsWritePermissions = () => {
-  const { hasAccess } = usePermissionsWithContext([
-    GENERAL_HOSTS_WRITE_PERMISSIONS,
-  ]);
-
-  return hasAccess;
-};
 
 export const allStaleFilters = ['fresh', 'stale', 'stale_warning', 'unknown'];

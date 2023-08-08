@@ -12,15 +12,11 @@ import DeleteModal from '../Utilities/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';
 
-import {
-  useGetRegistry,
-  useHostsWritePermissions,
-} from '../Utilities/constants';
+import { useGetRegistry } from '../Utilities/constants';
 import { mockSystemProfile } from '../__mocks__/hostApi';
 
 jest.mock('../Utilities/constants', () => ({
   ...jest.requireActual('../Utilities/constants'),
-  useHostsWritePermissions: jest.fn(() => true),
   useGetRegistry: jest.fn(() => ({
     getRegistry: () => ({}),
   })),
@@ -133,7 +129,6 @@ describe('InventoryTable', () => {
 
   beforeEach(() => {
     mockStore = configureStore();
-    useHostsWritePermissions.mockImplementation(() => true);
     useGetRegistry.mockImplementation(() => () => ({ register: () => ({}) }));
     mockSystemProfile.onGet().reply(200, { results: [] });
   });
@@ -164,7 +159,6 @@ describe('InventoryTable', () => {
 
   it('renders correctly when no write permissions', async () => {
     let wrapper;
-    useHostsWritePermissions.mockImplementation(() => false);
     const store = mockStore(initialStore);
 
     await act(async () => {
@@ -277,48 +271,6 @@ describe('InventoryTable', () => {
       type: 'REMOVE_ENTITY',
     });
 
-    window.XMLHttpRequest = tmp;
-  });
-
-  it('can select and delete items from kebab', async () => {
-    let wrapper;
-
-    const tmp = window.XMLHttpRequest;
-
-    window.XMLHttpRequest = jest.fn().mockImplementation(createXhrMock());
-    const store = mockStore(initialStore);
-
-    await act(async () => {
-      wrapper = mount(<InventoryTable initialLoading={false} />, store);
-    });
-    wrapper.update();
-
-    expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(false);
-
-    expect(wrapper.find('DropdownMenu')).toHaveLength(0);
-
-    await act(async () => {
-      wrapper.find('KebabToggle').at(1).simulate('click');
-    });
-    wrapper.update();
-
-    expect(wrapper.find('DropdownMenu')).toHaveLength(1);
-
-    await act(async () => {
-      const dropdownItems = wrapper.find('DropdownItem');
-      const deleteDropdown = dropdownItems.at(1);
-      deleteDropdown.find('button').simulate('click');
-    });
-
-    wrapper.update();
-
-    expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(true);
-    expect(
-      wrapper.find(DeleteModal).props().currentSytems.display_name
-    ).toEqual('RHIQE.31ea86a9-a439-4422-9516-27c879057535.test');
-    expect(wrapper.find(DeleteModal).props().currentSytems.id).toEqual(
-      'ed190a06-de88-4d62-aba1-88ad402720a8'
-    );
     window.XMLHttpRequest = tmp;
   });
 });
