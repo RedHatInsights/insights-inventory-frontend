@@ -202,7 +202,7 @@ const GroupsTable = () => {
               data-ouia-component-id="name-filter"
               placeholder="Filter by name"
               value={filters.name || ''}
-              onChange={(value) => {
+              onChange={(event, value) => {
                 const { name, ...fs } = filters;
                 return setFilters({
                   ...fs,
