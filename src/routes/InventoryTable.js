@@ -11,13 +11,11 @@ import {
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import * as actions from '../store/actions';
 import {
-  Button,
   Grid,
   GridItem,
   Tab,
   TabTitleText,
   Tabs,
-  Tooltip,
 } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../Utilities/DeleteModal';
@@ -28,7 +26,6 @@ import {
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   generateFilter,
-  useHostsWritePermissions,
 } from '../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
@@ -39,12 +36,19 @@ import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { manageEdgeInventoryUrlName } from '../Utilities/edge';
 import { resolveRelPath } from '../Utilities/path';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
+  GENERAL_HOSTS_WRITE_PERMISSIONS,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
+  NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+  REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../constants';
+import {
+  ActionButton,
+  ActionDropdownItem,
+} from '../components/InventoryTable/ActionWithRBAC';
+
 const mapTags = ({ category, values }) =>
   values.map(
     ({ tagKey, value }) =>
@@ -103,6 +107,31 @@ export const calculatePagination = (searchParams, page, perPage) => {
   !isNaN(parseInt(newPerPage)) && searchParams.append('per_page', newPerPage);
 };
 
+const BulkDeleteButton = ({ selectedSystems, ...props }) => {
+  const requiredPermissions = selectedSystems.every(
+    ({ groups }) => groups.length > 0
+  )
+    ? selectedSystems.map(({ groups }) =>
+        REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groups[0].id)
+      )
+    : [GENERAL_HOSTS_WRITE_PERMISSIONS];
+
+  return (
+    <ActionButton
+      requiredPermissions={requiredPermissions}
+      noAccessTooltip={NO_MODIFY_HOSTS_TOOLTIP_MESSAGE}
+      checkAll
+      {...props}
+    >
+      Delete
+    </ActionButton>
+  );
+};
+
+BulkDeleteButton.propTypes = {
+  selectedSystems: PropTypes.array,
+};
+
 const Inventory = ({
   status,
   source,
@@ -159,7 +188,6 @@ const Inventory = ({
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [globalFilter, setGlobalFilter] = useState();
-  const hostsWritePermissions = useHostsWritePermissions();
   const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
   const loaded = useSelector(({ entities }) => entities?.loaded);
   const selected = useSelector(({ entities }) => entities?.selected);
@@ -192,10 +220,6 @@ const Inventory = ({
   };
 
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
-
-  const { hasAccess: canModifyGroups } = usePermissionsWithContext([
-    GENERAL_GROUPS_WRITE_PERMISSION,
-  ]);
 
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
@@ -242,7 +266,7 @@ const Inventory = ({
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const isBulkRemoveFromGroupsEnabled = () => {
-    if (canModifyGroups && calculateSelected() > 0) {
+    if (calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
       return selectedHosts.every(
@@ -256,7 +280,7 @@ const Inventory = ({
   };
 
   const isBulkAddHostsToGroupsEnabled = () => {
-    if (canModifyGroups && calculateSelected() > 0) {
+    if (calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
       return selectedHosts.every(({ groups }) => groups.length === 0);
@@ -265,62 +289,105 @@ const Inventory = ({
     return false;
   };
 
-  //This wrapping of table actions allows to pass feature flag status and receive a prepared array of actions
-  const tableActions = (groupsUiStatus, row) => {
-    const standardActions = [
+  // some actions are hidden under feature flag
+  const tableActions = (row) => {
+    const hostActions = [
       {
-        title: 'Edit',
-        onClick: (_event, _index, rowData) => {
-          setCurrentSystem(rowData);
-          onEditOpen(() => true);
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-edit`}
+            onClick={() => {
+              setCurrentSystem(row);
+              onEditOpen(() => true);
+            }}
+            requiredPermissions={
+              row.groups.length > 0
+                ? [
+                    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                      row.groups[0].id
+                    ),
+                  ]
+                : ['inventory:hosts:write']
+            }
+            noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+          >
+            Edit
+          </ActionDropdownItem>
+        ),
+        style: {
+          padding: 0, // custom component creates extra padding space
         },
-        ...(!hostsWritePermissions && {
-          isAriaDisabled: true,
-          tooltip: NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
-        }),
       },
       {
-        title: 'Delete',
-        onClick: (_event, _index, rowData) => {
-          setCurrentSystem(rowData);
-          handleModalToggle(() => true);
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-delete`}
+            onClick={() => {
+              setCurrentSystem(row);
+              handleModalToggle(() => true);
+            }}
+            requiredPermissions={
+              row.groups.length > 0
+                ? [
+                    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                      row.groups[0].id
+                    ),
+                  ]
+                : ['inventory:hosts:write']
+            }
+            noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+          >
+            Delete
+          </ActionDropdownItem>
+        ),
+        style: {
+          padding: 0,
         },
-        ...(!hostsWritePermissions && {
-          isAriaDisabled: true,
-          tooltip: NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
-        }),
       },
     ];
 
-    const actionsBehindFeatureFlag = [
+    const groupActions = [
       {
-        title: 'Add to group',
-        onClick: (_event, _index, rowData) => {
-          setCurrentSystem([rowData]);
-          setAddHostGroupModalOpen(true);
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-add-to-group`}
+            onClick={() => {
+              setCurrentSystem([row]);
+              setAddHostGroupModalOpen(true);
+            }}
+            requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+            noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+            isAriaDisabled={row.groups.length > 0} // additional condition for enabling the button
+          >
+            Add to group
+          </ActionDropdownItem>
+        ),
+        style: {
+          padding: 0,
         },
-        isAriaDisabled: row.groups.length > 0 || !canModifyGroups,
-        ...(!canModifyGroups && {
-          tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
-        }),
       },
       {
-        title: 'Remove from group',
-        onClick: (event, index, rowData) => {
-          setCurrentSystem([rowData]);
-          setRemoveHostsFromGroupModalOpen(true);
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-remove-from-group`}
+            onClick={() => {
+              setCurrentSystem([row]);
+              setRemoveHostsFromGroupModalOpen(true);
+            }}
+            requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+            noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+            isAriaDisabled={row.groups.length === 0}
+          >
+            Remove from group
+          </ActionDropdownItem>
+        ),
+        style: {
+          padding: 0,
         },
-        isAriaDisabled: row.groups.length === 0 || !canModifyGroups,
-        ...(!canModifyGroups && {
-          tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
-        }),
       },
     ];
 
-    return [
-      ...(groupsUiStatus ? actionsBehindFeatureFlag : []),
-      ...standardActions,
-    ];
+    return [...(groupsEnabled ? groupActions : []), ...hostActions];
   };
 
   const traditionalDevices = (
@@ -339,54 +406,67 @@ const Inventory = ({
           initialLoading={initialLoading}
           ref={inventory}
           tableProps={{
-            actionResolver: (row) => tableActions(groupsEnabled, row),
+            actionResolver: tableActions,
             canSelectAll: false,
           }}
           actionsConfig={{
             actions: [
-              !hostsWritePermissions ? ( // custom component needed since it's the first action to render (see primary toolbar implementation)
-                <Tooltip content={NO_MODIFY_HOSTS_TOOLTIP_MESSAGE}>
-                  <Button isAriaDisabled>Delete</Button>
-                </Tooltip>
-              ) : (
-                {
-                  label: 'Delete',
-                  props: {
-                    isAriaDisabled: calculateSelected() === 0,
-                    variant: 'secondary',
-                    onClick: () => {
-                      setCurrentSystem(Array.from(selected.values()));
-                      handleModalToggle(true);
-                    },
-                  },
-                }
-              ),
+              <BulkDeleteButton
+                key="bulk-systems-delete"
+                selectedSystems={Array.from(selected?.values?.() || [])}
+                onClick={() => {
+                  setCurrentSystem(Array.from(selected.values()));
+                  handleModalToggle(true);
+                }}
+                variant="secondary"
+                isAriaDisabled={calculateSelected() === 0}
+              />,
               ...(groupsEnabled
                 ? [
                     {
-                      label: 'Add to group',
+                      label: (
+                        <ActionDropdownItem
+                          key="bulk-add-to-group"
+                          requiredPermissions={[
+                            GENERAL_GROUPS_WRITE_PERMISSION,
+                          ]}
+                          isAriaDisabled={!isBulkAddHostsToGroupsEnabled()}
+                          noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                          onClick={() => {
+                            setCurrentSystem(Array.from(selected.values()));
+                            setAddHostGroupModalOpen(true);
+                          }}
+                        >
+                          Add to group
+                        </ActionDropdownItem>
+                      ),
                       props: {
-                        isAriaDisabled: !isBulkAddHostsToGroupsEnabled(),
-                        ...(!canModifyGroups && {
-                          tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
-                        }),
-                      },
-                      onClick: () => {
-                        setCurrentSystem(Array.from(selected.values()));
-                        setAddHostGroupModalOpen(true);
+                        style: {
+                          padding: 0, // custom component creates extra padding space
+                        },
                       },
                     },
                     {
-                      label: 'Remove from group',
+                      label: (
+                        <ActionDropdownItem
+                          key="bulk-remove-from-group"
+                          requiredPermissions={[
+                            GENERAL_GROUPS_WRITE_PERMISSION,
+                          ]}
+                          isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
+                          noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                          onClick={() => {
+                            setCurrentSystem(Array.from(selected.values()));
+                            setRemoveHostsFromGroupModalOpen(true);
+                          }}
+                        >
+                          Remove from group
+                        </ActionDropdownItem>
+                      ),
                       props: {
-                        isAriaDisabled: !isBulkRemoveFromGroupsEnabled(),
-                        ...(!canModifyGroups && {
-                          tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
-                        }),
-                      },
-                      onClick: () => {
-                        setCurrentSystem(Array.from(selected.values()));
-                        setRemoveHostsFromGroupModalOpen(true);
+                        style: {
+                          padding: 0,
+                        },
                       },
                     },
                   ]
