@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
-import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../constants';
 
 const RenderWrapper = ({
   cmp: Component,
@@ -12,13 +10,7 @@ const RenderWrapper = ({
   ...props
 }) => {
   const [allUserPermissions, setAllUserPermissions] = useState();
-  const [permissionsForGranularHosts, setPermissionForGranularHosts] =
-    useState();
   const chrome = useChrome();
-  const { hasAccess } = usePermissionsWithContext([
-    'inventory:*:read',
-    'inventory:hosts:read',
-  ]);
 
   //this is used to get all user permissions without HOOKS
   const getUserRbacPermissions = () => {
@@ -36,32 +28,9 @@ const RenderWrapper = ({
 
     for (const obj of permissionArray) {
       // Extract the permission name without colons and in camel case
-      const permissionName = obj.permission
-        .split(':')
-        .map((part, index) =>
-          index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)
-        )
-        .join('');
+      const permissionName = obj.permission;
 
       user[permissionName] = true;
-
-      if (obj.resourceDefinitions && Array.isArray(obj.resourceDefinitions)) {
-        user.granularPermissionDetails = user.granularPermissionDetails || [];
-
-        for (const resource of obj.resourceDefinitions) {
-          if (
-            resource.attributeFilter &&
-            resource.attributeFilter.key === 'group.id' &&
-            Array.isArray(resource.attributeFilter.value)
-          ) {
-            user.granularPermissionDetails.push({
-              key: resource.attributeFilter.key,
-              operation: resource.attributeFilter.operation,
-              value: resource.attributeFilter.value,
-            });
-          }
-        }
-      }
     }
 
     return user;
@@ -79,17 +48,6 @@ const RenderWrapper = ({
     getUserPermissionData();
   }, []);
 
-  useEffect(() => {
-    const { hasAccess: canViewHosts } = usePermissionsWithContext(
-      REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(
-        allUserPermissions?.granularPermissionDetails?.[0].value
-      )
-    );
-    setPermissionForGranularHosts(canViewHosts);
-    console.log(allUserPermissions, 'allUserPermissions');
-  }, [allUserPermissions]);
-  console.log(permissionsForGranularHosts, 'permissionsForGranularHosts');
-
   return (
     <Component
       {...props}
@@ -97,7 +55,17 @@ const RenderWrapper = ({
         ref: inventoryRef,
       })}
       isRbacEnabled={isRbacEnabled}
-      hasAccess={hasAccess}
+      hasAccess={
+        //if there are no user permissions mapped - set access to false so the table won't trigger fetches
+        //otherwise we are checking for any hosts or other permissions to read systems table
+        !allUserPermissions
+          ? false
+          : allUserPermissions?.['inventory:hosts:read']
+          ? true
+          : allUserPermissions?.['inventory:*:read']
+          ? true
+          : false
+      }
       store={store}
     />
   );
