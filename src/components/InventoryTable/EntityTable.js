@@ -71,7 +71,7 @@ const EntityTable = ({
   );
 
   const defaultRowClick = (_event, key) => {
-    navigate(`/${key}`);
+    navigate(`./${key}`);
   };
 
   delete tableProps.RowWrapper;

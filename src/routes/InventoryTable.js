@@ -136,7 +136,6 @@ const Inventory = ({
       lastSeenFilter
     )
   );
-  const { pathname } = useLocation();
   const tabsPath = [
     resolveRelPath(''),
     resolveRelPath(manageEdgeInventoryUrlName),
@@ -173,6 +172,7 @@ const Inventory = ({
     rows,
     loaded
   );
+  const { pathname, state } = useLocation();
 
   const onRefresh = (options, callback) => {
     onSetfilters(options?.filters);
@@ -181,7 +181,8 @@ const Inventory = ({
     // eslint-disable-next-line camelcase
     calculatePagination(searchParams, options?.page, options?.per_page);
     const search = searchParams.toString();
-    navigate(`?${search}#${location.hash}`);
+
+    // navigate(`?${search}`);
 
     if (callback) {
       callback(options);
@@ -388,9 +389,9 @@ const Inventory = ({
             ],
           }}
           bulkSelect={bulkSelectConfig}
-          // onRowClick={(_e, id, app) =>
-          //   history.push(`/${id}${app ? `/${app}` : ''}`)
-          // }
+          onRowClick={(_e, id, app) =>
+            navigate(`/${id}${app ? `/${app}` : ''}`)
+          }
         />
       </GridItem>
     </Grid>
@@ -402,7 +403,6 @@ const Inventory = ({
         <PageHeaderTitle title="Systems" />
       </PageHeader>
       <Main>
-        {traditionalDevices}
         {EdgeParityEnabled ? (
           <Tabs
             className="pf-m-light pf-c-table"
@@ -417,7 +417,7 @@ const Inventory = ({
               eventKey={1}
               title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
             >
-              <AsyncComponent
+              {/* <AsyncComponent
                 appName="edge"
                 module="./Inventory"
                 historyProp={useHistory}
@@ -425,7 +425,7 @@ const Inventory = ({
                 showHeaderProp={false}
                 pathPrefix={resolveRelPath('')}
                 urlName={manageEdgeInventoryUrlName}
-              />
+              /> */}
             </Tab>
           </Tabs>
         ) : (

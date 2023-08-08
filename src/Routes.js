@@ -45,6 +45,7 @@ export const InventoryRoutes = () => {
       <Route
         exact
         path={routes.table}
+        rootClass="inventory"
         element={
           <SuspenseWrapped
             Component={() => (
@@ -52,7 +53,6 @@ export const InventoryRoutes = () => {
             )}
           />
         }
-        rootClass="inventory"
       />
       <Route
         exact
