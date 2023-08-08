@@ -18,9 +18,9 @@ const BaseDropdown = ({
   newFormValues,
   setNewFormValues,
   edit,
+  modalMessage,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  //manipulate currItem on load so that it matches the name format on dropdown
   const [selected, setSelected] = useState(currentItem);
   const onSelect = (event, value) => {
     let select = dropdownItems.find((item) => item.value === value);
@@ -44,7 +44,7 @@ const BaseDropdown = ({
               <p className="pf-u-font-weight-bold pf-u-font-size-sm">{title}</p>
             </FlexItem>
             <FlexItem>
-              <Tooltip content={'testing testing 123'}>
+              <Tooltip content={modalMessage}>
                 <OutlinedQuestionCircleIcon
                   className="pf-u-ml-xs"
                   color="var(--pf-global--Color--200)"
@@ -90,6 +90,7 @@ BaseDropdown.propTypes = {
   newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,
   edit: PropTypes.bool,
+  modalMessage: PropTypes.string,
 };
 
 export default BaseDropdown;

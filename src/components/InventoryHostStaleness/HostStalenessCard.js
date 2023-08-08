@@ -13,18 +13,23 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
+import {
+  CONVENTIONAL_TAB_TOOLTIP,
+  IMMUTABLE_TAB_TOOLTIP,
+  RESET_TO_DEFAULT,
+} from './constants';
 
 const HostStalenessCard = () => {
   //need to make an api request and convert those values to readable names
   //like in array object.name
   //e
   const [filter, setFilter] = useState({
-    system_staleness_delta: 1,
-    system_stale_warning_delta: 7,
-    system_culling_delta: 30,
-    edge_staleness_delta: 1,
-    edge_stale_warning_delta: 14,
-    edge_culling_delta: 30,
+    system_staleness_delta: '2',
+    system_stale_warning_delta: '14',
+    system_culling_delta: '21',
+    edge_staleness_delta: '7',
+    edge_stale_warning_delta: '150',
+    edge_culling_delta: '120',
   });
   const [newFormValues, setNewFormValues] = useState(filter);
   const [edit, setEdit] = useState(false);
@@ -44,7 +49,7 @@ const HostStalenessCard = () => {
         <Title headingLevel="h4" size="xl">
           Organization level system staleness and culling
         </Title>
-        <Tooltip content={'testing testing 123'}>
+        <Tooltip content={RESET_TO_DEFAULT}>
           <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
         </Tooltip>
       </CardHeader>
@@ -73,7 +78,7 @@ const HostStalenessCard = () => {
             title={
               <TabTitleText>
                 Conventional (RPM-DNF){' '}
-                <Tooltip content={'testing testing 123'}>
+                <Tooltip content={CONVENTIONAL_TAB_TOOLTIP}>
                   <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
                 </Tooltip>
               </TabTitleText>
@@ -84,7 +89,7 @@ const HostStalenessCard = () => {
               setEdit={setEdit}
               filter={filter}
               setFilter={setFilter}
-              activeTabKey={activeTabKey}
+              activeTabKey={0}
               newFormValues={newFormValues}
               setNewFormValues={setNewFormValues}
             />
@@ -94,7 +99,7 @@ const HostStalenessCard = () => {
             title={
               <TabTitleText>
                 Immutable (OSTree){' '}
-                <Tooltip content={'testing testing 123'}>
+                <Tooltip content={IMMUTABLE_TAB_TOOLTIP}>
                   <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
                 </Tooltip>
               </TabTitleText>
@@ -105,7 +110,7 @@ const HostStalenessCard = () => {
               setEdit={setEdit}
               filter={filter}
               setFilter={setFilter}
-              activeTabKey={activeTabKey}
+              activeTabKey={1}
               newFormValues={newFormValues}
               setNewFormValues={setNewFormValues}
             />

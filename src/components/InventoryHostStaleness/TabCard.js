@@ -5,6 +5,7 @@ import {
   FlexItem,
   Grid,
   GridItem,
+  Modal,
   Tooltip,
 } from '@patternfly/react-core';
 import React from 'react';
@@ -12,10 +13,12 @@ import BaseDropdown from './BaseDropDown';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 import {
+  RESET_TO_DEFAULT,
   systemCullingItems,
   systemStalenessItems,
   systemStalenessWarningItems,
 } from './constants';
+import { useState } from 'react';
 
 const TabCard = ({
   edit,
@@ -26,6 +29,10 @@ const TabCard = ({
   newFormValues,
   setNewFormValues,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleModalToggle = () => {
+    setIsModalOpen(!isModalOpen);
+  };
   const resetToStandard = () => {
     // console.log('blabla 2 here');
   };
@@ -35,23 +42,13 @@ const TabCard = ({
     setEdit(!edit);
   };
 
-  //need to repass in the values if the button is clicked
-
-  //loop through 3 arrays -> while looping im  and pass in those array values and then
-  //the currentItem and value can be filter[item.apikey]
-
   const dropdownArray = (activeTabKey) => [
     systemStalenessItems(activeTabKey),
     systemStalenessWarningItems(activeTabKey),
     systemCullingItems(activeTabKey),
   ];
-  // console.log(dropdownArray(activeTabKey), 'active dropdown key here');
-  // console.log(
-  //   systemCullingItems(activeTabKey),
-  //   'systemCullingItems dropdown key here'
-  // );
-  // console.log(newFormValues, 'newFormValues here');
 
+  const updateHost = () => {};
   return (
     <React.Fragment>
       <Card isPlain className="pf-u-mb-lg">
@@ -68,6 +65,7 @@ const TabCard = ({
                 newFormValues={newFormValues}
                 setNewFormValues={setNewFormValues}
                 edit={edit}
+                modalMessage={item[0].modalMessage}
               />
             </GridItem>
           ))}
@@ -82,7 +80,7 @@ const TabCard = ({
                 >
                   Reset to default setting
                 </a>
-                <Tooltip content={'testing testing 123'}>
+                <Tooltip content={RESET_TO_DEFAULT}>
                   <OutlinedQuestionCircleIcon className="pf-u-ml-xs" />
                 </Tooltip>
               </FlexItem>
@@ -91,7 +89,11 @@ const TabCard = ({
 
           {edit && (
             <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
-              <Button className="pf-u-mt-md" size={'sm'}>
+              <Button
+                className="pf-u-mt-md"
+                size={'sm'}
+                onClick={() => handleModalToggle()}
+              >
                 Save
               </Button>
               {/* reset to previous items, it repasses in the values   */}
@@ -103,6 +105,33 @@ const TabCard = ({
               >
                 Cancel
               </Button>
+              <Modal
+                variant="small"
+                title="Basic modal"
+                isOpen={isModalOpen}
+                onClose={handleModalToggle}
+                actions={[
+                  <Button key="confirm" variant="primary" onClick={updateHost}>
+                    Confirm
+                  </Button>,
+                  <Button
+                    key="cancel"
+                    variant="link"
+                    onClick={handleModalToggle}
+                  >
+                    Cancel
+                  </Button>,
+                ]}
+                ouiaId="BasicModal"
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </Modal>
             </Flex>
           )}
         </Grid>
@@ -121,53 +150,3 @@ TabCard.propTypes = {
   setEdit: PropTypes.any,
 };
 export default TabCard;
-
-{
-  /* <GridItem>
-            <BaseDropdown
-              dropdownItems={systemStalenessItems(activeTabKey)}
-              //this value will come from api. Api -> Filter -> here
-              //If this is newForm value, and we just update that, we should be able to revert
-              //how do I map newForm value to this dropdown?
-              // currentItem={mapApiToValue(
-              //   systemStalenessItems(activeTabKey),
-              //   filter
-              // )}
-              currentItem={mapApiToValue(
-                systemStalenessItems(activeTabKey),
-                filter
-              )}
-              disabled={!edit}
-              title={'System staleness'}
-              filter={filter}
-              setFilter={setFilter}
-              newFormValues={newFormValues}
-              setNewFormValues={setNewFormValues}
-            />
-          </GridItem>
-          <GridItem>
-            <BaseDropdown
-              dropdownItems={systemStalenessWarningItems(activeTabKey)}
-              //this value will come from api. Api -> Filter -> here
-              currentItem={systemStalenessWarningItems(activeTabKey)[2].name}
-              disabled={!edit}
-              title={'System stale warning'}
-              filter={filter}
-              setFilter={setFilter}
-              newFormValues={newFormValues}
-              setNewFormValues={setNewFormValues}
-            />
-          </GridItem>
-          <GridItem>
-            <BaseDropdown
-              dropdownItems={systemCullingItems(activeTabKey)}
-              currentItem={systemCullingItems(activeTabKey)[4].name}
-              disabled={!edit}
-              title={'System culling'}
-              filter={filter}
-              setFilter={setFilter}
-              newFormValues={newFormValues}
-              setNewFormValues={setNewFormValues}
-            />
-          </GridItem> */
-}
