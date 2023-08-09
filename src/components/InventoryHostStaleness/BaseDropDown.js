@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Flex,
   FlexItem,
+  Popover,
   Select,
   SelectOption,
   Tooltip,
@@ -34,7 +35,7 @@ const BaseDropdown = ({
 
   useEffect(() => {
     setSelected(currentItem);
-  }, [edit]);
+  }, [edit, currentItem]);
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
@@ -44,12 +45,13 @@ const BaseDropdown = ({
               <p className="pf-u-font-weight-bold pf-u-font-size-sm">{title}</p>
             </FlexItem>
             <FlexItem>
-              <Tooltip content={modalMessage}>
-                <OutlinedQuestionCircleIcon
-                  className="pf-u-ml-xs"
-                  color="var(--pf-global--Color--200)"
-                />
-              </Tooltip>
+              <Popover
+                aria-label="Basic popover"
+                headerContent={<div>{title}</div>}
+                bodyContent={<div>{modalMessage}</div>}
+              >
+                <OutlinedQuestionCircleIcon className="pf-u-ml-xs" />
+              </Popover>
             </FlexItem>
           </Flex>
         </FlexItem>
@@ -86,7 +88,7 @@ BaseDropdown.propTypes = {
   placeholder: PropTypes.string,
   title: PropTypes.string,
   currentItem: PropTypes.string,
-  filter: PropTypes.string,
+  filter: PropTypes.object,
   newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,
   edit: PropTypes.bool,

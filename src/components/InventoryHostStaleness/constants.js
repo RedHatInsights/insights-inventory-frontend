@@ -1,3 +1,19 @@
+export const CONVENTIONAL_TAB_TOOLTIP =
+  'With DNF-RPM, you can manage the system software by using the DNF package manager and updated RPM packages. This is a simple and adaptive method of managing and modifying the system over its lifecycle.';
+
+export const IMMUTABLE_TAB_TOOLTIP =
+  'With OStree, you can manage the system software by referencing a central image repository. OStree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
+
+export const RESET_TO_DEFAULT = `- Systems are marked as stale after 1 day since last check-in.
+- Systems are marked as stale warning after 14 days since last check-in.
+- Systems are culled after 30 days since last check-in.`;
+
+export const TITLTE_TOOLTIP = `Configure the number of days it will take for your systems to be marked as stale, stale warning, and be cullled.
+
+By default:
+- Systems are marked as stale after 1 day since last check-in.
+- Systems are marked as stale warning after 14 days since last check-in.
+- Systems are culled after 30 days since last check-in.`;
 export const systemStalenessItems = (activeTabKey) => {
   return [
     {
@@ -176,13 +192,3 @@ export const systemCullingItems = (activeTabKey) => {
     },
   ];
 };
-
-export const CONVENTIONAL_TAB_TOOLTIP =
-  'With DNF-RPM, you can manage the system software by using the DNF package manager and updated RPM packages. This is a simple and adaptive method of managing and modifying the system over its lifecycle.';
-
-export const IMMUTABLE_TAB_TOOLTIP =
-  'With OStree, you can manage the system software by referencing a central image repository. OStree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
-
-export const RESET_TO_DEFAULT = `- Systems are marked as stale after 1 day since last check-in.
-- Systems are marked as stale warning after 14 days since last check-in.
-- Systems are culled after 30 days since last check-in.`;

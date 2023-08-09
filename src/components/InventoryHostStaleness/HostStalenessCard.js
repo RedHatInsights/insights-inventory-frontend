@@ -5,6 +5,7 @@ import {
   CardBody,
   CardHeader,
   Flex,
+  Popover,
   Tab,
   TabTitleText,
   Tabs,
@@ -16,13 +17,11 @@ import TabCard from './TabCard';
 import {
   CONVENTIONAL_TAB_TOOLTIP,
   IMMUTABLE_TAB_TOOLTIP,
-  RESET_TO_DEFAULT,
+  TITLTE_TOOLTIP,
 } from './constants';
 
 const HostStalenessCard = () => {
-  //need to make an api request and convert those values to readable names
-  //like in array object.name
-  //e
+  //multiply these values be seconds at the end before sending to the api
   const [filter, setFilter] = useState({
     system_staleness_delta: '2',
     system_stale_warning_delta: '14',
@@ -43,15 +42,21 @@ const HostStalenessCard = () => {
   //turn values into strings
   //styling and messages
   // Need to update the edit button so that it makes the POST req,
+  //replace tooltips with PopOver
   return (
     <Card>
       <CardHeader>
         <Title headingLevel="h4" size="xl">
           Organization level system staleness and culling
         </Title>
-        <Tooltip content={RESET_TO_DEFAULT}>
+        <Popover
+          aria-label="Basic popover"
+          headerContent={<div>Orginization level setting</div>}
+          bodyContent={<div>{TITLTE_TOOLTIP}</div>}
+          footerContent="Popover footer"
+        >
           <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
-        </Tooltip>
+        </Popover>
       </CardHeader>
       <CardBody>
         <p>
@@ -78,9 +83,14 @@ const HostStalenessCard = () => {
             title={
               <TabTitleText>
                 Conventional (RPM-DNF){' '}
-                <Tooltip content={CONVENTIONAL_TAB_TOOLTIP}>
+                <Popover
+                  aria-label="Basic popover"
+                  headerContent={<div>Conventional systems(RPM-DNF)</div>}
+                  bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
+                  footerContent="Popover footer"
+                >
                   <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
-                </Tooltip>
+                </Popover>
               </TabTitleText>
             }
           >
@@ -99,9 +109,14 @@ const HostStalenessCard = () => {
             title={
               <TabTitleText>
                 Immutable (OSTree){' '}
-                <Tooltip content={IMMUTABLE_TAB_TOOLTIP}>
+                <Popover
+                  aria-label="Basic popover"
+                  headerContent={<div>Immutable(OSTree)</div>}
+                  bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
+                  footerContent="Popover footer"
+                >
                   <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
-                </Tooltip>
+                </Popover>
               </TabTitleText>
             }
           >

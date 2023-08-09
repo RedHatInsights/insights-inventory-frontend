@@ -6,6 +6,7 @@ import {
   Grid,
   GridItem,
   Modal,
+  Popover,
   Tooltip,
 } from '@patternfly/react-core';
 import React from 'react';
@@ -30,11 +31,20 @@ const TabCard = ({
   setNewFormValues,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const standardValues = {
+    system_staleness_delta: '1',
+    system_stale_warning_delta: '7',
+    system_culling_delta: '14',
+    edge_staleness_delta: '2',
+    edge_stale_warning_delta: '120',
+    edge_culling_delta: '180',
+  };
+
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
   };
   const resetToStandard = () => {
-    // console.log('blabla 2 here');
+    setNewFormValues(standardValues);
   };
 
   const resetToOriginalValues = () => {
@@ -56,6 +66,7 @@ const TabCard = ({
           {dropdownArray(activeTabKey).map((item) => (
             <GridItem key={item[0].title}>
               <BaseDropdown
+                data-ouia-component-id={item[0].title}
                 dropdownItems={item}
                 currentItem={newFormValues[item[0].apiKey]}
                 disabled={!edit}
@@ -72,17 +83,16 @@ const TabCard = ({
           {edit && (
             <Flex>
               <FlexItem alignSelf={{ default: 'alignSelfCenter' }}>
-                <a
-                  onClick={resetToStandard(
-                    setNewFormValues /*, defaultValues*/
-                  )}
-                  className="pf-u-ml-sm "
-                >
+                <a onClick={() => resetToStandard()} className="pf-u-ml-sm ">
                   Reset to default setting
                 </a>
-                <Tooltip content={RESET_TO_DEFAULT}>
+                <Popover
+                  aria-label="Basic popover"
+                  headerContent={<div>Default settings</div>}
+                  bodyContent={<div>{RESET_TO_DEFAULT}</div>}
+                >
                   <OutlinedQuestionCircleIcon className="pf-u-ml-xs" />
-                </Tooltip>
+                </Popover>
               </FlexItem>
             </Flex>
           )}
@@ -96,7 +106,6 @@ const TabCard = ({
               >
                 Save
               </Button>
-              {/* reset to previous items, it repasses in the values   */}
               <Button
                 className="pf-u-mt-md"
                 size={'sm'}
@@ -107,12 +116,12 @@ const TabCard = ({
               </Button>
               <Modal
                 variant="small"
-                title="Basic modal"
+                title="Update organization level setting"
                 isOpen={isModalOpen}
                 onClose={handleModalToggle}
                 actions={[
                   <Button key="confirm" variant="primary" onClick={updateHost}>
-                    Confirm
+                    Update
                   </Button>,
                   <Button
                     key="cancel"
@@ -124,13 +133,9 @@ const TabCard = ({
                 ]}
                 ouiaId="BasicModal"
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Changing the organization level setting for system staleness and
+                culling may impact your systems. X systems will be culled as a
+                result.
               </Modal>
             </Flex>
           )}
@@ -141,7 +146,7 @@ const TabCard = ({
 };
 
 TabCard.propTypes = {
-  filter: PropTypes.string,
+  filter: PropTypes.object,
   newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,
   setFilter: PropTypes.any,
