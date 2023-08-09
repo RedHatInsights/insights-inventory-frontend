@@ -232,7 +232,7 @@ describe('InventoryTable', () => {
       });
       wrapper.update();
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
   });
 
