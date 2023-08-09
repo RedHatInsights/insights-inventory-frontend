@@ -25,8 +25,8 @@ import {
 const TEST_GROUP_NAME = 'ancd';
 const TEST_GROUP_ID = '54b302e4-07d2-45c5-b2f8-92a286847f9d';
 
-const mountTable = () => {
-  cy.mountWithContext(Inventory);
+const mountTable = (props = { hasAccess: true }) => {
+  cy.mountWithContext(Inventory, {}, props);
 };
 
 const waitForTable = (waitNetwork = false) => {
