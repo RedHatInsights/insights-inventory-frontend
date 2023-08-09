@@ -33,7 +33,7 @@ const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 
-const mountTable = (props) => {
+const mountTable = (props = { hasAccess: true }) => {
   cy.mountWithContext(InventoryTable, {}, props);
 };
 
