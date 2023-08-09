@@ -22,7 +22,8 @@ import {
   ROW,
 } from '@redhat-cloud-services/frontend-components-utilities';
 
-const TEST_GROUP = 'ancd';
+const TEST_GROUP_NAME = 'ancd';
+const TEST_GROUP_ID = '54b302e4-07d2-45c5-b2f8-92a286847f9d';
 
 const mountTable = (props = { hasAccess: true }) => {
   cy.mountWithContext(Inventory, {}, props);
@@ -47,21 +48,22 @@ before(() => {
 });
 
 describe('test data', () => {
-  it(`first two hosts in the group ${TEST_GROUP}`, () => {
+  it(`first two hosts in the group ${TEST_GROUP_NAME}`, () => {
     expect(
       hostsFixtures.results
         .slice(0, 2)
-        .every(({ groups }) => groups[0].name === TEST_GROUP)
+        .every(({ groups }) => groups[0].name === TEST_GROUP_NAME)
     ).to.be.true;
   });
 
-  it(`the third host has a group differente that ${TEST_GROUP}`, () => {
-    expect(hostsFixtures.results[2].groups[0].name !== TEST_GROUP).to.be.true;
+  it(`the third host has a group different to ${TEST_GROUP_NAME}`, () => {
+    expect(hostsFixtures.results[2].groups[0].name !== TEST_GROUP_NAME).to.be
+      .true;
   });
 
-  it(`groups has the group ${TEST_GROUP}`, () => {
-    expect(groupsFixtures.results.some(({ name }) => name === TEST_GROUP)).to.be
-      .true;
+  it(`groups has the group ${TEST_GROUP_NAME}`, () => {
+    expect(groupsFixtures.results.some(({ name }) => name === TEST_GROUP_NAME))
+      .to.be.true;
   });
 
   it('the fourth host is not in a group', () => {
@@ -92,7 +94,7 @@ describe('inventory table', () => {
   describe('has groups actions', () => {
     it('cannot add host to another group', () => {
       cy.get(ROW).eq(1).find(DROPDOWN).click();
-      cy.get(DROPDOWN_ITEM)
+      cy.get(`${DROPDOWN_ITEM} a`)
         .contains('Add to group')
         .should('have.attr', 'aria-disabled', 'true');
     });
@@ -120,7 +122,7 @@ describe('inventory table', () => {
         `/api/inventory/v1/groups/${hostsFixtures.results[0].groups[0].id}/hosts/${hostsFixtures.results[0].id}`
       ).as('request');
       cy.get(ROW).eq(1).find(DROPDOWN).click();
-      cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+      cy.get(`${DROPDOWN_ITEM} a`).contains('Remove from group').click();
       cy.get(MODAL).within(() => {
         cy.get('h1').should('have.text', 'Remove from group');
         cy.get('button[type="submit"]').click();
@@ -135,7 +137,7 @@ describe('inventory table', () => {
         `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
       ).as('request');
       cy.get(ROW).eq(4).find(DROPDOWN).click();
-      cy.get(DROPDOWN_ITEM).contains('Add to group').click();
+      cy.get(`${DROPDOWN_ITEM} a`).contains('Add to group').click();
       cy.get(MODAL).within(() => {
         cy.get('h1').should('have.text', 'Add to group');
         cy.wait('@getGroups');
@@ -191,7 +193,8 @@ describe('inventory table', () => {
       cy.intercept(
         'POST',
         `/api/inventory/v1/groups/${
-          groupsFixtures.results.find(({ name }) => name === TEST_GROUP)?.id
+          groupsFixtures.results.find(({ name }) => name === TEST_GROUP_NAME)
+            ?.id
         }/hosts`
       ).as('request');
 
@@ -207,7 +210,7 @@ describe('inventory table', () => {
         cy.get('h1').should('have.text', 'Add to group');
         cy.wait('@getGroups');
         cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
-        cy.get('.pf-c-select__menu-item').contains(TEST_GROUP).click();
+        cy.get('.pf-c-select__menu-item').contains(TEST_GROUP_NAME).click();
         cy.get('button[type="submit"]').click();
         cy.wait('@request')
           .its('request.body')
@@ -240,12 +243,14 @@ describe('inventory table', () => {
 
       it('all per-row actions are disabled', () => {
         cy.get(ROW).eq(1).find(DROPDOWN).click();
-        cy.get(DROPDOWN_ITEM).each(($el) =>
+        cy.get(`${DROPDOWN_ITEM} a`).each(($el) =>
           cy.wrap($el).should('have.attr', 'aria-disabled', 'true')
         );
       });
 
       it('bulk actions are disabled', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+
         cy.get('button')
           .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
@@ -264,5 +269,78 @@ describe('inventory table', () => {
           .should('have.attr', 'aria-disabled', 'true');
       });
     });
+
+    describe('with group-level hosts write permissions', () => {
+      before(() => {
+        cy.mockWindowChrome({
+          userPermissions: [
+            'inventory:*:read',
+            {
+              permission: 'inventory:hosts:write',
+              resourceDefinitions: [
+                {
+                  attributeFilter: {
+                    key: 'group.id',
+                    operation: 'equal',
+                    value: TEST_GROUP_ID,
+                  },
+                },
+              ],
+            },
+          ],
+        });
+      });
+
+      beforeEach(prepareTest);
+
+      it('can edit hosts that in the test group', () => {
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(`${DROPDOWN_ITEM} a`)
+          .contains('Edit')
+          .should('have.attr', 'aria-disabled', 'false')
+          .click();
+        cy.get('button').contains('Cancel').click();
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+      });
+
+      it('can delete hosts in the test group', () => {
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(`${DROPDOWN_ITEM} a`)
+          .contains('Delete')
+          .should('have.attr', 'aria-disabled', 'false')
+          .click();
+        cy.get('button').contains('Cancel').click();
+      });
+
+      it('cannot edit nor delete hosts that are not in the test group', () => {
+        cy.get(ROW).eq(3).find(DROPDOWN).click();
+        cy.get(`${DROPDOWN_ITEM} a`)
+          .contains('Edit')
+          .should('have.attr', 'aria-disabled', 'true');
+        cy.get(`${DROPDOWN_ITEM} a`)
+          .contains('Delete')
+          .should('have.attr', 'aria-disabled', 'true');
+      });
+
+      it('can delete hosts that are in the test group', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+
+        cy.get('button')
+          .contains('Delete')
+          .should('have.attr', 'aria-disabled', 'false')
+          .click();
+      });
+
+      it('cannot delete hosts that are not in the test group', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(2).click();
+
+        cy.get('button')
+          .contains('Delete')
+          .should('have.attr', 'aria-disabled', 'true');
+      });
+    });
+
+    // TODO: test group bulk actions once granular RBAC is implemented there too
   });
 });
