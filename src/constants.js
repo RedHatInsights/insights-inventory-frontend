@@ -231,7 +231,8 @@ export const NO_MODIFY_HOSTS_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify hosts. Contact your organization administrator.';
 export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this host. Contact your organization administrator.';
-
+export const NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE =
+  'You must be an organization administrator to modify User Access configuration.';
 export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';
 export const GENERAL_GROUPS_READ_PERMISSION = 'inventory:groups:read';
 export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
@@ -240,3 +241,4 @@ export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
 ];
 export const GENERAL_HOSTS_READ_PERMISSIONS = 'inventory:hosts:read';
 export const GENERAL_HOSTS_WRITE_PERMISSIONS = 'inventory:hosts:write';
+export const USER_ACCESS_ADMIN_PERMISSIONS = ['rbac:*:*'];
