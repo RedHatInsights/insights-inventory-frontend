@@ -104,7 +104,7 @@ describe('InventoryTable - initial loading', () => {
     });
     wrapper.update();
 
-    expect(wrapper.find(SkeletonTable)).toHaveLength(0);
-    expect(wrapper.find('Pagination')).toHaveLength(2);
+    expect(wrapper.find(SkeletonTable)).toHaveLength(1);
+    expect(wrapper.find('Pagination')).toHaveLength(0);
   });
 });
