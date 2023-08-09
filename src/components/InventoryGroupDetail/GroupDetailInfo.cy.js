@@ -5,7 +5,7 @@ const mountPage = (params) =>
 
 describe('group detail information page', () => {
   before(() => {
-    cy.mockWindowChrome();
+    cy.mockWindowChrome({ userPermissions: ['rbac:*:*'] });
   });
 
   beforeEach(() => {
@@ -22,11 +22,10 @@ describe('group detail information page', () => {
     cy.get('a').contains('Manage access').should('exist');
   });
 
-  it('card text is present', () => {
-    cy.get('div[class="pf-c-card__body"]').should(
-      'have.text',
-      'Manage your inventory group user access configuration under Identity & Access Management > User Access.'
-    );
+  it('link is present', () => {
+    cy.get('div[class="pf-c-card__body"] a')
+      .should('have.length', 1)
+      .and('have.text', 'Identity & Access Management > User Access');
   });
 
   describe('links', () => {
@@ -41,12 +40,20 @@ describe('group detail information page', () => {
     });
   });
 
-  it('button disabled if not enough permissions', () => {
-    cy.mockWindowChrome({ userPermissions: [] });
-    mountPage({ chrome: { isBeta: () => true } });
+  describe('with no user access administrator role', () => {
+    beforeEach(() => {
+      cy.mockWindowChrome({ userPermissions: [] });
+      mountPage({ chrome: { isBeta: () => true } });
+    });
 
-    cy.get('button')
-      .contains('Manage access')
-      .should('have.attr', 'aria-disabled', 'true');
+    it('button disabled if not enough permissions', () => {
+      cy.get('a')
+        .contains('Manage access')
+        .should('have.attr', 'aria-disabled', 'true');
+    });
+
+    it('card text is present', () => {
+      cy.get('div[class="pf-c-card__body"] a').should('not.exist');
+    });
   });
 });

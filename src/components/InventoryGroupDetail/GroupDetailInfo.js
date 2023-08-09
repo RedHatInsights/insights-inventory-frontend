@@ -1,51 +1,57 @@
 import {
-  Button,
   Card,
   CardActions,
   CardBody,
   CardHeader,
   CardTitle,
-  Tooltip,
 } from '@patternfly/react-core';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ChromeLoader from '../../Utilities/ChromeLoader';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
-  GROUPS_ADMINISTRATOR_PERMISSIONS,
-  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+  NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE,
+  USER_ACCESS_ADMIN_PERMISSIONS,
 } from '../../constants';
+import { ActionButton } from '../InventoryTable/ActionWithRBAC';
+import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 const GroupDetailInfo = ({ chrome }) => {
   const path = `${chrome.isBeta() ? '/preview' : ''}/iam/user-access`;
-  const { hasAccess: isGroupsAdministrator } = usePermissionsWithContext(
-    GROUPS_ADMINISTRATOR_PERMISSIONS,
-    true // should fulfilll all requested permissions
+  const { hasAccess: isUserAccessAdministrator } = usePermissions(
+    'rbac',
+    USER_ACCESS_ADMIN_PERMISSIONS
   );
 
   return (
     <Card>
       <CardHeader>
         <CardActions>
-          {isGroupsAdministrator ? (
-            <Button component="a" href={path} variant="secondary">
-              Manage access
-            </Button>
-          ) : (
-            <Tooltip content={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}>
-              <Button isAriaDisabled variant="secondary">
-                Manage access
-              </Button>
-            </Tooltip>
-          )}
+          <ActionButton
+            component="a"
+            href={path}
+            variant="secondary"
+            override={isUserAccessAdministrator}
+            noAccessTooltip={NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE}
+          >
+            Manage access
+          </ActionButton>
         </CardActions>
         <CardTitle className="pf-c-title pf-m-lg card-title">
           User access configuration
         </CardTitle>
       </CardHeader>
       <CardBody>
-        Manage your inventory group user access configuration under
-        <a href={path}> Identity & Access Management {'>'} User Access.</a>
+        {isUserAccessAdministrator ? (
+          <span>
+            Manage your inventory group user access configuration under{' '}
+            <a href={path}>Identity & Access Management {'>'} User Access</a>.
+          </span>
+        ) : (
+          <span>
+            Manage your inventory group user access configuration under Identity
+            & Access Management {'>'} User Access.
+          </span>
+        )}
       </CardBody>
     </Card>
   );
