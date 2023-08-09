@@ -24,8 +24,8 @@ import {
 
 const TEST_GROUP = 'ancd';
 
-const mountTable = () => {
-  cy.mountWithContext(Inventory);
+const mountTable = (props = { hasAccess: true }) => {
+  cy.mountWithContext(Inventory, {}, props);
 };
 
 const waitForTable = (waitNetwork = false) => {
