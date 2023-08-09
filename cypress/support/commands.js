@@ -85,3 +85,15 @@ Cypress.Commands.add(
     );
   }
 );
+
+Cypress.Commands.add(
+  'shouldHaveAriaDisabled',
+  { prevSubject: true },
+  (subject) => cy.wrap(subject).should('have.attr', 'aria-disabled', 'true')
+);
+
+Cypress.Commands.add(
+  'shouldHaveAriaEnabled',
+  { prevSubject: true },
+  (subject) => cy.wrap(subject).should('have.attr', 'aria-disabled', 'false')
+);
