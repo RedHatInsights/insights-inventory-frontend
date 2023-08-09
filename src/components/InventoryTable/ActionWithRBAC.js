@@ -1,5 +1,7 @@
 /**
  * This module contains Button and DropdownItem components wrapped by RBAC checks.
+ *
+ * The permissions are checked _only_ within the Inventory app context.
  */
 import React from 'react';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
@@ -10,12 +12,13 @@ export const ActionButton = ({
   requiredPermissions,
   noAccessTooltip,
   checkAll,
+  override,
   ...props
 }) => {
-  const { hasAccess: enabled } = usePermissionsWithContext(
-    requiredPermissions,
-    checkAll
-  );
+  const { hasAccess: enabled } =
+    override !== undefined
+      ? { hasAccess: override }
+      : usePermissionsWithContext(requiredPermissions, checkAll);
 
   return enabled ? (
     <Button {...props} />
@@ -30,6 +33,7 @@ ActionButton.propTypes = {
   requiredPermissions: PropTypes.array,
   noAccessTooltip: PropTypes.string,
   checkAll: PropTypes.bool,
+  override: PropTypes.bool,
 };
 
 ActionButton.defaultProps = {
@@ -39,9 +43,14 @@ ActionButton.defaultProps = {
 export const ActionDropdownItem = ({
   requiredPermissions,
   noAccessTooltip,
+  checkAll,
+  override,
   ...props
 }) => {
-  const { hasAccess: enabled } = usePermissionsWithContext(requiredPermissions);
+  const { hasAccess: enabled } =
+    override !== undefined
+      ? { hasAccess: override }
+      : usePermissionsWithContext(requiredPermissions, checkAll);
 
   return enabled ? (
     <DropdownItem {...props} />
@@ -53,4 +62,10 @@ export const ActionDropdownItem = ({
 ActionDropdownItem.propTypes = {
   requiredPermissions: PropTypes.array,
   noAccessTooltip: PropTypes.string,
+  checkAll: PropTypes.bool,
+  override: PropTypes.bool,
+};
+
+ActionDropdownItem.defaultProps = {
+  checkAll: false,
 };
