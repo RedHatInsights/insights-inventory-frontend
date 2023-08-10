@@ -101,9 +101,7 @@ const AddSystemsToGroupModal = ({
                   <Alert
                     variant="warning"
                     isInline
-                    title="One or more of the selected systems
-                                    already belong to a group. Adding these systems
-                                    to a different group may impact system configuration."
+                    title="One or more of the selected systems already belong to a group. Only ungrouped systems can be added. Unselect these systems to move forward."
                   />
                 </FlexItem>
               )}

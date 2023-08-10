@@ -6,27 +6,19 @@ import {
   EmptyStateIcon,
   EmptyStateSecondaryActions,
   Title,
-  Tooltip,
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, PlusCircleIcon } from '@patternfly/react-icons';
 
 import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import PropTypes from 'prop-types';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { REQUIRED_PERMISSIONS_TO_MODIFY_GROUP } from '../../constants';
+import {
+  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
+} from '../../constants';
+import { ActionButton } from '../InventoryTable/ActionWithRBAC';
 
 const NoSystemsEmptyState = ({ groupId, groupName }) => {
-  const { hasAccess: canViewHosts } = usePermissionsWithContext([
-    'inventory:hosts:read',
-  ]);
-
-  const { hasAccess: canModify } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
-  );
-
-  const enableAddSystems = canModify && canViewHosts;
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -51,15 +43,14 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
       <EmptyStateBody>
         To manage systems more effectively, add systems to the group.
       </EmptyStateBody>
-      {enableAddSystems ? (
-        <Button variant="primary" onClick={() => setIsModalOpen(true)}>
-          Add systems
-        </Button>
-      ) : (
-        <Tooltip content="You do not have the necessary permissions to modify this group. Contact your organization administrator.">
-          <Button isAriaDisabled>Add systems</Button>
-        </Tooltip>
-      )}
+      <ActionButton
+        requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)}
+        noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+        variant="primary"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Add systems
+      </ActionButton>
       <EmptyStateSecondaryActions>
         <Button
           variant="link"

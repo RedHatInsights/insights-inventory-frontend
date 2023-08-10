@@ -24,6 +24,9 @@ before(() => {
   cy.mockWindowChrome(); // with all permissions
 });
 
+const waitPageLoad = () =>
+  cy.get('h1').should('not.have.text', 'Loading group details');
+
 describe('test data', () => {
   it('the group has no hosts', () => {
     groupDetailFixtures.results[0].host_count === 0;
@@ -201,10 +204,12 @@ describe('integration with rbac', () => {
     beforeEach(() => {
       groupDetailInterceptors.successful();
       mountPage();
+      waitPageLoad();
     });
 
     it('actions are disabled', () => {
       cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
+      cy.get('button').contains('Add systems').shouldHaveAriaDisabled();
     });
 
     it('should allow to see systems', () => {
