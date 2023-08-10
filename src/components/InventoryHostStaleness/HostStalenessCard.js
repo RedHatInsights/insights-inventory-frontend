@@ -10,7 +10,6 @@ import {
   TabTitleText,
   Tabs,
   Title,
-  Tooltip,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';

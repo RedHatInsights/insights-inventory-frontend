@@ -6,7 +6,6 @@ import {
   Popover,
   Select,
   SelectOption,
-  Tooltip,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';

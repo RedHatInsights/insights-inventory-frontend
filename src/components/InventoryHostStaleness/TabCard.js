@@ -7,7 +7,6 @@ import {
   GridItem,
   Modal,
   Popover,
-  Tooltip,
 } from '@patternfly/react-core';
 import React from 'react';
 import BaseDropdown from './BaseDropDown';
