@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import {
-  useHistory,
   useLocation,
   useParams,
-  useRouteMatch,
 } from 'react-router-dom';
 
 const SystemUpdate = () => {
@@ -17,15 +15,14 @@ const SystemUpdate = () => {
   const { inventoryId } = useParams();
 
   return inventoryId !== null ? (
-    <AsyncComponent
-      appName="edge"
-      module="./UpdateSystem"
-      historyProp={useHistory}
-      locationProp={useLocation}
-      routeMatchProp={useRouteMatch}
-      paramsProp={useParams}
-      inventoryId={inventoryId}
-    />
+    // <AsyncComponent
+    //   appName="edge"
+    //   module="./UpdateSystem"
+    //   locationProp={useLocation}
+    //   paramsProp={useParams}
+    //   inventoryId={inventoryId}
+    // />
+    <div> removed edge update component</div>
   ) : (
     <></>
   );

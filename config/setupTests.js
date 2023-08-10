@@ -41,6 +41,7 @@ jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
     appObjectId: jest.fn(),
     on: jest.fn(),
     getUserPermissions: () => Promise.resolve(['inventory:*:*']),
+    getApp: jest.fn(),
   }),
 }));
 
@@ -70,6 +71,7 @@ global.insights = {
     appObjectId: jest.fn(),
     on: jest.fn(),
     getUserPermissions: () => Promise.resolve(['inventory:*:*']),
+    getApp: jest.fn(),
   },
 };
 

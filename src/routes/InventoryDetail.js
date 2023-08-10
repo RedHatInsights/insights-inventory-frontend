@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
@@ -22,6 +22,7 @@ import {
 } from '../components/SystemDetails';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 const appList = [
   {
@@ -88,7 +89,7 @@ const Inventory = () => {
   const searchParams = new URLSearchParams(search);
   const [activeApp] = useState(searchParams.get('appName') || appList[0].name);
   const store = useStore();
-  const history = useHistory();
+  const navigate = useInsightsNavigate();
   const dispatch = useDispatch();
 
   const entityLoaded = useSelector(
@@ -143,7 +144,7 @@ const Inventory = () => {
     (_, activeApp, appName) => {
       searchParams.set('appName', appName);
       const search = searchParams.toString();
-      history.push({
+      navigate({
         search,
       });
     },
@@ -170,7 +171,6 @@ const Inventory = () => {
       showMainSection
       fallback=""
       store={store}
-      history={history}
       isInventoryApp
       shouldWrapAsPage
       BreadcrumbWrapper={

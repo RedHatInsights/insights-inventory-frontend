@@ -1,197 +1,685 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LoadingCard Clickable should render - 0 value 1`] = `
-<a
-  href="http://localhost:5000//some-target"
-  onClick={[Function]}
->
-  None
-</a>
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Clickable
+      onClick={[MockFunction]}
+      target="some-target"
+      value={0}
+    >
+      <a
+        href="http://localhost:5000//some-target"
+        onClick={[Function]}
+      >
+        None
+      </a>
+    </Clickable>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`LoadingCard Clickable should render - no data 1`] = `
-<a
-  href="http://localhost:5000//undefined"
-  onClick={[Function]}
->
-  Not available
-</a>
-`;
-
-exports[`LoadingCard Clickable should render 1`] = `
-<a
-  href="http://localhost:5000//some-target"
-  onClick={[Function]}
->
-  15
-</a>
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <Clickable>
+      <a
+        href="http://localhost:5000//undefined"
+        onClick={[Function]}
+      >
+        Not available
+      </a>
+    </Clickable>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`LoadingCard Loading card render - isLoading: false 1`] = `
-<Card
-  ouiaId="system-properties-card"
->
-  <CardBody>
-    <Stack
-      hasGutter={true}
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <LoadingCard
+      isLoading={false}
+      items={Array []}
+      title="Card that is loaded"
     >
-      <StackItem>
-        <TextContent>
-          <Text
-            component="h1"
-          >
-            Card that is loaded
-          </Text>
-        </TextContent>
-      </StackItem>
-      <StackItem
-        isFilled={true}
-      />
-    </Stack>
-  </CardBody>
-</Card>
+      <Card
+        ouiaId="system-properties-card"
+      >
+        <article
+          className="pf-c-card"
+          data-ouia-component-id="system-properties-card"
+          data-ouia-component-type="PF4/Card"
+          data-ouia-safe={true}
+          id=""
+        >
+          <CardBody>
+            <div
+              className="pf-c-card__body"
+            >
+              <Stack
+                hasGutter={true}
+              >
+                <div
+                  className="pf-l-stack pf-m-gutter"
+                >
+                  <StackItem>
+                    <div
+                      className="pf-l-stack__item"
+                    >
+                      <TextContent>
+                        <div
+                          className="pf-c-content"
+                        >
+                          <Text
+                            component="h1"
+                          >
+                            <h1
+                              className=""
+                              data-ouia-component-id="OUIA-Generated-Text-2"
+                              data-ouia-component-type="PF4/Text"
+                              data-ouia-safe={true}
+                              data-pf-content={true}
+                            >
+                              Card that is loaded
+                            </h1>
+                          </Text>
+                        </div>
+                      </TextContent>
+                    </div>
+                  </StackItem>
+                  <StackItem
+                    isFilled={true}
+                  >
+                    <div
+                      className="pf-l-stack__item pf-m-fill"
+                    />
+                  </StackItem>
+                </div>
+              </Stack>
+            </div>
+          </CardBody>
+        </article>
+      </Card>
+    </LoadingCard>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`LoadingCard Loading card render - isLoading: true 1`] = `
-<Card
-  ouiaId="system-properties-card"
->
-  <CardBody>
-    <Stack
-      hasGutter={true}
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <LoadingCard
+      isLoading={true}
+      items={Array []}
+      title="Card that is loading"
     >
-      <StackItem>
-        <TextContent>
-          <Text
-            component="h1"
-          >
-            Card that is loading
-          </Text>
-        </TextContent>
-      </StackItem>
-      <StackItem
-        isFilled={true}
-      />
-    </Stack>
-  </CardBody>
-</Card>
+      <Card
+        ouiaId="system-properties-card"
+      >
+        <article
+          className="pf-c-card"
+          data-ouia-component-id="system-properties-card"
+          data-ouia-component-type="PF4/Card"
+          data-ouia-safe={true}
+          id=""
+        >
+          <CardBody>
+            <div
+              className="pf-c-card__body"
+            >
+              <Stack
+                hasGutter={true}
+              >
+                <div
+                  className="pf-l-stack pf-m-gutter"
+                >
+                  <StackItem>
+                    <div
+                      className="pf-l-stack__item"
+                    >
+                      <TextContent>
+                        <div
+                          className="pf-c-content"
+                        >
+                          <Text
+                            component="h1"
+                          >
+                            <h1
+                              className=""
+                              data-ouia-component-id="OUIA-Generated-Text-1"
+                              data-ouia-component-type="PF4/Text"
+                              data-ouia-safe={true}
+                              data-pf-content={true}
+                            >
+                              Card that is loading
+                            </h1>
+                          </Text>
+                        </div>
+                      </TextContent>
+                    </div>
+                  </StackItem>
+                  <StackItem
+                    isFilled={true}
+                  >
+                    <div
+                      className="pf-l-stack__item pf-m-fill"
+                    />
+                  </StackItem>
+                </div>
+              </Stack>
+            </div>
+          </CardBody>
+        </article>
+      </Card>
+    </LoadingCard>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`LoadingCard Loading card render 1`] = `
-<Card
-  ouiaId="system-properties-card"
->
-  <CardBody>
-    <Stack
-      hasGutter={true}
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <LoadingCard
+      isLoading={false}
+      items={
+        Array [
+          Object {
+            "onClick": [MockFunction],
+            "size": "md",
+            "title": "test-title",
+            "value": "some value",
+          },
+          Object {
+            "title": "just title",
+          },
+        ]
+      }
+      title="Some title"
     >
-      <StackItem>
-        <TextContent>
-          <Text
-            component="h1"
-          >
-            Some title
-          </Text>
-        </TextContent>
-      </StackItem>
-      <StackItem
-        isFilled={true}
+      <Card
+        ouiaId="system-properties-card"
       >
-        <TextContent>
-          <TextList
-            component="dl"
-          >
-            <TextListItem
-              component="dt"
-              data-ouia-component-id="test-title title"
+        <article
+          className="pf-c-card"
+          data-ouia-component-id="system-properties-card"
+          data-ouia-component-type="PF4/Card"
+          data-ouia-safe={true}
+          id=""
+        >
+          <CardBody>
+            <div
+              className="pf-c-card__body"
             >
-              test-title
-            </TextListItem>
-            <TextListItem
-              component="dd"
-              data-ouia-component-id="test-title value"
-            >
-              <Clickable
-                onClick={[MockFunction]}
-                value="some value"
-              />
-            </TextListItem>
-            <TextListItem
-              component="dt"
-              data-ouia-component-id="just title title"
-            >
-              just title
-            </TextListItem>
-            <TextListItem
-              component="dd"
-              data-ouia-component-id="just title value"
-            >
-              Not available
-            </TextListItem>
-          </TextList>
-        </TextContent>
-      </StackItem>
-    </Stack>
-  </CardBody>
-</Card>
+              <Stack
+                hasGutter={true}
+              >
+                <div
+                  className="pf-l-stack pf-m-gutter"
+                >
+                  <StackItem>
+                    <div
+                      className="pf-l-stack__item"
+                    >
+                      <TextContent>
+                        <div
+                          className="pf-c-content"
+                        >
+                          <Text
+                            component="h1"
+                          >
+                            <h1
+                              className=""
+                              data-ouia-component-id="OUIA-Generated-Text-4"
+                              data-ouia-component-type="PF4/Text"
+                              data-ouia-safe={true}
+                              data-pf-content={true}
+                            >
+                              Some title
+                            </h1>
+                          </Text>
+                        </div>
+                      </TextContent>
+                    </div>
+                  </StackItem>
+                  <StackItem
+                    isFilled={true}
+                  >
+                    <div
+                      className="pf-l-stack__item pf-m-fill"
+                    >
+                      <TextContent>
+                        <div
+                          className="pf-c-content"
+                        >
+                          <TextList
+                            component="dl"
+                          >
+                            <dl
+                              className=""
+                            >
+                              <TextListItem
+                                component="dt"
+                                data-ouia-component-id="test-title title"
+                              >
+                                <dt
+                                  className=""
+                                  data-ouia-component-id="test-title title"
+                                >
+                                  test-title
+                                </dt>
+                              </TextListItem>
+                              <TextListItem
+                                component="dd"
+                                data-ouia-component-id="test-title value"
+                              >
+                                <dd
+                                  className=""
+                                  data-ouia-component-id="test-title value"
+                                >
+                                  <Clickable
+                                    onClick={[MockFunction]}
+                                    value="some value"
+                                  >
+                                    <a
+                                      href="http://localhost:5000//undefined"
+                                      onClick={[Function]}
+                                    >
+                                      some value
+                                    </a>
+                                  </Clickable>
+                                </dd>
+                              </TextListItem>
+                              <TextListItem
+                                component="dt"
+                                data-ouia-component-id="just title title"
+                              >
+                                <dt
+                                  className=""
+                                  data-ouia-component-id="just title title"
+                                >
+                                  just title
+                                </dt>
+                              </TextListItem>
+                              <TextListItem
+                                component="dd"
+                                data-ouia-component-id="just title value"
+                              >
+                                <dd
+                                  className=""
+                                  data-ouia-component-id="just title value"
+                                >
+                                  Not available
+                                </dd>
+                              </TextListItem>
+                            </dl>
+                          </TextList>
+                        </div>
+                      </TextContent>
+                    </div>
+                  </StackItem>
+                </div>
+              </Stack>
+            </div>
+          </CardBody>
+        </article>
+      </Card>
+    </LoadingCard>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`LoadingCard should render loading bars 1`] = `
-<Card
-  ouiaId="system-properties-card"
->
-  <CardBody>
-    <Stack
-      hasGutter={true}
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <LoadingCard
+      isLoading={true}
+      items={
+        Array [
+          Object {
+            "onClick": [MockFunction],
+            "size": "md",
+            "title": "test-title",
+            "value": "some value",
+          },
+          Object {
+            "title": "just title",
+          },
+        ]
+      }
+      title="Some title"
     >
-      <StackItem>
-        <TextContent>
-          <Text
-            component="h1"
-          >
-            Some title
-          </Text>
-        </TextContent>
-      </StackItem>
-      <StackItem
-        isFilled={true}
+      <Card
+        ouiaId="system-properties-card"
       >
-        <TextContent>
-          <TextList
-            component="dl"
-          >
-            <TextListItem
-              component="dt"
-              data-ouia-component-id="test-title title"
+        <article
+          className="pf-c-card"
+          data-ouia-component-id="system-properties-card"
+          data-ouia-component-type="PF4/Card"
+          data-ouia-safe={true}
+          id=""
+        >
+          <CardBody>
+            <div
+              className="pf-c-card__body"
             >
-              test-title
-            </TextListItem>
-            <TextListItem
-              component="dd"
-              data-ouia-component-id="test-title value"
-            >
-              <Skeleton
-                size="md"
-              />
-            </TextListItem>
-            <TextListItem
-              component="dt"
-              data-ouia-component-id="just title title"
-            >
-              just title
-            </TextListItem>
-            <TextListItem
-              component="dd"
-              data-ouia-component-id="just title value"
-            >
-              <Skeleton
-                size="sm"
-              />
-            </TextListItem>
-          </TextList>
-        </TextContent>
-      </StackItem>
-    </Stack>
-  </CardBody>
-</Card>
+              <Stack
+                hasGutter={true}
+              >
+                <div
+                  className="pf-l-stack pf-m-gutter"
+                >
+                  <StackItem>
+                    <div
+                      className="pf-l-stack__item"
+                    >
+                      <TextContent>
+                        <div
+                          className="pf-c-content"
+                        >
+                          <Text
+                            component="h1"
+                          >
+                            <h1
+                              className=""
+                              data-ouia-component-id="OUIA-Generated-Text-3"
+                              data-ouia-component-type="PF4/Text"
+                              data-ouia-safe={true}
+                              data-pf-content={true}
+                            >
+                              Some title
+                            </h1>
+                          </Text>
+                        </div>
+                      </TextContent>
+                    </div>
+                  </StackItem>
+                  <StackItem
+                    isFilled={true}
+                  >
+                    <div
+                      className="pf-l-stack__item pf-m-fill"
+                    >
+                      <TextContent>
+                        <div
+                          className="pf-c-content"
+                        >
+                          <TextList
+                            component="dl"
+                          >
+                            <dl
+                              className=""
+                            >
+                              <TextListItem
+                                component="dt"
+                                data-ouia-component-id="test-title title"
+                              >
+                                <dt
+                                  className=""
+                                  data-ouia-component-id="test-title title"
+                                >
+                                  test-title
+                                </dt>
+                              </TextListItem>
+                              <TextListItem
+                                component="dd"
+                                data-ouia-component-id="test-title value"
+                              >
+                                <dd
+                                  className=""
+                                  data-ouia-component-id="test-title value"
+                                >
+                                  <Skeleton
+                                    size="md"
+                                  >
+                                    <Skeleton
+                                      className="ins-c-skeleton ins-c-skeleton__md"
+                                    >
+                                      <div
+                                        className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__md"
+                                      >
+                                        <span
+                                          className="pf-u-screen-reader"
+                                        />
+                                      </div>
+                                    </Skeleton>
+                                  </Skeleton>
+                                </dd>
+                              </TextListItem>
+                              <TextListItem
+                                component="dt"
+                                data-ouia-component-id="just title title"
+                              >
+                                <dt
+                                  className=""
+                                  data-ouia-component-id="just title title"
+                                >
+                                  just title
+                                </dt>
+                              </TextListItem>
+                              <TextListItem
+                                component="dd"
+                                data-ouia-component-id="just title value"
+                              >
+                                <dd
+                                  className=""
+                                  data-ouia-component-id="just title value"
+                                >
+                                  <Skeleton
+                                    size="sm"
+                                  >
+                                    <Skeleton
+                                      className="ins-c-skeleton ins-c-skeleton__sm"
+                                    >
+                                      <div
+                                        className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                                      >
+                                        <span
+                                          className="pf-u-screen-reader"
+                                        />
+                                      </div>
+                                    </Skeleton>
+                                  </Skeleton>
+                                </dd>
+                              </TextListItem>
+                            </dl>
+                          </TextList>
+                        </div>
+                      </TextContent>
+                    </div>
+                  </StackItem>
+                </div>
+              </Stack>
+            </div>
+          </CardBody>
+        </article>
+      </Card>
+    </LoadingCard>
+  </Router>
+</MemoryRouter>
 `;

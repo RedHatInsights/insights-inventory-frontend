@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { mount, render } from 'enzyme';
+import { render } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import CollectionCard from './CollectionCard';
 import configureStore from 'redux-mock-store';
 import { collectInfoTest } from '../../../__mocks__/selectors';
 import { Tooltip } from '@patternfly/react-core';
+import { mountWithRouter } from '../../../Utilities/TestingUtilities';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -41,7 +42,7 @@ describe('CollectionCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(<CollectionCard store={store} />);
+    const wrapper = mountWithRouter(<CollectionCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -53,10 +54,9 @@ describe('CollectionCard', () => {
 
   it('renders tooltip for version', () => {
     const store = mockStore(initialState);
-    const wrapper = mount(<CollectionCard store={store} />);
-    const tooltip = mount(wrapper.find(Tooltip).props().content);
-    expect(tooltip.first().text()).toEqual('RPM version: test-client');
-    expect(tooltip.last().text()).toEqual('Dynamic update version: test-egg');
+    const wrapper = mountWithRouter(<CollectionCard store={store} />);
+    const tooltip = mountWithRouter(wrapper.find(Tooltip).props().content);
+    expect(tooltip).toMatchSnapshot();
   });
 
   [
@@ -68,7 +68,7 @@ describe('CollectionCard', () => {
   ].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
-      const wrapper = render(
+      const wrapper = mountWithRouter(
         <CollectionCard store={store} {...{ [item]: false }} />
       );
       expect(toJson(wrapper)).toMatchSnapshot();
@@ -77,7 +77,7 @@ describe('CollectionCard', () => {
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <CollectionCard
         store={store}
         extra={[

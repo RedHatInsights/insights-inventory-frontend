@@ -1,19 +1,16 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { mount, render } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import InfrastructureCard from './InfrastructureCard';
 import configureStore from 'redux-mock-store';
 import { infraTest, rhsmFacts } from '../../../__mocks__/selectors';
+import { mountWithRouter } from '../../../Utilities/TestingUtilities';
 
 const location = {};
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
-  useHistory: () => ({
-    push: () => undefined,
-  }),
 }));
 
 describe('InfrastructureCard', () => {
@@ -42,13 +39,13 @@ describe('InfrastructureCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(<InfrastructureCard store={store} />);
+    const wrapper = mountWithRouter(<InfrastructureCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<InfrastructureCard store={store} />);
+    const wrapper = mountWithRouter(<InfrastructureCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -61,7 +58,7 @@ describe('InfrastructureCard', () => {
         },
       },
     });
-    const wrapper = render(<InfrastructureCard store={store} />);
+    const wrapper = mountWithRouter(<InfrastructureCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -77,7 +74,7 @@ describe('InfrastructureCard', () => {
         entity: {},
       },
     });
-    const wrapper = render(<InfrastructureCard store={store} />);
+    const wrapper = mountWithRouter(<InfrastructureCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -85,7 +82,7 @@ describe('InfrastructureCard', () => {
     it('should NOT call handleClick', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
-      const wrapper = mount(<InfrastructureCard store={store} />);
+      const wrapper = mountWithRouter(<InfrastructureCard store={store} />);
       wrapper.find('dd a').first().simulate('click');
       expect(onClick).not.toHaveBeenCalled();
     });
@@ -94,7 +91,7 @@ describe('InfrastructureCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/ipv4';
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <InfrastructureCard handleClick={onClick} store={store} />
       );
       wrapper.find('dd a').first().simulate('click');
@@ -105,7 +102,7 @@ describe('InfrastructureCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/ipv6';
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <InfrastructureCard handleClick={onClick} store={store} />
       );
       wrapper.find('dd a').at(1).simulate('click');
@@ -116,7 +113,7 @@ describe('InfrastructureCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/interfaces';
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <InfrastructureCard handleClick={onClick} store={store} />
       );
       wrapper.find('dd a').at(2).simulate('click');
@@ -127,7 +124,7 @@ describe('InfrastructureCard', () => {
   ['hasType', 'hasVendor', 'hasIPv4', 'hasIPv6', 'hasInterfaces'].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
-      const wrapper = render(
+      const wrapper = mountWithRouter(
         <InfrastructureCard store={store} {...{ [item]: false }} />
       );
       expect(toJson(wrapper)).toMatchSnapshot();
@@ -136,7 +133,7 @@ describe('InfrastructureCard', () => {
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <InfrastructureCard
         store={store}
         extra={[

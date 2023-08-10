@@ -1,19 +1,16 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { mount, render } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import ConfigurationCard from './ConfigurationCard';
 import configureStore from 'redux-mock-store';
 import { configTest } from '../../../__mocks__/selectors';
+import { mountWithRouter } from '../../../Utilities/TestingUtilities';
 
 const location = {};
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
-  useHistory: () => ({
-    push: () => undefined,
-  }),
 }));
 
 describe('ConfigurationCard', () => {
@@ -35,13 +32,13 @@ describe('ConfigurationCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(<ConfigurationCard store={store} />);
+    const wrapper = mountWithRouter(<ConfigurationCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<ConfigurationCard store={store} />);
+    const wrapper = mountWithRouter(<ConfigurationCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -58,7 +55,7 @@ describe('ConfigurationCard', () => {
         },
       },
     });
-    const wrapper = render(<ConfigurationCard store={store} />);
+    const wrapper = mountWithRouter(<ConfigurationCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -66,7 +63,7 @@ describe('ConfigurationCard', () => {
     it('should NOT call handleClick', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
-      const wrapper = mount(<ConfigurationCard store={store} />);
+      const wrapper = mountWithRouter(<ConfigurationCard store={store} />);
       wrapper.find('dd a').first().simulate('click');
       expect(onClick).not.toHaveBeenCalled();
       expect(toJson(wrapper)).toMatchSnapshot();
@@ -76,7 +73,7 @@ describe('ConfigurationCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/installed_packages';
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <ConfigurationCard handleClick={onClick} store={store} />
       );
       wrapper.find('dd a').first().simulate('click');
@@ -87,7 +84,7 @@ describe('ConfigurationCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/services';
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <ConfigurationCard handleClick={onClick} store={store} />
       );
       wrapper.find('dd a').at(1).simulate('click');
@@ -98,7 +95,7 @@ describe('ConfigurationCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/running_processes';
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <ConfigurationCard handleClick={onClick} store={store} />
       );
       wrapper.find('dd a').at(2).simulate('click');
@@ -109,7 +106,7 @@ describe('ConfigurationCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/repositories';
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <ConfigurationCard handleClick={onClick} store={store} />
       );
       wrapper.find('dd a').at(3).simulate('click');
@@ -121,7 +118,7 @@ describe('ConfigurationCard', () => {
     (item) =>
       it(`should not render ${item}`, () => {
         const store = mockStore(initialState);
-        const wrapper = render(
+        const wrapper = mountWithRouter(
           <ConfigurationCard store={store} {...{ [item]: false }} />
         );
         expect(toJson(wrapper)).toMatchSnapshot();
@@ -130,7 +127,7 @@ describe('ConfigurationCard', () => {
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <ConfigurationCard
         store={store}
         extra={[

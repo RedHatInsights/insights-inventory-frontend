@@ -1,1183 +1,3054 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ConfigurationCard api should NOT call handleClick 1`] = `
-<Connect(ConfigurationCardCore)
-  detailLoaded={false}
-  extra={Array []}
-  handleClick={[Function]}
-  hasPackages={true}
-  hasProcesses={true}
-  hasRepositories={true}
-  hasServices={true}
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <ConfigurationCardCore
-    configuration={
+<MemoryRouter>
+  <Router
+    location={
       Object {
-        "packages": Array [
-          "packages",
-        ],
-        "processes": Array [
-          "processes",
-        ],
-        "repositories": Object {
-          "disabled": Array [],
-          "enabled": Array [
-            Object {
-              "base_url": "test-url",
-              "enabled": true,
-              "gpgcheck": true,
-              "name": "test-name",
-            },
-          ],
-        },
-        "services": Array [
-          "services",
-        ],
+        "hash": "",
+        "key": "y1s5yt49",
+        "pathname": "/localhost:3000/example/path/installed_packages",
+        "search": "",
+        "state": null,
       }
     }
-    detailLoaded={true}
-    dispatch={[Function]}
-    extra={Array []}
-    handleClick={[Function]}
-    hasPackages={true}
-    hasProcesses={true}
-    hasRepositories={true}
-    hasServices={true}
-    store={
+    navigationType="PUSH"
+    navigator={
       Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
+        "action": "PUSH",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "y1s5yt49",
+          "pathname": "/localhost:3000/example/path/installed_packages",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
       }
     }
   >
-    <LoadingCard
-      isLoading={false}
-      items={
-        Array [
-          Object {
-            "onClick": [Function],
-            "singular": "package",
-            "target": "installed_packages",
-            "title": "Installed packages",
-            "value": 1,
-          },
-          Object {
-            "onClick": [Function],
-            "singular": "service",
-            "target": "services",
-            "title": "Services",
-            "value": 1,
-          },
-          Object {
-            "onClick": [Function],
-            "plural": "processes",
-            "singular": "process",
-            "target": "running_processes",
-            "title": "Running processes",
-            "value": 1,
-          },
-          Object {
-            "onClick": [Function],
-            "target": "repositories",
-            "title": "Repositories",
-            "value": "1 enabled",
-          },
-        ]
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={true}
+      hasRepositories={true}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
       }
-      title="Configuration"
     >
-      <Card
-        ouiaId="system-properties-card"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [],
+              "enabled": Array [
+                Object {
+                  "base_url": "test-url",
+                  "enabled": true,
+                  "gpgcheck": true,
+                  "name": "test-name",
+                },
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={true}
+        hasRepositories={true}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <article
-          className="pf-c-card"
-          data-ouia-component-id="system-properties-card"
-          data-ouia-component-type="PF4/Card"
-          data-ouia-safe={true}
-          id=""
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": "1 enabled",
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <CardBody>
-            <div
-              className="pf-c-card__body"
+          <Card
+            ouiaId="system-properties-card"
+          >
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              <Stack
-                hasGutter={true}
-              >
+              <CardBody>
                 <div
-                  className="pf-l-stack pf-m-gutter"
+                  className="pf-c-card__body"
                 >
-                  <StackItem>
-                    <div
-                      className="pf-l-stack__item"
-                    >
-                      <TextContent>
-                        <div
-                          className="pf-c-content"
-                        >
-                          <Text
-                            component="h1"
-                          >
-                            <h1
-                              className=""
-                              data-ouia-component-id="OUIA-Generated-Text-4"
-                              data-ouia-component-type="PF4/Text"
-                              data-ouia-safe={true}
-                              data-pf-content={true}
-                            >
-                              Configuration
-                            </h1>
-                          </Text>
-                        </div>
-                      </TextContent>
-                    </div>
-                  </StackItem>
-                  <StackItem
-                    isFilled={true}
+                  <Stack
+                    hasGutter={true}
                   >
                     <div
-                      className="pf-l-stack__item pf-m-fill"
+                      className="pf-l-stack pf-m-gutter"
                     >
-                      <TextContent>
+                      <StackItem>
                         <div
-                          className="pf-c-content"
+                          className="pf-l-stack__item"
                         >
-                          <TextList
-                            component="dl"
-                          >
-                            <dl
-                              className=""
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
                             >
-                              <TextListItem
-                                component="dt"
-                                data-ouia-component-id="Installed packages title"
+                              <Text
+                                component="h1"
                               >
-                                <dt
+                                <h1
                                   className=""
-                                  data-ouia-component-id="Installed packages title"
+                                  data-ouia-component-id="OUIA-Generated-Text-4"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
                                 >
-                                  Installed packages
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                                data-ouia-component-id="Installed packages value"
-                              >
-                                <dd
-                                  className=""
-                                  data-ouia-component-id="Installed packages value"
-                                >
-                                  <Clickable
-                                    onClick={[Function]}
-                                    singular="package"
-                                    target="installed_packages"
-                                    value={1}
-                                  >
-                                    <a
-                                      href="http://localhost:5000//installed_packages"
-                                      onClick={[Function]}
-                                    >
-                                      1 package
-                                    </a>
-                                  </Clickable>
-                                </dd>
-                              </TextListItem>
-                              <TextListItem
-                                component="dt"
-                                data-ouia-component-id="Services title"
-                              >
-                                <dt
-                                  className=""
-                                  data-ouia-component-id="Services title"
-                                >
-                                  Services
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                                data-ouia-component-id="Services value"
-                              >
-                                <dd
-                                  className=""
-                                  data-ouia-component-id="Services value"
-                                >
-                                  <Clickable
-                                    onClick={[Function]}
-                                    singular="service"
-                                    target="services"
-                                    value={1}
-                                  >
-                                    <a
-                                      href="http://localhost:5000//services"
-                                      onClick={[Function]}
-                                    >
-                                      1 service
-                                    </a>
-                                  </Clickable>
-                                </dd>
-                              </TextListItem>
-                              <TextListItem
-                                component="dt"
-                                data-ouia-component-id="Running processes title"
-                              >
-                                <dt
-                                  className=""
-                                  data-ouia-component-id="Running processes title"
-                                >
-                                  Running processes
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                                data-ouia-component-id="Running processes value"
-                              >
-                                <dd
-                                  className=""
-                                  data-ouia-component-id="Running processes value"
-                                >
-                                  <Clickable
-                                    onClick={[Function]}
-                                    plural="processes"
-                                    singular="process"
-                                    target="running_processes"
-                                    value={1}
-                                  >
-                                    <a
-                                      href="http://localhost:5000//running_processes"
-                                      onClick={[Function]}
-                                    >
-                                      1 process
-                                    </a>
-                                  </Clickable>
-                                </dd>
-                              </TextListItem>
-                              <TextListItem
-                                component="dt"
-                                data-ouia-component-id="Repositories title"
-                              >
-                                <dt
-                                  className=""
-                                  data-ouia-component-id="Repositories title"
-                                >
-                                  Repositories
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                                data-ouia-component-id="Repositories value"
-                              >
-                                <dd
-                                  className=""
-                                  data-ouia-component-id="Repositories value"
-                                >
-                                  <Clickable
-                                    onClick={[Function]}
-                                    target="repositories"
-                                    value="1 enabled"
-                                  >
-                                    <a
-                                      href="http://localhost:5000//repositories"
-                                      onClick={[Function]}
-                                    >
-                                      1 enabled
-                                    </a>
-                                  </Clickable>
-                                </dd>
-                              </TextListItem>
-                            </dl>
-                          </TextList>
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
                         </div>
-                      </TextContent>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Installed packages title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Installed packages title"
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Installed packages value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Installed packages value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="package"
+                                        target="installed_packages"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//installed_packages"
+                                          onClick={[Function]}
+                                        >
+                                          1 package
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Services title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Services title"
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Services value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Services value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="service"
+                                        target="services"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//services"
+                                          onClick={[Function]}
+                                        >
+                                          1 service
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Running processes title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Running processes title"
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Running processes value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Running processes value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        plural="processes"
+                                        singular="process"
+                                        target="running_processes"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//running_processes"
+                                          onClick={[Function]}
+                                        >
+                                          1 process
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Repositories title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Repositories title"
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Repositories value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Repositories value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        target="repositories"
+                                        value="1 enabled"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//repositories"
+                                          onClick={[Function]}
+                                        >
+                                          1 enabled
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
                     </div>
-                  </StackItem>
+                  </Stack>
                 </div>
-              </Stack>
-            </div>
-          </CardBody>
-        </article>
-      </Card>
-    </LoadingCard>
-  </ConfigurationCardCore>
-</Connect(ConfigurationCardCore)>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should not render hasPackages 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <div
-      class="pf-l-stack pf-m-gutter"
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={false}
+      hasProcesses={true}
+      hasRepositories={true}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
+      }
     >
-      <div
-        class="pf-l-stack__item"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [],
+              "enabled": Array [
+                Object {
+                  "base_url": "test-url",
+                  "enabled": true,
+                  "gpgcheck": true,
+                  "name": "test-name",
+                },
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={false}
+        hasProcesses={true}
+        hasRepositories={true}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <div
-          class="pf-c-content"
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": "1 enabled",
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-9"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <Card
+            ouiaId="system-properties-card"
           >
-            Configuration
-          </h1>
-        </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
-        <div
-          class="pf-c-content"
-        >
-          <dl
-            class=""
-          >
-            <dt
-              class=""
-              data-ouia-component-id="Services title"
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              Services
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Services value"
-            >
-              <a
-                href="http://localhost:5000//services"
-              >
-                1 service
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Running processes title"
-            >
-              Running processes
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Running processes value"
-            >
-              <a
-                href="http://localhost:5000//running_processes"
-              >
-                1 process
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Repositories title"
-            >
-              Repositories
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Repositories value"
-            >
-              <a
-                href="http://localhost:5000//repositories"
-              >
-                1 enabled
-              </a>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
+              <CardBody>
+                <div
+                  className="pf-c-card__body"
+                >
+                  <Stack
+                    hasGutter={true}
+                  >
+                    <div
+                      className="pf-l-stack pf-m-gutter"
+                    >
+                      <StackItem>
+                        <div
+                          className="pf-l-stack__item"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <Text
+                                component="h1"
+                              >
+                                <h1
+                                  className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-9"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
+                                >
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Services title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Services title"
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Services value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Services value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="service"
+                                        target="services"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//services"
+                                          onClick={[Function]}
+                                        >
+                                          1 service
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Running processes title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Running processes title"
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Running processes value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Running processes value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        plural="processes"
+                                        singular="process"
+                                        target="running_processes"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//running_processes"
+                                          onClick={[Function]}
+                                        >
+                                          1 process
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Repositories title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Repositories title"
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Repositories value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Repositories value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        target="repositories"
+                                        value="1 enabled"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//repositories"
+                                          onClick={[Function]}
+                                        >
+                                          1 enabled
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                    </div>
+                  </Stack>
+                </div>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should not render hasProcesses 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <div
-      class="pf-l-stack pf-m-gutter"
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={false}
+      hasRepositories={true}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
+      }
     >
-      <div
-        class="pf-l-stack__item"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [],
+              "enabled": Array [
+                Object {
+                  "base_url": "test-url",
+                  "enabled": true,
+                  "gpgcheck": true,
+                  "name": "test-name",
+                },
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={false}
+        hasRepositories={true}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <div
-          class="pf-c-content"
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": "1 enabled",
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-11"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <Card
+            ouiaId="system-properties-card"
           >
-            Configuration
-          </h1>
-        </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
-        <div
-          class="pf-c-content"
-        >
-          <dl
-            class=""
-          >
-            <dt
-              class=""
-              data-ouia-component-id="Installed packages title"
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              Installed packages
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Installed packages value"
-            >
-              <a
-                href="http://localhost:5000//installed_packages"
-              >
-                1 package
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Services title"
-            >
-              Services
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Services value"
-            >
-              <a
-                href="http://localhost:5000//services"
-              >
-                1 service
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Repositories title"
-            >
-              Repositories
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Repositories value"
-            >
-              <a
-                href="http://localhost:5000//repositories"
-              >
-                1 enabled
-              </a>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
+              <CardBody>
+                <div
+                  className="pf-c-card__body"
+                >
+                  <Stack
+                    hasGutter={true}
+                  >
+                    <div
+                      className="pf-l-stack pf-m-gutter"
+                    >
+                      <StackItem>
+                        <div
+                          className="pf-l-stack__item"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <Text
+                                component="h1"
+                              >
+                                <h1
+                                  className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-11"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
+                                >
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Installed packages title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Installed packages title"
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Installed packages value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Installed packages value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="package"
+                                        target="installed_packages"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//installed_packages"
+                                          onClick={[Function]}
+                                        >
+                                          1 package
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Services title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Services title"
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Services value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Services value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="service"
+                                        target="services"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//services"
+                                          onClick={[Function]}
+                                        >
+                                          1 service
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Repositories title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Repositories title"
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Repositories value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Repositories value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        target="repositories"
+                                        value="1 enabled"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//repositories"
+                                          onClick={[Function]}
+                                        >
+                                          1 enabled
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                    </div>
+                  </Stack>
+                </div>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should not render hasRepositories 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <div
-      class="pf-l-stack pf-m-gutter"
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={true}
+      hasRepositories={false}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
+      }
     >
-      <div
-        class="pf-l-stack__item"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [],
+              "enabled": Array [
+                Object {
+                  "base_url": "test-url",
+                  "enabled": true,
+                  "gpgcheck": true,
+                  "name": "test-name",
+                },
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={true}
+        hasRepositories={false}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <div
-          class="pf-c-content"
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": 1,
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-12"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <Card
+            ouiaId="system-properties-card"
           >
-            Configuration
-          </h1>
-        </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
-        <div
-          class="pf-c-content"
-        >
-          <dl
-            class=""
-          >
-            <dt
-              class=""
-              data-ouia-component-id="Installed packages title"
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              Installed packages
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Installed packages value"
-            >
-              <a
-                href="http://localhost:5000//installed_packages"
-              >
-                1 package
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Services title"
-            >
-              Services
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Services value"
-            >
-              <a
-                href="http://localhost:5000//services"
-              >
-                1 service
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Running processes title"
-            >
-              Running processes
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Running processes value"
-            >
-              <a
-                href="http://localhost:5000//running_processes"
-              >
-                1 process
-              </a>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
+              <CardBody>
+                <div
+                  className="pf-c-card__body"
+                >
+                  <Stack
+                    hasGutter={true}
+                  >
+                    <div
+                      className="pf-l-stack pf-m-gutter"
+                    >
+                      <StackItem>
+                        <div
+                          className="pf-l-stack__item"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <Text
+                                component="h1"
+                              >
+                                <h1
+                                  className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-12"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
+                                >
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Installed packages title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Installed packages title"
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Installed packages value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Installed packages value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="package"
+                                        target="installed_packages"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//installed_packages"
+                                          onClick={[Function]}
+                                        >
+                                          1 package
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Services title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Services title"
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Services value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Services value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="service"
+                                        target="services"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//services"
+                                          onClick={[Function]}
+                                        >
+                                          1 service
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Running processes title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Running processes title"
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Running processes value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Running processes value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        plural="processes"
+                                        singular="process"
+                                        target="running_processes"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//running_processes"
+                                          onClick={[Function]}
+                                        >
+                                          1 process
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                    </div>
+                  </Stack>
+                </div>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should not render hasServices 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <div
-      class="pf-l-stack pf-m-gutter"
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={true}
+      hasRepositories={true}
+      hasServices={false}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
+      }
     >
-      <div
-        class="pf-l-stack__item"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [],
+              "enabled": Array [
+                Object {
+                  "base_url": "test-url",
+                  "enabled": true,
+                  "gpgcheck": true,
+                  "name": "test-name",
+                },
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={true}
+        hasRepositories={true}
+        hasServices={false}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <div
-          class="pf-c-content"
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": "1 enabled",
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-10"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <Card
+            ouiaId="system-properties-card"
           >
-            Configuration
-          </h1>
-        </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
-        <div
-          class="pf-c-content"
-        >
-          <dl
-            class=""
-          >
-            <dt
-              class=""
-              data-ouia-component-id="Installed packages title"
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              Installed packages
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Installed packages value"
-            >
-              <a
-                href="http://localhost:5000//installed_packages"
-              >
-                1 package
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Running processes title"
-            >
-              Running processes
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Running processes value"
-            >
-              <a
-                href="http://localhost:5000//running_processes"
-              >
-                1 process
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Repositories title"
-            >
-              Repositories
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Repositories value"
-            >
-              <a
-                href="http://localhost:5000//repositories"
-              >
-                1 enabled
-              </a>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
+              <CardBody>
+                <div
+                  className="pf-c-card__body"
+                >
+                  <Stack
+                    hasGutter={true}
+                  >
+                    <div
+                      className="pf-l-stack pf-m-gutter"
+                    >
+                      <StackItem>
+                        <div
+                          className="pf-l-stack__item"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <Text
+                                component="h1"
+                              >
+                                <h1
+                                  className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-10"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
+                                >
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Installed packages title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Installed packages title"
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Installed packages value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Installed packages value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="package"
+                                        target="installed_packages"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//installed_packages"
+                                          onClick={[Function]}
+                                        >
+                                          1 package
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Running processes title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Running processes title"
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Running processes value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Running processes value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        plural="processes"
+                                        singular="process"
+                                        target="running_processes"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//running_processes"
+                                          onClick={[Function]}
+                                        >
+                                          1 process
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Repositories title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Repositories title"
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Repositories value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Repositories value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        target="repositories"
+                                        value="1 enabled"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//repositories"
+                                          onClick={[Function]}
+                                        >
+                                          1 enabled
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                    </div>
+                  </Stack>
+                </div>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should render correctly - no data 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <div
-      class="pf-l-stack pf-m-gutter"
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={true}
+      hasRepositories={true}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
+      }
     >
-      <div
-        class="pf-l-stack__item"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": undefined,
+            "processes": undefined,
+            "repositories": undefined,
+            "services": undefined,
+          }
+        }
+        detailLoaded={false}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={true}
+        hasRepositories={true}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <div
-          class="pf-c-content"
+        <LoadingCard
+          isLoading={true}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": undefined,
+              },
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": undefined,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": undefined,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": undefined,
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-1"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <Card
+            ouiaId="system-properties-card"
           >
-            Configuration
-          </h1>
-        </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
-        <div
-          class="pf-c-content"
-        >
-          <dl
-            class=""
-          >
-            <dt
-              class=""
-              data-ouia-component-id="Installed packages title"
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              Installed packages
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Installed packages value"
-            >
-              <div
-                class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-              >
-                <span
-                  class="pf-u-screen-reader"
-                />
-              </div>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Services title"
-            >
-              Services
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Services value"
-            >
-              <div
-                class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-              >
-                <span
-                  class="pf-u-screen-reader"
-                />
-              </div>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Running processes title"
-            >
-              Running processes
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Running processes value"
-            >
-              <div
-                class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-              >
-                <span
-                  class="pf-u-screen-reader"
-                />
-              </div>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Repositories title"
-            >
-              Repositories
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Repositories value"
-            >
-              <div
-                class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-              >
-                <span
-                  class="pf-u-screen-reader"
-                />
-              </div>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
+              <CardBody>
+                <div
+                  className="pf-c-card__body"
+                >
+                  <Stack
+                    hasGutter={true}
+                  >
+                    <div
+                      className="pf-l-stack pf-m-gutter"
+                    >
+                      <StackItem>
+                        <div
+                          className="pf-l-stack__item"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <Text
+                                component="h1"
+                              >
+                                <h1
+                                  className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-1"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
+                                >
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Installed packages title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Installed packages title"
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Installed packages value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Installed packages value"
+                                    >
+                                      <Skeleton
+                                        size="sm"
+                                      >
+                                        <Skeleton
+                                          className="ins-c-skeleton ins-c-skeleton__sm"
+                                        >
+                                          <div
+                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                                          >
+                                            <span
+                                              className="pf-u-screen-reader"
+                                            />
+                                          </div>
+                                        </Skeleton>
+                                      </Skeleton>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Services title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Services title"
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Services value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Services value"
+                                    >
+                                      <Skeleton
+                                        size="sm"
+                                      >
+                                        <Skeleton
+                                          className="ins-c-skeleton ins-c-skeleton__sm"
+                                        >
+                                          <div
+                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                                          >
+                                            <span
+                                              className="pf-u-screen-reader"
+                                            />
+                                          </div>
+                                        </Skeleton>
+                                      </Skeleton>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Running processes title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Running processes title"
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Running processes value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Running processes value"
+                                    >
+                                      <Skeleton
+                                        size="sm"
+                                      >
+                                        <Skeleton
+                                          className="ins-c-skeleton ins-c-skeleton__sm"
+                                        >
+                                          <div
+                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                                          >
+                                            <span
+                                              className="pf-u-screen-reader"
+                                            />
+                                          </div>
+                                        </Skeleton>
+                                      </Skeleton>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Repositories title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Repositories title"
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Repositories value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Repositories value"
+                                    >
+                                      <Skeleton
+                                        size="sm"
+                                      >
+                                        <Skeleton
+                                          className="ins-c-skeleton ins-c-skeleton__sm"
+                                        >
+                                          <div
+                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                                          >
+                                            <span
+                                              className="pf-u-screen-reader"
+                                            />
+                                          </div>
+                                        </Skeleton>
+                                      </Skeleton>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                    </div>
+                  </Stack>
+                </div>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should render correctly with data 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <div
-      class="pf-l-stack pf-m-gutter"
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={true}
+      hasRepositories={true}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
+      }
     >
-      <div
-        class="pf-l-stack__item"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [],
+              "enabled": Array [
+                Object {
+                  "base_url": "test-url",
+                  "enabled": true,
+                  "gpgcheck": true,
+                  "name": "test-name",
+                },
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={true}
+        hasRepositories={true}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <div
-          class="pf-c-content"
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": "1 enabled",
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-2"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <Card
+            ouiaId="system-properties-card"
           >
-            Configuration
-          </h1>
-        </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
-        <div
-          class="pf-c-content"
-        >
-          <dl
-            class=""
-          >
-            <dt
-              class=""
-              data-ouia-component-id="Installed packages title"
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              Installed packages
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Installed packages value"
-            >
-              <a
-                href="http://localhost:5000//installed_packages"
-              >
-                1 package
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Services title"
-            >
-              Services
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Services value"
-            >
-              <a
-                href="http://localhost:5000//services"
-              >
-                1 service
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Running processes title"
-            >
-              Running processes
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Running processes value"
-            >
-              <a
-                href="http://localhost:5000//running_processes"
-              >
-                1 process
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Repositories title"
-            >
-              Repositories
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Repositories value"
-            >
-              <a
-                href="http://localhost:5000//repositories"
-              >
-                1 enabled
-              </a>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
+              <CardBody>
+                <div
+                  className="pf-c-card__body"
+                >
+                  <Stack
+                    hasGutter={true}
+                  >
+                    <div
+                      className="pf-l-stack pf-m-gutter"
+                    >
+                      <StackItem>
+                        <div
+                          className="pf-l-stack__item"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <Text
+                                component="h1"
+                              >
+                                <h1
+                                  className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-2"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
+                                >
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Installed packages title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Installed packages title"
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Installed packages value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Installed packages value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="package"
+                                        target="installed_packages"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//installed_packages"
+                                          onClick={[Function]}
+                                        >
+                                          1 package
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Services title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Services title"
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Services value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Services value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="service"
+                                        target="services"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//services"
+                                          onClick={[Function]}
+                                        >
+                                          1 service
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Running processes title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Running processes title"
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Running processes value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Running processes value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        plural="processes"
+                                        singular="process"
+                                        target="running_processes"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//running_processes"
+                                          onClick={[Function]}
+                                        >
+                                          1 process
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Repositories title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Repositories title"
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Repositories value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Repositories value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        target="repositories"
+                                        value="1 enabled"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//repositories"
+                                          onClick={[Function]}
+                                        >
+                                          1 enabled
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                    </div>
+                  </Stack>
+                </div>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should render enabled/disabled 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <div
-      class="pf-l-stack pf-m-gutter"
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={Array []}
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={true}
+      hasRepositories={true}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
+      }
     >
-      <div
-        class="pf-l-stack__item"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [
+                Object {},
+              ],
+              "enabled": Array [
+                Object {},
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={Array []}
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={true}
+        hasRepositories={true}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <div
-          class="pf-c-content"
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": "1 enabled / 1 disabled",
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-3"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <Card
+            ouiaId="system-properties-card"
           >
-            Configuration
-          </h1>
-        </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
-        <div
-          class="pf-c-content"
-        >
-          <dl
-            class=""
-          >
-            <dt
-              class=""
-              data-ouia-component-id="Installed packages title"
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              Installed packages
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Installed packages value"
-            >
-              <a
-                href="http://localhost:5000//installed_packages"
-              >
-                1 package
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Services title"
-            >
-              Services
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Services value"
-            >
-              <a
-                href="http://localhost:5000//services"
-              >
-                1 service
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Running processes title"
-            >
-              Running processes
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Running processes value"
-            >
-              <a
-                href="http://localhost:5000//running_processes"
-              >
-                1 process
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Repositories title"
-            >
-              Repositories
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Repositories value"
-            >
-              <a
-                href="http://localhost:5000//repositories"
-              >
-                1 enabled / 1 disabled
-              </a>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
+              <CardBody>
+                <div
+                  className="pf-c-card__body"
+                >
+                  <Stack
+                    hasGutter={true}
+                  >
+                    <div
+                      className="pf-l-stack pf-m-gutter"
+                    >
+                      <StackItem>
+                        <div
+                          className="pf-l-stack__item"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <Text
+                                component="h1"
+                              >
+                                <h1
+                                  className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-3"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
+                                >
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Installed packages title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Installed packages title"
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Installed packages value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Installed packages value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="package"
+                                        target="installed_packages"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//installed_packages"
+                                          onClick={[Function]}
+                                        >
+                                          1 package
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Services title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Services title"
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Services value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Services value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="service"
+                                        target="services"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//services"
+                                          onClick={[Function]}
+                                        >
+                                          1 service
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Running processes title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Running processes title"
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Running processes value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Running processes value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        plural="processes"
+                                        singular="process"
+                                        target="running_processes"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//running_processes"
+                                          onClick={[Function]}
+                                        >
+                                          1 process
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Repositories title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Repositories title"
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Repositories value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Repositories value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        target="repositories"
+                                        value="1 enabled / 1 disabled"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//repositories"
+                                          onClick={[Function]}
+                                        >
+                                          1 enabled / 1 disabled
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                    </div>
+                  </Stack>
+                </div>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;
 
 exports[`ConfigurationCard should render extra 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<MemoryRouter>
+  <Router
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
+      Object {
+        "action": "POP",
+        "createHref": [Function],
+        "createURL": [Function],
+        "encodeLocation": [Function],
+        "go": [Function],
+        "index": 0,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "key": "default",
+          "pathname": "/",
+          "search": "",
+          "state": null,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
   >
-    <div
-      class="pf-l-stack pf-m-gutter"
+    <Connect(ConfigurationCardCore)
+      detailLoaded={false}
+      extra={
+        Array [
+          Object {
+            "title": "something",
+            "value": "test",
+          },
+          Object {
+            "onClick": [Function],
+            "title": "with click",
+            "value": "1 tests",
+          },
+        ]
+      }
+      handleClick={[Function]}
+      hasPackages={true}
+      hasProcesses={true}
+      hasRepositories={true}
+      hasServices={true}
+      store={
+        Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        }
+      }
     >
-      <div
-        class="pf-l-stack__item"
+      <ConfigurationCardCore
+        configuration={
+          Object {
+            "packages": Array [
+              "packages",
+            ],
+            "processes": Array [
+              "processes",
+            ],
+            "repositories": Object {
+              "disabled": Array [],
+              "enabled": Array [
+                Object {
+                  "base_url": "test-url",
+                  "enabled": true,
+                  "gpgcheck": true,
+                  "name": "test-name",
+                },
+              ],
+            },
+            "services": Array [
+              "services",
+            ],
+          }
+        }
+        detailLoaded={true}
+        dispatch={[Function]}
+        extra={
+          Array [
+            Object {
+              "title": "something",
+              "value": "test",
+            },
+            Object {
+              "onClick": [Function],
+              "title": "with click",
+              "value": "1 tests",
+            },
+          ]
+        }
+        handleClick={[Function]}
+        hasPackages={true}
+        hasProcesses={true}
+        hasRepositories={true}
+        hasServices={true}
+        store={
+          Object {
+            "clearActions": [Function],
+            "dispatch": [Function],
+            "getActions": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+          }
+        }
       >
-        <div
-          class="pf-c-content"
+        <LoadingCard
+          isLoading={false}
+          items={
+            Array [
+              Object {
+                "onClick": [Function],
+                "singular": "package",
+                "target": "installed_packages",
+                "title": "Installed packages",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "singular": "service",
+                "target": "services",
+                "title": "Services",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "plural": "processes",
+                "singular": "process",
+                "target": "running_processes",
+                "title": "Running processes",
+                "value": 1,
+              },
+              Object {
+                "onClick": [Function],
+                "target": "repositories",
+                "title": "Repositories",
+                "value": "1 enabled",
+              },
+              Object {
+                "title": "something",
+                "value": "test",
+              },
+              Object {
+                "onClick": [Function],
+                "title": "with click",
+                "value": "1 tests",
+              },
+            ]
+          }
+          title="Configuration"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-13"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <Card
+            ouiaId="system-properties-card"
           >
-            Configuration
-          </h1>
-        </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
-        <div
-          class="pf-c-content"
-        >
-          <dl
-            class=""
-          >
-            <dt
-              class=""
-              data-ouia-component-id="Installed packages title"
+            <article
+              className="pf-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF4/Card"
+              data-ouia-safe={true}
+              id=""
             >
-              Installed packages
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Installed packages value"
-            >
-              <a
-                href="http://localhost:5000//installed_packages"
-              >
-                1 package
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Services title"
-            >
-              Services
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Services value"
-            >
-              <a
-                href="http://localhost:5000//services"
-              >
-                1 service
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Running processes title"
-            >
-              Running processes
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Running processes value"
-            >
-              <a
-                href="http://localhost:5000//running_processes"
-              >
-                1 process
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Repositories title"
-            >
-              Repositories
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Repositories value"
-            >
-              <a
-                href="http://localhost:5000//repositories"
-              >
-                1 enabled
-              </a>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="something title"
-            >
-              something
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="something value"
-            >
-              test
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="with click title"
-            >
-              with click
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="with click value"
-            >
-              <a
-                href="http://localhost:5000//undefined"
-              >
-                1 tests
-              </a>
-            </dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</article>
+              <CardBody>
+                <div
+                  className="pf-c-card__body"
+                >
+                  <Stack
+                    hasGutter={true}
+                  >
+                    <div
+                      className="pf-l-stack pf-m-gutter"
+                    >
+                      <StackItem>
+                        <div
+                          className="pf-l-stack__item"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <Text
+                                component="h1"
+                              >
+                                <h1
+                                  className=""
+                                  data-ouia-component-id="OUIA-Generated-Text-13"
+                                  data-ouia-component-type="PF4/Text"
+                                  data-ouia-safe={true}
+                                  data-pf-content={true}
+                                >
+                                  Configuration
+                                </h1>
+                              </Text>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                      <StackItem
+                        isFilled={true}
+                      >
+                        <div
+                          className="pf-l-stack__item pf-m-fill"
+                        >
+                          <TextContent>
+                            <div
+                              className="pf-c-content"
+                            >
+                              <TextList
+                                component="dl"
+                              >
+                                <dl
+                                  className=""
+                                >
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Installed packages title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Installed packages title"
+                                    >
+                                      Installed packages
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Installed packages value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Installed packages value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="package"
+                                        target="installed_packages"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//installed_packages"
+                                          onClick={[Function]}
+                                        >
+                                          1 package
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Services title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Services title"
+                                    >
+                                      Services
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Services value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Services value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        singular="service"
+                                        target="services"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//services"
+                                          onClick={[Function]}
+                                        >
+                                          1 service
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Running processes title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Running processes title"
+                                    >
+                                      Running processes
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Running processes value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Running processes value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        plural="processes"
+                                        singular="process"
+                                        target="running_processes"
+                                        value={1}
+                                      >
+                                        <a
+                                          href="http://localhost:5000//running_processes"
+                                          onClick={[Function]}
+                                        >
+                                          1 process
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="Repositories title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Repositories title"
+                                    >
+                                      Repositories
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Repositories value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Repositories value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        target="repositories"
+                                        value="1 enabled"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//repositories"
+                                          onClick={[Function]}
+                                        >
+                                          1 enabled
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="something title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="something title"
+                                    >
+                                      something
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="something value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="something value"
+                                    >
+                                      test
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="with click title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="with click title"
+                                    >
+                                      with click
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="with click value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="with click value"
+                                    >
+                                      <Clickable
+                                        onClick={[Function]}
+                                        value="1 tests"
+                                      >
+                                        <a
+                                          href="http://localhost:5000//undefined"
+                                          onClick={[Function]}
+                                        >
+                                          1 tests
+                                        </a>
+                                      </Clickable>
+                                    </dd>
+                                  </TextListItem>
+                                </dl>
+                              </TextList>
+                            </div>
+                          </TextContent>
+                        </div>
+                      </StackItem>
+                    </div>
+                  </Stack>
+                </div>
+              </CardBody>
+            </article>
+          </Card>
+        </LoadingCard>
+      </ConfigurationCardCore>
+    </Connect(ConfigurationCardCore)>
+  </Router>
+</MemoryRouter>
 `;

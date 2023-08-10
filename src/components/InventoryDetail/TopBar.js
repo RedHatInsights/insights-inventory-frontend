@@ -22,6 +22,7 @@ import { redirectToInventoryList } from './helpers';
 import { useDispatch } from 'react-redux';
 import { toggleDrawer } from '../../store/actions';
 import { NO_MODIFY_HOST_TOOLTIP_MESSAGE } from '../../constants';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 /**
  * Top inventory bar with title, buttons (namely remove from inventory and inventory detail button) and actions.
@@ -45,6 +46,7 @@ const TopBar = ({
   showTags,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useInsightsNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inventoryActions = [
@@ -170,7 +172,7 @@ const TopBar = ({
               dismissable: false,
             });
             deleteEntity([entity.id], entity.display_name, () =>
-              redirectToInventoryList(entity.id, onBackToListClick)
+              redirectToInventoryList(entity.id, onBackToListClick, navigate)
             );
             setIsModalOpen(false);
           }}

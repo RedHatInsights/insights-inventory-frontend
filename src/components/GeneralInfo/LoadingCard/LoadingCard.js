@@ -18,6 +18,7 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { useHistory, useLocation } from 'react-router-dom';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 const valueToText = (value, singular, plural) => {
   if ((value || value === 0) && singular) {
@@ -34,7 +35,7 @@ const valueToText = (value, singular, plural) => {
 };
 
 export const Clickable = ({ value, target, plural, singular, onClick }) => {
-  const history = useHistory();
+  const navigate = useInsightsNavigate();
   const { pathname } = useLocation();
   const modalId = pathname.split('/').pop();
   useEffect(() => {
@@ -46,7 +47,7 @@ export const Clickable = ({ value, target, plural, singular, onClick }) => {
     <a
       onClick={(event) => {
         event.preventDefault();
-        history.push(`${pathname}/${target}`);
+        navigate(`${pathname}/${target}`);
       }}
       href={`${window.location.origin}${window.location.pathname}/${target}`}
     >

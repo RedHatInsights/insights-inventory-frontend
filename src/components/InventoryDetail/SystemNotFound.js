@@ -10,12 +10,14 @@ import {
 } from '@patternfly/react-core';
 import CubesIcon from '@patternfly/react-icons/dist/js/icons/cubes-icon';
 import { redirectToInventoryList } from './helpers';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 /**
  * Empty state when system was not found in inventory.
  * @param {*} params - inventoryId and onBackToListClick.
  */
 const SystemNotFound = ({ inventoryId, onBackToListClick }) => {
+  const navigate = useInsightsNavigate();
   return (
     <EmptyState variant={EmptyStateVariant.full}>
       <EmptyStateIcon icon={CubesIcon} />
@@ -27,7 +29,9 @@ const SystemNotFound = ({ inventoryId, onBackToListClick }) => {
       </EmptyStateBody>
       <Button
         variant="primary"
-        onClick={() => redirectToInventoryList(inventoryId, onBackToListClick)}
+        onClick={() =>
+          redirectToInventoryList(inventoryId, onBackToListClick, navigate)
+        }
       >
         Back to previous page
       </Button>

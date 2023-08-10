@@ -1,19 +1,16 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { mount, render } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import OperatingSystemCard from './OperatingSystemCard';
 import configureStore from 'redux-mock-store';
 import { osTest, rhsmFacts } from '../../../__mocks__/selectors';
+import { mountWithRouter } from '../../../Utilities/TestingUtilities';
 
 const location = {};
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
-  useHistory: () => ({
-    push: () => undefined,
-  }),
 }));
 
 describe('OperatingSystemCard', () => {
@@ -42,13 +39,13 @@ describe('OperatingSystemCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(<OperatingSystemCard store={store} />);
+    const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<OperatingSystemCard store={store} />);
+    const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -64,7 +61,7 @@ describe('OperatingSystemCard', () => {
         entity: {},
       },
     });
-    const wrapper = render(<OperatingSystemCard store={store} />);
+    const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -77,14 +74,14 @@ describe('OperatingSystemCard', () => {
         },
       },
     });
-    const wrapper = render(<OperatingSystemCard store={store} />);
+    const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   describe('api', () => {
     it('should not render modules clickable', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(<OperatingSystemCard store={store} />);
+      const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
       expect(wrapper.find('dd a')).toHaveLength(0);
     });
 
@@ -109,7 +106,7 @@ describe('OperatingSystemCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/kernel_modules';
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <OperatingSystemCard handleClick={onClick} store={store} />
       );
       wrapper.find('dd a').first().simulate('click');
@@ -126,7 +123,7 @@ describe('OperatingSystemCard', () => {
   ].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
-      const wrapper = render(
+      const wrapper = mountWithRouter(
         <OperatingSystemCard store={store} {...{ [item]: false }} />
       );
       expect(toJson(wrapper)).toMatchSnapshot();
@@ -135,7 +132,7 @@ describe('OperatingSystemCard', () => {
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <OperatingSystemCard
         store={store}
         extra={[

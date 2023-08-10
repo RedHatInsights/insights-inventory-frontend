@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid, GridItem, Modal } from '@patternfly/react-core';
 import { SortByDirection } from '@patternfly/react-table';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
@@ -16,7 +16,9 @@ import { ConfigurationCard } from '../ConfigurationCard';
 import { SystemStatusCard } from '../SystemStatusCard';
 import { DataCollectorsCard } from '../DataCollectorsCard/DataCollectorsCard';
 import { Provider } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+
 import './general-information.scss';
 
 class GeneralInformation extends Component {
@@ -52,7 +54,7 @@ class GeneralInformation extends Component {
     rows &&
       this.onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
     if (this.state.isModalOpen) {
-      this.props.history.push(
+      this.props.navigate(
         this.props.location.pathname.split('/').slice(0, -1).join('/')
       );
     }
@@ -160,7 +162,6 @@ class GeneralInformation extends Component {
                     />
                   </GridItem>
                 )}
-
                 {CollectionCardWrapper && (
                   <GridItem>
                     <CollectionCardWrapper
@@ -244,7 +245,7 @@ GeneralInformation.propTypes = {
     PropTypes.bool,
   ]),
   children: PropTypes.node,
-  history: PropTypes.any,
+  navigate: PropTypes.any,
   location: PropTypes.any,
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
@@ -264,13 +265,21 @@ GeneralInformation.defaultProps = {
   showImageDetails: false,
 };
 
-const mapStateToProps = ({ entityDetails: { entity } }) => ({
-  entity,
-});
-const mapDispatchToProps = (dispatch) => ({
-  loadSystemDetail: (itemId) => dispatch(systemProfile(itemId)),
-});
+const GeneralInformationComponent = (props) => {
+  const navigate = useInsightsNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const entity = useSelector(({ entityDetails }) => entityDetails.entity);
+  const loadSystemDetail = (itemId) => dispatch(systemProfile(itemId));
+  return (
+    <GeneralInformation
+      {...props}
+      navigate={navigate}
+      location={location}
+      entity={entity}
+      loadSystemDetail={loadSystemDetail}
+    />
+  );
+};
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(GeneralInformation)
-);
+export default GeneralInformationComponent;

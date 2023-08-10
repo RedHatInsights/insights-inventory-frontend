@@ -15,7 +15,7 @@ import {
 } from '@redhat-cloud-services/frontend-components';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { routes } from '../../Routes';
 import PropTypes from 'prop-types';
 import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
@@ -26,9 +26,11 @@ import {
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
 } from '../../constants';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 const GroupDetailHeader = ({ groupId }) => {
   const dispatch = useDispatch();
+  const navigate = useInsightsNavigate();
   const { uninitialized, loading, data } = useSelector(
     (state) => state.groupDetail
   );
@@ -61,8 +63,6 @@ const GroupDetailHeader = ({ groupId }) => {
     return groupId;
   };
 
-  const history = useHistory();
-
   return (
     <PageHeader>
       {renameModalOpen && (
@@ -80,7 +80,7 @@ const GroupDetailHeader = ({ groupId }) => {
         <DeleteGroupModal
           isModalOpen={deleteModalOpen}
           setIsModalOpen={() => setDeleteModalOpen(false)}
-          reloadData={() => history.push('/groups')}
+          reloadData={() => navigate('/groups')}
           groupIds={[groupId]}
         />
       )}
