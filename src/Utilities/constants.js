@@ -86,11 +86,13 @@ export const rhcdOptions = [
   { label: 'Inactive', value: 'nil' },
 ];
 
-export const updateMethodOptions = [
+const initUpdateMethodOptions = [
   { label: 'yum', value: 'yum' },
   { label: 'dnf', value: 'dnf' },
   { label: 'rpm-ostree', value: 'rpm-ostree' },
 ];
+
+export const updateMethodOptions = initUpdateMethodOptions;
 
 export function filterToGroup(filter = [], valuesKey = 'values') {
   return filter.reduce(

@@ -1,5 +1,9 @@
-import { useState } from 'react';
-import { UPDATE_METHOD_KEY, updateMethodOptions } from '../../Utilities/index';
+import { useMemo, useState } from 'react';
+import {
+  UPDATE_METHOD_KEY,
+  updateMethodOptions as defaultUpdateMethodOptions,
+} from '../../Utilities/index';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 export const updateMethodFilterState = { updateMethodFilter: null };
 export const UPDATE_METHOD_FILTER = 'UPDATE_METHOD_FILTER';
@@ -12,6 +16,15 @@ export const updateMethodFilterReducer = (_state, { type, payload }) => ({
 export const useUpdateMethodFilter = (
   [state, dispatch] = [updateMethodFilterState]
 ) => {
+  const EdgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter'
+  );
+  const updateMethodOptions = useMemo(() => {
+    return EdgeParityFilterDeviceEnabled
+      ? defaultUpdateMethodOptions.filter(({ value }) => value !== 'rpm-ostree')
+      : defaultUpdateMethodOptions;
+  }, [EdgeParityFilterDeviceEnabled]);
+
   let [filterStateValue, setStateValue] = useState([]);
   const updateMethodValue = dispatch
     ? state.updateMethodFilter

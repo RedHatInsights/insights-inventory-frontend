@@ -4,6 +4,10 @@ import { useUpdateMethodFilter } from './useUpdateMethodFilter';
 import { UPDATE_METHOD_KEY, updateMethodOptions } from '../../Utilities';
 import { mount } from 'enzyme';
 
+jest.mock('../../Utilities/useFeatureFlag', () => ({
+  __esModule: true,
+  default: () => false,
+}));
 const HookRender = ({ hookAccessor, hookNotify }) => {
   const [filter, chip, value, setValue] = useUpdateMethodFilter();
   useEffect(() => {
