@@ -59,7 +59,11 @@ const checkSelectedNumber = (number) =>
   checkSelectedNumber_(number, '#bulk-select-systems-toggle-checkbox-text');
 
 const mountTable = () =>
-  cy.mountWithContext(GroupSystems, {}, { groupName: GROUP_NAME });
+  cy.mountWithContext(
+    GroupSystems,
+    {},
+    { groupName: GROUP_NAME, groupId: TEST_ID }
+  );
 
 const waitForTable = (waitNetwork = false) => {
   if (waitNetwork) {
@@ -463,20 +467,14 @@ describe('integration with rbac', () => {
     });
 
     it('no way to add or remove systems', () => {
-      cy.get('button')
-        .contains('Add systems')
-        .should('have.class', 'pf-m-aria-disabled');
+      cy.get('button').contains('Add systems').shouldHaveAriaDisabled();
       cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
-      cy.get('button')
-        .contains('Remove from group')
-        .should('have.class', 'pf-m-aria-disabled');
+      cy.get('button').contains('Remove from group').shouldHaveAriaDisabled();
     });
 
     it('per-row dropdown should be disabled', () => {
       cy.get(ROW).eq(1).find(DROPDOWN).click();
-      cy.get('button')
-        .contains('Remove from group')
-        .should('have.class', 'pf-m-aria-disabled');
+      cy.get('button').contains('Remove from group').shouldHaveAriaDisabled();
     });
   });
 
@@ -500,26 +498,8 @@ describe('integration with rbac', () => {
       cy.get(DROPDOWN_ITEM).contains('Remove from group').should('be.enabled');
     });
 
-    it('no way to add systems', () => {
-      cy.get('button')
-        .contains('Add systems')
-        .should('have.class', 'pf-m-aria-disabled');
-    });
-  });
-
-  describe('has additional hosts read permissions', () => {
-    before(() => {
-      cy.mockWindowChrome({
-        userPermissions: [
-          ...READ_PERMISSIONS_WITH_RD,
-          ...WRITE_PERMISSIONS_WITH_RD,
-          'inventory:hosts:read',
-        ],
-      });
-    });
-
-    it('can add systems', () => {
-      cy.get('button').contains('Add systems').should('be.enabled');
+    it('add systems button is enabled', () => {
+      cy.get('button').contains('Add systems').shouldHaveAriaEnabled();
     });
   });
 });
