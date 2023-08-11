@@ -210,6 +210,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                   resetTable();
                   setAddToGroupModalOpen(true);
                 }}
+                ouiaId="add-systems-button"
               >
                 Add systems
               </ActionButton>,
