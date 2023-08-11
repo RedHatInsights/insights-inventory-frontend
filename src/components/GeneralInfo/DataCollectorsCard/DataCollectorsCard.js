@@ -81,7 +81,7 @@ const DataCollectorsCardCore = ({
                     {collector.updated ? (
                       <DateFormat date={collector.updated} type="exact" />
                     ) : (
-                      'N/A'
+                      '--'
                     )}
                   </Td>
                 </Tr>
@@ -95,7 +95,7 @@ const DataCollectorsCardCore = ({
                             {`${collector.details.name}:`}
                           </FlexItem>
                           <FlexItem grow={{ default: 'grow' }}>
-                            {collector.details.id ?? 'N/A'}
+                            {collector.details.id ?? '--'}
                           </FlexItem>
                         </Flex>
                       </ExpandableRowContent>

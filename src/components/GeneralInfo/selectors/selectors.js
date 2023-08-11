@@ -114,7 +114,7 @@ export const getCollectorStatus = (collectorStaleness) => {
     ? verifyCollectorStaleness(collectorStaleness) !== 'Fresh'
       ? 'Stale'
       : 'Active'
-    : 'N/A';
+    : '--';
 };
 
 export const getDefaultCollectors = (entity) =>

@@ -653,13 +653,13 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -691,7 +691,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -754,13 +754,13 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -792,7 +792,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -823,13 +823,13 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -1730,13 +1730,13 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -1768,7 +1768,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -1831,13 +1831,13 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -1869,7 +1869,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -1900,13 +1900,13 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -2892,13 +2892,13 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -2930,7 +2930,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -2993,13 +2993,13 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -3031,7 +3031,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -3062,13 +3062,13 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -3820,13 +3820,13 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -3858,7 +3858,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -3921,13 +3921,13 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -3959,7 +3959,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -3990,13 +3990,13 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -4982,13 +4982,13 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -5020,7 +5020,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -5083,13 +5083,13 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -5121,7 +5121,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -5152,13 +5152,13 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -5744,13 +5744,13 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -5782,7 +5782,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -5845,13 +5845,13 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -5883,7 +5883,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -5914,13 +5914,13 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -6906,13 +6906,13 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -6944,7 +6944,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -7007,13 +7007,13 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -7045,7 +7045,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -7076,13 +7076,13 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -7990,13 +7990,13 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -8028,7 +8028,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -8091,13 +8091,13 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -8129,7 +8129,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -8160,13 +8160,13 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -9159,13 +9159,13 @@ exports[`GeneralInformation custom components should render custom Configuration
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -9197,7 +9197,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -9260,13 +9260,13 @@ exports[`GeneralInformation custom components should render custom Configuration
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -9298,7 +9298,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -9329,13 +9329,13 @@ exports[`GeneralInformation custom components should render custom Configuration
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -10101,13 +10101,13 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -10139,7 +10139,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -10202,13 +10202,13 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -10240,7 +10240,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -10271,13 +10271,13 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -11263,13 +11263,13 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -11301,7 +11301,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -11364,13 +11364,13 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -11402,7 +11402,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -11433,13 +11433,13 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -12039,13 +12039,13 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -12077,7 +12077,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -12140,13 +12140,13 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -12178,7 +12178,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -12209,13 +12209,13 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -13258,13 +13258,13 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -13296,7 +13296,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -13359,13 +13359,13 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -13397,7 +13397,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -13428,13 +13428,13 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>
@@ -14474,13 +14474,13 @@ exports[`GeneralInformation should render correctly 1`] = `
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -14512,7 +14512,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -14575,13 +14575,13 @@ exports[`GeneralInformation should render correctly 1`] = `
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                       <tr
@@ -14613,7 +14613,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                               <div
                                 class="pf-m-grow"
                               >
-                                N/A
+                                --
                               </div>
                             </div>
                           </div>
@@ -14644,13 +14644,13 @@ exports[`GeneralInformation should render correctly 1`] = `
                           class=""
                           data-label="Status"
                         >
-                          N/A
+                          --
                         </td>
                         <td
                           class=""
                           data-label="Last upload"
                         >
-                          N/A
+                          --
                         </td>
                       </tr>
                     </tbody>

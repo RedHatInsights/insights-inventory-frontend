@@ -131,13 +131,13 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                 class=""
                 data-label="Status"
               >
-                N/A
+                --
               </td>
               <td
                 class=""
                 data-label="Last upload"
               >
-                N/A
+                --
               </td>
             </tr>
             <tr
@@ -169,7 +169,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                     <div
                       class="pf-m-grow"
                     >
-                      N/A
+                      --
                     </div>
                   </div>
                 </div>
@@ -232,13 +232,13 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                 class=""
                 data-label="Status"
               >
-                N/A
+                --
               </td>
               <td
                 class=""
                 data-label="Last upload"
               >
-                N/A
+                --
               </td>
             </tr>
             <tr
@@ -270,7 +270,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                     <div
                       class="pf-m-grow"
                     >
-                      N/A
+                      --
                     </div>
                   </div>
                 </div>
@@ -301,13 +301,13 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                 class=""
                 data-label="Status"
               >
-                N/A
+                --
               </td>
               <td
                 class=""
                 data-label="Last upload"
               >
-                N/A
+                --
               </td>
             </tr>
           </tbody>
@@ -550,13 +550,13 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                 class=""
                 data-label="Status"
               >
-                N/A
+                --
               </td>
               <td
                 class=""
                 data-label="Last upload"
               >
-                N/A
+                --
               </td>
             </tr>
             <tr
@@ -588,7 +588,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                     <div
                       class="pf-m-grow"
                     >
-                      N/A
+                      --
                     </div>
                   </div>
                 </div>
@@ -619,13 +619,13 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                 class=""
                 data-label="Status"
               >
-                N/A
+                --
               </td>
               <td
                 class=""
                 data-label="Last upload"
               >
-                N/A
+                --
               </td>
             </tr>
           </tbody>

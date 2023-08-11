@@ -61,7 +61,7 @@ export const prepareColumns = (initialColumns, hideGroupColumn) => {
     sortKey: 'update_method',
     transforms: [fitContent],
     renderFunc: (value, hostId, systemData) =>
-      systemData?.system_profile?.system_update_method || 'N/A',
+      systemData?.system_profile?.system_update_method || '--',
     props: {
       // TODO: remove isStatic when the sorting is supported by API
       isStatic: true,

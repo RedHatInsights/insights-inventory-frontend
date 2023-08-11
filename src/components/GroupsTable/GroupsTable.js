@@ -161,10 +161,10 @@ const GroupsTable = () => {
           <Link to={`groups/${group.id}`}>{group.name || group.id}</Link>
         </span>,
         <span key={index}>
-          {isNil(group.host_count) ? 'N/A' : group.host_count.toString()}
+          {isNil(group.host_count) ? '--' : group.host_count.toString()}
         </span>,
         <span key={index}>
-          {isNil(group.updated) ? 'N/A' : <DateFormat date={group.updated} />}
+          {isNil(group.updated) ? '--' : <DateFormat date={group.updated} />}
         </span>,
       ],
       groupId: group.id,
