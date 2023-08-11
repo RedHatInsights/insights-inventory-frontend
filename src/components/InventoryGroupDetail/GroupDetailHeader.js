@@ -16,7 +16,6 @@ import {
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { routes } from '../../Routes';
 import PropTypes from 'prop-types';
 import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
 import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
@@ -86,7 +85,7 @@ const GroupDetailHeader = ({ groupId }) => {
       )}
       <Breadcrumb>
         <BreadcrumbItem>
-          <Link to={routes.groups}>Groups</Link>
+          <Link to="../groups">Groups</Link>
         </BreadcrumbItem>
         <BreadcrumbItem isActive>{getTitle()}</BreadcrumbItem>
       </Breadcrumb>

@@ -10,7 +10,6 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { routes } from '../Routes';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import {
   AdvisorTab,
@@ -66,7 +65,7 @@ const appList = [
 const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
   <Breadcrumb ouiaId="systems-list">
     <BreadcrumbItem>
-      <Link to={routes.table}>Systems</Link>
+      <Link to="..">Systems</Link>
     </BreadcrumbItem>
     <BreadcrumbItem isActive>
       <div className="ins-c-inventory__detail--breadcrumb-name">
