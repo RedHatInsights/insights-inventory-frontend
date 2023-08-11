@@ -21,10 +21,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { hosts } from '../../../api/api';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
-
+const mockNavigate = jest.fn();
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
   () => ({
@@ -35,7 +34,7 @@ jest.mock(
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate',
-  () => jest.fn()
+  () => () => mockNavigate
 );
 
 const location = {};
@@ -95,180 +94,179 @@ describe('GeneralInformation', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    // const wrapper = render(
-    //   <MemoryRouter>
-    //     <Provider store={store}>
-    //       <GeneralInformation inventoryId={'test-id'} />
-    //     </Provider>
-    //   </MemoryRouter>
-    // );
-    // expect(toJson(wrapper)).toMatchSnapshot();
+    const wrapper = render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <GeneralInformation inventoryId={'test-id'} />
+        </Provider>
+      </MemoryRouter>
+    );
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 
-  // it('should render correctly', () => {
-  //   const store = mockStore(initialState);
-  //   const wrapper = render(
-  //     <MemoryRouter>
-  //       <Provider store={store}>
-  //         <GeneralInformation />
-  //       </Provider>
-  //     </MemoryRouter>
-  //   );
-  //   expect(toJson(wrapper)).toMatchSnapshot();
-  // });
+  it('should render correctly', () => {
+    const store = mockStore(initialState);
+    const wrapper = render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <GeneralInformation />
+        </Provider>
+      </MemoryRouter>
+    );
+    expect(toJson(wrapper)).toMatchSnapshot();
+  });
 
-  // describe('custom components', () => {
-  //   [
-  //     'SystemCardWrapper',
-  //     'OperatingSystemCardWrapper',
-  //     'BiosCardWrapper',
-  //     'InfrastructureCardWrapper',
-  //     'ConfigurationCardWrapper',
-  //     'CollectionCardWrapper',
-  //   ].map((item) => {
-  //     it(`should not render ${item}`, () => {
-  //       const store = mockStore(initialState);
-  //       const wrapper = render(
-  //         <MemoryRouter>
-  //           <Provider store={store}>
-  //             <GeneralInformation
-  //               {...{ [item]: false }}
-  //               inventoryId={'test-id'}
-  //             />
-  //           </Provider>
-  //         </MemoryRouter>
-  //       );
-  //       expect(toJson(wrapper)).toMatchSnapshot();
-  //     });
+  describe('custom components', () => {
+    [
+      'SystemCardWrapper',
+      'OperatingSystemCardWrapper',
+      'BiosCardWrapper',
+      'InfrastructureCardWrapper',
+      'ConfigurationCardWrapper',
+      'CollectionCardWrapper',
+    ].map((item) => {
+      it(`should not render ${item}`, () => {
+        const store = mockStore(initialState);
+        const wrapper = render(
+          <MemoryRouter>
+            <Provider store={store}>
+              <GeneralInformation
+                {...{ [item]: false }}
+                inventoryId={'test-id'}
+              />
+            </Provider>
+          </MemoryRouter>
+        );
+        expect(toJson(wrapper)).toMatchSnapshot();
+      });
 
-  //     it(`should render custom ${item}`, () => {
-  //       const store = mockStore(initialState);
-  //       const wrapper = render(
-  //         <MemoryRouter>
-  //           <Provider store={store}>
-  //             <GeneralInformation
-  //               {...{ [item]: () => <div>test</div> }}
-  //               inventoryId={'test-id'}
-  //             />
-  //           </Provider>
-  //         </MemoryRouter>
-  //       );
-  //       expect(toJson(wrapper)).toMatchSnapshot();
-  //     });
-  //   });
-  // });
+      it(`should render custom ${item}`, () => {
+        const store = mockStore(initialState);
+        const wrapper = render(
+          <MemoryRouter>
+            <Provider store={store}>
+              <GeneralInformation
+                {...{ [item]: () => <div>test</div> }}
+                inventoryId={'test-id'}
+              />
+            </Provider>
+          </MemoryRouter>
+        );
+        expect(toJson(wrapper)).toMatchSnapshot();
+      });
+    });
+  });
 
-  // describe('API', () => {
-  //   mock
-  //     .onGet('/api/inventory/v1/hosts/test-id/system_profile')
-  //     .reply(200, mockedData);
-  //   it('should get data from server', () => {
-  //     const store = mockStore({
-  //       systemProfileStore: {},
-  //       entityDetails: {
-  //         entity: {
-  //           id: 'test-id',
-  //           per_reporter_staleness: {},
-  //         },
-  //       },
-  //     });
-  //     mount(
-  //       <MemoryRouter>
-  //         <Provider store={store}>
-  //           <GeneralInformation inventoryId={'test-id'} />
-  //         </Provider>
-  //       </MemoryRouter>
-  //     );
-  //     expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
-  //   });
+  describe('API', () => {
+    mock
+      .onGet('/api/inventory/v1/hosts/test-id/system_profile')
+      .reply(200, mockedData);
+    it('should get data from server', () => {
+      const store = mockStore({
+        systemProfileStore: {},
+        entityDetails: {
+          entity: {
+            id: 'test-id',
+            per_reporter_staleness: {},
+          },
+        },
+      });
+      mount(
+        <MemoryRouter>
+          <Provider store={store}>
+            <GeneralInformation inventoryId={'test-id'} />
+          </Provider>
+        </MemoryRouter>
+      );
+      expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
+    });
 
-  //   it('should open modal', () => {
-  //     const store = mockStore(initialState);
-  //     location.pathname = 'localhost:3000/example/interfaces';
-  //     const navigate = useInsightsNavigate();
+    it('should open modal', () => {
+      const store = mockStore(initialState);
+      location.pathname = 'localhost:3000/example/interfaces';
 
-  //     const wrapper = mount(
-  //       <MemoryRouter>
-  //         <Provider store={store}>
-  //           <GeneralInformation inventoryId={'test-id'} />
-  //         </Provider>
-  //       </MemoryRouter>
-  //     );
-  //     wrapper.find('a[href$="interfaces"]').first().simulate('click');
-  //     expect(navigate).toBeCalledWith(`${location.pathname}/interfaces`);
-  //     wrapper.update();
-  //     expect(
-  //       wrapper.find('GeneralInformation').instance().state.isModalOpen
-  //     ).toBe(true);
-  //     expect(
-  //       wrapper.find('GeneralInformation').instance().state.modalTitle
-  //     ).toBe('Interfaces/NICs');
-  //   });
+      const wrapper = mount(
+        <MemoryRouter>
+          <Provider store={store}>
+            <GeneralInformation inventoryId={'test-id'} />
+          </Provider>
+        </MemoryRouter>
+      );
+      wrapper.find('a[href$="interfaces"]').first().simulate('click');
+      expect(mockNavigate).toBeCalledWith(`${location.pathname}/interfaces`);
+      wrapper.update();
+      expect(
+        wrapper.find('GeneralInformation').instance().state.isModalOpen
+      ).toBe(true);
+      expect(
+        wrapper.find('GeneralInformation').instance().state.modalTitle
+      ).toBe('Interfaces/NICs');
+    });
 
-  //   it('should update on sort', () => {
-  //     const store = mockStore(initialState);
-  //     location.pathname = 'localhost:3000/example/interfaces';
-  //     const wrapper = mount(
-  //       <MemoryRouter>
-  //         <Provider store={store}>
-  //           <GeneralInformation inventoryId={'test-id'} />
-  //         </Provider>
-  //       </MemoryRouter>
-  //     );
-  //     wrapper.find('a[href$="interfaces"]').first().simulate('click');
-  //     wrapper.update();
-  //     const [firstRow, secondRow] = wrapper
-  //       .find('GeneralInformation')
-  //       .instance().state.rows;
-  //     wrapper.find('table th button').first().simulate('click');
-  //     wrapper.update();
-  //     expect(
-  //       wrapper.find('GeneralInformation').instance().state.rows[0]
-  //     ).toEqual(secondRow);
-  //     expect(
-  //       wrapper.find('GeneralInformation').instance().state.rows[1]
-  //     ).toEqual(firstRow);
-  //   });
+    it('should update on sort', () => {
+      const store = mockStore(initialState);
+      location.pathname = 'localhost:3000/example/interfaces';
+      const wrapper = mount(
+        <MemoryRouter>
+          <Provider store={store}>
+            <GeneralInformation inventoryId={'test-id'} />
+          </Provider>
+        </MemoryRouter>
+      );
+      wrapper.find('a[href$="interfaces"]').first().simulate('click');
+      wrapper.update();
+      const [firstRow, secondRow] = wrapper
+        .find('GeneralInformation')
+        .instance().state.rows;
+      wrapper.find('table th button').first().simulate('click');
+      wrapper.update();
+      expect(
+        wrapper.find('GeneralInformation').instance().state.rows[0]
+      ).toEqual(secondRow);
+      expect(
+        wrapper.find('GeneralInformation').instance().state.rows[1]
+      ).toEqual(firstRow);
+    });
 
-  //   it('should open modal', () => {
-  //     const store = mockStore(initialState);
-  //     location.pathname = 'localhost:3000/example/interfaces';
-  //     const wrapper = mount(
-  //       <MemoryRouter>
-  //         <Provider store={store}>
-  //           <GeneralInformation inventoryId={'test-id'} />
-  //         </Provider>
-  //       </MemoryRouter>
-  //     );
-  //     wrapper.find('a[href$="interfaces"]').first().simulate('click');
-  //     wrapper.update();
-  //     wrapper
-  //       .find('.ins-c-inventory__detail--dialog button.pf-m-plain')
-  //       .first()
-  //       .simulate('click');
-  //     wrapper.update();
-  //     expect(
-  //       wrapper.find('GeneralInformation').instance().state.isModalOpen
-  //     ).toBe(false);
-  //   });
+    it('should open modal', () => {
+      const store = mockStore(initialState);
+      location.pathname = 'localhost:3000/example/interfaces';
+      const wrapper = mount(
+        <MemoryRouter>
+          <Provider store={store}>
+            <GeneralInformation inventoryId={'test-id'} />
+          </Provider>
+        </MemoryRouter>
+      );
+      wrapper.find('a[href$="interfaces"]').first().simulate('click');
+      wrapper.update();
+      wrapper
+        .find('.ins-c-inventory__detail--dialog button.pf-m-plain')
+        .first()
+        .simulate('click');
+      wrapper.update();
+      expect(
+        wrapper.find('GeneralInformation').instance().state.isModalOpen
+      ).toBe(false);
+    });
 
-  //   it('should calculate first index when expandable', () => {
-  //     const store = mockStore(initialState);
-  //     const wrapper = mount(
-  //       <MemoryRouter>
-  //         <Provider store={store}>
-  //           <GeneralInformation inventoryId={'test-id'} />
-  //         </Provider>
-  //       </MemoryRouter>
-  //     );
-  //     wrapper
-  //       .find('GeneralInformation')
-  //       .instance()
-  //       .handleModalToggle('title', {
-  //         cells: [{ title: 'one' }, { title: 'two' }],
-  //         rows: [{ cells: ['a', 'aa'] }, { cells: ['b', 'bb'] }],
-  //         expandable: true,
-  //       });
-  //   });
-  // });
+    it('should calculate first index when expandable', () => {
+      const store = mockStore(initialState);
+      const wrapper = mount(
+        <MemoryRouter>
+          <Provider store={store}>
+            <GeneralInformation inventoryId={'test-id'} />
+          </Provider>
+        </MemoryRouter>
+      );
+      wrapper
+        .find('GeneralInformation')
+        .instance()
+        .handleModalToggle('title', {
+          cells: [{ title: 'one' }, { title: 'two' }],
+          rows: [{ cells: ['a', 'aa'] }, { cells: ['b', 'bb'] }],
+          expandable: true,
+        });
+    });
+  });
 });

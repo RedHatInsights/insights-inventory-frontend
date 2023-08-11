@@ -11,12 +11,19 @@ import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
 import { Provider } from 'react-redux';
 import { mountWithRouter } from '../../../Utilities/TestingUtilities';
-
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
+
+const location = { pathname: 'some-path' };
+const removeLabelledBy = ({
+  'aria-labelledby': labelledBy,
+  'aria-describedby': describedby,
+  id: id,
+  ...restProps
+}) => restProps;
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({ pathname: '' }),
+  useLocation: () => location,
 }));
 
 jest.mock(
@@ -66,9 +73,15 @@ describe('SystemCard', () => {
     const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
@@ -76,9 +89,15 @@ describe('SystemCard', () => {
     const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should render correctly with SAP IDS', () => {
@@ -95,9 +114,15 @@ describe('SystemCard', () => {
     const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should render correctly with rhsm facts', () => {
@@ -112,9 +137,15 @@ describe('SystemCard', () => {
     const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 
   describe('API', () => {
@@ -123,7 +154,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
@@ -144,7 +176,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
@@ -165,7 +198,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
@@ -177,7 +211,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper
         .find('a[href$="display_name"]')
@@ -204,7 +239,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper
         .find('a[href$="ansible_name"]')
@@ -225,7 +261,6 @@ describe('SystemCard', () => {
           .instance().props.isOpen
       ).toBe(true);
     });
-
     it('should call edit display name actions', () => {
       mock.onPatch('/api/inventory/v1/hosts/test-id').reply(200, mockedData);
       mock
@@ -235,7 +270,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper
         .find('a[href$="display_name"]')
@@ -256,7 +292,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper
         .find('a[href$="ansible_name"]')
@@ -285,7 +322,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard handleClick={handleClick} />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper.find('dd a').last().simulate('click');
       expect(handleClick).toHaveBeenCalledWith('SAP IDs (SID)', {
@@ -317,7 +355,8 @@ describe('SystemCard', () => {
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard handleClick={handleClick} />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper.find('dd a').last().simulate('click');
       expect(handleClick).toHaveBeenCalledWith('CPU flags', {
@@ -349,10 +388,17 @@ describe('SystemCard', () => {
       const store = mockStore(initialState);
       const wrapper = mountWithRouter(
         <Provider store={store}>
-          <SystemCard {...{ [item]: false }} />
-        </Provider>
+          <SystemCard />
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      expect(
+        toJson(wrapper, {
+          mode: 'deep',
+          map: removeLabelledBy,
+        })
+      ).toMatchSnapshot();
     })
   );
 
@@ -371,8 +417,15 @@ describe('SystemCard', () => {
             },
           ]}
         />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 });

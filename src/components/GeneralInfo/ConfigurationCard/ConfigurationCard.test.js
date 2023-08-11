@@ -66,7 +66,13 @@ describe('ConfigurationCard', () => {
       const wrapper = mountWithRouter(<ConfigurationCard store={store} />);
       wrapper.find('dd a').first().simulate('click');
       expect(onClick).not.toHaveBeenCalled();
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const removeLabelledBy = ({ key: key, ...restProps }) => restProps;
+      expect(
+        toJson(wrapper, {
+          mode: 'deep',
+          map: removeLabelledBy,
+        })
+      ).toMatchSnapshot();
     });
 
     it('should call handleClick on packages', () => {

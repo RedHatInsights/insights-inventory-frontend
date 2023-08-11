@@ -13,9 +13,6 @@ jest.mock('react-router-dom', () => ({
   useLocation: () => ({
     pathname: 'localhost:3000/example/path',
   }),
-  useHistory: () => ({
-    push: () => undefined,
-  }),
 }));
 
 describe('CollectionCard', () => {

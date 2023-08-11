@@ -31,7 +31,8 @@ import { InventoryTable as InventoryTableCmp } from '../components/InventoryTabl
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
-import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+//TODO: re-enable when edge app migrates away from useHistory (THEEDGE-3488)
+// import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { manageEdgeInventoryUrlName } from '../Utilities/edge';
@@ -520,7 +521,9 @@ const Inventory = ({
               eventKey={1}
               title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
             >
-              {/* <AsyncComponent
+              {/* 
+                //TODO: re-enable when edge app migrates away from useHistory (THEEDGE-3488)
+                <AsyncComponent
                 appName="edge"
                 module="./Inventory"
                 historyProp={useHistory}
