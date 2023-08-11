@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 const RenderWrapper = ({
   cmp: Component,
@@ -9,7 +9,10 @@ const RenderWrapper = ({
   store,
   ...props
 }) => {
-  const { hasAccess } = usePermissions('inventory', ['inventory:hosts:read']);
+  const { hasAccess } = usePermissionsWithContext([
+    'inventory:*:read',
+    'inventory:hosts:read',
+  ]);
 
   return (
     <Component
