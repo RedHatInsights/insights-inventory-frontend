@@ -157,7 +157,7 @@ const GroupsTable = () => {
     const newRows = groups.map((group, index) => ({
       cells: [
         <span key={index}>
-          <Link to={`groups/${group.id}`}>{group.name || group.id}</Link>
+          <Link to={group.id}>{group.name || group.id}</Link>
         </span>,
         <span key={index}>
           {isNil(group.host_count) ? 'N/A' : group.host_count.toString()}

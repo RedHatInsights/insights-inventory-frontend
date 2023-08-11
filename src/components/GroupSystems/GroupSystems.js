@@ -74,7 +74,7 @@ export const prepareColumns = (initialColumns, hideGroupColumn) => {
     hostId
   ) => (
     <div className="sentry-mask data-hj-suppress">
-      <Link to={`/${hostId}`}>{value}</Link>
+      <Link to={`../${hostId}`}>{value}</Link>
     </div>
   );
 
