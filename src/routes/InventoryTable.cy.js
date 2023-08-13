@@ -71,7 +71,7 @@ describe('test data', () => {
   });
 });
 
-const prepareTest = () => {
+const prepareTest = (waitNetwork = true) => {
   cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
     statusCode: 200,
     body: hostTagsFixtures,
@@ -85,7 +85,7 @@ const prepareTest = () => {
   groupsInterceptors['successful with some items']();
   hostsInterceptors.successful();
   mountTable();
-  waitForTable(true);
+  waitForTable(waitNetwork);
 };
 
 describe('inventory table', () => {
@@ -239,7 +239,7 @@ describe('inventory table', () => {
         });
       });
 
-      beforeEach(prepareTest);
+      beforeEach(() => prepareTest(false));
 
       it('all per-row actions are disabled', () => {
         cy.get(ROW).eq(1).find(DROPDOWN).click();
@@ -291,7 +291,7 @@ describe('inventory table', () => {
         });
       });
 
-      beforeEach(prepareTest);
+      beforeEach(() => prepareTest(false));
 
       it('can edit hosts that in the test group', () => {
         cy.get(ROW).eq(1).find(DROPDOWN).click();
@@ -338,6 +338,54 @@ describe('inventory table', () => {
         cy.get('button')
           .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
+      });
+
+      it('cannot add or remove from group', () => {
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaDisabled();
+      });
+    });
+
+    describe('with limited groups write permissions', () => {
+      before(() => {
+        cy.mockWindowChrome({
+          userPermissions: [
+            'inventory:*:read',
+            {
+              permission: 'inventory:groups:write',
+              resourceDefinitions: [
+                {
+                  attributeFilter: {
+                    key: 'group.id',
+                    operation: 'equal',
+                    value: TEST_GROUP_ID,
+                  },
+                },
+              ],
+            },
+          ],
+        });
+      });
+
+      beforeEach(() => prepareTest(false));
+
+      it('can remove from permitted group', () => {
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaEnabled();
+      });
+
+      it('add to group is enabled for ungroupped hosts', () => {
+        cy.get(ROW).eq(4).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaEnabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaDisabled();
       });
     });
 
