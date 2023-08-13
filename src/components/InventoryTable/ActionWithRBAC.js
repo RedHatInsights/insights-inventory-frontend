@@ -13,13 +13,17 @@ export const ActionButton = ({
   noAccessTooltip,
   checkAll,
   override,
+  ignoreResourceDefinitions,
   ...props
 }) => {
   const { hasAccess: enabled } =
     override !== undefined
       ? { hasAccess: override }
-      : usePermissionsWithContext(requiredPermissions, checkAll);
-
+      : usePermissionsWithContext(
+          requiredPermissions,
+          checkAll,
+          !ignoreResourceDefinitions
+        );
   return enabled ? (
     <Button {...props} />
   ) : (
@@ -34,6 +38,7 @@ ActionButton.propTypes = {
   noAccessTooltip: PropTypes.string,
   checkAll: PropTypes.bool,
   override: PropTypes.bool,
+  ignoreResourceDefinitions: PropTypes.bool,
 };
 
 ActionButton.defaultProps = {
@@ -45,12 +50,17 @@ export const ActionDropdownItem = ({
   noAccessTooltip,
   checkAll,
   override,
+  ignoreResourceDefinitions,
   ...props
 }) => {
   const { hasAccess: enabled } =
     override !== undefined
       ? { hasAccess: override }
-      : usePermissionsWithContext(requiredPermissions, checkAll);
+      : usePermissionsWithContext(
+          requiredPermissions,
+          checkAll,
+          !ignoreResourceDefinitions
+        );
 
   return enabled ? (
     <DropdownItem {...props} />
@@ -64,6 +74,7 @@ ActionDropdownItem.propTypes = {
   noAccessTooltip: PropTypes.string,
   checkAll: PropTypes.bool,
   override: PropTypes.bool,
+  ignoreResourceDefinitions: PropTypes.bool,
 };
 
 ActionDropdownItem.defaultProps = {

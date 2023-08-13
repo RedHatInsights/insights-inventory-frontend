@@ -49,6 +49,7 @@ import {
   ActionButton,
   ActionDropdownItem,
 } from '../components/InventoryTable/ActionWithRBAC';
+import uniq from 'lodash/uniq';
 
 const mapTags = ({ category, values }) =>
   values.map(
@@ -273,7 +274,13 @@ const Inventory = ({
   const isBulkRemoveFromGroupsEnabled = () => {
     return (
       calculateSelected() > 0 &&
-      Array.from(selected.values()).some(({ groups }) => groups.length > 0)
+      Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
+      uniq(
+        // can remove from at maximum one group at a time
+        Array.from(selected.values())
+          .filter(({ groups }) => groups.length > 0)
+          .map(({ groups }) => groups[0].name)
+      ).length === 1
     );
   };
 
@@ -281,7 +288,7 @@ const Inventory = ({
     if (calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
-      return selectedHosts.every(({ groups }) => groups.length === 0);
+      return selectedHosts.every(({ groups }) => groups.length === 0); // TODO: to be removed soon
     }
 
     return false;
@@ -434,6 +441,7 @@ const Inventory = ({
                             setCurrentSystem(Array.from(selected.values()));
                             setAddHostGroupModalOpen(true);
                           }}
+                          ignoreResourceDefinitions
                         >
                           Add to group
                         </ActionDropdownItem>
