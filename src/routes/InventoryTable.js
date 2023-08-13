@@ -42,6 +42,7 @@ import {
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../constants';
 import {
@@ -270,17 +271,10 @@ const Inventory = ({
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const isBulkRemoveFromGroupsEnabled = () => {
-    if (calculateSelected() > 0) {
-      const selectedHosts = Array.from(selected.values());
-
-      return selectedHosts.every(
-        ({ groups }) =>
-          groups.length !== 0 &&
-          groups[0].name === selectedHosts[0].groups[0].name
-      );
-    }
-
-    return false;
+    return (
+      calculateSelected() > 0 &&
+      Array.from(selected.values()).some(({ groups }) => groups.length > 0)
+    );
   };
 
   const isBulkAddHostsToGroupsEnabled = () => {
@@ -454,15 +448,29 @@ const Inventory = ({
                       label: (
                         <ActionDropdownItem
                           key="bulk-remove-from-group"
-                          requiredPermissions={[
-                            GENERAL_GROUPS_WRITE_PERMISSION,
-                          ]}
+                          requiredPermissions={
+                            selected !== undefined
+                              ? Array.from(selected.values())
+                                  .flatMap(({ groups }) =>
+                                    groups?.[0]?.id !== undefined
+                                      ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                                          groups[0].id
+                                        )
+                                      : null
+                                  )
+                                  .filter(Boolean) // don't check ungroupped hosts
+                              : []
+                          }
                           isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
                           noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
                           onClick={() => {
                             setCurrentSystem(Array.from(selected.values()));
                             setRemoveHostsFromGroupModalOpen(true);
                           }}
+                          {...(selected === undefined // when nothing is selected, no access must be checked
+                            ? { override: true }
+                            : {})}
+                          checkAll
                         >
                           Remove from group
                         </ActionDropdownItem>
