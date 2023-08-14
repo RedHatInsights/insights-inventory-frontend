@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import {
-  Button,
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
-  EmptyStateSecondaryActions,
   Title,
 } from '@patternfly/react-core';
-import { ExternalLinkAltIcon, PlusCircleIcon } from '@patternfly/react-icons';
+import { PlusCircleIcon } from '@patternfly/react-icons';
 
 import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
@@ -51,15 +49,6 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
       >
         Add systems
       </ActionButton>
-      <EmptyStateSecondaryActions>
-        <Button
-          variant="link"
-          icon={<ExternalLinkAltIcon />}
-          iconPosition="right"
-        >
-          Learn more about system groups
-        </Button>
-      </EmptyStateSecondaryActions>
     </EmptyState>
   );
 };

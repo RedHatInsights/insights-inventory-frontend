@@ -32,8 +32,5 @@ describe('NoGroupsEmptyState', () => {
     expect(container.querySelector('.pf-m-primary')).toHaveTextContent(
       'Create group'
     );
-    const link = container.querySelector('.pf-m-link');
-    expect(link).toHaveTextContent('Learn more about system groups');
-    // TODO: expect(link).toHaveAttribute('href', '');
   });
 });
