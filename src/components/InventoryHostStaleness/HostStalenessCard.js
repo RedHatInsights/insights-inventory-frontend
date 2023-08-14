@@ -13,11 +13,8 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
-import {
-  CONVENTIONAL_TAB_TOOLTIP,
-  IMMUTABLE_TAB_TOOLTIP,
-  TITLTE_TOOLTIP,
-} from './constants';
+import { CONVENTIONAL_TAB_TOOLTIP, IMMUTABLE_TAB_TOOLTIP } from './constants';
+import { InventoryHostStalenessPopover } from './constants';
 
 const HostStalenessCard = () => {
   //multiply these values be seconds at the end before sending to the api
@@ -37,25 +34,15 @@ const HostStalenessCard = () => {
   };
 
   //newFormValue manipulation:
-  //Create a modal for the edit button
-  //turn values into strings
   //styling and messages
   // Need to update the edit button so that it makes the POST req,
-  //replace tooltips with PopOver
   return (
     <Card>
       <CardHeader>
         <Title headingLevel="h4" size="xl">
           Organization level system staleness and culling
         </Title>
-        <Popover
-          aria-label="Basic popover"
-          headerContent={<div>Orginization level setting</div>}
-          bodyContent={<div>{TITLTE_TOOLTIP}</div>}
-          footerContent="Popover footer"
-        >
-          <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
-        </Popover>
+        <InventoryHostStalenessPopover />
       </CardHeader>
       <CardBody>
         <p>

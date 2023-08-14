@@ -1,19 +1,137 @@
+import React from 'react';
+import {
+  Button,
+  Flex,
+  FlexItem,
+  Popover,
+  Text,
+  TextContent,
+  TextVariants,
+  Title,
+} from '@patternfly/react-core';
+import {
+  ExternalLinkAltIcon,
+  OutlinedQuestionCircleIcon,
+} from '@patternfly/react-icons';
+
 export const CONVENTIONAL_TAB_TOOLTIP =
   'With DNF-RPM, you can manage the system software by using the DNF package manager and updated RPM packages. This is a simple and adaptive method of managing and modifying the system over its lifecycle.';
 
 export const IMMUTABLE_TAB_TOOLTIP =
   'With OStree, you can manage the system software by referencing a central image repository. OStree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
 
-export const RESET_TO_DEFAULT = `- Systems are marked as stale after 1 day since last check-in.
-- Systems are marked as stale warning after 14 days since last check-in.
-- Systems are culled after 30 days since last check-in.`;
+export const HostStalenessResetDefaultPopover = () => {
+  return (
+    <Popover
+      aria-label="Inventory Groups popover"
+      headerContent={
+        <Title headingLevel="h4">Orginization level setting</Title>
+      }
+      position="top"
+      bodyContent={
+        <TextContent>
+          <Flex
+            direction={{ default: 'column' }}
+            spaceItems={{ default: 'spaceItemsNone' }}
+          >
+            <FlexItem>
+              {' '}
+              <Text component={TextVariants.p}>
+                - Systems are marked as stale after 1 day since last check-in.
+              </Text>
+            </FlexItem>
+            <FlexItem>
+              {' '}
+              <Text component={TextVariants.p}>
+                - Systems are marked as stale warning after 14 days since last
+                check-in.
+              </Text>
+            </FlexItem>
 
-export const TITLTE_TOOLTIP = `Configure the number of days it will take for your systems to be marked as stale, stale warning, and be cullled.
+            <FlexItem>
+              {' '}
+              <Text component={TextVariants.p}>
+                - Systems are culled after 30 days since last check-in.
+              </Text>
+            </FlexItem>
+          </Flex>
+        </TextContent>
+      }
+    >
+      <Button
+        variant="plain"
+        aria-label="Open Inventory groups popover"
+        style={{ padding: 0 }}
+      >
+        <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+      </Button>
+    </Popover>
+  );
+};
 
-By default:
-- Systems are marked as stale after 1 day since last check-in.
-- Systems are marked as stale warning after 14 days since last check-in.
-- Systems are culled after 30 days since last check-in.`;
+export const InventoryHostStalenessPopover = () => {
+  return (
+    <Popover
+      aria-label="Inventory Groups popover"
+      headerContent={
+        <Title headingLevel="h4">Orginization level setting</Title>
+      }
+      hasAutoWidth
+      position="top"
+      bodyContent={
+        <TextContent>
+          <Text component={TextVariants.p}>
+            Configure the number of days it will take for your systems to be
+            marked as stale, stale warning, and be cullled.
+          </Text>
+          <Flex
+            direction={{ default: 'column' }}
+            spaceItems={{ default: 'spaceItemsNone' }}
+          >
+            <FlexItem>
+              <Text component={TextVariants.p}>By default:</Text>
+            </FlexItem>
+            <FlexItem>
+              <Text component={TextVariants.p}>
+                - Systems are marked as stale after 1 day since last check-in.
+              </Text>
+            </FlexItem>
+            <FlexItem>
+              <Text component={TextVariants.p}>
+                - Systems are marked as stale after 1 day since last check-in.
+              </Text>
+            </FlexItem>
+            <FlexItem>
+              {' '}
+              <Text component={TextVariants.p}>
+                - Systems are marked as stale warning after 14 days since last
+                check-in.
+              </Text>{' '}
+            </FlexItem>
+            <FlexItem>
+              {' '}
+              <Text component={TextVariants.p}>
+                - Systems are culled after 30 days since last check-in.
+              </Text>{' '}
+            </FlexItem>
+          </Flex>
+          <a className="pf-u-mt-lg">
+            Learn more
+            <ExternalLinkAltIcon size="small" className="pf-u-ml-sm" />
+          </a>
+        </TextContent>
+      }
+    >
+      <Button
+        variant="plain"
+        aria-label="Open Inventory groups popover"
+        style={{ padding: 0 }}
+      >
+        <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+      </Button>
+    </Popover>
+  );
+};
 export const systemStalenessItems = (activeTabKey) => {
   return [
     {

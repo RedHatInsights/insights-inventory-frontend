@@ -6,14 +6,12 @@ import {
   Grid,
   GridItem,
   Modal,
-  Popover,
 } from '@patternfly/react-core';
 import React from 'react';
 import BaseDropdown from './BaseDropDown';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 import {
-  RESET_TO_DEFAULT,
+  HostStalenessResetDefaultPopover,
   systemCullingItems,
   systemStalenessItems,
   systemStalenessWarningItems,
@@ -85,13 +83,7 @@ const TabCard = ({
                 <a onClick={() => resetToStandard()} className="pf-u-ml-sm ">
                   Reset to default setting
                 </a>
-                <Popover
-                  aria-label="Basic popover"
-                  headerContent={<div>Default settings</div>}
-                  bodyContent={<div>{RESET_TO_DEFAULT}</div>}
-                >
-                  <OutlinedQuestionCircleIcon className="pf-u-ml-xs" />
-                </Popover>
+                <HostStalenessResetDefaultPopover />
               </FlexItem>
             </Flex>
           )}
@@ -115,6 +107,7 @@ const TabCard = ({
               </Button>
               <Modal
                 variant="small"
+                titleIconVariant="warning"
                 title="Update organization level setting"
                 isOpen={isModalOpen}
                 onClose={handleModalToggle}

@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { getGroups } from '../InventoryGroups/utils/api';
-import NoGroupsEmptyState from '../InventoryGroups/NoGroupsEmptyState';
 import { EmptyStateNoAccessToGroups } from '../InventoryGroupDetail/EmptyStateNoAccess';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import HostStalenessCard from './HostStalenessCard';
@@ -59,7 +58,9 @@ const InventoryHostStaleness = () => {
           </section>
         </React.Fragment>
       ) : (
-        <NoGroupsEmptyState reloadData={handleLoading} />
+        <section className="pf-l-page__main-section pf-c-page__main-section">
+          <HostStalenessCard />
+        </section>
       )}
     </section>
   );
