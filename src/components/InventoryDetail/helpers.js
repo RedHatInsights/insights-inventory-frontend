@@ -12,7 +12,6 @@ export const redirectToInventoryList = (id, onBackToListClick, navigate) => {
       document.referrer !==
         `${document.location.origin}${document.location.pathname}`
     ) {
-      console.log('hello');
       navigate(-1);
     } else {
       location.href = location.pathname.replace(

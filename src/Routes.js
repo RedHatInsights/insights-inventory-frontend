@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
-import { useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from 'react-router-dom';
 import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
@@ -68,6 +68,10 @@ export const Routes = () => {
       element: (
         <RenderWrapper cmp={InventoryTable} isRbacEnabled {...searchParams} />
       ),
+    },
+    {
+      path: '/*',
+      element: <Navigate to="/" replace />,
     },
   ]);
 
