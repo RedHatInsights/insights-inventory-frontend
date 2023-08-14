@@ -5,6 +5,8 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
+import { Flex } from '@patternfly/react-core';
+import InventoryGroupsPopover from '../components/InventoryGroups/SmallComponents/Popover';
 
 const Groups = () => {
   const chrome = useChrome();
@@ -16,7 +18,10 @@ const Groups = () => {
   return (
     <React.Fragment>
       <PageHeader>
-        <PageHeaderTitle title="Groups" />
+        <Flex spaceItems={{ default: 'spaceItemsSm' }}>
+          <PageHeaderTitle title="Groups" />
+          <InventoryGroupsPopover />
+        </Flex>
       </PageHeader>
       <InventoryGroups />
     </React.Fragment>
