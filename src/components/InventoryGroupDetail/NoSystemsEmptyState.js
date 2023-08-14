@@ -46,6 +46,7 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
         noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
         variant="primary"
         onClick={() => setIsModalOpen(true)}
+        ouiaId="add-systems-button"
       >
         Add systems
       </ActionButton>
