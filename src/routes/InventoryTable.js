@@ -121,6 +121,7 @@ const BulkDeleteButton = ({ selectedSystems, ...props }) => {
       requiredPermissions={requiredPermissions}
       noAccessTooltip={NO_MODIFY_HOSTS_TOOLTIP_MESSAGE}
       checkAll
+      ouiaId="bulk-delete-button"
       {...props}
     >
       Delete

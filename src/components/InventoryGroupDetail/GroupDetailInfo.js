@@ -32,6 +32,7 @@ const GroupDetailInfo = ({ chrome }) => {
             variant="secondary"
             override={isUserAccessAdministrator}
             noAccessTooltip={NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE}
+            ouiaId="manage-access-button"
           >
             Manage access
           </ActionButton>
