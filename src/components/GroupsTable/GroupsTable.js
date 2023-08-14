@@ -130,6 +130,10 @@ const GroupsTable = () => {
   const { hasAccess: canModify } = usePermissionsWithContext([
     GENERAL_GROUPS_WRITE_PERMISSION,
   ]);
+  const { hasAccess: canModifyGranular } = usePermissionsWithContext(
+    selectedIds?.flatMap((id) => REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(id)),
+    true
+  );
 
   const fetchData = useCallback(
     debounce((filters) => {
@@ -488,8 +492,8 @@ const GroupsTable = () => {
               label: selectedIds.length > 1 ? 'Delete groups' : 'Delete group',
               onClick: () => setDeleteModalOpen(true),
               props: {
-                isAriaDisabled: !canModify || selectedIds.length === 0,
-                ...(!canModify && {
+                isAriaDisabled: !canModifyGranular || selectedIds.length === 0,
+                ...(!canModifyGranular && {
                   tooltip: NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
                 }),
               },
