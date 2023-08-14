@@ -29,6 +29,8 @@ import { Link } from 'react-router-dom';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   TABLE_DEFAULT_PAGINATION,
 } from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
@@ -46,6 +48,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import isNil from 'lodash/isNil';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { ActionDropdownItem } from '../InventoryTable/ActionWithRBAC';
 
 const GROUPS_TABLE_INITIAL_STATE = {
   perPage: TABLE_DEFAULT_PAGINATION,
@@ -318,6 +321,55 @@ const GroupsTable = () => {
   const displayedIds = map(rows, 'groupId');
   const pageSelected = difference(displayedIds, selectedIds).length === 0;
 
+  const groupsActionsResolver = (rowData) => {
+    return [
+      {
+        title: (
+          <ActionDropdownItem
+            requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+              rowData?.groupId
+            )}
+            noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+            onClick={() => {
+              setSelectedGroup({
+                id: rowData?.groupId,
+                name: rowData?.groupName,
+              });
+              setRenameModalOpen(true);
+            }}
+          >
+            Rename group
+          </ActionDropdownItem>
+        ),
+        style: {
+          padding: 0, // custom component creates extra padding space
+        },
+      },
+      {
+        title: (
+          <ActionDropdownItem
+            requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+              rowData?.groupId
+            )}
+            noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+            onClick={() => {
+              setSelectedGroup({
+                id: rowData?.groupId,
+                name: rowData?.groupName,
+              });
+              setDeleteModalOpen(true);
+            }}
+          >
+            Delete group
+          </ActionDropdownItem>
+        ),
+        style: {
+          padding: 0, // custom component creates extra padding space
+        },
+      },
+    ];
+  };
+
   return (
     <div id="groups-table">
       {createModalOpen && (
@@ -459,40 +511,7 @@ const GroupsTable = () => {
         onSort={onSort}
         isStickyHeader
         onSelect={onSelect}
-        actions={[
-          {
-            title: 'Rename group',
-            onClick: (event, rowIndex, { groupId, groupName }) => {
-              setSelectedGroup({
-                id: groupId,
-                name: groupName,
-              });
-              setRenameModalOpen(true);
-            },
-            ...(!canModify && {
-              tooltip: !canModify
-                ? 'You do not have the necessary permissions to modify this group. Contact your organization administrator.'
-                : '',
-              isAriaDisabled: true,
-            }),
-          },
-          {
-            title: 'Delete group',
-            onClick: (event, rowIndex, { groupId, groupName }) => {
-              setSelectedGroup({
-                id: groupId,
-                name: groupName,
-              });
-              setDeleteModalOpen(true);
-            },
-            ...(!canModify && {
-              tooltip: !canModify
-                ? 'You do not have the necessary permissions to modify this group. Contact your organization administrator.'
-                : '',
-              isAriaDisabled: true,
-            }),
-          },
-        ]}
+        actionResolver={(rowData) => groupsActionsResolver(rowData)}
         canSelectAll={false}
       >
         <TableHeader />
