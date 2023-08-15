@@ -350,6 +350,56 @@ describe('inventory table', () => {
       });
     });
 
+    describe('with excluding group-level hosts write permissions', () => {
+      before(() => {
+        cy.mockWindowChrome({
+          userPermissions: [
+            'inventory:*:read',
+            {
+              permission: 'inventory:hosts:write',
+              resourceDefinitions: [
+                {
+                  attributeFilter: {
+                    key: 'group.id',
+                    operation: 'equal',
+                    value: null,
+                  },
+                },
+              ],
+            },
+          ],
+        });
+      });
+
+      beforeEach(prepareTest);
+
+      it('can edit hosts that are not a part of any group', () => {
+        cy.get(ROW).eq(4).find(DROPDOWN).click();
+        cy.get(`${DROPDOWN_ITEM} a`).contains('Edit').shouldHaveAriaEnabled();
+        cy.get(`${DROPDOWN_ITEM} a`).contains('Delete').shouldHaveAriaEnabled();
+      });
+
+      it('cannot edit hosts in groups', () => {
+        cy.get(ROW).eq(3).find(DROPDOWN).click();
+        cy.get(`${DROPDOWN_ITEM} a`).contains('Edit').shouldHaveAriaDisabled();
+        cy.get(`${DROPDOWN_ITEM} a`)
+          .contains('Delete')
+          .shouldHaveAriaDisabled();
+      });
+
+      it('can bulk delete ungrouped hosts', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(4).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(5).click();
+        cy.get('button').contains('Delete').shouldHaveAriaEnabled();
+      });
+
+      it('cannot mix grouped and ungrouped hosts', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(2).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        cy.get('button').contains('Delete').shouldHaveAriaDisabled();
+      });
+    });
+
     describe('with limited groups write permissions', () => {
       before(() => {
         cy.mockWindowChrome({
