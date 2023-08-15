@@ -38,10 +38,10 @@ const NoGroupsEmptyState = ({ reloadData }) => {
         color={globalPaletteBlack600.value}
       />
       <Title headingLevel="h4" size="lg">
-        Create a system group
+        No inventory groups
       </Title>
       <EmptyStateBody>
-        Manage device operations efficiently by creating system groups.
+        Manage device operations efficiently by creating inventory groups.
       </EmptyStateBody>
       {canModifyGroups ? (
         <Button variant="primary" onClick={() => setCreateGroupModalOpen(true)}>

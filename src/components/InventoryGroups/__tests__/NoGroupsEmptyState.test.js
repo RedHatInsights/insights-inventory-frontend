@@ -17,7 +17,7 @@ describe('NoGroupsEmptyState', () => {
       </MemoryRouter>
     );
     // toHaveTextContent is a part of @testing-library/jest-dom
-    expect(getByRole('heading')).toHaveTextContent('Create a system group');
+    expect(getByRole('heading')).toHaveTextContent('No inventory groups');
     expect(container.querySelector('.pf-c-empty-state__icon')).not.toBe(null);
   });
 
