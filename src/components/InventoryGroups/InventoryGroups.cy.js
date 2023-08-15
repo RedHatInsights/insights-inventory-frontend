@@ -22,7 +22,7 @@ describe('groups table page', () => {
     cy.wait('@getGroups');
 
     cy.get('#groups-table').should('not.exist');
-    cy.get('.pf-c-empty-state').find('h4').contains('Create a system group');
+    cy.get('.pf-c-empty-state').find('h4').contains('No inventory groups');
   });
 
   it('renders error message when request fails', () => {

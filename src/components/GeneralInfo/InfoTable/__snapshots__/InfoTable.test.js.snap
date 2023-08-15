@@ -8229,19 +8229,19 @@ exports[`InfoTable should render one cell 1`] = `
   />
   <TextContent>
     <Text
-      component="small"
+      component="p"
       key="0"
     >
       first
     </Text>
     <Text
-      component="small"
+      component="p"
       key="1"
     >
       second from title
     </Text>
     <Text
-      component="small"
+      component="p"
       key="2"
     >
       multiple
