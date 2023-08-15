@@ -121,6 +121,7 @@ const BulkDeleteButton = ({ selectedSystems, ...props }) => {
       requiredPermissions={requiredPermissions}
       noAccessTooltip={NO_MODIFY_HOSTS_TOOLTIP_MESSAGE}
       checkAll
+      ouiaId="bulk-delete-button"
       {...props}
     >
       Delete
@@ -220,7 +221,9 @@ const Inventory = ({
   };
 
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
-
+  const EdgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter'
+  );
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
     chrome?.hideGlobalFilter?.(false);
@@ -242,6 +245,7 @@ const Inventory = ({
             ...(workloads?.['Microsoft SQL']?.isSelected && {
               mssql: 'not_nil',
             }),
+            ...(EdgeParityFilterDeviceEnabled && { host_type: 'nil' }),
             ...(SID?.length > 0 && { sap_sids: SID }),
           },
         },

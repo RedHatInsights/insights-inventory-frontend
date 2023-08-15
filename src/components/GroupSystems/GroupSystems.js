@@ -14,7 +14,10 @@ import {
   NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
 } from '../../constants';
-import { Button, Tooltip } from '@patternfly/react-core';
+import {
+  ActionButton,
+  ActionDropdownItem,
+} from '../InventoryTable/ActionWithRBAC';
 
 export const bulkSelectConfig = (
   dispatch,
@@ -116,8 +119,6 @@ const GroupSystems = ({ groupName, groupId }) => {
     dispatch(selectEntity(-1, false));
   };
 
-  const enableAddSystems = canModify;
-
   useEffect(() => {
     return () => {
       resetTable();
@@ -171,40 +172,48 @@ const GroupSystems = ({ groupName, groupId }) => {
               showTags
             )
           }
-          actions={[
-            {
-              title: 'Remove from group',
-              onClick: (event, index, rowData) => {
-                setCurrentSystem([rowData]);
-                setRemoveHostsFromGroupModalOpen(true);
-              },
-              ...(!canModify && {
-                isAriaDisabled: true,
-                tooltip: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
-              }),
-            },
-          ]}
           tableProps={{
             isStickyHeader: true,
             variant: TableVariant.compact,
             canSelectAll: false,
+            actionResolver: (row) => [
+              {
+                title: (
+                  <ActionDropdownItem
+                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                      groupId
+                    )}
+                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    onClick={() => {
+                      setCurrentSystem([row]);
+                      setRemoveHostsFromGroupModalOpen(true);
+                    }}
+                  >
+                    Remove from group
+                  </ActionDropdownItem>
+                ),
+                style: {
+                  padding: 0, // custom component creates extra padding space
+                },
+              },
+            ],
           }}
           actionsConfig={{
             actions: [
-              !enableAddSystems ? (
-                // custom component needed since it's the first action to render (see primary toolbar implementation)
-                <Tooltip content={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}>
-                  <Button isAriaDisabled>Add systems</Button>
-                </Tooltip>
-              ) : (
-                {
-                  label: 'Add systems',
-                  onClick: () => {
-                    resetTable();
-                    setAddToGroupModalOpen(true);
-                  },
-                }
-              ),
+              <ActionButton
+                key="add-systems-button"
+                requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                  groupId
+                )}
+                noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                onClick={() => {
+                  resetTable();
+                  setAddToGroupModalOpen(true);
+                }}
+                ouiaId="add-systems-button"
+              >
+                Add systems
+              </ActionButton>,
               {
                 label: 'Remove from group',
                 props: {
