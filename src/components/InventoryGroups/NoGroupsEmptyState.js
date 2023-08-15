@@ -4,11 +4,10 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
-  EmptyStateSecondaryActions,
   Title,
   Tooltip,
 } from '@patternfly/react-core';
-import { ExternalLinkAltIcon, PlusCircleIcon } from '@patternfly/react-icons';
+import { PlusCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
 import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
@@ -39,10 +38,10 @@ const NoGroupsEmptyState = ({ reloadData }) => {
         color={globalPaletteBlack600.value}
       />
       <Title headingLevel="h4" size="lg">
-        Create a system group
+        No inventory groups
       </Title>
       <EmptyStateBody>
-        Manage device operations efficiently by creating system groups.
+        Manage device operations efficiently by creating inventory groups.
       </EmptyStateBody>
       {canModifyGroups ? (
         <Button variant="primary" onClick={() => setCreateGroupModalOpen(true)}>
@@ -55,16 +54,6 @@ const NoGroupsEmptyState = ({ reloadData }) => {
           </Button>
         </Tooltip>
       )}
-      <EmptyStateSecondaryActions>
-        <Button
-          variant="link"
-          icon={<ExternalLinkAltIcon />}
-          iconPosition="right"
-          // TODO: component={(props) => <a href='' {...props} />}
-        >
-          Learn more about system groups
-        </Button>
-      </EmptyStateSecondaryActions>
     </EmptyState>
   );
 };

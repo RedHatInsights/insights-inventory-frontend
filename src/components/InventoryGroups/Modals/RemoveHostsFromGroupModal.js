@@ -7,62 +7,77 @@ import { removeHostsFromGroup } from '../utils/api';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import { Text } from '@patternfly/react-core';
 
-const schema = (groupName, hosts) => ({
-  fields: [
-    {
-      component: componentTypes.PLAIN_TEXT,
-      name: 'warning-message',
-      label:
-        hosts.length === 1 ? (
-          <Text>
-            <strong>{hosts[0].display_name}</strong> will no longer be part of{' '}
-            <strong>{groupName}</strong> and its configuration will be impacted.
-          </Text>
-        ) : (
-          <Text>
-            <strong>{hosts.length}</strong> systems will no longer be part of{' '}
-            <strong>{groupName}</strong> and their configuration will be
-            impacted.
-          </Text>
-        ),
-    },
-  ],
-});
+const schema = (hosts) => {
+  const hostsInGroup = hosts.filter(({ groups }) => groups.length > 0); // selection can contain ungroupped hosts
+  const groupName = hostsInGroup[0].groups[0].name;
+
+  return {
+    fields: [
+      {
+        component: componentTypes.PLAIN_TEXT,
+        name: 'warning-message',
+        label:
+          hostsInGroup.length === 1 ? (
+            <Text>
+              <strong>{hostsInGroup[0].display_name}</strong> will no longer be
+              part of <strong>{groupName}</strong> and its configuration will be
+              impacted.
+            </Text>
+          ) : (
+            <Text>
+              <strong>{hostsInGroup.length}</strong> systems will no longer be
+              part of <strong>{groupName}</strong> and their configuration will
+              be impacted.
+            </Text>
+          ),
+      },
+    ],
+  };
+};
+
+const statusMessages = (hosts) => {
+  const hostsInGroup = hosts.filter(({ groups }) => groups.length > 0);
+  const groupName = hostsInGroup[0].groups[0].name;
+
+  return hostsInGroup.length === 1
+    ? {
+        onSuccess: {
+          title: `1 system removed from ${groupName}`,
+        },
+        onError: {
+          title: `Failed to remove 1 system from ${groupName}`,
+        },
+      }
+    : {
+        onSuccess: {
+          title: `${hostsInGroup.length} systems removed from ${groupName}`,
+        },
+        onError: {
+          title: `Failed to remove ${hostsInGroup.length} systems from ${groupName}`,
+        },
+      };
+};
 
 const RemoveHostsFromGroupModal = ({
   isModalOpen,
   setIsModalOpen,
   modalState: hosts,
   reloadData,
+  reloadTimeout,
 }) => {
   const dispatch = useDispatch();
-  // the current iteration of groups feature a host can be in at maximum one group
-  const { name: groupName, id: groupId } = hosts[0].groups[0];
+  const groupId = hosts.find(({ groups }) => groups.length > 0).groups[0].id;
 
-  const handleRemoveHosts = () => {
-    const statusMessages = {
-      onSuccess: {
-        title: `${hosts.length} ${
-          hosts.length > 1 ? 'systems' : 'system'
-        } removed from ${groupName}`,
-      },
-      onError: {
-        title: `Failed to remove ${hosts.length} ${
-          hosts.length > 1 ? 'systems' : 'system'
-        } from ${groupName}`,
-      },
-    };
-
+  const handleRemoveHosts = () =>
     apiWithToast(
       dispatch,
-      () =>
-        removeHostsFromGroup(
+      async () =>
+        await removeHostsFromGroup(
           groupId,
           hosts.map(({ id }) => id)
         ),
-      statusMessages
+      statusMessages(hosts)
     );
-  };
 
   return (
     <Modal
@@ -71,9 +86,10 @@ const RemoveHostsFromGroupModal = ({
       title="Remove from group"
       variant="danger"
       submitLabel="Remove"
-      schema={schema(groupName, hosts)}
+      schema={schema(hosts)}
       onSubmit={handleRemoveHosts}
       reloadData={reloadData}
+      reloadTimeout={reloadTimeout}
     />
   );
 };
@@ -95,6 +111,7 @@ RemoveHostsFromGroupModal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
   reloadData: PropTypes.func,
+  reloadTimeout: PropTypes.number,
 };
 
 export default RemoveHostsFromGroupModal;

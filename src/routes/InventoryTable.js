@@ -39,14 +39,17 @@ import { resolveRelPath } from '../Utilities/path';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../constants';
 import {
   ActionButton,
   ActionDropdownItem,
 } from '../components/InventoryTable/ActionWithRBAC';
+import uniq from 'lodash/uniq';
 
 const mapTags = ({ category, values }) =>
   values.map(
@@ -265,17 +268,16 @@ const Inventory = ({
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const isBulkRemoveFromGroupsEnabled = () => {
-    if (calculateSelected() > 0) {
-      const selectedHosts = Array.from(selected.values());
-
-      return selectedHosts.every(
-        ({ groups }) =>
-          groups.length !== 0 &&
-          groups[0].name === selectedHosts[0].groups[0].name
-      );
-    }
-
-    return false;
+    return (
+      calculateSelected() > 0 &&
+      Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
+      uniq(
+        // can remove from at maximum one group at a time
+        Array.from(selected.values())
+          .filter(({ groups }) => groups.length > 0)
+          .map(({ groups }) => groups[0].name)
+      ).length === 1
+    );
   };
 
   const isBulkAddHostsToGroupsEnabled = () => {
@@ -349,6 +351,7 @@ const Inventory = ({
             requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
             noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
             isAriaDisabled={row.groups.length > 0} // additional condition for enabling the button
+            ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
           >
             Add to group
           </ActionDropdownItem>
@@ -365,9 +368,14 @@ const Inventory = ({
               setCurrentSystem([row]);
               setRemoveHostsFromGroupModalOpen(true);
             }}
-            requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-            noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+            requiredPermissions={
+              row?.groups?.[0]?.id !== undefined
+                ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(row.groups[0].id)
+                : []
+            }
+            noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
             isAriaDisabled={row.groups.length === 0}
+            override={row?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
           >
             Remove from group
           </ActionDropdownItem>
@@ -427,6 +435,7 @@ const Inventory = ({
                             setCurrentSystem(Array.from(selected.values()));
                             setAddHostGroupModalOpen(true);
                           }}
+                          ignoreResourceDefinitions
                         >
                           Add to group
                         </ActionDropdownItem>
@@ -441,15 +450,29 @@ const Inventory = ({
                       label: (
                         <ActionDropdownItem
                           key="bulk-remove-from-group"
-                          requiredPermissions={[
-                            GENERAL_GROUPS_WRITE_PERMISSION,
-                          ]}
+                          requiredPermissions={
+                            selected !== undefined
+                              ? Array.from(selected.values())
+                                  .flatMap(({ groups }) =>
+                                    groups?.[0]?.id !== undefined
+                                      ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                                          groups[0].id
+                                        )
+                                      : null
+                                  )
+                                  .filter(Boolean) // don't check ungroupped hosts
+                              : []
+                          }
                           isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
                           noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
                           onClick={() => {
                             setCurrentSystem(Array.from(selected.values()));
                             setRemoveHostsFromGroupModalOpen(true);
                           }}
+                          {...(selected === undefined // when nothing is selected, no access must be checked
+                            ? { override: true }
+                            : {})}
+                          checkAll
                         >
                           Remove from group
                         </ActionDropdownItem>

@@ -66,12 +66,13 @@ describe('test data', () => {
       .to.be.true;
   });
 
-  it('the fourth host is not in a group', () => {
+  it('the fourth and fifth hosts are not in a group', () => {
     expect(hostsFixtures.results[3].groups.length === 0).to.be.true;
+    expect(hostsFixtures.results[4].groups.length === 0).to.be.true;
   });
 });
 
-const prepareTest = () => {
+const prepareTest = (waitNetwork = true) => {
   cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
     statusCode: 200,
     body: hostTagsFixtures,
@@ -85,7 +86,7 @@ const prepareTest = () => {
   groupsInterceptors['successful with some items']();
   hostsInterceptors.successful();
   mountTable();
-  waitForTable(true);
+  waitForTable(waitNetwork);
 };
 
 describe('inventory table', () => {
@@ -239,7 +240,7 @@ describe('inventory table', () => {
         });
       });
 
-      beforeEach(prepareTest);
+      beforeEach(() => prepareTest(false));
 
       it('all per-row actions are disabled', () => {
         cy.get(ROW).eq(1).find(DROPDOWN).click();
@@ -291,7 +292,7 @@ describe('inventory table', () => {
         });
       });
 
-      beforeEach(prepareTest);
+      beforeEach(() => prepareTest(false));
 
       it('can edit hosts that in the test group', () => {
         cy.get(ROW).eq(1).find(DROPDOWN).click();
@@ -339,6 +340,14 @@ describe('inventory table', () => {
           .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
       });
+
+      it('cannot add or remove from group', () => {
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaDisabled();
+      });
     });
 
     describe('with excluding group-level hosts write permissions', () => {
@@ -384,10 +393,101 @@ describe('inventory table', () => {
         cy.get('button').contains('Delete').shouldHaveAriaEnabled();
       });
 
-      it.only('cannot mix grouped and ungrouped hosts', () => {
+      it('cannot mix grouped and ungrouped hosts', () => {
         cy.get(ROW).find('[type="checkbox"]').eq(2).click();
         cy.get(ROW).find('[type="checkbox"]').eq(3).click();
         cy.get('button').contains('Delete').shouldHaveAriaDisabled();
+      });
+    });
+
+    describe('with limited groups write permissions', () => {
+      before(() => {
+        cy.mockWindowChrome({
+          userPermissions: [
+            'inventory:*:read',
+            {
+              permission: 'inventory:groups:write',
+              resourceDefinitions: [
+                {
+                  attributeFilter: {
+                    key: 'group.id',
+                    operation: 'equal',
+                    value: TEST_GROUP_ID,
+                  },
+                },
+              ],
+            },
+          ],
+        });
+      });
+
+      beforeEach(() => prepareTest(false));
+
+      it('can remove from permitted group', () => {
+        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaEnabled();
+      });
+
+      it('add to group is enabled for ungroupped hosts', () => {
+        cy.get(ROW).eq(4).find(DROPDOWN).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaEnabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaDisabled();
+      });
+
+      it('can bulk remove from the permitted group', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaEnabled();
+        cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaEnabled();
+      });
+
+      it('can bulk remove from group together with ungroupped hosts', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaEnabled();
+      });
+
+      it('can bulk add hosts to the permitted group', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(4).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaEnabled();
+      });
+
+      it('cannot bulk add to group if groupped hosts selected', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
       });
     });
   });
