@@ -66,8 +66,9 @@ describe('test data', () => {
       .to.be.true;
   });
 
-  it('the fourth host is not in a group', () => {
+  it('the fourth and fifth hosts are not in a group', () => {
     expect(hostsFixtures.results[3].groups.length === 0).to.be.true;
+    expect(hostsFixtures.results[4].groups.length === 0).to.be.true;
   });
 });
 
@@ -387,8 +388,57 @@ describe('inventory table', () => {
           .contains('Remove from group')
           .shouldHaveAriaDisabled();
       });
-    });
 
-    // TODO: test group bulk actions once granular RBAC is implemented there too
+      it('can bulk remove from the permitted group', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaEnabled();
+        cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaEnabled();
+      });
+
+      it('can bulk remove from group together with ungroupped hosts', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from group')
+          .shouldHaveAriaEnabled();
+      });
+
+      it('can bulk add hosts to the permitted group', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(4).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaEnabled();
+      });
+
+      it('cannot bulk add to group if groupped hosts selected', () => {
+        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        // TODO: implement ouia selector for this component
+        cy.get(
+          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
+        ).click();
+        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
+      });
+    });
   });
 });

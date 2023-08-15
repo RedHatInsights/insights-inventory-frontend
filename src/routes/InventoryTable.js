@@ -50,6 +50,7 @@ import {
   ActionButton,
   ActionDropdownItem,
 } from '../components/InventoryTable/ActionWithRBAC';
+import uniq from 'lodash/uniq';
 
 const mapTags = ({ category, values }) =>
   values.map(
@@ -272,17 +273,16 @@ const Inventory = ({
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const isBulkRemoveFromGroupsEnabled = () => {
-    if (calculateSelected() > 0) {
-      const selectedHosts = Array.from(selected.values());
-
-      return selectedHosts.every(
-        ({ groups }) =>
-          groups.length !== 0 &&
-          groups[0].name === selectedHosts[0].groups[0].name
-      );
-    }
-
-    return false;
+    return (
+      calculateSelected() > 0 &&
+      Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
+      uniq(
+        // can remove from at maximum one group at a time
+        Array.from(selected.values())
+          .filter(({ groups }) => groups.length > 0)
+          .map(({ groups }) => groups[0].name)
+      ).length === 1
+    );
   };
 
   const isBulkAddHostsToGroupsEnabled = () => {
@@ -448,6 +448,7 @@ const Inventory = ({
                             setCurrentSystem(Array.from(selected.values()));
                             setAddHostGroupModalOpen(true);
                           }}
+                          ignoreResourceDefinitions
                         >
                           Add to group
                         </ActionDropdownItem>
@@ -462,15 +463,29 @@ const Inventory = ({
                       label: (
                         <ActionDropdownItem
                           key="bulk-remove-from-group"
-                          requiredPermissions={[
-                            GENERAL_GROUPS_WRITE_PERMISSION,
-                          ]}
+                          requiredPermissions={
+                            selected !== undefined
+                              ? Array.from(selected.values())
+                                  .flatMap(({ groups }) =>
+                                    groups?.[0]?.id !== undefined
+                                      ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                                          groups[0].id
+                                        )
+                                      : null
+                                  )
+                                  .filter(Boolean) // don't check ungroupped hosts
+                              : []
+                          }
                           isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
                           noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
                           onClick={() => {
                             setCurrentSystem(Array.from(selected.values()));
                             setRemoveHostsFromGroupModalOpen(true);
                           }}
+                          {...(selected === undefined // when nothing is selected, no access must be checked
+                            ? { override: true }
+                            : {})}
+                          checkAll
                         >
                           Remove from group
                         </ActionDropdownItem>
