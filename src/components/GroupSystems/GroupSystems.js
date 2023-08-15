@@ -144,6 +144,7 @@ const GroupSystems = ({ groupName, groupId }) => {
           isModalOpen={removeHostsFromGroupModalOpen}
           setIsModalOpen={setRemoveHostsFromGroupModalOpen}
           modalState={currentSystem}
+          reloadTimeout={1000}
           reloadData={() => {
             if (calculateSelected() > 0) {
               dispatch(selectEntity(-1, false));

@@ -34,6 +34,7 @@ const RemoveHostsFromGroupModal = ({
   setIsModalOpen,
   modalState: hosts,
   reloadData,
+  reloadTimeout,
 }) => {
   const dispatch = useDispatch();
   // the current iteration of groups feature a host can be in at maximum one group
@@ -74,6 +75,7 @@ const RemoveHostsFromGroupModal = ({
       schema={schema(groupName, hosts)}
       onSubmit={handleRemoveHosts}
       reloadData={reloadData}
+      reloadTimeout={reloadTimeout}
     />
   );
 };
@@ -95,6 +97,7 @@ RemoveHostsFromGroupModal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
   reloadData: PropTypes.func,
+  reloadTimeout: PropTypes.number,
 };
 
 export default RemoveHostsFromGroupModal;
