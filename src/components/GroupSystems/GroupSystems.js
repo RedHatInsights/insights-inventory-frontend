@@ -133,7 +133,6 @@ const GroupSystems = ({ groupName, groupId }) => {
         <AddSystemsToGroupModal
           isModalOpen={addToGroupModalOpen}
           setIsModalOpen={(value) => {
-            resetTable();
             setAddToGroupModalOpen(value);
           }}
           groupId={groupId}
@@ -145,6 +144,7 @@ const GroupSystems = ({ groupName, groupId }) => {
           isModalOpen={removeHostsFromGroupModalOpen}
           setIsModalOpen={setRemoveHostsFromGroupModalOpen}
           modalState={currentSystem}
+          reloadTimeout={1000}
           reloadData={() => {
             if (calculateSelected() > 0) {
               dispatch(selectEntity(-1, false));
@@ -158,6 +158,7 @@ const GroupSystems = ({ groupName, groupId }) => {
         <InventoryTable
           columns={(columns) => prepareColumns(columns, true)}
           hideFilters={{ hostGroupFilter: true }}
+          initialLoading
           getEntities={async (items, config, showTags, defaultGetEntities) =>
             await defaultGetEntities(
               items,

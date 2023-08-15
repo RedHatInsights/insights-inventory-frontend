@@ -153,7 +153,7 @@ class InfoTable extends Component {
         ) : (
           <TextContent>
             {prepareRows(activeRows, pagination).map((row, key) => (
-              <Text component={TextVariants.small} key={key}>
+              <Text component={TextVariants.p} key={key}>
                 {row.title || row}
               </Text>
             ))}
