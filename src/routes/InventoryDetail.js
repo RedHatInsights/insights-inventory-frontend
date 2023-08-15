@@ -113,10 +113,9 @@ const Inventory = () => {
   const clearNotifications = () => dispatch(actions.clearNotifications());
 
   const { hasAccess: canDeleteHost } = usePermissionsWithContext([
-    'inventory:hosts:write',
-    ...(entity?.groups?.[0]?.id !== undefined // if the host is in a group, then we can check group level access
-      ? [REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(entity?.groups?.[0]?.id)]
-      : []),
+    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+      entity?.groups?.[0]?.id ?? null // null stands for ungroupped hosts
+    ),
   ]);
 
   useEffect(() => {
