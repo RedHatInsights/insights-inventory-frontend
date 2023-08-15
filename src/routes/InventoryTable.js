@@ -288,7 +288,7 @@ const Inventory = ({
     if (calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
-      return selectedHosts.every(({ groups }) => groups.length === 0); // TODO: to be removed soon
+      return selectedHosts.every(({ groups }) => groups.length === 0);
     }
 
     return false;

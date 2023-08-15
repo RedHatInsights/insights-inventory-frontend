@@ -64,8 +64,6 @@ const RemoveHostsFromGroupModal = ({
   modalState: hosts,
   reloadData,
 }) => {
-  // TODO: should soon support removal from more than one group at once
-
   const dispatch = useDispatch();
   const groupId = hosts.find(({ groups }) => groups.length > 0).groups[0].id;
 
