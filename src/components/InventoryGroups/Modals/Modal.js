@@ -15,6 +15,7 @@ const RepoModal = ({
   initialValues,
   variant,
   reloadData,
+  reloadTimeout,
   size,
   onSubmit,
   customFormTemplate,
@@ -56,7 +57,11 @@ const RepoModal = ({
           await onSubmit(values);
 
           if (reloadData !== undefined) {
-            setTimeout(async () => await reloadData(), 500);
+            if (reloadTimeout) {
+              setTimeout(async () => await reloadData(), reloadTimeout);
+            } else {
+              await reloadData();
+            }
           }
 
           closeModal();
@@ -82,6 +87,11 @@ RepoModal.propTypes = {
   additionalMappers: PropTypes.object,
   titleIconVariant: PropTypes.any,
   customFormTemplate: PropTypes.node,
+  reloadTimeout: PropTypes.number,
+};
+
+RepoModal.defaultProps = {
+  reloadTimeout: 500,
 };
 
 export default RepoModal;
