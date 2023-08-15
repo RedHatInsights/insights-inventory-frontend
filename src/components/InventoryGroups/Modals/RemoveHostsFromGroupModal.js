@@ -63,6 +63,7 @@ const RemoveHostsFromGroupModal = ({
   setIsModalOpen,
   modalState: hosts,
   reloadData,
+  reloadTimeout,
 }) => {
   const dispatch = useDispatch();
   const groupId = hosts.find(({ groups }) => groups.length > 0).groups[0].id;
@@ -70,8 +71,8 @@ const RemoveHostsFromGroupModal = ({
   const handleRemoveHosts = () =>
     apiWithToast(
       dispatch,
-      () =>
-        removeHostsFromGroup(
+      async () =>
+        await removeHostsFromGroup(
           groupId,
           hosts.map(({ id }) => id)
         ),
@@ -88,6 +89,7 @@ const RemoveHostsFromGroupModal = ({
       schema={schema(hosts)}
       onSubmit={handleRemoveHosts}
       reloadData={reloadData}
+      reloadTimeout={reloadTimeout}
     />
   );
 };
@@ -109,6 +111,7 @@ RemoveHostsFromGroupModal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
   reloadData: PropTypes.func,
+  reloadTimeout: PropTypes.number,
 };
 
 export default RemoveHostsFromGroupModal;

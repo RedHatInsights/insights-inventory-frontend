@@ -24,6 +24,7 @@ export const ActionButton = ({
           checkAll,
           !ignoreResourceDefinitions
         );
+
   return enabled ? (
     <Button {...props} />
   ) : (

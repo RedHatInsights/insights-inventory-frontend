@@ -40,6 +40,7 @@ import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   GENERAL_HOSTS_WRITE_PERMISSIONS,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
@@ -363,6 +364,7 @@ const Inventory = ({
             requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
             noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
             isAriaDisabled={row.groups.length > 0} // additional condition for enabling the button
+            ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
           >
             Add to group
           </ActionDropdownItem>
@@ -379,9 +381,14 @@ const Inventory = ({
               setCurrentSystem([row]);
               setRemoveHostsFromGroupModalOpen(true);
             }}
-            requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-            noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+            requiredPermissions={
+              row?.groups?.[0]?.id !== undefined
+                ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(row.groups[0].id)
+                : []
+            }
+            noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
             isAriaDisabled={row.groups.length === 0}
+            override={row?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
           >
             Remove from group
           </ActionDropdownItem>
