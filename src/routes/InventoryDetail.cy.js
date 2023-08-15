@@ -118,4 +118,39 @@ describe('rbac integration', () => {
       cy.get(MODAL).find('h1').contains('Edit Ansible host');
     });
   });
+
+  describe('with excluding group permissions', () => {
+    before(() =>
+      cy.mockWindowChrome({
+        userPermissions: [
+          {
+            permission: 'inventory:hosts:write',
+            resourceDefinitions: [
+              {
+                attributeFilter: {
+                  key: 'group.id',
+                  operation: 'equal',
+                  value: null,
+                },
+              },
+            ],
+          },
+        ],
+      })
+    );
+
+    beforeEach(prepareTest);
+
+    it('should enable delete and edit buttons', () => {
+      cy.contains('Delete').should('exist').and('be.enabled');
+    });
+
+    it('should enable edit buttons', () => {
+      cy.ouiaId('Display name value').find('[aria-label="Edit"]').click();
+      cy.get(MODAL).find('h1').contains('Edit display name');
+      cy.ouiaId('edit-display-name-modal-ModalBoxCloseButton').click();
+      cy.ouiaId('Ansible hostname value').find('[aria-label="Edit"]').click();
+      cy.get(MODAL).find('h1').contains('Edit Ansible host');
+    });
+  });
 });
