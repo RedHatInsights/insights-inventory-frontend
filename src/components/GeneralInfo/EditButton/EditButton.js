@@ -19,7 +19,7 @@ const InnerButton = ({ link, onClick }) => (
     onClick={onClick}
     className="ins-c-inventory__detail--action"
     aria-label="Edit"
-    variant="plain"
+    variant="link"
   >
     <PencilAltIcon />
   </Button>
