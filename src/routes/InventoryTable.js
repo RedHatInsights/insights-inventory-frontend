@@ -38,7 +38,6 @@ import { manageEdgeInventoryUrlName } from '../Utilities/edge';
 import { resolveRelPath } from '../Utilities/path';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
-  GENERAL_HOSTS_WRITE_PERMISSIONS,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
@@ -111,13 +110,9 @@ export const calculatePagination = (searchParams, page, perPage) => {
 };
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
-  const requiredPermissions = selectedSystems.every(
-    ({ groups }) => groups.length > 0
-  )
-    ? selectedSystems.map(({ groups }) =>
-        REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groups[0].id)
-      )
-    : [GENERAL_HOSTS_WRITE_PERMISSIONS];
+  const requiredPermissions = selectedSystems.map(({ groups }) =>
+    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groups?.[0]?.id ?? null)
+  );
 
   return (
     <ActionButton
@@ -306,15 +301,11 @@ const Inventory = ({
               setCurrentSystem(row);
               onEditOpen(() => true);
             }}
-            requiredPermissions={
-              row.groups.length > 0
-                ? [
-                    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                      row.groups[0].id
-                    ),
-                  ]
-                : ['inventory:hosts:write']
-            }
+            requiredPermissions={[
+              REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                row.groups?.[0]?.id ?? null
+              ),
+            ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
           >
             Edit
@@ -332,15 +323,11 @@ const Inventory = ({
               setCurrentSystem(row);
               handleModalToggle(() => true);
             }}
-            requiredPermissions={
-              row.groups.length > 0
-                ? [
-                    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                      row.groups[0].id
-                    ),
-                  ]
-                : ['inventory:hosts:write']
-            }
+            requiredPermissions={[
+              REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                row.groups?.[0]?.id ?? null
+              ),
+            ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
           >
             Delete
