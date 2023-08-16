@@ -36,13 +36,13 @@ export const HostStalenessResetDefaultPopover = () => {
           >
             <FlexItem>
               {' '}
-              <Text component={TextVariants.p}>
+              <Text component={TextVariants.small}>
                 - Systems are marked as stale after 1 day since last check-in.
               </Text>
             </FlexItem>
             <FlexItem>
               {' '}
-              <Text component={TextVariants.p}>
+              <Text component={TextVariants.small}>
                 - Systems are marked as stale warning after 14 days since last
                 check-in.
               </Text>
@@ -50,7 +50,7 @@ export const HostStalenessResetDefaultPopover = () => {
 
             <FlexItem>
               {' '}
-              <Text component={TextVariants.p}>
+              <Text component={TextVariants.small}>
                 - Systems are culled after 30 days since last check-in.
               </Text>
             </FlexItem>
@@ -79,8 +79,8 @@ export const InventoryHostStalenessPopover = () => {
       hasAutoWidth
       position="top"
       bodyContent={
-        <TextContent>
-          <Text component={TextVariants.p}>
+        <TextContent className="pf-v5-u-color-100">
+          <Text component={TextVariants.small}>
             Configure the number of days it will take for your systems to be
             marked as stale, stale warning, and be cullled.
           </Text>
@@ -89,28 +89,28 @@ export const InventoryHostStalenessPopover = () => {
             spaceItems={{ default: 'spaceItemsNone' }}
           >
             <FlexItem>
-              <Text component={TextVariants.p}>By default:</Text>
+              <Text component={TextVariants.small}>By default:</Text>
             </FlexItem>
             <FlexItem>
-              <Text component={TextVariants.p}>
+              <Text component={TextVariants.small}>
                 - Systems are marked as stale after 1 day since last check-in.
               </Text>
             </FlexItem>
             <FlexItem>
-              <Text component={TextVariants.p}>
+              <Text component={TextVariants.small}>
                 - Systems are marked as stale after 1 day since last check-in.
               </Text>
             </FlexItem>
             <FlexItem>
               {' '}
-              <Text component={TextVariants.p}>
+              <Text component={TextVariants.small}>
                 - Systems are marked as stale warning after 14 days since last
                 check-in.
               </Text>{' '}
             </FlexItem>
             <FlexItem>
               {' '}
-              <Text component={TextVariants.p}>
+              <Text component={TextVariants.small}>
                 - Systems are culled after 30 days since last check-in.
               </Text>{' '}
             </FlexItem>

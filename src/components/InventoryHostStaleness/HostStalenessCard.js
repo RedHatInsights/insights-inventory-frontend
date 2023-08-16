@@ -37,9 +37,9 @@ const HostStalenessCard = () => {
   //styling and messages
   // Need to update the edit button so that it makes the POST req,
   return (
-    <Card>
+    <Card id={'HostStalenessCard'}>
       <CardHeader>
-        <Title headingLevel="h4" size="xl">
+        <Title headingLevel="h4" size="xl" id="HostTitle">
           Organization level system staleness and culling
         </Title>
         <InventoryHostStalenessPopover />
@@ -60,6 +60,7 @@ const HostStalenessCard = () => {
           </a>
         </Flex>
         <Tabs
+          id={'HostTabs'}
           className="pf-m-light pf-c-table pf-u-mb-lg pf-u-mt-lg"
           activeKey={activeTabKey}
           onSelect={handleTabClick}
