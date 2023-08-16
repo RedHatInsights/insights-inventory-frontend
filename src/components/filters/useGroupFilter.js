@@ -42,8 +42,12 @@ const useGroupFilter = () => {
 
   useEffect(() => {
     const fetchOptions = async () => {
-      const firstRequest = await getGroups(undefined, { page: 1, per_page: 1 });
-      const groups = await fetchBatched(getGroups, firstRequest.total);
+      const firstRequest = !ignore
+        ? await getGroups(undefined, { page: 1, per_page: 1 })
+        : { total: 0 };
+      const groups = !ignore
+        ? await fetchBatched(getGroups, firstRequest.total)
+        : [];
       !ignore && setGroups(groups.flatMap(({ results }) => results));
     };
 
