@@ -64,7 +64,7 @@ const checkSorting = (label, order, dataField) => {
     .and('include', `order_by=${dataField}`);
 };
 
-const TEST_GROUP_NAME = 'Ut occaecat';
+const TEST_GROUP_NAME = 'Ut';
 const TEST_GROUP_ID = 'bBEbFFB0D339fA46eD81cCA301d85AAF';
 
 describe('test data', () => {

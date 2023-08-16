@@ -6,6 +6,7 @@
 import {
   CHIP,
   CHIP_GROUP,
+  DROPDOWN_ITEM,
   PAGINATION_VALUES,
   SORTING_ORDERS,
   TABLE,
@@ -28,6 +29,7 @@ import {
 } from '../../../cypress/support/interceptors';
 import { ORDER_TO_URL } from '../../../cypress/support/utils';
 import InventoryTable from './InventoryTable';
+import groupsFixtures from '../../../cypress/fixtures/groups.json';
 
 const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
@@ -51,30 +53,37 @@ const waitForTable = (waitNetwork = false) => {
   );
 };
 
-before(() => {
-  cy.window().then(
-    // one of the fec dependencies talks to window.insights.chrome
-    (window) =>
-      (window.insights = {
-        chrome: {
-          getUserPermissions: () => ['inventory:*:*'], // enable all read/write features
-          isProd: false,
-          auth: {
-            getUser: () => {
-              return Promise.resolve({});
-            },
-          },
-        },
-      })
-  );
-});
+const shorterGroupsFixtures = {
+  ...groupsFixtures,
+  count: 10,
+  total: 10,
+  results: groupsFixtures.results.slice(0, 10),
+};
+
+const AVAILABLE_FILTER_NAMES = [
+  'Name',
+  'Status',
+  'Operating System',
+  'Data Collector',
+  'RHC status',
+  'Last seen',
+  'Group',
+];
+
+const setTableInterceptos = () => {
+  featureFlagsInterceptors.successful();
+  systemProfileInterceptors['operating system, successful empty']();
+  groupsInterceptors['successful with some items'](shorterGroupsFixtures);
+  hostsInterceptors.successful();
+};
 
 describe('with default parameters', () => {
+  before(() => {
+    cy.mockWindowChrome();
+  });
+
   beforeEach(() => {
-    featureFlagsInterceptors.successful();
-    systemProfileInterceptors['operating system, successful empty']();
-    groupsInterceptors['successful with some items']();
-    hostsInterceptors.successful();
+    setTableInterceptos();
     mountTable();
     waitForTable(true);
   });
@@ -193,6 +202,95 @@ describe('with default parameters', () => {
       cy.get(CHIP_GROUP).should('not.exist');
     });
 
+    it('has correct list of default filters', () => {
+      cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+      AVAILABLE_FILTER_NAMES.forEach((filterName, index) => {
+        cy.get(DROPDOWN_ITEM).eq(index).should('have.text', filterName);
+      });
+    });
+
+    describe('groups filter', () => {
+      it('options are populated correctly', () => {
+        cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+        cy.get(DROPDOWN_ITEM).contains('Group').click();
+        cy.ouiaId('Filter by group').click();
+        cy.get('.pf-c-check__label').should(
+          'have.text',
+          shorterGroupsFixtures.results.map(({ name }) => name).join('')
+        );
+      });
+
+      const firstGroupName = shorterGroupsFixtures.results[0].name;
+
+      it('creates a chip', () => {
+        cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+        cy.get(DROPDOWN_ITEM).contains('Group').click();
+        cy.ouiaId('Filter by group').click();
+        cy.get('.pf-c-check__label').eq(0).click();
+        hasChip('Group', firstGroupName);
+      });
+
+      it('triggers new request', () => {
+        cy.wait('@getHosts');
+        cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+        cy.get(DROPDOWN_ITEM).contains('Group').click();
+        cy.ouiaId('Filter by group').click();
+        cy.get('.pf-c-check__label').eq(0).click();
+        cy.wait('@getHosts')
+          .its('request.url')
+          .should('include', `group_name=${firstGroupName}`);
+      });
+    });
+
     // TODO: add more filter cases
+  });
+});
+
+describe('hiding filters', () => {
+  before(cy.mockWindowChrome);
+
+  beforeEach(setTableInterceptos);
+
+  it('can hide all filters', () => {
+    mountTable({ hasAccess: true, hideFilters: { all: true } });
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').should(
+      'not.exist'
+    );
+  });
+
+  it('can hide groups filter', () => {
+    mountTable({ hasAccess: true, hideFilters: { hostGroupFilter: true } });
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
+  });
+
+  it('can hide name filter', () => {
+    mountTable({ hasAccess: true, hideFilters: { name: true } });
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Name');
+  });
+
+  it('can hide data collector filter', () => {
+    mountTable({ hasAccess: true, hideFilters: { registeredWith: true } });
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Data Collector');
+  });
+
+  it('can hide rhcd filter', () => {
+    mountTable({ hasAccess: true, hideFilters: { rhcdFilter: true } });
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'RHC status');
+  });
+
+  it('can hide os filter', () => {
+    mountTable({ hasAccess: true, hideFilters: { operatingSystem: true } });
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Operating System');
+  });
+
+  it('can hide last seen filter', () => {
+    mountTable({ hasAccess: true, hideFilters: { lastSeen: true } });
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Last seen');
   });
 });
