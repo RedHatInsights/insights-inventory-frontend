@@ -12,8 +12,9 @@ const Groups = () => {
   const chrome = useChrome();
 
   useEffect(() => {
+    chrome?.hideGlobalFilter?.();
     chrome?.updateDocumentTitle?.('Inventory Groups | Red Hat Insights');
-  }, [chrome]);
+  }, []);
 
   return (
     <React.Fragment>
