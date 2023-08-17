@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './inventory.scss';
 import {
   PageHeader,
@@ -31,8 +31,7 @@ import { InventoryTable as InventoryTableCmp } from '../components/InventoryTabl
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
-//TODO: re-enable when edge app migrates away from useHistory (THEEDGE-3488)
-// import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { manageEdgeInventoryUrlName } from '../Utilities/edge';
@@ -183,7 +182,6 @@ const Inventory = ({
   const [currentTab, setCurrentTab] = useState(activeTabKey);
   const handleTabClick = (_event, tabIndex) => {
     setCurrentTab(tabIndex);
-
     if (currentTab !== tabIndex) {
       setPrm(searchParams.search);
       let tabPath = tabsPath[tabIndex];
@@ -191,10 +189,9 @@ const Inventory = ({
         if (tabPath === '') {
           tabPath = '/';
         }
-        history.push(`${tabPath}${prm}`);
+        navigate(`${tabPath}${prm}`);
       }
     }
-
     setActiveTabKey(tabIndex);
   };
   const [ediOpen, onEditOpen] = useState(false);
@@ -534,17 +531,17 @@ const Inventory = ({
               eventKey={1}
               title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
             >
-              {/* 
-                //TODO: re-enable when edge app migrates away from useHistory (THEEDGE-3488)
+              {
                 <AsyncComponent
-                appName="edge"
-                module="./Inventory"
-                historyProp={useHistory}
-                locationProp={useLocation}
-                showHeaderProp={false}
-                pathPrefix={resolveRelPath('')}
-                urlName={manageEdgeInventoryUrlName}
-              /> */}
+                  appName="edge"
+                  module="./Inventory"
+                  navigateProp={useNavigate}
+                  locationProp={useLocation}
+                  showHeaderProp={false}
+                  pathPrefix={resolveRelPath('')}
+                  urlName={manageEdgeInventoryUrlName}
+                />
+              }
             </Tab>
           </Tabs>
         ) : (
