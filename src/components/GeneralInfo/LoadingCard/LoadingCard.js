@@ -17,8 +17,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { useLocation } from 'react-router-dom';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+import { Link, useParams } from 'react-router-dom';
 
 const valueToText = (value, singular, plural) => {
   if ((value || value === 0) && singular) {
@@ -35,25 +34,14 @@ const valueToText = (value, singular, plural) => {
 };
 
 export const Clickable = ({ value, target, plural, singular, onClick }) => {
-  const navigate = useInsightsNavigate();
-  const { pathname } = useLocation();
-  const modalId = pathname.split('/').pop();
+  const { modalId } = useParams();
   useEffect(() => {
     if (target === modalId) {
       onClick({ value, target });
     }
   }, [modalId, target]);
-  return (
-    <a
-      onClick={(event) => {
-        event.preventDefault();
-        navigate(`${pathname}/${target}`);
-      }}
-      href={`${window.location.origin}${window.location.pathname}/${target}`}
-    >
-      {valueToText(value, singular, plural)}
-    </a>
-  );
+
+  return <Link to={`./${target}`}>{valueToText(value, singular, plural)}</Link>;
 };
 
 Clickable.propTypes = {

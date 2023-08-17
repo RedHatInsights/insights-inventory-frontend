@@ -70,7 +70,7 @@ export const Routes = () => {
       ),
     },
     {
-      path: '/*',
+      path: '*',
       element: <Navigate to="/" replace />,
     },
   ]);

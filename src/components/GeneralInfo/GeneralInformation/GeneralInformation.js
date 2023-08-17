@@ -54,9 +54,7 @@ class GeneralInformation extends Component {
     rows &&
       this.onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
     if (this.state.isModalOpen) {
-      this.props.navigate(
-        this.props.location.pathname.split('/').slice(0, -1).join('/')
-      );
+      this.props.navigate(-1);
     }
 
     this.setState(({ isModalOpen }) => ({
