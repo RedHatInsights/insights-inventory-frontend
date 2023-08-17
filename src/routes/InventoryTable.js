@@ -180,16 +180,26 @@ const Inventory = ({
   }, [pathname]);
   const searchParams = useLocation();
   const [prm, setPrm] = useState('');
-
+  const [currentTab, setCurrentTab] = useState(activeTabKey);
   const handleTabClick = (_event, tabIndex) => {
-    setPrm(searchParams.search);
-    let tabPath = tabsPath[tabIndex];
-    if (tabPath !== undefined) {
-      if (tabPath === '') {
-        tabPath = '/';
+    setCurrentTab(tabIndex);
+
+    if (currentTab !== tabIndex) {
+      setPrm(searchParams.search);
+      console.log(prm);
+      console.log(searchParams.pathname);
+      let tabPath = tabsPath[tabIndex];
+      if (tabPath !== undefined) {
+        if (tabPath === '') {
+          tabPath = '/';
+        }
+        console.log(currentTab);
+        console.log(tabIndex);
+
+        history.push(`${tabPath}${prm}`);
       }
-      history.push(`${tabPath}${prm}`);
     }
+
     setActiveTabKey(tabIndex);
   };
   const [ediOpen, onEditOpen] = useState(false);
