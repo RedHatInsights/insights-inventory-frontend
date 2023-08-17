@@ -5,14 +5,12 @@ import toJson from 'enzyme-to-json';
 import BiosCard from './BiosCard';
 import configureStore from 'redux-mock-store';
 import { biosTest } from '../../../__mocks__/selectors';
+import { mountWithRouter } from '../../../Utilities/TestingUtilities';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({
     pathname: 'localhost:3000/example/path',
-  }),
-  useHistory: () => ({
-    push: () => undefined,
   }),
 }));
 
@@ -35,13 +33,13 @@ describe('BiosCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {} });
-    const wrapper = render(<BiosCard store={store} />);
+    const wrapper = mountWithRouter(<BiosCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<BiosCard store={store} />);
+    const wrapper = mountWithRouter(<BiosCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -56,7 +54,7 @@ describe('BiosCard', () => {
         },
       },
     });
-    const wrapper = render(<BiosCard store={store} />);
+    const wrapper = mountWithRouter(<BiosCard store={store} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -70,7 +68,7 @@ describe('BiosCard', () => {
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <BiosCard
         store={store}
         extra={[

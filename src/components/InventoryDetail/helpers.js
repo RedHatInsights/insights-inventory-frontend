@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 
-export const redirectToInventoryList = (id, onBackToListClick) => {
+export const redirectToInventoryList = (id, onBackToListClick, navigate) => {
   if (onBackToListClick) {
     onBackToListClick();
   } else {
@@ -12,7 +12,7 @@ export const redirectToInventoryList = (id, onBackToListClick) => {
       document.referrer !==
         `${document.location.origin}${document.location.pathname}`
     ) {
-      history.back();
+      navigate(-1);
     } else {
       location.href = location.pathname.replace(
         new RegExp(`${[id]}.*`, 'g'),

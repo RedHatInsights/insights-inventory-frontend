@@ -1,5 +1,5 @@
-import { Redirect, Route, Switch } from 'react-router-dom';
 import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import { Navigate, useRoutes } from 'react-router-dom';
 import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
@@ -43,86 +43,56 @@ export const Routes = () => {
       console.log(e);
     }
   }, [hasSystems]);
-  return (
-    <Suspense fallback="">
-      {!hasSystems ? (
-        <Suspense
-          fallback={
-            <Bullseye>
-              <Spinner size="xl" />
-            </Bullseye>
-          }
-        >
-          <AsynComponent
-            appId={'inventory_zero_state'}
-            appName="dashboard"
-            module="./AppZeroState"
-            scope="dashboard"
-            ErrorComponent={<ErrorState />}
-            app="Inventory"
-          />
-        </Suspense>
-      ) : (
-        <Switch>
-          <Route
-            exact
-            path={routes.update}
-            component={EdgeInventoryUpdate}
-            rootClass="inventory"
-          />
-          <Route
-            exact
-            path={routes.table}
-            render={() => (
-              <RenderWrapper cmp={InventoryTable} {...searchParams} />
-            )}
-            rootClass="inventory"
-          />
-          <Route
-            exact
-            path={routes.edgeInventory}
-            render={() => (
-              <RenderWrapper
-                cmp={InventoryTable}
-                isRbacEnabled
-                {...searchParams}
-              />
-            )}
-            rootClass="inventory"
-          />
-          <Route
-            exact
-            path={routes.groups}
-            component={groupsEnabled ? InventoryGroups : LostPage}
-            rootClass="inventory"
-          />
-          <Route
-            exact
-            path={routes.groupDetail}
-            component={groupsEnabled ? InventoryGroupDetail : LostPage}
-            rootClass="inventory"
-          />
-          <Route
-            exact
-            path={routes.detailWithModal}
-            component={InventoryDetail}
-            rootClass="inventory"
-          />
-          <Route
-            exact
-            path={routes.detail}
-            component={InventoryDetail}
-            rootClass="inventory"
-          />
-          <Route
-            exact
-            path={routes.manageEdgeInventoryUrlName}
-            component={InventoryTable}
-            rootClass="inventory"
-          />
-          <Redirect path="*" to="/" />
-        </Switch>
-      )}
+
+  let element = useRoutes([
+    {
+      path: '/',
+      element: <RenderWrapper cmp={InventoryTable} {...searchParams} />,
+    },
+    { path: '/:inventoryId', element: <InventoryDetail /> },
+    { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
+    {
+      path: '/groups',
+      element: groupsEnabled ? <InventoryGroups /> : <LostPage />,
+    },
+    {
+      path: '/groups/:groupId',
+      element: groupsEnabled ? <InventoryGroupDetail /> : <LostPage />,
+    },
+    {
+      path: '/:inventoryId/update',
+      element: <EdgeInventoryUpdate />,
+    },
+    {
+      path: '/manage-edge-inventory',
+      element: (
+        <RenderWrapper cmp={InventoryTable} isRbacEnabled {...searchParams} />
+      ),
+    },
+    {
+      path: '*',
+      element: <Navigate to="/" replace />,
+    },
+  ]);
+
+  return !hasSystems ? (
+    <Suspense
+      fallback={
+        <Bullseye>
+          <Spinner size="xl" />
+        </Bullseye>
+      }
+    >
+      <AsynComponent
+        appId={'inventory_zero_state'}
+        appName="dashboard"
+        module="./AppZeroState"
+        scope="dashboard"
+        ErrorComponent={<ErrorState />}
+        app="Inventory"
+      />
     </Suspense>
+  ) : (
+    element
   );
 };
