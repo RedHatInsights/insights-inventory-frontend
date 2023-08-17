@@ -151,6 +151,7 @@ const Inventory = ({
   const history = useHistory();
   const chrome = useChrome();
   const inventory = useRef(null);
+
   const [isModalOpen, handleModalToggle] = useState(false);
   const [currentSystem, setCurrentSystem] = useState({});
   const [filters, onSetfilters] = useState(
@@ -177,10 +178,17 @@ const Inventory = ({
   useEffect(() => {
     setActiveTabKey(initialActiveTabKey);
   }, [pathname]);
+  const searchParams = useLocation();
+  const [prm, setPrm] = useState('');
+
   const handleTabClick = (_event, tabIndex) => {
-    const tabPath = tabsPath[tabIndex];
+    setPrm(searchParams.search);
+    let tabPath = tabsPath[tabIndex];
     if (tabPath !== undefined) {
-      history.push(`${tabPath}`);
+      if (tabPath === '') {
+        tabPath = '/';
+      }
+      history.push(`${tabPath}${prm}`);
     }
     setActiveTabKey(tabIndex);
   };
