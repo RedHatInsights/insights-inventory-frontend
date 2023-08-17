@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import union from 'lodash/union';
-import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGroupsForEntities } from '../../store/inventory-actions';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-//for attaching this filter to the redux
+import { getGroups } from '../InventoryGroups/utils/api';
+
 export const groupFilterState = { hostGroupFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
 export const groupFilterReducer = (_state, { type, payload }) => ({
@@ -14,9 +14,7 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
-//receive the array of selected groups and return chips based on the name of selected groups
 export const buildHostGroupChips = (selectedGroups = []) => {
-  //we use new Set to make sure that chips are unique
   const chips = [...selectedGroups]?.map((group) => ({
     name: group,
     value: group,
@@ -32,39 +30,41 @@ export const buildHostGroupChips = (selectedGroups = []) => {
     : [];
 };
 
-const useGroupFilter = (apiParams = []) => {
-  const dispatch = useDispatch();
+const useGroupFilter = () => {
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+  const { fetchBatched } = useFetchBatched();
+  const [groups, setGroups] = useState([]);
+  const [selected, setSelected] = useState([]);
+
+  const onHostGroupsChange = useCallback((event, selection, item) => {
+    setSelected(union(selection, item));
+  }, []);
 
   useEffect(() => {
-    if (groupsEnabled === true) {
-      dispatch(fetchGroupsForEntities(apiParams)); // TODO: make the request paginated (to show all the groups)
+    const fetchOptions = async () => {
+      const firstRequest = !ignore
+        ? await getGroups(undefined, { page: 1, per_page: 1 })
+        : { total: 0 };
+      const groups = !ignore
+        ? await fetchBatched(getGroups, firstRequest.total)
+        : [];
+      !ignore && setGroups(groups.flatMap(({ results }) => results));
+    };
+
+    let ignore = false;
+
+    if (groupsEnabled) {
+      fetchOptions();
     }
+
+    return () => {
+      ignore = true;
+    };
   }, [groupsEnabled]);
-  //fetched values
-  const fetchedValues = useSelector(({ entities }) => entities?.groups);
-  //selected are the groups we selected
-  const [selected, setSelected] = useState([]);
-  //buildHostGroupsValues build an array of objects to populate dropdown
-  const [buildHostGroupsValues, setBuildHostGroupsValues] = useState([]);
-  //hostGroupValue is used for config items
-  useEffect(() => {
-    setBuildHostGroupsValues(
-      (fetchedValues || []).reduce((acc, group) => {
-        acc.push({ label: group.name, value: group.name });
-        return acc;
-      }, [])
-    );
-  }, [fetchedValues, selected]);
-  //this is used in the filter config as a way to select values onChange
-  const onHostGroupsChange = (event, selection, item) => {
-    setSelected(union(selection, item));
-  };
 
   const chips = useMemo(() => buildHostGroupChips(selected), [selected]);
-  //chips that is built for the filter config
 
-  //hostGroupConfig is a config that we use in EntityTableToolbar.js
+  // hostGroupConfig is used in EntityTableToolbar.js
   const hostGroupConfig = useMemo(
     () => ({
       label: 'Group',
@@ -75,13 +75,15 @@ const useGroupFilter = (apiParams = []) => {
           onHostGroupsChange(event, value, item);
         },
         value: selected,
-        items: buildHostGroupsValues,
+        items: groups.reduce((acc, { name }) => {
+          acc.push({ label: name, value: name });
+          return acc;
+        }, []),
       },
     }),
-    [selected, buildHostGroupsValues]
+    [groups, selected]
   );
 
-  //setSelectedValues is used for selecting and deleting values
   const setSelectedValues = (currentValue = []) => {
     setSelected(currentValue);
   };

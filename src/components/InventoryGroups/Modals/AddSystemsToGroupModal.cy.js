@@ -1,29 +1,21 @@
 /* eslint-disable rulesdir/disallow-fec-relative-imports */
-import { mount } from '@cypress/react';
 
-import FlagProvider from '@unleash/proxy-client-react';
-import _ from 'lodash';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-import {
-  featureFlagsInterceptors,
-  groupDetailInterceptors,
-  hostsFixtures,
-  hostsInterceptors,
-} from '../../../../cypress/support/interceptors';
-import {
-  selectRowN,
-  unleashDummyConfig,
-} from '../../../../cypress/support/utils';
-import { getStore } from '../../../store';
-import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 import {
   DROPDOWN_ITEM,
   TABLE,
   checkTableHeaders,
   ouiaId,
 } from '@redhat-cloud-services/frontend-components-utilities';
+import _ from 'lodash';
+import {
+  featureFlagsInterceptors,
+  groupDetailInterceptors,
+  groupsInterceptors,
+  hostsFixtures,
+  hostsInterceptors,
+} from '../../../../cypress/support/interceptors';
+import { selectRowN } from '../../../../cypress/support/utils';
+import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 
 const TABLE_HEADERS = [
   'Name',
@@ -52,18 +44,14 @@ before(() => {
 });
 
 const mountModal = () =>
-  mount(
-    <FlagProvider config={unleashDummyConfig}>
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <AddSystemsToGroupModal
-            isModalOpen={true}
-            groupId="620f9ae75A8F6b83d78F3B55Af1c4b2C"
-            setIsModalOpen={() => {}} // TODO: test that the func is called on close
-          />
-        </MemoryRouter>
-      </Provider>
-    </FlagProvider>
+  cy.mountWithContext(
+    AddSystemsToGroupModal,
+    {},
+    {
+      groupId: '620f9ae75A8F6b83d78F3B55Af1c4b2C',
+      isModalOpen: true,
+      setIsModalOpen: () => {},
+    }
   );
 
 describe('test data', () => {
@@ -90,6 +78,7 @@ describe('AddSystemsToGroupModal', () => {
     cy.intercept('*', { statusCode: 200 });
     hostsInterceptors.successful(); // default hosts list
     featureFlagsInterceptors.successful(); // to enable the Group column
+    groupsInterceptors['successful with some items']();
   });
 
   it('renders correct header and buttons', () => {
