@@ -5,12 +5,14 @@ import OperatingSystemCard from './OperatingSystemCard';
 import configureStore from 'redux-mock-store';
 import { osTest, rhsmFacts } from '../../../__mocks__/selectors';
 import { mountWithRouter } from '../../../Utilities/TestingUtilities';
+import { Clickable } from '../LoadingCard/LoadingCard';
 
 const location = {};
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
+  useParams: jest.fn(() => ({ modalId: 'kernel_modules' })),
 }));
 
 describe('OperatingSystemCard', () => {
@@ -82,7 +84,7 @@ describe('OperatingSystemCard', () => {
     it('should not render modules clickable', () => {
       const store = mockStore(initialState);
       const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
-      expect(wrapper.find('dd a')).toHaveLength(0);
+      expect(wrapper.find(Clickable).find('a')).toHaveLength(0);
     });
 
     it('should call handleClick on packages', () => {
@@ -109,7 +111,7 @@ describe('OperatingSystemCard', () => {
       const wrapper = mountWithRouter(
         <OperatingSystemCard handleClick={onClick} store={store} />
       );
-      wrapper.find('dd a').first().simulate('click');
+      wrapper.find(Clickable).find('a').first().simulate('click');
       expect(onClick).toHaveBeenCalled();
     });
   });

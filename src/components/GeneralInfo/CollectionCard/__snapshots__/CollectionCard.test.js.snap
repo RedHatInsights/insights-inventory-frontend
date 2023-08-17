@@ -2833,17 +2833,23 @@ exports[`CollectionCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="with click value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        value="1 tests"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//undefined"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          value="1 tests"
                                         >
-                                          1 tests
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./undefined"
+                                          >
+                                            <a
+                                              href="/undefined"
+                                              onClick={[Function]}
+                                            >
+                                              1 tests
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>

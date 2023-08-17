@@ -39,12 +39,16 @@ exports[`LoadingCard Clickable should render - 0 value 1`] = `
       target="some-target"
       value={0}
     >
-      <a
-        href="http://localhost:5000//some-target"
-        onClick={[Function]}
+      <Link
+        to="./some-target"
       >
-        None
-      </a>
+        <a
+          href="/some-target"
+          onClick={[Function]}
+        >
+          None
+        </a>
+      </Link>
     </Clickable>
   </Router>
 </MemoryRouter>
@@ -84,13 +88,19 @@ exports[`LoadingCard Clickable should render - no data 1`] = `
       }
     }
   >
-    <Clickable>
-      <a
-        href="http://localhost:5000//undefined"
-        onClick={[Function]}
+    <Clickable
+      onClick={[MockFunction]}
+    >
+      <Link
+        to="./undefined"
       >
-        Not available
-      </a>
+        <a
+          href="/undefined"
+          onClick={[Function]}
+        >
+          Not available
+        </a>
+      </Link>
     </Clickable>
   </Router>
 </MemoryRouter>
@@ -431,17 +441,23 @@ exports[`LoadingCard Loading card render 1`] = `
                                   className=""
                                   data-ouia-component-id="test-title value"
                                 >
-                                  <Clickable
-                                    onClick={[MockFunction]}
-                                    value="some value"
-                                  >
-                                    <a
-                                      href="http://localhost:5000//undefined"
-                                      onClick={[Function]}
+                                  <div>
+                                    <Clickable
+                                      onClick={[MockFunction]}
+                                      value="some value"
                                     >
-                                      some value
-                                    </a>
-                                  </Clickable>
+                                      <Link
+                                        to="./undefined"
+                                      >
+                                        <a
+                                          href="/undefined"
+                                          onClick={[Function]}
+                                        >
+                                          some value
+                                        </a>
+                                      </Link>
+                                    </Clickable>
+                                  </div>
                                 </dd>
                               </TextListItem>
                               <TextListItem

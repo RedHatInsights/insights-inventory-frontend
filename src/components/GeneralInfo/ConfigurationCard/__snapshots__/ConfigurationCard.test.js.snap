@@ -50,12 +50,15 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
               className=""
               data-ouia-component-id="Installed packages value"
             >
-              <a
-                href="http://localhost:5000//installed_packages"
-                onClick={[Function]}
-              >
-                1 package
-              </a>
+              <div>
+                <a
+                  href="/installed_packages"
+                  onClick={[Function]}
+                >
+                  1 package
+                </a>
+                installed_packages
+              </div>
             </dd>
             <dt
               className=""
@@ -67,12 +70,15 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
               className=""
               data-ouia-component-id="Services value"
             >
-              <a
-                href="http://localhost:5000//services"
-                onClick={[Function]}
-              >
-                1 service
-              </a>
+              <div>
+                <a
+                  href="/services"
+                  onClick={[Function]}
+                >
+                  1 service
+                </a>
+                services
+              </div>
             </dd>
             <dt
               className=""
@@ -84,12 +90,15 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
               className=""
               data-ouia-component-id="Running processes value"
             >
-              <a
-                href="http://localhost:5000//running_processes"
-                onClick={[Function]}
-              >
-                1 process
-              </a>
+              <div>
+                <a
+                  href="/running_processes"
+                  onClick={[Function]}
+                >
+                  1 process
+                </a>
+                running_processes
+              </div>
             </dd>
             <dt
               className=""
@@ -101,12 +110,15 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
               className=""
               data-ouia-component-id="Repositories value"
             >
-              <a
-                href="http://localhost:5000//repositories"
-                onClick={[Function]}
-              >
-                1 enabled
-              </a>
+              <div>
+                <a
+                  href="/repositories"
+                  onClick={[Function]}
+                >
+                  1 enabled
+                </a>
+                repositories
+              </div>
             </dd>
           </dl>
         </div>
@@ -322,19 +334,26 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                       className=""
                                       data-ouia-component-id="Services value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="service"
-                                        target="services"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//services"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="service"
+                                          target="services"
+                                          value={1}
                                         >
-                                          1 service
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./services"
+                                          >
+                                            <a
+                                              href="/services"
+                                              onClick={[Function]}
+                                            >
+                                              1 service
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        services
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -356,20 +375,27 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                       className=""
                                       data-ouia-component-id="Running processes value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="processes"
-                                        singular="process"
-                                        target="running_processes"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//running_processes"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="processes"
+                                          singular="process"
+                                          target="running_processes"
+                                          value={1}
                                         >
-                                          1 process
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./running_processes"
+                                          >
+                                            <a
+                                              href="/running_processes"
+                                              onClick={[Function]}
+                                            >
+                                              1 process
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        running_processes
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -391,18 +417,25 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                       className=""
                                       data-ouia-component-id="Repositories value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        target="repositories"
-                                        value="1 enabled"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//repositories"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          target="repositories"
+                                          value="1 enabled"
                                         >
-                                          1 enabled
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./repositories"
+                                          >
+                                            <a
+                                              href="/repositories"
+                                              onClick={[Function]}
+                                            >
+                                              1 enabled
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        repositories
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -629,19 +662,26 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                       className=""
                                       data-ouia-component-id="Installed packages value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="package"
-                                        target="installed_packages"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//installed_packages"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="package"
+                                          target="installed_packages"
+                                          value={1}
                                         >
-                                          1 package
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./installed_packages"
+                                          >
+                                            <a
+                                              href="/installed_packages"
+                                              onClick={[Function]}
+                                            >
+                                              1 package
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        installed_packages
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -663,19 +703,26 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                       className=""
                                       data-ouia-component-id="Services value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="service"
-                                        target="services"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//services"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="service"
+                                          target="services"
+                                          value={1}
                                         >
-                                          1 service
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./services"
+                                          >
+                                            <a
+                                              href="/services"
+                                              onClick={[Function]}
+                                            >
+                                              1 service
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        services
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -697,18 +744,25 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                       className=""
                                       data-ouia-component-id="Repositories value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        target="repositories"
-                                        value="1 enabled"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//repositories"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          target="repositories"
+                                          value="1 enabled"
                                         >
-                                          1 enabled
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./repositories"
+                                          >
+                                            <a
+                                              href="/repositories"
+                                              onClick={[Function]}
+                                            >
+                                              1 enabled
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        repositories
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -937,19 +991,26 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                       className=""
                                       data-ouia-component-id="Installed packages value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="package"
-                                        target="installed_packages"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//installed_packages"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="package"
+                                          target="installed_packages"
+                                          value={1}
                                         >
-                                          1 package
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./installed_packages"
+                                          >
+                                            <a
+                                              href="/installed_packages"
+                                              onClick={[Function]}
+                                            >
+                                              1 package
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        installed_packages
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -971,19 +1032,26 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                       className=""
                                       data-ouia-component-id="Services value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="service"
-                                        target="services"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//services"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="service"
+                                          target="services"
+                                          value={1}
                                         >
-                                          1 service
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./services"
+                                          >
+                                            <a
+                                              href="/services"
+                                              onClick={[Function]}
+                                            >
+                                              1 service
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        services
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1005,20 +1073,27 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                       className=""
                                       data-ouia-component-id="Running processes value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="processes"
-                                        singular="process"
-                                        target="running_processes"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//running_processes"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="processes"
+                                          singular="process"
+                                          target="running_processes"
+                                          value={1}
                                         >
-                                          1 process
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./running_processes"
+                                          >
+                                            <a
+                                              href="/running_processes"
+                                              onClick={[Function]}
+                                            >
+                                              1 process
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        running_processes
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -1246,19 +1321,26 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                       className=""
                                       data-ouia-component-id="Installed packages value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="package"
-                                        target="installed_packages"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//installed_packages"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="package"
+                                          target="installed_packages"
+                                          value={1}
                                         >
-                                          1 package
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./installed_packages"
+                                          >
+                                            <a
+                                              href="/installed_packages"
+                                              onClick={[Function]}
+                                            >
+                                              1 package
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        installed_packages
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1280,20 +1362,27 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                       className=""
                                       data-ouia-component-id="Running processes value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="processes"
-                                        singular="process"
-                                        target="running_processes"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//running_processes"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="processes"
+                                          singular="process"
+                                          target="running_processes"
+                                          value={1}
                                         >
-                                          1 process
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./running_processes"
+                                          >
+                                            <a
+                                              href="/running_processes"
+                                              onClick={[Function]}
+                                            >
+                                              1 process
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        running_processes
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1315,18 +1404,25 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                       className=""
                                       data-ouia-component-id="Repositories value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        target="repositories"
-                                        value="1 enabled"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//repositories"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          target="repositories"
+                                          value="1 enabled"
                                         >
-                                          1 enabled
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./repositories"
+                                          >
+                                            <a
+                                              href="/repositories"
+                                              onClick={[Function]}
+                                            >
+                                              1 enabled
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        repositories
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -1902,19 +1998,26 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                       className=""
                                       data-ouia-component-id="Installed packages value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="package"
-                                        target="installed_packages"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//installed_packages"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="package"
+                                          target="installed_packages"
+                                          value={1}
                                         >
-                                          1 package
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./installed_packages"
+                                          >
+                                            <a
+                                              href="/installed_packages"
+                                              onClick={[Function]}
+                                            >
+                                              1 package
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        installed_packages
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1936,19 +2039,26 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                       className=""
                                       data-ouia-component-id="Services value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="service"
-                                        target="services"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//services"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="service"
+                                          target="services"
+                                          value={1}
                                         >
-                                          1 service
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./services"
+                                          >
+                                            <a
+                                              href="/services"
+                                              onClick={[Function]}
+                                            >
+                                              1 service
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        services
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1970,20 +2080,27 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                       className=""
                                       data-ouia-component-id="Running processes value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="processes"
-                                        singular="process"
-                                        target="running_processes"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//running_processes"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="processes"
+                                          singular="process"
+                                          target="running_processes"
+                                          value={1}
                                         >
-                                          1 process
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./running_processes"
+                                          >
+                                            <a
+                                              href="/running_processes"
+                                              onClick={[Function]}
+                                            >
+                                              1 process
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        running_processes
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2005,18 +2122,25 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                       className=""
                                       data-ouia-component-id="Repositories value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        target="repositories"
-                                        value="1 enabled"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//repositories"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          target="repositories"
+                                          value="1 enabled"
                                         >
-                                          1 enabled
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./repositories"
+                                          >
+                                            <a
+                                              href="/repositories"
+                                              onClick={[Function]}
+                                            >
+                                              1 enabled
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        repositories
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -2248,19 +2372,26 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                       className=""
                                       data-ouia-component-id="Installed packages value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="package"
-                                        target="installed_packages"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//installed_packages"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="package"
+                                          target="installed_packages"
+                                          value={1}
                                         >
-                                          1 package
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./installed_packages"
+                                          >
+                                            <a
+                                              href="/installed_packages"
+                                              onClick={[Function]}
+                                            >
+                                              1 package
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        installed_packages
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2282,19 +2413,26 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                       className=""
                                       data-ouia-component-id="Services value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="service"
-                                        target="services"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//services"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="service"
+                                          target="services"
+                                          value={1}
                                         >
-                                          1 service
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./services"
+                                          >
+                                            <a
+                                              href="/services"
+                                              onClick={[Function]}
+                                            >
+                                              1 service
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        services
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2316,20 +2454,27 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                       className=""
                                       data-ouia-component-id="Running processes value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="processes"
-                                        singular="process"
-                                        target="running_processes"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//running_processes"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="processes"
+                                          singular="process"
+                                          target="running_processes"
+                                          value={1}
                                         >
-                                          1 process
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./running_processes"
+                                          >
+                                            <a
+                                              href="/running_processes"
+                                              onClick={[Function]}
+                                            >
+                                              1 process
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        running_processes
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2351,18 +2496,25 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                       className=""
                                       data-ouia-component-id="Repositories value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        target="repositories"
-                                        value="1 enabled / 1 disabled"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//repositories"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          target="repositories"
+                                          value="1 enabled / 1 disabled"
                                         >
-                                          1 enabled / 1 disabled
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./repositories"
+                                          >
+                                            <a
+                                              href="/repositories"
+                                              onClick={[Function]}
+                                            >
+                                              1 enabled / 1 disabled
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        repositories
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -2630,19 +2782,26 @@ exports[`ConfigurationCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="Installed packages value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="package"
-                                        target="installed_packages"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//installed_packages"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="package"
+                                          target="installed_packages"
+                                          value={1}
                                         >
-                                          1 package
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./installed_packages"
+                                          >
+                                            <a
+                                              href="/installed_packages"
+                                              onClick={[Function]}
+                                            >
+                                              1 package
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        installed_packages
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2664,19 +2823,26 @@ exports[`ConfigurationCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="Services value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="service"
-                                        target="services"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//services"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="service"
+                                          target="services"
+                                          value={1}
                                         >
-                                          1 service
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./services"
+                                          >
+                                            <a
+                                              href="/services"
+                                              onClick={[Function]}
+                                            >
+                                              1 service
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        services
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2698,20 +2864,27 @@ exports[`ConfigurationCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="Running processes value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="processes"
-                                        singular="process"
-                                        target="running_processes"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//running_processes"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="processes"
+                                          singular="process"
+                                          target="running_processes"
+                                          value={1}
                                         >
-                                          1 process
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./running_processes"
+                                          >
+                                            <a
+                                              href="/running_processes"
+                                              onClick={[Function]}
+                                            >
+                                              1 process
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        running_processes
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2733,18 +2906,25 @@ exports[`ConfigurationCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="Repositories value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        target="repositories"
-                                        value="1 enabled"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//repositories"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          target="repositories"
+                                          value="1 enabled"
                                         >
-                                          1 enabled
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./repositories"
+                                          >
+                                            <a
+                                              href="/repositories"
+                                              onClick={[Function]}
+                                            >
+                                              1 enabled
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        repositories
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2788,17 +2968,23 @@ exports[`ConfigurationCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="with click value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        value="1 tests"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//undefined"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          value="1 tests"
                                         >
-                                          1 tests
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./undefined"
+                                          >
+                                            <a
+                                              href="/undefined"
+                                              onClick={[Function]}
+                                            >
+                                              1 tests
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>

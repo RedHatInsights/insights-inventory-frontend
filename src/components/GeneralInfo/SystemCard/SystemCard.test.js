@@ -11,6 +11,8 @@ import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
 import { Provider } from 'react-redux';
 import { mountWithRouter } from '../../../Utilities/TestingUtilities';
+import { Clickable } from '../LoadingCard/LoadingCard';
+import { useParams } from 'react-router-dom';
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
 const location = { pathname: 'some-path' };
@@ -24,6 +26,9 @@ const removeLabelledBy = ({
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
+  useParams: jest.fn(() => ({
+    modalId: 'testModal',
+  })),
 }));
 
 jest.mock(
@@ -318,14 +323,14 @@ describe('SystemCard', () => {
       });
       const handleClick = jest.fn();
       location.pathname = 'localhost:3000/example/sap_sids';
-
+      useParams.mockImplementation(() => ({ modalId: 'sap_sids' }));
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard handleClick={handleClick} />
         </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        ['Test detail page', '/inventory/testModal']
       );
-      wrapper.find('dd a').last().simulate('click');
+      wrapper.find(Clickable).find('a').last().simulate('click');
       expect(handleClick).toHaveBeenCalledWith('SAP IDs (SID)', {
         cells: [
           {
@@ -351,14 +356,14 @@ describe('SystemCard', () => {
       });
       const handleClick = jest.fn();
       location.pathname = 'localhost:3000/example/flag';
-
+      useParams.mockImplementation(() => ({ modalId: 'flag' }));
       const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard handleClick={handleClick} />
         </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        ['Test detail page', '/inventory/inventoryId']
       );
-      wrapper.find('dd a').last().simulate('click');
+      wrapper.find(Clickable).find('a').last().simulate('click');
       expect(handleClick).toHaveBeenCalledWith('CPU flags', {
         cells: [
           {

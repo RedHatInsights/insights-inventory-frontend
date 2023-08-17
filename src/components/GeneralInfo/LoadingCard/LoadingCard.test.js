@@ -8,11 +8,10 @@ jest.mock('react-router-dom', () => ({
   useLocation: () => ({
     pathname: 'localhost:3000/example/path',
   }),
+  useParams: () => ({
+    modalId: 'path',
+  }),
 }));
-jest.mock(
-  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate',
-  () => () => jest.fn()
-);
 
 describe('LoadingCard', () => {
   [true, false].map((isLoading) => {
@@ -70,7 +69,7 @@ describe('LoadingCard', () => {
   });
 
   it('Clickable should render - no data', () => {
-    const wrapper = mountWithRouter(<Clickable />);
+    const wrapper = mountWithRouter(<Clickable onClick={jest.fn()} />);
     expect(toJson(wrapper)).toMatchSnapshot();
   });
 
@@ -248,7 +247,8 @@ describe('LoadingCard', () => {
   it('clickable should click', () => {
     const onClick = jest.fn();
     const wrapper = mountWithRouter(
-      <Clickable onClick={onClick} value="15" target="path" />
+      <Clickable onClick={onClick} value="15" target="path" />,
+      'http://localhost:5000/inventoryId/modalId'
     );
     wrapper
       .find('a')

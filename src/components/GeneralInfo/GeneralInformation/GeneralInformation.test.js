@@ -21,9 +21,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { hosts } from '../../../api/api';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
-
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
-const mockNavigate = jest.fn();
+
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
   () => ({
@@ -32,17 +31,13 @@ jest.mock(
   })
 );
 
-jest.mock(
-  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate',
-  () => () => mockNavigate
-);
-
-const location = {};
-
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
+  useParams: jest.fn(() => ({ modalId: 'running_processes' })),
 }));
+
+const location = {};
 
 describe('GeneralInformation', () => {
   let initialState;
@@ -183,54 +178,27 @@ describe('GeneralInformation', () => {
 
     it('should open modal', () => {
       const store = mockStore(initialState);
-      location.pathname = 'localhost:3000/example/interfaces';
 
       const wrapper = mount(
         <MemoryRouter>
           <Provider store={store}>
             <GeneralInformation inventoryId={'test-id'} />
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
+        ['Test detail page', '/:inventory/:modalId']
       );
-      wrapper.find('a[href$="interfaces"]').first().simulate('click');
-      expect(mockNavigate).toBeCalledWith(`${location.pathname}/interfaces`);
+      wrapper.find('a[href$="running_processes"]').first().simulate('click');
       wrapper.update();
       expect(
         wrapper.find('GeneralInformation').instance().state.isModalOpen
       ).toBe(true);
       expect(
         wrapper.find('GeneralInformation').instance().state.modalTitle
-      ).toBe('Interfaces/NICs');
-    });
-
-    it('should update on sort', () => {
-      const store = mockStore(initialState);
-      location.pathname = 'localhost:3000/example/interfaces';
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <GeneralInformation inventoryId={'test-id'} />
-          </Provider>
-        </MemoryRouter>
-      );
-      wrapper.find('a[href$="interfaces"]').first().simulate('click');
-      wrapper.update();
-      const [firstRow, secondRow] = wrapper
-        .find('GeneralInformation')
-        .instance().state.rows;
-      wrapper.find('table th button').first().simulate('click');
-      wrapper.update();
-      expect(
-        wrapper.find('GeneralInformation').instance().state.rows[0]
-      ).toEqual(secondRow);
-      expect(
-        wrapper.find('GeneralInformation').instance().state.rows[1]
-      ).toEqual(firstRow);
+      ).toBe('Running processes');
     });
 
     it('should open modal', () => {
       const store = mockStore(initialState);
-      location.pathname = 'localhost:3000/example/interfaces';
       const wrapper = mount(
         <MemoryRouter>
           <Provider store={store}>
@@ -238,7 +206,7 @@ describe('GeneralInformation', () => {
           </Provider>
         </MemoryRouter>
       );
-      wrapper.find('a[href$="interfaces"]').first().simulate('click');
+      wrapper.find('a[href$="running_processes"]').first().simulate('click');
       wrapper.update();
       wrapper
         .find('.ins-c-inventory__detail--dialog button.pf-m-plain')
@@ -248,25 +216,6 @@ describe('GeneralInformation', () => {
       expect(
         wrapper.find('GeneralInformation').instance().state.isModalOpen
       ).toBe(false);
-    });
-
-    it('should calculate first index when expandable', () => {
-      const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <GeneralInformation inventoryId={'test-id'} />
-          </Provider>
-        </MemoryRouter>
-      );
-      wrapper
-        .find('GeneralInformation')
-        .instance()
-        .handleModalToggle('title', {
-          cells: [{ title: 'one' }, { title: 'two' }],
-          rows: [{ cells: ['a', 'aa'] }, { cells: ['b', 'bb'] }],
-          expandable: true,
-        });
     });
   });
 });

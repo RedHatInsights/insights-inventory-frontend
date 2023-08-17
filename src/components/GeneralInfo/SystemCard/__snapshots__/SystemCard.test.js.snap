@@ -4011,12 +4011,15 @@ Array [
                 className=""
                 data-ouia-component-id="SAP value"
               >
-                <a
-                  href="http://localhost:5000//sap_sids"
-                  onClick={[Function]}
-                >
-                  2 identifiers
-                </a>
+                <div>
+                  <a
+                    href="/sap_sids"
+                    onClick={[Function]}
+                  >
+                    2 identifiers
+                  </a>
+                  sap_sids
+                </div>
               </dd>
               <dt
                 className=""
@@ -5138,12 +5141,14 @@ Array [
                 className=""
                 data-ouia-component-id="with click value"
               >
-                <a
-                  href="http://localhost:5000//undefined"
-                  onClick={[Function]}
-                >
-                  1 tests
-                </a>
+                <div>
+                  <a
+                    href="/undefined"
+                    onClick={[Function]}
+                  >
+                    1 tests
+                  </a>
+                </div>
               </dd>
             </dl>
           </div>

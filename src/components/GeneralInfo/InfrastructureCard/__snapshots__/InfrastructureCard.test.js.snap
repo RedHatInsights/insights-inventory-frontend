@@ -245,20 +245,27 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv6"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv6"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv6"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv6"
+                                          >
+                                            <a
+                                              href="/ipv6"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv6
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -280,19 +287,26 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                       className=""
                                       data-ouia-component-id="Interfaces/NICs value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="NIC"
-                                        target="interfaces"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//interfaces"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="NIC"
+                                          target="interfaces"
+                                          value={1}
                                         >
-                                          1 NIC
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./interfaces"
+                                          >
+                                            <a
+                                              href="/interfaces"
+                                              onClick={[Function]}
+                                            >
+                                              1 NIC
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        interfaces
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -559,20 +573,27 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv4 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv4"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv4"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv4"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv4"
+                                          >
+                                            <a
+                                              href="/ipv4"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv4
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -594,19 +615,26 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                       className=""
                                       data-ouia-component-id="Interfaces/NICs value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="NIC"
-                                        target="interfaces"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//interfaces"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="NIC"
+                                          target="interfaces"
+                                          value={1}
                                         >
-                                          1 NIC
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./interfaces"
+                                          >
+                                            <a
+                                              href="/interfaces"
+                                              onClick={[Function]}
+                                            >
+                                              1 NIC
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        interfaces
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -874,20 +902,27 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv4 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv4"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv4"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv4"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv4"
+                                          >
+                                            <a
+                                              href="/ipv4"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv4
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -909,20 +944,27 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv6"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv6"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv6"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv6"
+                                          >
+                                            <a
+                                              href="/ipv6"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv6
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -1171,20 +1213,27 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv4 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv4"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv4"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv4"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv4"
+                                          >
+                                            <a
+                                              href="/ipv4"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv4
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1206,20 +1255,27 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv6"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv6"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv6"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv6"
+                                          >
+                                            <a
+                                              href="/ipv6"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv6
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1241,19 +1297,26 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                       className=""
                                       data-ouia-component-id="Interfaces/NICs value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="NIC"
-                                        target="interfaces"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//interfaces"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="NIC"
+                                          target="interfaces"
+                                          value={1}
                                         >
-                                          1 NIC
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./interfaces"
+                                          >
+                                            <a
+                                              href="/interfaces"
+                                              onClick={[Function]}
+                                            >
+                                              1 NIC
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        interfaces
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -1502,20 +1565,27 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv4 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv4"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv4"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv4"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv4"
+                                          >
+                                            <a
+                                              href="/ipv4"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv4
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1537,20 +1607,27 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv6"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv6"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv6"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv6"
+                                          >
+                                            <a
+                                              href="/ipv6"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv6
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1572,19 +1649,26 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                       className=""
                                       data-ouia-component-id="Interfaces/NICs value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="NIC"
-                                        target="interfaces"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//interfaces"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="NIC"
+                                          target="interfaces"
+                                          value={1}
                                         >
-                                          1 NIC
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./interfaces"
+                                          >
+                                            <a
+                                              href="/interfaces"
+                                              onClick={[Function]}
+                                            >
+                                              1 NIC
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        interfaces
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -2242,20 +2326,27 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv4 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv4"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv4"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv4"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv4"
+                                          >
+                                            <a
+                                              href="/ipv4"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv4
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2277,20 +2368,27 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv6"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv6"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv6"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv6"
+                                          >
+                                            <a
+                                              href="/ipv6"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv6
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2312,19 +2410,26 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                       className=""
                                       data-ouia-component-id="Interfaces/NICs value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="NIC"
-                                        target="interfaces"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//interfaces"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="NIC"
+                                          target="interfaces"
+                                          value={1}
                                         >
-                                          1 NIC
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./interfaces"
+                                          >
+                                            <a
+                                              href="/interfaces"
+                                              onClick={[Function]}
+                                            >
+                                              1 NIC
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        interfaces
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -2912,20 +3017,27 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv4 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv4"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv4"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv4"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv4"
+                                          >
+                                            <a
+                                              href="/ipv4"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv4
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2947,20 +3059,27 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv6"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv6"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv6"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv6"
+                                          >
+                                            <a
+                                              href="/ipv6"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv6
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2982,19 +3101,26 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                       className=""
                                       data-ouia-component-id="Interfaces/NICs value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="NIC"
-                                        target="interfaces"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//interfaces"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="NIC"
+                                          target="interfaces"
+                                          value={1}
                                         >
-                                          1 NIC
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./interfaces"
+                                          >
+                                            <a
+                                              href="/interfaces"
+                                              onClick={[Function]}
+                                            >
+                                              1 NIC
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        interfaces
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>
@@ -3302,20 +3428,27 @@ exports[`InfrastructureCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv4 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv4"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv4"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv4"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv4"
+                                          >
+                                            <a
+                                              href="/ipv4"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv4
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -3337,20 +3470,27 @@ exports[`InfrastructureCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        plural="addresses"
-                                        singular="address"
-                                        target="ipv6"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//ipv6"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          plural="addresses"
+                                          singular="address"
+                                          target="ipv6"
+                                          value={1}
                                         >
-                                          1 address
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./ipv6"
+                                          >
+                                            <a
+                                              href="/ipv6"
+                                              onClick={[Function]}
+                                            >
+                                              1 address
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        ipv6
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -3372,19 +3512,26 @@ exports[`InfrastructureCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="Interfaces/NICs value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        singular="NIC"
-                                        target="interfaces"
-                                        value={1}
-                                      >
-                                        <a
-                                          href="http://localhost:5000//interfaces"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          singular="NIC"
+                                          target="interfaces"
+                                          value={1}
                                         >
-                                          1 NIC
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./interfaces"
+                                          >
+                                            <a
+                                              href="/interfaces"
+                                              onClick={[Function]}
+                                            >
+                                              1 NIC
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                        interfaces
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -3428,17 +3575,23 @@ exports[`InfrastructureCard should render extra 1`] = `
                                       className=""
                                       data-ouia-component-id="with click value"
                                     >
-                                      <Clickable
-                                        onClick={[Function]}
-                                        value="1 tests"
-                                      >
-                                        <a
-                                          href="http://localhost:5000//undefined"
+                                      <div>
+                                        <Clickable
                                           onClick={[Function]}
+                                          value="1 tests"
                                         >
-                                          1 tests
-                                        </a>
-                                      </Clickable>
+                                          <Link
+                                            to="./undefined"
+                                          >
+                                            <a
+                                              href="/undefined"
+                                              onClick={[Function]}
+                                            >
+                                              1 tests
+                                            </a>
+                                          </Link>
+                                        </Clickable>
+                                      </div>
                                     </dd>
                                   </TextListItem>
                                 </dl>

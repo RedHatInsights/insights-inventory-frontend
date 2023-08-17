@@ -5,12 +5,13 @@ import InfrastructureCard from './InfrastructureCard';
 import configureStore from 'redux-mock-store';
 import { infraTest, rhsmFacts } from '../../../__mocks__/selectors';
 import { mountWithRouter } from '../../../Utilities/TestingUtilities';
-
+import { useParams } from 'react-router-dom';
 const location = {};
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
+  useParams: jest.fn(() => ({ modalId: 'ipv4' })),
 }));
 
 describe('InfrastructureCard', () => {
@@ -91,6 +92,7 @@ describe('InfrastructureCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/ipv4';
+      useParams.mockImplementation(() => ({ modalId: 'ipv4' }));
       const wrapper = mountWithRouter(
         <InfrastructureCard handleClick={onClick} store={store} />
       );
@@ -102,6 +104,7 @@ describe('InfrastructureCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/ipv6';
+      useParams.mockImplementation(() => ({ modalId: 'ipv6' }));
       const wrapper = mountWithRouter(
         <InfrastructureCard handleClick={onClick} store={store} />
       );
@@ -113,6 +116,7 @@ describe('InfrastructureCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/interfaces';
+      useParams.mockImplementation(() => ({ modalId: 'interfaces' }));
       const wrapper = mountWithRouter(
         <InfrastructureCard handleClick={onClick} store={store} />
       );

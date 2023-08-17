@@ -102,13 +102,16 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
                         )}
                         {!isLoading &&
                           (onClick && value ? (
-                            <Clickable
-                              onClick={onClick}
-                              value={value}
-                              target={target}
-                              plural={plural}
-                              singular={singular}
-                            />
+                            <div>
+                              <Clickable
+                                onClick={onClick}
+                                value={value}
+                                target={target}
+                                plural={plural}
+                                singular={singular}
+                              />
+                              {target}
+                            </div>
                           ) : (
                             valueToText(value, singular, plural)
                           ))}
