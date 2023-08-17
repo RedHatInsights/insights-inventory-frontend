@@ -44,6 +44,11 @@ before(() => {
   cy.mockWindowChrome();
 });
 
+const waitTable = () =>
+  cy
+    .get('table[aria-label="Groups table"]')
+    .should('have.attr', 'data-ouia-safe', 'true');
+
 const checkSorting = (label, order, dataField) => {
   // get appropriate locators
   const header = `th[data-label="${label}"]`;
@@ -59,6 +64,9 @@ const checkSorting = (label, order, dataField) => {
     .and('include', `order_by=${dataField}`);
 };
 
+const TEST_GROUP_NAME = 'Ut';
+const TEST_GROUP_ID = 'bBEbFFB0D339fA46eD81cCA301d85AAF';
+
 describe('test data', () => {
   it('first two rows do not have hosts', () => {
     expect(
@@ -72,6 +80,11 @@ describe('test data', () => {
 
   it('at least one group has known host number', () => {
     expect(fixtures.results.some(({ host_count }) => host_count !== undefined));
+  });
+
+  it(`first group is ${TEST_GROUP_NAME}`, () => {
+    expect(fixtures.results[0].id).to.equal(TEST_GROUP_ID);
+    expect(fixtures.results[0].name).to.equal(TEST_GROUP_NAME);
   });
 });
 
@@ -293,9 +306,7 @@ describe('actions', () => {
 
   it('bulk delete action is disabled when no items selected', () => {
     cy.ouiaId('Actions').should('exist').click();
-    cy.get(DROPDOWN_ITEM)
-      .contains('Delete group')
-      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
   });
 
   describe('deletion', () => {
@@ -414,40 +425,87 @@ describe('edge cases', () => {
 });
 
 describe('integration with rbac', () => {
-  before(() => {
-    cy.mockWindowChrome({ userPermissions: ['inventory:groups:read'] });
-  });
-
-  beforeEach(() => {
-    interceptors['successful with some items'](); // comment out if the mock server is running
-    mountTable();
-
-    cy.get('table[aria-label="Groups table"]').should(
-      'have.attr',
-      'data-ouia-safe',
-      'true'
-    );
-  });
-
   describe('with only groups read', () => {
+    before(() => {
+      cy.mockWindowChrome({ userPermissions: ['inventory:groups:read'] });
+    });
+
+    beforeEach(() => {
+      interceptors['successful with some items'](); // comment out if the mock server is running
+      mountTable();
+      waitTable();
+    });
+
     it('disables general actions', () => {
       cy.ouiaId('Actions').should('exist').click();
 
       cy.get(TOOLBAR)
         .find('button')
         .contains('Create group')
-        .should('have.attr', 'aria-disabled', 'true');
-      cy.get(DROPDOWN_ITEM)
-        .contains('Delete group')
-        .should('have.attr', 'aria-disabled', 'true');
+        .shouldHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
     });
 
     it('disables per-row actions', () => {
       cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
 
+      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
+    });
+  });
+
+  describe('with the write permissions for some groups', () => {
+    before(() => {
+      cy.mockWindowChrome({
+        userPermissions: [
+          'inventory:groups:read',
+          {
+            permission: 'inventory:groups:write',
+            resourceDefinitions: [
+              {
+                attributeFilter: {
+                  key: 'group.id',
+                  operation: 'equal',
+                  value: TEST_GROUP_ID,
+                },
+              },
+            ],
+          },
+        ],
+      });
+    });
+
+    beforeEach(() => {
+      interceptors['successful with some items'](); // comment out if the mock server is running
+      mountTable();
+      waitTable();
+    });
+
+    it('has actions enabled for permitted group', () => {
+      cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
+      cy.get(DROPDOWN_ITEM).contains('Rename group').shouldHaveAriaEnabled();
+      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaEnabled();
+    });
+
+    it('has actions disabled for another group', () => {
+      cy.get(ROW).eq(2).find(`${DROPDOWN} button`).click();
+      cy.get(DROPDOWN_ITEM).contains('Rename group').shouldHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
+    });
+
+    it('should allow to bulk delete permitted groups', () => {
+      selectRowN(1);
+      cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
       cy.get(DROPDOWN_ITEM)
         .contains('Delete group')
-        .should('have.attr', 'aria-disabled', 'true');
+        .shouldHaveAriaEnabled()
+        .click();
+    });
+
+    it('cannot bulk delete if restricted group selected', () => {
+      selectRowN(1);
+      selectRowN(2);
+      cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
     });
   });
 });

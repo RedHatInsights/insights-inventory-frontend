@@ -1,23 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`useGroupFilter with groups loaded should match snapshot 1`] = `
-Array [
-  Object {
-    "filterValues": Object {
-      "items": Array [],
-      "onChange": [Function],
-      "value": Array [],
-    },
-    "label": "Group",
-    "type": "checkbox",
-    "value": "group-host-filter",
-  },
-  Array [],
-  Array [],
-  [Function],
-]
-`;
-
 exports[`useGroupFilter with groups loaded should return correct chips array, current value and value setter 1`] = `
 Array [
   Object {
@@ -30,24 +12,6 @@ Array [
     ],
     "type": "group_name",
   },
-]
-`;
-
-exports[`useGroupFilter with groups loaded should return empty state value if no groups obtained 1`] = `
-Array [
-  Object {
-    "filterValues": Object {
-      "items": Array [],
-      "onChange": [Function],
-      "value": Array [],
-    },
-    "label": "Group",
-    "type": "checkbox",
-    "value": "group-host-filter",
-  },
-  Array [],
-  Array [],
-  [Function],
 ]
 `;
 

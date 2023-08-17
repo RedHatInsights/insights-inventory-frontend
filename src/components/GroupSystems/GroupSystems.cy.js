@@ -333,6 +333,7 @@ describe('actions', () => {
     cy.intercept('*', { statusCode: 200 });
     hostsInterceptors.successful();
     featureFlagsInterceptors.successful(); // make Groups col available
+    groupsInterceptors['successful with some items']();
 
     mountTable();
     waitForTable(true);
