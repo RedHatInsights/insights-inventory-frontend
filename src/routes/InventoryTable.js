@@ -186,16 +186,11 @@ const Inventory = ({
 
     if (currentTab !== tabIndex) {
       setPrm(searchParams.search);
-      console.log(prm);
-      console.log(searchParams.pathname);
       let tabPath = tabsPath[tabIndex];
       if (tabPath !== undefined) {
         if (tabPath === '') {
           tabPath = '/';
         }
-        console.log(currentTab);
-        console.log(tabIndex);
-
         history.push(`${tabPath}${prm}`);
       }
     }
