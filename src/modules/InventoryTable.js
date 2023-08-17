@@ -5,7 +5,6 @@ import { InventoryTable as InventoryTableCmp } from '../components/InventoryTabl
 const BaseInventoryTable = (props) => (
   <AsyncInventory {...props} component={InventoryTableCmp} />
 );
-
 const InventoryTable = React.forwardRef((props, ref) => (
   <BaseInventoryTable {...props} innerRef={ref} />
 ));

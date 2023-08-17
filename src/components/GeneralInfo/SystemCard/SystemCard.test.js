@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { mount, render } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import SystemCard from './SystemCard';
 import configureStore from 'redux-mock-store';
@@ -11,17 +10,25 @@ import { hosts } from '../../../api/api';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
 import { Provider } from 'react-redux';
-
+import { mountWithRouter } from '../../../Utilities/TestingUtilities';
+import { Clickable } from '../LoadingCard/LoadingCard';
+import { useParams } from 'react-router-dom';
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
-const location = {};
+const location = { pathname: 'some-path' };
+const removeLabelledBy = ({
+  'aria-labelledby': labelledBy,
+  'aria-describedby': describedby,
+  id: id,
+  ...restProps
+}) => restProps;
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
-  useHistory: () => ({
-    push: () => undefined,
-  }),
+  useParams: jest.fn(() => ({
+    modalId: 'testModal',
+  })),
 }));
 
 jest.mock(
@@ -68,22 +75,34 @@ describe('SystemCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should render correctly with SAP IDS', () => {
@@ -97,12 +116,18 @@ describe('SystemCard', () => {
         },
       },
     });
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should render correctly with rhsm facts', () => {
@@ -114,21 +139,28 @@ describe('SystemCard', () => {
         },
       },
     });
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 
   describe('API', () => {
     it('should calculate correct ansible host - direct ansible host', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
@@ -146,10 +178,11 @@ describe('SystemCard', () => {
           },
         },
       });
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
@@ -167,10 +200,11 @@ describe('SystemCard', () => {
           },
         },
       });
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       expect(
         wrapper.find('SystemCardCore').first().instance().getAnsibleHost()
@@ -179,10 +213,11 @@ describe('SystemCard', () => {
 
     it('should show edit display name', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper
         .find('a[href$="display_name"]')
@@ -206,10 +241,11 @@ describe('SystemCard', () => {
 
     it('should show edit display name', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper
         .find('a[href$="ansible_name"]')
@@ -230,17 +266,17 @@ describe('SystemCard', () => {
           .instance().props.isOpen
       ).toBe(true);
     });
-
     it('should call edit display name actions', () => {
       mock.onPatch('/api/inventory/v1/hosts/test-id').reply(200, mockedData);
       mock
         .onGet('/api/inventory/v1/hosts/test-id/system_profile')
         .reply(200, mockedData);
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper
         .find('a[href$="display_name"]')
@@ -258,10 +294,11 @@ describe('SystemCard', () => {
         .onGet('/api/inventory/v1/hosts/test-id/system_profile')
         .reply(200, mockedData);
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
       wrapper
         .find('a[href$="ansible_name"]')
@@ -286,13 +323,14 @@ describe('SystemCard', () => {
       });
       const handleClick = jest.fn();
       location.pathname = 'localhost:3000/example/sap_sids';
-
-      const wrapper = mount(
+      useParams.mockImplementation(() => ({ modalId: 'sap_sids' }));
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard handleClick={handleClick} />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/testModal']
       );
-      wrapper.find('dd a').last().simulate('click');
+      wrapper.find(Clickable).find('a').last().simulate('click');
       expect(handleClick).toHaveBeenCalledWith('SAP IDs (SID)', {
         cells: [
           {
@@ -318,13 +356,14 @@ describe('SystemCard', () => {
       });
       const handleClick = jest.fn();
       location.pathname = 'localhost:3000/example/flag';
-
-      const wrapper = mount(
+      useParams.mockImplementation(() => ({ modalId: 'flag' }));
+      const wrapper = mountWithRouter(
         <Provider store={store}>
           <SystemCard handleClick={handleClick} />
-        </Provider>
+        </Provider>,
+        ['Test detail page', '/inventory/inventoryId']
       );
-      wrapper.find('dd a').last().simulate('click');
+      wrapper.find(Clickable).find('a').last().simulate('click');
       expect(handleClick).toHaveBeenCalledWith('CPU flags', {
         cells: [
           {
@@ -352,18 +391,25 @@ describe('SystemCard', () => {
   ].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
-      const wrapper = render(
+      const wrapper = mountWithRouter(
         <Provider store={store}>
-          <SystemCard {...{ [item]: false }} />
-        </Provider>
+          <SystemCard />
+        </Provider>,
+        ['Test detail page', '/inventory/:inventoryId']
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      expect(
+        toJson(wrapper, {
+          mode: 'deep',
+          map: removeLabelledBy,
+        })
+      ).toMatchSnapshot();
     })
   );
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    const wrapper = mountWithRouter(
       <Provider store={store}>
         <SystemCard
           extra={[
@@ -376,8 +422,15 @@ describe('SystemCard', () => {
             },
           ]}
         />
-      </Provider>
+      </Provider>,
+      ['Test detail page', '/inventory/:inventoryId']
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    expect(
+      toJson(wrapper, {
+        mode: 'deep',
+        map: removeLabelledBy,
+      })
+    ).toMatchSnapshot();
   });
 });

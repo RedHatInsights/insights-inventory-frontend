@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './inventory.scss';
 import {
   PageHeader,
@@ -31,7 +31,8 @@ import { InventoryTable as InventoryTableCmp } from '../components/InventoryTabl
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
-import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+//TODO: re-enable when edge app migrates away from useHistory (THEEDGE-3488)
+// import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { manageEdgeInventoryUrlName } from '../Utilities/edge';
@@ -50,6 +51,7 @@ import {
   ActionDropdownItem,
 } from '../components/InventoryTable/ActionWithRBAC';
 import uniq from 'lodash/uniq';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 const mapTags = ({ category, values }) =>
   values.map(
@@ -146,7 +148,7 @@ const Inventory = ({
   hasAccess,
   hostGroupFilter,
 }) => {
-  const history = useHistory();
+  const navigate = useInsightsNavigate();
   const chrome = useChrome();
   const inventory = useRef(null);
 
@@ -221,7 +223,7 @@ const Inventory = ({
     // eslint-disable-next-line camelcase
     calculatePagination(searchParams, options?.page, options?.per_page);
     const search = searchParams.toString();
-    history.push({
+    navigate({
       search,
       hash: location.hash,
     });
@@ -235,6 +237,7 @@ const Inventory = ({
   const EdgeParityFilterDeviceEnabled = useFeatureFlag(
     'edgeParity.inventory-list-filter'
   );
+
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
     chrome?.hideGlobalFilter?.(false);
@@ -502,7 +505,7 @@ const Inventory = ({
           }}
           bulkSelect={bulkSelectConfig}
           onRowClick={(_e, id, app) =>
-            history.push(`/${id}${app ? `/${app}` : ''}`)
+            navigate(`/${id}${app ? `/${app}` : ''}`)
           }
         />
       </GridItem>
@@ -531,7 +534,9 @@ const Inventory = ({
               eventKey={1}
               title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
             >
-              <AsyncComponent
+              {/* 
+                //TODO: re-enable when edge app migrates away from useHistory (THEEDGE-3488)
+                <AsyncComponent
                 appName="edge"
                 module="./Inventory"
                 historyProp={useHistory}
@@ -539,7 +544,7 @@ const Inventory = ({
                 showHeaderProp={false}
                 pathPrefix={resolveRelPath('')}
                 urlName={manageEdgeInventoryUrlName}
-              />
+              /> */}
             </Tab>
           </Tabs>
         ) : (

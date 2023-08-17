@@ -4,4 +4,6 @@ export default () => ({
   appAction: () => {},
   appObjectId: () => {},
   on: () => {},
+  getApp: () => 'inventory',
+  getBundle: () => 'rhel',
 });

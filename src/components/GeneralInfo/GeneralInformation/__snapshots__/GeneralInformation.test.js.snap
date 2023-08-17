@@ -378,11 +378,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -394,11 +397,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -410,11 +416,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -1010,11 +1019,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -1026,11 +1038,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -1042,11 +1057,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -1058,11 +1076,14 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -1455,11 +1476,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -1471,11 +1495,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -1487,11 +1514,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -2172,11 +2202,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -2188,11 +2221,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -2204,11 +2240,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -2220,11 +2259,14 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -2617,11 +2659,14 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -2633,11 +2678,14 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -2649,11 +2697,14 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -4262,11 +4313,14 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -4278,11 +4332,14 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -4294,11 +4351,14 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -4310,11 +4370,14 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -4707,11 +4770,14 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -4723,11 +4789,14 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -4739,11 +4808,14 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -5313,11 +5385,14 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -5329,11 +5404,14 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -5345,11 +5423,14 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -5361,11 +5442,14 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -5469,11 +5553,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -5485,11 +5572,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -5501,11 +5591,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -6186,11 +6279,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -6202,11 +6298,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -6218,11 +6317,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -6234,11 +6336,14 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -6631,11 +6736,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -6647,11 +6755,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -6663,11 +6774,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -7270,11 +7384,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -7286,11 +7403,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -7302,11 +7422,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -7318,11 +7441,14 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -7715,11 +7841,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -7731,11 +7860,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -7747,11 +7879,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -8432,11 +8567,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -8448,11 +8586,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -8464,11 +8605,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -8480,11 +8624,14 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -8884,11 +9031,14 @@ exports[`GeneralInformation custom components should render custom Configuration
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -8900,11 +9050,14 @@ exports[`GeneralInformation custom components should render custom Configuration
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -8916,11 +9069,14 @@ exports[`GeneralInformation custom components should render custom Configuration
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -10543,11 +10699,14 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -10559,11 +10718,14 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -10575,11 +10737,14 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -10591,11 +10756,14 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -10988,11 +11156,14 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -11004,11 +11175,14 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -11020,11 +11194,14 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -11601,11 +11778,14 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -11617,11 +11797,14 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -11633,11 +11816,14 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -11649,11 +11835,14 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -11764,11 +11953,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -11780,11 +11972,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -11796,11 +11991,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -12481,11 +12679,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -12497,11 +12698,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -12513,11 +12717,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -12529,11 +12736,14 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -14199,11 +14409,14 @@ exports[`GeneralInformation should render correctly 1`] = `
                         class=""
                         data-ouia-component-id="IPv4 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv4"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv4"
+                          >
+                            2 addresses
+                          </a>
+                          ipv4
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -14215,11 +14428,14 @@ exports[`GeneralInformation should render correctly 1`] = `
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
                       >
-                        <a
-                          href="http://localhost:5000//ipv6"
-                        >
-                          2 addresses
-                        </a>
+                        <div>
+                          <a
+                            href="/ipv6"
+                          >
+                            2 addresses
+                          </a>
+                          ipv6
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -14231,11 +14447,14 @@ exports[`GeneralInformation should render correctly 1`] = `
                         class=""
                         data-ouia-component-id="Interfaces/NICs value"
                       >
-                        <a
-                          href="http://localhost:5000//interfaces"
-                        >
-                          2 NICs
-                        </a>
+                        <div>
+                          <a
+                            href="/interfaces"
+                          >
+                            2 NICs
+                          </a>
+                          interfaces
+                        </div>
                       </dd>
                     </dl>
                   </div>
@@ -14916,11 +15135,14 @@ exports[`GeneralInformation should render correctly 1`] = `
                         class=""
                         data-ouia-component-id="Installed packages value"
                       >
-                        <a
-                          href="http://localhost:5000//installed_packages"
-                        >
-                          1 package
-                        </a>
+                        <div>
+                          <a
+                            href="/installed_packages"
+                          >
+                            1 package
+                          </a>
+                          installed_packages
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -14932,11 +15154,14 @@ exports[`GeneralInformation should render correctly 1`] = `
                         class=""
                         data-ouia-component-id="Services value"
                       >
-                        <a
-                          href="http://localhost:5000//services"
-                        >
-                          1 service
-                        </a>
+                        <div>
+                          <a
+                            href="/services"
+                          >
+                            1 service
+                          </a>
+                          services
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -14948,11 +15173,14 @@ exports[`GeneralInformation should render correctly 1`] = `
                         class=""
                         data-ouia-component-id="Running processes value"
                       >
-                        <a
-                          href="http://localhost:5000//running_processes"
-                        >
-                          1 process
-                        </a>
+                        <div>
+                          <a
+                            href="/running_processes"
+                          >
+                            1 process
+                          </a>
+                          running_processes
+                        </div>
                       </dd>
                       <dt
                         class=""
@@ -14964,11 +15192,14 @@ exports[`GeneralInformation should render correctly 1`] = `
                         class=""
                         data-ouia-component-id="Repositories value"
                       >
-                        <a
-                          href="http://localhost:5000//repositories"
-                        >
-                          1 enabled
-                        </a>
+                        <div>
+                          <a
+                            href="/repositories"
+                          >
+                            1 enabled
+                          </a>
+                          repositories
+                        </div>
                       </dd>
                     </dl>
                   </div>

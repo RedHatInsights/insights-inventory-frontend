@@ -29,7 +29,7 @@ import React from 'react';
 import FlagProvider from '@unleash/proxy-client-react';
 import { Provider } from 'react-redux';
 import { getStore } from '../../src/store';
-import { MemoryRouter, Route, Switch } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { mount } from '@cypress/react';
 import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 
@@ -48,13 +48,9 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
         <MemoryRouter {...routerProps}>
           <RBACProvider appName="inventory" checkResourceDefinitions>
             {path ? (
-              <Switch>
-                <Route
-                  path={options.path}
-                  component={() => <Component {...props} />}
-                  rootClass="inventory"
-                />
-              </Switch>
+              <Routes>
+                <Route path={options.path} element={<Component {...props} />} />
+              </Routes>
             ) : (
               <Component {...props} />
             )}
@@ -71,17 +67,22 @@ Cypress.Commands.add(
   ({ userPermissions } = { userPermissions: ['inventory:*:*'] }) => {
     cy.window().then(
       // one of the fec dependencies talks to window.insights.chrome
-      (window) =>
-        (window.insights = {
+      (window) => {
+        window.chrome = {
+          getApp: () => 'inventory',
+        };
+        window.insights = {
           chrome: {
-            getUserPermissions: () => userPermissions, // enable all read/write features
+            getUserPermissions: () => userPermissions,
             auth: {
               getUser: () => {
                 return Promise.resolve({});
               },
             },
+            getApp: () => 'inventory',
           },
-        })
+        };
+      }
     );
   }
 );

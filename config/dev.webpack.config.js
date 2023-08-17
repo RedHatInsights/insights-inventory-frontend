@@ -152,6 +152,11 @@ plugins.push(
         ),
         './DeleteModal': resolve(__dirname, '../src/Utilities/DeleteModal.js'),
       },
+      shared: [
+        {
+          'react-router-dom': { singleton: true, requiredVersion: '*' },
+        },
+      ],
     }
   )
 );

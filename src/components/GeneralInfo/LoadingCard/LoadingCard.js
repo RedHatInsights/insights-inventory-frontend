@@ -17,7 +17,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const valueToText = (value, singular, plural) => {
   if ((value || value === 0) && singular) {
@@ -34,25 +34,14 @@ const valueToText = (value, singular, plural) => {
 };
 
 export const Clickable = ({ value, target, plural, singular, onClick }) => {
-  const history = useHistory();
-  const { pathname } = useLocation();
-  const modalId = pathname.split('/').pop();
+  const { modalId } = useParams();
   useEffect(() => {
     if (target === modalId) {
       onClick({ value, target });
     }
   }, [modalId, target]);
-  return (
-    <a
-      onClick={(event) => {
-        event.preventDefault();
-        history.push(`${pathname}/${target}`);
-      }}
-      href={`${window.location.origin}${window.location.pathname}/${target}`}
-    >
-      {valueToText(value, singular, plural)}
-    </a>
-  );
+
+  return <Link to={`./${target}`}>{valueToText(value, singular, plural)}</Link>;
 };
 
 Clickable.propTypes = {
@@ -113,13 +102,16 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
                         )}
                         {!isLoading &&
                           (onClick && value ? (
-                            <Clickable
-                              onClick={onClick}
-                              value={value}
-                              target={target}
-                              plural={plural}
-                              singular={singular}
-                            />
+                            <div>
+                              <Clickable
+                                onClick={onClick}
+                                value={value}
+                                target={target}
+                                plural={plural}
+                                singular={singular}
+                              />
+                              {target}
+                            </div>
                           ) : (
                             valueToText(value, singular, plural)
                           ))}
