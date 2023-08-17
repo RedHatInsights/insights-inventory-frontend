@@ -17,7 +17,7 @@ import { usePermissions } from '@redhat-cloud-services/frontend-components-utili
 
 const GroupDetailInfo = ({ chrome }) => {
   const path = `${chrome.isBeta() ? '/preview' : ''}/iam/user-access`;
-  const { hasAccess: isUserAccessAdministrator } = usePermissions(
+  const { hasAccess: isUserAccessAdministrator, isLoading } = usePermissions(
     'rbac',
     USER_ACCESS_ADMIN_PERMISSIONS
   );
@@ -33,6 +33,7 @@ const GroupDetailInfo = ({ chrome }) => {
             override={isUserAccessAdministrator}
             noAccessTooltip={NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE}
             ouiaId="manage-access-button"
+            isLoading={isLoading}
           >
             Manage access
           </ActionButton>
