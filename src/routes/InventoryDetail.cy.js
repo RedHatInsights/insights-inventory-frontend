@@ -6,7 +6,6 @@ import {
   systemProfileInterceptors,
 } from '../../cypress/support/interceptors';
 import InventoryDetail from './InventoryDetail';
-import { routes } from '../Routes';
 import hostDetail from '../../cypress/fixtures/hostDetail.json';
 import _ from 'lodash';
 import { MODAL } from '@redhat-cloud-services/frontend-components-utilities';
@@ -24,8 +23,8 @@ const prepareTest = (hostDetail = hostDetail) => {
   hostsDetailTagsInterceptors.successful();
 
   mountWithProps({
-    path: routes.detail,
-    routerProps: { initialEntries: ['/host/test-host-id'] },
+    path: '/inventory/:inventoryId',
+    routerProps: { initialEntries: ['/inventory/test-host-id'] },
   });
 
   waitForLoad();
