@@ -90,7 +90,7 @@ class SystemCardCore extends Component {
     } = this.props;
     const { isDisplayNameModalOpen, isAnsibleHostModalOpen } = this.state;
     return (
-      <Fragment>
+      <div className="sentry-mask data-hj-suppress">
         <LoadingCard
           title="System properties"
           isLoading={!detailLoaded}
@@ -242,7 +242,7 @@ class SystemCardCore extends Component {
           )}
           className="sentry-mask data-hj-suppress"
         />
-      </Fragment>
+      </div>
     );
   }
 }
