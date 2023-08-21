@@ -3,31 +3,33 @@
 exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "iu7w0u",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "iu7w0u",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -307,31 +309,33 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
 exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "wxzwb7",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "wxzwb7",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -608,31 +612,33 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
 exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "vdcq1h",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "vdcq1h",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -912,31 +918,33 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
 exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "wmvkw3",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "wmvkw3",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1216,31 +1224,33 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
 exports[`OperatingSystemCard should not render hasRelease 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "3twu08",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "3twu08",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1500,31 +1510,33 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
 exports[`OperatingSystemCard should render correctly - no data 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "2rohem",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "2rohem",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1876,31 +1888,33 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
 exports[`OperatingSystemCard should render correctly with data 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "l62391",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "l62391",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -2206,31 +2220,33 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
 exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "jib55e",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "jib55e",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -2516,31 +2532,33 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
 exports[`OperatingSystemCard should render enabled/disabled 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "t3tc2v",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "t3tc2v",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -2846,31 +2864,33 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
 exports[`OperatingSystemCard should render extra 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "k7w3hn",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "k7w3hn",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -3236,12 +3256,17 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                           <Link
                                             to="./undefined"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/undefined"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 tests
-                                            </a>
+                                              <a
+                                                href="/undefined"
+                                                onClick={[Function]}
+                                              >
+                                                1 tests
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                       </div>

@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SystemCard should not render hasAnsibleHostname 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -332,18 +334,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasCPUFlags 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -674,18 +678,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasCPUs 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -1016,18 +1022,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasCores 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -1358,18 +1366,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasDisplayName 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -1700,18 +1710,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasHostName 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -2042,18 +2054,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasRAM 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -2384,18 +2398,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasSAP 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -2726,18 +2742,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasSockets 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -3068,18 +3086,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should not render hasSystemPurpose 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -3410,18 +3430,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should render correctly - no data 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -3748,18 +3770,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should render correctly with SAP IDS 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -4098,18 +4122,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should render correctly with data 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -4440,18 +4466,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should render correctly with rhsm facts 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -4782,18 +4810,20 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;
 
 exports[`SystemCard should render extra 1`] = `
-Array [
+<div
+  className="sentry-mask data-hj-suppress"
+>
   <article
     className="pf-c-card"
     data-ouia-component-id="system-properties-card"
@@ -5155,12 +5185,12 @@ Array [
         </div>
       </div>
     </div>
-  </article>,
+  </article>
   <Portal
     containerInfo={<div />}
-  />,
+  />
   <Portal
     containerInfo={<div />}
-  />,
-]
+  />
+</div>
 `;

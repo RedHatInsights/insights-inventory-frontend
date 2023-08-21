@@ -131,31 +131,33 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
 exports[`ConfigurationCard should not render hasPackages 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "s7masa",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "s7masa",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -344,12 +346,17 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                           <Link
                                             to="./services"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/services"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 service
-                                            </a>
+                                              <a
+                                                href="/services"
+                                                onClick={[Function]}
+                                              >
+                                                1 service
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         services
@@ -386,12 +393,17 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                           <Link
                                             to="./running_processes"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/running_processes"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 process
-                                            </a>
+                                              <a
+                                                href="/running_processes"
+                                                onClick={[Function]}
+                                              >
+                                                1 process
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         running_processes
@@ -426,12 +438,17 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                           <Link
                                             to="./repositories"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/repositories"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 enabled
-                                            </a>
+                                              <a
+                                                href="/repositories"
+                                                onClick={[Function]}
+                                              >
+                                                1 enabled
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         repositories
@@ -460,31 +477,33 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
 exports[`ConfigurationCard should not render hasProcesses 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "vvf5mm",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "vvf5mm",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -672,12 +691,17 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                           <Link
                                             to="./installed_packages"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/installed_packages"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 package
-                                            </a>
+                                              <a
+                                                href="/installed_packages"
+                                                onClick={[Function]}
+                                              >
+                                                1 package
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         installed_packages
@@ -713,12 +737,17 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                           <Link
                                             to="./services"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/services"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 service
-                                            </a>
+                                              <a
+                                                href="/services"
+                                                onClick={[Function]}
+                                              >
+                                                1 service
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         services
@@ -753,12 +782,17 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                           <Link
                                             to="./repositories"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/repositories"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 enabled
-                                            </a>
+                                              <a
+                                                href="/repositories"
+                                                onClick={[Function]}
+                                              >
+                                                1 enabled
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         repositories
@@ -787,31 +821,33 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
 exports[`ConfigurationCard should not render hasRepositories 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "bb6lwp",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "bb6lwp",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1001,12 +1037,17 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                           <Link
                                             to="./installed_packages"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/installed_packages"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 package
-                                            </a>
+                                              <a
+                                                href="/installed_packages"
+                                                onClick={[Function]}
+                                              >
+                                                1 package
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         installed_packages
@@ -1042,12 +1083,17 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                           <Link
                                             to="./services"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/services"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 service
-                                            </a>
+                                              <a
+                                                href="/services"
+                                                onClick={[Function]}
+                                              >
+                                                1 service
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         services
@@ -1084,12 +1130,17 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                           <Link
                                             to="./running_processes"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/running_processes"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 process
-                                            </a>
+                                              <a
+                                                href="/running_processes"
+                                                onClick={[Function]}
+                                              >
+                                                1 process
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         running_processes
@@ -1118,31 +1169,33 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
 exports[`ConfigurationCard should not render hasServices 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "5lhbvy",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "5lhbvy",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1331,12 +1384,17 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                           <Link
                                             to="./installed_packages"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/installed_packages"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 package
-                                            </a>
+                                              <a
+                                                href="/installed_packages"
+                                                onClick={[Function]}
+                                              >
+                                                1 package
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         installed_packages
@@ -1373,12 +1431,17 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                           <Link
                                             to="./running_processes"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/running_processes"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 process
-                                            </a>
+                                              <a
+                                                href="/running_processes"
+                                                onClick={[Function]}
+                                              >
+                                                1 process
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         running_processes
@@ -1413,12 +1476,17 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                           <Link
                                             to="./repositories"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/repositories"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 enabled
-                                            </a>
+                                              <a
+                                                href="/repositories"
+                                                onClick={[Function]}
+                                              >
+                                                1 enabled
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         repositories
@@ -1447,31 +1515,33 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
 exports[`ConfigurationCard should render correctly - no data 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "qflq59",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "qflq59",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1788,31 +1858,33 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
 exports[`ConfigurationCard should render correctly with data 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "1j90ar",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "1j90ar",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -2008,12 +2080,17 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                           <Link
                                             to="./installed_packages"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/installed_packages"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 package
-                                            </a>
+                                              <a
+                                                href="/installed_packages"
+                                                onClick={[Function]}
+                                              >
+                                                1 package
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         installed_packages
@@ -2049,12 +2126,17 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                           <Link
                                             to="./services"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/services"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 service
-                                            </a>
+                                              <a
+                                                href="/services"
+                                                onClick={[Function]}
+                                              >
+                                                1 service
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         services
@@ -2091,12 +2173,17 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                           <Link
                                             to="./running_processes"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/running_processes"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 process
-                                            </a>
+                                              <a
+                                                href="/running_processes"
+                                                onClick={[Function]}
+                                              >
+                                                1 process
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         running_processes
@@ -2131,12 +2218,17 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                           <Link
                                             to="./repositories"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/repositories"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 enabled
-                                            </a>
+                                              <a
+                                                href="/repositories"
+                                                onClick={[Function]}
+                                              >
+                                                1 enabled
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         repositories
@@ -2165,31 +2257,33 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
 exports[`ConfigurationCard should render enabled/disabled 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "l4spic",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "l4spic",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -2382,12 +2476,17 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                           <Link
                                             to="./installed_packages"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/installed_packages"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 package
-                                            </a>
+                                              <a
+                                                href="/installed_packages"
+                                                onClick={[Function]}
+                                              >
+                                                1 package
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         installed_packages
@@ -2423,12 +2522,17 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                           <Link
                                             to="./services"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/services"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 service
-                                            </a>
+                                              <a
+                                                href="/services"
+                                                onClick={[Function]}
+                                              >
+                                                1 service
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         services
@@ -2465,12 +2569,17 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                           <Link
                                             to="./running_processes"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/running_processes"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 process
-                                            </a>
+                                              <a
+                                                href="/running_processes"
+                                                onClick={[Function]}
+                                              >
+                                                1 process
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         running_processes
@@ -2505,12 +2614,17 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                           <Link
                                             to="./repositories"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/repositories"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 enabled / 1 disabled
-                                            </a>
+                                              <a
+                                                href="/repositories"
+                                                onClick={[Function]}
+                                              >
+                                                1 enabled / 1 disabled
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         repositories
@@ -2539,31 +2653,33 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
 exports[`ConfigurationCard should render extra 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "7d6rxs",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "7d6rxs",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -2792,12 +2908,17 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           <Link
                                             to="./installed_packages"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/installed_packages"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 package
-                                            </a>
+                                              <a
+                                                href="/installed_packages"
+                                                onClick={[Function]}
+                                              >
+                                                1 package
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         installed_packages
@@ -2833,12 +2954,17 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           <Link
                                             to="./services"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/services"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 service
-                                            </a>
+                                              <a
+                                                href="/services"
+                                                onClick={[Function]}
+                                              >
+                                                1 service
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         services
@@ -2875,12 +3001,17 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           <Link
                                             to="./running_processes"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/running_processes"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 process
-                                            </a>
+                                              <a
+                                                href="/running_processes"
+                                                onClick={[Function]}
+                                              >
+                                                1 process
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         running_processes
@@ -2915,12 +3046,17 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           <Link
                                             to="./repositories"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/repositories"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 enabled
-                                            </a>
+                                              <a
+                                                href="/repositories"
+                                                onClick={[Function]}
+                                              >
+                                                1 enabled
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                         repositories
@@ -2976,12 +3112,17 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           <Link
                                             to="./undefined"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/undefined"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 tests
-                                            </a>
+                                              <a
+                                                href="/undefined"
+                                                onClick={[Function]}
+                                              >
+                                                1 tests
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                       </div>

@@ -5,31 +5,33 @@ exports[`CollectionCard renders tooltip for version 1`] = `ReactWrapper {}`;
 exports[`CollectionCard should not render hasClient 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "x1dt48",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "x1dt48",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -294,31 +296,33 @@ exports[`CollectionCard should not render hasClient 1`] = `
 exports[`CollectionCard should not render hasInsightsId 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "16hk4m",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "16hk4m",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -695,31 +699,33 @@ exports[`CollectionCard should not render hasInsightsId 1`] = `
 exports[`CollectionCard should not render hasLastCheckIn 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "gfbny8",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "gfbny8",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1088,31 +1094,33 @@ exports[`CollectionCard should not render hasLastCheckIn 1`] = `
 exports[`CollectionCard should not render hasRegistered 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "djkdac",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "djkdac",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1481,31 +1489,33 @@ exports[`CollectionCard should not render hasRegistered 1`] = `
 exports[`CollectionCard should not render hasReporter 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "vxv7au",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "vxv7au",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -1882,31 +1892,33 @@ exports[`CollectionCard should not render hasReporter 1`] = `
 exports[`CollectionCard should render correctly - no data 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "2mqnyu",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "2mqnyu",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -2354,31 +2366,33 @@ exports[`CollectionCard should render correctly with data 1`] = `
 exports[`CollectionCard should render extra 1`] = `
 <MemoryRouter>
   <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
+    history={
       Object {
         "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
         "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "key": "zw0uei",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
         "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
         "index": 0,
+        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "default",
+          "key": "zw0uei",
           "pathname": "/",
           "search": "",
-          "state": null,
+          "state": undefined,
         },
         "push": [Function],
         "replace": [Function],
@@ -2841,12 +2855,17 @@ exports[`CollectionCard should render extra 1`] = `
                                           <Link
                                             to="./undefined"
                                           >
-                                            <a
+                                            <LinkAnchor
                                               href="/undefined"
-                                              onClick={[Function]}
+                                              navigate={[Function]}
                                             >
-                                              1 tests
-                                            </a>
+                                              <a
+                                                href="/undefined"
+                                                onClick={[Function]}
+                                              >
+                                                1 tests
+                                              </a>
+                                            </LinkAnchor>
                                           </Link>
                                         </Clickable>
                                       </div>
