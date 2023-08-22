@@ -20,15 +20,17 @@ const RepoModal = ({
   onSubmit,
   customFormTemplate,
   additionalMappers,
+  modalClassName,
 }) => {
   return (
     <Modal
-      ouiaId="group-modal"
+      appendTo={() => document.body.querySelector('.inventory')} // required to support the app's stylesheets
       variant={size ?? 'small'}
       title={title}
       titleIconVariant={titleIconVariant ?? null}
       isOpen={isModalOpen}
       onClose={closeModal}
+      className={modalClassName}
     >
       <FormRenderer
         schema={schema}
@@ -88,6 +90,7 @@ RepoModal.propTypes = {
   titleIconVariant: PropTypes.any,
   customFormTemplate: PropTypes.node,
   reloadTimeout: PropTypes.number,
+  modalClassName: PropTypes.string,
 };
 
 RepoModal.defaultProps = {
