@@ -3,33 +3,31 @@
 exports[`LoadingCard Clickable should render - 0 value 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "mc9g3b",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "mc9g3b",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -44,17 +42,12 @@ exports[`LoadingCard Clickable should render - 0 value 1`] = `
       <Link
         to="./some-target"
       >
-        <LinkAnchor
+        <a
           href="/some-target"
-          navigate={[Function]}
+          onClick={[Function]}
         >
-          <a
-            href="/some-target"
-            onClick={[Function]}
-          >
-            None
-          </a>
-        </LinkAnchor>
+          None
+        </a>
       </Link>
     </Clickable>
   </Router>
@@ -64,33 +57,31 @@ exports[`LoadingCard Clickable should render - 0 value 1`] = `
 exports[`LoadingCard Clickable should render - no data 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "5bkfph",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "5bkfph",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -103,17 +94,12 @@ exports[`LoadingCard Clickable should render - no data 1`] = `
       <Link
         to="./undefined"
       >
-        <LinkAnchor
+        <a
           href="/undefined"
-          navigate={[Function]}
+          onClick={[Function]}
         >
-          <a
-            href="/undefined"
-            onClick={[Function]}
-          >
-            Not available
-          </a>
-        </LinkAnchor>
+          Not available
+        </a>
       </Link>
     </Clickable>
   </Router>
@@ -123,33 +109,31 @@ exports[`LoadingCard Clickable should render - no data 1`] = `
 exports[`LoadingCard Loading card render - isLoading: false 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "77ha4u",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "77ha4u",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -227,33 +211,31 @@ exports[`LoadingCard Loading card render - isLoading: false 1`] = `
 exports[`LoadingCard Loading card render - isLoading: true 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "u0ztuz",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "u0ztuz",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -331,33 +313,31 @@ exports[`LoadingCard Loading card render - isLoading: true 1`] = `
 exports[`LoadingCard Loading card render 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "7hvsry",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "7hvsry",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -469,17 +449,12 @@ exports[`LoadingCard Loading card render 1`] = `
                                       <Link
                                         to="./undefined"
                                       >
-                                        <LinkAnchor
+                                        <a
                                           href="/undefined"
-                                          navigate={[Function]}
+                                          onClick={[Function]}
                                         >
-                                          <a
-                                            href="/undefined"
-                                            onClick={[Function]}
-                                          >
-                                            some value
-                                          </a>
-                                        </LinkAnchor>
+                                          some value
+                                        </a>
                                       </Link>
                                     </Clickable>
                                   </div>
@@ -527,33 +502,31 @@ exports[`LoadingCard Loading card render 1`] = `
 exports[`LoadingCard should render loading bars 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "dm3spe",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "dm3spe",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],

@@ -3,33 +3,31 @@
 exports[`InfrastructureCard should not render hasIPv4 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "yigdin",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "yigdin",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -258,17 +256,12 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                           <Link
                                             to="./ipv6"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv6"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv6"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv6
@@ -304,17 +297,12 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                           <Link
                                             to="./interfaces"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/interfaces"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/interfaces"
-                                                onClick={[Function]}
-                                              >
-                                                1 NIC
-                                              </a>
-                                            </LinkAnchor>
+                                              1 NIC
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         interfaces
@@ -343,33 +331,31 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
 exports[`InfrastructureCard should not render hasIPv6 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "ve4169",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "ve4169",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -598,17 +584,12 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                           <Link
                                             to="./ipv4"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv4"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv4"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv4
@@ -644,17 +625,12 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                           <Link
                                             to="./interfaces"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/interfaces"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/interfaces"
-                                                onClick={[Function]}
-                                              >
-                                                1 NIC
-                                              </a>
-                                            </LinkAnchor>
+                                              1 NIC
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         interfaces
@@ -683,33 +659,31 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
 exports[`InfrastructureCard should not render hasInterfaces 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "box7kh",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "box7kh",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -939,17 +913,12 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                           <Link
                                             to="./ipv4"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv4"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv4"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv4
@@ -986,17 +955,12 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                           <Link
                                             to="./ipv6"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv6"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv6"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv6
@@ -1025,33 +989,31 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
 exports[`InfrastructureCard should not render hasType 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "gxlp59",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "gxlp59",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -1262,17 +1224,12 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                           <Link
                                             to="./ipv4"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv4"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv4"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv4
@@ -1309,17 +1266,12 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                           <Link
                                             to="./ipv6"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv6"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv6"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv6
@@ -1355,17 +1307,12 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                           <Link
                                             to="./interfaces"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/interfaces"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/interfaces"
-                                                onClick={[Function]}
-                                              >
-                                                1 NIC
-                                              </a>
-                                            </LinkAnchor>
+                                              1 NIC
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         interfaces
@@ -1394,33 +1341,31 @@ exports[`InfrastructureCard should not render hasType 1`] = `
 exports[`InfrastructureCard should not render hasVendor 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "dzp391",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "dzp391",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -1631,17 +1576,12 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                           <Link
                                             to="./ipv4"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv4"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv4"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv4
@@ -1678,17 +1618,12 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                           <Link
                                             to="./ipv6"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv6"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv6"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv6
@@ -1724,17 +1659,12 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                           <Link
                                             to="./interfaces"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/interfaces"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/interfaces"
-                                                onClick={[Function]}
-                                              >
-                                                1 NIC
-                                              </a>
-                                            </LinkAnchor>
+                                              1 NIC
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         interfaces
@@ -1763,33 +1693,31 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
 exports[`InfrastructureCard should render correctly - no data 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "ucv42h",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "ucv42h",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -2148,33 +2076,31 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
 exports[`InfrastructureCard should render correctly with data 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "c18wjv",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "c18wjv",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -2411,17 +2337,12 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                           <Link
                                             to="./ipv4"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv4"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv4"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv4
@@ -2458,17 +2379,12 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                           <Link
                                             to="./ipv6"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv6"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv6"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv6
@@ -2504,17 +2420,12 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                           <Link
                                             to="./interfaces"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/interfaces"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/interfaces"
-                                                onClick={[Function]}
-                                              >
-                                                1 NIC
-                                              </a>
-                                            </LinkAnchor>
+                                              1 NIC
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         interfaces
@@ -2543,33 +2454,31 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
 exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "i54zih",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "i54zih",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -2858,33 +2767,31 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
 exports[`InfrastructureCard should render enabled/disabled 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "3f6c0c",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "3f6c0c",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -3121,17 +3028,12 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                           <Link
                                             to="./ipv4"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv4"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv4"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv4
@@ -3168,17 +3070,12 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                           <Link
                                             to="./ipv6"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv6"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv6"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv6
@@ -3214,17 +3111,12 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                           <Link
                                             to="./interfaces"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/interfaces"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/interfaces"
-                                                onClick={[Function]}
-                                              >
-                                                1 NIC
-                                              </a>
-                                            </LinkAnchor>
+                                              1 NIC
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         interfaces
@@ -3253,33 +3145,31 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
 exports[`InfrastructureCard should render extra 1`] = `
 <MemoryRouter>
   <Router
-    history={
+    location={
+      Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      }
+    }
+    navigationType="POP"
+    navigator={
       Object {
         "action": "POP",
-        "block": [Function],
-        "canGo": [Function],
         "createHref": [Function],
-        "entries": Array [
-          Object {
-            "hash": "",
-            "key": "ym0dmh",
-            "pathname": "/",
-            "search": "",
-            "state": undefined,
-          },
-        ],
+        "createURL": [Function],
+        "encodeLocation": [Function],
         "go": [Function],
-        "goBack": [Function],
-        "goForward": [Function],
         "index": 0,
-        "length": 1,
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "ym0dmh",
+          "key": "default",
           "pathname": "/",
           "search": "",
-          "state": undefined,
+          "state": null,
         },
         "push": [Function],
         "replace": [Function],
@@ -3549,17 +3439,12 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           <Link
                                             to="./ipv4"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv4"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv4"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv4
@@ -3596,17 +3481,12 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           <Link
                                             to="./ipv6"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/ipv6"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/ipv6"
-                                                onClick={[Function]}
-                                              >
-                                                1 address
-                                              </a>
-                                            </LinkAnchor>
+                                              1 address
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         ipv6
@@ -3642,17 +3522,12 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           <Link
                                             to="./interfaces"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/interfaces"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/interfaces"
-                                                onClick={[Function]}
-                                              >
-                                                1 NIC
-                                              </a>
-                                            </LinkAnchor>
+                                              1 NIC
+                                            </a>
                                           </Link>
                                         </Clickable>
                                         interfaces
@@ -3708,17 +3583,12 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           <Link
                                             to="./undefined"
                                           >
-                                            <LinkAnchor
+                                            <a
                                               href="/undefined"
-                                              navigate={[Function]}
+                                              onClick={[Function]}
                                             >
-                                              <a
-                                                href="/undefined"
-                                                onClick={[Function]}
-                                              >
-                                                1 tests
-                                              </a>
-                                            </LinkAnchor>
+                                              1 tests
+                                            </a>
                                           </Link>
                                         </Clickable>
                                       </div>
