@@ -20,6 +20,165 @@ export const CONVENTIONAL_TAB_TOOLTIP =
 export const IMMUTABLE_TAB_TOOLTIP =
   'With OStree, you can manage the system software by referencing a central image repository. OStree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
 
+export const conditionalDropdownError = (
+  key,
+  newFormValues,
+  dropdownItems,
+  isFormValid,
+  setIsFormValid
+) => {
+  if (key === 'system_staleness_delta') {
+    if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) >
+      parseInt(newFormValues['system_stale_warning_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Staleness must be before stale warning
+        </p>
+      );
+    } else if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) >
+      parseInt(newFormValues['system_culling_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Staleness must be before culling
+        </p>
+      );
+    } else {
+      setIsFormValid(true);
+    }
+  }
+  if (key === 'system_stale_warning_delta') {
+    if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) >
+      parseInt(newFormValues['system_culling_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Stale warning must be before culling
+        </p>
+      );
+    } else if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) <
+      parseInt(newFormValues['system_staleness_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Stale warning must be after staleness
+        </p>
+      );
+    } else {
+      setIsFormValid(true);
+    }
+  }
+  if (key === 'system_culling_delta') {
+    if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) <
+      parseInt(newFormValues['system_stale_warning_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Culling must be after staleness
+        </p>
+      );
+    } else if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) <
+      parseInt(newFormValues['system_staleness_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Culling must be after stale warning
+        </p>
+      );
+    } else {
+      setIsFormValid(true);
+    }
+  }
+
+  if (key === 'edge_staleness_delta') {
+    if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) >
+      parseInt(newFormValues['edge_stale_warning_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Staleness must be before stale warning
+        </p>
+      );
+    } else if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) >
+      parseInt(newFormValues['edge_culling_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Staleness must be before culling
+        </p>
+      );
+    } else {
+      setIsFormValid(true);
+    }
+  }
+  if (key === 'edge_stale_warning_delta') {
+    if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) >
+      parseInt(newFormValues['edge_culling_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Stale warning must be before culling
+        </p>
+      );
+    } else if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) <
+      parseInt(newFormValues['edge_staleness_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Stale warning must be after staleness
+        </p>
+      );
+    } else {
+      setIsFormValid(true);
+    }
+  }
+  if (key === 'edge_culling_delta') {
+    if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) <
+      parseInt(newFormValues['edge_stale_warning_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Culling must be after staleness
+        </p>
+      );
+    } else if (
+      parseInt(newFormValues[dropdownItems[0].apiKey]) <
+      parseInt(newFormValues['edge_staleness_delta'])
+    ) {
+      setIsFormValid(false);
+      return (
+        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+          Culling must be after stale warning
+        </p>
+      );
+    } else {
+      setIsFormValid(true);
+    }
+  }
+};
 export const HostStalenessResetDefaultPopover = () => {
   return (
     <Popover
@@ -90,11 +249,6 @@ export const InventoryHostStalenessPopover = () => {
           >
             <FlexItem>
               <Text component={TextVariants.small}>By default:</Text>
-            </FlexItem>
-            <FlexItem>
-              <Text component={TextVariants.small}>
-                - Systems are marked as stale after 1 day since last check-in.
-              </Text>
             </FlexItem>
             <FlexItem>
               <Text component={TextVariants.small}>

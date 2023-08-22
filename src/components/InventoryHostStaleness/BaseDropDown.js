@@ -9,6 +9,7 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';
+import { conditionalDropdownError } from './constants';
 
 const BaseDropdown = ({
   dropdownItems,
@@ -19,6 +20,8 @@ const BaseDropdown = ({
   setNewFormValues,
   edit,
   modalMessage,
+  isFormValid,
+  setIsFormValid,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(currentItem);
@@ -36,10 +39,6 @@ const BaseDropdown = ({
     setSelected(currentItem);
   }, [edit, currentItem]);
 
-  console.log(
-    dropdownItems[0].apiKey === 'system_staleness_delta',
-    ' conditional here'
-  );
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
@@ -79,77 +78,13 @@ const BaseDropdown = ({
               </SelectOption>
             ))}
           </Select>
-          {dropdownItems[0].apiKey === 'system_staleness_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) >
-              parseInt(newFormValues['system_stale_warning_delta']) && (
-              <p>Staleness must be before stale warning</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'system_staleness_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) >
-              parseInt(newFormValues['system_culling_delta']) && (
-              <p>Staleness must be before culling</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'system_stale_warning_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) >
-              parseInt(newFormValues['system_culling_delta']) && (
-              <p>Stale warning must be before culling</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'system_stale_warning_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) <
-              parseInt(newFormValues['system_staleness_delta']) && (
-              <p>Stale warning must be after staleness</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'system_culling_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) <
-              parseInt(newFormValues['system_stale_warning_delta']) && (
-              <p>Culling must be after staleness</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'system_culling_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) <
-              parseInt(newFormValues['system_staleness_delta']) && (
-              <p>Culling must be after stale warning</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'edge_staleness_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) >
-              parseInt(newFormValues['edge_stale_warning_delta']) && (
-              <p>Staleness must be before stale warning</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'edge_staleness_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) >
-              parseInt(newFormValues['edge_culling_delta']) && (
-              <p>Staleness must be before culling</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'edge_stale_warning_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) >
-              parseInt(newFormValues['edge_culling_delta']) && (
-              <p>Stale warning must be before culling</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'edge_stale_warning_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) <
-              parseInt(newFormValues['edge_staleness_delta']) && (
-              <p>Stale warning must be after staleness</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'edge_culling_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) <
-              parseInt(newFormValues['edge_stale_warning_delta']) && (
-              <p>Culling must be after staleness</p>
-            )}
-
-          {dropdownItems[0].apiKey === 'edge_culling_delta' &&
-            parseInt(newFormValues[dropdownItems[0].apiKey]) <
-              parseInt(newFormValues['edge_staleness_delta']) && (
-              <p>Culling must be after stale warning</p>
-            )}
+          {conditionalDropdownError(
+            dropdownItems[0].apiKey,
+            newFormValues,
+            dropdownItems,
+            isFormValid,
+            setIsFormValid
+          )}
         </FlexItem>
       </Flex>
     </React.Fragment>
@@ -168,6 +103,8 @@ BaseDropdown.propTypes = {
   setNewFormValues: PropTypes.any,
   edit: PropTypes.bool,
   modalMessage: PropTypes.string,
+  isFormValid: PropTypes.any,
+  setIsFormValid: PropTypes.any,
 };
 
 export default BaseDropdown;

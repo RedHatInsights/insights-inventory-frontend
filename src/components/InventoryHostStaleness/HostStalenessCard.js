@@ -1,10 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
   Flex,
+  Modal,
   Popover,
   Tab,
   TabTitleText,
@@ -15,6 +17,7 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
 import { CONVENTIONAL_TAB_TOOLTIP, IMMUTABLE_TAB_TOOLTIP } from './constants';
 import { InventoryHostStalenessPopover } from './constants';
+import { groupsApi } from '../../api';
 
 const HostStalenessCard = () => {
   //multiply these values be seconds at the end before sending to the api
@@ -26,15 +29,32 @@ const HostStalenessCard = () => {
     edge_stale_warning_delta: '150',
     edge_culling_delta: '120',
   });
+
   const [newFormValues, setNewFormValues] = useState(filter);
   const [edit, setEdit] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(true);
+  const [groupTotal, setGroupTotal] = useState(0);
+
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
+  const handleModalToggle = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
-  //newFormValue manipulation:
-  //styling and messages
+  const resetToOriginalValues = () => {
+    setNewFormValues(filter);
+    setEdit(!edit);
+  };
+
+  const updateHost = () => {};
+
+  useEffect(() => {
+    groupsApi.apiGroupGetGroupList().then((res) => setGroupTotal(res.total));
+  }, []);
+  // https://console.redhat.com/api/inventory/v1/groups get the count
   // Need to update the edit button so that it makes the POST req,
   return (
     <Card id={'HostStalenessCard'}>
@@ -74,7 +94,6 @@ const HostStalenessCard = () => {
                   aria-label="Basic popover"
                   headerContent={<div>Conventional systems(RPM-DNF)</div>}
                   bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
-                  footerContent="Popover footer"
                 >
                   <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
                 </Popover>
@@ -89,6 +108,8 @@ const HostStalenessCard = () => {
               activeTabKey={0}
               newFormValues={newFormValues}
               setNewFormValues={setNewFormValues}
+              isFormValid={isFormValid}
+              setIsFormValid={setIsFormValid}
             />
           </Tab>
           <Tab
@@ -100,7 +121,6 @@ const HostStalenessCard = () => {
                   aria-label="Basic popover"
                   headerContent={<div>Immutable(OSTree)</div>}
                   bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
-                  footerContent="Popover footer"
                 >
                   <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
                 </Popover>
@@ -115,9 +135,51 @@ const HostStalenessCard = () => {
               activeTabKey={1}
               newFormValues={newFormValues}
               setNewFormValues={setNewFormValues}
+              isFormValid={isFormValid}
+              setIsFormValid={setIsFormValid}
             />
           </Tab>
         </Tabs>
+        {edit && (
+          <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
+            <Button
+              className="pf-u-mt-md"
+              size={'sm'}
+              onClick={() => handleModalToggle()}
+              isDisabled={!isFormValid}
+            >
+              Save
+            </Button>
+            <Button
+              className="pf-u-mt-md"
+              size={'sm'}
+              variant="link"
+              onClick={() => resetToOriginalValues()}
+            >
+              Cancel
+            </Button>
+            <Modal
+              variant="small"
+              titleIconVariant="warning"
+              title="Update organization level setting"
+              isOpen={isModalOpen}
+              onClose={handleModalToggle}
+              actions={[
+                <Button key="confirm" variant="primary" onClick={updateHost}>
+                  Update
+                </Button>,
+                <Button key="cancel" variant="link" onClick={handleModalToggle}>
+                  Cancel
+                </Button>,
+              ]}
+              ouiaId="BasicModal"
+            >
+              {`Changing the organization level setting for system staleness and
+              culling may impact your systems. ${groupTotal} systems will be culled as a
+              result.`}
+            </Modal>
+          </Flex>
+        )}{' '}
       </CardBody>
     </Card>
   );
