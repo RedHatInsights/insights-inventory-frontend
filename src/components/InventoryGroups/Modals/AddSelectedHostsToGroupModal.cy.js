@@ -39,15 +39,13 @@ describe('AddSelectedHostsToGroupModal', () => {
       cy.wait('@getGroups').its('request.url').should('contain', '?name=abcd');
     });
 
-    it('create group button is disabled', () => {
-      cy.get('button')
-        .contains('Create a new group')
-        .should('have.attr', 'aria-disabled', 'true');
+    it('create group button is hidden', () => {
+      cy.get('button').contains('Create a new group').should('not.exist');
     });
   });
 
   describe('with limited groups write permissions', () => {
-    it('should still disable the create group button', () => {
+    it('should still hide the create group button', () => {
       cy.mockWindowChrome({
         userPermissions: [
           {
@@ -66,9 +64,7 @@ describe('AddSelectedHostsToGroupModal', () => {
       });
 
       mountModal();
-      cy.get('button')
-        .contains('Create a new group')
-        .should('have.attr', 'aria-disabled', 'true');
+      cy.get('button').contains('Create a new group').should('not.exist');
     });
   });
 
@@ -84,10 +80,9 @@ describe('AddSelectedHostsToGroupModal', () => {
       mountModal();
     });
 
-    it('create group button is enabled', () => {
-      cy.get('button')
-        .contains('Create a new group')
-        .not('have.attr', 'aria-disabled', 'true');
+    it('create group button is visible', () => {
+      cy.get('button').contains('Create a new group').should('exist');
+      cy.get('button').contains('Create a new group').shouldHaveAriaEnabled();
     });
   });
 });

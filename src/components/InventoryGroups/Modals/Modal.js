@@ -24,7 +24,10 @@ const RepoModal = ({
 }) => {
   return (
     <Modal
-      appendTo={() => document.body.querySelector('.inventory')} // required to support the app's stylesheets
+      ouiaId="group-modal"
+      appendTo={() =>
+        document.body.querySelector('.inventory') || document.body
+      } // required to support the app's stylesheets
       variant={size ?? 'small'}
       title={title}
       titleIconVariant={titleIconVariant ?? null}
