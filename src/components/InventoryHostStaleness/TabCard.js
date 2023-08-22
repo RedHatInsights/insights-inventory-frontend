@@ -75,6 +75,12 @@ const TabCard = ({
                 edit={edit}
                 modalMessage={item[0].modalMessage}
               />
+              {/* {newFormValues[item] && <p>This is the error message</p>} */}
+              {/* {true && <p>This is the error message</p>}
+              {true && <p>This is the error message</p>}
+              {true && <p>This is the error message</p>}
+              {true && <p>This is the error message</p>}
+              {true && <p>This is the error message</p>} */}
             </GridItem>
           ))}
           {edit && (
