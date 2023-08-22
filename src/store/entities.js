@@ -45,6 +45,7 @@ export const defaultColumns = (groupsEnabled = false) => [
     key: 'display_name',
     sortKey: 'display_name',
     title: 'Name',
+    dataLabel: 'Name',
     renderFunc: TitleColumn,
   },
   ...(groupsEnabled
@@ -53,6 +54,7 @@ export const defaultColumns = (groupsEnabled = false) => [
           key: 'groups',
           sortKey: 'groups',
           title: 'Group',
+          dataLabel: 'Group',
           props: { width: 10, isStatic: true },
           // eslint-disable-next-line camelcase
           renderFunc: (groups) => (isEmpty(groups) ? 'N/A' : groups[0].name), // currently, one group at maximum is supported
@@ -63,6 +65,7 @@ export const defaultColumns = (groupsEnabled = false) => [
   {
     key: 'tags',
     title: 'Tags',
+    dataLabel: 'Tags',
     props: { width: 10, isStatic: true },
     // eslint-disable-next-line react/display-name
     renderFunc: (value, systemId) => (
@@ -90,6 +93,7 @@ export const defaultColumns = (groupsEnabled = false) => [
     key: 'updated',
     sortKey: 'updated',
     title: 'Last seen',
+    dataLabel: 'Last seen',
     // eslint-disable-next-line react/display-name
     renderFunc: (
       value,
