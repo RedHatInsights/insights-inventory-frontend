@@ -20,7 +20,7 @@ const AddSelectedHostsToGroupModal = ({
 
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
   const handleAddDevices = (values) => {
-    const { group } = values;
+    const group = JSON.parse(values.group); // parse is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
     const statusMessages = {
       onSuccess: {
         title: 'Success',
