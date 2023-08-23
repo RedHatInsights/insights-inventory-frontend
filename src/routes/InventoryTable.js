@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import './inventory.scss';
 import {
   PageHeader,
@@ -166,33 +166,12 @@ const Inventory = ({
       lastSeenFilter
     )
   );
-  const { pathname } = useLocation();
-  const tabsPath = [
-    resolveRelPath(''),
-    resolveRelPath(manageEdgeInventoryUrlName),
-  ];
-  const initialActiveTabKey =
-    tabsPath.indexOf(pathname) >= 0 ? tabsPath.indexOf(pathname) : 0;
-  const [activeTabKey, setActiveTabKey] = useState(initialActiveTabKey);
-  useEffect(() => {
-    setActiveTabKey(initialActiveTabKey);
-  }, [pathname]);
-  const searchParams = useLocation();
-  const [prm, setPrm] = useState('');
-  const [currentTab, setCurrentTab] = useState(activeTabKey);
+  const [searchParams, setSearchParams] = useSearchParams();
   const handleTabClick = (_event, tabIndex) => {
-    setCurrentTab(tabIndex);
-    if (currentTab !== tabIndex) {
-      setPrm(searchParams.search);
-      let tabPath = tabsPath[tabIndex];
-      if (tabPath !== undefined) {
-        if (tabPath === '') {
-          tabPath = '/';
-        }
-        navigate(`${tabPath}${prm}`);
-      }
-    }
-    setActiveTabKey(tabIndex);
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      activeTab: tabIndex,
+    });
   };
   const [ediOpen, onEditOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
@@ -518,17 +497,17 @@ const Inventory = ({
         {EdgeParityEnabled ? (
           <Tabs
             className="pf-m-light pf-c-table"
-            activeKey={activeTabKey}
+            activeKey={searchParams.get('activeTab') || 'conventional'}
             onSelect={handleTabClick}
           >
             <Tab
-              eventKey={0}
+              eventKey={'conventional'}
               title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
             >
               {traditionalDevices}
             </Tab>
             <Tab
-              eventKey={1}
+              eventKey={manageEdgeInventoryUrlName}
               title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
             >
               {
