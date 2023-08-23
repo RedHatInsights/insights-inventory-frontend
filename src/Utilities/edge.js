@@ -20,6 +20,14 @@ const getNotificationProp = (dispatch) => {
         }),
       });
     },
+    hasWarning: (hasSuccessMessage) => {
+      dispatch({
+        ...addNotification({
+          variant: 'warning',
+          ...hasSuccessMessage,
+        }),
+      });
+    },
     err: (errMessage, err) => {
       dispatch({
         ...addNotification({
