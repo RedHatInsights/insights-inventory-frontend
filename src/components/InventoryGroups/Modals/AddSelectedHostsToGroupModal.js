@@ -1,3 +1,5 @@
+import './AddSelectedHostsToGroupModal.scss';
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
@@ -18,7 +20,7 @@ const AddSelectedHostsToGroupModal = ({
 
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
   const handleAddDevices = (values) => {
-    const { group } = values;
+    const group = JSON.parse(values.group); // parse is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
     const statusMessages = {
       onSuccess: {
         title: 'Success',
@@ -60,6 +62,7 @@ const AddSelectedHostsToGroupModal = ({
           }}
           onSubmit={handleAddDevices}
           reloadData={reloadData}
+          modalClassName="add-selected-to-group-modal"
         />
       )}
       {isCreateGroupModalOpen && (
