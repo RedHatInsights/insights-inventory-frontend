@@ -231,7 +231,6 @@ describe('with default parameters', () => {
       });
 
       it('triggers new request', () => {
-        cy.wait('@getHosts');
         cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
         cy.get(DROPDOWN_ITEM).contains('Group').click();
         cy.ouiaId('Filter by group').click();
