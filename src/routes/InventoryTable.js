@@ -167,9 +167,11 @@ const Inventory = ({
     )
   );
   const [searchParams, setSearchParams] = useSearchParams();
+  const [prm, setPrm] = useState('');
   const handleTabClick = (_event, tabIndex) => {
+    setPrm(Object.fromEntries(searchParams));
     setSearchParams({
-      ...Object.fromEntries(searchParams),
+      ...prm,
       activeTab: tabIndex,
     });
   };
