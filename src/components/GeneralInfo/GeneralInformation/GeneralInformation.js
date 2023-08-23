@@ -16,7 +16,6 @@ import { ConfigurationCard } from '../ConfigurationCard';
 import { SystemStatusCard } from '../SystemStatusCard';
 import { DataCollectorsCard } from '../DataCollectorsCard/DataCollectorsCard';
 import { Provider } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 import './general-information.scss';
@@ -244,7 +243,6 @@ GeneralInformation.propTypes = {
   ]),
   children: PropTypes.node,
   navigate: PropTypes.any,
-  location: PropTypes.any,
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
   showImageDetails: PropTypes.bool,
@@ -265,7 +263,6 @@ GeneralInformation.defaultProps = {
 
 const GeneralInformationComponent = (props) => {
   const navigate = useInsightsNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
   const entity = useSelector(({ entityDetails }) => entityDetails.entity);
   const loadSystemDetail = (itemId) => dispatch(systemProfile(itemId));
@@ -273,7 +270,6 @@ const GeneralInformationComponent = (props) => {
     <GeneralInformation
       {...props}
       navigate={navigate}
-      location={location}
       entity={entity}
       loadSystemDetail={loadSystemDetail}
     />

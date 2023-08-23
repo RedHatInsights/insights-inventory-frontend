@@ -70,7 +70,7 @@ const AVAILABLE_FILTER_NAMES = [
   'Group',
 ];
 
-const setTableInterceptos = () => {
+const setTableInterceptors = () => {
   featureFlagsInterceptors.successful();
   systemProfileInterceptors['operating system, successful empty']();
   groupsInterceptors['successful with some items'](shorterGroupsFixtures);
@@ -83,7 +83,7 @@ describe('with default parameters', () => {
   });
 
   beforeEach(() => {
-    setTableInterceptos();
+    setTableInterceptors();
     mountTable();
     waitForTable(true);
   });
@@ -249,10 +249,11 @@ describe('with default parameters', () => {
 describe('hiding filters', () => {
   before(cy.mockWindowChrome);
 
-  beforeEach(setTableInterceptos);
+  beforeEach(() => setTableInterceptors());
 
   it('can hide all filters', () => {
     mountTable({ hasAccess: true, hideFilters: { all: true } });
+    waitForTable();
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').should(
       'not.exist'
     );
@@ -260,36 +261,42 @@ describe('hiding filters', () => {
 
   it('can hide groups filter', () => {
     mountTable({ hasAccess: true, hideFilters: { hostGroupFilter: true } });
+    waitForTable();
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
   });
 
   it('can hide name filter', () => {
     mountTable({ hasAccess: true, hideFilters: { name: true } });
+    waitForTable();
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Name');
   });
 
   it('can hide data collector filter', () => {
     mountTable({ hasAccess: true, hideFilters: { registeredWith: true } });
+    waitForTable();
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Data Collector');
   });
 
   it('can hide rhcd filter', () => {
     mountTable({ hasAccess: true, hideFilters: { rhcdFilter: true } });
+    waitForTable();
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'RHC status');
   });
 
   it('can hide os filter', () => {
     mountTable({ hasAccess: true, hideFilters: { operatingSystem: true } });
+    waitForTable();
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Operating System');
   });
 
   it('can hide last seen filter', () => {
     mountTable({ hasAccess: true, hideFilters: { lastSeen: true } });
+    waitForTable();
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Last seen');
   });
