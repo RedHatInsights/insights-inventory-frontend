@@ -188,7 +188,11 @@ export async function getEntities(
       orderDirection,
       undefined,
       undefined,
-      { cancelToken: controller && controller.token }
+      {
+        ...(controller?.signal !== undefined
+          ? { signal: controller.signal }
+          : {}),
+      }
     );
     if (fields && Object.keys(fields).length) {
       try {
@@ -201,7 +205,9 @@ export async function getEntities(
           undefined,
           undefined,
           {
-            cancelToken: controller && controller.token,
+            ...(controller?.signal !== undefined
+              ? { signal: controller.signal }
+              : {}),
             query: generateFilter(fields, 'fields'),
           }
         );
@@ -258,7 +264,9 @@ export async function getEntities(
         undefined,
         undefined,
         {
-          cancelToken: controller && controller.token,
+          ...(controller?.signal !== undefined
+            ? { signal: controller.signal }
+            : {}),
           query: {
             ...(options?.globalFilter?.filter &&
               generateFilter(options.globalFilter.filter)),
