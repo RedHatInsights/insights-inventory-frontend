@@ -81,6 +81,10 @@ function onEntitiesLoaded(state, { payload, meta }) {
     return state;
   }
 
+  if (meta?.controller?.signal?.aborted === true) {
+    return defaultState;
+  }
+
   return {
     ...state,
     rows: mergeArraysByKey([

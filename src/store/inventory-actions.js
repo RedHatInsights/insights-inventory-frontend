@@ -103,6 +103,7 @@ export const loadEntities = (
     meta: {
       showTags,
       lastDateRequest,
+      controller: config.controller,
     },
   };
 };
