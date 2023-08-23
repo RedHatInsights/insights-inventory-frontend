@@ -60,24 +60,13 @@ const createDescription = (hosts) => {
 //it allows to create custom item types in the modal
 
 const loadOptions = awesomeDebouncePromise(
-  async (searchValue = '') => {
-    // add a slight delay for scenarios when a new group has been just created
-    const data = await awesomeDebouncePromise(
-      () => getGroups({ name: searchValue }, {}),
-      500
-    )();
-    // TODO: make the getGroups requests paginated
-    return (data?.results || []).reduce((acc, { name, id }) => {
-      if (name.toLowerCase().includes(searchValue.trim().toLowerCase())) {
-        return [
-          ...acc,
-          {
-            label: name,
-            value: { name, id },
-          },
-        ];
-      }
-    }, []);
+  (searchValue = '') => {
+    return getGroups({ name: searchValue }).then((data) => {
+      return data.results.map(({ name, id }) => ({
+        label: name,
+        value: JSON.stringify({ id, name }), // stringify is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
+      }));
+    });
   },
   500,
   { onlyResolvesLast: false }
@@ -100,6 +89,7 @@ export const addHostSchema = (hosts) => ({
       isClearable: true,
       placeholder: 'Type or click to select a group',
       loadOptions,
+      options: [],
       validate: [{ type: validatorTypes.REQUIRED }],
     },
     {

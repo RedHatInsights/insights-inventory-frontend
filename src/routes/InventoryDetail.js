@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -86,7 +86,6 @@ const Inventory = () => {
   const { inventoryId } = useParams();
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
-  const [activeApp] = useState(searchParams.get('appName') || appList[0].name);
   const store = useStore();
   const navigate = useInsightsNavigate();
   const dispatch = useDispatch();
@@ -110,6 +109,16 @@ const Inventory = () => {
       ),
     [cloudProvider]
   );
+
+  useEffect(() => {
+    if (searchParams.get('appName') === null) {
+      searchParams.set('appName', appList[0].name);
+      navigate({
+        search: searchParams.toString(),
+      });
+    }
+  }, []);
+
   const clearNotifications = () => dispatch(actions.clearNotifications());
 
   const { hasAccess: canDeleteHost } = usePermissionsWithContext([
@@ -128,7 +137,7 @@ const Inventory = () => {
 
   const additionalClasses = {
     'ins-c-inventory__detail--general-info':
-      activeApp === 'general_information',
+      searchParams.get('appName') === 'general_information',
   };
 
   if (entity) {
@@ -140,11 +149,9 @@ const Inventory = () => {
   }, [entity?.id]);
 
   const onTabSelect = useCallback(
-    (_, activeApp, appName) => {
-      searchParams.set('appName', appName);
-      const search = searchParams.toString();
+    (_, __, appName) => {
       navigate({
-        search,
+        search: `?appName=${appName}`,
       });
     },
     [searchParams]
@@ -179,7 +186,7 @@ const Inventory = () => {
           inventoryId={inventoryId}
         />
       }
-      activeApp={activeApp}
+      activeApp={searchParams.get('appName')}
       appList={apps}
       onTabSelect={onTabSelect}
     />
