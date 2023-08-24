@@ -81,6 +81,7 @@ const InventoryTable = forwardRef(
       isRbacEnabled,
       hasCheckbox,
       onRowClick,
+      abortOnUnmount = true,
       ...props
     },
     ref
@@ -121,6 +122,8 @@ const InventoryTable = forwardRef(
         : entities?.loaded
     );
 
+    const controller = useRef(new AbortController());
+
     /**
      * If initialLoading is set to true, then the component should be in loading state until
      * entities.loaded is false (and then we can use the redux loading state and forget this one)
@@ -136,6 +139,12 @@ const InventoryTable = forwardRef(
 
     const dispatch = useDispatch();
     const store = useStore();
+
+    useEffect(() => {
+      return () => {
+        abortOnUnmount && controller.current.abort();
+      };
+    }, []);
 
     const cache = useRef(inventoryCache());
     cache.current.updateProps({
@@ -189,7 +198,7 @@ const InventoryTable = forwardRef(
           onRefresh(newParams, (options) => {
             dispatch(
               loadSystems(
-                { ...newParams, ...options },
+                { ...newParams, ...options, controller: controller.current },
                 cachedProps.showTags,
                 cachedProps.getEntities
               )
@@ -198,7 +207,7 @@ const InventoryTable = forwardRef(
         } else {
           dispatch(
             loadSystems(
-              newParams,
+              { ...newParams, controller: controller.current },
               cachedProps.showTags,
               cachedProps.getEntities
             )
@@ -317,6 +326,7 @@ InventoryTable.propTypes = {
   isRbacEnabled: PropTypes.bool,
   hasCheckbox: PropTypes.bool,
   onRowClick: PropTypes.func,
+  abortOnUnmount: PropTypes.bool,
 };
 
 export default InventoryTable;

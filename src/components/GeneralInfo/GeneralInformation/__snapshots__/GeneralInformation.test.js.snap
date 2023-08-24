@@ -87,7 +87,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -124,7 +124,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -183,7 +183,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -384,7 +384,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -403,7 +402,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -422,7 +420,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -1025,7 +1022,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -1044,7 +1040,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -1063,7 +1058,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -1082,7 +1076,6 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -1185,7 +1178,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -1222,7 +1215,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -1281,7 +1274,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -1482,7 +1475,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -1501,7 +1493,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -1520,7 +1511,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -2208,7 +2198,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -2227,7 +2216,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -2246,7 +2234,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -2265,7 +2252,6 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -2368,7 +2354,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -2405,7 +2391,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -2464,7 +2450,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -2665,7 +2651,6 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -2684,7 +2669,6 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -2703,7 +2687,6 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -3426,7 +3409,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -3463,7 +3446,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -3522,7 +3505,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -4319,7 +4302,6 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -4338,7 +4320,6 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -4357,7 +4338,6 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -4376,7 +4356,6 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -4479,7 +4458,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -4516,7 +4495,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -4575,7 +4554,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -4776,7 +4755,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -4795,7 +4773,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -4814,7 +4791,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -5391,7 +5367,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -5410,7 +5385,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -5429,7 +5403,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -5448,7 +5421,6 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -5559,7 +5531,6 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -5578,7 +5549,6 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -5597,7 +5567,6 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -6285,7 +6254,6 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -6304,7 +6272,6 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -6323,7 +6290,6 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -6342,7 +6308,6 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -6445,7 +6410,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -6482,7 +6447,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -6541,7 +6506,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -6742,7 +6707,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -6761,7 +6725,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -6780,7 +6743,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -7390,7 +7352,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -7409,7 +7370,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -7428,7 +7388,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -7447,7 +7406,6 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -7550,7 +7508,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -7587,7 +7545,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -7646,7 +7604,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -7847,7 +7805,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -7866,7 +7823,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -7885,7 +7841,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -8573,7 +8528,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -8592,7 +8546,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -8611,7 +8564,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -8630,7 +8582,6 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -8740,7 +8691,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -8777,7 +8728,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -8836,7 +8787,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -9037,7 +8988,6 @@ exports[`GeneralInformation custom components should render custom Configuration
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -9056,7 +9006,6 @@ exports[`GeneralInformation custom components should render custom Configuration
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -9075,7 +9024,6 @@ exports[`GeneralInformation custom components should render custom Configuration
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -9805,7 +9753,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -9842,7 +9790,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -9901,7 +9849,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -10705,7 +10653,6 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -10724,7 +10671,6 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -10743,7 +10689,6 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -10762,7 +10707,6 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -10865,7 +10809,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -10902,7 +10846,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -10961,7 +10905,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -11162,7 +11106,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -11181,7 +11124,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -11200,7 +11142,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -11784,7 +11725,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -11803,7 +11743,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -11822,7 +11761,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -11841,7 +11779,6 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -11959,7 +11896,6 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -11978,7 +11914,6 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -11997,7 +11932,6 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -12685,7 +12619,6 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -12704,7 +12637,6 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -12723,7 +12655,6 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -12742,7 +12673,6 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
@@ -12845,7 +12775,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         <div
@@ -12888,7 +12818,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <div
@@ -12931,7 +12861,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         <div
@@ -14118,7 +14048,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -14155,7 +14085,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -14214,7 +14144,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -14415,7 +14345,6 @@ exports[`GeneralInformation should render correctly 1`] = `
                           >
                             2 addresses
                           </a>
-                          ipv4
                         </div>
                       </dd>
                       <dt
@@ -14434,7 +14363,6 @@ exports[`GeneralInformation should render correctly 1`] = `
                           >
                             2 addresses
                           </a>
-                          ipv6
                         </div>
                       </dd>
                       <dt
@@ -14453,7 +14381,6 @@ exports[`GeneralInformation should render correctly 1`] = `
                           >
                             2 NICs
                           </a>
-                          interfaces
                         </div>
                       </dd>
                     </dl>
@@ -15141,7 +15068,6 @@ exports[`GeneralInformation should render correctly 1`] = `
                           >
                             1 package
                           </a>
-                          installed_packages
                         </div>
                       </dd>
                       <dt
@@ -15160,7 +15086,6 @@ exports[`GeneralInformation should render correctly 1`] = `
                           >
                             1 service
                           </a>
-                          services
                         </div>
                       </dd>
                       <dt
@@ -15179,7 +15104,6 @@ exports[`GeneralInformation should render correctly 1`] = `
                           >
                             1 process
                           </a>
-                          running_processes
                         </div>
                       </dd>
                       <dt
@@ -15198,7 +15122,6 @@ exports[`GeneralInformation should render correctly 1`] = `
                           >
                             1 enabled
                           </a>
-                          repositories
                         </div>
                       </dd>
                     </dl>
