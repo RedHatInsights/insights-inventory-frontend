@@ -57,7 +57,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                 >
                   1 package
                 </a>
-                installed_packages
               </div>
             </dd>
             <dt
@@ -77,7 +76,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                 >
                   1 service
                 </a>
-                services
               </div>
             </dd>
             <dt
@@ -97,7 +95,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                 >
                   1 process
                 </a>
-                running_processes
               </div>
             </dd>
             <dt
@@ -117,7 +114,6 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
                 >
                   1 enabled
                 </a>
-                repositories
               </div>
             </dd>
           </dl>
@@ -352,7 +348,6 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        services
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -394,7 +389,6 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        running_processes
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -434,7 +428,6 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        repositories
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -680,7 +673,6 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        installed_packages
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -721,7 +713,6 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        services
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -761,7 +752,6 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        repositories
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1009,7 +999,6 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        installed_packages
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1050,7 +1039,6 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        services
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1092,7 +1080,6 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        running_processes
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1339,7 +1326,6 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        installed_packages
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1381,7 +1367,6 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        running_processes
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1421,7 +1406,6 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        repositories
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2016,7 +2000,6 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        installed_packages
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2057,7 +2040,6 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        services
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2099,7 +2081,6 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        running_processes
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2139,7 +2120,6 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        repositories
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2390,7 +2370,6 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        installed_packages
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2431,7 +2410,6 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        services
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2473,7 +2451,6 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        running_processes
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2513,7 +2490,6 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        repositories
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2800,7 +2776,6 @@ exports[`ConfigurationCard should render extra 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        installed_packages
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2841,7 +2816,6 @@ exports[`ConfigurationCard should render extra 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        services
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2883,7 +2857,6 @@ exports[`ConfigurationCard should render extra 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        running_processes
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2923,7 +2896,6 @@ exports[`ConfigurationCard should render extra 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        repositories
                                       </div>
                                     </dd>
                                   </TextListItem>

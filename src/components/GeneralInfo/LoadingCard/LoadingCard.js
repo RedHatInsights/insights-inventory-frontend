@@ -112,7 +112,6 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
                                 plural={plural}
                                 singular={singular}
                               />
-                              {target}
                             </div>
                           ) : (
                             valueToText(value, singular, plural)
