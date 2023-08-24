@@ -193,6 +193,10 @@ function entitiesLoaded(
     return state;
   }
 
+  if (meta?.controller?.signal?.aborted === true) {
+    return defaultState;
+  }
+
   return {
     ...state,
     activeFilters: filters || [],

@@ -4,7 +4,7 @@ import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearFilters, selectEntity } from '../../store/inventory-actions';
+import { selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
 import { Link } from 'react-router-dom';
@@ -18,6 +18,7 @@ import {
   ActionButton,
   ActionDropdownItem,
 } from '../InventoryTable/ActionWithRBAC';
+import { clearEntitiesAction } from '../../store/actions';
 
 export const bulkSelectConfig = (
   dispatch,
@@ -114,14 +115,9 @@ const GroupSystems = ({ groupName, groupId }) => {
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
   );
 
-  const resetTable = () => {
-    dispatch(clearFilters());
-    dispatch(selectEntity(-1, false));
-  };
-
   useEffect(() => {
     return () => {
-      resetTable();
+      dispatch(clearEntitiesAction());
     };
   }, []);
 
@@ -133,6 +129,7 @@ const GroupSystems = ({ groupName, groupId }) => {
         <AddSystemsToGroupModal
           isModalOpen={addToGroupModalOpen}
           setIsModalOpen={(value) => {
+            dispatch(clearEntitiesAction());
             setAddToGroupModalOpen(value);
           }}
           groupId={groupId}
@@ -208,7 +205,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                 )}
                 noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
                 onClick={() => {
-                  resetTable();
+                  dispatch(clearEntitiesAction());
                   setAddToGroupModalOpen(true);
                 }}
                 ouiaId="add-systems-button"
