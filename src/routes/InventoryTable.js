@@ -168,12 +168,21 @@ const Inventory = ({
   );
   const [searchParams, setSearchParams] = useSearchParams();
   const [prm, setPrm] = useState('');
+  const [currentTab, setCurrentTab] = useState(searchParams.get('activeTab'));
   const handleTabClick = (_event, tabIndex) => {
-    setPrm(Object.fromEntries(searchParams));
-    setSearchParams({
-      ...prm,
-      activeTab: tabIndex,
-    });
+    setCurrentTab(tabIndex);
+    if (currentTab !== tabIndex) {
+      let currentParam = Object.fromEntries(searchParams);
+      if (currentParam !== '' || currentParam !== undefined) {
+        setPrm(currentParam);
+        setSearchParams({
+          ...prm,
+          activeTab: tabIndex,
+        });
+      }
+
+      // }
+    }
   };
   const [ediOpen, onEditOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
