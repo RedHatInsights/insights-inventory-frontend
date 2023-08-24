@@ -87,7 +87,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -124,7 +124,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -183,7 +183,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -1178,7 +1178,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -1215,7 +1215,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -1274,7 +1274,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -2354,7 +2354,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -2391,7 +2391,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -2450,7 +2450,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -3409,7 +3409,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -3446,7 +3446,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -3505,7 +3505,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -4458,7 +4458,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -4495,7 +4495,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -4554,7 +4554,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -6410,7 +6410,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -6447,7 +6447,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -6506,7 +6506,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -7508,7 +7508,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -7545,7 +7545,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -7604,7 +7604,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -8691,7 +8691,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -8728,7 +8728,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -8787,7 +8787,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -9753,7 +9753,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -9790,7 +9790,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -9849,7 +9849,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -10809,7 +10809,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -10846,7 +10846,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -10905,7 +10905,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
@@ -12775,7 +12775,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         <div
@@ -12818,7 +12818,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <div
@@ -12861,7 +12861,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         <div
@@ -14048,7 +14048,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Host name value"
                       >
                         Not available
@@ -14085,7 +14085,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Display name value"
                       >
                         <a
@@ -14144,7 +14144,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                         </button>
                       </dt>
                       <dd
-                        class=""
+                        class="sentry-mask data-hj-suppress"
                         data-ouia-component-id="Ansible hostname value"
                       >
                         test-id
