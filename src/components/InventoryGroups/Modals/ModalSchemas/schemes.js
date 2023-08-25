@@ -95,6 +95,8 @@ export const addHostSchema = (hosts, chrome) => ({
       loadOptions: (searchValue) => loadOptions(searchValue, chrome),
       options: [],
       validate: [{ type: validatorTypes.REQUIRED }],
+      updatingMessage: 'Loading groups...',
+      loadingMessage: 'Loading groups...',
     },
     {
       component: 'create-group-btn',
