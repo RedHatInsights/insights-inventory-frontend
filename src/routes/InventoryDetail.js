@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
@@ -21,7 +21,6 @@ import {
 } from '../components/SystemDetails';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 const appList = [
   {
@@ -87,7 +86,7 @@ const Inventory = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const store = useStore();
-  const navigate = useInsightsNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const entityLoaded = useSelector(
@@ -113,9 +112,12 @@ const Inventory = () => {
   useEffect(() => {
     if (searchParams.get('appName') === null) {
       searchParams.set('appName', appList[0].name);
-      navigate({
-        search: searchParams.toString(),
-      });
+      navigate(
+        {
+          search: searchParams.toString(),
+        },
+        { replace: true }
+      );
     }
   }, []);
 
@@ -150,9 +152,12 @@ const Inventory = () => {
 
   const onTabSelect = useCallback(
     (_, __, appName) => {
-      navigate({
-        search: `?appName=${appName}`,
-      });
+      navigate(
+        {
+          search: `?appName=${appName}`,
+        },
+        { replace: true }
+      );
     },
     [searchParams]
   );
