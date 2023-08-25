@@ -75,6 +75,7 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
                       singular,
                       size,
                       title: itemTitle,
+                      customClass,
                     },
                     key
                   ) => (
@@ -90,6 +91,7 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
                         {itemTitle}
                       </TextListItem>
                       <TextListItem
+                        className={customClass}
                         component={TextListItemVariants.dd}
                         data-ouia-component-id={`${
                           typeof itemTitle === 'string'
@@ -110,7 +112,6 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
                                 plural={plural}
                                 singular={singular}
                               />
-                              {target}
                             </div>
                           ) : (
                             valueToText(value, singular, plural)
@@ -140,6 +141,7 @@ LoadingCard.propTypes = {
       size: PropTypes.oneOf(Object.values(SkeletonSize)),
       plural: PropTypes.string,
       singular: PropTypes.string,
+      customClass: PropTypes.string,
     })
   ),
   children: PropTypes.node,

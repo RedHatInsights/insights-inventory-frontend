@@ -69,7 +69,11 @@ const TopBar = ({
           <Flex>
             <FlexItem>
               <TitleWrapper>
-                <Title headingLevel="h1" size="2xl">
+                <Title
+                  headingLevel="h1"
+                  size="2xl"
+                  className="sentry-mask data-hj-suppress"
+                >
                   {entity && entity.display_name}
                 </Title>
               </TitleWrapper>

@@ -106,6 +106,7 @@ class SystemCardCore extends Component {
                     ),
                     value: entity.fqdn,
                     size: 'md',
+                    customClass: 'sentry-mask data-hj-suppress',
                   },
                 ]
               : []),
@@ -129,6 +130,7 @@ class SystemCardCore extends Component {
                       </Fragment>
                     ),
                     size: 'md',
+                    customClass: 'sentry-mask data-hj-suppress',
                   },
                 ]
               : []),
@@ -152,6 +154,7 @@ class SystemCardCore extends Component {
                       </Fragment>
                     ),
                     size: 'md',
+                    customClass: 'sentry-mask data-hj-suppress',
                   },
                 ]
               : []),

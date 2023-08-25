@@ -9,6 +9,7 @@ import {
   TableGridBreakpoint,
   TableHeader,
   TableVariant,
+  sortable,
 } from '@patternfly/react-table';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components/SkeletonTable';
 import NoEntitiesFound from './NoEntitiesFound';
@@ -77,6 +78,19 @@ const EntityTable = ({
     );
   };
 
+  const tableSortBy = {
+    //Inventory API has different sortBy key than system_profile
+    index:
+      columns?.findIndex(
+        (item) =>
+          sortBy?.key === item.key ||
+          (sortBy?.key === 'operating_system' && item.key === 'system_profile')
+      ) +
+      Boolean(hasCheckbox) +
+      Boolean(expandable),
+    direction: sortBy?.direction,
+  };
+
   delete tableProps.RowWrapper;
   if (rows?.length === 0) {
     delete tableProps.actionResolver;
@@ -116,19 +130,7 @@ const EntityTable = ({
                 index
               );
             }}
-            sortBy={{
-              //Inventory API has different sortBy key than system_profile
-              index:
-                cells?.findIndex(
-                  (item) =>
-                    sortBy?.key === item.key ||
-                    (sortBy?.key === 'operating_system' &&
-                      item.key === 'system_profile')
-                ) +
-                Boolean(hasCheckbox) +
-                Boolean(expandable),
-              direction: sortBy?.direction,
-            }}
+            sortBy={tableSortBy}
             {...{
               ...(hasCheckbox && rows?.length !== 0
                 ? { onSelect: onItemSelect }
@@ -145,9 +147,18 @@ const EntityTable = ({
         )
       ) : (
         <SkeletonTable
-          colSize={columns?.length || 3}
+          columns={columns.map((column) =>
+            column?.props?.isStatic
+              ? column
+              : {
+                  ...column,
+                  transforms: [...(column.transforms ?? []), sortable],
+                }
+          )}
           rowSize={15}
           variant={variant ?? tableProps.variant}
+          isSelectable={hasCheckbox}
+          sortBy={tableSortBy}
         />
       )}
     </React.Fragment>

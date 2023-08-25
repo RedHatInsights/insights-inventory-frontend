@@ -190,7 +190,7 @@ describe('sorting', () => {
 
   const checkSorting = (label, order, dataField) => {
     // get appropriate locators
-    const header = `th[data-label="${label}"]`;
+    const header = `.ins-c-entity-table th[data-label="${label}"]`;
     if (order === 'ascending') {
       cy.get(header).find('button').click();
     } else {

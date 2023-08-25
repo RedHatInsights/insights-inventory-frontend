@@ -264,7 +264,6 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv6
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -305,7 +304,6 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        interfaces
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -592,7 +590,6 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv4
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -633,7 +630,6 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        interfaces
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -921,7 +917,6 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv4
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -963,7 +958,6 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv6
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1232,7 +1226,6 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv4
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1274,7 +1267,6 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv6
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1315,7 +1307,6 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        interfaces
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1584,7 +1575,6 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv4
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1626,7 +1616,6 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv6
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -1667,7 +1656,6 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        interfaces
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2345,7 +2333,6 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv4
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2387,7 +2374,6 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv6
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -2428,7 +2414,6 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        interfaces
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -3036,7 +3021,6 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv4
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -3078,7 +3062,6 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv6
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -3119,7 +3102,6 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        interfaces
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -3447,7 +3429,6 @@ exports[`InfrastructureCard should render extra 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv4
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -3489,7 +3470,6 @@ exports[`InfrastructureCard should render extra 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        ipv6
                                       </div>
                                     </dd>
                                   </TextListItem>
@@ -3530,7 +3510,6 @@ exports[`InfrastructureCard should render extra 1`] = `
                                             </a>
                                           </Link>
                                         </Clickable>
-                                        interfaces
                                       </div>
                                     </dd>
                                   </TextListItem>
