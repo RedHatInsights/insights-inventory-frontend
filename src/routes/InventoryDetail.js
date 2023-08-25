@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
@@ -14,7 +19,6 @@ import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import { GeneralInformationTab } from '../components/SystemDetails';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import ApplicationTab from '../ApplicationTab';
 
 const appList = [
@@ -80,10 +84,9 @@ const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
 const Inventory = () => {
   const chrome = useChrome();
   const { inventoryId } = useParams();
-  const { search } = useLocation();
-  const searchParams = new URLSearchParams(search);
+  const [searchParams, setSearchParams] = useSearchParams();
   const store = useStore();
-  const navigate = useInsightsNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const entityLoaded = useSelector(
@@ -108,10 +111,13 @@ const Inventory = () => {
 
   useEffect(() => {
     if (searchParams.get('appName') === null) {
-      searchParams.set('appName', appList[0].name);
-      navigate({
-        search: searchParams.toString(),
-      });
+      setSearchParams('appName', appList[0].name);
+      navigate(
+        {
+          search: searchParams.toString(),
+        },
+        { replace: true }
+      );
     }
   }, []);
 
@@ -146,9 +152,12 @@ const Inventory = () => {
 
   const onTabSelect = useCallback(
     (_, __, appName) => {
-      navigate({
-        search: `?appName=${appName}`,
-      });
+      navigate(
+        {
+          search: `?appName=${appName}`,
+        },
+        { replace: true }
+      );
     },
     [searchParams]
   );
