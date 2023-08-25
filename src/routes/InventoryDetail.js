@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
@@ -83,8 +88,7 @@ const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
 const Inventory = () => {
   const chrome = useChrome();
   const { inventoryId } = useParams();
-  const { search } = useLocation();
-  const searchParams = new URLSearchParams(search);
+  const [searchParams, setSearchParams] = useSearchParams();
   const store = useStore();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -111,7 +115,7 @@ const Inventory = () => {
 
   useEffect(() => {
     if (searchParams.get('appName') === null) {
-      searchParams.set('appName', appList[0].name);
+      setSearchParams('appName', appList[0].name);
       navigate(
         {
           search: searchParams.toString(),
