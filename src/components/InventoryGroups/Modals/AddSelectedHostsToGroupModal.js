@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 const AddSelectedHostsToGroupModal = ({
   isModalOpen,
@@ -17,7 +18,7 @@ const AddSelectedHostsToGroupModal = ({
   reloadData,
 }) => {
   const dispatch = useDispatch();
-
+  const chrome = useChrome();
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
   const handleAddDevices = (values) => {
     const group = JSON.parse(values.group); // parse is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
@@ -53,7 +54,7 @@ const AddSelectedHostsToGroupModal = ({
           closeModal={() => setIsModalOpen(false)}
           title="Add to group"
           submitLabel="Add"
-          schema={addHostSchema(hosts)}
+          schema={addHostSchema(hosts, chrome)}
           additionalMappers={{
             'create-group-btn': {
               component: CreateGroupButton,

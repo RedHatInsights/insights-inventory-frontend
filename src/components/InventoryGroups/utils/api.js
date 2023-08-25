@@ -1,8 +1,15 @@
 /* eslint-disable camelcase */
 import { instance } from '@redhat-cloud-services/frontend-components-utilities/interceptors/interceptors';
 import { INVENTORY_API_BASE } from '../../../api';
-import { TABLE_DEFAULT_PAGINATION } from '../../../constants';
+import {
+  GENERAL_GROUPS_WRITE_PERMISSION,
+  GROUPS_WILDCARD,
+  INVENTORY_WILDCARD,
+  INVENTORY_WRITE_WILDCARD,
+  TABLE_DEFAULT_PAGINATION,
+} from '../../../constants';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 
 export const getGroups = (
   search = {},
@@ -12,16 +19,86 @@ export const getGroups = (
     ...search,
     ...pagination,
   }).toString();
+  const path = `${INVENTORY_API_BASE}/groups${
+    parameters.length > 0 ? '?' + parameters : ''
+  }`;
 
-  return instance.get(
-    `${INVENTORY_API_BASE}/groups?${parameters}` /* , { headers: { Prefer: 'code=404' } } */
-  );
+  return instance.get(path);
+};
+
+export const getWritableGroups = async (
+  groupName,
+  pagination = {},
+  getUserPermissions
+) => {
+  let groupsWritePermissions = [];
+
+  try {
+    const permissions = await getUserPermissions();
+    // according to chrome interface, permission is an object with "permission" and "resourceDefinitions" keys
+    groupsWritePermissions = permissions.filter(({ permission }) =>
+      [
+        GENERAL_GROUPS_WRITE_PERMISSION,
+        GROUPS_WILDCARD,
+        INVENTORY_WILDCARD,
+        INVENTORY_WRITE_WILDCARD,
+      ].includes(permission)
+    );
+  } catch (error) {
+    console.error('Could not fetch groups permissions.', error);
+  }
+
+  if (
+    !isEmpty(
+      groupsWritePermissions.filter(({ resourceDefinitions }) =>
+        isEmpty(resourceDefinitions)
+      )
+    ) // has general groups write permission; can fetch all groups
+  ) {
+    const groups = await getGroups(
+      groupName ? { name: groupName } : {},
+      pagination
+    );
+
+    return groups.results;
+  } else {
+    // has limited groups write permissions; can fetch only permitted groups
+    if (isEmpty(groupsWritePermissions)) {
+      return [];
+    }
+
+    let groups = [];
+
+    try {
+      groups = await getGroupsByIds(
+        groupsWritePermissions
+          .reduce(
+            (prev, cur) => [
+              ...prev,
+              cur.resourceDefinitions.map(({ attributeFilter }) =>
+                attributeFilter.operation === 'in'
+                  ? attributeFilter.value
+                  : [attributeFilter.value]
+              ),
+            ],
+            []
+          )
+          .flat()
+      );
+    } catch (error) {
+      console.error('Could not fetch writable groups.', error);
+    }
+
+    return groups.results.filter(({ name }) =>
+      name.toLowerCase().includes(groupName ? groupName.toLowerCase() : '')
+    );
+  }
 };
 
 export const getGroupsByIds = (groupIds, search = {}) => {
   const parameters = new URLSearchParams(search).toString();
   const path = `${INVENTORY_API_BASE}/groups/${groupIds.join(',')}${
-    parameters !== '' ? '?' + parameters : ''
+    parameters.length > 0 ? '?' + parameters : ''
   }`;
 
   return instance.get(path);

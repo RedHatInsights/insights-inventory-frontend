@@ -3,8 +3,8 @@ import validatorTypes from '@data-driven-forms/react-form-renderer/validator-typ
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import { nameValidator } from '../../helpers/validate';
 import { Text } from '@patternfly/react-core';
-import { getGroups } from '../../utils/api';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
+import { getWritableGroups } from '../../utils/api';
 
 export const createGroupSchema = (namePresenceValidator) => ({
   fields: [
@@ -60,19 +60,23 @@ const createDescription = (hosts) => {
 //it allows to create custom item types in the modal
 
 const loadOptions = awesomeDebouncePromise(
-  (searchValue = '') => {
-    return getGroups({ name: searchValue }).then((data) => {
-      return data.results.map(({ name, id }) => ({
-        label: name,
-        value: JSON.stringify({ id, name }), // stringify is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
-      }));
-    });
+  async (searchValue, chrome) => {
+    const fetchedGroups = await getWritableGroups(
+      searchValue,
+      { page: 1, per_page: 100 }, // TODO: make the list paginated
+      () => chrome.getUserPermissions('inventory')
+    );
+
+    return fetchedGroups.map(({ name, id }) => ({
+      label: name,
+      value: JSON.stringify({ id, name }), // stringify is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
+    }));
   },
-  500,
+  250,
   { onlyResolvesLast: false }
 );
 
-export const addHostSchema = (hosts) => ({
+export const addHostSchema = (hosts, chrome) => ({
   fields: [
     {
       component: componentTypes.PLAIN_TEXT,
@@ -88,9 +92,11 @@ export const addHostSchema = (hosts) => ({
       isRequired: true,
       isClearable: true,
       placeholder: 'Type or click to select a group',
-      loadOptions,
+      loadOptions: (searchValue) => loadOptions(searchValue, chrome),
       options: [],
       validate: [{ type: validatorTypes.REQUIRED }],
+      updatingMessage: 'Loading groups...',
+      loadingMessage: 'Loading groups...',
     },
     {
       component: 'create-group-btn',
