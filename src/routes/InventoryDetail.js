@@ -16,16 +16,10 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
-import {
-  AdvisorTab,
-  ComplianceTab,
-  GeneralInformationTab,
-  PatchTab,
-  RosTab,
-  VulnerabilityTab,
-} from '../components/SystemDetails';
+import { GeneralInformationTab } from '../components/SystemDetails';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
+import ApplicationTab from '../ApplicationTab';
 
 const appList = [
   {
@@ -38,30 +32,32 @@ const appList = [
   {
     title: 'Advisor',
     name: 'advisor',
-    component: AdvisorTab,
+    component: () => <ApplicationTab appName="advisor" title="Advisor" />,
   },
   {
     title: 'Vulnerability',
     name: 'vulnerabilities',
-    component: VulnerabilityTab,
+    component: () => (
+      <ApplicationTab appName="vulnerability" title="Vulnerability" />
+    ),
   },
   {
     title: 'Compliance',
     name: 'compliance',
-    component: ComplianceTab,
+    component: () => <ApplicationTab appName="compliance" title="Compliance" />,
     nonEdge: true,
   },
   {
     title: 'Patch',
     name: 'patch',
-    component: PatchTab,
+    component: () => <ApplicationTab appName="patch" title="Patch" />,
     nonEdge: true,
   },
   {
     title: 'Resource Optimization',
     name: 'ros',
     isVisible: false,
-    component: RosTab,
+    component: () => <ApplicationTab appName="ros" />,
     nonEdge: true,
   },
 ];
