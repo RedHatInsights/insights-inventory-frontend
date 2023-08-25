@@ -6,4 +6,5 @@ export default () => ({
   on: () => {},
   getApp: () => 'inventory',
   getBundle: () => 'rhel',
+  getUserPermissions: () => [{ permission: 'inventory:*:*' }],
 });

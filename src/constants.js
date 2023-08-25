@@ -234,6 +234,9 @@ export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =
 export const NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE =
   'You must be an organization administrator to modify User Access configuration.';
 export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';
+export const GROUPS_WILDCARD = 'inventory:groups:*';
+export const INVENTORY_WILDCARD = 'inventory:*:*';
+export const INVENTORY_WRITE_WILDCARD = 'inventory:*:write';
 export const GENERAL_GROUPS_READ_PERMISSION = 'inventory:groups:read';
 export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
   GENERAL_GROUPS_READ_PERMISSION,
