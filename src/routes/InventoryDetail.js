@@ -32,32 +32,42 @@ const appList = [
   {
     title: 'Advisor',
     name: 'advisor',
-    component: () => <ApplicationTab appName="advisor" title="Advisor" />,
+    component: (props) => (
+      <ApplicationTab appName="advisor" title="Advisor" {...props} />
+    ),
   },
   {
     title: 'Vulnerability',
     name: 'vulnerabilities',
-    component: () => (
-      <ApplicationTab appName="vulnerability" title="Vulnerability" />
+    component: (props) => (
+      <ApplicationTab
+        appName="vulnerability"
+        title="Vulnerability"
+        {...props}
+      />
     ),
   },
   {
     title: 'Compliance',
     name: 'compliance',
-    component: () => <ApplicationTab appName="compliance" title="Compliance" />,
+    component: (props) => (
+      <ApplicationTab appName="compliance" title="Compliance" {...props} />
+    ),
     nonEdge: true,
   },
   {
     title: 'Patch',
     name: 'patch',
-    component: () => <ApplicationTab appName="patch" title="Patch" />,
+    component: (props) => (
+      <ApplicationTab appName="patch" title="Patch" {...props} />
+    ),
     nonEdge: true,
   },
   {
     title: 'Resource Optimization',
     name: 'ros',
     isVisible: false,
-    component: () => <ApplicationTab appName="ros" />,
+    component: (props) => <ApplicationTab appName="ros" {...props} />,
     nonEdge: true,
   },
 ];
