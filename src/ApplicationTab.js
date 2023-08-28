@@ -11,7 +11,7 @@ import {
 } from './components/SystemDetails';
 import { TAB_REQUIRED_PERMISSIONS } from './constants';
 
-const ApplicationTab = ({ appName, title }) => {
+const ApplicationTab = ({ appName, title, ...props }) => {
   const { hasAccess } = usePermissionsWithContext(
     TAB_REQUIRED_PERMISSIONS[appName]
   );
@@ -27,7 +27,7 @@ const ApplicationTab = ({ appName, title }) => {
   const Tab = tabs[appName];
 
   return hasAccess ? (
-    <Tab />
+    <Tab {...props} />
   ) : (
     <AccessDenied
       requiredPermission={TAB_REQUIRED_PERMISSIONS[appName].join(', ')}
