@@ -12,8 +12,10 @@ import {
 import { TAB_REQUIRED_PERMISSIONS } from './constants';
 
 const ApplicationTab = ({ appName, title, ...props }) => {
-  const { hasAccess } = usePermissionsWithContext(
-    TAB_REQUIRED_PERMISSIONS[appName]
+  const { hasAccess, isOrgAdmin } = usePermissionsWithContext(
+    TAB_REQUIRED_PERMISSIONS[appName],
+    true,
+    false
   );
 
   const tabs = {
@@ -26,7 +28,7 @@ const ApplicationTab = ({ appName, title, ...props }) => {
 
   const Tab = tabs[appName];
 
-  return hasAccess ? (
+  return hasAccess || isOrgAdmin ? (
     <Tab {...props} />
   ) : (
     <AccessDenied

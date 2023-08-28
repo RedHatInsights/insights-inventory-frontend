@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div className="inventory">
       <NotificationsPortal />
-      <RBACProvider appName="inventory" checkResourceDefinitions>
+      <RBACProvider checkResourceDefinitions>
         <Routes />
       </RBACProvider>
     </div>
