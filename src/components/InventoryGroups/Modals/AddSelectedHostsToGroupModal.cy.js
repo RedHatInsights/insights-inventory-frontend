@@ -31,14 +31,6 @@ describe('AddSelectedHostsToGroupModal', () => {
       mountModal();
     });
 
-    it('makes separate requests when searching groups', () => {
-      cy.wait('@getGroups'); // must make initial call
-      cy.get('input').type('abc');
-      cy.wait('@getGroups').its('request.url').should('contain', '?name=abc');
-      cy.get('input').type('d');
-      cy.wait('@getGroups').its('request.url').should('contain', '?name=abcd');
-    });
-
     it('create group button is hidden', () => {
       cy.get('button').contains('Create a new group').should('not.exist');
     });
@@ -78,6 +70,14 @@ describe('AddSelectedHostsToGroupModal', () => {
     beforeEach(() => {
       groupsInterceptors['successful with some items']();
       mountModal();
+    });
+
+    it('makes separate requests when searching groups', () => {
+      cy.wait('@getGroups'); // must make initial call
+      cy.get('input').type('abc');
+      cy.wait('@getGroups').its('request.url').should('contain', '?name=abc');
+      cy.get('input').type('d');
+      cy.wait('@getGroups').its('request.url').should('contain', '?name=abcd');
     });
 
     it('create group button is visible', () => {

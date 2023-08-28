@@ -234,6 +234,9 @@ export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =
 export const NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE =
   'You must be an organization administrator to modify User Access configuration.';
 export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';
+export const GROUPS_WILDCARD = 'inventory:groups:*';
+export const INVENTORY_WILDCARD = 'inventory:*:*';
+export const INVENTORY_WRITE_WILDCARD = 'inventory:*:write';
 export const GENERAL_GROUPS_READ_PERMISSION = 'inventory:groups:read';
 export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
   GENERAL_GROUPS_READ_PERMISSION,
@@ -242,3 +245,28 @@ export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
 export const GENERAL_HOSTS_READ_PERMISSIONS = 'inventory:hosts:read';
 export const GENERAL_HOSTS_WRITE_PERMISSIONS = 'inventory:hosts:write';
 export const USER_ACCESS_ADMIN_PERMISSIONS = ['rbac:*:*'];
+
+export const TAB_REQUIRED_PERMISSIONS = {
+  /**
+   * Should be up to date with
+   * https://github.com/RedHatInsights/rbac-config/tree/88ab3a3adb9526d3dcdb0e1e26c30cc98f51f76e/configs/prod/roles
+   * viewer roles.
+   */
+  advisor: ['advisor:*:*', 'inventory:*:read'],
+  vulnerability: [
+    'vulnerability:vulnerability_results:read',
+    'vulnerability:system.opt_out:read',
+    'vulnerability:report_and_export:read',
+    'inventory:*:read',
+    'vulnerability:advanced_report:read',
+  ],
+  compliance: [
+    'compliance:policy:read',
+    'compliance:report:read',
+    'compliance:system:read',
+    'inventory:*:read',
+    'remediations:remediation:read',
+  ],
+  patch: ['patch:*:read', 'inventory:*:read'],
+  ros: ['ros:*:read', 'inventory:*:read'],
+};
