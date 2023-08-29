@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import './inventory.scss';
 import {
   PageHeader,
@@ -31,8 +31,7 @@ import { InventoryTable as InventoryTableCmp } from '../components/InventoryTabl
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddSelectedHostsToGroupModal from '../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
-//TODO: re-enable when edge app migrates away from useHistory (THEEDGE-3488)
-// import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { manageEdgeInventoryUrlName } from '../Utilities/edge';
@@ -151,6 +150,7 @@ const Inventory = ({
   const navigate = useInsightsNavigate();
   const chrome = useChrome();
   const inventory = useRef(null);
+
   const [isModalOpen, handleModalToggle] = useState(false);
   const [currentSystem, setCurrentSystem] = useState({});
   const [filters, onSetfilters] = useState(
@@ -166,23 +166,23 @@ const Inventory = ({
       lastSeenFilter
     )
   );
-  const { pathname } = useLocation();
-  const tabsPath = [
-    resolveRelPath(''),
-    resolveRelPath(manageEdgeInventoryUrlName),
-  ];
-  const initialActiveTabKey =
-    tabsPath.indexOf(pathname) >= 0 ? tabsPath.indexOf(pathname) : 0;
-  const [activeTabKey, setActiveTabKey] = useState(initialActiveTabKey);
-  useEffect(() => {
-    setActiveTabKey(initialActiveTabKey);
-  }, [pathname]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [prm, setPrm] = useState('');
+  const [currentTab, setCurrentTab] = useState(searchParams.get('activeTab'));
   const handleTabClick = (_event, tabIndex) => {
-    const tabPath = tabsPath[tabIndex];
-    if (tabPath !== undefined) {
-      navigate(`${tabPath}`);
+    setCurrentTab(tabIndex);
+    if (currentTab !== tabIndex) {
+      let currentParam = Object.fromEntries(searchParams);
+      if (currentParam !== '' || currentParam !== undefined) {
+        setPrm(currentParam);
+        setSearchParams({
+          ...prm,
+          activeTab: tabIndex,
+        });
+      }
+
+      // }
     }
-    setActiveTabKey(tabIndex);
   };
   const [ediOpen, onEditOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
@@ -508,30 +508,30 @@ const Inventory = ({
         {EdgeParityEnabled ? (
           <Tabs
             className="pf-m-light pf-c-table"
-            activeKey={activeTabKey}
+            activeKey={searchParams.get('activeTab') || 'conventional'}
             onSelect={handleTabClick}
           >
             <Tab
-              eventKey={0}
+              eventKey={'conventional'}
               title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
             >
               {traditionalDevices}
             </Tab>
             <Tab
-              eventKey={1}
+              eventKey={manageEdgeInventoryUrlName}
               title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
             >
-              {/* 
-                //TODO: re-enable when edge app migrates away from useHistory (THEEDGE-3488)
+              {
                 <AsyncComponent
-                appName="edge"
-                module="./Inventory"
-                historyProp={useHistory}
-                locationProp={useLocation}
-                showHeaderProp={false}
-                pathPrefix={resolveRelPath('')}
-                urlName={manageEdgeInventoryUrlName}
-              /> */}
+                  appName="edge"
+                  module="./Inventory"
+                  navigateProp={useNavigate}
+                  locationProp={useLocation}
+                  showHeaderProp={false}
+                  pathPrefix={resolveRelPath('')}
+                  urlName={manageEdgeInventoryUrlName}
+                />
+              }
             </Tab>
           </Tabs>
         ) : (
