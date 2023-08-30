@@ -3,7 +3,10 @@ import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGroupDetail } from '../../../store/inventory-actions';
+import {
+  fetchGroupDetail,
+  selectEntity,
+} from '../../../store/inventory-actions';
 import { prepareColumns } from '../../GroupSystems/GroupSystems';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
@@ -11,6 +14,7 @@ import apiWithToast from '../utils/apiWithToast';
 import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
 import { difference, map } from 'lodash';
+import { setFilter } from '../../../store/actions';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
@@ -77,6 +81,16 @@ const AddSystemsToGroupModal = ({
     [isModalOpen]
   );
 
+  const calculateSelected = () => (selected ? selected.size : 0);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    if (calculateSelected() > 0) {
+      dispatch(selectEntity(-1, false));
+    }
+    dispatch(setFilter([]));
+  };
+
   return (
     isModalOpen && (
       <>
@@ -92,14 +106,14 @@ const AddSystemsToGroupModal = ({
             setConfirmationModalOpen(false);
             setSystemSelectModalOpen(true); // switch back to the systems table modal
           }}
-          onCancel={() => setIsModalOpen(false)}
+          onCancel={() => handleModalClose()}
           hostsNumber={alreadyHasGroup.length}
         />
         {/** hosts selection modal */}
         <Modal
           title="Add systems"
           isOpen={systemsSelectModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => handleModalClose()}
           footer={
             <Flex direction={{ default: 'column' }} style={{ width: '100%' }}>
               {showWarning && (
@@ -122,7 +136,7 @@ const AddSystemsToGroupModal = ({
                     } else {
                       await handleSystemAddition([...selected.keys()]);
                       dispatch(fetchGroupDetail(groupId));
-                      setIsModalOpen(false);
+                      handleModalClose();
                     }
                   }}
                   isDisabled={noneSelected || showWarning}
@@ -132,7 +146,7 @@ const AddSystemsToGroupModal = ({
                 <Button
                   key="cancel"
                   variant="link"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => handleModalClose()}
                 >
                   Cancel
                 </Button>
