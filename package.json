@@ -10,7 +10,7 @@
     "@data-driven-forms/common": "^3.20.0",
     "@data-driven-forms/pf4-component-mapper": "^3.20.0",
     "@data-driven-forms/react-form-renderer": "^3.20.0",
-    "@patternfly/react-table": "^4.113.3",
+    "@patternfly/react-table": "^4.113.4",
     "@patternfly/react-core": "^4.276.11",
     "@patternfly/react-icons": "^4.93.7",
     "@redhat-cloud-services/frontend-components": "^3.11.6",
