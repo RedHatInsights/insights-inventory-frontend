@@ -249,24 +249,22 @@ export const USER_ACCESS_ADMIN_PERMISSIONS = ['rbac:*:*'];
 export const TAB_REQUIRED_PERMISSIONS = {
   /**
    * Should be up to date with
-   * https://github.com/RedHatInsights/rbac-config/tree/88ab3a3adb9526d3dcdb0e1e26c30cc98f51f76e/configs/prod/roles
+   * https://github.com/RedHatInsights/rbac-config/tree/master/configs/stage/roles
    * viewer roles.
    */
-  advisor: ['advisor:*:*', 'inventory:*:read'],
+  advisor: [],
   vulnerability: [
     'vulnerability:vulnerability_results:read',
     'vulnerability:system.opt_out:read',
     'vulnerability:report_and_export:read',
-    'inventory:*:read',
     'vulnerability:advanced_report:read',
   ],
   compliance: [
     'compliance:policy:read',
     'compliance:report:read',
     'compliance:system:read',
-    'inventory:*:read',
     'remediations:remediation:read',
   ],
-  patch: ['patch:*:read', 'inventory:*:read'],
-  ros: ['ros:*:read', 'inventory:*:read'],
+  patch: ['patch:*:read'],
+  ros: ['ros:*:read'],
 };
