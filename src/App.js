@@ -9,7 +9,10 @@ const App = () => {
   return (
     <div className="inventory">
       <NotificationsPortal />
-      <RBACProvider appName="inventory" checkResourceDefinitions>
+      <RBACProvider
+        appName={null /* fetch permissions from all scopes */}
+        checkResourceDefinitions
+      >
         <Routes />
       </RBACProvider>
     </div>
