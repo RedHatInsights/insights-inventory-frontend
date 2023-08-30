@@ -51,6 +51,7 @@ import {
 } from '../components/InventoryTable/ActionWithRBAC';
 import uniq from 'lodash/uniq';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+import { difference, map } from 'lodash';
 
 const mapTags = ({ category, values }) =>
   values.map(
@@ -195,12 +196,16 @@ const Inventory = ({
   const total = useSelector(({ entities }) => entities?.total);
   const dispatch = useDispatch();
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+  const displayedIds = map(rows, 'id');
+  const pageSelected =
+    difference(displayedIds, selected ? [...selected.keys()] : []).length === 0;
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
     globalFilter,
     total,
     rows,
-    loaded
+    loaded,
+    pageSelected
   );
 
   const onRefresh = (options, callback) => {

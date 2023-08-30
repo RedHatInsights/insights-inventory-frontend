@@ -1,19 +1,16 @@
 import { Alert, Button, Flex, FlexItem, Modal } from '@patternfly/react-core';
 import { TableVariant } from '@patternfly/react-table';
-import difference from 'lodash/difference';
-import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../../store/inventory-actions';
-import {
-  bulkSelectConfig,
-  prepareColumns,
-} from '../../GroupSystems/GroupSystems';
+import { prepareColumns } from '../../GroupSystems/GroupSystems';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
 import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
+import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
+import { difference, map } from 'lodash';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
@@ -31,9 +28,18 @@ const AddSystemsToGroupModal = ({
   const rows = useSelector(({ entities }) => entities?.rows || []);
 
   const noneSelected = selected.size === 0;
+  const total = useSelector(({ entities }) => entities?.total);
   const displayedIds = map(rows, 'id');
   const pageSelected =
-    difference(displayedIds, [...selected.keys()]).length === 0;
+    difference(displayedIds, selected ? [...selected.keys()] : []).length === 0;
+  const bulkSelectConfig = useBulkSelectConfig(
+    selected,
+    null,
+    total,
+    rows,
+    true,
+    pageSelected
+  );
 
   const alreadyHasGroup = [...selected].filter(
     // eslint-disable-next-line camelcase
@@ -142,13 +148,7 @@ const AddSystemsToGroupModal = ({
               isStickyHeader: false,
               canSelectAll: false,
             }}
-            bulkSelect={bulkSelectConfig(
-              dispatch,
-              selected.size,
-              noneSelected,
-              pageSelected,
-              rows.length
-            )}
+            bulkSelect={bulkSelectConfig}
             initialLoading={true}
             showTags
           />
