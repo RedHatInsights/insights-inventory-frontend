@@ -18,7 +18,8 @@ import {
 } from '../InventoryTable/ActionWithRBAC';
 import { clearEntitiesAction } from '../../store/actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
-import { difference, map } from 'lodash';
+import difference from 'lodash/difference';
+import map from 'lodash/map';
 
 export const prepareColumns = (initialColumns, hideGroupColumn) => {
   // hides the "groups" column

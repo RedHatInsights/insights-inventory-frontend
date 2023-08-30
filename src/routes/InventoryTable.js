@@ -51,7 +51,8 @@ import {
 } from '../components/InventoryTable/ActionWithRBAC';
 import uniq from 'lodash/uniq';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
-import { difference, map } from 'lodash';
+import difference from 'lodash/difference';
+import map from 'lodash/map';
 
 const mapTags = ({ category, values }) =>
   values.map(

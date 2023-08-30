@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  clearFilters,
   fetchGroupDetail,
   selectEntity,
 } from '../../../store/inventory-actions';
@@ -13,8 +14,8 @@ import { addHostsToGroupById } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
 import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
-import { difference, map } from 'lodash';
-import { setFilter } from '../../../store/actions';
+import difference from 'lodash/difference';
+import map from 'lodash/map';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
@@ -88,7 +89,7 @@ const AddSystemsToGroupModal = ({
     if (calculateSelected() > 0) {
       dispatch(selectEntity(-1, false));
     }
-    dispatch(setFilter([]));
+    dispatch(clearFilters());
   };
 
   return (
