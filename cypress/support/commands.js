@@ -64,7 +64,7 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
 // one of the fec dependencies talks to window.insights.chrome
 Cypress.Commands.add(
   'mockWindowChrome',
-  ({ userPermissions } = { userPermissions: ['inventory:*:*'] }) => {
+  ({ userPermissions } = { userPermissions: ['*:*:*'] }) => {
     cy.window().then(
       // one of the fec dependencies talks to window.insights.chrome
       (window) => {
