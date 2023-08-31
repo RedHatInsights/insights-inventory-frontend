@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   MenuToggle,
   TextInputGroup,
@@ -13,10 +13,15 @@ const SearchableGroupFilter = ({
   selectedGroupNames,
   setSelectedGroupNames,
 }) => {
-  const initialValues = initialGroups.map(({ name }) => ({
-    itemId: name, // group name is unique by design
-    children: name,
-  }));
+  const initialValues = useMemo(
+    () =>
+      initialGroups.map(({ name }) => ({
+        itemId: name, // group name is unique by design
+        children: name,
+      })),
+    [initialGroups]
+  );
+
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [selectOptions, setSelectOptions] = useState(initialValues);
