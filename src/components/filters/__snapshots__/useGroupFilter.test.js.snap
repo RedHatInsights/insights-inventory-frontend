@@ -19,12 +19,14 @@ exports[`useGroupFilter with groups yet not loaded should return empty state val
 Array [
   Object {
     "filterValues": Object {
-      "items": Array [],
-      "onChange": [Function],
-      "value": Array [],
+      "children": <SearchableGroupFilter
+        initialGroups={Array []}
+        selectedGroupNames={Array []}
+        setSelectedGroupNames={[Function]}
+      />,
     },
     "label": "Group",
-    "type": "checkbox",
+    "type": "custom",
     "value": "group-host-filter",
   },
   Array [],
