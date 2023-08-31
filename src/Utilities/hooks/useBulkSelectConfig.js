@@ -61,7 +61,7 @@ export const useBulkSelectConfig = (
     id: 'bulk-select-systems',
     items: [
       {
-        title: 'Select none (0)',
+        title: 'Select none (0 items)',
         onClick: () => onSelectRows(-1, false),
         props: { isDisabled: noneSelected },
       },
@@ -70,7 +70,7 @@ export const useBulkSelectConfig = (
           ? {
               title: `${pageSelected ? 'Deselect' : 'Select'} page (${
                 rows.length
-              } items)`,
+              } ${rows.length === 1 ? 'item' : 'items'})`,
               onClick: () => onSelectRows(0, !pageSelected),
             }
           : {}),
@@ -78,7 +78,7 @@ export const useBulkSelectConfig = (
       {
         ...(loaded && rows && rows.length > 0
           ? {
-              title: `Select all (${total})`,
+              title: `Select all (${total} ${total === 1 ? 'item' : 'items'})`,
               onClick: async () => {
                 await selectAllIds();
               },
