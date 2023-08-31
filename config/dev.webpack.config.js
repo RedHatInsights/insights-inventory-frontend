@@ -9,8 +9,7 @@ const { config: webpackConfig, plugins } = config({
     https: true,
     useProxy: true,
     proxyVerbose: true,
-    useAgent: false,
-    env: `${process.env.ENVIRONMENT || 'prod'}-${
+    env: `${process.env.ENVIRONMENT || 'stage'}-${
       process.env.BETA ? 'beta' : 'stable'
     }`, // for accessing prod-beta start your app with ENVIRONMENT=prod and BETA=true
     appUrl: process.env.BETA
