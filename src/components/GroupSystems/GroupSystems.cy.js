@@ -323,7 +323,7 @@ describe('selection and bulk selection', () => {
   it('can select none', () => {
     selectRowN(1);
     cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-c-dropdown__menu > li').eq(1).click();
+    cy.get('.pf-c-dropdown__menu > li').eq(0).click();
     checkSelectedNumber(0);
   });
 });

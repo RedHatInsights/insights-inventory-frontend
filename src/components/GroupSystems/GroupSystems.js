@@ -1,6 +1,4 @@
 import { TableVariant, fitContent } from '@patternfly/react-table';
-import difference from 'lodash/difference';
-import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,35 +17,9 @@ import {
   ActionDropdownItem,
 } from '../InventoryTable/ActionWithRBAC';
 import { clearEntitiesAction } from '../../store/actions';
-
-export const bulkSelectConfig = (
-  dispatch,
-  selectedNumber,
-  noneSelected,
-  pageSelected,
-  rowsNumber
-) => ({
-  count: selectedNumber,
-  id: 'bulk-select-systems',
-  items: [
-    {
-      title: 'Select none (0)',
-      onClick: () => dispatch(selectEntity(-1, false)),
-      props: { isDisabled: noneSelected },
-    },
-    {
-      title: `${
-        pageSelected ? 'Deselect' : 'Select'
-      } page (${rowsNumber} items)`,
-      onClick: () => dispatch(selectEntity(0, !pageSelected)),
-    },
-    // TODO: Implement "select all"
-  ],
-  onSelect: (value) => {
-    dispatch(selectEntity(0, value));
-  },
-  checked: selectedNumber > 0 && pageSelected, // TODO: support partial selection (dash sign) in FEC BulkSelect
-});
+import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
+import difference from 'lodash/difference';
+import map from 'lodash/map';
 
 export const prepareColumns = (initialColumns, hideGroupColumn) => {
   // hides the "groups" column
@@ -103,8 +75,7 @@ const GroupSystems = ({ groupName, groupId }) => {
     (state) => state?.entities?.selected || new Map()
   );
   const rows = useSelector(({ entities }) => entities?.rows || []);
-
-  const noneSelected = selected.size === 0;
+  const total = useSelector(({ entities }) => entities?.total);
   const displayedIds = map(rows, 'id');
   const pageSelected =
     difference(displayedIds, [...selected.keys()]).length === 0;
@@ -122,6 +93,16 @@ const GroupSystems = ({ groupName, groupId }) => {
   }, []);
 
   const calculateSelected = () => (selected ? selected.size : 0);
+
+  const bulkSelectConfig = useBulkSelectConfig(
+    selected,
+    null,
+    total,
+    rows,
+    true,
+    pageSelected,
+    groupName
+  );
 
   return (
     <div id="group-systems-table">
@@ -227,13 +208,7 @@ const GroupSystems = ({ groupName, groupId }) => {
               },
             ],
           }}
-          bulkSelect={bulkSelectConfig(
-            dispatch,
-            selected.size,
-            noneSelected,
-            pageSelected,
-            rows.length
-          )}
+          bulkSelect={bulkSelectConfig}
           showTags
           ref={inventory}
         />
