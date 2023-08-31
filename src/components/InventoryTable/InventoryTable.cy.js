@@ -213,8 +213,8 @@ describe('with default parameters', () => {
       it('options are populated correctly', () => {
         cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
         cy.get(DROPDOWN_ITEM).contains('Group').click();
-        cy.ouiaId('Filter by group').click();
-        cy.get('.pf-c-check__label').should(
+        cy.ouiaId('FilterByGroup').click();
+        cy.ouiaId('FilterByGroupOption').should(
           'have.text',
           shorterGroupsFixtures.results.map(({ name }) => name).join('')
         );
@@ -225,16 +225,16 @@ describe('with default parameters', () => {
       it('creates a chip', () => {
         cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
         cy.get(DROPDOWN_ITEM).contains('Group').click();
-        cy.ouiaId('Filter by group').click();
-        cy.get('.pf-c-check__label').eq(0).click();
+        cy.ouiaId('FilterByGroup').click();
+        cy.ouiaId('FilterByGroupOption').eq(0).click();
         hasChip('Group', firstGroupName);
       });
 
       it('triggers new request', () => {
         cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
         cy.get(DROPDOWN_ITEM).contains('Group').click();
-        cy.ouiaId('Filter by group').click();
-        cy.get('.pf-c-check__label').eq(0).click();
+        cy.ouiaId('FilterByGroup').click();
+        cy.ouiaId('FilterByGroupOption').eq(0).click();
         cy.wait('@getHosts')
           .its('request.url')
           .should('include', `group_name=${firstGroupName}`);

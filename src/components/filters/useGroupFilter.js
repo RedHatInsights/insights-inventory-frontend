@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
-import union from 'lodash/union';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { getGroups } from '../InventoryGroups/utils/api';
+import SearchableGroupFilter from './SearchableGroupFilter';
 
 export const groupFilterState = { hostGroupFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
@@ -33,12 +34,8 @@ export const buildHostGroupChips = (selectedGroups = []) => {
 const useGroupFilter = () => {
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const { fetchBatched } = useFetchBatched();
-  const [groups, setGroups] = useState([]);
-  const [selected, setSelected] = useState([]);
-
-  const onHostGroupsChange = useCallback((event, selection, item) => {
-    setSelected(union(selection, item));
-  }, []);
+  const [fetchedGroups, setFetchedGroups] = useState([]);
+  const [selectedGroupNames, setSelectedGroupNames] = useState([]);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -48,7 +45,7 @@ const useGroupFilter = () => {
       const groups = !ignore
         ? await fetchBatched(getGroups, firstRequest.total)
         : [];
-      !ignore && setGroups(groups.flatMap(({ results }) => results));
+      !ignore && setFetchedGroups(groups.flatMap(({ results }) => results));
     };
 
     let ignore = false;
@@ -62,33 +59,36 @@ const useGroupFilter = () => {
     };
   }, [groupsEnabled]);
 
-  const chips = useMemo(() => buildHostGroupChips(selected), [selected]);
+  const chips = useMemo(
+    () => buildHostGroupChips(selectedGroupNames),
+    [selectedGroupNames]
+  );
 
   // hostGroupConfig is used in EntityTableToolbar.js
   const hostGroupConfig = useMemo(
     () => ({
       label: 'Group',
       value: 'group-host-filter',
-      type: 'checkbox',
+      type: 'custom',
       filterValues: {
-        onChange: (event, value, item) => {
-          onHostGroupsChange(event, value, item);
-        },
-        value: selected,
-        items: groups.reduce((acc, { name }) => {
-          acc.push({ label: name, value: name });
-          return acc;
-        }, []),
+        children: (
+          <SearchableGroupFilter
+            initialGroups={fetchedGroups}
+            selectedGroupNames={selectedGroupNames}
+            setSelectedGroupNames={setSelectedGroupNames}
+          />
+        ),
       },
     }),
-    [groups, selected]
+    [fetchedGroups, selectedGroupNames]
   );
 
-  const setSelectedValues = (currentValue = []) => {
-    setSelected(currentValue);
-  };
-
-  return [hostGroupConfig, chips, selected, setSelectedValues];
+  return [
+    hostGroupConfig,
+    chips,
+    selectedGroupNames,
+    (groupNames) => setSelectedGroupNames(groupNames || []),
+  ];
 };
 
 export default useGroupFilter;

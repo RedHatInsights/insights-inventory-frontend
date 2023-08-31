@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import { act, renderHook } from '@testing-library/react-hooks';
 import useGroupFilter from './useGroupFilter';
-import { waitFor } from '@testing-library/react';
 
 jest.mock('../../Utilities/useFeatureFlag', () => ({
   __esModule: true,
@@ -35,19 +34,6 @@ describe('useGroupFilter', () => {
   });
 
   describe('with groups loaded', () => {
-    it('fills the filter items', async () => {
-      const { result } = renderHook(useGroupFilter);
-
-      await waitFor(() => {
-        expect(result.current[0].filterValues.items).toEqual([
-          {
-            label: 'group-1',
-            value: 'group-1',
-          },
-        ]);
-      });
-    });
-
     it('should return correct chips array, current value and value setter', () => {
       const { result } = renderHook(useGroupFilter);
       const [, chips, value, setValue] = result.current;
