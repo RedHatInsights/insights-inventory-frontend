@@ -26,7 +26,6 @@ const SearchableGroupFilter = ({
   const [inputValue, setInputValue] = useState('');
   const [selectOptions, setSelectOptions] = useState(initialValues);
   const [focusedItemIndex, setFocusedItemIndex] = useState(null);
-  const placeholder = `${selectedGroupNames.length} groups selected`;
 
   useEffect(() => {
     let newSelectOptions = initialValues;
@@ -142,7 +141,7 @@ const SearchableGroupFilter = ({
           onKeyDown={onInputKeyDown}
           id="multi-typeahead-select-input"
           autoComplete="off"
-          placeholder={placeholder}
+          placeholder="Filter by group"
         />
       </TextInputGroup>
     </MenuToggle>
