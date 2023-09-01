@@ -34,7 +34,10 @@ import useFeatureFlag from '../Utilities/useFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useBulkSelectConfig } from '../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
-import { manageEdgeInventoryUrlName } from '../Utilities/edge';
+import {
+  getNotificationProp,
+  manageEdgeInventoryUrlName,
+} from '../Utilities/edge';
 import { resolveRelPath } from '../Utilities/path';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
@@ -196,6 +199,7 @@ const Inventory = ({
   const selected = useSelector(({ entities }) => entities?.selected);
   const total = useSelector(({ entities }) => entities?.total);
   const dispatch = useDispatch();
+  const notificationProp = getNotificationProp(dispatch);
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const displayedIds = map(rows, 'id');
   const pageSelected =
@@ -533,6 +537,7 @@ const Inventory = ({
                   module="./Inventory"
                   navigateProp={useNavigate}
                   locationProp={useLocation}
+                  notificationProp={notificationProp}
                   showHeaderProp={false}
                   pathPrefix={resolveRelPath('')}
                   urlName={manageEdgeInventoryUrlName}
@@ -665,6 +670,7 @@ Inventory.propTypes = {
 
 Inventory.defaultProps = {
   initialLoading: true,
+  notificationProp: PropTypes.object,
 };
 
 export default Inventory;
