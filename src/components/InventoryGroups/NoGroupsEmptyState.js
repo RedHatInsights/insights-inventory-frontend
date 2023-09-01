@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   EmptyState,
@@ -11,14 +11,12 @@ import { PlusCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
 import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
-import CreateGroupModal from './Modals/CreateGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { GENERAL_GROUPS_WRITE_PERMISSION } from '../../constants';
 
 const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_WRITE_PERMISSION];
 
-const NoGroupsEmptyState = ({ reloadData }) => {
-  const [createGroupModalOpen, setCreateGroupModalOpen] = useState(false);
+const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
   const { hasAccess: canModifyGroups } =
     usePermissionsWithContext(REQUIRED_PERMISSIONS);
 
@@ -28,11 +26,6 @@ const NoGroupsEmptyState = ({ reloadData }) => {
       data-ouia-component-type="PF4/EmptyState"
       data-ouia-safe={true}
     >
-      <CreateGroupModal
-        isModalOpen={createGroupModalOpen}
-        setIsModalOpen={setCreateGroupModalOpen}
-        reloadData={reloadData}
-      />
       <EmptyStateIcon
         icon={PlusCircleIcon}
         color={globalPaletteBlack600.value}
@@ -44,12 +37,16 @@ const NoGroupsEmptyState = ({ reloadData }) => {
         Manage device operations efficiently by creating inventory groups.
       </EmptyStateBody>
       {canModifyGroups ? (
-        <Button variant="primary" onClick={() => setCreateGroupModalOpen(true)}>
+        <Button
+          variant="primary"
+          onClick={onCreateGroupClick}
+          ouiaId="CreateGroupButton"
+        >
           Create group
         </Button>
       ) : (
         <Tooltip content="You do not have the necessary permissions to modify groups. Contact your organization administrator.">
-          <Button variant="primary" isAriaDisabled>
+          <Button variant="primary" isAriaDisabled ouiaId="CreateGroupButton">
             Create group
           </Button>
         </Tooltip>
@@ -59,7 +56,7 @@ const NoGroupsEmptyState = ({ reloadData }) => {
 };
 
 NoGroupsEmptyState.propTypes = {
-  reloadData: PropTypes.func,
+  onCreateGroupClick: PropTypes.func,
 };
 
 export default NoGroupsEmptyState;
