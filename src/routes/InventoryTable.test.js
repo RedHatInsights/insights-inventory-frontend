@@ -6,8 +6,8 @@ import { act } from 'react-dom/test-utils';
 import * as ReactRouterDOM from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import InventoryTable, { calculatePagination } from './InventoryTable';
-
+import InventoryTable from './InventoryTable';
+import { calculatePagination } from '../components/InventoryTabs/ConventionalSystems/Utilities';
 import DeleteModal from '../Utilities/DeleteModal';
 import { hosts } from '../api';
 import createXhrMock from '../Utilities/__mocks__/xhrMock';

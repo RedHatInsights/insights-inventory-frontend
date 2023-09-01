@@ -8,7 +8,7 @@ import {
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import ConventionalSystemsTab from '../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab';
 import ImmutableDevicesTab from '../components/InventoryTabs/ImmutableDevices/EdgeDevicesTab';
-import HybridInventoryTabs from '../components/InventoryTabs/TabWrapper';
+import HybridInventoryTabs from '../components/InventoryTabs/HybridInventoryTabs';
 
 const Inventory = (props) => {
   return (

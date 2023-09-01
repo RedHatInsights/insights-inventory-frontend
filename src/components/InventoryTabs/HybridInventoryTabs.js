@@ -45,18 +45,18 @@ const HybridInventoryTabs = ({
           eventKey={0}
           title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
         >
-          <ConventionalSystemsTab />
+          {ConventionalSystemsTab}
         </Tab>
         <Tab
           eventKey={1}
           title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
         >
-          <ImmutableDevicesTab />
+          {ImmutableDevicesTab}
         </Tab>
       </>
     </Tabs>
   ) : (
-    <ConventionalSystemsTab />
+    ConventionalSystemsTab
   );
 };
 
