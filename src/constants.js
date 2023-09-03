@@ -252,7 +252,7 @@ export const TAB_REQUIRED_PERMISSIONS = {
    * https://github.com/RedHatInsights/rbac-config/tree/master/configs/stage/roles
    * viewer roles.
    */
-  advisor: [],
+  advisor: ['advisor:*:*'], // corresponds to the Advisor administrator - an only available - RBAC role
   vulnerability: [
     'vulnerability:vulnerability_results:read',
     'vulnerability:system.opt_out:read',
