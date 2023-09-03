@@ -14,7 +14,7 @@ import { TAB_REQUIRED_PERMISSIONS } from './constants';
 const ApplicationTab = ({ appName, title, ...props }) => {
   const { hasAccess, isOrgAdmin } = usePermissionsWithContext(
     TAB_REQUIRED_PERMISSIONS[appName],
-    true,
+    true, // all must be fulfilled
     false
   );
 
