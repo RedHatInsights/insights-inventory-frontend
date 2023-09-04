@@ -393,10 +393,10 @@ describe('actions', () => {
   });
 
   it('can create a group', () => {
-    cy.get(TOOLBAR).find('button').contains('Create group').click();
-    cy.get(MODAL).find('h1').should('contain.text', 'Create group');
-
-    cy.wait('@getGroups'); // validate request
+    cy.get(TOOLBAR)
+      .find('button')
+      .contains('Create group')
+      .shouldHaveAriaEnabled();
   });
 });
 

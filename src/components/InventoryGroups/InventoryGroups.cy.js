@@ -47,9 +47,7 @@ describe('groups table page', () => {
       cy.mockWindowChrome({ userPermissions: [] });
       mountPage();
 
-      cy.get('button')
-        .contains('Create group')
-        .should('have.attr', 'aria-disabled', 'true');
+      cy.ouiaId('CreateGroupButton').shouldHaveAriaDisabled();
     });
   });
 });
