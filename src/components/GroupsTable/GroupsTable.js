@@ -21,7 +21,7 @@ import flatten from 'lodash/flatten';
 import map from 'lodash/map';
 import union from 'lodash/union';
 import upperCase from 'lodash/upperCase';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -33,7 +33,6 @@ import {
 } from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
-import CreateGroupModal from '../InventoryGroups/Modals/CreateGroupModal';
 import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
 import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { getGroups } from '../InventoryGroups/utils/api';
@@ -49,6 +48,7 @@ import {
   ActionButton,
   ActionDropdownItem,
 } from '../InventoryTable/ActionWithRBAC';
+import PropTypes from 'prop-types';
 
 const GROUPS_TABLE_INITIAL_STATE = {
   perPage: TABLE_DEFAULT_PAGINATION,
@@ -106,7 +106,7 @@ const groupsTableFiltersConfig = {
   },
 };
 
-const GroupsTable = () => {
+const GroupsTable = ({ onCreateGroupClick }) => {
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, fulfilled, data } = useSelector(
     (state) => state.groups
@@ -120,7 +120,6 @@ const GroupsTable = () => {
   const [rows, setRows] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(undefined); // for per-row actions
-  const [createModalOpen, setCreateModalOpen] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const groups = useMemo(() => data?.results || [], [data]);
@@ -366,15 +365,6 @@ const GroupsTable = () => {
 
   return (
     <div id="groups-table">
-      {createModalOpen && (
-        <CreateGroupModal
-          isModalOpen={createModalOpen}
-          setIsModalOpen={setCreateModalOpen}
-          reloadData={() => {
-            fetchData(filters);
-          }}
-        />
-      )}
       {renameModalOpen && (
         <RenameGroupModal
           isModalOpen={renameModalOpen}
@@ -473,7 +463,7 @@ const GroupsTable = () => {
                 <ActionButton
                   requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
                   noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
-                  onClick={() => setCreateModalOpen(true)}
+                  onClick={onCreateGroupClick}
                 >
                   Create group
                 </ActionButton>
@@ -543,4 +533,8 @@ const GroupsTable = () => {
   );
 };
 
-export default GroupsTable;
+GroupsTable.propTypes = {
+  onCreateGroupClick: PropTypes.func,
+};
+
+export default memo(GroupsTable);
