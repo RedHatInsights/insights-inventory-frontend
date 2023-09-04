@@ -92,7 +92,7 @@ export const useLastSeenFilter = (
   };
 
   //This date comes from patternfly component. This manages the 1st date picker
-  const onFromChange = (date) => {
+  const onFromChange = (_event, date) => {
     const newToDate = moment(endDate).endOf('day');
     const todaysDate = moment().endOf('day');
     const selectedFromDate = moment(date).startOf('day');
@@ -116,7 +116,7 @@ export const useLastSeenFilter = (
   };
 
   //This date comes from patternfly component. This manages the 2nd date picker
-  const onToChange = (date) => {
+  const onToChange = (_event, date) => {
     if (
       (!containsSpecialChars(date) && date.length > DEFAULT_DATE_LENGTH) ||
       date.length === 0
