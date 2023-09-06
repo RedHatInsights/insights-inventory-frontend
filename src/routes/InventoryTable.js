@@ -603,7 +603,10 @@ const Inventory = ({
                   dispatch(actions.selectEntity(-1, false));
                 }
 
-                inventory.current.onRefreshData(filters, false, true);
+                setTimeout(
+                  () => inventory.current.onRefreshData(filters, false, true),
+                  500
+                );
               }}
             />
           )}
@@ -617,7 +620,10 @@ const Inventory = ({
                   dispatch(actions.selectEntity(-1, false));
                 }
 
-                inventory.current.onRefreshData(filters, false, true);
+                setTimeout(
+                  () => inventory.current.onRefreshData(filters, false, true),
+                  500
+                );
               }}
             />
           )}
