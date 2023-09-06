@@ -21,7 +21,11 @@ import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 
-export const prepareColumns = (initialColumns, hideGroupColumn) => {
+export const prepareColumns = (
+  initialColumns,
+  hideGroupColumn,
+  openTabOnClick = false
+) => {
   // hides the "groups" column
   const columns = hideGroupColumn
     ? initialColumns.filter(({ key }) => key !== 'groups')
@@ -47,7 +51,12 @@ export const prepareColumns = (initialColumns, hideGroupColumn) => {
     hostId
   ) => (
     <div className="sentry-mask data-hj-suppress">
-      <Link to={`../${hostId}`}>{value}</Link>
+      <Link
+        to={`../${hostId}`}
+        {...(openTabOnClick ? { target: '_blank' } : {})}
+      >
+        {value}
+      </Link>
     </div>
   );
 

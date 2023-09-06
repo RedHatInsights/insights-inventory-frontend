@@ -157,7 +157,7 @@ const AddSystemsToGroupModal = ({
           variant="large" // required to accomodate the systems table
         >
           <InventoryTable
-            columns={(columns) => prepareColumns(columns, false)}
+            columns={(columns) => prepareColumns(columns, false, true)}
             variant={TableVariant.compact} // TODO: this doesn't affect the table variant
             tableProps={{
               isStickyHeader: false,
