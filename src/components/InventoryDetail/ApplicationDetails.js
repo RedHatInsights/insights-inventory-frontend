@@ -13,6 +13,7 @@ import {
   REPORTER_RHSM_CONDUIT,
   REPORTER_RHSM_PROFILE_BRIDGE,
 } from '../../Utilities/constants';
+import { GeneralInformationTab } from '../SystemDetails';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
@@ -38,10 +39,24 @@ const ApplicationDetails = ({
   const disabledApps = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.disabledApps
   );
+  const centOsAppList = [
+    {
+      title: 'General information',
+      name: 'general_information',
+      component: GeneralInformationTab,
+      systemProfilePrefetched: true,
+    },
+  ];
+
   const [activeTabs, setActiveTabs] = useState(items);
   const [currentApp, setCurrentApp] = useState(activeApp || items?.[0]?.name);
 
   const perReporterStaleness = getFact('per_reporter_staleness', entity);
+
+  useEffect(() => {
+    entity?.system_profile?.operating_system?.name === 'CentOS Linux' &&
+      setActiveTabs(centOsAppList);
+  }, [entity]);
 
   useEffect(() => {
     const filteredResult = items.filter(
