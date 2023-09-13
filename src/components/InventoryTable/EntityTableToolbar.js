@@ -159,7 +159,7 @@ const EntityTableToolbar = ({
     setEndDate,
   ] = useLastSeenFilter(reducer);
   const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] =
-    useOperatingSystemFilter();
+    useOperatingSystemFilter([], hasAccess);
   const [
     updateMethodConfig,
     updateMethodChips,
