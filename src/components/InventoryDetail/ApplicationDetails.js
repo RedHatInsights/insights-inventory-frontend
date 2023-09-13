@@ -54,20 +54,17 @@ const ApplicationDetails = ({
   const perReporterStaleness = getFact('per_reporter_staleness', entity);
 
   useEffect(() => {
-    entity?.system_profile?.operating_system?.name === 'CentOS Linux' &&
-      setActiveTabs(centOsAppList);
-  }, [entity]);
-
-  useEffect(() => {
     const filteredResult = items.filter(
       (app) => !disabledApps?.includes(app.name)
     );
-    if (filteredResult !== 0 && typeof filteredResult !== 'undefined') {
+    if (entity?.system_profile?.operating_system?.name === 'CentOS Linux') {
+      setActiveTabs(centOsAppList);
+    } else if (filteredResult !== 0 && typeof filteredResult !== 'undefined') {
       setActiveTabs(filteredResult);
     } else {
       setActiveTabs(items);
     }
-  }, [disabledApps]);
+  }, [disabledApps, entity]);
 
   const isDisconnected = useMemo(
     () => verifyCulledReporter(perReporterStaleness, REPORTER_PUPTOO),
