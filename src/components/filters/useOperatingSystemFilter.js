@@ -21,7 +21,7 @@ export const operatingSystemFilterReducer = (_state, { type, payload }) => ({
  * @param {Array} apiParams - an array containing parameters for GET /system_profile/operating_system call
  * @return {Array} An array containing config object, chips array and value setter function.
  */
-const useOperatingSystemFilter = (apiParams = []) => {
+const useOperatingSystemFilter = (apiParams = [], hasAccess) => {
   const dispatch = useDispatch();
   const operatingSystems = useSelector(
     ({ entities }) => entities?.operatingSystems
@@ -34,7 +34,11 @@ const useOperatingSystemFilter = (apiParams = []) => {
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchOperatingSystems(apiParams));
+    if (typeof hasAccess === 'undefined') {
+      dispatch(fetchOperatingSystems(apiParams));
+    } else if (typeof hasAccess !== 'undefined' && hasAccess === true) {
+      dispatch(fetchOperatingSystems(apiParams));
+    }
   }, []);
 
   useEffect(() => {
