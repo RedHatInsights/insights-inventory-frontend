@@ -105,7 +105,7 @@ const ApplicationDetails = ({
         </Tabs>
       </section>
       <section>
-        {activeTabs?.length &&
+        {activeTabs?.length > 0 &&
           activeTabs?.map((item) => {
             const Cmp = item.component;
             return (
