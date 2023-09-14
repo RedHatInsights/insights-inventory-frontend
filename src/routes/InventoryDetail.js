@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import {
@@ -21,56 +21,66 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
 
-const appList = [
-  {
-    title: 'General information',
-    name: 'general_information',
-    component: GeneralInformationTab,
-    //use this if you want to prefetch systemProfile above GeneralInformationTab
-    systemProfilePrefetched: true,
-  },
-  {
-    title: 'Advisor',
-    name: 'advisor',
-    component: (props) => (
-      <ApplicationTab appName="advisor" title="Advisor" {...props} />
-    ),
-  },
-  {
-    title: 'Vulnerability',
-    name: 'vulnerabilities',
-    component: (props) => (
-      <ApplicationTab
-        appName="vulnerability"
-        title="Vulnerability"
-        {...props}
-      />
-    ),
-  },
-  {
-    title: 'Compliance',
-    name: 'compliance',
-    component: (props) => (
-      <ApplicationTab appName="compliance" title="Compliance" {...props} />
-    ),
-    nonEdge: true,
-  },
-  {
-    title: 'Patch',
-    name: 'patch',
-    component: (props) => (
-      <ApplicationTab appName="patch" title="Patch" {...props} />
-    ),
-    nonEdge: true,
-  },
-  {
-    title: 'Resource Optimization',
-    name: 'ros',
-    isVisible: false,
-    component: (props) => <ApplicationTab appName="ros" {...props} />,
-    nonEdge: true,
-  },
-];
+const appList = {
+  'CENTOS-LINUX': [
+    {
+      title: 'General information',
+      name: 'general_information',
+      component: GeneralInformationTab,
+      //use this if you want to prefetch systemProfile above GeneralInformationTab
+      systemProfilePrefetched: true,
+    },
+  ],
+  RHEL: [
+    {
+      title: 'General information',
+      name: 'general_information',
+      component: GeneralInformationTab,
+      systemProfilePrefetched: true,
+    },
+    {
+      title: 'Advisor',
+      name: 'advisor',
+      component: (props) => (
+        <ApplicationTab appName="advisor" title="Advisor" {...props} />
+      ),
+    },
+    {
+      title: 'Vulnerability',
+      name: 'vulnerabilities',
+      component: (props) => (
+        <ApplicationTab
+          appName="vulnerability"
+          title="Vulnerability"
+          {...props}
+        />
+      ),
+    },
+    {
+      title: 'Compliance',
+      name: 'compliance',
+      component: (props) => (
+        <ApplicationTab appName="compliance" title="Compliance" {...props} />
+      ),
+      nonEdge: true,
+    },
+    {
+      title: 'Patch',
+      name: 'patch',
+      component: (props) => (
+        <ApplicationTab appName="patch" title="Patch" {...props} />
+      ),
+      nonEdge: true,
+    },
+    {
+      title: 'Resource Optimization',
+      name: 'ros',
+      isVisible: false,
+      component: (props) => <ApplicationTab appName="ros" {...props} />,
+      nonEdge: true,
+    },
+  ],
+};
 
 const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
   <Breadcrumb ouiaId="systems-list">
@@ -98,7 +108,7 @@ const Inventory = () => {
   const store = useStore();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [availableApps, setAvailableApps] = useState([]);
   const entityLoaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded
   );
@@ -106,22 +116,29 @@ const Inventory = () => {
   const { cloud_provider: cloudProvider, host_type: hostType } = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.systemProfile || []
   );
-  const availableApps = useMemo(
-    () =>
-      appList.map((app) =>
-        app.name === 'ros'
-          ? {
-              ...app,
-              isVisible: cloudProvider === 'aws',
-            }
-          : app
-      ),
-    [cloudProvider]
-  );
+  useEffect(() => {
+    let osSlug = entity?.system_profile?.operating_system?.name
+      .replace(' ', '-')
+      .toUpperCase();
+
+    let newApps =
+      entity &&
+      appList[osSlug]?.map((app) => {
+        app.isDisabled = app.nonEdge && hostType === 'edge' ? true : false;
+        app['data-cy'] = `${app.name}-tab`;
+        app.name === 'ros' && {
+          ...app,
+          isVisible: cloudProvider === 'aws',
+        };
+        return app;
+      });
+
+    setAvailableApps(newApps);
+  }, [entity, cloudProvider]);
 
   useEffect(() => {
     if (searchParams.get('appName') === null) {
-      setSearchParams('appName', appList[0].name);
+      setSearchParams('appName', appList['RHEL'][0].name);
       navigate(
         {
           search: searchParams.toString(),
@@ -172,14 +189,6 @@ const Inventory = () => {
     [searchParams]
   );
 
-  const apps =
-    availableApps?.map((app) => {
-      app.isDisabled = app.nonEdge && hostType === 'edge' ? true : false;
-      app['data-cy'] = `${app.name}-tab`;
-
-      return app;
-    }) || [];
-
   return (
     <InventoryDetail
       additionalClasses={additionalClasses}
@@ -202,7 +211,7 @@ const Inventory = () => {
         />
       }
       activeApp={searchParams.get('appName')}
-      appList={apps}
+      appList={availableApps}
       onTabSelect={onTabSelect}
     />
   );

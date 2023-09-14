@@ -13,7 +13,6 @@ import {
   REPORTER_RHSM_CONDUIT,
   REPORTER_RHSM_PROFILE_BRIDGE,
 } from '../../Utilities/constants';
-import { GeneralInformationTab } from '../SystemDetails';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
@@ -39,15 +38,6 @@ const ApplicationDetails = ({
   const disabledApps = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.disabledApps
   );
-  const centOsAppList = [
-    {
-      title: 'General information',
-      name: 'general_information',
-      component: GeneralInformationTab,
-      systemProfilePrefetched: true,
-    },
-  ];
-
   const [activeTabs, setActiveTabs] = useState(items);
   const [currentApp, setCurrentApp] = useState(activeApp || items?.[0]?.name);
 
@@ -57,14 +47,12 @@ const ApplicationDetails = ({
     const filteredResult = items.filter(
       (app) => !disabledApps?.includes(app.name)
     );
-    if (entity?.system_profile?.operating_system?.name === 'CentOS Linux') {
-      setActiveTabs(centOsAppList);
-    } else if (filteredResult !== 0 && typeof filteredResult !== 'undefined') {
+    if (filteredResult !== 0 && typeof filteredResult !== 'undefined') {
       setActiveTabs(filteredResult);
     } else {
       setActiveTabs(items);
     }
-  }, [disabledApps, entity]);
+  }, [disabledApps, appList]);
 
   const isDisconnected = useMemo(
     () => verifyCulledReporter(perReporterStaleness, REPORTER_PUPTOO),
