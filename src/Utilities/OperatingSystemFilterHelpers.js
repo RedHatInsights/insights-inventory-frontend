@@ -4,12 +4,12 @@ import mapValues from 'lodash/mapValues';
 import { coerce, compare, rcompare } from 'semver';
 import { OS_CHIP } from './constants';
 
-export const updateGroupSelectionIdentifier = (selection, os, major) =>
+export const updateGroupSelectionIdentifier = (selection, groupLabel, major) =>
   // if every minor version is selected, then mark the group as selected
   set(
     selection,
-    `[${os}][${major}]`,
-    Object.values({ ...selection[os] })
+    [groupLabel, major],
+    Object.values({ ...selection[groupLabel] })
       .filter((v) => v !== major)
       .every(Boolean)
   );
@@ -26,20 +26,16 @@ const isVersionSelected = (selectedVersion, osVersion) => {
   return false;
 };
 
-/** Takes an array of string versions `value` and returns an object in the format
+/** Takes an array of object versions `value` and returns an object in the format
  * required by ConditionalFilter component (group filter); */
 export const toGroupSelection = (value = [], availableVersions) =>
   (availableVersions === undefined ? value : availableVersions).reduce(
     (acc, version) => {
-      const [major] = version.value;
-      const groupName = `${version.osName} ${major}`;
-      set(
-        acc,
-        [`${groupName}`, version.value],
-        isVersionSelected(value, version),
-        Object
-      );
-      updateGroupSelectionIdentifier(acc, groupName, major);
+      const { groupLabel, value } = version;
+      const [major] = value.split('.');
+
+      set(acc, [groupLabel, version.value], isVersionSelected(value, version));
+      updateGroupSelectionIdentifier(acc, groupLabel, major);
       return acc;
     },
     {}
@@ -135,14 +131,13 @@ export const onOSFilterChange = (
   const newSelection = Object.assign({}, selection);
   const value = newSelection[clickedGroup.value][clickedItem.value];
   const group = clickedGroup.value;
-  const [major] = clickedItem.value.split('.');
 
-  if (clickedItem.value === group) {
+  if (clickedItem.value === clickedGroup.value) {
     // group checkbox clicked => update all minor version selections
     newSelection[group] = mapValues(newSelection[group], () => value);
   } else {
-    newSelection[group][major] = Object.values(
-      omit(newSelection[group], [major])
+    newSelection[group][group] = Object.values(
+      omit(newSelection[group], [group])
     ).every(Boolean);
   }
 
