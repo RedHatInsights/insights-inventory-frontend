@@ -77,29 +77,32 @@ export const getImageSets = ({ query }) => {
   if (query === '') {
     query = { limit: 20, offset: 0, sort_by: '-updated_at' };
   }
-  const q = getTableParams(query);
-  return instance.get(`${EDGE_API}/image-sets/view?${q}`);
+  const params = getTableParams(query);
+  return instance.get(`${EDGE_API}/image-sets/view?${params}`);
 };
 
-export const getTableParams = (q) => {
-  if (q === undefined) {
+export const getTableParams = (param) => {
+  if (param === undefined) {
     return '';
   }
-  const query = Object.keys(q).reduce((acc, curr) => {
+  const query = Object.keys(param).reduce((acc, curr) => {
     let value = undefined;
     if (
-      typeof q[curr] === 'object' &&
-      typeof q[curr].length === 'number' &&
-      q[curr].length > 0
+      typeof param[curr] === 'object' &&
+      typeof param[curr].length === 'number' &&
+      param[curr].length > 0
     ) {
-      value = q[curr].reduce(
+      value = param[curr].reduce(
         (multiVals, val) =>
           multiVals === '' ? `${curr}=${val}` : `${multiVals}&${curr}=${val}`,
         ''
       );
     }
-    if (['string', 'number'].includes(typeof q[curr]) && q[curr] !== '') {
-      value = `${curr}=${q[curr]}`;
+    if (
+      ['string', 'number'].includes(typeof param[curr]) &&
+      param[curr] !== ''
+    ) {
+      value = `${curr}=${param[curr]}`;
     }
     return value === undefined
       ? acc
