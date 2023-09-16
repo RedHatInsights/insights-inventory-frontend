@@ -3,27 +3,27 @@ import { instance } from '@redhat-cloud-services/frontend-components-utilities/i
 
 export const getImageSet = ({
   id,
-  q = {
+  params = {
     limit: 10,
     offset: 0,
     sort_by: '-created_at',
   },
 }) => {
-  const query = getTableParams(q);
+  const query = getTableParams(params);
   return instance.get(`${EDGE_API}/image-sets/${id}?${query}`);
 };
 
 export const getImageSetViewVersions = ({
   imageSetID,
-  query = {
+  params = {
     limit: 20,
     offset: 0,
     sort_by: '-created_at',
   },
 }) => {
-  const q = getTableParams(query);
+  const query = getTableParams(params);
   return instance.get(
-    `${EDGE_API}/image-sets/view/${imageSetID}/versions?${q}`
+    `${EDGE_API}/image-sets/view/${imageSetID}/versions?${query}`
   );
 };
 
@@ -40,24 +40,24 @@ export const getImagePackageMetadata = (id) => {
 };
 
 export const fetchEdgeImages = (
-  q = {
+  params = {
     limit: 20,
     offset: 0,
     sort_by: '-created_at',
   }
 ) => {
-  const query = getTableParams(q);
+  const query = getTableParams(params);
   return instance.get(`${EDGE_API}/images?${query}`);
 };
 
 export const fetchEdgeImageSets = (
-  q = {
+  params = {
     limit: 20,
     offset: 0,
     sort_by: '-created_at',
   }
 ) => {
-  const query = getTableParams(q);
+  const query = getTableParams(params);
   return instance.get(`${EDGE_API}/image-sets?${query}`);
 };
 
