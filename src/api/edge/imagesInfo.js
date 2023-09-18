@@ -1,6 +1,7 @@
 export const EDGE_API = '/api/edge/v1';
 import { instance } from '@redhat-cloud-services/frontend-components-utilities/interceptors/interceptors';
-
+import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+export const axiosInstance = () => useAxiosWithPlatformInterceptors();
 export const getImageSet = ({
   id,
   params = {
@@ -10,7 +11,7 @@ export const getImageSet = ({
   },
 }) => {
   const query = getTableParams(params);
-  return instance.get(`${EDGE_API}/image-sets/${id}?${query}`);
+  return axiosInstance.get(`${EDGE_API}/image-sets/${id}?${query}`);
 };
 
 export const getImageSetViewVersions = ({
@@ -22,18 +23,18 @@ export const getImageSetViewVersions = ({
   },
 }) => {
   const query = getTableParams(params);
-  return instance.get(
+  return axiosInstance.get(
     `${EDGE_API}/image-sets/view/${imageSetID}/versions?${query}`
   );
 };
 
 export const getImageSetView = ({ id }) => {
-  return instance.get(`${EDGE_API}/image-sets/view/${id}`);
+  return axiosInstance.get(`${EDGE_API}/image-sets/view/${id}`);
 };
 
 export const getImagePackageMetadata = (id) => {
   try {
-    return instance.get(`${EDGE_API}/images/${id}/metadata`);
+    return axiosInstance.get(`${EDGE_API}/images/${id}/metadata`);
   } catch (err) {
     console.log(err);
   }
@@ -47,7 +48,7 @@ export const fetchEdgeImages = (
   }
 ) => {
   const query = getTableParams(params);
-  return instance.get(`${EDGE_API}/images?${query}`);
+  return axiosInstance.get(`${EDGE_API}/images?${query}`);
 };
 
 export const fetchEdgeImageSets = (
@@ -58,19 +59,19 @@ export const fetchEdgeImageSets = (
   }
 ) => {
   const query = getTableParams(params);
-  return instance.get(`${EDGE_API}/image-sets?${query}`);
+  return axiosInstance.get(`${EDGE_API}/image-sets?${query}`);
 };
 
 export const getEdgeImageStatus = (id) => {
-  return instance.get(`${EDGE_API}/images/${id}/status`);
+  return axiosInstance.get(`${EDGE_API}/images/${id}/status`);
 };
 
 export const getImageDataOnDevice = (id) => {
-  return instance.get(`${EDGE_API}/updates/device/${id}/image`);
+  return axiosInstance.get(`${EDGE_API}/updates/device/${id}/image`);
 };
 
 export const getImageById = ({ id }) => {
-  return instance.get(`${EDGE_API}/images/${id}/details`);
+  return axiosInstance.get(`${EDGE_API}/images/${id}/details`);
 };
 
 export const getImageSets = ({ query }) => {
@@ -78,7 +79,11 @@ export const getImageSets = ({ query }) => {
     query = { limit: 20, offset: 0, sort_by: '-updated_at' };
   }
   const params = getTableParams(query);
-  return instance.get(`${EDGE_API}/image-sets/view?${params}`);
+  return axiosInstance.get(`${EDGE_API}/image-sets/view?${params}`);
+};
+
+export const getDevice = (id) => {
+  return instance.get(`${EDGE_API}/devices/${id}`);
 };
 
 export const getTableParams = (param) => {
@@ -112,8 +117,4 @@ export const getTableParams = (param) => {
   }, '');
 
   return query;
-};
-
-export const getDevice = (id) => {
-  return instance.get(`${EDGE_API}/devices/${id}`);
 };
