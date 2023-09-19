@@ -67,6 +67,7 @@ const BaseDropdown = ({
             isDisabled={disabled}
             selections={selected}
             width={'150px'}
+            validated={!isFormValid && 'error'}
           >
             {dropdownItems.map((item) => (
               <SelectOption

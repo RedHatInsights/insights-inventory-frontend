@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Card,
@@ -17,7 +17,7 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
 import { CONVENTIONAL_TAB_TOOLTIP, IMMUTABLE_TAB_TOOLTIP } from './constants';
 import { InventoryHostStalenessPopover } from './constants';
-import { groupsApi } from '../../api';
+// import { groupsApi } from '../../api';
 
 const HostStalenessCard = () => {
   //multiply these values be seconds at the end before sending to the api
@@ -35,7 +35,7 @@ const HostStalenessCard = () => {
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
-  const [groupTotal, setGroupTotal] = useState(0);
+  // const [groupTotal, setGroupTotal] = useState(0);
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -51,9 +51,9 @@ const HostStalenessCard = () => {
 
   const updateHost = () => {};
 
-  useEffect(() => {
-    groupsApi.apiGroupGetGroupList().then((res) => setGroupTotal(res.total));
-  }, []);
+  // useEffect(() => {
+  //   groupsApi.apiGroupGetGroupList().then((res) => setGroupTotal(res.total));
+  // }, []);
   // https://console.redhat.com/api/inventory/v1/groups get the count
   // Need to update the edit button so that it makes the POST req,
   return (
@@ -70,7 +70,7 @@ const HostStalenessCard = () => {
           options below.
         </p>
         <Flex className="pf-u-mt-md">
-          <p>System Configuration</p>
+          <p className="pf-u-font-weight-bold">System configuration</p>
           <a
             onClick={() => {
               setEdit(!edit);
@@ -92,7 +92,7 @@ const HostStalenessCard = () => {
                 Conventional (RPM-DNF){' '}
                 <Popover
                   aria-label="Basic popover"
-                  headerContent={<div>Conventional systems(RPM-DNF)</div>}
+                  headerContent={<div>Conventional systems (RPM-DNF)</div>}
                   bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
                 >
                   <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
@@ -119,7 +119,7 @@ const HostStalenessCard = () => {
                 Immutable (OSTree){' '}
                 <Popover
                   aria-label="Basic popover"
-                  headerContent={<div>Immutable(OSTree)</div>}
+                  headerContent={<div>Immutable (OSTree)</div>}
                   bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
                 >
                   <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
@@ -175,7 +175,7 @@ const HostStalenessCard = () => {
               ouiaId="BasicModal"
             >
               {`Changing the organization level setting for system staleness and
-              culling may impact your systems. ${groupTotal} systems will be culled as a
+              culling may impact your systems. Some systems will be culled as a
               result.`}
             </Modal>
           </Flex>

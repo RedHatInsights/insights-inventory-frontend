@@ -1,24 +1,12 @@
 import React from 'react';
-import {
-  Button,
-  Flex,
-  FlexItem,
-  Popover,
-  Text,
-  TextContent,
-  TextVariants,
-  Title,
-} from '@patternfly/react-core';
-import {
-  ExternalLinkAltIcon,
-  OutlinedQuestionCircleIcon,
-} from '@patternfly/react-icons';
+import { Button, Flex, FlexItem, Popover, Title } from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 
 export const CONVENTIONAL_TAB_TOOLTIP =
-  'With DNF-RPM, you can manage the system software by using the DNF package manager and updated RPM packages. This is a simple and adaptive method of managing and modifying the system over its lifecycle.';
+  'With RPM-DNF, you can manage the system software by using the DNF package manager and updated RPM packages. This is a simple and adaptive method of managing and modifying the system over its lifecycle.';
 
 export const IMMUTABLE_TAB_TOOLTIP =
-  'With OStree, you can manage the system software by referencing a central image repository. OStree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
+  'With OSTree, you can manage the system software by referencing a central image repository. OSTree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
 
 export const conditionalDropdownError = (
   key,
@@ -34,7 +22,7 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Staleness must be before stale warning
         </p>
       );
@@ -44,12 +32,13 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Staleness must be before culling
         </p>
       );
     } else {
       setIsFormValid(true);
+      return <p className="pf-u-font-size-sm ">Maximum days 7</p>;
     }
   }
   if (key === 'system_stale_warning_delta') {
@@ -59,7 +48,7 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Stale warning must be before culling
         </p>
       );
@@ -69,12 +58,13 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Stale warning must be after staleness
         </p>
       );
     } else {
       setIsFormValid(true);
+      return <p className="pf-u-font-size-sm ">Maximum days 180</p>;
     }
   }
   if (key === 'system_culling_delta') {
@@ -84,7 +74,7 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Culling must be after staleness
         </p>
       );
@@ -94,7 +84,7 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Culling must be after stale warning
         </p>
       );
@@ -110,7 +100,7 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Staleness must be before stale warning
         </p>
       );
@@ -120,12 +110,13 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Staleness must be before culling
         </p>
       );
     } else {
       setIsFormValid(true);
+      return <p className="pf-u-font-size-sm ">Maximum days 7</p>;
     }
   }
   if (key === 'edge_stale_warning_delta') {
@@ -135,7 +126,7 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Stale warning must be before culling
         </p>
       );
@@ -145,12 +136,13 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Stale warning must be after staleness
         </p>
       );
     } else {
       setIsFormValid(true);
+      return <p className="pf-u-font-size-sm ">Maximum days 180</p>;
     }
   }
   if (key === 'edge_culling_delta') {
@@ -160,7 +152,7 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Culling must be after staleness
         </p>
       );
@@ -170,7 +162,7 @@ export const conditionalDropdownError = (
     ) {
       setIsFormValid(false);
       return (
-        <p className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100">
+        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
           Culling must be after stale warning
         </p>
       );
@@ -188,33 +180,31 @@ export const HostStalenessResetDefaultPopover = () => {
       }
       position="top"
       bodyContent={
-        <TextContent>
-          <Flex
-            direction={{ default: 'column' }}
-            spaceItems={{ default: 'spaceItemsNone' }}
-          >
-            <FlexItem>
-              {' '}
-              <Text component={TextVariants.small}>
-                - Systems are marked as stale after 1 day since last check-in.
-              </Text>
-            </FlexItem>
-            <FlexItem>
-              {' '}
-              <Text component={TextVariants.small}>
-                - Systems are marked as stale warning after 14 days since last
-                check-in.
-              </Text>
-            </FlexItem>
+        <Flex
+          direction={{ default: 'column' }}
+          spaceItems={{ default: 'spaceItemsNone' }}
+        >
+          <FlexItem>
+            {' '}
+            <p className="pf-u-font-size-sm">
+              - Systems are marked as stale after 1 day since last check-in.
+            </p>
+          </FlexItem>
+          <FlexItem>
+            {' '}
+            <p className="pf-u-font-size-sm">
+              - Systems are marked as stale warning after 14 days since last
+              check-in.
+            </p>
+          </FlexItem>
 
-            <FlexItem>
-              {' '}
-              <Text component={TextVariants.small}>
-                - Systems are culled after 30 days since last check-in.
-              </Text>
-            </FlexItem>
-          </Flex>
-        </TextContent>
+          <FlexItem>
+            {' '}
+            <p className="pf-u-font-size-sm">
+              - Systems are culled after 30 days since last check-in.
+            </p>
+          </FlexItem>
+        </Flex>
       }
     >
       <Button
@@ -238,42 +228,38 @@ export const InventoryHostStalenessPopover = () => {
       hasAutoWidth
       position="top"
       bodyContent={
-        <TextContent className="pf-v5-u-color-100">
-          <Text component={TextVariants.small}>
+        <div>
+          <p className="pf-u-font-size-sm">
             Configure the number of days it will take for your systems to be
             marked as stale, stale warning, and be cullled.
-          </Text>
+          </p>
           <Flex
             direction={{ default: 'column' }}
             spaceItems={{ default: 'spaceItemsNone' }}
           >
             <FlexItem>
-              <Text component={TextVariants.small}>By default:</Text>
+              <p className="pf-u-font-size-sm">By default:</p>
             </FlexItem>
             <FlexItem>
-              <Text component={TextVariants.small}>
+              <p>
                 - Systems are marked as stale after 1 day since last check-in.
-              </Text>
+              </p>
             </FlexItem>
             <FlexItem>
               {' '}
-              <Text component={TextVariants.small}>
+              <p className="pf-u-font-size-sm">
                 - Systems are marked as stale warning after 14 days since last
                 check-in.
-              </Text>{' '}
+              </p>{' '}
             </FlexItem>
             <FlexItem>
               {' '}
-              <Text component={TextVariants.small}>
+              <p className="pf-u-font-size-sm">
                 - Systems are culled after 30 days since last check-in.
-              </Text>{' '}
+              </p>{' '}
             </FlexItem>
           </Flex>
-          <a className="pf-u-mt-lg">
-            Learn more
-            <ExternalLinkAltIcon size="small" className="pf-u-ml-sm" />
-          </a>
-        </TextContent>
+        </div>
       }
     >
       <Button
@@ -292,7 +278,7 @@ export const systemStalenessItems = (activeTabKey) => {
       name: '1 day',
       value: '1',
       apiKey: activeTabKey ? 'edge_staleness_delta' : 'system_staleness_delta',
-      title: 'System Satleness',
+      title: 'System staleness',
       modalMessage:
         'A stale status on a system indicates that your system has not checked-in in a certain amount of time.',
     },
