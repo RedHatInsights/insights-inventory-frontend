@@ -13,9 +13,12 @@ import { MODAL } from '@redhat-cloud-services/frontend-components-utilities';
 const mountWithProps = (options, props = {}) =>
   cy.mountWithContext(InventoryDetail, options, props);
 
-const waitForLoad = () =>
+const waitForLoad = () => {
+  cy.get('.ins-c-inventory-detail__app-tabs')
+    .contains('General information')
+    .click();
   cy.ouiaId('Host name value').should('have.text', hostDetail.results[0].fqdn);
-
+};
 const prepareTest = (hostDetail = hostDetail) => {
   featureFlagsInterceptors.successful();
   systemProfileInterceptors['full system profile, successful with response']();
@@ -37,6 +40,7 @@ hostInGroup.results[0].groups = [
     name: 'group-a-name',
   },
 ];
+hostInGroup.results[0].system_profile.operating_system.name = 'RHEL';
 
 describe('renders correctly', () => {
   before(() => cy.mockWindowChrome());

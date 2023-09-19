@@ -52,6 +52,7 @@ const ApplicationDetails = ({
     } else {
       setActiveTabs(items);
     }
+    setCurrentApp(activeApp || items?.[0]?.name);
   }, [disabledApps, appList]);
 
   const isDisconnected = useMemo(
