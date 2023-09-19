@@ -1,91 +1,16 @@
 export const EDGE_API = '/api/edge/v1';
-import { instance } from '@redhat-cloud-services/frontend-components-utilities/interceptors/interceptors';
 import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
-export const axiosInstance = () => useAxiosWithPlatformInterceptors();
-export const getImageSet = ({
-  id,
-  params = {
-    limit: 10,
-    offset: 0,
-    sort_by: '-created_at',
-  },
-}) => {
-  const query = getTableParams(params);
-  return axiosInstance.get(`${EDGE_API}/image-sets/${id}?${query}`);
-};
 
-export const getImageSetViewVersions = ({
-  imageSetID,
-  params = {
-    limit: 20,
-    offset: 0,
-    sort_by: '-created_at',
-  },
-}) => {
-  const query = getTableParams(params);
-  return axiosInstance.get(
-    `${EDGE_API}/image-sets/view/${imageSetID}/versions?${query}`
-  );
-};
-
-export const getImageSetView = ({ id }) => {
-  return axiosInstance.get(`${EDGE_API}/image-sets/view/${id}`);
-};
-
-export const getImagePackageMetadata = (id) => {
-  try {
-    return axiosInstance.get(`${EDGE_API}/images/${id}/metadata`);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const fetchEdgeImages = (
-  params = {
-    limit: 20,
-    offset: 0,
-    sort_by: '-created_at',
-  }
-) => {
-  const query = getTableParams(params);
-  return axiosInstance.get(`${EDGE_API}/images?${query}`);
-};
-
-export const fetchEdgeImageSets = (
-  params = {
-    limit: 20,
-    offset: 0,
-    sort_by: '-created_at',
-  }
-) => {
-  const query = getTableParams(params);
-  return axiosInstance.get(`${EDGE_API}/image-sets?${query}`);
-};
-
-export const getEdgeImageStatus = (id) => {
-  return axiosInstance.get(`${EDGE_API}/images/${id}/status`);
-};
-
-export const getImageDataOnDevice = (id) => {
-  return axiosInstance.get(`${EDGE_API}/updates/device/${id}/image`);
-};
-
-export const getImageById = ({ id }) => {
-  return axiosInstance.get(`${EDGE_API}/images/${id}/details`);
-};
-
-export const getImageSets = ({ query }) => {
-  if (query === '') {
-    query = { limit: 20, offset: 0, sort_by: '-updated_at' };
-  }
+export const useGetImageSet = () => {
+  const axios = useAxiosWithPlatformInterceptors();
+  const query = { limit: 10, offset: 0, sort_by: '-created_at' };
   const params = getTableParams(query);
-  return axiosInstance.get(`${EDGE_API}/image-sets/view?${params}`);
+  return (id) => axios.get(`${EDGE_API}/image-sets/${id}?${params}`);
 };
-
-export const getDevice = (id) => {
-  return instance.get(`${EDGE_API}/devices/${id}`);
+export const useGetDevice = () => {
+  const axios = useAxiosWithPlatformInterceptors();
+  return (id) => axios.get(`${EDGE_API}/devices/${id}`);
 };
-
 export const getTableParams = (param) => {
   if (param === undefined) {
     return '';
