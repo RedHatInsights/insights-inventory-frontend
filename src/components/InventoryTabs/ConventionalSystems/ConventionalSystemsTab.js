@@ -1,14 +1,7 @@
-/* eslint-disable camelcase */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import {
-  PageHeader,
-  PageHeaderTitle,
-} from '@redhat-cloud-services/frontend-components/PageHeader';
-import Main from '@redhat-cloud-services/frontend-components/Main';
 import * as actions from '../../../store/actions';
-import { Grid, GridItem } from '@patternfly/react-core';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import DeleteModal from '../../../Utilities/DeleteModal';
 import { TextInputModal } from '../../SystemDetails/GeneralInfo';
@@ -208,116 +201,104 @@ const ConventionalSystemsTab = ({
   );
 
   return (
-    <React.Fragment>
-      <PageHeader className="pf-m-light">
-        <PageHeaderTitle title="Systems" />
-      </PageHeader>
-      <Main>
-        <Grid gutter="md">
-          <GridItem span={12}>
-            <InventoryTableCmp
-              hasAccess={hasAccess}
-              isRbacEnabled
-              customFilters={{ filters, globalFilter }}
-              isFullView
-              showTags
-              onRefresh={onRefresh}
-              hasCheckbox
-              autoRefresh
-              ignoreRefresh
-              initialLoading={initialLoading}
-              ref={inventory}
-              tableProps={{
-                actionResolver: tableActions,
-                canSelectAll: false,
+    <Fragment>
+      <InventoryTableCmp
+        hasAccess={hasAccess}
+        isRbacEnabled
+        customFilters={{ filters, globalFilter }}
+        isFullView
+        showTags
+        onRefresh={onRefresh}
+        hasCheckbox
+        autoRefresh
+        ignoreRefresh
+        initialLoading={initialLoading}
+        ref={inventory}
+        tableProps={{
+          actionResolver: tableActions,
+          canSelectAll: false,
+        }}
+        actionsConfig={{
+          actions: [
+            <BulkDeleteButton
+              key="bulk-systems-delete"
+              selectedSystems={Array.from(selected?.values?.() || [])}
+              onClick={() => {
+                setCurrentSystem(Array.from(selected.values()));
+                handleModalToggle(true);
               }}
-              actionsConfig={{
-                actions: [
-                  <BulkDeleteButton
-                    key="bulk-systems-delete"
-                    selectedSystems={Array.from(selected?.values?.() || [])}
-                    onClick={() => {
-                      setCurrentSystem(Array.from(selected.values()));
-                      handleModalToggle(true);
-                    }}
-                    variant="secondary"
-                    isAriaDisabled={calculateSelected() === 0}
-                  />,
-                  ...(groupsEnabled
-                    ? [
-                        {
-                          label: (
-                            <ActionDropdownItem
-                              key="bulk-add-to-group"
-                              requiredPermissions={[
-                                GENERAL_GROUPS_WRITE_PERMISSION,
-                              ]}
-                              isAriaDisabled={!isBulkAddHostsToGroupsEnabled()}
-                              noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
-                              onClick={() => {
-                                setCurrentSystem(Array.from(selected.values()));
-                                setAddHostGroupModalOpen(true);
-                              }}
-                              ignoreResourceDefinitions
-                            >
-                              Add to group
-                            </ActionDropdownItem>
-                          ),
-                          props: {
-                            style: {
-                              padding: 0, // custom component creates extra padding space
-                            },
-                          },
-                        },
-                        {
-                          label: (
-                            <ActionDropdownItem
-                              key="bulk-remove-from-group"
-                              requiredPermissions={
-                                selected !== undefined
-                                  ? Array.from(selected.values())
-                                      .flatMap(({ groups }) =>
-                                        groups?.[0]?.id !== undefined
-                                          ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                                              groups[0].id
-                                            )
-                                          : null
+              variant="secondary"
+              isAriaDisabled={calculateSelected() === 0}
+            />,
+            ...(groupsEnabled
+              ? [
+                  {
+                    label: (
+                      <ActionDropdownItem
+                        key="bulk-add-to-group"
+                        requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+                        isAriaDisabled={!isBulkAddHostsToGroupsEnabled()}
+                        noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                        onClick={() => {
+                          setCurrentSystem(Array.from(selected.values()));
+                          setAddHostGroupModalOpen(true);
+                        }}
+                        ignoreResourceDefinitions
+                      >
+                        Add to group
+                      </ActionDropdownItem>
+                    ),
+                    props: {
+                      style: {
+                        padding: 0, // custom component creates extra padding space
+                      },
+                    },
+                  },
+                  {
+                    label: (
+                      <ActionDropdownItem
+                        key="bulk-remove-from-group"
+                        requiredPermissions={
+                          selected !== undefined
+                            ? Array.from(selected.values())
+                                .flatMap(({ groups }) =>
+                                  groups?.[0]?.id !== undefined
+                                    ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                                        groups[0].id
                                       )
-                                      .filter(Boolean) // don't check ungroupped hosts
-                                  : []
-                              }
-                              isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
-                              noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
-                              onClick={() => {
-                                setCurrentSystem(Array.from(selected.values()));
-                                setRemoveHostsFromGroupModalOpen(true);
-                              }}
-                              {...(selected === undefined // when nothing is selected, no access must be checked
-                                ? { override: true }
-                                : {})}
-                              checkAll
-                            >
-                              Remove from group
-                            </ActionDropdownItem>
-                          ),
-                          props: {
-                            style: {
-                              padding: 0,
-                            },
-                          },
-                        },
-                      ]
-                    : []),
-                ],
-              }}
-              bulkSelect={bulkSelectConfig}
-              onRowClick={(_e, id, app) =>
-                navigate(`/${id}${app ? `/${app}` : ''}`)
-              }
-            />
-          </GridItem>
-        </Grid>
-      </Main>
+                                    : null
+                                )
+                                .filter(Boolean) // don't check ungroupped hosts
+                            : []
+                        }
+                        isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
+                        noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                        onClick={() => {
+                          setCurrentSystem(Array.from(selected.values()));
+                          setRemoveHostsFromGroupModalOpen(true);
+                        }}
+                        {...(selected === undefined // when nothing is selected, no access must be checked
+                          ? { override: true }
+                          : {})}
+                        checkAll
+                      >
+                        Remove from group
+                      </ActionDropdownItem>
+                    ),
+                    props: {
+                      style: {
+                        padding: 0,
+                      },
+                    },
+                  },
+                ]
+              : []),
+          ],
+        }}
+        bulkSelect={bulkSelectConfig}
+        onRowClick={(_e, id, app) => navigate(`/${id}${app ? `/${app}` : ''}`)}
+      />
+
       <DeleteModal
         className="sentry-mask data-hj-suppress"
         handleModalToggle={handleModalToggle}
@@ -398,7 +379,7 @@ const ConventionalSystemsTab = ({
           )}
         </>
       )}
-    </React.Fragment>
+    </Fragment>
   );
 };
 

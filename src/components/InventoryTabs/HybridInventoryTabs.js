@@ -27,7 +27,7 @@ const HybridInventoryTabs = ({
   const handleTabClick = (_event, tabIndex) => {
     const tabPath = tabsPath[tabIndex];
     if (tabPath !== undefined) {
-      navigate(`${tabPath}`);
+      navigate(tabPath);
     }
     setActiveTabKey(tabIndex);
   };
@@ -39,21 +39,17 @@ const HybridInventoryTabs = ({
       className="pf-m-light pf-c-table"
       activeKey={activeTabKey}
       onSelect={handleTabClick}
+      aria-label="Hybrid inventory tabs"
     >
-      <>
-        <Tab
-          eventKey={0}
-          title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
-        >
-          {ConventionalSystemsTab}
-        </Tab>
-        <Tab
-          eventKey={1}
-          title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
-        >
-          {ImmutableDevicesTab}
-        </Tab>
-      </>
+      <Tab
+        eventKey={0}
+        title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
+      >
+        {ConventionalSystemsTab}
+      </Tab>
+      <Tab eventKey={1} title={<TabTitleText>Immutable (OSTree)</TabTitleText>}>
+        {ImmutableDevicesTab}
+      </Tab>
     </Tabs>
   ) : (
     ConventionalSystemsTab

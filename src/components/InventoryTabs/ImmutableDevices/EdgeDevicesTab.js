@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { resolveRelPath } from '../../../Utilities/path';
 import {
@@ -28,6 +27,5 @@ const ImmutableDevicesTab = () => {
 
 ImmutableDevicesTab.defaultProps = {
   initialLoading: true,
-  notificationProp: PropTypes.object,
 };
 export default ImmutableDevicesTab;

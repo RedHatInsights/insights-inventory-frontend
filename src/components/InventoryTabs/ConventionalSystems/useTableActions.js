@@ -8,17 +8,19 @@ import {
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
 import { ActionDropdownItem } from '../../InventoryTable/ActionWithRBAC';
+import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 
 // some actions are hidden under feature flag
-export default (
-  groupsEnabled,
+const useTableActions = (
   setCurrentSystem,
   onEditOpen,
   handleModalToggle,
   setRemoveHostsFromGroupModalOpen,
   setAddHostGroupModalOpen
-) =>
-  useCallback(
+) => {
+  const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
+
+  const tableActionsCallback = useCallback(
     (row) => {
       const hostActions = [
         {
@@ -116,5 +118,11 @@ export default (
 
       return [...(groupsEnabled ? groupActions : []), ...hostActions];
     },
+
     [groupsEnabled]
   );
+
+  return tableActionsCallback;
+};
+
+export default useTableActions;
