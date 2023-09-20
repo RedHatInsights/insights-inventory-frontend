@@ -104,7 +104,7 @@ const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
 const Inventory = () => {
   const chrome = useChrome();
   const { inventoryId } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const store = useStore();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -135,18 +135,6 @@ const Inventory = () => {
 
     setAvailableApps(newApps);
   }, [entity, cloudProvider]);
-
-  useEffect(() => {
-    if (searchParams.get('appName') === null) {
-      setSearchParams('appName', appList['RHEL'][0].name);
-      navigate(
-        {
-          search: searchParams.toString(),
-        },
-        { replace: true }
-      );
-    }
-  }, []);
 
   const clearNotifications = () => dispatch(actions.clearNotifications());
 
