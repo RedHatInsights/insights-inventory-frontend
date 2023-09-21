@@ -20,6 +20,7 @@ const Inventory = (props) => {
         <HybridInventoryTabs
           ConventionalSystemsTab={<ConventionalSystemsTab {...props} />}
           ImmutableDevicesTab={<ImmutableDevicesTab />}
+          isImmutableTabOpen={props.isImmutableTabOpen}
         />
       </Main>
     </React.Fragment>
@@ -30,5 +31,7 @@ Inventory.defaultProps = {
   initialLoading: true,
   notificationProp: PropTypes.object,
 };
-
+Inventory.propTypes = {
+  isImmutableTabOpen: PropTypes.bool,
+};
 export default Inventory;

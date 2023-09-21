@@ -1,35 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
 import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import { resolveRelPath } from '../../Utilities/path';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
-import { manageEdgeInventoryUrlName } from '../../Utilities/edge';
+import { hybridInventoryTabKeys } from '../../Utilities/constants';
 
 const HybridInventoryTabs = ({
   ConventionalSystemsTab,
   ImmutableDevicesTab,
+  isImmutableTabOpen,
 }) => {
   const navigate = useInsightsNavigate();
+  const activeTab = isImmutableTabOpen
+    ? hybridInventoryTabKeys.immutable.key
+    : hybridInventoryTabKeys.conventional.key;
 
-  const { pathname } = useLocation();
-  const tabsPath = [
-    resolveRelPath(''),
-    resolveRelPath(manageEdgeInventoryUrlName),
-  ];
-  const initialActiveTabKey =
-    tabsPath.indexOf(pathname) >= 0 ? tabsPath.indexOf(pathname) : 0;
-  const [activeTabKey, setActiveTabKey] = useState(initialActiveTabKey);
-  useEffect(() => {
-    setActiveTabKey(initialActiveTabKey);
-  }, [pathname]);
   const handleTabClick = (_event, tabIndex) => {
-    const tabPath = tabsPath[tabIndex];
-    if (tabPath !== undefined) {
-      navigate(tabPath);
-    }
-    setActiveTabKey(tabIndex);
+    navigate(hybridInventoryTabKeys[tabIndex].url);
   };
 
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
@@ -37,17 +24,20 @@ const HybridInventoryTabs = ({
   return EdgeParityEnabled ? (
     <Tabs
       className="pf-m-light pf-c-table"
-      activeKey={activeTabKey}
+      activeKey={activeTab}
       onSelect={handleTabClick}
       aria-label="Hybrid inventory tabs"
     >
       <Tab
-        eventKey={0}
+        eventKey={hybridInventoryTabKeys.conventional.key}
         title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
       >
         {ConventionalSystemsTab}
       </Tab>
-      <Tab eventKey={1} title={<TabTitleText>Immutable (OSTree)</TabTitleText>}>
+      <Tab
+        eventKey={hybridInventoryTabKeys.immutable.key}
+        title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
+      >
         {ImmutableDevicesTab}
       </Tab>
     </Tabs>
@@ -59,5 +49,6 @@ const HybridInventoryTabs = ({
 HybridInventoryTabs.propTypes = {
   ConventionalSystemsTab: PropTypes.element.isRequired,
   ImmutableDevicesTab: PropTypes.element.isRequired,
+  isImmutableTabOpen: PropTypes.bool,
 };
 export default HybridInventoryTabs;
