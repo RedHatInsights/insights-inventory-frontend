@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -17,7 +17,8 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
 import { CONVENTIONAL_TAB_TOOLTIP, IMMUTABLE_TAB_TOOLTIP } from './constants';
 import { InventoryHostStalenessPopover } from './constants';
-// import { groupsApi } from '../../api';
+import { INVENTORY_API_BASE } from '../../api';
+import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 
 const HostStalenessCard = () => {
   //multiply these values be seconds at the end before sending to the api
@@ -50,10 +51,13 @@ const HostStalenessCard = () => {
   };
 
   const updateHost = () => {};
-
-  // useEffect(() => {
-  //   groupsApi.apiGroupGetGroupList().then((res) => setGroupTotal(res.total));
-  // }, []);
+  const axios = useAxiosWithPlatformInterceptors();
+  // /api/inventory/v1/account/staleness
+  useEffect(() => {
+    axios
+      .get(`${INVENTORY_API_BASE}/account/staleness`)
+      .then((res) => console.log(res, 'here'));
+  }, []);
   // https://console.redhat.com/api/inventory/v1/groups get the count
   // Need to update the edit button so that it makes the POST req,
   return (
