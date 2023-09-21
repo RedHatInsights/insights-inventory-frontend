@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import {
   Link,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -20,6 +21,7 @@ import { GeneralInformationTab } from '../components/SystemDetails';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
+import { useGetDevice } from '../api/edge/imagesInfo';
 
 const appList = {
   'CENTOS-LINUX': [
@@ -107,6 +109,7 @@ const Inventory = () => {
   const [searchParams] = useSearchParams();
   const store = useStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [availableApps, setAvailableApps] = useState([]);
   const entityLoaded = useSelector(
@@ -116,6 +119,9 @@ const Inventory = () => {
   const { cloud_provider: cloudProvider, host_type: hostType } = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.systemProfile || []
   );
+  const getDevice = useGetDevice();
+  const [deviceData, setDeviceData] = useState(null);
+
   useEffect(() => {
     let osSlug =
       entity?.system_profile?.operating_system?.name
@@ -151,6 +157,11 @@ const Inventory = () => {
     clearNotifications();
 
     inventoryId && dispatch(actions.systemProfile(inventoryId));
+
+    (async () => {
+      const device = await getDevice(inventoryId);
+      setDeviceData(device);
+    })();
   }, []);
 
   const additionalClasses = {
@@ -178,6 +189,22 @@ const Inventory = () => {
     [searchParams]
   );
 
+  const actionsEdge =
+    hostType === 'edge'
+      ? [
+          {
+            title: 'Update',
+            isDisabled:
+              deviceData?.UpdateTransactions?.[0]?.Status === 'BUILDING' ||
+              deviceData?.UpdateTransactions?.[0]?.Status === 'CREATED' ||
+              !deviceData?.ImageInfo?.UpdatesAvailable?.length > 0,
+            onClick: () => {
+              navigate(`${location.pathname}/update?from_details=true`);
+            },
+          },
+        ]
+      : [];
+
   return (
     <InventoryDetail
       additionalClasses={additionalClasses}
@@ -202,6 +229,7 @@ const Inventory = () => {
       activeApp={searchParams.get('appName')}
       appList={availableApps}
       onTabSelect={onTabSelect}
+      actions={actionsEdge}
     />
   );
 };
