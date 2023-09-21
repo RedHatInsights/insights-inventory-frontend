@@ -5,7 +5,8 @@ export const useGetImageSet = () => {
   const axios = useAxiosWithPlatformInterceptors();
   const query = { limit: 10, offset: 0, sort_by: '-created_at' };
   const params = getTableParams(query);
-  return (id) => axios.get(`${EDGE_API}/image-sets/${id}?${params}`);
+  return (p) =>
+    axios.get(`${EDGE_API}/image-sets/${p.imageSetParam.id}?${params}`);
 };
 export const useGetDevice = () => {
   const axios = useAxiosWithPlatformInterceptors();
