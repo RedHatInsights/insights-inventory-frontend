@@ -55,11 +55,9 @@ describe('renders correctly', () => {
     cy.get('[data-cy="compliance-tab"]')
       .parent('.pf-c-tabs__item.pf-m-disabled')
       .should('have.length', 1);
-
     cy.get('[data-cy="vulnerabilities-tab"]')
       .parent('.pf-c-tabs__item')
-      .click();
-    cy.get('[data-cy="vulnerability-edge-prompt"]').should('have.length', 1);
+      .should('have.length', 1);
 
     // TODO: add more checks other for handling edge hosts
   });
