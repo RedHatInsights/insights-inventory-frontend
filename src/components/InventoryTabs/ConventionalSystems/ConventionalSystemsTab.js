@@ -192,7 +192,6 @@ const ConventionalSystemsTab = ({
   };
 
   const tableActions = useTableActions(
-    groupsEnabled,
     setCurrentSystem,
     onEditOpen,
     handleModalToggle,
