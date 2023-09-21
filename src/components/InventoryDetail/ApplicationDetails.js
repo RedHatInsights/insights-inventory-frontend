@@ -77,65 +77,70 @@ const ApplicationDetails = ({
 
   return (
     <React.Fragment>
-      <section className="pf-u-pr-lg pf-u-pl-lg pf-u-background-color-100-on-md">
-        <Tabs
-          {...props}
-          activeKey={currentApp}
-          onSelect={(event, item) => {
-            const activeItem = activeTabs.find(
-              (oneApp) => oneApp.name === item
-            );
-            if (onTabSelect) {
-              onTabSelect(event, item, activeItem.name || item);
-            }
+      {activeTabs.length > 0 ? (
+        <React.Fragment>
+          <section className="pf-u-pr-lg pf-u-pl-lg pf-u-background-color-100-on-md">
+            <Tabs
+              {...props}
+              activeKey={currentApp}
+              onSelect={(event, item) => {
+                const activeItem = activeTabs.find(
+                  (oneApp) => oneApp.name === item
+                );
+                if (onTabSelect) {
+                  onTabSelect(event, item, activeItem.name || item);
+                }
 
-            setCurrentApp(activeItem.name);
-          }}
-          className="ins-c-inventory-detail__app-tabs"
-          inset={'insetMd'}
-        >
-          {activeTabs?.map((item, key) => (
-            <Tab
-              key={key}
-              eventKey={item.name}
-              title={item.title}
-              tabContentRef={item.tabRef}
-              {...item}
-            />
-          ))}
-        </Tabs>
-      </section>
-      <section>
-        {activeTabs?.length > 0 &&
-          activeTabs?.map((item) => {
-            const Cmp = item.component;
-            return (
-              <TabContent
-                eventKey={item.name}
-                id={item.name}
-                ref={item.tabRef}
-                aria-label={item.title}
-                key={item.name}
-              >
-                {item.name === currentApp && (
-                  <Suspense fallback={Spinner}>
-                    <section className="pf-c-page__main-section">
-                      {isEmptyState(currentApp) ? (
-                        <NotConnected />
-                      ) : (
-                        <Cmp
-                          inventoryId={inventoryId}
-                          store={store}
-                          {...item}
-                        />
-                      )}
-                    </section>
-                  </Suspense>
-                )}
-              </TabContent>
-            );
-          })}
-      </section>
+                setCurrentApp(activeItem.name);
+              }}
+              className="ins-c-inventory-detail__app-tabs"
+              inset={'insetMd'}
+            >
+              {activeTabs?.map((item, key) => (
+                <Tab
+                  key={key}
+                  eventKey={item.name}
+                  title={item.title}
+                  tabContentRef={item.tabRef}
+                  {...item}
+                />
+              ))}
+            </Tabs>
+          </section>
+          <section>
+            {activeTabs?.map((item) => {
+              const Cmp = item.component;
+              return (
+                <TabContent
+                  eventKey={item.name}
+                  id={item.name}
+                  ref={item.tabRef}
+                  aria-label={item.title}
+                  key={item.name}
+                >
+                  {item.name === currentApp && (
+                    <Suspense fallback={Spinner}>
+                      <section className="pf-c-page__main-section">
+                        {isEmptyState(currentApp) ? (
+                          <NotConnected />
+                        ) : (
+                          <Cmp
+                            inventoryId={inventoryId}
+                            store={store}
+                            {...item}
+                          />
+                        )}
+                      </section>
+                    </Suspense>
+                  )}
+                </TabContent>
+              );
+            })}
+          </section>
+        </React.Fragment>
+      ) : (
+        <Spinner />
+      )}
     </React.Fragment>
   );
 };
