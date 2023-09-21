@@ -10,7 +10,9 @@ const HostStaleness = () => {
   const chrome = useChrome();
 
   useEffect(() => {
-    chrome?.updateDocumentTitle?.('Stalenss and Culling | Red Hat Insights');
+    chrome?.updateDocumentTitle?.(
+      'Staleness and Culling - System Configuration - Inventory | Red Hat Insights'
+    );
   }, [chrome]);
 
   return (

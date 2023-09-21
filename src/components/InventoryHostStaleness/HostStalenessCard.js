@@ -27,7 +27,7 @@ const HostStalenessCard = () => {
     system_culling_delta: '21',
     edge_staleness_delta: '7',
     edge_stale_warning_delta: '150',
-    edge_culling_delta: '120',
+    edge_culling_delta: '180',
   });
 
   const [newFormValues, setNewFormValues] = useState(filter);
@@ -70,7 +70,7 @@ const HostStalenessCard = () => {
           options below.
         </p>
         <Flex className="pf-u-mt-md">
-          <p className="pf-u-font-weight-bold">System configuration</p>
+          <Title headingLevel="h6">System configuration </Title>
           <a
             onClick={() => {
               setEdit(!edit);

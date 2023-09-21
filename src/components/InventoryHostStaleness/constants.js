@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Flex, FlexItem, Popover, Title } from '@patternfly/react-core';
+import { Button, Flex, Popover, Title } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 
 export const CONVENTIONAL_TAB_TOOLTIP =
@@ -174,7 +174,7 @@ export const conditionalDropdownError = (
 export const HostStalenessResetDefaultPopover = () => {
   return (
     <Popover
-      aria-label="Inventory Groups popover"
+      aria-label="Organization level popover"
       headerContent={
         <Title headingLevel="h4">Orginization level setting</Title>
       }
@@ -184,32 +184,23 @@ export const HostStalenessResetDefaultPopover = () => {
           direction={{ default: 'column' }}
           spaceItems={{ default: 'spaceItemsNone' }}
         >
-          <FlexItem>
-            {' '}
-            <p className="pf-u-font-size-sm">
-              - Systems are marked as stale after 1 day since last check-in.
-            </p>
-          </FlexItem>
-          <FlexItem>
-            {' '}
-            <p className="pf-u-font-size-sm">
-              - Systems are marked as stale warning after 14 days since last
-              check-in.
-            </p>
-          </FlexItem>
+          <span className="pf-u-font-size-sm">
+            - Systems are marked as stale after 1 day since last check-in.
+          </span>
+          <span className="pf-u-font-size-sm">
+            - Systems are marked as stale warning after 14 days since last
+            check-in.
+          </span>
 
-          <FlexItem>
-            {' '}
-            <p className="pf-u-font-size-sm">
-              - Systems are culled after 30 days since last check-in.
-            </p>
-          </FlexItem>
+          <span className="pf-u-font-size-sm">
+            - Systems are culled after 30 days since last check-in.
+          </span>
         </Flex>
       }
     >
       <Button
         variant="plain"
-        aria-label="Open Inventory groups popover"
+        aria-label="Organization level popover"
         style={{ padding: 0 }}
       >
         <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
@@ -221,7 +212,7 @@ export const HostStalenessResetDefaultPopover = () => {
 export const InventoryHostStalenessPopover = () => {
   return (
     <Popover
-      aria-label="Inventory Groups popover"
+      aria-label="Orginization level popover"
       headerContent={
         <Title headingLevel="h4">Orginization level setting</Title>
       }
@@ -237,37 +228,29 @@ export const InventoryHostStalenessPopover = () => {
             direction={{ default: 'column' }}
             spaceItems={{ default: 'spaceItemsNone' }}
           >
-            <FlexItem>
-              <p className="pf-u-font-size-sm">By default:</p>
-            </FlexItem>
-            <FlexItem>
+            <span className="pf-u-font-size-sm">By default:</span>
+            <span className="pf-u-font-size-sm">
               <p>
                 - Systems are marked as stale after 1 day since last check-in.
               </p>
-            </FlexItem>
-            <FlexItem>
-              {' '}
-              <p className="pf-u-font-size-sm">
-                - Systems are marked as stale warning after 14 days since last
-                check-in.
-              </p>{' '}
-            </FlexItem>
-            <FlexItem>
-              {' '}
-              <p className="pf-u-font-size-sm">
-                - Systems are culled after 30 days since last check-in.
-              </p>{' '}
-            </FlexItem>
+            </span>
+            <span className="pf-u-font-size-sm">
+              - Systems are marked as stale warning after 14 days since last
+              check-in.
+            </span>
+            <span className="pf-u-font-size-sm">
+              - Systems are culled after 30 days since last check-in.
+            </span>
           </Flex>
         </div>
       }
     >
       <Button
         variant="plain"
-        aria-label="Open Inventory groups popover"
+        aria-label="Orginization level popover"
         style={{ padding: 0 }}
       >
-        <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+        <OutlinedQuestionCircleIcon className="pf-u-ml-sm" />
       </Button>
     </Popover>
   );

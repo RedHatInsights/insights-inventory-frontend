@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Button,
   Flex,
   FlexItem,
   Popover,
@@ -49,11 +50,17 @@ const BaseDropdown = ({
             </FlexItem>
             <FlexItem>
               <Popover
-                aria-label="Basic popover"
+                aria-label={`${title} popover`}
                 headerContent={<div>{title}</div>}
                 bodyContent={<div>{modalMessage}</div>}
               >
-                <OutlinedQuestionCircleIcon className="pf-u-ml-xs" />
+                <Button
+                  className="pf-u-ml-xs"
+                  variant="plain"
+                  style={{ padding: 0 }}
+                >
+                  <OutlinedQuestionCircleIcon />
+                </Button>
               </Popover>
             </FlexItem>
           </Flex>
