@@ -117,9 +117,10 @@ const Inventory = () => {
     ({ systemProfileStore }) => systemProfileStore?.systemProfile || []
   );
   useEffect(() => {
-    let osSlug = entity?.system_profile?.operating_system?.name
-      .replace(' ', '-')
-      .toUpperCase();
+    let osSlug =
+      entity?.system_profile?.operating_system?.name
+        .replace(' ', '-')
+        .toUpperCase() || 'RHEL';
 
     let newApps =
       entity &&
