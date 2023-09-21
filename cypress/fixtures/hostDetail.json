@@ -38,7 +38,15 @@
             "culled_timestamp": "2023-05-31T13:19:15.515884+00:00",
             "created": "2023-05-16T08:19:15.870093+00:00",
             "updated": "2023-05-16T08:19:15.870097+00:00",
-            "groups": []
+            "groups": [],
+            "system_profile": {
+                "operating_system": {
+                    "major": 8,
+                    "minor": 2,
+                    "name": "RHEL"
+                },
+                "system_update_method": "dnf"
+            }
         }
     ]
 }

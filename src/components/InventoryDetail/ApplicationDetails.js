@@ -52,7 +52,8 @@ const ApplicationDetails = ({
     } else {
       setActiveTabs(items);
     }
-  }, [disabledApps]);
+    setCurrentApp(activeApp || items?.[0]?.name);
+  }, [disabledApps, appList]);
 
   const isDisconnected = useMemo(
     () => verifyCulledReporter(perReporterStaleness, REPORTER_PUPTOO),
@@ -105,7 +106,7 @@ const ApplicationDetails = ({
         </Tabs>
       </section>
       <section>
-        {activeTabs?.length &&
+        {activeTabs?.length > 0 &&
           activeTabs?.map((item) => {
             const Cmp = item.component;
             return (
