@@ -10,7 +10,7 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';
-import { conditionalDropdownError } from './constants';
+import { conditionalDropdownError, formValidation } from './constants';
 
 const BaseDropdown = ({
   dropdownItems,
@@ -38,8 +38,8 @@ const BaseDropdown = ({
 
   useEffect(() => {
     setSelected(currentItem);
+    formValidation(newFormValues, setIsFormValid);
   }, [edit, currentItem]);
-
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
@@ -67,7 +67,6 @@ const BaseDropdown = ({
         </FlexItem>
         <FlexItem>
           <Select
-            id="single-select"
             isOpen={isOpen}
             onSelect={onSelect}
             onToggle={() => setIsOpen(!isOpen)}
@@ -86,13 +85,7 @@ const BaseDropdown = ({
               </SelectOption>
             ))}
           </Select>
-          {conditionalDropdownError(
-            dropdownItems[0].apiKey,
-            newFormValues,
-            dropdownItems,
-            isFormValid,
-            setIsFormValid
-          )}
+          {conditionalDropdownError(newFormValues, dropdownItems)}
         </FlexItem>
       </Flex>
     </React.Fragment>

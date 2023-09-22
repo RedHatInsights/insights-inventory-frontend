@@ -3,6 +3,14 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HostStalenessCard from '../HostStalenessCard';
 
+jest.mock(
+  '@redhat-cloud-services/frontend-components-utilities/interceptors',
+  () => ({
+    __esModule: true,
+    useAxiosWithPlatformInterceptors: () => require('axios'),
+  })
+);
+
 describe('Table Renders', () => {
   it('Renders table with two tabs and updates when edit is selected', () => {
     render(<HostStalenessCard />);
