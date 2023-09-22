@@ -10,10 +10,12 @@ import { ArrowRightIcon } from '@patternfly/react-icons';
 import React from 'react';
 import { USER_ACCESS_ADMIN_PERMISSIONS } from '../../constants';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 const GetHelpExpandable = () => {
   const { hasAccess: isUserAccessAdministrator, isOrgAdmin } =
     usePermissionsWithContext(USER_ACCESS_ADMIN_PERMISSIONS);
+  const { quickStarts } = useChrome();
 
   return (
     <ExpandableSection
@@ -27,6 +29,9 @@ const GetHelpExpandable = () => {
             variant="link"
             className="ins-c-groups-help-expandable__link"
             isLarge
+            onClick={() =>
+              quickStarts.activateQuickstart('insights-inventory-groups')
+            }
           >
             Create an Inventory group <ArrowRightIcon />
           </Button>
@@ -37,6 +42,9 @@ const GetHelpExpandable = () => {
               variant="link"
               className="ins-c-groups-help-expandable__link"
               isLarge
+              onClick={() =>
+                quickStarts.activateQuickstart('insights-inventory-groups-rbac')
+              }
             >
               Configure User Access for your Inventory groups <ArrowRightIcon />
             </Button>
