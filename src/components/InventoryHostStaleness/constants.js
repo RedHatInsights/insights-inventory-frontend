@@ -8,6 +8,14 @@ export const CONVENTIONAL_TAB_TOOLTIP =
 export const IMMUTABLE_TAB_TOOLTIP =
   'With OSTree, you can manage the system software by referencing a central image repository. OSTree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
 
+export const GENERAL_HOST_STALENESS_WRITE_PERMISSION = 'inventory:groups:write';
+export const GENERAL_HOST_STALENESS_READ_PERMISSION = 'inventory:groups:read';
+
+export const HOST_STALENESS_ADMINISTRATOR_PERMISSIONS = [
+  GENERAL_HOST_STALENESS_READ_PERMISSION,
+  GENERAL_HOST_STALENESS_WRITE_PERMISSION,
+];
+
 //86400 seconds in one day -> divide each by secodns in a day to get day values
 export const secondsToDaysConversion = (seconds) => {
   return parseInt(seconds) / 86400;
