@@ -3,9 +3,8 @@ import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/fronten
 
 export const useGetImageSet = () => {
   const axios = useAxiosWithPlatformInterceptors();
-  const query = { limit: 10, offset: 0, sort_by: '-created_at' };
-  const params = getTableParams(query);
-  return (id) => axios.get(`${EDGE_API}/image-sets/${id}?${params}`);
+  return (params) =>
+    axios.get(`${EDGE_API}/image-sets/${params.imageSetParam.id}`);
 };
 export const useGetDevice = () => {
   const axios = useAxiosWithPlatformInterceptors();
