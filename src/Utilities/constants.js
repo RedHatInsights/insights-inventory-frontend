@@ -252,3 +252,14 @@ export const generateFilter = (
   ].filter(Boolean);
 
 export const allStaleFilters = ['fresh', 'stale', 'stale_warning', 'unknown'];
+
+export const hybridInventoryTabKeys = {
+  conventional: {
+    key: 'conventional',
+    url: '/',
+  },
+  immutable: {
+    key: 'immutable',
+    url: '/manage-edge-inventory',
+  },
+};
