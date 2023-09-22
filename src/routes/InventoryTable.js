@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import PropTypes from 'prop-types';
 import './inventory.scss';
 import {
@@ -6,10 +6,29 @@ import {
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
 import Main from '@redhat-cloud-services/frontend-components/Main';
-import ConventionalSystemsTab from '../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab';
-import ImmutableDevicesTab from '../components/InventoryTabs/ImmutableDevices/EdgeDevicesTab';
 import HybridInventoryTabs from '../components/InventoryTabs/HybridInventoryTabs';
+import { Bullseye, Spinner } from '@patternfly/react-core';
 
+const ConventionalSystemsTab = lazy(() =>
+  import(
+    '../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab'
+  )
+);
+const ImmutableDevicesTab = lazy(() =>
+  import('../components/InventoryTabs/ImmutableDevices/EdgeDevicesTab')
+);
+
+const SuspenseWrapper = ({ children }) => (
+  <Suspense
+    fallback={
+      <Bullseye>
+        <Spinner size="xl" />
+      </Bullseye>
+    }
+  >
+    {children}
+  </Suspense>
+);
 const Inventory = (props) => {
   return (
     <React.Fragment>
@@ -18,8 +37,16 @@ const Inventory = (props) => {
       </PageHeader>
       <Main>
         <HybridInventoryTabs
-          ConventionalSystemsTab={<ConventionalSystemsTab {...props} />}
-          ImmutableDevicesTab={<ImmutableDevicesTab />}
+          ConventionalSystemsTab={
+            <SuspenseWrapper>
+              <ConventionalSystemsTab {...props} />
+            </SuspenseWrapper>
+          }
+          ImmutableDevicesTab={
+            <SuspenseWrapper>
+              <ImmutableDevicesTab />
+            </SuspenseWrapper>
+          }
           isImmutableTabOpen={props.isImmutableTabOpen}
         />
       </Main>
@@ -33,5 +60,8 @@ Inventory.defaultProps = {
 };
 Inventory.propTypes = {
   isImmutableTabOpen: PropTypes.bool,
+};
+SuspenseWrapper.propTypes = {
+  children: PropTypes.element,
 };
 export default Inventory;

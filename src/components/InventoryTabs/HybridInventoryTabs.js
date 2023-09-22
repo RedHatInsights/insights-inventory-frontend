@@ -1,29 +1,41 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import {
   INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS,
   INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
   hybridInventoryTabKeys,
 } from '../../Utilities/constants';
-import { manageEdgeInventoryUrlName } from '../../Utilities/edge';
+import { useNavigate } from 'react-router-dom';
 
 const HybridInventoryTabs = ({
   ConventionalSystemsTab,
   ImmutableDevicesTab,
+  tabPathname,
   isImmutableTabOpen,
 }) => {
-  const navigate = useInsightsNavigate();
+  const { search, state } = useLocation();
+  const navigate = useNavigate();
   const activeTab = isImmutableTabOpen
     ? hybridInventoryTabKeys.immutable.key
     : hybridInventoryTabKeys.conventional.key;
 
   const handleTabClick = (_event, tabIndex) => {
-    navigate(hybridInventoryTabKeys[tabIndex].url);
+    const pathWithParams =
+      tabPathname +
+      hybridInventoryTabKeys[tabIndex].url +
+      (state?.prevSearch || '');
+
+    if (tabIndex !== activeTab) {
+      navigate(pathWithParams, {
+        replace: true,
+        state: { prevSearch: search },
+      });
+    }
   };
 
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
@@ -47,7 +59,7 @@ const HybridInventoryTabs = ({
               const accountHasConventionalImages =
                 conventionalImages?.data?.total > 0;
               if (accountHasEdgeImages && !accountHasConventionalImages) {
-                handleTabClick(undefined, manageEdgeInventoryUrlName);
+                handleTabClick(undefined, hybridInventoryTabKeys.immutable.key);
                 setIsOstreeTabFocusPriority(true);
               }
             });
@@ -63,7 +75,9 @@ const HybridInventoryTabs = ({
       activeKey={activeTab}
       onSelect={handleTabClick}
       defaultActiveKey={
-        isOstreeTabFocusPriority ? manageEdgeInventoryUrlName : 'conventional'
+        isOstreeTabFocusPriority
+          ? hybridInventoryTabKeys.immutable.key
+          : hybridInventoryTabKeys.conventional.key
       }
       aria-label="Hybrid inventory tabs"
     >
@@ -89,5 +103,10 @@ HybridInventoryTabs.propTypes = {
   ConventionalSystemsTab: PropTypes.element.isRequired,
   ImmutableDevicesTab: PropTypes.element.isRequired,
   isImmutableTabOpen: PropTypes.bool,
+  tabPathname: PropTypes.string,
+};
+
+HybridInventoryTabs.defaultProps = {
+  tabPathname: '/insights/inventory',
 };
 export default HybridInventoryTabs;

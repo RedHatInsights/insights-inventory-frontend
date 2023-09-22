@@ -261,7 +261,7 @@ export const allStaleFilters = ['fresh', 'stale', 'stale_warning', 'unknown'];
 export const hybridInventoryTabKeys = {
   conventional: {
     key: 'conventional',
-    url: '/',
+    url: '',
   },
   immutable: {
     key: 'immutable',
