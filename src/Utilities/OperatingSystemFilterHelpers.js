@@ -5,10 +5,9 @@ import { coerce, compare, rcompare } from 'semver';
 import { OS_CHIP } from './constants';
 
 export const updateGroupSelectionIdentifier = (selection, groupLabel, major) =>
-  // if every minor version is selected, then mark the group as selected
   set(
     selection,
-    [groupLabel, major],
+    [groupLabel, groupLabel],
     Object.values({ ...selection[groupLabel] })
       .filter((v) => v !== major)
       .every(Boolean)
@@ -31,11 +30,15 @@ const isVersionSelected = (selectedVersion, osVersion) => {
 export const toGroupSelection = (value = [], availableVersions) =>
   (availableVersions === undefined ? value : availableVersions).reduce(
     (acc, version) => {
-      const { groupLabel, value } = version;
-      const [major] = value.split('.');
-
-      set(acc, [groupLabel, version.value], isVersionSelected(value, version));
-      updateGroupSelectionIdentifier(acc, groupLabel, major);
+      const [major] = version.value;
+      const groupName = `${version.osName} ${major}`;
+      set(
+        acc,
+        [`${groupName}`, version.value],
+        isVersionSelected(value, version),
+        Object
+      );
+      updateGroupSelectionIdentifier(acc, groupName, major);
       return acc;
     },
     {}
