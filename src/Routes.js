@@ -12,6 +12,10 @@ import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
+const InventoryHostStaleness = lazy(() =>
+  import('./routes/InventoryHostStaleness')
+);
+
 const InventoryGroupDetail = lazy(() =>
   import('./routes/InventoryGroupDetail')
 );
@@ -25,6 +29,7 @@ export const routes = {
   groupDetail: '/groups/:groupId',
   update: '/:inventoryId/update',
   edgeInventory: '/manage-edge-inventory',
+  staleness: '/staleness-and-culling',
 };
 const INVENTORY_TOTAL_FETCH_URL = '/api/inventory/v1/hosts';
 
@@ -77,6 +82,10 @@ export const Routes = () => {
     {
       path: '*',
       element: <Navigate to="/" replace />,
+    },
+    {
+      path: '/staleness-and-culling',
+      element: groupsEnabled ? <InventoryHostStaleness /> : <LostPage />,
     },
   ]);
 
