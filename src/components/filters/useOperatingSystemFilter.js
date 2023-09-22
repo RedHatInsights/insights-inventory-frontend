@@ -87,6 +87,7 @@ const useOperatingSystemFilter = (apiParams = [], hasAccess) => {
   // receives an array of OS version values, e.g., ['7.3', '9.0']
   const setValue = useCallback(
     (versions = []) => {
+      console.log(versions, 'versions');
       setSelected(
         toGroupSelection(
           versions,

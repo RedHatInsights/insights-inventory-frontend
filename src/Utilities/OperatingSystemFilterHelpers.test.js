@@ -8,47 +8,11 @@ import {
   onOSFilterChange,
   toGroupSelection,
 } from './OperatingSystemFilterHelpers';
-
-const testValue = {
-  7: {
-    7: true,
-    '7.0': true,
-    7.1: true,
-    7.2: true,
-  },
-  8: {
-    8: true,
-    8.5: true,
-    '8.10': true,
-  },
-  9: {
-    9: true,
-    9.1: true,
-  },
-};
-
-const testVersions = [
-  {
-    label: 'RHEL 6.9',
-    value: '6.9',
-  },
-  {
-    label: 'RHEL 6.10',
-    value: '6.10',
-  },
-  {
-    label: 'RHEL 7.0',
-    value: '7.0',
-  },
-  {
-    label: 'RHEL 8.5',
-    value: '8.5',
-  },
-  {
-    label: 'RHEL 8.10',
-    value: '8.10',
-  },
-];
+import {
+  groupSelection1,
+  testValue,
+  testVersions,
+} from './__mocks__/OperatingSystemFilterHelpers.fixtures';
 
 describe('toGroupSelection', () => {
   it('returns a select value for an empty group selection', () => {
@@ -56,9 +20,7 @@ describe('toGroupSelection', () => {
   });
 
   it('returns a select value for a group selection', () => {
-    expect(
-      toGroupSelection(['7.0', '7.1', '7.2', '8.5', '8.10', '9.1'])
-    ).toEqual(testValue);
+    expect(toGroupSelection(groupSelection1)).toEqual(testValue);
   });
 
   it('return a select value for a group selection with available version', () => {
