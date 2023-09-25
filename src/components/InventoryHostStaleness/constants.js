@@ -96,6 +96,8 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Culling must be after stale warning
         </p>
       );
+    } else {
+      return <div className="pf-u-mb-md" />;
     }
   }
 
@@ -150,6 +152,8 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Culling must be after stale warning
         </p>
       );
+    } else {
+      return <div className="pf-u-mb-md" />;
     }
   }
 };
@@ -160,7 +164,7 @@ export const HostStalenessResetDefaultPopover = () => {
       headerContent={
         <Title headingLevel="h4">Orginization level setting</Title>
       }
-      position="top"
+      position="left"
       bodyContent={
         <Flex
           direction={{ default: 'column' }}

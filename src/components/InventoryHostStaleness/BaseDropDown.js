@@ -40,6 +40,7 @@ const BaseDropdown = ({
     setSelected(currentItem);
     formValidation(newFormValues, setIsFormValid);
   }, [edit, currentItem]);
+
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>

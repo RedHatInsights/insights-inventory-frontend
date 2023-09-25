@@ -11,9 +11,16 @@ jest.mock(
   })
 );
 
+jest.mock('react-redux', () => {
+  return {
+    ...jest.requireActual('react-redux'),
+    useDispatch: () => {},
+  };
+});
+
 describe('Table Renders', () => {
   it('Renders table with two tabs and updates when edit is selected', () => {
-    render(<HostStalenessCard />);
+    render(<HostStalenessCard canModifyHostStaleness={true} />);
 
     expect(
       screen.getByRole('tab', { name: 'Conventional (RPM-DNF)' })

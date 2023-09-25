@@ -1,4 +1,4 @@
-import { Card, Flex, FlexItem, Grid, GridItem } from '@patternfly/react-core';
+import { Card, Flex, FlexItem } from '@patternfly/react-core';
 import React from 'react';
 import BaseDropdown from './BaseDropDown';
 import PropTypes from 'prop-types';
@@ -32,10 +32,18 @@ const TabCard = ({
 
   return (
     <React.Fragment>
-      <Card isPlain className="pf-u-mb-lg">
-        <Grid span={3}>
+      <Card
+        isPlain
+        className="pf-u-mb-lg"
+        style={{ maxWidth: !edit ? '70%' : '100%' }}
+      >
+        <Flex
+          justifyContent={{ default: 'justifyContentSpaceAround' }}
+          alignItems={{ default: 'alignItemsCenter' }}
+          direction={{ default: 'column', lg: 'row' }}
+        >
           {dropdownArray(activeTabKey).map((item) => (
-            <GridItem key={item[0].title}>
+            <FlexItem key={item[0].title}>
               <BaseDropdown
                 data-ouia-component-id={item[0].title}
                 dropdownItems={item}
@@ -51,11 +59,11 @@ const TabCard = ({
                 isFormValid={isFormValid}
                 setIsFormValid={setIsFormValid}
               />
-            </GridItem>
+            </FlexItem>
           ))}
           {edit && (
             <Flex>
-              <FlexItem alignSelf={{ default: 'alignSelfCenter' }}>
+              <FlexItem>
                 <a onClick={() => resetToStandard()} className="pf-u-ml-sm ">
                   Reset to default setting
                 </a>
@@ -63,7 +71,7 @@ const TabCard = ({
               </FlexItem>
             </Flex>
           )}
-        </Grid>
+        </Flex>
       </Card>
     </React.Fragment>
   );
