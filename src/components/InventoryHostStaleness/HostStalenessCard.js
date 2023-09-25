@@ -26,20 +26,14 @@ import {
 import { InventoryHostStalenessPopover } from './constants';
 import { INVENTORY_API_BASE } from '../../api';
 import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { useDispatch } from 'react-redux';
 
 const HostStalenessCard = () => {
   //need to figure out which key matches to which dropdown
   //multiply these values be seconds at the end before sending to the api
-  const [filter, setFilter] = useState({
-    conventional_staleness_delta: '',
-    conventional_stale_warning_delta: '',
-    conventional_culling_delta: '',
-    immutable_staleness_delta: '',
-    immutable_stale_warning_delta: '',
-    immutable_culling_delta: '',
-  });
+  const [filter, setFilter] = useState({});
   const [defaultApiValues, setDefaultApiValues] = useState({});
-
   const axios = useAxiosWithPlatformInterceptors();
   const [newFormValues, setNewFormValues] = useState(filter);
   const [edit, setEdit] = useState(false);
@@ -47,6 +41,7 @@ const HostStalenessCard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -71,9 +66,53 @@ const HostStalenessCard = () => {
     );
     //system_default means the account has no record, therefor, post for new instance of record.
     if (filter.id === 'system_default') {
-      axios.post(`${INVENTORY_API_BASE}/account/staleness`, apiData);
+      axios
+        .post(`${INVENTORY_API_BASE}/account/staleness`, apiData)
+        .then(() => {
+          dispatch(
+            addNotificationAction({
+              id: 'settings-saved',
+              variant: 'success',
+              title: 'Organization level settings saved',
+              description: `Organization level settings saved`,
+              dismissable: true,
+            })
+          );
+        })
+        .catch(() => {
+          dispatch(
+            addNotificationAction({
+              id: 'settings-saved-failed',
+              variant: 'danger',
+              title: 'Error saving organization level settings',
+              description: `Error saving organization level settings`,
+              dismissable: true,
+            })
+          );
+        });
     } else {
-      axios.patch(`${INVENTORY_API_BASE}/account/staleness`, apiData);
+      axios
+        .patch(`${INVENTORY_API_BASE}/account/staleness`, apiData)
+        .then(() => {
+          dispatch(
+            addNotificationAction({
+              id: 'settings-saved',
+              variant: 'success',
+              title: 'Organization level settings saved',
+              dismissable: true,
+            })
+          );
+        })
+        .catch(() => {
+          dispatch(
+            addNotificationAction({
+              id: 'settings-saved-failed',
+              variant: 'danger',
+              title: 'Error saving organization level settings',
+              dismissable: true,
+            })
+          );
+        });
     }
     setEdit(!edit);
   };
@@ -96,8 +135,6 @@ const HostStalenessCard = () => {
     let results = await axios
       .get(`${INVENTORY_API_BASE}/account/staleness/defaults`)
       .then((res) => res);
-    console.log(results, 'res here');
-
     let newFilter = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
