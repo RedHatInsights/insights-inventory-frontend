@@ -13,6 +13,7 @@ import {
   TabTitleText,
   Tabs,
   Title,
+  Tooltip,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
@@ -28,10 +29,9 @@ import { INVENTORY_API_BASE } from '../../api';
 import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const HostStalenessCard = () => {
-  //need to figure out which key matches to which dropdown
-  //multiply these values be seconds at the end before sending to the api
+const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [filter, setFilter] = useState({});
   const [defaultApiValues, setDefaultApiValues] = useState({});
   const axios = useAxiosWithPlatformInterceptors();
@@ -152,6 +152,7 @@ const HostStalenessCard = () => {
   useEffect(() => {
     batchedApi();
   }, []);
+
   return (
     <React.Fragment>
       {!isLoading ? (
@@ -169,14 +170,27 @@ const HostStalenessCard = () => {
             </p>
             <Flex className="pf-u-mt-md">
               <Title headingLevel="h6">System configuration </Title>
-              <a
-                role="button"
-                onClick={() => {
-                  setEdit(!edit);
-                }}
-              >
-                Edit
-              </a>
+              {canModifyHostStaleness ? (
+                <Button
+                  variant="link"
+                  role="button"
+                  onClick={() => {
+                    setEdit(!edit);
+                  }}
+                >
+                  Edit
+                </Button>
+              ) : (
+                <Tooltip content="You do not have the Inventory staleness and culling viewer role required to perform this action. Contact your org admin for access.">
+                  <Button
+                    variant="link"
+                    style={{ color: '#6A6E73', 'padding-left': '0px' }}
+                    disabled={!canModifyHostStaleness}
+                  >
+                    Edit
+                  </Button>
+                </Tooltip>
+              )}
             </Flex>
             <Tabs
               id={'HostTabs'}
@@ -297,6 +311,10 @@ const HostStalenessCard = () => {
       )}
     </React.Fragment>
   );
+};
+
+HostStalenessCard.propTypes = {
+  canModifyHostStaleness: PropTypes.bool,
 };
 
 export default HostStalenessCard;

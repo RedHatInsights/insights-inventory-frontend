@@ -1,23 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from 'react';
-import { Bullseye, Spinner } from '@patternfly/react-core';
+import React from 'react';
 import HostStalenessCard from './HostStalenessCard';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { GENERAL_HOST_STALENESS_WRITE_PERMISSION } from './constants';
+
+const REQUIRED_PERMISSIONS = [GENERAL_HOST_STALENESS_WRITE_PERMISSION];
 
 const InventoryHostStaleness = () => {
-  const [isLoading] = useState(false);
+  const { hasAccess: canModifyHostStaleness } =
+    usePermissionsWithContext(REQUIRED_PERMISSIONS);
 
   return (
-    <section>
-      {isLoading ? (
-        <Bullseye>
-          <Spinner />
-        </Bullseye>
-      ) : (
-        <section className="pf-l-page__main-section pf-c-page__main-section">
-          <HostStalenessCard />
-        </section>
-      )}
+    <section className="pf-l-page__main-section pf-c-page__main-section">
+      <HostStalenessCard canModifyHostStaleness={canModifyHostStaleness} />
     </section>
+    //TBD : Table will go here
   );
 };
 

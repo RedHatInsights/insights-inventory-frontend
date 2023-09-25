@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, LockIcon } from '@patternfly/react-icons';
 
-const HostStalenessEmptyState = () => {
+const HostStalenessNoAccess = () => {
   return (
     <EmptyState>
       <EmptyStateIcon icon={LockIcon} />
@@ -33,4 +33,4 @@ const HostStalenessEmptyState = () => {
   );
 };
 
-export default HostStalenessEmptyState;
+export default HostStalenessNoAccess;
