@@ -38,6 +38,7 @@ const HostStalenessCard = () => {
     immutable_stale_warning_delta: '',
     immutable_culling_delta: '',
   });
+  const [defaultApiValues, setDefaultApiValues] = useState({});
 
   const axios = useAxiosWithPlatformInterceptors();
   const [newFormValues, setNewFormValues] = useState(filter);
@@ -90,9 +91,24 @@ const HostStalenessCard = () => {
     setFilter(newFilter);
     setNewFormValues(newFilter);
   };
+  //keeps track of what default the backend wants
+  const fetchDefaultValues = async () => {
+    let results = await axios
+      .get(`${INVENTORY_API_BASE}/account/staleness/defaults`)
+      .then((res) => res);
+    console.log(results, 'res here');
+
+    let newFilter = {};
+    hostStalenessApiKeys.forEach(
+      (filterKey) =>
+        (newFilter[filterKey] = secondsToDaysConversion(results[filterKey]))
+    );
+    setDefaultApiValues(newFilter);
+  };
 
   const batchedApi = async () => {
     fetchStalenessData();
+    fetchDefaultValues();
     setIsLoading(false);
   };
 
@@ -156,6 +172,7 @@ const HostStalenessCard = () => {
                   setNewFormValues={setNewFormValues}
                   isFormValid={isFormValid}
                   setIsFormValid={setIsFormValid}
+                  defaultValues={defaultApiValues}
                 />
               </Tab>
               <Tab
@@ -183,6 +200,7 @@ const HostStalenessCard = () => {
                   setNewFormValues={setNewFormValues}
                   isFormValid={isFormValid}
                   setIsFormValid={setIsFormValid}
+                  defaultValues={defaultApiValues}
                 />
               </Tab>
             </Tabs>

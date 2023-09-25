@@ -18,15 +18,8 @@ const TabCard = ({
   setNewFormValues,
   isFormValid,
   setIsFormValid,
+  defaultValues,
 }) => {
-  const standardValues = {
-    conventional_staleness_delta: '1',
-    conventional_stale_warning_delta: '7',
-    conventional_culling_delta: '14',
-    immutable_staleness_delta: '2',
-    immutable_stale_warning_delta: '120',
-    immutable_culling_delta: '180',
-  };
   const dropdownArray = (activeTabKey) => [
     systemStalenessItems(activeTabKey),
     systemStalenessWarningItems(activeTabKey),
@@ -34,7 +27,7 @@ const TabCard = ({
   ];
   //this to be replaced by api values
   const resetToStandard = () => {
-    setNewFormValues(standardValues);
+    setNewFormValues(defaultValues);
   };
 
   return (
@@ -86,5 +79,6 @@ TabCard.propTypes = {
   setEdit: PropTypes.any,
   isFormValid: PropTypes.any,
   setIsFormValid: PropTypes.any,
+  defaultValues: PropTypes.object,
 };
 export default TabCard;
