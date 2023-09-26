@@ -15,6 +15,11 @@ import createXhrMock from '../Utilities/__mocks__/xhrMock';
 import { useGetRegistry } from '../Utilities/constants';
 import { mockSystemProfile } from '../__mocks__/hostApi';
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => () => jest.fn(),
+}));
+
 jest.mock('../Utilities/constants', () => ({
   ...jest.requireActual('../Utilities/constants'),
   useGetRegistry: jest.fn(() => ({
