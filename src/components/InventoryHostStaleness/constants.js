@@ -18,8 +18,9 @@ export const HOST_STALENESS_ADMINISTRATOR_PERMISSIONS = [
   GENERAL_HOST_STALENESS_WRITE_PERMISSION,
 ];
 
-//int for Never value. POSTgreSQL max in it this
+//int for 'Never' value. POSTgreSQL max in is this
 const maxSafeInt = 2147483647;
+
 //86400 seconds in one day -> divide each by secodns in a day to get day values
 export const secondsToDaysConversion = (seconds) => {
   if (parseInt(seconds) > 2000000000) {
@@ -37,6 +38,7 @@ export const hostStalenessApiKeys = [
   'immutable_stale_warning_delta',
   'immutable_culling_delta',
 ];
+
 export const daysToSecondsConversion = (days) => {
   if (days === 'Never') {
     return JSON.stringify(maxSafeInt);
@@ -44,6 +46,7 @@ export const daysToSecondsConversion = (days) => {
     return JSON.stringify(parseInt(days) * 86400);
   }
 };
+
 export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   //this runs on every select every time
   let apiKey = dropdownItems[0].apiKey;
@@ -209,6 +212,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     }
   }
 };
+
 export const HostStalenessResetDefaultPopover = () => {
   return (
     <Popover
@@ -293,6 +297,7 @@ export const InventoryHostStalenessPopover = () => {
     </Popover>
   );
 };
+
 export const systemStalenessItems = (activeTabKey) => {
   return [
     {

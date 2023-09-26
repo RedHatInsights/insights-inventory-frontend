@@ -9,13 +9,20 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import { GENERAL_HOST_STALENESS_READ_PERMISSION } from '../components/InventoryHostStaleness/constants';
 import { Page, PageSection } from '@patternfly/react-core';
 import HostStalenessNoAccess from '../components/InventoryHostStaleness/HostStalenessNoAccess';
+import { GENERAL_GROUPS_READ_PERMISSION } from '../constants';
 
-const REQUIRED_PERMISSIONS = [GENERAL_HOST_STALENESS_READ_PERMISSION];
+const REQUIRED_PERMISSIONS = [
+  GENERAL_HOST_STALENESS_READ_PERMISSION,
+  GENERAL_GROUPS_READ_PERMISSION,
+];
 
 const HostStaleness = () => {
   const chrome = useChrome();
-  const { hasAccess: canReadHostStaleness } =
-    usePermissionsWithContext(REQUIRED_PERMISSIONS);
+  const { hasAccess: canReadHostStaleness } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS,
+    null,
+    false
+  );
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(

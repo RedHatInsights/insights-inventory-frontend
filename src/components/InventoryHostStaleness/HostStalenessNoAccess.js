@@ -22,7 +22,7 @@ const HostStalenessNoAccess = () => {
       <Button
         variant="link"
         component="a"
-        // href="https://access.redhat.com/products/red-hat-insights#getstarted"
+        // href= "There is currently no document created for this - UX"
       >
         <p>
           Learn more about managing user access{' '}

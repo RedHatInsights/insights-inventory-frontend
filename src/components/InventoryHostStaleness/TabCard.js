@@ -10,7 +10,7 @@ import {
 } from './constants';
 
 const TabCard = ({
-  edit,
+  isEditing,
   filter,
   setFilter,
   activeTabKey,
@@ -25,7 +25,7 @@ const TabCard = ({
     systemStalenessWarningItems(activeTabKey),
     systemCullingItems(activeTabKey),
   ];
-  //this to be replaced by api values
+
   const resetToStandard = () => {
     setNewFormValues(defaultValues);
   };
@@ -43,20 +43,20 @@ const TabCard = ({
                 data-ouia-component-id={item[0].title}
                 dropdownItems={item}
                 currentItem={newFormValues[item[0].apiKey]}
-                disabled={!edit}
+                disabled={!isEditing}
                 title={item[0].title}
                 filter={filter}
                 setFilter={setFilter}
                 newFormValues={newFormValues}
                 setNewFormValues={setNewFormValues}
-                edit={edit}
+                isEditing={isEditing}
                 modalMessage={item[0].modalMessage}
                 isFormValid={isFormValid}
                 setIsFormValid={setIsFormValid}
               />
             </FlexItem>
           ))}
-          {edit ? (
+          {isEditing ? (
             <Flex>
               <FlexItem style={{ width: '200px' }}>
                 <a onClick={() => resetToStandard()}>
@@ -80,8 +80,7 @@ TabCard.propTypes = {
   setNewFormValues: PropTypes.any,
   setFilter: PropTypes.any,
   activeTabKey: PropTypes.number,
-  edit: PropTypes.bool,
-  setEdit: PropTypes.any,
+  isEditing: PropTypes.bool,
   isFormValid: PropTypes.any,
   setIsFormValid: PropTypes.any,
   defaultValues: PropTypes.object,

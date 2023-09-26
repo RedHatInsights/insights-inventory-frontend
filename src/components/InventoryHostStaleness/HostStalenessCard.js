@@ -25,8 +25,12 @@ import {
   secondsToDaysConversion,
 } from './constants';
 import { InventoryHostStalenessPopover } from './constants';
-import { INVENTORY_API_BASE } from '../../api';
-import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import {
+  fetchDefaultStalenessValues,
+  fetchStalenessData,
+  patchStalenessData,
+  postStalenessData,
+} from '../../api';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -34,9 +38,8 @@ import PropTypes from 'prop-types';
 const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [filter, setFilter] = useState({});
   const [defaultApiValues, setDefaultApiValues] = useState({});
-  const axios = useAxiosWithPlatformInterceptors();
   const [newFormValues, setNewFormValues] = useState(filter);
-  const [edit, setEdit] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
@@ -53,7 +56,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   //Cancel button when a user opts out of saving changes
   const resetToOriginalValues = () => {
     setNewFormValues(filter);
-    setEdit(!edit);
+    setIsEditing(!isEditing);
   };
 
   //On save Button
@@ -67,8 +70,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
 
     //system_default means the account has no record, therefor, post for new instance of record.
     if (filter.id === 'system_default') {
-      axios
-        .post(`${INVENTORY_API_BASE}/account/staleness`, apiData)
+      postStalenessData(apiData)
         .then(() => {
           dispatch(
             addNotificationAction({
@@ -93,8 +95,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           );
         });
     } else {
-      axios
-        .patch(`${INVENTORY_API_BASE}/account/staleness`, apiData)
+      patchStalenessData(apiData)
         .then(() => {
           dispatch(
             addNotificationAction({
@@ -117,14 +118,12 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           );
         });
     }
-    setEdit(!edit);
+    setIsEditing(!isEditing);
     setIsModalOpen(false);
   };
 
-  const fetchStalenessData = async () => {
-    let results = await axios
-      .get(`${INVENTORY_API_BASE}/account/staleness`)
-      .then((res) => res);
+  const fetchApiStalenessData = async () => {
+    let results = fetchStalenessData();
     let newFilter = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
@@ -134,11 +133,10 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     setFilter(newFilter);
     setNewFormValues(newFilter);
   };
+
   //keeps track of what default the backend wants
   const fetchDefaultValues = async () => {
-    let results = await axios
-      .get(`${INVENTORY_API_BASE}/account/staleness/defaults`)
-      .then((res) => res);
+    let results = fetchDefaultStalenessValues();
     let newFilter = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
@@ -148,7 +146,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   };
 
   const batchedApi = async () => {
-    fetchStalenessData();
+    fetchApiStalenessData();
     fetchDefaultValues();
     setIsLoading(false);
   };
@@ -173,13 +171,13 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               options below.
             </p>
             <Flex className="pf-u-mt-md">
-              <Title headingLevel="h6">System configuration </Title>
+              <Title headingLevel="h6">System configuration</Title>
               {canModifyHostStaleness ? (
                 <Button
                   variant="link"
                   role="button"
                   onClick={() => {
-                    setEdit(!edit);
+                    setIsEditing(!isEditing);
                   }}
                 >
                   Edit
@@ -188,8 +186,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 <Tooltip content="You do not have the Inventory staleness and culling viewer role required to perform this action. Contact your org admin for access.">
                   <Button
                     variant="link"
-                    style={{ color: '#6A6E73', 'padding-left': '0px' }}
-                    disabled={!canModifyHostStaleness}
+                    style={{ 'padding-left': '0px' }}
+                    isDisabled={!canModifyHostStaleness}
                   >
                     Edit
                   </Button>
@@ -218,8 +216,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 }
               >
                 <TabCard
-                  edit={edit}
-                  setEdit={setEdit}
+                  isEditing={isEditing}
                   filter={filter}
                   setFilter={setFilter}
                   activeTabKey={0}
@@ -246,8 +243,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 }
               >
                 <TabCard
-                  edit={edit}
-                  setEdit={setEdit}
+                  isEditing={isEditing}
                   filter={filter}
                   setFilter={setFilter}
                   activeTabKey={1}
@@ -259,7 +255,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 />
               </Tab>
             </Tabs>
-            {edit && (
+            {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                 <Button
                   className="pf-u-mt-md"
@@ -318,7 +314,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
 };
 
 HostStalenessCard.propTypes = {
-  canModifyHostStaleness: PropTypes.bool,
+  canModifyHostStaleness: PropTypes.bool.isRequired,
 };
 
 export default HostStalenessCard;

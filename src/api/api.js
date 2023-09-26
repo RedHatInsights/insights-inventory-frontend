@@ -344,3 +344,22 @@ export function getAllTags(search, pagination = {}) {
 export function getOperatingSystems(params = []) {
   return systemProfile.apiSystemProfileGetOperatingSystem(...params);
 }
+
+export const fetchDefaultStalenessValues = async () => {
+  return instance
+    .get(`${INVENTORY_API_BASE}/account/staleness/defaults`)
+    .then((res) => res);
+};
+
+export const fetchStalenessData = async () => {
+  return instance
+    .get(`${INVENTORY_API_BASE}/account/staleness`)
+    .then((res) => res);
+};
+
+export const postStalenessData = async (data) => {
+  instance.post(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
+export const patchStalenessData = async (data) => {
+  instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
