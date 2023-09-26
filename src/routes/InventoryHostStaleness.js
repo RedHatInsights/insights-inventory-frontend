@@ -29,7 +29,11 @@ const HostStaleness = () => {
         <PageHeaderTitle title={'Staleness and Culling'} />
       </PageHeader>
       {canReadHostStaleness ? (
-        <InventoryHostStaleness />
+        <Page>
+          <PageSection variant="default">
+            <InventoryHostStaleness />
+          </PageSection>
+        </Page>
       ) : (
         <Page>
           <PageSection variant="default">

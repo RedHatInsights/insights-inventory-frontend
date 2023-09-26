@@ -73,7 +73,10 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   if (apiKey === 'conventional_stale_warning_delta') {
     if (formValue > parseInt(newFormValues['conventional_culling_delta'])) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Stale warning must be before culling
         </p>
       );
@@ -81,12 +84,19 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       formValue < parseInt(newFormValues['conventional_staleness_delta'])
     ) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Stale warning must be after staleness
         </p>
       );
     } else {
-      return <p className="pf-u-font-size-sm ">Maximum days 180</p>;
+      return (
+        <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
+          Maximum days 180
+        </p>
+      );
     }
   }
   if (apiKey === 'conventional_culling_delta') {
@@ -94,7 +104,10 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       formValue < parseInt(newFormValues['conventional_stale_warning_delta'])
     ) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Culling must be after staleness
         </p>
       );
@@ -102,7 +115,10 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       formValue < parseInt(newFormValues['conventional_staleness_delta'])
     ) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Culling must be after stale warning
         </p>
       );
@@ -114,24 +130,37 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   if (apiKey === 'immutable_staleness_delta') {
     if (formValue > parseInt(newFormValues['immutable_stale_warning_delta'])) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Staleness must be before stale warning
         </p>
       );
     } else if (formValue > parseInt(newFormValues['immutable_culling_delta'])) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Staleness must be before culling
         </p>
       );
     } else {
-      return <p className="pf-u-font-size-sm ">Maximum days 7</p>;
+      return (
+        <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
+          Maximum days 7
+        </p>
+      );
     }
   }
   if (apiKey === 'immutable_stale_warning_delta') {
     if (formValue > parseInt(newFormValues['immutable_culling_delta'])) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100 "
+          style={{ width: '200px' }}
+        >
           Stale warning must be before culling
         </p>
       );
@@ -139,18 +168,28 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       formValue < parseInt(newFormValues['immutable_staleness_delta'])
     ) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Stale warning must be after staleness
         </p>
       );
     } else {
-      return <p className="pf-u-font-size-sm ">Maximum days 180</p>;
+      return (
+        <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
+          Maximum days 180
+        </p>
+      );
     }
   }
   if (apiKey === 'immutable_culling_delta') {
     if (formValue < parseInt(newFormValues['immutable_stale_warning_delta'])) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Culling must be after staleness
         </p>
       );
@@ -158,7 +197,10 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       formValue < parseInt(newFormValues['immutable_staleness_delta'])
     ) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Culling must be after stale warning
         </p>
       );

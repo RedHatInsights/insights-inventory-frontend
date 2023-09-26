@@ -118,6 +118,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
         });
     }
     setEdit(!edit);
+    setIsModalOpen(false);
   };
 
   const fetchStalenessData = async () => {

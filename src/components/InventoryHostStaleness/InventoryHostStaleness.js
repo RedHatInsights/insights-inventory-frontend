@@ -11,7 +11,7 @@ const InventoryHostStaleness = () => {
     usePermissionsWithContext(REQUIRED_PERMISSIONS);
 
   return (
-    <section className="pf-l-page__main-section pf-c-page__main-section">
+    <section>
       <HostStalenessCard canModifyHostStaleness={canModifyHostStaleness} />
     </section>
     //TBD : Table will go here

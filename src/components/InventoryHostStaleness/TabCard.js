@@ -32,11 +32,7 @@ const TabCard = ({
 
   return (
     <React.Fragment>
-      <Card
-        isPlain
-        className="pf-u-mb-lg"
-        style={{ maxWidth: !edit ? '70%' : '100%' }}
-      >
+      <Card isPlain className="pf-u-mb-lg">
         <Flex
           justifyContent={{ default: 'justifyContentSpaceBetween' }}
           alignItems={{ default: 'alignItemsCenter' }}
@@ -60,15 +56,17 @@ const TabCard = ({
               />
             </FlexItem>
           ))}
-          {edit && (
+          {edit ? (
             <Flex>
-              <FlexItem className="pf-u-mr-xl ">
+              <FlexItem style={{ width: '200px' }}>
                 <a onClick={() => resetToStandard()}>
                   Reset to default setting
                 </a>
                 <HostStalenessResetDefaultPopover />
               </FlexItem>
             </Flex>
+          ) : (
+            <div style={{ width: '200px' }}></div>
           )}
         </Flex>
       </Card>

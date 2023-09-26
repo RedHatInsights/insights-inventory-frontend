@@ -73,7 +73,7 @@ const BaseDropdown = ({
             onToggle={() => setIsOpen(!isOpen)}
             isDisabled={disabled}
             selections={selected}
-            width={'150px'}
+            width={'200px'}
             validated={!isFormValid && 'error'}
           >
             {dropdownItems.map((item) => (

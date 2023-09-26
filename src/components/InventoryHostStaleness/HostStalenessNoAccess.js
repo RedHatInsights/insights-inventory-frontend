@@ -13,9 +13,9 @@ const HostStalenessNoAccess = () => {
     <EmptyState>
       <EmptyStateIcon icon={LockIcon} />
       <Title headingLevel="h5" size="lg">
-        Acess permissions needed
+        Access permissions needed
       </Title>
-      <EmptyStateBody>
+      <EmptyStateBody className="pf-u-mb-xl">
         You do not have the necessary Inventory staleness and culling viewer
         role required to view this page.
       </EmptyStateBody>
@@ -26,7 +26,7 @@ const HostStalenessNoAccess = () => {
       >
         <p>
           Learn more about managing user access{' '}
-          <ExternalLinkAltIcon className="pf-u-ml-sm" />
+          <ExternalLinkAltIcon className="pf-u-ml-sm " />
         </p>
       </Button>
     </EmptyState>
