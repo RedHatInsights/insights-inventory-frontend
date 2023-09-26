@@ -99,7 +99,7 @@ BaseDropdown.propTypes = {
   onSelect: PropTypes.bool,
   placeholder: PropTypes.string,
   title: PropTypes.string,
-  currentItem: PropTypes.any,
+  currentItem: PropTypes.number,
   filter: PropTypes.object,
   newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,

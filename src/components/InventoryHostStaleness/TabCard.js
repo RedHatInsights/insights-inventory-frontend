@@ -38,9 +38,8 @@ const TabCard = ({
         style={{ maxWidth: !edit ? '70%' : '100%' }}
       >
         <Flex
-          justifyContent={{ default: 'justifyContentSpaceAround' }}
+          justifyContent={{ default: 'justifyContentSpaceBetween' }}
           alignItems={{ default: 'alignItemsCenter' }}
-          direction={{ default: 'column', lg: 'row' }}
         >
           {dropdownArray(activeTabKey).map((item) => (
             <FlexItem key={item[0].title}>
@@ -63,8 +62,8 @@ const TabCard = ({
           ))}
           {edit && (
             <Flex>
-              <FlexItem>
-                <a onClick={() => resetToStandard()} className="pf-u-ml-sm ">
+              <FlexItem className="pf-u-mr-xl ">
+                <a onClick={() => resetToStandard()}>
                   Reset to default setting
                 </a>
                 <HostStalenessResetDefaultPopover />

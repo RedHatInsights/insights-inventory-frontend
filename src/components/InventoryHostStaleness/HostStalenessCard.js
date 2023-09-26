@@ -64,6 +64,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
         filterKey !== 'id' &&
         (apiData[filterKey] = daysToSecondsConversion(newFormValues[filterKey]))
     );
+
     //system_default means the account has no record, therefor, post for new instance of record.
     if (filter.id === 'system_default') {
       axios
@@ -78,6 +79,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               dismissable: true,
             })
           );
+          fetchStalenessData();
         })
         .catch(() => {
           dispatch(
@@ -102,6 +104,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               dismissable: true,
             })
           );
+          fetchStalenessData();
         })
         .catch(() => {
           dispatch(
