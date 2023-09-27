@@ -1,25 +1,67 @@
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { TableVariant } from '@patternfly/react-table';
 import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
+import Status from './Status';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
+import { getDeviceStatus } from './helpers';
+
+const edgeColumns = [
+  {
+    key: 'ImageName',
+    title: 'Image',
+    sort: false,
+    props: { isStatic: true },
+  },
+  {
+    key: 'Status',
+    title: 'Status',
+    sort: false,
+    renderFunc: (
+      StatusText,
+      DEVICE_ID,
+      { UpdateAvailable, DispatcherStatus }
+    ) => {
+      const deviceStatus = getDeviceStatus(
+        StatusText,
+        UpdateAvailable,
+        DispatcherStatus
+      );
+
+      return deviceStatus === 'error' || deviceStatus === 'unresponsive' ? (
+        <Status
+          type={
+            deviceStatus === 'error'
+              ? 'errorWithExclamationCircle'
+              : deviceStatus
+          }
+          isLink={true}
+        />
+      ) : (
+        <Status
+          type={
+            deviceStatus === 'error'
+              ? 'errorWithExclamationCircle'
+              : deviceStatus
+          }
+        />
+      );
+    },
+  },
+];
 
 const ImmutableDevices = ({
   inventoryRef,
-  columns,
   customFilters,
   onLoad,
   getEntities,
+  mergeAppColumns,
 }) => {
   const dispatch = useDispatch();
   const inventoryGroupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
 
   const totalItems = useSelector(({ entities }) => entities?.total);
-
-  const filteredColumns = columns.filter(
-    (column) => !column.inventoryGroupsFeatureFlag || inventoryGroupsEnabled
-  );
 
   useEffect(() => {
     return () => {
@@ -30,22 +72,24 @@ const ImmutableDevices = ({
     };
   }, [dispatch]);
 
-  const [columnCounter, setColumnCount] = useState(0);
-  useEffect(() => setColumnCount(columnCounter + 1), [columns]);
-
   const mergeColumns = (inventoryColumns) => {
-    return filteredColumns
-      .filter((column) => column.isShown ?? column.isShownByDefault)
-      .map((column) => ({
-        ...inventoryColumns.find(({ key }) => column.key === key),
-        ...column,
-      }));
+    const filteredColumns = inventoryColumns.filter(
+      (column) => !column.inventoryGroupsFeatureFlag || inventoryGroupsEnabled
+    );
+
+    return [...mergeAppColumns(filteredColumns), ...edgeColumns];
   };
 
   return (
     <InventoryTable
       disableDefaultColumns
       onLoad={onLoad}
+      hideFilters={{
+        all: true,
+        name: false,
+        operatingSystem: false,
+        hostGroupFilter: false,
+      }}
       tableProps={{
         isStickyHeader: true,
         variant: TableVariant.compact,
@@ -59,7 +103,6 @@ const ImmutableDevices = ({
       autoRefresh
       key="inventory"
       customFilters={customFilters}
-      columnsCounter={columnCounter}
       columns={(defaultColumns) => mergeColumns(defaultColumns)}
       getEntities={getEntities}
     />
@@ -75,6 +118,7 @@ ImmutableDevices.propTypes = {
   customFilters: propTypes.object,
   onLoad: propTypes.func,
   getEntities: propTypes.func,
+  mergeAppColumns: propTypes.func,
 };
 
 export default ImmutableDevices;
