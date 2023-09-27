@@ -68,7 +68,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
         (apiData[filterKey] = daysToSecondsConversion(newFormValues[filterKey]))
     );
 
-    //system_default means the account has no record, therefor, post for new instance of record.
+    // system_default means the account has no record, therefor, post for new instance of record.
     if (filter.id === 'system_default') {
       postStalenessData(apiData)
         .then(() => {
@@ -82,6 +82,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
             })
           );
           fetchStalenessData();
+          setIsEditing(!isEditing);
+          setIsModalOpen(false);
         })
         .catch(() => {
           dispatch(
@@ -106,6 +108,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
             })
           );
           fetchStalenessData();
+          setIsEditing(!isEditing);
+          setIsModalOpen(false);
         })
         .catch(() => {
           dispatch(
@@ -118,12 +122,10 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           );
         });
     }
-    setIsEditing(!isEditing);
-    setIsModalOpen(false);
   };
 
   const fetchApiStalenessData = async () => {
-    let results = fetchStalenessData();
+    let results = await fetchStalenessData();
     let newFilter = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
@@ -136,7 +138,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
 
   //keeps track of what default the backend wants
   const fetchDefaultValues = async () => {
-    let results = fetchDefaultStalenessValues();
+    let results = await fetchDefaultStalenessValues();
     let newFilter = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
