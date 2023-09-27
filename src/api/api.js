@@ -345,23 +345,17 @@ export function getOperatingSystems(params = []) {
   return systemProfile.apiSystemProfileGetOperatingSystem(...params);
 }
 
-export const fetchDefaultStalenessValues = async () => {
-  return await instance
-    .get(`${INVENTORY_API_BASE}/account/staleness/defaults`)
-    .then((res) => res)
-    .catch((err) => err);
+export const fetchDefaultStalenessValues = () => {
+  return instance.get(`${INVENTORY_API_BASE}/account/staleness/defaults`);
 };
 
-export const fetchStalenessData = async () => {
-  return await instance
-    .get(`${INVENTORY_API_BASE}/account/staleness`)
-    .then((res) => res)
-    .catch((err) => err);
+export const fetchStalenessData = () => {
+  return instance.get(`${INVENTORY_API_BASE}/account/staleness`);
 };
 
-export const postStalenessData = async (data) => {
-  await instance.post(`${INVENTORY_API_BASE}/account/staleness`, data);
+export const postStalenessData = (data) => {
+  return instance.post(`${INVENTORY_API_BASE}/account/staleness`, data);
 };
-export const patchStalenessData = async (data) => {
-  await instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+export const patchStalenessData = (data) => {
+  return instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
 };

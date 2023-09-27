@@ -138,7 +138,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
 
   //keeps track of what default the backend wants
   const fetchDefaultValues = async () => {
-    let results = await fetchDefaultStalenessValues();
+    let results = await fetchDefaultStalenessValues().catch((err) => err);
     let newFilter = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
