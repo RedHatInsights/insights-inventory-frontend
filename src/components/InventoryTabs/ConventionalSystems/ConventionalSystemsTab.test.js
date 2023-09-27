@@ -6,22 +6,22 @@ import { act } from 'react-dom/test-utils';
 import * as ReactRouterDOM from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 
-import InventoryTable from './InventoryTable';
-import { calculatePagination } from '../components/InventoryTabs/ConventionalSystems/Utilities';
-import DeleteModal from '../Utilities/DeleteModal';
-import { hosts } from '../api';
-import createXhrMock from '../Utilities/__mocks__/xhrMock';
+import ConventionalSystemsTab from './ConventionalSystemsTab';
+import { calculatePagination } from './Utilities';
+import DeleteModal from '../../../Utilities/DeleteModal';
+import { hosts } from '../../../api';
+import createXhrMock from '../../../Utilities/__mocks__/xhrMock';
 
-import { useGetRegistry } from '../Utilities/constants';
-import { mockSystemProfile } from '../__mocks__/hostApi';
+import { useGetRegistry } from '../../../Utilities/constants';
+import { mockSystemProfile } from '../../../__mocks__/hostApi';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => () => jest.fn(),
 }));
 
-jest.mock('../Utilities/constants', () => ({
-  ...jest.requireActual('../Utilities/constants'),
+jest.mock('../../../Utilities//constants', () => ({
+  ...jest.requireActual('../../../Utilities/constants'),
   useGetRegistry: jest.fn(() => ({
     getRegistry: () => ({}),
   })),
@@ -35,9 +35,9 @@ jest.mock(
   })
 );
 
-jest.mock('../Utilities/useFeatureFlag');
+jest.mock('../../../Utilities/useFeatureFlag');
 
-describe('InventoryTable', () => {
+describe('ConventionalSystemsTab', () => {
   let mockStore;
 
   const system1 = {
@@ -143,7 +143,7 @@ describe('InventoryTable', () => {
     let wrapper;
 
     await act(async () => {
-      wrapper = mount(<InventoryTable initialLoading={false} />, store);
+      wrapper = mount(<ConventionalSystemsTab initialLoading={false} />, store);
     });
     wrapper.update();
 
@@ -167,7 +167,7 @@ describe('InventoryTable', () => {
     const store = mockStore(initialStore);
 
     await act(async () => {
-      wrapper = mount(<InventoryTable initialLoading={false} />, store);
+      wrapper = mount(<ConventionalSystemsTab initialLoading={false} />, store);
     });
     wrapper.update();
 
@@ -209,7 +209,7 @@ describe('InventoryTable', () => {
     });
 
     await act(async () => {
-      wrapper = mount(<InventoryTable initialLoading={false} />, store);
+      wrapper = mount(<ConventionalSystemsTab initialLoading={false} />, store);
     });
     wrapper.update();
 
