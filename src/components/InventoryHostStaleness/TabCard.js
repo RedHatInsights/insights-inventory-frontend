@@ -1,4 +1,4 @@
-import { Card, Flex, FlexItem, Grid, GridItem } from '@patternfly/react-core';
+import { Card, Flex, FlexItem } from '@patternfly/react-core';
 import React from 'react';
 import BaseDropdown from './BaseDropDown';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import {
 } from './constants';
 
 const TabCard = ({
-  edit,
+  isEditing,
   filter,
   setFilter,
   activeTabKey,
@@ -18,59 +18,57 @@ const TabCard = ({
   setNewFormValues,
   isFormValid,
   setIsFormValid,
+  defaultValues,
 }) => {
-  const standardValues = {
-    conventional_staleness_delta: '1',
-    conventional_stale_warning_delta: '7',
-    conventional_culling_delta: '14',
-    immutable_staleness_delta: '2',
-    immutable_stale_warning_delta: '120',
-    immutable_culling_delta: '180',
-  };
   const dropdownArray = (activeTabKey) => [
     systemStalenessItems(activeTabKey),
     systemStalenessWarningItems(activeTabKey),
     systemCullingItems(activeTabKey),
   ];
-  //this to be replaced by api values
+
   const resetToStandard = () => {
-    setNewFormValues(standardValues);
+    setNewFormValues(defaultValues);
   };
 
   return (
     <React.Fragment>
       <Card isPlain className="pf-u-mb-lg">
-        <Grid span={3}>
+        <Flex
+          justifyContent={{ default: 'justifyContentSpaceBetween' }}
+          alignItems={{ default: 'alignItemsCenter' }}
+        >
           {dropdownArray(activeTabKey).map((item) => (
-            <GridItem key={item[0].title}>
+            <FlexItem key={item[0].title}>
               <BaseDropdown
                 data-ouia-component-id={item[0].title}
                 dropdownItems={item}
                 currentItem={newFormValues[item[0].apiKey]}
-                disabled={!edit}
+                disabled={!isEditing}
                 title={item[0].title}
                 filter={filter}
                 setFilter={setFilter}
                 newFormValues={newFormValues}
                 setNewFormValues={setNewFormValues}
-                edit={edit}
+                isEditing={isEditing}
                 modalMessage={item[0].modalMessage}
                 isFormValid={isFormValid}
                 setIsFormValid={setIsFormValid}
               />
-            </GridItem>
+            </FlexItem>
           ))}
-          {edit && (
+          {isEditing ? (
             <Flex>
-              <FlexItem alignSelf={{ default: 'alignSelfCenter' }}>
-                <a onClick={() => resetToStandard()} className="pf-u-ml-sm ">
+              <FlexItem style={{ width: '200px' }}>
+                <a onClick={() => resetToStandard()}>
                   Reset to default setting
                 </a>
                 <HostStalenessResetDefaultPopover />
               </FlexItem>
             </Flex>
+          ) : (
+            <div style={{ width: '200px' }}></div>
           )}
-        </Grid>
+        </Flex>
       </Card>
     </React.Fragment>
   );
@@ -82,9 +80,9 @@ TabCard.propTypes = {
   setNewFormValues: PropTypes.any,
   setFilter: PropTypes.any,
   activeTabKey: PropTypes.number,
-  edit: PropTypes.bool,
-  setEdit: PropTypes.any,
+  isEditing: PropTypes.bool,
   isFormValid: PropTypes.any,
   setIsFormValid: PropTypes.any,
+  defaultValues: PropTypes.object,
 };
 export default TabCard;
