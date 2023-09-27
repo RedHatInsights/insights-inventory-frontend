@@ -80,6 +80,8 @@ const HybridInventoryTabs = ({
           : hybridInventoryTabKeys.conventional.key
       }
       aria-label="Hybrid inventory tabs"
+      mountOnEnter
+      unmountOnExit
     >
       <Tab
         eventKey={hybridInventoryTabKeys.conventional.key}
