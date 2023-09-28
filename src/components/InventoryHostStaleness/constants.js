@@ -50,18 +50,25 @@ export const daysToSecondsConversion = (days) => {
 export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   //this runs on every select every time
   let apiKey = dropdownItems[0].apiKey;
-  let formValue = newFormValues[apiKey];
+  let formValue =
+    newFormValues[apiKey] === 'Never' ? maxSafeInt : newFormValues[apiKey];
 
   if (apiKey === 'conventional_staleness_delta') {
     if (formValue > newFormValues['conventional_stale_warning_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Staleness must be before stale warning
         </p>
       );
     } else if (formValue > newFormValues['conventional_culling_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Staleness must be before culling
         </p>
       );
@@ -499,32 +506,34 @@ export const systemCullingItems = (activeTabKey) => {
 
 export const formValidation = async (newFormValues, setIsFormValid) => {
   for (let i = 0; i < hostStalenessApiKeys.length; i++) {
-    const formKey = hostStalenessApiKeys[i];
-    let value = newFormValues[formKey];
+    const apiKey = hostStalenessApiKeys[i];
+    let formValue =
+      newFormValues[apiKey] === 'Never' ? maxSafeInt : newFormValues[apiKey];
+
     if (
-      formKey === 'conventional_staleness_delta' &&
-      value > newFormValues['conventional_stale_warning_delta']
+      apiKey === 'conventional_staleness_delta' &&
+      formValue > newFormValues['conventional_stale_warning_delta']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      formKey === 'immutable_staleness_delta' &&
-      value > newFormValues['immutable_stale_warning_delta']
+      apiKey === 'immutable_staleness_delta' &&
+      formValue > newFormValues['immutable_stale_warning_delta']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      formKey === 'conventional_stale_warning_delta' &&
-      value > newFormValues['conventional_culling_delta']
+      apiKey === 'conventional_stale_warning_delta' &&
+      formValue > newFormValues['conventional_culling_delta']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      formKey === 'immutable_stale_warning_delta' &&
-      value > newFormValues['immutable_culling_delta']
+      apiKey === 'immutable_stale_warning_delta' &&
+      formValue > newFormValues['immutable_culling_delta']
     ) {
       setIsFormValid(false);
       break;
