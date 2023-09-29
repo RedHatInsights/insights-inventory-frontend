@@ -28,7 +28,8 @@ const HostStaleness = () => {
     chrome?.updateDocumentTitle?.(
       'Staleness and Culling - System Configuration - Inventory | Red Hat Insights'
     );
-  }, [chrome]);
+    chrome.hideGlobalFilter(true);
+  }, []);
 
   return (
     <React.Fragment>
