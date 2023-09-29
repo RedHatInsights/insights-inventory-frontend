@@ -30,14 +30,21 @@ export const secondsToDaysConversion = (seconds) => {
   }
 };
 
-export const hostStalenessApiKeys = [
+export const hostStalenessConventionalKeys = [
   'conventional_staleness_delta',
   'conventional_stale_warning_delta',
   'conventional_culling_delta',
+];
+
+export const hostStalenessImmutableKeys = [
   'immutable_staleness_delta',
   'immutable_stale_warning_delta',
   'immutable_culling_delta',
 ];
+
+export const hostStalenessApiKeys = hostStalenessConventionalKeys.concat(
+  hostStalenessImmutableKeys
+);
 
 export const daysToSecondsConversion = (days) => {
   if (days === 'Never') {

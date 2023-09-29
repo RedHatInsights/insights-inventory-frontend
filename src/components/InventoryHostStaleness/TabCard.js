@@ -4,6 +4,8 @@ import BaseDropdown from './BaseDropDown';
 import PropTypes from 'prop-types';
 import {
   HostStalenessResetDefaultPopover,
+  hostStalenessConventionalKeys,
+  hostStalenessImmutableKeys,
   systemCullingItems,
   systemStalenessItems,
   systemStalenessWarningItems,
@@ -26,8 +28,16 @@ const TabCard = ({
     systemCullingItems(activeTabKey),
   ];
 
-  const resetToStandard = () => {
-    setNewFormValues(defaultValues);
+  const resetToStandard = (activeTab) => {
+    let tempValues = { ...newFormValues };
+    let selectedTab = activeTab
+      ? hostStalenessImmutableKeys
+      : hostStalenessConventionalKeys;
+    // //Tabs are 0 and 1
+    selectedTab.forEach(
+      (apiKey) => (tempValues[apiKey] = defaultValues[apiKey])
+    );
+    setNewFormValues(tempValues);
   };
 
   return (
@@ -59,7 +69,7 @@ const TabCard = ({
           {isEditing ? (
             <Flex>
               <FlexItem style={{ width: '200px' }}>
-                <a onClick={() => resetToStandard()}>
+                <a onClick={() => resetToStandard(activeTabKey)}>
                   Reset to default setting
                 </a>
                 <HostStalenessResetDefaultPopover />
