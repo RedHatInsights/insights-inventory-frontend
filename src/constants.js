@@ -145,9 +145,9 @@ export const getSearchParams = () => {
     .getAll('operating_system')
     .map((osFilter) => {
       if (typeof osFilter !== 'object') {
-        const index = osFilter.search(/\d/);
-        const osName = osFilter.substring(0, index);
-        const osVersion = osFilter.substring(index);
+        let found = osFilter.match(new RegExp(/^([\D|\s]*)([\d|.]*)/));
+        const osName = found[1];
+        const osVersion = found[2];
         const [major] = osVersion.split('.');
         const groupName = `${osName} ${major}`;
         return { osName, value: osVersion, groupName };

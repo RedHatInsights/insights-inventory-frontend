@@ -15,7 +15,10 @@ export const updateGroupSelectionIdentifier = (selection, groupLabel, major) =>
 
 const isVersionSelected = (selectedVersion, osVersion) => {
   for (let i = 0; i < selectedVersion.length; i++) {
-    if (selectedVersion[i].value === osVersion.value) {
+    if (
+      selectedVersion[i].value === osVersion.value &&
+      selectedVersion[i].osName === osVersion.osName
+    ) {
       return true;
     } else {
       continue;

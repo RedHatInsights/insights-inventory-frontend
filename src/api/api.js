@@ -119,6 +119,7 @@ export const calculateSystemProfile = ({
   if (osFilterValues?.length > 0) {
     let centosVersions = [];
     let rhelVersions = [];
+    systemProfile.operating_system = {};
 
     osFilterValues.forEach((filterValue) => {
       if (filterValue.osName === 'RHEL') {
@@ -130,18 +131,21 @@ export const calculateSystemProfile = ({
       }
     });
 
-    systemProfile.operating_system = {
-      'CentOS Linux': {
+    if (centosVersions.length) {
+      systemProfile.operating_system['CentOS Linux'] = {
         version: {
           eq: centosVersions,
         },
-      },
-      RHEL: {
+      };
+    }
+
+    if (rhelVersions.length) {
+      systemProfile.operating_system['RHEL'] = {
         version: {
           eq: rhelVersions,
         },
-      },
-    };
+      };
+    }
   }
 
   if (rhcdFilter) {
