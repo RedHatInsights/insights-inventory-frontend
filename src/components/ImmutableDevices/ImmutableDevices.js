@@ -57,6 +57,7 @@ const ImmutableDevices = ({
   onLoad,
   getEntities,
   mergeAppColumns,
+  filterConfig,
 }) => {
   const dispatch = useDispatch();
   const inventoryGroupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
@@ -98,6 +99,7 @@ const ImmutableDevices = ({
         isDisabled: !totalItems,
       }}
       showTagModal
+      hasCheckbox={false}
       isFullView
       ref={inventoryRef}
       autoRefresh
@@ -105,6 +107,7 @@ const ImmutableDevices = ({
       customFilters={customFilters}
       columns={(defaultColumns) => mergeColumns(defaultColumns)}
       getEntities={getEntities}
+      filterConfig={filterConfig}
     />
   );
 };
@@ -119,6 +122,7 @@ ImmutableDevices.propTypes = {
   onLoad: propTypes.func,
   getEntities: propTypes.func,
   mergeAppColumns: propTypes.func,
+  filterConfig: propTypes.object,
 };
 
 export default ImmutableDevices;
