@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import './inventory.scss';
 import {
@@ -8,7 +8,8 @@ import {
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import HybridInventoryTabs from '../components/InventoryTabs/HybridInventoryTabs';
 import { Bullseye, Spinner } from '@patternfly/react-core';
-
+import { useLocation } from 'react-router-dom';
+import { getSearchParams } from '../constants';
 const ConventionalSystemsTab = lazy(() =>
   import(
     '../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab'
@@ -30,6 +31,8 @@ const SuspenseWrapper = ({ children }) => (
   </Suspense>
 );
 const Inventory = (props) => {
+  const { search } = useLocation();
+  const searchParams = useMemo(() => getSearchParams(), [search.toString()]);
   return (
     <React.Fragment>
       <PageHeader className="pf-m-light">
@@ -39,7 +42,7 @@ const Inventory = (props) => {
         <HybridInventoryTabs
           ConventionalSystemsTab={
             <SuspenseWrapper>
-              <ConventionalSystemsTab {...props} />
+              <ConventionalSystemsTab {...searchParams} />
             </SuspenseWrapper>
           }
           ImmutableDevicesTab={
