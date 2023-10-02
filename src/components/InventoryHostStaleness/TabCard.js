@@ -1,4 +1,4 @@
-import { Card, Flex, FlexItem } from '@patternfly/react-core';
+import { Button, Card, Flex, FlexItem } from '@patternfly/react-core';
 import React from 'react';
 import BaseDropdown from './BaseDropDown';
 import PropTypes from 'prop-types';
@@ -6,7 +6,7 @@ import {
   HostStalenessResetDefaultPopover,
   hostStalenessConventionalKeys,
   hostStalenessImmutableKeys,
-  systemCullingItems,
+  systemDeletionItems,
   systemStalenessItems,
   systemStalenessWarningItems,
 } from './constants';
@@ -25,7 +25,7 @@ const TabCard = ({
   const dropdownArray = (activeTabKey) => [
     systemStalenessItems(activeTabKey),
     systemStalenessWarningItems(activeTabKey),
-    systemCullingItems(activeTabKey),
+    systemDeletionItems(activeTabKey),
   ];
 
   const resetToStandard = (activeTab) => {
@@ -69,9 +69,14 @@ const TabCard = ({
           {isEditing ? (
             <Flex>
               <FlexItem style={{ width: '200px' }}>
-                <a onClick={() => resetToStandard(activeTabKey)}>
+                <Button
+                  variant="link"
+                  role="button"
+                  onClick={() => resetToStandard(activeTabKey)}
+                  style={{ padding: '0' }}
+                >
                   Reset to default setting
-                </a>
+                </Button>
                 <HostStalenessResetDefaultPopover />
               </FlexItem>
             </Flex>

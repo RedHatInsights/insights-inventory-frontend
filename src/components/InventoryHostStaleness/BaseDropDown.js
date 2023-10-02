@@ -39,7 +39,6 @@ const BaseDropdown = ({
   useEffect(() => {
     setSelected(currentItem);
     formValidation(newFormValues, setIsFormValid);
-    // console.log(newFormValues, 'newFormValues here in baseDropDown');
   }, [edit, currentItem]);
 
   return (

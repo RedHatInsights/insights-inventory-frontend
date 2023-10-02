@@ -26,7 +26,7 @@ const HostStaleness = () => {
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(
-      'Staleness and Culling - System Configuration - Inventory | Red Hat Insights'
+      'Staleness and Deletion - System Configuration - Inventory | Red Hat Insights'
     );
     chrome.hideGlobalFilter(true);
   }, []);
@@ -34,7 +34,7 @@ const HostStaleness = () => {
   return (
     <React.Fragment>
       <PageHeader>
-        <PageHeaderTitle title={'Staleness and Culling'} />
+        <PageHeaderTitle title={'Staleness and Deletion'} />
       </PageHeader>
       {canReadHostStaleness ? (
         <Page>

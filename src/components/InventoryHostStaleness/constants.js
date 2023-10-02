@@ -33,13 +33,13 @@ export const secondsToDaysConversion = (seconds) => {
 export const hostStalenessConventionalKeys = [
   'conventional_staleness_delta',
   'conventional_stale_warning_delta',
-  'conventional_culling_delta',
+  'conventional_deletion_delta',
 ];
 
 export const hostStalenessImmutableKeys = [
   'immutable_staleness_delta',
   'immutable_stale_warning_delta',
-  'immutable_culling_delta',
+  'immutable_deletion_delta',
 ];
 
 export const hostStalenessApiKeys = hostStalenessConventionalKeys.concat(
@@ -70,13 +70,13 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Staleness must be before stale warning
         </p>
       );
-    } else if (formValue > newFormValues['conventional_culling_delta']) {
+    } else if (formValue > newFormValues['conventional_deletion_delta']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Staleness must be before culling
+          Staleness must be before deletion
         </p>
       );
     } else {
@@ -84,13 +84,13 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     }
   }
   if (apiKey === 'conventional_stale_warning_delta') {
-    if (formValue > newFormValues['conventional_culling_delta']) {
+    if (formValue > newFormValues['conventional_deletion_delta']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Stale warning must be before culling
+          Stale warning must be before deletion
         </p>
       );
     } else if (formValue < newFormValues['conventional_staleness_delta']) {
@@ -110,14 +110,14 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     }
   }
-  if (apiKey === 'conventional_culling_delta') {
+  if (apiKey === 'conventional_deletion_delta') {
     if (formValue < newFormValues['conventional_stale_warning_delta']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Culling must be after staleness
+          Deletion must be after staleness
         </p>
       );
     } else if (formValue < newFormValues['conventional_staleness_delta']) {
@@ -126,7 +126,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Culling must be after stale warning
+          Deletion must be after stale warning
         </p>
       );
     } else {
@@ -144,13 +144,13 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Staleness must be before stale warning
         </p>
       );
-    } else if (formValue > newFormValues['immutable_culling_delta']) {
+    } else if (formValue > newFormValues['immutable_deletion_delta']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Staleness must be before culling
+          Staleness must be before deletion
         </p>
       );
     } else {
@@ -162,13 +162,13 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     }
   }
   if (apiKey === 'immutable_stale_warning_delta') {
-    if (formValue > newFormValues['immutable_culling_delta']) {
+    if (formValue > newFormValues['immutable_deletion_delta']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100 "
           style={{ width: '200px' }}
         >
-          Stale warning must be before culling
+          Stale warning must be before deletion
         </p>
       );
     } else if (formValue < newFormValues['immutable_staleness_delta']) {
@@ -188,14 +188,14 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     }
   }
-  if (apiKey === 'immutable_culling_delta') {
+  if (apiKey === 'immutable_deletion_delta') {
     if (formValue < newFormValues['immutable_stale_warning_delta']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Culling must be after staleness
+          Deletion must be after staleness
         </p>
       );
     } else if (formValue < newFormValues['immutable_staleness_delta']) {
@@ -204,7 +204,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Culling must be after stale warning
+          Deletion must be after stale warning
         </p>
       );
     } else {
@@ -440,15 +440,15 @@ export const systemStalenessWarningItems = (activeTabKey) => {
   ];
 };
 
-export const systemCullingItems = (activeTabKey) => {
+export const systemDeletionItems = (activeTabKey) => {
   return [
     {
       name: '14 days',
       value: 14,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
-      title: 'System culling',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
+      title: 'System deletion',
       modalMessage:
         'This is the time at which your system will be deleted from your inventory. Once your system is culled, it will have to be re-registered to be added back to your inventory.',
     },
@@ -456,57 +456,57 @@ export const systemCullingItems = (activeTabKey) => {
       name: '21 days',
       value: 21,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
     },
     {
       name: '30 days',
       value: 30,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
     },
     {
       name: '60 days',
       value: 60,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
     },
     {
       name: '90 days',
       value: 90,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
     },
     {
       name: '120 days',
       value: 120,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
     },
     {
       name: '150 days',
       value: 150,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
     },
     {
       name: '180 days',
       value: 180,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
     },
     {
       name: 'Never',
       value: 'Never',
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_deletion_delta'
+        : 'conventional_deletion_delta',
     },
   ];
 };
@@ -533,14 +533,14 @@ export const formValidation = async (newFormValues, setIsFormValid) => {
     }
     if (
       apiKey === 'conventional_stale_warning_delta' &&
-      formValue > newFormValues['conventional_culling_delta']
+      formValue > newFormValues['conventional_deletion_delta']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
       apiKey === 'immutable_stale_warning_delta' &&
-      formValue > newFormValues['immutable_culling_delta']
+      formValue > newFormValues['immutable_deletion_delta']
     ) {
       setIsFormValid(false);
       break;

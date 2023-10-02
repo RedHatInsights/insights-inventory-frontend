@@ -163,7 +163,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
         <Card id={'HostStalenessCard'}>
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
-              Organization level system staleness and culling
+              Organization level system staleness and deletion
             </Title>
             <InventoryHostStalenessPopover />
           </CardHeader>
@@ -185,7 +185,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   Edit
                 </Button>
               ) : (
-                <Tooltip content="You do not have the Inventory staleness and culling viewer role required to perform this action. Contact your org admin for access.">
+                <Tooltip content="You do not have the Inventory staleness and deletion viewer role required to perform this action. Contact your org admin for access.">
                   <Button
                     variant="link"
                     style={{ 'padding-left': '0px' }}
@@ -301,7 +301,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   ouiaId="BasicModal"
                 >
                   {`Changing the organization level setting for system staleness and
-              culling may impact your systems. Some systems will be culled as a
+              deletion may impact your systems. Some systems will be culled as a
               result.`}
                 </Modal>
               </Flex>
