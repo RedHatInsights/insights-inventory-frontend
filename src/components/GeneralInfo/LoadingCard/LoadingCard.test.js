@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
-import { screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { renderWithRouter } from '../../../Utilities/TestingUtilities';
+import { RouterWrapper } from '../../../Utilities/TestingUtilities';
 import LoadingCard, { Clickable } from './LoadingCard';
 
 jest.mock('react-router-dom', () => ({
@@ -18,66 +18,46 @@ jest.mock('react-router-dom', () => ({
 describe('LoadingCard', () => {
   [true, false].map((isLoading) => {
     it(`Loading card render - isLoading: ${isLoading}`, () => {
-      const view = renderWithRouter(
-        <LoadingCard
-          isLoading={isLoading}
-          title={`Card that is ${isLoading ? 'loading' : 'loaded'}`}
-        />
+      const view = render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={isLoading}
+            title={`Card that is ${isLoading ? 'loading' : 'loaded'}`}
+          />
+        </RouterWrapper>
       );
+
       expect(view.asFragment()).toMatchSnapshot();
     });
   });
 
   it('should render loading bars', () => {
-    const view = renderWithRouter(
-      <LoadingCard
-        isLoading={true}
-        title="Some title"
-        items={[
-          {
-            onClick: jest.fn(),
-            title: 'test-title',
-            size: 'md',
-            value: 'some value',
-          },
-          {
-            title: 'just title',
-          },
-        ]}
-      />
+    const view = render(
+      <RouterWrapper>
+        <LoadingCard
+          isLoading={true}
+          title="Some title"
+          items={[
+            {
+              onClick: jest.fn(),
+              title: 'test-title',
+              size: 'md',
+              value: 'some value',
+            },
+            {
+              title: 'just title',
+            },
+          ]}
+        />
+      </RouterWrapper>
     );
+
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it(`Loading card render`, () => {
-    const view = renderWithRouter(
-      <LoadingCard
-        isLoading={false}
-        title="Some title"
-        items={[
-          {
-            onClick: jest.fn(),
-            title: 'test-title',
-            size: 'md',
-            value: 'some value',
-          },
-          {
-            title: 'just title',
-          },
-        ]}
-      />
-    );
-    expect(view.asFragment()).toMatchSnapshot();
-  });
-
-  it('Clickable should render - no data', () => {
-    const view = renderWithRouter(<Clickable onClick={jest.fn()} />);
-    expect(view.asFragment()).toMatchSnapshot();
-  });
-
-  describe('none/not available', () => {
-    it(`should not be clickable when the value is 0`, () => {
-      renderWithRouter(
+    const view = render(
+      <RouterWrapper>
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -85,10 +65,45 @@ describe('LoadingCard', () => {
             {
               onClick: jest.fn(),
               title: 'test-title',
-              value: 0,
+              size: 'md',
+              value: 'some value',
+            },
+            {
+              title: 'just title',
             },
           ]}
         />
+      </RouterWrapper>
+    );
+
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('Clickable should render - no data', () => {
+    const view = render(
+      <RouterWrapper>
+        <Clickable onClick={jest.fn()} />
+      </RouterWrapper>
+    );
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  describe('none/not available', () => {
+    it(`should not be clickable when the value is 0`, () => {
+      render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Some title"
+            items={[
+              {
+                onClick: jest.fn(),
+                title: 'test-title',
+                value: 0,
+              },
+            ]}
+          />
+        </RouterWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^None$/);
@@ -96,19 +111,21 @@ describe('LoadingCard', () => {
     });
 
     it(`should not be clickable when the value is 0 with plural`, () => {
-      renderWithRouter(
-        <LoadingCard
-          isLoading={false}
-          title="Some title"
-          items={[
-            {
-              onClick: jest.fn(),
-              title: 'test-title',
-              value: 0,
-              singular: 'system',
-            },
-          ]}
-        />
+      render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Some title"
+            items={[
+              {
+                onClick: jest.fn(),
+                title: 'test-title',
+                value: 0,
+                singular: 'system',
+              },
+            ]}
+          />
+        </RouterWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^0 systems$/);
@@ -116,18 +133,20 @@ describe('LoadingCard', () => {
     });
 
     it(`should not be clickable when the value is undefined`, () => {
-      renderWithRouter(
-        <LoadingCard
-          isLoading={false}
-          title="Some title"
-          items={[
-            {
-              onClick: jest.fn(),
-              title: 'test-title',
-              value: undefined,
-            },
-          ]}
-        />
+      render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Some title"
+            items={[
+              {
+                onClick: jest.fn(),
+                title: 'test-title',
+                value: undefined,
+              },
+            ]}
+          />
+        </RouterWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
@@ -137,17 +156,19 @@ describe('LoadingCard', () => {
     });
 
     it(`should be none when value is 0`, () => {
-      renderWithRouter(
-        <LoadingCard
-          isLoading={false}
-          title="Some title"
-          items={[
-            {
-              title: 'test-title',
-              value: 0,
-            },
-          ]}
-        />
+      render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Some title"
+            items={[
+              {
+                title: 'test-title',
+                value: 0,
+              },
+            ]}
+          />
+        </RouterWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^None$/);
@@ -155,17 +176,19 @@ describe('LoadingCard', () => {
     });
 
     it(`should be not available when value is undefined`, () => {
-      renderWithRouter(
-        <LoadingCard
-          isLoading={false}
-          title="Some title"
-          items={[
-            {
-              title: 'test-title',
-              value: undefined,
-            },
-          ]}
-        />
+      render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Some title"
+            items={[
+              {
+                title: 'test-title',
+                value: undefined,
+              },
+            ]}
+          />
+        </RouterWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
@@ -175,18 +198,20 @@ describe('LoadingCard', () => {
     });
 
     it(`plurazied none`, () => {
-      renderWithRouter(
-        <LoadingCard
-          isLoading={false}
-          title="Some title"
-          items={[
-            {
-              title: 'test-title',
-              value: 0,
-              singular: 'system',
-            },
-          ]}
-        />
+      render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Some title"
+            items={[
+              {
+                title: 'test-title',
+                value: 0,
+                singular: 'system',
+              },
+            ]}
+          />
+        </RouterWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^0 systems$/);
@@ -194,19 +219,21 @@ describe('LoadingCard', () => {
     });
 
     it(`should be clickable with plural`, () => {
-      renderWithRouter(
-        <LoadingCard
-          isLoading={false}
-          title="Some title"
-          items={[
-            {
-              onClick: jest.fn(),
-              title: 'test-title',
-              value: 23,
-              singular: 'system',
-            },
-          ]}
-        />
+      render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Some title"
+            items={[
+              {
+                onClick: jest.fn(),
+                title: 'test-title',
+                value: 23,
+                singular: 'system',
+              },
+            ]}
+          />
+        </RouterWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^23 systems$/);
@@ -214,20 +241,22 @@ describe('LoadingCard', () => {
     });
 
     it(`should be clickable with custom plural`, () => {
-      renderWithRouter(
-        <LoadingCard
-          isLoading={false}
-          title="Some title"
-          items={[
-            {
-              onClick: jest.fn(),
-              title: 'test-title',
-              value: 23,
-              singular: 'process',
-              plural: 'processes',
-            },
-          ]}
-        />
+      render(
+        <RouterWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Some title"
+            items={[
+              {
+                onClick: jest.fn(),
+                title: 'test-title',
+                value: 23,
+                singular: 'process',
+                plural: 'processes',
+              },
+            ]}
+          />
+        </RouterWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
@@ -238,7 +267,11 @@ describe('LoadingCard', () => {
   });
 
   it('Clickable should render', () => {
-    renderWithRouter(<Clickable value="15" target="some-target" />);
+    render(
+      <RouterWrapper>
+        <Clickable value="15" target="some-target" />
+      </RouterWrapper>
+    );
 
     expect(screen.getByRole('link', { name: /15/i })).toHaveAttribute(
       'href',
@@ -249,9 +282,10 @@ describe('LoadingCard', () => {
   it('clickable should click', async () => {
     const onClick = jest.fn();
 
-    renderWithRouter(
-      <Clickable onClick={onClick} value="15" target="path" />,
-      'http://localhost:5000/inventoryId/modalId'
+    render(
+      <RouterWrapper>
+        <Clickable onClick={onClick} value="15" target="path" />,
+      </RouterWrapper>
     );
 
     await userEvent.click(screen.getByRole('link', { name: /15/i }));
@@ -263,8 +297,10 @@ describe('LoadingCard', () => {
   it('Clickable should render - 0 value', async () => {
     const onClick = jest.fn();
 
-    const view = renderWithRouter(
-      <Clickable onClick={onClick} value={0} target="some-target" />
+    const view = render(
+      <RouterWrapper>
+        <Clickable onClick={onClick} value={0} target="some-target" />
+      </RouterWrapper>
     );
 
     await waitFor(() => {

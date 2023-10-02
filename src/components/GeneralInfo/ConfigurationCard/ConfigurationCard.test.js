@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import ConfigurationCard from './ConfigurationCard';
-import configureStore from 'redux-mock-store';
-import { configTest } from '../../../__mocks__/selectors';
-import { renderWithRouter } from '../../../Utilities/TestingUtilities';
-import { useParams } from 'react-router-dom';
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { screen, waitFor } from '@testing-library/react';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
+import { RouterWrapper } from '../../../Utilities/TestingUtilities';
+import { configTest } from '../../../__mocks__/selectors';
+import ConfigurationCard from './ConfigurationCard';
 
 const location = {};
 
@@ -37,13 +38,21 @@ describe('ConfigurationCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const view = renderWithRouter(<ConfigurationCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <ConfigurationCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const view = renderWithRouter(<ConfigurationCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <ConfigurationCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -60,7 +69,11 @@ describe('ConfigurationCard', () => {
         },
       },
     });
-    const view = renderWithRouter(<ConfigurationCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <ConfigurationCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -68,7 +81,11 @@ describe('ConfigurationCard', () => {
     it('should NOT call handleClick', async () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
-      renderWithRouter(<ConfigurationCard store={store} />);
+      render(
+        <RouterWrapper>
+          <ConfigurationCard store={store} />
+        </RouterWrapper>
+      );
 
       await userEvent.click(screen.getAllByRole('link')[0]);
       await waitFor(() => {
@@ -81,8 +98,10 @@ describe('ConfigurationCard', () => {
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/installed_packages';
       useParams.mockImplementation(() => ({ modalId: 'installed_packages' }));
-      renderWithRouter(
-        <ConfigurationCard handleClick={onClick} store={store} />
+      render(
+        <RouterWrapper>
+          <ConfigurationCard store={store} handleClick={onClick} />
+        </RouterWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[0]);
@@ -96,8 +115,10 @@ describe('ConfigurationCard', () => {
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/services';
       useParams.mockImplementation(() => ({ modalId: 'services' }));
-      renderWithRouter(
-        <ConfigurationCard handleClick={onClick} store={store} />
+      render(
+        <RouterWrapper>
+          <ConfigurationCard store={store} handleClick={onClick} />
+        </RouterWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[1]);
@@ -111,8 +132,10 @@ describe('ConfigurationCard', () => {
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/running_processes';
       useParams.mockImplementation(() => ({ modalId: 'running_processes' }));
-      renderWithRouter(
-        <ConfigurationCard handleClick={onClick} store={store} />
+      render(
+        <RouterWrapper>
+          <ConfigurationCard store={store} handleClick={onClick} />
+        </RouterWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[2]);
@@ -126,8 +149,10 @@ describe('ConfigurationCard', () => {
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/repositories';
       useParams.mockImplementation(() => ({ modalId: 'repositories' }));
-      renderWithRouter(
-        <ConfigurationCard handleClick={onClick} store={store} />
+      render(
+        <RouterWrapper>
+          <ConfigurationCard store={store} handleClick={onClick} />
+        </RouterWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[3]);
@@ -145,28 +170,35 @@ describe('ConfigurationCard', () => {
   ].map(([flag, title]) =>
     it(`should not render ${title}`, () => {
       const store = mockStore(initialState);
-      renderWithRouter(
-        <ConfigurationCard store={store} {...{ [flag]: false }} />
+      render(
+        <RouterWrapper>
+          <ConfigurationCard store={store} {...{ [flag]: false }} />
+        </RouterWrapper>
       );
-      expect(screen.queryByText(title)).toBeNull();
+
+      expect(screen.queryByText(title)).not.toBeInTheDocument();
     })
   );
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const view = renderWithRouter(
-      <ConfigurationCard
-        store={store}
-        extra={[
-          { title: 'something', value: 'test' },
-          {
-            title: 'with click',
-            value: '1 tests',
-            onClick: (_e, handleClick) => handleClick('Something', {}, 'small'),
-          },
-        ]}
-      />
+    const view = render(
+      <RouterWrapper>
+        <ConfigurationCard
+          store={store}
+          extra={[
+            { title: 'something', value: 'test' },
+            {
+              title: 'with click',
+              value: '1 tests',
+              onClick: (_e, handleClick) =>
+                handleClick('Something', {}, 'small'),
+            },
+          ]}
+        />
+      </RouterWrapper>
     );
+
     expect(view.asFragment()).toMatchSnapshot();
   });
 });

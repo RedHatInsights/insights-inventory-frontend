@@ -1,16 +1,10 @@
 /* eslint-disable camelcase */
+import { render } from '@testing-library/react';
 import React from 'react';
-import BiosCard from './BiosCard';
 import configureStore from 'redux-mock-store';
+import { RouterWrapper } from '../../../Utilities/TestingUtilities';
 import { biosTest } from '../../../__mocks__/selectors';
-import { renderWithRouter } from '../../../Utilities/TestingUtilities';
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: 'localhost:3000/example/path',
-  }),
-}));
+import BiosCard from './BiosCard';
 
 describe('BiosCard', () => {
   let initialState;
@@ -31,13 +25,21 @@ describe('BiosCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {} });
-    const view = renderWithRouter(<BiosCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <BiosCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const view = renderWithRouter(<BiosCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <BiosCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -52,15 +54,21 @@ describe('BiosCard', () => {
         },
       },
     });
-    const view = renderWithRouter(<BiosCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <BiosCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   ['hasVendor', 'hasVersion', 'hasReleaseDate'].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
-      const view = renderWithRouter(
-        <BiosCard store={store} {...{ [item]: false }} />
+      const view = render(
+        <RouterWrapper>
+          <BiosCard store={store} {...{ [item]: false }} />
+        </RouterWrapper>
       );
       expect(view.asFragment()).toMatchSnapshot();
     })
@@ -68,19 +76,23 @@ describe('BiosCard', () => {
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const view = renderWithRouter(
-      <BiosCard
-        store={store}
-        extra={[
-          { title: 'something', value: 'test' },
-          {
-            title: 'with click',
-            value: '1 tests',
-            onClick: (_e, handleClick) => handleClick('Something', {}, 'small'),
-          },
-        ]}
-      />
+    const view = render(
+      <RouterWrapper>
+        <BiosCard
+          store={store}
+          extra={[
+            { title: 'something', value: 'test' },
+            {
+              title: 'with click',
+              value: '1 tests',
+              onClick: (_e, handleClick) =>
+                handleClick('Something', {}, 'small'),
+            },
+          ]}
+        />
+      </RouterWrapper>
     );
+
     expect(view.asFragment()).toMatchSnapshot();
   });
 });

@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
-import { screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { renderWithRouter } from '../../../Utilities/TestingUtilities';
+import { RouterWrapper } from '../../../Utilities/TestingUtilities';
 import { infraTest, rhsmFacts } from '../../../__mocks__/selectors';
 import InfrastructureCard from './InfrastructureCard';
 const location = {};
@@ -41,13 +41,21 @@ describe('InfrastructureCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const view = renderWithRouter(<InfrastructureCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <InfrastructureCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const view = renderWithRouter(<InfrastructureCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <InfrastructureCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -60,7 +68,11 @@ describe('InfrastructureCard', () => {
         },
       },
     });
-    const view = renderWithRouter(<InfrastructureCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <InfrastructureCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -76,7 +88,11 @@ describe('InfrastructureCard', () => {
         entity: {},
       },
     });
-    const view = renderWithRouter(<InfrastructureCard store={store} />);
+    const view = render(
+      <RouterWrapper>
+        <InfrastructureCard store={store} />
+      </RouterWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -86,8 +102,10 @@ describe('InfrastructureCard', () => {
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/ipv4';
       useParams.mockImplementation(() => ({ modalId: 'ipv4' }));
-      renderWithRouter(
-        <InfrastructureCard handleClick={onClick} store={store} />
+      render(
+        <RouterWrapper>
+          <InfrastructureCard handleClick={onClick} store={store} />
+        </RouterWrapper>
       );
 
       await userEvent.click(
@@ -103,8 +121,10 @@ describe('InfrastructureCard', () => {
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/ipv6';
       useParams.mockImplementation(() => ({ modalId: 'ipv6' }));
-      renderWithRouter(
-        <InfrastructureCard handleClick={onClick} store={store} />
+      render(
+        <RouterWrapper>
+          <InfrastructureCard handleClick={onClick} store={store} />
+        </RouterWrapper>
       );
 
       await userEvent.click(
@@ -120,8 +140,10 @@ describe('InfrastructureCard', () => {
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/interfaces';
       useParams.mockImplementation(() => ({ modalId: 'interfaces' }));
-      renderWithRouter(
-        <InfrastructureCard handleClick={onClick} store={store} />
+      render(
+        <RouterWrapper>
+          <InfrastructureCard handleClick={onClick} store={store} />
+        </RouterWrapper>
       );
 
       await userEvent.click(screen.getByRole('link', { name: /1 NIC/i }));
@@ -134,28 +156,35 @@ describe('InfrastructureCard', () => {
   ['hasType', 'hasVendor', 'hasIPv4', 'hasIPv6', 'hasInterfaces'].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
-      const view = renderWithRouter(
-        <InfrastructureCard store={store} {...{ [item]: false }} />
+      const view = render(
+        <RouterWrapper>
+          <InfrastructureCard store={store} {...{ [item]: false }} />
+        </RouterWrapper>
       );
+
       expect(view.asFragment()).toMatchSnapshot();
     })
   );
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const view = renderWithRouter(
-      <InfrastructureCard
-        store={store}
-        extra={[
-          { title: 'something', value: 'test' },
-          {
-            title: 'with click',
-            value: '1 tests',
-            onClick: (_e, handleClick) => handleClick('Something', {}, 'small'),
-          },
-        ]}
-      />
+    const view = render(
+      <RouterWrapper>
+        <InfrastructureCard
+          store={store}
+          extra={[
+            { title: 'something', value: 'test' },
+            {
+              title: 'with click',
+              value: '1 tests',
+              onClick: (_e, handleClick) =>
+                handleClick('Something', {}, 'small'),
+            },
+          ]}
+        />
+      </RouterWrapper>
     );
+
     expect(view.asFragment()).toMatchSnapshot();
   });
 });
