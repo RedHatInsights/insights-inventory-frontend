@@ -40,6 +40,7 @@ const BaseDropdown = ({
     setSelected(currentItem);
     formValidation(newFormValues, setIsFormValid);
   }, [edit, currentItem]);
+
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
@@ -72,7 +73,7 @@ const BaseDropdown = ({
             onToggle={() => setIsOpen(!isOpen)}
             isDisabled={disabled}
             selections={selected}
-            width={'150px'}
+            width={'200px'}
             validated={!isFormValid && 'error'}
           >
             {dropdownItems.map((item) => (
@@ -98,7 +99,7 @@ BaseDropdown.propTypes = {
   onSelect: PropTypes.bool,
   placeholder: PropTypes.string,
   title: PropTypes.string,
-  currentItem: PropTypes.string,
+  currentItem: PropTypes.number,
   filter: PropTypes.object,
   newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,

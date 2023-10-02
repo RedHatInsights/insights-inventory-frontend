@@ -2,14 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const OperatingSystemFormatter = ({ operatingSystem }) => {
-  if (operatingSystem?.name === 'RHEL') {
+  if (
+    operatingSystem?.name === 'RHEL' ||
+    operatingSystem?.name === 'CentOS Linux'
+  ) {
     const version =
       (operatingSystem.major &&
         operatingSystem.minor !== null &&
         `${operatingSystem.major}.${operatingSystem?.minor}`) ||
       null;
 
-    return <span>RHEL {version}</span>;
+    return (
+      <span>
+        {operatingSystem.name} {version}
+      </span>
+    );
   }
 
   return <span>{operatingSystem?.name || 'Not available'}</span>;
