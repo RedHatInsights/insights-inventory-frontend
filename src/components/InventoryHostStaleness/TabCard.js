@@ -4,8 +4,6 @@ import BaseDropdown from './BaseDropDown';
 import PropTypes from 'prop-types';
 import {
   HostStalenessResetDefaultPopover,
-  hostStalenessConventionalKeys,
-  hostStalenessImmutableKeys,
   systemDeletionItems,
   systemStalenessItems,
   systemStalenessWarningItems,
@@ -20,7 +18,8 @@ const TabCard = ({
   setNewFormValues,
   isFormValid,
   setIsFormValid,
-  defaultValues,
+  hostStalenessImmutableDefaults,
+  hostStalenessConventionalDefaults,
 }) => {
   const dropdownArray = (activeTabKey) => [
     systemStalenessItems(activeTabKey),
@@ -29,15 +28,11 @@ const TabCard = ({
   ];
 
   const resetToStandard = (activeTab) => {
-    let tempValues = { ...newFormValues };
-    let selectedTab = activeTab
-      ? hostStalenessImmutableKeys
-      : hostStalenessConventionalKeys;
-    // //Tabs are 0 and 1
-    selectedTab.forEach(
-      (apiKey) => (tempValues[apiKey] = defaultValues[apiKey])
-    );
-    setNewFormValues(tempValues);
+    const defaultsForSelectedTab = activeTab
+      ? hostStalenessImmutableDefaults
+      : hostStalenessConventionalDefaults;
+
+    setNewFormValues({ ...newFormValues, ...defaultsForSelectedTab });
   };
 
   return (
@@ -99,5 +94,7 @@ TabCard.propTypes = {
   isFormValid: PropTypes.any,
   setIsFormValid: PropTypes.any,
   defaultValues: PropTypes.object,
+  hostStalenessImmutableDefaults: PropTypes.object,
+  hostStalenessConventionalDefaults: PropTypes.object,
 };
 export default TabCard;

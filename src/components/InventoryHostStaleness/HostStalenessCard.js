@@ -37,12 +37,18 @@ import PropTypes from 'prop-types';
 
 const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [filter, setFilter] = useState({});
-  const [defaultApiValues, setDefaultApiValues] = useState({});
   const [newFormValues, setNewFormValues] = useState(filter);
   const [isEditing, setIsEditing] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
+  const [hostStalenessImmutableDefaults, setHostStalenessImmutableDefaults] =
+    useState({});
+  const [
+    hostStalenessConventionalDefaults,
+    setHostStalenessConventionalDefaults,
+  ] = useState({});
+
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -140,11 +146,20 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const fetchDefaultValues = async () => {
     let results = await fetchDefaultStalenessValues().catch((err) => err);
     let newFilter = {};
-    hostStalenessApiKeys.forEach(
-      (filterKey) =>
-        (newFilter[filterKey] = secondsToDaysConversion(results[filterKey]))
+    Object.keys(results).forEach(
+      (key) =>
+        key.includes('delta') &&
+        (newFilter[key] = secondsToDaysConversion(results[key]))
     );
-    setDefaultApiValues(newFilter);
+
+    setHostStalenessConventionalDefaults({
+      ...hostStalenessConventionalDefaults,
+      ...newFilter,
+    });
+    setHostStalenessImmutableDefaults({
+      ...hostStalenessImmutableDefaults,
+      ...newFilter,
+    });
   };
 
   const batchedApi = async () => {
@@ -226,7 +241,12 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   setNewFormValues={setNewFormValues}
                   isFormValid={isFormValid}
                   setIsFormValid={setIsFormValid}
-                  defaultValues={defaultApiValues}
+                  hostStalenessImmutableDefaults={
+                    hostStalenessImmutableDefaults
+                  }
+                  hostStalenessConventionalDefaults={
+                    hostStalenessConventionalDefaults
+                  }
                 />
               </Tab>
               <Tab
@@ -253,7 +273,12 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   setNewFormValues={setNewFormValues}
                   isFormValid={isFormValid}
                   setIsFormValid={setIsFormValid}
-                  defaultValues={defaultApiValues}
+                  hostStalenessImmutableDefaults={
+                    hostStalenessImmutableDefaults
+                  }
+                  hostStalenessConventionalDefaults={
+                    hostStalenessConventionalDefaults
+                  }
                 />
               </Tab>
             </Tabs>
