@@ -92,8 +92,7 @@ describe('onOSFilterChange', () => {
   it('returns new selection with group selection enabled', () => {
     const selection = cloneDeep(testValue3);
     selection['RHEL 8'] = {
-      // eslint-disable-next-line prettier/prettier
-      '8.5': true,
+      8.5: true,
       '8.10': true,
     };
     expect(
@@ -104,8 +103,7 @@ describe('onOSFilterChange', () => {
   it('returns new selection with group selection disabled', () => {
     const selection = cloneDeep(testValue4);
     selection['RHEL 8'] = {
-      // eslint-disable-next-line prettier/prettier
-      '8.5': false,
+      8.5: false,
       '8.10': false,
     };
     expect(

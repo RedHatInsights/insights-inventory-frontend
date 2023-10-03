@@ -13,20 +13,11 @@ export const updateGroupSelectionIdentifier = (selection, groupLabel, major) =>
       .every(Boolean)
   );
 
-const isVersionSelected = (selectedVersion, osVersion) => {
-  for (let i = 0; i < selectedVersion.length; i++) {
-    if (
-      selectedVersion[i].value === osVersion.value &&
-      selectedVersion[i].osName === osVersion.osName
-    ) {
-      return true;
-    } else {
-      continue;
-    }
-  }
-
-  return false;
-};
+const isVersionSelected = (selectedVersions, osVersion) =>
+  selectedVersions.some(
+    ({ value, osName }) =>
+      value === osVersion.value && osName === osVersion.osName
+  );
 
 /** Takes an array of object versions `value` and returns an object in the format
  * required by ConditionalFilter component (group filter); */
