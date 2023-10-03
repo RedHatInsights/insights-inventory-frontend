@@ -8,17 +8,26 @@ export const CONVENTIONAL_TAB_TOOLTIP =
 export const IMMUTABLE_TAB_TOOLTIP =
   'With OSTree, you can manage the system software by referencing a central image repository. OSTree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
 
-export const GENERAL_HOST_STALENESS_WRITE_PERMISSION = 'inventory:groups:write';
-export const GENERAL_HOST_STALENESS_READ_PERMISSION = 'inventory:groups:read';
+export const GENERAL_HOST_STALENESS_WRITE_PERMISSION =
+  'inventory:staleness:write';
+export const GENERAL_HOST_STALENESS_READ_PERMISSION =
+  'inventory:staleness:read';
 
 export const HOST_STALENESS_ADMINISTRATOR_PERMISSIONS = [
   GENERAL_HOST_STALENESS_READ_PERMISSION,
   GENERAL_HOST_STALENESS_WRITE_PERMISSION,
 ];
 
+//int for 'Never' value. POSTgreSQL max in is this
+const maxSafeInt = 2147483647;
+
 //86400 seconds in one day -> divide each by secodns in a day to get day values
 export const secondsToDaysConversion = (seconds) => {
-  return parseInt(seconds) / 86400;
+  if (seconds > 2000000000) {
+    return 'Never';
+  } else {
+    return seconds / 86400;
+  }
 };
 
 export const hostStalenessApiKeys = [
@@ -29,28 +38,37 @@ export const hostStalenessApiKeys = [
   'immutable_stale_warning_delta',
   'immutable_culling_delta',
 ];
+
 export const daysToSecondsConversion = (days) => {
-  return JSON.stringify(parseInt(days) * 86400);
+  if (days === 'Never') {
+    return maxSafeInt;
+  } else {
+    return days * 86400;
+  }
 };
+
 export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   //this runs on every select every time
   let apiKey = dropdownItems[0].apiKey;
-  let formValue = parseInt(newFormValues[apiKey]);
+  let formValue =
+    newFormValues[apiKey] === 'Never' ? maxSafeInt : newFormValues[apiKey];
 
   if (apiKey === 'conventional_staleness_delta') {
-    if (
-      formValue > parseInt(newFormValues['conventional_stale_warning_delta'])
-    ) {
+    if (formValue > newFormValues['conventional_stale_warning_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Staleness must be before stale warning
         </p>
       );
-    } else if (
-      formValue > parseInt(newFormValues['conventional_culling_delta'])
-    ) {
+    } else if (formValue > newFormValues['conventional_culling_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Staleness must be before culling
         </p>
       );
@@ -59,98 +77,135 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     }
   }
   if (apiKey === 'conventional_stale_warning_delta') {
-    if (formValue > parseInt(newFormValues['conventional_culling_delta'])) {
+    if (formValue > newFormValues['conventional_culling_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Stale warning must be before culling
         </p>
       );
-    } else if (
-      formValue < parseInt(newFormValues['conventional_staleness_delta'])
-    ) {
+    } else if (formValue < newFormValues['conventional_staleness_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Stale warning must be after staleness
         </p>
       );
     } else {
-      return <p className="pf-u-font-size-sm ">Maximum days 180</p>;
+      return (
+        <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
+          Maximum days 180
+        </p>
+      );
     }
   }
   if (apiKey === 'conventional_culling_delta') {
-    if (
-      formValue < parseInt(newFormValues['conventional_stale_warning_delta'])
-    ) {
+    if (formValue < newFormValues['conventional_stale_warning_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Culling must be after staleness
         </p>
       );
-    } else if (
-      formValue < parseInt(newFormValues['conventional_staleness_delta'])
-    ) {
+    } else if (formValue < newFormValues['conventional_staleness_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Culling must be after stale warning
         </p>
       );
+    } else {
+      return <div className="pf-u-mb-md" />;
     }
   }
 
   if (apiKey === 'immutable_staleness_delta') {
-    if (formValue > parseInt(newFormValues['immutable_stale_warning_delta'])) {
+    if (formValue > newFormValues['immutable_stale_warning_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Staleness must be before stale warning
         </p>
       );
-    } else if (formValue > parseInt(newFormValues['immutable_culling_delta'])) {
+    } else if (formValue > newFormValues['immutable_culling_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Staleness must be before culling
         </p>
       );
     } else {
-      return <p className="pf-u-font-size-sm ">Maximum days 7</p>;
+      return (
+        <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
+          Maximum days 7
+        </p>
+      );
     }
   }
   if (apiKey === 'immutable_stale_warning_delta') {
-    if (formValue > parseInt(newFormValues['immutable_culling_delta'])) {
+    if (formValue > newFormValues['immutable_culling_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100 "
+          style={{ width: '200px' }}
+        >
           Stale warning must be before culling
         </p>
       );
-    } else if (
-      formValue < parseInt(newFormValues['immutable_staleness_delta'])
-    ) {
+    } else if (formValue < newFormValues['immutable_staleness_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Stale warning must be after staleness
         </p>
       );
     } else {
-      return <p className="pf-u-font-size-sm ">Maximum days 180</p>;
+      return (
+        <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
+          Maximum days 180
+        </p>
+      );
     }
   }
   if (apiKey === 'immutable_culling_delta') {
-    if (formValue < parseInt(newFormValues['immutable_stale_warning_delta'])) {
+    if (formValue < newFormValues['immutable_stale_warning_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Culling must be after staleness
         </p>
       );
-    } else if (
-      formValue < parseInt(newFormValues['immutable_staleness_delta'])
-    ) {
+    } else if (formValue < newFormValues['immutable_staleness_delta']) {
       return (
-        <p className="pf-u-font-size-sm pf-v5-u-danger-color-100">
+        <p
+          className="pf-u-font-size-sm pf-v5-u-danger-color-100"
+          style={{ width: '200px' }}
+        >
           Culling must be after stale warning
         </p>
       );
+    } else {
+      return <div className="pf-u-mb-md" />;
     }
   }
 };
+
 export const HostStalenessResetDefaultPopover = () => {
   return (
     <Popover
@@ -158,7 +213,7 @@ export const HostStalenessResetDefaultPopover = () => {
       headerContent={
         <Title headingLevel="h4">Orginization level setting</Title>
       }
-      position="top"
+      position="left"
       bodyContent={
         <Flex
           direction={{ default: 'column' }}
@@ -235,11 +290,12 @@ export const InventoryHostStalenessPopover = () => {
     </Popover>
   );
 };
+
 export const systemStalenessItems = (activeTabKey) => {
   return [
     {
       name: '1 day',
-      value: '1',
+      value: 1,
       apiKey: activeTabKey
         ? 'immutable_staleness_delta'
         : 'conventional_staleness_delta',
@@ -249,42 +305,42 @@ export const systemStalenessItems = (activeTabKey) => {
     },
     {
       name: '2 days',
-      value: '2',
+      value: 2,
       apiKey: activeTabKey
         ? 'immutable_staleness_delta'
         : 'conventional_staleness_delta',
     },
     {
       name: '3 days',
-      value: '3',
+      value: 3,
       apiKey: activeTabKey
         ? 'immutable_staleness_delta'
         : 'conventional_staleness_delta',
     },
     {
       name: '4 days',
-      value: '4',
+      value: 4,
       apiKey: activeTabKey
         ? 'immutable_staleness_delta'
         : 'conventional_staleness_delta',
     },
     {
       name: '5 days',
-      value: '5',
+      value: 5,
       apiKey: activeTabKey
         ? 'immutable_staleness_delta'
         : 'conventional_staleness_delta',
     },
     {
       name: '6 days',
-      value: '6',
+      value: 6,
       apiKey: activeTabKey
         ? 'immutable_staleness_delta'
         : 'conventional_staleness_delta',
     },
     {
       name: '7 days',
-      value: '7',
+      value: 7,
       apiKey: activeTabKey
         ? 'immutable_staleness_delta'
         : 'conventional_staleness_delta',
@@ -303,7 +359,7 @@ export const systemStalenessWarningItems = (activeTabKey) => {
   return [
     {
       name: '7 days',
-      value: '7',
+      value: 7,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
@@ -313,56 +369,56 @@ export const systemStalenessWarningItems = (activeTabKey) => {
     },
     {
       name: '14 days',
-      value: '14',
+      value: 14,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
     },
     {
       name: '21 days',
-      value: '21',
+      value: 21,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
     },
     {
       name: '30 days',
-      value: '30',
+      value: 30,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
     },
     {
       name: '60 days',
-      value: '60',
+      value: 60,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
     },
     {
       name: '90 days',
-      value: '90',
+      value: 90,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
     },
     {
       name: '120 days',
-      value: '120',
+      value: 120,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
     },
     {
       name: '150 days',
-      value: '150',
+      value: 150,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
     },
     {
       name: '180 days',
-      value: '180',
+      value: 180,
       apiKey: activeTabKey
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
@@ -381,7 +437,7 @@ export const systemCullingItems = (activeTabKey) => {
   return [
     {
       name: '14 days',
-      value: '14',
+      value: 14,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
@@ -391,49 +447,49 @@ export const systemCullingItems = (activeTabKey) => {
     },
     {
       name: '21 days',
-      value: '21',
+      value: 21,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
     },
     {
       name: '30 days',
-      value: '30',
+      value: 30,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
     },
     {
       name: '60 days',
-      value: '60',
+      value: 60,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
     },
     {
       name: '90 days',
-      value: '90',
+      value: 90,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
     },
     {
       name: '120 days',
-      value: '120',
+      value: 120,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
     },
     {
       name: '150 days',
-      value: '150',
+      value: 150,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
     },
     {
       name: '180 days',
-      value: '180',
+      value: 180,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
@@ -450,32 +506,34 @@ export const systemCullingItems = (activeTabKey) => {
 
 export const formValidation = async (newFormValues, setIsFormValid) => {
   for (let i = 0; i < hostStalenessApiKeys.length; i++) {
-    const formKey = hostStalenessApiKeys[i];
-    let value = parseInt(newFormValues[formKey]);
+    const apiKey = hostStalenessApiKeys[i];
+    let formValue =
+      newFormValues[apiKey] === 'Never' ? maxSafeInt : newFormValues[apiKey];
+
     if (
-      formKey === 'conventional_staleness_delta' &&
-      value > newFormValues['conventional_stale_warning_delta']
+      apiKey === 'conventional_staleness_delta' &&
+      formValue > newFormValues['conventional_stale_warning_delta']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      formKey === 'immutable_staleness_delta' &&
-      value > newFormValues['immutable_stale_warning_delta']
+      apiKey === 'immutable_staleness_delta' &&
+      formValue > newFormValues['immutable_stale_warning_delta']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      formKey === 'conventional_stale_warning_delta' &&
-      value > newFormValues['conventional_culling_delta']
+      apiKey === 'conventional_stale_warning_delta' &&
+      formValue > newFormValues['conventional_culling_delta']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      formKey === 'immutable_stale_warning_delta' &&
-      value > newFormValues['immutable_culling_delta']
+      apiKey === 'immutable_stale_warning_delta' &&
+      formValue > newFormValues['immutable_culling_delta']
     ) {
       setIsFormValid(false);
       break;

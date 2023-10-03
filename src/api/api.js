@@ -366,3 +366,18 @@ export function getAllTags(search, pagination = {}) {
 export function getOperatingSystems(params = []) {
   return systemProfile.apiSystemProfileGetOperatingSystem(...params);
 }
+
+export const fetchDefaultStalenessValues = () => {
+  return instance.get(`${INVENTORY_API_BASE}/account/staleness/defaults`);
+};
+
+export const fetchStalenessData = () => {
+  return instance.get(`${INVENTORY_API_BASE}/account/staleness`);
+};
+
+export const postStalenessData = (data) => {
+  return instance.post(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
+export const patchStalenessData = (data) => {
+  return instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
