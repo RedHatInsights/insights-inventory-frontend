@@ -216,7 +216,7 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
             </span>
 
             <span className="pf-u-font-size-sm">
-              - Systems are culled after 2 years since last check-in.
+              - Systems are deleted after 2 years since last check-in.
             </span>
           </Flex>
         ) : (
@@ -233,7 +233,7 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
             </span>
 
             <span className="pf-u-font-size-sm">
-              - Systems are culled after 30 days since last check-in.
+              - Systems are deleted after 30 days since last check-in.
             </span>
           </Flex>
         )
@@ -282,7 +282,7 @@ export const InventoryHostStalenessPopover = () => {
               check-in.
             </span>
             <span className="pf-u-font-size-sm">
-              - Systems are culled after 30 days since last check-in.
+              - Systems are deleted after 30 days since last check-in.
             </span>
           </Flex>
           <Flex
@@ -302,7 +302,7 @@ export const InventoryHostStalenessPopover = () => {
               check-in.
             </span>
             <span className="pf-u-font-size-sm">
-              - Systems are culled after 2 years since last check-in.
+              - Systems are deleted after 2 years since last check-in.
             </span>
           </Flex>
         </Flex>
@@ -457,7 +457,7 @@ export const systemDeletionItems = (activeTabKey) => {
         : 'conventional_culling_delta',
       title: 'System deletion',
       modalMessage:
-        'This is the time at which your system will be deleted from your inventory. Once your system is culled, it will have to be re-registered to be added back to your inventory.',
+        'This is the time at which your system will be deleted from your inventory. Once your system is deleted, it will have to be re-registered to be added back to your inventory.',
     },
     {
       name: '21 days',
