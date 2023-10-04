@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Flex, Popover, Title } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import PropTypes from 'prop-types';
 
 export const CONVENTIONAL_TAB_TOOLTIP =
   'With RPM-DNF, you can manage the system software by using the DNF package manager and updated RPM packages. This is a simple and adaptive method of managing and modifying the system over its lifecycle.';
@@ -18,16 +19,9 @@ export const HOST_STALENESS_ADMINISTRATOR_PERMISSIONS = [
   GENERAL_HOST_STALENESS_WRITE_PERMISSION,
 ];
 
-//int for 'Never' value. POSTgreSQL max in is this
-const maxSafeInt = 2147483647;
-
 //86400 seconds in one day -> divide each by secodns in a day to get day values
 export const secondsToDaysConversion = (seconds) => {
-  if (seconds > 2000000000) {
-    return 'Never';
-  } else {
-    return seconds / 86400;
-  }
+  return seconds / 86400;
 };
 
 export const hostStalenessApiKeys = [
@@ -40,18 +34,13 @@ export const hostStalenessApiKeys = [
 ];
 
 export const daysToSecondsConversion = (days) => {
-  if (days === 'Never') {
-    return maxSafeInt;
-  } else {
-    return days * 86400;
-  }
+  return days * 86400;
 };
 
 export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   //this runs on every select every time
   let apiKey = dropdownItems[0].apiKey;
-  let formValue =
-    newFormValues[apiKey] === 'Never' ? maxSafeInt : newFormValues[apiKey];
+  let formValue = newFormValues[apiKey];
 
   if (apiKey === 'conventional_staleness_delta') {
     if (formValue > newFormValues['conventional_stale_warning_delta']) {
@@ -69,7 +58,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Staleness must be before culling
+          Staleness must be before deletion
         </p>
       );
     } else {
@@ -83,7 +72,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Stale warning must be before culling
+          Stale warning must be before deletion
         </p>
       );
     } else if (formValue < newFormValues['conventional_staleness_delta']) {
@@ -110,7 +99,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Culling must be after staleness
+          Deletion must be after staleness
         </p>
       );
     } else if (formValue < newFormValues['conventional_staleness_delta']) {
@@ -119,7 +108,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Culling must be after stale warning
+          Deletion must be after stale warning
         </p>
       );
     } else {
@@ -143,7 +132,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Staleness must be before culling
+          Staleness must be before deletion
         </p>
       );
     } else {
@@ -161,7 +150,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100 "
           style={{ width: '200px' }}
         >
-          Stale warning must be before culling
+          Stale warning must be before deletion
         </p>
       );
     } else if (formValue < newFormValues['immutable_staleness_delta']) {
@@ -188,7 +177,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Culling must be after staleness
+          Deletion must be after staleness
         </p>
       );
     } else if (formValue < newFormValues['immutable_staleness_delta']) {
@@ -197,7 +186,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Culling must be after stale warning
+          Deletion must be after stale warning
         </p>
       );
     } else {
@@ -206,31 +195,48 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   }
 };
 
-export const HostStalenessResetDefaultPopover = () => {
+export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
   return (
     <Popover
       aria-label="Organization level popover"
-      headerContent={
-        <Title headingLevel="h4">Orginization level setting</Title>
-      }
+      headerContent={<Title headingLevel="h4">Default settings</Title>}
       position="left"
       bodyContent={
-        <Flex
-          direction={{ default: 'column' }}
-          spaceItems={{ default: 'spaceItemsNone' }}
-        >
-          <span className="pf-u-font-size-sm">
-            - Systems are marked as stale after 1 day since last check-in.
-          </span>
-          <span className="pf-u-font-size-sm">
-            - Systems are marked as stale warning after 14 days since last
-            check-in.
-          </span>
+        activeTabKey ? (
+          <Flex
+            direction={{ default: 'column' }}
+            spaceItems={{ default: 'spaceItemsNone' }}
+          >
+            <span className="pf-u-font-size-sm">
+              - Systems are marked as stale after 2 day since last check-in.
+            </span>
+            <span className="pf-u-font-size-sm">
+              - Systems are marked as stale warning after 120 days since last
+              check-in.
+            </span>
 
-          <span className="pf-u-font-size-sm">
-            - Systems are culled after 30 days since last check-in.
-          </span>
-        </Flex>
+            <span className="pf-u-font-size-sm">
+              - Systems are culled after 2 years since last check-in.
+            </span>
+          </Flex>
+        ) : (
+          <Flex
+            direction={{ default: 'column' }}
+            spaceItems={{ default: 'spaceItemsNone' }}
+          >
+            <span className="pf-u-font-size-sm">
+              - Systems are marked as stale after 1 day since last check-in.
+            </span>
+            <span className="pf-u-font-size-sm">
+              - Systems are marked as stale warning after 14 days since last
+              check-in.
+            </span>
+
+            <span className="pf-u-font-size-sm">
+              - Systems are culled after 30 days since last check-in.
+            </span>
+          </Flex>
+        )
       }
     >
       <Button
@@ -254,7 +260,7 @@ export const InventoryHostStalenessPopover = () => {
       hasAutoWidth
       position="top"
       bodyContent={
-        <div>
+        <Flex direction={{ default: 'column' }}>
           <p className="pf-u-font-size-sm">
             Configure the number of days it will take for your systems to be
             marked as stale, stale warning, and be cullled.
@@ -263,7 +269,9 @@ export const InventoryHostStalenessPopover = () => {
             direction={{ default: 'column' }}
             spaceItems={{ default: 'spaceItemsNone' }}
           >
-            <span className="pf-u-font-size-sm">By default:</span>
+            <span className="pf-u-font-size-sm">
+              Default for Conventional systems (RPM-DNF):
+            </span>
             <span className="pf-u-font-size-sm">
               <p>
                 - Systems are marked as stale after 1 day since last check-in.
@@ -277,7 +285,27 @@ export const InventoryHostStalenessPopover = () => {
               - Systems are culled after 30 days since last check-in.
             </span>
           </Flex>
-        </div>
+          <Flex
+            direction={{ default: 'column' }}
+            spaceItems={{ default: 'spaceItemsNone' }}
+          >
+            <span className="pf-u-font-size-sm">
+              Default for Immutable systems (OSTree):
+            </span>
+            <span className="pf-u-font-size-sm">
+              <p>
+                - Systems are marked as stale after 2 day since last check-in.
+              </p>
+            </span>
+            <span className="pf-u-font-size-sm">
+              - Systems are marked as stale warning after 120 days since last
+              check-in.
+            </span>
+            <span className="pf-u-font-size-sm">
+              - Systems are culled after 2 years since last check-in.
+            </span>
+          </Flex>
+        </Flex>
       }
     >
       <Button
@@ -341,13 +369,6 @@ export const systemStalenessItems = (activeTabKey) => {
     {
       name: '7 days',
       value: 7,
-      apiKey: activeTabKey
-        ? 'immutable_staleness_delta'
-        : 'conventional_staleness_delta',
-    },
-    {
-      name: 'Never',
-      value: 'Never',
       apiKey: activeTabKey
         ? 'immutable_staleness_delta'
         : 'conventional_staleness_delta',
@@ -423,17 +444,10 @@ export const systemStalenessWarningItems = (activeTabKey) => {
         ? 'immutable_stale_warning_delta'
         : 'conventional_stale_warning_delta',
     },
-    {
-      name: 'Never',
-      value: 'Never',
-      apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
-    },
   ];
 };
 
-export const systemCullingItems = (activeTabKey) => {
+export const systemDeletionItems = (activeTabKey) => {
   return [
     {
       name: '14 days',
@@ -441,7 +455,7 @@ export const systemCullingItems = (activeTabKey) => {
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
-      title: 'System culling',
+      title: 'System deletion',
       modalMessage:
         'This is the time at which your system will be deleted from your inventory. Once your system is culled, it will have to be re-registered to be added back to your inventory.',
     },
@@ -495,8 +509,15 @@ export const systemCullingItems = (activeTabKey) => {
         : 'conventional_culling_delta',
     },
     {
-      name: 'Never',
-      value: 'Never',
+      name: '1 year',
+      value: 365,
+      apiKey: activeTabKey
+        ? 'immutable_culling_delta'
+        : 'conventional_culling_delta',
+    },
+    {
+      name: '2 years',
+      value: 730,
       apiKey: activeTabKey
         ? 'immutable_culling_delta'
         : 'conventional_culling_delta',
@@ -507,8 +528,7 @@ export const systemCullingItems = (activeTabKey) => {
 export const formValidation = async (newFormValues, setIsFormValid) => {
   for (let i = 0; i < hostStalenessApiKeys.length; i++) {
     const apiKey = hostStalenessApiKeys[i];
-    let formValue =
-      newFormValues[apiKey] === 'Never' ? maxSafeInt : newFormValues[apiKey];
+    let formValue = newFormValues[apiKey];
 
     if (
       apiKey === 'conventional_staleness_delta' &&
@@ -541,4 +561,8 @@ export const formValidation = async (newFormValues, setIsFormValid) => {
       setIsFormValid(true);
     }
   }
+};
+
+HostStalenessResetDefaultPopover.propTypes = {
+  activeTabKey: PropTypes.number,
 };

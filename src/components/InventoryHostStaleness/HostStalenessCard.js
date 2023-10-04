@@ -37,12 +37,18 @@ import PropTypes from 'prop-types';
 
 const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [filter, setFilter] = useState({});
-  const [defaultApiValues, setDefaultApiValues] = useState({});
   const [newFormValues, setNewFormValues] = useState(filter);
   const [isEditing, setIsEditing] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
+  const [hostStalenessImmutableDefaults, setHostStalenessImmutableDefaults] =
+    useState({});
+  const [
+    hostStalenessConventionalDefaults,
+    setHostStalenessConventionalDefaults,
+  ] = useState({});
+
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -139,12 +145,25 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   //keeps track of what default the backend wants
   const fetchDefaultValues = async () => {
     let results = await fetchDefaultStalenessValues().catch((err) => err);
-    let newFilter = {};
-    hostStalenessApiKeys.forEach(
-      (filterKey) =>
-        (newFilter[filterKey] = secondsToDaysConversion(results[filterKey]))
-    );
-    setDefaultApiValues(newFilter);
+    let conventionalFilter = {};
+    let immutableFilter = {};
+
+    Object.keys(results).forEach((key) => {
+      if (key.includes('conventional')) {
+        conventionalFilter[key] = secondsToDaysConversion(results[key]);
+      } else if (key.includes('immutable')) {
+        immutableFilter[key] = secondsToDaysConversion(results[key]);
+      }
+    });
+
+    setHostStalenessConventionalDefaults({
+      ...hostStalenessConventionalDefaults,
+      ...conventionalFilter,
+    });
+    setHostStalenessImmutableDefaults({
+      ...hostStalenessImmutableDefaults,
+      ...immutableFilter,
+    });
   };
 
   const batchedApi = async () => {
@@ -163,7 +182,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
         <Card id={'HostStalenessCard'}>
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
-              Organization level system staleness and culling
+              Organization level system staleness and deletion
             </Title>
             <InventoryHostStalenessPopover />
           </CardHeader>
@@ -185,7 +204,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   Edit
                 </Button>
               ) : (
-                <Tooltip content="You do not have the Inventory staleness and culling viewer role required to perform this action. Contact your org admin for access.">
+                <Tooltip content="You do not have the Inventory staleness and deletion viewer role required to perform this action. Contact your org admin for access.">
                   <Button
                     variant="link"
                     style={{ 'padding-left': '0px' }}
@@ -226,7 +245,12 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   setNewFormValues={setNewFormValues}
                   isFormValid={isFormValid}
                   setIsFormValid={setIsFormValid}
-                  defaultValues={defaultApiValues}
+                  hostStalenessImmutableDefaults={
+                    hostStalenessImmutableDefaults
+                  }
+                  hostStalenessConventionalDefaults={
+                    hostStalenessConventionalDefaults
+                  }
                 />
               </Tab>
               <Tab
@@ -253,7 +277,12 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   setNewFormValues={setNewFormValues}
                   isFormValid={isFormValid}
                   setIsFormValid={setIsFormValid}
-                  defaultValues={defaultApiValues}
+                  hostStalenessImmutableDefaults={
+                    hostStalenessImmutableDefaults
+                  }
+                  hostStalenessConventionalDefaults={
+                    hostStalenessConventionalDefaults
+                  }
                 />
               </Tab>
             </Tabs>
@@ -301,7 +330,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   ouiaId="BasicModal"
                 >
                   {`Changing the organization level setting for system staleness and
-              culling may impact your systems. Some systems will be culled as a
+              deletion may impact your systems. Some systems will be culled as a
               result.`}
                 </Modal>
               </Flex>
