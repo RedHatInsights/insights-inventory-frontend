@@ -1,10 +1,10 @@
-import { Card, Flex, FlexItem } from '@patternfly/react-core';
+import { Button, Card, Flex, FlexItem } from '@patternfly/react-core';
 import React from 'react';
 import BaseDropdown from './BaseDropDown';
 import PropTypes from 'prop-types';
 import {
   HostStalenessResetDefaultPopover,
-  systemCullingItems,
+  systemDeletionItems,
   systemStalenessItems,
   systemStalenessWarningItems,
 } from './constants';
@@ -18,16 +18,21 @@ const TabCard = ({
   setNewFormValues,
   isFormValid,
   setIsFormValid,
-  defaultValues,
+  hostStalenessImmutableDefaults,
+  hostStalenessConventionalDefaults,
 }) => {
   const dropdownArray = (activeTabKey) => [
     systemStalenessItems(activeTabKey),
     systemStalenessWarningItems(activeTabKey),
-    systemCullingItems(activeTabKey),
+    systemDeletionItems(activeTabKey),
   ];
 
-  const resetToStandard = () => {
-    setNewFormValues(defaultValues);
+  const resetToStandard = (activeTab) => {
+    const defaultsForSelectedTab = activeTab
+      ? hostStalenessImmutableDefaults
+      : hostStalenessConventionalDefaults;
+
+    setNewFormValues({ ...newFormValues, ...defaultsForSelectedTab });
   };
 
   return (
@@ -59,10 +64,15 @@ const TabCard = ({
           {isEditing ? (
             <Flex>
               <FlexItem style={{ width: '200px' }}>
-                <a onClick={() => resetToStandard()}>
+                <Button
+                  variant="link"
+                  role="button"
+                  onClick={() => resetToStandard(activeTabKey)}
+                  style={{ padding: '0' }}
+                >
                   Reset to default setting
-                </a>
-                <HostStalenessResetDefaultPopover />
+                </Button>
+                <HostStalenessResetDefaultPopover activeTabKey={activeTabKey} />
               </FlexItem>
             </Flex>
           ) : (
@@ -84,5 +94,7 @@ TabCard.propTypes = {
   isFormValid: PropTypes.any,
   setIsFormValid: PropTypes.any,
   defaultValues: PropTypes.object,
+  hostStalenessImmutableDefaults: PropTypes.object,
+  hostStalenessConventionalDefaults: PropTypes.object,
 };
 export default TabCard;
