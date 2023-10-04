@@ -330,7 +330,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   ouiaId="BasicModal"
                 >
                   {`Changing the organization level setting for system staleness and
-              deletion may impact your systems. Some systems will be culled as a
+              deletion may impact your systems. Some systems will be deleted as a
               result.`}
                 </Modal>
               </Flex>
