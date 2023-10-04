@@ -23,7 +23,6 @@ const DetailWrapper = ({
   showTags,
   Wrapper,
   className,
-  hasAccess,
   appName,
   inventoryId,
   ...props
@@ -96,7 +95,6 @@ DetailWrapper.propTypes = {
   ]),
   className: PropTypes.string,
   Wrapper: PropTypes.elementType,
-  hasAccess: PropTypes.bool,
   inventoryId: PropTypes.string.isRequired,
 };
 
