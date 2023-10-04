@@ -19,6 +19,11 @@ export const APP_NAME_VULNERABILITY = 'vulnerabilities';
 export const APP_NAME_ADVISOR = 'advisor';
 export const APP_NAME_PATCH = 'patch';
 
+export const INVENTORY_TOTAL_FETCH_URL_SERVER = '/api/inventory/v1/hosts';
+export const INVENTORY_TOTAL_FETCH_EDGE_PARAMS =
+  '?filter[system_profile][host_type]=edge&page=1&per_page=1';
+export const INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS = '?page=1&per_page=1';
+
 export function subtractDate(days) {
   const date = new Date();
   date.setDate(date.getDate() - days);
