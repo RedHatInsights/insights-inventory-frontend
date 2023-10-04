@@ -74,8 +74,6 @@ const HybridInventoryTabs = ({
     }
   };
 
-  console.log('Hellooo');
-
   return EdgeParityEnabled && hasEdgeImages ? (
     <Tabs
       className="pf-m-light pf-c-table"
