@@ -145,20 +145,24 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   //keeps track of what default the backend wants
   const fetchDefaultValues = async () => {
     let results = await fetchDefaultStalenessValues().catch((err) => err);
-    let newFilter = {};
-    Object.keys(results).forEach(
-      (key) =>
-        key.includes('delta') &&
-        (newFilter[key] = secondsToDaysConversion(results[key]))
-    );
+    let conventionalFilter = {};
+    let immutableFilter = {};
+
+    Object.keys(results).forEach((key) => {
+      if (key.includes('conventional')) {
+        conventionalFilter[key] = secondsToDaysConversion(results[key]);
+      } else if (key.includes('immutable')) {
+        immutableFilter[key] = secondsToDaysConversion(results[key]);
+      }
+    });
 
     setHostStalenessConventionalDefaults({
       ...hostStalenessConventionalDefaults,
-      ...newFilter,
+      ...conventionalFilter,
     });
     setHostStalenessImmutableDefaults({
       ...hostStalenessImmutableDefaults,
-      ...newFilter,
+      ...immutableFilter,
     });
   };
 
