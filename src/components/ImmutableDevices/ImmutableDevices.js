@@ -6,12 +6,16 @@ import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inven
 import Status from './Status';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { getDeviceStatus } from './helpers';
+import { useNavigate } from 'react-router-dom';
 
 const edgeColumns = [
   {
     key: 'ImageName',
     title: 'Image',
     sort: false,
+    renderFunc: (imageName, uuid) => {
+      return <a href={`/edge/inventory/${uuid}`}>{imageName}</a>;
+    },
     props: { isStatic: true },
   },
   {
@@ -58,8 +62,11 @@ const ImmutableDevices = ({
   getEntities,
   mergeAppColumns,
   filterConfig,
+  hideFilters,
+  activeFiltersConfig,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const inventoryGroupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
 
   const totalItems = useSelector(({ entities }) => entities?.total);
@@ -81,16 +88,15 @@ const ImmutableDevices = ({
     return [...mergeAppColumns(filteredColumns), ...edgeColumns];
   };
 
+  const onRowClick = (_key, systemId) => {
+    navigate(`/insights/inventory/${systemId}?appName=vulnerabilities`);
+  };
+
   return (
     <InventoryTable
       disableDefaultColumns
       onLoad={onLoad}
-      hideFilters={{
-        all: true,
-        name: false,
-        operatingSystem: false,
-        hostGroupFilter: false,
-      }}
+      hideFilters={hideFilters}
       tableProps={{
         isStickyHeader: true,
         variant: TableVariant.compact,
@@ -108,6 +114,8 @@ const ImmutableDevices = ({
       columns={(defaultColumns) => mergeColumns(defaultColumns)}
       getEntities={getEntities}
       filterConfig={filterConfig}
+      activeFiltersConfig={activeFiltersConfig}
+      onRowClick={onRowClick}
     />
   );
 };
@@ -123,6 +131,8 @@ ImmutableDevices.propTypes = {
   getEntities: propTypes.func,
   mergeAppColumns: propTypes.func,
   filterConfig: propTypes.object,
+  hideFilters: propTypes.object,
+  activeFiltersConfig: propTypes.object,
 };
 
 export default ImmutableDevices;
