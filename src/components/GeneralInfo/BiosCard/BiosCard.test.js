@@ -1,8 +1,7 @@
-/* eslint-disable camelcase */
 import { render } from '@testing-library/react';
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { RouterWrapper } from '../../../Utilities/TestingUtilities';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { biosTest } from '../../../__mocks__/selectors';
 import BiosCard from './BiosCard';
 
@@ -26,9 +25,9 @@ describe('BiosCard', () => {
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {} });
     const view = render(
-      <RouterWrapper>
-        <BiosCard store={store} />
-      </RouterWrapper>
+      <TestWrapper store={store}>
+        <BiosCard />
+      </TestWrapper>
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -36,9 +35,9 @@ describe('BiosCard', () => {
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
     const view = render(
-      <RouterWrapper>
-        <BiosCard store={store} />
-      </RouterWrapper>
+      <TestWrapper store={store}>
+        <BiosCard />
+      </TestWrapper>
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -55,9 +54,9 @@ describe('BiosCard', () => {
       },
     });
     const view = render(
-      <RouterWrapper>
-        <BiosCard store={store} />
-      </RouterWrapper>
+      <TestWrapper store={store}>
+        <BiosCard />
+      </TestWrapper>
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -66,9 +65,9 @@ describe('BiosCard', () => {
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
       const view = render(
-        <RouterWrapper>
-          <BiosCard store={store} {...{ [item]: false }} />
-        </RouterWrapper>
+        <TestWrapper store={store}>
+          <BiosCard {...{ [item]: false }} />
+        </TestWrapper>
       );
       expect(view.asFragment()).toMatchSnapshot();
     })
@@ -77,9 +76,8 @@ describe('BiosCard', () => {
   it('should render extra', () => {
     const store = mockStore(initialState);
     const view = render(
-      <RouterWrapper>
+      <TestWrapper store={store}>
         <BiosCard
-          store={store}
           extra={[
             { title: 'something', value: 'test' },
             {
@@ -90,7 +88,7 @@ describe('BiosCard', () => {
             },
           ]}
         />
-      </RouterWrapper>
+      </TestWrapper>
     );
 
     expect(view.asFragment()).toMatchSnapshot();
