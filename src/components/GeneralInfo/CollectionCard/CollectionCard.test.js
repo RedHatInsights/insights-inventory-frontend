@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { RouterWrapper } from '../../../Utilities/TestingUtilities';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { collectInfoTest } from '../../../__mocks__/selectors';
 import CollectionCard from './CollectionCard';
 
@@ -32,22 +31,30 @@ describe('CollectionCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const view = render(<CollectionCard store={store} />);
+    const view = render(
+      <TestWrapper store={store}>
+        <CollectionCard />
+      </TestWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const view = render(<CollectionCard store={store} />);
+    const view = render(
+      <TestWrapper store={store}>
+        <CollectionCard />
+      </TestWrapper>
+    );
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('renders tooltip for version', async () => {
     const store = mockStore(initialState);
     render(
-      <RouterWrapper>
-        <CollectionCard store={store} />
-      </RouterWrapper>
+      <TestWrapper store={store}>
+        <CollectionCard />
+      </TestWrapper>
     );
     await userEvent.hover(screen.getByText('test-client'));
     await screen.findByText(/RPM version: test-client/i);
@@ -64,9 +71,9 @@ describe('CollectionCard', () => {
     it(`should not render ${title}`, () => {
       const store = mockStore(initialState);
       render(
-        <RouterWrapper>
-          <CollectionCard store={store} {...{ [flag]: false }} />
-        </RouterWrapper>
+        <TestWrapper store={store}>
+          <CollectionCard {...{ [flag]: false }} />
+        </TestWrapper>
       );
       expect(screen.queryByText(title)).not.toBeInTheDocument();
     })
@@ -75,9 +82,8 @@ describe('CollectionCard', () => {
   it('should render extra', () => {
     const store = mockStore(initialState);
     const view = render(
-      <RouterWrapper>
+      <TestWrapper store={store}>
         <CollectionCard
-          store={store}
           extra={[
             { title: 'something', value: 'test' },
             {
@@ -88,7 +94,7 @@ describe('CollectionCard', () => {
             },
           ]}
         />
-      </RouterWrapper>
+      </TestWrapper>
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
