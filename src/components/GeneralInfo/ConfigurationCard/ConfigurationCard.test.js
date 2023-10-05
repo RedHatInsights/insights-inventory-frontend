@@ -1,11 +1,10 @@
-/* eslint-disable camelcase */
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { RouterWrapper } from '../../../Utilities/TestingUtilities';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { configTest } from '../../../__mocks__/selectors';
 import ConfigurationCard from './ConfigurationCard';
 
@@ -39,9 +38,9 @@ describe('ConfigurationCard', () => {
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
     const view = render(
-      <RouterWrapper>
-        <ConfigurationCard store={store} />
-      </RouterWrapper>
+      <TestWrapper store={store}>
+        <ConfigurationCard />
+      </TestWrapper>
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -49,9 +48,9 @@ describe('ConfigurationCard', () => {
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
     const view = render(
-      <RouterWrapper>
-        <ConfigurationCard store={store} />
-      </RouterWrapper>
+      <TestWrapper store={store}>
+        <ConfigurationCard />
+      </TestWrapper>
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -70,9 +69,9 @@ describe('ConfigurationCard', () => {
       },
     });
     const view = render(
-      <RouterWrapper>
-        <ConfigurationCard store={store} />
-      </RouterWrapper>
+      <TestWrapper store={store}>
+        <ConfigurationCard />
+      </TestWrapper>
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -82,9 +81,9 @@ describe('ConfigurationCard', () => {
       const store = mockStore(initialState);
       const onClick = jest.fn();
       render(
-        <RouterWrapper>
-          <ConfigurationCard store={store} />
-        </RouterWrapper>
+        <TestWrapper store={store}>
+          <ConfigurationCard />
+        </TestWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[0]);
@@ -99,9 +98,9 @@ describe('ConfigurationCard', () => {
       location.pathname = 'localhost:3000/example/installed_packages';
       useParams.mockImplementation(() => ({ modalId: 'installed_packages' }));
       render(
-        <RouterWrapper>
-          <ConfigurationCard store={store} handleClick={onClick} />
-        </RouterWrapper>
+        <TestWrapper store={store}>
+          <ConfigurationCard handleClick={onClick} />
+        </TestWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[0]);
@@ -116,9 +115,9 @@ describe('ConfigurationCard', () => {
       location.pathname = 'localhost:3000/example/services';
       useParams.mockImplementation(() => ({ modalId: 'services' }));
       render(
-        <RouterWrapper>
-          <ConfigurationCard store={store} handleClick={onClick} />
-        </RouterWrapper>
+        <TestWrapper store={store}>
+          <ConfigurationCard handleClick={onClick} />
+        </TestWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[1]);
@@ -133,9 +132,9 @@ describe('ConfigurationCard', () => {
       location.pathname = 'localhost:3000/example/running_processes';
       useParams.mockImplementation(() => ({ modalId: 'running_processes' }));
       render(
-        <RouterWrapper>
-          <ConfigurationCard store={store} handleClick={onClick} />
-        </RouterWrapper>
+        <TestWrapper store={store}>
+          <ConfigurationCard handleClick={onClick} />
+        </TestWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[2]);
@@ -150,9 +149,9 @@ describe('ConfigurationCard', () => {
       location.pathname = 'localhost:3000/example/repositories';
       useParams.mockImplementation(() => ({ modalId: 'repositories' }));
       render(
-        <RouterWrapper>
-          <ConfigurationCard store={store} handleClick={onClick} />
-        </RouterWrapper>
+        <TestWrapper store={store}>
+          <ConfigurationCard handleClick={onClick} />
+        </TestWrapper>
       );
 
       await userEvent.click(screen.getAllByRole('link')[3]);
@@ -171,9 +170,9 @@ describe('ConfigurationCard', () => {
     it(`should not render ${title}`, () => {
       const store = mockStore(initialState);
       render(
-        <RouterWrapper>
-          <ConfigurationCard store={store} {...{ [flag]: false }} />
-        </RouterWrapper>
+        <TestWrapper store={store}>
+          <ConfigurationCard {...{ [flag]: false }} />
+        </TestWrapper>
       );
 
       expect(screen.queryByText(title)).not.toBeInTheDocument();
@@ -183,9 +182,8 @@ describe('ConfigurationCard', () => {
   it('should render extra', () => {
     const store = mockStore(initialState);
     const view = render(
-      <RouterWrapper>
+      <TestWrapper store={store}>
         <ConfigurationCard
-          store={store}
           extra={[
             { title: 'something', value: 'test' },
             {
@@ -196,7 +194,7 @@ describe('ConfigurationCard', () => {
             },
           ]}
         />
-      </RouterWrapper>
+      </TestWrapper>
     );
 
     expect(view.asFragment()).toMatchSnapshot();
