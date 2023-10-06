@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { RouterWrapper } from '../../../Utilities/TestingUtilities';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import LoadingCard, { Clickable } from './LoadingCard';
 
 jest.mock('react-router-dom', () => ({
@@ -19,12 +19,12 @@ describe('LoadingCard', () => {
   [true, false].map((isLoading) => {
     it(`Loading card render - isLoading: ${isLoading}`, () => {
       const view = render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={isLoading}
             title={`Card that is ${isLoading ? 'loading' : 'loaded'}`}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -33,7 +33,7 @@ describe('LoadingCard', () => {
 
   it('should render loading bars', () => {
     const view = render(
-      <RouterWrapper>
+      <TestWrapper>
         <LoadingCard
           isLoading={true}
           title="Some title"
@@ -49,7 +49,7 @@ describe('LoadingCard', () => {
             },
           ]}
         />
-      </RouterWrapper>
+      </TestWrapper>
     );
 
     expect(view.asFragment()).toMatchSnapshot();
@@ -57,7 +57,7 @@ describe('LoadingCard', () => {
 
   it(`Loading card render`, () => {
     const view = render(
-      <RouterWrapper>
+      <TestWrapper>
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -73,7 +73,7 @@ describe('LoadingCard', () => {
             },
           ]}
         />
-      </RouterWrapper>
+      </TestWrapper>
     );
 
     expect(view.asFragment()).toMatchSnapshot();
@@ -81,9 +81,9 @@ describe('LoadingCard', () => {
 
   it('Clickable should render - no data', () => {
     const view = render(
-      <RouterWrapper>
+      <TestWrapper>
         <Clickable onClick={jest.fn()} />
-      </RouterWrapper>
+      </TestWrapper>
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -91,7 +91,7 @@ describe('LoadingCard', () => {
   describe('none/not available', () => {
     it(`should not be clickable when the value is 0`, () => {
       render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Some title"
@@ -103,7 +103,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^None$/);
@@ -112,7 +112,7 @@ describe('LoadingCard', () => {
 
     it(`should not be clickable when the value is 0 with plural`, () => {
       render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Some title"
@@ -125,7 +125,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^0 systems$/);
@@ -134,7 +134,7 @@ describe('LoadingCard', () => {
 
     it(`should not be clickable when the value is undefined`, () => {
       render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Some title"
@@ -146,7 +146,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
@@ -157,7 +157,7 @@ describe('LoadingCard', () => {
 
     it(`should be none when value is 0`, () => {
       render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Some title"
@@ -168,7 +168,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^None$/);
@@ -177,7 +177,7 @@ describe('LoadingCard', () => {
 
     it(`should be not available when value is undefined`, () => {
       render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Some title"
@@ -188,7 +188,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
@@ -199,7 +199,7 @@ describe('LoadingCard', () => {
 
     it(`plurazied none`, () => {
       render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Some title"
@@ -211,7 +211,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^0 systems$/);
@@ -220,7 +220,7 @@ describe('LoadingCard', () => {
 
     it(`should be clickable with plural`, () => {
       render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Some title"
@@ -233,7 +233,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^23 systems$/);
@@ -242,7 +242,7 @@ describe('LoadingCard', () => {
 
     it(`should be clickable with custom plural`, () => {
       render(
-        <RouterWrapper>
+        <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Some title"
@@ -256,7 +256,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </RouterWrapper>
+        </TestWrapper>
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
@@ -268,9 +268,9 @@ describe('LoadingCard', () => {
 
   it('Clickable should render', () => {
     render(
-      <RouterWrapper>
+      <TestWrapper>
         <Clickable value="15" target="some-target" />
-      </RouterWrapper>
+      </TestWrapper>
     );
 
     expect(screen.getByRole('link', { name: /15/i })).toHaveAttribute(
@@ -283,9 +283,9 @@ describe('LoadingCard', () => {
     const onClick = jest.fn();
 
     render(
-      <RouterWrapper>
+      <TestWrapper>
         <Clickable onClick={onClick} value="15" target="path" />,
-      </RouterWrapper>
+      </TestWrapper>
     );
 
     await userEvent.click(screen.getByRole('link', { name: /15/i }));
@@ -298,9 +298,9 @@ describe('LoadingCard', () => {
     const onClick = jest.fn();
 
     const view = render(
-      <RouterWrapper>
+      <TestWrapper>
         <Clickable onClick={onClick} value={0} target="some-target" />
-      </RouterWrapper>
+      </TestWrapper>
     );
 
     await waitFor(() => {
