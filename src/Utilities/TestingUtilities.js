@@ -1,7 +1,8 @@
-import React from 'react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Provider } from 'react-redux';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 
 export const mountWithRouter = (Component, initialEntries) => {
   const wrapper = mount(
@@ -11,11 +12,13 @@ export const mountWithRouter = (Component, initialEntries) => {
   return wrapper;
 };
 
+const mockStore = configureStore();
+
 export const TestWrapper = ({
   children,
   routerProps = { initialEntries: ['/'] },
   path,
-  store = {},
+  store = mockStore(),
 }) => {
   return (
     <MemoryRouter {...routerProps}>
