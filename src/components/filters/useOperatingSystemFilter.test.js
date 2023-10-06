@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { mockSystemProfile } from '../../__mocks__/hostApi';
+import { availableVersions } from '../../Utilities/__mocks__/OperatingSystemFilterHelpers.fixtures';
 import useOperatingSystemFilter from './useOperatingSystemFilter';
 
 describe('useOperatingSystemFilter', () => {
@@ -38,24 +39,7 @@ describe('useOperatingSystemFilter', () => {
       <Provider
         store={mockStore({
           entities: {
-            operatingSystems: [
-              {
-                label: 'RHEL 8.0',
-                value: '8.0',
-              },
-              {
-                label: 'RHEL 8.4',
-                value: '8.4',
-              },
-              {
-                label: 'RHEL 8.3',
-                value: '8.3',
-              },
-              {
-                label: 'RHEL 9.0',
-                value: '9.0',
-              },
-            ],
+            operatingSystems: availableVersions,
             operatingSystemsLoaded: true,
           },
         })}
@@ -72,7 +56,7 @@ describe('useOperatingSystemFilter', () => {
     it('should return correct filter config', () => {
       const { result } = renderHook(useOperatingSystemFilter, { wrapper });
       const [config] = result.current;
-      expect(config.filterValues.groups.length).toBe(2);
+      expect(config.filterValues.groups.length).toBe(5);
       expect(config.label).toBe('Operating System'); // should be all caps
       expect(config.type).toBe('group');
     });
@@ -83,11 +67,17 @@ describe('useOperatingSystemFilter', () => {
       expect(chips.length).toBe(0);
       expect(value.length).toBe(0);
       act(() => {
-        setValue(['8.4']);
+        setValue([{ osName: 'RHEL', groupName: 'RHEL 8', value: '8.5' }]);
       });
       const [, chipsUpdated, valueUpdated] = result.current;
       expect(chipsUpdated.length).toBe(1);
-      expect(valueUpdated).toEqual(['8.4']);
+      expect(valueUpdated).toEqual([
+        {
+          osName: 'RHEL',
+          osGroup: 'RHEL 8',
+          value: '8.5',
+        },
+      ]);
       expect(chipsUpdated).toMatchSnapshot();
     });
 

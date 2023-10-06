@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import toJson from 'enzyme-to-json';
 import { mockSystemProfile, mockTags } from '../../__mocks__/hostApi';
+import { availableVersions } from '../../Utilities/__mocks__/OperatingSystemFilterHelpers.fixtures';
 import TitleColumn from './TitleColumn';
 import debounce from 'lodash/debounce';
 
@@ -81,24 +82,7 @@ describe('EntityTableToolbar', () => {
             ],
           },
         ],
-        operatingSystems: [
-          {
-            label: 'RHEL 8.0',
-            value: '8.0',
-          },
-          {
-            label: 'RHEL 8.4',
-            value: '8.4',
-          },
-          {
-            label: 'RHEL 8.3',
-            value: '8.3',
-          },
-          {
-            label: 'RHEL 9.0',
-            value: '9.0',
-          },
-        ],
+        operatingSystems: availableVersions,
         operatingSystemsLoaded: true,
       },
     };

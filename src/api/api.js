@@ -117,13 +117,35 @@ export const calculateSystemProfile = ({
       );
 
   if (osFilterValues?.length > 0) {
-    systemProfile.operating_system = {
-      RHEL: {
+    let centosVersions = [];
+    let rhelVersions = [];
+    systemProfile.operating_system = {};
+
+    osFilterValues.forEach((filterValue) => {
+      if (filterValue.osName === 'RHEL') {
+        rhelVersions.push(filterValue.value);
+      }
+
+      if (filterValue.osName === 'CentOS Linux') {
+        centosVersions.push(filterValue.value);
+      }
+    });
+
+    if (centosVersions.length) {
+      systemProfile.operating_system['CentOS Linux'] = {
         version: {
-          eq: osFilterValues,
+          eq: centosVersions,
         },
-      },
-    };
+      };
+    }
+
+    if (rhelVersions.length) {
+      systemProfile.operating_system['RHEL'] = {
+        version: {
+          eq: rhelVersions,
+        },
+      };
+    }
   }
 
   if (rhcdFilter) {

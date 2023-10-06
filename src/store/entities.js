@@ -254,7 +254,9 @@ function versionsLoaded(state, { payload: { results } }) {
       const { name, major, minor } = entry.value;
       const versionStringified = `${major}.${minor}`;
       return {
+        groupLabel: `${name} ${major}`,
         label: `${name} ${versionStringified}`,
+        osName: name,
         value: versionStringified,
       };
     }),

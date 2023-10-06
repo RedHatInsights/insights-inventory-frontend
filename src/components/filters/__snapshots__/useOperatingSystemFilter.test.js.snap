@@ -9,50 +9,101 @@ Array [
           "groupSelectable": true,
           "items": Array [
             Object {
-              "label": "RHEL 9.0",
+              "label": "RHEL 8.10",
               "type": "checkbox",
-              "value": "9.0",
+              "value": "8.10",
+            },
+            Object {
+              "label": "RHEL 8.5",
+              "type": "checkbox",
+              "value": "8.5",
             },
           ],
-          "label": "RHEL 9",
+          "label": "RHEL 8",
           "type": "checkbox",
-          "value": "9",
+          "value": "RHEL 8",
         },
         Object {
           "groupSelectable": true,
           "items": Array [
             Object {
-              "label": "RHEL 8.4",
+              "label": "CentOS Linux 8.6",
               "type": "checkbox",
-              "value": "8.4",
-            },
-            Object {
-              "label": "RHEL 8.3",
-              "type": "checkbox",
-              "value": "8.3",
-            },
-            Object {
-              "label": "RHEL 8.0",
-              "type": "checkbox",
-              "value": "8.0",
+              "value": "8.6",
             },
           ],
-          "label": "RHEL 8",
+          "label": "CentOS Linux 8",
           "type": "checkbox",
-          "value": "8",
+          "value": "CentOS Linux 8",
+        },
+        Object {
+          "groupSelectable": true,
+          "items": Array [
+            Object {
+              "label": "RHEL 7.0",
+              "type": "checkbox",
+              "value": "7.0",
+            },
+          ],
+          "label": "RHEL 7",
+          "type": "checkbox",
+          "value": "RHEL 7",
+        },
+        Object {
+          "groupSelectable": true,
+          "items": Array [
+            Object {
+              "label": "CentOS Linux 7.9",
+              "type": "checkbox",
+              "value": "7.9",
+            },
+          ],
+          "label": "CentOS Linux 7",
+          "type": "checkbox",
+          "value": "CentOS Linux 7",
+        },
+        Object {
+          "groupSelectable": true,
+          "items": Array [
+            Object {
+              "label": "RHEL 6.10",
+              "type": "checkbox",
+              "value": "6.10",
+            },
+            Object {
+              "label": "RHEL 6.9",
+              "type": "checkbox",
+              "value": "6.9",
+            },
+          ],
+          "label": "RHEL 6",
+          "type": "checkbox",
+          "value": "RHEL 6",
         },
       ],
       "onChange": [Function],
       "selected": Object {
-        "8": Object {
-          "8": false,
-          "8.0": false,
-          "8.3": false,
-          "8.4": false,
+        "CentOS Linux 7": Object {
+          "7.9": false,
+          "CentOS Linux 7": false,
         },
-        "9": Object {
-          "9": false,
-          "9.0": false,
+        "CentOS Linux 8": Object {
+          "8.6": false,
+          "CentOS Linux 8": false,
+        },
+        "RHEL 6": Object {
+          "6.10": false,
+          "6.9": false,
+          "RHEL 6": false,
+        },
+        "RHEL 7": Object {
+          "7.0": false,
+          "RHEL 7": false,
+        },
+        "RHEL 8": Object {
+          "8.10": false,
+          "8.5": false,
+          "RHEL 8": false,
         },
       },
     },
@@ -72,8 +123,10 @@ Array [
     "category": "Operating System",
     "chips": Array [
       Object {
-        "name": "RHEL 8.4",
-        "value": "8.4",
+        "groupLabel": "RHEL 8",
+        "name": "RHEL 8.5",
+        "osName": "RHEL",
+        "value": "8.5",
       },
     ],
     "type": "operating_system",
