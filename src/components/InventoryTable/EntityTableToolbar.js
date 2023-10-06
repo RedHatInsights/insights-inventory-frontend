@@ -3,7 +3,6 @@ import './EntityTableToolbar.scss';
 import React, { Fragment, useCallback, useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import xor from 'lodash/xor';
 import {
   Skeleton,
   SkeletonSize,
@@ -419,13 +418,13 @@ const EntityTableToolbar = ({
       setStaleFilter(onDeleteFilter(deleted, staleFilter)),
     [REGISTERED_CHIP]: (deleted) =>
       setRegisteredWithFilter(onDeleteFilter(deleted, registeredWithFilter)),
-    [OS_CHIP]: (deleted) =>
+    [OS_CHIP]: (deleted) => {
       setOsFilterValue(
-        xor(
-          osFilterValue,
-          deleted.chips.map(({ value }) => value)
+        osFilterValue.filter(
+          (filter) => filter.value !== deleted.chips[0].value
         )
-      ),
+      );
+    },
     [RHCD_FILTER_KEY]: (deleted) =>
       setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
     [LAST_SEEN_CHIP]: (deleted) => {

@@ -51,7 +51,11 @@ const useOperatingSystemFilter = (apiParams = [], hasAccess) => {
     setSelected(
       toGroupSelection(
         getSelectedOsFilterVersions(selected),
-        (operatingSystems || []).map(({ value }) => value)
+        (operatingSystems || []).map(({ groupLabel, osName, value }) => ({
+          groupLabel,
+          osName,
+          value,
+        }))
       )
     );
   }, [operatingSystems]);
@@ -87,7 +91,11 @@ const useOperatingSystemFilter = (apiParams = [], hasAccess) => {
         toGroupSelection(
           versions,
           operatingSystemsLoaded
-            ? (operatingSystems || []).map(({ value }) => value)
+            ? (operatingSystems || []).map(({ groupLabel, osName, value }) => ({
+                groupLabel,
+                osName,
+                value,
+              }))
             : undefined
         )
       );

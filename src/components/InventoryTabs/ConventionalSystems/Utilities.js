@@ -14,8 +14,11 @@ const mapTags = ({ category, values }) =>
 const filterMapper = {
   staleFilter: ({ staleFilter }, searchParams) =>
     staleFilter.forEach((item) => searchParams.append('status', item)),
-  osFilter: ({ osFilter }, searchParams) =>
-    osFilter?.forEach((item) => searchParams.append('operating_system', item)),
+  osFilter: ({ osFilter }, searchParams) => {
+    osFilter?.forEach((item) => {
+      searchParams.append('operating_system', `${item.osName}${item.value}`);
+    });
+  },
   registeredWithFilter: ({ registeredWithFilter }, searchParams) =>
     registeredWithFilter?.forEach((item) =>
       searchParams.append('source', item)
