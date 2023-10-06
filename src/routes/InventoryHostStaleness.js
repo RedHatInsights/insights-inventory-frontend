@@ -20,8 +20,7 @@ const HostStaleness = () => {
   const chrome = useChrome();
   const { hasAccess: canReadHostStaleness } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS,
-    null,
-    false
+    true
   );
 
   useEffect(() => {

@@ -19,8 +19,10 @@ const REQUIRED_PERMISSIONS = [
 ];
 
 const InventoryHostStaleness = () => {
-  const { hasAccess: canModifyHostStaleness } =
-    usePermissionsWithContext(REQUIRED_PERMISSIONS);
+  const { hasAccess: canModifyHostStaleness } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS,
+    true
+  );
 
   return (
     <section>
