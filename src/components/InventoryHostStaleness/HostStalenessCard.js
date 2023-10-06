@@ -205,13 +205,15 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 </Button>
               ) : (
                 <Tooltip content="You do not have the Inventory staleness and deletion viewer role required to perform this action. Contact your org admin for access.">
-                  <Button
-                    variant="link"
-                    style={{ 'padding-left': '0px' }}
-                    isDisabled={!canModifyHostStaleness}
-                  >
-                    Edit
-                  </Button>
+                  <div>
+                    <Button
+                      variant="link"
+                      style={{ 'padding-left': '0px' }}
+                      isDisabled={!canModifyHostStaleness}
+                    >
+                      Edit
+                    </Button>
+                  </div>
                 </Tooltip>
               )}
             </Flex>
