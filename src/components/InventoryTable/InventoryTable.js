@@ -175,7 +175,7 @@ const InventoryTable = forwardRef(
         options?.per_page || options?.perPage || cachedProps.perPage;
 
       const newParams = {
-        page: cachedProps.page,
+        page,
         per_page: currPerPage,
         items: cachedProps.items,
         sortBy: cachedProps.sortBy,
