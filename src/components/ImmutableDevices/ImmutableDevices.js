@@ -3,57 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import { TableVariant } from '@patternfly/react-table';
 import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
-import Status from './Status';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import { getDeviceStatus } from './helpers';
 import { useNavigate } from 'react-router-dom';
-
-const edgeColumns = [
-  {
-    key: 'ImageName',
-    title: 'Image',
-    sort: false,
-    renderFunc: (imageName, uuid) => {
-      return <a href={`/edge/inventory/${uuid}`}>{imageName}</a>;
-    },
-    props: { isStatic: true },
-  },
-  {
-    key: 'Status',
-    title: 'Status',
-    sort: false,
-    renderFunc: (
-      StatusText,
-      DEVICE_ID,
-      { UpdateAvailable, DispatcherStatus }
-    ) => {
-      const deviceStatus = getDeviceStatus(
-        StatusText,
-        UpdateAvailable,
-        DispatcherStatus
-      );
-
-      return deviceStatus === 'error' || deviceStatus === 'unresponsive' ? (
-        <Status
-          type={
-            deviceStatus === 'error'
-              ? 'errorWithExclamationCircle'
-              : deviceStatus
-          }
-          isLink={true}
-        />
-      ) : (
-        <Status
-          type={
-            deviceStatus === 'error'
-              ? 'errorWithExclamationCircle'
-              : deviceStatus
-          }
-        />
-      );
-    },
-  },
-];
+import { edgeColumns } from './helpers';
 
 const ImmutableDevices = ({
   inventoryRef,
