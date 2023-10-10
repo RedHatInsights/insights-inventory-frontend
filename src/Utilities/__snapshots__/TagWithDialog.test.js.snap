@@ -1,18 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EntityTable DOM should render with count 1`] = `
-<TagWithDialog
-  count={10}
-  loadTags={[Function]}
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
-/>
+<DocumentFragment>
+  <span
+    class="ins-c-inventory__list-tags"
+    data-ouia-component-id="undefined-tag-button"
+  >
+    <button
+      aria-disabled="false"
+      class="pf-c-button pf-m-plain ins-c-tag-count"
+      data-ouia-component-id="OUIA-Generated-Button-plain-1"
+      data-ouia-component-type="PF4/Button"
+      data-ouia-safe="true"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        fill="currentColor"
+        height="1.5em"
+        role="img"
+        style="vertical-align: -0.1875em;"
+        viewBox="0 0 512 512"
+        width="1.5em"
+      >
+        <path
+          d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"
+        />
+      </svg>
+      <span
+        class="ins-c-tag__text"
+      >
+        10
+      </span>
+    </button>
+  </span>
+</DocumentFragment>
 `;
