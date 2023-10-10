@@ -158,6 +158,9 @@ const Inventory = () => {
     chrome.appAction('system-detail');
 
     inventoryId && dispatch(actions.systemProfile(inventoryId));
+  }, []);
+
+  useEffect(() => {
     if (hType == 'edge') {
       (async () => {
         const device = await getDevice(inventoryId);
