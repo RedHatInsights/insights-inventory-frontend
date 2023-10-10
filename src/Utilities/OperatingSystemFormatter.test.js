@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { mount } from 'enzyme';
-
 import OperatingSystemFormatter from './OperatingSystemFormatter';
 
 describe('OperatingSystemFormatter', () => {
@@ -14,11 +13,11 @@ describe('OperatingSystemFormatter', () => {
       minor: 4,
     };
 
-    const wrapper = mount(
-      <OperatingSystemFormatter operatingSystem={operatingSystem} />
-    );
+    render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
-    expect(wrapper.text()).toEqual('RHEL 7.4');
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'RHEL 7.4'
+    );
   });
 
   it('should render correctly with Centos and version', () => {
@@ -28,11 +27,11 @@ describe('OperatingSystemFormatter', () => {
       minor: 4,
     };
 
-    const wrapper = mount(
-      <OperatingSystemFormatter operatingSystem={operatingSystem} />
-    );
+    render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
-    expect(wrapper.text()).toEqual('CentOS Linux 7.4');
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'CentOS Linux 7.4'
+    );
   });
 
   it('should render correctly with RHEL and no version', () => {
@@ -42,11 +41,11 @@ describe('OperatingSystemFormatter', () => {
       minor: null,
     };
 
-    const wrapper = mount(
-      <OperatingSystemFormatter operatingSystem={operatingSystem} />
-    );
+    render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
-    expect(wrapper.text()).toEqual('RHEL ');
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'RHEL'
+    );
   });
 
   it('should render correctly with RHEL and minor version set to 0', () => {
@@ -56,11 +55,11 @@ describe('OperatingSystemFormatter', () => {
       minor: 0,
     };
 
-    const wrapper = mount(
-      <OperatingSystemFormatter operatingSystem={operatingSystem} />
-    );
+    render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
-    expect(wrapper.text()).toEqual('RHEL 7.0');
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'RHEL 7.0'
+    );
   });
 
   it('should render with different system', () => {
@@ -68,11 +67,11 @@ describe('OperatingSystemFormatter', () => {
       name: 'Windows',
     };
 
-    const wrapper = mount(
-      <OperatingSystemFormatter operatingSystem={operatingSystem} />
-    );
+    render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
-    expect(wrapper.text()).toEqual('Windows');
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'Windows'
+    );
   });
 
   it('should not render OS major minor version with different CentOS type system', () => {
@@ -82,11 +81,11 @@ describe('OperatingSystemFormatter', () => {
       minor: 4,
     };
 
-    const wrapper = mount(
-      <OperatingSystemFormatter operatingSystem={operatingSystem} />
-    );
+    render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
-    expect(wrapper.text()).toEqual('CentOS Stream');
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'CentOS Stream'
+    );
   });
 
   it('missing name', () => {
@@ -94,20 +93,20 @@ describe('OperatingSystemFormatter', () => {
       name: null,
     };
 
-    const wrapper = mount(
-      <OperatingSystemFormatter operatingSystem={operatingSystem} />
-    );
+    render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
-    expect(wrapper.text()).toEqual('Not available');
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'Not available'
+    );
   });
 
   it('missing operating system', () => {
     operatingSystem = {};
 
-    const wrapper = mount(
-      <OperatingSystemFormatter operatingSystem={operatingSystem} />
-    );
+    render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
-    expect(wrapper.text()).toEqual('Not available');
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'Not available'
+    );
   });
 });
