@@ -125,6 +125,7 @@ const Inventory = () => {
   const enableEdgeUpdate = useFeatureFlag('edgeParity.inventory-system-detail');
   const [hType, setHType] = useState(null);
   useEffect(() => {
+    setHType(hostType);
     let osSlug =
       entity?.system_profile?.operating_system?.name
         .replace(' ', '-')
@@ -134,7 +135,6 @@ const Inventory = () => {
       entity &&
       appList[osSlug]?.map((app) => {
         app.isDisabled = app.nonEdge && hostType === 'edge' ? true : false;
-        setHType(hostType);
         app['data-cy'] = `${app.name}-tab`;
         app.name === 'ros' && {
           ...app,
