@@ -21,6 +21,20 @@ describe('OperatingSystemFormatter', () => {
     expect(wrapper.text()).toEqual('RHEL 7.4');
   });
 
+  it('should render correctly with Centos and version', () => {
+    operatingSystem = {
+      name: 'CentOS Linux',
+      major: 7,
+      minor: 4,
+    };
+
+    const wrapper = mount(
+      <OperatingSystemFormatter operatingSystem={operatingSystem} />
+    );
+
+    expect(wrapper.text()).toEqual('CentOS Linux 7.4');
+  });
+
   it('should render correctly with RHEL and no version', () => {
     operatingSystem = {
       name: 'RHEL',
@@ -59,6 +73,20 @@ describe('OperatingSystemFormatter', () => {
     );
 
     expect(wrapper.text()).toEqual('Windows');
+  });
+
+  it('should not render OS major minor version with different CentOS type system', () => {
+    operatingSystem = {
+      name: 'CentOS Stream',
+      major: 7,
+      minor: 4,
+    };
+
+    const wrapper = mount(
+      <OperatingSystemFormatter operatingSystem={operatingSystem} />
+    );
+
+    expect(wrapper.text()).toEqual('CentOS Stream');
   });
 
   it('missing name', () => {

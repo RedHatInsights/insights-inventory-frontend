@@ -13,6 +13,7 @@ import {
   TabTitleText,
   Tabs,
   Title,
+  Tooltip,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
@@ -24,28 +25,32 @@ import {
   secondsToDaysConversion,
 } from './constants';
 import { InventoryHostStalenessPopover } from './constants';
-import { INVENTORY_API_BASE } from '../../api';
-import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import {
+  fetchDefaultStalenessValues,
+  fetchStalenessData,
+  patchStalenessData,
+  postStalenessData,
+} from '../../api';
+import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const HostStalenessCard = () => {
-  //need to figure out which key matches to which dropdown
-  //multiply these values be seconds at the end before sending to the api
-  const [filter, setFilter] = useState({
-    conventional_staleness_delta: '',
-    conventional_stale_warning_delta: '',
-    conventional_culling_delta: '',
-    immutable_staleness_delta: '',
-    immutable_stale_warning_delta: '',
-    immutable_culling_delta: '',
-  });
-
-  const axios = useAxiosWithPlatformInterceptors();
+const HostStalenessCard = ({ canModifyHostStaleness }) => {
+  const [filter, setFilter] = useState({});
   const [newFormValues, setNewFormValues] = useState(filter);
-  const [edit, setEdit] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
+  const [hostStalenessImmutableDefaults, setHostStalenessImmutableDefaults] =
+    useState({});
+  const [
+    hostStalenessConventionalDefaults,
+    setHostStalenessConventionalDefaults,
+  ] = useState({});
+
   const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -57,7 +62,7 @@ const HostStalenessCard = () => {
   //Cancel button when a user opts out of saving changes
   const resetToOriginalValues = () => {
     setNewFormValues(filter);
-    setEdit(!edit);
+    setIsEditing(!isEditing);
   };
 
   //On save Button
@@ -68,19 +73,65 @@ const HostStalenessCard = () => {
         filterKey !== 'id' &&
         (apiData[filterKey] = daysToSecondsConversion(newFormValues[filterKey]))
     );
-    //system_default means the account has no record, therefor, post for new instance of record.
+
+    // system_default means the account has no record, therefor, post for new instance of record.
     if (filter.id === 'system_default') {
-      axios.post(`${INVENTORY_API_BASE}/account/staleness`, apiData);
+      postStalenessData(apiData)
+        .then(() => {
+          dispatch(
+            addNotificationAction({
+              id: 'settings-saved',
+              variant: 'success',
+              title: 'Organization level settings saved',
+              description: `Organization level settings saved`,
+              dismissable: true,
+            })
+          );
+          fetchStalenessData();
+          setIsEditing(!isEditing);
+          setIsModalOpen(false);
+        })
+        .catch(() => {
+          dispatch(
+            addNotificationAction({
+              id: 'settings-saved-failed',
+              variant: 'danger',
+              title: 'Error saving organization level settings',
+              description: `Error saving organization level settings`,
+              dismissable: true,
+            })
+          );
+        });
     } else {
-      axios.patch(`${INVENTORY_API_BASE}/account/staleness`, apiData);
+      patchStalenessData(apiData)
+        .then(() => {
+          dispatch(
+            addNotificationAction({
+              id: 'settings-saved',
+              variant: 'success',
+              title: 'Organization level settings saved',
+              dismissable: true,
+            })
+          );
+          fetchStalenessData();
+          setIsEditing(!isEditing);
+          setIsModalOpen(false);
+        })
+        .catch(() => {
+          dispatch(
+            addNotificationAction({
+              id: 'settings-saved-failed',
+              variant: 'danger',
+              title: 'Error saving organization level settings',
+              dismissable: true,
+            })
+          );
+        });
     }
-    setEdit(!edit);
   };
 
-  const fetchStalenessData = async () => {
-    let results = await axios
-      .get(`${INVENTORY_API_BASE}/account/staleness`)
-      .then((res) => res);
+  const fetchApiStalenessData = async () => {
+    let results = await fetchStalenessData();
     let newFilter = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
@@ -91,21 +142,47 @@ const HostStalenessCard = () => {
     setNewFormValues(newFilter);
   };
 
+  //keeps track of what default the backend wants
+  const fetchDefaultValues = async () => {
+    let results = await fetchDefaultStalenessValues().catch((err) => err);
+    let conventionalFilter = {};
+    let immutableFilter = {};
+
+    Object.keys(results).forEach((key) => {
+      if (key.includes('conventional')) {
+        conventionalFilter[key] = secondsToDaysConversion(results[key]);
+      } else if (key.includes('immutable')) {
+        immutableFilter[key] = secondsToDaysConversion(results[key]);
+      }
+    });
+
+    setHostStalenessConventionalDefaults({
+      ...hostStalenessConventionalDefaults,
+      ...conventionalFilter,
+    });
+    setHostStalenessImmutableDefaults({
+      ...hostStalenessImmutableDefaults,
+      ...immutableFilter,
+    });
+  };
+
   const batchedApi = async () => {
-    fetchStalenessData();
+    fetchApiStalenessData();
+    fetchDefaultValues();
     setIsLoading(false);
   };
 
   useEffect(() => {
     batchedApi();
   }, []);
+
   return (
     <React.Fragment>
       {!isLoading ? (
         <Card id={'HostStalenessCard'}>
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
-              Organization level system staleness and culling
+              Organization level system staleness and deletion
             </Title>
             <InventoryHostStalenessPopover />
           </CardHeader>
@@ -115,15 +192,28 @@ const HostStalenessCard = () => {
               options below.
             </p>
             <Flex className="pf-u-mt-md">
-              <Title headingLevel="h6">System configuration </Title>
-              <a
-                role="button"
-                onClick={() => {
-                  setEdit(!edit);
-                }}
-              >
-                Edit
-              </a>
+              <Title headingLevel="h6">System configuration</Title>
+              {canModifyHostStaleness ? (
+                <Button
+                  variant="link"
+                  role="button"
+                  onClick={() => {
+                    setIsEditing(!isEditing);
+                  }}
+                >
+                  Edit
+                </Button>
+              ) : (
+                <Tooltip content="You do not have the Inventory staleness and deletion viewer role required to perform this action. Contact your org admin for access.">
+                  <Button
+                    variant="link"
+                    style={{ 'padding-left': '0px' }}
+                    isDisabled={!canModifyHostStaleness}
+                  >
+                    Edit
+                  </Button>
+                </Tooltip>
+              )}
             </Flex>
             <Tabs
               id={'HostTabs'}
@@ -147,8 +237,7 @@ const HostStalenessCard = () => {
                 }
               >
                 <TabCard
-                  edit={edit}
-                  setEdit={setEdit}
+                  isEditing={isEditing}
                   filter={filter}
                   setFilter={setFilter}
                   activeTabKey={0}
@@ -156,6 +245,12 @@ const HostStalenessCard = () => {
                   setNewFormValues={setNewFormValues}
                   isFormValid={isFormValid}
                   setIsFormValid={setIsFormValid}
+                  hostStalenessImmutableDefaults={
+                    hostStalenessImmutableDefaults
+                  }
+                  hostStalenessConventionalDefaults={
+                    hostStalenessConventionalDefaults
+                  }
                 />
               </Tab>
               <Tab
@@ -174,8 +269,7 @@ const HostStalenessCard = () => {
                 }
               >
                 <TabCard
-                  edit={edit}
-                  setEdit={setEdit}
+                  isEditing={isEditing}
                   filter={filter}
                   setFilter={setFilter}
                   activeTabKey={1}
@@ -183,10 +277,16 @@ const HostStalenessCard = () => {
                   setNewFormValues={setNewFormValues}
                   isFormValid={isFormValid}
                   setIsFormValid={setIsFormValid}
+                  hostStalenessImmutableDefaults={
+                    hostStalenessImmutableDefaults
+                  }
+                  hostStalenessConventionalDefaults={
+                    hostStalenessConventionalDefaults
+                  }
                 />
               </Tab>
             </Tabs>
-            {edit && (
+            {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                 <Button
                   className="pf-u-mt-md"
@@ -230,7 +330,7 @@ const HostStalenessCard = () => {
                   ouiaId="BasicModal"
                 >
                   {`Changing the organization level setting for system staleness and
-              culling may impact your systems. Some systems will be culled as a
+              deletion may impact your systems. Some systems will be deleted as a
               result.`}
                 </Modal>
               </Flex>
@@ -242,6 +342,10 @@ const HostStalenessCard = () => {
       )}
     </React.Fragment>
   );
+};
+
+HostStalenessCard.propTypes = {
+  canModifyHostStaleness: PropTypes.bool.isRequired,
 };
 
 export default HostStalenessCard;

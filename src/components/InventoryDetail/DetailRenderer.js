@@ -4,19 +4,17 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import AccessDenied from '../../Utilities/AccessDenied';
 import { hosts } from '../../api';
-import {
-  GENERAL_HOSTS_READ_PERMISSIONS,
-  REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS,
-} from '../../constants';
+import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
 import DetailWrapper from './DetailWrapper';
 
 const DetailRenderer = ({ isRbacEnabled, ...props }) => {
   const [hostGroupId, setHostGroupId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { hasAccess } = usePermissionsWithContext(
-    hostGroupId !== null
-      ? REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(hostGroupId)
-      : [GENERAL_HOSTS_READ_PERMISSIONS]
+    /**
+     * hostGroupId can be null, and the ungrouped hosts permissions will be checked in that case
+     */
+    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(hostGroupId)
   );
 
   useEffect(() => {
@@ -51,11 +49,10 @@ const DetailRenderer = ({ isRbacEnabled, ...props }) => {
     };
   }, [props.inventoryId]);
 
-  if (isRbacEnabled === false) {
-    return <DetailWrapper {...props} />;
-  }
-
-  if (isLoading) {
+  if (isLoading === true) {
+    /**
+     * TODO: test different scenarios once RTL migration is complete
+     */
     return (
       <Flex direction={{ default: 'column' }}>
         <Skeleton width="66%" fontSize="2xl" />
@@ -63,12 +60,16 @@ const DetailRenderer = ({ isRbacEnabled, ...props }) => {
         <Skeleton width="33%" />
       </Flex>
     );
-  }
-
-  if (hasAccess === false) {
-    return <AccessDenied />;
   } else {
-    return <DetailWrapper {...props} />;
+    if (isRbacEnabled === true) {
+      if (hasAccess === false) {
+        return <AccessDenied />;
+      } else {
+        return <DetailWrapper {...props} />;
+      }
+    } else {
+      return <DetailWrapper {...props} />;
+    }
   }
 };
 

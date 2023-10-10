@@ -29,7 +29,7 @@ export const routes = {
   groupDetail: '/groups/:groupId',
   update: '/:inventoryId/update',
   edgeInventory: '/manage-edge-inventory',
-  staleness: '/staleness-and-culling',
+  staleness: '/staleness-and-deletion',
 };
 const INVENTORY_TOTAL_FETCH_URL = '/api/inventory/v1/hosts';
 
@@ -84,7 +84,7 @@ export const Routes = () => {
       element: <Navigate to="/" replace />,
     },
     {
-      path: '/staleness-and-culling',
+      path: '/staleness-and-deletion',
       element: groupsEnabled ? <InventoryHostStaleness /> : <LostPage />,
     },
   ]);

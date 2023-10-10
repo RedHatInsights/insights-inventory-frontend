@@ -101,6 +101,10 @@ plugins.push(
           '../src/store/systemProfileStore.js'
         ),
         './DeleteModal': resolve(__dirname, '../src/Utilities/DeleteModal.js'),
+        './HybridInventoryTabs': resolve(
+          __dirname,
+          '../src/modules/HybridInventoryTabs.js'
+        ),
       },
       shared: [
         {

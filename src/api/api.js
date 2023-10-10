@@ -117,13 +117,35 @@ export const calculateSystemProfile = ({
       );
 
   if (osFilterValues?.length > 0) {
-    systemProfile.operating_system = {
-      RHEL: {
+    let centosVersions = [];
+    let rhelVersions = [];
+    systemProfile.operating_system = {};
+
+    osFilterValues.forEach((filterValue) => {
+      if (filterValue.osName === 'RHEL') {
+        rhelVersions.push(filterValue.value);
+      }
+
+      if (filterValue.osName === 'CentOS Linux') {
+        centosVersions.push(filterValue.value);
+      }
+    });
+
+    if (centosVersions.length) {
+      systemProfile.operating_system['CentOS Linux'] = {
         version: {
-          eq: osFilterValues,
+          eq: centosVersions,
         },
-      },
-    };
+      };
+    }
+
+    if (rhelVersions.length) {
+      systemProfile.operating_system['RHEL'] = {
+        version: {
+          eq: rhelVersions,
+        },
+      };
+    }
   }
 
   if (rhcdFilter) {
@@ -344,3 +366,18 @@ export function getAllTags(search, pagination = {}) {
 export function getOperatingSystems(params = []) {
   return systemProfile.apiSystemProfileGetOperatingSystem(...params);
 }
+
+export const fetchDefaultStalenessValues = () => {
+  return instance.get(`${INVENTORY_API_BASE}/account/staleness/defaults`);
+};
+
+export const fetchStalenessData = () => {
+  return instance.get(`${INVENTORY_API_BASE}/account/staleness`);
+};
+
+export const postStalenessData = (data) => {
+  return instance.post(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
+export const patchStalenessData = (data) => {
+  return instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
