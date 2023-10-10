@@ -122,6 +122,7 @@ const ConventionalSystemsTab = ({
   const EdgeParityFilterDeviceEnabled = useFeatureFlag(
     'edgeParity.inventory-list-filter'
   );
+  const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
 
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
@@ -212,6 +213,7 @@ const ConventionalSystemsTab = ({
         autoRefresh
         ignoreRefresh
         initialLoading={initialLoading}
+        hideFilters={{ updateMethodFilter: EdgeParityEnabled }}
         ref={inventory}
         tableProps={{
           actionResolver: tableActions,

@@ -14,6 +14,8 @@ import createXhrMock from '../../../Utilities/__mocks__/xhrMock';
 
 import { useGetRegistry } from '../../../Utilities/constants';
 import { mockSystemProfile } from '../../../__mocks__/hostApi';
+import useFeatureFlag from '../../../Utilities/useFeatureFlag';
+import ConditionalFilter from '@redhat-cloud-services/frontend-components/ConditionalFilter';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -277,6 +279,27 @@ describe('ConventionalSystemsTab', () => {
     });
 
     window.XMLHttpRequest = tmp;
+  });
+
+  it('hides system update method filter when edge parity feature is enabled', async () => {
+    let wrapper;
+    const store = mockStore(initialStore);
+    useFeatureFlag.mockImplementation(() => true);
+    await act(async () => {
+      wrapper = mount(<ConventionalSystemsTab initialLoading={false} />, store);
+    });
+    wrapper.update();
+
+    await act(async () => {
+      wrapper.find('button[aria-label="Conditional filter"]').props('click');
+    });
+    wrapper.update();
+    const availableFilters = wrapper.find(ConditionalFilter).props().items;
+    const updateMethodFilter = availableFilters.filter(
+      (filter) => filter.label === 'System Update Method'
+    );
+
+    expect(updateMethodFilter).toHaveLength(0);
   });
 });
 
