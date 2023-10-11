@@ -93,6 +93,7 @@ const EntityTableToolbar = ({
   onRefreshData,
   loaded,
   showTagModal,
+  showCentosVersions,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -158,7 +159,7 @@ const EntityTableToolbar = ({
     setEndDate,
   ] = useLastSeenFilter(reducer);
   const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] =
-    useOperatingSystemFilter([], hasAccess);
+    useOperatingSystemFilter([], hasAccess, showCentosVersions);
   const [
     updateMethodConfig,
     updateMethodChips,
@@ -645,6 +646,7 @@ EntityTableToolbar.propTypes = {
   bulkSelect: PropTypes.object,
   showTagModal: PropTypes.bool,
   disableDefaultColumns: PropTypes.any,
+  showCentosVersions: PropTypes.bool,
 };
 
 EntityTableToolbar.defaultProps = {
