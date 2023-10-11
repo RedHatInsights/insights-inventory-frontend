@@ -24,6 +24,7 @@ const HybridInventoryTabs = ({
   const navigate = useNavigate();
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
+
   useEffect(() => {
     if (EdgeParityEnabled) {
       try {
@@ -41,7 +42,6 @@ const HybridInventoryTabs = ({
               .then((conventionalImages) => {
                 const accountHasConventionalImages =
                   conventionalImages?.data?.total > 0;
-
                 if (accountHasEdgeImages && !accountHasConventionalImages) {
                   handleTabClick(
                     undefined,
@@ -54,7 +54,7 @@ const HybridInventoryTabs = ({
         console.log(e);
       }
     }
-  }, [EdgeParityEnabled]);
+  }, []);
 
   const activeTab = isImmutableTabOpen
     ? hybridInventoryTabKeys.immutable.key
@@ -84,14 +84,12 @@ const HybridInventoryTabs = ({
       unmountOnExit
     >
       <Tab
-        aria-label="Conventional tab"
         eventKey={hybridInventoryTabKeys.conventional.key}
         title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
       >
         {ConventionalSystemsTab}
       </Tab>
       <Tab
-        aria-label="Immutable tab"
         eventKey={hybridInventoryTabKeys.immutable.key}
         title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
       >
