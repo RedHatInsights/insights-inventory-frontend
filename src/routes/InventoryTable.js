@@ -33,6 +33,7 @@ const SuspenseWrapper = ({ children }) => (
 const Inventory = (props) => {
   const { search } = useLocation();
   const searchParams = useMemo(() => getSearchParams(), [search.toString()]);
+  const fullProps = { ...props, ...searchParams };
   return (
     <React.Fragment>
       <PageHeader className="pf-m-light">
@@ -42,12 +43,12 @@ const Inventory = (props) => {
         <HybridInventoryTabs
           ConventionalSystemsTab={
             <SuspenseWrapper>
-              <ConventionalSystemsTab {...searchParams} />
+              <ConventionalSystemsTab {...fullProps} />
             </SuspenseWrapper>
           }
           ImmutableDevicesTab={
             <SuspenseWrapper>
-              <ImmutableDevicesTab />
+              <ImmutableDevicesTab {...fullProps} />
             </SuspenseWrapper>
           }
           isImmutableTabOpen={props.isImmutableTabOpen}

@@ -205,13 +205,15 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 </Button>
               ) : (
                 <Tooltip content="You do not have the Inventory staleness and deletion viewer role required to perform this action. Contact your org admin for access.">
-                  <Button
-                    variant="link"
-                    style={{ 'padding-left': '0px' }}
-                    isDisabled={!canModifyHostStaleness}
-                  >
-                    Edit
-                  </Button>
+                  <div>
+                    <Button
+                      variant="link"
+                      style={{ 'padding-left': '0px' }}
+                      isDisabled={!canModifyHostStaleness}
+                    >
+                      Edit
+                    </Button>
+                  </div>
                 </Tooltip>
               )}
             </Flex>
@@ -330,8 +332,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   ouiaId="BasicModal"
                 >
                   {`Changing the organization level setting for system staleness and
-              deletion may impact your systems. Some systems will be deleted as a
-              result.`}
+              deletion may impact your systems. Some systems may be deleted as a result.`}
                 </Modal>
               </Flex>
             )}{' '}
