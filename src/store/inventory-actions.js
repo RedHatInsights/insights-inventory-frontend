@@ -222,9 +222,9 @@ export const fetchGroupDetail = (groupId) => ({
   payload: getGroupDetail(groupId),
 });
 
-export const fetchOperatingSystems = (params = []) => ({
+export const fetchOperatingSystems = (params = [], showCentosVersions) => ({
   type: ACTION_TYPES.OPERATING_SYSTEMS,
-  payload: getOperatingSystems(params),
+  payload: getOperatingSystems(params, showCentosVersions),
 });
 
 export const deleteEntity = (systems, displayName) => ({
