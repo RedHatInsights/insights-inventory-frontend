@@ -108,6 +108,7 @@ export const calculateSystemProfile = ({
   osFilter,
   rhcdFilter,
   updateMethodFilter,
+  hostTypeFilter,
 }) => {
   let systemProfile = {};
   const osFilterValues = Array.isArray(osFilter)
@@ -152,6 +153,10 @@ export const calculateSystemProfile = ({
     systemProfile[RHCD_FILTER_KEY] = rhcdFilter;
   }
 
+  if (hostTypeFilter) {
+    systemProfile['host_type'] = hostTypeFilter;
+  }
+
   if (updateMethodFilter) {
     systemProfile[UPDATE_METHOD_KEY] = {
       eq: updateMethodFilter,
@@ -171,6 +176,7 @@ export const filtersReducer = (acc, filter = {}) => ({
   }),
   ...('osFilter' in filter && { osFilter: filter.osFilter }),
   ...('rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter }),
+  ...('hostTypeFilter' in filter && { hostTypeFilter: filter.hostTypeFilter }),
   ...('lastSeenFilter' in filter && { lastSeenFilter: filter.lastSeenFilter }),
   ...('updateMethodFilter' in filter && {
     updateMethodFilter: filter.updateMethodFilter,

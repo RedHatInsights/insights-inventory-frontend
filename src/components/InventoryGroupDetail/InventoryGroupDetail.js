@@ -3,6 +3,7 @@ import {
   PageSection,
   Spinner,
   Tab,
+  TabTitleText,
   Tabs,
 } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
@@ -10,7 +11,7 @@ import PropTypes from 'prop-types';
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../store/inventory-actions';
-// import GroupSystems from '../GroupSystems';
+import GroupSystems from '../GroupSystems';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
@@ -21,17 +22,8 @@ import {
   EmptyStateNoAccessToGroup,
   EmptyStateNoAccessToSystems,
 } from './EmptyStateNoAccess';
-import HybridInventoryTabs from '../../components/InventoryTabs/HybridInventoryTabs';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
-// const ImmutableDevicesTab = lazy(() =>
-//   import('../../components/InventoryTabs/ImmutableDevices/EdgeDevicesTab')
-// );
-// const ConventionalSystemsTab = lazy(() =>
-//   import(
-//     '../../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab'
-//   )
-// );
 
 const SuspenseWrapper = ({ children }) => (
   <Suspense
@@ -72,6 +64,11 @@ const InventoryGroupDetail = ({ groupId }) => {
   }, [data]);
 
   const [activeTabKey, setActiveTabKey] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleTabClick = (_event, tabIndex) => {
+    setActiveTab(tabIndex);
+  };
 
   // TODO: append search parameter to identify the active tab
 
@@ -90,20 +87,41 @@ const InventoryGroupDetail = ({ groupId }) => {
             <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
               <PageSection>
                 {canViewHosts ? (
-                  <HybridInventoryTabs
-                    ConventionalSystemsTab={
-                      <SuspenseWrapper>
-                        {/* <ConventionalSystemsTab {...fullProps} /> */}
-                        {/* <GroupSystems groupName={groupName} groupId={groupId} /> */}
-                      </SuspenseWrapper>
-                    }
-                    ImmutableDevicesTab={
-                      <SuspenseWrapper>
-                        {/* <ImmutableDevicesTab {...fullProps} /> */}
-                      </SuspenseWrapper>
-                    }
-                    // isImmutableTabOpen={props.isImmutableTabOpen}
-                  />
+                  <Tabs
+                    className="pf-m-light pf-c-table"
+                    activeKey={activeTab}
+                    onSelect={handleTabClick}
+                    aria-label="Hybrid inventory tabs"
+                  >
+                    <Tab
+                      eventKey={0}
+                      title={
+                        <TabTitleText>Conventional (RPM-DNF)</TabTitleText>
+                      }
+                    >
+                      <GroupSystems
+                        groupName={groupName}
+                        groupId={groupId}
+                        immutable={false}
+                      />
+                    </Tab>
+                    <Tab
+                      eventKey={1}
+                      title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
+                    >
+                      <GroupSystems
+                        groupName={groupName}
+                        groupId={groupId}
+                        immutable={true}
+                      />
+                      {/* <ImmutableDevicesView
+                       skeletonRowQuantity={15}
+                       hasCheckbox={true}
+                       isSystemsView={false}
+                       selectedItems={setSelectedImmutableDevices}
+                     /> */}
+                    </Tab>
+                  </Tabs>
                 ) : (
                   <EmptyStateNoAccessToSystems />
                 )}

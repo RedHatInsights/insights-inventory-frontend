@@ -73,7 +73,8 @@ export const prepareColumns = (
     .filter(Boolean); // eliminate possible undefined's
 };
 
-const GroupSystems = ({ groupName, groupId }) => {
+const GroupSystems = ({ groupName, groupId, immutable }) => {
+  console.log(immutable);
   const dispatch = useDispatch();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
@@ -112,7 +113,6 @@ const GroupSystems = ({ groupName, groupId }) => {
     pageSelected,
     groupName
   );
-
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
@@ -141,12 +141,14 @@ const GroupSystems = ({ groupName, groupId }) => {
           }}
         />
       )}
+
       {!addToGroupModalOpen && (
         <InventoryTable
           columns={(columns) => prepareColumns(columns, true)}
           hideFilters={{ hostGroupFilter: true }}
           initialLoading
           getEntities={async (items, config, showTags, defaultGetEntities) =>
+            //add validation to load convetional without filter
             await defaultGetEntities(
               items,
               // filter systems by the group name
@@ -155,6 +157,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                 filters: {
                   ...config.filters,
                   hostGroupFilter: [groupName],
+                  hostTypeFiler: 'edge',
                 },
               },
               showTags
@@ -229,6 +232,7 @@ const GroupSystems = ({ groupName, groupId }) => {
 GroupSystems.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
+  immutable: PropTypes.bool,
 };
 
 export default GroupSystems;
