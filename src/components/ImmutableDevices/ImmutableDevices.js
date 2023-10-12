@@ -5,7 +5,7 @@ import { TableVariant } from '@patternfly/react-table';
 import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { useNavigate } from 'react-router-dom';
-import { edgeColumns } from './helpers';
+import { edgeColumns } from './columns';
 
 const ImmutableDevices = ({
   inventoryRef,
