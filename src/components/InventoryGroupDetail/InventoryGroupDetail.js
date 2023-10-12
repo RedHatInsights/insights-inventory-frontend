@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../store/inventory-actions';
-import GroupSystems from '../GroupSystems';
+// import GroupSystems from '../GroupSystems';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
@@ -21,9 +21,29 @@ import {
   EmptyStateNoAccessToGroup,
   EmptyStateNoAccessToSystems,
 } from './EmptyStateNoAccess';
+import HybridInventoryTabs from '../../components/InventoryTabs/HybridInventoryTabs';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
+// const ImmutableDevicesTab = lazy(() =>
+//   import('../../components/InventoryTabs/ImmutableDevices/EdgeDevicesTab')
+// );
+// const ConventionalSystemsTab = lazy(() =>
+//   import(
+//     '../../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab'
+//   )
+// );
 
+const SuspenseWrapper = ({ children }) => (
+  <Suspense
+    fallback={
+      <Bullseye>
+        <Spinner size="xl" />
+      </Bullseye>
+    }
+  >
+    {children}
+  </Suspense>
+);
 const InventoryGroupDetail = ({ groupId }) => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.groupDetail);
@@ -70,7 +90,20 @@ const InventoryGroupDetail = ({ groupId }) => {
             <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
               <PageSection>
                 {canViewHosts ? (
-                  <GroupSystems groupName={groupName} groupId={groupId} />
+                  <HybridInventoryTabs
+                    ConventionalSystemsTab={
+                      <SuspenseWrapper>
+                        {/* <ConventionalSystemsTab {...fullProps} /> */}
+                        {/* <GroupSystems groupName={groupName} groupId={groupId} /> */}
+                      </SuspenseWrapper>
+                    }
+                    ImmutableDevicesTab={
+                      <SuspenseWrapper>
+                        {/* <ImmutableDevicesTab {...fullProps} /> */}
+                      </SuspenseWrapper>
+                    }
+                    // isImmutableTabOpen={props.isImmutableTabOpen}
+                  />
                 ) : (
                   <EmptyStateNoAccessToSystems />
                 )}
@@ -106,4 +139,7 @@ InventoryGroupDetail.propTypes = {
   groupId: PropTypes.string.isRequired,
 };
 
+SuspenseWrapper.propTypes = {
+  children: PropTypes.element,
+};
 export default InventoryGroupDetail;
