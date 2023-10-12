@@ -1,4 +1,7 @@
-import { groupsInterceptors } from '../../../../cypress/support/interceptors';
+import {
+  groupsInterceptors,
+  systemProfileInterceptors,
+} from '../../../../cypress/support/interceptors';
 import AddSelectedHostsToGroupModal from './AddSelectedHostsToGroupModal';
 
 const mountModal = (
@@ -28,6 +31,7 @@ describe('AddSelectedHostsToGroupModal', () => {
 
     beforeEach(() => {
       groupsInterceptors['successful with some items']();
+      systemProfileInterceptors['operating system, successful empty']();
       mountModal();
     });
 

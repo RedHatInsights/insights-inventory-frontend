@@ -368,7 +368,7 @@ export const getOperatingSystems = async (params = [], showCentosVersions) => {
     ...params
   );
   if (!showCentosVersions) {
-    let newResults = operatingSystems?.results.filter(
+    const newResults = operatingSystems.results.filter(
       ({ value }) => !value.name.toLowerCase().startsWith('centos')
     );
     operatingSystems.results = newResults;
