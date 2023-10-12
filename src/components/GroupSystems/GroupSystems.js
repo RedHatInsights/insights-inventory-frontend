@@ -157,7 +157,7 @@ const GroupSystems = ({ groupName, groupId, immutable }) => {
                 filters: {
                   ...config.filters,
                   hostGroupFilter: [groupName],
-                  hostTypeFiler: 'edge',
+                  hostTypeFilter: 'edge',
                 },
               },
               showTags
