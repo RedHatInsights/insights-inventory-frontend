@@ -155,6 +155,10 @@ plugins.push(
           __dirname,
           '../src/modules/HybridInventoryTabs.js'
         ),
+        './ImmutableDevices': resolve(
+          __dirname,
+          '../src/modules/ImmutableDevices.js'
+        ),
       },
       shared: [
         {
