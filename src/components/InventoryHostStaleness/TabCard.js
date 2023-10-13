@@ -69,6 +69,7 @@ const TabCard = ({
                   role="button"
                   onClick={() => resetToStandard(activeTabKey)}
                   style={{ padding: '0' }}
+                  ouiaId="reset-to-default"
                 >
                   Reset to default setting
                 </Button>
