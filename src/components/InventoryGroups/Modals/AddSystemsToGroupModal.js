@@ -166,6 +166,7 @@ const AddSystemsToGroupModal = ({
             bulkSelect={bulkSelectConfig}
             initialLoading={true}
             showTags
+            showCentosVersions
           />
         </Modal>
       </>

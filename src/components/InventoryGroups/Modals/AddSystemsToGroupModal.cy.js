@@ -13,6 +13,7 @@ import {
   groupsInterceptors,
   hostsFixtures,
   hostsInterceptors,
+  systemProfileInterceptors,
 } from '../../../../cypress/support/interceptors';
 import { selectRowN } from '../../../../cypress/support/utils';
 import AddSystemsToGroupModal from './AddSystemsToGroupModal';
@@ -79,6 +80,7 @@ describe('AddSystemsToGroupModal', () => {
     hostsInterceptors.successful(); // default hosts list
     featureFlagsInterceptors.successful(); // to enable the Group column
     groupsInterceptors['successful with some items']();
+    systemProfileInterceptors['operating system, successful empty']();
   });
 
   it('renders correct header and buttons', () => {

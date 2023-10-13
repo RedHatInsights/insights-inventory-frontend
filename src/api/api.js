@@ -363,9 +363,18 @@ export function getAllTags(search, pagination = {}) {
   );
 }
 
-export function getOperatingSystems(params = []) {
-  return systemProfile.apiSystemProfileGetOperatingSystem(...params);
-}
+export const getOperatingSystems = async (params = [], showCentosVersions) => {
+  let operatingSystems = await systemProfile.apiSystemProfileGetOperatingSystem(
+    ...params
+  );
+  if (!showCentosVersions) {
+    const newResults = operatingSystems.results.filter(
+      ({ value }) => !value.name.toLowerCase().startsWith('centos')
+    );
+    operatingSystems.results = newResults;
+  }
+  return operatingSystems;
+};
 
 export const fetchDefaultStalenessValues = () => {
   return instance.get(`${INVENTORY_API_BASE}/account/staleness/defaults`);
