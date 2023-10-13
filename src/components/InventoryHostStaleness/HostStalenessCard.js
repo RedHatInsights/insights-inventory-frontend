@@ -200,6 +200,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   onClick={() => {
                     setIsEditing(!isEditing);
                   }}
+                  ouiaId="edit-staleness-setting"
                 >
                   Edit
                 </Button>
