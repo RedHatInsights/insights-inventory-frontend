@@ -23,6 +23,13 @@ import {
   EmptyStateNoAccessToSystems,
 } from './EmptyStateNoAccess';
 
+import { useLocation, useNavigate } from 'react-router-dom';
+import { resolveRelPath } from '../../Utilities/path';
+import { getNotificationProp } from '../../Utilities/edge';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
+// import { resolveRelPath } from '../../../Utilities/path';
+
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 
 const SuspenseWrapper = ({ children }) => (
@@ -38,6 +45,7 @@ const SuspenseWrapper = ({ children }) => (
 );
 const InventoryGroupDetail = ({ groupId }) => {
   const dispatch = useDispatch();
+  const notificationProp = getNotificationProp(dispatch);
   const { data } = useSelector((state) => state.groupDetail);
   const chrome = useChrome();
   const groupName = data?.results?.[0]?.name;
@@ -67,6 +75,7 @@ const InventoryGroupDetail = ({ groupId }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (_event, tabIndex) => {
+    console.log(tabIndex);
     setActiveTab(tabIndex);
   };
 
@@ -109,11 +118,19 @@ const InventoryGroupDetail = ({ groupId }) => {
                       eventKey={1}
                       title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
                     >
-                      <GroupSystems
-                        groupName={groupName}
-                        groupId={groupId}
-                        immutable={true}
+                      <AsyncComponent
+                        appName="edge"
+                        module="./DevicesView"
+                        ErrorComponent={<ErrorState />}
+                        navigateProp={useNavigate}
+                        locationProp={useLocation}
+                        notificationProp={notificationProp}
+                        pathPrefix={resolveRelPath('')}
+                        urlName={'edge-devices'}
+                        groupUUID={groupId}
+                        {...groupId}
                       />
+                      {/* ); */}
                       {/* <ImmutableDevicesView
                        skeletonRowQuantity={15}
                        hasCheckbox={true}
