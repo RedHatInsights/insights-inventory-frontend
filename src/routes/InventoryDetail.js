@@ -123,8 +123,9 @@ const Inventory = () => {
   const getDevice = useGetDevice();
   const [deviceData, setDeviceData] = useState(null);
   const enableEdgeUpdate = useFeatureFlag('edgeParity.inventory-system-detail');
-
+  const [hType, setHType] = useState(null);
   useEffect(() => {
+    setHType(hostType);
     let osSlug =
       entity?.system_profile?.operating_system?.name
         .replace(' ', '-')
@@ -156,13 +157,16 @@ const Inventory = () => {
     chrome.appAction('system-detail');
 
     inventoryId && dispatch(actions.systemProfile(inventoryId));
-
-    (async () => {
-      const device = await getDevice(inventoryId);
-      setDeviceData(device);
-    })();
   }, []);
 
+  useEffect(() => {
+    if (hType == 'edge') {
+      (async () => {
+        const device = await getDevice(inventoryId);
+        setDeviceData(device);
+      })();
+    }
+  }, [hType]);
   const additionalClasses = {
     'ins-c-inventory__detail--general-info':
       searchParams.get('appName') === 'general_information',
