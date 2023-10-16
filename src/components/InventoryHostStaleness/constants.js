@@ -62,7 +62,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
         </p>
       );
     } else {
-      return <p className="pf-u-font-size-sm ">Maximum days 7</p>;
+      return <p className="pf-u-font-size-sm ">Maximum: 7 days</p>;
     }
   }
   if (apiKey === 'conventional_stale_warning_delta') {
@@ -87,7 +87,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else {
       return (
         <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
-          Maximum days 180
+          Maximum: 180 days
         </p>
       );
     }
@@ -112,7 +112,11 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
         </p>
       );
     } else {
-      return <div className="pf-u-mb-md" />;
+      return (
+        <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
+          Maximum: 2 years
+        </p>
+      );
     }
   }
 
@@ -138,7 +142,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else {
       return (
         <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
-          Maximum days 7
+          Maximum: 7 days
         </p>
       );
     }
@@ -165,7 +169,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else {
       return (
         <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
-          Maximum days 180
+          Maximum: 180 days
         </p>
       );
     }
@@ -190,7 +194,11 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
         </p>
       );
     } else {
-      return <div className="pf-u-mb-md" />;
+      return (
+        <p className="pf-u-font-size-sm " style={{ width: '200px' }}>
+          Maximum: 2 years
+        </p>
+      );
     }
   }
 };
@@ -208,7 +216,7 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
             spaceItems={{ default: 'spaceItemsNone' }}
           >
             <span className="pf-u-font-size-sm">
-              - Systems are marked as stale after 2 day since last check-in.
+              - Systems are marked as stale after 2 days since last check-in.
             </span>
             <span className="pf-u-font-size-sm">
               - Systems are marked as stale warning after 120 days since last
@@ -216,7 +224,7 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
             </span>
 
             <span className="pf-u-font-size-sm">
-              - Systems are deleted after 2 years since last check-in.
+              - Systems are deleted after 180 days since last check-in.
             </span>
           </Flex>
         ) : (
@@ -228,12 +236,12 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
               - Systems are marked as stale after 1 day since last check-in.
             </span>
             <span className="pf-u-font-size-sm">
-              - Systems are marked as stale warning after 14 days since last
+              - Systems are marked as stale warning after 7 days since last
               check-in.
             </span>
 
             <span className="pf-u-font-size-sm">
-              - Systems are deleted after 30 days since last check-in.
+              - Systems are deleted after 14 days since last check-in.
             </span>
           </Flex>
         )
@@ -263,7 +271,7 @@ export const InventoryHostStalenessPopover = () => {
         <Flex direction={{ default: 'column' }}>
           <p className="pf-u-font-size-sm">
             Configure the number of days it will take for your systems to be
-            marked as stale, stale warning, and be cullled.
+            marked as stale, stale warning, and be deleted.
           </p>
           <Flex
             direction={{ default: 'column' }}
@@ -278,11 +286,11 @@ export const InventoryHostStalenessPopover = () => {
               </p>
             </span>
             <span className="pf-u-font-size-sm">
-              - Systems are marked as stale warning after 14 days since last
+              - Systems are marked as stale warning after 7 days since last
               check-in.
             </span>
             <span className="pf-u-font-size-sm">
-              - Systems are deleted after 30 days since last check-in.
+              - Systems are deleted after 14 days since last check-in.
             </span>
           </Flex>
           <Flex
@@ -294,7 +302,7 @@ export const InventoryHostStalenessPopover = () => {
             </span>
             <span className="pf-u-font-size-sm">
               <p>
-                - Systems are marked as stale after 2 day since last check-in.
+                - Systems are marked as stale after 2 days since last check-in.
               </p>
             </span>
             <span className="pf-u-font-size-sm">
@@ -302,7 +310,7 @@ export const InventoryHostStalenessPopover = () => {
               check-in.
             </span>
             <span className="pf-u-font-size-sm">
-              - Systems are deleted after 2 years since last check-in.
+              - Systems are deleted after 180 days since last check-in.
             </span>
           </Flex>
         </Flex>
