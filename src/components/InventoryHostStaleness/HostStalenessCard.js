@@ -20,6 +20,7 @@ import TabCard from './TabCard';
 import {
   CONVENTIONAL_TAB_TOOLTIP,
   IMMUTABLE_TAB_TOOLTIP,
+  conventionalApiKeys,
   daysToSecondsConversion,
   hostStalenessApiKeys,
   secondsToDaysConversion,
@@ -27,6 +28,7 @@ import {
 import { InventoryHostStalenessPopover } from './constants';
 import {
   fetchDefaultStalenessValues,
+  fetchEdgeSystem,
   fetchStalenessData,
   patchStalenessData,
   postStalenessData,
@@ -42,6 +44,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [activeTabKey, setActiveTabKey] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
+  const [hasEdgeSystems, setHasEdgeSystems] = useState(true);
   const [hostStalenessImmutableDefaults, setHostStalenessImmutableDefaults] =
     useState({});
   const [
@@ -68,7 +71,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   //On save Button
   const saveHostData = async () => {
     let apiData = {};
-    hostStalenessApiKeys.forEach(
+    let apiKeys = hasEdgeSystems ? hostStalenessApiKeys : conventionalApiKeys;
+    apiKeys.forEach(
       (filterKey) =>
         filterKey !== 'id' &&
         (apiData[filterKey] = daysToSecondsConversion(newFormValues[filterKey]))
@@ -167,6 +171,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   };
 
   const batchedApi = async () => {
+    fetchEdgeSystem().then((res) => setHasEdgeSystems(res.data.total > 0));
     fetchApiStalenessData();
     fetchDefaultValues();
     setIsLoading(false);
@@ -184,7 +189,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
             <Title headingLevel="h4" size="xl" id="HostTitle">
               Organization level system staleness and deletion
             </Title>
-            <InventoryHostStalenessPopover />
+            <InventoryHostStalenessPopover hasEdgeSystems={hasEdgeSystems} />
           </CardHeader>
           <CardBody>
             <p>
@@ -200,12 +205,11 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   onClick={() => {
                     setIsEditing(!isEditing);
                   }}
-                  ouiaId="edit-staleness-setting"
                 >
                   Edit
                 </Button>
               ) : (
-                <Tooltip content="You do not have the Inventory staleness and deletion viewer role required to perform this action. Contact your org admin for access.">
+                <Tooltip content="You do not have the Staleness and deletion admin role and/or Inventory Hosts Administrator role required to perform this action. Contact your org admin for access.">
                   <div>
                     <Button
                       variant="link"
@@ -218,77 +222,96 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 </Tooltip>
               )}
             </Flex>
-            <Tabs
-              id={'HostTabs'}
-              className="pf-m-light pf-c-table pf-u-mb-lg pf-u-mt-lg"
-              activeKey={activeTabKey}
-              onSelect={handleTabClick}
-            >
-              <Tab
-                eventKey={0}
-                title={
-                  <TabTitleText>
-                    Conventional (RPM-DNF){' '}
-                    <Popover
-                      aria-label="Basic popover"
-                      headerContent={<div>Conventional systems (RPM-DNF)</div>}
-                      bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
-                    >
-                      <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
-                    </Popover>
-                  </TabTitleText>
-                }
+            {hasEdgeSystems ? (
+              <Tabs
+                id={'HostTabs'}
+                className="pf-m-light pf-c-table pf-u-mb-lg pf-u-mt-lg"
+                activeKey={activeTabKey}
+                onSelect={handleTabClick}
               >
-                <TabCard
-                  isEditing={isEditing}
-                  filter={filter}
-                  setFilter={setFilter}
-                  activeTabKey={0}
-                  newFormValues={newFormValues}
-                  setNewFormValues={setNewFormValues}
-                  isFormValid={isFormValid}
-                  setIsFormValid={setIsFormValid}
-                  hostStalenessImmutableDefaults={
-                    hostStalenessImmutableDefaults
+                <Tab
+                  eventKey={0}
+                  title={
+                    <TabTitleText>
+                      Conventional (RPM-DNF){' '}
+                      <Popover
+                        aria-label="Basic popover"
+                        headerContent={
+                          <div>Conventional systems (RPM-DNF)</div>
+                        }
+                        bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
+                      >
+                        <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+                      </Popover>
+                    </TabTitleText>
                   }
-                  hostStalenessConventionalDefaults={
-                    hostStalenessConventionalDefaults
+                >
+                  <TabCard
+                    isEditing={isEditing}
+                    filter={filter}
+                    setFilter={setFilter}
+                    activeTabKey={0}
+                    newFormValues={newFormValues}
+                    setNewFormValues={setNewFormValues}
+                    isFormValid={isFormValid}
+                    setIsFormValid={setIsFormValid}
+                    hostStalenessImmutableDefaults={
+                      hostStalenessImmutableDefaults
+                    }
+                    hostStalenessConventionalDefaults={
+                      hostStalenessConventionalDefaults
+                    }
+                  />
+                </Tab>
+                <Tab
+                  eventKey={1}
+                  title={
+                    <TabTitleText>
+                      Immutable (OSTree){' '}
+                      <Popover
+                        aria-label="Basic popover"
+                        headerContent={<div>Immutable (OSTree)</div>}
+                        bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
+                      >
+                        <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+                      </Popover>
+                    </TabTitleText>
                   }
-                />
-              </Tab>
-              <Tab
-                eventKey={1}
-                title={
-                  <TabTitleText>
-                    Immutable (OSTree){' '}
-                    <Popover
-                      aria-label="Basic popover"
-                      headerContent={<div>Immutable (OSTree)</div>}
-                      bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
-                    >
-                      <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
-                    </Popover>
-                  </TabTitleText>
+                >
+                  <TabCard
+                    isEditing={isEditing}
+                    filter={filter}
+                    setFilter={setFilter}
+                    activeTabKey={1}
+                    newFormValues={newFormValues}
+                    setNewFormValues={setNewFormValues}
+                    isFormValid={isFormValid}
+                    setIsFormValid={setIsFormValid}
+                    hostStalenessImmutableDefaults={
+                      hostStalenessImmutableDefaults
+                    }
+                    hostStalenessConventionalDefaults={
+                      hostStalenessConventionalDefaults
+                    }
+                  />
+                </Tab>
+              </Tabs>
+            ) : (
+              <TabCard
+                isEditing={isEditing}
+                filter={filter}
+                setFilter={setFilter}
+                activeTabKey={0}
+                newFormValues={newFormValues}
+                setNewFormValues={setNewFormValues}
+                isFormValid={isFormValid}
+                setIsFormValid={setIsFormValid}
+                hostStalenessImmutableDefaults={hostStalenessImmutableDefaults}
+                hostStalenessConventionalDefaults={
+                  hostStalenessConventionalDefaults
                 }
-              >
-                <TabCard
-                  isEditing={isEditing}
-                  filter={filter}
-                  setFilter={setFilter}
-                  activeTabKey={1}
-                  newFormValues={newFormValues}
-                  setNewFormValues={setNewFormValues}
-                  isFormValid={isFormValid}
-                  setIsFormValid={setIsFormValid}
-                  hostStalenessImmutableDefaults={
-                    hostStalenessImmutableDefaults
-                  }
-                  hostStalenessConventionalDefaults={
-                    hostStalenessConventionalDefaults
-                  }
-                />
-              </Tab>
-            </Tabs>
+              />
+            )}
             {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                 <Button
