@@ -75,7 +75,6 @@ const InventoryGroupDetail = ({ groupId }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (_event, tabIndex) => {
-    console.log(tabIndex);
     setActiveTab(tabIndex);
   };
 
@@ -108,11 +107,7 @@ const InventoryGroupDetail = ({ groupId }) => {
                         <TabTitleText>Conventional (RPM-DNF)</TabTitleText>
                       }
                     >
-                      <GroupSystems
-                        groupName={groupName}
-                        groupId={groupId}
-                        immutable={false}
-                      />
+                      <GroupSystems groupName={groupName} groupId={groupId} />
                     </Tab>
                     <Tab
                       eventKey={1}
@@ -130,13 +125,6 @@ const InventoryGroupDetail = ({ groupId }) => {
                         groupUUID={groupId}
                         {...groupId}
                       />
-                      {/* ); */}
-                      {/* <ImmutableDevicesView
-                       skeletonRowQuantity={15}
-                       hasCheckbox={true}
-                       isSystemsView={false}
-                       selectedItems={setSelectedImmutableDevices}
-                     /> */}
                     </Tab>
                   </Tabs>
                 ) : (
