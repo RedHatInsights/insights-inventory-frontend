@@ -393,5 +393,9 @@ export const patchStalenessData = (data) => {
 };
 
 export const fetchEdgeSystem = () => {
-  return instance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
+  try {
+    return instance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
+  } catch (err) {
+    console.log(err);
+  }
 };

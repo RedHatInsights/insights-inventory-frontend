@@ -45,6 +45,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [hasEdgeSystems, setHasEdgeSystems] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [hostStalenessImmutableDefaults, setHostStalenessImmutableDefaults] =
     useState({});
   const [
@@ -52,7 +53,6 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     setHostStalenessConventionalDefaults,
   ] = useState({});
 
-  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
   const handleTabClick = (_event, tabIndex) => {
@@ -169,9 +169,12 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
       ...immutableFilter,
     });
   };
+  const edgeSystemCheck = () => {
+    fetchEdgeSystem().then((res) => setHasEdgeSystems(res.data.total > 0));
+  };
 
   const batchedApi = async () => {
-    fetchEdgeSystem().then((res) => setHasEdgeSystems(res.data.total > 0));
+    edgeSystemCheck();
     fetchApiStalenessData();
     fetchDefaultValues();
     setIsLoading(false);
