@@ -10,6 +10,7 @@ import HybridInventoryTabs from '../components/InventoryTabs/HybridInventoryTabs
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { useLocation } from 'react-router-dom';
 import { getSearchParams } from '../constants';
+import useFeatureFlag from '../Utilities/useFeatureFlag';
 const ConventionalSystemsTab = lazy(() =>
   import(
     '../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab'
@@ -34,6 +35,7 @@ const Inventory = (props) => {
   const { search } = useLocation();
   const searchParams = useMemo(() => getSearchParams(), [search.toString()]);
   const fullProps = { ...props, ...searchParams };
+  const isEdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
   return (
     <React.Fragment>
       <PageHeader className="pf-m-light">
@@ -52,6 +54,7 @@ const Inventory = (props) => {
             </SuspenseWrapper>
           }
           isImmutableTabOpen={props.isImmutableTabOpen}
+          isEdgeParityEnabled={isEdgeParityEnabled}
         />
       </Main>
     </React.Fragment>
