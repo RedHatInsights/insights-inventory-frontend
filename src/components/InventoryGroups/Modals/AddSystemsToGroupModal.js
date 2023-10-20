@@ -271,12 +271,14 @@ const AddSystemsToGroupModal = ({
                 eventKey={1}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
-                <ImmutableDevicesView
-                  skeletonRowQuantity={15}
-                  hasCheckbox={true}
-                  isSystemsView={false}
-                  selectedItems={setSelectedImmutableDevices}
-                />
+                <section className={'pf-c-toolbar'}>
+                  <ImmutableDevicesView
+                    skeletonRowQuantity={15}
+                    hasCheckbox={true}
+                    isSystemsView={false}
+                    selectedItems={setSelectedImmutableDevices}
+                  />
+                </section>
               </Tab>
             </Tabs>
           ) : (
