@@ -101,23 +101,22 @@ const InventoryGroupDetail = ({ groupId }) => {
       try {
         axios
           .get(
-            `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}&group_name=anferrei-inventory`
+            `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}&group_name=${groupName}`
           )
           .then((result) => {
             const accountHasEdgeImages = result?.data?.total > 0;
             setHasEdgeImages(accountHasEdgeImages);
             axios
               .get(
-                `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}&group_name=anferrei-inventory`
+                `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}&group_name=${groupName}`
               )
               .then((conventionalImages) => {
                 const accountHasConventionalImages =
                   conventionalImages?.data?.total > 0;
                 if (accountHasEdgeImages && !accountHasConventionalImages) {
-                  // handleTabClick(undefined, 3);
-                  // setActiveTab(3);
                   setActiveTab(hybridInventoryTabKeys.immutable.key);
-                  // setIsOstreeTabFocusPriority(true);
+                } else {
+                  setActiveTab(hybridInventoryTabKeys.conventional.key);
                 }
               });
           });
