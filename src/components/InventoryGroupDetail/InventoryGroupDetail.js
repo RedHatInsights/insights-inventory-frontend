@@ -94,9 +94,6 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   // TODO: append search parameter to identify the active tab
 
-  // const [isOstreeTabFocusPriority, setIsOstreeTabFocusPriority] =
-  //   useState(false);
-
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
   useEffect(() => {
