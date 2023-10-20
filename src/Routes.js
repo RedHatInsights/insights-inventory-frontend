@@ -65,6 +65,10 @@ export const Routes = () => {
       element: groupsEnabled ? <InventoryGroupDetail /> : <LostPage />,
     },
     {
+      path: '/groups/:groupId/manage-edge-inventory',
+      element: groupsEnabled ? <InventoryGroupDetail /> : <LostPage />,
+    },
+    {
       path: '/:inventoryId/update',
       element: <EdgeInventoryUpdate />,
     },

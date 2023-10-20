@@ -25,7 +25,10 @@ import {
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { resolveRelPath } from '../../Utilities/path';
-import { getNotificationProp } from '../../Utilities/edge';
+import {
+  getNotificationProp,
+  manageEdgeInventoryUrlName,
+} from '../../Utilities/edge';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 
@@ -37,6 +40,7 @@ import {
   INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS,
   INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
+  hybridInventoryTabKeys,
 } from '../../Utilities/constants';
 
 const SuspenseWrapper = ({ children }) => (
@@ -51,6 +55,14 @@ const SuspenseWrapper = ({ children }) => (
   </Suspense>
 );
 const InventoryGroupDetail = ({ groupId }) => {
+  const [activeTab, setActiveTab] = useState(
+    hybridInventoryTabKeys.conventional.key
+  );
+
+  const handleTabClick = (_event, tabIndex) => {
+    setActiveTab(tabIndex);
+  };
+
   const dispatch = useDispatch();
   const notificationProp = getNotificationProp(dispatch);
   const { data } = useSelector((state) => state.groupDetail);
@@ -79,17 +91,11 @@ const InventoryGroupDetail = ({ groupId }) => {
   }, [data]);
 
   const [activeTabKey, setActiveTabKey] = useState(0);
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleTabClick = (_event, tabIndex) => {
-    console.log('passei aqui');
-    setActiveTab(tabIndex);
-  };
 
   // TODO: append search parameter to identify the active tab
 
-  const [isOstreeTabFocusPriority, setIsOstreeTabFocusPriority] =
-    useState(false);
+  // const [isOstreeTabFocusPriority, setIsOstreeTabFocusPriority] =
+  //   useState(false);
 
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
@@ -101,7 +107,6 @@ const InventoryGroupDetail = ({ groupId }) => {
             `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}&group_name=anferrei-inventory`
           )
           .then((result) => {
-            console.log('>>>> EdgeImages ' + result?.data?.total);
             const accountHasEdgeImages = result?.data?.total > 0;
             setHasEdgeImages(accountHasEdgeImages);
             axios
@@ -109,15 +114,13 @@ const InventoryGroupDetail = ({ groupId }) => {
                 `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}&group_name=anferrei-inventory`
               )
               .then((conventionalImages) => {
-                console.log(
-                  '>>>> conventionalImages ' + conventionalImages?.data?.total
-                );
                 const accountHasConventionalImages =
                   conventionalImages?.data?.total > 0;
                 if (accountHasEdgeImages && !accountHasConventionalImages) {
-                  handleTabClick(undefined, 1);
-                  setActiveTab(1);
-                  setIsOstreeTabFocusPriority(true);
+                  // handleTabClick(undefined, 3);
+                  // setActiveTab(3);
+                  setActiveTab(hybridInventoryTabKeys.immutable.key);
+                  // setIsOstreeTabFocusPriority(true);
                 }
               });
           });
@@ -126,9 +129,8 @@ const InventoryGroupDetail = ({ groupId }) => {
       }
     }
   }, []);
-  console.log('>>> isOstreeTabFocusPriority: ' + isOstreeTabFocusPriority);
 
-  return hasEdgeImages ? (
+  return hasEdgeImages && canViewGroup ? (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
       {canViewGroup ? (
@@ -148,10 +150,10 @@ const InventoryGroupDetail = ({ groupId }) => {
                     activeKey={activeTab}
                     onSelect={handleTabClick}
                     aria-label="Hybrid inventory tabs"
-                    defaultActiveKey={isOstreeTabFocusPriority ? 1 : 0}
                   >
                     <Tab
-                      eventKey={0}
+                      eventKey={hybridInventoryTabKeys.conventional.key}
+                      // eventKey={2}
                       title={
                         <TabTitleText>Conventional (RPM-DNF)</TabTitleText>
                       }
@@ -159,7 +161,8 @@ const InventoryGroupDetail = ({ groupId }) => {
                       <GroupSystems groupName={groupName} groupId={groupId} />
                     </Tab>
                     <Tab
-                      eventKey={1}
+                      eventKey={hybridInventoryTabKeys.immutable.key}
+                      // eventKey={3}
                       title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
                     >
                       <AsyncComponent
@@ -170,7 +173,7 @@ const InventoryGroupDetail = ({ groupId }) => {
                         locationProp={useLocation}
                         notificationProp={notificationProp}
                         pathPrefix={resolveRelPath('')}
-                        urlName={'edge-devices'}
+                        urlName={manageEdgeInventoryUrlName}
                         groupUUID={groupId}
                         {...groupId}
                       />
