@@ -2,21 +2,26 @@ import {
   Bullseye,
   PageSection,
   Spinner,
-  // Tab,
-  // TabTitleText,
-  // Tabs,
+  Tab,
+  Tabs,
 } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import PropTypes from 'prop-types';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 import GroupSystems from '../GroupSystems';
 import GroupTabDetails from './GroupTabDetails';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { REQUIRED_PERMISSIONS_TO_READ_GROUP } from '../../constants';
-import { EmptyStateNoAccessToGroup } from './EmptyStateNoAccess';
+import {
+  REQUIRED_PERMISSIONS_TO_READ_GROUP,
+  REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS,
+} from '../../constants';
+import {
+  EmptyStateNoAccessToGroup,
+  EmptyStateNoAccessToSystems,
+} from './EmptyStateNoAccess';
 
 // import { useLocation, useNavigate } from 'react-router-dom';
 // import { resolveRelPath } from '../../Utilities/path';
@@ -47,14 +52,16 @@ const SuspenseWrapper = ({ children }) => (
     {children}
   </Suspense>
 );
+
+const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 const InventoryGroupDetail = ({ groupId }) => {
-  const [activeTab, setActiveTab] = useState(
-    hybridInventoryTabKeys.conventional.key
-  );
+  const [activeTabKey, setActiveTabKey] = useState(0);
 
   // const handleTabClick = (_event, tabIndex) => {
-  //   setActiveTab(tabIndex);
+  //   setActiveTabKey(tabIndex);
   // };
+
+  const [activeTab, setActiveTab] = useState(0);
 
   const dispatch = useDispatch();
   // const notificationProp = getNotificationProp(dispatch);
@@ -65,10 +72,9 @@ const InventoryGroupDetail = ({ groupId }) => {
   const { hasAccess: canViewGroup } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
   );
-
-  // const { hasAccess: canViewHosts } = usePermissionsWithContext(
-  //   REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
-  // );
+  const { hasAccess: canViewHosts } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
+  );
 
   useEffect(() => {
     if (canViewGroup === true) {
@@ -135,8 +141,46 @@ const InventoryGroupDetail = ({ groupId }) => {
       )}
     </React.Fragment>
   ) : (
-    <GroupSystems groupName={groupName} groupId={groupId} />
+    <React.Fragment>
+      <GroupDetailHeader groupId={groupId} />
+      <PageSection variant="light" type="tabs">
+        <Tabs
+          activeKey={activeTabKey}
+          onSelect={(event, value) => setActiveTabKey(value)}
+          aria-label="Group tabs"
+          role="region"
+          inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
+        >
+          <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
+            <PageSection>
+              {canViewHosts ? (
+                <GroupSystems groupName={groupName} groupId={groupId} />
+              ) : (
+                <EmptyStateNoAccessToSystems />
+              )}
+            </PageSection>
+          </Tab>
+          <Tab eventKey={1} title="Group info" aria-label="Group info tab">
+            {activeTabKey === 1 && ( // helps to lazy load the component
+              <PageSection>
+                <Suspense
+                  fallback={
+                    <Bullseye>
+                      <Spinner />
+                    </Bullseye>
+                  }
+                >
+                  <GroupDetailInfo />
+                </Suspense>
+              </PageSection>
+            )}
+          </Tab>
+        </Tabs>
+      </PageSection>
+    </React.Fragment>
   );
+
+  // <GroupSystems groupName={groupName} groupId={groupId} />
 };
 
 InventoryGroupDetail.propTypes = {
