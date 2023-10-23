@@ -21,23 +21,6 @@ const { config: webpackConfig, plugins } = config({
           host: `http://localhost:${process.env.CONFIG_PORT}`,
         },
       }),
-      ...(process.env.LOCAL_API && {
-        ...(process.env.LOCAL_API.split(',') || []).reduce((acc, curr) => {
-          const [appName, appConfig] = (curr || '').split(':');
-          const [appPort = 8003, protocol = 'http'] = appConfig.split('~');
-          return {
-            ...acc,
-            [`/apps/${appName}`]: {
-              host: `${protocol}://localhost:${appPort}`,
-            },
-            // [`/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
-            // [`/beta/insights/${appName}`]: { host: `${protocol}://localhost:${appPort}` },
-            [`/beta/apps/${appName}`]: {
-              host: `${protocol}://localhost:${appPort}`,
-            },
-          };
-        }, {}),
-      }),
     },
   }),
   ...(process.env.MOCK && {
