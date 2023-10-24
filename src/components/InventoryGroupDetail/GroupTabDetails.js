@@ -38,8 +38,7 @@ const GroupTabDetailsWrapper = ({ groupId, groupName, activeTab }) => {
   const notificationProp = getNotificationProp(dispatch);
 
   const [activeTabKey, setActiveTabKey] = useState(0);
-  console.log('tab: ' + tab);
-  console.log('activeTab: ' + activeTab);
+
   return (
     <Tabs
       activeKey={activeTabKey}
