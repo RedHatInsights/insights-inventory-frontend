@@ -40,7 +40,7 @@ const TabCard = ({
       <Card isPlain className="pf-u-mb-lg">
         <Flex
           justifyContent={{ default: 'justifyContentSpaceBetween' }}
-          alignItems={{ default: 'alignItemsCenter' }}
+          style={{ minHeight: '110px' }}
         >
           {dropdownArray(activeTabKey).map((item) => (
             <FlexItem key={item[0].title}>
@@ -62,13 +62,14 @@ const TabCard = ({
             </FlexItem>
           ))}
           {isEditing ? (
-            <Flex>
+            <Flex alignSelf={{ default: 'alignSelfCenter' }}>
               <FlexItem style={{ width: '200px' }}>
                 <Button
                   variant="link"
                   role="button"
                   onClick={() => resetToStandard(activeTabKey)}
                   style={{ padding: '0' }}
+                  ouiaId="reset-to-default"
                 >
                   Reset to default setting
                 </Button>

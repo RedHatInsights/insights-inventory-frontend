@@ -220,6 +220,7 @@ const GroupSystems = ({ groupName, groupId }) => {
           bulkSelect={bulkSelectConfig}
           showTags
           ref={inventory}
+          showCentosVersions
         />
       )}
     </div>
