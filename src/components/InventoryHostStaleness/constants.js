@@ -33,6 +33,12 @@ export const hostStalenessApiKeys = [
   'immutable_culling_delta',
 ];
 
+export const conventionalApiKeys = [
+  'conventional_staleness_delta',
+  'conventional_stale_warning_delta',
+  'conventional_culling_delta',
+];
+
 export const daysToSecondsConversion = (days) => {
   return days * 86400;
 };
@@ -258,7 +264,7 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
   );
 };
 
-export const InventoryHostStalenessPopover = () => {
+export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
   return (
     <Popover
       aria-label="Orginization level popover"
@@ -293,26 +299,29 @@ export const InventoryHostStalenessPopover = () => {
               - Systems are deleted after 14 days since last check-in.
             </span>
           </Flex>
-          <Flex
-            direction={{ default: 'column' }}
-            spaceItems={{ default: 'spaceItemsNone' }}
-          >
-            <span className="pf-u-font-size-sm">
-              Default for Immutable systems (OSTree):
-            </span>
-            <span className="pf-u-font-size-sm">
-              <p>
-                - Systems are marked as stale after 2 days since last check-in.
-              </p>
-            </span>
-            <span className="pf-u-font-size-sm">
-              - Systems are marked as stale warning after 120 days since last
-              check-in.
-            </span>
-            <span className="pf-u-font-size-sm">
-              - Systems are deleted after 180 days since last check-in.
-            </span>
-          </Flex>
+          {hasEdgeSystems && (
+            <Flex
+              direction={{ default: 'column' }}
+              spaceItems={{ default: 'spaceItemsNone' }}
+            >
+              <span className="pf-u-font-size-sm">
+                Default for Immutable systems (OSTree):
+              </span>
+              <span className="pf-u-font-size-sm">
+                <p>
+                  - Systems are marked as stale after 2 days since last
+                  check-in.
+                </p>
+              </span>
+              <span className="pf-u-font-size-sm">
+                - Systems are marked as stale warning after 120 days since last
+                check-in.
+              </span>
+              <span className="pf-u-font-size-sm">
+                - Systems are deleted after 180 days since last check-in.
+              </span>
+            </Flex>
+          )}
         </Flex>
       }
     >
@@ -573,4 +582,8 @@ export const formValidation = async (newFormValues, setIsFormValid) => {
 
 HostStalenessResetDefaultPopover.propTypes = {
   activeTabKey: PropTypes.number,
+};
+
+InventoryHostStalenessPopover.propTypes = {
+  hasEdgeSystems: PropTypes.bool,
 };

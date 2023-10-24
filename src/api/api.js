@@ -1,5 +1,6 @@
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 export const INVENTORY_API_BASE = '/api/inventory/v1';
+export const EDGE_API_BASE = '/api/edge/v1';
 import flatMap from 'lodash/flatMap';
 
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
@@ -369,9 +370,18 @@ export function getAllTags(search, pagination = {}) {
   );
 }
 
-export function getOperatingSystems(params = []) {
-  return systemProfile.apiSystemProfileGetOperatingSystem(...params);
-}
+export const getOperatingSystems = async (params = [], showCentosVersions) => {
+  let operatingSystems = await systemProfile.apiSystemProfileGetOperatingSystem(
+    ...params
+  );
+  if (!showCentosVersions) {
+    const newResults = operatingSystems.results.filter(
+      ({ value }) => !value.name.toLowerCase().startsWith('centos')
+    );
+    operatingSystems.results = newResults;
+  }
+  return operatingSystems;
+};
 
 export const fetchDefaultStalenessValues = () => {
   return instance.get(`${INVENTORY_API_BASE}/account/staleness/defaults`);
@@ -386,4 +396,12 @@ export const postStalenessData = (data) => {
 };
 export const patchStalenessData = (data) => {
   return instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
+
+export const fetchEdgeSystem = () => {
+  try {
+    return instance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
+  } catch (err) {
+    console.log(err);
+  }
 };

@@ -82,6 +82,7 @@ const InventoryTable = forwardRef(
       hasCheckbox,
       onRowClick,
       abortOnUnmount = true,
+      showCentosVersions = false,
       ...props
     },
     ref
@@ -257,6 +258,7 @@ const InventoryTable = forwardRef(
             deleteTitle: 'Reset filters',
             ...activeFiltersConfig,
           }}
+          showCentosVersions={showCentosVersions}
         >
           {children}
         </EntityTableToolbar>
@@ -327,6 +329,7 @@ InventoryTable.propTypes = {
   hasCheckbox: PropTypes.bool,
   onRowClick: PropTypes.func,
   abortOnUnmount: PropTypes.bool,
+  showCentosVersions: PropTypes.bool,
 };
 
 export default InventoryTable;

@@ -21,7 +21,7 @@ describe('useOperatingSystemFilter', () => {
     );
 
     it('should initiate an API request', async () => {
-      renderHook(useOperatingSystemFilter, { wrapper });
+      renderHook(() => useOperatingSystemFilter([], true, true), { wrapper });
       await waitFor(() => {
         expect(mockSystemProfile.history.get.length).toBe(1);
       });
@@ -29,7 +29,10 @@ describe('useOperatingSystemFilter', () => {
     });
 
     it('should return empty state value', () => {
-      const { result } = renderHook(useOperatingSystemFilter, { wrapper });
+      const { result } = renderHook(
+        () => useOperatingSystemFilter([], true, true),
+        { wrapper }
+      );
       expect(result.current).toMatchSnapshot();
     });
   });
@@ -49,12 +52,18 @@ describe('useOperatingSystemFilter', () => {
     );
 
     it('should match snapshot', () => {
-      const { result } = renderHook(useOperatingSystemFilter, { wrapper });
+      const { result } = renderHook(
+        () => useOperatingSystemFilter([], true, true),
+        { wrapper }
+      );
       expect(result.current).toMatchSnapshot();
     });
 
     it('should return correct filter config', () => {
-      const { result } = renderHook(useOperatingSystemFilter, { wrapper });
+      const { result } = renderHook(
+        () => useOperatingSystemFilter([], true, true),
+        { wrapper }
+      );
       const [config] = result.current;
       expect(config.filterValues.groups.length).toBe(5);
       expect(config.label).toBe('Operating System'); // should be all caps
@@ -62,7 +71,10 @@ describe('useOperatingSystemFilter', () => {
     });
 
     it('should return correct chips array, current value and value setter', () => {
-      const { result } = renderHook(useOperatingSystemFilter, { wrapper });
+      const { result } = renderHook(
+        () => useOperatingSystemFilter([], true, true),
+        { wrapper }
+      );
       const [, chips, value, setValue] = result.current;
       expect(chips.length).toBe(0);
       expect(value.length).toBe(0);
@@ -94,7 +106,10 @@ describe('useOperatingSystemFilter', () => {
           {children}
         </Provider>
       );
-      const { result } = renderHook(useOperatingSystemFilter, { wrapper });
+      const { result } = renderHook(
+        () => useOperatingSystemFilter([], true, true),
+        { wrapper }
+      );
       expect(result.current).toMatchSnapshot();
     });
   });

@@ -1,7 +1,17 @@
-import { Alert, Button, Flex, FlexItem, Modal } from '@patternfly/react-core';
+import {
+  Alert,
+  Button,
+  Flex,
+  FlexItem,
+  Label,
+  Modal,
+  Tab,
+  TabTitleText,
+  Tabs,
+} from '@patternfly/react-core';
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearFilters,
@@ -16,12 +26,18 @@ import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
+import ImmutableDevicesView from '../../InventoryTabs/ImmutableDevices/EdgeDevicesView';
+import useFeatureFlag from '../../../Utilities/useFeatureFlag';
+import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
+import { InfoCircleIcon } from '@patternfly/react-icons';
+import { inventoryHasEdgeSystems } from '../../../Utilities/edge';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
   setIsModalOpen,
   groupId,
   groupName,
+  edgeParityIsAllowed,
 }) => {
   const dispatch = useDispatch();
 
@@ -32,7 +48,6 @@ const AddSystemsToGroupModal = ({
   );
   const rows = useSelector(({ entities }) => entities?.rows || []);
 
-  const noneSelected = selected.size === 0;
   const total = useSelector(({ entities }) => entities?.total);
   const displayedIds = map(rows, 'id');
   const pageSelected =
@@ -55,7 +70,6 @@ const AddSystemsToGroupModal = ({
       );
     }
   );
-  const showWarning = alreadyHasGroup.length > 0;
 
   const handleSystemAddition = useCallback(
     (hostIds) => {
@@ -92,6 +106,73 @@ const AddSystemsToGroupModal = ({
     dispatch(clearFilters());
   };
 
+  const edgeParityInventoryListEnabled = useFeatureFlag(
+    'edgeParity.inventory-list'
+  );
+  const edgeParityInventoryGroupsEnabled = useFeatureFlag(
+    'edgeParity.inventory-groups-enabled'
+  );
+  const edgeParityEnabled =
+    edgeParityIsAllowed &&
+    edgeParityInventoryListEnabled &&
+    edgeParityInventoryGroupsEnabled;
+
+  const [selectedImmutableDevices, setSelectedImmutableDevices] = useState([]);
+  const selectedImmutableKeys = selectedImmutableDevices.map(
+    (immutableDevice) => immutableDevice.id
+  );
+
+  // overallSelectedKeys is the list of the conventional and immutable systems ids
+  const overallSelectedKeys = [...selected.keys(), ...selectedImmutableKeys];
+  // noneSelected a boolean showing that no system is selected
+  const noneSelected = overallSelectedKeys.length === 0;
+
+  const immutableDevicesAlreadyHasGroup = selectedImmutableDevices.filter(
+    (immutableDevice) => immutableDevice.deviceGroups?.length > 0
+  );
+  // showWarning when conventional or immutable systems had groups
+  const showWarning =
+    alreadyHasGroup.length > 0 || immutableDevicesAlreadyHasGroup.length > 0;
+
+  const [hasImmutableSystems, setHasImmutableSystems] = useState(false);
+
+  useEffect(() => {
+    if (edgeParityEnabled) {
+      (async () => {
+        const hasEdgeSystems = await inventoryHasEdgeSystems();
+        setHasImmutableSystems(hasEdgeSystems);
+      })();
+    }
+  }, []);
+
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleTabClick = (_event, tabIndex) => {
+    setActiveTab(tabIndex);
+  };
+
+  let overallSelectedText;
+  if (overallSelectedKeys.length === 1) {
+    overallSelectedText = '1 system selected';
+  } else if (overallSelectedKeys.length > 1) {
+    overallSelectedText = `${overallSelectedKeys.length} systems selected`;
+  }
+
+  const ConventionalInventoryTable = (
+    <InventoryTable
+      columns={(columns) => prepareColumns(columns, false, true)}
+      variant={TableVariant.compact} // TODO: this doesn't affect the table variant
+      tableProps={{
+        isStickyHeader: false,
+        canSelectAll: false,
+      }}
+      bulkSelect={bulkSelectConfig}
+      initialLoading={true}
+      showTags
+      showCentosVersions
+    />
+  );
+
   return (
     isModalOpen && (
       <>
@@ -99,7 +180,7 @@ const AddSystemsToGroupModal = ({
         <ConfirmSystemsAddModal
           isModalOpen={confirmationModalOpen}
           onSubmit={async () => {
-            await handleSystemAddition([...selected.keys()]);
+            await handleSystemAddition(overallSelectedKeys);
             setTimeout(() => dispatch(fetchGroupDetail(groupId)), 500); // refetch data for this group
             setIsModalOpen(false);
           }}
@@ -112,7 +193,24 @@ const AddSystemsToGroupModal = ({
         />
         {/** hosts selection modal */}
         <Modal
-          title="Add systems"
+          header={
+            <Flex direction={{ default: 'row' }} style={{ width: '100%' }}>
+              <FlexItem align={{ default: 'alignLeft' }}>
+                <PageHeaderTitle title={'Add systems'} />
+              </FlexItem>
+              {edgeParityEnabled && !noneSelected && (
+                <FlexItem align={{ default: 'alignRight' }}>
+                  <Label
+                    variant="outline"
+                    color="blue"
+                    icon={<InfoCircleIcon />}
+                  >
+                    {overallSelectedText}
+                  </Label>
+                </FlexItem>
+              )}
+            </Flex>
+          }
           isOpen={systemsSelectModalOpen}
           onClose={() => handleModalClose()}
           footer={
@@ -135,7 +233,7 @@ const AddSystemsToGroupModal = ({
                       setSystemSelectModalOpen(false);
                       setConfirmationModalOpen(true); // switch to the confirmation modal
                     } else {
-                      await handleSystemAddition([...selected.keys()]);
+                      await handleSystemAddition(overallSelectedKeys);
                       dispatch(fetchGroupDetail(groupId));
                       handleModalClose();
                     }
@@ -156,17 +254,36 @@ const AddSystemsToGroupModal = ({
           }
           variant="large" // required to accomodate the systems table
         >
-          <InventoryTable
-            columns={(columns) => prepareColumns(columns, false, true)}
-            variant={TableVariant.compact} // TODO: this doesn't affect the table variant
-            tableProps={{
-              isStickyHeader: false,
-              canSelectAll: false,
-            }}
-            bulkSelect={bulkSelectConfig}
-            initialLoading={true}
-            showTags
-          />
+          {edgeParityEnabled && hasImmutableSystems ? (
+            <Tabs
+              className="pf-m-light pf-c-table"
+              activeKey={activeTab}
+              onSelect={handleTabClick}
+              aria-label="Hybrid inventory tabs"
+            >
+              <Tab
+                eventKey={0}
+                title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
+              >
+                {ConventionalInventoryTable}
+              </Tab>
+              <Tab
+                eventKey={1}
+                title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
+              >
+                <section className={'pf-c-toolbar'}>
+                  <ImmutableDevicesView
+                    skeletonRowQuantity={15}
+                    hasCheckbox={true}
+                    isSystemsView={false}
+                    selectedItems={setSelectedImmutableDevices}
+                  />
+                </section>
+              </Tab>
+            </Tabs>
+          ) : (
+            ConventionalInventoryTable
+          )}
         </Modal>
       </>
     )
@@ -179,6 +296,7 @@ AddSystemsToGroupModal.propTypes = {
   reloadData: PropTypes.func,
   groupId: PropTypes.string,
   groupName: PropTypes.string,
+  edgeParityIsAllowed: PropTypes.bool,
 };
 
 export default AddSystemsToGroupModal;
