@@ -61,7 +61,9 @@ const InventoryGroupDetail = ({ groupId }) => {
   //   setActiveTabKey(tabIndex);
   // };
 
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(
+    hybridInventoryTabKeys.conventional.key
+  );
 
   const dispatch = useDispatch();
   // const notificationProp = getNotificationProp(dispatch);
@@ -122,7 +124,6 @@ const InventoryGroupDetail = ({ groupId }) => {
       }
     }
   }, [data]);
-  console.log('>>>>hasEdgeImages: ' + hasEdgeImages);
   return hasEdgeImages && canViewGroup ? (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />

@@ -23,23 +23,23 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
 
 import { EmptyStateNoAccessToSystems } from './EmptyStateNoAccess';
-const GroupTabDetailsWrapper = ({ groupId, groupName, tab }) => {
+const GroupTabDetailsWrapper = ({ groupId, groupName, activeTab }) => {
   const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState(
-    tab ? tab : hybridInventoryTabKeys.conventional.key
-  );
+
+  const [tab, setTab] = useState(0);
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
   );
 
   const handleTabClick = (_event, tabIndex) => {
-    setActiveTab(tabIndex);
+    setTab(tabIndex);
   };
   const notificationProp = getNotificationProp(dispatch);
 
   const [activeTabKey, setActiveTabKey] = useState(0);
-
+  console.log('tab: ' + tab);
+  console.log('activeTab: ' + activeTab);
   return (
     <Tabs
       activeKey={activeTabKey}
@@ -53,7 +53,7 @@ const GroupTabDetailsWrapper = ({ groupId, groupName, tab }) => {
           {canViewHosts ? (
             <Tabs
               className="pf-m-light pf-c-table"
-              activeKey={activeTab}
+              activeKey={activeTab && tab == 0 ? activeTab : tab}
               onSelect={handleTabClick}
               aria-label="Hybrid inventory tabs"
             >
@@ -110,7 +110,7 @@ const GroupTabDetailsWrapper = ({ groupId, groupName, tab }) => {
 GroupTabDetailsWrapper.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
-  tab: PropTypes.string,
+  activeTab: PropTypes.string,
 };
 export default GroupTabDetailsWrapper;
 // export { GroupSystems };
