@@ -9,7 +9,6 @@ const GroupSystemsWrapper = ({ groupName, groupId }) => {
   const { uninitialized, loading, data } = useSelector(
     (state) => state.groupDetail
   );
-
   return uninitialized || loading ? (
     <EmptyState>
       <EmptyStateBody>

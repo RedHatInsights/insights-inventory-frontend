@@ -1,5 +1,6 @@
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 export const INVENTORY_API_BASE = '/api/inventory/v1';
+export const EDGE_API_BASE = '/api/edge/v1';
 import flatMap from 'lodash/flatMap';
 
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
@@ -108,6 +109,7 @@ export const calculateSystemProfile = ({
   osFilter,
   rhcdFilter,
   updateMethodFilter,
+  hostTypeFilter,
 }) => {
   let systemProfile = {};
   const osFilterValues = Array.isArray(osFilter)
@@ -152,6 +154,10 @@ export const calculateSystemProfile = ({
     systemProfile[RHCD_FILTER_KEY] = rhcdFilter;
   }
 
+  if (hostTypeFilter) {
+    systemProfile['host_type'] = hostTypeFilter;
+  }
+
   if (updateMethodFilter) {
     systemProfile[UPDATE_METHOD_KEY] = {
       eq: updateMethodFilter,
@@ -171,6 +177,7 @@ export const filtersReducer = (acc, filter = {}) => ({
   }),
   ...('osFilter' in filter && { osFilter: filter.osFilter }),
   ...('rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter }),
+  ...('hostTypeFilter' in filter && { hostTypeFilter: filter.hostTypeFilter }),
   ...('lastSeenFilter' in filter && { lastSeenFilter: filter.lastSeenFilter }),
   ...('updateMethodFilter' in filter && {
     updateMethodFilter: filter.updateMethodFilter,
@@ -363,9 +370,18 @@ export function getAllTags(search, pagination = {}) {
   );
 }
 
-export function getOperatingSystems(params = []) {
-  return systemProfile.apiSystemProfileGetOperatingSystem(...params);
-}
+export const getOperatingSystems = async (params = [], showCentosVersions) => {
+  let operatingSystems = await systemProfile.apiSystemProfileGetOperatingSystem(
+    ...params
+  );
+  if (!showCentosVersions) {
+    const newResults = operatingSystems.results.filter(
+      ({ value }) => !value.name.toLowerCase().startsWith('centos')
+    );
+    operatingSystems.results = newResults;
+  }
+  return operatingSystems;
+};
 
 export const fetchDefaultStalenessValues = () => {
   return instance.get(`${INVENTORY_API_BASE}/account/staleness/defaults`);
@@ -380,4 +396,12 @@ export const postStalenessData = (data) => {
 };
 export const patchStalenessData = (data) => {
   return instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
+
+export const fetchEdgeSystem = () => {
+  try {
+    return instance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
+  } catch (err) {
+    console.log(err);
+  }
 };

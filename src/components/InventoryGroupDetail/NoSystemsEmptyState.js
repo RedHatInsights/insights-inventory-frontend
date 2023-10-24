@@ -30,6 +30,7 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
         setIsModalOpen={setIsModalOpen}
         groupId={groupId}
         groupName={groupName}
+        edgeParityIsAllowed={true}
       />
       <EmptyStateIcon
         icon={PlusCircleIcon}

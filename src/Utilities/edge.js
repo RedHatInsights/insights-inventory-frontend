@@ -1,4 +1,9 @@
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import axios from 'axios';
+import {
+  INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
+  INVENTORY_TOTAL_FETCH_URL_SERVER,
+} from './constants';
 
 const manageEdgeInventoryUrlName = 'manage-edge-inventory';
 
@@ -43,4 +48,15 @@ const getNotificationProp = (dispatch) => {
   };
 };
 
-export { getNotificationProp, manageEdgeInventoryUrlName };
+const inventoryHasEdgeSystems = async () => {
+  const result = await axios.get(
+    `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}`
+  );
+  return result?.data?.total > 0;
+};
+
+export {
+  getNotificationProp,
+  manageEdgeInventoryUrlName,
+  inventoryHasEdgeSystems,
+};

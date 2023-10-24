@@ -296,6 +296,7 @@ const ConventionalSystemsTab = ({
         }}
         bulkSelect={bulkSelectConfig}
         onRowClick={(_e, id, app) => navigate(`/${id}${app ? `/${app}` : ''}`)}
+        showCentosVersions={true}
       />
 
       <DeleteModal
