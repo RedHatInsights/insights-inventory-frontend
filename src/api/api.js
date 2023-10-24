@@ -1,5 +1,6 @@
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 export const INVENTORY_API_BASE = '/api/inventory/v1';
+export const EDGE_API_BASE = '/api/edge/v1';
 import flatMap from 'lodash/flatMap';
 
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
@@ -389,4 +390,12 @@ export const postStalenessData = (data) => {
 };
 export const patchStalenessData = (data) => {
   return instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+};
+
+export const fetchEdgeSystem = () => {
+  try {
+    return instance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
+  } catch (err) {
+    console.log(err);
+  }
 };
