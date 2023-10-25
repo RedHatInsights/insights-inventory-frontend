@@ -23,7 +23,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-16"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -365,7 +365,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-22"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -707,7 +707,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-19"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -1049,7 +1049,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-21"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -1391,7 +1391,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-15"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -1733,7 +1733,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-14"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -2075,7 +2075,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-23"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -2417,7 +2417,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-17"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -2759,7 +2759,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-20"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -3101,7 +3101,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-18"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -3443,7 +3443,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-1"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -3781,7 +3781,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-3"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -4129,7 +4129,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-2"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -4471,7 +4471,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-4"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}
@@ -4813,7 +4813,7 @@ Array [
           >
             <h1
               className=""
-              data-ouia-component-id="OUIA-Generated-Text-24"
+              data-ouia-component-id="SystemPropertiesCardTitle"
               data-ouia-component-type="PF4/Text"
               data-ouia-safe={true}
               data-pf-content={true}

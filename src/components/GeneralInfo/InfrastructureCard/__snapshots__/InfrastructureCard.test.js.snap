@@ -1,39 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`InfrastructureCard should not render hasIPv4 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -134,24 +110,79 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                test-type
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                test-vendor
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv6"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -371,51 +402,49 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 address
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div>
+                  <a
+                    href="/interfaces"
+                  >
+                    1 NIC
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`InfrastructureCard should not render hasIPv6 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -516,24 +545,79 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                test-type
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                test-vendor
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv4"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -753,51 +837,49 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 address
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div>
+                  <a
+                    href="/interfaces"
+                  >
+                    1 NIC
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`InfrastructureCard should not render hasInterfaces 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -899,24 +981,79 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                test-type
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                test-vendor
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv4"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -1137,51 +1274,49 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 address
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv6"
+                  >
+                    1 address
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`InfrastructureCard should not render hasType 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -1286,24 +1421,67 @@ exports[`InfrastructureCard should not render hasType 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                test-vendor
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv4"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -1541,51 +1719,67 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 address
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv6"
+                  >
+                    1 address
+                  </a>
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div>
+                  <a
+                    href="/interfaces"
+                  >
+                    1 NIC
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`InfrastructureCard should not render hasVendor 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -1690,24 +1884,67 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                test-type
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv4"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -1945,51 +2182,67 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 address
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv6"
+                  >
+                    1 address
+                  </a>
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div>
+                  <a
+                    href="/interfaces"
+                  >
+                    1 NIC
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`InfrastructureCard should render correctly - no data 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -2092,21 +2345,54 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
                 <div
-                  className="pf-c-card__body"
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
+<<<<<<< HEAD
                   <Stack
                     hasGutter={true}
                   >
@@ -2414,51 +2700,104 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`InfrastructureCard should render correctly with data 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -2567,24 +2906,79 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                test-type
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                test-vendor
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv4"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -2844,51 +3238,67 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 address
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv6"
+                  >
+                    1 address
+                  </a>
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div>
+                  <a
+                    href="/interfaces"
+                  >
+                    1 NIC
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -2991,17 +3401,28 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
+<<<<<<< HEAD
               <CardBody>
                 <div
                   className="pf-c-card__body"
@@ -3224,42 +3645,100 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
     </Connect(InfrastructureCardCore)>
   </Router>
 </MemoryRouter>
+=======
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                virtual
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                Not available
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                Not available
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                Not available
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                Not available
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
 `;
 
 exports[`InfrastructureCard should render enabled/disabled 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={Array []}
@@ -3368,24 +3847,79 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                test-type
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                test-vendor
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv4"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -3645,51 +4179,67 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 address
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv6"
+                  >
+                    1 address
+                  </a>
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div>
+                  <a
+                    href="/interfaces"
+                  >
+                    1 NIC
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`InfrastructureCard should render extra 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
+<<<<<<< HEAD
     <Connect(InfrastructureCardCore)
       detailLoaded={false}
       extra={
@@ -3831,24 +4381,79 @@ exports[`InfrastructureCard should render extra 1`] = `
             ]
           }
           title="Infrastructure"
+=======
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                test-type
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                test-vendor
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv4"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -4167,13 +4772,83 @@ exports[`InfrastructureCard should render extra 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 address
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div>
+                  <a
+                    href="/ipv6"
+                  >
+                    1 address
+                  </a>
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div>
+                  <a
+                    href="/interfaces"
+                  >
+                    1 NIC
+                  </a>
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="something title"
+              >
+                something
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="something value"
+              >
+                test
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="with click title"
+              >
+                with click
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="with click value"
+              >
+                <div>
+                  <a
+                    href="/undefined"
+                  >
+                    1 tests
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;

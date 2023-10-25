@@ -154,10 +154,11 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-9"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -455,10 +456,11 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-11"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -759,10 +761,11 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-8"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -1063,10 +1066,11 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-10"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -1359,10 +1363,11 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-7"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -1643,10 +1648,11 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-1"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -2031,10 +2037,11 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-2"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -2349,10 +2356,11 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-4"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -2671,10 +2679,11 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-3"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}
@@ -3034,10 +3043,11 @@ exports[`OperatingSystemCard should render extra 1`] = `
                             >
                               <Text
                                 component="h1"
+                                ouiaId="SystemPropertiesCardTitle"
                               >
                                 <h1
                                   className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-12"
+                                  data-ouia-component-id="SystemPropertiesCardTitle"
                                   data-ouia-component-type="PF4/Text"
                                   data-ouia-safe={true}
                                   data-pf-content={true}

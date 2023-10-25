@@ -1,2524 +1,387 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CollectionCard renders tooltip for version 1`] = `ReactWrapper {}`;
-
-exports[`CollectionCard should not render hasClient 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
-  >
-    <Connect(CollectionCard)
-      hasClient={false}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <CollectionCard
-        collectionInformation={
-          Object {
-            "client": "test-client",
-            "egg": "test-egg",
-          }
-        }
-        detailLoaded={true}
-        dispatch={[Function]}
-        entity={
-          Object {
-            "created": "04/01/2014",
-            "updated": "6/01/2014",
-          }
-        }
-        extra={Array []}
-        handleClick={[Function]}
-        hasClient={false}
-        hasEgg={true}
-        hasInsightsId={true}
-        hasLastCheckIn={true}
-        hasRegistered={true}
-        hasReporter={true}
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Last check-in",
-                "value": <DateFormat
-                  date="6/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Registered",
-                "value": <DateFormat
-                  date="04/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Insights id",
-                "value": undefined,
-              },
-              Object {
-                "title": "Reporter",
-                "value": undefined,
-              },
-            ]
-          }
-          title="Collection information"
-        >
-          <Card
-            ouiaId="system-properties-card"
-          >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
-            >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
-                  >
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-4"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Collection information
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Last check-in title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Last check-in title"
-                                    >
-                                      Last check-in
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Last check-in value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Last check-in value"
-                                    >
-                                      <DateFormat
-                                        date="6/01/2014"
-                                        type="onlyDate"
-                                      >
-                                        01 Jun 2014
-                                      </DateFormat>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Registered title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Registered title"
-                                    >
-                                      Registered
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Registered value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Registered value"
-                                    >
-                                      <DateFormat
-                                        date="04/01/2014"
-                                        type="onlyDate"
-                                      >
-                                        01 Apr 2014
-                                      </DateFormat>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights id title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights id title"
-                                    >
-                                      Insights id
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights id value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights id value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Reporter title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Reporter title"
-                                    >
-                                      Reporter
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Reporter value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Reporter value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-                </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </CollectionCard>
-    </Connect(CollectionCard)>
-  </Router>
-</MemoryRouter>
-`;
-
-exports[`CollectionCard should not render hasInsightsId 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
-  >
-    <Connect(CollectionCard)
-      hasInsightsId={false}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <CollectionCard
-        collectionInformation={
-          Object {
-            "client": "test-client",
-            "egg": "test-egg",
-          }
-        }
-        detailLoaded={true}
-        dispatch={[Function]}
-        entity={
-          Object {
-            "created": "04/01/2014",
-            "updated": "6/01/2014",
-          }
-        }
-        extra={Array []}
-        handleClick={[Function]}
-        hasClient={true}
-        hasEgg={true}
-        hasInsightsId={false}
-        hasLastCheckIn={true}
-        hasRegistered={true}
-        hasReporter={true}
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Insights client",
-                "value": <VersionTooltip
-                  client="test-client"
-                  egg="test-egg"
-                />,
-              },
-              Object {
-                "title": "Last check-in",
-                "value": <DateFormat
-                  date="6/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Registered",
-                "value": <DateFormat
-                  date="04/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Reporter",
-                "value": undefined,
-              },
-            ]
-          }
-          title="Collection information"
-        >
-          <Card
-            ouiaId="system-properties-card"
-          >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
-            >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
-                  >
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-7"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Collection information
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights client title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights client title"
-                                    >
-                                      Insights client
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights client value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights client value"
-                                    >
-                                      <VersionTooltip
-                                        client="test-client"
-                                        egg="test-egg"
-                                      >
-                                        <Tooltip
-                                          content={
-                                            <React.Fragment>
-                                              <p>
-                                                RPM version: 
-                                                test-client
-                                              </p>
-                                              <p>
-                                                Dynamic update version: 
-                                                test-egg
-                                              </p>
-                                            </React.Fragment>
-                                          }
-                                        >
-                                          <Popper
-                                            appendTo={[Function]}
-                                            distance={15}
-                                            enableFlip={true}
-                                            flipBehavior={
-                                              Array [
-                                                "top",
-                                                "right",
-                                                "bottom",
-                                                "left",
-                                                "top",
-                                                "right",
-                                                "bottom",
-                                              ]
-                                            }
-                                            isVisible={false}
-                                            onBlur={[Function]}
-                                            onDocumentClick={false}
-                                            onDocumentKeyDown={[Function]}
-                                            onFocus={[Function]}
-                                            onMouseEnter={[Function]}
-                                            onMouseLeave={[Function]}
-                                            onPopperMouseEnter={[Function]}
-                                            onPopperMouseLeave={[Function]}
-                                            onTriggerEnter={[Function]}
-                                            placement="top"
-                                            popper={
-                                              <div
-                                                aria-live="off"
-                                                className="pf-c-tooltip"
-                                                id="pf-tooltip-5"
-                                                role="tooltip"
-                                                style={
-                                                  Object {
-                                                    "maxWidth": null,
-                                                    "opacity": 0,
-                                                    "transition": "opacity 300ms cubic-bezier(.54, 1.5, .38, 1.11)",
-                                                  }
-                                                }
-                                              >
-                                                <TooltipArrow />
-                                                <TooltipContent
-                                                  isLeftAligned={false}
-                                                >
-                                                  <React.Fragment>
-                                                    <p>
-                                                      RPM version: 
-                                                      test-client
-                                                    </p>
-                                                    <p>
-                                                      Dynamic update version: 
-                                                      test-egg
-                                                    </p>
-                                                  </React.Fragment>
-                                                </TooltipContent>
-                                              </div>
-                                            }
-                                            popperMatchesTriggerWidth={false}
-                                            positionModifiers={
-                                              Object {
-                                                "bottom": "pf-m-bottom",
-                                                "bottom-end": "pf-m-bottom-right",
-                                                "bottom-start": "pf-m-bottom-left",
-                                                "left": "pf-m-left",
-                                                "left-end": "pf-m-left-bottom",
-                                                "left-start": "pf-m-left-top",
-                                                "right": "pf-m-right",
-                                                "right-end": "pf-m-right-bottom",
-                                                "right-start": "pf-m-right-top",
-                                                "top": "pf-m-top",
-                                                "top-end": "pf-m-top-right",
-                                                "top-start": "pf-m-top-left",
-                                              }
-                                            }
-                                            removeFindDomNode={false}
-                                            trigger={
-                                              <span>
-                                                test-client
-                                              </span>
-                                            }
-                                            zIndex={9999}
-                                          >
-                                            <FindRefWrapper
-                                              onFoundRef={[Function]}
-                                            >
-                                              <span>
-                                                test-client
-                                              </span>
-                                            </FindRefWrapper>
-                                          </Popper>
-                                        </Tooltip>
-                                      </VersionTooltip>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Last check-in title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Last check-in title"
-                                    >
-                                      Last check-in
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Last check-in value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Last check-in value"
-                                    >
-                                      <DateFormat
-                                        date="6/01/2014"
-                                        type="onlyDate"
-                                      >
-                                        01 Jun 2014
-                                      </DateFormat>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Registered title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Registered title"
-                                    >
-                                      Registered
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Registered value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Registered value"
-                                    >
-                                      <DateFormat
-                                        date="04/01/2014"
-                                        type="onlyDate"
-                                      >
-                                        01 Apr 2014
-                                      </DateFormat>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Reporter title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Reporter title"
-                                    >
-                                      Reporter
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Reporter value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Reporter value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-                </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </CollectionCard>
-    </Connect(CollectionCard)>
-  </Router>
-</MemoryRouter>
-`;
-
-exports[`CollectionCard should not render hasLastCheckIn 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
-  >
-    <Connect(CollectionCard)
-      hasLastCheckIn={false}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <CollectionCard
-        collectionInformation={
-          Object {
-            "client": "test-client",
-            "egg": "test-egg",
-          }
-        }
-        detailLoaded={true}
-        dispatch={[Function]}
-        entity={
-          Object {
-            "created": "04/01/2014",
-            "updated": "6/01/2014",
-          }
-        }
-        extra={Array []}
-        handleClick={[Function]}
-        hasClient={true}
-        hasEgg={true}
-        hasInsightsId={true}
-        hasLastCheckIn={false}
-        hasRegistered={true}
-        hasReporter={true}
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Insights client",
-                "value": <VersionTooltip
-                  client="test-client"
-                  egg="test-egg"
-                />,
-              },
-              Object {
-                "title": "Registered",
-                "value": <DateFormat
-                  date="04/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Insights id",
-                "value": undefined,
-              },
-              Object {
-                "title": "Reporter",
-                "value": undefined,
-              },
-            ]
-          }
-          title="Collection information"
-        >
-          <Card
-            ouiaId="system-properties-card"
-          >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
-            >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
-                  >
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-5"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Collection information
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights client title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights client title"
-                                    >
-                                      Insights client
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights client value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights client value"
-                                    >
-                                      <VersionTooltip
-                                        client="test-client"
-                                        egg="test-egg"
-                                      >
-                                        <Tooltip
-                                          content={
-                                            <React.Fragment>
-                                              <p>
-                                                RPM version: 
-                                                test-client
-                                              </p>
-                                              <p>
-                                                Dynamic update version: 
-                                                test-egg
-                                              </p>
-                                            </React.Fragment>
-                                          }
-                                        >
-                                          <Popper
-                                            appendTo={[Function]}
-                                            distance={15}
-                                            enableFlip={true}
-                                            flipBehavior={
-                                              Array [
-                                                "top",
-                                                "right",
-                                                "bottom",
-                                                "left",
-                                                "top",
-                                                "right",
-                                                "bottom",
-                                              ]
-                                            }
-                                            isVisible={false}
-                                            onBlur={[Function]}
-                                            onDocumentClick={false}
-                                            onDocumentKeyDown={[Function]}
-                                            onFocus={[Function]}
-                                            onMouseEnter={[Function]}
-                                            onMouseLeave={[Function]}
-                                            onPopperMouseEnter={[Function]}
-                                            onPopperMouseLeave={[Function]}
-                                            onTriggerEnter={[Function]}
-                                            placement="top"
-                                            popper={
-                                              <div
-                                                aria-live="off"
-                                                className="pf-c-tooltip"
-                                                id="pf-tooltip-3"
-                                                role="tooltip"
-                                                style={
-                                                  Object {
-                                                    "maxWidth": null,
-                                                    "opacity": 0,
-                                                    "transition": "opacity 300ms cubic-bezier(.54, 1.5, .38, 1.11)",
-                                                  }
-                                                }
-                                              >
-                                                <TooltipArrow />
-                                                <TooltipContent
-                                                  isLeftAligned={false}
-                                                >
-                                                  <React.Fragment>
-                                                    <p>
-                                                      RPM version: 
-                                                      test-client
-                                                    </p>
-                                                    <p>
-                                                      Dynamic update version: 
-                                                      test-egg
-                                                    </p>
-                                                  </React.Fragment>
-                                                </TooltipContent>
-                                              </div>
-                                            }
-                                            popperMatchesTriggerWidth={false}
-                                            positionModifiers={
-                                              Object {
-                                                "bottom": "pf-m-bottom",
-                                                "bottom-end": "pf-m-bottom-right",
-                                                "bottom-start": "pf-m-bottom-left",
-                                                "left": "pf-m-left",
-                                                "left-end": "pf-m-left-bottom",
-                                                "left-start": "pf-m-left-top",
-                                                "right": "pf-m-right",
-                                                "right-end": "pf-m-right-bottom",
-                                                "right-start": "pf-m-right-top",
-                                                "top": "pf-m-top",
-                                                "top-end": "pf-m-top-right",
-                                                "top-start": "pf-m-top-left",
-                                              }
-                                            }
-                                            removeFindDomNode={false}
-                                            trigger={
-                                              <span>
-                                                test-client
-                                              </span>
-                                            }
-                                            zIndex={9999}
-                                          >
-                                            <FindRefWrapper
-                                              onFoundRef={[Function]}
-                                            >
-                                              <span>
-                                                test-client
-                                              </span>
-                                            </FindRefWrapper>
-                                          </Popper>
-                                        </Tooltip>
-                                      </VersionTooltip>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Registered title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Registered title"
-                                    >
-                                      Registered
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Registered value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Registered value"
-                                    >
-                                      <DateFormat
-                                        date="04/01/2014"
-                                        type="onlyDate"
-                                      >
-                                        01 Apr 2014
-                                      </DateFormat>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights id title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights id title"
-                                    >
-                                      Insights id
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights id value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights id value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Reporter title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Reporter title"
-                                    >
-                                      Reporter
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Reporter value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Reporter value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-                </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </CollectionCard>
-    </Connect(CollectionCard)>
-  </Router>
-</MemoryRouter>
-`;
-
-exports[`CollectionCard should not render hasRegistered 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
-  >
-    <Connect(CollectionCard)
-      hasRegistered={false}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <CollectionCard
-        collectionInformation={
-          Object {
-            "client": "test-client",
-            "egg": "test-egg",
-          }
-        }
-        detailLoaded={true}
-        dispatch={[Function]}
-        entity={
-          Object {
-            "created": "04/01/2014",
-            "updated": "6/01/2014",
-          }
-        }
-        extra={Array []}
-        handleClick={[Function]}
-        hasClient={true}
-        hasEgg={true}
-        hasInsightsId={true}
-        hasLastCheckIn={true}
-        hasRegistered={false}
-        hasReporter={true}
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Insights client",
-                "value": <VersionTooltip
-                  client="test-client"
-                  egg="test-egg"
-                />,
-              },
-              Object {
-                "title": "Last check-in",
-                "value": <DateFormat
-                  date="6/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Insights id",
-                "value": undefined,
-              },
-              Object {
-                "title": "Reporter",
-                "value": undefined,
-              },
-            ]
-          }
-          title="Collection information"
-        >
-          <Card
-            ouiaId="system-properties-card"
-          >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
-            >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
-                  >
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-6"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Collection information
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights client title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights client title"
-                                    >
-                                      Insights client
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights client value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights client value"
-                                    >
-                                      <VersionTooltip
-                                        client="test-client"
-                                        egg="test-egg"
-                                      >
-                                        <Tooltip
-                                          content={
-                                            <React.Fragment>
-                                              <p>
-                                                RPM version: 
-                                                test-client
-                                              </p>
-                                              <p>
-                                                Dynamic update version: 
-                                                test-egg
-                                              </p>
-                                            </React.Fragment>
-                                          }
-                                        >
-                                          <Popper
-                                            appendTo={[Function]}
-                                            distance={15}
-                                            enableFlip={true}
-                                            flipBehavior={
-                                              Array [
-                                                "top",
-                                                "right",
-                                                "bottom",
-                                                "left",
-                                                "top",
-                                                "right",
-                                                "bottom",
-                                              ]
-                                            }
-                                            isVisible={false}
-                                            onBlur={[Function]}
-                                            onDocumentClick={false}
-                                            onDocumentKeyDown={[Function]}
-                                            onFocus={[Function]}
-                                            onMouseEnter={[Function]}
-                                            onMouseLeave={[Function]}
-                                            onPopperMouseEnter={[Function]}
-                                            onPopperMouseLeave={[Function]}
-                                            onTriggerEnter={[Function]}
-                                            placement="top"
-                                            popper={
-                                              <div
-                                                aria-live="off"
-                                                className="pf-c-tooltip"
-                                                id="pf-tooltip-4"
-                                                role="tooltip"
-                                                style={
-                                                  Object {
-                                                    "maxWidth": null,
-                                                    "opacity": 0,
-                                                    "transition": "opacity 300ms cubic-bezier(.54, 1.5, .38, 1.11)",
-                                                  }
-                                                }
-                                              >
-                                                <TooltipArrow />
-                                                <TooltipContent
-                                                  isLeftAligned={false}
-                                                >
-                                                  <React.Fragment>
-                                                    <p>
-                                                      RPM version: 
-                                                      test-client
-                                                    </p>
-                                                    <p>
-                                                      Dynamic update version: 
-                                                      test-egg
-                                                    </p>
-                                                  </React.Fragment>
-                                                </TooltipContent>
-                                              </div>
-                                            }
-                                            popperMatchesTriggerWidth={false}
-                                            positionModifiers={
-                                              Object {
-                                                "bottom": "pf-m-bottom",
-                                                "bottom-end": "pf-m-bottom-right",
-                                                "bottom-start": "pf-m-bottom-left",
-                                                "left": "pf-m-left",
-                                                "left-end": "pf-m-left-bottom",
-                                                "left-start": "pf-m-left-top",
-                                                "right": "pf-m-right",
-                                                "right-end": "pf-m-right-bottom",
-                                                "right-start": "pf-m-right-top",
-                                                "top": "pf-m-top",
-                                                "top-end": "pf-m-top-right",
-                                                "top-start": "pf-m-top-left",
-                                              }
-                                            }
-                                            removeFindDomNode={false}
-                                            trigger={
-                                              <span>
-                                                test-client
-                                              </span>
-                                            }
-                                            zIndex={9999}
-                                          >
-                                            <FindRefWrapper
-                                              onFoundRef={[Function]}
-                                            >
-                                              <span>
-                                                test-client
-                                              </span>
-                                            </FindRefWrapper>
-                                          </Popper>
-                                        </Tooltip>
-                                      </VersionTooltip>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Last check-in title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Last check-in title"
-                                    >
-                                      Last check-in
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Last check-in value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Last check-in value"
-                                    >
-                                      <DateFormat
-                                        date="6/01/2014"
-                                        type="onlyDate"
-                                      >
-                                        01 Jun 2014
-                                      </DateFormat>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights id title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights id title"
-                                    >
-                                      Insights id
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights id value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights id value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Reporter title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Reporter title"
-                                    >
-                                      Reporter
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Reporter value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Reporter value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-                </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </CollectionCard>
-    </Connect(CollectionCard)>
-  </Router>
-</MemoryRouter>
-`;
-
-exports[`CollectionCard should not render hasReporter 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
-  >
-    <Connect(CollectionCard)
-      hasReporter={false}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <CollectionCard
-        collectionInformation={
-          Object {
-            "client": "test-client",
-            "egg": "test-egg",
-          }
-        }
-        detailLoaded={true}
-        dispatch={[Function]}
-        entity={
-          Object {
-            "created": "04/01/2014",
-            "updated": "6/01/2014",
-          }
-        }
-        extra={Array []}
-        handleClick={[Function]}
-        hasClient={true}
-        hasEgg={true}
-        hasInsightsId={true}
-        hasLastCheckIn={true}
-        hasRegistered={true}
-        hasReporter={false}
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Insights client",
-                "value": <VersionTooltip
-                  client="test-client"
-                  egg="test-egg"
-                />,
-              },
-              Object {
-                "title": "Last check-in",
-                "value": <DateFormat
-                  date="6/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Registered",
-                "value": <DateFormat
-                  date="04/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Insights id",
-                "value": undefined,
-              },
-            ]
-          }
-          title="Collection information"
-        >
-          <Card
-            ouiaId="system-properties-card"
-          >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
-            >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
-                  >
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-8"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Collection information
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights client title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights client title"
-                                    >
-                                      Insights client
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights client value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights client value"
-                                    >
-                                      <VersionTooltip
-                                        client="test-client"
-                                        egg="test-egg"
-                                      >
-                                        <Tooltip
-                                          content={
-                                            <React.Fragment>
-                                              <p>
-                                                RPM version: 
-                                                test-client
-                                              </p>
-                                              <p>
-                                                Dynamic update version: 
-                                                test-egg
-                                              </p>
-                                            </React.Fragment>
-                                          }
-                                        >
-                                          <Popper
-                                            appendTo={[Function]}
-                                            distance={15}
-                                            enableFlip={true}
-                                            flipBehavior={
-                                              Array [
-                                                "top",
-                                                "right",
-                                                "bottom",
-                                                "left",
-                                                "top",
-                                                "right",
-                                                "bottom",
-                                              ]
-                                            }
-                                            isVisible={false}
-                                            onBlur={[Function]}
-                                            onDocumentClick={false}
-                                            onDocumentKeyDown={[Function]}
-                                            onFocus={[Function]}
-                                            onMouseEnter={[Function]}
-                                            onMouseLeave={[Function]}
-                                            onPopperMouseEnter={[Function]}
-                                            onPopperMouseLeave={[Function]}
-                                            onTriggerEnter={[Function]}
-                                            placement="top"
-                                            popper={
-                                              <div
-                                                aria-live="off"
-                                                className="pf-c-tooltip"
-                                                id="pf-tooltip-6"
-                                                role="tooltip"
-                                                style={
-                                                  Object {
-                                                    "maxWidth": null,
-                                                    "opacity": 0,
-                                                    "transition": "opacity 300ms cubic-bezier(.54, 1.5, .38, 1.11)",
-                                                  }
-                                                }
-                                              >
-                                                <TooltipArrow />
-                                                <TooltipContent
-                                                  isLeftAligned={false}
-                                                >
-                                                  <React.Fragment>
-                                                    <p>
-                                                      RPM version: 
-                                                      test-client
-                                                    </p>
-                                                    <p>
-                                                      Dynamic update version: 
-                                                      test-egg
-                                                    </p>
-                                                  </React.Fragment>
-                                                </TooltipContent>
-                                              </div>
-                                            }
-                                            popperMatchesTriggerWidth={false}
-                                            positionModifiers={
-                                              Object {
-                                                "bottom": "pf-m-bottom",
-                                                "bottom-end": "pf-m-bottom-right",
-                                                "bottom-start": "pf-m-bottom-left",
-                                                "left": "pf-m-left",
-                                                "left-end": "pf-m-left-bottom",
-                                                "left-start": "pf-m-left-top",
-                                                "right": "pf-m-right",
-                                                "right-end": "pf-m-right-bottom",
-                                                "right-start": "pf-m-right-top",
-                                                "top": "pf-m-top",
-                                                "top-end": "pf-m-top-right",
-                                                "top-start": "pf-m-top-left",
-                                              }
-                                            }
-                                            removeFindDomNode={false}
-                                            trigger={
-                                              <span>
-                                                test-client
-                                              </span>
-                                            }
-                                            zIndex={9999}
-                                          >
-                                            <FindRefWrapper
-                                              onFoundRef={[Function]}
-                                            >
-                                              <span>
-                                                test-client
-                                              </span>
-                                            </FindRefWrapper>
-                                          </Popper>
-                                        </Tooltip>
-                                      </VersionTooltip>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Last check-in title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Last check-in title"
-                                    >
-                                      Last check-in
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Last check-in value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Last check-in value"
-                                    >
-                                      <DateFormat
-                                        date="6/01/2014"
-                                        type="onlyDate"
-                                      >
-                                        01 Jun 2014
-                                      </DateFormat>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Registered title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Registered title"
-                                    >
-                                      Registered
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Registered value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Registered value"
-                                    >
-                                      <DateFormat
-                                        date="04/01/2014"
-                                        type="onlyDate"
-                                      >
-                                        01 Apr 2014
-                                      </DateFormat>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights id title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights id title"
-                                    >
-                                      Insights id
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights id value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights id value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-                </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </CollectionCard>
-    </Connect(CollectionCard)>
-  </Router>
-</MemoryRouter>
-`;
-
 exports[`CollectionCard should render correctly - no data 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
-  >
-    <Connect(CollectionCard)
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <CollectionCard
-        collectionInformation={
-          Object {
-            "client": undefined,
-            "egg": undefined,
-          }
-        }
-        detailLoaded={false}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasClient={true}
-        hasEgg={true}
-        hasInsightsId={true}
-        hasLastCheckIn={true}
-        hasRegistered={true}
-        hasReporter={true}
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={true}
-          items={
-            Array [
-              Object {
-                "title": "Insights client",
-                "value": <VersionTooltip />,
-              },
-              Object {
-                "title": "Last check-in",
-                "value": undefined,
-              },
-              Object {
-                "title": "Registered",
-                "value": undefined,
-              },
-              Object {
-                "title": "Insights id",
-                "value": undefined,
-              },
-              Object {
-                "title": "Reporter",
-                "value": undefined,
-              },
-            ]
-          }
-          title="Collection information"
-        >
-          <Card
-            ouiaId="system-properties-card"
-          >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
-            >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
-                  >
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-1"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Collection information
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights client title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights client title"
-                                    >
-                                      Insights client
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights client value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights client value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Last check-in title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Last check-in title"
-                                    >
-                                      Last check-in
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Last check-in value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Last check-in value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Registered title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Registered title"
-                                    >
-                                      Registered
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Registered value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Registered value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Insights id title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Insights id title"
-                                    >
-                                      Insights id
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Insights id value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Insights id value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Reporter title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Reporter title"
-                                    >
-                                      Reporter
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Reporter value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Reporter value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-                </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </CollectionCard>
-    </Connect(CollectionCard)>
-  </Router>
-</MemoryRouter>
-`;
-
-exports[`CollectionCard should render correctly with data 1`] = `
-<article
-  class="pf-c-card"
-  data-ouia-component-id="system-properties-card"
-  data-ouia-component-type="PF4/Card"
-  data-ouia-safe="true"
-  id=""
->
-  <div
-    class="pf-c-card__body"
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
     <div
-      class="pf-l-stack pf-m-gutter"
+      class="pf-c-card__body"
     >
       <div
-        class="pf-l-stack__item"
+        class="pf-l-stack pf-m-gutter"
       >
         <div
-          class="pf-c-content"
+          class="pf-l-stack__item"
         >
-          <h1
-            class=""
-            data-ouia-component-id="OUIA-Generated-Text-2"
-            data-ouia-component-type="PF4/Text"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <div
+            class="pf-c-content"
           >
-            Collection information
-          </h1>
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
+            >
+              Collection information
+            </h1>
+          </div>
         </div>
-      </div>
-      <div
-        class="pf-l-stack__item pf-m-fill"
-      >
         <div
-          class="pf-c-content"
+          class="pf-l-stack__item pf-m-fill"
         >
-          <dl
-            class=""
+          <div
+            class="pf-c-content"
           >
-            <dt
+            <dl
               class=""
-              data-ouia-component-id="Insights client title"
             >
-              Insights client
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Insights client value"
-            >
-              <span>
-                test-client
-              </span>
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Last check-in title"
-            >
-              Last check-in
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Last check-in value"
-            >
-              01 Jun 2014
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Registered title"
-            >
-              Registered
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Registered value"
-            >
-              01 Apr 2014
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Insights id title"
-            >
-              Insights id
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Insights id value"
-            >
-              Not available
-            </dd>
-            <dt
-              class=""
-              data-ouia-component-id="Reporter title"
-            >
-              Reporter
-            </dt>
-            <dd
-              class=""
-              data-ouia-component-id="Reporter value"
-            >
-              Not available
-            </dd>
-          </dl>
+              <dt
+                class=""
+                data-ouia-component-id="Insights client title"
+              >
+                Insights client
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Insights client value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Last check-in title"
+              >
+                Last check-in
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Last check-in value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Registered title"
+              >
+                Registered
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Registered value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Insights id title"
+              >
+                Insights id
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Insights id value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Reporter title"
+              >
+                Reporter
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Reporter value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</article>
+  </article>
+</DocumentFragment>
+`;
+
+exports[`CollectionCard should render correctly with data 1`] = `
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
+  >
+    <div
+      class="pf-c-card__body"
+    >
+      <div
+        class="pf-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-l-stack__item"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
+            >
+              Collection information
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Insights client title"
+              >
+                Insights client
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Insights client value"
+              >
+                <span>
+                  test-client
+                </span>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Last check-in title"
+              >
+                Last check-in
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Last check-in value"
+              >
+                01 Jun 2014
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Registered title"
+              >
+                Registered
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Registered value"
+              >
+                01 Apr 2014
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Insights id title"
+              >
+                Insights id
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Insights id value"
+              >
+                Not available
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Reporter title"
+              >
+                Reporter
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Reporter value"
+              >
+                Not available
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;
 
 exports[`CollectionCard should render extra 1`] = `
-<MemoryRouter>
-  <Router
-    location={
-      Object {
-        "hash": "",
-        "key": "default",
-        "pathname": "/",
-        "search": "",
-        "state": null,
-      }
-    }
-    navigationType="POP"
-    navigator={
-      Object {
-        "action": "POP",
-        "createHref": [Function],
-        "createURL": [Function],
-        "encodeLocation": [Function],
-        "go": [Function],
-        "index": 0,
-        "listen": [Function],
-        "location": Object {
-          "hash": "",
-          "key": "default",
-          "pathname": "/",
-          "search": "",
-          "state": null,
-        },
-        "push": [Function],
-        "replace": [Function],
-      }
-    }
+<DocumentFragment>
+  <article
+    class="pf-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF4/Card"
+    data-ouia-safe="true"
+    id=""
   >
-    <Connect(CollectionCard)
-      extra={
-        Array [
-          Object {
-            "title": "something",
-            "value": "test",
-          },
-          Object {
-            "onClick": [Function],
-            "title": "with click",
-            "value": "1 tests",
-          },
-        ]
-      }
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
+    <div
+      class="pf-c-card__body"
     >
-      <CollectionCard
-        collectionInformation={
-          Object {
-            "client": "test-client",
-            "egg": "test-egg",
-          }
-        }
-        detailLoaded={true}
-        dispatch={[Function]}
-        entity={
-          Object {
-            "created": "04/01/2014",
-            "updated": "6/01/2014",
-          }
-        }
-        extra={
-          Array [
-            Object {
-              "title": "something",
-              "value": "test",
-            },
-            Object {
-              "onClick": [Function],
-              "title": "with click",
-              "value": "1 tests",
-            },
-          ]
-        }
-        handleClick={[Function]}
-        hasClient={true}
-        hasEgg={true}
-        hasInsightsId={true}
-        hasLastCheckIn={true}
-        hasRegistered={true}
-        hasReporter={true}
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
+      <div
+        class="pf-l-stack pf-m-gutter"
       >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Insights client",
-                "value": <VersionTooltip
-                  client="test-client"
-                  egg="test-egg"
-                />,
-              },
-              Object {
-                "title": "Last check-in",
-                "value": <DateFormat
-                  date="6/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Registered",
-                "value": <DateFormat
-                  date="04/01/2014"
-                  type="onlyDate"
-                />,
-              },
-              Object {
-                "title": "Insights id",
-                "value": undefined,
-              },
-              Object {
-                "title": "Reporter",
-                "value": undefined,
-              },
-              Object {
-                "title": "something",
-                "value": "test",
-              },
-              Object {
-                "onClick": [Function],
-                "title": "with click",
-                "value": "1 tests",
-              },
-            ]
-          }
-          title="Collection information"
+        <div
+          class="pf-l-stack__item"
         >
-          <Card
-            ouiaId="system-properties-card"
+          <div
+            class="pf-c-content"
           >
-            <article
-              className="pf-c-card"
-              data-ouia-component-id="system-properties-card"
-              data-ouia-component-type="PF4/Card"
-              data-ouia-safe={true}
-              id=""
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF4/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
+              Collection information
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                class=""
+                data-ouia-component-id="Insights client title"
+              >
+                Insights client
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Insights client value"
+              >
+                <span>
+                  test-client
+                </span>
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Last check-in title"
+              >
+                Last check-in
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Last check-in value"
+              >
+                01 Jun 2014
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Registered title"
+              >
+                Registered
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Registered value"
+              >
+                01 Apr 2014
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Insights id title"
+              >
+                Insights id
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Insights id value"
+              >
+                Not available
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="Reporter title"
+              >
+                Reporter
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="Reporter value"
+              >
+                Not available
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="something title"
+              >
+                something
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="something value"
+              >
+                test
+              </dd>
+              <dt
+                class=""
+                data-ouia-component-id="with click title"
+              >
+                with click
+              </dt>
+              <dd
+                class=""
+                data-ouia-component-id="with click value"
+              >
+                <div>
+                  <a
+                    href="/undefined"
                   >
+<<<<<<< HEAD
                     <div
                       className="pf-l-stack pf-m-gutter"
                     >
@@ -2859,13 +722,17 @@ exports[`CollectionCard should render extra 1`] = `
                       </StackItem>
                     </div>
                   </Stack>
+=======
+                    1 tests
+                  </a>
+>>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </CollectionCard>
-    </Connect(CollectionCard)>
-  </Router>
-</MemoryRouter>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</DocumentFragment>
 `;

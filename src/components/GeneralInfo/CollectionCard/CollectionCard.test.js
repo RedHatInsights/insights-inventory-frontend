@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { render } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import CollectionCard from './CollectionCard';
 import configureStore from 'redux-mock-store';
+import { renderWithRouter } from '../../../Utilities/TestingUtilities';
 import { collectInfoTest } from '../../../__mocks__/selectors';
-import { Tooltip } from '@patternfly/react-core';
-import { mountWithRouter } from '../../../Utilities/TestingUtilities';
+import CollectionCard from './CollectionCard';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -39,42 +38,41 @@ describe('CollectionCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = mountWithRouter(<CollectionCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(<CollectionCard store={store} />);
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<CollectionCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(<CollectionCard store={store} />);
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('renders tooltip for version', () => {
+  it('renders tooltip for version', async () => {
     const store = mockStore(initialState);
-    const wrapper = mountWithRouter(<CollectionCard store={store} />);
-    const tooltip = mountWithRouter(wrapper.find(Tooltip).props().content);
-    expect(tooltip).toMatchSnapshot();
+    renderWithRouter(<CollectionCard store={store} />);
+    await userEvent.hover(screen.getByText('test-client'));
+    await screen.findByText(/RPM version: test-client/i);
+    await screen.findByText(/Dynamic update version: test-egg/i);
   });
 
   [
-    'hasClient',
-    'hasLastCheckIn',
-    'hasRegistered',
-    'hasInsightsId',
-    'hasReporter',
-  ].map((item) =>
-    it(`should not render ${item}`, () => {
+    ['hasClient', 'Insights client'],
+    ['hasLastCheckIn', 'Last check-in'],
+    ['hasRegistered', 'Registered'],
+    ['hasInsightsId', 'Insights id'],
+    ['hasReporter', 'Reporter'],
+  ].map(([flag, title]) =>
+    it(`should not render ${title}`, () => {
       const store = mockStore(initialState);
-      const wrapper = mountWithRouter(
-        <CollectionCard store={store} {...{ [item]: false }} />
-      );
-      expect(toJson(wrapper)).toMatchSnapshot();
+      renderWithRouter(<CollectionCard store={store} {...{ [flag]: false }} />);
+      expect(screen.queryByText(title)).toBeNull();
     })
   );
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = mountWithRouter(
+    const view = renderWithRouter(
       <CollectionCard
         store={store}
         extra={[
@@ -87,6 +85,6 @@ describe('CollectionCard', () => {
         ]}
       />
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(view.asFragment()).toMatchSnapshot();
   });
 });

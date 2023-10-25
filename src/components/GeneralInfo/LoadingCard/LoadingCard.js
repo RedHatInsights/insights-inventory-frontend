@@ -64,7 +64,12 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
       <Stack hasGutter>
         <StackItem>
           <TextContent>
-            <Text component={TextVariants.h1}>{title}</Text>
+            <Text
+              component={TextVariants.h1}
+              ouiaId="SystemPropertiesCardTitle"
+            >
+              {title}
+            </Text>
           </TextContent>
         </StackItem>
         <StackItem isFilled>

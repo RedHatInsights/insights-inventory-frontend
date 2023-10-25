@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { render } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import DataCollectorsCard from './DataCollectorsCard';
 import configureStore from 'redux-mock-store';
+import { render } from '@testing-library/react';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -44,19 +43,19 @@ describe('DataCollectorsCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(<DataCollectorsCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(<DataCollectorsCard store={store} />);
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<DataCollectorsCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(<DataCollectorsCard store={store} />);
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render custom collectors', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    const view = render(
       <DataCollectorsCard
         store={store}
         {...{
@@ -74,6 +73,6 @@ describe('DataCollectorsCard', () => {
         }}
       />
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(view.asFragment()).toMatchSnapshot();
   });
 });

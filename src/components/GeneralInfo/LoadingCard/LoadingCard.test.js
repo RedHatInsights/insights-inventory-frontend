@@ -1,8 +1,10 @@
+import '@testing-library/jest-dom';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import toJson from 'enzyme-to-json';
+import { renderWithRouter } from '../../../Utilities/TestingUtilities';
 import LoadingCard, { Clickable } from './LoadingCard';
-import { mountWithRouter } from '../../../Utilities/TestingUtilities';
-//import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({
@@ -16,18 +18,18 @@ jest.mock('react-router-dom', () => ({
 describe('LoadingCard', () => {
   [true, false].map((isLoading) => {
     it(`Loading card render - isLoading: ${isLoading}`, () => {
-      const wrapper = mountWithRouter(
+      const view = renderWithRouter(
         <LoadingCard
           isLoading={isLoading}
           title={`Card that is ${isLoading ? 'loading' : 'loaded'}`}
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(view.asFragment()).toMatchSnapshot();
     });
   });
 
   it('should render loading bars', () => {
-    const wrapper = mountWithRouter(
+    const view = renderWithRouter(
       <LoadingCard
         isLoading={true}
         title="Some title"
@@ -44,11 +46,11 @@ describe('LoadingCard', () => {
         ]}
       />
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it(`Loading card render`, () => {
-    const wrapper = mountWithRouter(
+    const view = renderWithRouter(
       <LoadingCard
         isLoading={false}
         title="Some title"
@@ -65,17 +67,17 @@ describe('LoadingCard', () => {
         ]}
       />
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('Clickable should render - no data', () => {
-    const wrapper = mountWithRouter(<Clickable onClick={jest.fn()} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = renderWithRouter(<Clickable onClick={jest.fn()} />);
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   describe('none/not available', () => {
     it(`should not be clickable when the value is 0`, () => {
-      const wrapper = mountWithRouter(
+      renderWithRouter(
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -89,12 +91,12 @@ describe('LoadingCard', () => {
         />
       );
 
-      expect(wrapper.find('dd').text()).toEqual('None');
-      expect(wrapper.find(Clickable)).toHaveLength(0);
+      expect(screen.getByRole('definition')).toHaveTextContent(/^None$/);
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
 
     it(`should not be clickable when the value is 0 with plural`, () => {
-      const wrapper = mountWithRouter(
+      renderWithRouter(
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -109,12 +111,12 @@ describe('LoadingCard', () => {
         />
       );
 
-      expect(wrapper.find('dd').text()).toEqual('0 systems');
-      expect(wrapper.find(Clickable)).toHaveLength(0);
+      expect(screen.getByRole('definition')).toHaveTextContent(/^0 systems$/);
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
 
     it(`should not be clickable when the value is undefined`, () => {
-      const wrapper = mountWithRouter(
+      renderWithRouter(
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -128,12 +130,14 @@ describe('LoadingCard', () => {
         />
       );
 
-      expect(wrapper.find('dd').text()).toEqual('Not available');
-      expect(wrapper.find(Clickable)).toHaveLength(0);
+      expect(screen.getByRole('definition')).toHaveTextContent(
+        /^Not available$/
+      );
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
 
     it(`should be none when value is 0`, () => {
-      const wrapper = mountWithRouter(
+      renderWithRouter(
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -146,12 +150,12 @@ describe('LoadingCard', () => {
         />
       );
 
-      expect(wrapper.find('dd').text()).toEqual('None');
-      expect(wrapper.find(Clickable)).toHaveLength(0);
+      expect(screen.getByRole('definition')).toHaveTextContent(/^None$/);
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
 
     it(`should be not available when value is undefined`, () => {
-      const wrapper = mountWithRouter(
+      renderWithRouter(
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -164,12 +168,14 @@ describe('LoadingCard', () => {
         />
       );
 
-      expect(wrapper.find('dd').text()).toEqual('Not available');
-      expect(wrapper.find(Clickable)).toHaveLength(0);
+      expect(screen.getByRole('definition')).toHaveTextContent(
+        /^Not available$/
+      );
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
 
     it(`plurazied none`, () => {
-      const wrapper = mountWithRouter(
+      renderWithRouter(
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -183,12 +189,12 @@ describe('LoadingCard', () => {
         />
       );
 
-      expect(wrapper.find('dd').text()).toEqual('0 systems');
-      expect(wrapper.find(Clickable)).toHaveLength(0);
+      expect(screen.getByRole('definition')).toHaveTextContent(/^0 systems$/);
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
 
     it(`should be clickable with plural`, () => {
-      const wrapper = mountWithRouter(
+      renderWithRouter(
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -203,12 +209,12 @@ describe('LoadingCard', () => {
         />
       );
 
-      expect(wrapper.find('dd').text()).toEqual('23 systems');
-      expect(wrapper.find(Clickable).find('a')).toHaveLength(1);
+      expect(screen.getByRole('definition')).toHaveTextContent(/^23 systems$/);
+      expect(screen.getAllByRole('link')).toHaveLength(1);
     });
 
     it(`should be clickable with custom plural`, () => {
-      const wrapper = mountWithRouter(
+      renderWithRouter(
         <LoadingCard
           isLoading={false}
           title="Some title"
@@ -224,47 +230,46 @@ describe('LoadingCard', () => {
         />
       );
 
-      expect(wrapper.find('dd').text()).toEqual('23 processes');
-      expect(wrapper.find(Clickable).find('a')).toHaveLength(1);
+      expect(screen.getByRole('definition')).toHaveTextContent(
+        /^23 processes$/
+      );
+      expect(screen.getAllByRole('link')).toHaveLength(1);
     });
   });
 
-  // it('Clickable should render', () => {
-  //   const navigate = useInsightsNavigate();
-  //   const wrapper = mountWithRouter(
-  //     <Clickable value="15" target="some-target" />
-  //   );
-  //   wrapper
-  //     .find('a')
-  //     .first()
-  //     .simulate('click', {
-  //       preventDefault: () => {},
-  //     });
-  //   expect(navigate).toHaveBeenCalled();
-  //   expect(toJson(wrapper)).toMatchSnapshot();
-  // });
+  it('Clickable should render', () => {
+    renderWithRouter(<Clickable value="15" target="some-target" />);
 
-  it('clickable should click', () => {
+    expect(screen.getByRole('link', { name: /15/i })).toHaveAttribute(
+      'href',
+      '/some-target'
+    );
+  });
+
+  it('clickable should click', async () => {
     const onClick = jest.fn();
-    const wrapper = mountWithRouter(
+
+    renderWithRouter(
       <Clickable onClick={onClick} value="15" target="path" />,
       'http://localhost:5000/inventoryId/modalId'
     );
-    wrapper
-      .find('a')
-      .first()
-      .simulate('click', {
-        preventDefault: () => {},
-      });
-    expect(onClick).toHaveBeenCalled();
+
+    await userEvent.click(screen.getByRole('link', { name: /15/i }));
+    await waitFor(() => {
+      expect(onClick).toHaveBeenCalledTimes(1);
+    });
   });
 
-  it('Clickable should render - 0 value', () => {
+  it('Clickable should render - 0 value', async () => {
     const onClick = jest.fn();
-    const wrapper = mountWithRouter(
+
+    const view = renderWithRouter(
       <Clickable onClick={onClick} value={0} target="some-target" />
     );
-    expect(onClick).not.toHaveBeenCalled();
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    await waitFor(() => {
+      expect(onClick).not.toHaveBeenCalled();
+    });
+    expect(view.asFragment()).toMatchSnapshot();
   });
 });

@@ -37,7 +37,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-39"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -326,7 +326,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-40"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -477,7 +477,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-41"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -574,7 +574,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-42"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -901,7 +901,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-43"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -1012,7 +1012,7 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-44"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -1152,7 +1152,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-75"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -1441,7 +1441,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-76"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -1592,7 +1592,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-77"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -1689,7 +1689,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-78"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -2016,7 +2016,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-79"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -2127,7 +2127,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-80"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -2212,7 +2212,7 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-81"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -2352,7 +2352,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-63"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -2641,7 +2641,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-64"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -2792,7 +2792,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-65"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -2889,7 +2889,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-66"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -3216,7 +3216,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-67"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -3327,7 +3327,7 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-68"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -3431,7 +3431,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-51"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -3720,7 +3720,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-52"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -3817,7 +3817,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-53"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -4144,7 +4144,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-54"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -4255,7 +4255,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-55"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -4340,7 +4340,7 @@ exports[`GeneralInformation custom components should not render InfrastructureCa
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-56"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -4480,7 +4480,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-27"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -4769,7 +4769,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-28"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -4920,7 +4920,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-29"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -5017,7 +5017,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-30"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -5344,7 +5344,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-31"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -5429,7 +5429,7 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-32"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -5569,7 +5569,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-15"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -5720,7 +5720,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-16"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -5817,7 +5817,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-17"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -6144,7 +6144,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-18"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -6255,7 +6255,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-19"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -6340,7 +6340,7 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-20"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -6480,7 +6480,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-45"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -6769,7 +6769,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-46"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -6920,7 +6920,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-47"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -7017,7 +7017,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-48"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -7344,7 +7344,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-49"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -7462,7 +7462,7 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-50"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -7602,7 +7602,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-82"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -7891,7 +7891,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-83"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -8042,7 +8042,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-84"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -8139,7 +8139,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-85"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -8466,7 +8466,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-86"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -8577,7 +8577,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-87"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -8662,7 +8662,7 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-88"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -8809,7 +8809,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-69"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -9098,7 +9098,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-70"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -9249,7 +9249,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-71"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -9346,7 +9346,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-72"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -9673,7 +9673,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-73"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -9784,7 +9784,7 @@ exports[`GeneralInformation custom components should render custom Configuration
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-74"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -9895,7 +9895,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-57"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -10191,7 +10191,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-58"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -10288,7 +10288,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-59"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -10615,7 +10615,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-60"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -10726,7 +10726,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-61"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -10811,7 +10811,7 @@ exports[`GeneralInformation custom components should render custom Infrastructur
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-62"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -10951,7 +10951,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-33"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -11240,7 +11240,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-34"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -11391,7 +11391,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-35"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -11488,7 +11488,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-36"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -11822,7 +11822,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-37"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -11907,7 +11907,7 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-38"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -12054,7 +12054,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-21"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -12205,7 +12205,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-22"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -12302,7 +12302,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-23"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -12629,7 +12629,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-24"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -12740,7 +12740,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-25"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -12825,7 +12825,7 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-26"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -12965,7 +12965,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-1"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -13269,7 +13269,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-2"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -13444,7 +13444,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-3"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -13565,7 +13565,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-4"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -13892,7 +13892,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-5"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -14031,7 +14031,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-6"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -14134,7 +14134,7 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-7"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -14274,7 +14274,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-8"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -14563,7 +14563,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-9"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -14714,7 +14714,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-10"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -14811,7 +14811,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-11"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -15138,7 +15138,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-12"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -15249,7 +15249,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-13"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -15334,7 +15334,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                   >
                     <h1
                       class=""
-                      data-ouia-component-id="OUIA-Generated-Text-14"
+                      data-ouia-component-id="SystemPropertiesCardTitle"
                       data-ouia-component-type="PF4/Text"
                       data-ouia-safe="true"
                       data-pf-content="true"
