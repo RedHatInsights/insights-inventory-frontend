@@ -3,7 +3,6 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import {
   INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS,
   INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
@@ -17,15 +16,15 @@ const HybridInventoryTabs = ({
   ImmutableDevicesTab,
   tabPathname,
   isImmutableTabOpen,
+  isEdgeParityEnabled,
 }) => {
   const { search } = useLocation();
   //used to hold URL params across tab changes
   const prevSearchRef = useRef('');
   const navigate = useNavigate();
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
-  const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
   useEffect(() => {
-    if (EdgeParityEnabled) {
+    if (isEdgeParityEnabled) {
       try {
         axios
           .get(
@@ -54,7 +53,7 @@ const HybridInventoryTabs = ({
         console.log(e);
       }
     }
-  }, [EdgeParityEnabled]);
+  }, [isEdgeParityEnabled]);
 
   const activeTab = isImmutableTabOpen
     ? hybridInventoryTabKeys.immutable.key
@@ -74,7 +73,7 @@ const HybridInventoryTabs = ({
     }
   };
 
-  return EdgeParityEnabled && hasEdgeImages ? (
+  return isEdgeParityEnabled && hasEdgeImages ? (
     <Tabs
       className="pf-m-light pf-c-table"
       activeKey={activeTab}
@@ -108,6 +107,7 @@ HybridInventoryTabs.propTypes = {
   ImmutableDevicesTab: PropTypes.element.isRequired,
   isImmutableTabOpen: PropTypes.bool,
   tabPathname: PropTypes.string,
+  isEdgeParityEnabled: PropTypes.bool,
 };
 
 HybridInventoryTabs.defaultProps = {

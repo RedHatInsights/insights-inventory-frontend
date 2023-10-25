@@ -4,10 +4,11 @@ import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
-import axios from 'axios';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
+import { inventoryHasEdgeSystems } from './Utilities/edge';
+import { inventoryHasConventionalSystems } from './Utilities/conventional';
 
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
@@ -31,19 +32,25 @@ export const routes = {
   edgeInventory: '/manage-edge-inventory',
   staleness: '/staleness-and-deletion',
 };
-const INVENTORY_TOTAL_FETCH_URL = '/api/inventory/v1/hosts';
 
 export const Routes = () => {
   const searchParams = useMemo(() => getSearchParams(), []);
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const [hasSystems, setHasSystems] = useState(true);
+  const edgeParityInventoryListEnabled = useFeatureFlag(
+    'edgeParity.inventory-list'
+  );
   useEffect(() => {
     try {
-      axios
-        .get(`${INVENTORY_TOTAL_FETCH_URL}?page=1&per_page=1`)
-        .then(({ data }) => {
-          setHasSystems(data.total > 0);
-        });
+      (async () => {
+        const hasConventionalSystems = await inventoryHasConventionalSystems();
+        if (edgeParityInventoryListEnabled) {
+          const hasEdgeSystems = await inventoryHasEdgeSystems();
+          setHasSystems(hasConventionalSystems || hasEdgeSystems);
+        } else {
+          setHasSystems(hasConventionalSystems);
+        }
+      })();
     } catch (e) {
       console.log(e);
     }

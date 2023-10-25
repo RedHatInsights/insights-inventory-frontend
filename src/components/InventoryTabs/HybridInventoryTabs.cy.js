@@ -25,6 +25,7 @@ const defaultProps = {
   ImmutableDevicesTab: <MockImmutableTab />,
   ConventionalSystemsTab: <MockConventionalTab />,
 };
+const edgeEnabledProps = { ...defaultProps, isEdgeParityEnabled: true };
 
 const mountWithProps = (props) => {
   return cy.mountWithContext(
@@ -48,19 +49,19 @@ describe('When edge parity feature is enabled', () => {
   });
 
   it('renders conventional tab correctly for Inventory frontend without tabPath', () => {
-    mountWithProps(defaultProps);
+    mountWithProps(edgeEnabledProps);
     cy.get('div[id="conventional"]').should('have.length', 1);
     cy.get('div[id="immutable"]').should('not.exist');
   });
 
   it('renders conventional tab correctly for Inventory frontend without tabPath', () => {
-    mountWithProps({ isImmutableTabOpen: true, ...defaultProps });
+    mountWithProps({ isImmutableTabOpen: true, ...edgeEnabledProps });
     cy.get('div[id="conventional"]').should('not.exist');
     cy.get('div[id="immutable"]').should('have.length', 1);
   });
 
   it('should change to immutable tab correctly from conventional', () => {
-    mountWithProps(defaultProps);
+    mountWithProps(edgeEnabledProps);
 
     //conventional tab should be default
     cy.get('div[id="conventional"]').should('have.length', 1);
@@ -77,7 +78,7 @@ describe('When edge parity feature is enabled', () => {
       {
         routerProps: { initialEntries: [tabPathname] },
       },
-      { ...defaultProps, path: tabPathname, tabPathname: tabPathname }
+      { ...edgeEnabledProps, path: tabPathname, tabPathname: tabPathname }
     );
 
     cy.get('div[id="conventional"]').should('have.length', 1);
@@ -94,7 +95,7 @@ describe('When there are edge devices, but no conventional systems', () => {
     featureFlagsInterceptors.edgeParitySuccessful();
   });
   it('should open immutable tab as default when there are edge devices, but not conventional', () => {
-    mountWithProps(defaultProps);
+    mountWithProps(edgeEnabledProps);
 
     cy.get('div[id="conventional"]').should('not.exist');
     cy.get('div[id="immutable"]').should('have.length', 1);
@@ -108,6 +109,7 @@ describe('When edge parity feature is disabled', () => {
   });
 
   it('should render only conventional systems without tab wrapper', () => {
+    defaultProps.isEdgeParityEnabled = false;
     mountWithProps(defaultProps);
 
     cy.get('div[id="conventional"]').should('have.length', 1);
