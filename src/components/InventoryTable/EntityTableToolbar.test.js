@@ -1,16 +1,15 @@
-/* eslint-disable camelcase */
-import React from 'react';
-import { act } from 'react-dom/test-utils';
-import EntityTableToolbar from './EntityTableToolbar';
-import { mount } from 'enzyme';
-import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import toJson from 'enzyme-to-json';
-import { mockSystemProfile, mockTags } from '../../__mocks__/hostApi';
-import { availableVersions } from '../../Utilities/__mocks__/OperatingSystemFilterHelpers.fixtures';
-import TitleColumn from './TitleColumn';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import debounce from 'lodash/debounce';
+import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
+import { availableVersions } from '../../Utilities/__mocks__/OperatingSystemFilterHelpers.fixtures';
+import { mockSystemProfile, mockTags } from '../../__mocks__/hostApi';
+import EntityTableToolbar from './EntityTableToolbar';
+import TitleColumn from './TitleColumn';
 
 jest.mock('lodash/debounce');
 jest.mock('../../Utilities/useFeatureFlag');
@@ -19,6 +18,57 @@ jest.mock('../../Utilities/constants', () => ({
   ...jest.requireActual('../../Utilities/constants'),
   lastSeenItems: jest.fn().mockReturnValue([]),
 }));
+
+const expectDefaultFiltersVisible = async () => {
+  const DEFAULT_FILTERS = [
+    'Name',
+    'Status',
+    'Operating System',
+    'Data Collector',
+    'RHC status',
+    'Last seen',
+  ];
+
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: 'Conditional filter',
+    })
+  );
+  DEFAULT_FILTERS.forEach((filterName) =>
+    expect(screen.getByRole('menuitem', { name: filterName })).toBeVisible()
+  );
+};
+
+const expectPagerDisabled = (perPageEnabled = true) => {
+  expect(
+    screen.getByRole('navigation', {
+      name: /pagination/i,
+    })
+  ).toBeVisible();
+  if (perPageEnabled) {
+    expect(
+      screen.getByRole('button', {
+        name: /items per page/i,
+      })
+    ).toBeEnabled();
+  } else {
+    expect(
+      screen.getByRole('button', {
+        name: /items per page/i,
+      })
+    ).toBeDisabled();
+  }
+  expect(
+    screen.getByRole('button', {
+      name: /go to previous page/i,
+    })
+  ).toBeDisabled();
+  expect(
+    screen.getByRole('button', {
+      name: /go to next page/i,
+    })
+  ).toBeDisabled();
+};
 
 describe('EntityTableToolbar', () => {
   let initialState;
@@ -106,40 +156,70 @@ describe('EntityTableToolbar', () => {
   });
 
   describe('DOM', () => {
-    it('should render correctly - no data', () => {
+    it('should render correctly - not loaded', async () => {
       const store = mockStore({
         entities: {
           loaded: false,
         },
       });
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded={false} />
         </Provider>
       );
+
+      await expectDefaultFiltersVisible();
       expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('textbox', {
+          name: 'text input',
+        })
+      ).toBeVisible();
+      expect(
+        screen.queryByRole('navigation', {
+          name: /pagination/i,
+        })
+      ).not.toBeInTheDocument();
     });
 
-    it('should render correctly - with tags', () => {
+    it('should render correctly - loaded', async () => {
+      const store = mockStore({
+        entities: {
+          loaded: true,
+        },
+      });
+      render(
+        <Provider store={store}>
+          <EntityTableToolbar onRefreshData={onRefreshData} loaded />
+        </Provider>
+      );
+
+      await expectDefaultFiltersVisible();
+      expect(
+        screen.getByRole('textbox', {
+          name: 'text input',
+        })
+      ).toBeVisible();
+      expectPagerDisabled();
+    });
+
+    it('should render correctly - with tags', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar showTags onRefreshData={onRefreshData} loaded />
         </Provider>
       );
+      await expectDefaultFiltersVisible();
       expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
-      expect(
-        toJson(wrapper.find('TagsModal'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('menuitem', {
+          name: /tags/i,
+        })
+      ).toBeVisible();
     });
 
     it('should render correctly - with no access', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar
             hasAccess={false}
@@ -148,29 +228,43 @@ describe('EntityTableToolbar', () => {
           />
         </Provider>
       );
+
       expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('button', {
+          name: /conditional filter/i,
+        })
+      ).toBeDisabled();
       expect(
-        toJson(wrapper.find('TagsModal'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('textbox', {
+          name: /text input/i,
+        })
+      ).toBeDisabled();
+      expectPagerDisabled(false);
     });
 
     it('should render correctly - with items', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar hasItems onRefreshData={onRefreshData} loaded />
         </Provider>
       );
+
       expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.queryByRole('textbox', {
+          name: 'text input',
+        })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.getByRole('button', {
+          name: /items per page/i,
+        })
+      ).toBeEnabled();
     });
 
-    it('should render correctly - with custom filters', () => {
+    it('should render correctly - with custom filters', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
@@ -181,14 +275,26 @@ describe('EntityTableToolbar', () => {
           />
         </Provider>
       );
+
+      await expectDefaultFiltersVisible();
       expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('button', {
+          name: /conditional filter/i,
+        })
+      ).toHaveTextContent('Filter by text');
+      expect(
+        screen.getByRole('menuitem', {
+          name: /filter by text/i,
+        })
+      ).toBeVisible();
+      expect(
+        screen.getByPlaceholderText('Filter by filter by text')
+      ).toBeVisible();
     });
 
     it('should render correctly - with custom activeFilters', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
@@ -212,9 +318,11 @@ describe('EntityTableToolbar', () => {
           />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      const category = screen.getByRole('group', { name: 'Some' });
+      expect(category).toBeVisible();
+      expect(category).toContainElement(screen.getByText('something'));
+      expect(category).toContainElement(screen.getByText('something 2'));
     });
 
     it('should render correctly - with default filters', () => {
@@ -224,14 +332,15 @@ describe('EntityTableToolbar', () => {
           activeFilters: [{ staleFilter: ['fresh'] }],
         },
       });
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      const category = screen.getByRole('group', { name: 'Status' });
+      expect(category).toBeVisible();
+      expect(category).toContainElement(screen.getByText('Fresh'));
     });
 
     it('should render correctly - with default tag filter', () => {
@@ -260,33 +369,76 @@ describe('EntityTableToolbar', () => {
           ],
         },
       });
-      const wrapper = mount(
+      render(
+        <Provider store={store}>
+          <EntityTableToolbar onRefreshData={onRefreshData} loaded showTags />
+        </Provider>
+      );
+
+      const category = screen.getByRole('group', { name: 'something' });
+      expect(category).toBeVisible();
+      expect(category).toContainElement(
+        // TODO: fix improper store mocking
+        screen.getByText(/undefined=some value/i)
+      );
+    });
+
+    it('should render correctly - with disabled default tag filter', () => {
+      const store = mockStore({
+        entities: {
+          ...initialState.entities,
+          activeFilters: [
+            {
+              tagFilters: [
+                {
+                  type: 'tags',
+                  key: 'something',
+                  category: 'something',
+                  values: [
+                    {
+                      key: 'some key',
+                      group: {
+                        label: 'Some tag',
+                      },
+                      value: 'some value',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      });
+      render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded />
         </Provider>
       );
+
+      const category = screen.queryByRole('group', { name: 'something' });
+      expect(category).not.toBeInTheDocument();
       expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        // TODO: fix improper store mocking
+        screen.queryByText(/undefined=some value/i)
+      ).not.toBeInTheDocument();
     });
 
     it('should render correctly - with children', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded>
             <div>something</div>
           </EntityTableToolbar>
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      expect(screen.getByText(/something/i)).toBeVisible();
     });
 
     it('should render correctly', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const { container } = render(
         <Provider store={store}>
           <EntityTableToolbar
             page={1}
@@ -297,14 +449,17 @@ describe('EntityTableToolbar', () => {
           />
         </Provider>
       );
+
       expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        // TODO: improve PrimaryToolbar and Pagination accessibility
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+        container.querySelector('.pf-c-pagination__total-items')
+      ).toHaveTextContent('1 - 50 of 500');
     });
 
     it('should render correctly - with customFilters', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
@@ -320,17 +475,28 @@ describe('EntityTableToolbar', () => {
           />
         </Provider>
       );
+
+      const category = screen.getByRole('group', { name: 'RHC status' });
+      expect(category).toBeVisible();
+      expect(category).toContainElement(screen.getByText('Active'));
       expect(
-        toJson(wrapper.find('PrimaryToolbar'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('button', {
+          name: /close active/i,
+        })
+      ).toBeVisible();
+      expect(
+        screen.getByRole('button', {
+          name: /clear filters/i,
+        })
+      ).toBeVisible();
     });
   });
 
   describe('API', () => {
     describe('pagination', () => {
-      it('should set page ', () => {
+      it('should set page ', async () => {
         const store = mockStore(initialState);
-        const wrapper = mount(
+        render(
           <Provider store={store}>
             <EntityTableToolbar
               page={1}
@@ -341,14 +507,19 @@ describe('EntityTableToolbar', () => {
             />
           </Provider>
         );
-        wrapper.find('button[data-action="next"]').first().simulate('click');
+
+        await userEvent.click(
+          screen.getByRole('button', {
+            name: /go to next page/i,
+          })
+        );
 
         expect(onRefreshData).toHaveBeenCalledWith({ page: 2 });
       });
 
-      it('should set per page ', () => {
+      it('should set per page ', async () => {
         const store = mockStore(initialState);
-        const wrapper = mount(
+        render(
           <Provider store={store}>
             <EntityTableToolbar
               page={1}
@@ -359,16 +530,17 @@ describe('EntityTableToolbar', () => {
             />
           </Provider>
         );
-        wrapper
-          .find(
-            '.pf-c-options-menu__toggle button.pf-c-options-menu__toggle-button'
-          )
-          .first()
-          .simulate('click');
-        wrapper.update();
-        wrapper
-          .find('ul.pf-c-options-menu__menu button[data-action="per-page-10"]')
-          .simulate('click');
+
+        await userEvent.click(
+          screen.getByRole('button', {
+            name: /items per page/i,
+          })
+        );
+        await userEvent.click(
+          screen.getByRole('menuitem', {
+            name: /10 per page/i,
+          })
+        );
         expect(onRefreshData).toHaveBeenCalledWith({ page: 1, per_page: 10 });
       });
     });
@@ -378,7 +550,7 @@ describe('EntityTableToolbar', () => {
         debounce.mockImplementation((fn) => fn);
 
         const store = mockStore(stateWithActiveFilter);
-        const wrapper = mount(
+        render(
           <Provider store={store}>
             <EntityTableToolbar
               page={1}
@@ -391,13 +563,11 @@ describe('EntityTableToolbar', () => {
         );
         onRefreshData.mockClear();
 
-        await act(async () => {
-          wrapper
-            .find('.pf-c-chip-group__list li div button')
-            .first()
-            .simulate('click');
-        });
-        wrapper.update();
+        await userEvent.click(
+          screen.getByRole('button', {
+            name: /close test/i,
+          })
+        );
         expect(onRefreshData).toHaveBeenCalledWith({
           filters: [{ filter: '', value: 'hostname_or_id' }],
           page: 1,
@@ -407,6 +577,7 @@ describe('EntityTableToolbar', () => {
 
       it('should remove textual filter', async () => {
         debounce.mockImplementation((fn) => fn);
+        onRefreshData.mockClear();
         const store = mockStore({
           entities: {
             ...initialState.entities,
@@ -414,7 +585,7 @@ describe('EntityTableToolbar', () => {
             activeFilters: [{ value: 'hostname_or_id', filter: 'test' }],
           },
         });
-        const wrapper = mount(
+        render(
           <Provider store={store}>
             <EntityTableToolbar
               page={1}
@@ -425,14 +596,12 @@ describe('EntityTableToolbar', () => {
             />
           </Provider>
         );
-        onRefreshData.mockClear();
-        await act(async () => {
-          wrapper
-            .find('.pf-c-chip-group__list li div button')
-            .first()
-            .simulate('click');
-        });
-        wrapper.update();
+
+        await userEvent.click(
+          screen.getByRole('button', {
+            name: /close test/i,
+          })
+        );
         expect(onRefreshData).toHaveBeenCalledWith({
           filters: [{ filter: '', value: 'hostname_or_id' }],
           page: 1,
@@ -442,6 +611,7 @@ describe('EntityTableToolbar', () => {
 
       it('should remove tag filter', async () => {
         debounce.mockImplementation((fn) => fn);
+        onRefreshData.mockClear();
         const store = mockStore({
           entities: {
             ...initialState.entities,
@@ -467,7 +637,7 @@ describe('EntityTableToolbar', () => {
             ],
           },
         });
-        const wrapper = mount(
+        render(
           <Provider store={store}>
             <EntityTableToolbar
               page={1}
@@ -479,14 +649,13 @@ describe('EntityTableToolbar', () => {
             />
           </Provider>
         );
-        onRefreshData.mockClear();
-        await act(async () => {
-          wrapper
-            .find('.pf-c-chip-group__list li div button')
-            .first()
-            .simulate('click');
-        });
-        wrapper.update();
+
+        // TODO: fix improper store mocking
+        await userEvent.click(
+          screen.getByRole('button', {
+            name: /close undefined=some value/i,
+          })
+        );
         expect(onRefreshData).toHaveBeenCalledWith({
           filters: [
             { filter: '', value: 'hostname_or_id' },
@@ -497,9 +666,9 @@ describe('EntityTableToolbar', () => {
         });
       });
 
-      it('should dispatch action on delete all filters', () => {
+      it('should dispatch action on delete all filters', async () => {
         const store = mockStore(stateWithActiveFilter);
-        const wrapper = mount(
+        render(
           <Provider store={store}>
             <EntityTableToolbar
               page={1}
@@ -510,22 +679,24 @@ describe('EntityTableToolbar', () => {
             />
           </Provider>
         );
-        wrapper
-          .find('.ins-c-chip-filters button.pf-m-link')
-          .last()
-          .simulate('click');
+
+        await userEvent.click(
+          screen.getByRole('button', {
+            name: /clear filters/i,
+          })
+        );
         const actions = store.getActions();
-        expect(actions.length).toBe(3);
+        expect(actions.length).toBe(4);
         expect(actions[actions.length - 2]).toMatchObject({
           type: 'CLEAR_FILTERS',
         });
         expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
       });
 
-      it('should call function on delete filter', () => {
+      it('should call function on delete filter', async () => {
         const onDelete = jest.fn();
         const store = mockStore(stateWithActiveFilter);
-        const wrapper = mount(
+        render(
           <Provider store={store}>
             <EntityTableToolbar
               page={1}
@@ -539,20 +710,20 @@ describe('EntityTableToolbar', () => {
             />
           </Provider>
         );
-        wrapper
-          .find('.pf-c-chip-group__list li div button')
-          .first()
-          .simulate('click');
+
+        await userEvent.click(
+          screen.getByRole('button', {
+            name: /close test/i,
+          })
+        );
         expect(onDelete).toHaveBeenCalled();
       });
     });
 
     it('trim leading/trailling whitespace ', async () => {
       debounce.mockImplementation((fn) => fn);
-
       const store = mockStore(initialState);
-
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <EntityTableToolbar
             hideFilters={{ all: true, name: false, group: true }}
@@ -565,12 +736,12 @@ describe('EntityTableToolbar', () => {
         </Provider>
       );
 
-      await act(async () => {
-        wrapper.find('input[type="text"]').instance().value =
-          '   some-value   ';
-        wrapper.find('input[type="text"]').simulate('change');
-      });
-
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /text input/i,
+        }),
+        '   some-value   '
+      );
       const state = store.getState();
       expect(state.entities.activeFilters).toMatchObject([
         {},
@@ -579,48 +750,58 @@ describe('EntityTableToolbar', () => {
     });
   });
 
-  describe('Passes activeFilterConfig correctly', () => {
-    it('Uses the activeFilterConfig  when passed it, uses the text passed in instead of the default', () => {
-      const store = mockStore(initialState);
-      const wrapper = mount(
+  describe('customization with activeFilterConfig', () => {
+    it('renders custom deleteTitle when provided', () => {
+      const onDelete = jest.fn();
+      const store = mockStore(stateWithActiveFilter);
+      render(
         <Provider store={store}>
           <EntityTableToolbar
-            hasItems
+            page={1}
+            total={500}
+            perPage={50}
+            activeFiltersConfig={{
+              onDelete,
+              deleteTitle: 'Test Reset Filters',
+            }}
             onRefreshData={onRefreshData}
             loaded
-            activeFiltersConfig={{ deleteTitle: 'Test Reset Filters' }}
           />
         </Provider>
       );
-      expect(toJson(wrapper.find('Test Reset Filter')));
-      expect(toJson(wrapper.find('Reset Filter'))).toBeFalsy();
-    });
-    it('Uses the default activeFilterConfig when nothing is passed in, finds default text', () => {
-      const store = mockStore(initialState);
-      const wrapper = mount(
-        <Provider store={store}>
-          <EntityTableToolbar hasItems onRefreshData={onRefreshData} loaded />
-        </Provider>
-      );
-      expect(toJson(wrapper.find('Reset Filter')));
-      expect(toJson(wrapper.find('Test Reset Filter'))).toBeFalsy();
+
+      expect(
+        screen.getByRole('button', {
+          name: /test reset filters/i,
+        })
+      ).toBeVisible();
+      expect(
+        screen.queryByRole('button', {
+          name: /clear filters/i,
+        })
+      ).not.toBeInTheDocument();
     });
   });
 
-  describe('System update method filter', () => {
-    it('Should hide the filter when flag is disabled', () => {
+  describe('system update method filter', () => {
+    it('should hide the filter when flag is disabled', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
-          <EntityTableToolbar
-            hasItems
-            onRefreshData={onRefreshData}
-            loaded
-            activeFiltersConfig={{ deleteTitle: 'Test Reset Filters' }}
-          />
+          <EntityTableToolbar onRefreshData={onRefreshData} loaded />
         </Provider>
       );
-      expect(toJson(wrapper.find('System Update Method'))).toBeFalsy();
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /conditional filter/i,
+        })
+      );
+      expect(
+        screen.queryByRole('menuitem', {
+          name: /system update method/i,
+        })
+      ).not.toBeInTheDocument();
     });
   });
 });
