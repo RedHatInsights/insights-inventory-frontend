@@ -79,12 +79,14 @@ const EntityTable = ({
   };
 
   const tableSortBy = {
-    //Inventory API has different sortBy key than system_profile
     index:
       columns?.findIndex(
         (item) =>
           sortBy?.key === item.key ||
-          (sortBy?.key === 'operating_system' && item.key === 'system_profile')
+          // Inventory API has different sort key for some columns
+          (sortBy?.key === 'operating_system' &&
+            item.key === 'system_profile') ||
+          (sortBy?.key === 'group_name' && item.key === 'groups')
       ) +
       Boolean(hasCheckbox) +
       Boolean(expandable),
