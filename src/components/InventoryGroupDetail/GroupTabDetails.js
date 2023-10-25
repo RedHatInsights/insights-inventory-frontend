@@ -23,8 +23,10 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
 
 import { EmptyStateNoAccessToSystems } from './EmptyStateNoAccess';
+
+const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
+
 const GroupTabDetailsWrapper = ({ groupId, groupName, activeTab }) => {
-  const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
   const dispatch = useDispatch();
 
   const [tab, setTab] = useState(0);
@@ -58,14 +60,12 @@ const GroupTabDetailsWrapper = ({ groupId, groupName, activeTab }) => {
             >
               <Tab
                 eventKey={hybridInventoryTabKeys.conventional.key}
-                // eventKey={2}
                 title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
               >
                 <GroupSystems groupName={groupName} groupId={groupId} />
               </Tab>
               <Tab
                 eventKey={hybridInventoryTabKeys.immutable.key}
-                // eventKey={3}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
                 <AsyncComponent
@@ -112,4 +112,3 @@ GroupTabDetailsWrapper.propTypes = {
   activeTab: PropTypes.string,
 };
 export default GroupTabDetailsWrapper;
-// export { GroupSystems };
