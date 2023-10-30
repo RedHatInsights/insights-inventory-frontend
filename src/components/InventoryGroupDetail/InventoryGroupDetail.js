@@ -1,36 +1,19 @@
-import {
-  Bullseye,
-  PageSection,
-  Spinner,
-  Tab,
-  Tabs,
-} from '@patternfly/react-core';
+import { Bullseye, PageSection, Spinner } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import PropTypes from 'prop-types';
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../store/inventory-actions';
-import GroupSystems from '../GroupSystems';
-import GroupTabDetails from './GroupTabDetails';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { REQUIRED_PERMISSIONS_TO_READ_GROUP } from '../../constants';
+import { EmptyStateNoAccessToGroup } from './EmptyStateNoAccess';
+import HybridInventoryTabs from '../../components/InventoryTabs/HybridInventoryTabs';
 import {
-  REQUIRED_PERMISSIONS_TO_READ_GROUP,
-  REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS,
-} from '../../constants';
-import {
-  EmptyStateNoAccessToGroup,
-  EmptyStateNoAccessToSystems,
-} from './EmptyStateNoAccess';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import axios from 'axios';
-import {
-  INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS,
-  INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
-  INVENTORY_TOTAL_FETCH_URL_SERVER,
-  hybridInventoryTabKeys,
-} from '../../Utilities/constants';
-
+  PageHeader,
+  PageHeaderTitle,
+} from '@redhat-cloud-services/frontend-components/PageHeader';
+import Main from '@redhat-cloud-services/frontend-components/Main';
 const SuspenseWrapper = ({ children }) => (
   <Suspense
     fallback={
@@ -42,15 +25,8 @@ const SuspenseWrapper = ({ children }) => (
     {children}
   </Suspense>
 );
-
-const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
+const GroupTabDetails = lazy(() => import('./GroupTabDetails'));
 const InventoryGroupDetail = ({ groupId }) => {
-  const [activeTabKey, setActiveTabKey] = useState(0);
-
-  const [activeTab, setActiveTab] = useState(
-    hybridInventoryTabKeys.conventional.key
-  );
-
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.groupDetail);
   const chrome = useChrome();
@@ -58,9 +34,6 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   const { hasAccess: canViewGroup } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
-  );
-  const { hasAccess: canViewHosts } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
   );
 
   useEffect(() => {
@@ -77,98 +50,38 @@ const InventoryGroupDetail = ({ groupId }) => {
   }, [data]);
 
   // TODO: append search parameter to identify the active tab
+  return (
+    <React.Fragment>
+      <PageHeader className="pf-m-light">
+        <PageHeaderTitle title="Systems" />
+        <GroupDetailHeader groupId={groupId} />
+      </PageHeader>
 
-  const [hasEdgeImages, setHasEdgeImages] = useState(false);
-  const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
-  useEffect(() => {
-    if (EdgeParityEnabled) {
-      try {
-        axios
-          .get(
-            `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}&group_name=${groupName}`
-          )
-          .then((result) => {
-            const accountHasEdgeImages = result?.data?.total > 0;
-            setHasEdgeImages(accountHasEdgeImages);
-            axios
-              .get(
-                `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}&group_name=${groupName}`
-              )
-              .then((conventionalImages) => {
-                const accountHasConventionalImages =
-                  conventionalImages?.data?.total > 0;
-                if (accountHasEdgeImages && !accountHasConventionalImages) {
-                  setActiveTab(hybridInventoryTabKeys.immutable.key);
-                } else {
-                  setActiveTab(hybridInventoryTabKeys.conventional.key);
-                }
-              });
-          });
-      } catch (e) {
-        console.log('>>>> ' + e);
-      }
-    }
-  }, [data]);
-  return hasEdgeImages && canViewGroup ? (
-    <React.Fragment>
-      <GroupDetailHeader groupId={groupId} />
-      {canViewGroup ? (
-        <PageSection variant="light" type="tabs">
-          <GroupTabDetails
-            groupId={groupId}
+      <Main>
+        {canViewGroup ? (
+          <HybridInventoryTabs
+            ConventionalSystemsTab={
+              <SuspenseWrapper>
+                <GroupTabDetails {...groupId} />
+              </SuspenseWrapper>
+            }
+            ImmutableDevicesTab={
+              <SuspenseWrapper>
+                <GroupTabDetails {...groupId} />
+              </SuspenseWrapper>
+            }
             groupName={groupName}
-            activeTab={activeTab}
+            groupId={groupId}
+            isImmutableTabOpen={false}
+            isEdgeParityEnabled={true}
+            tabPathname={InventoryGroupDetail.groupTabPathName}
           />
-        </PageSection>
-      ) : (
-        <PageSection>
-          <EmptyStateNoAccessToGroup />
-        </PageSection>
-      )}
-    </React.Fragment>
-  ) : (
-    <React.Fragment>
-      <GroupDetailHeader groupId={groupId} />
-      {canViewGroup ? (
-        <PageSection variant="light" type="tabs">
-          <Tabs
-            activeKey={activeTabKey}
-            onSelect={(event, value) => setActiveTabKey(value)}
-            aria-label="Group tabs"
-            role="region"
-            inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
-          >
-            <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
-              <PageSection>
-                {canViewHosts ? (
-                  <GroupSystems groupName={groupName} groupId={groupId} />
-                ) : (
-                  <EmptyStateNoAccessToSystems />
-                )}
-              </PageSection>
-            </Tab>
-            <Tab eventKey={1} title="Group info" aria-label="Group info tab">
-              {activeTabKey === 1 && ( // helps to lazy load the component
-                <PageSection>
-                  <Suspense
-                    fallback={
-                      <Bullseye>
-                        <Spinner />
-                      </Bullseye>
-                    }
-                  >
-                    <GroupDetailInfo />
-                  </Suspense>
-                </PageSection>
-              )}
-            </Tab>
-          </Tabs>
-        </PageSection>
-      ) : (
-        <PageSection>
-          <EmptyStateNoAccessToGroup />
-        </PageSection>
-      )}
+        ) : (
+          <PageSection>
+            <EmptyStateNoAccessToGroup />
+          </PageSection>
+        )}
+      </Main>
     </React.Fragment>
   );
 };
@@ -177,7 +90,9 @@ InventoryGroupDetail.propTypes = {
   groupId: PropTypes.string.isRequired,
   groupName: PropTypes.string,
 };
-
+InventoryGroupDetail.defaultProps = {
+  groupTabPathName: 'insights/inventory/groups',
+};
 SuspenseWrapper.propTypes = {
   children: PropTypes.element,
 };

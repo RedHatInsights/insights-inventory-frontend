@@ -20,7 +20,7 @@ describe('group detail page component', () => {
     const rendered = render(
       <MemoryRouter>
         <Provider store={getStore()}>
-          <InventoryGroupDetail groupId="group-id-2" />
+          <InventoryGroupDetail groupId="group-id-2" groupName="group-id-2" />
         </Provider>
       </MemoryRouter>
     );

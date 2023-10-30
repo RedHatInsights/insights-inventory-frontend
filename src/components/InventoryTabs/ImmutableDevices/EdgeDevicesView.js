@@ -8,7 +8,7 @@ import {
 } from '../../../Utilities/edge';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
+import PropTypes from 'prop-types';
 const ImmutableDevicesView = (props) => {
   const dispatch = useDispatch();
   const notificationProp = getNotificationProp(dispatch);
@@ -22,9 +22,13 @@ const ImmutableDevicesView = (props) => {
       notificationProp={notificationProp}
       pathPrefix={resolveRelPath('')}
       urlName={manageEdgeInventoryUrlName}
+      groupUUID={props.groupUUID}
       {...props}
     />
   );
 };
 
+ImmutableDevicesView.propTypes = {
+  groupUUID: PropTypes.string,
+};
 export default ImmutableDevicesView;
