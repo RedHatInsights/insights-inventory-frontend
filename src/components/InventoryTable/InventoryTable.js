@@ -17,8 +17,10 @@ import Pagination from './Pagination';
 import AccessDenied from '../../Utilities/AccessDenied';
 import { loadSystems } from '../../Utilities/sharedFunctions';
 import isEqual from 'lodash/isEqual';
-import { entitiesLoading } from '../../store/actions';
+import { clearErrors, entitiesLoading } from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
+import { useSearchParams } from 'react-router-dom';
+import { ACTION_TYPES } from '../../store/action-types';
 
 /**
  * A helper function to store props and to always return the latest state.
@@ -123,6 +125,8 @@ const InventoryTable = forwardRef(
         : entities?.loaded
     );
 
+    const [searchParams] = useSearchParams();
+
     const controller = useRef(new AbortController());
 
     /**
@@ -146,6 +150,18 @@ const InventoryTable = forwardRef(
         abortOnUnmount && controller.current.abort();
       };
     }, []);
+    const hasLoadEntitiesError =
+      error?.status === 404 &&
+      error?.type === ACTION_TYPES.LOAD_ENTITIES &&
+      parseInt(searchParams.get('page')) !== 1;
+    useEffect(() => {
+      if (error) {
+        if (hasLoadEntitiesError) {
+          onRefreshData({ page: 1 });
+          dispatch(clearErrors());
+        }
+      }
+    }, [error]);
 
     const cache = useRef(inventoryCache());
     cache.current.updateProps({
@@ -235,7 +251,7 @@ const InventoryTable = forwardRef(
           </div>
         }
       />
-    ) : !error ? (
+    ) : !error || hasLoadEntitiesError ? (
       <Fragment>
         <EntityTableToolbar
           {...props}
