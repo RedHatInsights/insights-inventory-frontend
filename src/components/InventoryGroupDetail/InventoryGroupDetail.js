@@ -90,7 +90,10 @@ const InventoryGroupDetail = ({ groupId }) => {
                     }
                     ImmutableDevicesTab={
                       <SuspenseWrapper>
-                        <ImmutableDevicesView groupUUID={groupId} />
+                        <ImmutableDevicesView
+                          groupUUID={groupId}
+                          isSystemsView={true}
+                        />
                       </SuspenseWrapper>
                     }
                     groupName={groupName}
