@@ -11,8 +11,6 @@ import {
   hybridInventoryTabKeys,
 } from '../../Utilities/constants';
 import { useNavigate } from 'react-router-dom';
-import GroupTabDetails from '../InventoryGroupDetail/GroupTabDetails';
-import { EmptyStateNoAccessToSystems } from '../InventoryGroupDetail/EmptyStateNoAccess';
 const HybridInventoryTabs = ({
   ConventionalSystemsTab,
   ImmutableDevicesTab,
@@ -20,14 +18,15 @@ const HybridInventoryTabs = ({
   isImmutableTabOpen,
   isEdgeParityEnabled,
   groupName,
-  groupId,
 }) => {
+  const [tab, setTab] = useState(hybridInventoryTabKeys.conventional.key);
+
   const { search } = useLocation();
   //used to hold URL params across tab changes
   const prevSearchRef = useRef('');
   const navigate = useNavigate();
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
-  const [hasConventionalImages, setHasConventionalImages] = useState(false);
+  // const [hasConventionalImages, setHasConventionalImages] = useState(false);
 
   let edgeURL = `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}`;
   let conventionalURL = `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}`;
@@ -45,13 +44,9 @@ const HybridInventoryTabs = ({
           axios.get(`${conventionalURL}`).then((conventionalImages) => {
             const accountHasConventionalImages =
               conventionalImages?.data?.total > 0;
-            setHasConventionalImages(accountHasConventionalImages);
+            // setHasConventionalImages(accountHasConventionalImages);
 
-            if (
-              groupName == undefined &&
-              accountHasEdgeImages &&
-              !accountHasConventionalImages
-            ) {
+            if (accountHasEdgeImages && !accountHasConventionalImages) {
               handleTabClick(undefined, hybridInventoryTabKeys.immutable.key);
             }
           });
@@ -70,58 +65,46 @@ const HybridInventoryTabs = ({
       tabPathname +
       hybridInventoryTabKeys[tabIndex].url +
       (prevSearchRef.current || '');
-    if (tabPathname != undefined && tabIndex !== activeTab) {
-      prevSearchRef.current = search.toString();
-      navigate(pathWithParams, {
-        replace: true,
-      });
+    if (tabPathname == 'groups') {
+      if (tabIndex !== tab) setTab(hybridInventoryTabKeys[tabIndex].key);
+    } else {
+      if (tabPathname != undefined && tabIndex !== activeTab) {
+        setTab(hybridInventoryTabKeys[tabIndex].key);
+        prevSearchRef.current = search.toString();
+        navigate(pathWithParams, {
+          replace: true,
+        });
+      }
     }
   };
 
-  if (groupName == undefined) {
-    return isEdgeParityEnabled && hasEdgeImages ? (
-      <Tabs
-        className="pf-m-light pf-c-table"
-        activeKey={activeTab}
-        onSelect={handleTabClick}
-        aria-label="Hybrid inventory tabs"
-        mountOnEnter
-        unmountOnExit
+  return isEdgeParityEnabled && hasEdgeImages ? (
+    <Tabs
+      className="pf-m-light pf-c-table"
+      activeKey={tab}
+      onSelect={handleTabClick}
+      aria-label="Hybrid inventory tabs"
+      mountOnEnter
+      unmountOnExit
+    >
+      <Tab
+        aria-label="Conventional tab"
+        eventKey={hybridInventoryTabKeys.conventional.key}
+        title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
       >
-        <Tab
-          aria-label="Conventional tab"
-          eventKey={hybridInventoryTabKeys.conventional.key}
-          title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
-        >
-          {ConventionalSystemsTab}
-        </Tab>
-        <Tab
-          aria-label="Immutable tab"
-          eventKey={hybridInventoryTabKeys.immutable.key}
-          title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
-        >
-          {ImmutableDevicesTab}
-        </Tab>
-      </Tabs>
-    ) : (
-      ConventionalSystemsTab
-    );
-  } else {
-    return isEdgeParityEnabled ? (
-      <GroupTabDetails
-        groupId={groupId}
-        groupName={groupName}
-        activeTab={
-          hasConventionalImages
-            ? hybridInventoryTabKeys.conventional.key
-            : hybridInventoryTabKeys.immutable.key
-        }
-        hasEdgeImages={hasEdgeImages}
-      />
-    ) : (
-      <EmptyStateNoAccessToSystems />
-    );
-  }
+        {ConventionalSystemsTab}
+      </Tab>
+      <Tab
+        aria-label="Immutable tab"
+        eventKey={hybridInventoryTabKeys.immutable.key}
+        title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
+      >
+        {ImmutableDevicesTab}
+      </Tab>
+    </Tabs>
+  ) : (
+    ConventionalSystemsTab
+  );
 };
 
 HybridInventoryTabs.propTypes = {
@@ -136,6 +119,6 @@ HybridInventoryTabs.propTypes = {
 
 HybridInventoryTabs.defaultProps = {
   tabPathname: '/insights/inventory',
-  groupTabPathName: 'insights/inventory/groups',
+  groupTabPathName: '/insights/inventory/groups',
 };
 export default HybridInventoryTabs;
