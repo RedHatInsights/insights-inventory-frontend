@@ -26,7 +26,6 @@ const HybridInventoryTabs = ({
   const prevSearchRef = useRef('');
   const navigate = useNavigate();
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
-  // const [hasConventionalImages, setHasConventionalImages] = useState(false);
 
   let edgeURL = `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}`;
   let conventionalURL = `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}`;
@@ -44,8 +43,6 @@ const HybridInventoryTabs = ({
           axios.get(`${conventionalURL}`).then((conventionalImages) => {
             const accountHasConventionalImages =
               conventionalImages?.data?.total > 0;
-            // setHasConventionalImages(accountHasConventionalImages);
-
             if (accountHasEdgeImages && !accountHasConventionalImages) {
               handleTabClick(undefined, hybridInventoryTabKeys.immutable.key);
             }
