@@ -10,7 +10,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 const EdgeDeviceGroupiew = (props) => {
-  console.log(props);
   const dispatch = useDispatch();
   const notificationProp = getNotificationProp(dispatch);
   return (
