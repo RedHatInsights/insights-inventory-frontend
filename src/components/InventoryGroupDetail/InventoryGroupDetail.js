@@ -124,7 +124,7 @@ const InventoryGroupDetail = ({ groupId }) => {
       }
     }
   }, [data]);
-  return hasEdgeImages && canViewGroup ? (
+  return hasEdgeImages && canViewGroup && EdgeParityEnabled ? (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
       {canViewGroup ? (
