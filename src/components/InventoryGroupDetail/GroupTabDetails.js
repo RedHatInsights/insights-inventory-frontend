@@ -12,7 +12,7 @@ import GroupSystems from '../GroupSystems';
 import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
-import ImmutableDevicesView from '../InventoryTabs/ImmutableDevices/EdgeDevicesView';
+import EdgeDeviceGroupiew from '../InventoryTabs/ImmutableDevices/EdgeDevicesGroupView';
 import { EmptyStateNoAccessToSystems } from './EmptyStateNoAccess';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
@@ -63,10 +63,7 @@ const GroupTabDetailsWrapper = ({
                 eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
-                <ImmutableDevicesView
-                  groupUUID={groupId}
-                  isSystemsView={true}
-                />
+                <EdgeDeviceGroupiew groupUUID={groupId} isSystemsView={true} />
               </Tab>
             </Tabs>
           ) : canViewHosts ? (
