@@ -145,40 +145,46 @@ const InventoryGroupDetail = ({ groupId }) => {
   ) : (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
-      <PageSection variant="light" type="tabs">
-        <Tabs
-          activeKey={activeTabKey}
-          onSelect={(event, value) => setActiveTabKey(value)}
-          aria-label="Group tabs"
-          role="region"
-          inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
-        >
-          <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
-            <PageSection>
-              {canViewHosts ? (
-                <GroupSystems groupName={groupName} groupId={groupId} />
-              ) : (
-                <EmptyStateNoAccessToSystems />
-              )}
-            </PageSection>
-          </Tab>
-          <Tab eventKey={1} title="Group info" aria-label="Group info tab">
-            {activeTabKey === 1 && ( // helps to lazy load the component
+      {canViewGroup ? (
+        <PageSection variant="light" type="tabs">
+          <Tabs
+            activeKey={activeTabKey}
+            onSelect={(event, value) => setActiveTabKey(value)}
+            aria-label="Group tabs"
+            role="region"
+            inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
+          >
+            <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
               <PageSection>
-                <Suspense
-                  fallback={
-                    <Bullseye>
-                      <Spinner />
-                    </Bullseye>
-                  }
-                >
-                  <GroupDetailInfo />
-                </Suspense>
+                {canViewHosts ? (
+                  <GroupSystems groupName={groupName} groupId={groupId} />
+                ) : (
+                  <EmptyStateNoAccessToSystems />
+                )}
               </PageSection>
-            )}
-          </Tab>
-        </Tabs>
-      </PageSection>
+            </Tab>
+            <Tab eventKey={1} title="Group info" aria-label="Group info tab">
+              {activeTabKey === 1 && ( // helps to lazy load the component
+                <PageSection>
+                  <Suspense
+                    fallback={
+                      <Bullseye>
+                        <Spinner />
+                      </Bullseye>
+                    }
+                  >
+                    <GroupDetailInfo />
+                  </Suspense>
+                </PageSection>
+              )}
+            </Tab>
+          </Tabs>
+        </PageSection>
+      ) : (
+        <PageSection>
+          <EmptyStateNoAccessToGroup />
+        </PageSection>
+      )}
     </React.Fragment>
   );
 };
