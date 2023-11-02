@@ -22,16 +22,6 @@ import {
   EmptyStateNoAccessToGroup,
   EmptyStateNoAccessToSystems,
 } from './EmptyStateNoAccess';
-
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import { resolveRelPath } from '../../Utilities/path';
-// import {
-//   getNotificationProp,
-//   manageEdgeInventoryUrlName,
-// } from '../../Utilities/edge';
-// import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-// import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
-
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import axios from 'axios';
 import {
@@ -57,16 +47,11 @@ const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 const InventoryGroupDetail = ({ groupId }) => {
   const [activeTabKey, setActiveTabKey] = useState(0);
 
-  // const handleTabClick = (_event, tabIndex) => {
-  //   setActiveTabKey(tabIndex);
-  // };
-
   const [activeTab, setActiveTab] = useState(
     hybridInventoryTabKeys.conventional.key
   );
 
   const dispatch = useDispatch();
-  // const notificationProp = getNotificationProp(dispatch);
   const { data } = useSelector((state) => state.groupDetail);
   const chrome = useChrome();
   const groupName = data?.results?.[0]?.name;
