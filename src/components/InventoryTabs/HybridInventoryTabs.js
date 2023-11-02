@@ -1,14 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
-import {
-  INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS,
-  INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
-  INVENTORY_TOTAL_FETCH_URL_SERVER,
-  hybridInventoryTabKeys,
-} from '../../Utilities/constants';
+import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import { useNavigate } from 'react-router-dom';
 
 const HybridInventoryTabs = ({
@@ -17,43 +11,19 @@ const HybridInventoryTabs = ({
   tabPathname,
   isImmutableTabOpen,
   isEdgeParityEnabled,
+  accountHasEdgeImages,
+  hasConventionalSystems,
 }) => {
   const { search } = useLocation();
   //used to hold URL params across tab changes
   const prevSearchRef = useRef('');
   const navigate = useNavigate();
-  const [hasEdgeImages, setHasEdgeImages] = useState(false);
-  useEffect(() => {
-    if (isEdgeParityEnabled) {
-      try {
-        axios
-          .get(
-            `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}`
-          )
-          .then((result) => {
-            const accountHasEdgeImages = result?.data?.total > 0;
-            setHasEdgeImages(accountHasEdgeImages);
-            axios
-              .get(
-                `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}`
-              )
-              .then((conventionalImages) => {
-                const accountHasConventionalImages =
-                  conventionalImages?.data?.total > 0;
 
-                if (accountHasEdgeImages && !accountHasConventionalImages) {
-                  handleTabClick(
-                    undefined,
-                    hybridInventoryTabKeys.immutable.key
-                  );
-                }
-              });
-          });
-      } catch (e) {
-        console.log(e);
-      }
+  useEffect(() => {
+    if (accountHasEdgeImages && !hasConventionalSystems) {
+      handleTabClick(undefined, hybridInventoryTabKeys.immutable.key);
     }
-  }, [isEdgeParityEnabled]);
+  }, [accountHasEdgeImages, hasConventionalSystems]);
 
   const activeTab = isImmutableTabOpen
     ? hybridInventoryTabKeys.immutable.key
@@ -73,7 +43,7 @@ const HybridInventoryTabs = ({
     }
   };
 
-  return isEdgeParityEnabled && hasEdgeImages ? (
+  return isEdgeParityEnabled && accountHasEdgeImages ? (
     <Tabs
       className="pf-m-light pf-c-table"
       activeKey={activeTab}
@@ -108,9 +78,13 @@ HybridInventoryTabs.propTypes = {
   isImmutableTabOpen: PropTypes.bool,
   tabPathname: PropTypes.string,
   isEdgeParityEnabled: PropTypes.bool,
+  hasConventionalSystems: PropTypes.bool,
+  accountHasEdgeImages: PropTypes.bool,
 };
 
 HybridInventoryTabs.defaultProps = {
   tabPathname: '/insights/inventory',
+  hasConventionalSystems: true,
+  accountHasEdgeImages: true,
 };
 export default HybridInventoryTabs;

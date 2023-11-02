@@ -1,9 +1,6 @@
 import React from 'react';
 import HybridInventoryTabs from './HybridInventoryTabs';
-import {
-  featureFlagsInterceptors,
-  hostsInterceptors,
-} from '../../../cypress/support/interceptors';
+import { featureFlagsInterceptors } from '../../../cypress/support/interceptors';
 import { Route, Routes } from 'react-router-dom';
 
 const MockConventionalTab = () => (
@@ -24,6 +21,8 @@ const MockRouter = ({ path = '/insights/inventory', ...props }) => (
 const defaultProps = {
   ImmutableDevicesTab: <MockImmutableTab />,
   ConventionalSystemsTab: <MockConventionalTab />,
+  hasConventionalSystems: true,
+  accountHasEdgeImages: true,
 };
 const edgeEnabledProps = { ...defaultProps, isEdgeParityEnabled: true };
 
@@ -44,7 +43,6 @@ before(() => {
 describe('When edge parity feature is enabled', () => {
   beforeEach(() => {
     cy.intercept('*', { statusCode: 200, body: { results: [] } });
-    hostsInterceptors.successful();
     featureFlagsInterceptors.edgeParitySuccessful();
   });
 
@@ -91,11 +89,10 @@ describe('When edge parity feature is enabled', () => {
 describe('When there are edge devices, but no conventional systems', () => {
   beforeEach(() => {
     cy.intercept('*', { statusCode: 200, body: { results: [] } });
-    hostsInterceptors.successHybridSystems();
     featureFlagsInterceptors.edgeParitySuccessful();
   });
   it('should open immutable tab as default when there are edge devices, but not conventional', () => {
-    mountWithProps(edgeEnabledProps);
+    mountWithProps({ ...edgeEnabledProps, hasConventionalSystems: false });
 
     cy.get('div[id="conventional"]').should('not.exist');
     cy.get('div[id="immutable"]').should('have.length', 1);
