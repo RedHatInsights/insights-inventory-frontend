@@ -24,6 +24,10 @@ export const secondsToDaysConversion = (seconds) => {
   return seconds / 86400;
 };
 
+export const daysToSecondsConversion = (days) => {
+  return days * 86400;
+};
+
 export const hostStalenessApiKeys = [
   'conventional_staleness_delta',
   'conventional_stale_warning_delta',
@@ -38,10 +42,6 @@ export const conventionalApiKeys = [
   'conventional_stale_warning_delta',
   'conventional_culling_delta',
 ];
-
-export const daysToSecondsConversion = (days) => {
-  return days * 86400;
-};
 
 export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   //this runs on every select every time

@@ -75,6 +75,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     apiKeys.forEach(
       (filterKey) =>
         filterKey !== 'id' &&
+        newFormValues[filterKey] &&
         (apiData[filterKey] = daysToSecondsConversion(newFormValues[filterKey]))
     );
 
