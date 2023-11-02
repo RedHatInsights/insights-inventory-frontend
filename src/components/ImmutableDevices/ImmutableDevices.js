@@ -16,6 +16,7 @@ const ImmutableDevices = ({
   filterConfig,
   hideFilters,
   activeFiltersConfig,
+  onRowClick,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,8 +41,8 @@ const ImmutableDevices = ({
     return [...mergeAppColumns(filteredColumns), ...edgeColumns];
   };
 
-  const onRowClick = (_key, systemId) => {
-    navigate(`/insights/inventory/${systemId}?appName=vulnerabilities`);
+  const defaultOnRowClick = (_key, systemId) => {
+    navigate(`/insights/inventory/${systemId}`);
   };
 
   return (
@@ -67,7 +68,7 @@ const ImmutableDevices = ({
       getEntities={getEntities}
       filterConfig={filterConfig}
       activeFiltersConfig={activeFiltersConfig}
-      onRowClick={onRowClick}
+      onRowClick={onRowClick || defaultOnRowClick}
     />
   );
 };
@@ -85,6 +86,7 @@ ImmutableDevices.propTypes = {
   filterConfig: propTypes.object,
   hideFilters: propTypes.object,
   activeFiltersConfig: propTypes.object,
+  onRowClick: propTypes.func,
 };
 
 export default ImmutableDevices;
