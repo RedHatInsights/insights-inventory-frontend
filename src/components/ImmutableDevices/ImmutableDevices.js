@@ -2,7 +2,7 @@ import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import { TableVariant } from '@patternfly/react-table';
-import { InventoryTable } from '@redhat-cloud-services/frontend-components/Inventory';
+import { InventoryTable } from '../InventoryTable';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { useNavigate } from 'react-router-dom';
 import { edgeColumns } from './columns';
