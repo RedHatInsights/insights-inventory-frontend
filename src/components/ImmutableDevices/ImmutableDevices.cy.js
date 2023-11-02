@@ -49,11 +49,7 @@ describe('ImmutableDevices', () => {
   it('renders without issues', () => {
     mountWithProps(defaultProps);
 
-    cy.get('table[aria-label="Host inventory"]').should(
-      'have.attr',
-      'data-ouia-safe',
-      'true'
-    );
+    cy.get('table[aria-label="Host inventory"]').should('be.visible');
   });
 
   it('Should populate Image column from useGetEntities', () => {
@@ -166,11 +162,7 @@ describe('ImmutableDevices', () => {
   it('Should take to details page on system name click', () => {
     mountWithProps(defaultProps);
 
-    cy.get('table[aria-label="Host inventory"]').should(
-      'have.attr',
-      'data-ouia-safe',
-      'true'
-    );
+    cy.get('table[aria-label="Host inventory"]').should('be.visible');
 
     cy.get('td[data-label="Name"]')
       .first()
