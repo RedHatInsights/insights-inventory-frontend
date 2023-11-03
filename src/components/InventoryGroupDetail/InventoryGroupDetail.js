@@ -105,7 +105,8 @@ const InventoryGroupDetail = ({ groupId }) => {
               });
           });
       } catch (e) {
-        console.log('>>>> ' + e);
+        setHasEdgeImages(false);
+        setActiveTab(hybridInventoryTabKeys.conventional.key);
       }
     }
   }, [data]);
