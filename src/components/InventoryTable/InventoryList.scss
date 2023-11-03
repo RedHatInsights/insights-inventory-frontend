@@ -115,3 +115,9 @@
 }
 
 .ins-c-inventory__no-access { background-color: var(--pf-global--BackgroundColor--100); }
+
+.pf-c-table__action {
+    .pf-c-dropdown__toggle.pf-m-plain {
+        padding-right: var(--pf-global--spacer--lg);
+    }
+}
