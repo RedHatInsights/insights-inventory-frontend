@@ -1,6 +1,7 @@
 import {
   ACTION_TYPES,
   CLEAR_ENTITIES,
+  CLEAR_ERRORS,
   CLEAR_NOTIFICATIONS,
   SET_INVENTORY_FILTER,
   SET_PAGINATION,
@@ -88,5 +89,10 @@ export const editAnsibleHost = (id, value, origValue) => ({
 
 export const clearEntitiesAction = () => ({
   type: CLEAR_ENTITIES,
+  payload: [],
+});
+
+export const clearErrors = () => ({
+  type: CLEAR_ERRORS,
   payload: [],
 });

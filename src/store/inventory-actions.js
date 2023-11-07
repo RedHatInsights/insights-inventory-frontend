@@ -83,23 +83,27 @@ export const loadEntities = (
       },
       showTags,
       defaultGetEntities
-    ).then(({ results, ...data }) => ({
-      ...data,
-      filters,
-      sortBy: { key: orderBy, direction: orderDirection },
-      results:
-        items.length > 0
-          ? items.map((item) => ({
-              ...(item.id ? item : { id: item }),
-              ...(results.find(({ id }) => id === item || id === item.id) ||
-                {}),
-            }))
-          : results,
-      page: config.page || data?.page,
-      // eslint-disable-next-line camelcase
-      per_page: config.per_page || data?.per_page,
-      hideFilters: config.hideFilters,
-    })),
+    )
+      .then(({ results, ...data }) => ({
+        ...data,
+        filters,
+        sortBy: { key: orderBy, direction: orderDirection },
+        results:
+          items.length > 0
+            ? items.map((item) => ({
+                ...(item.id ? item : { id: item }),
+                ...(results.find(({ id }) => id === item || id === item.id) ||
+                  {}),
+              }))
+            : results,
+        page: config.page || data?.page,
+        // eslint-disable-next-line camelcase
+        per_page: config.per_page || data?.per_page,
+        hideFilters: config.hideFilters,
+      }))
+      .catch((error) => {
+        throw { ...error, type: 'LOAD_ENTITIES' };
+      }),
     meta: {
       showTags,
       lastDateRequest,

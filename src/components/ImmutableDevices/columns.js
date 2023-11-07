@@ -6,7 +6,6 @@ export const edgeColumns = [
   {
     key: 'ImageName',
     title: 'Image',
-    sort: false,
     renderFunc: (imageName, uuid) => {
       return <a href={`/edge/inventory/${uuid}`}>{imageName}</a>;
     },
@@ -15,7 +14,7 @@ export const edgeColumns = [
   {
     key: 'Status',
     title: 'Status',
-    sort: false,
+    props: { isStatic: true },
     renderFunc: (
       StatusText,
       DEVICE_ID,

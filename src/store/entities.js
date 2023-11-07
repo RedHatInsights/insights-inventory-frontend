@@ -3,6 +3,7 @@ import {
   ACTION_TYPES,
   CHANGE_SORT,
   CLEAR_ENTITIES,
+  CLEAR_ERRORS,
   CLEAR_FILTERS,
   CONFIG_CHANGED,
   ENTITIES_LOADING,
@@ -434,4 +435,5 @@ export default {
   }),
   [ACTION_TYPES.GROUPS_FOR_ENTITIES_FULFILLED]: (state, action) =>
     groupsLoaded(state, { payload: { ...action.payload } }),
+  [CLEAR_ERRORS]: (state) => ({ ...state, error: null }),
 };

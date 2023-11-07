@@ -9,12 +9,8 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import { GENERAL_HOST_STALENESS_READ_PERMISSION } from '../components/InventoryHostStaleness/constants';
 import { Page, PageSection } from '@patternfly/react-core';
 import HostStalenessNoAccess from '../components/InventoryHostStaleness/HostStalenessNoAccess';
-import { GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
 
-const REQUIRED_PERMISSIONS = [
-  GENERAL_HOST_STALENESS_READ_PERMISSION,
-  GENERAL_HOSTS_READ_PERMISSIONS,
-];
+const REQUIRED_PERMISSIONS = [GENERAL_HOST_STALENESS_READ_PERMISSION];
 
 const HostStaleness = () => {
   const chrome = useChrome();
