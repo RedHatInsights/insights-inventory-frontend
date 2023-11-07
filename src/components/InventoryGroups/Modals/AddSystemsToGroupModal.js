@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearFilters,
@@ -30,7 +30,7 @@ import ImmutableDevicesView from '../../InventoryTabs/ImmutableDevices/EdgeDevic
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { InfoCircleIcon } from '@patternfly/react-icons';
-import { inventoryHasEdgeSystems } from '../../../Utilities/edge';
+import { AccountStatContext } from '../../../Routes';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
@@ -134,17 +134,7 @@ const AddSystemsToGroupModal = ({
   const showWarning =
     alreadyHasGroup.length > 0 || immutableDevicesAlreadyHasGroup.length > 0;
 
-  const [hasImmutableSystems, setHasImmutableSystems] = useState(false);
-
-  useEffect(() => {
-    if (edgeParityEnabled) {
-      (async () => {
-        const hasEdgeSystems = await inventoryHasEdgeSystems();
-        setHasImmutableSystems(hasEdgeSystems);
-      })();
-    }
-  }, []);
-
+  const { hasEdgeDevices } = useContext(AccountStatContext);
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (_event, tabIndex) => {
@@ -254,7 +244,7 @@ const AddSystemsToGroupModal = ({
           }
           variant="large" // required to accomodate the systems table
         >
-          {edgeParityEnabled && hasImmutableSystems ? (
+          {edgeParityEnabled && hasEdgeDevices ? (
             <Tabs
               className="pf-m-light pf-c-table"
               activeKey={activeTab}
