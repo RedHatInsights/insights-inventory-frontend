@@ -11,6 +11,7 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 import GroupSystems from '../GroupSystems';
+import GroupTabDetails from './GroupTabDetails';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
@@ -21,10 +22,35 @@ import {
   EmptyStateNoAccessToGroup,
   EmptyStateNoAccessToSystems,
 } from './EmptyStateNoAccess';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+import axios from 'axios';
+import {
+  INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS,
+  INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
+  INVENTORY_TOTAL_FETCH_URL_SERVER,
+  hybridInventoryTabKeys,
+} from '../../Utilities/constants';
+
+const SuspenseWrapper = ({ children }) => (
+  <Suspense
+    fallback={
+      <Bullseye>
+        <Spinner size="xl" />
+      </Bullseye>
+    }
+  >
+    {children}
+  </Suspense>
+);
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
-
 const InventoryGroupDetail = ({ groupId }) => {
+  const [activeTabKey, setActiveTabKey] = useState(0);
+
+  const [activeTab, setActiveTab] = useState(
+    hybridInventoryTabKeys.conventional.key
+  );
+
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.groupDetail);
   const chrome = useChrome();
@@ -33,7 +59,6 @@ const InventoryGroupDetail = ({ groupId }) => {
   const { hasAccess: canViewGroup } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
   );
-
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
   );
@@ -51,11 +76,59 @@ const InventoryGroupDetail = ({ groupId }) => {
     );
   }, [data]);
 
-  const [activeTabKey, setActiveTabKey] = useState(0);
-
   // TODO: append search parameter to identify the active tab
 
-  return (
+  const [hasEdgeImages, setHasEdgeImages] = useState(false);
+  const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
+  useEffect(() => {
+    if (EdgeParityEnabled) {
+      try {
+        axios
+          .get(
+            `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}&group_name=${groupName}`
+          )
+          .then((result) => {
+            const accountHasEdgeImages = result?.data?.total > 0;
+            setHasEdgeImages(accountHasEdgeImages);
+            axios
+              .get(
+                `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}&group_name=${groupName}`
+              )
+              .then((conventionalImages) => {
+                const accountHasConventionalImages =
+                  conventionalImages?.data?.total > 0;
+                if (accountHasEdgeImages && !accountHasConventionalImages) {
+                  setActiveTab(hybridInventoryTabKeys.immutable.key);
+                } else {
+                  setActiveTab(hybridInventoryTabKeys.conventional.key);
+                }
+              });
+          });
+      } catch (e) {
+        setHasEdgeImages(false);
+        setActiveTab(hybridInventoryTabKeys.conventional.key);
+      }
+    }
+  }, [data]);
+  return hasEdgeImages && canViewGroup && EdgeParityEnabled ? (
+    <React.Fragment>
+      <GroupDetailHeader groupId={groupId} />
+      {canViewGroup ? (
+        <PageSection variant="light" type="tabs">
+          <GroupTabDetails
+            groupId={groupId}
+            groupName={groupName}
+            activeTab={activeTab}
+            hasEdgeImages={hasEdgeImages}
+          />
+        </PageSection>
+      ) : (
+        <PageSection>
+          <EmptyStateNoAccessToGroup />
+        </PageSection>
+      )}
+    </React.Fragment>
+  ) : (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
       {canViewGroup ? (
@@ -104,6 +177,11 @@ const InventoryGroupDetail = ({ groupId }) => {
 
 InventoryGroupDetail.propTypes = {
   groupId: PropTypes.string.isRequired,
+  groupName: PropTypes.string,
+};
+
+SuspenseWrapper.propTypes = {
+  children: PropTypes.element,
 };
 
 export default InventoryGroupDetail;
