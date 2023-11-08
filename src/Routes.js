@@ -130,6 +130,10 @@ export const Routes = () => {
       />
     </Suspense>
   ) : (
-    element
+    <AccountStatContext.Provider
+      value={{ hasConventionalSystems, hasEdgeDevices }}
+    >
+      {element}
+    </AccountStatContext.Provider>
   );
 };
