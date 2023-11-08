@@ -225,12 +225,12 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
               - Systems are marked as stale after 2 days since last check-in.
             </span>
             <span className="pf-u-font-size-sm">
-              - Systems are marked as stale warning after 120 days since last
+              - Systems are marked as stale warning after 180 days since last
               check-in.
             </span>
 
             <span className="pf-u-font-size-sm">
-              - Systems are deleted after 180 days since last check-in.
+              - Systems are deleted after 2 years since last check-in.
             </span>
           </Flex>
         ) : (
@@ -314,11 +314,11 @@ export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
                 </p>
               </span>
               <span className="pf-u-font-size-sm">
-                - Systems are marked as stale warning after 120 days since last
+                - Systems are marked as stale warning after 180 days since last
                 check-in.
               </span>
               <span className="pf-u-font-size-sm">
-                - Systems are deleted after 180 days since last check-in.
+                - Systems are deleted after 2 years since last check-in.
               </span>
             </Flex>
           )}
