@@ -21,11 +21,20 @@ export const HOST_STALENESS_ADMINISTRATOR_PERMISSIONS = [
 
 //86400 seconds in one day -> divide each by secodns in a day to get day values
 export const secondsToDaysConversion = (seconds) => {
-  return seconds / 86400;
+  if (seconds === 104400) {
+    return 1;
+  } else {
+    return seconds / 86400;
+  }
 };
 
-export const daysToSecondsConversion = (days) => {
-  return days * 86400;
+export const daysToSecondsConversion = (days, filterKey) => {
+  //backend requires a buffer specifically for 1 this option
+  if (filterKey === 'conventional_staleness_delta' && days === 1) {
+    return 104400;
+  } else {
+    return days * 86400;
+  }
 };
 
 export const hostStalenessApiKeys = [
