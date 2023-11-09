@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useMemo } from 'react';
+import React, { Suspense, lazy, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import './inventory.scss';
 import {
@@ -11,6 +11,8 @@ import { Bullseye, Spinner } from '@patternfly/react-core';
 import { useLocation } from 'react-router-dom';
 import { getSearchParams } from '../constants';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
+import { AccountStatContext } from '../Routes';
+
 const ConventionalSystemsTab = lazy(() =>
   import(
     '../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab'
@@ -36,6 +38,8 @@ const Inventory = (props) => {
   const searchParams = useMemo(() => getSearchParams(), [search.toString()]);
   const fullProps = { ...props, ...searchParams };
   const isEdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
+  const { hasEdgeDevices, hasConventionalSystems } =
+    useContext(AccountStatContext);
   return (
     <React.Fragment>
       <PageHeader className="pf-m-light">
@@ -55,6 +59,8 @@ const Inventory = (props) => {
           }
           isImmutableTabOpen={props.isImmutableTabOpen}
           isEdgeParityEnabled={isEdgeParityEnabled}
+          accountHasEdgeImages={hasEdgeDevices}
+          hasConventionalSystems={hasConventionalSystems}
         />
       </Main>
     </React.Fragment>

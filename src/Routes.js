@@ -1,4 +1,11 @@
-import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import React, {
+  Suspense,
+  createContext,
+  lazy,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
@@ -33,10 +40,16 @@ export const routes = {
   staleness: '/staleness-and-deletion',
 };
 
+export const AccountStatContext = createContext({
+  hasConventionalSystems: true,
+  hasEdgeDevices: false,
+});
+
 export const Routes = () => {
   const searchParams = useMemo(() => getSearchParams(), []);
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
-  const [hasSystems, setHasSystems] = useState(true);
+  const [hasConventionalSystems, setHasConventionalSystems] = useState(true);
+  const [hasEdgeDevices, setHasEdgeDevices] = useState(true);
   const edgeParityInventoryListEnabled = useFeatureFlag(
     'edgeParity.inventory-list'
   );
@@ -46,15 +59,14 @@ export const Routes = () => {
         const hasConventionalSystems = await inventoryHasConventionalSystems();
         if (edgeParityInventoryListEnabled) {
           const hasEdgeSystems = await inventoryHasEdgeSystems();
-          setHasSystems(hasConventionalSystems || hasEdgeSystems);
-        } else {
-          setHasSystems(hasConventionalSystems);
+          setHasConventionalSystems(hasConventionalSystems);
+          setHasEdgeDevices(hasEdgeSystems);
         }
       })();
     } catch (e) {
       console.log(e);
     }
-  }, [hasSystems]);
+  }, []);
 
   let element = useRoutes([
     {
@@ -96,6 +108,10 @@ export const Routes = () => {
     },
   ]);
 
+  const hasSystems = edgeParityInventoryListEnabled
+    ? hasEdgeDevices || hasConventionalSystems
+    : hasConventionalSystems;
+
   return !hasSystems ? (
     <Suspense
       fallback={
@@ -114,6 +130,10 @@ export const Routes = () => {
       />
     </Suspense>
   ) : (
-    element
+    <AccountStatContext.Provider
+      value={{ hasConventionalSystems, hasEdgeDevices }}
+    >
+      {element}
+    </AccountStatContext.Provider>
   );
 };
