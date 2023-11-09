@@ -90,10 +90,6 @@
             font-size: var(--pf-global--FontSize--sm);
         }
 
-        * {
-            font-size: var(	--pf-global--FontSize--lg);
-        }
-
         .ins-composed-col {
             cursor: pointer;
         }
@@ -101,12 +97,6 @@
 
     .ins-c-inventory__list-tags {
         display: inline-block;
-    }
-
-    .pf-c-table__action .pf-c-dropdown {
-        position: relative;
-        left: 10px;
-        top: 3px;
     }
 
     .ins-composed-col div {
@@ -125,3 +115,9 @@
 }
 
 .ins-c-inventory__no-access { background-color: var(--pf-global--BackgroundColor--100); }
+
+.pf-c-table__action {
+    .pf-c-dropdown__toggle.pf-m-plain {
+        padding-right: var(--pf-global--spacer--lg);
+    }
+}
