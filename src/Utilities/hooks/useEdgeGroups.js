@@ -1,0 +1,23 @@
+import { useEffect, useState } from 'react';
+import useFeatureFlag from '../useFeatureFlag';
+import { fetchEdgeEnforceGroups } from '../../api';
+
+const useEdgeGroups = () => {
+  const [data, setData] = useState(false);
+  const edgeParityInventoryGroupsEnabled = useFeatureFlag(
+    'edgeParity.inventory-groups-enabled'
+  );
+
+  useEffect(() => {
+    edgeParityInventoryGroupsEnabled &&
+      (async () => {
+        const response = await fetchEdgeEnforceGroups();
+        const enforceEdgeGroups = response?.enforce_edge_groups;
+        setData(enforceEdgeGroups);
+      })();
+  }, [edgeParityInventoryGroupsEnabled]);
+
+  return data;
+};
+
+export default useEdgeGroups;
