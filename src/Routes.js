@@ -16,6 +16,9 @@ import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncCompo
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import { inventoryHasEdgeSystems } from './Utilities/edge';
 import { inventoryHasConventionalSystems } from './Utilities/conventional';
+import useEdgeGroups from './Utilities/hooks/useEdgeGroups';
+import EdgeGroupsView from './components/InventoryGroups/EdgeGroups';
+import EdgeGroupsDetailsView from './components/InventoryGroupDetail/EdgeGroupDetails';
 
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
@@ -53,6 +56,7 @@ export const Routes = () => {
   const edgeParityInventoryListEnabled = useFeatureFlag(
     'edgeParity.inventory-list'
   );
+  const edgeGroupsUse = useEdgeGroups(false);
   useEffect(() => {
     try {
       (async () => {
@@ -68,6 +72,11 @@ export const Routes = () => {
     }
   }, []);
 
+  const GroupsComponents = edgeGroupsUse ? EdgeGroupsView : InventoryGroups;
+  const GroupsDetailComponents = edgeGroupsUse
+    ? EdgeGroupsDetailsView
+    : InventoryGroupDetail;
+
   let element = useRoutes([
     {
       path: '/',
@@ -77,11 +86,11 @@ export const Routes = () => {
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
     {
       path: '/groups',
-      element: groupsEnabled ? <InventoryGroups /> : <LostPage />,
+      element: groupsEnabled ? <GroupsComponents /> : <LostPage />,
     },
     {
       path: '/groups/:groupId',
-      element: groupsEnabled ? <InventoryGroupDetail /> : <LostPage />,
+      element: groupsEnabled ? <GroupsDetailComponents /> : <LostPage />,
     },
     {
       path: '/:inventoryId/update',

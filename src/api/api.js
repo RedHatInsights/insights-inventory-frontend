@@ -399,3 +399,11 @@ export const fetchEdgeSystem = () => {
     console.log(err);
   }
 };
+
+export const fetchEdgeEnforceGroups = () => {
+  try {
+    return instance.get(`${EDGE_API_BASE}/device-groups/enforce-edge-groups`);
+  } catch (err) {
+    console.log(err);
+  }
+};
