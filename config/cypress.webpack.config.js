@@ -34,6 +34,7 @@ webpackConfig.module.rules.push({
         __dirname,
         './overrideChrome.js'
       ),
+      '../useChrome': resolve(__dirname, './overrideChrome.js'),
     },
   },
 });

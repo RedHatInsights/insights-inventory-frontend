@@ -5,7 +5,7 @@ const chromeMock = {
   appObjectId: () => {},
   on: () => {},
   getApp: () => 'inventory',
-  getBundle: () => 'rhel',
+  getBundle: () => 'insights',
   getUserPermissions: () => [{ permission: 'inventory:*:*' }],
   auth: {
     getUser: () =>
