@@ -40,10 +40,6 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
                 "label": "Stale warning",
                 "value": "stale_warning",
               },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
-              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by status",
@@ -188,10 +184,6 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
               Object {
                 "label": "Stale warning",
                 "value": "stale_warning",
-              },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
               },
             ],
             "onChange": [Function],
@@ -445,10 +437,6 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
               Object {
                 "label": "Stale warning",
                 "value": "stale_warning",
-              },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
               },
             ],
             "onChange": [Function],
@@ -721,10 +709,6 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
                 "label": "Stale warning",
                 "value": "stale_warning",
               },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
-              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by status",
@@ -983,10 +967,6 @@ exports[`EntityTableToolbar DOM should render correctly - with customFilters 1`]
               Object {
                 "label": "Stale warning",
                 "value": "stale_warning",
-              },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
               },
             ],
             "onChange": [Function],
@@ -1272,10 +1252,6 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
                 "label": "Stale warning",
                 "value": "stale_warning",
               },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
-              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by status",
@@ -1518,10 +1494,6 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
               Object {
                 "label": "Stale warning",
                 "value": "stale_warning",
-              },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
               },
             ],
             "onChange": [Function],
@@ -1780,10 +1752,6 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
                 "label": "Stale warning",
                 "value": "stale_warning",
               },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
-              },
             ],
             "onChange": [Function],
             "placeholder": "Filter by status",
@@ -2032,10 +2000,6 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
               Object {
                 "label": "Stale warning",
                 "value": "stale_warning",
-              },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
               },
             ],
             "onChange": [Function],
@@ -2315,10 +2279,6 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
               Object {
                 "label": "Stale warning",
                 "value": "stale_warning",
-              },
-              Object {
-                "label": "Unknown",
-                "value": "unknown",
               },
             ],
             "onChange": [Function],

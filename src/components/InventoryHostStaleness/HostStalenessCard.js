@@ -75,7 +75,11 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     apiKeys.forEach(
       (filterKey) =>
         filterKey !== 'id' &&
-        (apiData[filterKey] = daysToSecondsConversion(newFormValues[filterKey]))
+        newFormValues[filterKey] &&
+        (apiData[filterKey] = daysToSecondsConversion(
+          newFormValues[filterKey],
+          filterKey
+        ))
     );
 
     // system_default means the account has no record, therefor, post for new instance of record.
@@ -91,7 +95,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               dismissable: true,
             })
           );
-          fetchStalenessData();
+          fetchApiStalenessData();
           setIsEditing(!isEditing);
           setIsModalOpen(false);
         })
@@ -117,7 +121,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               dismissable: true,
             })
           );
-          fetchStalenessData();
+          fetchApiStalenessData();
           setIsEditing(!isEditing);
           setIsModalOpen(false);
         })
