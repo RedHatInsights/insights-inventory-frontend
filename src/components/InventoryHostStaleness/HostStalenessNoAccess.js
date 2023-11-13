@@ -16,8 +16,8 @@ const HostStalenessNoAccess = () => {
         Access permissions needed
       </Title>
       <EmptyStateBody className="pf-u-mb-xl">
-        You do not have the necessary Inventory staleness and deletion viewer
-        role required to view this page.
+        You do not have the necessary Staleness and Deletion viewer role
+        required to view this page.
       </EmptyStateBody>
       <Button
         variant="link"

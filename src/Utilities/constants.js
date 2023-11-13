@@ -34,7 +34,6 @@ export const staleness = [
   { label: 'Fresh', value: 'fresh' },
   { label: 'Stale', value: 'stale' },
   { label: 'Stale warning', value: 'stale_warning' },
-  { label: 'Unknown', value: 'unknown' },
 ];
 
 export const currentDate = new Date().toISOString();
