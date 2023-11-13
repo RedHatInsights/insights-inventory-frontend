@@ -1,69 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TitleColumn should render correctly no detail with data 1`] = `
-<Cmp>
+<DocumentFragment>
   <div
-    className="ins-composed-col sentry-mask data-hj-suppress"
+    class="ins-composed-col sentry-mask data-hj-suppress"
   >
-    <div
-      key="os_release"
-    >
+    <div>
       os_release
     </div>
     <div
-      className="ins-m-nodetail"
-      key="data"
+      class="ins-m-nodetail"
     >
       something
     </div>
   </div>
-</Cmp>
+</DocumentFragment>
 `;
 
 exports[`TitleColumn should render correctly with NO data 1`] = `
-<Cmp>
+<DocumentFragment>
   <div
-    className="ins-composed-col sentry-mask data-hj-suppress"
+    class="ins-composed-col sentry-mask data-hj-suppress"
   >
     <div
-      key="os_release"
-    />
-    <div
-      className=""
-      key="data"
+      class=""
     >
       <a
-        href="/undefined"
-        onClick={[Function]}
-        widget="col"
+        to=""
       />
     </div>
   </div>
-</Cmp>
+</DocumentFragment>
 `;
 
 exports[`TitleColumn should render correctly with data 1`] = `
-<Cmp>
+<DocumentFragment>
   <div
-    className="ins-composed-col sentry-mask data-hj-suppress"
+    class="ins-composed-col sentry-mask data-hj-suppress"
   >
     <div
-      key="os_release"
-    >
-      os_release
-    </div>
-    <div
-      className=""
-      key="data"
+      class=""
     >
       <a
-        href="/some-id"
-        onClick={[Function]}
-        widget="col"
+        to="testId"
       >
         something
       </a>
     </div>
   </div>
-</Cmp>
+</DocumentFragment>
+`;
+
+exports[`TitleColumn should render correctly with href 1`] = `
+<DocumentFragment>
+  <div
+    class="ins-composed-col sentry-mask data-hj-suppress"
+  >
+    <div
+      class=""
+    >
+      <a
+        to="///link/to/item"
+      >
+        something
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`TitleColumn should render correctly with os_release 1`] = `
+<DocumentFragment>
+  <div
+    class="ins-composed-col sentry-mask data-hj-suppress"
+  >
+    <div>
+      os_release
+    </div>
+    <div
+      class=""
+    >
+      <a
+        to="testId"
+      >
+        something
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
 `;

@@ -2,6 +2,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/display-name */
 import React from 'react';
+import {
+  fireEvent,
+  render as rederWithTestingLibrary,
+} from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import EntityTable from './EntityTable';
 import { mount, render } from 'enzyme';
@@ -34,7 +38,16 @@ describe('EntityTable', () => {
           },
         ],
         columns: [
-          { key: 'one', sortKey: 'one', title: 'One', renderFunc: TitleColumn },
+          {
+            key: 'one',
+            sortKey: 'one',
+            title: 'One',
+            renderFunc: (display_name, id, item, props) => (
+              <TitleColumn {...{ ...props, id, item }}>
+                {display_name}
+              </TitleColumn>
+            ),
+          },
         ],
         page: 1,
         perPage: 50,
@@ -636,31 +649,23 @@ describe('EntityTable', () => {
 
   describe('API', () => {
     jest.mock('../../Utilities/useFeatureFlag');
-    it('should call default onRowClick', () => {
-      // const history = createMemoryHistory();
-      // const store = mockStore(initialState);
-      // const wrapper = mount(
-      //   <MemoryRouter history={history}>
-      //     <Provider store={store}>
-      //       <EntityTable loaded disableDefaultColumns />
-      //     </Provider>
-      //   </MemoryRouter>
-      // );
-      // wrapper.find('table tbody tr a[widget="col"]').first().simulate('click');
-      // expect(history.location.pathname).toBe('/testing-id');
-    });
 
     it('should call onRowClick', () => {
       const onRowClick = jest.fn();
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const { container } = rederWithTestingLibrary(
         <MemoryRouter>
           <Provider store={store}>
             <EntityTable loaded disableDefaultColumns onRowClick={onRowClick} />
           </Provider>
         </MemoryRouter>
       );
-      wrapper.find('table tbody tr a[widget="col"]').first().simulate('click');
+
+      const link = container.querySelector('table tbody tr a');
+      act(() => {
+        fireEvent.click(link);
+      });
+
       expect(onRowClick).toHaveBeenCalled();
     });
 

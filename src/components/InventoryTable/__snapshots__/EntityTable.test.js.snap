@@ -104,13 +104,11 @@ exports[`EntityTable DOM should render correctly - compact 1`] = `
         <div
           class="ins-composed-col sentry-mask data-hj-suppress"
         >
-          <div />
           <div
             class=""
           >
             <a
               href="/testing-id"
-              widget="col"
             >
               data
             </a>
@@ -284,22 +282,19 @@ exports[`EntityTable DOM should render correctly - is expandable 1`] = `
         },
         "cells": Array [
           <React.Fragment>
-            <div
-              className="ins-composed-col sentry-mask data-hj-suppress"
+            <TitleColumn
+              id="testing-id"
+              item={
+                Object {
+                  "id": "testing-id",
+                  "one": "data",
+                  "system_profile": Object {},
+                }
+              }
+              loaded={true}
             >
-              <div />
-              <div
-                className=""
-              >
-                <a
-                  href="/testing-id"
-                  onClick={[Function]}
-                  widget="col"
-                >
-                  data
-                </a>
-              </div>
-            </div>
+              data
+            </TitleColumn>
           </React.Fragment>,
         ],
         "id": "testing-id",
@@ -470,22 +465,19 @@ exports[`EntityTable DOM should render correctly - with actions 1`] = `
         },
         "cells": Array [
           <React.Fragment>
-            <div
-              className="ins-composed-col sentry-mask data-hj-suppress"
+            <TitleColumn
+              id="testing-id"
+              item={
+                Object {
+                  "id": "testing-id",
+                  "one": "data",
+                  "system_profile": Object {},
+                }
+              }
+              loaded={true}
             >
-              <div />
-              <div
-                className=""
-              >
-                <a
-                  href="/testing-id"
-                  onClick={[Function]}
-                  widget="col"
-                >
-                  data
-                </a>
-              </div>
-            </div>
+              data
+            </TitleColumn>
           </React.Fragment>,
         ],
         "id": "testing-id",
@@ -604,22 +596,19 @@ exports[`EntityTable DOM should render correctly - without checkbox 1`] = `
         },
         "cells": Array [
           <React.Fragment>
-            <div
-              className="ins-composed-col sentry-mask data-hj-suppress"
+            <TitleColumn
+              id="testing-id"
+              item={
+                Object {
+                  "id": "testing-id",
+                  "one": "data",
+                  "system_profile": Object {},
+                }
+              }
+              loaded={true}
             >
-              <div />
-              <div
-                className=""
-              >
-                <a
-                  href="/testing-id"
-                  onClick={[Function]}
-                  widget="col"
-                >
-                  data
-                </a>
-              </div>
-            </div>
+              data
+            </TitleColumn>
           </React.Fragment>,
         ],
         "id": "testing-id",
@@ -743,13 +732,11 @@ exports[`EntityTable DOM should render correctly 1`] = `
         <div
           class="ins-composed-col sentry-mask data-hj-suppress"
         >
-          <div />
           <div
             class=""
           >
             <a
               href="/testing-id"
-              widget="col"
             >
               data
             </a>
@@ -812,22 +799,25 @@ exports[`EntityTable DOM sort by should render correctly - is expandable 1`] = `
         },
         "cells": Array [
           <React.Fragment>
-            <div
-              className="ins-composed-col sentry-mask data-hj-suppress"
+            <TitleColumn
+              id="testing-id"
+              item={
+                Object {
+                  "id": "testing-id",
+                  "one": "data",
+                  "system_profile": Object {},
+                }
+              }
+              loaded={true}
+              sortBy={
+                Object {
+                  "directions": "asc",
+                  "key": "one",
+                }
+              }
             >
-              <div />
-              <div
-                className=""
-              >
-                <a
-                  href="/testing-id"
-                  onClick={[Function]}
-                  widget="col"
-                >
-                  data
-                </a>
-              </div>
-            </div>
+              data
+            </TitleColumn>
           </React.Fragment>,
         ],
         "id": "testing-id",
@@ -892,22 +882,25 @@ exports[`EntityTable DOM sort by should render correctly - without checkbox 1`] 
         },
         "cells": Array [
           <React.Fragment>
-            <div
-              className="ins-composed-col sentry-mask data-hj-suppress"
+            <TitleColumn
+              id="testing-id"
+              item={
+                Object {
+                  "id": "testing-id",
+                  "one": "data",
+                  "system_profile": Object {},
+                }
+              }
+              loaded={true}
+              sortBy={
+                Object {
+                  "directions": "asc",
+                  "key": "one",
+                }
+              }
             >
-              <div />
-              <div
-                className=""
-              >
-                <a
-                  href="/testing-id"
-                  onClick={[Function]}
-                  widget="col"
-                >
-                  data
-                </a>
-              </div>
-            </div>
+              data
+            </TitleColumn>
           </React.Fragment>,
         ],
         "id": "testing-id",
@@ -973,22 +966,26 @@ exports[`EntityTable DOM sort by should render correctly 1`] = `
         },
         "cells": Array [
           <React.Fragment>
-            <div
-              className="ins-composed-col sentry-mask data-hj-suppress"
+            <TitleColumn
+              id="testing-id"
+              item={
+                Object {
+                  "id": "testing-id",
+                  "one": "data",
+                  "system_profile": Object {},
+                }
+              }
+              loaded={true}
+              sortBy={
+                Object {
+                  "directions": "asc",
+                  "key": "one",
+                  "sortKey": "one",
+                }
+              }
             >
-              <div />
-              <div
-                className=""
-              >
-                <a
-                  href="/testing-id"
-                  onClick={[Function]}
-                  widget="col"
-                >
-                  data
-                </a>
-              </div>
-            </div>
+              data
+            </TitleColumn>
           </React.Fragment>,
         ],
         "id": "testing-id",

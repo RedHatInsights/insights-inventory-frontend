@@ -42,7 +42,17 @@ describe('EntityTableToolbar', () => {
             one: 'data',
           },
         ],
-        columns: [{ key: 'one', title: 'One', renderFunc: TitleColumn }],
+        columns: [
+          {
+            key: 'one',
+            title: 'One',
+            renderFunc: (display_name, id, item, props) => (
+              <TitleColumn {...{ ...props, id, item }}>
+                {display_name}
+              </TitleColumn>
+            ),
+          },
+        ],
         page: 1,
         perPage: 50,
         total: 500,
