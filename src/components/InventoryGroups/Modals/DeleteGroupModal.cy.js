@@ -7,7 +7,7 @@ import {
   deleteGroupsInterceptors,
   groupsInterceptors,
 } from '../../../../cypress/support/interceptors';
-import { buildGroupsPayload } from '../../../__factories__/groups';
+import { buildGroups, buildGroupsPayload } from '../../../__factories__/groups';
 import DeleteGroupModal from './DeleteGroupModal';
 
 const mountModal = (props) =>
@@ -63,6 +63,29 @@ describe('multiple non-empty groups', () => {
     cy.get('button').contains('Close').click();
     cy.get('@setIsModalOpen').should('be.calledOnce');
   });
+
+  it('handles big number of groups', () => {
+    groupsInterceptors['successful with some items']();
+
+    const setIsModalOpen = cy.stub().as('setIsModalOpen');
+    const reloadData = cy.stub().as('reloadData');
+
+    mountModal({
+      isModalOpen: true,
+      setIsModalOpen,
+      reloadData,
+      groupIds: buildGroups(101).map(({ id }) => id),
+    });
+
+    for (let i = 0; i < 6; i++) {
+      cy.wait('@getGroups'); // should make 6 batched requests
+    }
+
+    cy.get('p').should(
+      'contain.text',
+      `Groups containing systems cannot be deleted.`
+    );
+  });
 });
 
 describe('multiple empty groups', () => {
@@ -113,6 +136,31 @@ describe('multiple empty groups', () => {
   it('can close the modal with Cancel', () => {
     cy.get('button').contains('Cancel').click();
     cy.get('@setIsModalOpen').should('be.calledOnce');
+  });
+
+  it('handles big number of groups', () => {
+    groupsInterceptors['successful with some items'](
+      buildGroupsPayload(undefined, undefined, 20, true)
+    );
+
+    const setIsModalOpen = cy.stub().as('setIsModalOpen');
+    const reloadData = cy.stub().as('reloadData');
+
+    mountModal({
+      isModalOpen: true,
+      setIsModalOpen,
+      reloadData,
+      groupIds: buildGroups(101, true).map(({ id }) => id),
+    });
+
+    for (let i = 0; i < 6; i++) {
+      cy.wait('@getGroups'); // should make 6 batched requests
+    }
+
+    cy.get('p').should(
+      'contain.text',
+      `groups and all their data will be deleted.`
+    );
   });
 });
 
