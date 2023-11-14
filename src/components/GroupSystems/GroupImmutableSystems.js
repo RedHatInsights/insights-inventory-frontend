@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
@@ -72,7 +72,7 @@ export const prepareColumns = (
     .filter(Boolean); // eliminate possible undefined's
 };
 
-const GroupSystems = ({ groupName, groupId }) => {
+const GroupImmutableSystems = ({ groupName, groupId }) => {
   const dispatch = useDispatch();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
@@ -111,7 +111,6 @@ const GroupSystems = ({ groupName, groupId }) => {
     pageSelected,
     groupName
   );
-
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
@@ -144,7 +143,6 @@ const GroupSystems = ({ groupName, groupId }) => {
         <InventoryTable
           columns={(columns) => prepareColumns(columns, true)}
           hideFilters={{ hostGroupFilter: true }}
-          initialLoading
           getEntities={async (items, config, showTags, defaultGetEntities) =>
             await defaultGetEntities(
               items,
@@ -154,6 +152,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                 filters: {
                   ...config.filters,
                   hostGroupFilter: [groupName],
+                  hostTypeFilter: 'edge',
                 },
               },
               showTags
@@ -183,24 +182,61 @@ const GroupSystems = ({ groupName, groupId }) => {
                   padding: 0, // custom component creates extra padding space
                 },
               },
+              {
+                title: (
+                  <ActionDropdownItem
+                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                      groupId
+                    )}
+                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    onClick={() => {
+                      setCurrentSystem([row]);
+                      useNavigate({
+                        pathname: `${location.pathname}/update`,
+                        search: '?from_details=true',
+                      });
+                    }}
+                  >
+                    Update
+                  </ActionDropdownItem>
+                ),
+                style: {
+                  padding: 0, // custom component creates extra padding space
+                },
+              },
             ],
           }}
           actionsConfig={{
             actions: [
-              <ActionButton
-                key="add-systems-button"
-                requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                  groupId
-                )}
-                noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                onClick={() => {
-                  dispatch(clearEntitiesAction());
-                  setAddToGroupModalOpen(true);
-                }}
-                ouiaId="add-systems-button"
-              >
-                Add systems
-              </ActionButton>,
+              [
+                <ActionButton
+                  key="add-systems-button"
+                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                    groupId
+                  )}
+                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                  onClick={() => {
+                    dispatch(clearEntitiesAction());
+                    setAddToGroupModalOpen(true);
+                  }}
+                  ouiaId="add-systems-button"
+                >
+                  Add systems
+                </ActionButton>,
+                <ActionButton
+                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                    groupId
+                  )}
+                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                  key="update-systems-button"
+                  onClick={() => {
+                    console.log('Call update');
+                  }}
+                  ouiaId="update-systems-button"
+                >
+                  Update
+                </ActionButton>,
+              ],
               {
                 label: 'Remove from group',
                 props: {
@@ -226,10 +262,9 @@ const GroupSystems = ({ groupName, groupId }) => {
   );
 };
 
-GroupSystems.propTypes = {
+GroupImmutableSystems.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
-  hostType: PropTypes.string,
 };
 
-export default GroupSystems;
+export default GroupImmutableSystems;

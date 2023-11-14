@@ -9,10 +9,11 @@ import {
 import React, { Suspense, lazy, useState } from 'react';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import GroupSystems from '../GroupSystems';
+import GroupImmutableSystems from '../GroupSystems/GroupImmutableSystems';
 import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
-import EdgeDeviceGroupiew from '../InventoryTabs/ImmutableDevices/EdgeDevicesGroupView';
+// import EdgeDeviceGroupiew from '../InventoryTabs/ImmutableDevices/EdgeDevicesGroupView';
 import { EmptyStateNoAccessToSystems } from './EmptyStateNoAccess';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
@@ -24,12 +25,39 @@ const GroupTabDetailsWrapper = ({
   hasEdgeImages,
 }) => {
   const [tab, setTab] = useState(0);
+
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
   );
+  const conventionalSystemsContent = (
+    <GroupSystems
+      groupName={groupName}
+      groupId={groupId}
+      hostType={hybridInventoryTabKeys.conventional.key}
+    />
+  );
+
+  const immutableSystemsContent = (
+    <GroupImmutableSystems
+      groupId={groupId}
+      groupName={groupName}
+      hostType={hybridInventoryTabKeys.immutable.key}
+    />
+  );
+
+  const [component, setComponent] =
+    activeTab == hybridInventoryTabKeys.conventional.key
+      ? useState(conventionalSystemsContent)
+      : useState(immutableSystemsContent);
 
   const handleTabClick = (_event, tabIndex) => {
+    setComponent(null);
     setTab(tabIndex);
+    if (tabIndex == hybridInventoryTabKeys.conventional.key) {
+      setComponent(conventionalSystemsContent);
+    } else {
+      setComponent(immutableSystemsContent);
+    }
   };
 
   const [activeTabKey, setActiveTabKey] = useState(0);
@@ -57,13 +85,24 @@ const GroupTabDetailsWrapper = ({
                 eventKey={hybridInventoryTabKeys.conventional.key}
                 title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
               >
-                <GroupSystems groupName={groupName} groupId={groupId} />
+                {component}
+                {/* <GroupSystems
+                  groupName={groupName}
+                  groupId={groupId}
+                  hostType={hybridInventoryTabKeys.conventional.key}
+                /> */}
               </Tab>
               <Tab
                 eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
-                <EdgeDeviceGroupiew groupUUID={groupId} isSystemsView={true} />
+                {component}
+                {/* <GroupImmutableSystems
+                  groupId={groupId}
+                  groupName={groupName}
+                  hostType={hybridInventoryTabKeys.immutable.key}
+                /> */}
+                {/* <EdgeDeviceGroupiew groupUUID={groupId} isSystemsView={true} /> */}
               </Tab>
             </Tabs>
           ) : canViewHosts ? (

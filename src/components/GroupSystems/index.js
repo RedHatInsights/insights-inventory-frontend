@@ -4,12 +4,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import NoSystemsEmptyState from '../InventoryGroupDetail/NoSystemsEmptyState';
 import GroupSystems from './GroupSystems';
+import GroupImmutableSystems from './GroupImmutableSystems';
 
-const GroupSystemsWrapper = ({ groupName, groupId }) => {
+const GroupSystemsWrapper = ({ groupName, groupId, hostType }) => {
   const { uninitialized, loading, data } = useSelector(
     (state) => state.groupDetail
   );
-
   return uninitialized || loading ? (
     <EmptyState>
       <EmptyStateBody>
@@ -17,7 +17,11 @@ const GroupSystemsWrapper = ({ groupName, groupId }) => {
       </EmptyStateBody>
     </EmptyState>
   ) : (data?.results?.[0]?.host_count || 0) > 0 ? (
-    <GroupSystems groupId={groupId} groupName={groupName} />
+    hostType == 'immutable' ? (
+      <GroupImmutableSystems groupId={groupId} groupName={groupName} />
+    ) : (
+      <GroupSystems groupId={groupId} groupName={groupName} />
+    )
   ) : (
     <NoSystemsEmptyState groupId={groupId} groupName={groupName} />
   );
@@ -26,7 +30,8 @@ const GroupSystemsWrapper = ({ groupName, groupId }) => {
 GroupSystemsWrapper.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
+  hostType: PropTypes.string,
 };
 
 export default GroupSystemsWrapper;
-export { GroupSystems };
+export { GroupSystems, GroupImmutableSystems };
