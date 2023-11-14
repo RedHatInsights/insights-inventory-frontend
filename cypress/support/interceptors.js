@@ -211,7 +211,7 @@ export const hostsInterceptors = {
               page: 1,
               per_page: DEFAULT_ROW_COUNT,
               total: 1,
-              results: ['some-edge-device'],
+              results: [{ ImageName: 'some-edge-device', ImageSetID: '00000' }],
             },
           });
         } else {

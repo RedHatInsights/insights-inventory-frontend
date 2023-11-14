@@ -14,7 +14,14 @@ const defaultProps = {
 const MockRouter = ({ path = '/insights/inventory', ...props }) => (
   <Routes>
     <Route path={path} element={<ImmutableDevices {...props} />} />
-    <Route path={'*'} element={<div id="mock-detail-page" />} />
+    <Route
+      path={'/insights/image-builder/manage-edge-images/00000'}
+      element={<div id="mock-image-detail-page">Image detail</div>}
+    />
+    <Route
+      path={'*'}
+      element={<div id="mock-detail-page">Device detail</div>}
+    />
   </Routes>
 );
 
@@ -170,5 +177,20 @@ describe('ImmutableDevices', () => {
       .trigger('click');
 
     cy.get('#mock-detail-page');
+  });
+
+  it('Should take to image details page in image-builder app on system name click', () => {
+    const getEntitiesProp = getEntities((row, index) => {
+      row.ImageName = `Test-image-${index}`;
+      row.ImageSetID = '00000';
+      return row;
+    });
+
+    mountWithProps({ ...defaultProps, getEntities: getEntitiesProp });
+
+    cy.get('table[aria-label="Host inventory"]').should('be.visible');
+
+    cy.get('a[aria-label="image-name-link"]').first().click();
+    cy.get('#mock-image-detail-page');
   });
 });

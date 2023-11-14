@@ -1,14 +1,25 @@
 import React from 'react';
 import Status from './Status';
 import { getDeviceStatus } from './helpers';
+import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
+
+const ImageNameCell = (imageName, __uuid, { ImageSetID }) => {
+  return (
+    <InsightsLink
+      aria-label="image-name-link"
+      to={`/manage-edge-images/${ImageSetID}`}
+      app="image-builder"
+    >
+      {imageName}
+    </InsightsLink>
+  );
+};
 
 export const edgeColumns = [
   {
     key: 'ImageName',
     title: 'Image',
-    renderFunc: (imageName, uuid) => {
-      return <a href={`/edge/inventory/${uuid}`}>{imageName}</a>;
-    },
+    renderFunc: ImageNameCell,
     props: { isStatic: true },
   },
   {
