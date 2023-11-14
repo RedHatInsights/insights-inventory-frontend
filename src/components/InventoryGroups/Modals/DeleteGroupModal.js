@@ -18,6 +18,7 @@ import {
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import useFetchBatched from '../../../Utilities/hooks/useFetchBatched';
 
 const generateSchema = (groups) => ({
   fields: [
@@ -67,16 +68,17 @@ const DeleteGroupModal = ({
     ({ host_count: hostCount }) => hostCount === 0
   );
   const [isLoading, setIsLoading] = useState(true);
+  const { fetchBatchedInline } = useFetchBatched();
 
   useEffect(() => {
     // check that all groups are empty before deletion
     let ignore = false;
 
     const verifyGroupsAreEmpty = async () => {
-      const fetchedGroups = await getGroupsByIds(groupIds);
+      const fetchedGroups = await fetchBatchedInline(getGroupsByIds, groupIds);
 
       if (!ignore) {
-        setFetchedGroups(fetchedGroups.results);
+        setFetchedGroups(fetchedGroups.flatMap(({ results }) => results));
         setIsLoading(false);
       }
 
