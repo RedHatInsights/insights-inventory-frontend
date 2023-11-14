@@ -46,6 +46,7 @@ const ImmutableDevices = ({
 
   return (
     <InventoryTable
+      initialLoading
       disableDefaultColumns
       onLoad={onLoad}
       hideFilters={hideFilters}
