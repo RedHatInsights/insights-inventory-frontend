@@ -16,6 +16,9 @@ const ImmutableDevices = ({
   filterConfig,
   hideFilters,
   activeFiltersConfig,
+  tableActions,
+  onRefresh,
+  actionsConfig,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -51,6 +54,7 @@ const ImmutableDevices = ({
       onLoad={onLoad}
       hideFilters={hideFilters}
       tableProps={{
+        actionResolver: tableActions,
         isStickyHeader: true,
         variant: TableVariant.compact,
       }}
@@ -69,6 +73,9 @@ const ImmutableDevices = ({
       filterConfig={filterConfig}
       activeFiltersConfig={activeFiltersConfig}
       onRowClick={onRowClick}
+      showTags
+      onRefresh={onRefresh}
+      actionsConfig={actionsConfig}
     />
   );
 };
@@ -86,6 +93,10 @@ ImmutableDevices.propTypes = {
   filterConfig: propTypes.object,
   hideFilters: propTypes.object,
   activeFiltersConfig: propTypes.object,
+  onRowClick: propTypes.func,
+  onRefresh: propTypes.func,
+  actionsConfig: propTypes.object,
+  tableActions: propTypes.array,
 };
 
 export default ImmutableDevices;
