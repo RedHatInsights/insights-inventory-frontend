@@ -5,6 +5,7 @@ import {
   featureFlagsInterceptors,
   hostsInterceptors,
 } from '../../../cypress/support/interceptors';
+import { DropdownItem } from '@patternfly/react-core';
 
 const defaultProps = {
   mergeAppColumns: (columns) => columns,
@@ -192,5 +193,44 @@ describe('ImmutableDevices', () => {
 
     cy.get('a[aria-label="image-name-link"]').first().click();
     cy.get('#mock-image-detail-page');
+  });
+
+  it('Should render actions in the table toolbar', () => {
+    const actions = [
+      {
+        label: 'mock-toolbar-action',
+      },
+    ];
+
+    mountWithProps({ ...defaultProps, actionsConfig: { actions } });
+
+    cy.get('.ins-c-primary-toolbar__first-action > .pf-c-button').should(
+      'be.visible'
+    );
+  });
+
+  it('Should render tags filter when showTags is set and hideFilters has it opened', () => {
+    const hideFilters = { all: true, name: false, tags: false };
+
+    mountWithProps({ ...defaultProps, hideFilters });
+
+    cy.get(`[aria-label="Conditional filter"]`).click();
+    cy.get('.ins-c-conditional-filter__group > ul > li').contains('Tags');
+  });
+
+  it('Should render table actions though the prop', () => {
+    const tableActions = () => [
+      {
+        title: (
+          <DropdownItem aria-label="Mock table action" key={'moock-button'}>
+            mock table action
+          </DropdownItem>
+        ),
+      },
+    ];
+    mountWithProps({ ...defaultProps, tableActions });
+
+    cy.get(`[aria-label="Actions"]`).first().click();
+    cy.get(`[aria-label="Mock table action"]`).should('be.visible');
   });
 });
