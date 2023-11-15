@@ -26,7 +26,7 @@ exports[`TitleColumn should render correctly with NO data 1`] = `
       class=""
     >
       <a
-        to=""
+        class="fakeLink"
       />
     </div>
   </div>
@@ -42,6 +42,7 @@ exports[`TitleColumn should render correctly with data 1`] = `
       class=""
     >
       <a
+        class="fakeLink"
         to="testId"
       >
         something
@@ -60,7 +61,8 @@ exports[`TitleColumn should render correctly with href 1`] = `
       class=""
     >
       <a
-        to="///link/to/item"
+        class="fakeLink"
+        to="/link/to/item"
       >
         something
       </a>
@@ -81,7 +83,27 @@ exports[`TitleColumn should render correctly with os_release 1`] = `
       class=""
     >
       <a
+        class="fakeLink"
         to="testId"
+      >
+        something
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`TitleColumn should render correctly with to 1`] = `
+<DocumentFragment>
+  <div
+    class="ins-composed-col sentry-mask data-hj-suppress"
+  >
+    <div
+      class=""
+    >
+      <a
+        class="fakeLink"
+        to="[object Object]"
       >
         something
       </a>

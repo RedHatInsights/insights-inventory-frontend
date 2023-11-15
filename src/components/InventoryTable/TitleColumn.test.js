@@ -4,7 +4,7 @@ import { act, fireEvent, render } from '@testing-library/react';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  Link: ({ children, ...props }) => <a {...props}>{children}</a>, // eslint-disable-line
+  Link: ({ children, ...props }) => <a class="fakeLink" {...props}>{children}</a>, // eslint-disable-line
 }));
 
 describe('TitleColumn', () => {
@@ -33,6 +33,16 @@ describe('TitleColumn', () => {
   it('should render correctly with href', () => {
     const { asFragment } = render(
       <TitleColumn id="testId" item={{ href: '/link/to/item' }}>
+        something
+      </TitleColumn>
+    );
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('should render correctly with to', () => {
+    const { asFragment } = render(
+      <TitleColumn id="testId" item={{ to: { pathname: '/link/to/item' } }}>
         something
       </TitleColumn>
     );

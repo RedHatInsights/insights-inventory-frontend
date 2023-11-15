@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import Link from '@redhat-cloud-services/frontend-components/InsightsLink';
+import { Link } from 'react-router-dom';
 
 /**
  * Helper function to proprly calculate what to do when user clicks on first cell.
@@ -39,9 +39,8 @@ const TitleColumn = ({ children, id, item, ...props }) => (
         children
       ) : (
         <Link
-          to={item?.href || id}
+          to={item?.href || item?.to || id}
           {...{
-            ...(!item?.href ? { app: 'inventory' } : {}),
             ...(props?.onRowClick
               ? {
                   onClick: (event) => {
