@@ -5,6 +5,7 @@ import {
   featureFlagsInterceptors,
   hostsInterceptors,
 } from '../../../cypress/support/interceptors';
+import { DropdownItem } from '@patternfly/react-core';
 
 const defaultProps = {
   mergeAppColumns: (columns) => columns,
@@ -14,7 +15,14 @@ const defaultProps = {
 const MockRouter = ({ path = '/insights/inventory', ...props }) => (
   <Routes>
     <Route path={path} element={<ImmutableDevices {...props} />} />
-    <Route path={'*'} element={<div id="mock-detail-page" />} />
+    <Route
+      path={'/insights/image-builder/manage-edge-images/00000'}
+      element={<div id="mock-image-detail-page">Image detail</div>}
+    />
+    <Route
+      path={'*'}
+      element={<div id="mock-detail-page">Device detail</div>}
+    />
   </Routes>
 );
 
@@ -170,5 +178,59 @@ describe('ImmutableDevices', () => {
       .trigger('click');
 
     cy.get('#mock-detail-page');
+  });
+
+  it('Should take to image details page in image-builder app on system name click', () => {
+    const getEntitiesProp = getEntities((row, index) => {
+      row.ImageName = `Test-image-${index}`;
+      row.ImageSetID = '00000';
+      return row;
+    });
+
+    mountWithProps({ ...defaultProps, getEntities: getEntitiesProp });
+
+    cy.get('table[aria-label="Host inventory"]').should('be.visible');
+
+    cy.get('a[aria-label="image-name-link"]').first().click();
+    cy.get('#mock-image-detail-page');
+  });
+
+  it('Should render actions in the table toolbar', () => {
+    const actions = [
+      {
+        label: 'mock-toolbar-action',
+      },
+    ];
+
+    mountWithProps({ ...defaultProps, actionsConfig: { actions } });
+
+    cy.get('.ins-c-primary-toolbar__first-action > .pf-c-button').should(
+      'be.visible'
+    );
+  });
+
+  it('Should render tags filter when showTags is set and hideFilters has it opened', () => {
+    const hideFilters = { all: true, name: false, tags: false };
+
+    mountWithProps({ ...defaultProps, hideFilters });
+
+    cy.get(`[aria-label="Conditional filter"]`).click();
+    cy.get('.ins-c-conditional-filter__group > ul > li').contains('Tags');
+  });
+
+  it('Should render table actions though the prop', () => {
+    const tableActions = () => [
+      {
+        title: (
+          <DropdownItem aria-label="Mock table action" key={'moock-button'}>
+            mock table action
+          </DropdownItem>
+        ),
+      },
+    ];
+    mountWithProps({ ...defaultProps, tableActions });
+
+    cy.get(`[aria-label="Actions"]`).first().click();
+    cy.get(`[aria-label="Mock table action"]`).should('be.visible');
   });
 });

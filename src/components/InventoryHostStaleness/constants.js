@@ -10,9 +10,9 @@ export const IMMUTABLE_TAB_TOOLTIP =
   'With OSTree, you can manage the system software by referencing a central image repository. OSTree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
 
 export const GENERAL_HOST_STALENESS_WRITE_PERMISSION =
-  'inventory:staleness:write';
+  'staleness:staleness:write';
 export const GENERAL_HOST_STALENESS_READ_PERMISSION =
-  'inventory:staleness:read';
+  'staleness:staleness:read';
 
 export const HOST_STALENESS_ADMINISTRATOR_PERMISSIONS = [
   GENERAL_HOST_STALENESS_READ_PERMISSION,
@@ -21,7 +21,20 @@ export const HOST_STALENESS_ADMINISTRATOR_PERMISSIONS = [
 
 //86400 seconds in one day -> divide each by secodns in a day to get day values
 export const secondsToDaysConversion = (seconds) => {
-  return seconds / 86400;
+  if (seconds === 104400) {
+    return 1;
+  } else {
+    return seconds / 86400;
+  }
+};
+
+export const daysToSecondsConversion = (days, filterKey) => {
+  //backend requires a buffer specifically for 1 this option
+  if (filterKey === 'conventional_staleness_delta' && days === 1) {
+    return 104400;
+  } else {
+    return days * 86400;
+  }
 };
 
 export const hostStalenessApiKeys = [
@@ -38,10 +51,6 @@ export const conventionalApiKeys = [
   'conventional_stale_warning_delta',
   'conventional_culling_delta',
 ];
-
-export const daysToSecondsConversion = (days) => {
-  return days * 86400;
-};
 
 export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   //this runs on every select every time
@@ -225,12 +234,12 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
               - Systems are marked as stale after 2 days since last check-in.
             </span>
             <span className="pf-u-font-size-sm">
-              - Systems are marked as stale warning after 120 days since last
+              - Systems are marked as stale warning after 180 days since last
               check-in.
             </span>
 
             <span className="pf-u-font-size-sm">
-              - Systems are deleted after 180 days since last check-in.
+              - Systems are deleted after 2 years since last check-in.
             </span>
           </Flex>
         ) : (
@@ -314,11 +323,11 @@ export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
                 </p>
               </span>
               <span className="pf-u-font-size-sm">
-                - Systems are marked as stale warning after 120 days since last
+                - Systems are marked as stale warning after 180 days since last
                 check-in.
               </span>
               <span className="pf-u-font-size-sm">
-                - Systems are deleted after 180 days since last check-in.
+                - Systems are deleted after 2 years since last check-in.
               </span>
             </Flex>
           )}
