@@ -79,7 +79,7 @@ const setTableInterceptors = () => {
 
 describe('with default parameters', () => {
   before(() => {
-    cy.mockWindowChrome();
+    cy.mockWindowInsights();
   });
 
   beforeEach(() => {
@@ -246,7 +246,7 @@ describe('with default parameters', () => {
 });
 
 describe('hiding filters', () => {
-  before(cy.mockWindowChrome);
+  before(cy.mockWindowInsights);
 
   beforeEach(() => setTableInterceptors());
 

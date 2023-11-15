@@ -41,7 +41,7 @@ const mountTable = (initialEntry = '/') =>
   });
 
 before(() => {
-  cy.mockWindowChrome();
+  cy.mockWindowInsights();
 });
 
 const waitTable = () =>
@@ -427,7 +427,7 @@ describe('edge cases', () => {
 describe('integration with rbac', () => {
   describe('with only groups read', () => {
     before(() => {
-      cy.mockWindowChrome({ userPermissions: ['inventory:groups:read'] });
+      cy.mockWindowInsights({ userPermissions: ['inventory:groups:read'] });
     });
 
     beforeEach(() => {
@@ -455,7 +455,7 @@ describe('integration with rbac', () => {
 
   describe('with the write permissions for some groups', () => {
     before(() => {
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: [
           'inventory:groups:read',
           {
