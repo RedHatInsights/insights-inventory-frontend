@@ -20,6 +20,7 @@ import { clearEntitiesAction } from '../../store/actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
+import { useGetDevice } from '../../api/edge/imagesInfo';
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -93,6 +94,29 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
   const { hasAccess: canModify } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
   );
+
+  const getDevice = useGetDevice();
+  const [deviceData, setDeviceData] = useState(null);
+  const [updateAvailable, setUpdateAvailable] = useState([]);
+
+  // change to the new endpoint to avoid loop and performance issue
+  useEffect(() => {
+    const data = [];
+    rows.map((row) => {
+      const device = async () => await getDevice(row.id);
+      setDeviceData(device);
+      data.push({
+        device_id: row.id,
+        update_available:
+          deviceData?.UpdateTransactions?.[0]?.Status === 'BUILDING' ||
+          deviceData?.UpdateTransactions?.[0]?.Status === 'CREATED' ||
+          !deviceData?.ImageInfo?.UpdatesAvailable?.length > 0,
+      });
+    });
+    setUpdateAvailable(data);
+  }, [rows]);
+
+  console.log(updateAvailable);
 
   useEffect(() => {
     return () => {
@@ -185,11 +209,16 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
               {
                 title: (
                   <ActionDropdownItem
+                    isAriaDisabled={
+                      !updateAvailable.find((obj) => obj.device_id === row.id)
+                        ?.update_available
+                    }
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}
                     noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
                     onClick={() => {
+                      console.log(location.pathname);
                       setCurrentSystem([row]);
                       useNavigate({
                         pathname: `${location.pathname}/update`,
@@ -204,6 +233,7 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
                   padding: 0, // custom component creates extra padding space
                 },
               },
+              // {actionsEdge},
             ],
           }}
           actionsConfig={{
