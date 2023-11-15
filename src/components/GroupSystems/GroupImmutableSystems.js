@@ -72,7 +72,7 @@ export const prepareColumns = (
     .map((colKey) => columns.find(({ key }) => key === colKey))
     .filter(Boolean); // eliminate possible undefined's
 };
-
+let data = [];
 const GroupImmutableSystems = ({ groupName, groupId }) => {
   const dispatch = useDispatch();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
@@ -96,27 +96,26 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
   );
 
   const getDevice = useGetDevice();
-  const [deviceData, setDeviceData] = useState(null);
-  const [updateAvailable, setUpdateAvailable] = useState([]);
+  const [deviceData, setDeviceData] = useState();
 
   // change to the new endpoint to avoid loop and performance issue
   useEffect(() => {
-    const data = [];
     rows.map((row) => {
-      const device = async () => await getDevice(row.id);
-      setDeviceData(device);
-      data.push({
-        device_id: row.id,
-        update_available:
-          deviceData?.UpdateTransactions?.[0]?.Status === 'BUILDING' ||
-          deviceData?.UpdateTransactions?.[0]?.Status === 'CREATED' ||
-          !deviceData?.ImageInfo?.UpdatesAvailable?.length > 0,
-      });
+      (async () => {
+        const device = await getDevice(row.id);
+        setDeviceData(device);
+      })();
     });
-    setUpdateAvailable(data);
   }, [rows]);
-
-  console.log(updateAvailable);
+  useEffect(() => {
+    data.push({
+      device_id: deviceData?.Device?.UUID,
+      update_available:
+        deviceData?.UpdateTransactions?.[0]?.Status === 'BUILDING' ||
+        deviceData?.UpdateTransactions?.[0]?.Status === 'CREATED' ||
+        !deviceData?.ImageInfo?.UpdatesAvailable?.length > 0,
+    });
+  }, [deviceData]);
 
   useEffect(() => {
     return () => {
@@ -210,7 +209,7 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
                 title: (
                   <ActionDropdownItem
                     isAriaDisabled={
-                      !updateAvailable.find((obj) => obj.device_id === row.id)
+                      data.find((obj) => obj.device_id === row.id)
                         ?.update_available
                     }
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
@@ -233,7 +232,6 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
                   padding: 0, // custom component creates extra padding space
                 },
               },
-              // {actionsEdge},
             ],
           }}
           actionsConfig={{
