@@ -8,7 +8,7 @@ describe('getAllTags', () => {
   it('should generate get all tags call', async () => {
     // eslint-disable-next-line max-len
     const params =
-      '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&staleness=stale_warning&staleness=unknown';
+      '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&staleness=stale_warning';
     mockedTags
       .onGet(`/api/inventory/v1/tags${params}`)
       .replyOnce(200, { test: 'test' });
@@ -19,7 +19,7 @@ describe('getAllTags', () => {
   it('should generate get all tags call with search', async () => {
     // eslint-disable-next-line max-len
     const params =
-      '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&staleness=stale_warning&staleness=unknown&search=something';
+      '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&staleness=stale_warning&search=something';
     mockedTags
       .onGet(`/api/inventory/v1/tags${params}`)
       .replyOnce(200, { test: 'test' });
@@ -31,7 +31,7 @@ describe('getAllTags', () => {
     it('should generate get all tags call with perPage', async () => {
       // eslint-disable-next-line max-len
       const params =
-        '?order_by=tag&order_how=ASC&per_page=50&page=1&staleness=fresh&staleness=stale&staleness=stale_warning&staleness=unknown';
+        '?order_by=tag&order_how=ASC&per_page=50&page=1&staleness=fresh&staleness=stale&staleness=stale_warning';
       mockedTags
         .onGet(`/api/inventory/v1/tags${params}`)
         .replyOnce(200, { test: 'test' });
@@ -44,7 +44,7 @@ describe('getAllTags', () => {
     it('should generate get all tags call with page', async () => {
       // eslint-disable-next-line max-len
       const params =
-        '?order_by=tag&order_how=ASC&per_page=10&page=20&staleness=fresh&staleness=stale&staleness=stale_warning&staleness=unknown';
+        '?order_by=tag&order_how=ASC&per_page=10&page=20&staleness=fresh&staleness=stale&staleness=stale_warning';
       mockedTags
         .onGet(`/api/inventory/v1/tags${params}`)
         .replyOnce(200, { test: 'test' });

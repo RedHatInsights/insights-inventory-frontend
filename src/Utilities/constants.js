@@ -255,7 +255,7 @@ export const generateFilter = (
     },
   ].filter(Boolean);
 
-export const allStaleFilters = ['fresh', 'stale', 'stale_warning', 'unknown'];
+export const allStaleFilters = ['fresh', 'stale', 'stale_warning'];
 
 export const hybridInventoryTabKeys = {
   conventional: {
