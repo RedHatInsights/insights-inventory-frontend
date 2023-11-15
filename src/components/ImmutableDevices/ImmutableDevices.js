@@ -19,6 +19,7 @@ const ImmutableDevices = ({
   tableActions,
   onRefresh,
   actionsConfig,
+  ...props
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ const ImmutableDevices = ({
       showTags
       onRefresh={onRefresh}
       actionsConfig={actionsConfig}
+      {...props}
     />
   );
 };
