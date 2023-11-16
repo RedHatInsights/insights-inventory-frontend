@@ -10,6 +10,12 @@ export const useGetDevice = () => {
   const axios = useAxiosWithPlatformInterceptors();
   return (id) => axios.get(`${EDGE_API}/devices/${id}`);
 };
+
+export const useGetInventoryGroupUpdateInfo = () => {
+  const axios = useAxiosWithPlatformInterceptors();
+  return (id) =>
+    axios.get(`${EDGE_API}/updates/inventory-groups/${id}/update-info`);
+};
 export const getTableParams = (param) => {
   if (param === undefined) {
     return '';

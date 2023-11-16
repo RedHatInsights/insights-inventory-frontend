@@ -20,7 +20,10 @@ import { clearEntitiesAction } from '../../store/actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
-import { useGetDevice } from '../../api/edge/imagesInfo';
+import {
+  // useGetDevice,
+  useGetInventoryGroupUpdateInfo,
+} from '../../api/edge/imagesInfo';
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -73,7 +76,12 @@ export const prepareColumns = (
     .filter(Boolean); // eliminate possible undefined's
 };
 let data = [];
+
 const GroupImmutableSystems = ({ groupName, groupId }) => {
+  const navigate = useNavigate();
+  const canUpdateSelectedDevices = (deviceIds, imageSets) =>
+    deviceIds?.length > 0 && imageSets?.length == 1 ? true : false;
+  const [deviceIds, setDeviceIds] = useState([]);
   const dispatch = useDispatch();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
@@ -95,27 +103,16 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
   );
 
-  const getDevice = useGetDevice();
+  // const getDevice = useGetDevice();
+  const getUpdateInfo = useGetInventoryGroupUpdateInfo();
   const [deviceData, setDeviceData] = useState();
 
-  // change to the new endpoint to avoid loop and performance issue
   useEffect(() => {
-    rows.map((row) => {
-      (async () => {
-        const device = await getDevice(row.id);
-        setDeviceData(device);
-      })();
-    });
+    (async () => {
+      const updateInfo = await getUpdateInfo(groupId);
+      setDeviceData(updateInfo?.update_devices_uuids);
+    })();
   }, [rows]);
-  useEffect(() => {
-    data.push({
-      device_id: deviceData?.Device?.UUID,
-      update_available:
-        deviceData?.UpdateTransactions?.[0]?.Status === 'BUILDING' ||
-        deviceData?.UpdateTransactions?.[0]?.Status === 'CREATED' ||
-        !deviceData?.ImageInfo?.UpdatesAvailable?.length > 0,
-    });
-  }, [deviceData]);
 
   useEffect(() => {
     return () => {
@@ -124,6 +121,9 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
   }, []);
 
   const calculateSelected = () => (selected ? selected.size : 0);
+
+  //enable/disable update button
+  const [imageSet, setImageSet] = useState([]);
 
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
@@ -134,6 +134,26 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
     pageSelected,
     groupName
   );
+
+  //enable disable bulk update based on selection, must refactor
+  useEffect(() => {
+    if (selected.size > 0) {
+      setImageSet([]);
+      setDeviceIds([]);
+      return () => {
+        [...selected.keys()].map((s) => {
+          const img = data.find((obj) => obj.device_id === s)?.imageData;
+
+          if (imageSet && !imageSet.includes(img)) {
+            setImageSet((imageSet) => [...imageSet, img]);
+          }
+          setDeviceIds((deviceIds) => [...deviceIds, s]);
+        });
+        console.log(imageSet);
+        console.log(canUpdateSelectedDevices(deviceIds, imageSet));
+      };
+    }
+  }, [deviceData, selected]);
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
@@ -208,21 +228,19 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
               {
                 title: (
                   <ActionDropdownItem
-                    isAriaDisabled={
-                      data.find((obj) => obj.device_id === row.id)
-                        ?.update_available
-                    }
+                    isAriaDisabled={!deviceData.find((obj) => obj === row.id)}
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}
                     noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
                     onClick={() => {
-                      console.log(location.pathname);
                       setCurrentSystem([row]);
-                      useNavigate({
-                        pathname: `${location.pathname}/update`,
-                        search: '?from_details=true',
-                      });
+                      navigate(`/insights/inventory/${row.id}/update`);
+                      // useNavigate({
+                      //   // pathname: `${location.pathname}/update`,
+                      //   pathname: `/insights/inventory/${row.id}/update`,
+                      //   search: '?from_details=true',
+                      // });
                     }}
                   >
                     Update
@@ -261,6 +279,9 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
                     console.log('Call update');
                   }}
                   ouiaId="update-systems-button"
+                  isAriaDisabled={
+                    !canUpdateSelectedDevices(deviceIds, imageSet)
+                  }
                 >
                   Update
                 </ActionButton>,
