@@ -71,6 +71,7 @@ export const prepareColumns = (
     'system_profile',
     'update_method',
     'updated',
+    'Status',
   ]
     .map((colKey) => columns.find(({ key }) => key === colKey))
     .filter(Boolean); // eliminate possible undefined's
@@ -256,7 +257,9 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
               {
                 title: (
                   <ActionDropdownItem
-                    isAriaDisabled={!deviceData.find((obj) => obj === row.id)}
+                    isAriaDisabled={
+                      deviceData && !deviceData.find((obj) => obj === row.id)
+                    }
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}

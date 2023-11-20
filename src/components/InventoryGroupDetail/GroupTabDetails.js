@@ -6,7 +6,7 @@ import {
   TabTitleText,
   Tabs,
 } from '@patternfly/react-core';
-import React, { Suspense, lazy, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import GroupSystems from '../GroupSystems';
 import GroupImmutableSystems from '../GroupSystems/GroupImmutableSystems';
@@ -50,6 +50,18 @@ const GroupTabDetailsWrapper = ({
       ? useState(conventionalSystemsContent)
       : useState(immutableSystemsContent);
 
+  useEffect(
+    () => {
+      setComponent(null);
+      if (activeTab == hybridInventoryTabKeys.conventional.key) {
+        setComponent(conventionalSystemsContent);
+      } else {
+        setComponent(immutableSystemsContent);
+      }
+    },
+    [activeTab]
+    // );
+  );
   const handleTabClick = (_event, tabIndex) => {
     setComponent(null);
     setTab(tabIndex);
