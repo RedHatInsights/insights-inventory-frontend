@@ -6,6 +6,23 @@ import SearchableGroupFilter from './SearchableGroupFilter';
 
 const setter = jest.fn();
 
+it('shows no groups available message', async () => {
+  render(
+    <SearchableGroupFilter
+      initialGroups={[]}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={() => {}}
+    />
+  );
+
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: /menu toggle/i,
+    })
+  );
+  expect(screen.getByText('No groups available')).toBeVisible();
+});
+
 it('shows some groups when available', async () => {
   render(
     <SearchableGroupFilter
