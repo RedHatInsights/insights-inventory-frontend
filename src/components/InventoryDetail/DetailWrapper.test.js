@@ -10,7 +10,7 @@ import { mock } from '../../__mocks__/systemIssues';
 import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
 
 describe('DetailWrapper', () => {
-  mock.onGet('/api/patch/v1/systems/test-id').reply(200, 'test');
+  mock.onGet('/api/patch/v3/systems/test-id').reply(200, 'test');
   mock.onGet('/api/insights/v1/system/test-id/reports/').reply(200, 'test');
   mock
     .onGet(

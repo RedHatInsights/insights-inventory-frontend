@@ -18,7 +18,7 @@ export const cves = async (systemId) => {
 
 export const patch = async (systemId) => {
   try {
-    return await instance.get(`/api/patch/v1/systems/${systemId}`);
+    return await instance.get(`/api/patch/v3/systems/${systemId}`);
   } catch (_e) {
     return {};
   }
