@@ -162,17 +162,21 @@ const SearchableGroupFilter = ({
         toggle={toggle}
       >
         <SelectList isAriaMultiselectable>
-          {selectOptions.map((option, index) => (
-            <SelectOption
-              {...(!option.isDisabled && { hasCheck: true })}
-              isSelected={selectedGroupNames.includes(option.itemId)}
-              key={option.itemId || option.children}
-              isFocused={focusedItemIndex === index}
-              className={option.className}
-              data-ouia-component-id="FilterByGroupOption"
-              {...option}
-            />
-          ))}
+          {selectOptions.length === 0 ? (
+            <SelectOption>No groups available</SelectOption>
+          ) : (
+            selectOptions.map((option, index) => (
+              <SelectOption
+                {...(!option.isDisabled && { hasCheck: true })}
+                isSelected={selectedGroupNames.includes(option.itemId)}
+                key={option.itemId || option.children}
+                isFocused={focusedItemIndex === index}
+                className={option.className}
+                data-ouia-component-id="FilterByGroupOption"
+                {...option}
+              />
+            ))
+          )}
         </SelectList>
       </Select>
     </div>
