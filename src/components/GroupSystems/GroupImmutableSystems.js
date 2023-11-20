@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
@@ -20,10 +20,10 @@ import { clearEntitiesAction } from '../../store/actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
-import {
-  // useGetDevice,
-  useGetInventoryGroupUpdateInfo,
-} from '../../api/edge/imagesInfo';
+import { useGetInventoryGroupUpdateInfo } from '../../api/edge/imagesInfo';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import { getNotificationProp } from '../../Utilities/edge';
+
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -80,7 +80,6 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
   const navigate = useNavigate();
   const canUpdateSelectedDevices = (deviceIds, imageSets) =>
     deviceIds?.length > 0 && imageSets?.length == 1 ? true : false;
-  // const [deviceIds, setDeviceIds] = useState([]);
   const dispatch = useDispatch();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
@@ -97,15 +96,21 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
     difference(displayedIds, [...selected.keys()]).length === 0;
 
   const [addToGroupModalOpen, setAddToGroupModalOpen] = useState(false);
-
+  const [updateDevice, setupdateDevice] = useState(false);
   const { hasAccess: canModify } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
   );
 
-  // const getDevice = useGetDevice();
   const getUpdateInfo = useGetInventoryGroupUpdateInfo();
   const [deviceData, setDeviceData] = useState();
   const [deviceImageSet, setDeviceImageSet] = useState();
+  const [updateModal, setUpdateModal] = useState({
+    isOpen: false,
+    deviceData: null,
+    imageData: null,
+  });
+
+  const notificationProp = getNotificationProp(dispatch);
 
   useEffect(() => {
     (async () => {
@@ -123,8 +128,19 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
   const calculateSelected = () => (selected ? selected.size : 0);
 
   //enable/disable update button
-  // const [imageSet, setImageSet] = useState([]);
   const [canUpdate, setCanUpdate] = useState(false);
+  const [updateImageSet, setUpdateImageSet] = useState();
+  const handleUpdateSelected = () => {
+    setUpdateModal((prevState) => ({
+      ...prevState,
+      deviceData: [...selected.keys()].map((device) => ({
+        id: device,
+      })),
+      imageSetId: updateImageSet,
+      isOpen: true,
+    }));
+  };
+
   let imageSet = [];
   let deviceIds = [];
   const bulkSelectConfig = useBulkSelectConfig(
@@ -140,24 +156,19 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
   //enable disable bulk update based on selection, must refactor
   useEffect(() => {
     if (selected.size > 0) {
-      // setImageSet([]);
-      // setDeviceIds([]);
       return () => {
         [...selected.keys()].map((s) => {
           const img = deviceImageSet[s];
           if (!imageSet.includes(img)) {
-            //  setImageSet((imageSet) => [...imageSet, img]);
             imageSet.push(img);
           }
-          // setDeviceIds((deviceIds) => [...deviceIds, s]);
           deviceIds.push(s);
         });
         setCanUpdate(canUpdateSelectedDevices(deviceIds, imageSet));
+        setUpdateImageSet(imageSet);
       };
     }
   }, [deviceData, selected]);
-  // console.log(imageSet);
-  // console.log(canUpdateSelectedDevices(deviceIds, imageSet));
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
@@ -184,6 +195,19 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
 
             inventory.current.onRefreshData({}, false, true);
           }}
+        />
+      )}
+      {updateDevice && (
+        <AsyncComponent
+          appName="edge"
+          module="./UpdateDeviceModal"
+          navigateProp={useNavigate}
+          locationProp={useLocation}
+          notificationProp={notificationProp}
+          paramsProp={useParams}
+          updateModal={updateModal}
+          setUpdateModal={setUpdateModal}
+          refreshTable={() => true}
         />
       )}
       {!addToGroupModalOpen && (
@@ -240,11 +264,6 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
                     onClick={() => {
                       setCurrentSystem([row]);
                       navigate(`/insights/inventory/${row.id}/update`);
-                      // useNavigate({
-                      //   // pathname: `${location.pathname}/update`,
-                      //   pathname: `/insights/inventory/${row.id}/update`,
-                      //   search: '?from_details=true',
-                      // });
                     }}
                   >
                     Update
@@ -280,7 +299,8 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
                   noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
                   key="update-systems-button"
                   onClick={() => {
-                    console.log('Call update');
+                    setupdateDevice(true);
+                    handleUpdateSelected();
                   }}
                   ouiaId="update-systems-button"
                   isAriaDisabled={!canUpdate}
