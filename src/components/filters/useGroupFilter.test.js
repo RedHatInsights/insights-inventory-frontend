@@ -1,6 +1,10 @@
 /* eslint-disable camelcase */
-import { act, renderHook } from '@testing-library/react-hooks';
+import { waitFor } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react-hooks/dom';
+import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useGroupFilter from './useGroupFilter';
+
+jest.mock('../../Utilities/hooks/useFetchBatched');
 
 jest.mock('../../Utilities/useFeatureFlag', () => ({
   __esModule: true,
@@ -17,35 +21,80 @@ jest.mock('../InventoryGroups/utils/api', () => ({
     ),
 }));
 
-jest.mock('../../Utilities/hooks/useFetchBatched', () => ({
-  __esModule: true,
-  default: () => ({
-    fetchBatched: () =>
-      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
-  }),
-}));
-
-describe('useGroupFilter', () => {
-  describe('with groups yet not loaded', () => {
-    it('should return empty state value', () => {
-      const { result } = renderHook(useGroupFilter);
-      expect(result.current).toMatchSnapshot();
+describe('some groups available', () => {
+  beforeAll(() => {
+    useFetchBatched.mockReturnValue({
+      fetchBatched: () =>
+        new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
     });
   });
 
-  describe('with groups loaded', () => {
-    it('should return correct chips array, current value and value setter', () => {
-      const { result } = renderHook(useGroupFilter);
-      const [, chips, value, setValue] = result.current;
+  it('correct initial values', async () => {
+    const { result } = renderHook(() => useGroupFilter());
+
+    await waitFor(() => {
+      const [config, chips, value] = result.all[0];
       expect(chips.length).toBe(0);
       expect(value.length).toBe(0);
-      act(() => {
-        setValue(['nisi ut consequat ad1']);
-      });
-      const [, chipsUpdated, valueUpdated] = result.current;
-      expect(chipsUpdated.length).toBe(1);
-      expect(valueUpdated).toEqual(['nisi ut consequat ad1']);
-      expect(chipsUpdated).toMatchSnapshot();
+      expect(config.filterValues.children).toMatchInlineSnapshot(`
+          <SearchableGroupFilter
+            initialGroups={Array []}
+            selectedGroupNames={Array []}
+            setSelectedGroupNames={[Function]}
+          />
+        `);
+    });
+  });
+
+  it('component is updated', async () => {
+    const { result } = renderHook(() => useGroupFilter());
+
+    await waitFor(() => {
+      const [config] = result.all[1];
+
+      expect(config.filterValues.children).toMatchInlineSnapshot(`
+        <SearchableGroupFilter
+          initialGroups={
+            Array [
+              Object {
+                "name": "group-1",
+              },
+            ]
+          }
+          selectedGroupNames={Array []}
+          setSelectedGroupNames={[Function]}
+        />
+      `);
+    });
+  });
+
+  it('can use setter', async () => {
+    const { result } = renderHook(useGroupFilter);
+    const [, , , setValue] = result.current;
+
+    act(() => {
+      setValue(['group-1']);
+    });
+
+    const [, chips, value] = result.current;
+
+    await waitFor(() => {
+      expect(chips.length).toBe(1);
+      expect(value).toEqual(['group-1']);
+      expect(chips).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "category": "Group",
+            "chips": Array [
+              Object {
+                "name": "group-1",
+                "value": "group-1",
+              },
+            ],
+            "type": "group_name",
+          },
+        ]
+      `);
     });
   });
 });
