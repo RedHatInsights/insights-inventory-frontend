@@ -16,10 +16,11 @@ import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncCompo
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import { inventoryHasEdgeSystems } from './Utilities/edge';
 import { inventoryHasConventionalSystems } from './Utilities/conventional';
-
+const InventoryOrEdgeView = lazy(() =>
+  import('./routes/InventoryOrEdgeComponent')
+);
 const InventoryTable = lazy(() => import('./routes/InventoryTable'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
-const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
 const InventoryHostStaleness = lazy(() =>
   import('./routes/InventoryHostStaleness')
 );
@@ -77,7 +78,7 @@ export const Routes = () => {
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
     {
       path: '/groups',
-      element: groupsEnabled ? <InventoryGroups /> : <LostPage />,
+      element: groupsEnabled ? <InventoryOrEdgeView /> : <LostPage />,
     },
     {
       path: '/groups/:groupId',
