@@ -50,18 +50,14 @@ const GroupTabDetailsWrapper = ({
       ? useState(conventionalSystemsContent)
       : useState(immutableSystemsContent);
 
-  useEffect(
-    () => {
-      setComponent(null);
-      if (activeTab == hybridInventoryTabKeys.conventional.key) {
-        setComponent(conventionalSystemsContent);
-      } else {
-        setComponent(immutableSystemsContent);
-      }
-    },
-    [activeTab]
-    // );
-  );
+  useEffect(() => {
+    setComponent(null);
+    if (activeTab == hybridInventoryTabKeys.conventional.key) {
+      setComponent(conventionalSystemsContent);
+    } else {
+      setComponent(immutableSystemsContent);
+    }
+  }, [activeTab]);
   const handleTabClick = (_event, tabIndex) => {
     setComponent(null);
     setTab(tabIndex);

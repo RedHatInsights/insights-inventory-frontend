@@ -23,7 +23,7 @@ import map from 'lodash/map';
 import { useGetInventoryGroupUpdateInfo } from '../../api/edge/imagesInfo';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { getNotificationProp } from '../../Utilities/edge';
-
+import { edgeColumns } from '../ImmutableDevices/columns';
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -48,7 +48,6 @@ export const prepareColumns = (
       width: 10,
     },
   });
-
   columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc = (
     value,
     hostId
@@ -71,17 +70,25 @@ export const prepareColumns = (
     'system_profile',
     'update_method',
     'updated',
-    'Status',
+    // 'status'
   ]
     .map((colKey) => columns.find(({ key }) => key === colKey))
     .filter(Boolean); // eliminate possible undefined's
 };
 
 const GroupImmutableSystems = ({ groupName, groupId }) => {
+  const dispatch = useDispatch();
+
+  const mergeColumns = (inventoryColumns) => {
+    const filteredColumns = inventoryColumns.filter(
+      (column) => column.key !== 'groups'
+    );
+    return [...filteredColumns, ...edgeColumns];
+  };
+
   const navigate = useNavigate();
   const canUpdateSelectedDevices = (deviceIds, imageSets) =>
     deviceIds?.length > 0 && imageSets?.length == 1 ? true : false;
-  const dispatch = useDispatch();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [currentSystem, setCurrentSystem] = useState([]);
@@ -213,7 +220,7 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
       )}
       {!addToGroupModalOpen && (
         <InventoryTable
-          columns={(columns) => prepareColumns(columns, true)}
+          columns={(columns) => mergeColumns(columns)}
           hideFilters={{ hostGroupFilter: true }}
           getEntities={async (items, config, showTags, defaultGetEntities) =>
             await defaultGetEntities(
