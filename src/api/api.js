@@ -411,3 +411,10 @@ export const useGetImageData = () => {
     return instance.post(`${EDGE_API_BASE}/devices/devicesview`, deviceIDs);
   };
 };
+export const fetchEdgeEnforceGroups = () => {
+  try {
+    return instance.get(`${EDGE_API_BASE}/device-groups/enforce-edge-groups`);
+  } catch (err) {
+    console.error(err);
+  }
+};

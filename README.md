@@ -29,29 +29,24 @@ Before opening a pull request, you can run `npm run verify:local` to make sure y
 
 In order to keep our commits style consistent and the commits history easy to read, we utilize [semantic-release](https://github.com/semantic-release/semantic-release) which follows [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format). Also, there is a commitlint check run on all branches which ensures that all the commits meet the expected format (`<type>(<scope>): <short summary>`). Following this standard and specifying at least the type and summary for each commit helps to automatically generate a changelog of changes.
 
-## Running with another app
+## Testing federated modules with another application
 
-Applications on console.redhat.com are webpack federated modules, and you are able to deploy some of them locally. This helps to see if new changes work well in terms of integration.
-
-If you want to see local changes to any of the Inventory components, and see how it behaves with other applications (like, for example, Inventory table is imported in Advisor), you will have to run both Inventory and desired application. 
+If you want to test federated modules (such as InventoryTable or SystemDetail) in another application, you can utilise `LOCAL_APPS` environment variable and deploy the needed application on separate ports. To learn more about the variable, see https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#running-multiple-local-frontend-applications.
 
 ### Example
 
-We'll take for example [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend) application as app that uses system detail.
+We'll take for example [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend).
 
-Open new terminal and navigate to desired application (for instance insights-advisor-frontend) and run it (make sure to run it on a different port):
-```
-npm run start:proxy -- --port=8003
-```
+Open new terminal, navigate to Advisor repository, and run it on a separate port without proxy:
 
-Run the Inventory application with proxy enabled and list of additional applications:
 ```
-LOCAL_API=advisor:8003~https npm run start:proxy
+npm run start -- --port=8003
 ```
 
-Or, if you want to run Advisor and, for instance, Vulnerability, then just add a new entry to LOCAL_API:
+In a separate terminal, run Inventory with proxy enabled and list Advisor:
+
 ```
-LOCAL_API=advisor:8003~https,vulnerability:8004
+LOCAL_APPS=advisor:8003~http npm run start:proxy
 ```
 
 ## Mocking Inventory API
