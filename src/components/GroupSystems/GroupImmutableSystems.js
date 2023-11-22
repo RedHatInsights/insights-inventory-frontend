@@ -72,9 +72,6 @@ export const prepareColumns = (
     'system_profile',
     'update_method',
     'updated',
-    'ImageName',
-    'imageName',
-    // 'status'
   ]
     .map((colKey) => columns.find(({ key }) => key === colKey))
     .filter(Boolean); // eliminate possible undefined's
