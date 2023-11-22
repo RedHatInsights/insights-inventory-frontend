@@ -12,7 +12,7 @@ import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
 import { Bullseye, Spinner } from '@patternfly/react-core';
-import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import { inventoryHasEdgeSystems } from './Utilities/edge';
 import { inventoryHasConventionalSystems } from './Utilities/conventional';
@@ -121,7 +121,7 @@ export const Routes = () => {
         </Bullseye>
       }
     >
-      <AsynComponent
+      <AsyncComponent
         appId={'inventory_zero_state'}
         appName="dashboard"
         module="./AppZeroState"
