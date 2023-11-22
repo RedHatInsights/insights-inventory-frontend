@@ -7,6 +7,15 @@ import { createGroup, validateGroupName } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 
+export const validate = async (value) => {
+  const results = await validateGroupName(value.trim());
+  if (results === true) {
+    throw 'Group name already exists';
+  }
+
+  return undefined;
+};
+
 const CreateGroupModal = ({
   isModalOpen,
   setIsModalOpen,
@@ -31,17 +40,9 @@ const CreateGroupModal = ({
   );
 
   const schema = useMemo(() => {
-    const check = async (value) => {
-      const results = await validateGroupName(value);
-      if (results === true) {
-        throw 'Group name already exists';
-      }
-
-      return undefined;
-    };
-
-    // eslint-disable-next-line new-cap
-    const d = awesomeDebouncePromise(check, 500, { onlyResolvesLast: false });
+    const d = awesomeDebouncePromise(validate, 500, {
+      onlyResolvesLast: false,
+    });
     return createGroupSchema(d);
   }, []);
 
