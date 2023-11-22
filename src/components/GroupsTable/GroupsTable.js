@@ -66,7 +66,7 @@ const GROUPS_TABLE_COLUMNS = [
   },
   {
     title: 'Last modified',
-    transforms: [cellWidth(20)],
+    transforms: [sortable, cellWidth(20)],
   },
 ];
 
@@ -74,7 +74,7 @@ const GROUPS_TABLE_COLUMNS_TO_URL = {
   0: '', // reserved for selection boxes
   1: 'name',
   2: 'host_count',
-  3: 'updated_at',
+  3: 'updated',
 };
 
 const REQUEST_DEBOUNCE_TIMEOUT = 500;

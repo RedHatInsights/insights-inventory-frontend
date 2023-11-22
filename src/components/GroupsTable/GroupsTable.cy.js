@@ -32,7 +32,7 @@ import GroupsTable from './GroupsTable';
 
 const DEFAULT_ROW_COUNT = 50;
 const TABLE_HEADERS = ['Name', 'Total systems', 'Last modified'];
-const SORTABLE_HEADERS = ['Name', 'Total systems'];
+const SORTABLE_HEADERS = ['Name', 'Total systems', 'Last modified'];
 const ROOT = 'div[id="groups-table"]';
 
 const mountTable = (initialEntry = '/') =>
@@ -192,10 +192,16 @@ describe('url search parameters', () => {
       .should('have.value', '123');
   });
 
-  it('applies sorting', () => {
+  it('applies sorting, hosts count', () => {
     mountTable('/?order_by=host_count&order_how=desc');
 
     checkSorting('Total systems', 'descending', 'host_count');
+  });
+
+  it('applies sorting, last modified', () => {
+    mountTable('/?order_by=host_count&order_how=desc');
+
+    checkSorting('Last modified', 'descending', 'updated');
   });
 });
 
@@ -207,7 +213,7 @@ describe('sorting', () => {
     cy.wait('@getGroups'); // first initial request
   });
 
-  _.zip(['name', 'host_count'], SORTABLE_HEADERS).forEach(
+  _.zip(['name', 'host_count', 'updated'], SORTABLE_HEADERS).forEach(
     ([category, label]) => {
       SORTING_ORDERS.forEach((order) => {
         it(`${order} by ${label}`, () => {
