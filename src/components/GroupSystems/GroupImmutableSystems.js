@@ -134,7 +134,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     setDeviceImageSet(updateInfo?.device_image_set_info);
     const mapDeviceIds = Object.keys(updateInfo?.device_image_set_info);
     const customResult = await fetchImagesData({ devices_uuid: mapDeviceIds });
-
     //##################################//
     const rowInfo = [];
     customResult?.data?.devices.forEach((row) => {
@@ -152,7 +151,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
 
     return {
       results: mergeArraysByKey([defaultData.results, rowInfo]), // merge common data and your data based on their ids (you can also use your own solution)
-      total: customResult.total,
+      total: customResult?.data?.total,
     };
   };
 
