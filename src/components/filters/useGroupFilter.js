@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
@@ -16,10 +15,17 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
 });
 
 export const buildHostGroupChips = (selectedGroups = []) => {
-  const chips = [...selectedGroups]?.map((group) => ({
-    name: group,
-    value: group,
-  }));
+  const chips = [...selectedGroups]?.map((group) =>
+    group === ''
+      ? {
+          name: 'No group',
+          value: '',
+        }
+      : {
+          name: group,
+          value: group,
+        }
+  );
   return chips?.length > 0
     ? [
         {
@@ -31,7 +37,7 @@ export const buildHostGroupChips = (selectedGroups = []) => {
     : [];
 };
 
-const useGroupFilter = () => {
+const useGroupFilter = (showNoGroupOption = false) => {
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const { fetchBatched } = useFetchBatched();
   const [fetchedGroups, setFetchedGroups] = useState([]);
@@ -76,6 +82,7 @@ const useGroupFilter = () => {
             initialGroups={fetchedGroups}
             selectedGroupNames={selectedGroupNames}
             setSelectedGroupNames={setSelectedGroupNames}
+            showNoGroupOption={showNoGroupOption}
           />
         ),
       },

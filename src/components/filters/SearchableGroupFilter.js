@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
+  Divider,
   MenuToggle,
   TextInputGroup,
   TextInputGroupMain,
@@ -12,13 +13,23 @@ const SearchableGroupFilter = ({
   initialGroups,
   selectedGroupNames,
   setSelectedGroupNames,
+  showNoGroupOption = false,
 }) => {
   const initialValues = useMemo(
-    () =>
-      initialGroups.map(({ name }) => ({
+    () => [
+      ...(showNoGroupOption
+        ? [
+            {
+              itemId: '',
+              children: 'No group',
+            },
+          ]
+        : []),
+      ...initialGroups.map(({ name }) => ({
         itemId: name, // group name is unique by design
         children: name,
       })),
+    ],
     [initialGroups]
   );
 
@@ -120,9 +131,7 @@ const SearchableGroupFilter = ({
   };
 
   const onSelect = (itemId) => {
-    if (itemId) {
-      setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
-    }
+    setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
   };
 
   const toggle = (toggleRef) => (
@@ -154,7 +163,7 @@ const SearchableGroupFilter = ({
         ouiaId="Filter by group"
         isOpen={isOpen}
         selected={selectedGroupNames}
-        onSelect={(ev, selection) => onSelect(selection)}
+        onSelect={(event, selection) => onSelect(selection)}
         onOpenChange={() => {
           setIsOpen(false);
           setInputValue('');
@@ -163,18 +172,21 @@ const SearchableGroupFilter = ({
       >
         <SelectList isAriaMultiselectable>
           {selectOptions.length === 0 ? (
-            <SelectOption>No groups available</SelectOption>
+            <SelectOption key="none">No groups available</SelectOption>
           ) : (
             selectOptions.map((option, index) => (
-              <SelectOption
-                {...(!option.isDisabled && { hasCheck: true })}
-                isSelected={selectedGroupNames.includes(option.itemId)}
-                key={option.itemId || option.children}
-                isFocused={focusedItemIndex === index}
-                className={option.className}
-                data-ouia-component-id="FilterByGroupOption"
-                {...option}
-              />
+              <div key={option.itemId || option.children}>
+                <SelectOption
+                  {...(!option.isDisabled && { hasCheck: true })}
+                  isSelected={selectedGroupNames.includes(option.itemId)}
+                  key={option.itemId || option.children}
+                  isFocused={focusedItemIndex === index}
+                  className={option.className}
+                  data-ouia-component-id="FilterByGroupOption"
+                  {...option}
+                />
+                {option.itemId === '' && <Divider />}
+              </div>
             ))
           )}
         </SelectList>
@@ -192,6 +204,7 @@ SearchableGroupFilter.propTypes = {
   ),
   selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
+  showNoGroupOption: PropTypes.bool,
 };
 
 export default SearchableGroupFilter;
