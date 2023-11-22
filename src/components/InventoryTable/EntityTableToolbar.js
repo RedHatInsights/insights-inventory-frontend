@@ -167,7 +167,7 @@ const EntityTableToolbar = ({
     setUpdateMethodValue,
   ] = useUpdateMethodFilter(reducer);
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
-    useGroupFilter();
+    useGroupFilter(props.showNoGroupOption);
 
   const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
   const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
@@ -647,6 +647,7 @@ EntityTableToolbar.propTypes = {
   showTagModal: PropTypes.bool,
   disableDefaultColumns: PropTypes.any,
   showCentosVersions: PropTypes.bool,
+  showNoGroupOption: PropTypes.bool,
 };
 
 EntityTableToolbar.defaultProps = {
@@ -654,6 +655,7 @@ EntityTableToolbar.defaultProps = {
   hasAccess: true,
   activeFiltersConfig: {},
   hideFilters: {},
+  showNoGroupOption: false,
 };
 
 export default EntityTableToolbar;

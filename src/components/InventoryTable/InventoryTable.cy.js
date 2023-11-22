@@ -46,11 +46,7 @@ const waitForTable = (waitNetwork = false) => {
   }
 
   // indicating the table is loaded
-  cy.get('table[aria-label="Host inventory"]').should(
-    'have.attr',
-    'data-ouia-safe',
-    'true'
-  );
+  cy.contains(hostsFixtures.results[0].id);
 };
 
 const shorterGroupsFixtures = {
@@ -298,5 +294,40 @@ describe('hiding filters', () => {
     waitForTable();
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Last seen');
+  });
+});
+
+describe('with no group filter option', () => {
+  before(() => {
+    cy.mockWindowChrome();
+  });
+
+  beforeEach(() => {
+    setTableInterceptors();
+    mountTable({ showNoGroupOption: true });
+    waitForTable(true);
+  });
+
+  it('no group is the first option', () => {
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).contains('Group').click();
+    cy.ouiaId('FilterByGroup').click();
+    cy.ouiaId('FilterByGroupOption').first().should('have.text', 'No group');
+  });
+
+  it('creates no group chip', () => {
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).contains('Group').click();
+    cy.ouiaId('FilterByGroup').click();
+    cy.ouiaId('FilterByGroupOption').eq(0).click();
+    hasChip('Group', 'No group');
+  });
+
+  it('triggers new request with empty parameter', () => {
+    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(DROPDOWN_ITEM).contains('Group').click();
+    cy.ouiaId('FilterByGroup').click();
+    cy.ouiaId('FilterByGroupOption').eq(0).click();
+    cy.wait('@getHosts').its('request.url').should('include', `group_name=`);
   });
 });

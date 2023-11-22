@@ -295,7 +295,8 @@ const ConventionalSystemsTab = ({
           ],
         }}
         bulkSelect={bulkSelectConfig}
-        showCentosVersions={true}
+        showCentosVersions
+        showNoGroupOption
       />
 
       <DeleteModal
