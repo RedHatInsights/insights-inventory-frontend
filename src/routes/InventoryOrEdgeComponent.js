@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import EdgeGroupsView from '../components/InventoryGroups/EdgeGroups';
-import InventoryGroups from '../components/InventoryGroups/InventoryGroups';
+import InventoryGroups from '../routes/InventoryGroups';
 import { inventoryHasConventionalSystems } from '../Utilities/conventional';
 import { inventoryHasEdgeSystems } from '../Utilities/edge';
 import useEdgeGroups from '../Utilities/hooks/useEdgeGroups';

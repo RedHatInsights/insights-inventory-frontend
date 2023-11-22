@@ -3,13 +3,13 @@ import { advisor, compliance, cves, patch } from './systemIssues';
 
 describe('patch', () => {
   it('should perform get call', async () => {
-    mock.onGet('/api/patch/v1/systems/test-id').replyOnce(200, 'test');
+    mock.onGet('/api/patch/v3/systems/test-id').replyOnce(200, 'test');
     const data = await patch('test-id');
     expect(data).toBe('test');
   });
 
   it('should not fail', async () => {
-    mock.onGet('/api/patch/v1/systems/test-id').reply(500);
+    mock.onGet('/api/patch/v3/systems/test-id').reply(500);
     const data = await patch('test-id');
     expect(data).toMatchObject({});
   });
