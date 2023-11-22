@@ -94,23 +94,12 @@ const GroupTabDetailsWrapper = ({
                 title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
               >
                 {component}
-                {/* <GroupSystems
-                  groupName={groupName}
-                  groupId={groupId}
-                  hostType={hybridInventoryTabKeys.conventional.key}
-                /> */}
               </Tab>
               <Tab
                 eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
                 {component}
-                {/* <GroupImmutableSystems
-                  groupId={groupId}
-                  groupName={groupName}
-                  hostType={hybridInventoryTabKeys.immutable.key}
-                /> */}
-                {/* <EdgeDeviceGroupiew groupUUID={groupId} isSystemsView={true} /> */}
               </Tab>
             </Tabs>
           ) : canViewHosts ? (

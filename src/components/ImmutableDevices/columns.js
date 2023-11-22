@@ -36,7 +36,6 @@ export const edgeColumns = [
         UpdateAvailable,
         DispatcherStatus
       );
-
       return deviceStatus === 'error' || deviceStatus === 'unresponsive' ? (
         <Status
           type={

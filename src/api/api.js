@@ -321,11 +321,15 @@ export async function getEntities(
       .then(({ results = [], ...data } = {}) => ({
         ...data,
         filters,
-        results: results.map((result) =>
-          mapData({
-            ...result,
-            display_name: result.display_name || result.fqdn || result.id,
-          })
+        results: results.map(
+          (result) =>
+            mapData({
+              ...result,
+              display_name: result.display_name || result.fqdn || result.id,
+              // ImageSetId:1,
+              // ImageName: "cab"
+            })
+          // fetchImagesData
         ),
       }));
   }
@@ -404,4 +408,11 @@ export const fetchEdgeSystem = () => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const useGetImageData = () => {
+  // const axios = useAxiosWithPlatformInterceptors();
+  return (deviceIDs) => {
+    return instance.post(`${EDGE_API_BASE}/devices/devicesview`, deviceIDs);
+  };
 };

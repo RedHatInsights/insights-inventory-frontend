@@ -24,6 +24,8 @@ import { useGetInventoryGroupUpdateInfo } from '../../api/edge/imagesInfo';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { getNotificationProp } from '../../Utilities/edge';
 import { edgeColumns } from '../ImmutableDevices/columns';
+import { useGetImageData } from '../../api';
+import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -70,15 +72,17 @@ export const prepareColumns = (
     'system_profile',
     'update_method',
     'updated',
+    'ImageName',
+    'imageName',
     // 'status'
   ]
     .map((colKey) => columns.find(({ key }) => key === colKey))
     .filter(Boolean); // eliminate possible undefined's
 };
 
-const GroupImmutableSystems = ({ groupName, groupId }) => {
+const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const dispatch = useDispatch();
-
+  const fetchImagesData = useGetImageData();
   const mergeColumns = (inventoryColumns) => {
     const filteredColumns = inventoryColumns.filter(
       (column) => column.key !== 'groups'
@@ -97,7 +101,9 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
   const selected = useSelector(
     (state) => state?.entities?.selected || new Map()
   );
-  const rows = useSelector(({ entities }) => entities?.rows || []);
+
+  let rows = useSelector(({ entities }) => entities?.rows || []);
+
   const total = useSelector(({ entities }) => entities?.total);
   const displayedIds = map(rows, 'id');
   const pageSelected =
@@ -120,13 +126,39 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
 
   const notificationProp = getNotificationProp(dispatch);
 
-  useEffect(() => {
-    (async () => {
-      const updateInfo = await getUpdateInfo(groupId);
-      setDeviceData(updateInfo?.update_devices_uuids);
-      setDeviceImageSet(updateInfo?.device_image_set_info);
-    })();
-  }, [rows]);
+  const customGetEntities = async (
+    _items,
+    config,
+    showTags,
+    defaultGetEntities
+  ) => {
+    const updateInfo = await getUpdateInfo(groupId);
+    setDeviceData(updateInfo?.update_devices_uuids);
+    setDeviceImageSet(updateInfo?.device_image_set_info);
+    const mapDeviceIds = Object.keys(updateInfo?.device_image_set_info);
+    const customResult = await fetchImagesData({ devices_uuid: mapDeviceIds });
+
+    //##################################//
+    const rowInfo = [];
+    customResult?.data?.devices.forEach((row) => {
+      rowInfo.push({ ...row, id: row.DeviceUUID });
+    });
+    //##################################//
+    const items = rowInfo.map(({ id }) => id);
+    const enhancedConfig = { ...config, hasItems: true }; // hasItems have to be set to true
+
+    const defaultData = await defaultGetEntities(
+      items,
+      enhancedConfig,
+      showTags
+    ); // get default data for your items from inventory API
+
+    return {
+      results: mergeArraysByKey([defaultData.results, rowInfo]), // merge common data and your data based on their ids (you can also use your own solution)
+      total: customResult.total,
+    };
+  };
+
   useEffect(() => {
     return () => {
       dispatch(clearEntitiesAction());
@@ -222,21 +254,8 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
         <InventoryTable
           columns={(columns) => mergeColumns(columns)}
           hideFilters={{ hostGroupFilter: true }}
-          getEntities={async (items, config, showTags, defaultGetEntities) =>
-            await defaultGetEntities(
-              items,
-              // filter systems by the group name
-              {
-                ...config,
-                filters: {
-                  ...config.filters,
-                  hostGroupFilter: [groupName],
-                  hostTypeFilter: 'edge',
-                },
-              },
-              showTags
-            )
-          }
+          // getEntities={entities}
+          getEntities={customGetEntities}
           tableProps={{
             isStickyHeader: true,
             variant: TableVariant.compact,
@@ -337,6 +356,7 @@ const GroupImmutableSystems = ({ groupName, groupId }) => {
           showTags
           ref={inventory}
           showCentosVersions
+          {...props}
         />
       )}
     </div>
