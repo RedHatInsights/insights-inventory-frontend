@@ -11,7 +11,7 @@ import { mock } from '../../__mocks__/systemIssues';
 describe('SystemIssues', () => {
   let initialState;
   let mockStore;
-  mock.onGet('/api/patch/v1/systems/test-id').reply(200, 'test');
+  mock.onGet('/api/patch/v3/systems/test-id').reply(200, 'test');
   mock.onGet('/api/insights/v1/system/test-id/reports/').reply(200, 'test');
   mock
     .onGet(
