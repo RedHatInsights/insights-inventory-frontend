@@ -299,35 +299,37 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
           actionsConfig={{
             actions: [
               [
-                <ActionButton
-                  key="add-systems-button"
-                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                    groupId
-                  )}
-                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                  onClick={() => {
-                    dispatch(clearEntitiesAction());
-                    setAddToGroupModalOpen(true);
-                  }}
-                  ouiaId="add-systems-button"
-                >
-                  Add systems
-                </ActionButton>,
-                <ActionButton
-                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                    groupId
-                  )}
-                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                  key="update-systems-button"
-                  onClick={() => {
-                    setupdateDevice(true);
-                    handleUpdateSelected();
-                  }}
-                  ouiaId="update-systems-button"
-                  isAriaDisabled={!canUpdate}
-                >
-                  Update
-                </ActionButton>,
+                <div key="primary-actions" className="pf-c-action-list">
+                  <ActionButton
+                    key="add-systems-button"
+                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                      groupId
+                    )}
+                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    onClick={() => {
+                      dispatch(clearEntitiesAction());
+                      setAddToGroupModalOpen(true);
+                    }}
+                    ouiaId="add-systems-button"
+                  >
+                    Add systems
+                  </ActionButton>
+                  <ActionButton
+                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                      groupId
+                    )}
+                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    key="update-systems-button"
+                    onClick={() => {
+                      setupdateDevice(true);
+                      handleUpdateSelected();
+                    }}
+                    ouiaId="update-systems-button"
+                    isAriaDisabled={!canUpdate}
+                  >
+                    Update
+                  </ActionButton>
+                </div>,
               ],
               {
                 label: 'Remove from group',
