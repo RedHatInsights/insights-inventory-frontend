@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { TableVariant } from '@patternfly/react-table';
 import { InventoryTable } from '../InventoryTable';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import { useNavigate } from 'react-router-dom';
 import { edgeColumns } from './columns';
 
 const ImmutableDevices = ({
@@ -22,7 +21,6 @@ const ImmutableDevices = ({
   ...props
 }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const inventoryGroupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
 
   const totalItems = useSelector(({ entities }) => entities?.total);
@@ -41,10 +39,6 @@ const ImmutableDevices = ({
       (column) => !column.inventoryGroupsFeatureFlag || inventoryGroupsEnabled
     );
     return [...mergeAppColumns(filteredColumns), ...edgeColumns];
-  };
-
-  const onRowClick = (_key, systemId) => {
-    navigate(`/insights/inventory/${systemId}?appName=vulnerabilities`);
   };
 
   return (
@@ -72,7 +66,6 @@ const ImmutableDevices = ({
       getEntities={getEntities}
       filterConfig={filterConfig}
       activeFiltersConfig={activeFiltersConfig}
-      onRowClick={onRowClick}
       showTags
       onRefresh={onRefresh}
       actionsConfig={actionsConfig}

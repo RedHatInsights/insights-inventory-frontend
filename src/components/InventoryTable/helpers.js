@@ -8,15 +8,11 @@ import { Skeleton } from '@patternfly/react-core';
 
 export const buildCells = (item, columns, extra) => {
   return columns.map(({ key, composed, renderFunc }) => {
-    // eslint-disable-next-line new-cap
     const data = composed ? (
       <Fragment>
-        {TitleColumn(
-          composed.map((key) => get(item, key, ' ')),
-          item.id,
-          item,
-          extra
-        )}
+        <TitleColumn id={item.id} item={item} {...extra}>
+          {composed.map((key) => get(item, key, ' '))}
+        </TitleColumn>
       </Fragment>
     ) : (
       get(item, key, ' ')
