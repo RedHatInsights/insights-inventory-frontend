@@ -6,7 +6,7 @@ import {
   TabTitleText,
   Tabs,
 } from '@patternfly/react-core';
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import GroupSystems from '../GroupSystems/GroupSystems';
 import GroupImmutableSystems from '../GroupSystems/GroupImmutableSystems';
@@ -28,36 +28,40 @@ const GroupTabDetailsWrapper = ({
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
   );
-  const conventionalSystemsContent = (
-    <GroupSystems
-      groupName={groupName}
-      groupId={groupId}
-      hostType={hybridInventoryTabKeys.conventional.key}
-    />
+  const conventionalSystemsContent = useMemo(
+    () => (
+      <GroupSystems
+        groupName={groupName}
+        groupId={groupId}
+        hostType={hybridInventoryTabKeys.conventional.key}
+      />
+    ),
+    [groupId, groupName]
   );
 
-  const immutableSystemsContent = (
-    <GroupImmutableSystems
-      groupId={groupId}
-      groupName={groupName}
-      hostType={hybridInventoryTabKeys.immutable.key}
-    />
+  const immutableSystemsContent = useMemo(
+    () => (
+      <GroupImmutableSystems
+        groupId={groupId}
+        groupName={groupName}
+        hostType={hybridInventoryTabKeys.immutable.key}
+      />
+    ),
+    [groupId, groupName]
   );
 
   const [component, setComponent] = useState(conventionalSystemsContent);
 
   useEffect(() => {
-    setComponent(null);
-    if (activeTab == hybridInventoryTabKeys.conventional.key) {
+    if (activeTab === hybridInventoryTabKeys.conventional.key) {
       setComponent(conventionalSystemsContent);
     } else {
       setComponent(immutableSystemsContent);
     }
   }, [activeTab]);
   const handleTabClick = (_event, tabIndex) => {
-    setComponent(null);
     setTab(tabIndex);
-    if (tabIndex == hybridInventoryTabKeys.conventional.key) {
+    if (tabIndex === hybridInventoryTabKeys.conventional.key) {
       setComponent(conventionalSystemsContent);
     } else {
       setComponent(immutableSystemsContent);
