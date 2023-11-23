@@ -174,8 +174,8 @@ describe('ImmutableDevices', () => {
 
     cy.get('td[data-label="Name"]')
       .first()
-      .find('.ins-composed-col > :nth-child(2) > a')
-      .trigger('click');
+      .find('.ins-composed-col > div > a')
+      .click();
 
     cy.get('#mock-detail-page');
   });

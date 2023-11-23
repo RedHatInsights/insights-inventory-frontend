@@ -1,71 +1,107 @@
-/* eslint-disable new-cap */
-/* eslint-disable camelcase */
 import React from 'react';
 import TitleColumn from './TitleColumn';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { act, fireEvent, render } from '@testing-library/react';
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  Link: ({ children, ...props }) => <a class="fakeLink" {...props}>{children}</a>, // eslint-disable-line
+}));
 
 describe('TitleColumn', () => {
   it('should render correctly with NO data', () => {
-    const Cmp = () => TitleColumn();
-    const wrapper = mount(<Cmp />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { asFragment } = render(<TitleColumn />);
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
-    const Cmp = () =>
-      TitleColumn('something', 'some-id', { os_release: 'os_release' });
-    const wrapper = mount(<Cmp />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { asFragment } = render(
+      <TitleColumn id="testId">something</TitleColumn>
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('should render correctly with os_release', () => {
+    const { asFragment } = render(
+      <TitleColumn id="testId" item={{ os_release: 'os_release' }}>
+        something
+      </TitleColumn>
+    );
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('should render correctly with href', () => {
+    const { asFragment } = render(
+      <TitleColumn id="testId" item={{ href: '/link/to/item' }}>
+        something
+      </TitleColumn>
+    );
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('should render correctly with to', () => {
+    const { asFragment } = render(
+      <TitleColumn id="testId" item={{ to: { pathname: '/link/to/item' } }}>
+        something
+      </TitleColumn>
+    );
+
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly no detail with data', () => {
-    const Cmp = () =>
-      TitleColumn(
-        'something',
-        'some-id',
-        { os_release: 'os_release' },
-        { noDetail: true }
-      );
-    const wrapper = mount(<Cmp />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { asFragment } = render(
+      <TitleColumn
+        id="testId"
+        item={{ os_release: 'os_release' }}
+        noDetail={true}
+      >
+        something
+      </TitleColumn>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 
   describe('API', () => {
-    const open = jest.fn();
-
-    beforeEach(() => {
-      Object.defineProperty(window, 'open', {
-        writable: true,
-        value: open,
-      });
-    });
-
     it('should call onClick', () => {
       const onClick = jest.fn();
-      const Cmp = () =>
-        TitleColumn(
-          'something',
-          'some-id',
-          { os_release: 'os_release' },
-          { onRowClick: onClick, loaded: true }
-        );
-      const wrapper = mount(<Cmp />);
-      wrapper.find('a').first().simulate('click');
+      const { container } = render(
+        <TitleColumn
+          id="testId"
+          item={{ os_release: 'os_release' }}
+          onRowClick={onClick}
+          loaded
+        >
+          something
+        </TitleColumn>
+      );
+
+      const link = container.querySelector('a');
+      act(() => {
+        fireEvent.click(link);
+      });
+
       expect(onClick).toHaveBeenCalled();
     });
 
-    it('should NOT call onClick', () => {
+    it('should not call onClick if not loaded', () => {
       const onClick = jest.fn();
-      const Cmp = () =>
-        TitleColumn(
-          'something',
-          'some-id',
-          { os_release: 'os_release' },
-          { onRowClick: onClick }
-        );
-      const wrapper = mount(<Cmp />);
-      wrapper.find('a').first().simulate('click');
+      const { container } = render(
+        <TitleColumn
+          id="testId"
+          item={{ os_release: 'os_release' }}
+          onRowClick={onClick}
+        >
+          something
+        </TitleColumn>
+      );
+
+      const link = container.querySelector('a');
+      act(() => {
+        fireEvent.click(link);
+      });
+
       expect(onClick).not.toHaveBeenCalled();
     });
   });
