@@ -251,7 +251,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
           tableProps={{
             isStickyHeader: true,
             variant: TableVariant.compact,
-            canSelectAll: false,
+            canSelectAll: true,
             actionResolver: (row) => [
               {
                 title: (
