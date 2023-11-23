@@ -6,6 +6,7 @@ import GroupDetailHeader from '../GroupDetailHeader';
 import { DROPDOWN } from '@redhat-cloud-services/frontend-components-utilities/CypressUtils/selectors';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
+jest.mock('../../../Utilities/useFeatureFlag');
 jest.mock('react-redux', () => {
   return {
     ...jest.requireActual('react-redux'),

@@ -13,7 +13,7 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -26,6 +26,9 @@ import {
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
 } from '../../constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+import EdgeUpdateDeviceModal from './EdgeUpdateDeviceModal';
+import { getInventoryGroupDevicesUpdateInfo } from '../../api/edge/updates';
 
 const GroupDetailHeader = ({ groupId }) => {
   const dispatch = useDispatch();
@@ -45,6 +48,29 @@ const GroupDetailHeader = ({ groupId }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [edgeUpdateModal, setEdgeUpdateModal] = useState({
+    deviceData: [],
+    isOpen: false,
+  });
+  const [edgeDeviceUpdateInfo, setEdgeDeviceUpdateInfo] = useState(null);
+
+  const isEdgeParityGroupsEnabled = useFeatureFlag(
+    'edgeParity.inventory-groups-enabled'
+  );
+
+  useEffect(() => {
+    if (isEdgeParityGroupsEnabled) {
+      (async () => {
+        try {
+          const groupEdgeDevicesUpdateInfo =
+            await getInventoryGroupDevicesUpdateInfo(groupId);
+          setEdgeDeviceUpdateInfo(groupEdgeDevicesUpdateInfo);
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+    }
+  }, [edgeUpdateModal]);
 
   const name = data?.results?.[0]?.name;
 
@@ -61,6 +87,27 @@ const GroupDetailHeader = ({ groupId }) => {
 
     return groupId;
   };
+
+  let dropdownItems = [
+    <DropdownItem key="rename-group" onClick={() => setRenameModalOpen(true)}>
+      Rename
+    </DropdownItem>,
+    <DropdownItem key="delete-group" onClick={() => setDeleteModalOpen(true)}>
+      Delete
+    </DropdownItem>,
+  ];
+
+  if (isEdgeParityGroupsEnabled) {
+    dropdownItems.push(
+      <DropdownItem
+        key="update-edge-devices"
+        onClick={() => setEdgeUpdateModal({ deviceData: [], isOpen: true })}
+        isDisabled={!edgeDeviceUpdateInfo?.update_valid}
+      >
+        Update
+      </DropdownItem>
+    );
+  }
 
   return (
     <PageHeader>
@@ -81,6 +128,13 @@ const GroupDetailHeader = ({ groupId }) => {
           setIsModalOpen={() => setDeleteModalOpen(false)}
           reloadData={() => navigate('/groups')}
           groupIds={[groupId]}
+        />
+      )}
+      {edgeUpdateModal.isOpen && (
+        <EdgeUpdateDeviceModal
+          inventoryGroupUpdateDevicesInfo={edgeDeviceUpdateInfo}
+          updateModal={edgeUpdateModal}
+          setUpdateModal={setEdgeUpdateModal}
         />
       )}
       <Breadcrumb>
@@ -112,20 +166,7 @@ const GroupDetailHeader = ({ groupId }) => {
                 Group actions
               </DropdownToggle>
             }
-            dropdownItems={[
-              <DropdownItem
-                key="rename-group"
-                onClick={() => setRenameModalOpen(true)}
-              >
-                Rename
-              </DropdownItem>,
-              <DropdownItem
-                key="delete-group"
-                onClick={() => setDeleteModalOpen(true)}
-              >
-                Delete
-              </DropdownItem>,
-            ]}
+            dropdownItems={dropdownItems}
           />
         </FlexItem>
       </Flex>
