@@ -17,7 +17,7 @@ const GroupSystemsWrapper = ({ groupName, groupId, hostType }) => {
       </EmptyStateBody>
     </EmptyState>
   ) : (data?.results?.[0]?.host_count || 0) > 0 ? (
-    hostType == 'immutable' ? (
+    hostType === 'immutable' ? (
       <GroupImmutableSystems groupId={groupId} groupName={groupName} />
     ) : (
       <GroupSystems groupId={groupId} groupName={groupName} />

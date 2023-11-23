@@ -134,23 +134,19 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     setDeviceImageSet(updateInfo?.device_image_set_info);
     const mapDeviceIds = Object.keys(updateInfo?.device_image_set_info);
     const customResult = await fetchImagesData({ devices_uuid: mapDeviceIds });
-    //##################################//
     const rowInfo = [];
     customResult?.data?.devices.forEach((row) => {
       rowInfo.push({ ...row, id: row.DeviceUUID });
     });
-    //##################################//
     const items = rowInfo.map(({ id }) => id);
-    const enhancedConfig = { ...config, hasItems: true }; // hasItems have to be set to true
-
+    const enhancedConfig = { ...config, hasItems: true };
     const defaultData = await defaultGetEntities(
       items,
       enhancedConfig,
       showTags
-    ); // get default data for your items from inventory API
-
+    );
     return {
-      results: mergeArraysByKey([defaultData.results, rowInfo]), // merge common data and your data based on their ids (you can also use your own solution)
+      results: mergeArraysByKey([defaultData.results, rowInfo]),
       total: customResult?.data?.total,
     };
   };

@@ -8,12 +8,11 @@ import {
 } from '@patternfly/react-core';
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
-import GroupSystems from '../GroupSystems';
+import GroupSystems from '../GroupSystems/GroupSystems';
 import GroupImmutableSystems from '../GroupSystems/GroupImmutableSystems';
 import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
-// import EdgeDeviceGroupiew from '../InventoryTabs/ImmutableDevices/EdgeDevicesGroupView';
 import { EmptyStateNoAccessToSystems } from './EmptyStateNoAccess';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
