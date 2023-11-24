@@ -299,7 +299,7 @@ describe('hiding filters', () => {
 
 describe('with no group filter option', () => {
   before(() => {
-    cy.mockWindowChrome();
+    cy.mockWindowInsights();
   });
 
   beforeEach(() => {
