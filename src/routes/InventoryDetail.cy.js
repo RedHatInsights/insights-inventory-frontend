@@ -45,7 +45,7 @@ hostInGroup.results[0].groups = [
 hostInGroup.results[0].system_profile.operating_system.name = 'RHEL';
 
 describe('renders correctly', () => {
-  before(() => cy.mockWindowChrome());
+  before(() => cy.mockWindowInsights());
   beforeEach(() => prepareTest());
 
   it('renders main components for edge host', () => {
@@ -67,7 +67,7 @@ describe('renders correctly', () => {
 
 describe('rbac integration', () => {
   describe('with no permissions', () => {
-    before(() => cy.mockWindowChrome({ userPermissions: [] }));
+    before(() => cy.mockWindowInsights({ userPermissions: [] }));
     beforeEach(() => prepareTest(hostInGroup));
 
     it('should disable delete and edit buttons', () => {
@@ -90,7 +90,7 @@ describe('rbac integration', () => {
 
   describe('with write permissions limited by group', () => {
     before(() =>
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: [
           {
             permission: 'inventory:hosts:write',
@@ -124,7 +124,7 @@ describe('rbac integration', () => {
 
   describe('with excluding group permissions', () => {
     before(() =>
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: [
           {
             permission: 'inventory:hosts:write',

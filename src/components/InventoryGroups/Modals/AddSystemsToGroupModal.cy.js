@@ -41,7 +41,7 @@ const AVAILABLE_FILTER_NAMES = [
 const ALERT = '[data-ouia-component-type="PF4/Alert"]';
 
 before(() => {
-  cy.mockWindowChrome();
+  cy.mockWindowInsights();
 });
 
 const mountModal = () =>

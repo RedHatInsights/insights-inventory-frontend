@@ -21,7 +21,7 @@ const mountPage = () =>
   });
 
 before(() => {
-  cy.mockWindowChrome(); // with all permissions
+  cy.mockWindowInsights(); // with all permissions
 });
 
 const waitPageLoad = () =>
@@ -95,7 +95,7 @@ describe('group detail page', () => {
 describe('integration with rbac', () => {
   describe('no permissions', () => {
     before(() => {
-      cy.mockWindowChrome({ userPermissions: [] });
+      cy.mockWindowInsights({ userPermissions: [] });
     });
 
     beforeEach(() => {
@@ -133,7 +133,7 @@ describe('integration with rbac', () => {
 
   describe('only groups read permissions', () => {
     before(() => {
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: [
           {
             permission: 'inventory:groups:read',
@@ -182,7 +182,7 @@ describe('integration with rbac', () => {
 
   describe('only group read and hosts read permission', () => {
     before(() => {
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: [
           'inventory:hosts:read',
           {
