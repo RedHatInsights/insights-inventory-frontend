@@ -25,7 +25,6 @@ describe('/groups', () => {
   useFeatureFlag.mockImplementation(
     (flag) =>
       ({
-        'hbi.ui.inventory-groups': true,
         'edgeParity.inventory-list': false,
       }[flag])
   );

@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
 import { defaultColumns } from '../../../store/entities';
-import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 
 const isColumnEnabled = (key, disableColumns, showTags) =>
   (key === 'tags' && showTags) ||
@@ -16,7 +15,6 @@ const useColumns = (
   showTags,
   columnsCounter
 ) => {
-  const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const columnsRedux = useSelector(
     ({ entities: { columns } }) => columns,
     (next, prev) =>
@@ -33,15 +31,15 @@ const useColumns = (
     () =>
       disableDefaultColumns === true
         ? []
-        : defaultColumns(groupsEnabled).filter(({ key }) =>
+        : defaultColumns().filter(({ key }) =>
             isColumnEnabled(key, disabledColumns, showTags)
           ),
-    [disabledColumns, disableDefaultColumns, showTags, groupsEnabled]
+    [disabledColumns, disableDefaultColumns, showTags]
   );
 
   return useMemo(() => {
     if (typeof columnsProp === 'function') {
-      return columnsProp(defaultColumns(groupsEnabled));
+      return columnsProp(defaultColumns());
     } else if (columnsProp) {
       return mergeArraysByKey([defaultColumnsFiltered, columnsProp], 'key');
     } else if (!columnsProp && columnsRedux) {
@@ -63,7 +61,6 @@ const useColumns = (
       ? columnsRedux.map(({ key }) => key).join()
       : columnsRedux,
     columnsCounter,
-    groupsEnabled,
   ]);
 };
 
