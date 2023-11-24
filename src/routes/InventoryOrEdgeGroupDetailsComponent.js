@@ -4,7 +4,7 @@ import { inventoryHasEdgeSystems } from '../Utilities/edge';
 import useEdgeGroups from '../Utilities/hooks/useEdgeGroups';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import PropTypes from 'prop-types';
-import { Spinner } from '@patternfly/react-core';
+import { Bullseye, Spinner } from '@patternfly/react-core';
 import EdgeGroupsDetailsView from '../components/InventoryGroupDetail/EdgeGroupDetails';
 import InventoryGroupDetail from './InventoryGroupDetail';
 
@@ -27,7 +27,7 @@ const InventoryOrEdgeGroupDetailsView = () => {
         }
       })();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }, []);
 
@@ -42,7 +42,11 @@ const InventoryOrEdgeGroupDetailsView = () => {
       />
     );
   } else {
-    return <Spinner />;
+    return (
+      <Bullseye>
+        <Spinner />
+      </Bullseye>
+    );
   }
 };
 
