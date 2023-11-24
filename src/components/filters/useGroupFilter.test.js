@@ -37,12 +37,13 @@ describe('some groups available', () => {
       expect(chips.length).toBe(0);
       expect(value.length).toBe(0);
       expect(config.filterValues.children).toMatchInlineSnapshot(`
-          <SearchableGroupFilter
-            initialGroups={Array []}
-            selectedGroupNames={Array []}
-            setSelectedGroupNames={[Function]}
-          />
-        `);
+        <SearchableGroupFilter
+          initialGroups={Array []}
+          selectedGroupNames={Array []}
+          setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
+        />
+      `);
     });
   });
 
@@ -63,6 +64,7 @@ describe('some groups available', () => {
           }
           selectedGroupNames={Array []}
           setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
         />
       `);
     });
@@ -89,6 +91,52 @@ describe('some groups available', () => {
               Object {
                 "name": "group-1",
                 "value": "group-1",
+              },
+            ],
+            "type": "group_name",
+          },
+        ]
+      `);
+    });
+  });
+
+  it('can enable no group option', async () => {
+    const { result } = renderHook(() => useGroupFilter(true));
+
+    await waitFor(() => {
+      const [config] = result.current;
+      expect(config.filterValues.children).toMatchInlineSnapshot(`
+        <SearchableGroupFilter
+          initialGroups={Array []}
+          selectedGroupNames={Array []}
+          setSelectedGroupNames={[Function]}
+          showNoGroupOption={true}
+        />
+      `);
+    });
+  });
+
+  it('can select no group option', async () => {
+    const { result } = renderHook(useGroupFilter);
+    const [, , , setValue] = result.current;
+
+    act(() => {
+      setValue(['']);
+    });
+
+    const [, chips, value] = result.current;
+
+    await waitFor(() => {
+      expect(chips.length).toBe(1);
+      expect(value).toEqual(['']);
+      expect(chips).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "category": "Group",
+            "chips": Array [
+              Object {
+                "name": "No group",
+                "value": "",
               },
             ],
             "type": "group_name",

@@ -15,6 +15,7 @@ exports[`InventoryTable should render correctly - no data 1`] = `
     page={1}
     perPage={50}
     showCentosVersions={false}
+    showNoGroupOption={false}
     showTags={false}
   />
   <ForwardRef
@@ -57,6 +58,7 @@ exports[`InventoryTable should render correctly - with no access 1`] = `
     page={1}
     perPage={50}
     showCentosVersions={false}
+    showNoGroupOption={false}
     showTags={false}
     sortBy={
       Object {
@@ -137,6 +139,7 @@ exports[`InventoryTable should render correctly 1`] = `
     page={1}
     perPage={50}
     showCentosVersions={false}
+    showNoGroupOption={false}
     showTags={false}
     sortBy={
       Object {
@@ -255,6 +258,7 @@ exports[`InventoryTable should render correctly with items 1`] = `
     page={5}
     perPage={20}
     showCentosVersions={false}
+    showNoGroupOption={false}
     showTags={false}
     sortBy={
       Object {
@@ -366,6 +370,7 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
     page={5}
     perPage={20}
     showCentosVersions={false}
+    showNoGroupOption={false}
     showTags={false}
     sortBy={
       Object {

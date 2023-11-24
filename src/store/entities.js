@@ -46,7 +46,9 @@ export const defaultColumns = (groupsEnabled = false) => [
     key: 'display_name',
     sortKey: 'display_name',
     title: 'Name',
-    renderFunc: TitleColumn,
+    renderFunc: (display_name, id, item, props) => (
+      <TitleColumn {...{ ...props, id, item }}>{display_name}</TitleColumn>
+    ),
   },
   ...(groupsEnabled
     ? [

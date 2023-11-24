@@ -78,3 +78,86 @@ it('selected groups are checked', async () => {
   );
   expect(screen.getAllByRole('checkbox')[0]).toBeChecked();
 });
+
+it('shows no group option', async () => {
+  render(
+    <SearchableGroupFilter
+      initialGroups={[{ name: 'group-1' }, { name: 'group-2' }]}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={setter}
+      showNoGroupOption={true}
+    />
+  );
+
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: /menu toggle/i,
+    })
+  );
+  expect(
+    screen.getByRole('menuitem', {
+      name: /no group/i,
+    })
+  ).toBeVisible();
+});
+
+it('can select no group option', async () => {
+  render(
+    <SearchableGroupFilter
+      initialGroups={[{ name: 'group-1' }, { name: 'group-2' }]}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={setter}
+      showNoGroupOption={true}
+    />
+  );
+
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: /menu toggle/i,
+    })
+  );
+  await userEvent.click(screen.getByText('No group'));
+  expect(setter).toBeCalledWith(['']);
+});
+
+it('can select no group option with pre-selected item', async () => {
+  render(
+    <SearchableGroupFilter
+      initialGroups={[{ name: 'group-1' }, { name: 'group-2' }]}
+      selectedGroupNames={['group-1']}
+      setSelectedGroupNames={setter}
+      showNoGroupOption={true}
+    />
+  );
+
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: /menu toggle/i,
+    })
+  );
+  await userEvent.click(screen.getByText('No group'));
+  expect(setter).toBeCalledWith(['group-1', '']);
+});
+
+it('shows no group as the only option', async () => {
+  render(
+    <SearchableGroupFilter
+      initialGroups={[]}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={setter}
+      showNoGroupOption={true}
+    />
+  );
+
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: /menu toggle/i,
+    })
+  );
+  expect(
+    screen.getByRole('menuitem', {
+      name: /no group/i,
+    })
+  ).toBeVisible();
+  expect(screen.getAllByRole('menuitem').length).toBe(1);
+});

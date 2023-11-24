@@ -5,7 +5,7 @@ const mountPage = (params) =>
 
 describe('group detail information page', () => {
   before(() => {
-    cy.mockWindowChrome({ userPermissions: ['rbac:*:*'] });
+    cy.mockWindowInsights({ userPermissions: ['rbac:*:*'] });
   });
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('group detail information page', () => {
 
   describe('with no user access administrator role', () => {
     beforeEach(() => {
-      cy.mockWindowChrome({ userPermissions: [] });
+      cy.mockWindowInsights({ userPermissions: [] });
       mountPage({ chrome: { isBeta: () => true } });
     });
 

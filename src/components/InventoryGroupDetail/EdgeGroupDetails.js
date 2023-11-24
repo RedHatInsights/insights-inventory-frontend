@@ -6,17 +6,17 @@ import { getNotificationProp } from '../../Utilities/edge';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-const EdgeGroupsView = (props) => {
+const EdgeGroupsDetailsView = (props) => {
   const dispatch = useDispatch();
   const notificationProp = getNotificationProp(dispatch);
   return (
     <AsyncComponent
       appName="edge"
-      module="./Groups"
+      module="./GroupsDetails"
       ErrorComponent={<ErrorState />}
       navigateProp={useNavigate}
       locationProp={useLocation}
-      useParams={useParams}
+      paramsProp={useParams}
       notificationProp={notificationProp}
       pathPrefix={resolveRelPath('')}
       {...props}
@@ -24,4 +24,4 @@ const EdgeGroupsView = (props) => {
   );
 };
 
-export default EdgeGroupsView;
+export default EdgeGroupsDetailsView;

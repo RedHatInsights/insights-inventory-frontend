@@ -82,7 +82,6 @@ const InventoryTable = forwardRef(
       tableProps,
       isRbacEnabled,
       hasCheckbox,
-      onRowClick,
       abortOnUnmount = true,
       showCentosVersions = false,
       ...props
@@ -281,7 +280,6 @@ const InventoryTable = forwardRef(
         <InventoryList
           {...props}
           hasCheckbox={hasCheckbox}
-          onRowClick={onRowClick}
           tableProps={tableProps}
           customFilters={customFilters}
           hasAccess={hasAccess}
@@ -343,9 +341,9 @@ InventoryTable.propTypes = {
   tableProps: PropTypes.object,
   isRbacEnabled: PropTypes.bool,
   hasCheckbox: PropTypes.bool,
-  onRowClick: PropTypes.func,
   abortOnUnmount: PropTypes.bool,
   showCentosVersions: PropTypes.bool,
+  showNoGroupOption: PropTypes.bool, // group filter option
 };
 
 export default InventoryTable;

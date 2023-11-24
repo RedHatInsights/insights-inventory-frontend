@@ -40,7 +40,7 @@ fixtures.results = [
 
 describe('Delete Group Modal', () => {
   before(() => {
-    cy.mockWindowChrome();
+    cy.mockWindowInsights();
   });
 
   describe('multiple hosts', () => {

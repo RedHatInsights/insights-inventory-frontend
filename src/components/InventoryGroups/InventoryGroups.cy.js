@@ -4,7 +4,7 @@ import InventoryGroups from './InventoryGroups';
 const mountPage = () => cy.mountWithContext(InventoryGroups);
 
 before(() => {
-  cy.mockWindowChrome();
+  cy.mockWindowInsights();
 });
 
 describe('groups table page', () => {
@@ -44,7 +44,7 @@ describe('groups table page', () => {
   describe('integration with rbac', () => {
     it('disables empty state button when not enough permissions', () => {
       interceptors['successful empty']();
-      cy.mockWindowChrome({ userPermissions: [] });
+      cy.mockWindowInsights({ userPermissions: [] });
       mountPage();
 
       cy.ouiaId('CreateGroupButton').shouldHaveAriaDisabled();

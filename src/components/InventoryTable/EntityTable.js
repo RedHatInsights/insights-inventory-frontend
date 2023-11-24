@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { selectEntity, setSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import {
   Table as PfTable,
   TableBody,
@@ -15,7 +14,7 @@ import { SkeletonTable } from '@redhat-cloud-services/frontend-components/Skelet
 import NoEntitiesFound from './NoEntitiesFound';
 import { createColumns, createRows } from './helpers';
 import useColumns from './hooks/useColumns';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+
 /**
  * The actual (PF)table component. It calculates each cell and every table property.
  * It uses rows, columns and loaded from redux to show correct data.
@@ -43,7 +42,6 @@ const EntityTable = ({
   columnsCounter,
 }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
   const columns = useColumns(
     columnsProp,
     disableDefaultColumns,
@@ -51,7 +49,6 @@ const EntityTable = ({
     columnsCounter
   );
   const rows = useSelector(({ entities: { rows } }) => rows);
-  const navigate = useInsightsNavigate();
   const onItemSelect = (_event, checked, rowId) => {
     const row = isExpandable ? rows[rowId / 2] : rows[rowId];
     dispatch(selectEntity(rowId === -1 ? 0 : row.id, checked));
@@ -69,14 +66,6 @@ const EntityTable = ({
     () => loaded && createColumns(columns, hasItems, rows, isExpandable),
     [loaded, columns, hasItems, rows, isExpandable]
   );
-
-  const defaultRowClick = (_event, key) => {
-    navigate(
-      `${location.pathname}${
-        location.pathname.slice(-1) === '/' ? '' : '/'
-      }${key}`
-    );
-  };
 
   const tableSortBy = {
     index:
@@ -115,7 +104,7 @@ const EntityTable = ({
               actions,
               expandable,
               loaded,
-              onRowClick: onRowClick || defaultRowClick,
+              onRowClick,
               noDetail,
               sortBy,
               noSystemsTable,

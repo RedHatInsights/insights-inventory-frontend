@@ -24,7 +24,7 @@ const mountModal = (
 describe('AddSelectedHostsToGroupModal', () => {
   describe('without any permissions', () => {
     before(() => {
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: [],
       });
     });
@@ -42,7 +42,7 @@ describe('AddSelectedHostsToGroupModal', () => {
 
   describe('with limited groups write permissions', () => {
     it('should still hide the create group button', () => {
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: [
           {
             resourceDefinitions: [
@@ -66,7 +66,7 @@ describe('AddSelectedHostsToGroupModal', () => {
 
   describe('with groups write permission', () => {
     before(() => {
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: ['inventory:groups:write'],
       });
     });
