@@ -41,7 +41,7 @@ export const defaultState = {
   },
 };
 
-export const defaultColumns = (groupsEnabled = false) => [
+export const defaultColumns = () => [
   {
     key: 'display_name',
     sortKey: 'display_name',
@@ -50,19 +50,15 @@ export const defaultColumns = (groupsEnabled = false) => [
       <TitleColumn {...{ ...props, id, item }}>{display_name}</TitleColumn>
     ),
   },
-  ...(groupsEnabled
-    ? [
-        {
-          key: 'groups',
-          sortKey: 'group_name',
-          title: 'Group',
-          props: { width: 10 },
-          // eslint-disable-next-line camelcase
-          renderFunc: (groups) => (isEmpty(groups) ? 'N/A' : groups[0].name), // currently, one group at maximum is supported
-          transforms: [fitContent],
-        },
-      ]
-    : []),
+  {
+    key: 'groups',
+    sortKey: 'group_name',
+    title: 'Group',
+    props: { width: 10 },
+    // eslint-disable-next-line camelcase
+    renderFunc: (groups) => (isEmpty(groups) ? 'N/A' : groups[0].name), // currently, one group at maximum is supported
+    transforms: [fitContent],
+  },
   {
     key: 'tags',
     title: 'Tags',

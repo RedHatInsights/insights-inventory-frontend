@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import { TableVariant } from '@patternfly/react-table';
 import { InventoryTable } from '../InventoryTable';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { edgeColumns } from './columns';
 
 const ImmutableDevices = ({
@@ -21,7 +20,6 @@ const ImmutableDevices = ({
   ...props
 }) => {
   const dispatch = useDispatch();
-  const inventoryGroupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
 
   const totalItems = useSelector(({ entities }) => entities?.total);
 
@@ -35,10 +33,7 @@ const ImmutableDevices = ({
   }, [dispatch]);
 
   const mergeColumns = (inventoryColumns) => {
-    const filteredColumns = inventoryColumns.filter(
-      (column) => !column.inventoryGroupsFeatureFlag || inventoryGroupsEnabled
-    );
-    return [...mergeAppColumns(filteredColumns), ...edgeColumns];
+    return [...mergeAppColumns(inventoryColumns), ...edgeColumns];
   };
 
   return (

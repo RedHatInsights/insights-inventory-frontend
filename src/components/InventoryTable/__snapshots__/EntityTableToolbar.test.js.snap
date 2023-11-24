@@ -135,6 +135,21 @@ exports[`EntityTableToolbar DOM should render correctly - no data 1`] = `
           "type": "radio",
           "value": "last_seen",
         },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
+        },
       ],
     }
   }
@@ -371,6 +386,21 @@ exports[`EntityTableToolbar DOM should render correctly - with children 1`] = `
           "label": "Last seen",
           "type": "radio",
           "value": "last_seen",
+        },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
         },
       ],
     }
@@ -625,6 +655,21 @@ exports[`EntityTableToolbar DOM should render correctly - with custom activeFilt
           "label": "Last seen",
           "type": "radio",
           "value": "last_seen",
+        },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
         },
         Object {
           "filterValues": Object {
@@ -900,6 +945,21 @@ exports[`EntityTableToolbar DOM should render correctly - with custom filters 1`
         },
         Object {
           "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
+        },
+        Object {
+          "filterValues": Object {
             "isDisabled": false,
             "placeholder": "Filter by filter by text",
           },
@@ -1159,6 +1219,21 @@ exports[`EntityTableToolbar DOM should render correctly - with customFilters 1`]
           "label": "Last seen",
           "type": "radio",
           "value": "last_seen",
+        },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
         },
         Object {
           "filterValues": Object {
@@ -1445,6 +1520,21 @@ exports[`EntityTableToolbar DOM should render correctly - with default filters 1
           "type": "radio",
           "value": "last_seen",
         },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
+        },
       ],
     }
   }
@@ -1686,6 +1776,21 @@ exports[`EntityTableToolbar DOM should render correctly - with default tag filte
           "label": "Last seen",
           "type": "radio",
           "value": "last_seen",
+        },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
         },
       ],
     }
@@ -1946,6 +2051,21 @@ exports[`EntityTableToolbar DOM should render correctly - with no access 1`] = `
           "type": "radio",
           "value": "last_seen",
         },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": true,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
+        },
       ],
     }
   }
@@ -2195,6 +2315,21 @@ exports[`EntityTableToolbar DOM should render correctly - with tags 1`] = `
           "label": "Last seen",
           "type": "radio",
           "value": "last_seen",
+        },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
         },
         Object {
           "filterValues": Object {
@@ -2475,6 +2610,21 @@ exports[`EntityTableToolbar DOM should render correctly 1`] = `
           "label": "Last seen",
           "type": "radio",
           "value": "last_seen",
+        },
+        Object {
+          "filterValues": Object {
+            "children": <SearchableGroupFilter
+              initialGroups={Array []}
+              selectedGroupNames={Array []}
+              setSelectedGroupNames={[Function]}
+              showNoGroupOption={false}
+            />,
+            "isDisabled": false,
+            "placeholder": "Filter by group",
+          },
+          "label": "Group",
+          "type": "custom",
+          "value": "group-host-filter",
         },
       ],
     }

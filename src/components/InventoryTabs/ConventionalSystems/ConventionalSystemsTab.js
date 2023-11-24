@@ -93,7 +93,6 @@ const ConventionalSystemsTab = ({
   const selected = useSelector(({ entities }) => entities?.selected);
   const total = useSelector(({ entities }) => entities?.total);
   const dispatch = useDispatch();
-  const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
     globalFilter,
@@ -229,69 +228,66 @@ const ConventionalSystemsTab = ({
               variant="secondary"
               isAriaDisabled={calculateSelected() === 0}
             />,
-            ...(groupsEnabled
-              ? [
-                  {
-                    label: (
-                      <ActionDropdownItem
-                        key="bulk-add-to-group"
-                        requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-                        isAriaDisabled={!isBulkAddHostsToGroupsEnabled()}
-                        noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
-                        onClick={() => {
-                          setCurrentSystem(Array.from(selected.values()));
-                          setAddHostGroupModalOpen(true);
-                        }}
-                        ignoreResourceDefinitions
-                      >
-                        Add to group
-                      </ActionDropdownItem>
-                    ),
-                    props: {
-                      style: {
-                        padding: 0, // custom component creates extra padding space
-                      },
-                    },
-                  },
-                  {
-                    label: (
-                      <ActionDropdownItem
-                        key="bulk-remove-from-group"
-                        requiredPermissions={
-                          selected !== undefined
-                            ? Array.from(selected.values())
-                                .flatMap(({ groups }) =>
-                                  groups?.[0]?.id !== undefined
-                                    ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                                        groups[0].id
-                                      )
-                                    : null
+
+            {
+              label: (
+                <ActionDropdownItem
+                  key="bulk-add-to-group"
+                  requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+                  isAriaDisabled={!isBulkAddHostsToGroupsEnabled()}
+                  noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                  onClick={() => {
+                    setCurrentSystem(Array.from(selected.values()));
+                    setAddHostGroupModalOpen(true);
+                  }}
+                  ignoreResourceDefinitions
+                >
+                  Add to group
+                </ActionDropdownItem>
+              ),
+              props: {
+                style: {
+                  padding: 0, // custom component creates extra padding space
+                },
+              },
+            },
+            {
+              label: (
+                <ActionDropdownItem
+                  key="bulk-remove-from-group"
+                  requiredPermissions={
+                    selected !== undefined
+                      ? Array.from(selected.values())
+                          .flatMap(({ groups }) =>
+                            groups?.[0]?.id !== undefined
+                              ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                                  groups[0].id
                                 )
-                                .filter(Boolean) // don't check ungroupped hosts
-                            : []
-                        }
-                        isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
-                        noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
-                        onClick={() => {
-                          setCurrentSystem(Array.from(selected.values()));
-                          setRemoveHostsFromGroupModalOpen(true);
-                        }}
-                        {...(selected === undefined // when nothing is selected, no access must be checked
-                          ? { override: true }
-                          : {})}
-                        checkAll
-                      >
-                        Remove from group
-                      </ActionDropdownItem>
-                    ),
-                    props: {
-                      style: {
-                        padding: 0,
-                      },
-                    },
-                  },
-                ]
-              : []),
+                              : null
+                          )
+                          .filter(Boolean) // don't check ungroupped hosts
+                      : []
+                  }
+                  isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
+                  noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                  onClick={() => {
+                    setCurrentSystem(Array.from(selected.values()));
+                    setRemoveHostsFromGroupModalOpen(true);
+                  }}
+                  {...(selected === undefined // when nothing is selected, no access must be checked
+                    ? { override: true }
+                    : {})}
+                  checkAll
+                >
+                  Remove from group
+                </ActionDropdownItem>
+              ),
+              props: {
+                style: {
+                  padding: 0,
+                },
+              },
+            },
           ],
         }}
         bulkSelect={bulkSelectConfig}
@@ -341,43 +337,39 @@ const ConventionalSystemsTab = ({
           onEditOpen(false);
         }}
       />
-      {groupsEnabled === true && (
-        <>
-          {addHostGroupModalOpen && (
-            <AddSelectedHostsToGroupModal
-              isModalOpen={addHostGroupModalOpen}
-              setIsModalOpen={setAddHostGroupModalOpen}
-              modalState={currentSystem}
-              reloadData={() => {
-                if (calculateSelected() > 0) {
-                  dispatch(actions.selectEntity(-1, false));
-                }
+      {addHostGroupModalOpen && (
+        <AddSelectedHostsToGroupModal
+          isModalOpen={addHostGroupModalOpen}
+          setIsModalOpen={setAddHostGroupModalOpen}
+          modalState={currentSystem}
+          reloadData={() => {
+            if (calculateSelected() > 0) {
+              dispatch(actions.selectEntity(-1, false));
+            }
 
-                setTimeout(
-                  () => inventory.current.onRefreshData(filters, false, true),
-                  500
-                );
-              }}
-            />
-          )}
-          {removeHostsFromGroupModalOpen && (
-            <RemoveHostsFromGroupModal
-              isModalOpen={removeHostsFromGroupModalOpen}
-              setIsModalOpen={setRemoveHostsFromGroupModalOpen}
-              modalState={currentSystem}
-              reloadData={() => {
-                if (calculateSelected() > 0) {
-                  dispatch(actions.selectEntity(-1, false));
-                }
+            setTimeout(
+              () => inventory.current.onRefreshData(filters, false, true),
+              500
+            );
+          }}
+        />
+      )}
+      {removeHostsFromGroupModalOpen && (
+        <RemoveHostsFromGroupModal
+          isModalOpen={removeHostsFromGroupModalOpen}
+          setIsModalOpen={setRemoveHostsFromGroupModalOpen}
+          modalState={currentSystem}
+          reloadData={() => {
+            if (calculateSelected() > 0) {
+              dispatch(actions.selectEntity(-1, false));
+            }
 
-                setTimeout(
-                  () => inventory.current.onRefreshData(filters, false, true),
-                  500
-                );
-              }}
-            />
-          )}
-        </>
+            setTimeout(
+              () => inventory.current.onRefreshData(filters, false, true),
+              500
+            );
+          }}
+        />
       )}
     </Fragment>
   );

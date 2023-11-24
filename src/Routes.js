@@ -10,7 +10,6 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
-import LostPage from './components/LostPage';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
@@ -48,7 +47,6 @@ export const AccountStatContext = createContext({
 
 export const Routes = () => {
   const searchParams = useMemo(() => getSearchParams(), []);
-  const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const [hasConventionalSystems, setHasConventionalSystems] = useState(true);
   const [hasEdgeDevices, setHasEdgeDevices] = useState(true);
   const edgeParityInventoryListEnabled = useFeatureFlag(
@@ -78,15 +76,11 @@ export const Routes = () => {
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
     {
       path: '/groups',
-      element: groupsEnabled ? <InventoryOrEdgeView /> : <LostPage />,
+      element: <InventoryOrEdgeView />,
     },
     {
       path: '/groups/:groupId',
-      element: groupsEnabled ? (
-        <InventoryOrEdgeGroupDetailsView />
-      ) : (
-        <LostPage />
-      ),
+      element: <InventoryOrEdgeGroupDetailsView />,
     },
     {
       path: '/:inventoryId/update',
@@ -109,7 +103,7 @@ export const Routes = () => {
     },
     {
       path: '/staleness-and-deletion',
-      element: groupsEnabled ? <InventoryHostStaleness /> : <LostPage />,
+      element: <InventoryHostStaleness />,
     },
   ]);
 

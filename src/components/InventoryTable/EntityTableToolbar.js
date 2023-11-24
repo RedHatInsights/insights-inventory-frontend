@@ -170,7 +170,6 @@ const EntityTableToolbar = ({
     useGroupFilter(props.showNoGroupOption);
 
   const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
-  const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const {
     tagsFilter,
     tagsChip,
@@ -229,7 +228,6 @@ const EntityTableToolbar = ({
       !(hideFilters.all && hideFilters.updateMethodFilter !== false) &&
       !hideFilters.updateMethodFilter,
     hostGroupFilter:
-      groupsEnabled &&
       !(hideFilters.all && hideFilters.hostGroupFilter !== false) &&
       !hideFilters.hostGroupFilter,
   };

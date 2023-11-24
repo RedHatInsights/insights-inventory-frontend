@@ -2,7 +2,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { getGroups } from '../InventoryGroups/utils/api';
 import SearchableGroupFilter from './SearchableGroupFilter';
 
@@ -38,7 +37,6 @@ export const buildHostGroupChips = (selectedGroups = []) => {
 };
 
 const useGroupFilter = (showNoGroupOption = false) => {
-  const groupsEnabled = useFeatureFlag('hbi.ui.inventory-groups');
   const { fetchBatched } = useFetchBatched();
   const [fetchedGroups, setFetchedGroups] = useState([]);
   const [selectedGroupNames, setSelectedGroupNames] = useState([]);
@@ -56,14 +54,12 @@ const useGroupFilter = (showNoGroupOption = false) => {
 
     let ignore = false;
 
-    if (groupsEnabled) {
-      fetchOptions();
-    }
+    fetchOptions();
 
     return () => {
       ignore = true;
     };
-  }, [groupsEnabled]);
+  }, []);
 
   const chips = useMemo(
     () => buildHostGroupChips(selectedGroupNames),

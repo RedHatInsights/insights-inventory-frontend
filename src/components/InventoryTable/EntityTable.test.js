@@ -419,7 +419,7 @@ describe('EntityTable', () => {
         </MemoryRouter>
       );
 
-      expect(wrapper.find('table').find('th')).toHaveLength(4);
+      expect(wrapper.find('table').find('th')).toHaveLength(5);
       expect(wrapper.find('table').find('th').last().text()).toEqual(
         'Secret attribute'
       );
@@ -603,8 +603,8 @@ describe('EntityTable', () => {
         .find('table')
         .find('th')
         .map((cell) => cell.text());
-      expect(texts).toEqual(['OS', 'Last seen']);
-      expect(wrapper.find('table').find('th')).toHaveLength(2);
+      expect(texts).toEqual(['Group', 'OS', 'Last seen']);
+      expect(wrapper.find('table').find('th')).toHaveLength(3);
     });
 
     it('should disable just one default column + showTags', () => {
@@ -642,8 +642,8 @@ describe('EntityTable', () => {
         .find('table')
         .find('th')
         .map((cell) => cell.text());
-      expect(texts).toEqual(['Tags', 'OS', 'Last seen']);
-      expect(wrapper.find('table').find('th')).toHaveLength(3);
+      expect(texts).toEqual(['Group', 'Tags', 'OS', 'Last seen']);
+      expect(wrapper.find('table').find('th')).toHaveLength(4);
     });
   });
 
