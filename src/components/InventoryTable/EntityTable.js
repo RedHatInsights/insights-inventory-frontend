@@ -82,10 +82,15 @@ const EntityTable = ({
     direction: sortBy?.direction,
   };
 
-  delete tableProps.RowWrapper;
-  if (rows?.length === 0) {
-    delete tableProps.actionResolver;
-  }
+  const modifiedTableProps = useMemo(() => {
+    const { RowWrapper, ...withoutRowWrapper } = tableProps;
+    if (rows?.length === 0) {
+      const { actionResolver, ...filteredTableProps } = withoutRowWrapper;
+
+      return filteredTableProps;
+    }
+    return withoutRowWrapper;
+  }, [rows, tableProps]);
 
   return (
     <React.Fragment>
@@ -130,7 +135,7 @@ const EntityTable = ({
               ...(actions && rows?.length > 0 && { actions }),
             }}
             isStickyHeader
-            {...tableProps}
+            {...modifiedTableProps}
           >
             <TableHeader />
             <TableBody />
@@ -147,7 +152,7 @@ const EntityTable = ({
                 }
           )}
           rowSize={15}
-          variant={variant ?? tableProps.variant}
+          variant={variant ?? modifiedTableProps.variant}
           isSelectable={hasCheckbox}
           sortBy={tableSortBy}
         />
