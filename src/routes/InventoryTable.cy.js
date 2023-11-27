@@ -44,7 +44,7 @@ const waitForTable = (waitNetwork = false) => {
 };
 
 before(() => {
-  cy.mockWindowChrome();
+  cy.mockWindowInsights();
 });
 
 describe('test data', () => {
@@ -235,7 +235,7 @@ describe('inventory table', () => {
   describe('integration with rbac', () => {
     describe('with only read permissions', () => {
       before(() => {
-        cy.mockWindowChrome({
+        cy.mockWindowInsights({
           userPermissions: ['inventory:*:read'],
         });
       });
@@ -273,7 +273,7 @@ describe('inventory table', () => {
 
     describe('with group-level hosts write permissions', () => {
       before(() => {
-        cy.mockWindowChrome({
+        cy.mockWindowInsights({
           userPermissions: [
             'inventory:*:read',
             {
@@ -352,7 +352,7 @@ describe('inventory table', () => {
 
     describe('with excluding group-level hosts write permissions', () => {
       before(() => {
-        cy.mockWindowChrome({
+        cy.mockWindowInsights({
           userPermissions: [
             'inventory:*:read',
             {
@@ -402,7 +402,7 @@ describe('inventory table', () => {
 
     describe('with limited groups write permissions', () => {
       before(() => {
-        cy.mockWindowChrome({
+        cy.mockWindowInsights({
           userPermissions: [
             'inventory:*:read',
             {

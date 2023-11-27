@@ -26,7 +26,7 @@ describe('test data', () => {
 
 describe('render the modal', () => {
   before(() => {
-    cy.mockWindowChrome();
+    cy.mockWindowInsights();
   });
 
   beforeEach(setInterceptors);

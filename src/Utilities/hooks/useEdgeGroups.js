@@ -4,7 +4,7 @@ import { fetchEdgeEnforceGroups } from '../../api';
 
 const useEdgeGroups = () => {
   const [data, setData] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const edgeParityInventoryGroupsEnabled = useFeatureFlag(
     'edgeParity.inventory-groups-enabled'

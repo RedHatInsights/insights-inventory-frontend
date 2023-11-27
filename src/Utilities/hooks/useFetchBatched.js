@@ -18,6 +18,20 @@ const useFetchBatched = () => {
 
       return results;
     },
+    fetchBatchedInline: (fetchFunction, list, batchSize = 20) => {
+      const pages = Math.ceil(list.length / batchSize) || 1;
+
+      const results = resolve(
+        [...new Array(pages)].map(
+          (_, pageIdx) => () =>
+            fetchFunction(
+              list.slice(batchSize * pageIdx, batchSize * (pageIdx + 1))
+            )
+        )
+      );
+
+      return results;
+    },
   };
 };
 

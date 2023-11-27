@@ -49,7 +49,7 @@ const mockResponse = [
 
 describe('Create Group Modal', () => {
   before(() => {
-    cy.mockWindowChrome();
+    cy.mockWindowInsights();
   });
 
   beforeEach(() => {

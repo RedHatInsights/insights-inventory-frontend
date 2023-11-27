@@ -37,7 +37,7 @@ const mountWithProps = (props) => {
 };
 
 before(() => {
-  cy.mockWindowChrome();
+  cy.mockWindowInsights();
 });
 
 describe('When edge parity feature is enabled', () => {

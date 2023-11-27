@@ -86,7 +86,7 @@ describe('test data', () => {
 });
 
 before(() => {
-  cy.mockWindowChrome();
+  cy.mockWindowInsights();
 });
 
 describe('renders correctly', () => {
@@ -457,7 +457,7 @@ describe('integration with rbac', () => {
 
   describe('has only read permissions', () => {
     before(() => {
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: READ_PERMISSIONS_WITH_RD,
       });
     });
@@ -481,7 +481,7 @@ describe('integration with rbac', () => {
 
   describe('has groups write permissions', () => {
     before(() => {
-      cy.mockWindowChrome({
+      cy.mockWindowInsights({
         userPermissions: [
           ...READ_PERMISSIONS_WITH_RD,
           ...WRITE_PERMISSIONS_WITH_RD,

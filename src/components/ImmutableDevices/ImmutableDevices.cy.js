@@ -44,7 +44,7 @@ const mountWithProps = (props) => {
 };
 
 before(() => {
-  cy.mockWindowChrome();
+  cy.mockWindowInsights();
 });
 
 describe('ImmutableDevices', () => {
