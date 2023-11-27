@@ -38,7 +38,6 @@ const ImmutableDevices = ({
     const filteredColumns = inventoryColumns.filter(
       (column) => !column.inventoryGroupsFeatureFlag || inventoryGroupsEnabled
     );
-
     return [...mergeAppColumns(filteredColumns), ...edgeColumns];
   };
 

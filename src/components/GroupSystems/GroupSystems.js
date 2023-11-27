@@ -20,7 +20,6 @@ import { clearEntitiesAction } from '../../store/actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
-
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -230,6 +229,7 @@ const GroupSystems = ({ groupName, groupId }) => {
 GroupSystems.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
+  hostType: PropTypes.string,
 };
 
 export default GroupSystems;
