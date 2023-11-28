@@ -10,7 +10,6 @@ import React, {
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
 import EntityTableToolbar from './EntityTableToolbar';
-import { TableToolbar } from '@redhat-cloud-services/frontend-components/TableToolbar';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import InventoryList from './InventoryList';
 import Pagination from './Pagination';
@@ -294,19 +293,17 @@ const InventoryTable = forwardRef(
           loaded={loaded}
           ignoreRefresh={ignoreRefresh}
         />
-        <TableToolbar isFooter className="ins-c-inventory__table--toolbar">
-          <Pagination
-            hasAccess={hasAccess}
-            isFull
-            total={pagination.total}
-            page={pagination.page}
-            perPage={pagination.perPage}
-            hasItems={hasItems}
-            onRefreshData={onRefreshData}
-            paginationProps={paginationProps}
-            loaded={loaded}
-          />
-        </TableToolbar>
+        <Pagination
+          hasAccess={hasAccess}
+          isFull
+          total={pagination.total}
+          page={pagination.page}
+          perPage={pagination.perPage}
+          hasItems={hasItems}
+          onRefreshData={onRefreshData}
+          paginationProps={paginationProps}
+          loaded={loaded}
+        />
       </Fragment>
     ) : (
       errorState

@@ -33,9 +33,15 @@ exports[`InventoryTable should render correctly - no data 1`] = `
       perPage={50}
     />
   </ForwardRef>
-  <TableToolbar
-    className="ins-c-inventory__table--toolbar"
-    isFooter={true}
+  <FooterPagination
+    direction="up"
+    hasAccess={true}
+    hasItems={false}
+    isFull={true}
+    onRefreshData={[Function]}
+    page={1}
+    perPage={50}
+    total={0}
   />
 </ForwardRef>
 `;
@@ -99,9 +105,16 @@ exports[`InventoryTable should render correctly - with no access 1`] = `
       />
     </div>
   </ForwardRef>
-  <TableToolbar
-    className="ins-c-inventory__table--toolbar"
-    isFooter={true}
+  <FooterPagination
+    direction="up"
+    hasAccess={false}
+    hasItems={false}
+    isFull={true}
+    loaded={false}
+    onRefreshData={[Function]}
+    page={1}
+    perPage={50}
+    total={500}
   />
 </ForwardRef>
 `;
@@ -190,9 +203,16 @@ exports[`InventoryTable should render correctly 1`] = `
       }
     />
   </ForwardRef>
-  <TableToolbar
-    className="ins-c-inventory__table--toolbar"
-    isFooter={true}
+  <FooterPagination
+    direction="up"
+    hasAccess={true}
+    hasItems={false}
+    isFull={true}
+    loaded={false}
+    onRefreshData={[Function]}
+    page={1}
+    perPage={50}
+    total={500}
   />
 </ForwardRef>
 `;
@@ -323,9 +343,16 @@ exports[`InventoryTable should render correctly with items 1`] = `
       }
     />
   </ForwardRef>
-  <TableToolbar
-    className="ins-c-inventory__table--toolbar"
-    isFooter={true}
+  <FooterPagination
+    direction="up"
+    hasAccess={true}
+    hasItems={true}
+    isFull={true}
+    loaded={false}
+    onRefreshData={[Function]}
+    page={5}
+    perPage={20}
+    total={200}
   />
 </ForwardRef>
 `;
@@ -435,9 +462,16 @@ exports[`InventoryTable should render correctly with items no totla 1`] = `
       }
     />
   </ForwardRef>
-  <TableToolbar
-    className="ins-c-inventory__table--toolbar"
-    isFooter={true}
+  <FooterPagination
+    direction="up"
+    hasAccess={true}
+    hasItems={true}
+    isFull={true}
+    loaded={false}
+    onRefreshData={[Function]}
+    page={5}
+    perPage={20}
+    total={1}
   />
 </ForwardRef>
 `;
