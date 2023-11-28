@@ -56,7 +56,12 @@ export const defaultColumns = () => [
     title: 'Group',
     props: { width: 10 },
     // eslint-disable-next-line camelcase
-    renderFunc: (groups) => (isEmpty(groups) ? 'N/A' : groups[0].name), // currently, one group at maximum is supported
+    renderFunc: (groups) =>
+      isEmpty(groups) ? (
+        <div className="pf-v5-u-disabled-color-100">No group </div>
+      ) : (
+        groups[0].name
+      ), // currently, one group at maximum is supported
     transforms: [fitContent],
   },
   {
