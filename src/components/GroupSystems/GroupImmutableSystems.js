@@ -1,4 +1,4 @@
-import { TableVariant, fitContent } from '@patternfly/react-table';
+import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,21 +35,6 @@ export const prepareColumns = (
   const columns = hideGroupColumn
     ? initialColumns.filter(({ key }) => key !== 'groups')
     : initialColumns;
-
-  // additionally insert the "update method" column
-  columns.splice(columns.length - 2 /* must be the 3rd col from the end */, 0, {
-    key: 'update_method',
-    title: 'Update method',
-    sortKey: 'update_method',
-    transforms: [fitContent],
-    renderFunc: (value, hostId, systemData) =>
-      systemData?.system_profile?.system_update_method || 'N/A',
-    props: {
-      // TODO: remove isStatic when the sorting is supported by API
-      isStatic: true,
-      width: 10,
-    },
-  });
   columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc = (
     value,
     hostId
@@ -72,6 +57,8 @@ export const prepareColumns = (
     'system_profile',
     'update_method',
     'updated',
+    'image',
+    'status',
   ]
     .map((colKey) => columns.find(({ key }) => key === colKey))
     .filter(Boolean); // eliminate possible undefined's
@@ -84,6 +71,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     const filteredColumns = inventoryColumns.filter(
       (column) => column.key !== 'groups'
     );
+    inventoryColumns[inventoryColumns.findIndex(({ key }) => console.log(key))];
     return [...filteredColumns, ...edgeColumns];
   };
 
@@ -129,26 +117,49 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     showTags,
     defaultGetEntities
   ) => {
-    const updateInfo = await getUpdateInfo(groupId);
-    setDeviceData(updateInfo?.update_devices_uuids);
-    setDeviceImageSet(updateInfo?.device_image_set_info);
-    const mapDeviceIds = Object.keys(updateInfo?.device_image_set_info);
-    const customResult = await fetchImagesData({ devices_uuid: mapDeviceIds });
-    const rowInfo = [];
-    customResult?.data?.devices.forEach((row) => {
-      rowInfo.push({ ...row, id: row.DeviceUUID });
-    });
-    const items = rowInfo.map(({ id }) => id);
-    const enhancedConfig = { ...config, hasItems: true };
+    const enhancedConfig = {
+      ...config,
+      filters: {
+        ...config.filters,
+        hostGroupFilter: [groupName],
+        hostTypeFilter: 'edge',
+      },
+      hasItems: false,
+    };
     const defaultData = await defaultGetEntities(
       items,
       enhancedConfig,
       showTags
     );
-    return {
-      results: mergeArraysByKey([defaultData.results, rowInfo]),
-      total: customResult?.data?.total,
-    };
+    let mapDeviceIds = [];
+    defaultData.results.forEach((data) => {
+      mapDeviceIds.push(data.id);
+    });
+    const updateInfo = await getUpdateInfo(groupId);
+    setDeviceData(updateInfo?.update_devices_uuids);
+    setDeviceImageSet(updateInfo?.device_image_set_info);
+    const rowInfo = [];
+    let items = [];
+    if (defaultData.total > 0) {
+      const customResult = await fetchImagesData({
+        devices_uuid: mapDeviceIds,
+      });
+      customResult?.data?.devices.forEach((row) => {
+        rowInfo.push({ ...row, id: row.DeviceUUID });
+      });
+      items = rowInfo.map(({ id }) => id);
+
+      return {
+        results: mergeArraysByKey([defaultData.results, rowInfo]),
+        total: customResult?.data?.total,
+      };
+    } else {
+      return {
+        results: mergeArraysByKey([defaultData.results]),
+        total: 0,
+      };
+    }
+    // }
   };
 
   useEffect(() => {
@@ -244,7 +255,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       )}
       {!addToGroupModalOpen && (
         <InventoryTable
-          columns={(columns) => mergeColumns(columns)}
+          columns={(columns) => mergeColumns(prepareColumns(columns))}
           hideFilters={{ hostGroupFilter: true }}
           // getEntities={entities}
           getEntities={customGetEntities}
