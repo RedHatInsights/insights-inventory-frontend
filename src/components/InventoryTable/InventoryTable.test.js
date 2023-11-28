@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 import InventoryTable from './InventoryTable';
 import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
@@ -206,30 +205,28 @@ describe('InventoryTable', () => {
       }
     }
 
-    it('should not reload on customFilters', async () => {
+    it('should not reload on customFilters', () => {
       const store = mockStore(initialState);
       const wrapper = mount(<Dummy store={store} />);
 
-      await act(async () => {
-        wrapper.setProps({
-          customFilters: { system_profile: { sap_ids: ['id1'] } },
-        });
+      wrapper.setProps({
+        customFilters: { system_profile: { sap_ids: ['id1'] } },
       });
+
       wrapper.update();
 
       expect(spy).not.toHaveBeenCalled();
     });
 
-    it('should reload on customFilters', async () => {
+    it('should reload on customFilters', () => {
       const store = mockStore(initialState);
       let wrapper;
 
-      await act(async () => {
-        wrapper = mount(<Dummy store={store} autoRefresh />);
-        wrapper.setProps({
-          customFilters: { system_profile: { sap_ids: ['id1'] } },
-        });
+      wrapper = mount(<Dummy store={store} autoRefresh />);
+      wrapper.setProps({
+        customFilters: { system_profile: { sap_ids: ['id1'] } },
       });
+
       wrapper.update();
 
       expect(spy).toHaveBeenCalled();
