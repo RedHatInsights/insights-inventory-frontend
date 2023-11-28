@@ -5,7 +5,6 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
-import Main from '@redhat-cloud-services/frontend-components/Main';
 import HybridInventoryTabs from '../components/InventoryTabs/HybridInventoryTabs';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { useLocation } from 'react-router-dom';
@@ -45,7 +44,11 @@ const Inventory = (props) => {
       <PageHeader className="pf-m-light">
         <PageHeaderTitle title="Systems" />
       </PageHeader>
-      <Main>
+      <section
+        className="pf-l-page__main-section pf-c-page__main-section"
+        data-ouia-component-id="inventory-table-wrapper"
+        style={{ height: '100%' }}
+      >
         <HybridInventoryTabs
           ConventionalSystemsTab={
             <SuspenseWrapper>
@@ -62,7 +65,7 @@ const Inventory = (props) => {
           accountHasEdgeImages={hasEdgeDevices}
           hasConventionalSystems={hasConventionalSystems}
         />
-      </Main>
+      </section>
     </React.Fragment>
   );
 };
