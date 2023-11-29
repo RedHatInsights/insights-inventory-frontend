@@ -58,7 +58,7 @@ export const defaultColumns = () => [
     // eslint-disable-next-line camelcase
     renderFunc: (groups) =>
       isEmpty(groups) ? (
-        <div className="pf-v5-u-disabled-color-100">No group </div>
+        <div className="pf-v5-u-disabled-color-200">No group</div>
       ) : (
         groups[0].name
       ), // currently, one group at maximum is supported
