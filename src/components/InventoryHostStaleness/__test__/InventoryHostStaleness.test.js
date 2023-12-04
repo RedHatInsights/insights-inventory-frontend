@@ -11,12 +11,12 @@ import { instance } from '@redhat-cloud-services/frontend-components-utilities/i
 describe('Table Renders', () => {
   const mock = new MockAdapter(instance);
   const stalenessData = {
-    conventional_staleness_delta: 86400,
-    conventional_stale_warning_delta: 604800,
-    conventional_culling_delta: 1209600,
-    immutable_staleness_delta: 172800,
-    immutable_stale_warning_delta: 1290600,
-    immutable_culling_delta: 15552000,
+    conventional_time_to_stale: 86400,
+    conventional_time_to_stale_warning: 604800,
+    conventional_time_to_deletion: 1209600,
+    immutable_time_to_stale: 172800,
+    immutable_time_to_stale_warning: 1290600,
+    immutable_time_to_deletion: 15552000,
     id: 'system_default',
   };
 
