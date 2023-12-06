@@ -7,7 +7,11 @@ import { createGroup, validateGroupName } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 
-export const validate = async (value) => {
+export const validate = async (value = '') => {
+  if (value.length === 0) {
+    return undefined; // the input is empty
+  }
+
   const results = await validateGroupName(value.trim());
   if (results === true) {
     throw 'Group name already exists';
