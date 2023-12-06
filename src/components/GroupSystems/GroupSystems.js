@@ -20,6 +20,8 @@ import { clearEntitiesAction } from '../../store/actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
+import useGlobalFilter from '../filters/useGlobalFilter';
+
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -74,6 +76,7 @@ export const prepareColumns = (
 
 const GroupSystems = ({ groupName, groupId }) => {
   const dispatch = useDispatch();
+  const globalFilter = useGlobalFilter();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [currentSystem, setCurrentSystem] = useState([]);
@@ -104,7 +107,7 @@ const GroupSystems = ({ groupName, groupId }) => {
 
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
-    null,
+    globalFilter,
     total,
     rows,
     true,
@@ -220,6 +223,8 @@ const GroupSystems = ({ groupName, groupId }) => {
           showTags
           ref={inventory}
           showCentosVersions
+          customFilters={{ globalFilter }}
+          autoRefresh
         />
       )}
     </div>
