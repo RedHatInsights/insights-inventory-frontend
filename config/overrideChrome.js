@@ -3,7 +3,7 @@ const chromeMock = {
   isBeta: () => false,
   appAction: () => {},
   appObjectId: () => {},
-  on: () => {},
+  on: () => () => {},
   getApp: () => 'inventory',
   getBundle: () => 'insights',
   getUserPermissions: () => [{ permission: 'inventory:*:*' }],
@@ -25,6 +25,7 @@ const chromeMock = {
         },
       }),
   },
+  hideGlobalFilter: () => {},
 };
 
 export default () => chromeMock;

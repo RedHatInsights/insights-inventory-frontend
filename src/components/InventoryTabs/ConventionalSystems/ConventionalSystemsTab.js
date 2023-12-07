@@ -9,7 +9,6 @@ import { generateFilter } from '../../../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../../InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AddSelectedHostsToGroupModal from '../../InventoryGroups/Modals/AddSelectedHostsToGroupModal';
-import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
 import RemoveHostsFromGroupModal from '../../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import {
@@ -27,6 +26,7 @@ import uniq from 'lodash/uniq';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import useTableActions from './useTableActions';
 import { calculateFilters, calculatePagination } from './Utilities';
+import useGlobalFilter from '../../filters/useGlobalFilter';
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
   const requiredPermissions = selectedSystems.map(({ groups }) =>
@@ -87,7 +87,7 @@ const ConventionalSystemsTab = ({
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
-  const [globalFilter, setGlobalFilter] = useState();
+  const globalFilter = useGlobalFilter();
   const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
   const loaded = useSelector(({ entities }) => entities?.loaded);
   const selected = useSelector(({ entities }) => entities?.selected);
@@ -118,37 +118,10 @@ const ConventionalSystemsTab = ({
     }
   };
 
-  const EdgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter'
-  );
-
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
-    chrome?.hideGlobalFilter?.(false);
     chrome.appAction('system-list');
     chrome.appObjectId();
-    chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
-      const [workloads, SID, tags] = chrome.mapGlobalFilter(data, false, true);
-      setGlobalFilter({
-        tags,
-        filter: {
-          ...globalFilter?.filter,
-          system_profile: {
-            ...globalFilter?.filter?.system_profile,
-            ...(workloads?.SAP?.isSelected && { sap_system: true }),
-            ...(workloads &&
-              workloads['Ansible Automation Platform']?.isSelected && {
-                ansible: 'not_nil',
-              }),
-            ...(workloads?.['Microsoft SQL']?.isSelected && {
-              mssql: 'not_nil',
-            }),
-            ...(EdgeParityFilterDeviceEnabled && { host_type: 'nil' }),
-            ...(SID?.length > 0 && { sap_sids: SID }),
-          },
-        },
-      });
-    });
     dispatch(actions.clearNotifications());
 
     if (perPage || page) {
