@@ -23,10 +23,9 @@ import {
   ActionDropdownItem,
 } from '../../InventoryTable/ActionWithRBAC';
 import uniq from 'lodash/uniq';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import useTableActions from './useTableActions';
-import { calculateFilters, calculatePagination } from './Utilities';
 import useGlobalFilter from '../../filters/useGlobalFilter';
+import useOnRefresh from '../../filters/useOnRefresh';
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
   const requiredPermissions = selectedSystems.map(({ groups }) =>
@@ -65,7 +64,6 @@ const ConventionalSystemsTab = ({
   hasAccess,
   hostGroupFilter,
 }) => {
-  const navigate = useInsightsNavigate();
   const chrome = useChrome();
   const inventory = useRef(null);
   const [isModalOpen, handleModalToggle] = useState(false);
@@ -101,22 +99,9 @@ const ConventionalSystemsTab = ({
     loaded
   );
 
-  const onRefresh = (options, callback) => {
+  const onRefresh = useOnRefresh((options) => {
     onSetfilters(options?.filters);
-    const searchParams = new URLSearchParams();
-    calculateFilters(searchParams, options?.filters);
-    // eslint-disable-next-line camelcase
-    calculatePagination(searchParams, options?.page, options?.per_page);
-    const search = searchParams.toString();
-    navigate({
-      search,
-      hash: location.hash,
-    });
-
-    if (callback) {
-      callback(options);
-    }
-  };
+  });
 
   useEffect(() => {
     chrome.updateDocumentTitle('Systems | Red Hat Insights');
