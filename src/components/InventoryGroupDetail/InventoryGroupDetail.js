@@ -30,6 +30,7 @@ import {
   INVENTORY_TOTAL_FETCH_URL_SERVER,
   hybridInventoryTabKeys,
 } from '../../Utilities/constants';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 const SuspenseWrapper = ({ children }) => (
   <Suspense
@@ -52,7 +53,9 @@ const InventoryGroupDetail = ({ groupId }) => {
   );
 
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.groupDetail);
+  const { data, fulfilled } = useSelector((state) => state.groupDetail);
+  const navigate = useInsightsNavigate();
+
   const chrome = useChrome();
   const groupName = data?.results?.[0]?.name;
 
@@ -70,6 +73,8 @@ const InventoryGroupDetail = ({ groupId }) => {
   }, [canViewGroup]);
 
   useEffect(() => {
+    fulfilled && data?.total === 0 && navigate('/groups');
+
     // if available, change ID to the group's name in the window title
     chrome?.updateDocumentTitle?.(
       `${groupName || groupId} - Inventory Groups | Red Hat Insights`

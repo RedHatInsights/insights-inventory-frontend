@@ -66,7 +66,6 @@ const GroupDetailHeader = ({ groupId }) => {
             await getInventoryGroupDevicesUpdateInfo(groupId);
           setEdgeDeviceUpdateInfo(groupEdgeDevicesUpdateInfo);
         } catch (error) {
-          navigate('/groups');
           console.error(error);
         }
       })();
