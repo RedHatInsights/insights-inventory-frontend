@@ -58,10 +58,10 @@ const TEST_ID = hostsAllInGroupFixtures.results[0].groups[0].id;
 const checkSelectedNumber = (number) =>
   checkSelectedNumber_(number, '#bulk-select-systems-toggle-checkbox-text');
 
-const mountTable = () =>
+const mountTable = (initialEntries) =>
   cy.mountWithContext(
     GroupSystems,
-    {},
+    initialEntries ? { routerProps: { initialEntries } } : undefined,
     { groupName: GROUP_NAME, groupId: TEST_ID }
   );
 
@@ -224,20 +224,23 @@ describe('filtering', () => {
     featureFlagsInterceptors.successful();
     systemProfileInterceptors['operating system, successful empty']();
     groupsInterceptors['successful with some items']();
-    mountTable();
-
-    waitForTable(true);
   });
 
   const applyNameFilter = () =>
     cy.get('.ins-c-primary-toolbar__filter').find('input').type('lorem');
   it('renders filter chip', () => {
+    mountTable();
+    waitForTable(true);
+
     applyNameFilter();
     hasChip('Display name', 'lorem');
     cy.wait('@getHosts');
   });
 
   it('sends correct request', () => {
+    mountTable();
+    waitForTable(true);
+
     applyNameFilter();
     cy.wait('@getHosts')
       .its('request.url')
@@ -245,6 +248,9 @@ describe('filtering', () => {
   });
 
   it('can remove the chip or reset filters', () => {
+    mountTable();
+    waitForTable(true);
+
     applyNameFilter();
     cy.wait('@getHosts')
       .its('request.url')
@@ -266,10 +272,27 @@ describe('filtering', () => {
   });
 
   it('should not contain group filter', () => {
+    mountTable();
+    waitForTable(true);
+
     cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
   });
-  // TODO: add more filter cases
+
+  it('should read url pagination', () => {
+    mountTable(['/?per_page=10&page=2']);
+    waitForTable(true);
+
+    cy.ouiaId('CompactPagination').should('contain.text', '11 - 20');
+    cy.get('[aria-label="Current page"]').should('have.value', '2');
+  });
+
+  it('should read url filter', () => {
+    mountTable(['/?hostname_or_id=test']);
+    waitForTable(true);
+
+    hasChip('Display name', 'test');
+  });
 });
 
 describe('selection and bulk selection', () => {
