@@ -8,7 +8,7 @@ import {
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import HybridInventoryTabs from '../components/InventoryTabs/HybridInventoryTabs';
 import { Bullseye, Spinner } from '@patternfly/react-core';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { getSearchParams } from '../constants';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import { AccountStatContext } from '../Routes';
@@ -34,9 +34,12 @@ const SuspenseWrapper = ({ children }) => (
   </Suspense>
 );
 const Inventory = (props) => {
-  const { search } = useLocation();
-  const searchParams = useMemo(() => getSearchParams(), [search.toString()]);
-  const fullProps = { ...props, ...searchParams };
+  const [searchParams] = useSearchParams();
+  const parsedSearchParams = useMemo(
+    () => getSearchParams(searchParams),
+    [searchParams.toString()]
+  );
+  const fullProps = { ...props, ...parsedSearchParams };
   const isEdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
   const { hasEdgeDevices, hasConventionalSystems } =
     useContext(AccountStatContext);
@@ -49,12 +52,12 @@ const Inventory = (props) => {
         <HybridInventoryTabs
           ConventionalSystemsTab={
             <SuspenseWrapper>
-              <ConventionalSystemsTab {...fullProps} />
+              <ConventionalSystemsTab {...fullProps} {...parsedSearchParams} />
             </SuspenseWrapper>
           }
           ImmutableDevicesTab={
             <SuspenseWrapper>
-              <ImmutableDevicesTab {...fullProps} />
+              <ImmutableDevicesTab {...fullProps} {...parsedSearchParams} />
             </SuspenseWrapper>
           }
           isImmutableTabOpen={props.isImmutableTabOpen}

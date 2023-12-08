@@ -3,11 +3,9 @@ import React, {
   createContext,
   lazy,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
-import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import { Bullseye, Spinner } from '@patternfly/react-core';
@@ -47,7 +45,6 @@ export const AccountStatContext = createContext({
 });
 
 export const Routes = () => {
-  const searchParams = useMemo(() => getSearchParams(), []);
   const [hasConventionalSystems, setHasConventionalSystems] = useState(true);
   const [hasEdgeDevices, setHasEdgeDevices] = useState(true);
   const edgeParityInventoryListEnabled = useFeatureFlag(
@@ -74,7 +71,7 @@ export const Routes = () => {
   let element = useRoutes([
     {
       path: '/',
-      element: <RenderWrapper cmp={InventoryTable} {...searchParams} />,
+      element: <RenderWrapper cmp={InventoryTable} />,
     },
     { path: '/:inventoryId', element: <InventoryDetail /> },
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
@@ -93,12 +90,7 @@ export const Routes = () => {
     {
       path: '/manage-edge-inventory',
       element: (
-        <RenderWrapper
-          cmp={InventoryTable}
-          isRbacEnabled
-          {...searchParams}
-          isImmutableTabOpen
-        />
+        <RenderWrapper cmp={InventoryTable} isRbacEnabled isImmutableTabOpen />
       ),
     },
     {
