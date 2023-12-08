@@ -1,26 +1,29 @@
 import { TableVariant, fitContent } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
   NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
+  getSearchParams,
 } from '../../constants';
 import {
   ActionButton,
   ActionDropdownItem,
 } from '../InventoryTable/ActionWithRBAC';
-import { clearEntitiesAction } from '../../store/actions';
+import { clearEntitiesAction, setPagination } from '../../store/actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import useGlobalFilter from '../filters/useGlobalFilter';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
+import useOnRefresh from '../filters/useOnRefresh';
+import { generateFilter } from '../../Utilities/constants';
 
 export const prepareColumns = (
   initialColumns,
@@ -97,13 +100,48 @@ const GroupSystems = ({ groupName, groupId }) => {
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
   );
 
+  const [searchParams] = useSearchParams();
+
   useEffect(() => {
+    const { page, perPage } = getSearchParams(searchParams);
+
+    if (perPage !== null || page !== null) {
+      dispatch(setPagination(page, perPage));
+    }
+
     return () => {
       dispatch(clearEntitiesAction());
     };
   }, []);
 
   const calculateSelected = () => (selected ? selected.size : 0);
+
+  const onRefresh = useOnRefresh();
+  const initialFilters = useMemo(() => {
+    const {
+      status,
+      source,
+      tagsFilter,
+      filterbyName,
+      operatingSystem,
+      rhcdFilter,
+      updateMethodFilter,
+      hostGroupFilter,
+      lastSeenFilter,
+    } = getSearchParams(searchParams);
+
+    return generateFilter(
+      status,
+      source,
+      tagsFilter,
+      filterbyName,
+      operatingSystem,
+      rhcdFilter,
+      updateMethodFilter,
+      hostGroupFilter,
+      lastSeenFilter
+    );
+  }, []);
 
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
@@ -217,8 +255,10 @@ const GroupSystems = ({ groupName, groupId }) => {
           showTags
           ref={inventory}
           showCentosVersions
-          customFilters={{ globalFilter }}
+          customFilters={{ filters: initialFilters, globalFilter }}
           autoRefresh
+          onRefresh={onRefresh}
+          ignoreRefresh
         />
       )}
     </div>
