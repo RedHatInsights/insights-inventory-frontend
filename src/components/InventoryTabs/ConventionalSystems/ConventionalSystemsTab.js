@@ -61,7 +61,6 @@ const ConventionalSystemsTab = ({
   lastSeenFilter,
   page,
   perPage,
-  initialLoading,
   hasAccess,
   hostGroupFilter,
 }) => {
@@ -70,18 +69,16 @@ const ConventionalSystemsTab = ({
   const inventory = useRef(null);
   const [isModalOpen, handleModalToggle] = useState(false);
   const [currentSystem, setCurrentSystem] = useState({});
-  const [filters, onSetfilters] = useState(
-    generateFilter(
-      status,
-      source,
-      tagsFilter,
-      filterbyName,
-      operatingSystem,
-      rhcdFilter,
-      updateMethodFilter,
-      hostGroupFilter,
-      lastSeenFilter
-    )
+  const filters = generateFilter(
+    status,
+    source,
+    tagsFilter,
+    filterbyName,
+    operatingSystem,
+    rhcdFilter,
+    updateMethodFilter,
+    hostGroupFilter,
+    lastSeenFilter
   );
   const [ediOpen, onEditOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
@@ -102,16 +99,25 @@ const ConventionalSystemsTab = ({
   );
 
   const onRefresh = (options, callback) => {
-    onSetfilters(options?.filters);
-    const searchParams = new URLSearchParams();
-    calculateFilters(searchParams, options?.filters);
-    // eslint-disable-next-line camelcase
-    calculatePagination(searchParams, options?.page, options?.per_page);
-    const search = searchParams.toString();
-    navigate({
-      search,
-      hash: location.hash,
-    });
+    const filterSearchParams = calculateFilters(
+      new URLSearchParams(),
+      options?.filters
+    );
+    const searchParams = calculatePagination(
+      filterSearchParams,
+      options?.page,
+      options?.per_page
+    );
+
+    navigate(
+      {
+        search: searchParams.toString(),
+        hash: location.hash,
+      },
+      {
+        replace: true,
+      }
+    );
 
     if (callback) {
       callback(options);
@@ -175,15 +181,11 @@ const ConventionalSystemsTab = ({
     <Fragment>
       <InventoryTableCmp
         hasAccess={hasAccess}
-        isRbacEnabled
         customFilters={{ filters, globalFilter }}
         isFullView
         showTags
         onRefresh={onRefresh}
         hasCheckbox
-        autoRefresh
-        ignoreRefresh
-        initialLoading={initialLoading}
         ref={inventory}
         tableProps={{
           actionResolver: tableActions,
@@ -369,7 +371,6 @@ ConventionalSystemsTab.propTypes = {
   perPage: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ),
-  initialLoading: PropTypes.bool,
   rhcdFilter: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
@@ -387,10 +388,6 @@ ConventionalSystemsTab.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
-};
-
-ConventionalSystemsTab.defaultProps = {
-  initialLoading: true,
 };
 
 export default ConventionalSystemsTab;

@@ -8,7 +8,7 @@ import {
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import HybridInventoryTabs from '../components/InventoryTabs/HybridInventoryTabs';
 import { Bullseye, Spinner } from '@patternfly/react-core';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { getSearchParams } from '../constants';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
 import { AccountStatContext } from '../Routes';
@@ -34,12 +34,15 @@ const SuspenseWrapper = ({ children }) => (
   </Suspense>
 );
 const Inventory = (props) => {
-  const { search } = useLocation();
-  const searchParams = useMemo(() => getSearchParams(), [search.toString()]);
-  const fullProps = { ...props, ...searchParams };
+  const [searchParams] = useSearchParams();
+  const fullProps = useMemo(
+    () => ({ ...props, ...getSearchParams(searchParams) }),
+    [searchParams]
+  );
   const isEdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
   const { hasEdgeDevices, hasConventionalSystems } =
     useContext(AccountStatContext);
+
   return (
     <React.Fragment>
       <PageHeader className="pf-m-light">
@@ -68,7 +71,6 @@ const Inventory = (props) => {
 };
 
 Inventory.defaultProps = {
-  initialLoading: true,
   notificationProp: PropTypes.object,
 };
 Inventory.propTypes = {
