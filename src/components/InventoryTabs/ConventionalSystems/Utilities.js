@@ -87,4 +87,6 @@ export const calculatePagination = (searchParams, page, perPage) => {
     perPage !== undefined ? perPage : currSearch.get('per_page');
   !isNaN(parseInt(newPage)) && searchParams.append('page', newPage);
   !isNaN(parseInt(newPerPage)) && searchParams.append('per_page', newPerPage);
+
+  return searchParams;
 };

@@ -190,7 +190,11 @@ describe('EntityTableToolbar', () => {
       });
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded={false} />
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded={false}
+            hasAccess={true}
+          />
         </Provider>
       );
 
@@ -211,7 +215,12 @@ describe('EntityTableToolbar', () => {
       const store = mockStore(initialState);
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded
+            total={1}
+            hasAccess={true}
+          />
         </Provider>
       );
 
@@ -233,6 +242,7 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
             total={1}
+            hasAccess={true}
           />
         </Provider>
       );
@@ -278,6 +288,7 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
             total={1}
+            hasAccess={true}
           />
         </Provider>
       );
@@ -305,6 +316,7 @@ describe('EntityTableToolbar', () => {
               items: [{ label: 'Filter by text', type: 'custom' }],
             }}
             total={1}
+            hasAccess={true}
           />
         </Provider>
       );
@@ -346,6 +358,7 @@ describe('EntityTableToolbar', () => {
             }}
             showTags
             total={1}
+            hasAccess={true}
           />
         </Provider>
       );
@@ -365,7 +378,12 @@ describe('EntityTableToolbar', () => {
       });
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded
+            total={1}
+            hasAccess={true}
+          />
         </Provider>
       );
 
@@ -407,6 +425,7 @@ describe('EntityTableToolbar', () => {
             loaded
             showTags
             total={1}
+            hasAccess={true}
           />
         </Provider>
       );
@@ -447,7 +466,12 @@ describe('EntityTableToolbar', () => {
       });
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded
+            total={1}
+            hasAccess={true}
+          />
         </Provider>
       );
 
@@ -463,7 +487,12 @@ describe('EntityTableToolbar', () => {
       const store = mockStore(initialState);
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1}>
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded
+            total={1}
+            hasAccess={true}
+          >
             <div>something</div>
           </EntityTableToolbar>
         </Provider>
@@ -482,6 +511,7 @@ describe('EntityTableToolbar', () => {
             perPage={50}
             onRefreshData={onRefreshData}
             loaded
+            hasAccess={true}
           />
         </Provider>
       );
@@ -508,6 +538,7 @@ describe('EntityTableToolbar', () => {
               ],
             }}
             showTags
+            hasAccess={true}
           />
         </Provider>
       );
@@ -540,6 +571,7 @@ describe('EntityTableToolbar', () => {
               perPage={50}
               onRefreshData={onRefreshData}
               loaded
+              hasAccess={true}
             />
           </Provider>
         );
@@ -563,6 +595,7 @@ describe('EntityTableToolbar', () => {
               perPage={50}
               onRefreshData={onRefreshData}
               loaded
+              hasAccess={true}
             />
           </Provider>
         );
@@ -594,6 +627,7 @@ describe('EntityTableToolbar', () => {
               perPage={50}
               onRefreshData={onRefreshData}
               loaded
+              hasAccess={true}
             />
           </Provider>
         );
@@ -629,6 +663,7 @@ describe('EntityTableToolbar', () => {
               perPage={50}
               onRefreshData={onRefreshData}
               loaded
+              hasAccess={true}
             />
           </Provider>
         );
@@ -682,6 +717,7 @@ describe('EntityTableToolbar', () => {
               showTags
               onRefreshData={onRefreshData}
               loaded
+              hasAccess={true}
             />
           </Provider>
         );
@@ -712,6 +748,7 @@ describe('EntityTableToolbar', () => {
               perPage={50}
               onRefreshData={onRefreshData}
               loaded
+              hasAccess={true}
             />
           </Provider>
         );
@@ -743,6 +780,7 @@ describe('EntityTableToolbar', () => {
               }}
               onRefreshData={onRefreshData}
               loaded
+              hasAccess={true}
             />
           </Provider>
         );
@@ -768,6 +806,7 @@ describe('EntityTableToolbar', () => {
             perPage={50}
             onRefreshData={onRefreshData}
             loaded
+            hasAccess={true}
           />
         </Provider>
       );
@@ -802,6 +841,7 @@ describe('EntityTableToolbar', () => {
             }}
             onRefreshData={onRefreshData}
             loaded
+            hasAccess={true}
           />
         </Provider>
       );
@@ -824,7 +864,11 @@ describe('EntityTableToolbar', () => {
       const store = mockStore(initialState);
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded />
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded
+            hasAccess={true}
+          />
         </Provider>
       );
 
@@ -872,6 +916,7 @@ describe('EntityTableToolbar', () => {
             exportConfig={{
               onSelect: onSelectMock,
             }}
+            hasAccess={true}
           />
         </Provider>
       );
@@ -904,6 +949,7 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
             enableExport
+            hasAccess={true}
           />
         </Provider>
       );

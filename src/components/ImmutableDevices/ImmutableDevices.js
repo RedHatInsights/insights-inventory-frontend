@@ -38,7 +38,6 @@ const ImmutableDevices = ({
 
   return (
     <InventoryTable
-      initialLoading
       disableDefaultColumns
       onLoad={onLoad}
       hideFilters={hideFilters}
@@ -54,7 +53,6 @@ const ImmutableDevices = ({
       hasCheckbox={false}
       isFullView
       ref={inventoryRef}
-      autoRefresh
       key="inventory"
       customFilters={customFilters}
       columns={(defaultColumns) => mergeColumns(defaultColumns)}

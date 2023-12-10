@@ -17,7 +17,7 @@ import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSys
 import { buildOperatingSystems } from '../../__factories__/operatingSystems';
 
 import InventoryTable from './InventoryTable';
-import { shouldDispatch, shouldNotDispatch } from '../../Utilities/testUtils';
+import { shouldDispatch } from '../../Utilities/testUtils';
 
 jest.mock('../../Utilities/hooks/useFetchOperatingSystems');
 jest.mock('../../Utilities/hooks/useFetchBatched');
@@ -182,6 +182,10 @@ const errorState = {
   },
 };
 
+const initialProps = {
+  hasAccess: true,
+};
+
 describe('InventoryTable', () => {
   const operatingSystems = [
     ...buildOperatingSystems(20, { osName: 'RHEL', major: 8 }),
@@ -211,15 +215,15 @@ describe('InventoryTable', () => {
   });
 
   describe('initial state', () => {
-    it('renders all table components', () => {
-      renderTable(mockStore(initialState));
+    it('renders all table components', async () => {
+      renderTable(mockStore(initialState), initialProps);
 
       expectMainComponents();
     });
 
     it('fetches entities', async () => {
       const store = mockStore(initialState);
-      renderTable(store);
+      renderTable(store, initialProps);
 
       await waitFor(() => {
         shouldDispatch(store, { type: 'LOAD_ENTITIES' });
@@ -229,7 +233,7 @@ describe('InventoryTable', () => {
 
     it('fetches operating system versions', async () => {
       const store = mockStore(initialState);
-      renderTable(store);
+      renderTable(store, initialProps);
 
       await waitFor(() => {
         expect(useFetchOperatingSystems).toBeCalled();
@@ -237,7 +241,7 @@ describe('InventoryTable', () => {
     });
 
     it('has empty skeleton rows', () => {
-      renderTable(mockStore(initialState));
+      renderTable(mockStore(initialState), initialProps);
 
       screen
         .getAllByRole('row')
@@ -246,7 +250,7 @@ describe('InventoryTable', () => {
     });
 
     it('renders four headers', () => {
-      renderTable(mockStore(initialState));
+      renderTable(mockStore(initialState), initialProps);
 
       expect(screen.getAllByRole('columnheader')).toHaveLength(4);
       TABLE_HEADERS.forEach((title) => {
@@ -259,7 +263,7 @@ describe('InventoryTable', () => {
     });
 
     it('does not sort by any column', () => {
-      renderTable(mockStore(initialState));
+      renderTable(mockStore(initialState), initialProps);
 
       screen.getAllByRole('columnheader').forEach((col) => {
         expect(col).not.toHaveAttribute('aria-sort');
@@ -267,13 +271,13 @@ describe('InventoryTable', () => {
     });
 
     it('provides default filters', async () => {
-      renderTable(mockStore(initialState));
+      renderTable(mockStore(initialState), initialProps);
 
       await expectFilters(DEFAULT_FILTER_NAMES);
     });
 
     it('name filter is selected by default', () => {
-      renderTable(mockStore(initialState));
+      renderTable(mockStore(initialState), initialProps);
 
       screen.getByRole('textbox', {
         name: /text input/i,
@@ -281,27 +285,31 @@ describe('InventoryTable', () => {
     });
 
     it('fetches groups for the group filter', () => {
-      renderTable(mockStore(initialState));
+      renderTable(mockStore(initialState), initialProps);
 
       expect(getGroupsSpied).toBeCalled();
     });
   });
 
   describe('loaded non-empty state', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     it('renders all table components', () => {
-      renderTable(mockStore(loadedState));
+      renderTable(mockStore(loadedState), initialProps);
 
       expectMainComponents();
     });
 
     it('renders rows available from store', () => {
-      renderTable(mockStore(loadedState));
+      renderTable(mockStore(loadedState), initialProps);
 
       checkRowsContent(hostsPayload.results);
     });
 
     it('spinbutton should show the correct page number', () => {
-      renderTable(mockStore(loadedState));
+      renderTable(mockStore(loadedState), initialProps);
 
       expect(
         screen.getByRole('spinbutton', {
@@ -311,7 +319,7 @@ describe('InventoryTable', () => {
     });
 
     it('should render correct pagination values', () => {
-      renderTable(mockStore(loadedState));
+      renderTable(mockStore(loadedState), initialProps);
 
       checkPagination(
         loadedState.entities.per_page,
@@ -321,7 +329,7 @@ describe('InventoryTable', () => {
     });
 
     it('sorts by last seen', () => {
-      renderTable(mockStore(loadedState));
+      renderTable(mockStore(loadedState), initialProps);
 
       expect(
         screen.getByRole('columnheader', {
@@ -335,7 +343,7 @@ describe('InventoryTable', () => {
         ([header, sortKey], index) =>
           it(`sorting by ${header.toLowerCase()} dispatches action`, async () => {
             const store = mockStore(loadedState);
-            renderTable(store);
+            renderTable(store, initialProps);
 
             await userEvent.click(
               screen.getByRole('button', {
@@ -353,9 +361,30 @@ describe('InventoryTable', () => {
       );
     });
 
+    it(`sorting calls getEntities only once`, async () => {
+      const store = mockStore(loadedState);
+      renderTable(store, initialProps);
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /name/i,
+        })
+      );
+
+      await waitFor(() => {
+        shouldDispatch(store, {
+          type: 'CHANGE_SORT',
+          index: 1,
+          key: 'display_name',
+        });
+      });
+
+      expect(getEntitiesSpied).toBeCalledTimes(1);
+    });
+
     it('changing name filter triggers new request', async () => {
       const store = mockStore(loadedState);
-      renderTable(store);
+      renderTable(store, initialProps);
 
       await userEvent.type(
         screen.getByRole('textbox', {
@@ -363,6 +392,7 @@ describe('InventoryTable', () => {
         }),
         'test'
       );
+
       await waitFor(() => {
         expect(getEntitiesSpied).toBeCalledWith(
           [],
@@ -371,11 +401,13 @@ describe('InventoryTable', () => {
           expect.anything()
         );
       });
+
+      expect(getEntitiesSpied).toBeCalledTimes(2);
     });
 
     it('selecting a row dispatches action', async () => {
       const store = mockStore(loadedState);
-      renderTable(store);
+      renderTable(store, initialProps);
 
       await userEvent.click(
         screen.getByRole('checkbox', {
@@ -392,7 +424,7 @@ describe('InventoryTable', () => {
 
     it('selecting all rows dispatches action', async () => {
       const store = mockStore(loadedState);
-      renderTable(store);
+      renderTable(store, initialProps);
 
       await userEvent.click(
         screen.getByRole('checkbox', {
@@ -410,13 +442,13 @@ describe('InventoryTable', () => {
 
   describe('loaded empty state', () => {
     it('renders all table components', () => {
-      renderTable(mockStore(emptyState));
+      renderTable(mockStore(emptyState), initialProps);
 
       expectMainComponents();
     });
 
     it('should inform about no matching systems', () => {
-      renderTable(mockStore(emptyState));
+      renderTable(mockStore(emptyState), initialProps);
 
       screen.getByRole('heading', {
         name: /no matching systems found/i,
@@ -425,7 +457,7 @@ describe('InventoryTable', () => {
     });
 
     it('renders unsortable default headers', () => {
-      renderTable(mockStore(emptyState));
+      renderTable(mockStore(emptyState), initialProps);
 
       TABLE_HEADERS.forEach((title) => {
         expect(
@@ -439,9 +471,7 @@ describe('InventoryTable', () => {
 
   describe('other parameters', () => {
     it('false hasAccess renders empty state', () => {
-      renderTable(mockStore(loadedState), {
-        hasAccess: false,
-      });
+      renderTable(mockStore(loadedState));
 
       screen.getByTestId('inventory-table-top-toolbar');
       screen.getByTestId('inventory-table-bottom-toolbar');
@@ -453,6 +483,7 @@ describe('InventoryTable', () => {
 
     it('full view renders no toolbars or lists', () => {
       renderTable(mockStore(loadedState), {
+        ...initialProps,
         hasAccess: false,
         isFullView: true,
       });
@@ -467,7 +498,9 @@ describe('InventoryTable', () => {
         screen.queryByTestId('inventory-table-top-toolbar')
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByTestId('inventory-table-list')
+        screen.queryByRole('grid', {
+          name: /host inventory/i,
+        })
       ).not.toBeInTheDocument();
       expect(
         screen.queryByTestId('inventory-table-bottom-toolbar')
@@ -475,9 +508,10 @@ describe('InventoryTable', () => {
     });
 
     describe('with items provided', () => {
-      it('requests specific ids', () => {
+      it('requests specific ids', async () => {
         const items = buildHosts(2);
         renderTable(mockStore(emptyState), {
+          ...initialProps,
           items,
           page: 1,
           perPage: 2,
@@ -485,17 +519,20 @@ describe('InventoryTable', () => {
           total: 2,
         });
 
-        expect(getEntitiesSpied).toBeCalledWith(
-          map(items, 'id'),
-          expect.anything(),
-          undefined,
-          expect.anything()
+        await waitFor(() =>
+          expect(getEntitiesSpied).toBeCalledWith(
+            map(items, 'id'),
+            expect.anything(),
+            undefined,
+            expect.anything()
+          )
         );
       });
 
       it('uses pagination given by props', () => {
         const items = buildHosts(2);
         renderTable(mockStore(emptyState), {
+          ...initialProps,
           items,
           page: 1,
           perPage: 2,
@@ -507,45 +544,32 @@ describe('InventoryTable', () => {
       });
     });
 
-    describe('autoRefresh', () => {
-      it('should not reload on customFilters', async () => {
-        const store = mockStore(initialState);
-        const { rerender } = renderTable(store);
+    it('should reload on customFilters', async () => {
+      const store = mockStore(initialState);
+      const { rerender } = renderTable(store, initialProps);
 
-        await waitFor(() => {
-          shouldDispatch(store, { type: 'LOAD_ENTITIES' });
-          expect(getEntitiesSpied).toBeCalled();
-        });
-        store.clearActions();
-        rerender({ customFilters: { system_profile: { sap_ids: ['id1'] } } });
-        shouldNotDispatch(store, { type: 'LOAD_ENTITIES' });
+      await waitFor(() => {
+        shouldDispatch(store, { type: 'LOAD_ENTITIES' });
+        expect(getEntitiesSpied).toBeCalled();
       });
 
-      it('should reload on customFilters', async () => {
-        const store = mockStore(initialState);
-        const { rerender } = renderTable(store, { autoRefresh: true });
+      store.clearActions();
+      rerender({
+        ...initialProps,
+        customFilters: {
+          system_profile: { sap_ids: ['id1'] },
+        },
+      });
 
-        await waitFor(() => {
-          shouldDispatch(store, { type: 'LOAD_ENTITIES' });
-          expect(getEntitiesSpied).toBeCalled();
-        });
-        store.clearActions();
-        rerender({
-          autoRefresh: true, // from initial props
-          customFilters: {
-            system_profile: { sap_ids: ['id1'] },
-          },
-        });
-        await waitFor(() => {
-          shouldDispatch(store, { type: 'LOAD_ENTITIES' });
-        });
+      await waitFor(() => {
+        shouldDispatch(store, { type: 'LOAD_ENTITIES' });
       });
     });
 
     describe('hideFilters', () => {
       it('should disable all filters', () => {
         const store = mockStore(loadedState);
-        renderTable(store, { hideFilters: { all: true } });
+        renderTable(store, { ...initialProps, hideFilters: { all: true } });
 
         expect(
           screen.queryByRole('button', {
@@ -561,7 +585,7 @@ describe('InventoryTable', () => {
 
       it('should disable only one filter', async () => {
         const store = mockStore(loadedState);
-        renderTable(store, { hideFilters: { name: true } });
+        renderTable(store, { ...initialProps, hideFilters: { name: true } });
 
         await expectFilters(
           DEFAULT_FILTER_NAMES.filter((name) => name !== 'Name')
@@ -570,7 +594,10 @@ describe('InventoryTable', () => {
 
       it('should disable all and enable name filter', () => {
         const store = mockStore(loadedState);
-        renderTable(store, { hideFilters: { all: true, name: false } });
+        renderTable(store, {
+          ...initialProps,
+          hideFilters: { all: true, name: false },
+        });
 
         expect(
           screen.queryByRole('button', {

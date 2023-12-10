@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import './EntityTableToolbar.scss';
-import React, { Fragment, useEffect, useReducer } from 'react';
+import React, { Fragment, useCallback, useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -267,32 +267,17 @@ const EntityTableToolbar = ({
   /**
    * Function to dispatch load systems and fetch all tags.
    */
-  const onRefreshDataInner = (options) => {
-    if (hasAccess) {
-      onRefreshData(options);
-      if (showTags && !hasItems) {
-        dispatch(fetchAllTags(filterTagsBy, {}, getTags));
+  const onRefreshDataInner = useCallback(
+    (options) => {
+      if (hasAccess) {
+        onRefreshData(options);
+        if (showTags && !hasItems) {
+          dispatch(fetchAllTags(filterTagsBy, {}, getTags));
+        }
       }
-    }
-  };
-
-  /**
-   * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
-   * `onRefresh` function takes two parameters
-   *   * entire config with new changes.
-   *   * callback to update data.
-   * @param {*} config new config to fetch data.
-   */
-  const updateData = (config) => {
-    if (hasAccess) {
-      onRefreshDataInner(config);
-    }
-  };
-
-  /**
-   * Debounced `updateData` function.
-   */
-  const debouncedRefresh = debounce((config) => updateData(config), 800);
+    },
+    [hasAccess]
+  );
 
   /**
    * Component did mount effect to calculate actual filters from redux.
@@ -314,7 +299,6 @@ const EntityTableToolbar = ({
       ...(customFilters?.filters || []),
     ]);
 
-    debouncedRefresh();
     enabledFilters.name && setTextFilter(textFilter);
     enabledFilters.stale && setStaleFilter(staleFilter);
     enabledFilters.registeredWith &&
@@ -334,7 +318,7 @@ const EntityTableToolbar = ({
    * @param {*} value new value used for filtering.
    * @param {*} debounced if debounce function should be used.
    */
-  const onSetTextFilter = (value, debounced = true) => {
+  const onSetTextFilter = (value) => {
     const trimmedValue = value?.trim();
 
     const textualFilter = activeFilters?.find(
@@ -347,8 +331,7 @@ const EntityTableToolbar = ({
       activeFilters?.push({ value: TEXT_FILTER, filter: trimmedValue });
     }
 
-    const refresh = debounced ? debouncedRefresh : updateData;
-    refresh({ page: 1, perPage, filters: activeFilters });
+    onRefreshDataInner({ page: 1, perPage, filters: activeFilters });
   };
 
   /**
@@ -384,7 +367,7 @@ const EntityTableToolbar = ({
 
   useEffect(() => {
     if (shouldReload && enabledFilters.stale) {
-      onSetFilter(staleFilter, 'staleFilter', debouncedRefresh);
+      onSetFilter(staleFilter, 'staleFilter', onRefreshDataInner);
     }
   }, [staleFilter]);
 
@@ -393,50 +376,50 @@ const EntityTableToolbar = ({
       onSetFilter(
         registeredWithFilter,
         'registeredWithFilter',
-        debouncedRefresh
+        onRefreshDataInner
       );
     }
   }, [registeredWithFilter]);
 
   useEffect(() => {
     if (shouldReload && showTags && enabledFilters.tags) {
-      onSetFilter(mapGroups(selectedTags), 'tagFilters', debouncedRefresh);
+      onSetFilter(mapGroups(selectedTags), 'tagFilters', onRefreshDataInner);
     }
   }, [selectedTags]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.operatingSystem) {
-      onSetFilter(osFilterValue, 'osFilter', debouncedRefresh);
+      onSetFilter(osFilterValue, 'osFilter', onRefreshDataInner);
     }
   }, [osFilterValue]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.rhcdFilter) {
-      onSetFilter(rhcdFilterValue, 'rhcdFilter', debouncedRefresh);
+      onSetFilter(rhcdFilterValue, 'rhcdFilter', onRefreshDataInner);
     }
   }, [rhcdFilterValue]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.lastSeenFilter) {
-      onSetFilter(lastSeenFilterValue, 'lastSeenFilter', debouncedRefresh);
+      onSetFilter(lastSeenFilterValue, 'lastSeenFilter', onRefreshDataInner);
     }
   }, [lastSeenFilterValue]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.updateMethodFilter) {
-      onSetFilter(updateMethodValue, 'updateMethodFilter', debouncedRefresh);
+      onSetFilter(updateMethodValue, 'updateMethodFilter', onRefreshDataInner);
     }
   }, [updateMethodValue]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.hostGroupFilter) {
-      onSetFilter(hostGroupValue, 'hostGroupFilter', debouncedRefresh);
+      onSetFilter(hostGroupValue, 'hostGroupFilter', onRefreshDataInner);
     }
   }, [hostGroupValue]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.systemTypeFilter) {
-      onSetFilter(systemTypeValue, 'systemTypeFilter', debouncedRefresh);
+      onSetFilter(systemTypeValue, 'systemTypeFilter', onRefreshDataInner);
     }
   }, [systemTypeValue]);
 
@@ -448,7 +431,7 @@ const EntityTableToolbar = ({
     [TAG_CHIP]: (deleted) =>
       setSelectedTags(
         onDeleteTag(deleted, selectedTags, (selectedTags) =>
-          onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData)
+          onSetFilter(mapGroups(selectedTags), 'tagFilters', onRefreshDataInner)
         )
       ),
     [STALE_CHIP]: (deleted) =>
@@ -490,7 +473,7 @@ const EntityTableToolbar = ({
     setEndDate();
     setStartDate(oldestDate);
     dispatch(setFilter([]));
-    updateData({ page: 1, filters: [] });
+    onRefreshDataInner({ page: 1, filters: [] });
   };
 
   /**
@@ -686,7 +669,6 @@ EntityTableToolbar.propTypes = {
   paginationProps: PropTypes.object,
   loaded: PropTypes.bool,
   onRefresh: PropTypes.func,
-  hasCheckbox: PropTypes.bool,
   isLoaded: PropTypes.bool,
   items: PropTypes.array,
   sortBy: PropTypes.object,
@@ -702,7 +684,7 @@ EntityTableToolbar.propTypes = {
 
 EntityTableToolbar.defaultProps = {
   showTags: false,
-  hasAccess: true,
+  hasAccess: false,
   activeFiltersConfig: {},
   hideFilters: {},
   showNoGroupOption: false,

@@ -25,7 +25,4 @@ const ImmutableDevicesTab = () => {
   );
 };
 
-ImmutableDevicesTab.defaultProps = {
-  initialLoading: true,
-};
 export default ImmutableDevicesTab;
