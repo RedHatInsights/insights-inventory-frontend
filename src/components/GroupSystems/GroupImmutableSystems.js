@@ -22,9 +22,13 @@ import difference from 'lodash/difference';
 import map from 'lodash/map';
 import { useGetInventoryGroupUpdateInfo } from '../../api/edge/imagesInfo';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import { getNotificationProp } from '../../Utilities/edge';
+import {
+  edgeImageDataResult,
+  enhancedEdgeConfig,
+  getNotificationProp,
+  mapDefaultData,
+} from '../../Utilities/edge';
 import { edgeColumns } from '../ImmutableDevices/columns';
-import { useGetImageData } from '../../api';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 export const prepareColumns = (
   initialColumns,
@@ -66,7 +70,6 @@ export const prepareColumns = (
 
 const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const dispatch = useDispatch();
-  const fetchImagesData = useGetImageData();
   const mergeColumns = (inventoryColumns) => {
     const filteredColumns = inventoryColumns.filter(
       (column) => column.key !== 'groups'
@@ -117,33 +120,22 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     showTags,
     defaultGetEntities
   ) => {
-    const enhancedConfig = {
-      ...config,
-      filters: {
-        ...config.filters,
-        hostGroupFilter: [groupName],
-        hostTypeFilter: 'edge',
-      },
-      hasItems: false,
-    };
+    const enhancedConfig = enhancedEdgeConfig(groupName.toString(), config);
     const defaultData = await defaultGetEntities(
       items,
       enhancedConfig,
       showTags
     );
-    let mapDeviceIds = [];
-    defaultData.results.forEach((data) => {
-      mapDeviceIds.push(data.id);
-    });
+
+    const mapDeviceIds = mapDefaultData(defaultData.results);
+
     const updateInfo = await getUpdateInfo(groupId);
     setDeviceData(updateInfo?.update_devices_uuids);
     setDeviceImageSet(updateInfo?.device_image_set_info);
     const rowInfo = [];
     let items = [];
     if (defaultData.total > 0) {
-      const customResult = await fetchImagesData({
-        devices_uuid: mapDeviceIds,
-      });
+      const customResult = edgeImageDataResult(mapDeviceIds);
       customResult?.data?.devices.forEach((row) => {
         rowInfo.push({ ...row, id: row.DeviceUUID });
       });
@@ -159,7 +151,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
         total: 0,
       };
     }
-    // }
   };
 
   useEffect(() => {

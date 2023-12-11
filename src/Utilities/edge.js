@@ -1,5 +1,6 @@
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import axios from 'axios';
+import { useGetImageData } from '../api';
 import {
   INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
@@ -55,8 +56,39 @@ const inventoryHasEdgeSystems = async () => {
   return result?.data?.total > 0;
 };
 
+const enhancedEdgeConfig = (groupName, config) => {
+  return {
+    ...config,
+    filters: {
+      ...config.filters,
+      hostGroupFilter: [groupName],
+      hostTypeFilter: 'edge',
+    },
+    hasItems: false,
+  };
+};
+const fetchImagesData = useGetImageData();
+const edgeImageDataResult = async (mapDeviceIds) => {
+  return await fetchImagesData({
+    devices_uuid: mapDeviceIds,
+  });
+};
+
+const mapDefaultData = (result) => {
+  let mapDeviceIds = [];
+  mapDeviceIds = result.forEach((data) => {
+    mapDeviceIds.push(data.id);
+  });
+  return {
+    mapDeviceIds,
+  };
+};
+
 export {
   getNotificationProp,
   manageEdgeInventoryUrlName,
   inventoryHasEdgeSystems,
+  enhancedEdgeConfig,
+  edgeImageDataResult,
+  mapDefaultData,
 };
