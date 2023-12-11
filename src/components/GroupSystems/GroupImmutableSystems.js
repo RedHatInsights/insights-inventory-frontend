@@ -133,7 +133,10 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     setDeviceData(updateInfo?.update_devices_uuids);
     setDeviceImageSet(updateInfo?.device_image_set_info);
     const mapDeviceIds = Object.keys(updateInfo?.device_image_set_info);
-    const customResult = await fetchImagesData({ devices_uuid: mapDeviceIds });
+    const customResult =
+      mapDeviceIds.length > 0
+        ? await fetchImagesData({ devices_uuid: mapDeviceIds })
+        : { data: { devices: [] } };
     const rowInfo = [];
     customResult?.data?.devices.forEach((row) => {
       rowInfo.push({ ...row, id: row.DeviceUUID });
