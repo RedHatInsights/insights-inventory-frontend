@@ -74,7 +74,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     const filteredColumns = inventoryColumns.filter(
       (column) => column.key !== 'groups'
     );
-    inventoryColumns[inventoryColumns.findIndex(({ key }) => console.log(key))];
     return [...filteredColumns, ...edgeColumns];
   };
 
