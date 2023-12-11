@@ -13,10 +13,10 @@ describe('Table Renders', () => {
   const stalenessData = {
     conventional_time_to_stale: 86400,
     conventional_time_to_stale_warning: 604800,
-    conventional_time_to_deletion: 1209600,
+    conventional_time_to_delete: 1209600,
     immutable_time_to_stale: 172800,
     immutable_time_to_stale_warning: 1290600,
-    immutable_time_to_deletion: 15552000,
+    immutable_time_to_delete: 15552000,
     id: 'system_default',
   };
 
