@@ -30,6 +30,7 @@ import {
 } from '../../Utilities/edge';
 import { edgeColumns } from '../ImmutableDevices/columns';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
+import { hybridInventoryTabKeys } from '../../Utilities/constants';
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -212,6 +213,8 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
           }}
           groupId={groupId}
           groupName={groupName}
+          edgeParityIsAllowed={true}
+          activeTab={hybridInventoryTabKeys.immutable.key}
         />
       )}
       {removeHostsFromGroupModalOpen && (
