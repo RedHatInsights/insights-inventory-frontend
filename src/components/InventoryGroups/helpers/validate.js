@@ -2,7 +2,7 @@ import validatorTypes from '@data-driven-forms/react-form-renderer/validator-typ
 
 export const nameValidator = {
   type: validatorTypes.PATTERN,
-  pattern: /^[A-Za-z0-9]+[A-Za-z0-9_\-\s]*$/,
+  pattern: /^[A-Za-z0-9_\-\s]+[A-Za-z0-9_\-\s]*$/,
   message:
-    'Must start with a letter or number. Valid characters include lowercase letters, numbers, hyphens ( - ), and underscores ( _ ).',
+    'Valid characters include letters, numbers, spaces, hyphens ( - ), and underscores ( _ ).',
 };

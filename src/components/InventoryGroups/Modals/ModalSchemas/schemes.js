@@ -13,7 +13,7 @@ export const createGroupSchema = (namePresenceValidator) => ({
       name: 'name',
       label: 'Group name',
       helperText:
-        'Can only contain letters, numbers, spaces, hyphens ( - ), and underscores( _ ).',
+        'Can only contain letters, numbers, spaces, hyphens ( - ), and underscores ( _ ).',
       isRequired: true,
       autoFocus: true,
       validate: [

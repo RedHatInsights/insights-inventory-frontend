@@ -43,6 +43,7 @@ jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
     getUserPermissions: () => Promise.resolve(['inventory:*:*']),
     getApp: jest.fn(),
     getBundle: jest.fn(),
+    hideGlobalFilter: jest.fn(),
   }),
 }));
 
