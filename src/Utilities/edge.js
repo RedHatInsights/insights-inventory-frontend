@@ -76,7 +76,7 @@ const edgeImageDataResult = async (mapDeviceIds) => {
 
 const mapDefaultData = (result) => {
   let mapDeviceIds = [];
-  mapDeviceIds = result.forEach((data) => {
+  result.forEach((data) => {
     mapDeviceIds.push(data.id);
   });
   return {

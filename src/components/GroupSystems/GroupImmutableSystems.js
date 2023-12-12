@@ -127,14 +127,13 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     );
 
     const mapDeviceIds = mapDefaultData(defaultData.results);
-
     const updateInfo = await getUpdateInfo(groupId);
     setDeviceData(updateInfo?.update_devices_uuids);
     setDeviceImageSet(updateInfo?.device_image_set_info);
     const rowInfo = [];
     let items = [];
     if (defaultData.total > 0) {
-      const customResult = edgeImageDataResult(mapDeviceIds);
+      const customResult = await edgeImageDataResult(mapDeviceIds.mapDeviceIds);
       customResult?.data?.devices.forEach((row) => {
         rowInfo.push({ ...row, id: row.DeviceUUID });
       });
