@@ -1,6 +1,4 @@
 import { edgeImageDataResult, mapDefaultData } from './edge';
-// import MockAdapter from 'axios-mock-adapter';
-// import { hosts, useGetImageData } from '../api';
 
 import { mock } from './../__mocks__/systemIssues';
 
