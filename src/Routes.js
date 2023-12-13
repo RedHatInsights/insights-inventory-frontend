@@ -11,6 +11,7 @@ import { getSearchParams } from './constants';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import { Bullseye, Spinner } from '@patternfly/react-core';
+import LostPage from './components/LostPage';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import { inventoryHasEdgeSystems } from './Utilities/edge';
@@ -52,6 +53,9 @@ export const Routes = () => {
   const edgeParityInventoryListEnabled = useFeatureFlag(
     'edgeParity.inventory-list'
   );
+
+  const stalenessAndDeletionEnabled = useFeatureFlag('hbi.custom-staleness');
+
   useEffect(() => {
     try {
       (async () => {
@@ -103,7 +107,11 @@ export const Routes = () => {
     },
     {
       path: '/staleness-and-deletion',
-      element: <InventoryHostStaleness />,
+      element: stalenessAndDeletionEnabled ? (
+        <InventoryHostStaleness />
+      ) : (
+        <LostPage />
+      ),
     },
   ]);
 
