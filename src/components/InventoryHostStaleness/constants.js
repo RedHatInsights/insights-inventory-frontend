@@ -30,7 +30,7 @@ export const secondsToDaysConversion = (seconds) => {
 
 export const daysToSecondsConversion = (days, filterKey) => {
   //backend requires a buffer specifically for 1 this option
-  if (filterKey === 'conventional_staleness_delta' && days === 1) {
+  if (filterKey === 'conventional_time_to_stale' && days === 1) {
     return 104400;
   } else {
     return days * 86400;
@@ -38,18 +38,18 @@ export const daysToSecondsConversion = (days, filterKey) => {
 };
 
 export const hostStalenessApiKeys = [
-  'conventional_staleness_delta',
-  'conventional_stale_warning_delta',
-  'conventional_culling_delta',
-  'immutable_staleness_delta',
-  'immutable_stale_warning_delta',
-  'immutable_culling_delta',
+  'conventional_time_to_stale',
+  'conventional_time_to_stale_warning',
+  'conventional_time_to_delete',
+  'immutable_time_to_stale',
+  'immutable_time_to_stale_warning',
+  'immutable_time_to_delete',
 ];
 
 export const conventionalApiKeys = [
-  'conventional_staleness_delta',
-  'conventional_stale_warning_delta',
-  'conventional_culling_delta',
+  'conventional_time_to_stale',
+  'conventional_time_to_stale_warning',
+  'conventional_time_to_delete',
 ];
 
 export const conditionalDropdownError = (newFormValues, dropdownItems) => {
@@ -57,8 +57,8 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   let apiKey = dropdownItems[0].apiKey;
   let formValue = newFormValues[apiKey];
 
-  if (apiKey === 'conventional_staleness_delta') {
-    if (formValue > newFormValues['conventional_stale_warning_delta']) {
+  if (apiKey === 'conventional_time_to_stale') {
+    if (formValue > newFormValues['conventional_time_to_stale_warning']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -67,7 +67,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Staleness must be before stale warning
         </p>
       );
-    } else if (formValue > newFormValues['conventional_culling_delta']) {
+    } else if (formValue > newFormValues['conventional_time_to_delete']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -80,8 +80,8 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       return <p className="pf-u-font-size-sm ">Maximum: 7 days</p>;
     }
   }
-  if (apiKey === 'conventional_stale_warning_delta') {
-    if (formValue > newFormValues['conventional_culling_delta']) {
+  if (apiKey === 'conventional_time_to_stale_warning') {
+    if (formValue > newFormValues['conventional_time_to_delete']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -90,7 +90,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Stale warning must be before deletion
         </p>
       );
-    } else if (formValue < newFormValues['conventional_staleness_delta']) {
+    } else if (formValue < newFormValues['conventional_time_to_stale']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -107,8 +107,8 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     }
   }
-  if (apiKey === 'conventional_culling_delta') {
-    if (formValue < newFormValues['conventional_stale_warning_delta']) {
+  if (apiKey === 'conventional_time_to_delete') {
+    if (formValue < newFormValues['conventional_time_to_stale_warning']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -117,7 +117,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Deletion must be after staleness
         </p>
       );
-    } else if (formValue < newFormValues['conventional_staleness_delta']) {
+    } else if (formValue < newFormValues['conventional_time_to_stale']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -135,8 +135,8 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     }
   }
 
-  if (apiKey === 'immutable_staleness_delta') {
-    if (formValue > newFormValues['immutable_stale_warning_delta']) {
+  if (apiKey === 'immutable_time_to_stale') {
+    if (formValue > newFormValues['immutable_time_to_stale_warning']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -145,7 +145,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Staleness must be before stale warning
         </p>
       );
-    } else if (formValue > newFormValues['immutable_culling_delta']) {
+    } else if (formValue > newFormValues['immutable_time_to_delete']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -162,8 +162,8 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     }
   }
-  if (apiKey === 'immutable_stale_warning_delta') {
-    if (formValue > newFormValues['immutable_culling_delta']) {
+  if (apiKey === 'immutable_time_to_stale_warning') {
+    if (formValue > newFormValues['immutable_time_to_delete']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100 "
@@ -172,7 +172,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Stale warning must be before deletion
         </p>
       );
-    } else if (formValue < newFormValues['immutable_staleness_delta']) {
+    } else if (formValue < newFormValues['immutable_time_to_stale']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -189,8 +189,8 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     }
   }
-  if (apiKey === 'immutable_culling_delta') {
-    if (formValue < newFormValues['immutable_stale_warning_delta']) {
+  if (apiKey === 'immutable_time_to_delete') {
+    if (formValue < newFormValues['immutable_time_to_stale_warning']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -199,7 +199,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           Deletion must be after staleness
         </p>
       );
-    } else if (formValue < newFormValues['immutable_staleness_delta']) {
+    } else if (formValue < newFormValues['immutable_time_to_stale']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -351,8 +351,8 @@ export const systemStalenessItems = (activeTabKey) => {
       name: '1 day',
       value: 1,
       apiKey: activeTabKey
-        ? 'immutable_staleness_delta'
-        : 'conventional_staleness_delta',
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
       title: 'System staleness',
       modalMessage:
         'A stale status on a system indicates that your system has not checked-in in a certain amount of time.',
@@ -361,43 +361,43 @@ export const systemStalenessItems = (activeTabKey) => {
       name: '2 days',
       value: 2,
       apiKey: activeTabKey
-        ? 'immutable_staleness_delta'
-        : 'conventional_staleness_delta',
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
     },
     {
       name: '3 days',
       value: 3,
       apiKey: activeTabKey
-        ? 'immutable_staleness_delta'
-        : 'conventional_staleness_delta',
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
     },
     {
       name: '4 days',
       value: 4,
       apiKey: activeTabKey
-        ? 'immutable_staleness_delta'
-        : 'conventional_staleness_delta',
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
     },
     {
       name: '5 days',
       value: 5,
       apiKey: activeTabKey
-        ? 'immutable_staleness_delta'
-        : 'conventional_staleness_delta',
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
     },
     {
       name: '6 days',
       value: 6,
       apiKey: activeTabKey
-        ? 'immutable_staleness_delta'
-        : 'conventional_staleness_delta',
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
     },
     {
       name: '7 days',
       value: 7,
       apiKey: activeTabKey
-        ? 'immutable_staleness_delta'
-        : 'conventional_staleness_delta',
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
     },
   ];
 };
@@ -408,8 +408,8 @@ export const systemStalenessWarningItems = (activeTabKey) => {
       name: '7 days',
       value: 7,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
       title: 'System stale warning',
       modalMessage:
         'A stale warning status on a system indicates that your system has not checked-in in a while, and is at risk of being deleted from your inventory.',
@@ -418,57 +418,57 @@ export const systemStalenessWarningItems = (activeTabKey) => {
       name: '14 days',
       value: 14,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
     },
     {
       name: '21 days',
       value: 21,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
     },
     {
       name: '30 days',
       value: 30,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
     },
     {
       name: '60 days',
       value: 60,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
     },
     {
       name: '90 days',
       value: 90,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
     },
     {
       name: '120 days',
       value: 120,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
     },
     {
       name: '150 days',
       value: 150,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
     },
     {
       name: '180 days',
       value: 180,
       apiKey: activeTabKey
-        ? 'immutable_stale_warning_delta'
-        : 'conventional_stale_warning_delta',
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
     },
   ];
 };
@@ -479,8 +479,8 @@ export const systemDeletionItems = (activeTabKey) => {
       name: '14 days',
       value: 14,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
       title: 'System deletion',
       modalMessage:
         'This is the time at which your system will be deleted from your inventory. Once your system is deleted, it will have to be re-registered to be added back to your inventory.',
@@ -489,64 +489,64 @@ export const systemDeletionItems = (activeTabKey) => {
       name: '21 days',
       value: 21,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
     {
       name: '30 days',
       value: 30,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
     {
       name: '60 days',
       value: 60,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
     {
       name: '90 days',
       value: 90,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
     {
       name: '120 days',
       value: 120,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
     {
       name: '150 days',
       value: 150,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
     {
       name: '180 days',
       value: 180,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
     {
       name: '1 year',
       value: 365,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
     {
       name: '2 years',
       value: 730,
       apiKey: activeTabKey
-        ? 'immutable_culling_delta'
-        : 'conventional_culling_delta',
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
     },
   ];
 };
@@ -557,29 +557,29 @@ export const formValidation = async (newFormValues, setIsFormValid) => {
     let formValue = newFormValues[apiKey];
 
     if (
-      apiKey === 'conventional_staleness_delta' &&
-      formValue > newFormValues['conventional_stale_warning_delta']
+      apiKey === 'conventional_time_to_stale' &&
+      formValue > newFormValues['conventional_time_to_stale_warning']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      apiKey === 'immutable_staleness_delta' &&
-      formValue > newFormValues['immutable_stale_warning_delta']
+      apiKey === 'immutable_time_to_stale' &&
+      formValue > newFormValues['immutable_time_to_stale_warning']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      apiKey === 'conventional_stale_warning_delta' &&
-      formValue > newFormValues['conventional_culling_delta']
+      apiKey === 'conventional_time_to_stale_warning' &&
+      formValue > newFormValues['conventional_time_to_delete']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
-      apiKey === 'immutable_stale_warning_delta' &&
-      formValue > newFormValues['immutable_culling_delta']
+      apiKey === 'immutable_time_to_stale_warning' &&
+      formValue > newFormValues['immutable_time_to_delete']
     ) {
       setIsFormValid(false);
       break;
