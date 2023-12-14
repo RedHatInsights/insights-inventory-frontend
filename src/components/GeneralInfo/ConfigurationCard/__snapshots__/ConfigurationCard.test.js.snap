@@ -52,8 +52,7 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
             >
               <div>
                 <a
-                  href="/installed_packages"
-                  onClick={[Function]}
+                  href="localhost:3000/example/path/installed_packages"
                 >
                   1 package
                 </a>
@@ -71,8 +70,7 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
             >
               <div>
                 <a
-                  href="/services"
-                  onClick={[Function]}
+                  href="localhost:3000/example/path/services"
                 >
                   1 service
                 </a>
@@ -90,8 +88,7 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
             >
               <div>
                 <a
-                  href="/running_processes"
-                  onClick={[Function]}
+                  href="localhost:3000/example/path/running_processes"
                 >
                   1 process
                 </a>
@@ -109,8 +106,7 @@ exports[`ConfigurationCard api should NOT call handleClick 1`] = `
             >
               <div>
                 <a
-                  href="/repositories"
-                  onClick={[Function]}
+                  href="localhost:3000/example/path/repositories"
                 >
                   1 enabled
                 </a>
@@ -338,11 +334,10 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./services"
+                                            to="localhost:3000/example/path/services"
                                           >
                                             <a
-                                              href="/services"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/services"
                                             >
                                               1 service
                                             </a>
@@ -379,11 +374,10 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./running_processes"
+                                            to="localhost:3000/example/path/running_processes"
                                           >
                                             <a
-                                              href="/running_processes"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/running_processes"
                                             >
                                               1 process
                                             </a>
@@ -418,11 +412,10 @@ exports[`ConfigurationCard should not render hasPackages 1`] = `
                                           value="1 enabled"
                                         >
                                           <Link
-                                            to="./repositories"
+                                            to="localhost:3000/example/path/repositories"
                                           >
                                             <a
-                                              href="/repositories"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/repositories"
                                             >
                                               1 enabled
                                             </a>
@@ -663,11 +656,10 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./installed_packages"
+                                            to="localhost:3000/example/path/installed_packages"
                                           >
                                             <a
-                                              href="/installed_packages"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/installed_packages"
                                             >
                                               1 package
                                             </a>
@@ -703,11 +695,10 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./services"
+                                            to="localhost:3000/example/path/services"
                                           >
                                             <a
-                                              href="/services"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/services"
                                             >
                                               1 service
                                             </a>
@@ -742,11 +733,10 @@ exports[`ConfigurationCard should not render hasProcesses 1`] = `
                                           value="1 enabled"
                                         >
                                           <Link
-                                            to="./repositories"
+                                            to="localhost:3000/example/path/repositories"
                                           >
                                             <a
-                                              href="/repositories"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/repositories"
                                             >
                                               1 enabled
                                             </a>
@@ -989,11 +979,10 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./installed_packages"
+                                            to="localhost:3000/example/path/installed_packages"
                                           >
                                             <a
-                                              href="/installed_packages"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/installed_packages"
                                             >
                                               1 package
                                             </a>
@@ -1029,11 +1018,10 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./services"
+                                            to="localhost:3000/example/path/services"
                                           >
                                             <a
-                                              href="/services"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/services"
                                             >
                                               1 service
                                             </a>
@@ -1070,11 +1058,10 @@ exports[`ConfigurationCard should not render hasRepositories 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./running_processes"
+                                            to="localhost:3000/example/path/running_processes"
                                           >
                                             <a
-                                              href="/running_processes"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/running_processes"
                                             >
                                               1 process
                                             </a>
@@ -1316,11 +1303,10 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./installed_packages"
+                                            to="localhost:3000/example/path/installed_packages"
                                           >
                                             <a
-                                              href="/installed_packages"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/installed_packages"
                                             >
                                               1 package
                                             </a>
@@ -1357,11 +1343,10 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./running_processes"
+                                            to="localhost:3000/example/path/running_processes"
                                           >
                                             <a
-                                              href="/running_processes"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/running_processes"
                                             >
                                               1 process
                                             </a>
@@ -1396,11 +1381,10 @@ exports[`ConfigurationCard should not render hasServices 1`] = `
                                           value="1 enabled"
                                         >
                                           <Link
-                                            to="./repositories"
+                                            to="localhost:3000/example/path/repositories"
                                           >
                                             <a
-                                              href="/repositories"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/repositories"
                                             >
                                               1 enabled
                                             </a>
@@ -1990,11 +1974,10 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./installed_packages"
+                                            to="localhost:3000/example/path/installed_packages"
                                           >
                                             <a
-                                              href="/installed_packages"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/installed_packages"
                                             >
                                               1 package
                                             </a>
@@ -2030,11 +2013,10 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./services"
+                                            to="localhost:3000/example/path/services"
                                           >
                                             <a
-                                              href="/services"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/services"
                                             >
                                               1 service
                                             </a>
@@ -2071,11 +2053,10 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./running_processes"
+                                            to="localhost:3000/example/path/running_processes"
                                           >
                                             <a
-                                              href="/running_processes"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/running_processes"
                                             >
                                               1 process
                                             </a>
@@ -2110,11 +2091,10 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                                           value="1 enabled"
                                         >
                                           <Link
-                                            to="./repositories"
+                                            to="localhost:3000/example/path/repositories"
                                           >
                                             <a
-                                              href="/repositories"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/repositories"
                                             >
                                               1 enabled
                                             </a>
@@ -2360,11 +2340,10 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./installed_packages"
+                                            to="localhost:3000/example/path/installed_packages"
                                           >
                                             <a
-                                              href="/installed_packages"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/installed_packages"
                                             >
                                               1 package
                                             </a>
@@ -2400,11 +2379,10 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./services"
+                                            to="localhost:3000/example/path/services"
                                           >
                                             <a
-                                              href="/services"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/services"
                                             >
                                               1 service
                                             </a>
@@ -2441,11 +2419,10 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./running_processes"
+                                            to="localhost:3000/example/path/running_processes"
                                           >
                                             <a
-                                              href="/running_processes"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/running_processes"
                                             >
                                               1 process
                                             </a>
@@ -2480,11 +2457,10 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                                           value="1 enabled / 1 disabled"
                                         >
                                           <Link
-                                            to="./repositories"
+                                            to="localhost:3000/example/path/repositories"
                                           >
                                             <a
-                                              href="/repositories"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/repositories"
                                             >
                                               1 enabled / 1 disabled
                                             </a>
@@ -2766,11 +2742,10 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./installed_packages"
+                                            to="localhost:3000/example/path/installed_packages"
                                           >
                                             <a
-                                              href="/installed_packages"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/installed_packages"
                                             >
                                               1 package
                                             </a>
@@ -2806,11 +2781,10 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./services"
+                                            to="localhost:3000/example/path/services"
                                           >
                                             <a
-                                              href="/services"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/services"
                                             >
                                               1 service
                                             </a>
@@ -2847,11 +2821,10 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./running_processes"
+                                            to="localhost:3000/example/path/running_processes"
                                           >
                                             <a
-                                              href="/running_processes"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/running_processes"
                                             >
                                               1 process
                                             </a>
@@ -2886,11 +2859,10 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           value="1 enabled"
                                         >
                                           <Link
-                                            to="./repositories"
+                                            to="localhost:3000/example/path/repositories"
                                           >
                                             <a
-                                              href="/repositories"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/repositories"
                                             >
                                               1 enabled
                                             </a>
@@ -2946,11 +2918,10 @@ exports[`ConfigurationCard should render extra 1`] = `
                                           value="1 tests"
                                         >
                                           <Link
-                                            to="./undefined"
+                                            to="localhost:3000/example/path/undefined"
                                           >
                                             <a
-                                              href="/undefined"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/undefined"
                                             >
                                               1 tests
                                             </a>
