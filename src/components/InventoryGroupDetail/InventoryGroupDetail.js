@@ -30,18 +30,7 @@ import {
   INVENTORY_TOTAL_FETCH_URL_SERVER,
   hybridInventoryTabKeys,
 } from '../../Utilities/constants';
-
-const SuspenseWrapper = ({ children }) => (
-  <Suspense
-    fallback={
-      <Bullseye>
-        <Spinner size="xl" />
-      </Bullseye>
-    }
-  >
-    {children}
-  </Suspense>
-);
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 const InventoryGroupDetail = ({ groupId }) => {
@@ -52,7 +41,9 @@ const InventoryGroupDetail = ({ groupId }) => {
   );
 
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.groupDetail);
+  const { data, fulfilled } = useSelector((state) => state.groupDetail);
+  const navigate = useInsightsNavigate();
+
   const chrome = useChrome();
   const groupName = data?.results?.[0]?.name;
 
@@ -67,6 +58,10 @@ const InventoryGroupDetail = ({ groupId }) => {
     if (canViewGroup === true) {
       dispatch(fetchGroupDetail(groupId));
     }
+
+    return () => {
+      dispatch({ type: 'GROUP_DETAIL_RESET' });
+    };
   }, [canViewGroup]);
 
   useEffect(() => {
@@ -80,6 +75,7 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
   const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
+
   useEffect(() => {
     if (EdgeParityEnabled) {
       try {
@@ -110,6 +106,12 @@ const InventoryGroupDetail = ({ groupId }) => {
       }
     }
   }, [data]);
+
+  if (fulfilled && data?.total === 0) {
+    // group does not exist
+    navigate('/groups');
+  }
+
   return hasEdgeImages && canViewGroup && EdgeParityEnabled ? (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
@@ -178,10 +180,6 @@ const InventoryGroupDetail = ({ groupId }) => {
 InventoryGroupDetail.propTypes = {
   groupId: PropTypes.string.isRequired,
   groupName: PropTypes.string,
-};
-
-SuspenseWrapper.propTypes = {
-  children: PropTypes.element,
 };
 
 export default InventoryGroupDetail;
