@@ -201,7 +201,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
         setUpdateImageSet(imageSet);
       };
     }
-  }, [deviceData, selected]);
+  }, [deviceData, selected, deviceImageSet]);
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
