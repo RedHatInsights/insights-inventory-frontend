@@ -21,6 +21,7 @@ import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import useGlobalFilter from '../filters/useGlobalFilter';
+import { hybridInventoryTabKeys } from '../../Utilities/constants';
 
 export const prepareColumns = (
   initialColumns,
@@ -126,6 +127,8 @@ const GroupSystems = ({ groupName, groupId }) => {
           }}
           groupId={groupId}
           groupName={groupName}
+          edgeParityIsAllowed={true}
+          activeTab={hybridInventoryTabKeys.conventional.key}
         />
       )}
       {removeHostsFromGroupModalOpen && (
