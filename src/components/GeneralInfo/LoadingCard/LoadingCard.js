@@ -17,7 +17,7 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const valueToText = (value, singular, plural) => {
   if ((value || value === 0) && singular) {
@@ -34,14 +34,20 @@ const valueToText = (value, singular, plural) => {
 };
 
 export const Clickable = ({ value, target, plural, singular, onClick }) => {
-  const { modalId } = useParams();
+  const { pathname } = useLocation();
+  // const { modalId } = useParams(); is causing regression when using LoadingCard derived components in Federated mode
+  const modalId = pathname.split('/').pop();
   useEffect(() => {
     if (target === modalId) {
       onClick({ value, target });
     }
   }, [modalId, target]);
 
-  return <Link to={`./${target}`}>{valueToText(value, singular, plural)}</Link>;
+  return (
+    <Link to={`${pathname}/${target}`}>
+      {valueToText(value, singular, plural)}
+    </Link>
+  );
 };
 
 Clickable.propTypes = {

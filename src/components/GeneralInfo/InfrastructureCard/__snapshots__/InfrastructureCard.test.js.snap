@@ -254,11 +254,10 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv6"
+                                            to="localhost:3000/example/path/ipv6"
                                           >
                                             <a
-                                              href="/ipv6"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv6"
                                             >
                                               1 address
                                             </a>
@@ -294,11 +293,10 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./interfaces"
+                                            to="localhost:3000/example/path/interfaces"
                                           >
                                             <a
-                                              href="/interfaces"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/interfaces"
                                             >
                                               1 NIC
                                             </a>
@@ -580,11 +578,10 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv4"
+                                            to="localhost:3000/example/path/ipv4"
                                           >
                                             <a
-                                              href="/ipv4"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv4"
                                             >
                                               1 address
                                             </a>
@@ -620,11 +617,10 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./interfaces"
+                                            to="localhost:3000/example/path/interfaces"
                                           >
                                             <a
-                                              href="/interfaces"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/interfaces"
                                             >
                                               1 NIC
                                             </a>
@@ -907,11 +903,10 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv4"
+                                            to="localhost:3000/example/path/ipv4"
                                           >
                                             <a
-                                              href="/ipv4"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv4"
                                             >
                                               1 address
                                             </a>
@@ -948,11 +943,10 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv6"
+                                            to="localhost:3000/example/path/ipv6"
                                           >
                                             <a
-                                              href="/ipv6"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv6"
                                             >
                                               1 address
                                             </a>
@@ -1216,11 +1210,10 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv4"
+                                            to="localhost:3000/example/path/ipv4"
                                           >
                                             <a
-                                              href="/ipv4"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv4"
                                             >
                                               1 address
                                             </a>
@@ -1257,11 +1250,10 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv6"
+                                            to="localhost:3000/example/path/ipv6"
                                           >
                                             <a
-                                              href="/ipv6"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv6"
                                             >
                                               1 address
                                             </a>
@@ -1297,11 +1289,10 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./interfaces"
+                                            to="localhost:3000/example/path/interfaces"
                                           >
                                             <a
-                                              href="/interfaces"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/interfaces"
                                             >
                                               1 NIC
                                             </a>
@@ -1565,11 +1556,10 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv4"
+                                            to="localhost:3000/example/path/ipv4"
                                           >
                                             <a
-                                              href="/ipv4"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv4"
                                             >
                                               1 address
                                             </a>
@@ -1606,11 +1596,10 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv6"
+                                            to="localhost:3000/example/path/ipv6"
                                           >
                                             <a
-                                              href="/ipv6"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv6"
                                             >
                                               1 address
                                             </a>
@@ -1646,11 +1635,10 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./interfaces"
+                                            to="localhost:3000/example/path/interfaces"
                                           >
                                             <a
-                                              href="/interfaces"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/interfaces"
                                             >
                                               1 NIC
                                             </a>
@@ -2323,11 +2311,10 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv4"
+                                            to="localhost:3000/example/path/ipv4"
                                           >
                                             <a
-                                              href="/ipv4"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv4"
                                             >
                                               1 address
                                             </a>
@@ -2364,11 +2351,10 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv6"
+                                            to="localhost:3000/example/path/ipv6"
                                           >
                                             <a
-                                              href="/ipv6"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv6"
                                             >
                                               1 address
                                             </a>
@@ -2404,11 +2390,10 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./interfaces"
+                                            to="localhost:3000/example/path/interfaces"
                                           >
                                             <a
-                                              href="/interfaces"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/interfaces"
                                             >
                                               1 NIC
                                             </a>
@@ -3011,11 +2996,10 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv4"
+                                            to="localhost:3000/example/path/ipv4"
                                           >
                                             <a
-                                              href="/ipv4"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv4"
                                             >
                                               1 address
                                             </a>
@@ -3052,11 +3036,10 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv6"
+                                            to="localhost:3000/example/path/ipv6"
                                           >
                                             <a
-                                              href="/ipv6"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv6"
                                             >
                                               1 address
                                             </a>
@@ -3092,11 +3075,10 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./interfaces"
+                                            to="localhost:3000/example/path/interfaces"
                                           >
                                             <a
-                                              href="/interfaces"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/interfaces"
                                             >
                                               1 NIC
                                             </a>
@@ -3419,11 +3401,10 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv4"
+                                            to="localhost:3000/example/path/ipv4"
                                           >
                                             <a
-                                              href="/ipv4"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv4"
                                             >
                                               1 address
                                             </a>
@@ -3460,11 +3441,10 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./ipv6"
+                                            to="localhost:3000/example/path/ipv6"
                                           >
                                             <a
-                                              href="/ipv6"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/ipv6"
                                             >
                                               1 address
                                             </a>
@@ -3500,11 +3480,10 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           value={1}
                                         >
                                           <Link
-                                            to="./interfaces"
+                                            to="localhost:3000/example/path/interfaces"
                                           >
                                             <a
-                                              href="/interfaces"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/interfaces"
                                             >
                                               1 NIC
                                             </a>
@@ -3560,11 +3539,10 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           value="1 tests"
                                         >
                                           <Link
-                                            to="./undefined"
+                                            to="localhost:3000/example/path/undefined"
                                           >
                                             <a
-                                              href="/undefined"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/undefined"
                                             >
                                               1 tests
                                             </a>

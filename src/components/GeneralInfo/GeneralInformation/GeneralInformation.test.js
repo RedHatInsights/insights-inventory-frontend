@@ -34,7 +34,6 @@ jest.mock(
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => location,
-  useParams: jest.fn(() => ({ modalId: 'running_processes' })),
 }));
 
 const location = {};
@@ -178,7 +177,7 @@ describe('GeneralInformation', () => {
 
     it('should open modal', () => {
       const store = mockStore(initialState);
-
+      location.pathname = 'localhost:3000/example/running_processes';
       const wrapper = mount(
         <MemoryRouter>
           <Provider store={store}>
@@ -199,6 +198,7 @@ describe('GeneralInformation', () => {
 
     it('should open modal', () => {
       const store = mockStore(initialState);
+      location.pathname = 'localhost:3000/example/running_processes';
       const wrapper = mount(
         <MemoryRouter>
           <Provider store={store}>
