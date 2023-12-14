@@ -41,7 +41,9 @@ const InventoryGroupDetail = ({ groupId }) => {
   );
 
   const dispatch = useDispatch();
-  const { data, fulfilled } = useSelector((state) => state.groupDetail);
+  const { data, fulfilled, rejected, error } = useSelector(
+    (state) => state.groupDetail
+  );
   const navigate = useInsightsNavigate();
 
   const chrome = useChrome();
@@ -107,8 +109,10 @@ const InventoryGroupDetail = ({ groupId }) => {
     }
   }, [data]);
 
-  if (fulfilled && data?.total === 0) {
-    // group does not exist
+  if (
+    (fulfilled && data.total === 0) || // group does not exist
+    (rejected && error.status === 400) // group name not correct
+  ) {
     navigate('/groups');
   }
 
