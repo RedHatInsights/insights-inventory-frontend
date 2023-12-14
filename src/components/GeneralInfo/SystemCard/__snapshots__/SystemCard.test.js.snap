@@ -4013,8 +4013,7 @@ Array [
               >
                 <div>
                   <a
-                    href="/sap_sids"
-                    onClick={[Function]}
+                    href="localhost:3000/example/path/sap_sids"
                   >
                     2 identifiers
                   </a>
@@ -5142,8 +5141,7 @@ Array [
               >
                 <div>
                   <a
-                    href="/undefined"
-                    onClick={[Function]}
+                    href="localhost:3000/example/path/undefined"
                   >
                     1 tests
                   </a>

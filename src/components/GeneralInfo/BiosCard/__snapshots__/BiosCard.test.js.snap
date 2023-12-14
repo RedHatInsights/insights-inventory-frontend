@@ -1311,11 +1311,10 @@ exports[`BiosCard should render extra 1`] = `
                                           value="1 tests"
                                         >
                                           <Link
-                                            to="./undefined"
+                                            to="localhost:3000/example/path/undefined"
                                           >
                                             <a
-                                              href="/undefined"
-                                              onClick={[Function]}
+                                              href="localhost:3000/example/path/undefined"
                                             >
                                               1 tests
                                             </a>

@@ -40,11 +40,10 @@ exports[`LoadingCard Clickable should render - 0 value 1`] = `
       value={0}
     >
       <Link
-        to="./some-target"
+        to="localhost:3000/example/path/some-target"
       >
         <a
-          href="/some-target"
-          onClick={[Function]}
+          href="localhost:3000/example/path/some-target"
         >
           None
         </a>
@@ -92,11 +91,10 @@ exports[`LoadingCard Clickable should render - no data 1`] = `
       onClick={[MockFunction]}
     >
       <Link
-        to="./undefined"
+        to="localhost:3000/example/path/undefined"
       >
         <a
-          href="/undefined"
-          onClick={[Function]}
+          href="localhost:3000/example/path/undefined"
         >
           Not available
         </a>
@@ -447,11 +445,10 @@ exports[`LoadingCard Loading card render 1`] = `
                                       value="some value"
                                     >
                                       <Link
-                                        to="./undefined"
+                                        to="localhost:3000/example/path/undefined"
                                       >
                                         <a
-                                          href="/undefined"
-                                          onClick={[Function]}
+                                          href="localhost:3000/example/path/undefined"
                                         >
                                           some value
                                         </a>

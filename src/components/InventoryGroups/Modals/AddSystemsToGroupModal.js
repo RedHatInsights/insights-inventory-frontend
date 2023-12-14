@@ -31,6 +31,7 @@ import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AccountStatContext } from '../../../Routes';
+import { hybridInventoryTabKeys } from '../../../Utilities/constants';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
@@ -38,6 +39,7 @@ const AddSystemsToGroupModal = ({
   groupId,
   groupName,
   edgeParityIsAllowed,
+  activeTab,
 }) => {
   const dispatch = useDispatch();
 
@@ -135,10 +137,14 @@ const AddSystemsToGroupModal = ({
     alreadyHasGroup.length > 0 || immutableDevicesAlreadyHasGroup.length > 0;
 
   const { hasEdgeDevices } = useContext(AccountStatContext);
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTabKey, setActiveTabKey] = useState(
+    hybridInventoryTabKeys[activeTab] === undefined
+      ? hybridInventoryTabKeys.conventional.key
+      : activeTab
+  );
 
-  const handleTabClick = (_event, tabIndex) => {
-    setActiveTab(tabIndex);
+  const handleTabClick = (_event, tabKey) => {
+    setActiveTabKey(tabKey);
   };
 
   let overallSelectedText;
@@ -248,18 +254,18 @@ const AddSystemsToGroupModal = ({
           {edgeParityEnabled && hasEdgeDevices ? (
             <Tabs
               className="pf-m-light pf-c-table"
-              activeKey={activeTab}
+              activeKey={activeTabKey}
               onSelect={handleTabClick}
               aria-label="Hybrid inventory tabs"
             >
               <Tab
-                eventKey={0}
+                eventKey={hybridInventoryTabKeys.conventional.key}
                 title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
               >
                 {ConventionalInventoryTable}
               </Tab>
               <Tab
-                eventKey={1}
+                eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
                 <section className={'pf-c-toolbar'}>
@@ -288,6 +294,7 @@ AddSystemsToGroupModal.propTypes = {
   groupId: PropTypes.string,
   groupName: PropTypes.string,
   edgeParityIsAllowed: PropTypes.bool,
+  activeTab: PropTypes.string,
 };
 
 export default AddSystemsToGroupModal;
