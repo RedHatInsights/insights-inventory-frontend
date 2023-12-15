@@ -188,7 +188,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
 
   //enable disable bulk update based on selection, must refactor
   useEffect(() => {
-    if (selected.size > 0) {
+    if (selected.size > 0 && deviceImageSet?.size > 0) {
       return () => {
         [...selected.keys()].map((s) => {
           const img = deviceImageSet[s];
@@ -201,7 +201,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
         setUpdateImageSet(imageSet);
       };
     }
-  }, [deviceData, selected]);
+  }, [deviceData, selected, deviceImageSet]);
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
