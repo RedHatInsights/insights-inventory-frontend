@@ -187,12 +187,10 @@ const InventoryTable = forwardRef(
     ) => {
       const { activeFilters } = store.getState().entities;
       const cachedProps = cache.current?.getProps() || {};
-      const currPerPage =
-        options?.per_page || options?.perPage || cachedProps.perPage;
 
       const newParams = {
-        page,
-        per_page: currPerPage,
+        page: options?.page || cachedProps.page,
+        per_page: options?.per_page || options?.perPage || cachedProps.perPage,
         items: cachedProps.items,
         sortBy: cachedProps.sortBy,
         hideFilters: cachedProps.hideFilters,
@@ -235,7 +233,7 @@ const InventoryTable = forwardRef(
     const prevFilters = useRef(customFilters);
     useEffect(() => {
       if (autoRefresh && !isEqual(prevFilters.current, customFilters)) {
-        onRefreshData({ page: 1 });
+        onRefreshData();
         prevFilters.current = customFilters;
       }
     });
