@@ -109,10 +109,11 @@ function onSetFilter(state, { payload }) {
 function onSetPagination(state, { payload }) {
   const perPage = parseInt(payload.perPage, 10);
   const page = parseInt(payload.page, 10);
+
   return {
     ...state,
-    perPage: isNaN(perPage) ? 50 : perPage,
-    page: isNaN(page) ? 1 : page,
+    perPage: isNaN(perPage) ? state.perPage : perPage,
+    page: isNaN(page) ? state.page : page,
   };
 }
 
