@@ -382,7 +382,6 @@ describe('actions', () => {
       cy.get('button[type="submit"]').click();
       cy.wait('@request');
     });
-    cy.wait('@getHosts'); // data must be reloaded
   });
 });
 

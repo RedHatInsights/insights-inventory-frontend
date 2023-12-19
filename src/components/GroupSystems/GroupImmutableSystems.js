@@ -2,7 +2,6 @@ import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectEntity } from '../../store/inventory-actions';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -222,14 +221,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
           isModalOpen={removeHostsFromGroupModalOpen}
           setIsModalOpen={setRemoveHostsFromGroupModalOpen}
           modalState={currentSystem}
-          reloadTimeout={1000}
-          reloadData={() => {
-            if (calculateSelected() > 0) {
-              dispatch(selectEntity(-1, false));
-            }
-
-            inventory.current.onRefreshData({}, false, true);
-          }}
         />
       )}
       {updateDevice && (
