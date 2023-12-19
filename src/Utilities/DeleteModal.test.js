@@ -1,48 +1,33 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import DeleteModal from './DeleteModal';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('EntityTable', () => {
   describe('DOM', () => {
-    it('should render correctly', () => {
-      const wrapper = shallow(<DeleteModal />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+    it('should render correctly with no system', () => {
+      const view = render(<DeleteModal />);
+
+      expect(view.baseElement).toMatchSnapshot();
     });
 
     it('should render correctly with one system', () => {
-      const wrapper = shallow(
+      const view = render(
         <DeleteModal
           currentSytems={{ display_name: 'something' }}
           isModalOpen
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
-    });
 
-    it('should render correctly with one system', () => {
-      const wrapper = shallow(
-        <DeleteModal
-          currentSytems={{ display_name: 'something' }}
-          isModalOpen
-        />
+      screen.getByText(
+        /something will be removed from all localhost:5000 applications and services/i
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(view.baseElement).toMatchSnapshot();
     });
 
-    it('should render correctly with multiple systems - count 1', () => {
-      const wrapper = shallow(
-        <DeleteModal
-          currentSytems={[{ display_name: 'something' }]}
-          isModalOpen
-        />
-      );
-      expect(toJson(wrapper)).toMatchSnapshot();
-    });
-
-    it('should render correctly with multiple systems - count 2', () => {
-      const wrapper = shallow(
+    it('should render correctly with multiple systems', () => {
+      const view = render(
         <DeleteModal
           currentSytems={[
             { display_name: 'something' },
@@ -51,32 +36,22 @@ describe('EntityTable', () => {
           isModalOpen
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      screen.getByText(
+        /2 systems will be removed from all localhost:5000 applications and services/i
+      );
+      expect(view.baseElement).toMatchSnapshot();
     });
   });
 
   describe('API', () => {
-    it('should NOT call close on X click', () => {
-      const onClose = jest.fn();
-      const wrapper = mount(
-        <DeleteModal
-          currentSytems={[
-            { display_name: 'something' },
-            { display_name: 'another' },
-          ]}
-          isModalOpen
-        />
-      );
-      wrapper
-        .find('.ins-c-inventory__table--remove button')
-        .first()
-        .simulate('click');
-      expect(onClose).not.toHaveBeenCalled();
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
-    it('should call close on X click', () => {
+    it('should call close on X click', async () => {
       const onClose = jest.fn();
-      const wrapper = mount(
+      render(
         <DeleteModal
           currentSytems={[
             { display_name: 'something' },
@@ -86,16 +61,18 @@ describe('EntityTable', () => {
           handleModalToggle={onClose}
         />
       );
-      wrapper
-        .find('.ins-c-inventory__table--remove button')
-        .first()
-        .simulate('click');
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /close/i,
+        })
+      );
       expect(onClose).toHaveBeenCalled();
     });
 
-    it('should call close on cancel click', () => {
+    it('should call close on cancel click', async () => {
       const onClose = jest.fn();
-      const wrapper = mount(
+      render(
         <DeleteModal
           currentSytems={[
             { display_name: 'something' },
@@ -105,13 +82,18 @@ describe('EntityTable', () => {
           handleModalToggle={onClose}
         />
       );
-      wrapper.find('.pf-c-modal-box__body button').last().simulate('click');
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /cancel/i,
+        })
+      );
       expect(onClose).toHaveBeenCalled();
     });
 
-    it('should call onConfirm', () => {
+    it('should call onConfirm', async () => {
       const onConfirm = jest.fn();
-      const wrapper = mount(
+      render(
         <DeleteModal
           currentSytems={[
             { display_name: 'something' },
@@ -121,29 +103,13 @@ describe('EntityTable', () => {
           onConfirm={onConfirm}
         />
       );
-      wrapper
-        .find('.pf-c-modal-box__body button.pf-m-danger')
-        .first()
-        .simulate('click');
-      expect(onConfirm).toHaveBeenCalled();
-    });
 
-    it('should NOT call onConfirm', () => {
-      const onConfirm = jest.fn();
-      const wrapper = mount(
-        <DeleteModal
-          currentSytems={[
-            { display_name: 'something' },
-            { display_name: 'another' },
-          ]}
-          isModalOpen
-        />
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /remove/i,
+        })
       );
-      wrapper
-        .find('.pf-c-modal-box__body button.pf-m-danger')
-        .first()
-        .simulate('click');
-      expect(onConfirm).not.toHaveBeenCalled();
+      expect(onConfirm).toHaveBeenCalled();
     });
   });
 });
