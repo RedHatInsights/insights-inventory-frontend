@@ -5,7 +5,6 @@ import {
   CLEAR_ENTITIES,
   CLEAR_ERRORS,
   CLEAR_FILTERS,
-  CONFIG_CHANGED,
   ENTITIES_LOADING,
   FILTER_SELECT,
   SELECT_ENTITY,
@@ -430,7 +429,6 @@ export default {
     loaded: !isLoading,
   }),
   [TOGGLE_TAG_MODAL]: toggleTagModalReducer,
-  [CONFIG_CHANGED]: (state, { payload }) => ({ ...state, invConfig: payload }),
   [CLEAR_ENTITIES]: clearEntities,
   [ACTION_TYPES.GROUPS_FOR_ENTITIES_PENDING]: (state) => ({
     ...state,

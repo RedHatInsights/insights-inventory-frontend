@@ -2,7 +2,6 @@ import {
   ACTION_TYPES,
   CHANGE_SORT,
   CLEAR_FILTERS,
-  CONFIG_CHANGED,
   ENTITIES_LOADING,
   FILTER_ENTITIES,
   FILTER_SELECT,
@@ -245,11 +244,6 @@ export const deleteEntity = (systems, displayName) => ({
     },
     systems,
   },
-});
-
-export const configChanged = (config) => ({
-  type: CONFIG_CHANGED,
-  payload: config,
 });
 
 export const toggleDrawer = (isOpened) => ({
