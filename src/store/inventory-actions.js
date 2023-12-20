@@ -17,7 +17,6 @@ import {
   getEntitySystemProfile,
   getOperatingSystems,
   getTags,
-  groupsApi,
   hosts,
 } from '../api';
 import {
@@ -249,12 +248,4 @@ export const deleteEntity = (systems, displayName) => ({
 export const toggleDrawer = (isOpened) => ({
   type: TOGGLE_DRAWER,
   payload: { isOpened },
-});
-
-export const fetchGroupsForEntities = (params) => ({
-  type: ACTION_TYPES.GROUPS_FOR_ENTITIES,
-  payload: groupsApi.apiGroupGetGroupList(params),
-  meta: {
-    noError: true, // turns of automatic notification
-  },
 });

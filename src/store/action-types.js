@@ -36,7 +36,6 @@ export const asyncInventory = [
   'OPERATING_SYSTEMS',
   'GROUPS',
   'GROUP_DETAIL',
-  'GROUPS_FOR_ENTITIES',
 ];
 
 export const systemIssues = [
