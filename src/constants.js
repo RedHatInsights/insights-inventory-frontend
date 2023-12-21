@@ -132,8 +132,9 @@ export const extraShape = PropTypes.shape({
   onClick: PropTypes.func,
 });
 
-export const getSearchParams = () => {
-  const searchParams = new URLSearchParams(location.search);
+export const getSearchParams = (rsearchParams) => {
+  console.log(rsearchParams);
+  const searchParams = rsearchParams;
   const status = searchParams.getAll('status');
   const source = searchParams.getAll('source');
   const filterbyName = searchParams.getAll('hostname_or_id');

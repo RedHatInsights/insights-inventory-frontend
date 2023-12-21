@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
 
-const RenderWrapper = ({
-  cmp: Component,
-  isRbacEnabled,
-  inventoryRef,
-  store,
-  ...props
-}) => {
+const RenderWrapper = ({ cmp: Component, inventoryRef, store, ...props }) => {
   const { hasAccess } = usePermissionsWithContext(
     [GENERAL_HOSTS_READ_PERMISSIONS],
     true,
@@ -22,7 +16,6 @@ const RenderWrapper = ({
       {...(inventoryRef && {
         ref: inventoryRef,
       })}
-      isRbacEnabled={isRbacEnabled}
       hasAccess={hasAccess}
       store={store}
     />
@@ -34,7 +27,6 @@ RenderWrapper.propTypes = {
   inventoryRef: PropTypes.any,
   store: PropTypes.object,
   customRender: PropTypes.bool,
-  isRbacEnabled: PropTypes.bool,
 };
 
 export default RenderWrapper;

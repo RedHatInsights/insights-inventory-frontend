@@ -141,7 +141,6 @@ const GroupSystems = ({ groupName, groupId }) => {
         <InventoryTable
           columns={(columns) => prepareColumns(columns, true)}
           hideFilters={{ hostGroupFilter: true }}
-          initialLoading
           getEntities={async (items, config, showTags, defaultGetEntities) =>
             await defaultGetEntities(
               items,
@@ -218,7 +217,6 @@ const GroupSystems = ({ groupName, groupId }) => {
           ref={inventory}
           showCentosVersions
           customFilters={{ globalFilter }}
-          autoRefresh
         />
       )}
     </div>
