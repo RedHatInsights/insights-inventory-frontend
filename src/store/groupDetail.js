@@ -39,6 +39,9 @@ export default applyReducerHash(
         error: payload,
       };
     },
+    GROUP_DETAIL_RESET: () => {
+      return initialState;
+    },
   },
   initialState
 );

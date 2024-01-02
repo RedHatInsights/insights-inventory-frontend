@@ -1,5 +1,6 @@
 import {
   Alert,
+  AlertActionLink,
   Button,
   Flex,
   FlexItem,
@@ -81,6 +82,11 @@ const AddSystemsToGroupModal = ({
           description: `${hostIds.length > 1 ? 'Systems' : 'System'} added to ${
             groupName || groupId
           }`,
+          actionLinks: (
+            <AlertActionLink onClick={() => window.location.reload()}>
+              Refresh
+            </AlertActionLink>
+          ),
         },
         onError: {
           title: 'Error',
@@ -176,9 +182,8 @@ const AddSystemsToGroupModal = ({
         {/** confirmation modal */}
         <ConfirmSystemsAddModal
           isModalOpen={confirmationModalOpen}
-          onSubmit={async () => {
-            await handleSystemAddition(overallSelectedKeys);
-            setTimeout(() => dispatch(fetchGroupDetail(groupId)), 500); // refetch data for this group
+          onSubmit={() => {
+            handleSystemAddition(overallSelectedKeys);
             setIsModalOpen(false);
           }}
           onBack={() => {

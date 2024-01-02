@@ -5,7 +5,7 @@ import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
 import { removeHostsFromGroup } from '../utils/api';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
-import { Text } from '@patternfly/react-core';
+import { AlertActionLink, Text } from '@patternfly/react-core';
 
 const schema = (hosts) => {
   const hostsInGroup = hosts.filter(({ groups }) => groups.length > 0); // selection can contain ungroupped hosts
@@ -43,6 +43,11 @@ const statusMessages = (hosts) => {
     ? {
         onSuccess: {
           title: `1 system removed from ${groupName}`,
+          actionLinks: (
+            <AlertActionLink onClick={() => window.location.reload()}>
+              Refresh
+            </AlertActionLink>
+          ),
         },
         onError: {
           title: `Failed to remove 1 system from ${groupName}`,
@@ -51,6 +56,11 @@ const statusMessages = (hosts) => {
     : {
         onSuccess: {
           title: `${hostsInGroup.length} systems removed from ${groupName}`,
+          actionLinks: (
+            <AlertActionLink onClick={() => window.location.reload()}>
+              Refresh
+            </AlertActionLink>
+          ),
         },
         onError: {
           title: `Failed to remove ${hostsInGroup.length} systems from ${groupName}`,
