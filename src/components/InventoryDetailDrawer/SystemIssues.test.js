@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import SystemIssues from './SystemIssues';
-import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import toJson from 'enzyme-to-json';
 import { mock } from '../../__mocks__/systemIssues';
+import { render } from '@testing-library/react';
 
 describe('SystemIssues', () => {
   let initialState;
@@ -100,38 +99,35 @@ describe('SystemIssues', () => {
       const store = mockStore({
         entityDetails: {},
       });
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <SystemIssues />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('SystemIssues'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly with data - closed', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <SystemIssues />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('SystemIssues'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly with data - opened', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('SystemIssues'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly with no advisor', () => {
@@ -146,14 +142,13 @@ describe('SystemIssues', () => {
           },
         },
       });
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('SystemIssues'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly with no patch', () => {
@@ -168,14 +163,13 @@ describe('SystemIssues', () => {
           },
         },
       });
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('SystemIssues'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly with no cve', () => {
@@ -190,14 +184,13 @@ describe('SystemIssues', () => {
           },
         },
       });
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('SystemIssues'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly with no compliance', () => {
@@ -212,14 +205,13 @@ describe('SystemIssues', () => {
           },
         },
       });
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('SystemIssues'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
   });
 });
