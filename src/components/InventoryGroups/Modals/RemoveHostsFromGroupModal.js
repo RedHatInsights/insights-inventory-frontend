@@ -18,13 +18,13 @@ const schema = (hosts) => {
         name: 'warning-message',
         label:
           hostsInGroup.length === 1 ? (
-            <Text>
+            <Text data-testid="desc">
               <strong>{hostsInGroup[0].display_name}</strong> will no longer be
               part of <strong>{groupName}</strong> and its configuration will be
               impacted.
             </Text>
           ) : (
-            <Text>
+            <Text data-testid="desc">
               <strong>{hostsInGroup.length}</strong> systems will no longer be
               part of <strong>{groupName}</strong> and their configuration will
               be impacted.
