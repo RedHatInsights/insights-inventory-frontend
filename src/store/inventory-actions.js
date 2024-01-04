@@ -2,7 +2,6 @@ import {
   ACTION_TYPES,
   CHANGE_SORT,
   CLEAR_FILTERS,
-  CONFIG_CHANGED,
   ENTITIES_LOADING,
   FILTER_ENTITIES,
   FILTER_SELECT,
@@ -18,7 +17,6 @@ import {
   getEntitySystemProfile,
   getOperatingSystems,
   getTags,
-  groupsApi,
   hosts,
 } from '../api';
 import {
@@ -247,20 +245,7 @@ export const deleteEntity = (systems, displayName) => ({
   },
 });
 
-export const configChanged = (config) => ({
-  type: CONFIG_CHANGED,
-  payload: config,
-});
-
 export const toggleDrawer = (isOpened) => ({
   type: TOGGLE_DRAWER,
   payload: { isOpened },
-});
-
-export const fetchGroupsForEntities = (params) => ({
-  type: ACTION_TYPES.GROUPS_FOR_ENTITIES,
-  payload: groupsApi.apiGroupGetGroupList(params),
-  meta: {
-    noError: true, // turns of automatic notification
-  },
 });

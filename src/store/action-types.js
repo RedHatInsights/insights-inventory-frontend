@@ -36,7 +36,6 @@ export const asyncInventory = [
   'OPERATING_SYSTEMS',
   'GROUPS',
   'GROUP_DETAIL',
-  'GROUPS_FOR_ENTITIES',
 ];
 
 export const systemIssues = [
@@ -70,7 +69,6 @@ export const FILTER_SELECT = 'FILTER_SELECT';
 export const ENTITIES_LOADING = 'ENTITIES_LOADING';
 export const CLEAR_FILTERS = 'CLEAR_FILTERS';
 export const TOGGLE_TAG_MODAL = 'TOGGLE_TAG_MODAL';
-export const CONFIG_CHANGED = 'CONFIG_CHANGED';
 export const TOGGLE_DRAWER = 'TOGGLE_INVENTORY_DRAWER';
 export const CLEAR_ENTITIES = 'CLEAR_ENTITIES';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
