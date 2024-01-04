@@ -54,17 +54,19 @@ export const Routes = () => {
   const stalenessAndDeletionEnabled = useFeatureFlag('hbi.custom-staleness');
 
   useEffect(() => {
+    // zero state check
     try {
       (async () => {
         const hasConventionalSystems = await inventoryHasConventionalSystems();
+        setHasConventionalSystems(hasConventionalSystems);
+
         if (edgeParityInventoryListEnabled) {
           const hasEdgeSystems = await inventoryHasEdgeSystems();
-          setHasConventionalSystems(hasConventionalSystems);
           setHasEdgeDevices(hasEdgeSystems);
         }
       })();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }, []);
 
