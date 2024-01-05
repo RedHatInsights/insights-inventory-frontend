@@ -1,11 +1,10 @@
-/* eslint-disable camelcase */
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
-import BasicInfo from './BasicInfo';
-import { mount } from 'enzyme';
-import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import toJson from 'enzyme-to-json';
+import BasicInfo from './BasicInfo';
 
 describe('BasicInfo', () => {
   let initialState;
@@ -32,57 +31,72 @@ describe('BasicInfo', () => {
     const store = mockStore({
       entityDetails: {},
     });
-    const wrapper = mount(
+    render(
       <Provider store={store}>
         <BasicInfo />
       </Provider>
     );
+
     expect(
-      toJson(wrapper.find('BasicInfo'), { mode: 'deep' })
-    ).toMatchSnapshot();
-    expect(wrapper.find('.pf-l-stack__item').length).toBe(1);
-    expect(wrapper.find('.pf-l-split__item').length).toBe(2);
+      screen.queryByRole('heading', {
+        name: /something/i,
+      })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: /open in inventory/i,
+      })
+    ).toBeVisible();
   });
 
   it('should render with data', () => {
     const store = mockStore(initialState);
-    const wrapper = mount(
+    render(
       <Provider store={store}>
         <BasicInfo />
       </Provider>
     );
+
     expect(
-      toJson(wrapper.find('BasicInfo'), { mode: 'deep' })
-    ).toMatchSnapshot();
-    expect(wrapper.find('.pf-l-stack__item').length).toBe(1);
-    expect(wrapper.find('.pf-l-split__item').length).toBe(2);
+      screen.getByRole('heading', {
+        name: /something/i,
+      })
+    ).toBeVisible();
+    expect(
+      screen.getByRole('link', {
+        name: /open in inventory/i,
+      })
+    ).toBeVisible();
   });
 
   it('should render with no inv link', () => {
     const store = mockStore(initialState);
-    const wrapper = mount(
+    render(
       <Provider store={store}>
         <BasicInfo hideInvLink />
       </Provider>
     );
+
     expect(
-      toJson(wrapper.find('BasicInfo'), { mode: 'deep' })
-    ).toMatchSnapshot();
-    expect(wrapper.find('.pf-l-stack__item').length).toBe(1);
-    expect(wrapper.find('.pf-l-split__item').length).toBe(1);
+      screen.getByRole('heading', {
+        name: /something/i,
+      })
+    ).toBeVisible();
+    expect(
+      screen.queryByRole('link', {
+        name: /open in inventory/i,
+      })
+    ).not.toBeInTheDocument();
   });
 
   it('should render with tags', () => {
     const store = mockStore(initialState);
-    const wrapper = mount(
+    const view = render(
       <Provider store={store}>
         <BasicInfo showTags />
       </Provider>
     );
-    expect(
-      toJson(wrapper.find('BasicInfo'), { mode: 'deep' })
-    ).toMatchSnapshot();
-    expect(wrapper.find('.pf-l-stack__item').length).toBe(2);
-    expect(wrapper.find('Chip').length).toBe(4);
+
+    expect(view.asFragment()).toMatchSnapshot();
   });
 });
