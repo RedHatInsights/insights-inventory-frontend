@@ -187,10 +187,12 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -198,10 +200,12 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
@@ -214,17 +218,21 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                                           }
                                         }
                                       >
-                                        <span>
+                                        <span
+                                          aria-label="Formatted OS version"
+                                        >
                                           test-release
                                         </span>
                                       </OperatingSystemFormatter>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -232,10 +240,12 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -243,10 +253,12 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -254,10 +266,12 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -265,10 +279,12 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -276,10 +292,12 @@ exports[`OperatingSystemCard should not render hasArchitecture 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -489,10 +507,12 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -500,10 +520,12 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
@@ -516,17 +538,21 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                                           }
                                         }
                                       >
-                                        <span>
+                                        <span
+                                          aria-label="Formatted OS version"
+                                        >
                                           test-release
                                         </span>
                                       </OperatingSystemFormatter>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -534,10 +560,12 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -545,10 +573,12 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -556,10 +586,12 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -567,10 +599,12 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -578,10 +612,12 @@ exports[`OperatingSystemCard should not render hasKernelModules 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -794,10 +830,12 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -805,10 +843,12 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
@@ -821,17 +861,21 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                                           }
                                         }
                                       >
-                                        <span>
+                                        <span
+                                          aria-label="Formatted OS version"
+                                        >
                                           test-release
                                         </span>
                                       </OperatingSystemFormatter>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -839,10 +883,12 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -850,10 +896,12 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -861,10 +909,12 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -872,10 +922,12 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -883,10 +935,12 @@ exports[`OperatingSystemCard should not render hasKernelRelease 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -1099,10 +1153,12 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -1110,10 +1166,12 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
@@ -1126,17 +1184,21 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                                           }
                                         }
                                       >
-                                        <span>
+                                        <span
+                                          aria-label="Formatted OS version"
+                                        >
                                           test-release
                                         </span>
                                       </OperatingSystemFormatter>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -1144,10 +1206,12 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -1155,10 +1219,12 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -1166,10 +1232,12 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -1177,10 +1245,12 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -1188,10 +1258,12 @@ exports[`OperatingSystemCard should not render hasLastBoot 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -1396,10 +1468,12 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -1407,10 +1481,12 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -1418,10 +1494,12 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -1429,10 +1507,12 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -1440,10 +1520,12 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -1451,10 +1533,12 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -1462,10 +1546,12 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -1473,10 +1559,12 @@ exports[`OperatingSystemCard should not render hasRelease 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -1681,10 +1769,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -1692,10 +1782,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
@@ -1717,10 +1809,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -1728,10 +1822,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -1753,10 +1849,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -1764,10 +1862,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -1789,10 +1889,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -1800,10 +1902,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -1825,10 +1929,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -1836,10 +1942,12 @@ exports[`OperatingSystemCard should render correctly - no data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -2070,10 +2178,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -2081,10 +2191,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
@@ -2097,17 +2209,21 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                           }
                                         }
                                       >
-                                        <span>
+                                        <span
+                                          aria-label="Formatted OS version"
+                                        >
                                           test-release
                                         </span>
                                       </OperatingSystemFormatter>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -2115,10 +2231,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -2126,10 +2244,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -2137,10 +2257,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -2148,10 +2270,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -2159,10 +2283,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -2170,10 +2296,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -2181,10 +2309,12 @@ exports[`OperatingSystemCard should render correctly with data 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -2389,10 +2519,12 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -2400,25 +2532,31 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
                                       <OperatingSystemFormatter>
-                                        <span>
+                                        <span
+                                          aria-label="Formatted OS version"
+                                        >
                                           Not available
                                         </span>
                                       </OperatingSystemFormatter>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -2426,10 +2564,12 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -2437,10 +2577,12 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -2448,10 +2590,12 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -2459,10 +2603,12 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -2470,10 +2616,12 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -2481,10 +2629,12 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -2492,10 +2642,12 @@ exports[`OperatingSystemCard should render correctly with rhsm facts 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -2712,10 +2864,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -2723,10 +2877,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
@@ -2739,17 +2895,21 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                           }
                                         }
                                       >
-                                        <span>
+                                        <span
+                                          aria-label="Formatted OS version"
+                                        >
                                           test-release
                                         </span>
                                       </OperatingSystemFormatter>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -2757,10 +2917,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -2768,10 +2930,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -2779,10 +2943,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -2790,10 +2956,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -2801,10 +2969,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -2812,10 +2982,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -2823,10 +2995,12 @@ exports[`OperatingSystemCard should render enabled/disabled 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -3076,10 +3250,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                   className=""
                                 >
                                   <TextListItem
+                                    aria-label="Release title"
                                     component="dt"
                                     data-ouia-component-id="Release title"
                                   >
                                     <dt
+                                      aria-label="Release title"
                                       className=""
                                       data-ouia-component-id="Release title"
                                     >
@@ -3087,10 +3263,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Release value"
                                     component="dd"
                                     data-ouia-component-id="Release value"
                                   >
                                     <dd
+                                      aria-label="Release value"
                                       className=""
                                       data-ouia-component-id="Release value"
                                     >
@@ -3103,17 +3281,21 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                           }
                                         }
                                       >
-                                        <span>
+                                        <span
+                                          aria-label="Formatted OS version"
+                                        >
                                           test-release
                                         </span>
                                       </OperatingSystemFormatter>
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release title"
                                     component="dt"
                                     data-ouia-component-id="Kernel release title"
                                   >
                                     <dt
+                                      aria-label="Kernel release title"
                                       className=""
                                       data-ouia-component-id="Kernel release title"
                                     >
@@ -3121,10 +3303,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel release value"
                                     component="dd"
                                     data-ouia-component-id="Kernel release value"
                                   >
                                     <dd
+                                      aria-label="Kernel release value"
                                       className=""
                                       data-ouia-component-id="Kernel release value"
                                     >
@@ -3132,10 +3316,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture title"
                                     component="dt"
                                     data-ouia-component-id="Architecture title"
                                   >
                                     <dt
+                                      aria-label="Architecture title"
                                       className=""
                                       data-ouia-component-id="Architecture title"
                                     >
@@ -3143,10 +3329,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Architecture value"
                                     component="dd"
                                     data-ouia-component-id="Architecture value"
                                   >
                                     <dd
+                                      aria-label="Architecture value"
                                       className=""
                                       data-ouia-component-id="Architecture value"
                                     >
@@ -3154,10 +3342,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time title"
                                     component="dt"
                                     data-ouia-component-id="Last boot time title"
                                   >
                                     <dt
+                                      aria-label="Last boot time title"
                                       className=""
                                       data-ouia-component-id="Last boot time title"
                                     >
@@ -3165,10 +3355,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Last boot time value"
                                     component="dd"
                                     data-ouia-component-id="Last boot time value"
                                   >
                                     <dd
+                                      aria-label="Last boot time value"
                                       className=""
                                       data-ouia-component-id="Last boot time value"
                                     >
@@ -3176,10 +3368,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules title"
                                     component="dt"
                                     data-ouia-component-id="Kernel modules title"
                                   >
                                     <dt
+                                      aria-label="Kernel modules title"
                                       className=""
                                       data-ouia-component-id="Kernel modules title"
                                     >
@@ -3187,10 +3381,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="Kernel modules value"
                                     component="dd"
                                     data-ouia-component-id="Kernel modules value"
                                   >
                                     <dd
+                                      aria-label="Kernel modules value"
                                       className=""
                                       data-ouia-component-id="Kernel modules value"
                                     >
@@ -3198,10 +3394,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="something title"
                                     component="dt"
                                     data-ouia-component-id="something title"
                                   >
                                     <dt
+                                      aria-label="something title"
                                       className=""
                                       data-ouia-component-id="something title"
                                     >
@@ -3209,10 +3407,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="something value"
                                     component="dd"
                                     data-ouia-component-id="something value"
                                   >
                                     <dd
+                                      aria-label="something value"
                                       className=""
                                       data-ouia-component-id="something value"
                                     >
@@ -3220,10 +3420,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="with click title"
                                     component="dt"
                                     data-ouia-component-id="with click title"
                                   >
                                     <dt
+                                      aria-label="with click title"
                                       className=""
                                       data-ouia-component-id="with click title"
                                     >
@@ -3231,10 +3433,12 @@ exports[`OperatingSystemCard should render extra 1`] = `
                                     </dt>
                                   </TextListItem>
                                   <TextListItem
+                                    aria-label="with click value"
                                     component="dd"
                                     data-ouia-component-id="with click value"
                                   >
                                     <dd
+                                      aria-label="with click value"
                                       className=""
                                       data-ouia-component-id="with click value"
                                     >

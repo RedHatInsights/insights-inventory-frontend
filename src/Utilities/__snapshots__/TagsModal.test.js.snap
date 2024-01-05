@@ -60,7 +60,7 @@ exports[`TagsModal DOM should render loading state correctly 1`] = `
               <span
                 class="pf-c-modal-box__title-text"
               >
-                undefined (undefined)
+                All tags in inventory (undefined)
               </span>
             </h1>
           </header>
@@ -84,6 +84,65 @@ exports[`TagsModal DOM should render loading state correctly 1`] = `
                   <div
                     class="pf-c-toolbar__group pf-m-filter-group ins-c-primary-toolbar__group-filter pf-m-spacer-md pf-m-space-items-lg"
                   >
+                    <div
+                      class="pf-c-toolbar__item"
+                    >
+                      <div
+                        class="pf-c-dropdown ins-c-bulk-select"
+                        data-ouia-component-id="BulkSelect"
+                        data-ouia-component-type="PF4/Dropdown"
+                        data-ouia-safe="true"
+                      >
+                        <div
+                          class="pf-c-dropdown__toggle pf-m-split-button"
+                        >
+                          <label
+                            class="pf-c-dropdown__toggle-check"
+                            for="bulk-select-tags-toggle-checkbox"
+                          >
+                            <input
+                              aria-invalid="false"
+                              aria-label="Select all"
+                              data-ouia-component-id="BulkSelect"
+                              data-ouia-component-type="PF4/DropdownToggleCheckbox"
+                              data-ouia-safe="true"
+                              id="bulk-select-tags-toggle-checkbox"
+                              type="checkbox"
+                            />
+                            
+                          </label>
+                          <button
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            aria-label="Select"
+                            class="pf-c-dropdown__toggle-button"
+                            data-ouia-component-id="BulkSelect"
+                            data-ouia-component-type="PF4/DropdownToggle"
+                            data-ouia-safe="true"
+                            id="pf-dropdown-toggle-id-0"
+                            type="button"
+                          >
+                            <span
+                              class=""
+                            >
+                              <svg
+                                aria-hidden="true"
+                                fill="currentColor"
+                                height="1em"
+                                role="img"
+                                style="vertical-align: -0.125em;"
+                                viewBox="0 0 320 512"
+                                width="1em"
+                              >
+                                <path
+                                  d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                />
+                              </svg>
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                     <div
                       class="pf-c-toolbar__item ins-c-primary-toolbar__filter"
                     >
@@ -663,6 +722,32 @@ exports[`TagsModal DOM should render loading state correctly 1`] = `
               </tbody>
             </table>
           </div>
+          <footer
+            class="pf-c-modal-box__footer"
+          >
+            <button
+              aria-disabled="true"
+              class="pf-c-button pf-m-primary pf-m-disabled"
+              data-ouia-component-id="OUIA-Generated-Button-primary-1"
+              data-ouia-component-type="PF4/Button"
+              data-ouia-safe="true"
+              disabled=""
+              type="button"
+            >
+              Apply 
+              tags
+            </button>
+            <button
+              aria-disabled="false"
+              class="pf-c-button pf-m-link"
+              data-ouia-component-id="OUIA-Generated-Button-link-1"
+              data-ouia-component-type="PF4/Button"
+              data-ouia-safe="true"
+              type="button"
+            >
+              Cancel
+            </button>
+          </footer>
         </div>
       </div>
     </div>

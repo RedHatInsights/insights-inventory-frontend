@@ -42,6 +42,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -82,12 +83,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -128,6 +131,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -166,6 +170,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -206,6 +211,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -244,84 +250,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -384,6 +404,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -424,12 +445,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -470,6 +493,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -508,6 +532,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -548,6 +573,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -586,84 +612,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -726,6 +766,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -766,12 +807,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -812,6 +855,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -850,6 +894,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -890,6 +935,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -928,84 +974,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -1068,6 +1128,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -1108,12 +1169,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -1154,6 +1217,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -1192,6 +1256,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -1232,6 +1297,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -1270,84 +1336,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -1410,6 +1490,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -1450,12 +1531,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -1496,6 +1579,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -1534,6 +1618,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -1574,6 +1659,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -1612,84 +1698,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -1752,6 +1852,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -1792,12 +1893,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -1838,6 +1941,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -1876,6 +1980,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -1916,6 +2021,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -1954,84 +2060,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -2094,6 +2214,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -2134,12 +2255,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -2180,6 +2303,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -2218,6 +2342,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -2258,6 +2383,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -2296,84 +2422,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -2436,6 +2576,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -2476,12 +2617,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -2522,6 +2665,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -2560,6 +2704,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -2600,6 +2745,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -2638,84 +2784,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -2778,6 +2938,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -2818,12 +2979,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -2864,6 +3027,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -2902,6 +3066,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -2942,6 +3107,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -2980,84 +3146,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -3120,6 +3300,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -3160,12 +3341,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -3206,6 +3389,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -3244,6 +3428,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -3284,6 +3469,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -3322,84 +3508,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -3462,6 +3662,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -3502,6 +3703,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
@@ -3514,6 +3716,7 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -3554,6 +3757,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -3566,6 +3770,7 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -3606,6 +3811,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -3618,12 +3824,14 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
@@ -3636,12 +3844,14 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
@@ -3654,12 +3864,14 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
@@ -3672,12 +3884,14 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
@@ -3690,12 +3904,14 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
@@ -3708,12 +3924,14 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
@@ -3726,12 +3944,14 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -3800,6 +4020,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -3840,12 +4061,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -3886,6 +4109,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -3924,6 +4148,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -3964,6 +4189,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -4002,12 +4228,14 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
@@ -4020,72 +4248,84 @@ Array [
                 </div>
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -4148,6 +4388,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -4188,12 +4429,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -4234,6 +4477,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -4272,6 +4516,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -4312,6 +4557,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -4350,84 +4596,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -4490,6 +4750,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -4530,12 +4791,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -4576,6 +4839,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -4614,6 +4878,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -4654,6 +4919,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -4692,84 +4958,98 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 2
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 2
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
@@ -4832,6 +5112,7 @@ Array [
               className=""
             >
               <dt
+                aria-label="Host name title"
                 className=""
                 data-ouia-component-id="Host name title"
               >
@@ -4872,12 +5153,14 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Host name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Host name value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Display name title"
                 className=""
                 data-ouia-component-id="Display name title"
               >
@@ -4918,6 +5201,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Display name value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Display name value"
               >
@@ -4956,6 +5240,7 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="Ansible hostname title"
                 className=""
                 data-ouia-component-id="Ansible hostname title"
               >
@@ -4996,6 +5281,7 @@ Array [
                 ]
               </dt>
               <dd
+                aria-label="Ansible hostname value"
                 className="sentry-mask data-hj-suppress"
                 data-ouia-component-id="Ansible hostname value"
               >
@@ -5034,108 +5320,126 @@ Array [
                 </a>
               </dd>
               <dt
+                aria-label="SAP title"
                 className=""
                 data-ouia-component-id="SAP title"
               >
                 SAP
               </dt>
               <dd
+                aria-label="SAP value"
                 className=""
                 data-ouia-component-id="SAP value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="System purpose title"
                 className=""
                 data-ouia-component-id="System purpose title"
               >
                 System purpose
               </dt>
               <dd
+                aria-label="System purpose value"
                 className=""
                 data-ouia-component-id="System purpose value"
               >
                 Production
               </dd>
               <dt
+                aria-label="Number of CPUs title"
                 className=""
                 data-ouia-component-id="Number of CPUs title"
               >
                 Number of CPUs
               </dt>
               <dd
+                aria-label="Number of CPUs value"
                 className=""
                 data-ouia-component-id="Number of CPUs value"
               >
                 1
               </dd>
               <dt
+                aria-label="Sockets title"
                 className=""
                 data-ouia-component-id="Sockets title"
               >
                 Sockets
               </dt>
               <dd
+                aria-label="Sockets value"
                 className=""
                 data-ouia-component-id="Sockets value"
               >
                 1
               </dd>
               <dt
+                aria-label="Cores per socket title"
                 className=""
                 data-ouia-component-id="Cores per socket title"
               >
                 Cores per socket
               </dt>
               <dd
+                aria-label="Cores per socket value"
                 className=""
                 data-ouia-component-id="Cores per socket value"
               >
                 1
               </dd>
               <dt
+                aria-label="CPU flags title"
                 className=""
                 data-ouia-component-id="CPU flags title"
               >
                 CPU flags
               </dt>
               <dd
+                aria-label="CPU flags value"
                 className=""
                 data-ouia-component-id="CPU flags value"
               >
                 0 flags
               </dd>
               <dt
+                aria-label="RAM title"
                 className=""
                 data-ouia-component-id="RAM title"
               >
                 RAM
               </dt>
               <dd
+                aria-label="RAM value"
                 className=""
                 data-ouia-component-id="RAM value"
               >
                 5 MB
               </dd>
               <dt
+                aria-label="something title"
                 className=""
                 data-ouia-component-id="something title"
               >
                 something
               </dt>
               <dd
+                aria-label="something value"
                 className=""
                 data-ouia-component-id="something value"
               >
                 test
               </dd>
               <dt
+                aria-label="with click title"
                 className=""
                 data-ouia-component-id="with click title"
               >
                 with click
               </dt>
               <dd
+                aria-label="with click value"
                 className=""
                 data-ouia-component-id="with click value"
               >

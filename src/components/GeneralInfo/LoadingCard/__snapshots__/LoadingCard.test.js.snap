@@ -3,59 +3,21 @@
 exports[`LoadingCard Clickable should render - 0 value 1`] = `
 <DocumentFragment>
   <a
-    href="/some-target"
+    href="localhost:3000/example/path/some-target"
   >
-<<<<<<< HEAD
-    <Clickable
-      onClick={[MockFunction]}
-      target="some-target"
-      value={0}
-    >
-      <Link
-        to="localhost:3000/example/path/some-target"
-      >
-        <a
-          href="localhost:3000/example/path/some-target"
-        >
-          None
-        </a>
-      </Link>
-    </Clickable>
-  </Router>
-</MemoryRouter>
-=======
     None
   </a>
 </DocumentFragment>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
 `;
 
 exports[`LoadingCard Clickable should render - no data 1`] = `
 <DocumentFragment>
   <a
-    href="/undefined"
+    href="localhost:3000/example/path/undefined"
   >
-<<<<<<< HEAD
-    <Clickable
-      onClick={[MockFunction]}
-    >
-      <Link
-        to="localhost:3000/example/path/undefined"
-      >
-        <a
-          href="localhost:3000/example/path/undefined"
-        >
-          Not available
-        </a>
-      </Link>
-    </Clickable>
-  </Router>
-</MemoryRouter>
-=======
     Not available
   </a>
 </DocumentFragment>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
 `;
 
 exports[`LoadingCard Loading card render - isLoading: false 1`] = `
@@ -182,111 +144,34 @@ exports[`LoadingCard Loading card render 1`] = `
               class=""
             >
               <dt
+                aria-label="test-title title"
                 class=""
                 data-ouia-component-id="test-title title"
               >
                 test-title
               </dt>
               <dd
+                aria-label="test-title value"
                 class=""
                 data-ouia-component-id="test-title value"
               >
                 <div>
                   <a
-                    href="/undefined"
+                    href="localhost:3000/example/path/undefined"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack__item pf-m-fill"
-                    >
-                      <TextContent>
-                        <div
-                          className="pf-c-content"
-                        >
-                          <TextList
-                            component="dl"
-                          >
-                            <dl
-                              className=""
-                            >
-                              <TextListItem
-                                component="dt"
-                                data-ouia-component-id="test-title title"
-                              >
-                                <dt
-                                  className=""
-                                  data-ouia-component-id="test-title title"
-                                >
-                                  test-title
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                                data-ouia-component-id="test-title value"
-                              >
-                                <dd
-                                  className=""
-                                  data-ouia-component-id="test-title value"
-                                >
-                                  <div>
-                                    <Clickable
-                                      onClick={[MockFunction]}
-                                      value="some value"
-                                    >
-                                      <Link
-                                        to="localhost:3000/example/path/undefined"
-                                      >
-                                        <a
-                                          href="localhost:3000/example/path/undefined"
-                                        >
-                                          some value
-                                        </a>
-                                      </Link>
-                                    </Clickable>
-                                  </div>
-                                </dd>
-                              </TextListItem>
-                              <TextListItem
-                                component="dt"
-                                data-ouia-component-id="just title title"
-                              >
-                                <dt
-                                  className=""
-                                  data-ouia-component-id="just title title"
-                                >
-                                  just title
-                                </dt>
-                              </TextListItem>
-                              <TextListItem
-                                component="dd"
-                                data-ouia-component-id="just title value"
-                              >
-                                <dd
-                                  className=""
-                                  data-ouia-component-id="just title value"
-                                >
-                                  Not available
-                                </dd>
-                              </TextListItem>
-                            </dl>
-                          </TextList>
-                        </div>
-                      </TextContent>
-                    </div>
-                  </StackItem>
-=======
                     some value
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="just title title"
                 class=""
                 data-ouia-component-id="just title title"
               >
                 just title
               </dt>
               <dd
+                aria-label="just title value"
                 class=""
                 data-ouia-component-id="just title value"
               >
@@ -343,12 +228,14 @@ exports[`LoadingCard should render loading bars 1`] = `
               class=""
             >
               <dt
+                aria-label="test-title title"
                 class=""
                 data-ouia-component-id="test-title title"
               >
                 test-title
               </dt>
               <dd
+                aria-label="test-title value"
                 class=""
                 data-ouia-component-id="test-title value"
               >
@@ -361,12 +248,14 @@ exports[`LoadingCard should render loading bars 1`] = `
                 </div>
               </dd>
               <dt
+                aria-label="just title title"
                 class=""
                 data-ouia-component-id="just title title"
               >
                 just title
               </dt>
               <dd
+                aria-label="just title value"
                 class=""
                 data-ouia-component-id="just title value"
               >

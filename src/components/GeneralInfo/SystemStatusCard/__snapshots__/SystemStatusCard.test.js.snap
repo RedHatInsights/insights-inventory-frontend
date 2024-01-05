@@ -41,36 +41,42 @@ exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
             class=""
           >
             <dt
+              aria-label="Current state title"
               class=""
               data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
+              aria-label="Current state value"
               class=""
               data-ouia-component-id="Current state value"
             >
               Active
             </dd>
             <dt
+              aria-label="Registered title"
               class=""
               data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
+              aria-label="Registered value"
               class=""
               data-ouia-component-id="Registered value"
             >
               01 Apr 2014 00:00 UTC
             </dd>
             <dt
+              aria-label="RHC title"
               class=""
               data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
+              aria-label="RHC value"
               class=""
               data-ouia-component-id="RHC value"
             >
@@ -125,36 +131,42 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
             class=""
           >
             <dt
+              aria-label="Current state title"
               class=""
               data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
+              aria-label="Current state value"
               class=""
               data-ouia-component-id="Current state value"
             >
               Active
             </dd>
             <dt
+              aria-label="Registered title"
               class=""
               data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
+              aria-label="Registered value"
               class=""
               data-ouia-component-id="Registered value"
             >
               01 Apr 2014 00:00 UTC
             </dd>
             <dt
+              aria-label="Last upload title"
               class=""
               data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
+              aria-label="Last upload value"
               class=""
               data-ouia-component-id="Last upload value"
             >
@@ -209,36 +221,42 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
             class=""
           >
             <dt
+              aria-label="Current state title"
               class=""
               data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
+              aria-label="Current state value"
               class=""
               data-ouia-component-id="Current state value"
             >
               Active
             </dd>
             <dt
+              aria-label="Last upload title"
               class=""
               data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
+              aria-label="Last upload value"
               class=""
               data-ouia-component-id="Last upload value"
             >
               01 Jun 2014 00:00 UTC
             </dd>
             <dt
+              aria-label="RHC title"
               class=""
               data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
+              aria-label="RHC value"
               class=""
               data-ouia-component-id="RHC value"
             >
@@ -293,36 +311,42 @@ exports[`SystemStatusCard should not render hasState 1`] = `
             class=""
           >
             <dt
+              aria-label="Registered title"
               class=""
               data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
+              aria-label="Registered value"
               class=""
               data-ouia-component-id="Registered value"
             >
               01 Apr 2014 00:00 UTC
             </dd>
             <dt
+              aria-label="Last upload title"
               class=""
               data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
+              aria-label="Last upload value"
               class=""
               data-ouia-component-id="Last upload value"
             >
               01 Jun 2014 00:00 UTC
             </dd>
             <dt
+              aria-label="RHC title"
               class=""
               data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
+              aria-label="RHC value"
               class=""
               data-ouia-component-id="RHC value"
             >
@@ -377,12 +401,14 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
             class=""
           >
             <dt
+              aria-label="Current state title"
               class=""
               data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
+              aria-label="Current state value"
               class=""
               data-ouia-component-id="Current state value"
             >
@@ -395,12 +421,14 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
               </div>
             </dd>
             <dt
+              aria-label="Registered title"
               class=""
               data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
+              aria-label="Registered value"
               class=""
               data-ouia-component-id="Registered value"
             >
@@ -413,12 +441,14 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
               </div>
             </dd>
             <dt
+              aria-label="Last upload title"
               class=""
               data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
+              aria-label="Last upload value"
               class=""
               data-ouia-component-id="Last upload value"
             >
@@ -431,12 +461,14 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
               </div>
             </dd>
             <dt
+              aria-label="RHC title"
               class=""
               data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
+              aria-label="RHC value"
               class=""
               data-ouia-component-id="RHC value"
             >
@@ -497,48 +529,56 @@ exports[`SystemStatusCard should render correctly with data 1`] = `
             class=""
           >
             <dt
+              aria-label="Current state title"
               class=""
               data-ouia-component-id="Current state title"
             >
               Current state
             </dt>
             <dd
+              aria-label="Current state value"
               class=""
               data-ouia-component-id="Current state value"
             >
               Active
             </dd>
             <dt
+              aria-label="Registered title"
               class=""
               data-ouia-component-id="Registered title"
             >
               Registered
             </dt>
             <dd
+              aria-label="Registered value"
               class=""
               data-ouia-component-id="Registered value"
             >
               01 Apr 2014 00:00 UTC
             </dd>
             <dt
+              aria-label="Last upload title"
               class=""
               data-ouia-component-id="Last upload title"
             >
               Last upload
             </dt>
             <dd
+              aria-label="Last upload value"
               class=""
               data-ouia-component-id="Last upload value"
             >
               01 Jun 2014 00:00 UTC
             </dd>
             <dt
+              aria-label="RHC title"
               class=""
               data-ouia-component-id="RHC title"
             >
               RHC
             </dt>
             <dd
+              aria-label="RHC value"
               class=""
               data-ouia-component-id="RHC value"
             >

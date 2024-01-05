@@ -9,108 +9,6 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={false}
-      hasIPv6={true}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={false}
-        hasIPv6={true}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": Array [
-              "1",
-            ],
-            "ipv6": Array [
-              "6",
-            ],
-            "nics": Array [
-              "test",
-            ],
-            "public_ipv4_addresses": undefined,
-            "type": "test-type",
-            "vendor": "test-vendor",
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": "test-type",
-              },
-              Object {
-                "title": "Vendor",
-                "value": "test-vendor",
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": 1,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": 1,
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -119,7 +17,6 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -145,282 +42,96 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 test-type
               </dd>
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
                 test-vendor
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv6"
+                    href="localhost:3000/example/path/ipv6"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-11"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      test-type
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      test-vendor
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv6"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv6"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv6"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          singular="NIC"
-                                          target="interfaces"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/interfaces"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/interfaces"
-                                            >
-                                              1 NIC
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                     1 address
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
                 <div>
                   <a
-                    href="/interfaces"
+                    href="localhost:3000/example/path/interfaces"
                   >
                     1 NIC
                   </a>
@@ -444,108 +155,6 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={false}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={false}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": Array [
-              "1",
-            ],
-            "ipv6": Array [
-              "6",
-            ],
-            "nics": Array [
-              "test",
-            ],
-            "public_ipv4_addresses": undefined,
-            "type": "test-type",
-            "vendor": "test-vendor",
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": "test-type",
-              },
-              Object {
-                "title": "Vendor",
-                "value": "test-vendor",
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": 1,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": 1,
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -554,7 +163,6 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -580,282 +188,96 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 test-type
               </dd>
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
                 test-vendor
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv4"
+                    href="localhost:3000/example/path/ipv4"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-12"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      test-type
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      test-vendor
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv4"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv4"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv4"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          singular="NIC"
-                                          target="interfaces"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/interfaces"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/interfaces"
-                                            >
-                                              1 NIC
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                     1 address
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
                 <div>
                   <a
-                    href="/interfaces"
+                    href="localhost:3000/example/path/interfaces"
                   >
                     1 NIC
                   </a>
@@ -879,109 +301,6 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={true}
-      hasInterfaces={false}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={true}
-        hasInterfaces={false}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": Array [
-              "1",
-            ],
-            "ipv6": Array [
-              "6",
-            ],
-            "nics": Array [
-              "test",
-            ],
-            "public_ipv4_addresses": undefined,
-            "type": "test-type",
-            "vendor": "test-vendor",
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": "test-type",
-              },
-              Object {
-                "title": "Vendor",
-                "value": "test-vendor",
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": 1,
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": 1,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -990,7 +309,6 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -1016,287 +334,100 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 test-type
               </dd>
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
                 test-vendor
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv4"
+                    href="localhost:3000/example/path/ipv4"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-13"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      test-type
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      test-vendor
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv4"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv4"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv4"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv6"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv6"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv6"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                     1 address
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv6"
+                    href="localhost:3000/example/path/ipv6"
                   >
                     1 address
                   </a>
                 </div>
+              </dd>
+              <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
               </dd>
             </dl>
           </div>
@@ -1316,112 +447,6 @@ exports[`InfrastructureCard should not render hasType 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={true}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={false}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={true}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={false}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": Array [
-              "1",
-            ],
-            "ipv6": Array [
-              "6",
-            ],
-            "nics": Array [
-              "test",
-            ],
-            "public_ipv4_addresses": undefined,
-            "type": "test-type",
-            "vendor": "test-vendor",
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Vendor",
-                "value": "test-vendor",
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": 1,
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": 1,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": 1,
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -1430,7 +455,6 @@ exports[`InfrastructureCard should not render hasType 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -1456,306 +480,102 @@ exports[`InfrastructureCard should not render hasType 1`] = `
               class=""
             >
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
                 test-vendor
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv4"
+                    href="localhost:3000/example/path/ipv4"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-9"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      test-vendor
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv4"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv4"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv4"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv6"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv6"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv6"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          singular="NIC"
-                                          target="interfaces"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/interfaces"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/interfaces"
-                                            >
-                                              1 NIC
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                     1 address
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv6"
+                    href="localhost:3000/example/path/ipv6"
                   >
                     1 address
                   </a>
                 </div>
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
                 <div>
                   <a
-                    href="/interfaces"
+                    href="localhost:3000/example/path/interfaces"
                   >
                     1 NIC
                   </a>
@@ -1779,112 +599,6 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={true}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={false}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={true}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={false}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": Array [
-              "1",
-            ],
-            "ipv6": Array [
-              "6",
-            ],
-            "nics": Array [
-              "test",
-            ],
-            "public_ipv4_addresses": undefined,
-            "type": "test-type",
-            "vendor": "test-vendor",
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": "test-type",
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": 1,
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": 1,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": 1,
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -1893,7 +607,6 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -1919,306 +632,102 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 test-type
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv4"
+                    href="localhost:3000/example/path/ipv4"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-10"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      test-type
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv4"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv4"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv4"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv6"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv6"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv6"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          singular="NIC"
-                                          target="interfaces"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/interfaces"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/interfaces"
-                                            >
-                                              1 NIC
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                     1 address
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv6"
+                    href="localhost:3000/example/path/ipv6"
                   >
                     1 address
                   </a>
                 </div>
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
                 <div>
                   <a
-                    href="/interfaces"
+                    href="localhost:3000/example/path/interfaces"
                   >
                     1 NIC
                   </a>
@@ -2242,110 +751,6 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={true}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={false}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={true}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": undefined,
-            "ipv6": undefined,
-            "nics": undefined,
-            "public_ipv4_addresses": undefined,
-            "type": undefined,
-            "vendor": undefined,
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={true}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": undefined,
-              },
-              Object {
-                "title": "Vendor",
-                "value": undefined,
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": undefined,
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": undefined,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": undefined,
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -2354,7 +759,6 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -2380,340 +784,34 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 <div
                   class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
-<<<<<<< HEAD
-                  <Stack
-                    hasGutter={true}
-                  >
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-1"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      <Skeleton
-                                        size="sm"
-                                      >
-                                        <Skeleton
-                                          className="ins-c-skeleton ins-c-skeleton__sm"
-                                        >
-                                          <div
-                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                                          >
-                                            <span
-                                              className="pf-u-screen-reader"
-                                            />
-                                          </div>
-                                        </Skeleton>
-                                      </Skeleton>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                   <span
                     class="pf-u-screen-reader"
                   />
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
@@ -2726,12 +824,34 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
                 </div>
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
@@ -2744,12 +864,14 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
                 </div>
               </dd>
               <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
@@ -2762,12 +884,34 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
                 </div>
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                <div
+                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-u-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
@@ -2797,116 +941,6 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={true}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={true}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": Array [
-              "1",
-            ],
-            "ipv6": Array [
-              "6",
-            ],
-            "nics": Array [
-              "test",
-            ],
-            "public_ipv4_addresses": undefined,
-            "type": "test-type",
-            "vendor": "test-vendor",
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": "test-type",
-              },
-              Object {
-                "title": "Vendor",
-                "value": "test-vendor",
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": 1,
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": 1,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": 1,
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -2915,7 +949,6 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -2941,340 +974,116 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 test-type
               </dd>
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
                 test-vendor
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv4"
+                    href="localhost:3000/example/path/ipv4"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-2"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      test-type
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      test-vendor
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv4"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv4"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv4"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv6"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv6"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv6"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          singular="NIC"
-                                          target="interfaces"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/interfaces"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/interfaces"
-                                            >
-                                              1 NIC
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                     1 address
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv6"
+                    href="localhost:3000/example/path/ipv6"
                   >
                     1 address
                   </a>
                 </div>
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
                 <div>
                   <a
-                    href="/interfaces"
+                    href="localhost:3000/example/path/interfaces"
                   >
                     1 NIC
                   </a>
@@ -3298,110 +1107,6 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={true}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={true}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": undefined,
-            "ipv6": undefined,
-            "nics": undefined,
-            "public_ipv4_addresses": undefined,
-            "type": "virtual",
-            "vendor": undefined,
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": "virtual",
-              },
-              Object {
-                "title": "Vendor",
-                "value": undefined,
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": undefined,
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": undefined,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": undefined,
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -3410,7 +1115,6 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -3422,230 +1126,6 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
               data-ouia-safe="true"
               data-pf-content="true"
             >
-<<<<<<< HEAD
-              <CardBody>
-                <div
-                  className="pf-c-card__body"
-                >
-                  <Stack
-                    hasGutter={true}
-                  >
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-3"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      virtual
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-                </div>
-              </CardBody>
-            </article>
-          </Card>
-        </LoadingCard>
-      </InfrastructureCardCore>
-    </Connect(InfrastructureCardCore)>
-  </Router>
-</MemoryRouter>
-=======
               Infrastructure
             </h1>
           </div>
@@ -3660,60 +1140,98 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 virtual
               </dd>
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
                 Not available
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
@@ -3726,7 +1244,6 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
     </div>
   </article>
 </DocumentFragment>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
 `;
 
 exports[`InfrastructureCard should render enabled/disabled 1`] = `
@@ -3738,116 +1255,6 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={Array []}
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={true}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={Array []}
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={true}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": Array [
-              "1",
-            ],
-            "ipv6": Array [
-              "6",
-            ],
-            "nics": Array [
-              "test",
-            ],
-            "public_ipv4_addresses": undefined,
-            "type": "test-type",
-            "vendor": "test-vendor",
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": "test-type",
-              },
-              Object {
-                "title": "Vendor",
-                "value": "test-vendor",
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": 1,
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": 1,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": 1,
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -3856,7 +1263,6 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -3882,340 +1288,116 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 test-type
               </dd>
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
                 test-vendor
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv4"
+                    href="localhost:3000/example/path/ipv4"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-4"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      test-type
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      test-vendor
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv4"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv4"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv4"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv6"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv6"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv6"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          singular="NIC"
-                                          target="interfaces"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/interfaces"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/interfaces"
-                                            >
-                                              1 NIC
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                     1 address
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv6"
+                    href="localhost:3000/example/path/ipv6"
                   >
                     1 address
                   </a>
                 </div>
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
                 <div>
                   <a
-                    href="/interfaces"
+                    href="localhost:3000/example/path/interfaces"
                   >
                     1 NIC
                   </a>
@@ -4239,149 +1421,6 @@ exports[`InfrastructureCard should render extra 1`] = `
     data-ouia-safe="true"
     id=""
   >
-<<<<<<< HEAD
-    <Connect(InfrastructureCardCore)
-      detailLoaded={false}
-      extra={
-        Array [
-          Object {
-            "title": "something",
-            "value": "test",
-          },
-          Object {
-            "onClick": [Function],
-            "title": "with click",
-            "value": "1 tests",
-          },
-        ]
-      }
-      handleClick={[Function]}
-      hasFqdn={true}
-      hasIPv4={true}
-      hasIPv6={true}
-      hasInterfaces={true}
-      hasPublicIp={true}
-      hasType={true}
-      hasVendor={true}
-      store={
-        Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        }
-      }
-    >
-      <InfrastructureCardCore
-        detailLoaded={true}
-        dispatch={[Function]}
-        extra={
-          Array [
-            Object {
-              "title": "something",
-              "value": "test",
-            },
-            Object {
-              "onClick": [Function],
-              "title": "with click",
-              "value": "1 tests",
-            },
-          ]
-        }
-        handleClick={[Function]}
-        hasFqdn={true}
-        hasIPv4={true}
-        hasIPv6={true}
-        hasInterfaces={true}
-        hasPublicIp={true}
-        hasType={true}
-        hasVendor={true}
-        infrastructure={
-          Object {
-            "fqdn": undefined,
-            "ipv4": Array [
-              "1",
-            ],
-            "ipv6": Array [
-              "6",
-            ],
-            "nics": Array [
-              "test",
-            ],
-            "public_ipv4_addresses": undefined,
-            "type": "test-type",
-            "vendor": "test-vendor",
-          }
-        }
-        store={
-          Object {
-            "clearActions": [Function],
-            "dispatch": [Function],
-            "getActions": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-          }
-        }
-      >
-        <LoadingCard
-          isLoading={false}
-          items={
-            Array [
-              Object {
-                "title": "Type",
-                "value": "test-type",
-              },
-              Object {
-                "title": "Vendor",
-                "value": "test-vendor",
-              },
-              Object {
-                "title": "Public IP",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv4",
-                "title": "IPv4 addresses",
-                "value": 1,
-              },
-              Object {
-                "onClick": [Function],
-                "plural": "addresses",
-                "singular": "address",
-                "target": "ipv6",
-                "title": "IPv6 addresses",
-                "value": 1,
-              },
-              Object {
-                "title": "FQDN",
-                "value": "Not available",
-              },
-              Object {
-                "onClick": [Function],
-                "singular": "NIC",
-                "target": "interfaces",
-                "title": "Interfaces/NICs",
-                "value": 1,
-              },
-              Object {
-                "title": "something",
-                "value": "test",
-              },
-              Object {
-                "onClick": [Function],
-                "title": "with click",
-                "value": "1 tests",
-              },
-            ]
-          }
-          title="Infrastructure"
-=======
     <div
       class="pf-c-card__body"
     >
@@ -4390,7 +1429,6 @@ exports[`InfrastructureCard should render extra 1`] = `
       >
         <div
           class="pf-l-stack__item"
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
         >
           <div
             class="pf-c-content"
@@ -4416,429 +1454,150 @@ exports[`InfrastructureCard should render extra 1`] = `
               class=""
             >
               <dt
+                aria-label="Type title"
                 class=""
                 data-ouia-component-id="Type title"
               >
                 Type
               </dt>
               <dd
+                aria-label="Type value"
                 class=""
                 data-ouia-component-id="Type value"
               >
                 test-type
               </dd>
               <dt
+                aria-label="Vendor title"
                 class=""
                 data-ouia-component-id="Vendor title"
               >
                 Vendor
               </dt>
               <dd
+                aria-label="Vendor value"
                 class=""
                 data-ouia-component-id="Vendor value"
               >
                 test-vendor
               </dd>
               <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
                 class=""
                 data-ouia-component-id="IPv4 addresses title"
               >
                 IPv4 addresses
               </dt>
               <dd
+                aria-label="IPv4 addresses value"
                 class=""
                 data-ouia-component-id="IPv4 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv4"
+                    href="localhost:3000/example/path/ipv4"
                   >
-<<<<<<< HEAD
-                    <div
-                      className="pf-l-stack pf-m-gutter"
-                    >
-                      <StackItem>
-                        <div
-                          className="pf-l-stack__item"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <Text
-                                component="h1"
-                              >
-                                <h1
-                                  className=""
-                                  data-ouia-component-id="OUIA-Generated-Text-14"
-                                  data-ouia-component-type="PF4/Text"
-                                  data-ouia-safe={true}
-                                  data-pf-content={true}
-                                >
-                                  Infrastructure
-                                </h1>
-                              </Text>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                      <StackItem
-                        isFilled={true}
-                      >
-                        <div
-                          className="pf-l-stack__item pf-m-fill"
-                        >
-                          <TextContent>
-                            <div
-                              className="pf-c-content"
-                            >
-                              <TextList
-                                component="dl"
-                              >
-                                <dl
-                                  className=""
-                                >
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Type title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Type title"
-                                    >
-                                      Type
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Type value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Type value"
-                                    >
-                                      test-type
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Vendor title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Vendor title"
-                                    >
-                                      Vendor
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Vendor value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Vendor value"
-                                    >
-                                      test-vendor
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Public IP title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Public IP title"
-                                    >
-                                      Public IP
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Public IP value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Public IP value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv4 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses title"
-                                    >
-                                      IPv4 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv4 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv4 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv4"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv4"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv4"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="IPv6 addresses title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses title"
-                                    >
-                                      IPv6 addresses
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="IPv6 addresses value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="IPv6 addresses value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          plural="addresses"
-                                          singular="address"
-                                          target="ipv6"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/ipv6"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/ipv6"
-                                            >
-                                              1 address
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="FQDN title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="FQDN title"
-                                    >
-                                      FQDN
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="FQDN value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="FQDN value"
-                                    >
-                                      Not available
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="Interfaces/NICs title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs title"
-                                    >
-                                      Interfaces/NICs
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="Interfaces/NICs value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="Interfaces/NICs value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          singular="NIC"
-                                          target="interfaces"
-                                          value={1}
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/interfaces"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/interfaces"
-                                            >
-                                              1 NIC
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="something title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="something title"
-                                    >
-                                      something
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="something value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="something value"
-                                    >
-                                      test
-                                    </dd>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dt"
-                                    data-ouia-component-id="with click title"
-                                  >
-                                    <dt
-                                      className=""
-                                      data-ouia-component-id="with click title"
-                                    >
-                                      with click
-                                    </dt>
-                                  </TextListItem>
-                                  <TextListItem
-                                    component="dd"
-                                    data-ouia-component-id="with click value"
-                                  >
-                                    <dd
-                                      className=""
-                                      data-ouia-component-id="with click value"
-                                    >
-                                      <div>
-                                        <Clickable
-                                          onClick={[Function]}
-                                          value="1 tests"
-                                        >
-                                          <Link
-                                            to="localhost:3000/example/path/undefined"
-                                          >
-                                            <a
-                                              href="localhost:3000/example/path/undefined"
-                                            >
-                                              1 tests
-                                            </a>
-                                          </Link>
-                                        </Clickable>
-                                      </div>
-                                    </dd>
-                                  </TextListItem>
-                                </dl>
-                              </TextList>
-                            </div>
-                          </TextContent>
-                        </div>
-                      </StackItem>
-                    </div>
-                  </Stack>
-=======
                     1 address
                   </a>
->>>>>>> f3af141 (chore(Cards): Convert tests to testing-library)
                 </div>
               </dd>
               <dt
+                aria-label="IPv6 addresses title"
                 class=""
                 data-ouia-component-id="IPv6 addresses title"
               >
                 IPv6 addresses
               </dt>
               <dd
+                aria-label="IPv6 addresses value"
                 class=""
                 data-ouia-component-id="IPv6 addresses value"
               >
                 <div>
                   <a
-                    href="/ipv6"
+                    href="localhost:3000/example/path/ipv6"
                   >
                     1 address
                   </a>
                 </div>
               </dd>
               <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
                 class=""
                 data-ouia-component-id="Interfaces/NICs title"
               >
                 Interfaces/NICs
               </dt>
               <dd
+                aria-label="Interfaces/NICs value"
                 class=""
                 data-ouia-component-id="Interfaces/NICs value"
               >
                 <div>
                   <a
-                    href="/interfaces"
+                    href="localhost:3000/example/path/interfaces"
                   >
                     1 NIC
                   </a>
                 </div>
               </dd>
               <dt
+                aria-label="something title"
                 class=""
                 data-ouia-component-id="something title"
               >
                 something
               </dt>
               <dd
+                aria-label="something value"
                 class=""
                 data-ouia-component-id="something value"
               >
                 test
               </dd>
               <dt
+                aria-label="with click title"
                 class=""
                 data-ouia-component-id="with click title"
               >
                 with click
               </dt>
               <dd
+                aria-label="with click value"
                 class=""
                 data-ouia-component-id="with click value"
               >
                 <div>
                   <a
-                    href="/undefined"
+                    href="localhost:3000/example/path/undefined"
                   >
                     1 tests
                   </a>
