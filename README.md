@@ -93,7 +93,7 @@ These applications import `InventoryTable` component through federated modules:
 
 ## Release process change in stage env
 
-We use the new release process in stage environment that uses containers for deplyoment. Containerized Frontends are the new way to to build, package, and deploy the applicaitons. 
+We use the new release process in stage environment that uses containers for deplyoment. Containerized Frontends are the new way to build, package and deploy the applications.
 
 ## Common Problems You Might Encounter
 
