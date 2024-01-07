@@ -95,3 +95,18 @@ These applications import `InventoryTable` component through federated modules:
 
 We use the new release process in stage environment that uses containers for deplyoment. Containerized Frontends are the new way to to build, package, and deploy the applicaitons. 
 
+## Common Problems You Might Encounter
+
+* Some APIs we use require the latest version of their client package in order to enjoy the latest properties they provide.
+In case you checked the Network tab in the console and had a look at the requiered API call that should contain a property you need to fetch and use, but did not see this property in the list of properties in the Response tab, make sure you have the latest version of the client package that contains this API.
+To make sure the versions align, 
+Have a look at your `package.json` file and compare the appropriate client package version (that should have the API you need) with the latest published version on npmjs.com.
+In case they don't match, update this client package to it's latest version by running this command: `npm i @redhat-cloud-services/{name-of-client-package}@latest`
+
+Then, re-install the modules by running this command: `rm -rf node_modules && npm install`
+
+And re-run the application
+This should solve this issue.
+
+In case these steps did not solve your issue, it is possible that the latest package had not been released yet.
+Please contact the appropriate team to release the package you are using, and go over the described process of updating the client package version again.
