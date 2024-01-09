@@ -179,7 +179,7 @@
     "start:mock": "MOCK=true npm run start:proxy",
     "start:mock:beta": "MOCK=true npm run start:proxy:beta",
     "prepare": "husky install",
-    "commitlint": "commitlint --from HEAD~10 --to HEAD --verbose"
+    "commitlint": "commitlint --from HEAD~1 --to HEAD --verbose"
   },
   "insights": {
     "appname": "inventory"
