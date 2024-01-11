@@ -90,7 +90,7 @@ const InventoryGroupDetail = ({ groupId }) => {
             setHasEdgeImages(accountHasEdgeImages);
             axios
               .get(
-                `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}&group_name=${groupName}`
+                `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}&group_name=${groupName}&filter[system_profile][host_type]=nil`
               )
               .then((conventionalImages) => {
                 const accountHasConventionalImages =
