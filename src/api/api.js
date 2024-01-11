@@ -164,7 +164,9 @@ export const calculateSystemProfile = ({
     systemProfile['host_type'] = hostTypeFilter;
   }
 
-  return generateFilter({ system_profile: systemProfile });
+  return generateFilter({
+    system_profile: systemProfile,
+  });
 };
 
 export const filtersReducer = (acc, filter = {}) => ({
@@ -249,7 +251,7 @@ export async function getEntities(
           ),
         };
       } catch (e) {
-                console.error(e); // eslint-disable-line
+        console.error(e); // eslint-disable-line
       }
     }
 

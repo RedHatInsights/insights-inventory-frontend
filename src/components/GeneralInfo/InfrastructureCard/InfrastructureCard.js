@@ -12,8 +12,10 @@ const InfrastructureCardCore = ({
   detailLoaded,
   hasType,
   hasVendor,
+  hasPublicIp,
   hasIPv4,
   hasIPv6,
+  hasFqdn,
   hasInterfaces,
   extra,
 }) => (
@@ -23,6 +25,18 @@ const InfrastructureCardCore = ({
     items={[
       ...(hasType ? [{ title: 'Type', value: infrastructure.type }] : []),
       ...(hasVendor ? [{ title: 'Vendor', value: infrastructure.vendor }] : []),
+      ...(hasPublicIp
+        ? [
+            {
+              title: 'Public IP',
+              value:
+                Array.isArray(infrastructure.public_ipv4_addresses) &&
+                infrastructure.public_ipv4_addresses.length > 0
+                  ? infrastructure.public_ipv4_addresses[0]
+                  : 'Not available',
+            },
+          ]
+        : []),
       ...(hasIPv4
         ? [
             {
@@ -57,6 +71,18 @@ const InfrastructureCardCore = ({
             },
           ]
         : []),
+      ...(hasFqdn
+        ? [
+            {
+              title: 'FQDN',
+              value:
+                Array.isArray(infrastructure.fqdn) &&
+                infrastructure.fqdn.length > 0
+                  ? infrastructure.fqdn[0]
+                  : 'Not available',
+            },
+          ]
+        : []),
       ...(hasInterfaces
         ? [
             {
@@ -88,14 +114,18 @@ InfrastructureCardCore.propTypes = {
   infrastructure: PropTypes.shape({
     type: PropTypes.string,
     vendor: PropTypes.string,
+    public_ipv4_addresses: PropTypes.arrayOf(PropTypes.string),
     ipv4: PropTypes.array,
     ipv6: PropTypes.array,
+    fqdn: PropTypes.arrayOf(PropTypes.string),
     nics: PropTypes.array,
   }),
   hasType: PropTypes.bool,
   hasVendor: PropTypes.bool,
+  hasPublicIp: PropTypes.bool,
   hasIPv4: PropTypes.bool,
   hasIPv6: PropTypes.bool,
+  hasFqdn: PropTypes.bool,
   hasInterfaces: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
 };
@@ -104,18 +134,25 @@ InfrastructureCardCore.defaultProps = {
   handleClick: () => undefined,
   hasType: true,
   hasVendor: true,
+  hasPublicIp: true,
   hasIPv4: true,
   hasIPv6: true,
+  hasFqdn: true,
   hasInterfaces: true,
   extra: [],
 };
 
-export const InfrastructureCard = connect(
-  ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
-    detailLoaded: systemProfile && systemProfile.loaded,
-    infrastructure: infrastructureSelector(systemProfile, entity),
-  })
-)(InfrastructureCardCore);
+const mapStateToProps = ({
+  entityDetails: { entity },
+  systemProfileStore: { systemProfile },
+}) => ({
+  detailLoaded: systemProfile && systemProfile.loaded,
+  infrastructure: infrastructureSelector(systemProfile, entity),
+});
+
+export const InfrastructureCard = connect(mapStateToProps)(
+  InfrastructureCardCore
+);
 
 InfrastructureCard.propTypes = InfrastructureCardCore.propTypes;
 InfrastructureCard.defaultProps = InfrastructureCardCore.defaultProps;
