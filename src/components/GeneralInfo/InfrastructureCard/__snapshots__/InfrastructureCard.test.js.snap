@@ -38,9 +38,11 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={false}
       hasIPv6={true}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={true}
       store={
@@ -59,13 +61,16 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={false}
         hasIPv6={true}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": Array [
               "1",
             ],
@@ -75,6 +80,7 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
             "nics": Array [
               "test",
             ],
+            "public_ipv4_addresses": undefined,
             "type": "test-type",
             "vendor": "test-vendor",
           }
@@ -103,12 +109,20 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                 "value": "test-vendor",
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": 1,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -228,6 +242,28 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv6 addresses title"
                                   >
                                     <dt
@@ -264,6 +300,28 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
                                           </Link>
                                         </Clickable>
                                       </div>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
+                                    >
+                                      Not available
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -362,9 +420,11 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={false}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={true}
       store={
@@ -383,13 +443,16 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={false}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": Array [
               "1",
             ],
@@ -399,6 +462,7 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
             "nics": Array [
               "test",
             ],
+            "public_ipv4_addresses": undefined,
             "type": "test-type",
             "vendor": "test-vendor",
           }
@@ -427,12 +491,20 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                 "value": "test-vendor",
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
                 "target": "ipv4",
                 "title": "IPv4 addresses",
                 "value": 1,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -552,6 +624,28 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -588,6 +682,28 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
                                           </Link>
                                         </Clickable>
                                       </div>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
+                                    >
+                                      Not available
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -686,9 +802,11 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={true}
       hasInterfaces={false}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={true}
       store={
@@ -707,13 +825,16 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={true}
         hasInterfaces={false}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": Array [
               "1",
             ],
@@ -723,6 +844,7 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
             "nics": Array [
               "test",
             ],
+            "public_ipv4_addresses": undefined,
             "type": "test-type",
             "vendor": "test-vendor",
           }
@@ -751,6 +873,10 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                 "value": "test-vendor",
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
@@ -765,6 +891,10 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": 1,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
             ]
           }
@@ -877,6 +1007,28 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -955,6 +1107,28 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
                                       </div>
                                     </dd>
                                   </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
                                 </dl>
                               </TextList>
                             </div>
@@ -1012,9 +1186,11 @@ exports[`InfrastructureCard should not render hasType 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={true}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={false}
       hasVendor={true}
       store={
@@ -1033,13 +1209,16 @@ exports[`InfrastructureCard should not render hasType 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={true}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={false}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": Array [
               "1",
             ],
@@ -1049,6 +1228,7 @@ exports[`InfrastructureCard should not render hasType 1`] = `
             "nics": Array [
               "test",
             ],
+            "public_ipv4_addresses": undefined,
             "type": "test-type",
             "vendor": "test-vendor",
           }
@@ -1073,6 +1253,10 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                 "value": "test-vendor",
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
@@ -1087,6 +1271,10 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": 1,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -1184,6 +1372,28 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -1260,6 +1470,28 @@ exports[`InfrastructureCard should not render hasType 1`] = `
                                           </Link>
                                         </Clickable>
                                       </div>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
+                                    >
+                                      Not available
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1358,9 +1590,11 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={true}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={false}
       store={
@@ -1379,13 +1613,16 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={true}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={false}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": Array [
               "1",
             ],
@@ -1395,6 +1632,7 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
             "nics": Array [
               "test",
             ],
+            "public_ipv4_addresses": undefined,
             "type": "test-type",
             "vendor": "test-vendor",
           }
@@ -1419,6 +1657,10 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                 "value": "test-type",
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
@@ -1433,6 +1675,10 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": 1,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -1530,6 +1776,28 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -1606,6 +1874,28 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
                                           </Link>
                                         </Clickable>
                                       </div>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
+                                    >
+                                      Not available
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -1704,9 +1994,11 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={true}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={true}
       store={
@@ -1725,16 +2017,20 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={true}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": undefined,
             "ipv6": undefined,
             "nics": undefined,
+            "public_ipv4_addresses": undefined,
             "type": undefined,
             "vendor": undefined,
           }
@@ -1763,6 +2059,10 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
                 "value": undefined,
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
@@ -1777,6 +2077,10 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": undefined,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -1924,6 +2228,42 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      <Skeleton
+                                        size="sm"
+                                      >
+                                        <Skeleton
+                                          className="ins-c-skeleton ins-c-skeleton__sm"
+                                        >
+                                          <div
+                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                                          >
+                                            <span
+                                              className="pf-u-screen-reader"
+                                            />
+                                          </div>
+                                        </Skeleton>
+                                      </Skeleton>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -1976,6 +2316,42 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
                                     <dd
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
+                                    >
+                                      <Skeleton
+                                        size="sm"
+                                      >
+                                        <Skeleton
+                                          className="ins-c-skeleton ins-c-skeleton__sm"
+                                        >
+                                          <div
+                                            className="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                                          >
+                                            <span
+                                              className="pf-u-screen-reader"
+                                            />
+                                          </div>
+                                        </Skeleton>
+                                      </Skeleton>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
                                     >
                                       <Skeleton
                                         size="sm"
@@ -2087,9 +2463,11 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={true}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={true}
       store={
@@ -2108,13 +2486,16 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={true}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": Array [
               "1",
             ],
@@ -2124,6 +2505,7 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
             "nics": Array [
               "test",
             ],
+            "public_ipv4_addresses": undefined,
             "type": "test-type",
             "vendor": "test-vendor",
           }
@@ -2152,6 +2534,10 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                 "value": "test-vendor",
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
@@ -2166,6 +2552,10 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": 1,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -2285,6 +2675,28 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -2361,6 +2773,28 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
                                           </Link>
                                         </Clickable>
                                       </div>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
+                                    >
+                                      Not available
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -2459,9 +2893,11 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={true}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={true}
       store={
@@ -2480,16 +2916,20 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={true}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": undefined,
             "ipv6": undefined,
             "nics": undefined,
+            "public_ipv4_addresses": undefined,
             "type": "virtual",
             "vendor": undefined,
           }
@@ -2518,6 +2958,10 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
                 "value": undefined,
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
@@ -2532,6 +2976,10 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": undefined,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -2651,6 +3099,28 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -2689,6 +3159,28 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
                                     <dd
                                       className=""
                                       data-ouia-component-id="IPv6 addresses value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
                                     >
                                       Not available
                                     </dd>
@@ -2772,9 +3264,11 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
       detailLoaded={false}
       extra={Array []}
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={true}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={true}
       store={
@@ -2793,13 +3287,16 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
         dispatch={[Function]}
         extra={Array []}
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={true}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": Array [
               "1",
             ],
@@ -2809,6 +3306,7 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
             "nics": Array [
               "test",
             ],
+            "public_ipv4_addresses": undefined,
             "type": "test-type",
             "vendor": "test-vendor",
           }
@@ -2837,6 +3335,10 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                 "value": "test-vendor",
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
@@ -2851,6 +3353,10 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": 1,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -2970,6 +3476,28 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -3046,6 +3574,28 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
                                           </Link>
                                         </Clickable>
                                       </div>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
+                                    >
+                                      Not available
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
@@ -3156,9 +3706,11 @@ exports[`InfrastructureCard should render extra 1`] = `
         ]
       }
       handleClick={[Function]}
+      hasFqdn={true}
       hasIPv4={true}
       hasIPv6={true}
       hasInterfaces={true}
+      hasPublicIp={true}
       hasType={true}
       hasVendor={true}
       store={
@@ -3189,13 +3741,16 @@ exports[`InfrastructureCard should render extra 1`] = `
           ]
         }
         handleClick={[Function]}
+        hasFqdn={true}
         hasIPv4={true}
         hasIPv6={true}
         hasInterfaces={true}
+        hasPublicIp={true}
         hasType={true}
         hasVendor={true}
         infrastructure={
           Object {
+            "fqdn": undefined,
             "ipv4": Array [
               "1",
             ],
@@ -3205,6 +3760,7 @@ exports[`InfrastructureCard should render extra 1`] = `
             "nics": Array [
               "test",
             ],
+            "public_ipv4_addresses": undefined,
             "type": "test-type",
             "vendor": "test-vendor",
           }
@@ -3233,6 +3789,10 @@ exports[`InfrastructureCard should render extra 1`] = `
                 "value": "test-vendor",
               },
               Object {
+                "title": "Public IP",
+                "value": "Not available",
+              },
+              Object {
                 "onClick": [Function],
                 "plural": "addresses",
                 "singular": "address",
@@ -3247,6 +3807,10 @@ exports[`InfrastructureCard should render extra 1`] = `
                 "target": "ipv6",
                 "title": "IPv6 addresses",
                 "value": 1,
+              },
+              Object {
+                "title": "FQDN",
+                "value": "Not available",
               },
               Object {
                 "onClick": [Function],
@@ -3375,6 +3939,28 @@ exports[`InfrastructureCard should render extra 1`] = `
                                   </TextListItem>
                                   <TextListItem
                                     component="dt"
+                                    data-ouia-component-id="Public IP title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="Public IP title"
+                                    >
+                                      Public IP
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="Public IP value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="Public IP value"
+                                    >
+                                      Not available
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
                                     data-ouia-component-id="IPv4 addresses title"
                                   >
                                     <dt
@@ -3451,6 +4037,28 @@ exports[`InfrastructureCard should render extra 1`] = `
                                           </Link>
                                         </Clickable>
                                       </div>
+                                    </dd>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dt"
+                                    data-ouia-component-id="FQDN title"
+                                  >
+                                    <dt
+                                      className=""
+                                      data-ouia-component-id="FQDN title"
+                                    >
+                                      FQDN
+                                    </dt>
+                                  </TextListItem>
+                                  <TextListItem
+                                    component="dd"
+                                    data-ouia-component-id="FQDN value"
+                                  >
+                                    <dd
+                                      className=""
+                                      data-ouia-component-id="FQDN value"
+                                    >
+                                      Not available
                                     </dd>
                                   </TextListItem>
                                   <TextListItem
