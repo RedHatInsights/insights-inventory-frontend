@@ -33,9 +33,10 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
       entities?.tagModalLoaded || entityDetails?.tagModalLoaded
   );
 
-  const activeSystemTag = useSelector(
-    ({ entities, entityDetails }) =>
-      entities?.activeSystemTag || entityDetails?.entity
+  const activeSystemTag = useSelector(({ entities, entityDetails }) =>
+    entities?.activeSystemTag?.created
+      ? entities.activeSystemTag
+      : entityDetails?.entity
   );
   const tags = useSelector(({ entities, entityDetails }) => {
     const activeTags =
