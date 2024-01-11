@@ -162,6 +162,8 @@ export const calculateSystemProfile = ({
 
   if (hostTypeFilter) {
     systemProfile['host_type'] = hostTypeFilter;
+  } else {
+    systemProfile['host_type'] = 'nil';
   }
 
   return generateFilter({
