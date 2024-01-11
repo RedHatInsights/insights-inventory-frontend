@@ -370,6 +370,18 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -403,6 +415,18 @@ exports[`GeneralInformation custom components should not render BiosCardWrapper 
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -1461,6 +1485,18 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -1494,6 +1530,18 @@ exports[`GeneralInformation custom components should not render CollectionCardWr
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -2637,6 +2685,18 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -2670,6 +2730,18 @@ exports[`GeneralInformation custom components should not render ConfigurationCar
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -4741,6 +4813,18 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -4774,6 +4858,18 @@ exports[`GeneralInformation custom components should not render OperatingSystemC
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -5517,6 +5613,18 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -5550,6 +5658,18 @@ exports[`GeneralInformation custom components should not render SystemCardWrappe
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -6693,6 +6813,18 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -6726,6 +6858,18 @@ exports[`GeneralInformation custom components should render custom BiosCardWrapp
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -7791,6 +7935,18 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -7824,6 +7980,18 @@ exports[`GeneralInformation custom components should render custom CollectionCar
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -8974,6 +9142,18 @@ exports[`GeneralInformation custom components should render custom Configuration
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -9007,6 +9187,18 @@ exports[`GeneralInformation custom components should render custom Configuration
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -11092,6 +11284,18 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -11125,6 +11329,18 @@ exports[`GeneralInformation custom components should render custom OperatingSyst
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -11882,6 +12098,18 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -11915,6 +12143,18 @@ exports[`GeneralInformation custom components should render custom SystemCardWra
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""
@@ -13085,6 +13325,24 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        <div
+                          class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                        >
+                          <span
+                            class="pf-u-screen-reader"
+                          />
+                        </div>
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -13110,6 +13368,24 @@ exports[`GeneralInformation should render correctly - no data 1`] = `
                       <dd
                         class=""
                         data-ouia-component-id="IPv6 addresses value"
+                      >
+                        <div
+                          class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                        >
+                          <span
+                            class="pf-u-screen-reader"
+                          />
+                        </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
                       >
                         <div
                           class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -14331,6 +14607,18 @@ exports[`GeneralInformation should render correctly 1`] = `
                       </dd>
                       <dt
                         class=""
+                        data-ouia-component-id="Public IP title"
+                      >
+                        Public IP
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="Public IP value"
+                      >
+                        Not available
+                      </dd>
+                      <dt
+                        class=""
                         data-ouia-component-id="IPv4 addresses title"
                       >
                         IPv4 addresses
@@ -14364,6 +14652,18 @@ exports[`GeneralInformation should render correctly 1`] = `
                             2 addresses
                           </a>
                         </div>
+                      </dd>
+                      <dt
+                        class=""
+                        data-ouia-component-id="FQDN title"
+                      >
+                        FQDN
+                      </dt>
+                      <dd
+                        class=""
+                        data-ouia-component-id="FQDN value"
+                      >
+                        Not available
                       </dd>
                       <dt
                         class=""

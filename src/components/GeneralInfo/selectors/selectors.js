@@ -75,7 +75,13 @@ export const biosSelector = ({
 });
 
 export const infrastructureSelector = (
-  { infrastructure_type, infrastructure_vendor, network = {} } = {},
+  {
+    infrastructure_type,
+    infrastructure_vendor,
+    public_ipv4_addresses,
+    public_dns,
+    network = {},
+  } = {},
   { facts } = {}
 ) => ({
   type:
@@ -84,9 +90,11 @@ export const infrastructureSelector = (
       (facts?.rhsm?.IS_VIRTUAL ? 'virtual' : 'physical')) ||
     undefined,
   vendor: infrastructure_vendor,
+  public_ipv4_addresses: public_ipv4_addresses,
   ipv4: network.ipv4,
   ipv6: network.ipv6,
   nics: network.interfaces,
+  fqdn: public_dns,
 });
 
 export const configurationSelector = ({
