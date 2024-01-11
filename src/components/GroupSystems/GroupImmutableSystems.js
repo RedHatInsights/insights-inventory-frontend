@@ -78,8 +78,14 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   };
 
   const navigate = useNavigate();
-  const canUpdateSelectedDevices = (deviceIds, imageSets) =>
-    deviceIds?.length > 0 && imageSets?.length == 1 ? true : false;
+  const canUpdateSelectedDevices = (deviceIds, imageSets, updatableDeviceIds) =>
+    deviceIds?.length > 0 &&
+    imageSets?.length === 1 &&
+    updatableDeviceIds?.length > 0 &&
+    // all deviceIds must be in updatableDeviceIds
+    deviceIds.filter((s) => updatableDeviceIds.includes(s)).length ===
+      deviceIds.length;
+
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [currentSystem, setCurrentSystem] = useState([]);
@@ -172,9 +178,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       isOpen: true,
     }));
   };
-
-  let imageSet = [];
-  let deviceIds = [];
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
     null,
@@ -185,20 +188,22 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     groupName
   );
 
-  //enable disable bulk update based on selection, must refactor
   useEffect(() => {
-    if (selected.size > 0 && deviceImageSet?.size > 0) {
-      return () => {
-        [...selected.keys()].map((s) => {
-          const img = deviceImageSet[s];
-          if (!imageSet.includes(img)) {
-            imageSet.push(img);
-          }
-          deviceIds.push(s);
-        });
-        setCanUpdate(canUpdateSelectedDevices(deviceIds, imageSet));
-        setUpdateImageSet(imageSet);
-      };
+    if (selected.size > 0 && Object.keys(deviceImageSet || {}).length > 0) {
+      let imageSet = [];
+      let deviceIds = [];
+      [...selected.keys()].map((s) => {
+        const img = deviceImageSet[s];
+
+        if (!imageSet.includes(img)) {
+          imageSet.push(img);
+        }
+        deviceIds.push(s);
+      });
+      setCanUpdate(canUpdateSelectedDevices(deviceIds, imageSet, deviceData));
+      setUpdateImageSet(imageSet);
+    } else {
+      setCanUpdate(false);
     }
   }, [deviceData, selected, deviceImageSet]);
   return (
