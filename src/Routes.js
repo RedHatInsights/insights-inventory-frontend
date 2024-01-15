@@ -58,8 +58,8 @@ export const Routes = () => {
 
   useEffect(() => {
     // zero state check
-    try {
-      (async () => {
+    (async () => {
+      try {
         const hasConventionalSystems = await inventoryHasConventionalSystems();
         setHasConventionalSystems(hasConventionalSystems);
 
@@ -69,10 +69,14 @@ export const Routes = () => {
         }
 
         setIsLoading(false);
-      })();
-    } catch (e) {
-      console.error(e);
-    }
+      } catch (error) {
+        console.error(error);
+
+        if (error.response.status === 403) {
+          setIsLoading(false);
+        }
+      }
+    })();
   }, []);
 
   let element = useRoutes([
