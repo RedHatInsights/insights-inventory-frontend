@@ -1,60 +1,41 @@
-/* eslint-disable react/prop-types */
-import React, { Fragment, useEffect } from 'react';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { useRegisteredWithFilter } from './useRegisteredWithFilter';
-import { mount } from 'enzyme';
-
-const HookRender = ({ hookAccessor, hookNotify }) => {
-  const [filter, chip, registeredWithValue, setValue] =
-    useRegisteredWithFilter();
-  useEffect(() => {
-    hookAccessor && hookAccessor([filter, chip, registeredWithValue, setValue]);
-  }, []);
-  useEffect(() => {
-    if (registeredWithValue.length !== 0) {
-      hookNotify && hookNotify([filter, chip, registeredWithValue, setValue]);
-    }
-  }, [registeredWithValue]);
-
-  return <Fragment />;
-};
 
 describe('useRegisteredWithFilter', () => {
   it('should create filter', () => {
-    const hookAccessor = ([filter]) => {
-      expect(filter).toMatchObject({
-        label: 'Data Collector',
-        value: 'data-collector-registered-with',
-        type: 'checkbox',
-      });
-      expect(filter.filterValues.value.length).toBe(0);
-      expect(filter.filterValues.items).toMatchObject([
-        { label: 'insights-client', value: 'puptoo' },
-        { label: 'subscription-manager', value: 'rhsm-conduit' },
-        { label: 'Satellite/Discovery', value: 'yupana' },
-        { label: 'insights-client not connected', value: '!puptoo' },
-      ]);
-    };
+    const { result } = renderHook(() => useRegisteredWithFilter());
+    const [filter] = result.current;
 
-    mount(<HookRender hookAccessor={hookAccessor} />);
+    expect(filter).toMatchObject({
+      label: 'Data Collector',
+      value: 'data-collector-registered-with',
+      type: 'checkbox',
+    });
+    expect(filter.filterValues.value.length).toBe(0);
+    expect(filter.filterValues.items).toMatchObject([
+      { label: 'insights-client', value: 'puptoo' },
+      { label: 'subscription-manager', value: 'rhsm-conduit' },
+      { label: 'Satellite/Discovery', value: 'yupana' },
+      { label: 'insights-client not connected', value: '!puptoo' },
+    ]);
   });
 
   it('should create chip', () => {
-    const hookAccessor = ([, , , setValue]) => {
+    const { result } = renderHook(() => useRegisteredWithFilter());
+    const [, , , setValue] = result.current;
+
+    act(() => {
       setValue(['puptoo']);
-    };
-
-    const hookNotify = ([filter, chip, registeredWithValue]) => {
-      expect(registeredWithValue).toMatchObject(['puptoo']);
-      expect(filter.filterValues.value.length).toBe(1);
-      expect(chip).toMatchObject([
-        {
-          category: 'Data Collector',
-          chips: [{ name: 'insights-client', value: 'puptoo' }],
-          type: 'registered_with',
-        },
-      ]);
-    };
-
-    mount(<HookRender hookAccessor={hookAccessor} hookNotify={hookNotify} />);
+    });
+    const [filter, chip, registeredWithValue] = result.current;
+    expect(registeredWithValue).toMatchObject(['puptoo']);
+    expect(filter.filterValues.value.length).toBe(1);
+    expect(chip).toMatchObject([
+      {
+        category: 'Data Collector',
+        chips: [{ name: 'insights-client', value: 'puptoo' }],
+        type: 'registered_with',
+      },
+    ]);
   });
 });
