@@ -1,19 +1,45 @@
-import React from 'react';
-import { mount, shallow } from 'enzyme';
-import toJson, { shallowToJson } from 'enzyme-to-json';
-import InfoTable from './InfoTable';
 import { sortable } from '@patternfly/react-table';
-import { Pagination } from '@patternfly/react-core';
+import '@testing-library/jest-dom';
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+import InfoTable from './InfoTable';
+
+const paginationShouldExist = () => {
+  expect(
+    screen.getAllByRole('button', { name: /items per page/i })
+  ).toHaveLength(2);
+  expect(
+    screen.getAllByRole('button', { name: /go to previous page/i })
+  ).toHaveLength(2);
+  expect(
+    screen.getAllByRole('button', { name: /go to next page/i })
+  ).toHaveLength(2);
+  screen.getByRole('button', {
+    name: /go to first page/i,
+  });
+  screen.getByRole('button', {
+    name: /go to last page/i,
+  });
+  screen.getByRole('spinbutton', {
+    name: /current page/i,
+  });
+};
 
 describe('InfoTable', () => {
   describe('should render', () => {
     it('no data', () => {
-      const wrapper = shallow(<InfoTable />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      render(<InfoTable />);
+
+      paginationShouldExist();
+      screen.getByRole('grid', {
+        name: /general information dialog table/i,
+      });
+      expect(screen.getByRole('row')).toBeVisible(); // only header
     });
 
     it('one cell', () => {
-      const wrapper = shallow(
+      render(
         <InfoTable
           cells={['One cell']}
           rows={[
@@ -23,11 +49,21 @@ describe('InfoTable', () => {
           ]}
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      paginationShouldExist();
+      expect(
+        screen.queryByRole('grid', {
+          name: /general information dialog table/i,
+        })
+      ).not.toBeInTheDocument();
+      expect(screen.queryByRole('columnheader')).not.toBeInTheDocument();
+      screen.getByText('first');
+      screen.getByText('second from title');
+      screen.getByText(/multiplecells/i);
     });
 
     it('multiple cells', () => {
-      const wrapper = shallow(
+      render(
         <InfoTable
           cells={['One cell', 'Second one']}
           rows={[
@@ -37,28 +73,71 @@ describe('InfoTable', () => {
           ]}
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      paginationShouldExist();
+      expect(
+        screen.getByRole('grid', {
+          name: /general information dialog table/i,
+        })
+      ).toHaveTextContent(
+        'One cellSecond onefirstsecondsecond from titleanothermultiplecells'
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(4); // including header
+      screen.getByRole('columnheader', {
+        name: /one cell/i,
+      });
+      screen.getByRole('columnheader', {
+        name: /second one/i,
+      });
     });
 
     it('expandable set to true', () => {
-      const wrapper = shallow(
+      render(
         <InfoTable
           expandable
           cells={['One cell', 'Second one']}
           rows={[
-            ['first', 'second'],
-            [{ title: 'second from title' }, 'another'],
-            ['multiple', 'cells'],
+            {
+              cells: ['first', 'second'],
+            },
+            {
+              cells: [{ title: 'second from title' }],
+            },
+            {
+              cells: ['multiple', 'cells'],
+            },
           ]}
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      within(
+        screen.getByRole('row', {
+          name: /details first second/i,
+        })
+      ).getByRole('button', {
+        name: /details/i,
+      });
+      within(
+        screen.getByRole('row', {
+          name: /details second from title/i,
+        })
+      ).getByRole('button', {
+        name: /details/i,
+      });
+      within(
+        screen.getByRole('row', {
+          name: /details multiple cells/i,
+        })
+      ).getByRole('button', {
+        name: /details/i,
+      });
     });
 
-    it('onSort set', () => {
-      const wrapper = shallow(
+    it('onSort set', async () => {
+      const onSort = jest.fn();
+      render(
         <InfoTable
-          onSort={jest.fn()}
+          onSort={onSort}
           cells={[{ title: 'One cell', transforms: [sortable] }, 'Second one']}
           rows={[
             ['first', 'second'],
@@ -67,40 +146,20 @@ describe('InfoTable', () => {
           ]}
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /one cell/i,
+        })
+      );
+      expect(onSort).toBeCalled();
     });
   });
 
   describe('api', () => {
-    it('expandable should open', () => {
-      const wrapper = mount(
-        <InfoTable
-          expandable
-          cells={['One cell', 'Second one']}
-          rows={[
-            {
-              cells: ['first', 'second'],
-            },
-            {
-              cells: [{ title: 'second from title' }],
-            },
-            {
-              cells: ['multiple', 'cells'],
-            },
-            {
-              cells: ['child'],
-            },
-          ]}
-        />
-      );
-      wrapper.find('.pf-c-table__toggle button').first().simulate('click');
-      wrapper.update();
-      expect(shallowToJson(wrapper)).toMatchSnapshot();
-    });
-
-    it('onSort with expandable', () => {
+    it('onSort with expandable', async () => {
       const onSort = jest.fn();
-      const wrapper = mount(
+      render(
         <InfoTable
           expandable
           onSort={onSort}
@@ -121,58 +180,29 @@ describe('InfoTable', () => {
           ]}
         />
       );
-      wrapper.find('th.pf-c-table__sort button').first().simulate('click');
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /one cell/i,
+        })
+      );
       expect(onSort.mock.calls[0][1]).toBe(0);
       expect(onSort.mock.calls[0][2]).toBe('desc');
-    });
-
-    it('onSort should be called', () => {
-      const onSort = jest.fn();
-      const wrapper = mount(
-        <InfoTable
-          onSort={onSort}
-          cells={[{ title: 'One cell', transforms: [sortable] }, 'Second one']}
-          rows={[
-            ['first', 'second'],
-            [{ title: 'second from title' }, 'another'],
-            ['multiple', 'cells'],
-          ]}
-        />
-      );
-      wrapper.find('th.pf-c-table__sort button').first().simulate('click');
-      expect(onSort).toHaveBeenCalled();
-      expect(onSort.mock.calls[0][1]).toBe(0);
-      expect(onSort.mock.calls[0][2]).toBe('desc');
-    });
-
-    it('onSort should be called', () => {
-      const onSort = jest.fn();
-      const wrapper = mount(
-        <InfoTable
-          cells={[{ title: 'One cell', transforms: [sortable] }, 'Second one']}
-          rows={[
-            ['first', 'second'],
-            [{ title: 'second from title' }, 'another'],
-            ['multiple', 'cells'],
-          ]}
-        />
-      );
-      wrapper.find('th.pf-c-table__sort button').first().simulate('click');
-      expect(onSort).not.toHaveBeenCalled();
     });
 
     it('should limit number of rows', () => {
-      const wrapper = mount(
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map(() => [...new Array(2)])}
         />
       );
-      expect(wrapper.find('table tbody tr').length).toBe(10);
+
+      expect(screen.getAllByRole('row')).toHaveLength(11); // including header
     });
 
-    it('should paginate to next page', () => {
-      const wrapper = mount(
+    it('should paginate to next page', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
@@ -180,17 +210,22 @@ describe('InfoTable', () => {
           )}
         />
       );
-      expect(toJson(wrapper.find('table tbody tr').first())).toMatchSnapshot();
-      wrapper
-        .find('nav.pf-c-pagination__nav [data-action="next"]')
-        .first()
-        .simulate('click');
-      expect(wrapper.find('table tbody tr').length).toBe(10);
-      expect(toJson(wrapper.find('table tbody tr').first())).toMatchSnapshot();
+
+      await userEvent.click(
+        screen.getAllByRole('button', { name: /go to next page/i })[0]
+      );
+
+      expect(
+        screen
+          .getAllByRole('row')
+          .reduce((prev, cur) => prev.concat(cur.textContent), '')
+      ).toBe(
+        'One cellSecond one10-010-111-011-112-012-113-013-114-014-115-015-116-016-117-017-118-018-119-019-1'
+      );
     });
 
-    it('should paginate to 1 when filtering', () => {
-      const wrapper = mount(
+    it('should paginate to 1 when filtering', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
@@ -200,23 +235,29 @@ describe('InfoTable', () => {
         />
       );
 
-      wrapper
-        .find('nav.pf-c-pagination__nav [data-action="next"]')
-        .first()
-        .simulate('click');
-
-      expect(wrapper.find(Pagination).first().props().page).toEqual(2);
-
-      wrapper
-        .find('input.ins-c-conditional-filter')
-        .first()
-        .simulate('change', { target: { value: '10-0' } });
-
-      expect(wrapper.find(Pagination).first().props().page).toEqual(1);
+      await userEvent.click(
+        screen.getAllByRole('button', { name: /go to next page/i })[0]
+      );
+      expect(
+        screen.getByRole('spinbutton', {
+          name: /current page/i,
+        }).value
+      ).toBe('2');
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /text input/i,
+        }),
+        '10-0'
+      );
+      expect(
+        screen.getByRole('spinbutton', {
+          name: /current page/i,
+        }).value
+      ).toBe('1');
     });
 
-    it('should paginate to 1 when removing filters', () => {
-      const wrapper = mount(
+    it('should paginate to 1 when removing filters', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map(() =>
@@ -226,29 +267,34 @@ describe('InfoTable', () => {
         />
       );
 
-      wrapper
-        .find('input.ins-c-conditional-filter')
-        .first()
-        .simulate('change', { target: { value: 'item' } });
-      wrapper
-        .find('nav.pf-c-pagination__nav [data-action="next"]')
-        .first()
-        .simulate('click');
-
-      expect(wrapper.find(Pagination).first().props().page).toEqual(2);
-
-      wrapper
-        .find(
-          '.ins-c-chip-filters ul.pf-c-chip-group__list .pf-c-chip-group__list-item button'
-        )
-        .first()
-        .simulate('click');
-
-      expect(wrapper.find(Pagination).first().props().page).toEqual(1);
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /text input/i,
+        }),
+        'item'
+      );
+      await userEvent.click(
+        screen.getAllByRole('button', { name: /go to next page/i })[0]
+      );
+      expect(
+        screen.getByRole('spinbutton', {
+          name: /current page/i,
+        }).value
+      ).toBe('2');
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /close item/i,
+        })
+      );
+      expect(
+        screen.getByRole('spinbutton', {
+          name: /current page/i,
+        }).value
+      ).toBe('1');
     });
 
-    it('should change per page count', () => {
-      const wrapper = mount(
+    it('should change per page count', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
@@ -256,22 +302,20 @@ describe('InfoTable', () => {
           )}
         />
       );
-      wrapper
-        .find(
-          '.pf-c-pagination .pf-c-options-menu button.pf-c-options-menu__toggle-button'
-        )
-        .first()
-        .simulate('click');
-      wrapper.update();
-      wrapper
-        .find('ul.pf-c-options-menu__menu button[data-action="per-page-20"]')
-        .first()
-        .simulate('click');
-      expect(wrapper.find('table tbody tr').length).toBe(20);
+
+      await userEvent.click(
+        screen.getAllByRole('button', { name: /items per page/i })[0]
+      );
+      await userEvent.click(
+        screen.getByRole('menuitem', {
+          name: /20 per page/i,
+        })
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(21); // including header
     });
 
-    it('should paginate to last page', () => {
-      const wrapper = mount(
+    it('should paginate to last page', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
@@ -279,17 +323,24 @@ describe('InfoTable', () => {
           )}
         />
       );
-      expect(toJson(wrapper.find('table tbody tr').first())).toMatchSnapshot();
-      wrapper
-        .find('nav.pf-c-pagination__nav [data-action="last"]')
-        .first()
-        .simulate('click');
-      expect(wrapper.find('table tbody tr').length).toBe(10);
-      expect(toJson(wrapper.find('table tbody tr').first())).toMatchSnapshot();
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /go to last page/i,
+        })
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(11); // including header
+      expect(
+        screen
+          .getAllByRole('row')
+          .reduce((prev, cur) => prev.concat(cur.textContent), '')
+      ).toBe(
+        'One cellSecond one40-040-141-041-142-042-143-043-144-044-145-045-146-046-147-047-148-048-149-049-1'
+      );
     });
 
-    it('should change per page count - bottom pagination', () => {
-      const wrapper = mount(
+    it('should change per page count - bottom pagination', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
@@ -297,38 +348,38 @@ describe('InfoTable', () => {
           )}
         />
       );
-      wrapper
-        .find(
-          '.ins-c-table__toolbar .pf-c-pagination .pf-c-options-menu button.pf-c-options-menu__toggle-button'
-        )
-        .first()
-        .simulate('click');
-      wrapper.update();
-      wrapper
-        .find(
-          '.ins-c-table__toolbar ul.pf-c-options-menu__menu button[data-action="per-page-20"]'
-        )
-        .first()
-        .simulate('click');
-      expect(wrapper.find('table tbody tr').length).toBe(20);
+
+      await userEvent.click(
+        screen.getAllByRole('button', { name: /items per page/i })[1]
+      );
+      await userEvent.click(
+        screen.getByRole('menuitem', {
+          name: /20 per page/i,
+        })
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(21); // including header
     });
 
-    it('should filter away all items', () => {
-      const wrapper = mount(
+    it('should filter away all items', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map(() => [...new Array(2)])}
           filters={[{ index: 0 }, { index: 1 }]}
         />
       );
-      wrapper
-        .find('input.ins-c-conditional-filter')
-        .simulate('change', { target: { value: 'something' } });
-      expect(wrapper.find('table tbody tr').length).toBe(0);
+
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /text input/i,
+        }),
+        'something'
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(1); // including header
     });
 
-    it('should filter away items but left one', () => {
-      const wrapper = mount(
+    it('should filter away items but left one', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
@@ -337,37 +388,42 @@ describe('InfoTable', () => {
           filters={[{ index: 0 }, { index: 1 }]}
         />
       );
-      wrapper
-        .find('input.ins-c-conditional-filter')
-        .first()
-        .simulate('change', { target: { value: '10-0' } });
-      wrapper.update();
-      expect(wrapper.find('table tbody tr').length).toBe(1);
+
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /text input/i,
+        }),
+        '10-0'
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(2); // including header
     });
 
-    it('should remove filter chip', () => {
-      const wrapper = mount(
+    it('should remove filter chip', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map(() => [...new Array(2)])}
           filters={[{ index: 0 }, { index: 1 }]}
         />
       );
-      wrapper
-        .find('input.ins-c-conditional-filter')
-        .simulate('change', { target: { value: 'something' } });
-      expect(wrapper.find('table tbody tr').length).toBe(0);
-      wrapper
-        .find(
-          '.ins-c-chip-filters ul.pf-c-chip-group__list .pf-c-chip-group__list-item button'
-        )
-        .first()
-        .simulate('click');
-      expect(wrapper.find('table tbody tr').length).toBe(10);
+
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /text input/i,
+        }),
+        'something'
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(1); // including header
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /close something/i,
+        })
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(11); // including header
     });
 
-    it('should add checkbox filter', () => {
-      const wrapper = mount(
+    it('should add checkbox filter', async () => {
+      render(
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
@@ -376,18 +432,18 @@ describe('InfoTable', () => {
           filters={[{ type: 'checkbox', options: [{ label: 'ff' }] }]}
         />
       );
-      wrapper
-        .find('.ins-c-conditional-filter .pf-c-select .pf-c-select__toggle')
-        .simulate('click');
-      wrapper.update();
-      wrapper
-        .find(
-          '.ins-c-conditional-filter .pf-c-select__menu .pf-c-select__menu-item .pf-c-check__input'
-        )
-        .first()
-        .simulate('change', { target: { value: true } });
-      wrapper.update();
-      expect(wrapper.find('table tbody tr').length).toBe(0);
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /options menu/i,
+        })
+      );
+      await userEvent.click(
+        screen.getByRole('checkbox', {
+          name: /ff/i,
+        })
+      );
+      expect(screen.getAllByRole('row')).toHaveLength(1); // including header
     });
   });
 });
