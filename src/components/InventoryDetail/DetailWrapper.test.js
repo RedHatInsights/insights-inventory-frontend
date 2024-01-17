@@ -1,13 +1,18 @@
-/* eslint-disable camelcase */
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import DetailWrapper from './DetailWrapper';
-import { mount } from 'enzyme';
-import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import toJson from 'enzyme-to-json';
 import { mock } from '../../__mocks__/systemIssues';
-import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
+import { BasicInfo } from '../InventoryDetailDrawer';
+import DetailWrapper from './DetailWrapper';
+
+jest.mock('../InventoryDetailDrawer', () => ({
+  ...jest.requireActual('../InventoryDetailDrawer'),
+  BasicInfo: jest.fn(),
+}));
 
 describe('DetailWrapper', () => {
   mock.onGet('/api/patch/v3/systems/test-id').reply(200, 'test');
@@ -80,61 +85,68 @@ describe('DetailWrapper', () => {
   });
 
   describe('DOM', () => {
+    beforeAll(() => {
+      BasicInfo.mockImplementation(
+        jest.requireActual('../InventoryDetailDrawer').BasicInfo
+      );
+    });
+
     it('should render without data', () => {
       const store = mockStore({
         entityDetails: {},
       });
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <DetailWrapper />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('DetailWrapper'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render with data', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      const view = render(
         <Provider store={store}>
           <DetailWrapper />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('DetailWrapper'), { mode: 'deep' })
-      ).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should pass correct props to BasicInfo', () => {
+      BasicInfo.mockImplementation(() => <span>BasicInfo</span>);
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <DetailWrapper />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('BasicInfo'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      expect(BasicInfo).toHaveBeenCalledWith(
+        {
+          hideInvLink: undefined,
+          showTags: undefined,
+        },
+        {} // ref
+      );
     });
 
     it('should render Wrapper', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
-          <DetailWrapper
-            Wrapper={() => <div className="test">something</div>}
-          />
+          <DetailWrapper Wrapper={() => <h2 aria-label="test">something</h2>} />
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('.ins-c-inventory__drawer--facts'), {
-          mode: 'deep',
-        })
-      ).toMatchSnapshot();
+
+      expect(screen.getByRole('heading', { name: 'test' })).toHaveTextContent(
+        'something'
+      );
     });
 
-    it('should render disabled isnights icon when no insights_id', () => {
+    it('should render disabled insights icon when no insights_id', () => {
       initialState = {
         entityDetails: {
           loaded: true,
@@ -149,17 +161,14 @@ describe('DetailWrapper', () => {
           isToggleOpened: true,
         },
       };
-
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
-          <DetailWrapper
-            Wrapper={() => <div className="test">something</div>}
-          />
+          <DetailWrapper />
         </Provider>
       );
 
-      expect(wrapper.find(InsightsDisconnected)).toHaveLength(1);
+      expect(screen.getByLabelText('Disconnected indicator')).toBeVisible();
     });
 
     it('should not render disabled isnights icon when insights_id', () => {
@@ -181,52 +190,61 @@ describe('DetailWrapper', () => {
           isToggleOpened: true,
         },
       };
-
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
-          <DetailWrapper
-            Wrapper={() => <div className="test">something</div>}
-          />
+          <DetailWrapper />
         </Provider>
       );
-      expect(wrapper.find(InsightsDisconnected)).toHaveLength(0);
+
+      expect(
+        screen.queryByLabelText('Disconnected indicator')
+      ).not.toBeInTheDocument();
     });
 
     it('should render children', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <DetailWrapper>
-            <div className="test">something</div>
+            <h2 aria-label="test">something</h2>} />
           </DetailWrapper>
         </Provider>
       );
-      expect(
-        toJson(wrapper.find('.pf-c-drawer__body .test'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      expect(screen.getByRole('heading', { name: 'test' })).toHaveTextContent(
+        'something'
+      );
     });
 
     it('should calculate classnames', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
-          <DetailWrapper className="test" />
+          <DetailWrapper className="test-classname" />
         </Provider>
       );
-      expect(wrapper.find('.ins-c-inventory__drawer.test')).toBeDefined();
+
+      expect(screen.getByTestId('inventory-drawer')).toHaveClass(
+        'test-classname'
+      );
     });
   });
 
   describe('API', () => {
-    it('should call open', () => {
+    it('should call open', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <DetailWrapper className="test" />
         </Provider>
       );
-      wrapper.find('.pf-c-drawer__close button').simulate('click');
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /close drawer panel/i,
+        })
+      );
       const actions = store.getActions();
       expect(actions[actions.length - 1]).toMatchObject({
         payload: { isOpened: false },
