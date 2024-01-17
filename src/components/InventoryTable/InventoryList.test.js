@@ -1,15 +1,12 @@
-/* eslint-disable react/display-name */
+import { render, screen } from '@testing-library/react';
 import React from 'react';
-import InventoryList from './InventoryList';
-import { mount, render } from 'enzyme';
-import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { MemoryRouter } from 'react-router-dom';
-import toJson from 'enzyme-to-json';
+import configureStore from 'redux-mock-store';
+import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
+import InventoryList from './InventoryList';
 
 jest.mock('../../Utilities/useFeatureFlag.js');
-
 jest.mock('../../store/actions', () => {
   const actions = jest.requireActual('../../store/actions');
   const { ACTION_TYPES } = jest.requireActual('../../store/action-types');
@@ -50,19 +47,29 @@ describe('InventoryList', () => {
 
   it('should render correctly', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    render(
       <MemoryRouter>
         <Provider store={store}>
           <InventoryList ref={ref} onRefreshData={onRefreshData} loaded />
         </Provider>
       </MemoryRouter>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    screen.getByRole('columnheader', {
+      name: /one/i,
+    });
+    screen.getByRole('grid', {
+      name: /host inventory/i,
+    });
+    screen.getByRole('heading', {
+      name: /no matching systems found/i,
+    });
+    screen.getByText(/to continue, edit your filter settings and try again/i);
   });
 
   it('should render correctly - with no access', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
+    render(
       <MemoryRouter>
         <Provider store={store}>
           <InventoryList
@@ -74,10 +81,20 @@ describe('InventoryList', () => {
         </Provider>
       </MemoryRouter>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    screen.getByRole('heading', {
+      name: /you do not have access to inventory/i,
+    });
+    screen.getByText(
+      /to view your systems, you must be granted inventory access from your organization administrator\./i
+    );
   });
 
   describe('API', () => {
+    beforeEach(() => {
+      onRefreshData.mockClear();
+    });
+
     it('should fire refresh after changing sort', () => {
       const sortBy = {
         index: 1,
@@ -97,19 +114,17 @@ describe('InventoryList', () => {
           </Provider>
         </MemoryRouter>
       );
-      const wrapper = mount(<Cmp sortBy={sortBy} />);
+      const { rerender } = render(<Cmp sortBy={sortBy} />);
 
-      onRefreshData.mockClear();
-
-      wrapper.setProps({
-        sortBy: {
-          ...sortBy,
-          direction: 'desc',
-        },
-      });
-      wrapper.update();
-
-      expect(onRefreshData).toHaveBeenCalled();
+      rerender(
+        <Cmp
+          sortBy={{
+            ...sortBy,
+            direction: 'desc',
+          }}
+        />
+      );
+      expect(onRefreshData).toHaveBeenCalledTimes(1);
     });
 
     it('should not fire refresh after changing props', () => {
@@ -131,13 +146,10 @@ describe('InventoryList', () => {
           </Provider>
         </MemoryRouter>
       );
-      const wrapper = mount(<Cmp sortBy={sortBy} />);
-      onRefreshData.mockClear();
-      wrapper.setProps({
-        showTags: true,
-      });
-      wrapper.update();
-      expect(onRefreshData).not.toHaveBeenCalled();
+      const { rerender } = render(<Cmp sortBy={sortBy} />);
+
+      rerender(<Cmp sortBy={sortBy} showTags />);
+      expect(onRefreshData).toHaveBeenCalledTimes(0);
     });
 
     it('should fire refresh after changing items', () => {
@@ -154,7 +166,7 @@ describe('InventoryList', () => {
           </Provider>
         </MemoryRouter>
       );
-      const wrapper = mount(
+      const { rerender } = render(
         <Cmp
           items={[
             { children: () => <div>test</div>, isOpen: false, id: 'fff' },
@@ -162,14 +174,16 @@ describe('InventoryList', () => {
           hasItems
         />
       );
-      onRefreshData.mockClear();
-      wrapper.setProps({
-        items: [
-          { children: () => <div>test</div>, isOpen: false, id: 'something' },
-        ],
-      });
-      wrapper.update();
-      expect(onRefreshData).toHaveBeenCalled();
+
+      rerender(
+        <Cmp
+          items={[
+            { children: () => <div>test</div>, isOpen: false, id: 'something' },
+          ]}
+          hasItems
+        />
+      );
+      expect(onRefreshData).toHaveBeenCalledTimes(2);
     });
 
     it('should fire refresh calling it from ref', () => {
@@ -186,7 +200,7 @@ describe('InventoryList', () => {
           </Provider>
         </MemoryRouter>
       );
-      const wrapper = mount(
+      render(
         <Cmp
           items={[
             { children: () => <div>test</div>, isOpen: false, id: 'fff' },
@@ -194,10 +208,10 @@ describe('InventoryList', () => {
           hasItems
         />
       );
-      onRefreshData.mockClear();
+
+      expect(onRefreshData).toHaveBeenCalledTimes(1);
       ref.current.onRefreshData();
-      wrapper.update();
-      expect(onRefreshData).toHaveBeenCalled();
+      expect(onRefreshData).toHaveBeenCalledTimes(2);
     });
   });
 });
