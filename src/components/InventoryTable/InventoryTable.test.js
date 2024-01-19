@@ -12,8 +12,15 @@ import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { buildHosts, buildHostsPayload } from '../../__factories__/hosts';
 import * as api from '../../api/api';
 import * as groupsApi from '../InventoryGroups/utils/api';
+import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
+import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
+import { buildOperatingSystems } from '../../__factories__/operatingSystems';
+
 import InventoryTable from './InventoryTable';
 import { shouldDispatch, shouldNotDispatch } from '../../Utilities/testUtils';
+
+jest.mock('../../Utilities/hooks/useFetchOperatingSystems');
+jest.mock('../../Utilities/hooks/useFetchBatched');
 
 const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
 const TABLE_HEADERS_SORTING_KEYS = [
@@ -168,14 +175,23 @@ const errorState = {
 };
 
 describe('InventoryTable', () => {
+  const operatingSystems = [
+    ...buildOperatingSystems(20, { osName: 'RHEL', major: 8 }),
+    ...buildOperatingSystems(20, { osName: 'CentOS Linux', major: 7 }),
+  ];
   useFeatureFlag.mockReturnValue(false);
+  useFetchOperatingSystems.mockReturnValue({
+    operatingSystems,
+    operatingSystemsLoaded: true,
+  });
+
+  useFetchBatched.mockReturnValue({
+    fetchBatched: () =>
+      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
+  });
 
   const getGroupsSpied = jest
     .spyOn(groupsApi, 'getGroups')
-    .mockReturnValue(new Promise(() => {}));
-
-  const getOperatingSystemsSpied = jest
-    .spyOn(api, 'getOperatingSystems')
     .mockReturnValue(new Promise(() => {}));
 
   const getEntitiesSpied = jest
@@ -208,8 +224,7 @@ describe('InventoryTable', () => {
       renderTable(store);
 
       await waitFor(() => {
-        shouldDispatch(store, { type: 'OPERATING_SYSTEMS' });
-        expect(getOperatingSystemsSpied).toBeCalled();
+        expect(useFetchOperatingSystems).toBeCalled();
       });
     });
 

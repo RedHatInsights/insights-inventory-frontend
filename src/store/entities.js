@@ -30,8 +30,6 @@ export const defaultState = {
   loaded: false,
   tagsLoaded: false,
   allTagsLoaded: false,
-  operatingSystems: [],
-  operatingSystemsLoaded: false,
   groups: [],
   invConfig: {},
   sortBy: {
@@ -250,23 +248,6 @@ function selectEntity(state, { payload }) {
   };
 }
 
-function versionsLoaded(state, { payload: { results } }) {
-  return {
-    ...state,
-    operatingSystems: (results || []).map((entry) => {
-      const { name, major, minor } = entry.value;
-      const versionStringified = `${major}.${minor}`;
-      return {
-        groupLabel: `${name} ${major}`,
-        label: `${name} ${versionStringified}`,
-        osName: name,
-        value: versionStringified,
-      };
-    }),
-    operatingSystemsLoaded: true,
-  };
-}
-
 function changeSort(state, { payload: { key, direction } }) {
   return {
     ...state,
@@ -400,11 +381,6 @@ export default {
   [ACTION_TYPES.LOAD_TAGS_PENDING]: showTagsPending,
   [ACTION_TYPES.LOAD_TAGS_FULFILLED]: showTags,
   [ACTION_TYPES.ALL_TAGS_REJECTED]: loadingRejected,
-  [ACTION_TYPES.OPERATING_SYSTEMS_PENDING]: (state) => ({
-    ...state,
-    operatingSystemsLoaded: false,
-  }),
-  [ACTION_TYPES.OPERATING_SYSTEMS_FULFILLED]: versionsLoaded,
   [UPDATE_ENTITIES]: entitiesLoaded,
   [SHOW_ENTITIES]: (state, action) =>
     entitiesLoaded(state, {

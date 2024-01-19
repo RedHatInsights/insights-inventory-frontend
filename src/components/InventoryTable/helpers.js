@@ -106,6 +106,19 @@ export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
   return selectedTags;
 };
 
+export const onDeleteGroupFilter = (deleted, currFilter) =>
+  Object.fromEntries(
+    Object.entries(currFilter).map(([groupKey, group]) => [
+      groupKey,
+      Object.fromEntries(
+        Object.entries(group).filter(
+          ([itemKey]) =>
+            itemKey !== deleted?.chips?.[0].value && itemKey !== groupKey
+        )
+      ),
+    ])
+  );
+
 const includesSortable = (transforms) =>
   transforms?.reduce(
     (acc, fn) => acc || fn.toString().includes('onSort:'),
