@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import {
+  calculateSystemProfile,
   constructTags,
   filtersReducer,
   getEntitySystemProfile,
@@ -23,6 +24,47 @@ describe('system_profile', () => {
 
   afterAll(() => {
     mockedHosts.reset();
+  });
+});
+
+describe('calculateSystemProfile', () => {
+  it('should return nothing if no filters are passed', () => {
+    expect(calculateSystemProfile({})).toEqual({});
+  });
+
+  it('should return a system_profile filter with a operating_system filter with OsFilter passed', () => {
+    expect(
+      calculateSystemProfile({
+        osFilter: {
+          'RHEL-7': {
+            'RHEL-7-7.6': true,
+            'RHEL-7-7.1': true,
+          },
+          'RHEL-9': {
+            'RHEL-9-9.6': true,
+            'RHEL-9-9.1': true,
+          },
+          'CentOS-7': {
+            'CentOS-7-7.6': true,
+          },
+        },
+      })
+    ).toEqual({
+      system_profile: {
+        operating_system: {
+          CentOS: {
+            version: {
+              eq: ['7.6'],
+            },
+          },
+          RHEL: {
+            version: {
+              eq: ['7.6', '7.1', '9.6', '9.1'],
+            },
+          },
+        },
+      },
+    });
   });
 });
 

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import './EntityTableToolbar.scss';
-import React, { Fragment, useCallback, useEffect, useReducer } from 'react';
+import React, { Fragment, useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -35,7 +35,7 @@ import {
   arrayToSelection,
   reduceFilters,
 } from '../../Utilities/index';
-import { onDeleteFilter, onDeleteTag } from './helpers';
+import { onDeleteFilter, onDeleteGroupFilter, onDeleteTag } from './helpers';
 import {
   filtersReducer,
   groupFilterReducer,
@@ -43,6 +43,7 @@ import {
   lastSeenFilterReducer,
   lastSeenFilterState,
   operatingSystemFilterReducer,
+  operatingSystemFilterState,
   registeredWithFilterReducer,
   registeredWithFilterState,
   rhcdFilterReducer,
@@ -54,6 +55,7 @@ import {
   updateMethodFilterReducer,
   updateMethodFilterState,
   useLastSeenFilter,
+  useOperatingSystemFilter,
   useRegisteredWithFilter,
   useRhcdFilter,
   useStalenessFilter,
@@ -61,7 +63,6 @@ import {
   useTextFilter,
   useUpdateMethodFilter,
 } from '../filters';
-import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
@@ -115,13 +116,14 @@ const EntityTableToolbar = ({
       ...stalenessFilterState,
       ...registeredWithFilterState,
       ...tagsFilterState,
+      ...operatingSystemFilterState,
       ...rhcdFilterState,
       ...updateMethodFilterState,
       ...lastSeenFilterState,
       ...groupFilterState,
     }
   );
-  const filters = useSelector(
+  const activeFilters = useSelector(
     ({ entities: { activeFilters } }) => activeFilters
   );
   const allTagsLoaded = useSelector(
@@ -160,7 +162,7 @@ const EntityTableToolbar = ({
     setEndDate,
   ] = useLastSeenFilter(reducer);
   const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] =
-    useOperatingSystemFilter([], hasAccess, showCentosVersions);
+    useOperatingSystemFilter(reducer, [], hasAccess, showCentosVersions);
   const [
     updateMethodConfig,
     updateMethodChips,
@@ -189,22 +191,19 @@ const EntityTableToolbar = ({
   /**
    * Debounced function for fetching all tags.
    */
-  const debounceGetAllTags = useCallback(
-    debounce((config, options) => {
-      if (showTags && !hasItems && hasAccess) {
-        dispatch(
-          fetchAllTags(
-            config,
-            {
-              ...options?.paginationhideFilters,
-            },
-            getTags
-          )
-        );
-      }
-    }, 800),
-    [customFilters?.tags]
-  );
+  const debounceGetAllTags = debounce((config, options) => {
+    if (showTags && !hasItems && hasAccess) {
+      dispatch(
+        fetchAllTags(
+          config,
+          {
+            ...options?.paginationhideFilters,
+          },
+          getTags
+        )
+      );
+    }
+  }, 800);
 
   const enabledFilters = {
     name: !(hideFilters.all && hideFilters.name !== false) && !hideFilters.name,
@@ -236,17 +235,14 @@ const EntityTableToolbar = ({
   /**
    * Function to dispatch load systems and fetch all tags.
    */
-  const onRefreshDataInner = useCallback(
-    (options) => {
-      if (hasAccess) {
-        onRefreshData(options);
-        if (showTags && !hasItems) {
-          dispatch(fetchAllTags(filterTagsBy, {}, getTags));
-        }
+  const onRefreshDataInner = (options) => {
+    if (hasAccess) {
+      onRefreshData(options);
+      if (showTags && !hasItems) {
+        dispatch(fetchAllTags(filterTagsBy, {}, getTags));
       }
-    },
-    [customFilters?.tags]
-  );
+    }
+  };
 
   /**
    * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
@@ -264,15 +260,14 @@ const EntityTableToolbar = ({
   /**
    * Debounced `updateData` function.
    */
-  const debouncedRefresh = useCallback(
-    debounce((config) => updateData(config), 800),
-    [sortBy?.key, sortBy?.direction]
-  );
+  const debouncedRefresh = debounce((config) => updateData(config), 800);
 
   /**
    * Component did mount effect to calculate actual filters from redux.
    */
   useEffect(() => {
+    console.log('CF', customFilters);
+
     const {
       textFilter,
       tagFilters,
@@ -283,8 +278,10 @@ const EntityTableToolbar = ({
       lastSeenFilter,
       updateMethodFilter,
       hostGroupFilter,
-    } = reduceFilters([...(filters || []), ...(customFilters?.filters || [])]);
-
+    } = reduceFilters([
+      ...(activeFilters || []),
+      ...(customFilters?.filters || []),
+    ]);
     debouncedRefresh();
     enabledFilters.name && setTextFilter(textFilter);
     enabledFilters.stale && setStaleFilter(staleFilter);
@@ -307,17 +304,18 @@ const EntityTableToolbar = ({
   const onSetTextFilter = (value, debounced = true) => {
     const trimmedValue = value?.trim();
 
-    const textualFilter = filters?.find(
+    const textualFilter = activeFilters?.find(
       (oneFilter) => oneFilter.value === TEXT_FILTER
     );
     if (textualFilter) {
       textualFilter.filter = trimmedValue;
     } else {
-      filters?.push({ value: TEXT_FILTER, filter: trimmedValue });
+      // TODO This is sus
+      activeFilters?.push({ value: TEXT_FILTER, filter: trimmedValue });
     }
 
     const refresh = debounced ? debouncedRefresh : updateData;
-    refresh({ page: 1, perPage, filters });
+    refresh({ page: 1, perPage, filters: activeFilters });
   };
 
   /**
@@ -328,7 +326,7 @@ const EntityTableToolbar = ({
    */
   const onSetFilter = (value, filterKey, refresh) => {
     const newFilters = [
-      ...(filters || []).filter(
+      ...(activeFilters || []).filter(
         (oneFilter) =>
           !Object.prototype.hasOwnProperty.call(oneFilter, filterKey)
       ),
@@ -337,7 +335,7 @@ const EntityTableToolbar = ({
     refresh({ page: 1, perPage, filters: newFilters });
   };
 
-  const shouldReload = page && perPage && filters && (!hasItems || items);
+  const shouldReload = page && perPage && activeFilters && (!hasItems || items);
 
   useEffect(() => {
     if (shouldReload && showTags && enabledFilters.tags) {
@@ -418,13 +416,8 @@ const EntityTableToolbar = ({
       setStaleFilter(onDeleteFilter(deleted, staleFilter)),
     [REGISTERED_CHIP]: (deleted) =>
       setRegisteredWithFilter(onDeleteFilter(deleted, registeredWithFilter)),
-    [OS_CHIP]: (deleted) => {
-      setOsFilterValue(
-        osFilterValue.filter(
-          (filter) => filter.value !== deleted.chips[0].value
-        )
-      );
-    },
+    [OS_CHIP]: (deleted) =>
+      setOsFilterValue(onDeleteGroupFilter(deleted, osFilterValue)),
     [RHCD_FILTER_KEY]: (deleted) =>
       setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
     [LAST_SEEN_CHIP]: (deleted) => {

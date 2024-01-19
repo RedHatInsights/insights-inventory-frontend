@@ -15,8 +15,20 @@ const filterMapper = {
   staleFilter: ({ staleFilter }, searchParams) =>
     staleFilter.forEach((item) => searchParams.append('status', item)),
   osFilter: ({ osFilter }, searchParams) => {
-    osFilter?.forEach((item) => {
-      searchParams.append('operating_system', `${item.osName}${item.value}`);
+    // TODO This is very hackish. There should be a schema/feature on how the values translate into params
+    const osParams = Object.entries(
+      Object.values(osFilter).reduce((acc, item) => ({ ...acc, ...item }), {})
+    )
+      .filter(([, value]) => value === true)
+      .map(([key]) => key);
+
+    osParams.forEach((item) => {
+      const keyParts = item.split('-');
+      const [osName, value] = [
+        keyParts.slice(0, keyParts.length - 2).join(' '),
+        keyParts[keyParts.length - 1],
+      ];
+      searchParams.append('operating_system', `${osName}${value}`);
     });
   },
   registeredWithFilter: ({ registeredWithFilter }, searchParams) =>
@@ -48,6 +60,9 @@ const filterMapper = {
     ),
 };
 
+// TODO It might be better to not use a SearchParam instance and mutate it
+// This should rather just return a plain object that can be
+// applied with react routers useSearch params.
 export const calculateFilters = (searchParams, filters = []) => {
   filters.forEach((filter) => {
     Object.keys(filter).forEach((key) => {
