@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 export const buildGroups = (length, allEmpty, allNonEmpty) => {
   return [...Array(length)].map(() => {
-    const created_at = faker.date.past(3).getTime();
+    const created_at = faker.date.past({ years: 3 }).getTime();
 
     return {
       updated_at: faker.date.soon({ refDate: created_at }).getTime(),
