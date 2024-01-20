@@ -1,132 +1,113 @@
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import configureStore from 'redux-mock-store';
-import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-
-import { Dropdown, DropdownItem } from '@patternfly/react-core';
-
+import { TestWrapper } from '../../Utilities/TestingUtilities';
 import TopBar from './TopBar';
-import { Provider } from 'react-redux';
-import { mountWithRouter } from '../../Utilities/TestingUtilities';
 
-describe('<TopBar />', () => {
-  let wrapper;
-  let entityId;
-  let entity;
-  let mockStore;
-  let store;
+describe('TopBar', () => {
+  const entity = { id: 42 };
 
-  beforeEach(() => {
-    entityId = '31';
-    entity = { id: entityId };
-    mockStore = configureStore([promiseMiddleware()]);
-    store = mockStore();
+  it('dropdown has link to inventory', async () => {
+    render(
+      <TestWrapper>
+        <TopBar entity={entity} loaded />
+      </TestWrapper>
+    );
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /actions/i,
+      })
+    );
+    expect(
+      screen.getByRole('menuitem', {
+        name: /view system in inventory/i,
+      })
+    ).toHaveAttribute('href', './insights/inventory/42');
   });
 
-  it('renders !hideInvLink in dropdown', async () => {
-    await act(async () => {
-      wrapper = mountWithRouter(
-        <Provider store={store}>
-          <TopBar entity={entity} loaded={true} />
-        </Provider>
-      );
-    });
-    wrapper.update();
+  it('dropdown hides link to inventory', () => {
+    render(
+      <TestWrapper>
+        <TopBar entity={entity} loaded hideInvLink />
+      </TestWrapper>
+    );
 
-    expect(wrapper.find(Dropdown)).toHaveLength(1);
-
-    await act(async () => {
-      wrapper.find(Dropdown).find('button').simulate('click');
-    });
-    wrapper.update();
-
-    expect(wrapper.find(DropdownItem).props()).toMatchObject({
-      children: 'View system in Inventory',
-      component: 'a',
-      href: `./insights/inventory/${entityId}`,
-      index: 0,
-      onClick: expect.any(Function),
-    });
+    expect(
+      screen.queryByRole('button', {
+        name: /actions/i,
+      })
+    ).not.toBeInTheDocument();
   });
 
-  it('no drodpown when hideInvLink', async () => {
-    await act(async () => {
-      wrapper = mountWithRouter(
-        <Provider store={store}>
-          <TopBar entity={entity} hideInvLink loaded={true} />
-        </Provider>
-      );
-    });
-    wrapper.update();
+  it('renders custom action', async () => {
+    const onClick = jest.fn();
+    render(
+      <TestWrapper>
+        <TopBar
+          entity={entity}
+          loaded
+          actions={[{ title: 'title', onClick }]}
+        />
+      </TestWrapper>
+    );
 
-    expect(wrapper.find(Dropdown)).toHaveLength(0);
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /actions/i,
+      })
+    );
+    screen.getByRole('menuitem', {
+      name: /view system in inventory/i,
+    });
+    await userEvent.click(
+      screen.getByRole('menuitem', {
+        name: /title/i,
+      })
+    );
+    expect(onClick).toBeCalled();
   });
 
-  it('combines actions and inv link', async () => {
-    await act(async () => {
-      wrapper = mountWithRouter(
-        <Provider store={store}>
-          <TopBar
-            entity={entity}
-            loaded={true}
-            actions={[{ title: 'title', onClick: jest.fn() }]}
-          />
-        </Provider>
-      );
-    });
-    wrapper.update();
+  it('renders skeleton when loading', () => {
+    render(
+      <TestWrapper>
+        <TopBar />
+      </TestWrapper>
+    );
 
-    expect(wrapper.find(Dropdown)).toHaveLength(1);
-
-    await act(async () => {
-      wrapper.find(Dropdown).find('button').simulate('click');
-    });
-    wrapper.update();
-
-    expect(wrapper.find(DropdownItem)).toHaveLength(2);
-    expect(wrapper.find(DropdownItem).first().props()).toMatchObject({
-      children: 'View system in Inventory',
-      component: 'a',
-      href: `./insights/inventory/${entityId}`,
-      index: 0,
-      onClick: expect.any(Function),
-    });
-    expect(wrapper.find(DropdownItem).last().props()).toMatchObject({
-      children: 'title',
-      component: 'button',
-      index: 1,
-      onClick: expect.any(Function),
-    });
+    expect(
+      screen.queryByRole('button', {
+        name: /actions/i,
+      })
+    ).not.toBeInTheDocument();
   });
 
-  it('only actions', async () => {
-    await act(async () => {
-      wrapper = mountWithRouter(
-        <Provider store={store}>
-          <TopBar
-            entity={entity}
-            hideInvLink
-            loaded={true}
-            actions={[{ title: 'title', onClick: jest.fn() }]}
-          />
-        </Provider>
-      );
-    });
-    wrapper.update();
+  it('shows delete button by default', () => {
+    render(
+      <TestWrapper>
+        <TopBar entity={entity} loaded showDelete />
+      </TestWrapper>
+    );
 
-    expect(wrapper.find(Dropdown)).toHaveLength(1);
+    expect(
+      screen.getByRole('button', {
+        name: /delete/i,
+      })
+    ).toHaveAttribute('aria-disabled', 'false');
+  });
 
-    await act(async () => {
-      wrapper.find(Dropdown).find('button').simulate('click');
-    });
-    wrapper.update();
+  it('disables delete button', () => {
+    render(
+      <TestWrapper>
+        <TopBar entity={entity} loaded showDelete={false} />
+      </TestWrapper>
+    );
 
-    expect(wrapper.find(DropdownItem)).toHaveLength(1);
-    expect(wrapper.find(DropdownItem).props()).toMatchObject({
-      children: 'title',
-      component: 'button',
-      index: 0,
-      onClick: expect.any(Function),
-    });
+    expect(
+      screen.getByRole('button', {
+        name: /delete/i,
+      })
+    ).toHaveAttribute('aria-disabled', 'true');
   });
 });
