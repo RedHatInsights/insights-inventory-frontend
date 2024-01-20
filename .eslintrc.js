@@ -6,18 +6,6 @@ module.exports = {
     'plugin:jest-dom/recommended',
   ],
   globals: {
-    insights: 'readonly',
-    shallow: 'readonly',
-    render: 'readonly',
-    mount: 'readonly',
     IS_DEV: 'readonly',
-  },
-  rules: {
-    'sort-imports': [
-      'error',
-      {
-        ignoreDeclarationSort: true,
-      },
-    ],
   },
 };

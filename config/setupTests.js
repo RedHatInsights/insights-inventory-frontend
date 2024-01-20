@@ -1,18 +1,3 @@
-import React from 'react';
-import 'whatwg-fetch';
-
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useLayoutEffect: jest.requireActual('react').useEffect,
-}));
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: () => ({
-    inventoryId: '07c86de4-dadd-4681-8e6c-fe0baaaef479',
-  }),
-}));
-
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
   __esModule: true,
   default: () => ({
@@ -73,5 +58,4 @@ global.insights = {
   },
 };
 
-global.React = React;
 global.IS_DEV = true;
