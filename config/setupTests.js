@@ -1,6 +1,3 @@
-/* eslint-disable camelcase */
-import { configure, mount, render, shallow } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import React from 'react';
 import 'whatwg-fetch';
 
@@ -48,8 +45,6 @@ jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
   }),
 }));
 
-configure({ adapter: new Adapter() });
-
 global.insights = {
   chrome: {
     auth: {
@@ -78,8 +73,5 @@ global.insights = {
   },
 };
 
-global.shallow = shallow;
-global.render = render;
-global.mount = mount;
 global.React = React;
 global.IS_DEV = true;
