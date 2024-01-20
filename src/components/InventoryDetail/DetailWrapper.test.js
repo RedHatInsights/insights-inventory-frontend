@@ -207,7 +207,7 @@ describe('DetailWrapper', () => {
       render(
         <Provider store={store}>
           <DetailWrapper>
-            <h2 aria-label="test">something</h2>} />
+            <h2 aria-label="test">something</h2>
           </DetailWrapper>
         </Provider>
       );

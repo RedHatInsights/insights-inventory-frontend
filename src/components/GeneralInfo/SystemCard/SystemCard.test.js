@@ -29,12 +29,6 @@ const fields = [
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
 const location = { pathname: 'some-path' };
-const removeLabelledBy = ({
-  'aria-labelledby': labelledBy,
-  'aria-describedby': describedby,
-  id: id,
-  ...restProps
-}) => restProps;
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
