@@ -52,7 +52,7 @@ const renderTable = (store, props) => {
   };
 };
 
-const shouldDispatch = (store, { type, payload }) => {
+export const shouldDispatch = (store, { type, payload }) => {
   try {
     expect(
       store

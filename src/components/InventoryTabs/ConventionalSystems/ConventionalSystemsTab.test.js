@@ -8,6 +8,7 @@ import configureStore from 'redux-mock-store';
 import { useGetRegistry } from '../../../Utilities/constants';
 import { mockSystemProfile } from '../../../__mocks__/hostApi';
 import { hosts } from '../../../api';
+import { shouldDispatch } from '../../InventoryTable/InventoryTable.test';
 import ConventionalSystemsTab from './ConventionalSystemsTab';
 import { calculatePagination } from './Utilities';
 
@@ -191,11 +192,9 @@ describe('ConventionalSystemsTab', () => {
         name: /remove from inventory/i,
       })
     ).not.toBeInTheDocument();
-    const actions = store.getActions();
-    expect(actions[2]).toEqual({
+    shouldDispatch(store, {
       payload: {
-        description:
-          'Removal of RHIQE.31ea86a9-a439-4422-9516-27c879057535.test started.',
+        description: `Removal of ${system1.display_name} started.`,
         dismissable: false,
         id: 'remove-initiated',
         title: 'Delete operation initiated',
@@ -203,20 +202,7 @@ describe('ConventionalSystemsTab', () => {
       },
       type: '@@INSIGHTS-CORE/NOTIFICATIONS/ADD_NOTIFICATION',
     });
-    expect(actions[3]).toEqual({
-      meta: {
-        notifications: {
-          fulfilled: {
-            description:
-              'RHIQE.31ea86a9-a439-4422-9516-27c879057535.test has been successfully removed.',
-            dismissable: true,
-            title: 'Delete operation finished',
-            variant: 'success',
-          },
-        },
-        systems: ['ed190a06-de88-4d62-aba1-88ad402720a8'],
-      },
-      payload: expect.any(Promise),
+    shouldDispatch(store, {
       type: 'REMOVE_ENTITY',
     });
   });
