@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  Flex,
-  FlexItem,
-  Popover,
-  Select,
-  SelectOption,
-} from '@patternfly/react-core';
+import { Button, Flex, FlexItem, Popover } from '@patternfly/react-core';
+import { Select, SelectOption } from '@patternfly/react-core/deprecated';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';
 import { conditionalDropdownError, formValidation } from './constants';

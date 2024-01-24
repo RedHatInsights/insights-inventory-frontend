@@ -4,8 +4,11 @@ import {
   MenuToggle,
   TextInputGroup,
   TextInputGroupMain,
+  Select /* data-codemods */,
+  SelectList /* data-codemods */,
+  SelectOption /* data-codemods */,
 } from '@patternfly/react-core';
-import { Select, SelectList, SelectOption } from '@patternfly/react-core/next';
+
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 

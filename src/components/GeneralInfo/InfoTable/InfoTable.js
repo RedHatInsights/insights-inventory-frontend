@@ -8,13 +8,12 @@ import {
 } from '@patternfly/react-core';
 import PrimaryToolbar from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
 import TableToolbar from '@redhat-cloud-services/frontend-components/TableToolbar';
+import { SortByDirection, TableVariant } from '@patternfly/react-table';
 import {
-  SortByDirection,
   Table,
   TableBody,
   TableHeader,
-  TableVariant,
-} from '@patternfly/react-table';
+} from '@patternfly/react-table/deprecated';
 import flatMap from 'lodash/flatMap';
 import {
   filterRows,

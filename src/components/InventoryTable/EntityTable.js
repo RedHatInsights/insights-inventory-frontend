@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { selectEntity, setSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Table as PfTable,
-  TableBody,
   TableGridBreakpoint,
-  TableHeader,
   TableVariant,
   sortable,
 } from '@patternfly/react-table';
+import {
+  Table as PfTable,
+  TableBody,
+  TableHeader,
+} from '@patternfly/react-table/deprecated';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components/SkeletonTable';
 import NoEntitiesFound from './NoEntitiesFound';
 import { createColumns, createRows } from './helpers';

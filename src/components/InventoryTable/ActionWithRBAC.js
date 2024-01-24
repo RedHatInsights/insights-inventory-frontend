@@ -5,7 +5,8 @@
  */
 import React from 'react';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { Button, DropdownItem, Tooltip } from '@patternfly/react-core';
+import { Button, Tooltip } from '@patternfly/react-core';
+import { DropdownItem } from '@patternfly/react-core/deprecated';
 import PropTypes from 'prop-types';
 
 export const ActionButton = ({

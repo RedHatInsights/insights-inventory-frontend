@@ -7,10 +7,6 @@ import {
 } from '@redhat-cloud-services/frontend-components/Skeleton';
 import {
   Button,
-  Dropdown,
-  DropdownItem,
-  DropdownPosition,
-  DropdownToggle,
   Flex,
   FlexItem,
   Split,
@@ -18,6 +14,12 @@ import {
   Title,
   Tooltip,
 } from '@patternfly/react-core';
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownPosition,
+  DropdownToggle,
+} from '@patternfly/react-core/deprecated';
 import { redirectToInventoryList } from './helpers';
 import { useDispatch } from 'react-redux';
 import { toggleDrawer } from '../../store/actions';
@@ -123,7 +125,7 @@ const TopBar = ({
                       onSelect={() => setIsOpen(false)}
                       toggle={
                         <DropdownToggle
-                          onToggle={(isOpen) => setIsOpen(isOpen)}
+                          onToggle={(_event, isOpen) => setIsOpen(isOpen)}
                         >
                           Actions
                         </DropdownToggle>

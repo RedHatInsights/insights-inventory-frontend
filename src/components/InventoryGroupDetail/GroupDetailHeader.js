@@ -2,13 +2,15 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
   Flex,
   FlexItem,
   Skeleton,
 } from '@patternfly/react-core';
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+} from '@patternfly/react-core/deprecated';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -158,7 +160,7 @@ const GroupDetailHeader = ({ groupId }) => {
             toggle={
               <DropdownToggle
                 id="group-dropdown-toggle"
-                onToggle={(isOpen) => setDropdownOpen(isOpen)}
+                onToggle={(_event, isOpen) => setDropdownOpen(isOpen)}
                 toggleVariant="secondary"
                 isDisabled={!canModify || uninitialized || loading}
                 ouiaId="group-actions-dropdown-toggle"

@@ -6,7 +6,7 @@ import LoadingCard from '../LoadingCard';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import {
   ExpandableRowContent,
-  TableComposable,
+  Table /* data-codemods */,
   TableVariant,
   Tbody,
   Td,
@@ -40,7 +40,7 @@ const DataCollectorsCardCore = ({
   const data = collectors ?? getDefaultCollectors(entity);
   return (
     <LoadingCard title="Data collectors" isLoading={!detailLoaded}>
-      <TableComposable
+      <Table
         aria-label="Data collectors"
         variant={TableVariant.compact}
         borders={false}
@@ -104,7 +104,7 @@ const DataCollectorsCardCore = ({
                 )}
               </Tbody>
             ))}
-      </TableComposable>
+      </Table>
     </LoadingCard>
   );
 };

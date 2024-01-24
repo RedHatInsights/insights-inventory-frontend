@@ -4,14 +4,12 @@ import {
   PaginationVariant,
   SearchInput,
 } from '@patternfly/react-core';
+import { TableVariant, cellWidth, sortable } from '@patternfly/react-table';
 import {
   Table,
   TableBody,
   TableHeader,
-  TableVariant,
-  cellWidth,
-  sortable,
-} from '@patternfly/react-table';
+} from '@patternfly/react-table/deprecated';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import PrimaryToolbar from '@redhat-cloud-services/frontend-components/PrimaryToolbar';

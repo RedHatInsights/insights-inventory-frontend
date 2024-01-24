@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardActions,
-  CardBody,
-  CardHeader,
-  CardTitle,
-} from '@patternfly/react-core';
+import { Card, CardBody, CardHeader, CardTitle } from '@patternfly/react-core';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ChromeLoader from '../../Utilities/ChromeLoader';
@@ -24,20 +18,27 @@ const GroupDetailInfo = ({ chrome }) => {
 
   return (
     <Card>
-      <CardHeader>
-        <CardActions>
-          <ActionButton
-            component="a"
-            href={path}
-            variant="secondary"
-            override={isUserAccessAdministrator}
-            noAccessTooltip={NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE}
-            ouiaId="manage-access-button"
-            isLoading={isLoading}
-          >
-            Manage access
-          </ActionButton>
-        </CardActions>
+      <CardHeader
+        actions={{
+          actions: (
+            <>
+              <ActionButton
+                component="a"
+                href={path}
+                variant="secondary"
+                override={isUserAccessAdministrator}
+                noAccessTooltip={NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE}
+                ouiaId="manage-access-button"
+                isLoading={isLoading}
+              >
+                Manage access
+              </ActionButton>
+            </>
+          ),
+          hasNoOffset: false,
+          className: undefined,
+        }}
+      >
         <CardTitle className="pf-c-title pf-m-lg card-title">
           User access configuration
         </CardTitle>
