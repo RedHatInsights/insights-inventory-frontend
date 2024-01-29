@@ -6,13 +6,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { mock } from '../../__mocks__/systemIssues';
-import { BasicInfo } from '../InventoryDetailDrawer';
 import DetailWrapper from './DetailWrapper';
-
-jest.mock('../InventoryDetailDrawer', () => ({
-  ...jest.requireActual('../InventoryDetailDrawer'),
-  BasicInfo: jest.fn(),
-}));
 
 describe('DetailWrapper', () => {
   mock.onGet('/api/patch/v3/systems/test-id').reply(200, 'test');
@@ -78,6 +72,13 @@ describe('DetailWrapper', () => {
           culled_timestamp: new Date(),
           stale_warning_timestamp: new Date(),
           stale_timestamp: new Date(),
+          tags: [
+            {
+              namespace: 'ns',
+              key: 'k',
+              value: 'v',
+            },
+          ],
         },
         isToggleOpened: true,
       },
@@ -85,18 +86,13 @@ describe('DetailWrapper', () => {
   });
 
   describe('DOM', () => {
-    beforeAll(() => {
-      BasicInfo.mockImplementation(
-        jest.requireActual('../InventoryDetailDrawer').BasicInfo
-      );
-    });
-
     it('should render without data', () => {
-      const store = mockStore({
-        entityDetails: {},
-      });
       const view = render(
-        <Provider store={store}>
+        <Provider
+          store={mockStore({
+            entityDetails: {},
+          })}
+        >
           <DetailWrapper />
         </Provider>
       );
@@ -105,9 +101,8 @@ describe('DetailWrapper', () => {
     });
 
     it('should render with data', () => {
-      const store = mockStore(initialState);
       const view = render(
-        <Provider store={store}>
+        <Provider store={mockStore(initialState)}>
           <DetailWrapper />
         </Provider>
       );
@@ -115,28 +110,29 @@ describe('DetailWrapper', () => {
       expect(view.asFragment()).toMatchSnapshot();
     });
 
-    it('should pass correct props to BasicInfo', () => {
-      BasicInfo.mockImplementation(() => <span>BasicInfo</span>);
-      const store = mockStore(initialState);
+    it('should not render tags by default', () => {
       render(
-        <Provider store={store}>
+        <Provider store={mockStore(initialState)}>
           <DetailWrapper />
         </Provider>
       );
 
-      expect(BasicInfo).toHaveBeenCalledWith(
-        {
-          hideInvLink: undefined,
-          showTags: undefined,
-        },
-        {} // ref
+      expect(screen.queryByText('ns/k=v')).not.toBeInTheDocument();
+    });
+
+    it('should render tags', () => {
+      render(
+        <Provider store={mockStore(initialState)}>
+          <DetailWrapper showTags />
+        </Provider>
       );
+
+      expect(screen.getByText('ns/k=v')).toBeVisible();
     });
 
     it('should render Wrapper', () => {
-      const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <Provider store={mockStore(initialState)}>
           <DetailWrapper Wrapper={() => <h2 aria-label="test">something</h2>} />
         </Provider>
       );
@@ -190,9 +186,8 @@ describe('DetailWrapper', () => {
           isToggleOpened: true,
         },
       };
-      const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <Provider store={mockStore(initialState)}>
           <DetailWrapper />
         </Provider>
       );
@@ -203,9 +198,8 @@ describe('DetailWrapper', () => {
     });
 
     it('should render children', () => {
-      const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <Provider store={mockStore(initialState)}>
           <DetailWrapper>
             <h2 aria-label="test">something</h2>
           </DetailWrapper>
@@ -218,9 +212,8 @@ describe('DetailWrapper', () => {
     });
 
     it('should calculate classnames', () => {
-      const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <Provider store={mockStore(initialState)}>
           <DetailWrapper className="test-classname" />
         </Provider>
       );
