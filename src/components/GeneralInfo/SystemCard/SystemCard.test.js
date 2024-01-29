@@ -94,10 +94,8 @@ describe('SystemCard', () => {
     });
     fields.forEach(screen.getByText);
     expect(
-      screen
-        .getAllByRole('definition')
-        .reduce((prev, cur) => prev.concat(cur.textContent), '')
-    ).toBe('');
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual(['', '', '', '', '', '', '', '', '', '']);
     screen.getByRole('button', {
       name: /action for host name/i,
     });
@@ -119,12 +117,19 @@ describe('SystemCard', () => {
     );
 
     expect(
-      screen
-        .getAllByRole('definition')
-        .reduce((prev, cur) => prev.concat(cur.textContent), '')
-    ).toBe(
-      'Not availabletest-display-nametest-ansible-hostNot availableProduction1110 flags5 MB'
-    );
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual([
+      'Not available',
+      'test-display-name',
+      'test-ansible-host',
+      'Not available',
+      'Production',
+      '1',
+      '1',
+      '1',
+      '0 flags',
+      '5 MB',
+    ]);
   });
 
   it('should render correctly with SAP IDS', () => {
@@ -169,12 +174,19 @@ describe('SystemCard', () => {
     );
 
     expect(
-      screen
-        .getAllByRole('definition')
-        .reduce((prev, cur) => prev.concat(cur.textContent), '')
-    ).toBe(
-      'Not availabletest-display-nametest-ansible-hostNot availableNot available212Not available2 GB'
-    );
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual([
+      'Not available',
+      'test-display-name',
+      'test-ansible-host',
+      'Not available',
+      'Not available',
+      '2',
+      '1',
+      '2',
+      'Not available',
+      '2 GB',
+    ]);
   });
 
   describe('API', () => {
@@ -470,11 +482,20 @@ describe('SystemCard', () => {
     );
 
     expect(
-      screen
-        .getAllByRole('definition')
-        .reduce((prev, cur) => prev.concat(cur.textContent), '')
-    ).toBe(
-      'Not availabletest-display-nametest-ansible-hostNot availableProduction1110 flags5 MBtest1 tests'
-    );
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual([
+      'Not available',
+      'test-display-name',
+      'test-ansible-host',
+      'Not available',
+      'Production',
+      '1',
+      '1',
+      '1',
+      '0 flags',
+      '5 MB',
+      'test',
+      '1 tests',
+    ]);
   });
 });

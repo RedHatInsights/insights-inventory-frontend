@@ -216,12 +216,20 @@ describe('InfoTable', () => {
       );
 
       expect(
-        screen
-          .getAllByRole('row')
-          .reduce((prev, cur) => prev.concat(cur.textContent), '')
-      ).toBe(
-        'One cellSecond one10-010-111-011-112-012-113-013-114-014-115-015-116-016-117-017-118-018-119-019-1'
-      );
+        screen.getAllByRole('row').map((element) => element.textContent)
+      ).toEqual([
+        'One cellSecond one',
+        '10-010-1',
+        '11-011-1',
+        '12-012-1',
+        '13-013-1',
+        '14-014-1',
+        '15-015-1',
+        '16-016-1',
+        '17-017-1',
+        '18-018-1',
+        '19-019-1',
+      ]);
     });
 
     it('should paginate to 1 when filtering', async () => {
@@ -331,12 +339,20 @@ describe('InfoTable', () => {
       );
       expect(screen.getAllByRole('row')).toHaveLength(11); // including header
       expect(
-        screen
-          .getAllByRole('row')
-          .reduce((prev, cur) => prev.concat(cur.textContent), '')
-      ).toBe(
-        'One cellSecond one40-040-141-041-142-042-143-043-144-044-145-045-146-046-147-047-148-048-149-049-1'
-      );
+        screen.getAllByRole('row').map((element) => element.textContent)
+      ).toEqual([
+        'One cellSecond one',
+        '40-040-1',
+        '41-041-1',
+        '42-042-1',
+        '43-043-1',
+        '44-044-1',
+        '45-045-1',
+        '46-046-1',
+        '47-047-1',
+        '48-048-1',
+        '49-049-1',
+      ]);
     });
 
     it('should change per page count - bottom pagination', async () => {

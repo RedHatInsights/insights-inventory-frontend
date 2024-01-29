@@ -52,10 +52,8 @@ describe('OperatingSystemCard', () => {
     renderWithRouter(<OperatingSystemCard store={store} />);
 
     expect(
-      screen
-        .getAllByRole('definition')
-        .reduce((prev, cur) => prev.concat(cur.textContent), '')
-    ).toBe('');
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual(['', '', '', '', '']);
   });
 
   it('should render correctly with data', () => {
@@ -63,10 +61,14 @@ describe('OperatingSystemCard', () => {
     renderWithRouter(<OperatingSystemCard store={store} />);
 
     expect(
-      screen
-        .getAllByRole('definition')
-        .reduce((prev, cur) => prev.concat(cur.textContent), '')
-    ).toBe('test-releasetest-kerneltest-archNot available0 modules');
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual([
+      'test-release',
+      'test-kernel',
+      'test-arch',
+      'Not available',
+      '0 modules',
+    ]);
   });
 
   it('should render correctly with rhsm facts', () => {
@@ -81,10 +83,14 @@ describe('OperatingSystemCard', () => {
 
     renderWithRouter(<OperatingSystemCard store={store} />);
     expect(
-      screen
-        .getAllByRole('definition')
-        .reduce((prev, cur) => prev.concat(cur.textContent), '')
-    ).toBe('Not availableNot availablex86_64Not availableNot available');
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual([
+      'Not available',
+      'Not available',
+      'x86_64',
+      'Not available',
+      'Not available',
+    ]);
   });
 
   describe('api', () => {
