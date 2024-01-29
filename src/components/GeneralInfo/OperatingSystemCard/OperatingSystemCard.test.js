@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { renderWithRouter } from '../../../Utilities/TestingUtilities';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { osTest, rhsmFacts } from '../../../__mocks__/selectors';
 import OperatingSystemCard from './OperatingSystemCard';
 
@@ -48,8 +48,13 @@ describe('OperatingSystemCard', () => {
   });
 
   it('should render correctly - no data', () => {
-    const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    renderWithRouter(<OperatingSystemCard store={store} />);
+    render(
+      <TestWrapper
+        store={mockStore({ systemProfileStore: {}, entityDetails: {} })}
+      >
+        <OperatingSystemCard />
+      </TestWrapper>
+    );
 
     expect(
       screen.getAllByRole('definition').map((element) => element.textContent)
@@ -57,8 +62,11 @@ describe('OperatingSystemCard', () => {
   });
 
   it('should render correctly with data', () => {
-    const store = mockStore(initialState);
-    renderWithRouter(<OperatingSystemCard store={store} />);
+    render(
+      <TestWrapper store={mockStore(initialState)}>
+        <OperatingSystemCard />
+      </TestWrapper>
+    );
 
     expect(
       screen.getAllByRole('definition').map((element) => element.textContent)
@@ -72,16 +80,21 @@ describe('OperatingSystemCard', () => {
   });
 
   it('should render correctly with rhsm facts', () => {
-    const store = mockStore({
-      ...initialState,
-      systemProfileStore: {
-        systemProfile: {
-          loaded: true,
-        },
-      },
-    });
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+            },
+          },
+        })}
+      >
+        <OperatingSystemCard />
+      </TestWrapper>
+    );
 
-    renderWithRouter(<OperatingSystemCard store={store} />);
     expect(
       screen.getAllByRole('definition').map((element) => element.textContent)
     ).toEqual([
@@ -95,8 +108,11 @@ describe('OperatingSystemCard', () => {
 
   describe('api', () => {
     it('should not render modules clickable', () => {
-      const store = mockStore(initialState);
-      renderWithRouter(<OperatingSystemCard store={store} />);
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <OperatingSystemCard />
+        </TestWrapper>
+      );
 
       expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
@@ -118,11 +134,12 @@ describe('OperatingSystemCard', () => {
           },
         },
       };
-      const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/kernel_modules';
-      renderWithRouter(
-        <OperatingSystemCard handleClick={onClick} store={store} />
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <OperatingSystemCard handleClick={onClick} />
+        </TestWrapper>
       );
 
       await userEvent.click(screen.getByRole('link'));
@@ -138,9 +155,10 @@ describe('OperatingSystemCard', () => {
     'hasKernelModules',
   ].map((item, index) =>
     it(`should not render ${item}`, () => {
-      const store = mockStore(initialState);
-      renderWithRouter(
-        <OperatingSystemCard store={store} {...{ [item]: false }} />
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <OperatingSystemCard {...{ [item]: false }} />
+        </TestWrapper>
       );
 
       expect(
@@ -150,19 +168,20 @@ describe('OperatingSystemCard', () => {
   );
 
   it('should render extra', () => {
-    const store = mockStore(initialState);
-    renderWithRouter(
-      <OperatingSystemCard
-        store={store}
-        extra={[
-          { title: 'something', value: 'test' },
-          {
-            title: 'with click',
-            value: '1 tests',
-            onClick: (_e, handleClick) => handleClick('Something', {}, 'small'),
-          },
-        ]}
-      />
+    render(
+      <TestWrapper store={mockStore(initialState)}>
+        <OperatingSystemCard
+          extra={[
+            { title: 'something', value: 'test' },
+            {
+              title: 'with click',
+              value: '1 tests',
+              onClick: (_e, handleClick) =>
+                handleClick('Something', {}, 'small'),
+            },
+          ]}
+        />
+      </TestWrapper>
     );
 
     screen.getByRole('definition', {

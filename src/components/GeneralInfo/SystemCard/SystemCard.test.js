@@ -1,17 +1,16 @@
 import '@testing-library/jest-dom';
-import { screen, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
-import { renderWithRouter } from '../../../Utilities/TestingUtilities';
 import mockedData from '../../../__mocks__/mockedData.json';
 import { rhsmFacts, testProperties } from '../../../__mocks__/selectors';
 import { hosts } from '../../../api/api';
 import SystemCard from './SystemCard';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 
 const fields = [
   'Host name',
@@ -81,12 +80,12 @@ describe('SystemCard', () => {
   });
 
   it('should render correctly - no data', () => {
-    const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    renderWithRouter(
-      <Provider store={store}>
+    render(
+      <TestWrapper
+        store={mockStore({ systemProfileStore: {}, entityDetails: {} })}
+      >
         <SystemCard />
-      </Provider>,
-      ['Test detail page', '/inventory/:inventoryId']
+      </TestWrapper>
     );
 
     screen.getByRole('heading', {
@@ -108,12 +107,10 @@ describe('SystemCard', () => {
   });
 
   it('should render correctly with data', () => {
-    const store = mockStore(initialState);
-    renderWithRouter(
-      <Provider store={store}>
+    render(
+      <TestWrapper store={mockStore(initialState)}>
         <SystemCard />
-      </Provider>,
-      ['Test detail page', '/inventory/:inventoryId']
+      </TestWrapper>
     );
 
     expect(
@@ -133,21 +130,21 @@ describe('SystemCard', () => {
   });
 
   it('should render correctly with SAP IDS', () => {
-    const store = mockStore({
-      ...initialState,
-      systemProfileStore: {
-        systemProfile: {
-          loaded: true,
-          ...testProperties,
-          sap_sids: ['AAA', 'BBB'],
-        },
-      },
-    });
-    renderWithRouter(
-      <Provider store={store}>
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              sap_sids: ['AAA', 'BBB'],
+            },
+          },
+        })}
+      >
         <SystemCard />
-      </Provider>,
-      ['Test detail page', '/inventory/:inventoryId']
+      </TestWrapper>
     );
 
     expect(
@@ -158,19 +155,19 @@ describe('SystemCard', () => {
   });
 
   it('should render correctly with rhsm facts', () => {
-    const store = mockStore({
-      ...initialState,
-      systemProfileStore: {
-        systemProfile: {
-          loaded: true,
-        },
-      },
-    });
-    renderWithRouter(
-      <Provider store={store}>
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+            },
+          },
+        })}
+      >
         <SystemCard />
-      </Provider>,
-      ['Test detail page', '/inventory/:inventoryId']
+      </TestWrapper>
     );
 
     expect(
@@ -191,12 +188,10 @@ describe('SystemCard', () => {
 
   describe('API', () => {
     it('should calculate correct ansible host - direct ansible host', () => {
-      const store = mockStore(initialState);
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper store={mockStore(initialState)}>
           <SystemCard />
-        </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        </TestWrapper>
       );
 
       expect(
@@ -207,21 +202,21 @@ describe('SystemCard', () => {
     });
 
     it('should calculate correct ansible host - fqdn', () => {
-      const store = mockStore({
-        ...initialState,
-        entityDetails: {
-          entity: {
-            ...initialState.entity,
-            ansible_host: undefined,
-            fqdn: 'test-fqdn',
-          },
-        },
-      });
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper
+          store={mockStore({
+            ...initialState,
+            entityDetails: {
+              entity: {
+                ...initialState.entity,
+                ansible_host: undefined,
+                fqdn: 'test-fqdn',
+              },
+            },
+          })}
+        >
           <SystemCard />
-        </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        </TestWrapper>
       );
 
       expect(
@@ -232,21 +227,21 @@ describe('SystemCard', () => {
     });
 
     it('should calculate correct ansible host - fqdn', () => {
-      const store = mockStore({
-        ...initialState,
-        entityDetails: {
-          entity: {
-            ...initialState.entity,
-            ansible_host: undefined,
-            id: 'test-id',
-          },
-        },
-      });
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper
+          store={mockStore({
+            ...initialState,
+            entityDetails: {
+              entity: {
+                ...initialState.entity,
+                ansible_host: undefined,
+                id: 'test-id',
+              },
+            },
+          })}
+        >
           <SystemCard />
-        </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        </TestWrapper>
       );
 
       expect(
@@ -257,12 +252,10 @@ describe('SystemCard', () => {
     });
 
     it('should show edit display name', async () => {
-      const store = mockStore(initialState);
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper store={mockStore(initialState)}>
           <SystemCard />
-        </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        </TestWrapper>
       );
 
       await userEvent.click(
@@ -284,12 +277,10 @@ describe('SystemCard', () => {
     });
 
     it('should show edit ansible hostname', async () => {
-      const store = mockStore(initialState);
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper store={mockStore(initialState)}>
           <SystemCard />
-        </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        </TestWrapper>
       );
 
       await userEvent.click(
@@ -316,11 +307,10 @@ describe('SystemCard', () => {
         .onGet('/api/inventory/v1/hosts/test-id/system_profile')
         .reply(200, mockedData);
       const store = mockStore(initialState);
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper store={store}>
           <SystemCard />
-        </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        </TestWrapper>
       );
 
       await userEvent.click(
@@ -341,11 +331,10 @@ describe('SystemCard', () => {
         .onGet('/api/inventory/v1/hosts/test-id/system_profile')
         .reply(200, mockedData);
       const store = mockStore(initialState);
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper store={store}>
           <SystemCard />
-        </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        </TestWrapper>
       );
 
       await userEvent.click(
@@ -361,24 +350,24 @@ describe('SystemCard', () => {
     });
 
     it('should handle click on SAP identifiers', async () => {
-      const store = mockStore({
-        ...initialState,
-        systemProfileStore: {
-          systemProfile: {
-            loaded: true,
-            ...testProperties,
-            sap_sids: ['AAA', 'BBB'],
-          },
-        },
-      });
       const handleClick = jest.fn();
       location.pathname = 'localhost:3000/example/sap_sids';
       useParams.mockImplementation(() => ({ modalId: 'sap_sids' }));
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper
+          store={mockStore({
+            ...initialState,
+            systemProfileStore: {
+              systemProfile: {
+                loaded: true,
+                ...testProperties,
+                sap_sids: ['AAA', 'BBB'],
+              },
+            },
+          })}
+        >
           <SystemCard handleClick={handleClick} />
-        </Provider>,
-        ['Test detail page', '/inventory/testModal']
+        </TestWrapper>
       );
 
       await userEvent.click(
@@ -399,24 +388,24 @@ describe('SystemCard', () => {
     });
 
     it('should handle click on cpu flags identifiers', async () => {
-      const store = mockStore({
-        ...initialState,
-        systemProfileStore: {
-          systemProfile: {
-            loaded: true,
-            ...testProperties,
-            cpu_flags: ['flag_1', 'flag_2'],
-          },
-        },
-      });
       const handleClick = jest.fn();
       location.pathname = 'localhost:3000/example/flag';
       useParams.mockImplementation(() => ({ modalId: 'flag' }));
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper
+          store={mockStore({
+            ...initialState,
+            systemProfileStore: {
+              systemProfile: {
+                loaded: true,
+                ...testProperties,
+                cpu_flags: ['flag_1', 'flag_2'],
+              },
+            },
+          })}
+        >
           <SystemCard handleClick={handleClick} />
-        </Provider>,
-        ['Test detail page', '/inventory/inventoryId']
+        </TestWrapper>
       );
 
       await userEvent.click(
@@ -450,12 +439,10 @@ describe('SystemCard', () => {
     'hasRAM',
   ].map((item, index) =>
     it(`should not render ${item}`, () => {
-      const store = mockStore(initialState);
-      renderWithRouter(
-        <Provider store={store}>
+      render(
+        <TestWrapper store={mockStore(initialState)}>
           <SystemCard {...{ [item]: false }} />
-        </Provider>,
-        ['Test detail page', '/inventory/:inventoryId']
+        </TestWrapper>
       );
 
       expect(screen.queryByText(fields[index])).not.toBeInTheDocument();
@@ -463,9 +450,8 @@ describe('SystemCard', () => {
   );
 
   it('should render extra', () => {
-    const store = mockStore(initialState);
-    renderWithRouter(
-      <Provider store={store}>
+    render(
+      <TestWrapper store={mockStore(initialState)}>
         <SystemCard
           extra={[
             { title: 'something', value: 'test' },
@@ -477,8 +463,7 @@ describe('SystemCard', () => {
             },
           ]}
         />
-      </Provider>,
-      ['Test detail page', '/inventory/:inventoryId']
+      </TestWrapper>
     );
 
     expect(
