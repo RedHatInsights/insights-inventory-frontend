@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render as _render, screen, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -119,8 +119,8 @@ describe('ConventionalSystemsTab', () => {
     systemProfileStore: { systemProfile: { loaded: false } },
   };
 
-  const render = (children, store) =>
-    _render(
+  const renderWithProviders = (children, store) =>
+    render(
       <MemoryRouter>
         <Provider store={store}>{children}</Provider>
       </MemoryRouter>
@@ -140,7 +140,10 @@ describe('ConventionalSystemsTab', () => {
 
   it('renders correctly when write permissions', async () => {
     const store = mockStore(initialStore);
-    render(<ConventionalSystemsTab initialLoading={false} />, store);
+    renderWithProviders(
+      <ConventionalSystemsTab initialLoading={false} />,
+      store
+    );
 
     screen.getByTestId('inventory-table-top-toolbar');
     screen.getByTestId('inventory-table-bottom-toolbar');
@@ -170,7 +173,10 @@ describe('ConventionalSystemsTab', () => {
         selected,
       },
     });
-    render(<ConventionalSystemsTab initialLoading={false} />, store);
+    renderWithProviders(
+      <ConventionalSystemsTab initialLoading={false} />,
+      store
+    );
 
     await userEvent.click(
       screen.getByRole('button', {
