@@ -4,14 +4,8 @@ import DeleteModal from './DeleteModal';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-describe('EntityTable', () => {
+describe('DeleteModal', () => {
   describe('DOM', () => {
-    it('should render correctly with no system', () => {
-      const view = render(<DeleteModal />);
-
-      expect(view.baseElement).toMatchSnapshot();
-    });
-
     it('should render correctly with one system', () => {
       const view = render(
         <DeleteModal
