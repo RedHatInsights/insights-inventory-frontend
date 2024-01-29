@@ -35,15 +35,15 @@ describe('TagsModal', () => {
           },
         },
       });
-      const view = render(
+      render(
         <Provider store={store}>
           <TagsModal />
         </Provider>
       );
 
-      // TODO: improve skeleton accessibility
-      // baseElement is used since the PF modal is rendered outside parent div
-      expect(view.baseElement).toMatchSnapshot();
+      // TODO: improve skeleton accessibility to query skeleton rows directly
+      expect(screen.getAllByRole('row')).toHaveLength(11); // including header
+      expect(screen.getByLabelText('Loading')).toBeVisible();
       expect(
         screen.getByRole('columnheader', {
           name: /name/i,
