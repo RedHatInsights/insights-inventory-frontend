@@ -199,7 +199,7 @@ const errorState = {
 };
 
 describe('InventoryTable', () => {
-  useFeatureFlag.mockReturnValue(true); // assuming all features are enabled
+  useFeatureFlag.mockReturnValue(false);
 
   const getGroupsSpied = jest
     .spyOn(groupsApi, 'getGroups')
