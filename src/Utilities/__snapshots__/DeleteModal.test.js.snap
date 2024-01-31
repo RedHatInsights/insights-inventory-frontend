@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EntityTable DOM should render correctly with multiple systems 1`] = `
+exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
 <body
   class="pf-c-backdrop__open"
 >
@@ -15,14 +15,14 @@ exports[`EntityTable DOM should render correctly with multiple systems 1`] = `
         class="pf-l-bullseye"
       >
         <div
-          aria-describedby="pf-modal-part-4"
-          aria-labelledby="pf-modal-part-3"
+          aria-describedby="pf-modal-part-3"
+          aria-labelledby="pf-modal-part-2"
           aria-modal="true"
           class="pf-c-modal-box ins-c-inventory__table--remove sentry-mask data-hj-suppress pf-m-sm"
           data-ouia-component-id="inventory-delete-modal"
           data-ouia-component-type="PF4/ModalContent"
           data-ouia-safe="true"
-          id="pf-modal-part-2"
+          id="pf-modal-part-1"
           role="dialog"
         >
           <button
@@ -53,7 +53,7 @@ exports[`EntityTable DOM should render correctly with multiple systems 1`] = `
           >
             <h1
               class="pf-c-modal-box__title"
-              id="pf-modal-part-3"
+              id="pf-modal-part-2"
             >
               
               <span
@@ -65,7 +65,7 @@ exports[`EntityTable DOM should render correctly with multiple systems 1`] = `
           </header>
           <div
             class="pf-c-modal-box__body"
-            id="pf-modal-part-4"
+            id="pf-modal-part-3"
           >
             <div
               class="pf-l-split pf-m-gutter"
@@ -200,14 +200,7 @@ exports[`EntityTable DOM should render correctly with multiple systems 1`] = `
 </body>
 `;
 
-exports[`EntityTable DOM should render correctly with no system 1`] = `
-<body>
-  <div />
-  <div />
-</body>
-`;
-
-exports[`EntityTable DOM should render correctly with one system 1`] = `
+exports[`DeleteModal DOM should render correctly with one system 1`] = `
 <body
   class="pf-c-backdrop__open"
 >
@@ -222,14 +215,14 @@ exports[`EntityTable DOM should render correctly with one system 1`] = `
         class="pf-l-bullseye"
       >
         <div
-          aria-describedby="pf-modal-part-3"
-          aria-labelledby="pf-modal-part-2"
+          aria-describedby="pf-modal-part-2"
+          aria-labelledby="pf-modal-part-1"
           aria-modal="true"
           class="pf-c-modal-box ins-c-inventory__table--remove sentry-mask data-hj-suppress pf-m-sm"
           data-ouia-component-id="inventory-delete-modal"
           data-ouia-component-type="PF4/ModalContent"
           data-ouia-safe="true"
-          id="pf-modal-part-1"
+          id="pf-modal-part-0"
           role="dialog"
         >
           <button
@@ -260,7 +253,7 @@ exports[`EntityTable DOM should render correctly with one system 1`] = `
           >
             <h1
               class="pf-c-modal-box__title"
-              id="pf-modal-part-2"
+              id="pf-modal-part-1"
             >
               
               <span
@@ -272,7 +265,7 @@ exports[`EntityTable DOM should render correctly with one system 1`] = `
           </header>
           <div
             class="pf-c-modal-box__body"
-            id="pf-modal-part-3"
+            id="pf-modal-part-2"
           >
             <div
               class="pf-l-split pf-m-gutter"
