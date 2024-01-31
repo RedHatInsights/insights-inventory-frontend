@@ -11,6 +11,7 @@ import {
   Backdrop,
   Bullseye,
   Button,
+  Icon,
   Modal as PfModal,
   Spinner,
   Text,
@@ -49,7 +50,9 @@ const generateSchema = (groups) => ({
 const generateContent = (groups = []) => ({
   title: groups.length > 1 ? 'Delete groups?' : 'Delete group?',
   titleIconVariant: () => (
-    <ExclamationTriangleIcon color={warningColor.value} />
+    <Icon color={warningColor.value}>
+      <ExclamationTriangleIcon />
+    </Icon>
   ),
   variant: 'danger',
   submitLabel: 'Delete',
@@ -130,7 +133,9 @@ const DeleteGroupModal = ({
           : 'Cannot delete group at this time'
       }
       titleIconVariant={() => (
-        <ExclamationCircleIcon color={dangerColor.value} />
+        <Icon color={dangerColor.value}>
+          <ExclamationCircleIcon />
+        </Icon>
       )}
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
