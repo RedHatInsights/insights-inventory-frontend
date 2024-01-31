@@ -3,7 +3,6 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
 import mockedData from '../../../__mocks__/mockedData.json';
@@ -26,16 +25,6 @@ const fields = [
 ];
 
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
-
-const location = { pathname: 'some-path' };
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => location,
-  useParams: jest.fn(() => ({
-    modalId: 'testModal',
-  })),
-}));
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
@@ -351,8 +340,6 @@ describe('SystemCard', () => {
 
     it('should handle click on SAP identifiers', async () => {
       const handleClick = jest.fn();
-      location.pathname = 'localhost:3000/example/sap_sids';
-      useParams.mockImplementation(() => ({ modalId: 'sap_sids' }));
       render(
         <TestWrapper
           store={mockStore({
@@ -365,6 +352,7 @@ describe('SystemCard', () => {
               },
             },
           })}
+          routerProps={{ initialEntries: ['/example/sap_sids'] }}
         >
           <SystemCard handleClick={handleClick} />
         </TestWrapper>
@@ -389,8 +377,6 @@ describe('SystemCard', () => {
 
     it('should handle click on cpu flags identifiers', async () => {
       const handleClick = jest.fn();
-      location.pathname = 'localhost:3000/example/flag';
-      useParams.mockImplementation(() => ({ modalId: 'flag' }));
       render(
         <TestWrapper
           store={mockStore({
@@ -403,6 +389,7 @@ describe('SystemCard', () => {
               },
             },
           })}
+          routerProps={{ initialEntries: ['/example/flag'] }}
         >
           <SystemCard handleClick={handleClick} />
         </TestWrapper>
