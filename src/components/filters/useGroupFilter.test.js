@@ -85,20 +85,18 @@ describe('with some groups available', () => {
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
     expect(value).toEqual(['group-1']);
-    expect(chips).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "category": "Group",
-            "chips": Array [
-              Object {
-                "name": "group-1",
-                "value": "group-1",
-              },
-            ],
-            "type": "group_name",
+    expect(chips).toMatchObject([
+      {
+        category: 'Group',
+        chips: [
+          {
+            name: 'group-1',
+            value: 'group-1',
           },
-        ]
-      `);
+        ],
+        type: 'group_name',
+      },
+    ]);
   });
 
   it('can enable no group option', async () => {
@@ -137,19 +135,17 @@ describe('with some groups available', () => {
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
     expect(value).toEqual(['']);
-    expect(chips).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "category": "Group",
-            "chips": Array [
-              Object {
-                "name": "No group",
-                "value": "",
-              },
-            ],
-            "type": "group_name",
+    expect(chips).toMatchObject([
+      {
+        category: 'Group',
+        chips: [
+          {
+            name: 'No group',
+            value: '',
           },
-        ]
-      `);
+        ],
+        type: 'group_name',
+      },
+    ]);
   });
 });
