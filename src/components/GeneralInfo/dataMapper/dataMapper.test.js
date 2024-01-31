@@ -23,20 +23,23 @@ Object.keys(enabledHelper).map((oneStatus) => {
   });
 });
 
-it('diskMapper', () => {
-  expect(
-    diskMapper([
-      {
-        device: 'device',
-        label: 'label',
-        mountpoint: 'mount',
-        options: {
-          test: 'data',
+// TODO: improve tests by possibly adding more edge cases and generating input data dynamically
+
+describe('diskMapper', () => {
+  it('diskMapper', () => {
+    expect(
+      diskMapper([
+        {
+          device: 'device',
+          label: 'label',
+          mountpoint: 'mount',
+          options: {
+            test: 'data',
+          },
+          mounttype: 'type',
         },
-        mounttype: 'type',
-      },
-    ])
-  ).toMatchInlineSnapshot(`
+      ])
+    ).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -81,24 +84,24 @@ it('diskMapper', () => {
       ],
     }
   `);
-});
+  });
 
-it('diskMapper with values', () => {
-  expect(
-    diskMapper([
-      {
-        device: { value: 'device' },
-        label: { value: 'label' },
-        mountpoint: { value: 'mount' },
-        options: {
+  it('diskMapper with values', () => {
+    expect(
+      diskMapper([
+        {
+          device: { value: 'device' },
+          label: { value: 'label' },
+          mountpoint: { value: 'mount' },
           options: {
-            value: { test: 'data' },
+            options: {
+              value: { test: 'data' },
+            },
           },
+          mounttype: 'type',
         },
-        mounttype: 'type',
-      },
-    ])
-  ).toMatchInlineSnapshot(`
+      ])
+    ).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -145,10 +148,10 @@ it('diskMapper with values', () => {
       ],
     }
   `);
-});
+  });
 
-it('diskMapper - no data', () => {
-  expect(diskMapper()).toMatchInlineSnapshot(`
+  it('diskMapper - no data', () => {
+    expect(diskMapper()).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -180,10 +183,12 @@ it('diskMapper - no data', () => {
       "rows": Array [],
     }
   `);
+  });
 });
 
-it('generalMapper', () => {
-  expect(generalMapper(['one', 'two'], 'test')).toMatchInlineSnapshot(`
+describe('generalMapper', () => {
+  it('generalMapper', () => {
+    expect(generalMapper(['one', 'two'], 'test')).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -208,10 +213,10 @@ it('generalMapper', () => {
       ],
     }
   `);
-});
+  });
 
-it('generalMapper - no data', () => {
-  expect(generalMapper()).toMatchInlineSnapshot(`
+  it('generalMapper - no data', () => {
+    expect(generalMapper()).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -229,34 +234,36 @@ it('generalMapper - no data', () => {
       "rows": Array [],
     }
   `);
+  });
 });
 
-it('interfaceMapper', () => {
-  expect(
-    interfaceMapper([
-      {
-        mac_address: 'test-mac',
-        mtu: 'test-mtu',
-        name: 'test-name',
-        state: 'UP',
-        type: 'test-type',
-      },
-      {
-        mac_address: 'test-mac2',
-        mtu: 'test-mtu2',
-        name: 'test-name2',
-        state: 'DOWN',
-        type: 'test-type2',
-      },
-      {
-        mac_address: 'test-mac2',
-        mtu: 'test-mtu2',
-        name: 'test-name2',
-        state: 'WRONG',
-        type: 'test-type2',
-      },
-    ])
-  ).toMatchInlineSnapshot(`
+describe('interfaceMapper', () => {
+  it('interfaceMapper', () => {
+    expect(
+      interfaceMapper([
+        {
+          mac_address: 'test-mac',
+          mtu: 'test-mtu',
+          name: 'test-name',
+          state: 'UP',
+          type: 'test-type',
+        },
+        {
+          mac_address: 'test-mac2',
+          mtu: 'test-mtu2',
+          name: 'test-name2',
+          state: 'DOWN',
+          type: 'test-type2',
+        },
+        {
+          mac_address: 'test-mac2',
+          mtu: 'test-mtu2',
+          name: 'test-name2',
+          state: 'WRONG',
+          type: 'test-type2',
+        },
+      ])
+    ).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -343,10 +350,10 @@ it('interfaceMapper', () => {
       ],
     }
   `);
-});
+  });
 
-it('interfaceMapper - no data', () => {
-  expect(interfaceMapper()).toMatchInlineSnapshot(`
+  it('interfaceMapper - no data', () => {
+    expect(interfaceMapper()).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -378,24 +385,26 @@ it('interfaceMapper - no data', () => {
       "rows": Array [],
     }
   `);
+  });
 });
 
-it('productsMapper', () => {
-  expect(
-    productsMapper([
-      {
-        name: 'test-name',
-        status: true,
-      },
-      {
-        name: 'test-name',
-        status: false,
-      },
-      {
-        name: 'test-name',
-      },
-    ])
-  ).toMatchInlineSnapshot(`
+describe('productsMapper', () => {
+  it('productsMapper', () => {
+    expect(
+      productsMapper([
+        {
+          name: 'test-name',
+          status: true,
+        },
+        {
+          name: 'test-name',
+          status: false,
+        },
+        {
+          name: 'test-name',
+        },
+      ])
+    ).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -455,10 +464,10 @@ it('productsMapper', () => {
       ],
     }
   `);
-});
+  });
 
-it('productsMapper - no data', () => {
-  expect(productsMapper()).toMatchInlineSnapshot(`
+  it('productsMapper - no data', () => {
+    expect(productsMapper()).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -472,41 +481,43 @@ it('productsMapper - no data', () => {
       "rows": Array [],
     }
   `);
+  });
 });
 
-it('repositoriesMapper', () => {
-  expect(
-    repositoriesMapper({
-      enabled: [
-        {
-          base_url: 'test-url',
-          name: 'test-name',
-          enabled: true,
-          gpgcheck: false,
-        },
-        {
-          base_url: 'test-url',
-          name: 'test-name',
-          enabled: true,
-          gpgcheck: true,
-        },
-      ],
+describe('repositoriesMapper', () => {
+  it('repositoriesMapper', () => {
+    expect(
+      repositoriesMapper({
+        enabled: [
+          {
+            base_url: 'test-url',
+            name: 'test-name',
+            enabled: true,
+            gpgcheck: false,
+          },
+          {
+            base_url: 'test-url',
+            name: 'test-name',
+            enabled: true,
+            gpgcheck: true,
+          },
+        ],
 
-      disabled: [
-        {
-          base_url: 'test-url',
-          name: 'test-name',
-          enabled: false,
-          gpgcheck: false,
-        },
-        {
-          base_url: 'test-url',
-          name: 'test-name',
-          gpgcheck: false,
-        },
-      ],
-    })
-  ).toMatchInlineSnapshot(`
+        disabled: [
+          {
+            base_url: 'test-url',
+            name: 'test-name',
+            enabled: false,
+            gpgcheck: false,
+          },
+          {
+            base_url: 'test-url',
+            name: 'test-name',
+            gpgcheck: false,
+          },
+        ],
+      })
+    ).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -691,10 +702,10 @@ it('repositoriesMapper', () => {
       ],
     }
   `);
-});
+  });
 
-it('repositoriesMapper - no data', () => {
-  expect(repositoriesMapper()).toMatchInlineSnapshot(`
+  it('repositoriesMapper - no data', () => {
+    expect(repositoriesMapper()).toMatchInlineSnapshot(`
     Object {
       "cells": Array [
         Object {
@@ -750,4 +761,5 @@ it('repositoriesMapper - no data', () => {
       "rows": Array [],
     }
   `);
+  });
 });
