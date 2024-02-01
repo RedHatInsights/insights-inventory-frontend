@@ -7,24 +7,22 @@ import {
 } from '@redhat-cloud-services/frontend-components/Skeleton';
 import {
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownList,
   Flex,
   FlexItem,
+  MenuToggle,
   Split,
   SplitItem,
   Title,
   Tooltip,
 } from '@patternfly/react-core';
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownPosition,
-  DropdownToggle,
-} from '@patternfly/react-core/deprecated';
 import { redirectToInventoryList } from './helpers';
 import { useDispatch } from 'react-redux';
 import { toggleDrawer } from '../../store/actions';
 import { NO_MODIFY_HOST_TOOLTIP_MESSAGE } from '../../constants';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 /**
  * Top inventory bar with title, buttons (namely remove from inventory and inventory detail button) and actions.
@@ -48,19 +46,18 @@ const TopBar = ({
   showTags,
 }) => {
   const dispatch = useDispatch();
-  const navigate = useInsightsNavigate();
+  const navigate = useInsightsNavigate('inventory');
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inventoryActions = [
-    ...(!hideInvLink
-      ? [
+    ...(hideInvLink
+      ? []
+      : [
           {
             title: 'View system in Inventory',
-            component: 'a',
-            href: `./insights/inventory/${entity?.id}`,
+            onClick: () => navigate(`/${entity?.id}`),
           },
-        ]
-      : []),
+        ]),
     ...(actions || []),
   ];
 
@@ -122,21 +119,25 @@ const TopBar = ({
                 <FlexItem>
                   <ActionsWrapper>
                     <Dropdown
-                      onSelect={() => setIsOpen(false)}
-                      toggle={
-                        <DropdownToggle
-                          onToggle={(_event, isOpen) => setIsOpen(isOpen)}
+                      isOpen={isOpen}
+                      onOpenChange={(isOpen) => setIsOpen(isOpen)}
+                      toggle={(toggleRef) => (
+                        <MenuToggle
+                          ref={toggleRef}
+                          onClick={() => setIsOpen(!isOpen)}
+                          isExpanded={isOpen}
                         >
                           Actions
-                        </DropdownToggle>
-                      }
-                      isOpen={isOpen}
-                      position={DropdownPosition.right}
-                      dropdownItems={inventoryActions.map(
-                        ({ title, ...action }, key) => (
+                        </MenuToggle>
+                      )}
+                      popperProps={{
+                        position: 'right',
+                      }}
+                    >
+                      <DropdownList>
+                        {inventoryActions.map(({ title, ...action }, key) => (
                           <DropdownItem
                             key={key}
-                            component="button"
                             onClick={(event) =>
                               action.onClick(event, action, action.key || key)
                             }
@@ -144,9 +145,9 @@ const TopBar = ({
                           >
                             {title}
                           </DropdownItem>
-                        )
-                      )}
-                    />
+                        ))}
+                      </DropdownList>
+                    </Dropdown>
                   </ActionsWrapper>
                 </FlexItem>
               )}

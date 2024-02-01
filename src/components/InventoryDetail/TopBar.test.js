@@ -4,11 +4,19 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { TestWrapper } from '../../Utilities/TestingUtilities';
 import TopBar from './TopBar';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
+
+jest.mock(
+  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate'
+);
 
 describe('TopBar', () => {
   const entity = { id: 42 };
 
   it('dropdown has link to inventory', async () => {
+    const navigateMocked = jest.fn();
+    useInsightsNavigate.mockImplementation(() => navigateMocked);
+
     render(
       <TestWrapper>
         <TopBar entity={entity} loaded />
@@ -20,11 +28,13 @@ describe('TopBar', () => {
         name: /actions/i,
       })
     );
-    expect(
+    await userEvent.click(
       screen.getByRole('menuitem', {
         name: /view system in inventory/i,
       })
-    ).toHaveAttribute('href', './insights/inventory/42');
+    );
+
+    expect(navigateMocked).toBeCalled();
   });
 
   it('dropdown hides link to inventory', () => {
