@@ -2,11 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { selectEntity, setSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  TableGridBreakpoint,
-  TableVariant,
-  sortable,
-} from '@patternfly/react-table';
+import { TableGridBreakpoint, TableVariant } from '@patternfly/react-table';
 import {
   Table as PfTable,
   TableBody,
@@ -145,14 +141,7 @@ const EntityTable = ({
         )
       ) : (
         <SkeletonTable
-          columns={columns.map((column) =>
-            column?.props?.isStatic
-              ? column
-              : {
-                  ...column,
-                  transforms: [...(column.transforms ?? []), sortable],
-                }
-          )}
+          columns={columns.map(({ title }) => title)}
           rowSize={15}
           variant={variant ?? modifiedTableProps.variant}
           isSelectable={hasCheckbox}
