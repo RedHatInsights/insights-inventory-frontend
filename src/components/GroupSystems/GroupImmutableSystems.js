@@ -131,7 +131,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       enhancedConfig,
       showTags
     );
-
     const mapDeviceIds = mapDefaultData(defaultData.results);
     const updateInfo = await getUpdateInfo(groupId);
     setDeviceData(updateInfo?.update_devices_uuids);
@@ -206,6 +205,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       setCanUpdate(false);
     }
   }, [deviceData, selected, deviceImageSet]);
+
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
@@ -275,7 +275,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                 title: (
                   <ActionDropdownItem
                     isAriaDisabled={
-                      deviceData && !deviceData.find((obj) => obj === row.id)
+                      deviceData ? !deviceData.includes(row.id) : true
                     }
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
