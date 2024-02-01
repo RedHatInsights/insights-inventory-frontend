@@ -61,6 +61,6 @@ export const getDeviceStatus = (
   if (isUpdateAvailable) {
     return 'updateAvailable';
   } else {
-    return 'upToDate';
+    return 'default';
   }
 };
