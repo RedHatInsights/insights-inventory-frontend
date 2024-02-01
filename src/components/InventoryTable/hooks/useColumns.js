@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
 import { defaultColumns } from '../../../store/entities';
+import { isEqual } from 'lodash';
 
 const isColumnEnabled = (key, disableColumns, showTags) =>
   (key === 'tags' && showTags) ||
@@ -17,11 +18,7 @@ const useColumns = (
 ) => {
   const columnsRedux = useSelector(
     ({ entities: { columns } }) => columns,
-    (next, prev) =>
-      next.every(
-        ({ key }, index) =>
-          prev.findIndex(({ key: prevKey }) => prevKey === key) === index
-      )
+    isEqual
   );
   const disabledColumns = Array.isArray(disableDefaultColumns)
     ? disableDefaultColumns
