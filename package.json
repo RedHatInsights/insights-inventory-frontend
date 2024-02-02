@@ -89,7 +89,9 @@
       "js",
       "jsx"
     ],
-    "testURL": "http://localhost:5000/",
+    "testEnvironmentOptions": {
+      "url": "http://localhost:5000/"
+    },
     "moduleNameMapper": {
       "\\.(css|scss)$": "identity-obj-proxy",
       "customReact": "react",
