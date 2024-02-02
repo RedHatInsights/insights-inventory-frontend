@@ -46,7 +46,7 @@ describe('group detail header', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('navigation')).toHaveClass('pf-c-breadcrumb');
+    expect(screen.getByRole('navigation')).toHaveClass('pf-v5-c-breadcrumb');
     expect(screen.getByRole('navigation')).toHaveTextContent('group-name-1');
   });
 

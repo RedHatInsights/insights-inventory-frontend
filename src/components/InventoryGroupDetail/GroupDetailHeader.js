@@ -2,15 +2,14 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Flex,
-  FlexItem,
-  Skeleton,
-} from '@patternfly/react-core';
-import {
   Dropdown,
   DropdownItem,
-  DropdownToggle,
-} from '@patternfly/react-core/deprecated';
+  DropdownList,
+  Flex,
+  FlexItem,
+  MenuToggle,
+  Skeleton,
+} from '@patternfly/react-core';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -90,27 +89,6 @@ const GroupDetailHeader = ({ groupId }) => {
     return groupId;
   };
 
-  let dropdownItems = [
-    <DropdownItem key="rename-group" onClick={() => setRenameModalOpen(true)}>
-      Rename
-    </DropdownItem>,
-    <DropdownItem key="delete-group" onClick={() => setDeleteModalOpen(true)}>
-      Delete
-    </DropdownItem>,
-  ];
-
-  if (isEdgeParityGroupsEnabled) {
-    dropdownItems.push(
-      <DropdownItem
-        key="update-edge-devices"
-        onClick={() => setEdgeUpdateModal({ deviceData: [], isOpen: true })}
-        isDisabled={!edgeDeviceUpdateInfo?.update_valid}
-      >
-        Update
-      </DropdownItem>
-    );
-  }
-
   return (
     <PageHeader>
       {renameModalOpen && (
@@ -154,22 +132,50 @@ const GroupDetailHeader = ({ groupId }) => {
         </FlexItem>
         <FlexItem id="group-header-dropdown">
           <Dropdown
-            onSelect={() => setDropdownOpen(!dropdownOpen)}
-            autoFocus={false}
             isOpen={dropdownOpen}
-            toggle={
-              <DropdownToggle
+            onOpenChange={(dropdownOpen) => setDropdownOpen(dropdownOpen)}
+            onSelect={() => setDropdownOpen(false)}
+            autoFocus={false}
+            toggle={(toggleRef) => (
+              <MenuToggle
+                ref={toggleRef}
+                isExpanded={dropdownOpen}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
                 id="group-dropdown-toggle"
-                onToggle={(_event, isOpen) => setDropdownOpen(isOpen)}
                 toggleVariant="secondary"
                 isDisabled={!canModify || uninitialized || loading}
                 ouiaId="group-actions-dropdown-toggle"
               >
                 Group actions
-              </DropdownToggle>
-            }
-            dropdownItems={dropdownItems}
-          />
+              </MenuToggle>
+            )}
+          >
+            <DropdownList>
+              <DropdownItem
+                key="rename-group"
+                onClick={() => setRenameModalOpen(true)}
+              >
+                Rename
+              </DropdownItem>
+              <DropdownItem
+                key="delete-group"
+                onClick={() => setDeleteModalOpen(true)}
+              >
+                Delete
+              </DropdownItem>
+              {isEdgeParityGroupsEnabled && (
+                <DropdownItem
+                  key="update-edge-devices"
+                  onClick={() =>
+                    setEdgeUpdateModal({ deviceData: [], isOpen: true })
+                  }
+                  isDisabled={!edgeDeviceUpdateInfo?.update_valid}
+                >
+                  Update
+                </DropdownItem>
+              )}
+            </DropdownList>
+          </Dropdown>
         </FlexItem>
       </Flex>
     </PageHeader>
