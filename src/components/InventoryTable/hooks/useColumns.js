@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
 import { defaultColumns } from '../../../store/entities';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 const isColumnEnabled = (key, disableColumns, showTags) =>
   (key === 'tags' && showTags) ||
