@@ -52,13 +52,13 @@ describe('renders correctly', () => {
     cy.get('.ins-entity-detail').should('have.length', 1);
 
     cy.get('[data-cy="patch-tab"]')
-      .parent('.pf-c-tabs__item.pf-m-disabled')
+      .parent('.pf-v5-c-tabs__item.pf-m-disabled')
       .should('have.length', 1);
     cy.get('[data-cy="compliance-tab"]')
-      .parent('.pf-c-tabs__item.pf-m-disabled')
+      .parent('.pf-v5-c-tabs__item.pf-m-disabled')
       .should('have.length', 1);
     cy.get('[data-cy="vulnerabilities-tab"]')
-      .parent('.pf-c-tabs__item')
+      .parent('.pf-v5-c-tabs__item')
       .should('have.length', 1);
 
     // TODO: add more checks other for handling edge hosts

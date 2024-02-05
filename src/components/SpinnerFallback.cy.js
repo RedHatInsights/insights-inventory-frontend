@@ -5,6 +5,6 @@ import { mount } from '@cypress/react';
 describe('SpinnerFallback tests', () => {
   it('renders correctly', () => {
     mount(<Fallback />);
-    cy.get('.pf-l-bullseye').find('.pf-c-spinner');
+    cy.get('.pf-v5-l-bullseye').find('.pf-v5-c-spinner');
   });
 });

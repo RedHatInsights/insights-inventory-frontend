@@ -38,10 +38,12 @@ const BaseDropdown = ({
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
-        <FlexItem className="pf-u-mb-sm">
+        <FlexItem className="pf-v5-u-mb-sm">
           <Flex>
             <FlexItem spacer={{ default: 'spacerXs' }}>
-              <p className="pf-u-font-weight-bold pf-u-font-size-sm">{title}</p>
+              <p className="pf-v5-u-font-weight-bold pf-v5-u-font-size-sm">
+                {title}
+              </p>
             </FlexItem>
             <FlexItem>
               <Popover
@@ -50,7 +52,7 @@ const BaseDropdown = ({
                 bodyContent={<div>{modalMessage}</div>}
               >
                 <Button
-                  className="pf-u-ml-xs"
+                  className="pf-v5-u-ml-xs"
                   variant="plain"
                   style={{ padding: 0 }}
                 >

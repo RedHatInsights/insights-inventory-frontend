@@ -45,7 +45,7 @@ const HybridInventoryTabs = ({
 
   return isEdgeParityEnabled && accountHasEdgeImages ? (
     <Tabs
-      className="pf-m-light pf-c-table"
+      className="pf-m-light pf-v5-c-table"
       activeKey={activeTab}
       onSelect={handleTabClick}
       aria-label="Hybrid inventory tabs"

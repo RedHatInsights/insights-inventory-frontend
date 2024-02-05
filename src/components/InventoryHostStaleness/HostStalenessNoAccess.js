@@ -17,7 +17,7 @@ const HostStalenessNoAccess = () => {
         icon={<EmptyStateIcon icon={LockIcon} />}
         headingLevel="h5"
       />
-      <EmptyStateBody className="pf-u-mb-xl">
+      <EmptyStateBody className="pf-v5-u-mb-xl">
         You do not have the necessary Staleness and Deletion viewer role
         required to view this page.
       </EmptyStateBody>
@@ -29,7 +29,7 @@ const HostStalenessNoAccess = () => {
         >
           <p>
             Learn more about managing user access{' '}
-            <ExternalLinkAltIcon className="pf-u-ml-sm " />
+            <ExternalLinkAltIcon className="pf-v5-u-ml-sm " />
           </p>
         </Button>
       </EmptyStateFooter>

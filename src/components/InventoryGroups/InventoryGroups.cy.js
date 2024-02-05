@@ -22,7 +22,7 @@ describe('groups table page', () => {
     cy.wait('@getGroups');
 
     cy.get('#groups-table').should('not.exist');
-    cy.get('.pf-c-empty-state').find('h4').contains('No inventory groups');
+    cy.get('.pf-v5-c-empty-state').find('h4').contains('No inventory groups');
   });
 
   it('renders error message when request fails', () => {
@@ -31,14 +31,17 @@ describe('groups table page', () => {
     cy.wait('@getGroups');
 
     cy.get('#groups-table').should('not.exist');
-    cy.get('.pf-c-empty-state').find('h4').contains('Something went wrong');
+    cy.get('.pf-v5-c-empty-state').find('h4').contains('Something went wrong');
   });
 
   it('renders spinner when loading', () => {
     interceptors['long responding']();
     mountPage();
 
-    cy.get('[role=progressbar]').should('have.class', 'pf-c-spinner pf-m-xl');
+    cy.get('[role=progressbar]').should(
+      'have.class',
+      'pf-v5-c-spinner pf-m-xl'
+    );
   });
 
   describe('integration with rbac', () => {

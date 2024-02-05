@@ -129,7 +129,7 @@ describe('defaults', () => {
   });
 
   it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
-    cy.get('.pf-c-options-menu__toggle-text')
+    cy.get('.pf-v5-c-options-menu__toggle-text')
       .find('b')
       .eq(0)
       .should('have.text', `1 - ${DEFAULT_ROW_COUNT}`);
@@ -319,7 +319,7 @@ describe('selection and bulk selection', () => {
 
   /*     it('can select all in dropdown toggle', () => {
         cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-        cy.get('.pf-c-dropdown__menu > li').eq(2).click();
+        cy.get('.pf-v5-c-dropdown__menu > li').eq(2).click();
         checkSelectedNumber(fixtures.total);
     }); */
 
@@ -332,7 +332,7 @@ describe('selection and bulk selection', () => {
 
   it('can select page in dropdown toggle', () => {
     cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-c-dropdown__menu > li').eq(1).click();
+    cy.get('.pf-v5-c-dropdown__menu > li').eq(1).click();
     checkSelectedNumber(fixtures.count);
   });
 
@@ -346,7 +346,7 @@ describe('selection and bulk selection', () => {
   it('can select none', () => {
     selectRowN(1);
     cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-c-dropdown__menu > li').eq(0).click();
+    cy.get('.pf-v5-c-dropdown__menu > li').eq(0).click();
     checkSelectedNumber(0);
   });
 });
@@ -431,7 +431,7 @@ describe('edge cases', () => {
     mountTable();
 
     cy.wait('@getHosts');
-    cy.get('.pf-c-empty-state').find('h4').contains('Something went wrong');
+    cy.get('.pf-v5-c-empty-state').find('h4').contains('Something went wrong');
   });
 });
 

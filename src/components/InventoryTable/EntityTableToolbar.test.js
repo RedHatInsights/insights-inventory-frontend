@@ -453,7 +453,7 @@ describe('EntityTableToolbar', () => {
       expect(
         // TODO: improve PrimaryToolbar and Pagination accessibility
         // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-        container.querySelector('.pf-c-pagination__total-items')
+        container.querySelector('.pf-v5-c-pagination__total-items')
       ).toHaveTextContent('1 - 50 of 500');
     });
 

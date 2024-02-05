@@ -118,7 +118,7 @@ describe('defaults', () => {
   });
 
   it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
-    cy.get('.pf-c-options-menu__toggle-text')
+    cy.get('.pf-v5-c-options-menu__toggle-text')
       .find('b')
       .eq(0)
       .should('have.text', `1 - ${DEFAULT_ROW_COUNT}`);
@@ -177,7 +177,7 @@ describe('url search parameters', () => {
     cy.get(DROPDOWN_ITEM)
       .contains('10 per page')
       .should('have.class', 'pf-m-selected');
-    cy.get('[data-ouia-component-id="pager"] .pf-c-form-control').should(
+    cy.get('[data-ouia-component-id="pager"] .pf-v5-c-form-control').should(
       'have.value',
       2
     );
@@ -281,7 +281,7 @@ describe('selection and bulk selection', () => {
 
   it('can select all in dropdown toggle', () => {
     cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-c-dropdown__menu > li').eq(2).click();
+    cy.get('.pf-v5-c-dropdown__menu > li').eq(2).click();
     checkSelectedNumber(fixtures.total);
   });
 
@@ -295,7 +295,7 @@ describe('selection and bulk selection', () => {
   it('can select none', () => {
     selectRowN(1);
     cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-c-dropdown__menu > li').eq(1).click();
+    cy.get('.pf-v5-c-dropdown__menu > li').eq(1).click();
     checkSelectedNumber(0);
   });
 });
@@ -422,7 +422,9 @@ describe('edge cases', () => {
     mountTable();
 
     cy.wait('@getGroups').then(() => {
-      cy.get('.pf-c-empty-state').find('h4').contains('Something went wrong');
+      cy.get('.pf-v5-c-empty-state')
+        .find('h4')
+        .contains('Something went wrong');
       // the filter is disabled
       cy.ouiaId('name-filter').find('input').should('have.attr', 'disabled');
       cy.ouiaId('pager').find('button').should('have.attr', 'disabled');

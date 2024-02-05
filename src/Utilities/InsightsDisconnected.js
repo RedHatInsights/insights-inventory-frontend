@@ -19,7 +19,7 @@ const InsightsDisconnected = () => (
     }
   >
     <span
-      className="pf-u-ml-sm ins-c-inventor__disconnected-icon"
+      className="pf-v5-u-ml-sm ins-c-inventor__disconnected-icon"
       aria-label="Disconnected indicator"
     >
       <DisconnectedIcon />

@@ -40,50 +40,50 @@ describe('diskMapper', () => {
         },
       ])
     ).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "Device",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Label",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Mount point",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Type",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-      ],
-      "expandable": true,
-      "rows": Array [
-        Object {
-          "cells": Array [
-            "device",
-            "label",
-            "mount",
-            "type",
-          ],
-          "child": <div>
-            test=data
-          </div>,
-          "isOpen": false,
-        },
-      ],
-    }
-  `);
+      {
+        "cells": [
+          {
+            "title": "Device",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Label",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Mount point",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Type",
+            "transforms": [
+              [Function],
+            ],
+          },
+        ],
+        "expandable": true,
+        "rows": [
+          {
+            "cells": [
+              "device",
+              "label",
+              "mount",
+              "type",
+            ],
+            "child": <div>
+              test=data
+            </div>,
+            "isOpen": false,
+          },
+        ],
+      }
+    `);
   });
 
   it('diskMapper with values', () => {
@@ -102,138 +102,138 @@ describe('diskMapper', () => {
         },
       ])
     ).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "Device",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Label",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Mount point",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Type",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-      ],
-      "expandable": true,
-      "rows": Array [
-        Object {
-          "cells": Array [
-            "device",
-            Object {
-              "value": "label",
-            },
-            "mount",
-            "type",
-          ],
-          "child": <div>
-            test=data
-          </div>,
-          "isOpen": false,
-        },
-      ],
-    }
-  `);
+      {
+        "cells": [
+          {
+            "title": "Device",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Label",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Mount point",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Type",
+            "transforms": [
+              [Function],
+            ],
+          },
+        ],
+        "expandable": true,
+        "rows": [
+          {
+            "cells": [
+              "device",
+              {
+                "value": "label",
+              },
+              "mount",
+              "type",
+            ],
+            "child": <div>
+              test=data
+            </div>,
+            "isOpen": false,
+          },
+        ],
+      }
+    `);
   });
 
   it('diskMapper - no data', () => {
     expect(diskMapper()).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "Device",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Label",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Mount point",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Type",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-      ],
-      "expandable": true,
-      "rows": Array [],
-    }
-  `);
+      {
+        "cells": [
+          {
+            "title": "Device",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Label",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Mount point",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Type",
+            "transforms": [
+              [Function],
+            ],
+          },
+        ],
+        "expandable": true,
+        "rows": [],
+      }
+    `);
   });
 });
 
 describe('generalMapper', () => {
   it('generalMapper', () => {
     expect(generalMapper(['one', 'two'], 'test')).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "test",
-          "transforms": Array [
-            [Function],
+      {
+        "cells": [
+          {
+            "title": "test",
+            "transforms": [
+              [Function],
+            ],
+          },
+        ],
+        "filters": [
+          {
+            "type": "textual",
+          },
+        ],
+        "rows": [
+          [
+            "one",
           ],
-        },
-      ],
-      "filters": Array [
-        Object {
-          "type": "textual",
-        },
-      ],
-      "rows": Array [
-        Array [
-          "one",
+          [
+            "two",
+          ],
         ],
-        Array [
-          "two",
-        ],
-      ],
-    }
-  `);
+      }
+    `);
   });
 
   it('generalMapper - no data', () => {
     expect(generalMapper()).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-      ],
-      "filters": Array [
-        Object {
-          "type": "textual",
-        },
-      ],
-      "rows": Array [],
-    }
-  `);
+      {
+        "cells": [
+          {
+            "title": "",
+            "transforms": [
+              [Function],
+            ],
+          },
+        ],
+        "filters": [
+          {
+            "type": "textual",
+          },
+        ],
+        "rows": [],
+      }
+    `);
   });
 });
 
@@ -264,127 +264,118 @@ describe('interfaceMapper', () => {
         },
       ])
     ).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "MAC address",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "MTU",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Name",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        "State",
-        Object {
-          "title": "Type",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-      ],
-      "rows": Array [
-        Array [
-          "test-mac",
-          "test-mtu",
-          "test-name",
-          Object {
-            "title": <Tooltip
-              content="Service is running"
-            >
-              <OutlinedArrowAltCircleUpIcon
-                className="ins-c-inventory__detail--up"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
+      {
+        "cells": [
+          {
+            "title": "MAC address",
+            "transforms": [
+              [Function],
+            ],
           },
-          "test-type",
-        ],
-        Array [
-          "test-mac2",
-          "test-mtu2",
-          "test-name2",
-          Object {
-            "title": <Tooltip
-              content="Service has stopped"
-            >
-              <OutlinedArrowAltCircleDownIcon
-                className="ins-c-inventory__detail--down"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
+          {
+            "title": "MTU",
+            "transforms": [
+              [Function],
+            ],
           },
-          "test-type2",
-        ],
-        Array [
-          "test-mac2",
-          "test-mtu2",
-          "test-name2",
-          Object {
-            "title": <Tooltip
-              content="Unknown service status"
-            >
-              <OutlinedQuestionCircleIcon
-                className="ins-c-inventory__detail--unknown"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
+          {
+            "title": "Name",
+            "transforms": [
+              [Function],
+            ],
           },
-          "test-type2",
+          "State",
+          {
+            "title": "Type",
+            "transforms": [
+              [Function],
+            ],
+          },
         ],
-      ],
-    }
-  `);
+        "rows": [
+          [
+            "test-mac",
+            "test-mtu",
+            "test-name",
+            {
+              "title": <Tooltip
+                content="Service is running"
+              >
+                <OutlinedArrowAltCircleUpIcon
+                  className="ins-c-inventory__detail--up"
+                />
+              </Tooltip>,
+            },
+            "test-type",
+          ],
+          [
+            "test-mac2",
+            "test-mtu2",
+            "test-name2",
+            {
+              "title": <Tooltip
+                content="Service has stopped"
+              >
+                <OutlinedArrowAltCircleDownIcon
+                  className="ins-c-inventory__detail--down"
+                />
+              </Tooltip>,
+            },
+            "test-type2",
+          ],
+          [
+            "test-mac2",
+            "test-mtu2",
+            "test-name2",
+            {
+              "title": <Tooltip
+                content="Unknown service status"
+              >
+                <OutlinedQuestionCircleIcon
+                  className="ins-c-inventory__detail--unknown"
+                />
+              </Tooltip>,
+            },
+            "test-type2",
+          ],
+        ],
+      }
+    `);
   });
 
   it('interfaceMapper - no data', () => {
     expect(interfaceMapper()).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "MAC address",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "MTU",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Name",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        "State",
-        Object {
-          "title": "Type",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-      ],
-      "rows": Array [],
-    }
-  `);
+      {
+        "cells": [
+          {
+            "title": "MAC address",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "MTU",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Name",
+            "transforms": [
+              [Function],
+            ],
+          },
+          "State",
+          {
+            "title": "Type",
+            "transforms": [
+              [Function],
+            ],
+          },
+        ],
+        "rows": [],
+      }
+    `);
   });
 });
 
@@ -405,82 +396,73 @@ describe('productsMapper', () => {
         },
       ])
     ).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "Name",
-          "transforms": Array [
-            [Function],
+      {
+        "cells": [
+          {
+            "title": "Name",
+            "transforms": [
+              [Function],
+            ],
+          },
+          "Status",
+        ],
+        "rows": [
+          [
+            "test-name",
+            {
+              "title": <Tooltip
+                content="Unknown service status"
+              >
+                <OutlinedQuestionCircleIcon
+                  className="ins-c-inventory__detail--unknown"
+                />
+              </Tooltip>,
+            },
           ],
-        },
-        "Status",
-      ],
-      "rows": Array [
-        Array [
-          "test-name",
-          Object {
-            "title": <Tooltip
-              content="Unknown service status"
-            >
-              <OutlinedQuestionCircleIcon
-                className="ins-c-inventory__detail--unknown"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
-          },
+          [
+            "test-name",
+            {
+              "title": <Tooltip
+                content="Unknown service status"
+              >
+                <OutlinedQuestionCircleIcon
+                  className="ins-c-inventory__detail--unknown"
+                />
+              </Tooltip>,
+            },
+          ],
+          [
+            "test-name",
+            {
+              "title": <Tooltip
+                content="Unknown service status"
+              >
+                <OutlinedQuestionCircleIcon
+                  className="ins-c-inventory__detail--unknown"
+                />
+              </Tooltip>,
+            },
+          ],
         ],
-        Array [
-          "test-name",
-          Object {
-            "title": <Tooltip
-              content="Unknown service status"
-            >
-              <OutlinedQuestionCircleIcon
-                className="ins-c-inventory__detail--unknown"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
-          },
-        ],
-        Array [
-          "test-name",
-          Object {
-            "title": <Tooltip
-              content="Unknown service status"
-            >
-              <OutlinedQuestionCircleIcon
-                className="ins-c-inventory__detail--unknown"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
-          },
-        ],
-      ],
-    }
-  `);
+      }
+    `);
   });
 
   it('productsMapper - no data', () => {
     expect(productsMapper()).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "Name",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        "Status",
-      ],
-      "rows": Array [],
-    }
-  `);
+      {
+        "cells": [
+          {
+            "title": "Name",
+            "transforms": [
+              [Function],
+            ],
+          },
+          "Status",
+        ],
+        "rows": [],
+      }
+    `);
   });
 });
 
@@ -518,248 +500,224 @@ describe('repositoriesMapper', () => {
         ],
       })
     ).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "Name",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Enabled",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "GPG check",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-      ],
-      "filters": Array [
-        Object {
-          "type": "textual",
-        },
-        Object {
-          "options": Array [
-            Object {
-              "label": "Is enabled",
-              "value": "true",
-            },
-            Object {
-              "label": "Not enabled",
-              "value": "false",
-            },
-          ],
-          "type": "checkbox",
-        },
-        Object {
-          "options": Array [
-            Object {
-              "label": "Is enabled",
-              "value": "true",
-            },
-            Object {
-              "label": "Not enabled",
-              "value": "false",
-            },
-          ],
-          "type": "checkbox",
-        },
-      ],
-      "rows": Array [
-        Array [
-          Object {
-            "sortValue": "test-name",
-            "title": "test-name",
+      {
+        "cells": [
+          {
+            "title": "Name",
+            "transforms": [
+              [Function],
+            ],
           },
-          Object {
-            "sortValue": "true",
-            "title": <Tooltip
-              content="Source enabled"
-            >
-              <CheckCircleIcon
-                className="ins-c-inventory__detail--enabled"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
+          {
+            "title": "Enabled",
+            "transforms": [
+              [Function],
+            ],
           },
-          Object {
-            "sortValue": "false",
-            "title": <Tooltip
-              content="Source disabled"
-            >
-              <TimesIcon
-                className="ins-c-inventory__detail--disabled"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
+          {
+            "title": "GPG check",
+            "transforms": [
+              [Function],
+            ],
           },
         ],
-        Array [
-          Object {
-            "sortValue": "test-name",
-            "title": "test-name",
+        "filters": [
+          {
+            "type": "textual",
           },
-          Object {
-            "sortValue": "true",
-            "title": <Tooltip
-              content="Source enabled"
-            >
-              <CheckCircleIcon
-                className="ins-c-inventory__detail--enabled"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
+          {
+            "options": [
+              {
+                "label": "Is enabled",
+                "value": "true",
+              },
+              {
+                "label": "Not enabled",
+                "value": "false",
+              },
+            ],
+            "type": "checkbox",
           },
-          Object {
-            "sortValue": "true",
-            "title": <Tooltip
-              content="Source enabled"
-            >
-              <CheckCircleIcon
-                className="ins-c-inventory__detail--enabled"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
-          },
-        ],
-        Array [
-          Object {
-            "sortValue": "test-name",
-            "title": "test-name",
-          },
-          Object {
-            "sortValue": "false",
-            "title": <Tooltip
-              content="Source disabled"
-            >
-              <TimesIcon
-                className="ins-c-inventory__detail--disabled"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
-          },
-          Object {
-            "sortValue": "false",
-            "title": <Tooltip
-              content="Source disabled"
-            >
-              <TimesIcon
-                className="ins-c-inventory__detail--disabled"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
+          {
+            "options": [
+              {
+                "label": "Is enabled",
+                "value": "true",
+              },
+              {
+                "label": "Not enabled",
+                "value": "false",
+              },
+            ],
+            "type": "checkbox",
           },
         ],
-        Array [
-          Object {
-            "sortValue": "test-name",
-            "title": "test-name",
-          },
-          Object {
-            "sortValue": "undefined",
-            "title": <Tooltip
-              content="Source disabled"
-            >
-              <TimesIcon
-                className="ins-c-inventory__detail--disabled"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
-          },
-          Object {
-            "sortValue": "false",
-            "title": <Tooltip
-              content="Source disabled"
-            >
-              <TimesIcon
-                className="ins-c-inventory__detail--disabled"
-                color="currentColor"
-                noVerticalAlign={false}
-                size="sm"
-              />
-            </Tooltip>,
-          },
+        "rows": [
+          [
+            {
+              "sortValue": "test-name",
+              "title": "test-name",
+            },
+            {
+              "sortValue": "true",
+              "title": <Tooltip
+                content="Source enabled"
+              >
+                <CheckCircleIcon
+                  className="ins-c-inventory__detail--enabled"
+                />
+              </Tooltip>,
+            },
+            {
+              "sortValue": "false",
+              "title": <Tooltip
+                content="Source disabled"
+              >
+                <TimesIcon
+                  className="ins-c-inventory__detail--disabled"
+                />
+              </Tooltip>,
+            },
+          ],
+          [
+            {
+              "sortValue": "test-name",
+              "title": "test-name",
+            },
+            {
+              "sortValue": "true",
+              "title": <Tooltip
+                content="Source enabled"
+              >
+                <CheckCircleIcon
+                  className="ins-c-inventory__detail--enabled"
+                />
+              </Tooltip>,
+            },
+            {
+              "sortValue": "true",
+              "title": <Tooltip
+                content="Source enabled"
+              >
+                <CheckCircleIcon
+                  className="ins-c-inventory__detail--enabled"
+                />
+              </Tooltip>,
+            },
+          ],
+          [
+            {
+              "sortValue": "test-name",
+              "title": "test-name",
+            },
+            {
+              "sortValue": "false",
+              "title": <Tooltip
+                content="Source disabled"
+              >
+                <TimesIcon
+                  className="ins-c-inventory__detail--disabled"
+                />
+              </Tooltip>,
+            },
+            {
+              "sortValue": "false",
+              "title": <Tooltip
+                content="Source disabled"
+              >
+                <TimesIcon
+                  className="ins-c-inventory__detail--disabled"
+                />
+              </Tooltip>,
+            },
+          ],
+          [
+            {
+              "sortValue": "test-name",
+              "title": "test-name",
+            },
+            {
+              "sortValue": "undefined",
+              "title": <Tooltip
+                content="Source disabled"
+              >
+                <TimesIcon
+                  className="ins-c-inventory__detail--disabled"
+                />
+              </Tooltip>,
+            },
+            {
+              "sortValue": "false",
+              "title": <Tooltip
+                content="Source disabled"
+              >
+                <TimesIcon
+                  className="ins-c-inventory__detail--disabled"
+                />
+              </Tooltip>,
+            },
+          ],
         ],
-      ],
-    }
-  `);
+      }
+    `);
   });
 
   it('repositoriesMapper - no data', () => {
     expect(repositoriesMapper()).toMatchInlineSnapshot(`
-    Object {
-      "cells": Array [
-        Object {
-          "title": "Name",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "Enabled",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-        Object {
-          "title": "GPG check",
-          "transforms": Array [
-            [Function],
-          ],
-        },
-      ],
-      "filters": Array [
-        Object {
-          "type": "textual",
-        },
-        Object {
-          "options": Array [
-            Object {
-              "label": "Is enabled",
-              "value": "true",
-            },
-            Object {
-              "label": "Not enabled",
-              "value": "false",
-            },
-          ],
-          "type": "checkbox",
-        },
-        Object {
-          "options": Array [
-            Object {
-              "label": "Is enabled",
-              "value": "true",
-            },
-            Object {
-              "label": "Not enabled",
-              "value": "false",
-            },
-          ],
-          "type": "checkbox",
-        },
-      ],
-      "rows": Array [],
-    }
-  `);
+      {
+        "cells": [
+          {
+            "title": "Name",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "Enabled",
+            "transforms": [
+              [Function],
+            ],
+          },
+          {
+            "title": "GPG check",
+            "transforms": [
+              [Function],
+            ],
+          },
+        ],
+        "filters": [
+          {
+            "type": "textual",
+          },
+          {
+            "options": [
+              {
+                "label": "Is enabled",
+                "value": "true",
+              },
+              {
+                "label": "Not enabled",
+                "value": "false",
+              },
+            ],
+            "type": "checkbox",
+          },
+          {
+            "options": [
+              {
+                "label": "Is enabled",
+                "value": "true",
+              },
+              {
+                "label": "Not enabled",
+                "value": "false",
+              },
+            ],
+            "type": "checkbox",
+          },
+        ],
+        "rows": [],
+      }
+    `);
   });
 });

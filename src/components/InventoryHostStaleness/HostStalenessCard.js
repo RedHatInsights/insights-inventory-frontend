@@ -203,7 +203,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               Keep or customize your organization's default settings using the
               options below.
             </p>
-            <Flex className="pf-u-mt-md">
+            <Flex className="pf-v5-u-mt-md">
               <Title headingLevel="h6">System configuration</Title>
               {canModifyHostStaleness ? (
                 <Button
@@ -233,7 +233,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
             {hasEdgeSystems ? (
               <Tabs
                 id={'HostTabs'}
-                className="pf-m-light pf-c-table pf-u-mb-lg pf-u-mt-lg"
+                className="pf-m-light pf-v5-c-table pf-v5-u-mb-lg pf-v5-u-mt-lg"
                 activeKey={activeTabKey}
                 onSelect={handleTabClick}
               >
@@ -249,7 +249,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                         }
                         bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
                       >
-                        <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+                        <OutlinedQuestionCircleIcon className="pf-v5-u-ml-md" />
                       </Popover>
                     </TabTitleText>
                   }
@@ -281,7 +281,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                         headerContent={<div>Immutable (OSTree)</div>}
                         bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
                       >
-                        <OutlinedQuestionCircleIcon className="pf-u-ml-md" />
+                        <OutlinedQuestionCircleIcon className="pf-v5-u-ml-md" />
                       </Popover>
                     </TabTitleText>
                   }
@@ -323,7 +323,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
             {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                 <Button
-                  className="pf-u-mt-md"
+                  className="pf-v5-u-mt-md"
                   size={'sm'}
                   onClick={() => handleModalToggle()}
                   isDisabled={!isFormValid}
@@ -331,7 +331,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   Save
                 </Button>
                 <Button
-                  className="pf-u-mt-md"
+                  className="pf-v5-u-mt-md"
                   size={'sm'}
                   variant="link"
                   //CancelButton when a user opts out of saving changes
