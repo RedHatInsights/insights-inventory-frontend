@@ -1,6 +1,6 @@
 import useOnRefresh from './useOnRefresh';
-import { act, renderHook } from '@testing-library/react-hooks';
 import { MemoryRouter } from 'react-router-dom';
+import { act, renderHook } from '@testing-library/react';
 
 const mockNavigate = jest.fn();
 

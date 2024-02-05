@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks/dom';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useGroupFilter from './useGroupFilter';
 
@@ -17,56 +17,68 @@ jest.mock('../InventoryGroups/utils/api', () => ({
     ),
 }));
 
-describe('with some groups available', () => {
-  beforeAll(() => {
+describe('groups request not yet resolved', () => {
+  beforeEach(() => {
     useFetchBatched.mockReturnValue({
-      fetchBatched: () =>
-        new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
+      fetchBatched: () => new Promise(() => {}), // keep pending
     });
   });
 
-  it('initial values are empty', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
+  it('initial values are empty', () => {
+    const { result } = renderHook(() => useGroupFilter());
 
-    await waitForNextUpdate();
-    const [, chips, value] = result.all[0];
+    const [, chips, value] = result.current;
     expect(chips.length).toBe(0);
     expect(value.length).toBe(0);
   });
 
-  it('initial filter component is empty', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
+  it('initial filter component is empty', () => {
+    const { result } = renderHook(() => useGroupFilter());
 
-    await waitForNextUpdate();
-    const [config] = result.all[0];
+    const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
-      Object {
+      {
         "children": <SearchableGroupFilter
-          initialGroups={Array []}
-          selectedGroupNames={Array []}
+          initialGroups={[]}
+          selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
         />,
       }
     `);
   });
+});
+
+describe('with some groups available', () => {
+  const fetchBatched = jest.fn(
+    () =>
+      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }]))
+  );
+
+  beforeAll(() => {
+    useFetchBatched.mockReturnValue({
+      fetchBatched,
+    });
+  });
 
   it('filter component updated with values', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
+    const { result } = renderHook(() => useGroupFilter());
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(fetchBatched).toBeCalled();
+    });
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
-      Object {
+      {
         "children": <SearchableGroupFilter
           initialGroups={
-            Array [
-              Object {
+            [
+              {
                 "name": "group-1",
               },
             ]
           }
-          selectedGroupNames={Array []}
+          selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
         />,
@@ -75,13 +87,15 @@ describe('with some groups available', () => {
   });
 
   it('can use setter', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
+    const { result } = renderHook(() => useGroupFilter());
 
+    await waitFor(() => {
+      expect(fetchBatched).toBeCalled();
+    });
     const [, , , setValue] = result.current;
     act(() => {
       setValue(['group-1']);
     });
-    await waitForNextUpdate();
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
     expect(value).toEqual(['group-1']);
@@ -100,23 +114,23 @@ describe('with some groups available', () => {
   });
 
   it('can enable no group option', async () => {
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useGroupFilter(true)
-    );
+    const { result } = renderHook(() => useGroupFilter(true));
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(fetchBatched).toBeCalled();
+    });
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
-      Object {
+      {
         "children": <SearchableGroupFilter
           initialGroups={
-            Array [
-              Object {
+            [
+              {
                 "name": "group-1",
               },
             ]
           }
-          selectedGroupNames={Array []}
+          selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={true}
         />,
@@ -125,13 +139,15 @@ describe('with some groups available', () => {
   });
 
   it('can select no group option', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
+    const { result } = renderHook(() => useGroupFilter());
 
+    await waitFor(() => {
+      expect(fetchBatched).toBeCalled();
+    });
     const [, , , setValue] = result.current;
     act(() => {
       setValue(['']);
     });
-    await waitForNextUpdate();
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
     expect(value).toEqual(['']);
