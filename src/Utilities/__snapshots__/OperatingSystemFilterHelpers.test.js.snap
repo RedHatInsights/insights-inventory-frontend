@@ -1,35 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`buildOSFilterChip returns five version chips 1`] = `
-Array [
-  Object {
+[
+  {
     "category": "Operating System",
-    "chips": Array [
-      Object {
+    "chips": [
+      {
         "groupLabel": "RHEL 6",
         "name": "RHEL 6.9",
         "osName": "RHEL",
         "value": "6.9",
       },
-      Object {
+      {
         "groupLabel": "RHEL 7",
         "name": "RHEL 7.0",
         "osName": "RHEL",
         "value": "7.0",
       },
-      Object {
+      {
         "groupLabel": "RHEL 8",
         "name": "RHEL 8.5",
         "osName": "RHEL",
         "value": "8.5",
       },
-      Object {
+      {
         "groupLabel": "RHEL 8",
         "name": "RHEL 8.10",
         "osName": "RHEL",
         "value": "8.10",
       },
-      Object {
+      {
         "groupLabel": "CentOS Linux 7",
         "name": "CentOS Linux 7.9",
         "osName": "CentOS Linux",
@@ -42,16 +42,16 @@ Array [
 `;
 
 exports[`groupOSFilterVersions returns group configuration with 5 groups 1`] = `
-Array [
-  Object {
+[
+  {
     "groupSelectable": true,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "label": "RHEL 8.10",
         "type": "checkbox",
         "value": "8.10",
       },
-      Object {
+      {
         "label": "RHEL 8.5",
         "type": "checkbox",
         "value": "8.5",
@@ -61,10 +61,10 @@ Array [
     "type": "checkbox",
     "value": "RHEL 8",
   },
-  Object {
+  {
     "groupSelectable": true,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "label": "CentOS Linux 8.6",
         "type": "checkbox",
         "value": "8.6",
@@ -74,10 +74,10 @@ Array [
     "type": "checkbox",
     "value": "CentOS Linux 8",
   },
-  Object {
+  {
     "groupSelectable": true,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "label": "RHEL 7.0",
         "type": "checkbox",
         "value": "7.0",
@@ -87,10 +87,10 @@ Array [
     "type": "checkbox",
     "value": "RHEL 7",
   },
-  Object {
+  {
     "groupSelectable": true,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "label": "CentOS Linux 7.9",
         "type": "checkbox",
         "value": "7.9",
@@ -100,15 +100,15 @@ Array [
     "type": "checkbox",
     "value": "CentOS Linux 7",
   },
-  Object {
+  {
     "groupSelectable": true,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "label": "RHEL 6.10",
         "type": "checkbox",
         "value": "6.10",
       },
-      Object {
+      {
         "label": "RHEL 6.9",
         "type": "checkbox",
         "value": "6.9",
