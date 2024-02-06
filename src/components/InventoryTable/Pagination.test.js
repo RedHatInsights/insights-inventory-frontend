@@ -2,12 +2,12 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import Pagination from './Pagination';
-import { mount, render } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import toJson from 'enzyme-to-json';
 import { Provider } from 'react-redux';
-
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 jest.mock('../../store/actions', () => {
   const actions = jest.requireActual('../../store/actions');
   const { ACTION_TYPES } = jest.requireActual('../../store/action-types');
@@ -52,39 +52,69 @@ describe('Pagination', () => {
   describe('render', () => {
     it('should render correctly - no data', () => {
       const store = mockStore({ entities: {} });
-      const wrapper = render(
-        <WrappedPagination store={store} loaded={false} />
-      );
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const view = render(<WrappedPagination store={store} loaded={false} />);
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly with data', () => {
       const store = mockStore(initialState);
-      const wrapper = render(<WrappedPagination store={store} />);
-      expect(toJson(wrapper)).toMatchSnapshot();
-      expect(wrapper.find('button[disabled=""]').length).toBe(4);
+      const view = render(<WrappedPagination store={store} />);
+
+      expect(view.asFragment()).toMatchSnapshot();
+      expect(
+        screen.getByRole('button', {
+          name: /go to first page/i,
+        })
+      ).toBeDisabled();
+      expect(
+        screen.getByRole('button', {
+          name: /go to previous page/i,
+        })
+      ).toBeDisabled();
+      expect(
+        screen.getByRole('button', {
+          name: /go to next page/i,
+        })
+      ).toBeDisabled();
+      expect(
+        screen.getByRole('button', {
+          name: /go to last page/i,
+        })
+      ).toBeDisabled();
     });
 
     it('should render correctly - with no access', () => {
       const store = mockStore(initialState);
-      const wrapper = render(
+      const view = render(
         <WrappedPagination store={store} hasAccess={false} />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly with data and props', () => {
       const store = mockStore(initialState);
-      const wrapper = render(
+      const view = render(
         <WrappedPagination store={store} page={1} perPage={50} total={500} />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
-      expect(wrapper.find('button[disabled=""]').length).toBe(2);
+
+      expect(view.asFragment()).toMatchSnapshot();
+      expect(
+        screen.getByRole('button', {
+          name: /go to first page/i,
+        })
+      ).toBeDisabled();
+      expect(
+        screen.getByRole('button', {
+          name: /go to previous page/i,
+        })
+      ).toBeDisabled();
     });
 
     it('should render correctly with data and isFull', () => {
       const store = mockStore(initialState);
-      const wrapper = render(
+      const view = render(
         <WrappedPagination
           store={store}
           page={1}
@@ -93,39 +123,52 @@ describe('Pagination', () => {
           isFull
         />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
-      expect(wrapper.find('button[disabled=""]').length).toBe(2);
+
+      expect(view.asFragment()).toMatchSnapshot();
+      expect(
+        screen.getByRole('button', {
+          name: /go to first page/i,
+        })
+      ).toBeDisabled();
+      expect(
+        screen.getByRole('button', {
+          name: /go to previous page/i,
+        })
+      ).toBeDisabled();
     });
   });
 
   describe('API', () => {
-    it('should call perPage change', () => {
+    it('should call perPage change', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <WrappedPagination store={store} page={1} perPage={50} total={500} />
       );
-      wrapper
-        .find('.pf-c-options-menu__toggle button')
-        .first()
-        .simulate('click');
-      wrapper.update();
-      wrapper
-        .find('ul.pf-c-options-menu__menu li button')
-        .first()
-        .simulate('click');
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /items per page/i,
+        })
+      );
+      await userEvent.click(
+        screen.getByRole('menuitem', {
+          name: /10 per page/i,
+        })
+      );
       expect(onRefreshData).toHaveBeenCalledWith({ page: 1, per_page: 10 });
     });
 
-    it('should call onSetPage change without', () => {
+    it('should call onSetPage change without', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
+      render(
         <WrappedPagination store={store} page={1} perPage={50} total={500} />
       );
-      wrapper
-        .find('.pf-c-pagination__nav-control button[data-action="next"]')
-        .first()
-        .simulate('click');
-      wrapper.update();
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /go to next page/i,
+        })
+      );
       expect(onRefreshData).toHaveBeenCalledWith({ page: 2 });
     });
   });

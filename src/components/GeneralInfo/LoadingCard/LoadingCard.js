@@ -64,7 +64,12 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
       <Stack hasGutter>
         <StackItem>
           <TextContent>
-            <Text component={TextVariants.h1}>{title}</Text>
+            <Text
+              component={TextVariants.h1}
+              ouiaId="SystemPropertiesCardTitle"
+            >
+              {title}
+            </Text>
           </TextContent>
         </StackItem>
         <StackItem isFilled>
@@ -84,47 +89,48 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
                       customClass,
                     },
                     key
-                  ) => (
-                    <Fragment key={key}>
-                      <TextListItem
-                        component={TextListItemVariants.dt}
-                        data-ouia-component-id={`${
-                          typeof itemTitle === 'string'
-                            ? itemTitle
-                            : itemTitle?.props?.title
-                        } title`}
-                      >
-                        {itemTitle}
-                      </TextListItem>
-                      <TextListItem
-                        className={customClass}
-                        component={TextListItemVariants.dd}
-                        data-ouia-component-id={`${
-                          typeof itemTitle === 'string'
-                            ? itemTitle
-                            : itemTitle?.props?.title
-                        } value`}
-                      >
-                        {isLoading && (
-                          <Skeleton size={size || SkeletonSize.sm} />
-                        )}
-                        {!isLoading &&
-                          (onClick && value ? (
-                            <div>
-                              <Clickable
-                                onClick={onClick}
-                                value={value}
-                                target={target}
-                                plural={plural}
-                                singular={singular}
-                              />
-                            </div>
-                          ) : (
-                            valueToText(value, singular, plural)
-                          ))}
-                      </TextListItem>
-                    </Fragment>
-                  )
+                  ) => {
+                    const title =
+                      typeof itemTitle === 'string'
+                        ? itemTitle
+                        : itemTitle?.props?.title;
+
+                    return (
+                      <Fragment key={key}>
+                        <TextListItem
+                          component={TextListItemVariants.dt}
+                          data-ouia-component-id={`${title} title`}
+                          aria-label={`${title} title`}
+                        >
+                          {itemTitle}
+                        </TextListItem>
+                        <TextListItem
+                          className={customClass}
+                          component={TextListItemVariants.dd}
+                          data-ouia-component-id={`${title} value`}
+                          aria-label={`${title} value`}
+                        >
+                          {isLoading && (
+                            <Skeleton size={size || SkeletonSize.sm} />
+                          )}
+                          {!isLoading &&
+                            (onClick && value ? (
+                              <div>
+                                <Clickable
+                                  onClick={onClick}
+                                  value={value}
+                                  target={target}
+                                  plural={plural}
+                                  singular={singular}
+                                />
+                              </div>
+                            ) : (
+                              valueToText(value, singular, plural)
+                            ))}
+                        </TextListItem>
+                      </Fragment>
+                    );
+                  }
                 )}
               </TextList>
             </TextContent>

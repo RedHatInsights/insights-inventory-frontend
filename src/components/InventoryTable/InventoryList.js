@@ -50,7 +50,11 @@ const ContextInventoryList = ({
   });
 
   return (
-    <Grid gutter="sm" className="ins-inventory-list">
+    <Grid
+      gutter="sm"
+      className="ins-inventory-list"
+      data-testid="inventory-table-list"
+    >
       <GridItem span={12}>
         <InventoryEntityTable {...props} onRefreshData={onRefreshData} />
       </GridItem>

@@ -1,231 +1,185 @@
-/* eslint-disable react/prop-types */
-import React, { Fragment, useEffect } from 'react';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { useTagsFilter } from './useTagsFilter';
-import { mount } from 'enzyme';
-
-const HookRender = ({
-  hookAccessor,
-  hookNotify,
-  loaded = true,
-  additionalTagsCount = 0,
-  onShowMoreClick,
-  tagsLoaded,
-}) => {
-  const {
-    tagsFilter,
-    tagsChip,
-    selectedTags,
-    setSelectedTags,
-    filterTagsBy,
-    seFilterTagsBy,
-  } = useTagsFilter(
-    [
-      {
-        name: 'something',
-        tags: [
-          {
-            count: 10,
-            tag: { key: 'test', value: 'something' },
-          },
-        ],
-      },
-    ],
-    loaded,
-    additionalTagsCount,
-    onShowMoreClick
-  );
-  useEffect(() => {
-    if (
-      tagsFilter.filterValues.items &&
-      tagsFilter.filterValues.items.length !== 0
-    ) {
-      tagsLoaded &&
-        tagsLoaded([
-          tagsFilter,
-          tagsChip,
-          selectedTags,
-          setSelectedTags,
-          filterTagsBy,
-          seFilterTagsBy,
-        ]);
-    }
-  }, [tagsFilter]);
-  useEffect(() => {
-    if (
-      tagsFilter.filterValues.groups &&
-      tagsFilter.filterValues.groups.length !== 0
-    ) {
-      hookAccessor &&
-        hookAccessor([
-          tagsFilter,
-          tagsChip,
-          selectedTags,
-          setSelectedTags,
-          filterTagsBy,
-          seFilterTagsBy,
-        ]);
-    }
-  }, [tagsFilter]);
-  useEffect(() => {
-    if (Object.keys(selectedTags).length !== 0) {
-      hookNotify &&
-        hookNotify([
-          tagsFilter,
-          tagsChip,
-          selectedTags,
-          setSelectedTags,
-          filterTagsBy,
-          seFilterTagsBy,
-        ]);
-    }
-  }, [selectedTags]);
-  useEffect(() => {
-    if (filterTagsBy.length !== 0) {
-      hookNotify &&
-        hookNotify([
-          tagsFilter,
-          tagsChip,
-          selectedTags,
-          setSelectedTags,
-          filterTagsBy,
-          seFilterTagsBy,
-        ]);
-    }
-  }, [filterTagsBy]);
-
-  return <Fragment />;
-};
 
 describe('useTagsFilter', () => {
   it('should create filter', () => {
-    const hookAccessor = ([filter]) => {
-      expect(filter).toMatchObject({
-        label: 'Tags',
-        value: 'tags',
-        type: 'group',
-      });
-      expect(filter.filterValues.selected).toMatchObject({});
-      expect(filter.filterValues.filterBy).toBe('');
-      expect(filter.filterValues.groups).toMatchObject([
-        {
-          items: [
-            {
-              meta: {
+    const { result } = renderHook(() =>
+      useTagsFilter(
+        [
+          {
+            name: 'something',
+            tags: [
+              {
                 count: 10,
                 tag: { key: 'test', value: 'something' },
               },
-              value: 'test=something',
-            },
-          ],
-          label: 'something',
-          type: 'checkbox',
-          value: 'something',
-        },
-      ]);
-    };
+            ],
+          },
+        ],
+        true,
+        0
+      )
+    );
+    const filter = result.current.tagsFilter;
 
-    mount(<HookRender hookAccessor={hookAccessor} />);
+    expect(filter).toMatchObject({
+      label: 'Tags',
+      value: 'tags',
+      type: 'group',
+    });
+    expect(filter.filterValues.selected).toMatchObject({});
+    expect(filter.filterValues.filterBy).toBe('');
+    expect(filter.filterValues.groups).toMatchObject([
+      {
+        items: [
+          {
+            meta: {
+              count: 10,
+              tag: { key: 'test', value: 'something' },
+            },
+            value: 'test=something',
+          },
+        ],
+        label: 'something',
+        type: 'checkbox',
+        value: 'something',
+      },
+    ]);
   });
 
   it('should create loading filter', () => {
-    const hookAccessor = ([filter]) => {
-      expect(filter).toMatchObject({
-        label: 'Tags',
-        value: 'tags',
-        type: 'group',
-      });
-      expect(filter.filterValues.selected).toMatchObject({});
-      expect(filter.filterValues.filterBy).toBe('');
-      expect(filter.filterValues.items).toMatchObject([
-        {
-          isDisabled: true,
-          className: 'ins-c-tagfilter__tail',
-        },
-      ]);
-    };
+    const { result } = renderHook(() => useTagsFilter([], false, 0));
+    const filter = result.current.tagsFilter;
 
-    mount(<HookRender tagsLoaded={hookAccessor} loaded={false} />);
+    expect(filter).toMatchObject({
+      label: 'Tags',
+      value: 'tags',
+      type: 'group',
+    });
+    expect(filter.filterValues.selected).toMatchObject({});
+    expect(filter.filterValues.filterBy).toBe('');
+    expect(filter.filterValues.items).toMatchObject([
+      {
+        isDisabled: true,
+        className: 'ins-c-tagfilter__tail',
+      },
+    ]);
   });
 
   it('should create chip', () => {
-    let called = false;
-    const hookAccessor = ([, , , setValue]) => {
-      if (!called) {
-        setValue({
-          something: {
-            test: {
-              group: {
-                label: 'something',
+    const { result } = renderHook(() =>
+      useTagsFilter(
+        [
+          {
+            name: 'something',
+            tags: [
+              {
+                count: 10,
+                tag: { key: 'test', value: 'something' },
               },
-              isSelected: true,
-              item: {
-                meta: {
-                  tag: {
-                    value: 'test',
-                    key: 'test',
-                  },
+            ],
+          },
+        ],
+        true,
+        0
+      )
+    );
+
+    const setValue = result.current.setSelectedTags;
+
+    act(() => {
+      setValue({
+        something: {
+          test: {
+            group: {
+              label: 'something',
+            },
+            isSelected: true,
+            item: {
+              meta: {
+                tag: {
+                  value: 'test',
+                  key: 'test',
                 },
               },
             },
           },
-        });
-        called = true;
-      }
-    };
-
-    const hookNotify = ([, chip, value]) => {
-      expect(value.something.test.isSelected).toBe(true);
-      expect(chip).toMatchObject([
-        {
-          type: 'tags',
-          key: 'something',
-          category: 'something',
         },
-      ]);
-      expect(chip[0].chips).toMatchObject([
-        {
-          group: { label: 'something' },
-          key: 'test',
-          name: 'test=test',
-          tagKey: 'test',
-          value: 'test',
-        },
-      ]);
-    };
+      });
+    });
 
-    mount(<HookRender hookAccessor={hookAccessor} hookNotify={hookNotify} />);
+    const chip = result.current.tagsChip;
+    const value = result.current.tagsFilter.filterValues.selected;
+
+    expect(value.something.test.isSelected).toBe(true);
+    expect(chip).toMatchObject([
+      {
+        type: 'tags',
+        key: 'something',
+        category: 'something',
+      },
+    ]);
+    expect(chip[0].chips).toMatchObject([
+      {
+        group: { label: 'something' },
+        key: 'test',
+        name: 'test=test',
+        tagKey: 'test',
+        value: 'test',
+      },
+    ]);
   });
 
   it('should change filtered by', () => {
-    let called = false;
-    const hookAccessor = ([, , , , , seFilterTagsBy]) => {
-      if (!called) {
-        seFilterTagsBy('test');
-      }
+    const { result } = renderHook(() =>
+      useTagsFilter(
+        [
+          {
+            name: 'something',
+            tags: [
+              {
+                count: 10,
+                tag: { key: 'test', value: 'something' },
+              },
+            ],
+          },
+        ],
+        true,
+        0
+      )
+    );
 
-      called = true;
-    };
-
-    const hookNotify = ([, , , , filterBy]) => {
-      expect(filterBy).toBe('test');
-    };
-
-    mount(<HookRender hookAccessor={hookAccessor} hookNotify={hookNotify} />);
+    act(() => {
+      result.current.seFilterTagsBy('test');
+    });
+    expect(result.current.filterTagsBy).toBe('test');
   });
 
   it('should call show more', () => {
     const showMore = jest.fn();
-    const hookAccessor = ([filter]) => {
-      filter.filterValues.onShowMore();
-    };
 
-    mount(
-      <HookRender
-        hookAccessor={hookAccessor}
-        onShowMoreClick={showMore}
-        additionalTagsCount={10}
-      />
+    const { result } = renderHook(() =>
+      useTagsFilter(
+        [
+          {
+            name: 'something',
+            tags: [
+              {
+                count: 10,
+                tag: { key: 'test', value: 'something' },
+              },
+            ],
+          },
+        ],
+        true,
+        10,
+        showMore
+      )
     );
+
+    act(() => {
+      result.current.tagsFilter.filterValues.onShowMore();
+    });
     expect(showMore).toHaveBeenCalled();
   });
 });

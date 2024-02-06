@@ -1,10 +1,16 @@
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import TitleColumn from './TitleColumn';
-import { act, fireEvent, render } from '@testing-library/react';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  Link: ({ children, ...props }) => <a class="fakeLink" {...props}>{children}</a>, // eslint-disable-line
+  // eslint-disable-next-line react/prop-types
+  Link: ({ children, ...props }) => (
+    <a className="fakeLink" {...props}>
+      {children}
+    </a>
+  ),
 }));
 
 describe('TitleColumn', () => {
@@ -64,9 +70,9 @@ describe('TitleColumn', () => {
   });
 
   describe('API', () => {
-    it('should call onClick', () => {
+    it('should call onClick', async () => {
       const onClick = jest.fn();
-      const { container } = render(
+      render(
         <TitleColumn
           id="testId"
           item={{ os_release: 'os_release' }}
@@ -77,17 +83,13 @@ describe('TitleColumn', () => {
         </TitleColumn>
       );
 
-      const link = container.querySelector('a');
-      act(() => {
-        fireEvent.click(link);
-      });
-
+      await userEvent.click(screen.getByText(/something/i));
       expect(onClick).toHaveBeenCalled();
     });
 
-    it('should not call onClick if not loaded', () => {
+    it('should not call onClick if not loaded', async () => {
       const onClick = jest.fn();
-      const { container } = render(
+      render(
         <TitleColumn
           id="testId"
           item={{ os_release: 'os_release' }}
@@ -97,11 +99,7 @@ describe('TitleColumn', () => {
         </TitleColumn>
       );
 
-      const link = container.querySelector('a');
-      act(() => {
-        fireEvent.click(link);
-      });
-
+      await userEvent.click(screen.getByText(/something/i));
       expect(onClick).not.toHaveBeenCalled();
     });
   });

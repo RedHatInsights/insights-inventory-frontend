@@ -1,9 +1,8 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import GroupDetailHeader from '../GroupDetailHeader';
-import { DROPDOWN } from '@redhat-cloud-services/frontend-components-utilities/CypressUtils/selectors';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 jest.mock('../../../Utilities/useFeatureFlag');
@@ -28,34 +27,38 @@ jest.mock('react-redux', () => {
 jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook');
 
 describe('group detail header', () => {
-  let getByRole;
-  let container;
-
   usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
 
-  beforeEach(() => {
-    const rendered = render(
+  it('renders title and breadcrumbs', () => {
+    render(
       <MemoryRouter>
         <GroupDetailHeader groupId="group-id-2" />
       </MemoryRouter>
     );
-    getByRole = rendered.getByRole;
-    container = rendered.container;
-  });
 
-  it('renders title and breadcrumbs', () => {
-    expect(getByRole('heading')).toBeInTheDocument();
+    expect(screen.getByRole('heading')).toBeInTheDocument();
   });
 
   it('has breadcrumbs', () => {
-    expect(getByRole('navigation')).toHaveClass('pf-c-breadcrumb');
-    expect(getByRole('navigation')).toHaveTextContent('group-name-1');
+    render(
+      <MemoryRouter>
+        <GroupDetailHeader groupId="group-id-2" />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('navigation')).toHaveClass('pf-c-breadcrumb');
+    expect(screen.getByRole('navigation')).toHaveTextContent('group-name-1');
   });
 
   it('renders the actions dropdown', () => {
-    expect(container.querySelector('#group-header-dropdown')).toHaveTextContent(
-      'Group actions'
+    render(
+      <MemoryRouter>
+        <GroupDetailHeader groupId="group-id-2" />
+      </MemoryRouter>
     );
-    expect(container.querySelector(DROPDOWN)).toBeVisible();
+
+    screen.getByRole('button', {
+      name: /group actions/i,
+    });
   });
 });

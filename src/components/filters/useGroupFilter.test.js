@@ -1,16 +1,12 @@
-/* eslint-disable camelcase */
-import { waitFor } from '@testing-library/react';
 import { act, renderHook } from '@testing-library/react-hooks/dom';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useGroupFilter from './useGroupFilter';
 
 jest.mock('../../Utilities/hooks/useFetchBatched');
-
 jest.mock('../../Utilities/useFeatureFlag', () => ({
   __esModule: true,
   default: () => true,
 }));
-
 jest.mock('../InventoryGroups/utils/api', () => ({
   __esModule: true,
   getGroups: () =>
@@ -21,7 +17,7 @@ jest.mock('../InventoryGroups/utils/api', () => ({
     ),
 }));
 
-describe('some groups available', () => {
+describe('with some groups available', () => {
   beforeAll(() => {
     useFetchBatched.mockReturnValue({
       fetchBatched: () =>
@@ -29,32 +25,40 @@ describe('some groups available', () => {
     });
   });
 
-  it('correct initial values', async () => {
-    const { result } = renderHook(() => useGroupFilter());
+  it('initial values are empty', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
 
-    await waitFor(() => {
-      const [config, chips, value] = result.all[0];
-      expect(chips.length).toBe(0);
-      expect(value.length).toBe(0);
-      expect(config.filterValues.children).toMatchInlineSnapshot(`
-        <SearchableGroupFilter
+    await waitForNextUpdate();
+    const [, chips, value] = result.all[0];
+    expect(chips.length).toBe(0);
+    expect(value.length).toBe(0);
+  });
+
+  it('initial filter component is empty', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
+
+    await waitForNextUpdate();
+    const [config] = result.all[0];
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      Object {
+        "children": <SearchableGroupFilter
           initialGroups={Array []}
           selectedGroupNames={Array []}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
-        />
-      `);
-    });
+        />,
+      }
+    `);
   });
 
-  it('component is updated', async () => {
-    const { result } = renderHook(() => useGroupFilter());
+  it('filter component updated with values', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
 
-    await waitFor(() => {
-      const [config] = result.all[1];
-
-      expect(config.filterValues.children).toMatchInlineSnapshot(`
-        <SearchableGroupFilter
+    await waitForNextUpdate();
+    const [config] = result.current;
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      Object {
+        "children": <SearchableGroupFilter
           initialGroups={
             Array [
               Object {
@@ -65,84 +69,83 @@ describe('some groups available', () => {
           selectedGroupNames={Array []}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
-        />
-      `);
-    });
+        />,
+      }
+    `);
   });
 
   it('can use setter', async () => {
-    const { result } = renderHook(useGroupFilter);
-    const [, , , setValue] = result.current;
+    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
 
+    const [, , , setValue] = result.current;
     act(() => {
       setValue(['group-1']);
     });
-
+    await waitForNextUpdate();
     const [, chips, value] = result.current;
-
-    await waitFor(() => {
-      expect(chips.length).toBe(1);
-      expect(value).toEqual(['group-1']);
-      expect(chips).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "category": "Group",
-            "chips": Array [
-              Object {
-                "name": "group-1",
-                "value": "group-1",
-              },
-            ],
-            "type": "group_name",
+    expect(chips.length).toBe(1);
+    expect(value).toEqual(['group-1']);
+    expect(chips).toMatchObject([
+      {
+        category: 'Group',
+        chips: [
+          {
+            name: 'group-1',
+            value: 'group-1',
           },
-        ]
-      `);
-    });
+        ],
+        type: 'group_name',
+      },
+    ]);
   });
 
   it('can enable no group option', async () => {
-    const { result } = renderHook(() => useGroupFilter(true));
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useGroupFilter(true)
+    );
 
-    await waitFor(() => {
-      const [config] = result.current;
-      expect(config.filterValues.children).toMatchInlineSnapshot(`
-        <SearchableGroupFilter
-          initialGroups={Array []}
+    await waitForNextUpdate();
+    const [config] = result.current;
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      Object {
+        "children": <SearchableGroupFilter
+          initialGroups={
+            Array [
+              Object {
+                "name": "group-1",
+              },
+            ]
+          }
           selectedGroupNames={Array []}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={true}
-        />
-      `);
-    });
+        />,
+      }
+    `);
   });
 
   it('can select no group option', async () => {
-    const { result } = renderHook(useGroupFilter);
-    const [, , , setValue] = result.current;
+    const { result, waitForNextUpdate } = renderHook(() => useGroupFilter());
 
+    const [, , , setValue] = result.current;
     act(() => {
       setValue(['']);
     });
-
+    await waitForNextUpdate();
     const [, chips, value] = result.current;
-
-    await waitFor(() => {
-      expect(chips.length).toBe(1);
-      expect(value).toEqual(['']);
-      expect(chips).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "category": "Group",
-            "chips": Array [
-              Object {
-                "name": "No group",
-                "value": "",
-              },
-            ],
-            "type": "group_name",
+    expect(chips.length).toBe(1);
+    expect(value).toEqual(['']);
+    expect(chips).toMatchObject([
+      {
+        category: 'Group',
+        chips: [
+          {
+            name: 'No group',
+            value: '',
           },
-        ]
-      `);
-    });
+        ],
+        type: 'group_name',
+      },
+    ]);
   });
 });

@@ -1,10 +1,11 @@
 /* eslint-disable react/display-name */
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import TagWithDialog from './TagWithDialog';
-import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import toJson from 'enzyme-to-json';
+import TagWithDialog from './TagWithDialog';
 
 jest.mock('../store/actions', () => {
   const actions = jest.requireActual('../store/actions');
@@ -28,30 +29,42 @@ describe('EntityTable', () => {
   describe('DOM', () => {
     it('should render with count', () => {
       const store = mockStore({});
-      const wrapper = mount(<TagWithDialog store={store} count={10} />);
+      const view = render(<TagWithDialog store={store} count={10} />);
+
       expect(
-        toJson(wrapper.find('TagWithDialog').first(), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('button', {
+          name: '10',
+        })
+      ).toBeVisible();
+      expect(view.asFragment()).toMatchSnapshot();
     });
   });
 
   describe('API', () => {
-    it('should NOT call actions', () => {
+    it('should NOT call actions', async () => {
       const store = mockStore({});
-      const wrapper = mount(<TagWithDialog store={store} count={10} />);
-      wrapper.find('button').first().simulate('click');
+      render(<TagWithDialog store={store} count={10} />);
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: '10',
+        })
+      );
       const actions = store.getActions();
       expect(actions.length).toBe(0);
     });
 
-    it('should call actions', () => {
+    it('should call actions', async () => {
       const store = mockStore({});
-      const wrapper = mount(
-        <TagWithDialog store={store} count={10} systemId="something" />
+      render(<TagWithDialog store={store} count={10} systemId="something" />);
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: '10',
+        })
       );
-      wrapper.find('button').first().simulate('click');
       const actions = store.getActions();
-      expect(actions.length).toBe(2);
+      expect(actions.length).toBe(3);
     });
   });
 });

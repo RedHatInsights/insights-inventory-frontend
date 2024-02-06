@@ -1,13 +1,21 @@
-/* eslint-disable camelcase */
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import toJson from 'enzyme-to-json';
-import OperatingSystemCard from './OperatingSystemCard';
 import configureStore from 'redux-mock-store';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { osTest, rhsmFacts } from '../../../__mocks__/selectors';
-import { mountWithRouter } from '../../../Utilities/TestingUtilities';
-import { Clickable } from '../LoadingCard/LoadingCard';
+import OperatingSystemCard from './OperatingSystemCard';
 
 const location = {};
+
+const fields = [
+  'Release',
+  'Kernel release',
+  'Architecture',
+  'Last boot time',
+  'Kernel modules',
+];
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -40,54 +48,76 @@ describe('OperatingSystemCard', () => {
   });
 
   it('should render correctly - no data', () => {
-    const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    render(
+      <TestWrapper
+        store={mockStore({ systemProfileStore: {}, entityDetails: {} })}
+      >
+        <OperatingSystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual(['', '', '', '', '']);
   });
 
   it('should render correctly with data', () => {
-    const store = mockStore(initialState);
-    const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-  });
+    render(
+      <TestWrapper store={mockStore(initialState)}>
+        <OperatingSystemCard />
+      </TestWrapper>
+    );
 
-  it('should render enabled/disabled', () => {
-    const store = mockStore({
-      systemProfileStore: {
-        systemProfile: {
-          loaded: true,
-          ...osTest,
-        },
-      },
-      entityDetails: {
-        entity: {},
-      },
-    });
-    const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual([
+      'test-release',
+      'test-kernel',
+      'test-arch',
+      'Not available',
+      '0 modules',
+    ]);
   });
 
   it('should render correctly with rhsm facts', () => {
-    const store = mockStore({
-      ...initialState,
-      systemProfileStore: {
-        systemProfile: {
-          loaded: true,
-        },
-      },
-    });
-    const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+            },
+          },
+        })}
+      >
+        <OperatingSystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getAllByRole('definition').map((element) => element.textContent)
+    ).toEqual([
+      'Not available',
+      'Not available',
+      'x86_64',
+      'Not available',
+      'Not available',
+    ]);
   });
 
   describe('api', () => {
     it('should not render modules clickable', () => {
-      const store = mockStore(initialState);
-      const wrapper = mountWithRouter(<OperatingSystemCard store={store} />);
-      expect(wrapper.find(Clickable).find('a')).toHaveLength(0);
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <OperatingSystemCard />
+        </TestWrapper>
+      );
+
+      expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
 
-    it('should call handleClick on packages', () => {
+    it('should call handleClick on packages', async () => {
       initialState = {
         systemProfileStore: {
           systemProfile: {
@@ -104,14 +134,15 @@ describe('OperatingSystemCard', () => {
           },
         },
       };
-
-      const store = mockStore(initialState);
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/kernel_modules';
-      const wrapper = mountWithRouter(
-        <OperatingSystemCard handleClick={onClick} store={store} />
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <OperatingSystemCard handleClick={onClick} />
+        </TestWrapper>
       );
-      wrapper.find(Clickable).find('a').first().simulate('click');
+
+      await userEvent.click(screen.getByRole('link'));
       expect(onClick).toHaveBeenCalled();
     });
   });
@@ -122,31 +153,42 @@ describe('OperatingSystemCard', () => {
     'hasArchitecture',
     'hasLastBoot',
     'hasKernelModules',
-  ].map((item) =>
+  ].map((item, index) =>
     it(`should not render ${item}`, () => {
-      const store = mockStore(initialState);
-      const wrapper = mountWithRouter(
-        <OperatingSystemCard store={store} {...{ [item]: false }} />
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <OperatingSystemCard {...{ [item]: false }} />
+        </TestWrapper>
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      expect(
+        screen.queryByRole('definition', { name: fields[index] })
+      ).not.toBeInTheDocument();
     })
   );
 
   it('should render extra', () => {
-    const store = mockStore(initialState);
-    const wrapper = mountWithRouter(
-      <OperatingSystemCard
-        store={store}
-        extra={[
-          { title: 'something', value: 'test' },
-          {
-            title: 'with click',
-            value: '1 tests',
-            onClick: (_e, handleClick) => handleClick('Something', {}, 'small'),
-          },
-        ]}
-      />
+    render(
+      <TestWrapper store={mockStore(initialState)}>
+        <OperatingSystemCard
+          extra={[
+            { title: 'something', value: 'test' },
+            {
+              title: 'with click',
+              value: '1 tests',
+              onClick: (_e, handleClick) =>
+                handleClick('Something', {}, 'small'),
+            },
+          ]}
+        />
+      </TestWrapper>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    screen.getByRole('definition', {
+      name: /something value/i,
+    });
+    screen.getByRole('link', {
+      name: /1 tests/i,
+    });
   });
 });

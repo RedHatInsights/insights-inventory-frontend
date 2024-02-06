@@ -1,12 +1,8 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/display-name */
-/* eslint-disable camelcase */
 import React from 'react';
-import { mount, render } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import GeneralInformation from './GeneralInformation';
-import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
+import promiseMiddleware from 'redux-promise-middleware';
 import {
   biosTest,
   collectInfoTest,
@@ -15,12 +11,15 @@ import {
   osTest,
   testProperties,
 } from '../../../__mocks__/selectors';
-import promiseMiddleware from 'redux-promise-middleware';
-import { MemoryRouter } from 'react-router-dom';
+import GeneralInformation from './GeneralInformation';
 
-import { hosts } from '../../../api/api';
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
+import { hosts } from '../../../api/api';
+
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
 jest.mock(
@@ -31,19 +30,31 @@ jest.mock(
   })
 );
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => location,
-}));
-
-const location = {};
+const expectCardsToExist = (
+  titles = [
+    'System properties',
+    'Infrastructure',
+    'System status',
+    'Data collectors',
+    'Operating system',
+    'BIOS',
+    'Configuration',
+  ]
+) => {
+  titles.forEach((title) => {
+    expect(
+      screen.getByRole('heading', {
+        name: title,
+      })
+    ).toBeVisible();
+  });
+};
 
 describe('GeneralInformation', () => {
   let initialState;
   let mockStore;
 
   beforeEach(() => {
-    location.pathname = 'localhost:3000/example/path';
     mockStore = configureStore([promiseMiddleware]);
     initialState = {
       entityDetails: {
@@ -88,65 +99,80 @@ describe('GeneralInformation', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(
-      <MemoryRouter>
+    render(
+      <MemoryRouter initialEntries={['/example']}>
         <Provider store={store}>
           <GeneralInformation inventoryId={'test-id'} />
         </Provider>
       </MemoryRouter>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    expectCardsToExist();
   });
 
   it('should render correctly', () => {
     const store = mockStore(initialState);
-    const wrapper = render(
-      <MemoryRouter>
+    const view = render(
+      <MemoryRouter initialEntries={['/example']}>
         <Provider store={store}>
-          <GeneralInformation />
+          <GeneralInformation inventoryId={'test-id'} />
         </Provider>
       </MemoryRouter>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    expectCardsToExist();
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   describe('custom components', () => {
-    [
-      'SystemCardWrapper',
-      'OperatingSystemCardWrapper',
-      'BiosCardWrapper',
-      'InfrastructureCardWrapper',
-      'ConfigurationCardWrapper',
-      'CollectionCardWrapper',
-    ].map((item) => {
-      it(`should not render ${item}`, () => {
+    const mapping = {
+      SystemCardWrapper: 'System properties',
+      OperatingSystemCardWrapper: 'Operating system',
+      BiosCardWrapper: 'BIOS',
+      InfrastructureCardWrapper: 'Infrastructure',
+      ConfigurationCardWrapper: 'Configuration',
+      DataCollectorsCardWrapper: 'Data collectors',
+    };
+
+    Object.entries(mapping).map(([wrapper, title]) => {
+      it(`should not render ${title}`, () => {
         const store = mockStore(initialState);
-        const wrapper = render(
-          <MemoryRouter>
+        render(
+          <MemoryRouter initialEntries={['/example']}>
             <Provider store={store}>
               <GeneralInformation
-                {...{ [item]: false }}
+                {...{ [wrapper]: false }}
                 inventoryId={'test-id'}
               />
             </Provider>
           </MemoryRouter>
         );
-        expect(toJson(wrapper)).toMatchSnapshot();
+
+        expect(
+          screen.queryByRole('heading', {
+            name: title,
+          })
+        ).not.toBeInTheDocument();
       });
 
-      it(`should render custom ${item}`, () => {
+      it(`should render custom ${title}`, () => {
         const store = mockStore(initialState);
-        const wrapper = render(
-          <MemoryRouter>
+        render(
+          <MemoryRouter initialEntries={['/example']}>
             <Provider store={store}>
               <GeneralInformation
-                {...{ [item]: () => <div>test</div> }}
+                {...{ [wrapper]: () => <div>test</div> }}
                 inventoryId={'test-id'}
               />
             </Provider>
           </MemoryRouter>
         );
-        expect(toJson(wrapper)).toMatchSnapshot();
+
+        expect(
+          screen.queryByRole('heading', {
+            name: title,
+          })
+        ).not.toBeInTheDocument();
       });
     });
   });
@@ -155,6 +181,7 @@ describe('GeneralInformation', () => {
     mock
       .onGet('/api/inventory/v1/hosts/test-id/system_profile')
       .reply(200, mockedData);
+
     it('should get data from server', () => {
       const store = mockStore({
         systemProfileStore: {},
@@ -165,57 +192,50 @@ describe('GeneralInformation', () => {
           },
         },
       });
-      mount(
-        <MemoryRouter>
+      render(
+        <MemoryRouter initialEntries={['/example']}>
           <Provider store={store}>
             <GeneralInformation inventoryId={'test-id'} />
           </Provider>
         </MemoryRouter>
       );
+
       expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
     });
 
-    it('should open modal', () => {
+    it('should open modal with url', async () => {
       const store = mockStore(initialState);
-      location.pathname = 'localhost:3000/example/running_processes';
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <GeneralInformation inventoryId={'test-id'} />
-          </Provider>
-        </MemoryRouter>,
-        ['Test detail page', '/:inventory/:modalId']
-      );
-      wrapper.find('a[href$="running_processes"]').first().simulate('click');
-      wrapper.update();
-      expect(
-        wrapper.find('GeneralInformation').instance().state.isModalOpen
-      ).toBe(true);
-      expect(
-        wrapper.find('GeneralInformation').instance().state.modalTitle
-      ).toBe('Running processes');
-    });
-
-    it('should open modal', () => {
-      const store = mockStore(initialState);
-      location.pathname = 'localhost:3000/example/running_processes';
-      const wrapper = mount(
-        <MemoryRouter>
+      render(
+        <MemoryRouter initialEntries={['/example/ipv4']}>
           <Provider store={store}>
             <GeneralInformation inventoryId={'test-id'} />
           </Provider>
         </MemoryRouter>
       );
-      wrapper.find('a[href$="running_processes"]').first().simulate('click');
-      wrapper.update();
-      wrapper
-        .find('.ins-c-inventory__detail--dialog button.pf-m-plain')
-        .first()
-        .simulate('click');
-      wrapper.update();
-      expect(
-        wrapper.find('GeneralInformation').instance().state.isModalOpen
-      ).toBe(false);
+
+      await waitFor(() => {
+        screen.getByRole('dialog', {
+          name: /ipv4 modal/i,
+        });
+      });
+    });
+
+    it('should open modal by click', async () => {
+      const store = mockStore(initialState);
+      render(
+        <MemoryRouter initialEntries={['/example']}>
+          <Provider store={store}>
+            <GeneralInformation inventoryId={'test-id'} />
+          </Provider>
+        </MemoryRouter>
+      );
+
+      await userEvent.click(screen.getAllByText('2 addresses')[0]);
+      await waitFor(() => {
+        screen.getByRole('dialog', {
+          name: /ipv4 modal/i,
+        });
+      });
     });
   });
 });
