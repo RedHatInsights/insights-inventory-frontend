@@ -33,9 +33,14 @@ describe('EntityTable', () => {
 
       expect(
         screen.getByRole('button', {
-          name: '10',
+          name: /tag count/i,
         })
       ).toBeVisible();
+      expect(
+        screen.getByRole('button', {
+          name: /tag count/i,
+        })
+      ).toHaveTextContent('10');
       expect(view.asFragment()).toMatchSnapshot();
     });
   });
@@ -47,7 +52,7 @@ describe('EntityTable', () => {
 
       await userEvent.click(
         screen.getByRole('button', {
-          name: '10',
+          name: /tag count/i,
         })
       );
       const actions = store.getActions();
@@ -60,7 +65,7 @@ describe('EntityTable', () => {
 
       await userEvent.click(
         screen.getByRole('button', {
-          name: '10',
+          name: /tag count/i,
         })
       );
       const actions = store.getActions();

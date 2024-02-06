@@ -22,7 +22,7 @@ jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
     },
     appAction: jest.fn(),
     appObjectId: jest.fn(),
-    on: jest.fn(),
+    on: () => jest.fn(),
     getUserPermissions: () => Promise.resolve(['inventory:*:*']),
     getApp: jest.fn(),
     getBundle: jest.fn(),

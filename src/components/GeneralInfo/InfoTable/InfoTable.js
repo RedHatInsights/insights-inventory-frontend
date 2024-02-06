@@ -111,6 +111,9 @@ class InfoTable extends Component {
               this.onUpdatePagination({ ...pagination, page }),
             onPerPageSelect: (_e, perPage) =>
               this.onUpdatePagination({ ...pagination, page: 1, perPage }),
+            titles: {
+              optionsToggleAriaLabel: 'Items per page',
+            },
           }}
           {...(filters && {
             filterConfig: {
@@ -169,6 +172,9 @@ class InfoTable extends Component {
             onPerPageSelect={(_e, perPage) =>
               this.onUpdatePagination({ ...pagination, page: 1, perPage })
             }
+            titles={{
+              optionsToggleAriaLabel: 'Items per page',
+            }}
           />
         </TableToolbar>
       </Fragment>

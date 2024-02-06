@@ -370,7 +370,7 @@ describe('SystemCard', () => {
             transforms: expect.any(Array),
           },
         ],
-        filters: [{ type: 'textual' }],
+        filters: [{ type: 'text' }],
         rows: [['AAA'], ['BBB']],
       });
     });
@@ -407,7 +407,7 @@ describe('SystemCard', () => {
             transforms: expect.any(Array),
           },
         ],
-        filters: [{ type: 'textual' }],
+        filters: [{ type: 'text' }],
         rows: [['flag_1'], ['flag_2']],
       });
     });

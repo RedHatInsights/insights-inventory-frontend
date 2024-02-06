@@ -4,7 +4,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { isEqual, map, zip } from 'lodash';
+import { map, zip } from 'lodash';
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import { TestWrapper } from '../../Utilities/TestingUtilities';
@@ -13,6 +13,7 @@ import { buildHosts, buildHostsPayload } from '../../__factories__/hosts';
 import * as api from '../../api/api';
 import * as groupsApi from '../InventoryGroups/utils/api';
 import InventoryTable from './InventoryTable';
+import { shouldDispatch, shouldNotDispatch } from '../../Utilities/testUtils';
 
 const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
 const TABLE_HEADERS_SORTING_KEYS = [
@@ -50,38 +51,6 @@ const renderTable = (store, props) => {
         </TestWrapper>
       ),
   };
-};
-
-export const shouldDispatch = (store, { type, payload }) => {
-  try {
-    expect(
-      store
-        .getActions()
-        .find(
-          ({ type: actionType, payload: actionPayload }) =>
-            actionType === type &&
-            (payload === undefined || isEqual(payload, actionPayload))
-        )
-    ).not.toBeUndefined();
-  } catch (error) {
-    throw new Error(`An expected ${type} action was not dispatched.`);
-  }
-};
-
-const shouldNotDispatch = (store, { type, payload }) => {
-  try {
-    expect(
-      store
-        .getActions()
-        .find(
-          ({ type: actionType, payload: actionPayload }) =>
-            actionType === type &&
-            (payload === undefined || isEqual(payload, actionPayload))
-        )
-    ).toBeUndefined();
-  } catch (error) {
-    throw new Error(`${type} action was dispatched which is not expected.`);
-  }
 };
 
 jest.mock('../../Utilities/useFeatureFlag');
@@ -256,7 +225,7 @@ describe('InventoryTable', () => {
     it('renders four headers', () => {
       renderTable(mockStore(initialState));
 
-      expect(screen.getAllByRole('columnheader')).toHaveLength(5); // one extra for per-row selection
+      expect(screen.getAllByRole('columnheader')).toHaveLength(4);
       TABLE_HEADERS.forEach((title) => {
         expect(
           screen.getByRole('columnheader', {
@@ -266,14 +235,12 @@ describe('InventoryTable', () => {
       });
     });
 
-    it('sorts by last seen', () => {
+    it('does not sort by any column', () => {
       renderTable(mockStore(initialState));
 
-      expect(
-        screen.getByRole('columnheader', {
-          name: /last seen/i,
-        })
-      ).toHaveAttribute('aria-sort', 'descending');
+      screen.getAllByRole('columnheader').forEach((col) => {
+        expect(col).not.toHaveAttribute('aria-sort');
+      });
     });
 
     it('provides default filters', async () => {
@@ -330,6 +297,16 @@ describe('InventoryTable', () => {
       );
     });
 
+    it('sorts by last seen', () => {
+      renderTable(mockStore(loadedState));
+
+      expect(
+        screen.getByRole('columnheader', {
+          name: /last seen/i,
+        })
+      ).toHaveAttribute('aria-sort', 'descending');
+    });
+
     describe('sorting', () => {
       zip(TABLE_HEADERS, TABLE_HEADERS_SORTING_KEYS).map(
         ([header, sortKey], index) =>
@@ -383,7 +360,6 @@ describe('InventoryTable', () => {
         })
       );
       await waitFor(() => {
-        console.log(store.getActions());
         shouldDispatch(store, {
           type: 'SELECT_ENTITY',
           payload: { id: hostsPayload.results[0].id, selected: true },
@@ -401,7 +377,6 @@ describe('InventoryTable', () => {
         })
       );
       await waitFor(() => {
-        console.log(store.getActions());
         shouldDispatch(store, {
           type: 'SELECT_ENTITY',
           payload: { id: 0, selected: true },

@@ -200,7 +200,7 @@ describe('generalMapper', () => {
         ],
         "filters": [
           {
-            "type": "textual",
+            "type": "text",
           },
         ],
         "rows": [
@@ -228,7 +228,7 @@ describe('generalMapper', () => {
         ],
         "filters": [
           {
-            "type": "textual",
+            "type": "text",
           },
         ],
         "rows": [],
@@ -523,7 +523,7 @@ describe('repositoriesMapper', () => {
         ],
         "filters": [
           {
-            "type": "textual",
+            "type": "text",
           },
           {
             "options": [
@@ -687,7 +687,7 @@ describe('repositoriesMapper', () => {
         ],
         "filters": [
           {
-            "type": "textual",
+            "type": "text",
           },
           {
             "options": [

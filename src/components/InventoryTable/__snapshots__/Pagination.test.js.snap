@@ -22,12 +22,13 @@ exports[`Pagination render should render correctly - with no access 1`] = `
       <b>
         0
       </b>
-       
+       items
     </div>
     <div>
       <button
         aria-expanded="false"
         aria-haspopup="listbox"
+        aria-label="Items per page"
         class="pf-v5-c-menu-toggle pf-m-plain pf-m-text pf-m-disabled"
         disabled=""
         id="options-menu-top-toggle"
@@ -43,7 +44,7 @@ exports[`Pagination render should render correctly - with no access 1`] = `
           <b>
             0
           </b>
-           
+           items
         </span>
         <span
           class="pf-v5-c-menu-toggle__controls"
@@ -238,12 +239,13 @@ exports[`Pagination render should render correctly with data 1`] = `
       <b>
         0
       </b>
-       
+       items
     </div>
     <div>
       <button
         aria-expanded="false"
         aria-haspopup="listbox"
+        aria-label="Items per page"
         class="pf-v5-c-menu-toggle pf-m-plain pf-m-text"
         id="options-menu-top-toggle"
         type="button"
@@ -258,7 +260,7 @@ exports[`Pagination render should render correctly with data 1`] = `
           <b>
             0
           </b>
-           
+           items
         </span>
         <span
           class="pf-v5-c-menu-toggle__controls"
@@ -447,6 +449,7 @@ exports[`Pagination render should render correctly with data and isFull 1`] = `
       <button
         aria-expanded="false"
         aria-haspopup="listbox"
+        aria-label="Items per page"
         class="pf-v5-c-menu-toggle pf-m-plain pf-m-text"
         id="options-menu-bottom-toggle"
         type="button"
@@ -461,7 +464,7 @@ exports[`Pagination render should render correctly with data and isFull 1`] = `
           <b>
             500
           </b>
-           
+           items
         </span>
         <span
           class="pf-v5-c-menu-toggle__controls"
@@ -653,12 +656,13 @@ exports[`Pagination render should render correctly with data and props 1`] = `
       <b>
         500
       </b>
-       
+       items
     </div>
     <div>
       <button
         aria-expanded="false"
         aria-haspopup="listbox"
+        aria-label="Items per page"
         class="pf-v5-c-menu-toggle pf-m-plain pf-m-text"
         id="options-menu-top-toggle"
         type="button"
@@ -673,7 +677,7 @@ exports[`Pagination render should render correctly with data and props 1`] = `
           <b>
             500
           </b>
-           
+           items
         </span>
         <span
           class="pf-v5-c-menu-toggle__controls"

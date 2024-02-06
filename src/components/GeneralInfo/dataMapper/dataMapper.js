@@ -166,7 +166,7 @@ export const repositoriesMapper = (
     },
   ]),
   filters: [
-    { type: 'textual' },
+    { type: 'text' },
     {
       type: 'checkbox',
       options: [
@@ -192,5 +192,5 @@ export const generalMapper = (data = [], title = '') => ({
     },
   ],
   rows: data.map((item) => [item]),
-  filters: [{ type: 'textual' }],
+  filters: [{ type: 'text' }],
 });

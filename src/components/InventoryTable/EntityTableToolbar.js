@@ -552,6 +552,9 @@ const EntityTableToolbar = ({
               onSetPage: (_e, newPage) => onRefreshData({ page: newPage }),
               onPerPageSelect: (_e, newPerPage) =>
                 onRefreshData({ page: 1, per_page: newPerPage }),
+              titles: {
+                optionsToggleAriaLabel: 'Items per page',
+              },
               ...paginationProps,
             }
           ) : (
