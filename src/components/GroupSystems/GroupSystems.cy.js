@@ -129,7 +129,7 @@ describe('defaults', () => {
   });
 
   it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
-    cy.get('.pf-v5-c-options-menu__toggle-text')
+    cy.get('.pf-v5-c-menu-toggle__text')
       .find('b')
       .eq(0)
       .should('have.text', `1 - ${DEFAULT_ROW_COUNT}`);

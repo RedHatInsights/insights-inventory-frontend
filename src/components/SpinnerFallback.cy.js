@@ -1,6 +1,6 @@
 import React from 'react';
 import Fallback from './SpinnerFallback';
-import { mount } from '@cypress/react';
+import { mount } from '@cypress/react18';
 
 describe('SpinnerFallback tests', () => {
   it('renders correctly', () => {
