@@ -142,10 +142,8 @@ const EntityTable = ({
       ) : (
         <SkeletonTable
           columns={columns.map(({ title }) => title)}
-          rowSize={15}
+          rows={15}
           variant={variant ?? modifiedTableProps.variant}
-          isSelectable={hasCheckbox}
-          sortBy={tableSortBy}
         />
       )}
     </React.Fragment>
