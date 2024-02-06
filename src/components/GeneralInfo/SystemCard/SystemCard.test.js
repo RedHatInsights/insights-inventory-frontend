@@ -190,7 +190,7 @@ describe('SystemCard', () => {
       ).toHaveTextContent('test-ansible-host');
     });
 
-    it('should calculate correct ansible host - fqdn', () => {
+    it('should calculate correct ansible host - from fqdn', () => {
       render(
         <TestWrapper
           store={mockStore({
@@ -215,7 +215,7 @@ describe('SystemCard', () => {
       ).toHaveTextContent('test-fqdn');
     });
 
-    it('should calculate correct ansible host - fqdn', () => {
+    it('should calculate correct ansible host - from id', () => {
       render(
         <TestWrapper
           store={mockStore({
