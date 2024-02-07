@@ -1,14 +1,14 @@
 /* eslint-disable no-import-assign */
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import debounce from 'lodash/debounce';
 import React from 'react';
-import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import { Provider } from 'react-redux';
-import toJson from 'enzyme-to-json';
-import TagsModal from './TagsModal';
-import debounce from 'lodash/debounce';
-
 import * as api from '../api/api';
+import TagsModal from './TagsModal';
 
 jest.mock('lodash/debounce');
 describe('TagsModal', () => {
@@ -26,15 +26,39 @@ describe('TagsModal', () => {
   });
   describe('DOM', () => {
     it('should render loading state correctly', () => {
-      const store = mockStore({});
-      const wrapper = mount(
+      const store = mockStore({
+        entities: {
+          showTagDialog: true,
+          tagModalLoaded: false,
+          activeSystemTag: {
+            tagsLoaded: false,
+          },
+        },
+      });
+      render(
         <Provider store={store}>
           <TagsModal />
         </Provider>
       );
+
+      // TODO: improve skeleton accessibility to query skeleton rows directly
+      expect(screen.getAllByRole('row')).toHaveLength(11); // including header
+      expect(screen.getByLabelText('Loading')).toBeVisible();
       expect(
-        toJson(wrapper.find('TagsModal'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('columnheader', {
+          name: /name/i,
+        })
+      ).toBeVisible();
+      expect(
+        screen.getByRole('columnheader', {
+          name: /value/i,
+        })
+      ).toBeVisible();
+      expect(
+        screen.getByRole('columnheader', {
+          name: /tag source/i,
+        })
+      ).toBeVisible();
     });
 
     it('should render activeSystemTag', () => {
@@ -56,17 +80,39 @@ describe('TagsModal', () => {
           },
         },
       });
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <TagsModal />
         </Provider>
       );
+
       expect(
-        toJson(wrapper.find('TagsModal'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('columnheader', {
+          name: /name/i,
+        })
+      ).toBeVisible();
+      expect(
+        screen.getByRole('columnheader', {
+          name: /value/i,
+        })
+      ).toBeVisible();
+      expect(
+        screen.getByRole('columnheader', {
+          name: /tag source/i,
+        })
+      ).toBeVisible();
+
+      expect(screen.getAllByRole('cell')).toHaveLength(4);
+      screen
+        .getAllByRole('cell')
+        .forEach((cell, index) =>
+          expect(cell).toHaveTextContent(
+            ['', 'some', 'test', 'something'][index]
+          )
+        );
     });
 
-    it('should render alltags', () => {
+    it('should render all tags', () => {
       const store = mockStore({
         entities: {
           ...initialState.entities,
@@ -91,14 +137,23 @@ describe('TagsModal', () => {
           ],
         },
       });
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <TagsModal store={store} />
         </Provider>
       );
+
+      expect(screen.getByText(/all tags in inventory \(50\)/i)).toBeVisible();
       expect(
-        toJson(wrapper.find('TagsModal'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+        screen.getByRole('button', {
+          name: /apply tags/i,
+        })
+      ).toBeDisabled();
+      expect(
+        screen.getByRole('button', {
+          name: /cancel/i,
+        })
+      ).toBeEnabled();
     });
   });
 
@@ -108,7 +163,7 @@ describe('TagsModal', () => {
       api.getAllTags = jest.fn().mockImplementation(() => Promise.resolve());
     });
 
-    it('should NOT call onApply select correct tag', () => {
+    it('should call onApply select correct tag', async () => {
       const onApply = jest.fn();
       const store = mockStore({
         entities: {
@@ -134,73 +189,26 @@ describe('TagsModal', () => {
           ],
         },
       });
-      const wrapper = mount(
-        <Provider store={store}>
-          <TagsModal />
-        </Provider>
-      );
-      wrapper
-        .find('tbody tr .pf-c-table__check input')
-        .first()
-        .simulate('change', {
-          target: {
-            value: 'checked',
-          },
-        });
-      wrapper
-        .find('.pf-c-modal-box__footer .pf-c-button.pf-m-primary')
-        .first()
-        .simulate('click');
-      expect(onApply).not.toHaveBeenCalled();
-    });
-
-    it('should call onApply select correct tag', () => {
-      const onApply = jest.fn();
-      const store = mockStore({
-        entities: {
-          ...initialState.entities,
-          allTagsLoaded: true,
-          allTagsTotal: 50,
-          allTagsPagination: {
-            page: 1,
-            perPage: 10,
-          },
-          allTags: [
-            {
-              tags: [
-                {
-                  tag: {
-                    key: 'some',
-                    value: 'test',
-                    namespace: 'something',
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      });
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <TagsModal onApply={onApply} />
         </Provider>
       );
-      wrapper
-        .find('tbody tr .pf-c-table__check input')
-        .first()
-        .simulate('change', {
-          target: {
-            value: 'checked',
-          },
-        });
-      wrapper
-        .find('.pf-c-modal-box__footer .pf-c-button.pf-m-primary')
-        .first()
-        .simulate('click');
-      expect(onApply).toHaveBeenCalled();
+
+      await userEvent.click(
+        screen.getByRole('checkbox', {
+          name: /select row 0/i,
+        })
+      );
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /apply tags/i,
+        })
+      );
+      expect(onApply).toHaveBeenCalledTimes(1);
     });
 
-    it('should toggle modal', () => {
+    it('should toggle modal', async () => {
       const store = mockStore({
         entities: {
           ...initialState.entities,
@@ -225,12 +233,17 @@ describe('TagsModal', () => {
           ],
         },
       });
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <TagsModal />
         </Provider>
       );
-      wrapper.find('.pf-c-button.pf-m-plain').first().simulate('click');
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /close/i,
+        })
+      );
       const actions = store.getActions();
       expect(actions[0]).toMatchObject({
         payload: { isOpen: false },
@@ -238,7 +251,7 @@ describe('TagsModal', () => {
       });
     });
 
-    it('should fetch additional tags when all tags shown', () => {
+    it('should fetch additional tags when all tags shown', async () => {
       const store = mockStore({
         entities: {
           ...initialState.entities,
@@ -263,15 +276,18 @@ describe('TagsModal', () => {
           ],
         },
       });
-      const wrapper = mount(
+      render(
         <Provider store={store}>
           <TagsModal />
         </Provider>
       );
-      wrapper
-        .find('.pf-c-pagination__nav button[data-action="next"]')
-        .first()
-        .simulate('click');
+
+      expect(
+        screen.getAllByRole('button', { name: /go to next page/i })
+      ).toHaveLength(2);
+      await userEvent.click(
+        screen.getAllByRole('button', { name: /go to next page/i })[0]
+      );
       const actions = store.getActions();
       expect(actions[0]).toMatchObject({ type: 'ALL_TAGS_PENDING' });
     });

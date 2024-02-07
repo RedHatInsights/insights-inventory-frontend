@@ -1,10 +1,8 @@
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { mount } from 'enzyme';
-import { PencilAltIcon } from '@patternfly/react-icons';
-
 import EditButton from './EditButton';
-import { Tooltip } from '@patternfly/react-core';
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
@@ -29,24 +27,20 @@ describe('EditButton with access', () => {
   });
 
   it('enables with permission', () => {
-    const wrapper = mount(<EditButton onClick={onClick} link={link} />);
+    render(<EditButton onClick={onClick} link={link} />);
 
-    expect(wrapper.find(Tooltip)).toHaveLength(0);
-    expect(wrapper.find(PencilAltIcon)).toHaveLength(1);
-    expect(wrapper.find('a').props().href).toEqual(
+    expect(screen.getByRole('link', { name: /edit/i })).toBeVisible();
+    expect(screen.getByRole('link', { name: /edit/i })).toHaveAttribute(
+      'href',
       'http://localhost:5000//some-link'
     );
   });
 
   it('click on link', async () => {
-    const wrapper = mount(<EditButton onClick={onClick} link={link} />);
+    render(<EditButton onClick={onClick} link={link} />);
 
     expect(onClick).not.toHaveBeenCalled();
-
-    await act(async () => {
-      wrapper.find('a').simulate('click');
-    });
-
-    expect(onClick).toHaveBeenCalled();
+    await userEvent.click(screen.getByRole('link', { name: /edit/i }));
+    await waitFor(() => expect(onClick).toHaveBeenCalled());
   });
 });

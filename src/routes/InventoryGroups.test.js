@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import InventoryGroups from './InventoryGroups';
 
@@ -7,7 +8,6 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => jest.fn(),
 }));
-
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
   () => ({
@@ -20,20 +20,25 @@ jest.mock(
 
 describe('inventory groups route', () => {
   it('renders header and table wrapper', () => {
-    const { container } = render(<InventoryGroups />);
+    render(<InventoryGroups />);
 
-    expect(container.querySelector('h1')).toHaveTextContent('Groups');
-    expect(
-      container.querySelector('[data-ouia-component-id="groups-table-wrapper"]')
-    ).toBeInTheDocument();
+    screen.getByRole('heading', {
+      name: /groups/i,
+    });
+    screen.getByTestId('groups-table-wrapper');
   });
 
-  it('should contain get help expandable', () => {
-    const { getByText } = render(<InventoryGroups />);
-    expect(getByText('Help get started with new features')).toBeInTheDocument();
-    expect(getByText('Create an Inventory group')).toBeInTheDocument();
-    expect(
-      getByText('Configure User Access for your Inventory groups')
-    ).toBeInTheDocument();
+  it('should contain get help expandable', async () => {
+    render(<InventoryGroups />);
+
+    await userEvent.click(
+      screen.getByText(/help get started with new features/i)
+    );
+    screen.getByRole('button', {
+      name: /create an inventory group/i,
+    });
+    screen.getByRole('button', {
+      name: /configure user access for your inventory groups/i,
+    });
   });
 });

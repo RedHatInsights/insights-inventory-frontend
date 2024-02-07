@@ -1,23 +1,45 @@
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import NoEntitiesFound from './NoEntitiesFound';
 
 describe('NoSystemsTable', () => {
   it('should render correctly - no systems', () => {
-    const wrapper = mount(<NoEntitiesFound />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-    expect(wrapper.find('h5').text()).toBe('No matching systems found');
+    render(<NoEntitiesFound />);
+
+    expect(
+      screen.getByRole('heading', {
+        name: /no matching systems found/i,
+      })
+    ).toBeVisible();
+    expect(
+      screen.getByText(/to continue, edit your filter settings and try again/i)
+    ).toBeVisible();
   });
 
   it('should render correctly - no groups', () => {
-    const wrapper = mount(<NoEntitiesFound entities="groups" />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-    expect(wrapper.find('h5').text()).toBe('No matching groups found');
+    render(<NoEntitiesFound entities="groups" />);
+
+    expect(
+      screen.getByRole('heading', {
+        name: /no matching groups found/i,
+      })
+    ).toBeVisible();
+    expect(
+      screen.getByText(/to continue, edit your filter settings and try again/i)
+    ).toBeVisible();
   });
 
-  it('renders link if callback provided', () => {
-    const wrapper = mount(<NoEntitiesFound onClearAll={() => 42} />);
-    expect(wrapper.find('.pf-m-link').text()).toBe('Clear all filters');
+  it('renders link if callback provided', async () => {
+    const callback = jest.fn();
+    render(<NoEntitiesFound onClearAll={callback} />);
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /clear all filters/i,
+      })
+    );
+    expect(callback).toBeCalled();
   });
 });

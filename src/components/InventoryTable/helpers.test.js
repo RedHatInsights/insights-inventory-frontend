@@ -1,6 +1,6 @@
+import { sortable } from '@patternfly/react-table';
+import { render } from '@testing-library/react';
 import React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import {
   buildCells,
   createColumns,
@@ -8,7 +8,6 @@ import {
   onDeleteFilter,
   onDeleteTag,
 } from './helpers';
-import { sortable } from '@patternfly/react-table';
 
 describe('buildCells', () => {
   it('should create cells without renderFunc', () => {
@@ -28,7 +27,7 @@ describe('buildCells', () => {
   });
 
   it('should create cells with renderFunc', () => {
-    const renderFunc = jest.fn(() => 'testing');
+    const renderFunc = () => 'testing';
     const data = buildCells(
       {
         first: 'test',
@@ -41,7 +40,13 @@ describe('buildCells', () => {
     expect(data.length).toBe(3);
     expect(data[0]).toBe('test');
     expect(data[1]).toBe('dot');
-    expect(toJson(mount(data[2]))).toMatchSnapshot();
+
+    const view = render(data[2]);
+    expect(view.asFragment()).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        testing
+      </DocumentFragment>
+    `);
   });
 });
 
@@ -52,6 +57,7 @@ describe('createRows', () => {
       dot: 'dot',
     },
   }));
+
   const cells = [{ key: 'first' }, { key: 'second.dot' }, { key: 'third' }];
   it('should create empty table', () => {
     const data = createRows();

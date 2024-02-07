@@ -13,13 +13,17 @@ const OperatingSystemFormatter = ({ operatingSystem }) => {
       null;
 
     return (
-      <span>
+      <span aria-label="Formatted OS version">
         {operatingSystem.name} {version}
       </span>
     );
   }
 
-  return <span>{operatingSystem?.name || 'Not available'}</span>;
+  return (
+    <span aria-label="Formatted OS version">
+      {operatingSystem?.name || 'Not available'}
+    </span>
+  );
 };
 
 OperatingSystemFormatter.propTypes = {

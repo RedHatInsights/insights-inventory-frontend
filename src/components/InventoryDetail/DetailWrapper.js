@@ -46,6 +46,7 @@ const DetailWrapper = ({
       className={`ins-c-inventory__drawer ${className || ''}`}
       isExpanded={isExpanded}
       onExpand={() => dispatch(toggleDrawer(true))}
+      data-testid="inventory-drawer"
       {...props}
     >
       <DrawerContent

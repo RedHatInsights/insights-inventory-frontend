@@ -18,7 +18,10 @@ const InsightsDisconnected = () => (
       </Grid>
     }
   >
-    <span className="pf-u-ml-sm ins-c-inventor__disconnected-icon">
+    <span
+      className="pf-u-ml-sm ins-c-inventor__disconnected-icon"
+      aria-label="Disconnected indicator"
+    >
       <DisconnectedIcon />
     </span>
   </Tooltip>

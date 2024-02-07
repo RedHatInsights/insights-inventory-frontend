@@ -1,9 +1,7 @@
-/* eslint-disable camelcase */
 import React from 'react';
-import { render } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import SystemStatusCard from './SystemStatusCard';
 import configureStore from 'redux-mock-store';
+import { render } from '@testing-library/react';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -39,23 +37,23 @@ describe('SystemStatusCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = render(<SystemStatusCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(<SystemStatusCard store={store} />);
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<SystemStatusCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(<SystemStatusCard store={store} />);
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   ['hasState', 'hasLastCheckIn', 'hasRegistered', 'hasRHC'].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
-      const wrapper = render(
+      const view = render(
         <SystemStatusCard store={store} {...{ [item]: false }} />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(view.asFragment()).toMatchSnapshot();
     })
   );
 });

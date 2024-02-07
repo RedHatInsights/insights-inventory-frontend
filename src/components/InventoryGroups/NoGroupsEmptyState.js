@@ -29,6 +29,7 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
       <EmptyStateIcon
         icon={PlusCircleIcon}
         color={globalPaletteBlack600.value}
+        data-testid="no-groups-icon"
       />
       <Title headingLevel="h4" size="lg">
         No inventory groups

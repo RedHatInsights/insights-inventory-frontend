@@ -1,18 +1,9 @@
-/* eslint-disable camelcase */
+import { render } from '@testing-library/react';
 import React from 'react';
-import { render } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import BiosCard from './BiosCard';
 import configureStore from 'redux-mock-store';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { biosTest } from '../../../__mocks__/selectors';
-import { mountWithRouter } from '../../../Utilities/TestingUtilities';
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: 'localhost:3000/example/path',
-  }),
-}));
+import BiosCard from './BiosCard';
 
 describe('BiosCard', () => {
   let initialState;
@@ -33,14 +24,22 @@ describe('BiosCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {} });
-    const wrapper = mountWithRouter(<BiosCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(
+      <TestWrapper store={store}>
+        <BiosCard />
+      </TestWrapper>
+    );
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = mountWithRouter(<BiosCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(
+      <TestWrapper store={store}>
+        <BiosCard />
+      </TestWrapper>
+    );
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data - wrong date', () => {
@@ -54,33 +53,44 @@ describe('BiosCard', () => {
         },
       },
     });
-    const wrapper = mountWithRouter(<BiosCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(
+      <TestWrapper store={store}>
+        <BiosCard />
+      </TestWrapper>
+    );
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   ['hasVendor', 'hasVersion', 'hasReleaseDate'].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
-      const wrapper = render(<BiosCard store={store} {...{ [item]: false }} />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const view = render(
+        <TestWrapper store={store}>
+          <BiosCard {...{ [item]: false }} />
+        </TestWrapper>
+      );
+      expect(view.asFragment()).toMatchSnapshot();
     })
   );
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = mountWithRouter(
-      <BiosCard
-        store={store}
-        extra={[
-          { title: 'something', value: 'test' },
-          {
-            title: 'with click',
-            value: '1 tests',
-            onClick: (_e, handleClick) => handleClick('Something', {}, 'small'),
-          },
-        ]}
-      />
+    const view = render(
+      <TestWrapper store={store}>
+        <BiosCard
+          extra={[
+            { title: 'something', value: 'test' },
+            {
+              title: 'with click',
+              value: '1 tests',
+              onClick: (_e, handleClick) =>
+                handleClick('Something', {}, 'small'),
+            },
+          ]}
+        />
+      </TestWrapper>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+
+    expect(view.asFragment()).toMatchSnapshot();
   });
 });
