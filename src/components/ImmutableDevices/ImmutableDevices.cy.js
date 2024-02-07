@@ -80,13 +80,13 @@ describe('ImmutableDevices', () => {
   });
 
   describe('Status column', () => {
-    it('Should populate Status column with Up to date by default', () => {
+    it('Should populate Status column with Unknown by default', () => {
       defaultProps.getEntities = getEntities((row) => row);
 
       mountWithProps(defaultProps);
 
       cy.get('td[data-label="Status"] > #status > :nth-child(2) > p').contains(
-        'Up to date'
+        'Unknown'
       );
     });
 
