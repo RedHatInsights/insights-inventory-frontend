@@ -1,3 +1,4 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ImmutableDevices from './ImmutableDevices';
@@ -6,6 +7,13 @@ import {
   hostsInterceptors,
 } from '../../../cypress/support/interceptors';
 import { DropdownItem } from '@patternfly/react-core/deprecated';
+import {
+  CONDITIONAL_FILTER,
+  DROPDOWN_ITEM,
+  MENU_ITEM,
+  MENU_TOGGLE,
+  TABLE_ROW,
+} from '@redhat-cloud-services/frontend-components-utilities';
 
 const defaultProps = {
   mergeAppColumns: (columns) => columns,
@@ -214,11 +222,11 @@ describe('ImmutableDevices', () => {
 
     mountWithProps({ ...defaultProps, hideFilters });
 
-    cy.get(`[aria-label="Conditional filter"]`).click();
-    cy.get('.ins-c-conditional-filter__group > ul > li').contains('Tags');
+    cy.get(CONDITIONAL_FILTER).click();
+    cy.get(DROPDOWN_ITEM).contains('Tags');
   });
 
-  it('Should render table actions though the prop', () => {
+  it('Should render table actions through the prop', () => {
     const tableActions = () => [
       {
         title: (
@@ -230,7 +238,7 @@ describe('ImmutableDevices', () => {
     ];
     mountWithProps({ ...defaultProps, tableActions });
 
-    cy.get(`[aria-label="Actions"]`).first().click();
-    cy.get(`[aria-label="Mock table action"]`).should('be.visible');
+    cy.get(TABLE_ROW).first().find(MENU_TOGGLE).click();
+    cy.get(MENU_ITEM).contains('mock table action').should('be.visible');
   });
 });

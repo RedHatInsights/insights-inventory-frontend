@@ -1,19 +1,9 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
-import { ROW } from '@redhat-cloud-services/frontend-components-utilities';
-
 export const ORDER_TO_URL = {
   ascending: 'ASC',
   descending: 'DESC',
 };
 
-export const selectRowN = (number) => {
-  cy.get(ROW).eq(number).find('.pf-v5-c-table__check').click();
-};
-
-export const checkSelectedNumber = (
-  number,
-  selector = '#toggle-checkbox-text'
-) => {
+export const checkSelectedNumber = (number, selector = '#toggle-checkbox') => {
   if (number === 0) {
     cy.get(selector).should('not.exist');
   } else {

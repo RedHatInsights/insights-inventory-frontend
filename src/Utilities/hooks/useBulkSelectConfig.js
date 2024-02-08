@@ -92,7 +92,7 @@ export const useBulkSelectConfig = (
       onSelectRows(0, value);
     },
     toggleProps: {
-      'data-ouia-component-type': 'bulk-select-toggle-button',
+      'data-ouia-component-id': 'bulk-select-toggle-button',
       children: isBulkLoading ? (
         [
           <Fragment key="sd">

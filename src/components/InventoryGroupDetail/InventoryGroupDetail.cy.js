@@ -1,8 +1,11 @@
 /* eslint-disable rulesdir/disallow-fec-relative-imports */
 import {
-  DROPDOWN,
-  DROPDOWN_ITEM,
-  MODAL,
+  BREADCRUMB,
+  MENU_ITEM,
+  MENU_TOGGLE,
+  MODAL_CONTENT,
+  TAB_BUTTON,
+  TAB_CONTENT,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import groupDetailFixtures from '../../../cypress/fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
 import {
@@ -11,8 +14,6 @@ import {
 } from '../../../cypress/support/interceptors';
 import InventoryGroupDetail from './InventoryGroupDetail';
 
-const TAB_CONTENT = '[data-ouia-component-type="PF4/TabContent"]'; // TODO: move to FEC
-const TAB_BUTTON = '[data-ouia-component-type="PF4/TabButton"]'; // TODO: move to FEC
 const TEST_GROUP_ID = '620f9ae75A8F6b83d78F3B55Af1c4b2C';
 
 const mountPage = () =>
@@ -40,7 +41,8 @@ describe('group detail page', () => {
 
     cy.wait('@getGroupDetail');
     cy.get('h1').contains(groupDetailFixtures.results[0].name);
-    cy.get('[data-ouia-component-type="PF4/Breadcrumb"] li')
+    cy.get(BREADCRUMB)
+      .find('li')
       .last()
       .should('have.text', groupDetailFixtures.results[0].name);
   });
@@ -49,9 +51,7 @@ describe('group detail page', () => {
     groupDetailInterceptors['long responding']();
     mountPage();
 
-    cy.get('[data-ouia-component-type="PF4/Breadcrumb"] li')
-      .last()
-      .find('.pf-v5-c-skeleton');
+    cy.get(BREADCRUMB).find('li').last().find('.pf-v5-c-skeleton');
     cy.get('h1').find('.pf-v5-c-skeleton');
     cy.get('.pf-v5-c-empty-state').find('.pf-v5-c-spinner');
   });
@@ -62,11 +62,11 @@ describe('group detail page', () => {
     groupDetailInterceptors['patch successful']();
     mountPage();
 
-    cy.ouiaId('group-actions-dropdown-toggle').should('be.enabled').click();
-    cy.get(DROPDOWN_ITEM).contains('Rename').click();
+    cy.get(MENU_TOGGLE).should('be.enabled').click();
+    cy.get(MENU_ITEM).contains('Rename').click();
 
-    cy.get(MODAL).find('input').type('1');
-    cy.get(MODAL).find('button[type=submit]').click();
+    cy.get(MODAL_CONTENT).find('input').type('1');
+    cy.get(MODAL_CONTENT).find('button[type=submit]').click();
 
     cy.wait('@patchGroup')
       .its('request.body')
@@ -81,8 +81,8 @@ describe('group detail page', () => {
     groupDetailInterceptors['delete successful']();
     mountPage();
 
-    cy.ouiaId('group-actions-dropdown-toggle').should('be.enabled').click();
-    cy.get(DROPDOWN_ITEM).contains('Delete').click();
+    cy.get(MENU_TOGGLE).should('be.enabled').click();
+    cy.get(MENU_ITEM).contains('Delete').click();
 
     cy.get(`div[class="pf-v5-c-check"]`).click();
     cy.get(`button[type="submit"]`).click();
@@ -105,7 +105,8 @@ describe('integration with rbac', () => {
 
     it('should render only id in header and breadcrumb', () => {
       cy.get('h1').contains(groupDetailFixtures.results[0].id);
-      cy.get('[data-ouia-component-type="PF4/Breadcrumb"] li')
+      cy.get(BREADCRUMB)
+        .find('li')
         .last()
         .should('have.text', groupDetailFixtures.results[0].id);
     });
@@ -123,7 +124,7 @@ describe('integration with rbac', () => {
     });
 
     it('actions are disabled', () => {
-      cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
+      cy.get(MENU_TOGGLE).should('be.disabled');
     });
 
     it('should show group id', () => {
@@ -157,7 +158,7 @@ describe('integration with rbac', () => {
     });
 
     it('actions are disabled', () => {
-      cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
+      cy.get(MENU_TOGGLE).should('be.disabled');
     });
 
     it('should not allow to see systems', () => {
@@ -208,7 +209,7 @@ describe('integration with rbac', () => {
     });
 
     it('actions are disabled', () => {
-      cy.get(DROPDOWN).contains('Group actions').should('be.disabled');
+      cy.get(MENU_TOGGLE).should('be.disabled');
       cy.get('button').contains('Add systems').shouldHaveAriaDisabled();
     });
 
