@@ -1,10 +1,13 @@
 /* eslint-disable rulesdir/disallow-fec-relative-imports */
 
 import {
+  ALERT,
+  CONDITIONAL_FILTER,
   DROPDOWN_ITEM,
   TABLE,
   checkTableHeaders,
   ouiaId,
+  selectRowN,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
 import {
@@ -15,7 +18,6 @@ import {
   hostsInterceptors,
   systemProfileInterceptors,
 } from '../../../../cypress/support/interceptors';
-import { selectRowN } from '../../../../cypress/support/utils';
 import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 
 const TABLE_HEADERS = [
@@ -37,8 +39,6 @@ const AVAILABLE_FILTER_NAMES = [
   'Group',
   'Tags',
 ];
-
-const ALERT = '[data-ouia-component-type="PF4/Alert"]';
 
 before(() => {
   cy.mockWindowInsights();
@@ -112,7 +112,7 @@ describe('AddSystemsToGroupModal', () => {
       'true'
     );
     cy.get('button').contains('Add systems').should('be.disabled');
-    selectRowN(4);
+    selectRowN(3);
     cy.get('button').contains('Add systems').click();
     cy.wait('@postHosts')
       .its('request.body')
@@ -128,7 +128,7 @@ describe('AddSystemsToGroupModal', () => {
       'data-ouia-safe',
       'true'
     );
-    selectRowN(1);
+    selectRowN(0);
     cy.get(ALERT); // check the alert is shown
     cy.get('button')
       .contains('Add systems')
@@ -141,7 +141,7 @@ describe('AddSystemsToGroupModal', () => {
       mountModal();
 
       cy.wait('@getHosts');
-      cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+      cy.get(CONDITIONAL_FILTER).click();
       cy.get(DROPDOWN_ITEM).each(($item, i) => {
         expect($item.text()).to.equal(AVAILABLE_FILTER_NAMES[i]);
       });

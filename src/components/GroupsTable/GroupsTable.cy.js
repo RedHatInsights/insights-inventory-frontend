@@ -3,31 +3,32 @@
 import {
   CHIP,
   CHIP_GROUP,
-  DROPDOWN,
   DROPDOWN_ITEM,
-  DROPDOWN_TOGGLE,
-  MODAL,
+  MENU_ITEM,
+  MENU_TOGGLE,
+  MENU_TOGGLE_CHECKBOX,
+  MODAL_CONTENT,
+  PAGINATION_CURRENT,
+  PAGINATION_NEXT,
+  PAGINATION_TOP,
   PAGINATION_VALUES,
-  ROW,
+  PRIMARY_TOOLBAR_ACTIONS,
   SORTING_ORDERS,
-  TEXT_INPUT,
+  TABLE_ROW,
   TOOLBAR,
-  TOOLBAR_FILTER,
   changePagination,
   checkEmptyState,
   checkPaginationTotal,
   checkPaginationValues,
+  checkSelectedNumber,
   checkTableHeaders,
   hasChip,
+  selectRowN,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
 import fixtures from '../../../cypress/fixtures/groups.json';
 import { groupsInterceptors as interceptors } from '../../../cypress/support/interceptors';
-import {
-  ORDER_TO_URL,
-  checkSelectedNumber,
-  selectRowN,
-} from '../../../cypress/support/utils';
+import { ORDER_TO_URL } from '../../../cypress/support/utils';
 import GroupsTable from './GroupsTable';
 
 const DEFAULT_ROW_COUNT = 50;
@@ -125,7 +126,7 @@ describe('defaults', () => {
   });
 
   it('name filter is a default filter', () => {
-    cy.get(TOOLBAR_FILTER).find(TEXT_INPUT).should('exist');
+    cy.ouiaId('name-filter').should('exist');
   });
 });
 
@@ -156,7 +157,7 @@ describe('pagination', () => {
   });
 
   it('can change page', () => {
-    cy.get('button[data-action=next]').eq(0).click(); // click "next page" button
+    cy.get(PAGINATION_TOP).find(PAGINATION_NEXT).click(); // click "next page" button
     cy.wait('@getGroups').its('request.url').should('include', `page=2`);
   });
 });
@@ -173,14 +174,12 @@ describe('url search parameters', () => {
       .its('request.url')
       .should('contain', 'per_page=10')
       .and('contain', 'page=2');
-    cy.ouiaId('pager').eq(0).find(DROPDOWN_TOGGLE).click();
-    cy.get(DROPDOWN_ITEM)
+    cy.get(PAGINATION_TOP).find(MENU_TOGGLE).click();
+    cy.get(PAGINATION_TOP)
+      .find(MENU_ITEM)
       .contains('10 per page')
       .should('have.class', 'pf-m-selected');
-    cy.get('[data-ouia-component-id="pager"] .pf-v5-c-form-control').should(
-      'have.value',
-      2
-    );
+    cy.get(PAGINATION_CURRENT).should('have.value', 2);
   });
 
   it('applies filters', () => {
@@ -280,22 +279,22 @@ describe('selection and bulk selection', () => {
   });
 
   it('can select all in dropdown toggle', () => {
-    cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-v5-c-dropdown__menu > li').eq(2).click();
+    cy.ouiaId('bulk-select-toggle-button').click(); // open selection dropdown
+    cy.get(DROPDOWN_ITEM).contains('Select all').click();
     checkSelectedNumber(fixtures.total);
   });
 
   it('can select all by clicking checkbox', () => {
-    cy.get('#toggle-checkbox').eq(0).click();
+    cy.get(TOOLBAR).find(MENU_TOGGLE_CHECKBOX).click();
     checkSelectedNumber(fixtures.total);
-    cy.get('#toggle-checkbox').eq(0).click();
+    cy.get(TOOLBAR).find(MENU_TOGGLE_CHECKBOX).click();
     checkSelectedNumber(0);
   });
 
   it('can select none', () => {
     selectRowN(1);
-    cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-v5-c-dropdown__menu > li').eq(1).click();
+    cy.get(TOOLBAR).find(MENU_TOGGLE).contains('1 selected').click(); // open selection dropdown
+    cy.get(TOOLBAR).find(MENU_ITEM).eq(1).click();
     checkSelectedNumber(0);
   });
 });
@@ -311,7 +310,7 @@ describe('actions', () => {
   const TEST_ID = 0;
 
   it('bulk delete action is disabled when no items selected', () => {
-    cy.ouiaId('Actions').should('exist').click();
+    cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
     cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
   });
 
@@ -323,13 +322,13 @@ describe('actions', () => {
     });
 
     it('can delete a group, 1', () => {
-      cy.get(ROW)
+      cy.get(TABLE_ROW)
         .eq(TEST_ID + 1)
-        .find(`${DROPDOWN} button`)
+        .find(MENU_TOGGLE)
         .click();
-      cy.get(DROPDOWN_ITEM).contains('Delete group').click();
-      cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
-      cy.get(MODAL)
+      cy.get(MENU_ITEM).contains('Delete group').click();
+      cy.get(MODAL_CONTENT).find('h1').should('contain.text', 'Delete group?');
+      cy.get(MODAL_CONTENT)
         .find('p')
         .should(
           'contain.text',
@@ -339,10 +338,10 @@ describe('actions', () => {
 
     it('can delete a group, 2', () => {
       selectRowN(TEST_ID + 1);
-      cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM).contains('Delete group').click();
-      cy.get(MODAL).find('h1').should('contain.text', 'Delete group?');
-      cy.get(MODAL)
+      cy.get(MODAL_CONTENT).find('h1').should('contain.text', 'Delete group?');
+      cy.get(MODAL_CONTENT)
         .find('p')
         .should(
           'contain.text',
@@ -356,9 +355,9 @@ describe('actions', () => {
       interceptors['successful with some items'](fixturesOneGroup);
 
       selectRowN(3);
-      cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM).contains('Delete group').click();
-      cy.get(MODAL)
+      cy.get(MODAL_CONTENT)
         .find('h1')
         .should('contain.text', 'Cannot delete group at this time');
     });
@@ -371,10 +370,10 @@ describe('actions', () => {
       const TEST_ROWS = [1, 2];
       TEST_ROWS.forEach((row) => selectRowN(row));
 
-      cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
-      cy.get(MODAL).find('h1').should('contain.text', 'Delete groups?');
-      cy.get(MODAL)
+      cy.get(MODAL_CONTENT).find('h1').should('contain.text', 'Delete groups?');
+      cy.get(MODAL_CONTENT)
         .find('p')
         .should(
           'contain.text',
@@ -390,9 +389,9 @@ describe('actions', () => {
       const TEST_ROWS = [1, 2, 3];
       TEST_ROWS.forEach((row) => selectRowN(row));
 
-      cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
-      cy.get(MODAL)
+      cy.get(MODAL_CONTENT)
         .find('h1')
         .should('contain.text', 'Cannot delete groups at this time');
     });
@@ -445,19 +444,18 @@ describe('integration with rbac', () => {
     });
 
     it('disables general actions', () => {
-      cy.ouiaId('Actions').should('exist').click();
-
       cy.get(TOOLBAR)
         .find('button')
         .contains('Create group')
         .shouldHaveAriaDisabled();
+
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
     });
 
     it('disables per-row actions', () => {
-      cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
-
-      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
+      cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
+      cy.get(MENU_ITEM).contains('Delete group').shouldHaveAriaDisabled();
     });
   });
 
@@ -489,20 +487,20 @@ describe('integration with rbac', () => {
     });
 
     it('has actions enabled for permitted group', () => {
-      cy.get(ROW).eq(1).find(`${DROPDOWN} button`).click();
+      cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM).contains('Rename group').shouldHaveAriaEnabled();
       cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaEnabled();
     });
 
     it('has actions disabled for another group', () => {
-      cy.get(ROW).eq(2).find(`${DROPDOWN} button`).click();
+      cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM).contains('Rename group').shouldHaveAriaDisabled();
       cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
     });
 
     it('should allow to bulk delete permitted groups', () => {
-      selectRowN(1);
-      cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+      selectRowN(0);
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM)
         .contains('Delete group')
         .shouldHaveAriaEnabled()
@@ -510,9 +508,9 @@ describe('integration with rbac', () => {
     });
 
     it('cannot bulk delete if restricted group selected', () => {
+      selectRowN(0);
       selectRowN(1);
-      selectRowN(2);
-      cy.get(`${TOOLBAR} ${DROPDOWN}`).eq(1).click(); // open bulk action toolbar
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
     });
   });

@@ -1,7 +1,7 @@
 /* eslint-disable rulesdir/disallow-fec-relative-imports */
 import {
   CHECKBOX,
-  MODAL,
+  MODAL_CONTENT,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import {
   deleteGroupsInterceptors,
@@ -51,7 +51,7 @@ describe('multiple non-empty groups', () => {
       groupIds: fixtures.results.map(({ id }) => id),
     });
     cy.get('[role="progressbar"]');
-    cy.get(MODAL).should('not.exist');
+    cy.get(MODAL_CONTENT).should('not.exist');
   });
 
   it('can close the modal with the cross button', () => {

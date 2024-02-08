@@ -2,37 +2,38 @@
 import {
   CHIP,
   CHIP_GROUP,
-  DROPDOWN,
+  CONDITIONAL_FILTER,
   DROPDOWN_ITEM,
-  DROPDOWN_TOGGLE,
-  MODAL,
+  MENU_ITEM,
+  MENU_TOGGLE,
+  MENU_TOGGLE_CHECKBOX,
+  MODAL_CONTENT,
   PAGINATION_VALUES,
-  ROW,
+  PRIMARY_TOOLBAR,
+  PRIMARY_TOOLBAR_ACTIONS,
   SORTING_ORDERS,
+  TABLE_ROW,
+  TABLE_ROW_CHECKBOX,
   TEXT_INPUT,
-  TOOLBAR,
-  TOOLBAR_FILTER,
   changePagination,
   checkEmptyState,
   checkPaginationTotal,
   checkPaginationValues,
+  checkSelectedNumber as checkSelectedNumberFec,
   checkTableHeaders,
   hasChip,
+  selectRowN,
 } from '@redhat-cloud-services/frontend-components-utilities';
+import _, { cloneDeep } from 'lodash';
+import fixtures from '../../../cypress/fixtures/hosts.json';
 import {
   featureFlagsInterceptors,
   groupsInterceptors,
   hostsInterceptors,
   systemProfileInterceptors,
 } from '../../../cypress/support/interceptors';
+import { ORDER_TO_URL } from '../../../cypress/support/utils';
 import GroupSystems from './GroupSystems';
-import fixtures from '../../../cypress/fixtures/hosts.json';
-import {
-  ORDER_TO_URL,
-  checkSelectedNumber as checkSelectedNumber_,
-  selectRowN,
-} from '../../../cypress/support/utils';
-import _, { cloneDeep } from 'lodash';
 
 const GROUP_NAME = 'foobar';
 const ROOT = 'div[id="group-systems-table"]';
@@ -56,7 +57,7 @@ hostsAllInGroupFixtures.results = hostsAllInGroupFixtures.results.map(
 const TEST_ID = hostsAllInGroupFixtures.results[0].groups[0].id;
 
 const checkSelectedNumber = (number) =>
-  checkSelectedNumber_(number, '#bulk-select-systems-toggle-checkbox-text');
+  checkSelectedNumberFec(number, '#bulk-select-systems-toggle-checkbox');
 
 const mountTable = (initialEntries) =>
   cy.mountWithContext(
@@ -108,7 +109,7 @@ describe('renders correctly', () => {
   });
 
   it('renders toolbar', () => {
-    cy.get(TOOLBAR).should('have.length', 1);
+    cy.get(PRIMARY_TOOLBAR).should('have.length', 1);
   });
 
   it('renders table header', () => {
@@ -136,7 +137,7 @@ describe('defaults', () => {
   });
 
   it('name filter is a default filter', () => {
-    cy.get(TOOLBAR_FILTER).find(TEXT_INPUT).should('exist');
+    cy.get(PRIMARY_TOOLBAR).find(TEXT_INPUT).should('exist');
   });
 });
 
@@ -189,7 +190,7 @@ describe('sorting', () => {
   });
 
   const checkSorting = (label, order, dataField) => {
-    // get appropriate locators
+    // get appropriate selectors
     const header = `.ins-c-entity-table th[data-label="${label}"]`;
     if (order === 'ascending') {
       cy.get(header).find('button').click();
@@ -275,7 +276,7 @@ describe('filtering', () => {
     mountTable();
     waitForTable(true);
 
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(CONDITIONAL_FILTER).click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
   });
 
@@ -331,22 +332,22 @@ describe('selection and bulk selection', () => {
     }); */
 
   it('can select page in dropdown toggle', () => {
-    cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-v5-c-dropdown__menu > li').eq(1).click();
+    cy.ouiaId('bulk-select-toggle-button').click(); // open selection dropdown
+    cy.get(DROPDOWN_ITEM).eq(1).click();
     checkSelectedNumber(fixtures.count);
   });
 
   it('can select page by clicking checkbox', () => {
-    cy.get('#bulk-select-systems-toggle-checkbox').eq(0).click();
+    cy.get(PRIMARY_TOOLBAR).find(MENU_TOGGLE_CHECKBOX).click();
     checkSelectedNumber(fixtures.count);
-    cy.get('#bulk-select-systems-toggle-checkbox').eq(0).click();
+    cy.get(PRIMARY_TOOLBAR).find(MENU_TOGGLE_CHECKBOX).click();
     checkSelectedNumber(0);
   });
 
   it('can select none', () => {
     selectRowN(1);
-    cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-    cy.get('.pf-v5-c-dropdown__menu > li').eq(0).click();
+    cy.ouiaId('bulk-select-toggle-button').click(); // open selection dropdown
+    cy.get(DROPDOWN_ITEM).contains('Select none (0 items)').click();
     checkSelectedNumber(0);
   });
 });
@@ -364,7 +365,7 @@ describe('actions', () => {
 
   it('can open systems add modal', () => {
     cy.get('button').contains('Add systems').click();
-    cy.get(MODAL).find('h1').contains('Add systems');
+    cy.get(MODAL_CONTENT).find('h1').contains('Add systems');
 
     cy.wait('@getHosts');
   });
@@ -374,9 +375,9 @@ describe('actions', () => {
       'DELETE',
       `/api/inventory/v1/groups/${TEST_ID}/hosts/${hostsAllInGroupFixtures.results[0].id}`
     ).as('request');
-    cy.get(ROW).eq(1).find(DROPDOWN).click();
+    cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
-    cy.get(MODAL).within(() => {
+    cy.get(MODAL_CONTENT).within(() => {
       cy.get('h1').should('have.text', 'Remove from group');
       cy.get('button[type="submit"]').click();
       cy.wait('@request');
@@ -392,15 +393,15 @@ describe('actions', () => {
         .join(',')}`
     ).as('request');
 
-    cy.get(ROW).find('[type="checkbox"]').eq(0).click();
-    cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+    cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
+    cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
 
     // TODO: implement ouia selector for this component
-    cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+    cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
-    cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+    cy.get(MENU_ITEM).contains('Remove from group').click();
 
-    cy.get(MODAL).within(() => {
+    cy.get(MODAL_CONTENT).within(() => {
       cy.get('h1').should('have.text', 'Remove from group');
       cy.get('button[type="submit"]').click();
       cy.wait('@request');
@@ -486,17 +487,19 @@ describe('integration with rbac', () => {
 
     it('the table is rendered', () => {
       cy.get('#group-systems-table').should('exist');
-      cy.get(ROW).contains('dolor');
+      cy.get(TABLE_ROW).contains('dolor');
     });
 
     it('no way to add or remove systems', () => {
       cy.get('button').contains('Add systems').shouldHaveAriaDisabled();
-      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
-      cy.get('button').contains('Remove from group').shouldHaveAriaDisabled();
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Remove from group')
+        .shouldHaveAriaDisabled();
     });
 
     it('per-row dropdown should be disabled', () => {
-      cy.get(ROW).eq(1).find(DROPDOWN).click();
+      cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
       cy.get('button').contains('Remove from group').shouldHaveAriaDisabled();
     });
   });
@@ -512,11 +515,11 @@ describe('integration with rbac', () => {
     });
 
     it('can remove more hosts from group', () => {
-      cy.get(ROW).find('[type="checkbox"]').eq(0).click();
-      cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
 
       // TODO: implement ouia selector for this component
-      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
       cy.get(DROPDOWN_ITEM).contains('Remove from group').should('be.enabled');
     });
