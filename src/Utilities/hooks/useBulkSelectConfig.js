@@ -59,6 +59,7 @@ export const useBulkSelectConfig = (
 
   return {
     id: 'bulk-select-systems',
+    count: selected ? selected.size : 0,
     items: [
       {
         title: 'Select none (0 items)',
