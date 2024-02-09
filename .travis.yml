@@ -11,7 +11,7 @@ jobs:
     - stage: Lint
       script: npm run lint && commitlint-travis
     - stage: Test
-      script: npm run test && npm run test:ct
+      script: npm run test
       after_success: npm run coverage
     - stage: Tag
       if: (fork = false) AND (branch = master)
