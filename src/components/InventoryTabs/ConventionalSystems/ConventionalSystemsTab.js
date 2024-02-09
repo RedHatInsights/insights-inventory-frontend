@@ -203,11 +203,6 @@ const ConventionalSystemsTab = ({
                   Add to group
                 </ActionDropdownItem>
               ),
-              props: {
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                },
-              },
             },
             {
               label: (
@@ -240,11 +235,6 @@ const ConventionalSystemsTab = ({
                   Remove from group
                 </ActionDropdownItem>
               ),
-              props: {
-                style: {
-                  padding: 0,
-                },
-              },
             },
           ],
         }}

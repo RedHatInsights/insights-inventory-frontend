@@ -37,9 +37,6 @@ const useTableActions = (
             Edit
           </ActionDropdownItem>
         ),
-        style: {
-          padding: 0, // custom component creates extra padding space
-        },
       },
       {
         title: (
@@ -59,9 +56,6 @@ const useTableActions = (
             Delete
           </ActionDropdownItem>
         ),
-        style: {
-          padding: 0,
-        },
       },
     ];
 
@@ -82,9 +76,6 @@ const useTableActions = (
             Add to group
           </ActionDropdownItem>
         ),
-        style: {
-          padding: 0,
-        },
       },
       {
         title: (
@@ -106,9 +97,6 @@ const useTableActions = (
             Remove from group
           </ActionDropdownItem>
         ),
-        style: {
-          padding: 0,
-        },
       },
     ];
 

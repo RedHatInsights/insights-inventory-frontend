@@ -333,9 +333,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           Rename group
         </ActionDropdownItem>
       ),
-      style: {
-        padding: 0, // custom component creates extra padding space
-      },
     },
     {
       title: (
@@ -355,9 +352,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           Delete group
         </ActionDropdownItem>
       ),
-      style: {
-        padding: 0, // custom component creates extra padding space
-      },
     },
   ];
 
@@ -468,7 +462,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
               ),
               props: {
                 style: {
-                  padding: 0, // custom component creates extra padding space
                   backgroundColor: 'transparent',
                 },
               },
@@ -487,11 +480,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
                   {selectedIds.length > 1 ? 'Delete groups' : 'Delete group'}
                 </ActionDropdownItem>
               ),
-              props: {
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                },
-              },
             },
           ],
         }}

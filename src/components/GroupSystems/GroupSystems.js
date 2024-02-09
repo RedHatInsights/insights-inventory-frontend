@@ -214,9 +214,6 @@ const GroupSystems = ({ groupName, groupId }) => {
                     Remove from group
                   </ActionDropdownItem>
                 ),
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                },
               },
             ],
           }}
@@ -241,7 +238,9 @@ const GroupSystems = ({ groupName, groupId }) => {
                 props: {
                   isAriaDisabled: !canModify || calculateSelected() === 0,
                   ...(!canModify && {
-                    tooltip: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                    tooltipProps: {
+                      content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                    },
                   }),
                 },
                 onClick: () => {

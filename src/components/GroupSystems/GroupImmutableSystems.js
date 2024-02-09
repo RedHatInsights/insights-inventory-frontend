@@ -267,9 +267,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     Remove from group
                   </ActionDropdownItem>
                 ),
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                },
               },
               {
                 title: (
@@ -287,9 +284,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     Update
                   </ActionDropdownItem>
                 ),
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                },
               },
             ],
           }}
@@ -333,7 +327,9 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                 props: {
                   isAriaDisabled: !canModify || calculateSelected() === 0,
                   ...(!canModify && {
-                    tooltip: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                    tooltipProps: {
+                      content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                    },
                   }),
                 },
                 onClick: () => {
