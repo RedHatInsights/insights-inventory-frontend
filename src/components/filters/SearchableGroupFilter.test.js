@@ -38,7 +38,7 @@ it('shows some groups when available', async () => {
     })
   );
   expect(
-    screen.getByRole('option', {
+    screen.getByRole('menuitem', {
       name: /group-1/i,
     })
   ).toBeVisible();
@@ -77,10 +77,10 @@ it('selected groups are checked', async () => {
     })
   );
   expect(
-    screen.getByRole('option', {
-      name: /group-1/i,
+    screen.getByRole('checkbox', {
+      name: 'group-1',
     })
-  ).toHaveAttribute('aria-selected', 'true');
+  ).toBeChecked();
 });
 
 it('shows no group option', async () => {
@@ -99,7 +99,7 @@ it('shows no group option', async () => {
     })
   );
   expect(
-    screen.getByRole('option', {
+    screen.getByRole('menuitem', {
       name: /no group/i,
     })
   ).toBeVisible();
@@ -159,9 +159,9 @@ it('shows no group as the only option', async () => {
     })
   );
   expect(
-    screen.getByRole('option', {
+    screen.getByRole('menuitem', {
       name: /no group/i,
     })
   ).toBeVisible();
-  expect(screen.getAllByRole('option').length).toBe(1);
+  expect(screen.getAllByRole('menuitem').length).toBe(1);
 });

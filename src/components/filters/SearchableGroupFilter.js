@@ -186,6 +186,7 @@ const SearchableGroupFilter = ({
                   isFocused={focusedItemIndex === index}
                   className={option.className}
                   data-ouia-component-id="FilterByGroupOption"
+                  hasCheckbox
                   {...option}
                 />
                 {option.itemId === '' && <Divider />}
