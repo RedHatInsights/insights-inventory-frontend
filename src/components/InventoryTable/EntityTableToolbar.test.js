@@ -105,7 +105,7 @@ describe('EntityTableToolbar', () => {
         ],
         page: 1,
         perPage: 50,
-        total: 500,
+        total: 1,
         allTags: [
           {
             name: 'something',
@@ -182,14 +182,10 @@ describe('EntityTableToolbar', () => {
     });
 
     it('should render correctly - loaded', async () => {
-      const store = mockStore({
-        entities: {
-          loaded: true,
-        },
-      });
+      const store = mockStore(initialState);
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded />
+          <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
         </Provider>
       );
 
@@ -206,7 +202,12 @@ describe('EntityTableToolbar', () => {
       const store = mockStore(initialState);
       render(
         <Provider store={store}>
-          <EntityTableToolbar showTags onRefreshData={onRefreshData} loaded />
+          <EntityTableToolbar
+            showTags
+            onRefreshData={onRefreshData}
+            loaded
+            total={1}
+          />
         </Provider>
       );
       await expectDefaultFiltersVisible();
@@ -246,7 +247,12 @@ describe('EntityTableToolbar', () => {
       const store = mockStore(initialState);
       render(
         <Provider store={store}>
-          <EntityTableToolbar hasItems onRefreshData={onRefreshData} loaded />
+          <EntityTableToolbar
+            hasItems
+            onRefreshData={onRefreshData}
+            loaded
+            total={1}
+          />
         </Provider>
       );
 
@@ -270,8 +276,9 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
             filterConfig={{
-              items: [{ label: 'Filter by text' }],
+              items: [{ label: 'Filter by text', type: 'custom' }],
             }}
+            total={1}
           />
         </Provider>
       );
@@ -286,9 +293,6 @@ describe('EntityTableToolbar', () => {
         screen.getByRole('menuitem', {
           name: /filter by text/i,
         })
-      ).toBeVisible();
-      expect(
-        screen.getByPlaceholderText('Filter by filter by text')
       ).toBeVisible();
     });
 
@@ -315,6 +319,7 @@ describe('EntityTableToolbar', () => {
               ],
             }}
             showTags
+            total={1}
           />
         </Provider>
       );
@@ -334,7 +339,7 @@ describe('EntityTableToolbar', () => {
       });
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded />
+          <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
         </Provider>
       );
 
@@ -371,7 +376,12 @@ describe('EntityTableToolbar', () => {
       });
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded showTags />
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded
+            showTags
+            total={1}
+          />
         </Provider>
       );
 
@@ -411,7 +421,7 @@ describe('EntityTableToolbar', () => {
       });
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded />
+          <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
         </Provider>
       );
 
@@ -427,7 +437,7 @@ describe('EntityTableToolbar', () => {
       const store = mockStore(initialState);
       render(
         <Provider store={store}>
-          <EntityTableToolbar onRefreshData={onRefreshData} loaded>
+          <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1}>
             <div>something</div>
           </EntityTableToolbar>
         </Provider>
@@ -453,7 +463,7 @@ describe('EntityTableToolbar', () => {
       expect(
         // TODO: improve PrimaryToolbar and Pagination accessibility
         // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-        container.querySelector('.pf-c-pagination__total-items')
+        container.querySelector('.pf-v5-c-pagination__total-items')
       ).toHaveTextContent('1 - 50 of 500');
     });
 

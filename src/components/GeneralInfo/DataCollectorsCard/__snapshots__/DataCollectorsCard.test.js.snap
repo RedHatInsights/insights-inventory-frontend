@@ -2,29 +2,29 @@
 
 exports[`DataCollectorsCard should render correctly - no data 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -33,83 +33,88 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <table
             aria-label="Data collectors"
-            class="pf-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
+            class="pf-v5-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
             data-ouia-component-id="OUIA-Generated-Table-1"
-            data-ouia-component-type="PF4/Table"
+            data-ouia-component-type="PF5/Table"
             data-ouia-safe="true"
             role="grid"
           >
             <thead
-              class=""
+              class="pf-v5-c-table__thead"
             >
               <tr
-                class="ins-c__no-border"
+                class="pf-v5-c-table__tr ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-1"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
+                  tabindex="-1"
                 />
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Name
                 </th>
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Status
                 </th>
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Last upload
                 </th>
               </tr>
             </thead>
             <tbody
-              class=""
+              class="pf-v5-c-table__tbody"
               role="rowgroup"
             >
               <tr
-                class=""
+                class="pf-v5-c-table__tr"
                 data-ouia-component-id="OUIA-Generated-TableRow-2"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <td
-                  class="pf-c-table__toggle"
+                  class="pf-v5-c-table__td pf-v5-c-table__toggle"
                   style="padding-left: 0px;"
+                  tabindex="-1"
                 >
                   <button
                     aria-disabled="false"
                     aria-expanded="false"
                     aria-label="Details"
                     aria-labelledby="simple-node0 expand-toggle0"
-                    class="pf-c-button pf-m-plain"
+                    class="pf-v5-c-button pf-m-plain"
                     data-ouia-component-id="OUIA-Generated-Button-plain-1"
-                    data-ouia-component-type="PF4/Button"
+                    data-ouia-component-type="PF5/Button"
                     data-ouia-safe="true"
                     id="expand-toggle0"
                     type="button"
                   >
                     <div
-                      class="pf-c-table__toggle-icon"
+                      class="pf-v5-c-table__toggle-icon"
                     >
                       <svg
                         aria-hidden="true"
+                        class="pf-v5-svg"
                         fill="currentColor"
                         height="1em"
                         role="img"
-                        style="vertical-align: -0.125em;"
                         viewBox="0 0 320 512"
                         width="1em"
                       >
@@ -121,43 +126,48 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                   </button>
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Name"
+                  tabindex="-1"
                 >
                   insights-client
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Status"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Last upload"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
               </tr>
               <tr
-                class="pf-c-table__expandable-row"
+                class="pf-v5-c-table__tr pf-v5-c-table__expandable-row"
                 data-ouia-component-id="OUIA-Generated-TableRow-3"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
                 hidden=""
               >
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
+                  tabindex="-1"
                 />
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   colspan="3"
+                  tabindex="-1"
                 >
                   <div
-                    class="pf-c-table__expandable-row-content"
+                    class="pf-v5-c-table__expandable-row-content"
                   >
                     <div
-                      class="pf-l-flex"
+                      class="pf-v5-l-flex"
                     >
                       <div
                         class="ins-c__flex-row-margin"
@@ -175,40 +185,41 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
               </tr>
             </tbody>
             <tbody
-              class=""
+              class="pf-v5-c-table__tbody"
               role="rowgroup"
             >
               <tr
-                class=""
+                class="pf-v5-c-table__tr"
                 data-ouia-component-id="OUIA-Generated-TableRow-4"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <td
-                  class="pf-c-table__toggle"
+                  class="pf-v5-c-table__td pf-v5-c-table__toggle"
                   style="padding-left: 0px;"
+                  tabindex="-1"
                 >
                   <button
                     aria-disabled="false"
                     aria-expanded="false"
                     aria-label="Details"
                     aria-labelledby="simple-node1 expand-toggle1"
-                    class="pf-c-button pf-m-plain"
+                    class="pf-v5-c-button pf-m-plain"
                     data-ouia-component-id="OUIA-Generated-Button-plain-2"
-                    data-ouia-component-type="PF4/Button"
+                    data-ouia-component-type="PF5/Button"
                     data-ouia-safe="true"
                     id="expand-toggle1"
                     type="button"
                   >
                     <div
-                      class="pf-c-table__toggle-icon"
+                      class="pf-v5-c-table__toggle-icon"
                     >
                       <svg
                         aria-hidden="true"
+                        class="pf-v5-svg"
                         fill="currentColor"
                         height="1em"
                         role="img"
-                        style="vertical-align: -0.125em;"
                         viewBox="0 0 320 512"
                         width="1em"
                       >
@@ -220,43 +231,48 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                   </button>
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Name"
+                  tabindex="-1"
                 >
                   subscription-manager
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Status"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Last upload"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
               </tr>
               <tr
-                class="pf-c-table__expandable-row"
+                class="pf-v5-c-table__tr pf-v5-c-table__expandable-row"
                 data-ouia-component-id="OUIA-Generated-TableRow-5"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
                 hidden=""
               >
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
+                  tabindex="-1"
                 />
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   colspan="3"
+                  tabindex="-1"
                 >
                   <div
-                    class="pf-c-table__expandable-row-content"
+                    class="pf-v5-c-table__expandable-row-content"
                   >
                     <div
-                      class="pf-l-flex"
+                      class="pf-v5-l-flex"
                     >
                       <div
                         class="ins-c__flex-row-margin"
@@ -274,33 +290,37 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
               </tr>
             </tbody>
             <tbody
-              class=""
+              class="pf-v5-c-table__tbody"
               role="rowgroup"
             >
               <tr
-                class=""
+                class="pf-v5-c-table__tr"
                 data-ouia-component-id="OUIA-Generated-TableRow-6"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
+                  tabindex="-1"
                 />
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Name"
+                  tabindex="-1"
                 >
                   Satellite/Discovery
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Status"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Last upload"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
@@ -310,35 +330,35 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`DataCollectorsCard should render correctly with data 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -347,83 +367,88 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <table
             aria-label="Data collectors"
-            class="pf-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
+            class="pf-v5-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
             data-ouia-component-id="OUIA-Generated-Table-2"
-            data-ouia-component-type="PF4/Table"
+            data-ouia-component-type="PF5/Table"
             data-ouia-safe="true"
             role="grid"
           >
             <thead
-              class=""
+              class="pf-v5-c-table__thead"
             >
               <tr
-                class="ins-c__no-border"
+                class="pf-v5-c-table__tr ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-7"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
+                  tabindex="-1"
                 />
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Name
                 </th>
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Status
                 </th>
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Last upload
                 </th>
               </tr>
             </thead>
             <tbody
-              class=""
+              class="pf-v5-c-table__tbody"
               role="rowgroup"
             >
               <tr
-                class=""
+                class="pf-v5-c-table__tr"
                 data-ouia-component-id="OUIA-Generated-TableRow-8"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <td
-                  class="pf-c-table__toggle"
+                  class="pf-v5-c-table__td pf-v5-c-table__toggle"
                   style="padding-left: 0px;"
+                  tabindex="-1"
                 >
                   <button
                     aria-disabled="false"
                     aria-expanded="false"
                     aria-label="Details"
                     aria-labelledby="simple-node0 expand-toggle0"
-                    class="pf-c-button pf-m-plain"
+                    class="pf-v5-c-button pf-m-plain"
                     data-ouia-component-id="OUIA-Generated-Button-plain-3"
-                    data-ouia-component-type="PF4/Button"
+                    data-ouia-component-type="PF5/Button"
                     data-ouia-safe="true"
                     id="expand-toggle0"
                     type="button"
                   >
                     <div
-                      class="pf-c-table__toggle-icon"
+                      class="pf-v5-c-table__toggle-icon"
                     >
                       <svg
                         aria-hidden="true"
+                        class="pf-v5-svg"
                         fill="currentColor"
                         height="1em"
                         role="img"
-                        style="vertical-align: -0.125em;"
                         viewBox="0 0 320 512"
                         width="1em"
                       >
@@ -435,43 +460,48 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                   </button>
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Name"
+                  tabindex="-1"
                 >
                   insights-client
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Status"
+                  tabindex="-1"
                 >
                   Active
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Last upload"
+                  tabindex="-1"
                 >
                   13 May 2022 07:42 UTC
                 </td>
               </tr>
               <tr
-                class="pf-c-table__expandable-row"
+                class="pf-v5-c-table__tr pf-v5-c-table__expandable-row"
                 data-ouia-component-id="OUIA-Generated-TableRow-9"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
                 hidden=""
               >
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
+                  tabindex="-1"
                 />
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   colspan="3"
+                  tabindex="-1"
                 >
                   <div
-                    class="pf-c-table__expandable-row-content"
+                    class="pf-v5-c-table__expandable-row-content"
                   >
                     <div
-                      class="pf-l-flex"
+                      class="pf-v5-l-flex"
                     >
                       <div
                         class="ins-c__flex-row-margin"
@@ -489,40 +519,41 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
               </tr>
             </tbody>
             <tbody
-              class=""
+              class="pf-v5-c-table__tbody"
               role="rowgroup"
             >
               <tr
-                class=""
+                class="pf-v5-c-table__tr"
                 data-ouia-component-id="OUIA-Generated-TableRow-10"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <td
-                  class="pf-c-table__toggle"
+                  class="pf-v5-c-table__td pf-v5-c-table__toggle"
                   style="padding-left: 0px;"
+                  tabindex="-1"
                 >
                   <button
                     aria-disabled="false"
                     aria-expanded="false"
                     aria-label="Details"
                     aria-labelledby="simple-node1 expand-toggle1"
-                    class="pf-c-button pf-m-plain"
+                    class="pf-v5-c-button pf-m-plain"
                     data-ouia-component-id="OUIA-Generated-Button-plain-4"
-                    data-ouia-component-type="PF4/Button"
+                    data-ouia-component-type="PF5/Button"
                     data-ouia-safe="true"
                     id="expand-toggle1"
                     type="button"
                   >
                     <div
-                      class="pf-c-table__toggle-icon"
+                      class="pf-v5-c-table__toggle-icon"
                     >
                       <svg
                         aria-hidden="true"
+                        class="pf-v5-svg"
                         fill="currentColor"
                         height="1em"
                         role="img"
-                        style="vertical-align: -0.125em;"
                         viewBox="0 0 320 512"
                         width="1em"
                       >
@@ -534,43 +565,48 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                   </button>
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Name"
+                  tabindex="-1"
                 >
                   subscription-manager
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Status"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Last upload"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
               </tr>
               <tr
-                class="pf-c-table__expandable-row"
+                class="pf-v5-c-table__tr pf-v5-c-table__expandable-row"
                 data-ouia-component-id="OUIA-Generated-TableRow-11"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
                 hidden=""
               >
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
+                  tabindex="-1"
                 />
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   colspan="3"
+                  tabindex="-1"
                 >
                   <div
-                    class="pf-c-table__expandable-row-content"
+                    class="pf-v5-c-table__expandable-row-content"
                   >
                     <div
-                      class="pf-l-flex"
+                      class="pf-v5-l-flex"
                     >
                       <div
                         class="ins-c__flex-row-margin"
@@ -588,33 +624,37 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
               </tr>
             </tbody>
             <tbody
-              class=""
+              class="pf-v5-c-table__tbody"
               role="rowgroup"
             >
               <tr
-                class=""
+                class="pf-v5-c-table__tr"
                 data-ouia-component-id="OUIA-Generated-TableRow-12"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
+                  tabindex="-1"
                 />
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Name"
+                  tabindex="-1"
                 >
                   Satellite/Discovery
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Status"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Last upload"
+                  tabindex="-1"
                 >
                   N/A
                 </td>
@@ -624,35 +664,35 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`DataCollectorsCard should render custom collectors 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -661,83 +701,88 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <table
             aria-label="Data collectors"
-            class="pf-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
+            class="pf-v5-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
             data-ouia-component-id="OUIA-Generated-Table-3"
-            data-ouia-component-type="PF4/Table"
+            data-ouia-component-type="PF5/Table"
             data-ouia-safe="true"
             role="grid"
           >
             <thead
-              class=""
+              class="pf-v5-c-table__thead"
             >
               <tr
-                class="ins-c__no-border"
+                class="pf-v5-c-table__tr ins-c__no-border"
                 data-ouia-component-id="OUIA-Generated-TableRow-13"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
+                  tabindex="-1"
                 />
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Name
                 </th>
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Status
                 </th>
                 <th
-                  class=""
+                  class="pf-v5-c-table__th"
                   scope="col"
+                  tabindex="-1"
                 >
                   Last upload
                 </th>
               </tr>
             </thead>
             <tbody
-              class=""
+              class="pf-v5-c-table__tbody"
               role="rowgroup"
             >
               <tr
-                class=""
+                class="pf-v5-c-table__tr"
                 data-ouia-component-id="OUIA-Generated-TableRow-14"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
               >
                 <td
-                  class="pf-c-table__toggle"
+                  class="pf-v5-c-table__td pf-v5-c-table__toggle"
                   style="padding-left: 0px;"
+                  tabindex="-1"
                 >
                   <button
                     aria-disabled="false"
                     aria-expanded="false"
                     aria-label="Details"
                     aria-labelledby="simple-node0 expand-toggle0"
-                    class="pf-c-button pf-m-plain"
+                    class="pf-v5-c-button pf-m-plain"
                     data-ouia-component-id="OUIA-Generated-Button-plain-5"
-                    data-ouia-component-type="PF4/Button"
+                    data-ouia-component-type="PF5/Button"
                     data-ouia-safe="true"
                     id="expand-toggle0"
                     type="button"
                   >
                     <div
-                      class="pf-c-table__toggle-icon"
+                      class="pf-v5-c-table__toggle-icon"
                     >
                       <svg
                         aria-hidden="true"
+                        class="pf-v5-svg"
                         fill="currentColor"
                         height="1em"
                         role="img"
-                        style="vertical-align: -0.125em;"
                         viewBox="0 0 320 512"
                         width="1em"
                       >
@@ -749,41 +794,46 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
                   </button>
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Name"
+                  tabindex="-1"
                 >
                   collector name
                 </td>
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Status"
+                  tabindex="-1"
                 />
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   data-label="Last upload"
+                  tabindex="-1"
                 >
                   01 Jan 2260 00:00 UTC
                 </td>
               </tr>
               <tr
-                class="pf-c-table__expandable-row"
+                class="pf-v5-c-table__tr pf-v5-c-table__expandable-row"
                 data-ouia-component-id="OUIA-Generated-TableRow-15"
-                data-ouia-component-type="PF4/TableRow"
+                data-ouia-component-type="PF5/TableRow"
                 data-ouia-safe="true"
                 hidden=""
               >
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
+                  tabindex="-1"
                 />
                 <td
-                  class=""
+                  class="pf-v5-c-table__td"
                   colspan="3"
+                  tabindex="-1"
                 >
                   <div
-                    class="pf-c-table__expandable-row-content"
+                    class="pf-v5-c-table__expandable-row-content"
                   >
                     <div
-                      class="pf-l-flex"
+                      class="pf-v5-l-flex"
                     >
                       <div
                         class="ins-c__flex-row-margin"
@@ -804,6 +854,6 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;

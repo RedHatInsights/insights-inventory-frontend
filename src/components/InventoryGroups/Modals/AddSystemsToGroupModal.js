@@ -258,7 +258,7 @@ const AddSystemsToGroupModal = ({
         >
           {edgeParityEnabled && hasEdgeDevices ? (
             <Tabs
-              className="pf-m-light pf-c-table"
+              className="pf-m-light pf-v5-c-table"
               activeKey={activeTabKey}
               onSelect={handleTabClick}
               aria-label="Hybrid inventory tabs"
@@ -273,7 +273,7 @@ const AddSystemsToGroupModal = ({
                 eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
-                <section className={'pf-c-toolbar'}>
+                <section className={'pf-v5-c-toolbar'}>
                   <ImmutableDevicesView
                     skeletonRowQuantity={15}
                     hasCheckbox={true}

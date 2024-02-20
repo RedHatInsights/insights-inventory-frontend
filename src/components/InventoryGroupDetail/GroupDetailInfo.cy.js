@@ -14,7 +14,7 @@ describe('group detail information page', () => {
 
   it('title is rendered', () => {
     cy.get(
-      'div[class="pf-c-card__title pf-c-title pf-m-lg card-title"]'
+      'div[class="pf-v5-c-card__title pf-v5-c-title pf-m-lg card-title"]'
     ).should('have.text', 'User access configuration');
   });
 
@@ -23,7 +23,7 @@ describe('group detail information page', () => {
   });
 
   it('link is present', () => {
-    cy.get('div[class="pf-c-card__body"] a')
+    cy.get('div[class="pf-v5-c-card__body"] a')
       .should('have.length', 1)
       .and('have.text', 'Identity & Access Management > User Access');
   });
@@ -53,7 +53,7 @@ describe('group detail information page', () => {
     });
 
     it('card text is present', () => {
-      cy.get('div[class="pf-c-card__body"] a').should('not.exist');
+      cy.get('div[class="pf-v5-c-card__body"] a').should('not.exist');
     });
   });
 });

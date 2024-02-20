@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -8,9 +8,9 @@ import configureStore from 'redux-mock-store';
 import { useGetRegistry } from '../../../Utilities/constants';
 import { mockSystemProfile } from '../../../__mocks__/hostApi';
 import { hosts } from '../../../api';
-import { shouldDispatch } from '../../InventoryTable/InventoryTable.test';
 import ConventionalSystemsTab from './ConventionalSystemsTab';
 import { calculatePagination } from './Utilities';
+import { shouldDispatch } from '../../../Utilities/testUtils';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -145,17 +145,21 @@ describe('ConventionalSystemsTab', () => {
       store
     );
 
-    screen.getByTestId('inventory-table-top-toolbar');
-    screen.getByTestId('inventory-table-bottom-toolbar');
-    screen.getByTestId('inventory-table-list');
+    await waitFor(() => {
+      screen.getByTestId('inventory-table-top-toolbar');
+      screen.getByTestId('inventory-table-bottom-toolbar');
+      screen.getByTestId('inventory-table-list');
+    });
+
     expect(
       screen.getByRole('button', {
         name: /delete/i,
       })
     ).toBeEnabled();
+
     expect(
       within(screen.getAllByRole('row')[1]).getByRole('button', {
-        name: /actions/i,
+        name: /kebab toggle/i,
       })
     ).toBeEnabled();
   });

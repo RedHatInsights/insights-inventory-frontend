@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
+
 jest.mock('../../store/actions', () => {
   const actions = jest.requireActual('../../store/actions');
   const { ACTION_TYPES } = jest.requireActual('../../store/action-types');

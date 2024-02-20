@@ -4,8 +4,9 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
-  Title,
   Tooltip,
+  EmptyStateHeader,
+  EmptyStateFooter,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
@@ -26,32 +27,37 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
       data-ouia-component-type="PF4/EmptyState"
       data-ouia-safe={true}
     >
-      <EmptyStateIcon
-        icon={PlusCircleIcon}
-        color={globalPaletteBlack600.value}
-        data-testid="no-groups-icon"
+      <EmptyStateHeader
+        titleText="No inventory groups"
+        icon={
+          <EmptyStateIcon
+            icon={PlusCircleIcon}
+            color={globalPaletteBlack600.value}
+            data-testid="no-groups-icon"
+          />
+        }
+        headingLevel="h4"
       />
-      <Title headingLevel="h4" size="lg">
-        No inventory groups
-      </Title>
       <EmptyStateBody>
         Manage device operations efficiently by creating inventory groups.
       </EmptyStateBody>
-      {canModifyGroups ? (
-        <Button
-          variant="primary"
-          onClick={onCreateGroupClick}
-          ouiaId="CreateGroupButton"
-        >
-          Create group
-        </Button>
-      ) : (
-        <Tooltip content="You do not have the necessary permissions to modify groups. Contact your organization administrator.">
-          <Button variant="primary" isAriaDisabled ouiaId="CreateGroupButton">
+      <EmptyStateFooter>
+        {canModifyGroups ? (
+          <Button
+            variant="primary"
+            onClick={onCreateGroupClick}
+            ouiaId="CreateGroupButton"
+          >
             Create group
           </Button>
-        </Tooltip>
-      )}
+        ) : (
+          <Tooltip content="You do not have the necessary permissions to modify groups. Contact your organization administrator.">
+            <Button variant="primary" isAriaDisabled ouiaId="CreateGroupButton">
+              Create group
+            </Button>
+          </Tooltip>
+        )}
+      </EmptyStateFooter>
     </EmptyState>
   );
 };

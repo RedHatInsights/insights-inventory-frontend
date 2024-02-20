@@ -2,29 +2,29 @@
 
 exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -33,10 +33,10 @@ exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <dl
               class=""
@@ -88,35 +88,35 @@ exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`SystemStatusCard should not render hasRHC 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -125,10 +125,10 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <dl
               class=""
@@ -180,35 +180,35 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`SystemStatusCard should not render hasRegistered 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -217,10 +217,10 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <dl
               class=""
@@ -272,35 +272,35 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`SystemStatusCard should not render hasState 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -309,10 +309,10 @@ exports[`SystemStatusCard should not render hasState 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <dl
               class=""
@@ -364,35 +364,35 @@ exports[`SystemStatusCard should not render hasState 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`SystemStatusCard should render correctly - no data 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -401,10 +401,10 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <dl
               class=""
@@ -422,10 +422,10 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
                 data-ouia-component-id="Current state value"
               >
                 <div
-                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
                   <span
-                    class="pf-u-screen-reader"
+                    class="pf-v5-screen-reader"
                   />
                 </div>
               </dd>
@@ -442,10 +442,10 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
                 data-ouia-component-id="Registered value"
               >
                 <div
-                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
                   <span
-                    class="pf-u-screen-reader"
+                    class="pf-v5-screen-reader"
                   />
                 </div>
               </dd>
@@ -462,10 +462,10 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
                 data-ouia-component-id="Last upload value"
               >
                 <div
-                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
                   <span
-                    class="pf-u-screen-reader"
+                    class="pf-v5-screen-reader"
                   />
                 </div>
               </dd>
@@ -482,10 +482,10 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
                 data-ouia-component-id="RHC value"
               >
                 <div
-                  class="pf-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                 >
                   <span
-                    class="pf-u-screen-reader"
+                    class="pf-v5-screen-reader"
                   />
                 </div>
               </dd>
@@ -494,35 +494,35 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`SystemStatusCard should render correctly with data 1`] = `
 <DocumentFragment>
-  <article
-    class="pf-c-card"
+  <div
+    class="pf-v5-c-card"
     data-ouia-component-id="system-properties-card"
-    data-ouia-component-type="PF4/Card"
+    data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-c-card__body"
+      class="pf-v5-c-card__body"
     >
       <div
-        class="pf-l-stack pf-m-gutter"
+        class="pf-v5-l-stack pf-m-gutter"
       >
         <div
-          class="pf-l-stack__item"
+          class="pf-v5-l-stack__item"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <h1
               class=""
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF4/Text"
+              data-ouia-component-type="PF5/Text"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -531,10 +531,10 @@ exports[`SystemStatusCard should render correctly with data 1`] = `
           </div>
         </div>
         <div
-          class="pf-l-stack__item pf-m-fill"
+          class="pf-v5-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-c-content"
+            class="pf-v5-c-content"
           >
             <dl
               class=""
@@ -600,6 +600,6 @@ exports[`SystemStatusCard should render correctly with data 1`] = `
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </DocumentFragment>
 `;

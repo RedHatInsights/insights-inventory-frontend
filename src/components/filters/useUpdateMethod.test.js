@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import { UPDATE_METHOD_KEY, updateMethodOptions } from '../../Utilities';
 import { useUpdateMethodFilter } from './useUpdateMethodFilter';
 

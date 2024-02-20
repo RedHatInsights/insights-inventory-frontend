@@ -1,7 +1,7 @@
 /* eslint-disable rulesdir/disallow-fec-relative-imports */
 /* eslint-disable camelcase */
 import React from 'react';
-import { mount } from '@cypress/react';
+import { mount } from '@cypress/react18';
 import CreateGroupModal from './CreateGroupModal';
 import { TEXT_INPUT } from '@redhat-cloud-services/frontend-components-utilities';
 import { Provider } from 'react-redux';

@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`useOperatingSystemFilter with operating systems loaded should match snapshot 1`] = `
-Array [
-  Object {
-    "filterValues": Object {
-      "groups": Array [
-        Object {
+[
+  {
+    "filterValues": {
+      "groups": [
+        {
           "groupSelectable": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "label": "RHEL 8.10",
               "type": "checkbox",
               "value": "8.10",
             },
-            Object {
+            {
               "label": "RHEL 8.5",
               "type": "checkbox",
               "value": "8.5",
@@ -23,10 +23,10 @@ Array [
           "type": "checkbox",
           "value": "RHEL 8",
         },
-        Object {
+        {
           "groupSelectable": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "label": "CentOS Linux 8.6",
               "type": "checkbox",
               "value": "8.6",
@@ -36,10 +36,10 @@ Array [
           "type": "checkbox",
           "value": "CentOS Linux 8",
         },
-        Object {
+        {
           "groupSelectable": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "label": "RHEL 7.0",
               "type": "checkbox",
               "value": "7.0",
@@ -49,10 +49,10 @@ Array [
           "type": "checkbox",
           "value": "RHEL 7",
         },
-        Object {
+        {
           "groupSelectable": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "label": "CentOS Linux 7.9",
               "type": "checkbox",
               "value": "7.9",
@@ -62,15 +62,15 @@ Array [
           "type": "checkbox",
           "value": "CentOS Linux 7",
         },
-        Object {
+        {
           "groupSelectable": true,
-          "items": Array [
-            Object {
+          "items": [
+            {
               "label": "RHEL 6.10",
               "type": "checkbox",
               "value": "6.10",
             },
-            Object {
+            {
               "label": "RHEL 6.9",
               "type": "checkbox",
               "value": "6.9",
@@ -82,25 +82,25 @@ Array [
         },
       ],
       "onChange": [Function],
-      "selected": Object {
-        "CentOS Linux 7": Object {
+      "selected": {
+        "CentOS Linux 7": {
           "7.9": false,
           "CentOS Linux 7": false,
         },
-        "CentOS Linux 8": Object {
+        "CentOS Linux 8": {
           "8.6": false,
           "CentOS Linux 8": false,
         },
-        "RHEL 6": Object {
+        "RHEL 6": {
           "6.10": false,
           "6.9": false,
           "RHEL 6": false,
         },
-        "RHEL 7": Object {
+        "RHEL 7": {
           "7.0": false,
           "RHEL 7": false,
         },
-        "RHEL 8": Object {
+        "RHEL 8": {
           "8.10": false,
           "8.5": false,
           "RHEL 8": false,
@@ -111,18 +111,18 @@ Array [
     "type": "group",
     "value": "operating-system-filter",
   },
-  Array [],
-  Array [],
+  [],
+  [],
   [Function],
 ]
 `;
 
 exports[`useOperatingSystemFilter with operating systems loaded should return correct chips array, current value and value setter 1`] = `
-Array [
-  Object {
+[
+  {
     "category": "Operating System",
-    "chips": Array [
-      Object {
+    "chips": [
+      {
         "groupLabel": "RHEL 8",
         "name": "RHEL 8.5",
         "osName": "RHEL",
@@ -135,53 +135,53 @@ Array [
 `;
 
 exports[`useOperatingSystemFilter with operating systems loaded should return empty state value if no versions obtained 1`] = `
-Array [
-  Object {
-    "filterValues": Object {
-      "groups": Array [
-        Object {
-          "items": Array [
-            Object {
+[
+  {
+    "filterValues": {
+      "groups": [
+        {
+          "items": [
+            {
               "label": "No versions available",
             },
           ],
         },
       ],
       "onChange": [Function],
-      "selected": Object {},
+      "selected": {},
     },
     "label": "Operating System",
     "type": "group",
     "value": "operating-system-filter",
   },
-  Array [],
-  Array [],
+  [],
+  [],
   [Function],
 ]
 `;
 
 exports[`useOperatingSystemFilter with operating systems yet not loaded should return empty state value 1`] = `
-Array [
-  Object {
-    "filterValues": Object {
-      "groups": Array [
-        Object {
-          "items": Array [
-            Object {
+[
+  {
+    "filterValues": {
+      "groups": [
+        {
+          "items": [
+            {
               "label": "No versions available",
             },
           ],
         },
       ],
       "onChange": [Function],
-      "selected": Object {},
+      "selected": {},
     },
     "label": "Operating System",
     "type": "group",
     "value": "operating-system-filter",
   },
-  Array [],
-  Array [],
+  [],
+  [],
   [Function],
 ]
 `;

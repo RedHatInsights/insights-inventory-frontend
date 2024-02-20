@@ -76,7 +76,11 @@ it('selected groups are checked', async () => {
       name: /menu toggle/i,
     })
   );
-  expect(screen.getAllByRole('checkbox')[0]).toBeChecked();
+  expect(
+    screen.getByRole('checkbox', {
+      name: 'group-1',
+    })
+  ).toBeChecked();
 });
 
 it('shows no group option', async () => {

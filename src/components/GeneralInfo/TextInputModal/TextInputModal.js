@@ -72,7 +72,7 @@ export default class TextInputModal extends Component {
           value={value}
           type="text"
           ouiaId={inputOuiaId}
-          onChange={(value) => this.setState({ value })}
+          onChange={(_event, value) => this.setState({ value })}
           aria-label={ariaLabel}
         />
       </Modal>

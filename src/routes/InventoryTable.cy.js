@@ -142,8 +142,8 @@ describe('inventory table', () => {
       cy.get(MODAL).within(() => {
         cy.get('h1').should('have.text', 'Add to group');
         cy.wait('@getGroups');
-        cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
-        cy.get('.pf-c-select__menu-item').eq(0).click();
+        cy.get('.pf-v5-c-select__toggle').click(); // TODO: implement ouia selector for this component
+        cy.get('.pf-v5-c-select__menu-item').eq(0).click();
         cy.get('button[type="submit"]').click();
         cy.wait('@request')
           .its('request.body')
@@ -210,8 +210,8 @@ describe('inventory table', () => {
       cy.get(MODAL).within(() => {
         cy.get('h1').should('have.text', 'Add to group');
         cy.wait('@getGroups');
-        cy.get('.pf-c-select__toggle').click(); // TODO: implement ouia selector for this component
-        cy.get('.pf-c-select__menu-item').contains(TEST_GROUP_NAME).click();
+        cy.get('.pf-v5-c-select__toggle').click(); // TODO: implement ouia selector for this component
+        cy.get('.pf-v5-c-select__menu-item').contains(TEST_GROUP_NAME).click();
         cy.get('button[type="submit"]').click();
         cy.wait('@request')
           .its('request.body')

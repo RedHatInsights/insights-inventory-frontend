@@ -5,7 +5,7 @@ import {
   featureFlagsInterceptors,
   hostsInterceptors,
 } from '../../../cypress/support/interceptors';
-import { DropdownItem } from '@patternfly/react-core';
+import { DropdownItem } from '@patternfly/react-core/deprecated';
 
 const defaultProps = {
   mergeAppColumns: (columns) => columns,
@@ -204,7 +204,7 @@ describe('ImmutableDevices', () => {
 
     mountWithProps({ ...defaultProps, actionsConfig: { actions } });
 
-    cy.get('.ins-c-primary-toolbar__first-action > .pf-c-button').should(
+    cy.get('.ins-c-primary-toolbar__first-action > .pf-v5-c-button').should(
       'be.visible'
     );
   });

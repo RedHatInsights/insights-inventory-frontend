@@ -44,7 +44,7 @@ const expectTableBasicComponents = (
 
   expect(
     screen.queryAllByRole('button', {
-      name: 'Actions',
+      name: /kebab toggle/i,
     })
   ).toHaveLength(shouldRenderPerRowActions ? rowsNumber : 0);
 };
@@ -95,6 +95,7 @@ describe('EntityTable', () => {
       const store = mockStore({
         entities: {
           loaded: false,
+          columns: initialState.entities.columns,
         },
       });
 
@@ -104,7 +105,7 @@ describe('EntityTable', () => {
         </TestWrapper>
       );
 
-      expectTableBasicComponents(1, 15, undefined, false, true, 'Loading');
+      expectTableBasicComponents(2, 15, undefined, false, false, 'Loading');
     });
 
     it('should render correctly - no rows', () => {
@@ -253,10 +254,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'One',
           })
-        ).toHaveClass('pf-c-table__sort pf-m-selected', { exact: true });
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator'
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -283,10 +284,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'One',
           })
-        ).toHaveClass('pf-c-table__sort pf-m-selected', { exact: true });
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator'
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -313,10 +314,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'One',
           })
-        ).toHaveClass('pf-c-table__sort pf-m-selected', { exact: true });
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator'
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -343,10 +344,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'OS',
           })
-        ).toHaveClass('pf-c-table__sort pf-m-selected', { exact: true });
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator'
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -373,10 +374,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'OS',
           })
-        ).toHaveClass('pf-c-table__sort pf-m-selected', { exact: true });
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator'
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -409,11 +410,11 @@ describe('EntityTable', () => {
       screen
         .getAllByRole('columnheader')
         .forEach((header) =>
-          expect(header).not.toHaveClass('pf-c-table__sort')
+          expect(header).not.toHaveClass('pf-v5-c-table__sort')
         );
       // eslint-disable-next-line testing-library/no-node-access
       const sortIndicator = document.querySelectorAll(
-        '.pf-c-table__sort-indicator'
+        '.pf-v5-c-table__sort-indicator'
       );
       expect(sortIndicator).toHaveLength(0);
     });

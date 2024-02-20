@@ -6,7 +6,8 @@ import {
   EmptyStateBody,
   EmptyStateIcon,
   EmptyStateVariant,
-  Title,
+  EmptyStateHeader,
+  EmptyStateFooter,
 } from '@patternfly/react-core';
 import CubesIcon from '@patternfly/react-icons/dist/js/icons/cubes-icon';
 import { redirectToInventoryList } from './helpers';
@@ -20,21 +21,24 @@ const SystemNotFound = ({ inventoryId, onBackToListClick }) => {
   const navigate = useInsightsNavigate();
   return (
     <EmptyState variant={EmptyStateVariant.full}>
-      <EmptyStateIcon icon={CubesIcon} />
-      <Title headingLevel="h5" size="lg">
-        System not found
-      </Title>
+      <EmptyStateHeader
+        titleText="System not found"
+        icon={<EmptyStateIcon icon={CubesIcon} />}
+        headingLevel="h5"
+      />
       <EmptyStateBody>
         System with ID {inventoryId} does not exist
       </EmptyStateBody>
-      <Button
-        variant="primary"
-        onClick={() =>
-          redirectToInventoryList(inventoryId, onBackToListClick, navigate)
-        }
-      >
-        Back to previous page
-      </Button>
+      <EmptyStateFooter>
+        <Button
+          variant="primary"
+          onClick={() =>
+            redirectToInventoryList(inventoryId, onBackToListClick, navigate)
+          }
+        >
+          Back to previous page
+        </Button>
+      </EmptyStateFooter>
     </EmptyState>
   );
 };

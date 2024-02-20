@@ -45,6 +45,9 @@ const FooterPagination = ({
       dropDirection={direction}
       onSetPage={onSetPage}
       onPerPageSelect={onPerPageSelect}
+      titles={{
+        optionsToggleAriaLabel: 'Items per page',
+      }}
       {...paginationProps}
     />
   ) : null;

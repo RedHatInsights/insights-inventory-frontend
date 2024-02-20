@@ -7,7 +7,7 @@ export const ORDER_TO_URL = {
 };
 
 export const selectRowN = (number) => {
-  cy.get(ROW).eq(number).find('.pf-c-table__check').click();
+  cy.get(ROW).eq(number).find('.pf-v5-c-table__check').click();
 };
 
 export const checkSelectedNumber = (

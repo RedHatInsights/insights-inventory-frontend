@@ -51,9 +51,9 @@ describe('group detail page', () => {
 
     cy.get('[data-ouia-component-type="PF4/Breadcrumb"] li')
       .last()
-      .find('.pf-c-skeleton');
-    cy.get('h1').find('.pf-c-skeleton');
-    cy.get('.pf-c-empty-state').find('.pf-c-spinner');
+      .find('.pf-v5-c-skeleton');
+    cy.get('h1').find('.pf-v5-c-skeleton');
+    cy.get('.pf-v5-c-empty-state').find('.pf-v5-c-spinner');
   });
 
   it('can rename group', () => {
@@ -84,7 +84,7 @@ describe('group detail page', () => {
     cy.ouiaId('group-actions-dropdown-toggle').should('be.enabled').click();
     cy.get(DROPDOWN_ITEM).contains('Delete').click();
 
-    cy.get(`div[class="pf-c-check"]`).click();
+    cy.get(`div[class="pf-v5-c-check"]`).click();
     cy.get(`button[type="submit"]`).click();
     cy.wait('@deleteGroup')
       .its('request.url')
@@ -170,7 +170,7 @@ describe('integration with rbac', () => {
       cy.get(TAB_BUTTON).contains('Group info').click();
       cy.get(TAB_CONTENT)
         .eq(1) // <- workaround since PF renders both tab contents and hides the first
-        .find('.pf-c-card__title') // TODO: tie to OUIA
+        .find('.pf-v5-c-card__title') // TODO: tie to OUIA
         .should('have.text', 'User access configuration');
     });
 

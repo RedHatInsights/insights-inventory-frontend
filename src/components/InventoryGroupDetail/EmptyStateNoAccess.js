@@ -1,6 +1,5 @@
 import React from 'react';
 import AccessDenied from '../../Utilities/AccessDenied';
-import { EmptyStateVariant } from '@patternfly/react-core';
 
 const EmptyStateNoAccessToSystems = () => (
   <AccessDenied
@@ -13,7 +12,7 @@ const EmptyStateNoAccessToSystems = () => (
         access.
       </div>
     }
-    variant={EmptyStateVariant.large} // overrides the default "full" value
+    variant="large" // overrides the default "full" value
     requiredPermission="inventory:hosts:read"
   />
 );
@@ -28,7 +27,7 @@ const EmptyStateNoAccessToGroup = () => (
         inventory group. Contact your organization administrator for access.
       </div>
     }
-    variant={EmptyStateVariant.large} // overrides the default "full" value
+    variant="large" // overrides the default "full" value
     requiredPermission="inventory:groups:read"
   />
 );
@@ -43,7 +42,7 @@ const EmptyStateNoAccessToGroups = () => (
         inventory groups. Contact your organization administrator for access.
       </div>
     }
-    variant={EmptyStateVariant.large} // overrides the default "full" value
+    variant="large" // overrides the default "full" value
     requiredPermission="inventory:groups:read"
   />
 );

@@ -20,7 +20,7 @@ const GetHelpExpandable = () => {
   return (
     <ExpandableSection
       toggleText="Help get started with new features"
-      displaySize="large"
+      displaySize="lg"
       className="ins-c-groups-help-expandable"
     >
       <List isPlain>
@@ -28,7 +28,7 @@ const GetHelpExpandable = () => {
           <Button
             variant="link"
             className="ins-c-groups-help-expandable__link"
-            isLarge
+            size="lg"
             onClick={() =>
               quickStarts.activateQuickstart('insights-inventory-groups')
             }
@@ -41,7 +41,7 @@ const GetHelpExpandable = () => {
             <Button
               variant="link"
               className="ins-c-groups-help-expandable__link"
-              isLarge
+              size="lg"
               onClick={() =>
                 quickStarts.activateQuickstart('insights-inventory-groups-rbac')
               }

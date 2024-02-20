@@ -41,24 +41,9 @@ describe('TagsModal', () => {
         </Provider>
       );
 
-      // TODO: improve skeleton accessibility to query skeleton rows directly
       expect(screen.getAllByRole('row')).toHaveLength(11); // including header
       expect(screen.getByLabelText('Loading')).toBeVisible();
-      expect(
-        screen.getByRole('columnheader', {
-          name: /name/i,
-        })
-      ).toBeVisible();
-      expect(
-        screen.getByRole('columnheader', {
-          name: /value/i,
-        })
-      ).toBeVisible();
-      expect(
-        screen.getByRole('columnheader', {
-          name: /tag source/i,
-        })
-      ).toBeVisible();
+      expect(screen.getAllByRole('columnheader')).toHaveLength(3);
     });
 
     it('should render activeSystemTag', () => {

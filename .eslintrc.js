@@ -8,4 +8,7 @@ module.exports = {
   globals: {
     IS_DEV: 'readonly',
   },
+  rules: {
+    'rulesdir/forbid-pf-relative-imports': 'off',
+  },
 };

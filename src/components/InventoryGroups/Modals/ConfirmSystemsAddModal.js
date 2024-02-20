@@ -1,5 +1,5 @@
 import { FormSpy, useFormApi } from '@data-driven-forms/react-form-renderer';
-import { Button, Flex } from '@patternfly/react-core';
+import { Button, Flex, Icon } from '@patternfly/react-core';
 import ExclamationTriangleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import warningColor from '@patternfly/react-tokens/dist/esm/global_warning_color_100';
 import PropTypes from 'prop-types';
@@ -18,7 +18,9 @@ const ConfirmSystemsAddModal = ({
     isModalOpen={isModalOpen}
     title={'Add all selected systems to group?'}
     titleIconVariant={() => (
-      <ExclamationTriangleIcon color={warningColor.value} />
+      <Icon color={warningColor.value}>
+        <ExclamationTriangleIcon />
+      </Icon>
     )}
     closeModal={onCancel}
     schema={confirmSystemsAddSchema(hostsNumber)}

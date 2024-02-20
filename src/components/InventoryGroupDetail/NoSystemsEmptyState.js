@@ -3,7 +3,8 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
-  Title,
+  EmptyStateHeader,
+  EmptyStateFooter,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 
@@ -32,25 +33,30 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
         groupName={groupName}
         edgeParityIsAllowed={true}
       />
-      <EmptyStateIcon
-        icon={PlusCircleIcon}
-        color={globalPaletteBlack600.value}
+      <EmptyStateHeader
+        titleText="No systems added"
+        icon={
+          <EmptyStateIcon
+            icon={PlusCircleIcon}
+            color={globalPaletteBlack600.value}
+          />
+        }
+        headingLevel="h4"
       />
-      <Title headingLevel="h4" size="lg">
-        No systems added
-      </Title>
       <EmptyStateBody>
         To manage systems more effectively, add systems to the group.
       </EmptyStateBody>
-      <ActionButton
-        requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)}
-        noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-        variant="primary"
-        onClick={() => setIsModalOpen(true)}
-        ouiaId="add-systems-button"
-      >
-        Add systems
-      </ActionButton>
+      <EmptyStateFooter>
+        <ActionButton
+          requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)}
+          noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+          variant="primary"
+          onClick={() => setIsModalOpen(true)}
+          ouiaId="add-systems-button"
+        >
+          Add systems
+        </ActionButton>
+      </EmptyStateFooter>
     </EmptyState>
   );
 };
