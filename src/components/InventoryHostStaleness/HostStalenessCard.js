@@ -195,8 +195,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
               Organization level system staleness and deletion
+              <InventoryHostStalenessPopover hasEdgeSystems={hasEdgeSystems} />
             </Title>
-            <InventoryHostStalenessPopover hasEdgeSystems={hasEdgeSystems} />
           </CardHeader>
           <CardBody>
             <p>
