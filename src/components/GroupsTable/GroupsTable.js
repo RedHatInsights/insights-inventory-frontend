@@ -450,22 +450,14 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         }}
         actionsConfig={{
           actions: [
-            {
-              label: (
-                <ActionButton
-                  requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-                  noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
-                  onClick={onCreateGroupClick}
-                >
-                  Create group
-                </ActionButton>
-              ),
-              props: {
-                style: {
-                  backgroundColor: 'transparent',
-                },
-              },
-            },
+            <ActionButton
+              key="create-group-btn"
+              requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+              noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+              onClick={onCreateGroupClick}
+            >
+              Create group
+            </ActionButton>,
             {
               label: (
                 <ActionDropdownItem
