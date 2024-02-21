@@ -447,6 +447,9 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           },
           ouiaId: 'groups-selector',
           count: selectedIds.length,
+          toggleProps: {
+            'data-ouia-component-id': 'bulk-select-toggle-button',
+          },
         }}
         actionsConfig={{
           actions: [
