@@ -47,7 +47,7 @@ const DeleteModal = ({
     >
       <Split hasGutter>
         <SplitItem>
-          <Icon size="xl" className="ins-m-alert">
+          <Icon size="xl" status="warning">
             <ExclamationTriangleIcon />
           </Icon>
         </SplitItem>
