@@ -272,10 +272,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                 title: (
                   <ActionDropdownItem
                     isAriaDisabled={!deviceData.includes(row.id)}
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
-                    )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
                     onClick={() => {
                       setCurrentSystem([row]);
                       navigate(`/insights/inventory/${row.id}/update`);
@@ -306,10 +302,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     Add systems
                   </ActionButton>
                   <ActionButton
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
-                    )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
                     key="update-systems-button"
                     onClick={() => {
                       setupdateDevice(true);
