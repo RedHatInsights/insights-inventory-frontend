@@ -455,6 +455,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
               requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
               noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
               onClick={onCreateGroupClick}
+              ouiaId="CreateGroupButton"
             >
               Create group
             </ActionButton>,

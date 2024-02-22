@@ -31,7 +31,7 @@ const expectDefaultFiltersVisible = async () => {
 
   await userEvent.click(
     screen.getByRole('button', {
-      name: 'Conditional filter',
+      name: /conditional filter toggle/i,
     })
   );
   DEFAULT_FILTERS.forEach((filterName) =>
