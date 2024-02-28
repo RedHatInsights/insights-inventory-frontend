@@ -77,10 +77,10 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
                 class="pf-v5-l-split__item"
               >
                 <span
-                  class="pf-v5-c-icon pf-m-xl ins-m-alert"
+                  class="pf-v5-c-icon pf-m-xl"
                 >
                   <span
-                    class="pf-v5-c-icon__content"
+                    class="pf-v5-c-icon__content pf-m-warning"
                   >
                     <svg
                       aria-hidden="true"
@@ -290,10 +290,10 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
                 class="pf-v5-l-split__item"
               >
                 <span
-                  class="pf-v5-c-icon pf-m-xl ins-m-alert"
+                  class="pf-v5-c-icon pf-m-xl"
                 >
                   <span
-                    class="pf-v5-c-icon__content"
+                    class="pf-v5-c-icon__content pf-m-warning"
                   >
                     <svg
                       aria-hidden="true"
