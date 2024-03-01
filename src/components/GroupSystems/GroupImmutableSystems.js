@@ -109,7 +109,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   );
 
   const getUpdateInfo = useGetInventoryGroupUpdateInfo();
-  const [deviceData, setDeviceData] = useState();
+  const [deviceData, setDeviceData] = useState(null);
   const [deviceImageSet, setDeviceImageSet] = useState();
   const [updateModal, setUpdateModal] = useState({
     isOpen: false,
@@ -271,7 +271,9 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
               {
                 title: (
                   <ActionDropdownItem
-                    isAriaDisabled={!deviceData.includes(row.id)}
+                    isAriaDisabled={
+                      deviceData === null || !deviceData.includes(row.id)
+                    }
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}
