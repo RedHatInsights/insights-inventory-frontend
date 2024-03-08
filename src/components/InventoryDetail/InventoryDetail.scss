@@ -39,8 +39,6 @@
     div {
       @include rem('margin', 5px);
       margin-left: 0;
-
-      span:first-child { @include rem('margin-right', 5px); }
     }
   }
 
