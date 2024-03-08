@@ -25,9 +25,11 @@ exports[`TitleColumn should render correctly with NO data 1`] = `
     <div
       class=""
     >
-      <a
-        class="fakeLink"
-      />
+      <span>
+        <a
+          class="fakeLink"
+        />
+      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -41,12 +43,14 @@ exports[`TitleColumn should render correctly with data 1`] = `
     <div
       class=""
     >
-      <a
-        class="fakeLink"
-        to="testId"
-      >
-        something
-      </a>
+      <span>
+        <a
+          class="fakeLink"
+          to="testId"
+        >
+          something
+        </a>
+      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -60,12 +64,14 @@ exports[`TitleColumn should render correctly with href 1`] = `
     <div
       class=""
     >
-      <a
-        class="fakeLink"
-        to="/link/to/item"
-      >
-        something
-      </a>
+      <span>
+        <a
+          class="fakeLink"
+          to="/link/to/item"
+        >
+          something
+        </a>
+      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -82,12 +88,14 @@ exports[`TitleColumn should render correctly with os_release 1`] = `
     <div
       class=""
     >
-      <a
-        class="fakeLink"
-        to="testId"
-      >
-        something
-      </a>
+      <span>
+        <a
+          class="fakeLink"
+          to="testId"
+        >
+          something
+        </a>
+      </span>
     </div>
   </div>
 </DocumentFragment>
@@ -101,12 +109,14 @@ exports[`TitleColumn should render correctly with to 1`] = `
     <div
       class=""
     >
-      <a
-        class="fakeLink"
-        to="[object Object]"
-      >
-        something
-      </a>
+      <span>
+        <a
+          class="fakeLink"
+          to="[object Object]"
+        >
+          something
+        </a>
+      </span>
     </div>
   </div>
 </DocumentFragment>

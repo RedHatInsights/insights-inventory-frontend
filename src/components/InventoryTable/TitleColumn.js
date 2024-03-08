@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ConversionPopover } from './ConversionPopover/ConversionPopover';
 
 /**
  * Helper function to proprly calculate what to do when user clicks on first cell.
@@ -38,20 +39,27 @@ const TitleColumn = ({ children, id, item, ...props }) => (
       {props?.noDetail ? (
         children
       ) : (
-        <Link
-          to={item?.href || item?.to || id}
-          {...{
-            ...(props?.onRowClick
-              ? {
-                  onClick: (event) => {
-                    onRowClick(event, id, props);
-                  },
-                }
-              : {}),
-          }}
-        >
-          {children}
-        </Link>
+        <span>
+          <Link
+            to={item?.href || item?.to || id}
+            {...{
+              ...(props?.onRowClick
+                ? {
+                    onClick: (event) => {
+                      onRowClick(event, id, props);
+                    },
+                  }
+                : {}),
+            }}
+          >
+            {children}
+          </Link>
+          {item?.system_profile?.operating_system?.name === 'CentOS Linux' && (
+            <div>
+              <ConversionPopover />
+            </div>
+          )}
+        </span>
       )}
     </div>
   </div>
