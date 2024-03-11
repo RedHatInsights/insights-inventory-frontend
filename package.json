@@ -12,7 +12,7 @@
     "@data-driven-forms/react-form-renderer": "^3.22.2",
     "@patternfly/react-core": "^5.1.2",
     "@patternfly/react-icons": "^5.2.0",
-    "@patternfly/react-table": "^5.1.2",
+    "@patternfly/react-table": "^5.2.0",
     "@redhat-cloud-services/frontend-components": "^4.2.4",
     "@redhat-cloud-services/frontend-components-notifications": "^4.1.0",
     "@redhat-cloud-services/frontend-components-utilities": "^4.0.2",
@@ -84,18 +84,18 @@
       "!src/entry.js",
       "!src/entry-dev.js"
     ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.mjs$": "babel-jest"
+    },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!(@patternfly/react-core/|@patternfly/react-icons/|@redhat-cloud-services|@openshift|lodash-es|@patternfly/react-table|@patternfly/react-tokens|p-all|uuid)).*$"
+      "<rootDir>/node_modules/(?!(@patternfly/react-core/|@patternfly/react-icons/|@redhat-cloud-services|@openshift|lodash-es|@patternfly/react-table|@patternfly/react-tokens|@patternfly/react-styles/|p-all|uuid)).*$"
     ],
     "setupFiles": [
       "<rootDir>/config/setupTests.js"
     ],
     "roots": [
       "<rootDir>/src/"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
     ],
     "testEnvironmentOptions": {
       "url": "http://localhost:5000/"
