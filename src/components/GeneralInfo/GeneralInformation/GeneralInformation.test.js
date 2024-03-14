@@ -19,6 +19,9 @@ import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
 import { hosts } from '../../../api/api';
+import { cloneDeep } from 'lodash';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
 
@@ -28,6 +31,9 @@ jest.mock(
     esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: true }),
   })
+);
+jest.mock(
+  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate'
 );
 
 const expectCardsToExist = (
@@ -236,6 +242,76 @@ describe('GeneralInformation', () => {
           name: /ipv4 modal/i,
         });
       });
+    });
+  });
+
+  describe('conversion alert', () => {
+    let state = {};
+
+    beforeEach(() => {
+      state = cloneDeep(initialState);
+      state.entityDetails.entity.system_profile = {
+        operating_system: {
+          name: 'CentOS Linux',
+          major: '7',
+          minor: '9',
+        },
+      };
+    });
+
+    it('shows alert for CentOS system', () => {
+      render(
+        <TestWrapper store={mockStore(state)}>
+          <GeneralInformation inventoryId={'test-id'} />
+        </TestWrapper>
+      );
+
+      expect(
+        screen.getByRole('heading', {
+          name: /convert this centos system to rhel/i,
+        })
+      ).toBeVisible();
+      expect(
+        screen.getByRole('link', {
+          name: /learn more about centos migration here\./i,
+        })
+      ).toHaveAttribute(
+        'href',
+        'https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/centos-migration'
+      );
+    });
+
+    it('redirect to pre-conversion task', async () => {
+      const navigate = jest.fn();
+      useInsightsNavigate.mockReturnValue(navigate);
+      render(
+        <TestWrapper store={mockStore(state)}>
+          <GeneralInformation inventoryId={'test-id'} />
+        </TestWrapper>
+      );
+
+      await userEvent.click(
+        screen.getByText(/run a pre-conversion analysis of this system/i)
+      );
+
+      await waitFor(() => {
+        expect(navigate).toBeCalledWith('/available#pre-conversion-analysis');
+      });
+    });
+
+    it('not shown for RHEL systems', () => {
+      const store = mockStore(initialState);
+      render(
+        <TestWrapper store={store}>
+          <GeneralInformation inventoryId={'test-id'} />
+        </TestWrapper>
+      );
+
+      expect(
+        screen.queryByRole('heading', {
+          name: /convert this centos system to rhel/i,
+        })
+      ).not.toBeInTheDocument();
     });
   });
 });
