@@ -107,11 +107,11 @@ const AddSystemsToGroupModal = ({
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
     if (calculateSelected() > 0) {
       dispatch(selectEntity(-1, false));
     }
     dispatch(clearFilters());
+    setIsModalOpen(false);
   };
 
   const edgeParityInventoryListEnabled = useFeatureFlag(
