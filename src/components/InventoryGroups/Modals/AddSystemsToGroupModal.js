@@ -104,10 +104,10 @@ const AddSystemsToGroupModal = ({
     [isModalOpen]
   );
 
-  const calculateSelected = () => (selected ? selected.size : 0);
+  const numOfSelectedSystems = selected ? selected.size : 0;
 
   const handleModalClose = () => {
-    if (calculateSelected() > 0) {
+    if (numOfSelectedSystems > 0) {
       dispatch(selectEntity(-1, false));
     }
     dispatch(clearFilters());
