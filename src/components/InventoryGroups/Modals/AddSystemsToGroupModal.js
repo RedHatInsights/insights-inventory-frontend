@@ -190,7 +190,7 @@ const AddSystemsToGroupModal = ({
             setConfirmationModalOpen(false);
             setSystemSelectModalOpen(true); // switch back to the systems table modal
           }}
-          onCancel={() => handleModalClose()}
+          onCancel={handleModalClose}
           hostsNumber={alreadyHasGroup.length}
         />
         {/** hosts selection modal */}
@@ -214,7 +214,7 @@ const AddSystemsToGroupModal = ({
             </Flex>
           }
           isOpen={systemsSelectModalOpen}
-          onClose={() => handleModalClose()}
+          onClose={handleModalClose}
           footer={
             <Flex direction={{ default: 'column' }} style={{ width: '100%' }}>
               {showWarning && (
@@ -244,11 +244,7 @@ const AddSystemsToGroupModal = ({
                 >
                   Add systems
                 </Button>
-                <Button
-                  key="cancel"
-                  variant="link"
-                  onClick={() => handleModalClose()}
-                >
+                <Button key="cancel" variant="link" onClick={handleModalClose}>
                   Cancel
                 </Button>
               </FlexItem>
