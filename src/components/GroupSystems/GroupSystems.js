@@ -141,7 +141,7 @@ const GroupSystems = ({ groupName, groupId }) => {
       hostGroupFilter,
       lastSeenFilter
     );
-  }, []);
+  }, [addToGroupModalOpen]);
 
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
