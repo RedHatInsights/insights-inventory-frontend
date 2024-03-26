@@ -142,16 +142,29 @@ export const getSearchParams = (searchParams) => {
     .reduce?.(tagsMapper, []);
   const operatingSystem = searchParams
     .getAll('operating_system')
-    .map((osFilter) => {
+    .reduce((filter, osFilter) => {
       if (typeof osFilter !== 'object') {
         let found = osFilter.match(new RegExp(/^([\D|\s]*)([\d|.]*)/));
-        const osName = found[1];
+        const osName = found[1].replaceAll(' ', '-');
         const osVersion = found[2];
         const [major] = osVersion.split('.');
-        const groupName = `${osName} ${major}`;
-        return { osName, value: osVersion, groupName };
+        const groupName = `${osName}-${major}`;
+        if (!filter[groupName]) {
+          filter[groupName] = {
+            // [groupName]: false,
+          };
+        }
+
+        return {
+          ...filter,
+          [groupName]: {
+            ...filter[groupName],
+            [`${groupName}-${osVersion}`]: true,
+          },
+        };
       }
-    });
+    }, {});
+
   const rhcdFilter = searchParams.getAll(RHCD_FILTER_KEY);
   const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
   const hostGroupFilter = searchParams.getAll(HOST_GROUP_CHIP);

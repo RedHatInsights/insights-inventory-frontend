@@ -68,7 +68,7 @@ export const loadEntities = (
   const orderDirection = config.orderDirection || 'DESC';
 
   const lastDateRequest = Date.now();
-
+  console.log('UFO', updatedFilters);
   return {
     type: ACTION_TYPES.LOAD_ENTITIES,
     payload: getEntities(
