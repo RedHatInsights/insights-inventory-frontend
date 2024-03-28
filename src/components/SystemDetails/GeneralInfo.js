@@ -9,6 +9,7 @@ const GeneralInfoTab = (props) => {
     ({ systemProfileStore }) => systemProfileStore?.systemProfile
   );
   const isEdgeHost = systemProfile?.host_type === 'edge';
+  const isBootcHost = !!systemProfile.bootc_status;
   const enableEdgeImageDetails = useFeatureFlag(
     'edgeParity.inventory-system-detail'
   );
@@ -19,6 +20,7 @@ const GeneralInfoTab = (props) => {
   return (
     <GeneralInformation
       {...props}
+      isBootcHost={isBootcHost}
       showImageDetails={
         enableEdgeImageDetails && enableEdgeInventoryListDetails && isEdgeHost
       }
