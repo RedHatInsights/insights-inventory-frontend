@@ -11,6 +11,7 @@ import InfoTable from '../InfoTable';
 import { OperatingSystemCard } from '../OperatingSystemCard';
 import { SystemCard } from '../SystemCard';
 import { BiosCard } from '../BiosCard';
+import { BootcImageCard } from '../BootcImageCard';
 import { InfrastructureCard } from '../InfrastructureCard';
 import { ConfigurationCard } from '../ConfigurationCard';
 import { SystemStatusCard } from '../SystemStatusCard';
@@ -92,6 +93,7 @@ class GeneralInformation extends Component {
       SystemCardWrapper,
       OperatingSystemCardWrapper,
       BiosCardWrapper,
+      BootcImageCardWrapper,
       InfrastructureCardWrapper,
       ConfigurationCardWrapper,
       SystemStatusCardWrapper,
@@ -101,7 +103,6 @@ class GeneralInformation extends Component {
       entity,
     } = this.props;
     const Wrapper = store ? Provider : Fragment;
-
     return (
       <Wrapper {...(store && { store })}>
         {entity?.system_profile?.operating_system?.name === 'CentOS Linux' && (
@@ -157,6 +158,14 @@ class GeneralInformation extends Component {
                 {BiosCardWrapper && (
                   <GridItem>
                     <BiosCardWrapper handleClick={this.handleModalToggle} />
+                  </GridItem>
+                )}
+
+                {this.props.isBootcHost && BootcImageCardWrapper && (
+                  <GridItem>
+                    <BootcImageCardWrapper
+                      handleClick={this.handleModalToggle}
+                    />
                   </GridItem>
                 )}
 
@@ -232,6 +241,10 @@ GeneralInformation.propTypes = {
     PropTypes.bool,
   ]),
   BiosCardWrapper: PropTypes.oneOfType([PropTypes.elementType, PropTypes.bool]),
+  BootcImageCardWrapper: PropTypes.oneOfType([
+    PropTypes.elementType,
+    PropTypes.bool,
+  ]),
   InfrastructureCardWrapper: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.bool,
@@ -257,12 +270,14 @@ GeneralInformation.propTypes = {
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
   showImageDetails: PropTypes.bool,
+  isBootcHost: PropTypes.bool,
 };
 GeneralInformation.defaultProps = {
   entity: {},
   SystemCardWrapper: SystemCard,
   OperatingSystemCardWrapper: OperatingSystemCard,
   BiosCardWrapper: BiosCard,
+  BootcImageCardWrapper: BootcImageCard,
   InfrastructureCardWrapper: InfrastructureCard,
   ConfigurationCardWrapper: ConfigurationCard,
   SystemStatusCardWrapper: SystemStatusCard,
