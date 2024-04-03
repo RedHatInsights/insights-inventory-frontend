@@ -58,7 +58,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   let formValue = newFormValues[apiKey];
 
   if (apiKey === 'conventional_time_to_stale') {
-    if (formValue > newFormValues['conventional_time_to_stale_warning']) {
+    if (formValue >= newFormValues['conventional_time_to_stale_warning']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -81,7 +81,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     }
   }
   if (apiKey === 'conventional_time_to_stale_warning') {
-    if (formValue > newFormValues['conventional_time_to_delete']) {
+    if (formValue >= newFormValues['conventional_time_to_delete']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -136,7 +136,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
   }
 
   if (apiKey === 'immutable_time_to_stale') {
-    if (formValue > newFormValues['immutable_time_to_stale_warning']) {
+    if (formValue >= newFormValues['immutable_time_to_stale_warning']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100"
@@ -163,7 +163,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     }
   }
   if (apiKey === 'immutable_time_to_stale_warning') {
-    if (formValue > newFormValues['immutable_time_to_delete']) {
+    if (formValue >= newFormValues['immutable_time_to_delete']) {
       return (
         <p
           className="pf-u-font-size-sm pf-v5-u-danger-color-100 "
@@ -558,28 +558,28 @@ export const formValidation = async (newFormValues, setIsFormValid) => {
 
     if (
       apiKey === 'conventional_time_to_stale' &&
-      formValue > newFormValues['conventional_time_to_stale_warning']
+      formValue >= newFormValues['conventional_time_to_stale_warning']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
       apiKey === 'immutable_time_to_stale' &&
-      formValue > newFormValues['immutable_time_to_stale_warning']
+      formValue >= newFormValues['immutable_time_to_stale_warning']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
       apiKey === 'conventional_time_to_stale_warning' &&
-      formValue > newFormValues['conventional_time_to_delete']
+      formValue >= newFormValues['conventional_time_to_delete']
     ) {
       setIsFormValid(false);
       break;
     }
     if (
       apiKey === 'immutable_time_to_stale_warning' &&
-      formValue > newFormValues['immutable_time_to_delete']
+      formValue >= newFormValues['immutable_time_to_delete']
     ) {
       setIsFormValid(false);
       break;
