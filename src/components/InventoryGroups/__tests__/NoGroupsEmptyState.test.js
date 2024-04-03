@@ -1,36 +1,45 @@
-import React from 'react';
-import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { getStore } from '../../../store';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-
 import NoGroupsEmptyState from '../NoGroupsEmptyState';
+
+jest.mock(
+  '@redhat-cloud-services/frontend-components-utilities/RBACHook',
+  () => ({
+    usePermissionsWithContext: () => ({ hasAccess: true }),
+  })
+);
 
 describe('NoGroupsEmptyState', () => {
   it('renders title and icon', () => {
-    const { getByRole, container } = render(
-      <MemoryRouter>
-        <Provider store={getStore()}>
-          <NoGroupsEmptyState />
-        </Provider>
-      </MemoryRouter>
+    render(
+      <TestWrapper store={getStore()}>
+        <NoGroupsEmptyState />
+      </TestWrapper>
     );
-    // toHaveTextContent is a part of @testing-library/jest-dom
-    expect(getByRole('heading')).toHaveTextContent('No inventory groups');
-    expect(container.querySelector('.pf-c-empty-state__icon')).not.toBe(null);
+
+    screen.getByRole('heading', {
+      name: /no inventory groups/i,
+    });
+    screen.getByTestId('no-groups-icon');
   });
 
-  it('has primary and link buttons', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Provider store={getStore()}>
-          <NoGroupsEmptyState />
-        </Provider>
-      </MemoryRouter>
+  it('renders create group button', async () => {
+    const onCreateGroupClick = jest.fn();
+    render(
+      <TestWrapper store={getStore()}>
+        <NoGroupsEmptyState onCreateGroupClick={onCreateGroupClick} />
+      </TestWrapper>
     );
-    expect(container.querySelector('.pf-m-primary')).toHaveTextContent(
-      'Create group'
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /create group/i,
+      })
     );
+    expect(onCreateGroupClick).toBeCalled();
   });
 });

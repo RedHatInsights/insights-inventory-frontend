@@ -111,6 +111,6 @@ describe('When edge parity feature is disabled', () => {
 
     cy.get('div[id="conventional"]').should('have.length', 1);
     cy.get('div[id="immutable"]').should('not.exist');
-    cy.get('.pf-c-tabs').should('not.exist');
+    cy.get('.pf-v5-c-tabs').should('not.exist');
   });
 });

@@ -121,6 +121,7 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
           label: 'Tags filter',
           placeholder: 'Filter tags',
           value: 'tags-filter',
+          type: 'text',
           filterValues: {
             value: filterBy,
             onChange: (_e, value) => {

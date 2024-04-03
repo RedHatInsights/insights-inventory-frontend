@@ -52,8 +52,9 @@ const InventoryGroups = () => {
 
   return (
     <section
-      className="pf-l-page__main-section pf-c-page__main-section"
+      className="pf-v5-l-page__main-section pf-v5-c-page__main-section"
       data-ouia-component-id="groups-table-wrapper"
+      data-testid="groups-table-wrapper"
       style={{ height: '100%' }}
     >
       {createModalOpen && (

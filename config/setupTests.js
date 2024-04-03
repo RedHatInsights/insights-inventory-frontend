@@ -1,20 +1,3 @@
-/* eslint-disable camelcase */
-import { configure, mount, render, shallow } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-import React from 'react';
-import 'whatwg-fetch';
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useLayoutEffect: jest.requireActual('react').useEffect,
-}));
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: () => ({
-    inventoryId: '07c86de4-dadd-4681-8e6c-fe0baaaef479',
-  }),
-}));
-
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
   __esModule: true,
   default: () => ({
@@ -39,15 +22,13 @@ jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
     },
     appAction: jest.fn(),
     appObjectId: jest.fn(),
-    on: jest.fn(),
+    on: () => jest.fn(),
     getUserPermissions: () => Promise.resolve(['inventory:*:*']),
     getApp: jest.fn(),
     getBundle: jest.fn(),
     hideGlobalFilter: jest.fn(),
   }),
 }));
-
-configure({ adapter: new Adapter() });
 
 global.insights = {
   chrome: {
@@ -77,8 +58,4 @@ global.insights = {
   },
 };
 
-global.shallow = shallow;
-global.render = render;
-global.mount = mount;
-global.React = React;
 global.IS_DEV = true;

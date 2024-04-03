@@ -5,7 +5,7 @@ import {
   featureFlagsInterceptors,
   hostsInterceptors,
 } from '../../../cypress/support/interceptors';
-import { DropdownItem } from '@patternfly/react-core';
+import { DropdownItem } from '@patternfly/react-core/deprecated';
 
 const defaultProps = {
   mergeAppColumns: (columns) => columns,
@@ -80,13 +80,13 @@ describe('ImmutableDevices', () => {
   });
 
   describe('Status column', () => {
-    it('Should populate Status column with Up to date by default', () => {
+    it('Should populate Status column with Unknown by default', () => {
       defaultProps.getEntities = getEntities((row) => row);
 
       mountWithProps(defaultProps);
 
       cy.get('td[data-label="Status"] > #status > :nth-child(2) > p').contains(
-        'Up to date'
+        'Unknown'
       );
     });
 
@@ -204,7 +204,7 @@ describe('ImmutableDevices', () => {
 
     mountWithProps({ ...defaultProps, actionsConfig: { actions } });
 
-    cy.get('.ins-c-primary-toolbar__first-action > .pf-c-button').should(
+    cy.get('.ins-c-primary-toolbar__first-action > .pf-v5-c-button').should(
       'be.visible'
     );
   });

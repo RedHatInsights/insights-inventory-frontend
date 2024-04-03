@@ -30,7 +30,7 @@ import FlagProvider from '@unleash/proxy-client-react';
 import { Provider } from 'react-redux';
 import { getStore } from '../../src/store';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { mount } from '@cypress/react';
+import { mount } from '@cypress/react18';
 import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 
 Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {

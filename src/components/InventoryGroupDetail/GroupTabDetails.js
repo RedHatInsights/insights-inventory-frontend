@@ -84,7 +84,7 @@ const GroupTabDetailsWrapper = ({
         <PageSection>
           {canViewHosts && hasEdgeImages ? (
             <Tabs
-              className="pf-m-light pf-c-table"
+              className="pf-m-light pf-v5-c-table"
               activeKey={activeTab && tab == 0 ? activeTab : tab}
               onSelect={handleTabClick}
               aria-label="Hybrid inventory tabs"

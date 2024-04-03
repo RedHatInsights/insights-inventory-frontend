@@ -1,16 +1,12 @@
-/* eslint-disable camelcase */
-import { waitFor } from '@testing-library/react';
-import { act, renderHook } from '@testing-library/react-hooks/dom';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useGroupFilter from './useGroupFilter';
 
 jest.mock('../../Utilities/hooks/useFetchBatched');
-
 jest.mock('../../Utilities/useFeatureFlag', () => ({
   __esModule: true,
   default: () => true,
 }));
-
 jest.mock('../InventoryGroups/utils/api', () => ({
   __esModule: true,
   getGroups: () =>
@@ -21,128 +17,151 @@ jest.mock('../InventoryGroups/utils/api', () => ({
     ),
 }));
 
-describe('some groups available', () => {
-  beforeAll(() => {
+describe('groups request not yet resolved', () => {
+  beforeEach(() => {
     useFetchBatched.mockReturnValue({
-      fetchBatched: () =>
-        new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
+      fetchBatched: () => new Promise(() => {}), // keep pending
     });
   });
 
-  it('correct initial values', async () => {
+  it('initial values are empty', () => {
     const { result } = renderHook(() => useGroupFilter());
 
-    await waitFor(() => {
-      const [config, chips, value] = result.all[0];
-      expect(chips.length).toBe(0);
-      expect(value.length).toBe(0);
-      expect(config.filterValues.children).toMatchInlineSnapshot(`
-        <SearchableGroupFilter
-          initialGroups={Array []}
-          selectedGroupNames={Array []}
+    const [, chips, value] = result.current;
+    expect(chips.length).toBe(0);
+    expect(value.length).toBe(0);
+  });
+
+  it('initial filter component is empty', () => {
+    const { result } = renderHook(() => useGroupFilter());
+
+    const [config] = result.current;
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      {
+        "children": <SearchableGroupFilter
+          initialGroups={[]}
+          selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
-        />
-      `);
+        />,
+      }
+    `);
+  });
+});
+
+describe('with some groups available', () => {
+  const fetchBatched = jest.fn(
+    () =>
+      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }]))
+  );
+
+  beforeAll(() => {
+    useFetchBatched.mockReturnValue({
+      fetchBatched,
     });
   });
 
-  it('component is updated', async () => {
+  it('filter component updated with values', async () => {
     const { result } = renderHook(() => useGroupFilter());
 
     await waitFor(() => {
-      const [config] = result.all[1];
-
-      expect(config.filterValues.children).toMatchInlineSnapshot(`
-        <SearchableGroupFilter
+      expect(fetchBatched).toBeCalled();
+    });
+    const [config] = result.current;
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      {
+        "children": <SearchableGroupFilter
           initialGroups={
-            Array [
-              Object {
+            [
+              {
                 "name": "group-1",
               },
             ]
           }
-          selectedGroupNames={Array []}
+          selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
-        />
-      `);
-    });
+        />,
+      }
+    `);
   });
 
   it('can use setter', async () => {
-    const { result } = renderHook(useGroupFilter);
-    const [, , , setValue] = result.current;
+    const { result } = renderHook(() => useGroupFilter());
 
+    await waitFor(() => {
+      expect(fetchBatched).toBeCalled();
+    });
+    const [, , , setValue] = result.current;
     act(() => {
       setValue(['group-1']);
     });
-
     const [, chips, value] = result.current;
-
-    await waitFor(() => {
-      expect(chips.length).toBe(1);
-      expect(value).toEqual(['group-1']);
-      expect(chips).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "category": "Group",
-            "chips": Array [
-              Object {
-                "name": "group-1",
-                "value": "group-1",
-              },
-            ],
-            "type": "group_name",
+    expect(chips.length).toBe(1);
+    expect(value).toEqual(['group-1']);
+    expect(chips).toMatchObject([
+      {
+        category: 'Group',
+        chips: [
+          {
+            name: 'group-1',
+            value: 'group-1',
           },
-        ]
-      `);
-    });
+        ],
+        type: 'group_name',
+      },
+    ]);
   });
 
   it('can enable no group option', async () => {
     const { result } = renderHook(() => useGroupFilter(true));
 
     await waitFor(() => {
-      const [config] = result.current;
-      expect(config.filterValues.children).toMatchInlineSnapshot(`
-        <SearchableGroupFilter
-          initialGroups={Array []}
-          selectedGroupNames={Array []}
+      expect(fetchBatched).toBeCalled();
+    });
+    const [config] = result.current;
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      {
+        "children": <SearchableGroupFilter
+          initialGroups={
+            [
+              {
+                "name": "group-1",
+              },
+            ]
+          }
+          selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={true}
-        />
-      `);
-    });
+        />,
+      }
+    `);
   });
 
   it('can select no group option', async () => {
-    const { result } = renderHook(useGroupFilter);
-    const [, , , setValue] = result.current;
+    const { result } = renderHook(() => useGroupFilter());
 
+    await waitFor(() => {
+      expect(fetchBatched).toBeCalled();
+    });
+    const [, , , setValue] = result.current;
     act(() => {
       setValue(['']);
     });
-
     const [, chips, value] = result.current;
-
-    await waitFor(() => {
-      expect(chips.length).toBe(1);
-      expect(value).toEqual(['']);
-      expect(chips).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "category": "Group",
-            "chips": Array [
-              Object {
-                "name": "No group",
-                "value": "",
-              },
-            ],
-            "type": "group_name",
+    expect(chips.length).toBe(1);
+    expect(value).toEqual(['']);
+    expect(chips).toMatchObject([
+      {
+        category: 'Group',
+        chips: [
+          {
+            name: 'No group',
+            value: '',
           },
-        ]
-      `);
-    });
+        ],
+        type: 'group_name',
+      },
+    ]);
   });
 });

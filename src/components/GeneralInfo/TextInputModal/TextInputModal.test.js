@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import TextInputModal from './TextInputModal';
 
 describe('TextInputModal', () => {
@@ -49,76 +48,79 @@ describe('TextInputModal', () => {
 
   describe('render', () => {
     it('should render without any props', () => {
-      const wrapper = shallow(<TextInputModal />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const view = render(<TextInputModal />);
+      expect(view.baseElement).toMatchSnapshot();
     });
 
     it('should render open', () => {
-      const wrapper = shallow(<TextInputModal isOpen />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const view = render(<TextInputModal isOpen />);
+      expect(view.baseElement).toMatchSnapshot();
     });
 
     it('should render title', () => {
-      const wrapper = shallow(<TextInputModal isOpen title="Some title" />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const view = render(<TextInputModal isOpen title="Some title" />);
+      expect(view.baseElement).toMatchSnapshot();
     });
 
     it('should render aria label', () => {
-      const wrapper = shallow(
+      const view = render(
         <TextInputModal isOpen ariaLabel="Some aria label" />
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(view.baseElement).toMatchSnapshot();
     });
   });
 
   describe('API', () => {
-    it('getDerivedStateFromProps should be called', () => {
+    it('getDerivedStateFromProps should be called', async () => {
       const getDerivedStateFromProps = jest.spyOn(
         TextInputModal,
         'getDerivedStateFromProps'
       );
-      const wrapper = mount(<TextInputModal isOpen />);
-      wrapper
-        .find('input[type="text"]')
-        .first()
-        .simulate('change', { target: { value: 'some' } });
-      expect(getDerivedStateFromProps).toHaveBeenCalled();
+      render(<TextInputModal isOpen />);
+
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /input text/i,
+        }),
+        'some'
+      );
+      expect(getDerivedStateFromProps).toBeCalled();
     });
 
-    it('onCancel should NOT be called', () => {
+    it('onCancel should be called', async () => {
       const onCancel = jest.fn();
-      const wrapper = mount(<TextInputModal isOpen />);
-      wrapper.find('button[data-action="cancel"]').first().simulate('click');
-      expect(onCancel).not.toHaveBeenCalled();
+      render(<TextInputModal isOpen onCancel={onCancel} />);
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /cancel/i,
+        })
+      );
+      expect(onCancel).toBeCalled();
     });
 
-    it('onCancel should be called', () => {
-      const onCancel = jest.fn();
-      const wrapper = mount(<TextInputModal isOpen onCancel={onCancel} />);
-      wrapper.find('button[data-action="cancel"]').first().simulate('click');
-      expect(onCancel).toHaveBeenCalled();
-    });
-
-    it('onSubmit should NOT be called', () => {
+    it('onSubmit should be called', async () => {
       const onSubmit = jest.fn();
-      const wrapper = mount(<TextInputModal isOpen />);
-      wrapper.find('button[data-action="confirm"]').first().simulate('click');
-      expect(onSubmit).not.toHaveBeenCalled();
-      expect(toJson(wrapper)).toMatchSnapshot();
+      render(<TextInputModal isOpen onSubmit={onSubmit} />);
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /save/i,
+        })
+      );
+      expect(onSubmit).toBeCalled();
     });
 
-    it('onSubmit should NOT be called', () => {
-      const onSubmit = jest.fn();
-      const wrapper = mount(<TextInputModal isOpen onSubmit={onSubmit} />);
-      wrapper.find('button[data-action="confirm"]').first().simulate('click');
-      expect(onSubmit).toHaveBeenCalled();
-    });
-
-    it('X button should call onClose', () => {
+    it('X button should call onClose', async () => {
       const onCancel = jest.fn();
-      const wrapper = mount(<TextInputModal isOpen onCancel={onCancel} />);
-      wrapper.find('button[aria-label="Close"]').first().simulate('click');
-      expect(onCancel).toHaveBeenCalled();
+      render(<TextInputModal isOpen onCancel={onCancel} />);
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: /close/i,
+        })
+      );
+      expect(onCancel).toBeCalled();
     });
   });
 });

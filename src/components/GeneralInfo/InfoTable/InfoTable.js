@@ -8,13 +8,12 @@ import {
 } from '@patternfly/react-core';
 import PrimaryToolbar from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
 import TableToolbar from '@redhat-cloud-services/frontend-components/TableToolbar';
+import { SortByDirection, TableVariant } from '@patternfly/react-table';
 import {
-  SortByDirection,
   Table,
   TableBody,
   TableHeader,
-  TableVariant,
-} from '@patternfly/react-table';
+} from '@patternfly/react-table/deprecated';
 import flatMap from 'lodash/flatMap';
 import {
   filterRows,
@@ -112,6 +111,9 @@ class InfoTable extends Component {
               this.onUpdatePagination({ ...pagination, page }),
             onPerPageSelect: (_e, perPage) =>
               this.onUpdatePagination({ ...pagination, page: 1, perPage }),
+            titles: {
+              optionsToggleAriaLabel: 'Items per page',
+            },
           }}
           {...(filters && {
             filterConfig: {
@@ -170,6 +172,9 @@ class InfoTable extends Component {
             onPerPageSelect={(_e, perPage) =>
               this.onUpdatePagination({ ...pagination, page: 1, perPage })
             }
+            titles={{
+              optionsToggleAriaLabel: 'Items per page',
+            }}
           />
         </TableToolbar>
       </Fragment>

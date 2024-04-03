@@ -11,6 +11,7 @@ import InfoTable from '../InfoTable';
 import { OperatingSystemCard } from '../OperatingSystemCard';
 import { SystemCard } from '../SystemCard';
 import { BiosCard } from '../BiosCard';
+import { BootcImageCard } from '../BootcImageCard';
 import { InfrastructureCard } from '../InfrastructureCard';
 import { ConfigurationCard } from '../ConfigurationCard';
 import { SystemStatusCard } from '../SystemStatusCard';
@@ -19,6 +20,7 @@ import { Provider } from 'react-redux';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
 import './general-information.scss';
+import { ConversionAlert } from './ConversionAlert';
 
 class GeneralInformation extends Component {
   state = {
@@ -91,16 +93,23 @@ class GeneralInformation extends Component {
       SystemCardWrapper,
       OperatingSystemCardWrapper,
       BiosCardWrapper,
+      BootcImageCardWrapper,
       InfrastructureCardWrapper,
       ConfigurationCardWrapper,
       SystemStatusCardWrapper,
       DataCollectorsCardWrapper,
       CollectionCardWrapper,
       children,
+      entity,
     } = this.props;
     const Wrapper = store ? Provider : Fragment;
     return (
       <Wrapper {...(store && { store })}>
+        {entity?.system_profile?.operating_system?.name === 'CentOS Linux' && (
+          <ConversionAlert
+            style={{ marginBottom: 'var(--pf-v5-global--spacer--md)' }}
+          />
+        )}
         <div className="ins-c-general-information">
           <Grid hasGutter>
             <GridItem md={6} sm={12}>
@@ -152,6 +161,14 @@ class GeneralInformation extends Component {
                   </GridItem>
                 )}
 
+                {this.props.isBootcHost && BootcImageCardWrapper && (
+                  <GridItem>
+                    <BootcImageCardWrapper
+                      handleClick={this.handleModalToggle}
+                    />
+                  </GridItem>
+                )}
+
                 {ConfigurationCardWrapper && (
                   <GridItem>
                     <ConfigurationCardWrapper
@@ -172,9 +189,7 @@ class GeneralInformation extends Component {
                     <AsyncComponent
                       appName="edge"
                       module="./ImagesInformationCard"
-                      deviceIdProps={
-                        this.props.inventoryId || this.props.entity.id
-                      }
+                      deviceIdProps={this.props.inventoryId || entity.id}
                     />
                   </GridItem>
                 )}
@@ -207,6 +222,11 @@ class GeneralInformation extends Component {
 GeneralInformation.propTypes = {
   entity: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    system_profile: PropTypes.shape({
+      operating_system: PropTypes.shape({
+        name: PropTypes.string,
+      }),
+    }),
   }),
   openedModal: PropTypes.string,
   loadSystemDetail: PropTypes.func,
@@ -221,6 +241,10 @@ GeneralInformation.propTypes = {
     PropTypes.bool,
   ]),
   BiosCardWrapper: PropTypes.oneOfType([PropTypes.elementType, PropTypes.bool]),
+  BootcImageCardWrapper: PropTypes.oneOfType([
+    PropTypes.elementType,
+    PropTypes.bool,
+  ]),
   InfrastructureCardWrapper: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.bool,
@@ -246,12 +270,14 @@ GeneralInformation.propTypes = {
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
   showImageDetails: PropTypes.bool,
+  isBootcHost: PropTypes.bool,
 };
 GeneralInformation.defaultProps = {
   entity: {},
   SystemCardWrapper: SystemCard,
   OperatingSystemCardWrapper: OperatingSystemCard,
   BiosCardWrapper: BiosCard,
+  BootcImageCardWrapper: BootcImageCard,
   InfrastructureCardWrapper: InfrastructureCard,
   ConfigurationCardWrapper: ConfigurationCard,
   SystemStatusCardWrapper: SystemStatusCard,

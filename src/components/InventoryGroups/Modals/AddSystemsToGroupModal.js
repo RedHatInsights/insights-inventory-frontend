@@ -104,14 +104,14 @@ const AddSystemsToGroupModal = ({
     [isModalOpen]
   );
 
-  const calculateSelected = () => (selected ? selected.size : 0);
+  const numOfSelectedSystems = selected ? selected.size : 0;
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
-    if (calculateSelected() > 0) {
+    if (numOfSelectedSystems > 0) {
       dispatch(selectEntity(-1, false));
     }
     dispatch(clearFilters());
+    setIsModalOpen(false);
   };
 
   const edgeParityInventoryListEnabled = useFeatureFlag(
@@ -190,7 +190,7 @@ const AddSystemsToGroupModal = ({
             setConfirmationModalOpen(false);
             setSystemSelectModalOpen(true); // switch back to the systems table modal
           }}
-          onCancel={() => handleModalClose()}
+          onCancel={handleModalClose}
           hostsNumber={alreadyHasGroup.length}
         />
         {/** hosts selection modal */}
@@ -214,7 +214,7 @@ const AddSystemsToGroupModal = ({
             </Flex>
           }
           isOpen={systemsSelectModalOpen}
-          onClose={() => handleModalClose()}
+          onClose={handleModalClose}
           footer={
             <Flex direction={{ default: 'column' }} style={{ width: '100%' }}>
               {showWarning && (
@@ -244,11 +244,7 @@ const AddSystemsToGroupModal = ({
                 >
                   Add systems
                 </Button>
-                <Button
-                  key="cancel"
-                  variant="link"
-                  onClick={() => handleModalClose()}
-                >
+                <Button key="cancel" variant="link" onClick={handleModalClose}>
                   Cancel
                 </Button>
               </FlexItem>
@@ -258,7 +254,7 @@ const AddSystemsToGroupModal = ({
         >
           {edgeParityEnabled && hasEdgeDevices ? (
             <Tabs
-              className="pf-m-light pf-c-table"
+              className="pf-m-light pf-v5-c-table"
               activeKey={activeTabKey}
               onSelect={handleTabClick}
               aria-label="Hybrid inventory tabs"
@@ -273,7 +269,7 @@ const AddSystemsToGroupModal = ({
                 eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
-                <section className={'pf-c-toolbar'}>
+                <section className={'pf-v5-c-toolbar'}>
                   <ImmutableDevicesView
                     skeletonRowQuantity={15}
                     hasCheckbox={true}

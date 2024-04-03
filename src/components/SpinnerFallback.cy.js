@@ -1,10 +1,10 @@
 import React from 'react';
 import Fallback from './SpinnerFallback';
-import { mount } from '@cypress/react';
+import { mount } from '@cypress/react18';
 
 describe('SpinnerFallback tests', () => {
   it('renders correctly', () => {
     mount(<Fallback />);
-    cy.get('.pf-l-bullseye').find('.pf-c-spinner');
+    cy.get('.pf-v5-l-bullseye').find('.pf-v5-c-spinner');
   });
 });

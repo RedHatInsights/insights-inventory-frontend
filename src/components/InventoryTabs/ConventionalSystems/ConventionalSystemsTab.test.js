@@ -1,32 +1,27 @@
-/* eslint-disable camelcase */
+import '@testing-library/jest-dom';
+import { render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { mount as enzymeMount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { act } from 'react-dom/test-utils';
-import * as ReactRouterDOM from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-
-import ConventionalSystemsTab from './ConventionalSystemsTab';
-import { calculatePagination } from './Utilities';
-import DeleteModal from '../../../Utilities/DeleteModal';
-import { hosts } from '../../../api';
-import createXhrMock from '../../../Utilities/__mocks__/xhrMock';
-
 import { useGetRegistry } from '../../../Utilities/constants';
 import { mockSystemProfile } from '../../../__mocks__/hostApi';
+import { hosts } from '../../../api';
+import ConventionalSystemsTab from './ConventionalSystemsTab';
+import { calculatePagination } from './Utilities';
+import { shouldDispatch } from '../../../Utilities/testUtils';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => () => jest.fn(),
 }));
-
 jest.mock('../../../Utilities//constants', () => ({
   ...jest.requireActual('../../../Utilities/constants'),
   useGetRegistry: jest.fn(() => ({
     getRegistry: () => ({}),
   })),
 }));
-
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
   () => ({
@@ -34,7 +29,6 @@ jest.mock(
     usePermissionsWithContext: () => ({ hasAccess: true }),
   })
 );
-
 jest.mock('../../../Utilities/useFeatureFlag');
 
 describe('ConventionalSystemsTab', () => {
@@ -125,13 +119,19 @@ describe('ConventionalSystemsTab', () => {
     systemProfileStore: { systemProfile: { loaded: false } },
   };
 
-  const mount = (children, store) =>
-    enzymeMount(
-      <ReactRouterDOM.MemoryRouter>
+  const renderWithProviders = (children, store) =>
+    render(
+      <MemoryRouter>
         <Provider store={store}>{children}</Provider>
-      </ReactRouterDOM.MemoryRouter>
+      </MemoryRouter>
     );
 
+  /* beforeAll(() => {
+    InventoryList.mockImplementation(() => (
+      <div data-testid="inventory-table-list">InventoryTable</div>
+    ));
+  });
+ */
   beforeEach(() => {
     mockStore = configureStore();
     useGetRegistry.mockImplementation(() => () => ({ register: () => ({}) }));
@@ -140,62 +140,32 @@ describe('ConventionalSystemsTab', () => {
 
   it('renders correctly when write permissions', async () => {
     const store = mockStore(initialStore);
-    let wrapper;
+    renderWithProviders(
+      <ConventionalSystemsTab initialLoading={false} />,
+      store
+    );
 
-    await act(async () => {
-      wrapper = mount(<ConventionalSystemsTab initialLoading={false} />, store);
+    await waitFor(() => {
+      screen.getByTestId('inventory-table-top-toolbar');
+      screen.getByTestId('inventory-table-bottom-toolbar');
+      screen.getByTestId('inventory-table-list');
     });
-    wrapper.update();
 
     expect(
-      wrapper.find('.ins-c-primary-toolbar__first-action').find('button').text()
-    ).toEqual('Delete');
+      screen.getByRole('button', {
+        name: /delete/i,
+      })
+    ).toBeEnabled();
+
     expect(
-      wrapper
-        .find('.ins-c-primary-toolbar__first-action')
-        .find('button')
-        .props()['aria-disabled']
-    ).toEqual(true);
-    expect(wrapper.find('tbody').find('tr')).toHaveLength(1);
-    expect(
-      wrapper.find('tbody').find('tr').find('.pf-c-dropdown')
-    ).toHaveLength(1);
+      within(screen.getAllByRole('row')[1]).getByRole('button', {
+        name: /kebab toggle/i,
+      })
+    ).toBeEnabled();
   });
 
-  it('renders correctly when no write permissions', async () => {
-    let wrapper;
-    const store = mockStore(initialStore);
-
-    await act(async () => {
-      wrapper = mount(<ConventionalSystemsTab initialLoading={false} />, store);
-    });
-    wrapper.update();
-
-    expect(
-      wrapper.find('.ins-c-primary-toolbar__first-action').find('button')
-    ).toHaveLength(1);
-    expect(
-      wrapper
-        .find('.ins-c-primary-toolbar__first-action')
-        .find('button')
-        .props()['aria-disabled']
-    ).toEqual(true);
-    expect(wrapper.find('tbody').find('tr')).toHaveLength(1);
-    expect(
-      wrapper.find('tbody').find('tr').find('.pf-c-dropdown')
-    ).toHaveLength(1);
-  });
-
-  it('can select and delete items', async () => {
-    let wrapper;
-
-    const tmp = window.XMLHttpRequest;
-
-    window.XMLHttpRequest = jest.fn().mockImplementation(createXhrMock());
-
-    hosts.apiHostDeleteHostById = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve());
+  it('can delete items', async () => {
+    hosts.apiHostDeleteHostById = jest.fn();
     const selected = new Map();
     selected.set(system1.id, system1);
 
@@ -207,51 +177,34 @@ describe('ConventionalSystemsTab', () => {
         selected,
       },
     });
+    renderWithProviders(
+      <ConventionalSystemsTab initialLoading={false} />,
+      store
+    );
 
-    await act(async () => {
-      wrapper = mount(<ConventionalSystemsTab initialLoading={false} />, store);
-    });
-    wrapper.update();
-
-    expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(false);
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /delete/i,
+      })
+    );
     expect(
-      wrapper
-        .find('.ins-c-primary-toolbar__first-action')
-        .find('button')
-        .props().disabled
-    ).toEqual(false);
-
-    await act(async () => {
-      wrapper
-        .find('.ins-c-primary-toolbar__first-action')
-        .find('button')
-        .simulate('click');
-    });
-    wrapper.update();
-
-    expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(true);
-
-    store.clearActions();
-
-    await act(async () => {
-      // click on remove
-      wrapper
-        .find(DeleteModal)
-        .find('.pf-c-modal-box__body')
-        .find('button')
-        .at(1)
-        .simulate('click');
-    });
-    wrapper.update();
-
-    expect(wrapper.find(DeleteModal).props().isModalOpen).toEqual(false);
-
-    const actions = store.getActions();
-
-    expect(actions[0]).toEqual({
+      screen.getByRole('heading', {
+        name: /remove from inventory/i,
+      })
+    ).toBeVisible();
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /remove/i,
+      })
+    );
+    expect(
+      screen.queryByRole('heading', {
+        name: /remove from inventory/i,
+      })
+    ).not.toBeInTheDocument();
+    shouldDispatch(store, {
       payload: {
-        description:
-          'Removal of RHIQE.31ea86a9-a439-4422-9516-27c879057535.test started.',
+        description: `Removal of ${system1.display_name} started.`,
         dismissable: false,
         id: 'remove-initiated',
         title: 'Delete operation initiated',
@@ -259,24 +212,9 @@ describe('ConventionalSystemsTab', () => {
       },
       type: '@@INSIGHTS-CORE/NOTIFICATIONS/ADD_NOTIFICATION',
     });
-    expect(actions[1]).toEqual({
-      meta: {
-        notifications: {
-          fulfilled: {
-            description:
-              'RHIQE.31ea86a9-a439-4422-9516-27c879057535.test has been successfully removed.',
-            dismissable: true,
-            title: 'Delete operation finished',
-            variant: 'success',
-          },
-        },
-        systems: ['ed190a06-de88-4d62-aba1-88ad402720a8'],
-      },
-      payload: expect.any(Promise),
+    shouldDispatch(store, {
       type: 'REMOVE_ENTITY',
     });
-
-    window.XMLHttpRequest = tmp;
   });
 });
 

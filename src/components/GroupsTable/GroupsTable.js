@@ -4,14 +4,12 @@ import {
   PaginationVariant,
   SearchInput,
 } from '@patternfly/react-core';
+import { TableVariant, cellWidth, sortable } from '@patternfly/react-table';
 import {
   Table,
   TableBody,
   TableHeader,
-  TableVariant,
-  cellWidth,
-  sortable,
-} from '@patternfly/react-table';
+} from '@patternfly/react-table/deprecated';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import PrimaryToolbar from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
@@ -335,9 +333,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           Rename group
         </ActionDropdownItem>
       ),
-      style: {
-        padding: 0, // custom component creates extra padding space
-      },
     },
     {
       title: (
@@ -357,9 +352,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           Delete group
         </ActionDropdownItem>
       ),
-      style: {
-        padding: 0, // custom component creates extra padding space
-      },
     },
   ];
 
@@ -458,23 +450,15 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         }}
         actionsConfig={{
           actions: [
-            {
-              label: (
-                <ActionButton
-                  requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-                  noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
-                  onClick={onCreateGroupClick}
-                >
-                  Create group
-                </ActionButton>
-              ),
-              props: {
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                  backgroundColor: 'transparent',
-                },
-              },
-            },
+            <ActionButton
+              key="create-group-btn"
+              requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+              noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+              onClick={onCreateGroupClick}
+              ouiaId="CreateGroupButton"
+            >
+              Create group
+            </ActionButton>,
             {
               label: (
                 <ActionDropdownItem
@@ -489,11 +473,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
                   {selectedIds.length > 1 ? 'Delete groups' : 'Delete group'}
                 </ActionDropdownItem>
               ),
-              props: {
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                },
-              },
             },
           ],
         }}

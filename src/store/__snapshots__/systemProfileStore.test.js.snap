@@ -1,37 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`onSystemProfile correct data rest data should match 1`] = `
-Object {
+{
   "arch": "x86_64",
   "bios_release_date": "04/01/2014",
   "bios_vendor": "SeaBIOS",
   "bios_version": "1.10.2-2.fc27",
   "cores_per_socket": 1,
-  "cpu_flags": Array [
+  "cpu_flags": [
     "fpu",
   ],
-  "enabled_services": Array [
+  "enabled_services": [
     "auditd",
   ],
   "infrastructure_type": "virtual",
   "infrastructure_vendor": "qemu",
-  "installed_packages": Array [
+  "installed_packages": [
     "0:GeoIP-1.5.0-11.el7",
   ],
-  "installed_services": Array [
+  "installed_services": [
     "arp-ethers",
   ],
-  "kernel_modules": Array [
+  "kernel_modules": [
     "veth",
   ],
   "last_boot_time": "2018-03-14T17:06:10",
   "loaded": true,
-  "network_interfaces": Array [
-    Object {
-      "ipv4_addresses": Array [
+  "network_interfaces": [
+    {
+      "ipv4_addresses": [
         "127.0.0.1",
       ],
-      "ipv6_addresses": Array [
+      "ipv6_addresses": [
         "::1",
       ],
       "mac_address": "00:00:00:00:00:00",
@@ -45,16 +45,16 @@ Object {
   "number_of_sockets": 1,
   "os_kernel_version": "3.10.0",
   "os_release": "7.4",
-  "running_processes": Array [
+  "running_processes": [
     "qmgr",
   ],
   "satellite_managed": false,
   "system_memory_bytes": 512073728,
-  "system_purpose": Object {
+  "system_purpose": {
     "usage": "Production",
   },
-  "yum_repos": Array [
-    Object {
+  "yum_repos": [
+    {
       "enabled": false,
       "gpgcheck": true,
       "name": "Extra Packages for Enterprise Linux 7 - Testing - $basearch",

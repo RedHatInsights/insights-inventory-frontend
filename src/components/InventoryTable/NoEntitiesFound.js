@@ -4,9 +4,10 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateIcon,
-  EmptyStatePrimary,
   EmptyStateVariant,
-  Title,
+  EmptyStateActions,
+  EmptyStateHeader,
+  EmptyStateFooter,
 } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
@@ -22,19 +23,22 @@ const NoEntitiesFound = ({ entities, onClearAll, showIcon }) => (
     data-ouia-safe={true}
   >
     {showIcon && <EmptyStateIcon icon={SearchIcon} />}
-    <Title headingLevel="h5" size="lg">
-      {`No matching ${entities} found`}
-    </Title>
+    <EmptyStateHeader
+      titleText={<>{`No matching ${entities} found`}</>}
+      headingLevel="h5"
+    />
     <EmptyStateBody>
       To continue, edit your filter settings and try again
     </EmptyStateBody>
-    {onClearAll !== undefined && (
-      <EmptyStatePrimary>
-        <Button variant="link" onClick={onClearAll}>
-          Clear all filters
-        </Button>
-      </EmptyStatePrimary>
-    )}
+    <EmptyStateFooter>
+      {onClearAll !== undefined && (
+        <EmptyStateActions>
+          <Button variant="link" onClick={onClearAll}>
+            Clear all filters
+          </Button>
+        </EmptyStateActions>
+      )}
+    </EmptyStateFooter>
   </EmptyState>
 );
 

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Flex, FlexItem, Grid, GridItem } from '@patternfly/react-core';
+import { Flex, FlexItem, Grid, GridItem, Label } from '@patternfly/react-core';
 import {
   Skeleton,
   SkeletonSize,
@@ -63,6 +63,12 @@ const FactsInfo = ({
             ) && <InsightsDisconnected />}
         </FlexItem>
       </Flex>
+      {loaded &&
+        entity?.system_profile?.operating_system?.name === 'CentOS Linux' && (
+          <div>
+            <Label color="cyan">CentOS Linux system</Label>
+          </div>
+        )}
     </GridItem>
   </Grid>
 );

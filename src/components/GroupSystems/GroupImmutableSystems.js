@@ -109,7 +109,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   );
 
   const getUpdateInfo = useGetInventoryGroupUpdateInfo();
-  const [deviceData, setDeviceData] = useState();
+  const [deviceData, setDeviceData] = useState(null);
   const [deviceImageSet, setDeviceImageSet] = useState();
   const [updateModal, setUpdateModal] = useState({
     isOpen: false,
@@ -131,10 +131,9 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       enhancedConfig,
       showTags
     );
-
     const mapDeviceIds = mapDefaultData(defaultData.results);
     const updateInfo = await getUpdateInfo(groupId);
-    setDeviceData(updateInfo?.update_devices_uuids);
+    setDeviceData(updateInfo?.update_devices_uuids || []);
     setDeviceImageSet(updateInfo?.device_image_set_info);
     const rowInfo = [];
     let items = [];
@@ -206,6 +205,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       setCanUpdate(false);
     }
   }, [deviceData, selected, deviceImageSet]);
+
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
@@ -267,15 +267,12 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     Remove from group
                   </ActionDropdownItem>
                 ),
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                },
               },
               {
                 title: (
                   <ActionDropdownItem
                     isAriaDisabled={
-                      deviceData && !deviceData.find((obj) => obj === row.id)
+                      deviceData === null || !deviceData.includes(row.id)
                     }
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
@@ -289,16 +286,13 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     Update
                   </ActionDropdownItem>
                 ),
-                style: {
-                  padding: 0, // custom component creates extra padding space
-                },
               },
             ],
           }}
           actionsConfig={{
             actions: [
               [
-                <div key="primary-actions" className="pf-c-action-list">
+                <div key="primary-actions" className="pf-v5-c-action-list">
                   <ActionButton
                     key="add-systems-button"
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
@@ -335,7 +329,9 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                 props: {
                   isAriaDisabled: !canModify || calculateSelected() === 0,
                   ...(!canModify && {
-                    tooltip: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                    tooltipProps: {
+                      content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                    },
                   }),
                 },
                 onClick: () => {

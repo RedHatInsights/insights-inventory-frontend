@@ -19,6 +19,7 @@ export const useTextFilter = ([state, dispatch] = [textFilterState]) => {
   const filter = {
     label: 'Name',
     value: 'name-filter',
+    type: 'text',
     filterValues: {
       placeholder: 'Filter by name',
       value,

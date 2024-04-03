@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Button,
   ClipboardCopy,
+  Icon,
   Level,
   LevelItem,
   Modal,
@@ -46,7 +47,9 @@ const DeleteModal = ({
     >
       <Split hasGutter>
         <SplitItem>
-          <ExclamationTriangleIcon size="xl" className="ins-m-alert" />
+          <Icon size="xl" status="warning">
+            <ExclamationTriangleIcon />
+          </Icon>
         </SplitItem>
         <SplitItem isFilled>
           <Stack hasGutter>

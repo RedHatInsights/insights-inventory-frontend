@@ -74,6 +74,15 @@ export const biosSelector = ({
   releaseDate: bios_release_date,
 });
 
+export const bootcSelector = ({ bootc_status } = {}) => ({
+  bootedImage: bootc_status?.booted?.image,
+  bootedImageDigest: bootc_status?.booted?.image_digest,
+  stagedImage: bootc_status?.staged?.image,
+  stagedImageDigest: bootc_status?.staged?.image_digest,
+  rollbackImage: bootc_status?.rollback?.image,
+  rollbackImageDigest: bootc_status?.rollback?.image_digest,
+});
+
 export const infrastructureSelector = (
   {
     infrastructure_type,

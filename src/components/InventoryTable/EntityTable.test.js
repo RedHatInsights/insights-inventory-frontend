@@ -1,25 +1,53 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable camelcase */
-/* eslint-disable react/display-name */
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import {
-  fireEvent,
-  render as rederWithTestingLibrary,
-} from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
-import EntityTable from './EntityTable';
-import { mount, render } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import toJson from 'enzyme-to-json';
-import { MemoryRouter } from 'react-router-dom';
-import TitleColumn from './TitleColumn';
-import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
+import { TestWrapper } from '../../Utilities/TestingUtilities';
 import { defaultColumns } from '../../store/entities';
-// import { createMemoryHistory } from 'history';
+import EntityTable from './EntityTable';
+import TitleColumn from './TitleColumn';
 
 jest.mock('../../Utilities/useFeatureFlag');
+
+const expectTableBasicComponents = (
+  columnsNumber,
+  rowsNumber,
+  columnNames,
+  shouldRenderSelectAllCheckbox = true,
+  shouldRenderSelectCheckboxes = true,
+  ariaLabel = 'Host inventory',
+  shouldRenderPerRowActions = false
+) => {
+  expect(screen.getByRole('grid', { name: ariaLabel })).toBeVisible();
+  expect(screen.getAllByRole('columnheader')).toHaveLength(columnsNumber);
+  expect(screen.getAllByRole('row')).toHaveLength(rowsNumber + 1); // + 1 to count in header row
+
+  if (columnNames !== undefined) {
+    screen.getAllByRole('columnheader').forEach((columnHeader, index) => {
+      expect(columnHeader).toHaveTextContent(columnNames[index]);
+    });
+  }
+
+  expect(
+    screen.queryAllByRole('cell', {
+      name: 'Select all rows',
+    })
+  ).toHaveLength(shouldRenderSelectAllCheckbox ? 1 : 0);
+
+  expect(
+    screen.queryAllByRole('cell', {
+      name: /select row/i,
+    })
+  ).toHaveLength(shouldRenderSelectCheckboxes ? rowsNumber : 0);
+
+  expect(
+    screen.queryAllByRole('button', {
+      name: /kebab toggle/i,
+    })
+  ).toHaveLength(shouldRenderPerRowActions ? rowsNumber : 0);
+};
 
 describe('EntityTable', () => {
   let initialState;
@@ -48,6 +76,12 @@ describe('EntityTable', () => {
               </TitleColumn>
             ),
           },
+          {
+            key: 'system_profile',
+            sortKey: 'system_profile',
+            title: 'OS',
+            renderFunc: () => <span>some version</span>,
+          },
         ],
         page: 1,
         perPage: 50,
@@ -57,22 +91,21 @@ describe('EntityTable', () => {
   });
 
   describe('DOM', () => {
-    it('should render correctly - no data', () => {
+    it('should render correctly - loading', () => {
       const store = mockStore({
         entities: {
           loaded: false,
+          columns: initialState.entities.columns,
         },
       });
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable disableDefaultColumns loaded={false} />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable disableDefaultColumns loaded={false} />
+        </TestWrapper>
       );
-      expect(
-        toJson(wrapper.find('EntityTable'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      expectTableBasicComponents(2, 15, undefined, false, false, 'Loading');
     });
 
     it('should render correctly - no rows', () => {
@@ -83,14 +116,20 @@ describe('EntityTable', () => {
           rows: [],
         },
       });
-      const wrapper = render(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable disableDefaultColumns loaded />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable disableDefaultColumns loaded />
+        </TestWrapper>
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      expectTableBasicComponents(1, 1, ['One'], false, false);
+      expect(
+        screen.getByRole('heading', { name: 'No matching systems found' })
+      ).toBeVisible();
+      expect(
+        screen.getByText('To continue, edit your filter settings and try again')
+      ).toBeVisible();
     });
 
     it('should render correctly - with customNoSystemsTable', () => {
@@ -101,14 +140,23 @@ describe('EntityTable', () => {
           rows: [],
         },
       });
-      const wrapper = render(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded noSystemsTable={<div>NO SYSTEMS</div>} />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded noSystemsTable={<div>NO SYSTEMS</div>} />
+        </TestWrapper>
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      expectTableBasicComponents(1, 1, ['One'], false, false);
+      expect(screen.getByText('NO SYSTEMS')).toBeVisible();
+      expect(
+        screen.queryByRole('heading', { name: 'No matching systems found' })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(
+          'To continue, edit your filter settings and try again'
+        )
+      ).not.toBeInTheDocument();
     });
 
     it('should render correctly - grid breakpoints', () => {
@@ -122,217 +170,253 @@ describe('EntityTable', () => {
           })),
         },
       });
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded disableDefaultColumns />
+        </TestWrapper>
       );
-      expect(
-        toJson(wrapper.find('Table'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      expectTableBasicComponents(
+        6,
+        1,
+        [...new Array(6)].map(() => 'One'),
+        true,
+        true
+      );
+      expect(screen.getAllByRole('cell', { name: 'data' })).toHaveLength(6);
     });
 
     it('should render correctly - without checkbox', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded hasCheckbox={false} disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded hasCheckbox={false} disableDefaultColumns />
+        </TestWrapper>
       );
-      expect(
-        toJson(wrapper.find('Table'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      expectTableBasicComponents(2, 1, ['One', 'OS'], false, false);
     });
 
     it('should render correctly - is expandable', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded expandable disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded expandable disableDefaultColumns />
+        </TestWrapper>
       );
-      expect(
-        toJson(wrapper.find('Table'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      expectTableBasicComponents(3, 1, ['', 'One', 'OS'], true, true);
     });
 
     it('should render correctly - with actions', () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded actions={[]} disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded actions={['action 1']} disableDefaultColumns />
+        </TestWrapper>
       );
-      expect(
-        toJson(wrapper.find('Table'), { mode: 'shallow' })
-      ).toMatchSnapshot();
+
+      expectTableBasicComponents(
+        2,
+        1,
+        ['One', 'OS'],
+        true,
+        true,
+        undefined,
+        true
+      );
     });
 
     describe('sort by', () => {
       it('should render correctly', () => {
         const store = mockStore(initialState);
-        const wrapper = mount(
-          <MemoryRouter>
-            <Provider store={store}>
-              <EntityTable
-                loaded
-                disableDefaultColumns
-                sortBy={{
-                  key: 'one',
-                  sortKey: 'one',
-                  directions: 'asc',
-                }}
-              />
-            </Provider>
-          </MemoryRouter>
+
+        render(
+          <TestWrapper store={store}>
+            <EntityTable
+              loaded
+              disableDefaultColumns
+              sortBy={{
+                key: 'one',
+                sortKey: 'one',
+                directions: 'asc',
+              }}
+            />
+          </TestWrapper>
         );
+
+        expectTableBasicComponents(2, 1, ['One', 'OS'], true, true);
         expect(
-          toJson(wrapper.find('Table'), { mode: 'shallow' })
-        ).toMatchSnapshot();
+          screen.getByRole('columnheader', {
+            name: 'One',
+          })
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        // eslint-disable-next-line testing-library/no-node-access
+        const sortIndicator = document.querySelectorAll(
+          '.pf-v5-c-table__sort-indicator'
+        );
+        expect(sortIndicator).toHaveLength(2);
       });
 
       it('should render correctly - without checkbox', () => {
         const store = mockStore(initialState);
-        const wrapper = mount(
-          <MemoryRouter>
-            <Provider store={store}>
-              <EntityTable
-                loaded
-                hasCheckbox={false}
-                disableDefaultColumns
-                sortBy={{
-                  key: 'one',
-                  directions: 'asc',
-                }}
-              />
-            </Provider>
-          </MemoryRouter>
+
+        render(
+          <TestWrapper store={store}>
+            <EntityTable
+              loaded
+              hasCheckbox={false}
+              disableDefaultColumns
+              sortBy={{
+                key: 'one',
+                directions: 'asc',
+              }}
+            />
+          </TestWrapper>
         );
+
+        expectTableBasicComponents(2, 1, ['One', 'OS'], false, false);
         expect(
-          toJson(wrapper.find('Table'), { mode: 'shallow' })
-        ).toMatchSnapshot();
+          screen.getByRole('columnheader', {
+            name: 'One',
+          })
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        // eslint-disable-next-line testing-library/no-node-access
+        const sortIndicator = document.querySelectorAll(
+          '.pf-v5-c-table__sort-indicator'
+        );
+        expect(sortIndicator).toHaveLength(2);
       });
 
       it('should render correctly - is expandable', () => {
         const store = mockStore(initialState);
-        const wrapper = mount(
-          <MemoryRouter>
-            <Provider store={store}>
-              <EntityTable
-                loaded
-                expandable
-                disableDefaultColumns
-                sortBy={{
-                  key: 'one',
-                  directions: 'asc',
-                }}
-              />
-            </Provider>
-          </MemoryRouter>
+
+        render(
+          <TestWrapper store={store}>
+            <EntityTable
+              loaded
+              expandable
+              disableDefaultColumns
+              sortBy={{
+                key: 'one',
+                directions: 'asc',
+              }}
+            />
+          </TestWrapper>
         );
+
+        expectTableBasicComponents(3, 1, ['', 'One', 'OS'], true, true);
         expect(
-          toJson(wrapper.find('Table'), { mode: 'shallow' })
-        ).toMatchSnapshot();
+          screen.getByRole('columnheader', {
+            name: 'One',
+          })
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        // eslint-disable-next-line testing-library/no-node-access
+        const sortIndicator = document.querySelectorAll(
+          '.pf-v5-c-table__sort-indicator'
+        );
+        expect(sortIndicator).toHaveLength(2);
       });
 
       it('should mark OS column as sorted in Asc order', () => {
         const store = mockStore(initialState);
-        const wrapper = mount(
-          <MemoryRouter>
-            <Provider store={store}>
-              <EntityTable
-                loaded
-                expandable
-                disableDefaultColumns
-                sortBy={{
-                  key: 'system_profile',
-                  direction: 'asc',
-                }}
-              />
-            </Provider>
-          </MemoryRouter>
+
+        render(
+          <TestWrapper store={store}>
+            <EntityTable
+              loaded
+              expandable
+              disableDefaultColumns
+              sortBy={{
+                key: 'system_profile',
+                direction: 'asc',
+              }}
+            />
+          </TestWrapper>
         );
 
-        expect(wrapper.find('Table').props().sortBy).toEqual({
-          index: 1,
-          direction: 'asc',
-        });
+        expectTableBasicComponents(3, 1, ['', 'One', 'OS'], true, true);
+        expect(
+          screen.getByRole('columnheader', {
+            name: 'OS',
+          })
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        // eslint-disable-next-line testing-library/no-node-access
+        const sortIndicator = document.querySelectorAll(
+          '.pf-v5-c-table__sort-indicator'
+        );
+        expect(sortIndicator).toHaveLength(2);
       });
 
       it('should mark OS column as sorted in Desc order', () => {
         const store = mockStore(initialState);
-        const wrapper = mount(
-          <MemoryRouter>
-            <Provider store={store}>
-              <EntityTable
-                loaded
-                expandable
-                disableDefaultColumns
-                sortBy={{
-                  key: 'system_profile',
-                  direction: 'desc',
-                }}
-              />
-            </Provider>
-          </MemoryRouter>
+
+        render(
+          <TestWrapper store={store}>
+            <EntityTable
+              loaded
+              expandable
+              disableDefaultColumns
+              sortBy={{
+                key: 'system_profile',
+                direction: 'desc',
+              }}
+            />
+          </TestWrapper>
         );
 
-        expect(wrapper.find('Table').props().sortBy).toEqual({
-          index: 1,
-          direction: 'desc',
-        });
+        expectTableBasicComponents(3, 1, ['', 'One', 'OS'], true, true);
+        expect(
+          screen.getByRole('columnheader', {
+            name: 'OS',
+          })
+        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        // eslint-disable-next-line testing-library/no-node-access
+        const sortIndicator = document.querySelectorAll(
+          '.pf-v5-c-table__sort-indicator'
+        );
+        expect(sortIndicator).toHaveLength(2);
       });
     });
 
     it('should render correctly - compact', () => {
       const store = mockStore(initialState);
-      const wrapper = render(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded disableDefaultColumns variant="compact" />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded disableDefaultColumns variant="compact" />
+        </TestWrapper>
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      expectTableBasicComponents(2, 1, ['One', 'OS'], true, true);
+      expect(screen.getByRole('grid', { name: 'Host inventory' })).toHaveClass(
+        'pf-m-compact'
+      );
     });
 
     it('should render correctly with has items', () => {
       const store = mockStore(initialState);
-      const wrapper = render(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable
-              loaded
-              disableDefaultColumns
-              hasItems
-              isLoaded={false}
-            />
-          </Provider>
-        </MemoryRouter>
-      );
-      expect(
-        toJson(wrapper.find('EntityTable'), { mode: 'shallow' })
-      ).toMatchSnapshot();
-    });
 
-    it('should render correctly', () => {
-      const store = mockStore(initialState);
-      const wrapper = render(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded disableDefaultColumns hasItems />
+        </TestWrapper>
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+
+      expectTableBasicComponents(2, 1, ['One', 'OS'], true, true);
+      screen
+        .getAllByRole('columnheader')
+        .forEach((header) =>
+          expect(header).not.toHaveClass('pf-v5-c-table__sort')
+        );
+      // eslint-disable-next-line testing-library/no-node-access
+      const sortIndicator = document.querySelectorAll(
+        '.pf-v5-c-table__sort-indicator'
+      );
+      expect(sortIndicator).toHaveLength(0);
     });
 
     it('should render correctly - disabled insights icon', () => {
@@ -359,15 +443,21 @@ describe('EntityTable', () => {
       };
 
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded disableDefaultColumns />
+        </TestWrapper>
       );
 
-      expect(wrapper.find(InsightsDisconnected)).toHaveLength(1);
+      expectTableBasicComponents(
+        5,
+        2,
+        ['Name', 'Group', 'Tags', 'OS', 'Last seen'],
+        true,
+        true
+      );
+      expect(screen.getByLabelText('Disconnected indicator')).toBeVisible();
     });
 
     it('should render correctly - custom columns via props', () => {
@@ -393,49 +483,48 @@ describe('EntityTable', () => {
         },
       };
 
-      const CustomCell = ({ children }) => <h1>{children}</h1>;
-
+      // eslint-disable-next-line react/prop-types
+      const CustomCell = ({ children }) => (
+        <h1 data-testid="custom-cell">{children}</h1>
+      );
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable
-              loaded
-              columns={[
-                {
-                  key: 'display_name',
-                  renderFunc: (name) => <CustomCell>{name}</CustomCell>,
-                },
-                {
-                  key: 'secret_attribute',
-                  title: 'Secret attribute',
-                  renderFunc: (secret_attribute) => (
-                    <CustomCell>{secret_attribute}</CustomCell>
-                  ),
-                },
-              ]}
-            />
-          </Provider>
-        </MemoryRouter>
+
+      render(
+        <TestWrapper store={store}>
+          <EntityTable
+            loaded
+            columns={[
+              {
+                key: 'display_name',
+                renderFunc: (name) => <CustomCell>{name}</CustomCell>,
+              },
+              {
+                key: 'secret_attribute',
+                title: 'Secret attribute',
+                renderFunc: (secret_attribute) => (
+                  <CustomCell>{secret_attribute}</CustomCell>
+                ),
+              },
+            ]}
+          />
+        </TestWrapper>
       );
 
-      expect(wrapper.find('table').find('th')).toHaveLength(5);
-      expect(wrapper.find('table').find('th').last().text()).toEqual(
-        'Secret attribute'
+      expectTableBasicComponents(
+        5,
+        2,
+        ['Name', 'Group', 'OS', 'Last seen', 'Secret attribute'],
+        true,
+        true
       );
-      expect(wrapper.find('table').find(CustomCell)).toHaveLength(4);
-
-      const texts = wrapper
-        .find('table')
-        .find(CustomCell)
-        .map((cell) => cell.text());
-
-      expect(texts).toEqual([
-        'name_1',
-        'super_secret_1',
-        'name_2',
-        'super_secret_2',
-      ]);
+      expect(screen.getAllByTestId('custom-cell')).toHaveLength(4);
+      screen
+        .getAllByTestId('custom-cell')
+        .forEach((cell, index) =>
+          expect(cell).toHaveTextContent(
+            ['name_1', 'super_secret_1', 'name_2', 'super_secret_2'][index]
+          )
+        );
     });
 
     it('should render correctly - custom columns via prop function', () => {
@@ -454,7 +543,10 @@ describe('EntityTable', () => {
         },
       };
 
-      const CustomCell = ({ children }) => <h1>{children}</h1>;
+      // eslint-disable-next-line react/prop-types
+      const CustomCell = ({ children }) => (
+        <h1 data-testid="custom-cell">{children}</h1>
+      );
 
       const getColumns = jest.fn().mockImplementation(() => [
         {
@@ -472,28 +564,26 @@ describe('EntityTable', () => {
       ]);
 
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded columns={getColumns} />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded columns={getColumns} />
+        </TestWrapper>
       );
 
-      expect(getColumns.mock.calls.length).toEqual(1);
-
-      expect(wrapper.find('table').find('th')).toHaveLength(2);
-      expect(wrapper.find('table').find('th').last().text()).toEqual(
-        'Secret attribute'
+      expectTableBasicComponents(
+        2,
+        1,
+        ['Display name', 'Secret attribute'],
+        true,
+        true
       );
-      expect(wrapper.find('table').find(CustomCell)).toHaveLength(2);
-
-      const texts = wrapper
-        .find('table')
-        .find(CustomCell)
-        .map((cell) => cell.text());
-
-      expect(texts).toEqual(['name_1', 'super_secret_1']);
+      expect(screen.getAllByTestId('custom-cell')).toHaveLength(2);
+      screen
+        .getAllByTestId('custom-cell')
+        .forEach((cell, index) =>
+          expect(cell).toHaveTextContent(['name_1', 'super_secret_1'][index])
+        );
+      expect(getColumns).toHaveBeenCalledTimes(1);
     });
 
     it('control columns function prop via columnsCounter', async () => {
@@ -512,6 +602,7 @@ describe('EntityTable', () => {
         },
       };
 
+      // eslint-disable-next-line react/prop-types
       const CustomCell = ({ children }) => <h1>{children}</h1>;
 
       const getColumns = jest.fn().mockImplementation(() => [
@@ -524,49 +615,21 @@ describe('EntityTable', () => {
 
       const store = mockStore(initialState);
 
-      class Dummy extends React.Component {
-        render() {
-          return (
-            <MemoryRouter>
-              <Provider store={store}>
-                <EntityTable loaded columns={getColumns} {...this.props} />
-              </Provider>
-            </MemoryRouter>
-          );
-        }
-      }
+      const Dummy = (props) => (
+        <TestWrapper store={store}>
+          <EntityTable loaded columns={getColumns} {...props} />
+        </TestWrapper>
+      );
 
-      const wrapper = mount(<Dummy />);
+      const { rerender } = render(<Dummy />);
 
-      expect(getColumns.mock.calls.length).toEqual(1);
-
-      await act(async () => {
-        wrapper.setProps({ some_prop: '1' });
-      });
-      wrapper.update();
-
-      expect(getColumns.mock.calls.length).toEqual(1);
-
-      await act(async () => {
-        wrapper.setProps({ columnsCounter: 1 });
-      });
-      wrapper.update();
-
-      expect(getColumns.mock.calls.length).toEqual(2);
-
-      await act(async () => {
-        wrapper.setProps({ columnsCounter: 1 });
-      });
-      wrapper.update();
-
-      expect(getColumns.mock.calls.length).toEqual(2);
-
-      await act(async () => {
-        wrapper.setProps({ columnsCounter: 2 });
-      });
-      wrapper.update();
-
-      expect(getColumns.mock.calls.length).toEqual(3);
+      expect(getColumns).toHaveBeenCalledTimes(1);
+      rerender(<Dummy some_prop={'1'} />);
+      expect(getColumns).toHaveBeenCalledTimes(1);
+      rerender(<Dummy columnsCounter={1} />);
+      expect(getColumns).toHaveBeenCalledTimes(2);
+      rerender(<Dummy columnsCounter={2} />);
+      expect(getColumns).toHaveBeenCalledTimes(3);
     });
 
     it('should disable just one default column', () => {
@@ -585,26 +648,24 @@ describe('EntityTable', () => {
           ],
         },
       };
-
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable
-              loaded
-              columns={[]}
-              disableDefaultColumns={['display_name']}
-            />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable
+            loaded
+            columns={[]}
+            disableDefaultColumns={['display_name']}
+          />
+        </TestWrapper>
       );
 
-      const texts = wrapper
-        .find('table')
-        .find('th')
-        .map((cell) => cell.text());
-      expect(texts).toEqual(['Group', 'OS', 'Last seen']);
-      expect(wrapper.find('table').find('th')).toHaveLength(3);
+      expectTableBasicComponents(
+        3,
+        1,
+        ['Group', 'OS', 'Last seen'],
+        true,
+        true
+      );
     });
 
     it('should disable just one default column + showTags', () => {
@@ -623,53 +684,51 @@ describe('EntityTable', () => {
           ],
         },
       };
-
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable
-              loaded
-              columns={[]}
-              disableDefaultColumns={['display_name']}
-              showTags
-            />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable
+            loaded
+            columns={[]}
+            disableDefaultColumns={['display_name']}
+            showTags
+          />
+        </TestWrapper>
       );
 
-      const texts = wrapper
-        .find('table')
-        .find('th')
-        .map((cell) => cell.text());
-      expect(texts).toEqual(['Group', 'Tags', 'OS', 'Last seen']);
-      expect(wrapper.find('table').find('th')).toHaveLength(4);
+      expectTableBasicComponents(
+        4,
+        1,
+        ['Group', 'Tags', 'OS', 'Last seen'],
+        true,
+        true
+      );
     });
   });
 
   describe('API', () => {
     jest.mock('../../Utilities/useFeatureFlag');
 
-    it('should call onRowClick', () => {
+    it('should call onRowClick', async () => {
       const onRowClick = jest.fn();
       const store = mockStore(initialState);
-      const { container } = rederWithTestingLibrary(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded disableDefaultColumns onRowClick={onRowClick} />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded disableDefaultColumns onRowClick={onRowClick} />
+        </TestWrapper>
       );
 
-      const link = container.querySelector('table tbody tr a');
-      act(() => {
-        fireEvent.click(link);
+      await userEvent.click(
+        screen.getByRole('link', {
+          name: 'data',
+        })
+      );
+      await waitFor(() => {
+        expect(onRowClick).toHaveBeenCalledTimes(1);
       });
-
-      expect(onRowClick).toHaveBeenCalled();
     });
 
-    it('should NOT call on expand click', () => {
+    it('should call on expand click', async () => {
       const onExpand = jest.fn();
       const store = mockStore({
         entities: {
@@ -682,63 +741,40 @@ describe('EntityTable', () => {
           ],
         },
       });
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded disableDefaultColumns expandable />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable
+            loaded
+            disableDefaultColumns
+            expandable
+            onExpandClick={onExpand}
+          />
+        </TestWrapper>
       );
-      wrapper.find('.pf-c-table__toggle button').first().simulate('click');
-      expect(onExpand).not.toHaveBeenCalled();
-    });
 
-    it('should call on expand click', () => {
-      const onExpand = jest.fn();
-      const store = mockStore({
-        entities: {
-          ...initialState.entities,
-          rows: [
-            {
-              one: 'data',
-              children: () => <div>something</div>,
-            },
-          ],
-        },
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: 'Details',
+        })
+      );
+      await waitFor(() => {
+        expect(onExpand).toHaveBeenCalledTimes(1);
       });
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable
-              loaded
-              disableDefaultColumns
-              expandable
-              onExpandClick={onExpand}
-            />
-          </Provider>
-        </MemoryRouter>
-      );
-      wrapper.find('.pf-c-table__toggle button').first().simulate('click');
-      expect(onExpand).toHaveBeenCalled();
     });
 
-    it('should call dispatch select cation', () => {
+    it('should call dispatch select action', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded expandable disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded expandable disableDefaultColumns />
+        </TestWrapper>
       );
-      wrapper
-        .find('table tbody tr .pf-c-table__check input')
-        .first()
-        .simulate('change', {
-          target: {
-            value: 'checked',
-          },
-        });
+
+      await userEvent.click(
+        screen.getByRole('checkbox', {
+          name: /select row 0/i,
+        })
+      );
       const actions = store.getActions();
       expect(actions.length).toBe(1);
       expect(actions[0]).toMatchObject({
@@ -747,69 +783,40 @@ describe('EntityTable', () => {
       });
     });
 
-    it('should call dispatch select cation', () => {
+    it('should dispatch select all action', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded expandable disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded disableDefaultColumns />
+        </TestWrapper>
       );
-      wrapper
-        .find('table tbody tr .pf-c-table__check input')
-        .first()
-        .simulate('change', {
-          target: {
-            value: 'checked',
-          },
-        });
+
+      await userEvent.click(
+        screen.getByRole('checkbox', {
+          name: /select all rows/i,
+        })
+      );
       const actions = store.getActions();
       expect(actions.length).toBe(1);
       expect(actions[0]).toMatchObject({
-        payload: { id: 'testing-id', selected: true },
+        payload: { id: 0, selected: true },
         type: 'SELECT_ENTITY',
       });
     });
 
-    it('should call dispatch select all cation', () => {
+    it('should dispatch set sort action', async () => {
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded disableDefaultColumns />
+        </TestWrapper>
       );
-      wrapper
-        .find('table thead input[name="check-all"]')
-        .first()
-        .simulate('change', {
-          target: {
-            value: 'checked',
-          },
-        });
-      const actions = store.getActions();
-      expect(actions.length).toBe(1);
-      expect(actions[0]).toMatchObject({
-        payload: { id: 0, selected: false },
-        type: 'SELECT_ENTITY',
-      });
-    });
 
-    it('should call dispatch set sort cation', () => {
-      const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: 'One',
+        })
       );
-      wrapper
-        .find('table thead th.pf-c-table__sort button')
-        .first()
-        .simulate('click');
       const actions = store.getActions();
       expect(actions.length).toBe(1);
       expect(actions[0]).toMatchObject({
@@ -818,24 +825,26 @@ describe('EntityTable', () => {
       });
     });
 
-    it('should call onSort function', () => {
+    it('should call onSort function', async () => {
       const onSort = jest.fn();
       const store = mockStore(initialState);
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded onSort={onSort} disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded onSort={onSort} disableDefaultColumns />
+        </TestWrapper>
       );
-      wrapper
-        .find('table thead th.pf-c-table__sort button')
-        .first()
-        .simulate('click');
-      expect(onSort).toHaveBeenCalled();
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: 'One',
+        })
+      );
+      await waitFor(() => {
+        expect(onSort).toHaveBeenCalledTimes(1);
+      });
     });
 
-    it('should NOT call onSort function', () => {
+    it('should NOT dispatch set sort action', async () => {
       const onSort = jest.fn();
       const store = mockStore({
         entities: {
@@ -843,17 +852,16 @@ describe('EntityTable', () => {
           columns: [{ key: 'health', sortKey: 'health', title: 'Health' }],
         },
       });
-      const wrapper = mount(
-        <MemoryRouter>
-          <Provider store={store}>
-            <EntityTable loaded onSort={onSort} disableDefaultColumns />
-          </Provider>
-        </MemoryRouter>
+      render(
+        <TestWrapper store={store}>
+          <EntityTable loaded onSort={onSort} disableDefaultColumns />
+        </TestWrapper>
       );
-      wrapper
-        .find('table thead th.pf-c-table__sort button')
-        .first()
-        .simulate('click');
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: 'Health',
+        })
+      );
       const actions = store.getActions();
       expect(actions.length).toBe(0);
     });

@@ -29,8 +29,8 @@ const InsightsPrompt = () => {
             <GridItem span={4}>
               <TextContent
                 style={{
-                  '--pf-c-content--LineHeight': '1',
-                  '--pf-c-content--FontSize': '0.9rem',
+                  '--pf-v5-c-content--LineHeight': '1',
+                  '--pf-v5-c-content--FontSize': '0.9rem',
                 }}
               >
                 <Text component={TextVariants.p}>
@@ -39,8 +39,8 @@ const InsightsPrompt = () => {
                 <TextList
                   component="ul"
                   style={{
-                    '--pf-c-content--ul--PaddingLeft': '0',
-                    '--pf-c-content--ul--MarginLeft': '1rem',
+                    '--pf-v5-c-content--ul--PaddingLeft': '0',
+                    '--pf-v5-c-content--ul--MarginLeft': '1rem',
                   }}
                 >
                   <TextListItem>Optimize your IT Operations</TextListItem>

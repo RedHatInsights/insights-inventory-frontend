@@ -1,9 +1,7 @@
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { mount } from 'enzyme';
-import { PencilAltIcon } from '@patternfly/react-icons';
-
 import EditButton from './EditButton';
-import { Tooltip } from '@patternfly/react-core';
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
@@ -35,11 +33,11 @@ describe('EditButton with no access', () => {
   });
 
   it('renders on production', () => {
-    const wrapper = mount(<EditButton onClick={onClick} link={link} />);
+    render(<EditButton onClick={onClick} link={link} />);
 
-    expect(wrapper.find(Tooltip)).toHaveLength(0);
-    expect(wrapper.find(PencilAltIcon)).toHaveLength(1);
-    expect(wrapper.find('a').props().href).toEqual(
+    expect(screen.getByRole('link', { name: /edit/i })).toBeVisible();
+    expect(screen.getByRole('link', { name: /edit/i })).toHaveAttribute(
+      'href',
       'http://localhost:5000//some-link'
     );
   });

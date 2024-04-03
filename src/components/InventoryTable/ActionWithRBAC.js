@@ -5,8 +5,9 @@
  */
 import React from 'react';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { Button, DropdownItem, Tooltip } from '@patternfly/react-core';
+import { Button, MenuItem, Tooltip } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
+import './ActionWithRBAC.scss';
 
 export const ActionButton = ({
   requiredPermissions,
@@ -64,9 +65,14 @@ export const ActionDropdownItem = ({
         );
 
   return enabled ? (
-    <DropdownItem {...props} />
+    <MenuItem className="inventory__action-menu-item" {...props} />
   ) : (
-    <DropdownItem {...props} isAriaDisabled tooltip={noAccessTooltip} />
+    <MenuItem
+      {...props}
+      className="inventory__action-menu-item"
+      isAriaDisabled
+      tooltipProps={{ content: noAccessTooltip }}
+    />
   );
 };
 

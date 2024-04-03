@@ -5,12 +5,11 @@ import componentTypes from '@data-driven-forms/react-form-renderer/component-typ
 import Modal from './Modal';
 import { deleteGroupsById, getGroupsByIds } from '../utils/api';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
-import warningColor from '@patternfly/react-tokens/dist/esm/global_warning_color_100';
-import dangerColor from '@patternfly/react-tokens/dist/esm/global_danger_color_100';
 import {
   Backdrop,
   Bullseye,
   Button,
+  Icon,
   Modal as PfModal,
   Spinner,
   Text,
@@ -49,7 +48,9 @@ const generateSchema = (groups) => ({
 const generateContent = (groups = []) => ({
   title: groups.length > 1 ? 'Delete groups?' : 'Delete group?',
   titleIconVariant: () => (
-    <ExclamationTriangleIcon color={warningColor.value} />
+    <Icon status="warning">
+      <ExclamationTriangleIcon />
+    </Icon>
   ),
   variant: 'danger',
   submitLabel: 'Delete',
@@ -130,7 +131,9 @@ const DeleteGroupModal = ({
           : 'Cannot delete group at this time'
       }
       titleIconVariant={() => (
-        <ExclamationCircleIcon color={dangerColor.value} />
+        <Icon status="danger">
+          <ExclamationCircleIcon />
+        </Icon>
       )}
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}

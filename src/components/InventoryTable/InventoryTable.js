@@ -252,6 +252,7 @@ const InventoryTable = forwardRef(
       <Fragment>
         <EntityTableToolbar
           {...props}
+          data-testid="inventory-table-top-toolbar"
           customFilters={customFilters}
           hasAccess={hasAccess}
           items={items}
@@ -292,7 +293,11 @@ const InventoryTable = forwardRef(
           loaded={loaded}
           ignoreRefresh={ignoreRefresh}
         />
-        <TableToolbar isFooter className="ins-c-inventory__table--toolbar">
+        <TableToolbar
+          isFooter
+          className="ins-c-inventory__table--toolbar"
+          data-testid="inventory-table-bottom-toolbar"
+        >
           <Pagination
             hasAccess={hasAccess}
             isFull

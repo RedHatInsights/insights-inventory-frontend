@@ -59,6 +59,7 @@ export const useBulkSelectConfig = (
 
   return {
     id: 'bulk-select-systems',
+    count: selected ? selected.size : 0,
     items: [
       {
         title: 'Select none (0 items)',
@@ -91,7 +92,6 @@ export const useBulkSelectConfig = (
       onSelectRows(0, value);
     },
     toggleProps: {
-      'data-ouia-component-type': 'bulk-select-toggle-button',
       children: isBulkLoading ? (
         [
           <Fragment key="sd">

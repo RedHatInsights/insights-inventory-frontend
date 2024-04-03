@@ -1,10 +1,22 @@
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import TitleColumn from './TitleColumn';
-import { act, fireEvent, render } from '@testing-library/react';
+import { TestWrapper } from '../../Utilities/TestingUtilities';
+import '@testing-library/jest-dom';
+import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
+jest.mock(
+  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate'
+);
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  Link: ({ children, ...props }) => <a class="fakeLink" {...props}>{children}</a>, // eslint-disable-line
+  // eslint-disable-next-line react/prop-types
+  Link: ({ children, ...props }) => (
+    <a className="fakeLink" {...props}>
+      {children}
+    </a>
+  ),
 }));
 
 describe('TitleColumn', () => {
@@ -63,10 +75,38 @@ describe('TitleColumn', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
+  it('should render conversion label for CentOS system', async () => {
+    const navigate = jest.fn();
+    useInsightsNavigate.mockReturnValue(navigate);
+    render(
+      <TestWrapper>
+        <TitleColumn
+          id="testId"
+          item={{
+            system_profile: { operating_system: { name: 'CentOS Linux' } },
+          }}
+        >
+          something
+        </TitleColumn>
+      </TestWrapper>
+    );
+
+    expect(screen.getByText(/convert system to rhel/i)).toBeVisible();
+    await userEvent.click(screen.getByText(/convert system to rhel/i));
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /run a pre-conversion analysis of this system/i,
+      })
+    );
+    await waitFor(() => {
+      expect(navigate).toBeCalledWith('/available#pre-conversion-analysis');
+    });
+  });
+
   describe('API', () => {
-    it('should call onClick', () => {
+    it('should call onClick', async () => {
       const onClick = jest.fn();
-      const { container } = render(
+      render(
         <TitleColumn
           id="testId"
           item={{ os_release: 'os_release' }}
@@ -77,17 +117,13 @@ describe('TitleColumn', () => {
         </TitleColumn>
       );
 
-      const link = container.querySelector('a');
-      act(() => {
-        fireEvent.click(link);
-      });
-
+      await userEvent.click(screen.getByText(/something/i));
       expect(onClick).toHaveBeenCalled();
     });
 
-    it('should not call onClick if not loaded', () => {
+    it('should not call onClick if not loaded', async () => {
       const onClick = jest.fn();
-      const { container } = render(
+      render(
         <TitleColumn
           id="testId"
           item={{ os_release: 'os_release' }}
@@ -97,11 +133,7 @@ describe('TitleColumn', () => {
         </TitleColumn>
       );
 
-      const link = container.querySelector('a');
-      act(() => {
-        fireEvent.click(link);
-      });
-
+      await userEvent.click(screen.getByText(/something/i));
       expect(onClick).not.toHaveBeenCalled();
     });
   });

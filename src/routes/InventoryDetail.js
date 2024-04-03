@@ -136,10 +136,11 @@ const Inventory = () => {
       appList[osSlug]?.map((app) => {
         app.isDisabled = app.nonEdge && hostType === 'edge' ? true : false;
         app['data-cy'] = `${app.name}-tab`;
-        app.name === 'ros' && {
-          ...app,
-          isVisible: cloudProvider === 'aws',
-        };
+
+        if (app.name === 'ros') {
+          app.isVisible = cloudProvider === 'aws';
+        }
+
         return app;
       });
 

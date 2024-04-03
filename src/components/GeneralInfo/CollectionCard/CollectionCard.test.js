@@ -1,19 +1,11 @@
-/* eslint-disable camelcase */
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { render } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import CollectionCard from './CollectionCard';
 import configureStore from 'redux-mock-store';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { collectInfoTest } from '../../../__mocks__/selectors';
-import { Tooltip } from '@patternfly/react-core';
-import { mountWithRouter } from '../../../Utilities/TestingUtilities';
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: 'localhost:3000/example/path',
-  }),
-}));
+import CollectionCard from './CollectionCard';
 
 describe('CollectionCard', () => {
   let initialState;
@@ -39,54 +31,71 @@ describe('CollectionCard', () => {
 
   it('should render correctly - no data', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
-    const wrapper = mountWithRouter(<CollectionCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(
+      <TestWrapper store={store}>
+        <CollectionCard />
+      </TestWrapper>
+    );
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const wrapper = render(<CollectionCard store={store} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const view = render(
+      <TestWrapper store={store}>
+        <CollectionCard />
+      </TestWrapper>
+    );
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('renders tooltip for version', () => {
+  it('renders tooltip for version', async () => {
     const store = mockStore(initialState);
-    const wrapper = mountWithRouter(<CollectionCard store={store} />);
-    const tooltip = mountWithRouter(wrapper.find(Tooltip).props().content);
-    expect(tooltip).toMatchSnapshot();
+    render(
+      <TestWrapper store={store}>
+        <CollectionCard />
+      </TestWrapper>
+    );
+    await userEvent.hover(screen.getByText('test-client'));
+    await screen.findByText(/RPM version: test-client/i);
+    await screen.findByText(/Dynamic update version: test-egg/i);
   });
 
   [
-    'hasClient',
-    'hasLastCheckIn',
-    'hasRegistered',
-    'hasInsightsId',
-    'hasReporter',
-  ].map((item) =>
-    it(`should not render ${item}`, () => {
+    ['hasClient', 'Insights client'],
+    ['hasLastCheckIn', 'Last check-in'],
+    ['hasRegistered', 'Registered'],
+    ['hasInsightsId', 'Insights id'],
+    ['hasReporter', 'Reporter'],
+  ].map(([flag, title]) =>
+    it(`should not render ${title}`, () => {
       const store = mockStore(initialState);
-      const wrapper = mountWithRouter(
-        <CollectionCard store={store} {...{ [item]: false }} />
+      render(
+        <TestWrapper store={store}>
+          <CollectionCard {...{ [flag]: false }} />
+        </TestWrapper>
       );
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(screen.queryByText(title)).not.toBeInTheDocument();
     })
   );
 
   it('should render extra', () => {
     const store = mockStore(initialState);
-    const wrapper = mountWithRouter(
-      <CollectionCard
-        store={store}
-        extra={[
-          { title: 'something', value: 'test' },
-          {
-            title: 'with click',
-            value: '1 tests',
-            onClick: (_e, handleClick) => handleClick('Something', {}, 'small'),
-          },
-        ]}
-      />
+    const view = render(
+      <TestWrapper store={store}>
+        <CollectionCard
+          extra={[
+            { title: 'something', value: 'test' },
+            {
+              title: 'with click',
+              value: '1 tests',
+              onClick: (_e, handleClick) =>
+                handleClick('Something', {}, 'small'),
+            },
+          ]}
+        />
+      </TestWrapper>
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(view.asFragment()).toMatchSnapshot();
   });
 });

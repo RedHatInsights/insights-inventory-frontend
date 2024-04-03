@@ -12,7 +12,7 @@ export const CreateGroupButton = ({ closeModal }) => {
   return canModifyGroups ? (
     <>
       <Text>Or</Text>
-      <Button variant="secondary" className="pf-u-w-50" onClick={closeModal}>
+      <Button variant="secondary" className="pf-v5-u-w-50" onClick={closeModal}>
         Create a new group
       </Button>
     </>
