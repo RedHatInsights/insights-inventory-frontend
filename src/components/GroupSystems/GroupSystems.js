@@ -133,91 +133,90 @@ const GroupSystems = ({ groupName, groupId }) => {
           modalState={currentSystem}
         />
       )}
-      {!addToGroupModalOpen && (
-        <InventoryTable
-          columns={(columns) => prepareColumns(columns, true)}
-          hideFilters={{ hostGroupFilter: true }}
-          initialLoading
-          getEntities={async (items, config, showTags, defaultGetEntities) =>
-            await defaultGetEntities(
-              items,
-              // filter systems by the group name
-              {
-                ...config,
-                filters: {
-                  ...config.filters,
-                  hostGroupFilter: [groupName],
-                },
+      <InventoryTable
+        isolateStore={true}
+        columns={(columns) => prepareColumns(columns, true)}
+        hideFilters={{ hostGroupFilter: true }}
+        initialLoading
+        getEntities={async (items, config, showTags, defaultGetEntities) =>
+          await defaultGetEntities(
+            items,
+            // filter systems by the group name
+            {
+              ...config,
+              filters: {
+                ...config.filters,
+                hostGroupFilter: [groupName],
               },
-              showTags
-            )
-          }
-          tableProps={{
-            isStickyHeader: true,
-            variant: TableVariant.compact,
-            canSelectAll: false,
-            actionResolver: (row) => [
-              {
-                title: (
-                  <ActionDropdownItem
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
-                    )}
-                    noAccessTooltip={noAccessTooltip}
-                    onClick={() => {
-                      setCurrentSystem([row]);
-                      setRemoveHostsFromGroupModalOpen(true);
-                    }}
-                  >
-                    {removeLabel}
-                  </ActionDropdownItem>
-                ),
+            },
+            showTags
+          )
+        }
+        tableProps={{
+          isStickyHeader: true,
+          variant: TableVariant.compact,
+          canSelectAll: false,
+          actionResolver: (row) => [
+            {
+              title: (
+                <ActionDropdownItem
+                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                    groupId
+                  )}
+                  noAccessTooltip={noAccessTooltip}
+                  onClick={() => {
+                    setCurrentSystem([row]);
+                    setRemoveHostsFromGroupModalOpen(true);
+                  }}
+                >
+                  {removeLabel}
+                </ActionDropdownItem>
+              ),
+            },
+          ],
+        }}
+        actionsConfig={{
+          actions: [
+            <ActionButton
+              key="add-systems-button"
+              requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                groupId
+              )}
+              noAccessTooltip={noAccessTooltip}
+              onClick={() => {
+                dispatch(clearEntitiesAction());
+                setAddToGroupModalOpen(true);
+              }}
+              ouiaId="add-systems-button"
+            >
+              Add systems
+            </ActionButton>,
+            {
+              label: removeLabel,
+              props: {
+                isAriaDisabled: !canModify || calculateSelected() === 0,
+                ...(!canModify && {
+                  tooltipProps: {
+                    content: noAccessTooltip,
+                  },
+                }),
               },
-            ],
-          }}
-          actionsConfig={{
-            actions: [
-              <ActionButton
-                key="add-systems-button"
-                requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                  groupId
-                )}
-                noAccessTooltip={noAccessTooltip}
-                onClick={() => {
-                  dispatch(clearEntitiesAction());
-                  setAddToGroupModalOpen(true);
-                }}
-                ouiaId="add-systems-button"
-              >
-                Add systems
-              </ActionButton>,
-              {
-                label: removeLabel,
-                props: {
-                  isAriaDisabled: !canModify || calculateSelected() === 0,
-                  ...(!canModify && {
-                    tooltipProps: {
-                      content: noAccessTooltip,
-                    },
-                  }),
-                },
-                onClick: () => {
-                  setCurrentSystem(Array.from(selected.values()));
-                  setRemoveHostsFromGroupModalOpen(true);
-                },
+              onClick: () => {
+                setCurrentSystem(Array.from(selected.values()));
+                setRemoveHostsFromGroupModalOpen(true);
               },
-            ],
-          }}
-          bulkSelect={bulkSelectConfig}
-          showTags
-          ref={inventory}
-          showCentosVersions
-          customFilters={{ filters: initialFilters, globalFilter }}
-          autoRefresh
-          onRefresh={onRefresh}
-          ignoreRefresh
-        />
-      )}
+            },
+          ],
+        }}
+        bulkSelect={bulkSelectConfig}
+        showTags
+        ref={inventory}
+        showCentosVersions
+        customFilters={{ filters: initialFilters, globalFilter }}
+        autoRefresh
+        onRefresh={onRefresh}
+        ignoreRefresh
+      />
     </div>
   );
 };
