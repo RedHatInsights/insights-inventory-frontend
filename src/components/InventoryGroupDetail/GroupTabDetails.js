@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
 import { EmptyStateNoAccessToSystems } from './EmptyStateNoAccess';
+import { groupTabKeys } from './constants';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 
@@ -24,7 +25,7 @@ const GroupTabDetailsWrapper = ({
   hasEdgeImages,
 }) => {
   const [tab, setTab] = useState(0);
-  const [activeTabKey, setActiveTabKey] = useState(0);
+  const [groupTabKey, setGroupTabKey] = useState(groupTabKeys.systems);
 
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
@@ -32,15 +33,19 @@ const GroupTabDetailsWrapper = ({
 
   return (
     <Tabs
-      activeKey={activeTabKey}
-      onSelect={(event, value) => setActiveTabKey(value)}
+      activeKey={groupTabKey}
+      onSelect={(event, value) => setGroupTabKey(value)}
       aria-label="Group tabs"
       role="region"
       inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
       mountOnEnter
       unmountOnExit
     >
-      <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
+      <Tab
+        eventKey={groupTabKeys.systems}
+        title="Systems"
+        aria-label="Group systems tab"
+      >
         <PageSection>
           {canViewHosts && hasEdgeImages ? (
             <Tabs
@@ -79,8 +84,12 @@ const GroupTabDetailsWrapper = ({
           )}
         </PageSection>
       </Tab>
-      <Tab eventKey={1} title="Group info" aria-label="Group info tab">
-        {activeTabKey === 1 && ( // helps to lazy load the component
+      <Tab
+        eventKey={groupTabKeys.groupInfo}
+        title="Group info"
+        aria-label="Group info tab"
+      >
+        {groupTabKey === groupTabKeys.groupInfo && ( // helps to lazy load the component
           <PageSection>
             <Suspense
               fallback={
