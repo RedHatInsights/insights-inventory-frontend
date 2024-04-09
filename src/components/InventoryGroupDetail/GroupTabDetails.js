@@ -24,8 +24,10 @@ const GroupTabDetailsWrapper = ({
   activeTab,
   hasEdgeImages,
 }) => {
-  const [tab, setTab] = useState(0);
   const [groupTabKey, setGroupTabKey] = useState(groupTabKeys.systems);
+  const [hybridInventoryTabKey, setHybridInventoryTabKey] = useState(
+    hybridInventoryTabKeys.conventional.key
+  );
 
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
@@ -50,9 +52,14 @@ const GroupTabDetailsWrapper = ({
           {canViewHosts && hasEdgeImages ? (
             <Tabs
               className="pf-m-light pf-v5-c-table"
-              activeKey={activeTab && tab == 0 ? activeTab : tab}
+              activeKey={
+                activeTab &&
+                hybridInventoryTabKey == hybridInventoryTabKeys.conventional.key
+                  ? activeTab
+                  : hybridInventoryTabKey
+              }
               onSelect={(_event, tabIndex) => {
-                setTab(tabIndex);
+                setHybridInventoryTabKey(tabIndex);
               }}
               aria-label="Hybrid inventory tabs"
             >
