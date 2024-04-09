@@ -5,10 +5,18 @@ import React, {
   forwardRef,
   useEffect,
   useRef,
+  useMemo,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
+import {
+  shallowEqual,
+  useDispatch,
+  useSelector,
+  useStore,
+  Provider,
+} from 'react-redux';
+import { getStore } from '../../store';
 import EntityTableToolbar from './EntityTableToolbar';
 import { TableToolbar } from '@redhat-cloud-services/frontend-components/TableToolbar';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
@@ -349,4 +357,24 @@ InventoryTable.propTypes = {
   showNoGroupOption: PropTypes.bool, // group filter option
 };
 
-export default InventoryTable;
+const InventoryTableWrapper = forwardRef(
+  ({ isolateStore = false, ...props }, ref) => {
+    const store = useMemo(
+      () => (isolateStore ? getStore() : undefined),
+      [isolateStore]
+    );
+    const Wrapper = store ? Provider : React.Fragment;
+
+    return (
+      <Wrapper {...(store ? { store } : {})}>
+        <InventoryTable {...props} ref={ref} />
+      </Wrapper>
+    );
+  }
+);
+
+InventoryTableWrapper.propTypes = {
+  isolateStore: PropTypes.bool,
+};
+
+export default InventoryTableWrapper;

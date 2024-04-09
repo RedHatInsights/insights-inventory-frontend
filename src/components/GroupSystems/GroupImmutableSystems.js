@@ -241,113 +241,112 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
           refreshTable={() => true}
         />
       )}
-      {!addToGroupModalOpen && (
-        <InventoryTable
-          columns={(columns) => mergeColumns(prepareColumns(columns))}
-          hideFilters={{ hostGroupFilter: true }}
-          // getEntities={entities}
-          getEntities={customGetEntities}
-          tableProps={{
-            isStickyHeader: true,
-            variant: TableVariant.compact,
-            canSelectAll: false,
-            actionResolver: (row) => [
-              {
-                title: (
-                  <ActionDropdownItem
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
-                    )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                    onClick={() => {
-                      setCurrentSystem([row]);
-                      setRemoveHostsFromGroupModalOpen(true);
-                    }}
-                  >
-                    Remove from group
-                  </ActionDropdownItem>
-                ),
-              },
-              {
-                title: (
-                  <ActionDropdownItem
-                    isAriaDisabled={
-                      deviceData === null || !deviceData.includes(row.id)
-                    }
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
-                    )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                    onClick={() => {
-                      setCurrentSystem([row]);
-                      navigate(`/insights/inventory/${row.id}/update`);
-                    }}
-                  >
-                    Update
-                  </ActionDropdownItem>
-                ),
-              },
+      <InventoryTable
+        isolateStore={true}
+        columns={(columns) => mergeColumns(prepareColumns(columns))}
+        hideFilters={{ hostGroupFilter: true }}
+        // getEntities={entities}
+        getEntities={customGetEntities}
+        tableProps={{
+          isStickyHeader: true,
+          variant: TableVariant.compact,
+          canSelectAll: false,
+          actionResolver: (row) => [
+            {
+              title: (
+                <ActionDropdownItem
+                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                    groupId
+                  )}
+                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                  onClick={() => {
+                    setCurrentSystem([row]);
+                    setRemoveHostsFromGroupModalOpen(true);
+                  }}
+                >
+                  Remove from group
+                </ActionDropdownItem>
+              ),
+            },
+            {
+              title: (
+                <ActionDropdownItem
+                  isAriaDisabled={
+                    deviceData === null || !deviceData.includes(row.id)
+                  }
+                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                    groupId
+                  )}
+                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                  onClick={() => {
+                    setCurrentSystem([row]);
+                    navigate(`/insights/inventory/${row.id}/update`);
+                  }}
+                >
+                  Update
+                </ActionDropdownItem>
+              ),
+            },
+          ],
+        }}
+        actionsConfig={{
+          actions: [
+            [
+              <div key="primary-actions" className="pf-v5-c-action-list">
+                <ActionButton
+                  key="add-systems-button"
+                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                    groupId
+                  )}
+                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                  onClick={() => {
+                    dispatch(clearEntitiesAction());
+                    setAddToGroupModalOpen(true);
+                  }}
+                  ouiaId="add-systems-button"
+                >
+                  Add systems
+                </ActionButton>
+                <ActionButton
+                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                    groupId
+                  )}
+                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                  key="update-systems-button"
+                  onClick={() => {
+                    setupdateDevice(true);
+                    handleUpdateSelected();
+                  }}
+                  ouiaId="update-systems-button"
+                  isAriaDisabled={!canUpdate}
+                >
+                  Update
+                </ActionButton>
+              </div>,
             ],
-          }}
-          actionsConfig={{
-            actions: [
-              [
-                <div key="primary-actions" className="pf-v5-c-action-list">
-                  <ActionButton
-                    key="add-systems-button"
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
-                    )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                    onClick={() => {
-                      dispatch(clearEntitiesAction());
-                      setAddToGroupModalOpen(true);
-                    }}
-                    ouiaId="add-systems-button"
-                  >
-                    Add systems
-                  </ActionButton>
-                  <ActionButton
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
-                    )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                    key="update-systems-button"
-                    onClick={() => {
-                      setupdateDevice(true);
-                      handleUpdateSelected();
-                    }}
-                    ouiaId="update-systems-button"
-                    isAriaDisabled={!canUpdate}
-                  >
-                    Update
-                  </ActionButton>
-                </div>,
-              ],
-              {
-                label: 'Remove from group',
-                props: {
-                  isAriaDisabled: !canModify || calculateSelected() === 0,
-                  ...(!canModify && {
-                    tooltipProps: {
-                      content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
-                    },
-                  }),
-                },
-                onClick: () => {
-                  setCurrentSystem(Array.from(selected.values()));
-                  setRemoveHostsFromGroupModalOpen(true);
-                },
+            {
+              label: 'Remove from group',
+              props: {
+                isAriaDisabled: !canModify || calculateSelected() === 0,
+                ...(!canModify && {
+                  tooltipProps: {
+                    content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                  },
+                }),
               },
-            ],
-          }}
-          bulkSelect={bulkSelectConfig}
-          showTags
-          ref={inventory}
-          showCentosVersions
-          {...props}
-        />
-      )}
+              onClick: () => {
+                setCurrentSystem(Array.from(selected.values()));
+                setRemoveHostsFromGroupModalOpen(true);
+              },
+            },
+          ],
+        }}
+        bulkSelect={bulkSelectConfig}
+        showTags
+        ref={inventory}
+        showCentosVersions
+        {...props}
+      />
     </div>
   );
 };

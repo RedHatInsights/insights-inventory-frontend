@@ -175,91 +175,90 @@ const GroupSystems = ({ groupName, groupId }) => {
           modalState={currentSystem}
         />
       )}
-      {!addToGroupModalOpen && (
-        <InventoryTable
-          columns={(columns) => prepareColumns(columns, true)}
-          hideFilters={{ hostGroupFilter: true }}
-          initialLoading
-          getEntities={async (items, config, showTags, defaultGetEntities) =>
-            await defaultGetEntities(
-              items,
-              // filter systems by the group name
-              {
-                ...config,
-                filters: {
-                  ...config.filters,
-                  hostGroupFilter: [groupName],
-                },
+      <InventoryTable
+        isolateStore={true}
+        columns={(columns) => prepareColumns(columns, true)}
+        hideFilters={{ hostGroupFilter: true }}
+        initialLoading
+        getEntities={async (items, config, showTags, defaultGetEntities) =>
+          await defaultGetEntities(
+            items,
+            // filter systems by the group name
+            {
+              ...config,
+              filters: {
+                ...config.filters,
+                hostGroupFilter: [groupName],
               },
-              showTags
-            )
-          }
-          tableProps={{
-            isStickyHeader: true,
-            variant: TableVariant.compact,
-            canSelectAll: false,
-            actionResolver: (row) => [
-              {
-                title: (
-                  <ActionDropdownItem
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
-                    )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                    onClick={() => {
-                      setCurrentSystem([row]);
-                      setRemoveHostsFromGroupModalOpen(true);
-                    }}
-                  >
-                    Remove from group
-                  </ActionDropdownItem>
-                ),
+            },
+            showTags
+          )
+        }
+        tableProps={{
+          isStickyHeader: true,
+          variant: TableVariant.compact,
+          canSelectAll: false,
+          actionResolver: (row) => [
+            {
+              title: (
+                <ActionDropdownItem
+                  requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                    groupId
+                  )}
+                  noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                  onClick={() => {
+                    setCurrentSystem([row]);
+                    setRemoveHostsFromGroupModalOpen(true);
+                  }}
+                >
+                  Remove from group
+                </ActionDropdownItem>
+              ),
+            },
+          ],
+        }}
+        actionsConfig={{
+          actions: [
+            <ActionButton
+              key="add-systems-button"
+              requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+                groupId
+              )}
+              noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+              onClick={() => {
+                dispatch(clearEntitiesAction());
+                setAddToGroupModalOpen(true);
+              }}
+              ouiaId="add-systems-button"
+            >
+              Add systems
+            </ActionButton>,
+            {
+              label: 'Remove from group',
+              props: {
+                isAriaDisabled: !canModify || calculateSelected() === 0,
+                ...(!canModify && {
+                  tooltipProps: {
+                    content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                  },
+                }),
               },
-            ],
-          }}
-          actionsConfig={{
-            actions: [
-              <ActionButton
-                key="add-systems-button"
-                requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                  groupId
-                )}
-                noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
-                onClick={() => {
-                  dispatch(clearEntitiesAction());
-                  setAddToGroupModalOpen(true);
-                }}
-                ouiaId="add-systems-button"
-              >
-                Add systems
-              </ActionButton>,
-              {
-                label: 'Remove from group',
-                props: {
-                  isAriaDisabled: !canModify || calculateSelected() === 0,
-                  ...(!canModify && {
-                    tooltipProps: {
-                      content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
-                    },
-                  }),
-                },
-                onClick: () => {
-                  setCurrentSystem(Array.from(selected.values()));
-                  setRemoveHostsFromGroupModalOpen(true);
-                },
+              onClick: () => {
+                setCurrentSystem(Array.from(selected.values()));
+                setRemoveHostsFromGroupModalOpen(true);
               },
-            ],
-          }}
-          bulkSelect={bulkSelectConfig}
-          showTags
-          ref={inventory}
-          showCentosVersions
-          customFilters={{ filters: initialFilters, globalFilter }}
-          autoRefresh
-          onRefresh={onRefresh}
-          ignoreRefresh
-        />
-      )}
+            },
+          ],
+        }}
+        bulkSelect={bulkSelectConfig}
+        showTags
+        ref={inventory}
+        showCentosVersions
+        customFilters={{ filters: initialFilters, globalFilter }}
+        autoRefresh
+        onRefresh={onRefresh}
+        ignoreRefresh
+      />
     </div>
   );
 };
