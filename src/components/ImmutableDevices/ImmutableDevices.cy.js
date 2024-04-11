@@ -8,7 +8,8 @@ import {
 } from '../../../cypress/support/interceptors';
 import { DropdownItem } from '@patternfly/react-core/deprecated';
 import {
-  CONDITIONAL_FILTER,
+  PT_CONDITIONAL_FILTER_TOGGLE,
+  PT_CONDITIONAL_FILTER_LIST,
   DROPDOWN_ITEM,
   MENU_ITEM,
   MENU_TOGGLE,
@@ -180,10 +181,7 @@ describe('ImmutableDevices', () => {
 
     cy.get('table[aria-label="Host inventory"]').should('be.visible');
 
-    cy.get('td[data-label="Name"]')
-      .first()
-      .find('.ins-composed-col > div > a')
-      .click();
+    cy.get('td[data-label="Name"]').first().find('.ins-composed-col a').click();
 
     cy.get('#mock-detail-page');
   });
@@ -222,8 +220,8 @@ describe('ImmutableDevices', () => {
 
     mountWithProps({ ...defaultProps, hideFilters });
 
-    cy.get(CONDITIONAL_FILTER).click();
-    cy.get(DROPDOWN_ITEM).contains('Tags');
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
+    cy.get(PT_CONDITIONAL_FILTER_LIST).find(DROPDOWN_ITEM).contains('Tags');
   });
 
   it('Should render table actions through the prop', () => {
