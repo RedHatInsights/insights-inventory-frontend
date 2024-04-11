@@ -25,6 +25,7 @@ import {
   TABLE_ROW,
   TABLE_ROW_CHECKBOX,
 } from '@redhat-cloud-services/frontend-components-utilities';
+import { INVENTORY_ACTION_MENU_ITEM } from '../../cypress/support/utils';
 
 const TEST_GROUP_NAME = 'ancd';
 const TEST_GROUP_ID = '54b302e4-07d2-45c5-b2f8-92a286847f9d';
@@ -99,7 +100,7 @@ describe('inventory table', () => {
   describe('has groups actions', () => {
     it('cannot add host to another group', () => {
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
-      cy.get(`${DROPDOWN_ITEM} a`)
+      cy.get(DROPDOWN_ITEM)
         .contains('Add to group')
         .should('have.attr', 'aria-disabled', 'true');
     });
@@ -127,7 +128,7 @@ describe('inventory table', () => {
         `/api/inventory/v1/groups/${hostsFixtures.results[0].groups[0].id}/hosts/${hostsFixtures.results[0].id}`
       ).as('request');
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
-      cy.get(`${DROPDOWN_ITEM} a`).contains('Remove from group').click();
+      cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
       cy.get(MODAL_CONTENT).within(() => {
         cy.get('h1').should('have.text', 'Remove from group');
         cy.get('button[type="submit"]').click();
@@ -142,7 +143,7 @@ describe('inventory table', () => {
         `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
       ).as('request');
       cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
-      cy.get(`${DROPDOWN_ITEM} a`).contains('Add to group').click();
+      cy.get(DROPDOWN_ITEM).contains('Add to group').click();
       cy.get(MODAL_CONTENT).within(() => {
         cy.get('h1').should('have.text', 'Add to group');
         cy.wait('@getGroups');
@@ -251,8 +252,10 @@ describe('inventory table', () => {
 
       it('all per-row actions are disabled', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
-        cy.get(`${DROPDOWN_ITEM} a`).each(($el) =>
-          cy.wrap($el).should('have.attr', 'aria-disabled', 'true')
+        cy.get(INVENTORY_ACTION_MENU_ITEM).should(
+          'have.attr',
+          'aria-disabled',
+          'true'
         );
       });
 
@@ -301,29 +304,22 @@ describe('inventory table', () => {
 
       it('can edit hosts that in the test group', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
-        cy.get(`${DROPDOWN_ITEM} a`)
-          .contains('Edit')
-          .should('have.attr', 'aria-disabled', 'false')
-          .click();
-        cy.get('button').contains('Cancel').click();
-        cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
+        cy.get(INVENTORY_ACTION_MENU_ITEM).contains('Edit').click();
+        cy.get(MODAL_CONTENT).contains('Edit display name');
       });
 
       it('can delete hosts in the test group', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
-        cy.get(`${DROPDOWN_ITEM} a`)
-          .contains('Delete')
-          .should('have.attr', 'aria-disabled', 'false')
-          .click();
-        cy.get('button').contains('Cancel').click();
+        cy.get(INVENTORY_ACTION_MENU_ITEM).contains('Delete').click();
+        cy.get(MODAL_CONTENT).contains('Remove from inventory');
       });
 
       it('cannot edit nor delete hosts that are not in the test group', () => {
         cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
-        cy.get(`${DROPDOWN_ITEM} a`)
+        cy.get(DROPDOWN_ITEM)
           .contains('Edit')
           .should('have.attr', 'aria-disabled', 'true');
-        cy.get(`${DROPDOWN_ITEM} a`)
+        cy.get(DROPDOWN_ITEM)
           .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
       });
@@ -380,16 +376,14 @@ describe('inventory table', () => {
 
       it('can edit hosts that are not a part of any group', () => {
         cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
-        cy.get(`${DROPDOWN_ITEM} a`).contains('Edit').shouldHaveAriaEnabled();
-        cy.get(`${DROPDOWN_ITEM} a`).contains('Delete').shouldHaveAriaEnabled();
+        cy.get(DROPDOWN_ITEM).contains('Edit').shouldNotHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM).contains('Delete').shouldNotHaveAriaDisabled();
       });
 
       it('cannot edit hosts in groups', () => {
         cy.get(TABLE_ROW).eq(2).find(MENU_TOGGLE).click();
-        cy.get(`${DROPDOWN_ITEM} a`).contains('Edit').shouldHaveAriaDisabled();
-        cy.get(`${DROPDOWN_ITEM} a`)
-          .contains('Delete')
-          .shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM).contains('Edit').shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM).contains('Delete').shouldHaveAriaDisabled();
       });
 
       it('can bulk delete ungrouped hosts', () => {
@@ -433,12 +427,14 @@ describe('inventory table', () => {
         cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM)
           .contains('Remove from group')
-          .shouldHaveAriaEnabled();
+          .shouldNotHaveAriaDisabled();
       });
 
       it('add to group is enabled for ungroupped hosts', () => {
         cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
-        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaEnabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Add to group')
+          .shouldNotHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM)
           .contains('Remove from group')
           .shouldHaveAriaDisabled();
@@ -448,11 +444,15 @@ describe('inventory table', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-        cy.get(MENU_ITEM).contains('Remove from group').shouldHaveAriaEnabled();
+        cy.get(MENU_ITEM)
+          .contains('Remove from group')
+          .shouldNotHaveAriaDisabled();
         cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-        cy.get(MENU_ITEM).contains('Remove from group').shouldHaveAriaEnabled();
+        cy.get(MENU_ITEM)
+          .contains('Remove from group')
+          .shouldNotHaveAriaDisabled();
       });
 
       it('can bulk remove from group together with ungroupped hosts', () => {
@@ -462,7 +462,7 @@ describe('inventory table', () => {
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
         cy.get(DROPDOWN_ITEM)
           .contains('Remove from group')
-          .shouldHaveAriaEnabled();
+          .shouldNotHaveAriaDisabled();
       });
 
       it('can bulk add hosts to the permitted group', () => {
@@ -470,7 +470,7 @@ describe('inventory table', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(4).click();
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-        cy.get(MENU_ITEM).contains('Add to group').shouldHaveAriaEnabled();
+        cy.get(MENU_ITEM).contains('Add to group').shouldNotHaveAriaDisabled();
       });
 
       it('cannot bulk add to group if groupped hosts selected', () => {
