@@ -91,3 +91,9 @@ Cypress.Commands.add(
   { prevSubject: true },
   (subject) => cy.wrap(subject).should('have.attr', 'aria-disabled', 'false')
 );
+
+Cypress.Commands.add(
+  'shouldNotHaveAriaDisabled',
+  { prevSubject: true },
+  (subject) => cy.wrap(subject).should('not.have.attr', 'aria-disabled')
+);

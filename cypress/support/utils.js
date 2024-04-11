@@ -16,3 +16,5 @@ export const unleashDummyConfig = {
   clientKey: 'abc',
   appName: 'abc',
 };
+
+export const INVENTORY_ACTION_MENU_ITEM = 'button.inventory__action-menu-item';
