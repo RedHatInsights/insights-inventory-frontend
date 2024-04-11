@@ -360,6 +360,7 @@ InventoryTable.propTypes = {
 const InventoryTableWrapper = forwardRef(
   ({ isolateStore = false, ...props }, ref) => {
     const store = useMemo(
+      // TODO: Create a partial store containing only relevant Slices & Reducers relevant to the InventoryTable
       () => (isolateStore ? getStore() : undefined),
       [isolateStore]
     );
