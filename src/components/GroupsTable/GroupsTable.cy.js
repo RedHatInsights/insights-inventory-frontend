@@ -6,7 +6,9 @@ import {
   DROPDOWN_ITEM,
   MENU_ITEM,
   MENU_TOGGLE,
-  MENU_TOGGLE_CHECKBOX,
+  PT_BULK_SELECT,
+  PT_BULK_SELECT_CHECKBOX,
+  PT_BULK_SELECT_LIST,
   MODAL_CONTENT,
   PAGINATION_CURRENT,
   PAGINATION_NEXT,
@@ -279,22 +281,22 @@ describe('selection and bulk selection', () => {
   });
 
   it('can select all in dropdown toggle', () => {
-    cy.ouiaId('bulk-select-toggle-button').click(); // open selection dropdown
+    cy.get(PT_BULK_SELECT).click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select all').click();
     checkSelectedNumber(fixtures.total);
   });
 
   it('can select all by clicking checkbox', () => {
-    cy.get(TOOLBAR).find(MENU_TOGGLE_CHECKBOX).click();
+    cy.get(PT_BULK_SELECT_CHECKBOX).click();
     checkSelectedNumber(fixtures.total);
-    cy.get(TOOLBAR).find(MENU_TOGGLE_CHECKBOX).click();
+    cy.get(PT_BULK_SELECT_CHECKBOX).click();
     checkSelectedNumber(0);
   });
 
   it('can select none', () => {
     selectRowN(1);
-    cy.get(TOOLBAR).find(MENU_TOGGLE).contains('1 selected').click(); // open selection dropdown
-    cy.get(TOOLBAR).find(MENU_ITEM).eq(1).click();
+    cy.get(PT_BULK_SELECT).contains('1 selected').click(); // open selection dropdown
+    cy.get(PT_BULK_SELECT_LIST).find(MENU_ITEM).eq(1).click();
     checkSelectedNumber(0);
   });
 });
@@ -488,8 +490,12 @@ describe('integration with rbac', () => {
 
     it('has actions enabled for permitted group', () => {
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
-      cy.get(DROPDOWN_ITEM).contains('Rename group').shouldHaveAriaEnabled();
-      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaEnabled();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Rename group')
+        .shouldNotHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Delete group')
+        .shouldNotHaveAriaDisabled();
     });
 
     it('has actions disabled for another group', () => {
@@ -503,8 +509,7 @@ describe('integration with rbac', () => {
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM)
         .contains('Delete group')
-        .shouldHaveAriaEnabled()
-        .click();
+        .shouldNotHaveAriaDisabled();
     });
 
     it('cannot bulk delete if restricted group selected', () => {
