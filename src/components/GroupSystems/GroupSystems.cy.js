@@ -2,7 +2,6 @@
 import {
   CHIP,
   CHIP_GROUP,
-  CONDITIONAL_FILTER,
   DROPDOWN_ITEM,
   MENU_ITEM,
   MENU_TOGGLE,
@@ -23,6 +22,10 @@ import {
   checkTableHeaders,
   hasChip,
   selectRowN,
+  PAGINATION_TOP,
+  PAGINATION_NEXT,
+  PT_CONDITIONAL_FILTER_TOGGLE,
+  PT_BULK_SELECT,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _, { cloneDeep } from 'lodash';
 import fixtures from '../../../cypress/fixtures/hosts.json';
@@ -81,7 +84,7 @@ const waitForTable = (waitNetwork = false) => {
 };
 
 describe('test data', () => {
-  it('first systems has name dolor', () => {
+  it('first system has name dolor', () => {
     expect(fixtures.results[0].display_name === 'dolor');
   });
 });
@@ -130,10 +133,7 @@ describe('defaults', () => {
   });
 
   it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
-    cy.get('.pf-v5-c-menu-toggle__text')
-      .find('b')
-      .eq(0)
-      .should('have.text', `1 - ${DEFAULT_ROW_COUNT}`);
+    cy.get(PAGINATION_TOP).should('contain.text', `1 - ${DEFAULT_ROW_COUNT}`);
   });
 
   it('name filter is a default filter', () => {
@@ -172,7 +172,7 @@ describe('pagination', () => {
   });
 
   it('can change page', () => {
-    cy.get('button[data-action=next]').eq(0).click(); // click "next page" button
+    cy.get(PAGINATION_NEXT).first().click(); // click "next page" button
     cy.wait('@getHosts').its('request.url').should('include', `page=2`);
   });
 });
@@ -276,7 +276,7 @@ describe('filtering', () => {
     mountTable();
     waitForTable(true);
 
-    cy.get(CONDITIONAL_FILTER).click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
   });
 
@@ -332,8 +332,8 @@ describe('selection and bulk selection', () => {
     }); */
 
   it('can select page in dropdown toggle', () => {
-    cy.ouiaId('bulk-select-toggle-button').click(); // open selection dropdown
-    cy.get(DROPDOWN_ITEM).eq(1).click();
+    cy.get(PT_BULK_SELECT).click(); // open selection dropdown
+    cy.get(DROPDOWN_ITEM).contains('Select page').click();
     checkSelectedNumber(fixtures.count);
   });
 
@@ -346,7 +346,7 @@ describe('selection and bulk selection', () => {
 
   it('can select none', () => {
     selectRowN(1);
-    cy.ouiaId('bulk-select-toggle-button').click(); // open selection dropdown
+    cy.get(PT_BULK_SELECT).click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select none (0 items)').click();
     checkSelectedNumber(0);
   });
