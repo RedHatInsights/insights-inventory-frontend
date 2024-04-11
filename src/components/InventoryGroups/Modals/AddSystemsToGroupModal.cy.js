@@ -2,7 +2,7 @@
 
 import {
   ALERT,
-  CONDITIONAL_FILTER,
+  PT_CONDITIONAL_FILTER_TOGGLE,
   DROPDOWN_ITEM,
   TABLE,
   checkTableHeaders,
@@ -141,7 +141,7 @@ describe('AddSystemsToGroupModal', () => {
       mountModal();
 
       cy.wait('@getHosts');
-      cy.get(CONDITIONAL_FILTER).click();
+      cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
       cy.get(DROPDOWN_ITEM).each(($item, i) => {
         expect($item.text()).to.equal(AVAILABLE_FILTER_NAMES[i]);
       });
