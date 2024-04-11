@@ -134,7 +134,7 @@ const GroupSystems = ({ groupName, groupId }) => {
         />
       )}
       <InventoryTable
-        isolateStore={true}
+        isolateStore
         columns={(columns) => prepareColumns(columns, true)}
         hideFilters={{ hostGroupFilter: true }}
         initialLoading

@@ -214,7 +214,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       )}
 
       <InventoryTable
-        isolateStore={true}
+        isolateStore
         columns={(columns) => mergeColumns(prepareColumns(columns))}
         hideFilters={{ hostGroupFilter: true }}
         getEntities={customGetEntities}
