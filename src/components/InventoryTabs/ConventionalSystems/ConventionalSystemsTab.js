@@ -338,12 +338,20 @@ ConventionalSystemsTab.propTypes = {
   ]),
   filterbyName: PropTypes.arrayOf(PropTypes.string),
   tagsFilter: PropTypes.any,
-  page: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  ),
-  perPage: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  ),
+  page: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    ),
+  ]),
+  perPage: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    ),
+  ]),
   initialLoading: PropTypes.bool,
   rhcdFilter: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
