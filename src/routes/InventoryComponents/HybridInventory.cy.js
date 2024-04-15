@@ -9,12 +9,12 @@ import {
   groupsInterceptors,
   hostsInterceptors,
   systemProfileInterceptors,
-} from '../../cypress/support/interceptors';
-import Inventory from './InventoryTable';
-import hostTagsFixtures from '../../cypress/fixtures/hostsTags.json';
-import tagsFixtures from '../../cypress/fixtures/tags.json';
-import hostsFixtures from '../../cypress/fixtures/hosts.json';
-import groupsFixtures from '../../cypress/fixtures/groups.json';
+} from '../../../cypress/support/interceptors';
+import Inventory from './HybridInventory';
+import hostTagsFixtures from '../../../cypress/fixtures/hostsTags.json';
+import tagsFixtures from '../../../cypress/fixtures/tags.json';
+import hostsFixtures from '../../../cypress/fixtures/hosts.json';
+import groupsFixtures from '../../../cypress/fixtures/groups.json';
 import {
   DROPDOWN_ITEM,
   MENU_ITEM,
@@ -94,7 +94,7 @@ const prepareTest = (waitNetwork = true) => {
   waitForTable(waitNetwork);
 };
 
-describe('inventory table', () => {
+describe('hybrid inventory table', () => {
   beforeEach(prepareTest);
 
   describe('has groups actions', () => {

@@ -11,7 +11,10 @@ import useFeatureFlag from './Utilities/useFeatureFlag';
 import LostPage from './components/LostPage';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
-import { inventoryHasEdgeSystems } from './Utilities/edge';
+import {
+  inventoryHasEdgeSystems,
+  inventoryHasBootcImages,
+} from './Utilities/edge';
 import { inventoryHasConventionalSystems } from './Utilities/conventional';
 import Fallback from './components/SpinnerFallback';
 
@@ -21,7 +24,7 @@ const InventoryOrEdgeGroupDetailsView = lazy(() =>
 const InventoryOrEdgeView = lazy(() =>
   import('./routes/InventoryOrEdgeComponent')
 );
-const InventoryTable = lazy(() => import('./routes/InventoryTable'));
+const InventoryTable = lazy(() => import('./routes/InventoryPage'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryHostStaleness = lazy(() =>
   import('./routes/InventoryHostStaleness')
@@ -43,11 +46,13 @@ export const routes = {
 export const AccountStatContext = createContext({
   hasConventionalSystems: true,
   hasEdgeDevices: false,
+  hasBootcImages: false,
 });
 
 export const Routes = () => {
   const [hasConventionalSystems, setHasConventionalSystems] = useState(true);
   const [hasEdgeDevices, setHasEdgeDevices] = useState(true);
+  const [hasBootcImages, setHasBootcImages] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const edgeParityInventoryListEnabled = useFeatureFlag(
@@ -55,6 +60,7 @@ export const Routes = () => {
   );
 
   const stalenessAndDeletionEnabled = useFeatureFlag('hbi.custom-staleness');
+  const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
 
   useEffect(() => {
     // zero state check
@@ -68,6 +74,10 @@ export const Routes = () => {
           setHasEdgeDevices(hasEdgeSystems);
         }
 
+        if (isBifrostEnabled) {
+          const hasBootc = await inventoryHasBootcImages();
+          setHasBootcImages(hasBootc);
+        }
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -118,6 +128,8 @@ export const Routes = () => {
     },
   ]);
 
+  //bootc images are part of conventional systems,
+  //zero-state is not influenced by them
   const hasSystems = edgeParityInventoryListEnabled
     ? hasEdgeDevices || hasConventionalSystems
     : hasConventionalSystems;
@@ -139,7 +151,7 @@ export const Routes = () => {
     </Suspense>
   ) : (
     <AccountStatContext.Provider
-      value={{ hasConventionalSystems, hasEdgeDevices }}
+      value={{ hasConventionalSystems, hasEdgeDevices, hasBootcImages }}
     >
       {element}
     </AccountStatContext.Provider>
