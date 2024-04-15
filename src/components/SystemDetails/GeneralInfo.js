@@ -16,6 +16,9 @@ const GeneralInfoTab = (props) => {
   const enableEdgeInventoryListDetails = useFeatureFlag(
     'edgeParity.inventory-list'
   );
+  const enableRuntimesInventoryCard = useFeatureFlag(
+    'runtimes.inventory-card.enabled'
+  );
 
   return (
     <GeneralInformation
@@ -24,6 +27,7 @@ const GeneralInfoTab = (props) => {
       showImageDetails={
         enableEdgeImageDetails && enableEdgeInventoryListDetails && isEdgeHost
       }
+      showRuntimesProcesses={enableRuntimesInventoryCard}
     />
   );
 };
