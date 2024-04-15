@@ -94,6 +94,7 @@ const EntityTableToolbar = ({
   loaded,
   showTagModal,
   showCentosVersions,
+  showNoGroupOption,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -167,7 +168,7 @@ const EntityTableToolbar = ({
     setUpdateMethodValue,
   ] = useUpdateMethodFilter(reducer);
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
-    useGroupFilter(props.showNoGroupOption);
+    useGroupFilter(showNoGroupOption);
 
   const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
   const {

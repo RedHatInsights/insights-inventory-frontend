@@ -8,6 +8,7 @@ import NoGroupsEmptyState from './NoGroupsEmptyState';
 import { EmptyStateNoAccessToGroups } from '../InventoryGroupDetail/EmptyStateNoAccess';
 import GetHelpExpandable from './GetHelpExpandable';
 import CreateGroupModal from './Modals/CreateGroupModal';
+import { PageSection } from '@patternfly/react-core';
 
 const InventoryGroups = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -51,8 +52,7 @@ const InventoryGroups = () => {
   }, []);
 
   return (
-    <section
-      className="pf-v5-l-page__main-section pf-v5-c-page__main-section"
+    <PageSection
       data-ouia-component-id="groups-table-wrapper"
       data-testid="groups-table-wrapper"
       style={{ height: '100%' }}
@@ -80,7 +80,7 @@ const InventoryGroups = () => {
       ) : (
         <NoGroupsEmptyState onCreateGroupClick={onCreateGroupClick} />
       )}
-    </section>
+    </PageSection>
   );
 };
 

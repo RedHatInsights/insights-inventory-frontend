@@ -13,6 +13,7 @@ import {
   REPORTER_RHSM_CONDUIT,
   REPORTER_RHSM_PROFILE_BRIDGE,
 } from '../../Utilities/constants';
+import { PageSection } from '@patternfly/react-core';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
@@ -120,7 +121,7 @@ const ApplicationDetails = ({
                 >
                   {item.name === currentApp && (
                     <Suspense fallback={Spinner}>
-                      <section className="pf-v5-c-page__main-section">
+                      <PageSection>
                         {isEmptyState(currentApp) ? (
                           <NotConnected />
                         ) : (
@@ -130,7 +131,7 @@ const ApplicationDetails = ({
                             {...item}
                           />
                         )}
-                      </section>
+                      </PageSection>
                     </Suspense>
                   )}
                 </TabContent>
@@ -154,7 +155,7 @@ ApplicationDetails.propTypes = {
     })
   ),
   onTabSelect: PropTypes.func,
-  activeApp: PropTypes.string.isRequired,
+  activeApp: PropTypes.string,
   inventoryId: PropTypes.string.isRequired,
   entity: PropTypes.object,
 };
