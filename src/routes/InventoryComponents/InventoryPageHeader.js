@@ -29,7 +29,7 @@ const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
 );
 
 const InventoryPageHeader = (toggleProps) => {
-  const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
+  const isBifrostEnabled = useFeatureFlag('hbi.api.disable-xjoin');
   const { hasBootcImages } = useContext(AccountStatContext);
   return (
     <PageHeader className="pf-m-light">
