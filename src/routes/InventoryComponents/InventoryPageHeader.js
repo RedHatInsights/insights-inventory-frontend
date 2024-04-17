@@ -5,10 +5,11 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { ImageIcon, DesktopIcon } from '@patternfly/react-icons';
+import { DesktopIcon } from '@patternfly/react-icons';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { pageContents } from '../InventoryPage';
 import { AccountStatContext } from '../../Routes';
+import FontAwesomeImageIcon from '../../components/FontAwesomeImageIcon';
 
 const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
   <ToggleGroup aria-label="Inventory content toggle">
@@ -19,7 +20,7 @@ const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
       onChange={() => changeMainContent(pageContents.hybridInventory.key)}
     />
     <ToggleGroupItem
-      icon={<ImageIcon />}
+      icon={<FontAwesomeImageIcon />}
       aria-label="Bifrost"
       isSelected={mainContent === pageContents.bifrost.key}
       onChange={() => changeMainContent(pageContents.bifrost.key)}
