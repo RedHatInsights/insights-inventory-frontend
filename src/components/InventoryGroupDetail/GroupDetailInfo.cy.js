@@ -1,3 +1,8 @@
+/* eslint-disable rulesdir/disallow-fec-relative-imports */
+import {
+  CARD,
+  CARD_TITLE,
+} from '@redhat-cloud-services/frontend-components-utilities';
 import { GroupDetailInfo } from './GroupDetailInfo';
 
 const mountPage = (params) =>
@@ -13,9 +18,9 @@ describe('group detail information page', () => {
   });
 
   it('title is rendered', () => {
-    cy.get(
-      'div[class="pf-v5-c-card__title pf-v5-c-title pf-m-lg card-title"]'
-    ).should('have.text', 'User access configuration');
+    cy.get(CARD)
+      .find(CARD_TITLE)
+      .should('have.text', 'User access configuration');
   });
 
   it('button is present', () => {

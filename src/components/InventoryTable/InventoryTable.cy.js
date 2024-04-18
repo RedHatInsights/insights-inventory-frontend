@@ -6,13 +6,14 @@
 import {
   CHIP,
   CHIP_GROUP,
+  CONDITIONAL_FILTER,
+  PT_CONDITIONAL_FILTER_TOGGLE,
   DROPDOWN_ITEM,
   PAGINATION_VALUES,
+  PRIMARY_TOOLBAR,
   SORTING_ORDERS,
   TABLE,
   TEXT_INPUT,
-  TOOLBAR,
-  TOOLBAR_FILTER,
   changePagination,
   checkPaginationTotal,
   checkPaginationValues,
@@ -20,6 +21,7 @@ import {
   hasChip,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _ from 'lodash';
+import groupsFixtures from '../../../cypress/fixtures/groups.json';
 import {
   featureFlagsInterceptors,
   groupsInterceptors,
@@ -29,7 +31,6 @@ import {
 } from '../../../cypress/support/interceptors';
 import { ORDER_TO_URL } from '../../../cypress/support/utils';
 import InventoryTable from './InventoryTable';
-import groupsFixtures from '../../../cypress/fixtures/groups.json';
 
 const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
@@ -86,7 +87,7 @@ describe('with default parameters', () => {
 
   describe('renders correctly', () => {
     it('renders main components', () => {
-      cy.get(TOOLBAR).should('have.length', 1);
+      cy.get(PRIMARY_TOOLBAR).should('have.length', 1);
       cy.get(TABLE).should('have.length', 1);
     });
 
@@ -104,7 +105,7 @@ describe('with default parameters', () => {
     });
 
     it('name filter is a default filter', () => {
-      cy.get(TOOLBAR_FILTER).find(TEXT_INPUT).should('exist');
+      cy.get(PRIMARY_TOOLBAR).find(TEXT_INPUT).should('exist');
     });
   });
 
@@ -199,7 +200,7 @@ describe('with default parameters', () => {
     });
 
     it('has correct list of default filters', () => {
-      cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+      cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
       AVAILABLE_FILTER_NAMES.forEach((filterName, index) => {
         cy.get(DROPDOWN_ITEM).eq(index).should('have.text', filterName);
       });
@@ -207,7 +208,7 @@ describe('with default parameters', () => {
 
     describe('groups filter', () => {
       it('options are populated correctly', () => {
-        cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+        cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Group').click();
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').should(
@@ -219,7 +220,7 @@ describe('with default parameters', () => {
       const firstGroupName = shorterGroupsFixtures.results[0].name;
 
       it('creates a chip', () => {
-        cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+        cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Group').click();
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').eq(0).click();
@@ -227,7 +228,7 @@ describe('with default parameters', () => {
       });
 
       it('triggers new request', () => {
-        cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+        cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Group').click();
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').eq(0).click();
@@ -249,50 +250,48 @@ describe('hiding filters', () => {
   it('can hide all filters', () => {
     mountTable({ hasAccess: true, hideFilters: { all: true } });
     waitForTable();
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').should(
-      'not.exist'
-    );
+    cy.get(CONDITIONAL_FILTER).should('not.exist');
   });
 
   it('can hide groups filter', () => {
     mountTable({ hasAccess: true, hideFilters: { hostGroupFilter: true } });
     waitForTable();
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
   });
 
   it('can hide name filter', () => {
     mountTable({ hasAccess: true, hideFilters: { name: true } });
     waitForTable();
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Name');
   });
 
   it('can hide data collector filter', () => {
     mountTable({ hasAccess: true, hideFilters: { registeredWith: true } });
     waitForTable();
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Data Collector');
   });
 
   it('can hide rhcd filter', () => {
     mountTable({ hasAccess: true, hideFilters: { rhcdFilter: true } });
     waitForTable();
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'RHC status');
   });
 
   it('can hide os filter', () => {
     mountTable({ hasAccess: true, hideFilters: { operatingSystem: true } });
     waitForTable();
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Operating System');
   });
 
   it('can hide last seen filter', () => {
     mountTable({ hasAccess: true, hideFilters: { lastSeen: true } });
     waitForTable();
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Last seen');
   });
 });
@@ -309,14 +308,14 @@ describe('with no group filter option', () => {
   });
 
   it('no group is the first option', () => {
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).contains('Group').click();
     cy.ouiaId('FilterByGroup').click();
     cy.ouiaId('FilterByGroupOption').first().should('have.text', 'No group');
   });
 
   it('creates no group chip', () => {
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).contains('Group').click();
     cy.ouiaId('FilterByGroup').click();
     cy.ouiaId('FilterByGroupOption').eq(0).click();
@@ -324,7 +323,7 @@ describe('with no group filter option', () => {
   });
 
   it('triggers new request with empty parameter', () => {
-    cy.get('button[data-ouia-component-id="ConditionalFilter"]').click();
+    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).contains('Group').click();
     cy.ouiaId('FilterByGroup').click();
     cy.ouiaId('FilterByGroupOption').eq(0).click();

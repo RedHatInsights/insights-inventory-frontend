@@ -124,6 +124,7 @@
     "@cypress/code-coverage": "^3.12.9",
     "@cypress/react18": "^2.0.0",
     "@faker-js/faker": "^8.2.0",
+    "@patternfly/patternfly": "^5.2.0",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.3",
     "@redhat-cloud-services/frontend-components-config": "^5.1.1",
     "@semantic-release/changelog": "^6.0.1",

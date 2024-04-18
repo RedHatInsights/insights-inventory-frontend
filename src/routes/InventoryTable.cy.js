@@ -16,11 +16,16 @@ import tagsFixtures from '../../cypress/fixtures/tags.json';
 import hostsFixtures from '../../cypress/fixtures/hosts.json';
 import groupsFixtures from '../../cypress/fixtures/groups.json';
 import {
-  DROPDOWN,
   DROPDOWN_ITEM,
-  MODAL,
-  ROW,
+  MENU_ITEM,
+  MENU_TOGGLE,
+  MODAL_CONTENT,
+  PRIMARY_TOOLBAR_ACTIONS,
+  SELECT_MENU_ITEM,
+  TABLE_ROW,
+  TABLE_ROW_CHECKBOX,
 } from '@redhat-cloud-services/frontend-components-utilities';
+import { INVENTORY_ACTION_MENU_ITEM } from '../../cypress/support/utils';
 
 const TEST_GROUP_NAME = 'ancd';
 const TEST_GROUP_ID = '54b302e4-07d2-45c5-b2f8-92a286847f9d';
@@ -94,24 +99,24 @@ describe('inventory table', () => {
 
   describe('has groups actions', () => {
     it('cannot add host to another group', () => {
-      cy.get(ROW).eq(1).find(DROPDOWN).click();
-      cy.get(`${DROPDOWN_ITEM} a`)
+      cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
+      cy.get(DROPDOWN_ITEM)
         .contains('Add to group')
         .should('have.attr', 'aria-disabled', 'true');
     });
 
     it('cannot remove host without group', () => {
-      cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
 
       // TODO: implement ouia selector for this component
-      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
-      cy.get(DROPDOWN_ITEM)
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+      cy.get(MENU_ITEM)
         .contains('Remove from group')
         .should('have.attr', 'aria-disabled', 'true');
     });
 
     it('cannot remove host without group, bulk select', () => {
-      cy.get(ROW).eq(4).find(DROPDOWN).click();
+      cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM)
         .contains('Remove from group')
         .should('have.attr', 'aria-disabled', 'true');
@@ -122,9 +127,9 @@ describe('inventory table', () => {
         'DELETE',
         `/api/inventory/v1/groups/${hostsFixtures.results[0].groups[0].id}/hosts/${hostsFixtures.results[0].id}`
       ).as('request');
-      cy.get(ROW).eq(1).find(DROPDOWN).click();
-      cy.get(`${DROPDOWN_ITEM} a`).contains('Remove from group').click();
-      cy.get(MODAL).within(() => {
+      cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
+      cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+      cy.get(MODAL_CONTENT).within(() => {
         cy.get('h1').should('have.text', 'Remove from group');
         cy.get('button[type="submit"]').click();
         cy.wait('@request');
@@ -137,9 +142,9 @@ describe('inventory table', () => {
         'POST',
         `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
       ).as('request');
-      cy.get(ROW).eq(4).find(DROPDOWN).click();
-      cy.get(`${DROPDOWN_ITEM} a`).contains('Add to group').click();
-      cy.get(MODAL).within(() => {
+      cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
+      cy.get(DROPDOWN_ITEM).contains('Add to group').click();
+      cy.get(MODAL_CONTENT).within(() => {
         cy.get('h1').should('have.text', 'Add to group');
         cy.wait('@getGroups');
         cy.get('.pf-v5-c-select__toggle').click(); // TODO: implement ouia selector for this component
@@ -153,12 +158,12 @@ describe('inventory table', () => {
     });
 
     it('cannot remove hosts from different groups', () => {
-      cy.get(ROW).find('[type="checkbox"]').eq(1).click();
-      cy.get(ROW).find('[type="checkbox"]').eq(2).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(2).click();
 
       // TODO: implement ouia selector for this component
-      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
-      cy.get(DROPDOWN_ITEM)
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+      cy.get(MENU_ITEM)
         .contains('Remove from group')
         .should('have.attr', 'aria-disabled', 'true');
     });
@@ -174,15 +179,15 @@ describe('inventory table', () => {
           .join(',')}`
       ).as('request');
 
-      cy.get(ROW).find('[type="checkbox"]').eq(0).click();
-      cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
 
       // TODO: implement ouia selector for this component
-      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
-      cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+      cy.get(MENU_ITEM).contains('Remove from group').click();
 
-      cy.get(MODAL).within(() => {
+      cy.get(MODAL_CONTENT).within(() => {
         cy.get('h1').should('have.text', 'Remove from group');
         cy.get('button[type="submit"]').click();
         cy.wait('@request');
@@ -199,19 +204,19 @@ describe('inventory table', () => {
         }/hosts`
       ).as('request');
 
-      cy.get(ROW).find('[type="checkbox"]').eq(3).click();
-      cy.get(ROW).find('[type="checkbox"]').eq(4).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
+      cy.get(TABLE_ROW_CHECKBOX).eq(4).click();
 
       // TODO: implement ouia selector for this component
-      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
-      cy.get(DROPDOWN_ITEM).contains('Add to group').click();
+      cy.get(MENU_ITEM).contains('Add to group').click();
 
-      cy.get(MODAL).within(() => {
+      cy.get(MODAL_CONTENT).within(() => {
         cy.get('h1').should('have.text', 'Add to group');
         cy.wait('@getGroups');
         cy.get('.pf-v5-c-select__toggle').click(); // TODO: implement ouia selector for this component
-        cy.get('.pf-v5-c-select__menu-item').contains(TEST_GROUP_NAME).click();
+        cy.get(SELECT_MENU_ITEM).contains(TEST_GROUP_NAME).click();
         cy.get('button[type="submit"]').click();
         cy.wait('@request')
           .its('request.body')
@@ -224,11 +229,14 @@ describe('inventory table', () => {
     });
 
     it('can add to a new group', () => {
-      cy.get(ROW).find('[type="checkbox"]').eq(3).click();
-      cy.get('.ins-c-primary-toolbar__actions [aria-label="Actions"]').click();
-      cy.get(DROPDOWN_ITEM).contains('Add to group').click();
-      cy.get(MODAL).find('button').contains('Create a new group').click();
-      cy.get(MODAL).find('h1').should('have.text', 'Create group');
+      cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
+      cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+      cy.get(MENU_ITEM).contains('Add to group').click();
+      cy.get(MODAL_CONTENT)
+        .find('button')
+        .contains('Create a new group')
+        .click();
+      cy.get(MODAL_CONTENT).find('h1').should('have.text', 'Create group');
     });
   });
 
@@ -243,29 +251,29 @@ describe('inventory table', () => {
       beforeEach(() => prepareTest(false));
 
       it('all per-row actions are disabled', () => {
-        cy.get(ROW).eq(1).find(DROPDOWN).click();
-        cy.get(`${DROPDOWN_ITEM} a`).each(($el) =>
-          cy.wrap($el).should('have.attr', 'aria-disabled', 'true')
+        cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
+        cy.get(INVENTORY_ACTION_MENU_ITEM).should(
+          'have.attr',
+          'aria-disabled',
+          'true'
         );
       });
 
       it('bulk actions are disabled', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
 
         cy.get('button')
           .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
 
         // TODO: implement ouia selector for this component
-        cy.get(
-          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
-        ).click();
+        cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
-        cy.get(DROPDOWN_ITEM)
+        cy.get(MENU_ITEM)
           .contains('Remove from group')
           .should('have.attr', 'aria-disabled', 'true');
 
-        cy.get(DROPDOWN_ITEM)
+        cy.get(MENU_ITEM)
           .contains('Add to group')
           .should('have.attr', 'aria-disabled', 'true');
       });
@@ -295,37 +303,30 @@ describe('inventory table', () => {
       beforeEach(() => prepareTest(false));
 
       it('can edit hosts that in the test group', () => {
-        cy.get(ROW).eq(1).find(DROPDOWN).click();
-        cy.get(`${DROPDOWN_ITEM} a`)
-          .contains('Edit')
-          .should('have.attr', 'aria-disabled', 'false')
-          .click();
-        cy.get('button').contains('Cancel').click();
-        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
+        cy.get(INVENTORY_ACTION_MENU_ITEM).contains('Edit').click();
+        cy.get(MODAL_CONTENT).contains('Edit display name');
       });
 
       it('can delete hosts in the test group', () => {
-        cy.get(ROW).eq(1).find(DROPDOWN).click();
-        cy.get(`${DROPDOWN_ITEM} a`)
-          .contains('Delete')
-          .should('have.attr', 'aria-disabled', 'false')
-          .click();
-        cy.get('button').contains('Cancel').click();
+        cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
+        cy.get(INVENTORY_ACTION_MENU_ITEM).contains('Delete').click();
+        cy.get(MODAL_CONTENT).contains('Remove from inventory');
       });
 
       it('cannot edit nor delete hosts that are not in the test group', () => {
-        cy.get(ROW).eq(3).find(DROPDOWN).click();
-        cy.get(`${DROPDOWN_ITEM} a`)
+        cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
+        cy.get(DROPDOWN_ITEM)
           .contains('Edit')
           .should('have.attr', 'aria-disabled', 'true');
-        cy.get(`${DROPDOWN_ITEM} a`)
+        cy.get(DROPDOWN_ITEM)
           .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
       });
 
       it('can delete hosts that are in the test group', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
-        cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
 
         cy.get('button')
           .contains('Delete')
@@ -334,7 +335,7 @@ describe('inventory table', () => {
       });
 
       it('cannot delete hosts that are not in the test group', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(2).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(2).click();
 
         cy.get('button')
           .contains('Delete')
@@ -342,7 +343,7 @@ describe('inventory table', () => {
       });
 
       it('cannot add or remove from group', () => {
-        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM)
           .contains('Remove from group')
@@ -374,28 +375,26 @@ describe('inventory table', () => {
       beforeEach(prepareTest);
 
       it('can edit hosts that are not a part of any group', () => {
-        cy.get(ROW).eq(4).find(DROPDOWN).click();
-        cy.get(`${DROPDOWN_ITEM} a`).contains('Edit').shouldHaveAriaEnabled();
-        cy.get(`${DROPDOWN_ITEM} a`).contains('Delete').shouldHaveAriaEnabled();
+        cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
+        cy.get(DROPDOWN_ITEM).contains('Edit').shouldNotHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM).contains('Delete').shouldNotHaveAriaDisabled();
       });
 
       it('cannot edit hosts in groups', () => {
-        cy.get(ROW).eq(3).find(DROPDOWN).click();
-        cy.get(`${DROPDOWN_ITEM} a`).contains('Edit').shouldHaveAriaDisabled();
-        cy.get(`${DROPDOWN_ITEM} a`)
-          .contains('Delete')
-          .shouldHaveAriaDisabled();
+        cy.get(TABLE_ROW).eq(2).find(MENU_TOGGLE).click();
+        cy.get(DROPDOWN_ITEM).contains('Edit').shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM).contains('Delete').shouldHaveAriaDisabled();
       });
 
       it('can bulk delete ungrouped hosts', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(4).click();
-        cy.get(ROW).find('[type="checkbox"]').eq(5).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(4).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(5).click();
         cy.get('button').contains('Delete').shouldHaveAriaEnabled();
       });
 
       it('cannot mix grouped and ungrouped hosts', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(2).click();
-        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(2).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
         cy.get('button').contains('Delete').shouldHaveAriaDisabled();
       });
     });
@@ -424,70 +423,62 @@ describe('inventory table', () => {
       beforeEach(() => prepareTest(false));
 
       it('can remove from permitted group', () => {
-        cy.get(ROW).eq(1).find(DROPDOWN).click();
+        cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM)
           .contains('Remove from group')
-          .shouldHaveAriaEnabled();
+          .shouldNotHaveAriaDisabled();
       });
 
       it('add to group is enabled for ungroupped hosts', () => {
-        cy.get(ROW).eq(4).find(DROPDOWN).click();
-        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaEnabled();
+        cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Add to group')
+          .shouldNotHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM)
           .contains('Remove from group')
           .shouldHaveAriaDisabled();
       });
 
       it('can bulk remove from the permitted group', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
         // TODO: implement ouia selector for this component
-        cy.get(
-          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
-        ).click();
-        cy.get(DROPDOWN_ITEM)
+        cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+        cy.get(MENU_ITEM)
           .contains('Remove from group')
-          .shouldHaveAriaEnabled();
-        cy.get(ROW).find('[type="checkbox"]').eq(1).click();
+          .shouldNotHaveAriaDisabled();
+        cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
         // TODO: implement ouia selector for this component
-        cy.get(
-          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
-        ).click();
-        cy.get(DROPDOWN_ITEM)
+        cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+        cy.get(MENU_ITEM)
           .contains('Remove from group')
-          .shouldHaveAriaEnabled();
+          .shouldNotHaveAriaDisabled();
       });
 
       it('can bulk remove from group together with ungroupped hosts', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
-        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
         // TODO: implement ouia selector for this component
-        cy.get(
-          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
-        ).click();
+        cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
         cy.get(DROPDOWN_ITEM)
           .contains('Remove from group')
-          .shouldHaveAriaEnabled();
+          .shouldNotHaveAriaDisabled();
       });
 
       it('can bulk add hosts to the permitted group', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
-        cy.get(ROW).find('[type="checkbox"]').eq(4).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(4).click();
         // TODO: implement ouia selector for this component
-        cy.get(
-          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
-        ).click();
-        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaEnabled();
+        cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+        cy.get(MENU_ITEM).contains('Add to group').shouldNotHaveAriaDisabled();
       });
 
       it('cannot bulk add to group if groupped hosts selected', () => {
-        cy.get(ROW).find('[type="checkbox"]').eq(0).click();
-        cy.get(ROW).find('[type="checkbox"]').eq(3).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
+        cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
         // TODO: implement ouia selector for this component
-        cy.get(
-          '.ins-c-primary-toolbar__actions [aria-label="Actions"]'
-        ).click();
-        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
+        cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+        cy.get(MENU_ITEM).contains('Add to group').shouldHaveAriaDisabled();
       });
     });
   });
