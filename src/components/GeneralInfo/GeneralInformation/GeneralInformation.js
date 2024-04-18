@@ -194,7 +194,7 @@ class GeneralInformation extends Component {
                   </GridItem>
                 )}
 
-                {this.props.showRuntimesProcesses && (
+                {this.props.showRuntimesProcesses && entity.fqdn && (
                   <GridItem>
                     <AsyncComponent
                       appName="runtimes"
