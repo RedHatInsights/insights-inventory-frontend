@@ -23,7 +23,8 @@ export const INVENTORY_TOTAL_FETCH_URL_SERVER = '/api/inventory/v1/hosts';
 export const INVENTORY_TOTAL_FETCH_EDGE_PARAMS =
   '?filter[system_profile][host_type]=edge&page=1&per_page=1';
 export const INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS = '?page=1&per_page=1';
-
+export const INVENTORY_TOTAL_FETCH_BIFROST_PARAMS =
+  '?filter[system_profile][bootc_status][booted][image_digest][is]=not_nil&per_page=1';
 export function subtractDate(days) {
   const date = new Date();
   date.setDate(date.getDate() - days);

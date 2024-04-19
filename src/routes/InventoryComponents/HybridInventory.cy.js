@@ -9,12 +9,12 @@ import {
   groupsInterceptors,
   hostsInterceptors,
   systemProfileInterceptors,
-} from '../../cypress/support/interceptors';
-import Inventory from './InventoryTable';
-import hostTagsFixtures from '../../cypress/fixtures/hostsTags.json';
-import tagsFixtures from '../../cypress/fixtures/tags.json';
-import hostsFixtures from '../../cypress/fixtures/hosts.json';
-import groupsFixtures from '../../cypress/fixtures/groups.json';
+} from '../../../cypress/support/interceptors';
+import Inventory from './HybridInventory';
+import hostTagsFixtures from '../../../cypress/fixtures/hostsTags.json';
+import tagsFixtures from '../../../cypress/fixtures/tags.json';
+import hostsFixtures from '../../../cypress/fixtures/hosts.json';
+import groupsFixtures from '../../../cypress/fixtures/groups.json';
 import {
   DROPDOWN_ITEM,
   MENU_ITEM,
@@ -25,7 +25,7 @@ import {
   TABLE_ROW,
   TABLE_ROW_CHECKBOX,
 } from '@redhat-cloud-services/frontend-components-utilities';
-import { INVENTORY_ACTION_MENU_ITEM } from '../../cypress/support/utils';
+import { INVENTORY_ACTION_MENU_ITEM } from '../../../cypress/support/utils';
 
 const TEST_GROUP_NAME = 'ancd';
 const TEST_GROUP_ID = '54b302e4-07d2-45c5-b2f8-92a286847f9d';
@@ -94,7 +94,7 @@ const prepareTest = (waitNetwork = true) => {
   waitForTable(waitNetwork);
 };
 
-describe('inventory table', () => {
+describe('hybrid inventory table', () => {
   beforeEach(prepareTest);
 
   describe('has groups actions', () => {
