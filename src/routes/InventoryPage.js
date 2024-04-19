@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import './inventory.scss';
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import HybridInventory from './InventoryComponents/HybridInventory';
@@ -35,11 +34,4 @@ const Inventory = (props) => {
   );
 };
 
-Inventory.defaultProps = {
-  initialLoading: true,
-  notificationProp: PropTypes.object,
-};
-Inventory.propTypes = {
-  isImmutableTabOpen: PropTypes.bool,
-};
 export default Inventory;
