@@ -3,15 +3,16 @@ import axios from 'axios';
 import {
   INVENTORY_FETCH_BIFROST_PARAMS,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
-  LOADING_BIFROST_TABLE,
 } from '../../Utilities/constants';
 import BifrostTable from './BifrostTable';
 
 const BifrostPage = () => {
-  const [bootcImages, setBootcImages] = useState(LOADING_BIFROST_TABLE);
+  const [bootcImages, setBootcImages] = useState();
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const fetchBootcImages = async () => {
+      setLoaded(false);
       const result = await axios.get(
         `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_BIFROST_PARAMS}&fields[system_profile]=bootc_status`
       );
@@ -51,13 +52,14 @@ const BifrostPage = () => {
         hashes: Object.values(val.hashes),
       }));
 
-      await setBootcImages(updated);
+      setLoaded(true);
+      setBootcImages(updated);
     };
 
     fetchBootcImages();
   }, []);
 
-  return <BifrostTable bootcImages={bootcImages} />;
+  return <BifrostTable bootcImages={bootcImages} loaded={loaded} />;
 };
 
 export default BifrostPage;
