@@ -104,7 +104,7 @@ const ConventionalSystemsTab = ({
   });
 
   useEffect(() => {
-    chrome.updateDocumentTitle('Systems | Red Hat Insights');
+    chrome.updateDocumentTitle('Systems - Inventory | RHEL');
     chrome.appAction('system-list');
     chrome.appObjectId();
     dispatch(actions.clearNotifications());

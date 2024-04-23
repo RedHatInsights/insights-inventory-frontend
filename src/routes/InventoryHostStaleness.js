@@ -21,7 +21,7 @@ const HostStaleness = () => {
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(
-      'Staleness and Deletion - System Configuration - Inventory | Red Hat Insights'
+      'Staleness and Deletion - System Configuration - Inventory | RHEL'
     );
     chrome.hideGlobalFilter(true);
   }, []);
