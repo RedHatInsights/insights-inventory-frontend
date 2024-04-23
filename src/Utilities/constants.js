@@ -23,9 +23,11 @@ export const INVENTORY_TOTAL_FETCH_URL_SERVER = '/api/inventory/v1/hosts';
 export const INVENTORY_TOTAL_FETCH_EDGE_PARAMS =
   '?filter[system_profile][host_type]=edge&page=1&per_page=1';
 export const INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS = '?page=1&per_page=1';
-export const INVENTORY_FETCH_BIFROST_PARAMS =
-  '?filter[system_profile][bootc_status][booted][image_digest][is]=not_nil';
-export const INVENTORY_TOTAL_FETCH_BIFROST_PARAMS = `${INVENTORY_FETCH_BIFROST_PARAMS}&per_page=1`;
+export const INVENTORY_FETCH_BOOTC_PARAMS =
+  '?filter[system_profile][bootc_status][booted][image_digest][is]';
+export const INVENTORY_FETCH_BOOTC = `${INVENTORY_FETCH_BOOTC_PARAMS}=not_nil`;
+export const INVENTORY_FETCH_NON_BOOTC = `${INVENTORY_FETCH_BOOTC_PARAMS}=nil`;
+export const INVENTORY_TOTAL_FETCH_BOOTC_PARAMS = `${INVENTORY_FETCH_BOOTC}&per_page=1`;
 export function subtractDate(days) {
   const date = new Date();
   date.setDate(date.getDate() - days);

@@ -51,15 +51,19 @@ const BifrostTable = ({ bootcImages, loaded }) => {
             {bootcImages?.map((image, rowIndex) => (
               <>
                 <Tr key={image.image}>
-                  <Td
-                    expand={{
-                      rowIndex,
-                      isExpanded: isImageExpanded(image),
-                      onToggle: () =>
-                        setImageExpanded(image, !isImageExpanded(image)),
-                      expandId: 'composable-nested-table-expandable-example',
-                    }}
-                  />
+                  {image.hashes ? (
+                    <Td
+                      expand={{
+                        rowIndex,
+                        isExpanded: isImageExpanded(image),
+                        onToggle: () =>
+                          setImageExpanded(image, !isImageExpanded(image)),
+                        expandId: 'composable-nested-table-expandable-example',
+                      }}
+                    />
+                  ) : (
+                    <Td />
+                  )}
                   {imageTableColumns.map((col) => (
                     <BifrostTableRows
                       key={`${image.image}-${col.title}`}
@@ -68,19 +72,21 @@ const BifrostTable = ({ bootcImages, loaded }) => {
                     />
                   ))}
                 </Tr>
-                <Tr isExpanded={isImageExpanded(image)}>
-                  <Td
-                    dataLabel={`${imageTableColumns[0].title} expanded`}
-                    colSpan={12}
-                    style={{ paddingRight: '0px' }}
-                  >
-                    <ExpandableRowContent
-                      style={{ paddingTop: '0px', paddingLeft: '64px' }}
+                {image.hashes ? (
+                  <Tr isExpanded={isImageExpanded(image)}>
+                    <Td
+                      dataLabel={`${imageTableColumns[0].title} expanded`}
+                      colSpan={12}
+                      style={{ paddingRight: '0px' }}
                     >
-                      <NestedHashTable hashes={image.hashes} />
-                    </ExpandableRowContent>
-                  </Td>
-                </Tr>
+                      <ExpandableRowContent
+                        style={{ paddingTop: '0px', paddingLeft: '64px' }}
+                      >
+                        <NestedHashTable hashes={image.hashes} />
+                      </ExpandableRowContent>
+                    </Td>
+                  </Tr>
+                ) : null}
               </>
             ))}
           </Tbody>

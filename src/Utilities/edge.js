@@ -4,7 +4,7 @@ import { useGetImageData } from '../api';
 import {
   INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
-  INVENTORY_TOTAL_FETCH_BIFROST_PARAMS,
+  INVENTORY_TOTAL_FETCH_BOOTC_PARAMS,
 } from './constants';
 
 const manageEdgeInventoryUrlName = 'manage-edge-inventory';
@@ -59,7 +59,7 @@ const inventoryHasEdgeSystems = async () => {
 
 const inventoryHasBootcImages = async () => {
   const result = await axios.get(
-    `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_BIFROST_PARAMS}`
+    `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_BOOTC_PARAMS}`
   );
   return result?.data?.total > 0;
 };
