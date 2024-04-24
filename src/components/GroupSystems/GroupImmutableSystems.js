@@ -213,6 +213,8 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
           isModalOpen={addToGroupModalOpen}
           setIsModalOpen={(value) => {
             dispatch(clearEntitiesAction());
+            // ImmutableDevicesView, which uses Edge's DevicesView, systems table persists filters in the Session Storage
+            window.sessionStorage.removeItem('edge-devices-table-filters');
             setAddToGroupModalOpen(value);
           }}
           groupId={groupId}
