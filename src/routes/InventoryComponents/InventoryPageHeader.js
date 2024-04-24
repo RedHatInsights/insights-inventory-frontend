@@ -1,6 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { ToggleGroup, ToggleGroupItem } from '@patternfly/react-core';
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+  Text,
+  TextContent,
+  TextVariants,
+  Tooltip,
+} from '@patternfly/react-core';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -13,18 +20,30 @@ import FontAwesomeImageIcon from '../../components/FontAwesomeImageIcon';
 
 const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
   <ToggleGroup aria-label="Inventory content toggle">
-    <ToggleGroupItem
-      icon={<DesktopIcon />}
-      aria-label="Hybrid inventory"
-      isSelected={mainContent === pageContents.hybridInventory.key}
-      onChange={() => changeMainContent(pageContents.hybridInventory.key)}
-    />
-    <ToggleGroupItem
-      icon={<FontAwesomeImageIcon />}
-      aria-label="Bifrost"
-      isSelected={mainContent === pageContents.bifrost.key}
-      onChange={() => changeMainContent(pageContents.bifrost.key)}
-    />
+    <TextContent>
+      <Text
+        style={{ paddingTop: '5px', paddingRight: '16px' }}
+        component={TextVariants.h4}
+      >
+        View by
+      </Text>
+    </TextContent>
+    <Tooltip content="View by systems" position="top-end">
+      <ToggleGroupItem
+        icon={<DesktopIcon />}
+        aria-label="Hybrid inventory"
+        isSelected={mainContent === pageContents.hybridInventory.key}
+        onChange={() => changeMainContent(pageContents.hybridInventory.key)}
+      />
+    </Tooltip>
+    <Tooltip content="View by images" position="top-end">
+      <ToggleGroupItem
+        icon={<FontAwesomeImageIcon />}
+        aria-label="Bifrost"
+        isSelected={mainContent === pageContents.bifrost.key}
+        onChange={() => changeMainContent(pageContents.bifrost.key)}
+      />
+    </Tooltip>
   </ToggleGroup>
 );
 
