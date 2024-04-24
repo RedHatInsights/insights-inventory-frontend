@@ -62,6 +62,14 @@ const renderTable = (store, props) => {
 
 jest.mock('../../Utilities/useFeatureFlag');
 
+jest.mock(
+  '@redhat-cloud-services/frontend-components-utilities/RBACHook',
+  () => ({
+    esModule: true,
+    usePermissionsWithContext: () => ({ hasAccess: true }),
+  })
+);
+
 const expectMainComponents = () => {
   try {
     screen.getByTestId('inventory-table-top-toolbar');
