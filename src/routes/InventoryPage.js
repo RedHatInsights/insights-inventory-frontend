@@ -3,7 +3,7 @@ import './inventory.scss';
 import Main from '@redhat-cloud-services/frontend-components/Main';
 import HybridInventory from './InventoryComponents/HybridInventory';
 import InventoryPageHeader from './InventoryComponents/InventoryPageHeader';
-import BifrostTable from './InventoryComponents/BifrostTable';
+import BifrostPage from './InventoryComponents/BifrostPage';
 
 export const pageContents = {
   hybridInventory: {
@@ -12,7 +12,7 @@ export const pageContents = {
   },
   bifrost: {
     key: 'bifrost',
-    component: BifrostTable,
+    component: BifrostPage,
   },
 };
 
