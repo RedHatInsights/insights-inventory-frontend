@@ -1,6 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useGroupFilter from './useGroupFilter';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 jest.mock('../../Utilities/hooks/useFetchBatched');
 jest.mock('../../Utilities/useFeatureFlag', () => ({
@@ -12,16 +13,26 @@ jest.mock('../InventoryGroups/utils/api', () => ({
   getGroups: () =>
     new Promise((resolve) =>
       resolve({
-        total: 10,
+        total: 60,
       })
     ),
 }));
 
+jest.mock(
+  '@redhat-cloud-services/frontend-components-utilities/RBACHook',
+  () => ({
+    esModule: true,
+
+    usePermissionsWithContext: jest.fn(),
+  })
+);
+
 describe('groups request not yet resolved', () => {
   beforeEach(() => {
     useFetchBatched.mockReturnValue({
-      fetchBatched: () => new Promise(() => {}), // keep pending
+      pageOffsetfetchBatched: () => new Promise(() => {}), // keep pending
     });
+    usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
   });
 
   it('initial values are empty', () => {
@@ -50,22 +61,23 @@ describe('groups request not yet resolved', () => {
 });
 
 describe('with some groups available', () => {
-  const fetchBatched = jest.fn(
+  const pageOffsetfetchBatched = jest.fn(
     () =>
       new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }]))
   );
 
   beforeAll(() => {
     useFetchBatched.mockReturnValue({
-      fetchBatched,
+      pageOffsetfetchBatched,
     });
+    usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
   });
 
   it('filter component updated with values', async () => {
     const { result } = renderHook(() => useGroupFilter());
 
     await waitFor(() => {
-      expect(fetchBatched).toBeCalled();
+      expect(pageOffsetfetchBatched).toBeCalled();
     });
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
@@ -76,6 +88,7 @@ describe('with some groups available', () => {
               {
                 "name": "group-1",
               },
+              undefined,
             ]
           }
           selectedGroupNames={[]}
@@ -90,7 +103,7 @@ describe('with some groups available', () => {
     const { result } = renderHook(() => useGroupFilter());
 
     await waitFor(() => {
-      expect(fetchBatched).toBeCalled();
+      expect(pageOffsetfetchBatched).toBeCalled();
     });
     const [, , , setValue] = result.current;
     act(() => {
@@ -117,7 +130,7 @@ describe('with some groups available', () => {
     const { result } = renderHook(() => useGroupFilter(true));
 
     await waitFor(() => {
-      expect(fetchBatched).toBeCalled();
+      expect(pageOffsetfetchBatched).toBeCalled();
     });
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
@@ -128,6 +141,7 @@ describe('with some groups available', () => {
               {
                 "name": "group-1",
               },
+              undefined,
             ]
           }
           selectedGroupNames={[]}
@@ -142,7 +156,7 @@ describe('with some groups available', () => {
     const { result } = renderHook(() => useGroupFilter());
 
     await waitFor(() => {
-      expect(fetchBatched).toBeCalled();
+      expect(pageOffsetfetchBatched).toBeCalled();
     });
     const [, , , setValue] = result.current;
     act(() => {
@@ -163,5 +177,30 @@ describe('with some groups available', () => {
         type: 'group_name',
       },
     ]);
+  });
+});
+
+describe('no groups:read permission', () => {
+  const pageOffsetfetchBatched = jest.fn(
+    () =>
+      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }]))
+  );
+
+  beforeAll(() => {
+    useFetchBatched.mockReturnValue({
+      pageOffsetfetchBatched,
+    });
+    usePermissionsWithContext.mockImplementation(() => ({ hasAccess: false }));
+  });
+
+  it('returns no groups', async () => {
+    renderHook(() => useGroupFilter(true));
+
+    await waitFor(
+      () => {
+        expect(pageOffsetfetchBatched).not.toBeCalled();
+      },
+      { timeout: 5000 }
+    );
   });
 });

@@ -4,6 +4,8 @@ import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 import { getGroups } from '../InventoryGroups/utils/api';
 import SearchableGroupFilter from './SearchableGroupFilter';
+import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
+import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 
 export const groupFilterState = { hostGroupFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
@@ -36,19 +38,42 @@ export const buildHostGroupChips = (selectedGroups = []) => {
     : [];
 };
 
+const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_READ_PERMISSION];
+
 const useGroupFilter = (showNoGroupOption = false) => {
-  const { fetchBatched } = useFetchBatched();
+  const { pageOffsetfetchBatched } = useFetchBatched();
   const [fetchedGroups, setFetchedGroups] = useState([]);
   const [selectedGroupNames, setSelectedGroupNames] = useState([]);
 
+  const { hasAccess } = usePermissionsWithContext(
+    REQUIRED_PERMISSIONS,
+    true,
+    false
+  );
+
   useEffect(() => {
     const fetchOptions = async () => {
+      if (!hasAccess) return;
+
       const firstRequest = !ignore
-        ? await getGroups(undefined, { page: 1, per_page: 1 })
+        ? await getGroups(undefined, { page: 1, per_page: 50 })
         : { total: 0 };
-      const groups = !ignore
-        ? await fetchBatched(getGroups, firstRequest.total)
-        : [];
+
+      const groups =
+        !ignore && firstRequest.total > 50
+          ? await pageOffsetfetchBatched(
+              getGroups,
+              firstRequest.total - 50,
+              {},
+              50,
+              1
+            )
+          : [];
+
+      if (firstRequest.total > 0) {
+        groups.push(firstRequest);
+      }
+
       !ignore && setFetchedGroups(groups.flatMap(({ results }) => results));
     };
 
@@ -59,7 +84,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [hasAccess]);
 
   const chips = useMemo(
     () => buildHostGroupChips(selectedGroupNames),
