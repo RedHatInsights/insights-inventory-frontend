@@ -60,7 +60,7 @@ export const Routes = () => {
   );
 
   const stalenessAndDeletionEnabled = useFeatureFlag('hbi.custom-staleness');
-  const isBifrostEnabled = useFeatureFlag('hbi.api.disable-xjoin');
+  const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
 
   useEffect(() => {
     // zero state check
