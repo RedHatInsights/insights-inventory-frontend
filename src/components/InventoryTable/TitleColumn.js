@@ -2,6 +2,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ConversionPopover } from './ConversionPopover/ConversionPopover';
+import { Icon, Popover } from '@patternfly/react-core';
+import { BundleIcon } from '@patternfly/react-icons';
+import FontAwesomeImageIcon from '../FontAwesomeImageIcon';
 
 /**
  * Helper function to proprly calculate what to do when user clicks on first cell.
@@ -40,6 +43,45 @@ const TitleColumn = ({ children, id, item, ...props }) => (
         children
       ) : (
         <span>
+          {item?.system_profile?.bootc_status ? (
+            <Popover
+              triggerAction="hover"
+              headerContent="Image-based system"
+              bodyContent={
+                <div>
+                  Image mode for Red Hat Enterprise Linux is a container-native
+                  approach that uses the same bits but delivers them as a
+                  container image. Updates are immutable and the experience is
+                  very close to running a containerized application.
+                </div>
+              }
+            >
+              <Icon style={{ marginRight: '8px' }}>
+                <FontAwesomeImageIcon
+                  fill="var(--pf-v5-global--icon--Color--light)"
+                  margin="0px"
+                />
+              </Icon>
+            </Popover>
+          ) : (
+            <Popover
+              triggerAction="hover"
+              headerContent="Package-based system"
+              bodyContent={
+                <div>
+                  Package mode is a familiar RHEL experience across any
+                  footprint where the OS is assembled and updated from rpm
+                  packages. This is traditionally how RHEL is deployed and will
+                  remain the preferred method for many. Package mode is not
+                  going away.
+                </div>
+              }
+            >
+              <Icon style={{ marginRight: '8px' }}>
+                <BundleIcon color="var(--pf-v5-global--icon--Color--light)" />
+              </Icon>
+            </Popover>
+          )}
           <Link
             to={item?.href || item?.to || id}
             {...{
