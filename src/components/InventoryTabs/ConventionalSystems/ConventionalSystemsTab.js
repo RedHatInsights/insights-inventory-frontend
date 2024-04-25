@@ -104,7 +104,7 @@ const ConventionalSystemsTab = ({
   });
 
   useEffect(() => {
-    chrome.updateDocumentTitle('Systems - Inventory | RHEL');
+    chrome.updateDocumentTitle('Systems - Inventory | RHEL', true);
     chrome.appAction('system-list');
     chrome.appObjectId();
     dispatch(actions.clearNotifications());

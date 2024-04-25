@@ -21,7 +21,8 @@ const HostStaleness = () => {
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(
-      'Staleness and Deletion - System Configuration - Inventory | RHEL'
+      'Staleness and Deletion - System Configuration - Inventory | RHEL',
+      true
     );
     chrome.hideGlobalFilter(true);
   }, []);

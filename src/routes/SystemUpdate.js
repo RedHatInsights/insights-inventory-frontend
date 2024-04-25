@@ -12,7 +12,7 @@ const SystemUpdate = () => {
   const notificationProp = getNotificationProp(dispatch);
 
   useEffect(() => {
-    chrome?.updateDocumentTitle?.('Groups - Inventory | RHEL');
+    chrome?.updateDocumentTitle?.('Groups - Inventory | RHEL', true);
   }, [chrome]);
   const { inventoryId } = useParams();
 
