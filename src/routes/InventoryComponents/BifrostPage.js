@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   INVENTORY_FETCH_BOOTC,
   INVENTORY_FETCH_NON_BOOTC,
+  INVENTORY_FILTER_NO_HOST_TYPE,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
 } from '../../Utilities/constants';
 import BifrostTable from './BifrostTable';
@@ -19,7 +20,7 @@ const BifrostPage = () => {
       );
 
       const packageBasedSystems = await axios.get(
-        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_NON_BOOTC}&per_page=1`
+        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_NON_BOOTC}&${INVENTORY_FILTER_NO_HOST_TYPE}&per_page=1`
       );
 
       const booted = result.data.results.map(
