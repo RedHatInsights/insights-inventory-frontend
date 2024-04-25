@@ -9,8 +9,8 @@ import InventoryPage from './InventoryPage';
 jest.mock('./InventoryComponents/HybridInventory', () => () => (
   <div data-testid="HybridInventory" />
 ));
-jest.mock('./InventoryComponents/BifrostTable', () => () => (
-  <div data-testid="BifrostTable" />
+jest.mock('./InventoryComponents/BifrostPage', () => () => (
+  <div data-testid="BifrostPage" />
 ));
 jest.mock('../Utilities/useFeatureFlag', () => () => true);
 const defaultContextValues = {
@@ -39,6 +39,6 @@ describe('Inventory', () => {
 
     await userEvent.click(bifrostToggle);
 
-    expect(screen.getByTestId('BifrostTable')).toBeInTheDocument();
+    expect(screen.getByTestId('BifrostPage')).toBeInTheDocument();
   });
 });
