@@ -28,6 +28,8 @@ export const INVENTORY_FETCH_BOOTC_PARAMS =
 export const INVENTORY_FETCH_BOOTC = `${INVENTORY_FETCH_BOOTC_PARAMS}=not_nil`;
 export const INVENTORY_FETCH_NON_BOOTC = `${INVENTORY_FETCH_BOOTC_PARAMS}=nil`;
 export const INVENTORY_TOTAL_FETCH_BOOTC_PARAMS = `${INVENTORY_FETCH_BOOTC}&per_page=1`;
+export const INVENTORY_FILTER_NO_HOST_TYPE =
+  'filter[system_profile][host_type]=nil';
 export function subtractDate(days) {
   const date = new Date();
   date.setDate(date.getDate() - days);
