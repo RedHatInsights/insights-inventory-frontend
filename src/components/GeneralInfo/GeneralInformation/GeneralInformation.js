@@ -193,6 +193,16 @@ class GeneralInformation extends Component {
                     />
                   </GridItem>
                 )}
+
+                {this.props.showRuntimesProcesses && entity.fqdn && (
+                  <GridItem>
+                    <AsyncComponent
+                      appName="runtimes"
+                      module="./RuntimesProcessesCard"
+                      hostname={entity.fqdn}
+                    />
+                  </GridItem>
+                )}
               </Grid>
             </GridItem>
             {children}
@@ -227,6 +237,7 @@ GeneralInformation.propTypes = {
         name: PropTypes.string,
       }),
     }),
+    fqdn: PropTypes.string,
   }),
   openedModal: PropTypes.string,
   loadSystemDetail: PropTypes.func,
@@ -271,6 +282,7 @@ GeneralInformation.propTypes = {
   systemProfilePrefetched: PropTypes.bool,
   showImageDetails: PropTypes.bool,
   isBootcHost: PropTypes.bool,
+  showRuntimesProcesses: PropTypes.bool,
 };
 GeneralInformation.defaultProps = {
   entity: {},
@@ -285,6 +297,7 @@ GeneralInformation.defaultProps = {
   CollectionCardWrapper: false,
   systemProfilePrefetched: false,
   showImageDetails: false,
+  showRuntimesProcesses: false,
 };
 
 const GeneralInformationComponent = (props) => {
