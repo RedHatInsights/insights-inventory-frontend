@@ -13,7 +13,7 @@ const Groups = () => {
 
   useEffect(() => {
     chrome?.hideGlobalFilter?.();
-    chrome?.updateDocumentTitle?.('Inventory Groups | Red Hat Insights');
+    chrome?.updateDocumentTitle?.('Groups - Inventory | RHEL', true);
   }, []);
 
   return (

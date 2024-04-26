@@ -69,7 +69,8 @@ const InventoryGroupDetail = ({ groupId }) => {
   useEffect(() => {
     // if available, change ID to the group's name in the window title
     chrome?.updateDocumentTitle?.(
-      `${groupName || groupId} - Inventory Groups | Red Hat Insights`
+      `${groupName || groupId} - Inventory Groups | RHEL`,
+      true
     );
   }, [data]);
 
