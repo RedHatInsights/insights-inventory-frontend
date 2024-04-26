@@ -29,7 +29,11 @@ describe('system_profile', () => {
 
 describe('calculateSystemProfile', () => {
   it('should return nothing if no filters are passed', () => {
-    expect(calculateSystemProfile({})).toEqual({});
+    expect(calculateSystemProfile({})).toEqual({
+      system_profile: {
+        host_type: 'nil',
+      },
+    });
   });
 
   it('should return a system_profile filter with a operating_system filter with OsFilter passed', () => {
@@ -41,6 +45,7 @@ describe('calculateSystemProfile', () => {
             'RHEL-7-7.1': true,
           },
           'RHEL-9': {
+            'RHEL-9': true,
             'RHEL-9-9.6': true,
             'RHEL-9-9.1': true,
           },
@@ -51,6 +56,7 @@ describe('calculateSystemProfile', () => {
       })
     ).toEqual({
       system_profile: {
+        host_type: 'nil',
         operating_system: {
           CentOS: {
             version: {

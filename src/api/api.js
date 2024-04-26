@@ -103,8 +103,21 @@ export const constructTags = (tagFilters) => {
 };
 
 const buildOperatingSystemFilter = (osFilterState = {}) => {
+  const osFilterStateWithoutMajors = Object.fromEntries(
+    Object.entries(osFilterState).map(([majorKey, items]) => {
+      return [
+        majorKey,
+        Object.fromEntries(
+          Object.entries(items).filter(([minorKey]) => {
+            return minorKey !== majorKey;
+          })
+        ),
+      ];
+    })
+  );
+
   return Object.entries(
-    Object.values(osFilterState).reduce(
+    Object.values(osFilterStateWithoutMajors).reduce(
       (acc, item) => ({ ...acc, ...item }),
       {}
     )
@@ -140,8 +153,10 @@ export const calculateSystemProfile = ({
   updateMethodFilter,
   hostTypeFilter,
 }) => {
+  const operating_system = buildOperatingSystemFilter(osFilter);
+
   const system_profile = {
-    ...(hostTypeFilter ? { host_type: hostTypeFilter } : {}),
+    ...(hostTypeFilter ? { host_type: hostTypeFilter } : { host_type: 'nil' }),
     ...(updateMethodFilter
       ? {
           [UPDATE_METHOD_KEY]: {
@@ -150,9 +165,7 @@ export const calculateSystemProfile = ({
         }
       : {}),
     ...(rhcdFilter ? { [RHCD_FILTER_KEY]: rhcdFilter } : {}),
-    ...(osFilter
-      ? { operating_system: buildOperatingSystemFilter(osFilter) }
-      : {}),
+    ...(Object.keys(operating_system).length ? { operating_system } : {}),
   };
 
   return Object.keys(system_profile).length

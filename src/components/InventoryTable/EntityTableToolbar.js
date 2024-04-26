@@ -266,8 +266,6 @@ const EntityTableToolbar = ({
    * Component did mount effect to calculate actual filters from redux.
    */
   useEffect(() => {
-    console.log('CF', customFilters);
-
     const {
       textFilter,
       tagFilters,

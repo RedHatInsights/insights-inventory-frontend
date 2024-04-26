@@ -88,8 +88,6 @@ export const toOsFilterGroups = (
   operatingSystems = [],
   operatingSystemsLoaded
 ) => {
-  // console.log('toOsFilterGroups', { operatingSystems, operatingSystemsLoaded });
-
   if (operatingSystems.length === 0 || !operatingSystemsLoaded) {
     return [{ items: [{ isDisabled: true, label: 'No versions available' }] }];
   } else {
@@ -122,52 +120,64 @@ export const toOsFilterGroups = (
     );
   }
 };
-export const valueToFilterSelection = (operatingSystemsValue) => {
-  return operatingSystemsValue;
+
+const makeGroupSelection = (groupKey, groupSelection, groupItemItems) => {
+  if (groupSelection[groupKey] === false) {
+    return [];
+  } else {
+    return [
+      groupKey,
+      {
+        [groupKey]: true,
+        ...Object.fromEntries(groupItemItems.map(({ value }) => [value, true])),
+      },
+    ];
+  }
 };
 
-export const filterSelectionToValue = (operatingSystemsSelection) => {
-  return operatingSystemsSelection;
-};
-
-export const appendGroupSelection = (selection = {}, groups) => {
-  return Object.fromEntries(
+export const appendGroupSelection = (selection = {}, groups) =>
+  Object.fromEntries(
     Object.entries(selection)
       .map(([groupKey, groupSelection]) => {
-        const selecteAll =
-          groupSelection[groupKey] && groupSelection[groupKey] === true;
-        const deselectAll = groupSelection[groupKey] === false;
-
         const groupItemItems = groups.find(
           ({ value }) => value === groupKey
         )?.items;
-        const selection = Object.fromEntries(
-          selecteAll
-            ? groupItemItems?.map(({ value }) => [value, true])
-            : Object.entries(groupSelection).filter(
-                ([groupItemKey, value]) => !!value && groupItemKey !== groupKey
-              )
+        const selectedGroupItems = Object.fromEntries(
+          Object.entries(groupSelection).filter(([osKey]) => {
+            return osKey !== groupKey;
+          })
         );
-        const selectedItemsCount = Object.keys(selection || {}).length;
+        const appendGroup =
+          Object.keys(selectedGroupItems).length < groupItemItems?.length &&
+          groupSelection[groupKey] === true;
 
-        return (
-          !deselectAll &&
-          selectedItemsCount > 0 && [
+        const removeGroup =
+          Object.keys(selectedGroupItems).length === groupItemItems?.length &&
+          groupSelection[groupKey] === false;
+
+        if (appendGroup) {
+          return makeGroupSelection(groupKey, groupSelection, groupItemItems);
+        } else if (removeGroup) {
+          return [];
+        } else {
+          const selectedMinor = Object.fromEntries(
+            Object.entries(selectedGroupItems).filter(([, v]) => v !== false)
+          );
+
+          return [
             groupKey,
             {
-              ...selection,
               // FIXME (In conditional/group filter component) This returns either null or true
               // If some but not all are selected it should be "null", if all are selected "true"
               // However, due to a bug in the GroupFilter component the null gets cast to a Boolean, but it should not
               [groupKey]:
-                selectedItemsCount < groupItemItems?.length
-                  ? null
-                  : selectedItemsCount === groupItemItems?.length,
+                Object.keys(selectedMinor).length === groupItemItems?.length
+                  ? true
+                  : null,
+              ...selectedMinor,
             },
-          ]
-        );
+          ];
+        }
       })
-      .filter((v) => !!v)
+      .filter(([k, v]) => !!k && !!v)
   );
-};
-//

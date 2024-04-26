@@ -1,10 +1,5 @@
 import { useCallback, useState } from 'react';
-import {
-  appendGroupSelection,
-  filterSelectionToValue,
-  toOsFilterGroups,
-  valueToFilterSelection,
-} from './helpers';
+import { appendGroupSelection, toOsFilterGroups } from './helpers';
 import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
 import { OS_CHIP } from '../../Utilities/constants';
 
@@ -39,16 +34,8 @@ export const useOperatingSystemFilter = (
   const groups = toOsFilterGroups(operatingSystems, operatingSystemsLoaded);
   const setValue = useCallback(
     (newSelection) => {
-      const fullSelections = filterSelectionToValue(newSelection);
       const fullSelection = appendGroupSelection(newSelection, groups);
 
-      console.log(
-        'setValue',
-        newSelection,
-        groups,
-        fullSelection,
-        fullSelections
-      );
       return dispatch
         ? dispatch({ type: OPERATING_SYSTEM_FILTER, payload: fullSelection })
         : setStateValue(fullSelection);
@@ -61,14 +48,14 @@ export const useOperatingSystemFilter = (
     value: 'operating-system-filter',
     type: 'group',
     filterValues: {
-      selected: valueToFilterSelection(operatingSystemsValue),
+      selected: operatingSystemsValue,
       groups,
       onChange: (_e, newSelection) => setValue(newSelection),
     },
   };
 
   const chips = Object.values(operatingSystemsValue)
-    .flatMap((selection) => Object.keys(selection))
+    .flatMap((selection) => Object.keys(selection || {}))
     .map((osVersionValue) =>
       groups
         .flatMap(({ items }) => items)

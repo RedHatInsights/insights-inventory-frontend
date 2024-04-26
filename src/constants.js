@@ -149,11 +149,6 @@ export const getSearchParams = (searchParams) => {
         const osVersion = found[2];
         const [major] = osVersion.split('.');
         const groupName = `${osName}-${major}`;
-        if (!filter[groupName]) {
-          filter[groupName] = {
-            // [groupName]: false,
-          };
-        }
 
         return {
           ...filter,
