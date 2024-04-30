@@ -6,7 +6,7 @@ import BifrostTableRows from './BifrostTableRows';
 
 const NestedHashTable = ({ hashes }) => {
   return (
-    <Table aria-label="Image table" variant="compact">
+    <Table aria-label="Hash commit table" variant="compact">
       <Thead>
         <Tr>
           {hashTableColumns.map((col) => {

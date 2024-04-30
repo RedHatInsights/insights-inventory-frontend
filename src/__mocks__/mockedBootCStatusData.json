@@ -1,0 +1,288 @@
+{
+    "total": 5,
+    "count": 5,
+    "page": 1,
+    "per_page": 50,
+    "results": [
+        {
+            "id": "6de30d78-f052-41d4-b123-125017443a98",
+            "system_profile": {
+                "arch": "x86_64",
+                "cpu_flags": [ "fpu" ],
+                "yum_repos": [
+                    {
+                        "name": "Extra Packages for Enterprise Linux 7 - Testing - $basearch",
+                        "enabled": false,
+                        "gpgcheck": true
+                    }
+                ],
+                "os_release": "7.4",
+                "bios_vendor": "SeaBIOS",
+                "bios_version": "1.10.2-2.fc27",
+                "kernel_modules": [ "veth" ],
+                "last_boot_time": "2018-03-14T17:06:10",
+                "number_of_cpus": 1,
+                "cores_per_socket": 1,
+                "enabled_services": [ "auditd" ],
+                "bios_release_date": "04\/01\/2014",
+                "number_of_sockets": 1,
+                "os_kernel_version": "3.10.0",
+                "running_processes": [ "qmgr" ],
+                "satellite_managed": false,
+                "installed_packages": [ "0:GeoIP-1.5.0-11.el7" ],
+                "installed_services": [ "arp-ethers" ],
+                "network_interfaces": [
+                    {
+                        "mtu": 65536,
+                        "name": "lo",
+                        "type": "loopback",
+                        "state": "UNKNOWN",
+                        "mac_address": "00:00:00:00:00:00",
+                        "ipv4_addresses": [
+                            "127.0.0.1"
+                        ],
+                        "ipv6_addresses": [
+                            "::1"
+                        ]
+                    }
+                ],
+                "infrastructure_type": "virtual",
+                "system_memory_bytes": 512073728,
+                "infrastructure_vendor": "qemu",
+                "system_purpose": {
+                    "usage": "Production"
+                },
+                "bootc_status": {
+                    "booted": {
+                        "image": "India Pale Ale",
+                        "image_digest": "Hazy"
+                    }
+                }
+            }
+        },
+        {
+            "id": "08a06e04-afbb-4e3c-b923-91aa1c17acc1",
+            "system_profile": {
+                "arch": "x86_64",
+                "cpu_flags": [ "fpu" ],
+                "yum_repos": [
+                    {
+                        "name": "Extra Packages for Enterprise Linux 7 - Testing - $basearch",
+                        "enabled": false,
+                        "gpgcheck": true
+                    }
+                ],
+                "os_release": "8.4",
+                "bios_vendor": "SeaBIOS",
+                "bios_version": "1.10.2-2.fc27",
+                "kernel_modules": [ "veth" ],
+                "last_boot_time": "2018-03-14T17:06:10",
+                "number_of_cpus": 1,
+                "cores_per_socket": 1,
+                "enabled_services": [ "auditd" ],
+                "bios_release_date": "04\/01\/2014",
+                "number_of_sockets": 1,
+                "os_kernel_version": "3.10.0",
+                "running_processes": [ "qmgr" ],
+                "satellite_managed": false,
+                "installed_packages": [ "0:GeoIP-1.5.0-11.el7" ],
+                "installed_services": [ "arp-ethers" ],
+                "network_interfaces": [
+                    {
+                        "mtu": 65536,
+                        "name": "lo",
+                        "type": "loopback",
+                        "state": "UNKNOWN",
+                        "mac_address": "00:00:00:00:00:00",
+                        "ipv4_addresses": [
+                            "127.0.0.1"
+                        ],
+                        "ipv6_addresses": [
+                            "::1"
+                        ]
+                    }
+                ],
+                "infrastructure_type": "virtual",
+                "system_memory_bytes": 512073728,
+                "infrastructure_vendor": "qemu",
+                "system_purpose": {
+                    "usage": "Production"
+                },
+                "bootc_status": {
+                    "booted": {
+                        "image": "India Pale Ale",
+                        "image_digest": "Hazy"
+                    }
+                }
+            }
+        },
+        {
+            "id": "4ef68d04-79fa-42ea-a0fe-b40ee257ff0e",
+            "system_profile": {
+                "arch": "x86_64",
+                "cpu_flags": [ "fpu" ],
+                "yum_repos": [
+                    {
+                        "name": "Extra Packages for Enterprise Linux 7 - Testing - $basearch",
+                        "enabled": false,
+                        "gpgcheck": true
+                    }
+                ],
+                "os_release": "8.5",
+                "bios_vendor": "SeaBIOS",
+                "bios_version": "1.10.2-2.fc27",
+                "kernel_modules": [ "veth" ],
+                "last_boot_time": "2018-03-14T17:06:10",
+                "number_of_cpus": 1,
+                "cores_per_socket": 1,
+                "enabled_services": [ "auditd" ],
+                "bios_release_date": "04\/01\/2014",
+                "number_of_sockets": 1,
+                "os_kernel_version": "3.10.0",
+                "running_processes": [ "qmgr" ],
+                "satellite_managed": false,
+                "installed_packages": [ "0:GeoIP-1.5.0-11.el7" ],
+                "installed_services": [ "arp-ethers" ],
+                "network_interfaces": [
+                    {
+                        "mtu": 65536,
+                        "name": "lo",
+                        "type": "loopback",
+                        "state": "UNKNOWN",
+                        "mac_address": "00:00:00:00:00:00",
+                        "ipv4_addresses": [
+                            "127.0.0.1"
+                        ],
+                        "ipv6_addresses": [
+                            "::1"
+                        ]
+                    }
+                ],
+                "infrastructure_type": "virtual",
+                "system_memory_bytes": 512073728,
+                "infrastructure_vendor": "qemu",
+                "system_purpose": {
+                    "usage": "Production"
+                },
+                "bootc_status": {
+                    "booted": {
+                        "image": "India Pale Ale",
+                        "image_digest": "West Coast"
+                    }
+                }
+            }
+        },
+        {
+            "id": "b6197999-06f8-4301-a936-651832aa8b31",
+            "system_profile": {
+                "arch": "x86_64",
+                "cpu_flags": [ "fpu" ],
+                "yum_repos": [
+                    {
+                        "name": "Extra Packages for Enterprise Linux 7 - Testing - $basearch",
+                        "enabled": false,
+                        "gpgcheck": true
+                    }
+                ],
+                "os_release": "8.5",
+                "bios_vendor": "SeaBIOS",
+                "bios_version": "1.10.2-2.fc27",
+                "kernel_modules": [ "veth" ],
+                "last_boot_time": "2018-03-14T17:06:10",
+                "number_of_cpus": 1,
+                "cores_per_socket": 1,
+                "enabled_services": [ "auditd" ],
+                "bios_release_date": "04\/01\/2014",
+                "number_of_sockets": 1,
+                "os_kernel_version": "3.10.0",
+                "running_processes": [ "qmgr" ],
+                "satellite_managed": false,
+                "installed_packages": [ "0:GeoIP-1.5.0-11.el7" ],
+                "installed_services": [ "arp-ethers" ],
+                "network_interfaces": [
+                    {
+                        "mtu": 65536,
+                        "name": "lo",
+                        "type": "loopback",
+                        "state": "UNKNOWN",
+                        "mac_address": "00:00:00:00:00:00",
+                        "ipv4_addresses": [
+                            "127.0.0.1"
+                        ],
+                        "ipv6_addresses": [
+                            "::1"
+                        ]
+                    }
+                ],
+                "infrastructure_type": "virtual",
+                "system_memory_bytes": 512073728,
+                "infrastructure_vendor": "qemu",
+                "system_purpose": {
+                    "usage": "Production"
+                },
+                "bootc_status": {
+                    "booted": {
+                        "image": "Belgian",
+                        "image_digest": "Dubbel"
+                    }
+                }
+            }
+        },
+        {
+            "id": "8499b198-5352-4eda-8650-ca09e002fdc1",
+            "system_profile": {
+                "arch": "x86_64",
+                "cpu_flags": [ "fpu" ],
+                "yum_repos": [
+                    {
+                        "name": "Extra Packages for Enterprise Linux 7 - Testing - $basearch",
+                        "enabled": false,
+                        "gpgcheck": true
+                    }
+                ],
+                "os_release": "8.2",
+                "bios_vendor": "SeaBIOS",
+                "bios_version": "1.10.2-2.fc27",
+                "kernel_modules": [ "veth" ],
+                "last_boot_time": "2018-03-14T17:06:10",
+                "number_of_cpus": 1,
+                "cores_per_socket": 1,
+                "enabled_services": [ "auditd" ],
+                "bios_release_date": "04\/01\/2014",
+                "number_of_sockets": 1,
+                "os_kernel_version": "3.10.0",
+                "running_processes": [ "qmgr" ],
+                "satellite_managed": false,
+                "installed_packages": [ "0:GeoIP-1.5.0-11.el7" ],
+                "installed_services": [ "arp-ethers" ],
+                "network_interfaces": [
+                    {
+                        "mtu": 65536,
+                        "name": "lo",
+                        "type": "loopback",
+                        "state": "UNKNOWN",
+                        "mac_address": "00:00:00:00:00:00",
+                        "ipv4_addresses": [
+                            "127.0.0.1"
+                        ],
+                        "ipv6_addresses": [
+                            "::1"
+                        ]
+                    }
+                ],
+                "infrastructure_type": "virtual",
+                "system_memory_bytes": 512073728,
+                "infrastructure_vendor": "qemu",
+                "system_purpose": {
+                    "usage": "Production"
+                },
+                "bootc_status": {
+                    "booted": {
+                        "image": "Stout",
+                        "image_digest": "Bourbon Barrell Aged"
+                    }
+                }
+            }
+        }
+    ]
+}
