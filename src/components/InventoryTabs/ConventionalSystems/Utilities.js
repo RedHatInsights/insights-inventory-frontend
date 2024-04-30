@@ -28,7 +28,10 @@ const filterMapper = {
         keyParts.slice(0, keyParts.length - 2).join(' '),
         keyParts[keyParts.length - 1],
       ];
-      searchParams.append('operating_system', `${osName}${value}`);
+
+      if (value && osName) {
+        searchParams.append('operating_system', `${osName}${value}`);
+      }
     });
   },
   registeredWithFilter: ({ registeredWithFilter }, searchParams) =>
