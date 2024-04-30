@@ -405,14 +405,54 @@ export const systemStalenessItems = (activeTabKey) => {
 export const systemStalenessWarningItems = (activeTabKey) => {
   return [
     {
-      name: '7 days',
-      value: 7,
+      name: '2 days',
+      value: 2,
       apiKey: activeTabKey
         ? 'immutable_time_to_stale_warning'
         : 'conventional_time_to_stale_warning',
       title: 'System stale warning',
       modalMessage:
         'A stale warning status on a system indicates that your system has not checked-in in a while, and is at risk of being deleted from your inventory.',
+    },
+    {
+      name: '3 days',
+      value: 3,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+      title: 'System stale warning',
+    },
+    {
+      name: '4 days',
+      value: 4,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+      title: 'System stale warning',
+    },
+    {
+      name: '5 days',
+      value: 5,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+      title: 'System stale warning',
+    },
+    {
+      name: '6 days',
+      value: 6,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+      title: 'System stale warning',
+    },
+    {
+      name: '7 days',
+      value: 7,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+      title: 'System stale warning',
     },
     {
       name: '14 days',
@@ -476,14 +516,54 @@ export const systemStalenessWarningItems = (activeTabKey) => {
 export const systemDeletionItems = (activeTabKey) => {
   return [
     {
-      name: '14 days',
-      value: 14,
+      name: '3 days',
+      value: 3,
       apiKey: activeTabKey
         ? 'immutable_time_to_delete'
         : 'conventional_time_to_delete',
       title: 'System deletion',
       modalMessage:
         'This is the time at which your system will be deleted from your inventory. Once your system is deleted, it will have to be re-registered to be added back to your inventory.',
+    },
+    {
+      name: '4 days',
+      value: 4,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+      title: 'System deletion',
+    },
+    {
+      name: '5 days',
+      value: 5,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+      title: 'System deletion',
+    },
+    {
+      name: '6 days',
+      value: 6,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+      title: 'System deletion',
+    },
+    {
+      name: '7 days',
+      value: 7,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+      title: 'System deletion',
+    },
+    {
+      name: '14 days',
+      value: 14,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+      title: 'System deletion',
     },
     {
       name: '21 days',
