@@ -63,6 +63,7 @@ const ConventionalSystemsTab = ({
   initialLoading,
   hasAccess,
   hostGroupFilter,
+  systemTypeFilter,
 }) => {
   const chrome = useChrome();
   const inventory = useRef(null);
@@ -78,7 +79,8 @@ const ConventionalSystemsTab = ({
       rhcdFilter,
       updateMethodFilter,
       hostGroupFilter,
-      lastSeenFilter
+      lastSeenFilter,
+      systemTypeFilter
     )
   );
   const [ediOpen, onEditOpen] = useState(false);
@@ -159,6 +161,7 @@ const ConventionalSystemsTab = ({
   return (
     <Fragment>
       <InventoryTableCmp
+        showSystemTypeFilter
         hasAccess={hasAccess}
         isRbacEnabled
         customFilters={{ filters, globalFilter }}
@@ -359,6 +362,10 @@ ConventionalSystemsTab.propTypes = {
     PropTypes.string,
   ]),
   lastSeenFilter: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  systemTypeFilter: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),

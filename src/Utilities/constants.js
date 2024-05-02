@@ -8,6 +8,7 @@ export const REGISTERED_CHIP = 'registered_with';
 export const OS_CHIP = 'operating_system';
 export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const UPDATE_METHOD_KEY = 'system_update_method';
+export const SYSTEM_TYPE_KEY = 'system_type';
 export const LAST_SEEN_CHIP = 'last_seen';
 export const HOST_GROUP_CHIP = 'group_name'; // use the same naming as for the back end parameter
 //REPORTERS
@@ -103,6 +104,17 @@ const initUpdateMethodOptions = [
 ];
 
 export const updateMethodOptions = initUpdateMethodOptions;
+
+export const systemTypeOptions = [
+  {
+    label: 'Package mode',
+    value: 'nil',
+  },
+  {
+    label: 'Image mode',
+    value: 'not_nil',
+  },
+];
 
 export function filterToGroup(filter = [], valuesKey = 'values') {
   return filter.reduce(
