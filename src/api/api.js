@@ -110,6 +110,7 @@ export const calculateSystemProfile = ({
   rhcdFilter,
   updateMethodFilter,
   hostTypeFilter,
+  systemTypeFilter,
 }) => {
   let systemProfile = {};
   const osFilterValues = Array.isArray(osFilter)
@@ -166,6 +167,16 @@ export const calculateSystemProfile = ({
     systemProfile['host_type'] = 'nil';
   }
 
+  if (systemTypeFilter?.length) {
+    systemProfile.bootc_status = {
+      booted: {
+        image_digest: {
+          is: systemTypeFilter,
+        },
+      },
+    };
+  }
+
   return generateFilter({
     system_profile: systemProfile,
   });
@@ -188,6 +199,9 @@ export const filtersReducer = (acc, filter = {}) => ({
   }),
   ...('hostGroupFilter' in filter && {
     hostGroupFilter: filter.hostGroupFilter,
+  }),
+  ...('systemTypeFilter' in filter && {
+    systemTypeFilter: filter.systemTypeFilter,
   }),
 });
 

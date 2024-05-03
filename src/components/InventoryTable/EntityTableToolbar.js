@@ -32,6 +32,7 @@ import {
   TEXT_FILTER,
   TagsModal,
   UPDATE_METHOD_KEY,
+  SYSTEM_TYPE_KEY,
   arrayToSelection,
   reduceFilters,
 } from '../../Utilities/index';
@@ -60,6 +61,9 @@ import {
   useTagsFilter,
   useTextFilter,
   useUpdateMethodFilter,
+  useSystemTypeFilter,
+  systemTypeFilterReducer,
+  systemTypeFilterState,
 } from '../filters';
 import useOperatingSystemFilter from '../filters/useOperatingSystemFilter';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
@@ -93,6 +97,7 @@ const EntityTableToolbar = ({
   onRefreshData,
   loaded,
   showTagModal,
+  showSystemTypeFilter,
   showCentosVersions,
   ...props
 }) => {
@@ -108,6 +113,7 @@ const EntityTableToolbar = ({
       lastSeenFilterReducer,
       updateMethodFilterReducer,
       groupFilterReducer,
+      systemTypeFilterReducer,
     ]),
     {
       ...textFilterState,
@@ -118,6 +124,7 @@ const EntityTableToolbar = ({
       ...updateMethodFilterState,
       ...lastSeenFilterState,
       ...groupFilterState,
+      ...systemTypeFilterState,
     }
   );
   const filters = useSelector(
@@ -185,6 +192,12 @@ const EntityTableToolbar = ({
     reducer
   );
 
+  const [
+    systemTypeConfig,
+    systemTypeChips,
+    systemTypeValue,
+    setSystemTypeValue,
+  ] = useSystemTypeFilter(reducer);
   /**
    * Debounced function for fetching all tags.
    */
@@ -230,6 +243,9 @@ const EntityTableToolbar = ({
     hostGroupFilter:
       !(hideFilters.all && hideFilters.hostGroupFilter !== false) &&
       !hideFilters.hostGroupFilter,
+    systemTypeFilter:
+      !(hideFilters.all && hideFilters.systemTypeFilter !== false) &&
+      !hideFilters.systemTypeFilter,
   };
 
   /**
@@ -282,6 +298,7 @@ const EntityTableToolbar = ({
       lastSeenFilter,
       updateMethodFilter,
       hostGroupFilter,
+      systemTypeFilter,
     } = reduceFilters([...(filters || []), ...(customFilters?.filters || [])]);
 
     debouncedRefresh();
@@ -296,6 +313,7 @@ const EntityTableToolbar = ({
       setUpdateMethodValue(updateMethodFilter);
     enabledFilters.lastSeenFilter && setLastSeenFilterValue(lastSeenFilter);
     enabledFilters.hostGroupFilter && setHostGroupValue(hostGroupFilter);
+    enabledFilters.systemTypeFilter && setHostGroupValue(systemTypeFilter);
   }, []);
 
   /**
@@ -402,6 +420,12 @@ const EntityTableToolbar = ({
     }
   }, [hostGroupValue]);
 
+  useEffect(() => {
+    if (shouldReload && enabledFilters.systemTypeFilter) {
+      onSetFilter(systemTypeValue, 'systemTypeFilter', debouncedRefresh);
+    }
+  }, [systemTypeValue]);
+
   /**
    * Mapper to simplify removing of any filter.
    */
@@ -437,6 +461,8 @@ const EntityTableToolbar = ({
       setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
     [HOST_GROUP_CHIP]: (deleted) =>
       setHostGroupValue(onDeleteFilter(deleted, hostGroupValue)),
+    [SYSTEM_TYPE_KEY]: (deleted) =>
+      setSystemTypeValue(onDeleteFilter(deleted, systemTypeValue)),
   };
   /**
    * Function to reset all filters with 'Reset Filter' is clicked
@@ -451,6 +477,7 @@ const EntityTableToolbar = ({
     enabledFilters.lastSeenFilter && setLastSeenFilterValue([]);
     enabledFilters.updateMethodFilter && setUpdateMethodValue([]);
     enabledFilters.hostGroupFilter && setHostGroupValue([]);
+    enabledFilters.systemTypeFilter && setSystemTypeValue([]);
     setEndDate();
     setStartDate(oldestDate);
     dispatch(setFilter([]));
@@ -475,6 +502,9 @@ const EntityTableToolbar = ({
           : []),
         ...(!hasItems && enabledFilters.lastSeenFilter ? lastSeenChip : []),
         ...(!hasItems && enabledFilters.hostGroupFilter ? hostGroupChips : []),
+        ...(showSystemTypeFilter && !hasItems && enabledFilters.systemTypeFilter
+          ? systemTypeChips
+          : []),
         ...(activeFiltersConfig?.filters || []),
       ],
       onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -503,6 +533,9 @@ const EntityTableToolbar = ({
           ...(enabledFilters.updateMethodFilter ? [updateMethodConfig] : []),
           ...(enabledFilters.lastSeenFilter ? [lastSeenFilter] : []),
           ...(enabledFilters.hostGroupFilter ? [hostGroupConfig] : []),
+          ...(showSystemTypeFilter && enabledFilters.systemTypeFilter
+            ? [systemTypeConfig]
+            : []),
           ...(showTags && enabledFilters.tags ? [tagsFilter] : []),
         ]
       : []),
@@ -635,6 +668,7 @@ EntityTableToolbar.propTypes = {
     lastSeen: PropTypes.bool,
     updateMethodFilter: PropTypes.bool,
     hostGroupFilter: PropTypes.bool,
+    systemTypeFilter: PropTypes.bool,
     all: PropTypes.bool,
   }),
   paginationProps: PropTypes.object,
@@ -649,6 +683,7 @@ EntityTableToolbar.propTypes = {
   disableDefaultColumns: PropTypes.any,
   showCentosVersions: PropTypes.bool,
   showNoGroupOption: PropTypes.bool,
+  showSystemTypeFilter: PropTypes.bool,
 };
 
 EntityTableToolbar.defaultProps = {
