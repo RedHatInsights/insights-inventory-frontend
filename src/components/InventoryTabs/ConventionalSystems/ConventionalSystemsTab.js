@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../../store/actions';
@@ -26,6 +32,8 @@ import uniq from 'lodash/uniq';
 import useTableActions from './useTableActions';
 import useGlobalFilter from '../../filters/useGlobalFilter';
 import useOnRefresh from '../../filters/useOnRefresh';
+import useFeatureFlag from '../../../Utilities/useFeatureFlag';
+import { AccountStatContext } from '../../../Routes';
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
   const requiredPermissions = selectedSystems.map(({ groups }) =>
@@ -158,10 +166,12 @@ const ConventionalSystemsTab = ({
     setAddHostGroupModalOpen
   );
 
+  const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
+  const { hasBootcImages } = useContext(AccountStatContext);
   return (
     <Fragment>
       <InventoryTableCmp
-        showSystemTypeFilter
+        showSystemTypeFilter={isBootcEnabled && hasBootcImages}
         hasAccess={hasAccess}
         isRbacEnabled
         customFilters={{ filters, globalFilter }}
