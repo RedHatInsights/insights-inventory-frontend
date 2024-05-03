@@ -22,6 +22,13 @@ export const BootcImageCard = ({ handleClick, extra }) => {
         ...[{ title: 'Booted Image Digest', value: bootc.bootedImageDigest }],
         ...[{ title: 'Staged Image', value: bootc.stagedImage }],
         ...[{ title: 'Staged Image Digest', value: bootc.stagedImageDigest }],
+        ...[{ title: 'Available Image', value: bootc.availableImage }],
+        ...[
+          {
+            title: 'Available Image Digest',
+            value: bootc.availableImageDigest,
+          },
+        ],
         ...[{ title: 'Rollback Image', value: bootc.rollbackImage }],
         ...[
           { title: 'Rollback Image Digest', value: bootc.rollbackImageDigest },
@@ -43,6 +50,8 @@ BootcImageCard.propTypes = {
     bootedImageDigest: PropTypes.string,
     stagedImage: PropTypes.string,
     stagedImageDigest: PropTypes.string,
+    availableImage: PropTypes.string,
+    availableImageDigest: PropTypes.string,
     rollbackImage: PropTypes.string,
     rollbackImageDigest: PropTypes.string,
   }),
