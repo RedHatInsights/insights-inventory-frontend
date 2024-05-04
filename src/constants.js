@@ -158,6 +158,7 @@ export const getSearchParams = (searchParams) => {
   const page = searchParams.get('page');
   const perPage = searchParams.get('per_page');
   const lastSeenFilter = searchParams.getAll('last_seen');
+  const systemTypeFilter = searchParams.getAll('system_type');
   return {
     status,
     source,
@@ -170,6 +171,7 @@ export const getSearchParams = (searchParams) => {
     page,
     perPage,
     hostGroupFilter,
+    systemTypeFilter,
   };
 };
 
