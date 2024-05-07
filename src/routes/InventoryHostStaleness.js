@@ -21,8 +21,7 @@ const HostStaleness = () => {
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(
-      'Staleness and Deletion - System Configuration',
-      true
+      'Staleness and Deletion - System Configuration'
     );
     chrome.hideGlobalFilter(true);
   }, []);
