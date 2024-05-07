@@ -5,7 +5,7 @@ import {
 } from '../../Utilities/index';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
-export const updateMethodFilterState = { updateMethodFilter: null };
+export const updateMethodFilterState = { updateMethodFilter: [] };
 export const UPDATE_METHOD_FILTER = 'UPDATE_METHOD_FILTER';
 export const updateMethodFilterReducer = (_state, { type, payload }) => ({
   ...(type === UPDATE_METHOD_FILTER && {
