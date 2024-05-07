@@ -60,7 +60,6 @@ const TitleColumn = ({ children, id, item, ...props }) => (
                 <FontAwesomeImageIcon
                   fill="var(--pf-v5-global--icon--Color--light)"
                   margin="0px"
-                  aria-label="Image mode icon"
                 />
               </Icon>
             </Popover>
@@ -78,10 +77,7 @@ const TitleColumn = ({ children, id, item, ...props }) => (
               }
             >
               <Icon style={{ marginRight: '8px' }}>
-                <BundleIcon
-                  color="var(--pf-v5-global--icon--Color--light)"
-                  aria-label="Package mode icon"
-                />
+                <BundleIcon color="var(--pf-v5-global--icon--Color--light)" />
               </Icon>
             </Popover>
           )}
