@@ -1,0 +1,373 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BootcImageCard should render correctly - no data 1`] = `
+<DocumentFragment>
+  <div
+    class="pf-v5-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF5/Card"
+    data-ouia-safe="true"
+    id=""
+  >
+    <div
+      class="pf-v5-c-card__body"
+    >
+      <div
+        class="pf-v5-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-v5-l-stack__item"
+        >
+          <div
+            class="pf-v5-c-content"
+          >
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF5/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
+            >
+              BOOTC
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-v5-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-v5-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                aria-label="Booted Image title"
+                class=""
+                data-ouia-component-id="Booted Image title"
+              >
+                Booted Image
+              </dt>
+              <dd
+                aria-label="Booted Image value"
+                class=""
+                data-ouia-component-id="Booted Image value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="Booted Image Digest title"
+                class=""
+                data-ouia-component-id="Booted Image Digest title"
+              >
+                Booted Image Digest
+              </dt>
+              <dd
+                aria-label="Booted Image Digest value"
+                class=""
+                data-ouia-component-id="Booted Image Digest value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="Staged Image title"
+                class=""
+                data-ouia-component-id="Staged Image title"
+              >
+                Staged Image
+              </dt>
+              <dd
+                aria-label="Staged Image value"
+                class=""
+                data-ouia-component-id="Staged Image value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="Staged Image Digest title"
+                class=""
+                data-ouia-component-id="Staged Image Digest title"
+              >
+                Staged Image Digest
+              </dt>
+              <dd
+                aria-label="Staged Image Digest value"
+                class=""
+                data-ouia-component-id="Staged Image Digest value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="Available Image title"
+                class=""
+                data-ouia-component-id="Available Image title"
+              >
+                Available Image
+              </dt>
+              <dd
+                aria-label="Available Image value"
+                class=""
+                data-ouia-component-id="Available Image value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="Available Image Digest title"
+                class=""
+                data-ouia-component-id="Available Image Digest title"
+              >
+                Available Image Digest
+              </dt>
+              <dd
+                aria-label="Available Image Digest value"
+                class=""
+                data-ouia-component-id="Available Image Digest value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="Rollback Image title"
+                class=""
+                data-ouia-component-id="Rollback Image title"
+              >
+                Rollback Image
+              </dt>
+              <dd
+                aria-label="Rollback Image value"
+                class=""
+                data-ouia-component-id="Rollback Image value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
+                aria-label="Rollback Image Digest title"
+                class=""
+                data-ouia-component-id="Rollback Image Digest title"
+              >
+                Rollback Image Digest
+              </dt>
+              <dd
+                aria-label="Rollback Image Digest value"
+                class=""
+                data-ouia-component-id="Rollback Image Digest value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`BootcImageCard should render correctly with data 1`] = `
+<DocumentFragment>
+  <div
+    class="pf-v5-c-card"
+    data-ouia-component-id="system-properties-card"
+    data-ouia-component-type="PF5/Card"
+    data-ouia-safe="true"
+    id=""
+  >
+    <div
+      class="pf-v5-c-card__body"
+    >
+      <div
+        class="pf-v5-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-v5-l-stack__item"
+        >
+          <div
+            class="pf-v5-c-content"
+          >
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF5/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
+            >
+              BOOTC
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-v5-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-v5-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                aria-label="Booted Image title"
+                class=""
+                data-ouia-component-id="Booted Image title"
+              >
+                Booted Image
+              </dt>
+              <dd
+                aria-label="Booted Image value"
+                class=""
+                data-ouia-component-id="Booted Image value"
+              >
+                quay.io:5000/bootc-insights:latest
+              </dd>
+              <dt
+                aria-label="Booted Image Digest title"
+                class=""
+                data-ouia-component-id="Booted Image Digest title"
+              >
+                Booted Image Digest
+              </dt>
+              <dd
+                aria-label="Booted Image Digest value"
+                class=""
+                data-ouia-component-id="Booted Image Digest value"
+              >
+                sha256:8fa5b818d1560c7d15d8744069651b671acd13ec5290c2bb55d1fae2492fcb5f
+              </dd>
+              <dt
+                aria-label="Staged Image title"
+                class=""
+                data-ouia-component-id="Staged Image title"
+              >
+                Staged Image
+              </dt>
+              <dd
+                aria-label="Staged Image value"
+                class=""
+                data-ouia-component-id="Staged Image value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Staged Image Digest title"
+                class=""
+                data-ouia-component-id="Staged Image Digest title"
+              >
+                Staged Image Digest
+              </dt>
+              <dd
+                aria-label="Staged Image Digest value"
+                class=""
+                data-ouia-component-id="Staged Image Digest value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Available Image title"
+                class=""
+                data-ouia-component-id="Available Image title"
+              >
+                Available Image
+              </dt>
+              <dd
+                aria-label="Available Image value"
+                class=""
+                data-ouia-component-id="Available Image value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Available Image Digest title"
+                class=""
+                data-ouia-component-id="Available Image Digest title"
+              >
+                Available Image Digest
+              </dt>
+              <dd
+                aria-label="Available Image Digest value"
+                class=""
+                data-ouia-component-id="Available Image Digest value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Rollback Image title"
+                class=""
+                data-ouia-component-id="Rollback Image title"
+              >
+                Rollback Image
+              </dt>
+              <dd
+                aria-label="Rollback Image value"
+                class=""
+                data-ouia-component-id="Rollback Image value"
+              >
+                quay.io:5000/bootc-insights:latest
+              </dd>
+              <dt
+                aria-label="Rollback Image Digest title"
+                class=""
+                data-ouia-component-id="Rollback Image Digest title"
+              >
+                Rollback Image Digest
+              </dt>
+              <dd
+                aria-label="Rollback Image Digest value"
+                class=""
+                data-ouia-component-id="Rollback Image Digest value"
+              >
+                sha256:99dec597bd1e95565d9df181cab9bf0278b15e79a613dbd0a357d60f295e9a72
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

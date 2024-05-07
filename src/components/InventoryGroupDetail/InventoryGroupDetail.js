@@ -68,10 +68,7 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   useEffect(() => {
     // if available, change ID to the group's name in the window title
-    chrome?.updateDocumentTitle?.(
-      `${groupName || groupId} - Inventory Groups | RHEL`,
-      true
-    );
+    chrome?.updateDocumentTitle?.(`${groupName || groupId} - Inventory Groups`);
   }, [data]);
 
   // TODO: append search parameter to identify the active tab

@@ -77,6 +77,11 @@ export const biosSelector = ({
 export const bootcSelector = ({ bootc_status } = {}) => ({
   bootedImage: bootc_status?.booted?.image,
   bootedImageDigest: bootc_status?.booted?.image_digest,
+  availableImage:
+    bootc_status?.staged?.cached_image || bootc_status?.booted?.cached_image,
+  availableImageDigest:
+    bootc_status?.staged?.cached_image_digest ||
+    bootc_status?.booted?.cached_image_digest,
   stagedImage: bootc_status?.staged?.image,
   stagedImageDigest: bootc_status?.staged?.image_digest,
   rollbackImage: bootc_status?.rollback?.image,
