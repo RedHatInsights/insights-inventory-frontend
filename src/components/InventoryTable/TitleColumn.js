@@ -60,6 +60,7 @@ const TitleColumn = ({ children, id, item, ...props }) => (
                 <FontAwesomeImageIcon
                   fill="var(--pf-v5-global--icon--Color--light)"
                   margin="0px"
+                  aria-label="Image mode icon"
                 />
               </Icon>
             </Popover>
@@ -72,13 +73,15 @@ const TitleColumn = ({ children, id, item, ...props }) => (
                   Package mode is a familiar RHEL experience across any
                   footprint where the OS is assembled and updated from rpm
                   packages. This is traditionally how RHEL is deployed and will
-                  remain the preferred method for many. Package mode is not
-                  going away.
+                  remain the preferred method for many.
                 </div>
               }
             >
               <Icon style={{ marginRight: '8px' }}>
-                <BundleIcon color="var(--pf-v5-global--icon--Color--light)" />
+                <BundleIcon
+                  color="var(--pf-v5-global--icon--Color--light)"
+                  aria-label="Package mode icon"
+                />
               </Icon>
             </Popover>
           )}
