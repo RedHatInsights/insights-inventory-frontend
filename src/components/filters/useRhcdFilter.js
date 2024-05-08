@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RHCD_FILTER_KEY, rhcdOptions } from '../../Utilities/index';
 
-export const rhcdFilterState = { rhcdFilter: null };
+export const rhcdFilterState = { rhcdFilter: [] };
 export const RHCD_FILTER = 'RHCD_FILTER';
 export const rhcdFilterReducer = (_state, { type, payload }) => ({
   ...(type === RHCD_FILTER && {

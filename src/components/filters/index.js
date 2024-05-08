@@ -7,7 +7,6 @@ export * from './useRhcdFilter';
 export * from './useUpdateMethodFilter';
 export * from './useLastSeenFilter';
 export * from './useGroupFilter';
-export * from './useSystemTypeFilter';
 export const filtersReducer = (reducersList) => (state, action) =>
   reducersList.reduce(
     (acc, curr) => ({
