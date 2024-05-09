@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Flex, FlexItem, Popover } from '@patternfly/react-core';
-import { Select, SelectOption } from '@patternfly/react-core/deprecated';
+import {
+  Button,
+  Flex,
+  FlexItem,
+  MenuToggle,
+  Popover,
+  Select,
+  SelectOption,
+} from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';
 import { conditionalDropdownError, formValidation } from './constants';
@@ -35,6 +42,34 @@ const BaseDropdown = ({
     formValidation(newFormValues, setIsFormValid);
   }, [edit, currentItem]);
 
+  const onToggleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const toggle = (toggleRef) => {
+    const getNameByValue = (value) => {
+      for (const obj of dropdownItems) {
+        if (obj.value === value) {
+          return obj.name;
+        }
+      }
+    };
+    return (
+      <MenuToggle
+        ref={toggleRef}
+        onClick={onToggleClick}
+        isExpanded={isOpen}
+        isDisabled={disabled}
+        style={{
+          width: '200px',
+        }}
+        status={!isFormValid && 'danger'}
+      >
+        {getNameByValue(selected)}
+      </MenuToggle>
+    );
+  };
+
   return (
     <React.Fragment>
       <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
@@ -66,14 +101,13 @@ const BaseDropdown = ({
           <Select
             isOpen={isOpen}
             onSelect={onSelect}
-            onToggle={() => setIsOpen(!isOpen)}
-            isDisabled={disabled}
+            toggle={toggle}
             selections={selected}
-            width={'200px'}
-            validated={!isFormValid && 'error'}
+            isScrollable
           >
             {dropdownItems.map((item) => (
               <SelectOption
+                isDisabled={disabled}
                 key={item.name}
                 value={item.value}
                 onClick={() => updateFilter(item)}
