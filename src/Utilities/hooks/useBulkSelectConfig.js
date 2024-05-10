@@ -91,17 +91,19 @@ export const useBulkSelectConfig = (
     onSelect: (value) => {
       onSelectRows(0, value);
     },
-    toggleProps: {
-      children: isBulkLoading ? (
-        [
-          <Fragment key="sd">
-            <Spinner size="sm" />
-            <span id="bulk-select-systems-toggle-checkbox-text">{`${calculateSelected()} selected`}</span>
-          </Fragment>,
-        ]
-      ) : calculateSelected() > 0 ? (
-        <span id="bulk-select-systems-toggle-checkbox-text">{`${calculateSelected()} selected`}</span>
-      ) : null,
-    },
+    ...(isBulkLoading
+      ? {
+          isDisabled: isBulkLoading,
+          toggleProps: {
+            children: [
+              <Fragment key="sd">
+                <Spinner size="md" />
+                &nbsp;
+                <span id="bulk-select-systems-toggle-checkbox-text">{`${calculateSelected()} selected`}</span>
+              </Fragment>,
+            ],
+          },
+        }
+      : {}),
   };
 };
