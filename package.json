@@ -136,12 +136,10 @@
     "server:ctr": "node src/server/generateServerKey.js",
     "start": "fec dev",
     "start:proxy": "PROXY=true fec dev",
-    "travis:build": "NODE_ENV=production webpack --config fec.webpack.config.js",
-    "travis:verify": "npm-run-all travis:build lint test",
+    "travis:verify": "npm-run-all build lint test",
     "verify": "npm-run-all build lint test",
     "verify:local": "npm-run-all build lint test:local test:ct",
     "nightly": "npm run travis:verify",
-    "start:federated": "fec static --config fec.webpack.config.js",
     "test:ct": "BABEL_ENV=componentTest cypress run --component --browser chrome",
     "test:openct": "BABEL_ENV=componentTest cypress open --component",
     "test:openct:mock": "MOCK=true npm run test:openct",
@@ -151,9 +149,8 @@
     "start:mock:beta": "MOCK=true npm run start:proxy:beta",
     "prepare": "husky install",
     "commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
-    "postinstall": "ts-patch install",
-    "patch-hosts": "fec patch-etc-hosts"
-  },
+    "postinstall": "ts-patch install"
+    },
   "insights": {
     "appname": "inventory"
   },

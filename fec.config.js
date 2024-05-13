@@ -9,7 +9,6 @@ module.exports = {
   appName,
   appUrl: `/${bundle}/${appName}`,
   useProxy: process.env.PROXY === 'true',
-  interceptChromeConfig: false,
   debug: true,
   plugins: [
     new webpack.DefinePlugin({
