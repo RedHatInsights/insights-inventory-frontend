@@ -10,7 +10,7 @@ export WORKSPACE=${WORKSPACE:-$APP_ROOT} # if running in jenkins, use the build'
 export IMAGE_TAG=$(git rev-parse --short=7 HEAD)
 export GIT_COMMIT=$(git rev-parse HEAD)
 export APP_ROOT=$(pwd)
-export NODE_BUILD_VERSION=15
+export NODE_BUILD_VERSION=18
 COMMON_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master
 
 

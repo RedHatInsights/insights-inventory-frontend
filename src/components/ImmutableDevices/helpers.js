@@ -12,11 +12,13 @@ import {
   TimesCircleIcon,
   UnknownIcon,
 } from '@patternfly/react-icons';
-import dangerColor from '@patternfly/react-tokens/dist/esm/global_danger_color_100';
-import warningColor from '@patternfly/react-tokens/dist/esm/global_warning_color_100';
-import successColor from '@patternfly/react-tokens/dist/esm/global_success_color_100';
-import infoColor from '@patternfly/react-tokens/dist/esm/global_info_color_100';
-import activeColor from '@patternfly/react-tokens/dist/esm/global_active_color_100';
+import {
+  dangerColor,
+  successColor,
+  warningColor,
+  infoColor,
+  activeColor,
+} from '@patternfly/react-tokens';
 
 export const colorMapper = {
   green: successColor.value,
