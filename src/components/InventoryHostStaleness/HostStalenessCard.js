@@ -194,7 +194,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
         <Card id={'HostStalenessCard'}>
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
-              Organization level system staleness and deletion
+              Organization level system staleness and removal
               <InventoryHostStalenessPopover hasEdgeSystems={hasEdgeSystems} />
             </Title>
           </CardHeader>
@@ -364,7 +364,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   ouiaId="BasicModal"
                 >
                   {`Changing the organization level setting for system staleness and
-              deletion may impact your systems. Some systems may be deleted as a result.`}
+              removal may impact your systems. Some systems may be removed as a result.`}
                 </Modal>
               </Flex>
             )}{' '}

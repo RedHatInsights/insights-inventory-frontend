@@ -21,7 +21,7 @@ const HostStaleness = () => {
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(
-      'Staleness and Deletion - System Configuration'
+      'Staleness and Removal - System Configuration'
     );
     chrome.hideGlobalFilter(true);
   }, []);
@@ -29,7 +29,7 @@ const HostStaleness = () => {
   return (
     <React.Fragment>
       <PageHeader>
-        <PageHeaderTitle title={'Staleness and Deletion'} />
+        <PageHeaderTitle title={'Staleness and Removal'} />
       </PageHeader>
       {canReadHostStaleness ? (
         <Page>
