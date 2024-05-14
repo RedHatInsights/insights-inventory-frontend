@@ -16,7 +16,7 @@ jest.mock('../../Utilities/useFeatureFlag');
 
 jest.mock('../../Utilities/constants', () => ({
   ...jest.requireActual('../../Utilities/constants'),
-  lastSeenItems: jest.fn().mockReturnValue([]),
+  lastSeenFilterItems: jest.fn().mockReturnValue([]),
 }));
 
 const expectDefaultFiltersVisible = async () => {

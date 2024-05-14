@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { LAST_SEEN_CHIP, lastSeenItems } from '../../Utilities/constants';
+import {
+  LAST_SEEN_CHIP,
+  lastSeenFilterItems,
+  lastSeenDefaults,
+} from '../../Utilities/constants';
 import moment from 'moment';
 import { containsSpecialChars, oldestDate } from './helpers.js';
 export const lastSeenFilterState = { lastSeenFilter: [] };
@@ -25,9 +29,9 @@ export const useLastSeenFilter = (
     value: 'last_seen',
     type: 'radio',
     filterValues: {
-      value: lastSeenValue,
-      onChange: (_e, value) => setValue(value),
-      items: lastSeenItems,
+      value: lastSeenValue?.mark,
+      onChange: (_e, mark) => setValue({ ...lastSeenDefaults[mark], mark }),
+      items: lastSeenFilterItems,
     },
   };
 
@@ -37,9 +41,13 @@ export const useLastSeenFilter = (
           {
             category: 'Last seen',
             type: LAST_SEEN_CHIP,
-            chips: lastSeenItems
-              .filter(({ value }) => value?.mark === lastSeenValue?.mark)
-              .map(({ label, ...props }) => ({ name: label, ...props })),
+            chips: [
+              lastSeenFilterItems.find(
+                ({ value }) => value === lastSeenValue?.mark
+              )?.label,
+            ]
+              .filter(Boolean)
+              .map((name) => ({ name })),
           },
         ]
       : [];
