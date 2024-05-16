@@ -13,9 +13,6 @@ jobs:
     - stage: Test
       script: npm run test && npm run test:ct
       after_success: npm run coverage
-    - stage: Tag
-      if: (fork = false) AND (branch = master)
-      script: npx semantic-release
 env:
   global:
     - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
