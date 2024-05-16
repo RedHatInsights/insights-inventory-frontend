@@ -70,8 +70,8 @@ describe('rbac integration', () => {
     before(() => cy.mockWindowInsights({ userPermissions: [] }));
     beforeEach(() => prepareTest(hostInGroup));
 
-    it('should disable remove and edit buttons', () => {
-      cy.contains('Remove')
+    it('should disable delete and edit buttons', () => {
+      cy.contains('Delete')
         .should('exist')
         .and('have.attr', 'aria-disabled', 'true');
     });
@@ -109,8 +109,8 @@ describe('rbac integration', () => {
     );
     beforeEach(() => prepareTest(hostInGroup));
 
-    it('should enable remove and edit buttons', () => {
-      cy.contains('Remove').should('exist').and('be.enabled');
+    it('should enable delete and edit buttons', () => {
+      cy.contains('Delete').should('exist').and('be.enabled');
     });
 
     it('should enable edit buttons', () => {
@@ -144,8 +144,8 @@ describe('rbac integration', () => {
 
     beforeEach(prepareTest);
 
-    it('should enable remove and edit buttons', () => {
-      cy.contains('Remove').should('exist').and('be.enabled');
+    it('should enable delete and edit buttons', () => {
+      cy.contains('Delete').should('exist').and('be.enabled');
     });
 
     it('should enable edit buttons', () => {

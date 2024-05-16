@@ -263,7 +263,7 @@ describe('hybrid inventory table', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
 
         cy.get('button')
-          .contains('Remove')
+          .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
 
         // TODO: implement ouia selector for this component
@@ -308,39 +308,37 @@ describe('hybrid inventory table', () => {
         cy.get(MODAL_CONTENT).contains('Edit display name');
       });
 
-      it('can remove hosts in the test group', () => {
+      it('can delete hosts in the test group', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
-        cy.get(INVENTORY_ACTION_MENU_ITEM)
-          .contains(/^Remove$/)
-          .click();
+        cy.get(INVENTORY_ACTION_MENU_ITEM).contains('Delete').click();
         cy.get(MODAL_CONTENT).contains('Remove from inventory');
       });
 
-      it('cannot edit nor remove hosts that are not in the test group', () => {
+      it('cannot edit nor delete hosts that are not in the test group', () => {
         cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM)
           .contains('Edit')
           .should('have.attr', 'aria-disabled', 'true');
         cy.get(DROPDOWN_ITEM)
-          .contains('Remove')
+          .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
       });
 
-      it('can remove hosts that are in the test group', () => {
+      it('can delete hosts that are in the test group', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
         cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
 
         cy.get('button')
-          .contains('Remove')
+          .contains('Delete')
           .should('have.attr', 'aria-disabled', 'false')
           .click();
       });
 
-      it('cannot remove hosts that are not in the test group', () => {
+      it('cannot delete hosts that are not in the test group', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(2).click();
 
         cy.get('button')
-          .contains('Remove')
+          .contains('Delete')
           .should('have.attr', 'aria-disabled', 'true');
       });
 
@@ -379,27 +377,25 @@ describe('hybrid inventory table', () => {
       it('can edit hosts that are not a part of any group', () => {
         cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Edit').shouldNotHaveAriaDisabled();
-        cy.get(DROPDOWN_ITEM)
-          .contains(/^Remove$/)
-          .shouldNotHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM).contains('Delete').shouldNotHaveAriaDisabled();
       });
 
       it('cannot edit hosts in groups', () => {
         cy.get(TABLE_ROW).eq(2).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Edit').shouldHaveAriaDisabled();
-        cy.get(DROPDOWN_ITEM).contains('Remove').shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM).contains('Delete').shouldHaveAriaDisabled();
       });
 
-      it('can bulk remove ungrouped hosts', () => {
+      it('can bulk delete ungrouped hosts', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(4).click();
         cy.get(TABLE_ROW_CHECKBOX).eq(5).click();
-        cy.get('button').contains('Remove').shouldHaveAriaEnabled();
+        cy.get('button').contains('Delete').shouldHaveAriaEnabled();
       });
 
       it('cannot mix grouped and ungrouped hosts', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(2).click();
         cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
-        cy.get('button').contains('Remove').shouldHaveAriaDisabled();
+        cy.get('button').contains('Delete').shouldHaveAriaDisabled();
       });
     });
 

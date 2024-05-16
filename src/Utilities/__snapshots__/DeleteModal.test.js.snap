@@ -189,7 +189,6 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
                   data-ouia-component-id="confirm-inventory-delete"
                   data-ouia-component-type="PF5/Button"
                   data-ouia-safe="true"
-                  data-testid="confirm-inventory-delete"
                   type="button"
                 >
                   Remove
@@ -403,7 +402,6 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
                   data-ouia-component-id="confirm-inventory-delete"
                   data-ouia-component-type="PF5/Button"
                   data-ouia-safe="true"
-                  data-testid="confirm-inventory-delete"
                   type="button"
                 >
                   Remove

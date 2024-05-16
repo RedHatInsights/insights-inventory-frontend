@@ -18,7 +18,7 @@ export const deleteEntity = (systems, displayName) => ({
     notifications: {
       fulfilled: {
         variant: 'success',
-        title: 'Remove operation finished',
+        title: 'Delete operation finished',
         description: `${displayName} has been successfully removed.`,
         dismissable: true,
       },
