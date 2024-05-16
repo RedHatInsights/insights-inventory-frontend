@@ -93,7 +93,7 @@ describe('TopBar', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('shows remove button by default', () => {
+  it('shows delete button by default', () => {
     render(
       <TestWrapper>
         <TopBar entity={entity} loaded showDelete />
@@ -102,12 +102,12 @@ describe('TopBar', () => {
 
     expect(
       screen.getByRole('button', {
-        name: /remove/i,
+        name: /delete/i,
       })
     ).toHaveAttribute('aria-disabled', 'false');
   });
 
-  it('disables remove button', () => {
+  it('disables delete button', () => {
     render(
       <TestWrapper>
         <TopBar entity={entity} loaded showDelete={false} />
@@ -116,7 +116,7 @@ describe('TopBar', () => {
 
     expect(
       screen.getByRole('button', {
-        name: /remove/i,
+        name: /delete/i,
       })
     ).toHaveAttribute('aria-disabled', 'true');
   });

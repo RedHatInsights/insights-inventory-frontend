@@ -73,7 +73,6 @@ const DeleteModal = ({
           <Button
             variant="danger"
             ouiaId="confirm-inventory-delete"
-            data-testid="confirm-inventory-delete"
             onClick={onConfirm}
           >
             Remove

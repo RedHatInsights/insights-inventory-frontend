@@ -53,7 +53,7 @@ const useTableActions = (
             ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
           >
-            Remove
+            Delete
           </ActionDropdownItem>
         ),
       },

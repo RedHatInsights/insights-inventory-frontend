@@ -104,12 +104,12 @@ const TopBar = ({
                       onClick={() => setIsModalOpen(true)}
                       variant="secondary"
                     >
-                      Remove
+                      Delete
                     </Button>
                   ) : (
                     <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
                       <Button isAriaDisabled variant="secondary">
-                        Remove
+                        Delete
                       </Button>
                     </Tooltip>
                   )}
@@ -174,7 +174,7 @@ const TopBar = ({
             addNotification({
               id: 'remove-initiated',
               variant: 'warning',
-              title: 'Remove operation initiated',
+              title: 'Delete operation initiated',
               description: `Removal of ${entity.display_name} started.`,
               dismissable: false,
             });
