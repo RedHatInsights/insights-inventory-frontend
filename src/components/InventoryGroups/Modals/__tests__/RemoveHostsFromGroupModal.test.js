@@ -64,7 +64,7 @@ describe('RemoveHostsFromGroupModal', () => {
     expect(setIsModalOpen).toBeCalled();
   });
 
-  it('can cancel the deletion', async () => {
+  it('can cancel the removal', async () => {
     render(
       <RemoveHostsFromGroupModal
         isModalOpen

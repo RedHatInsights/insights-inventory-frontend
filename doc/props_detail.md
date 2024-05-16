@@ -74,13 +74,13 @@ Callback function that is fired when user clicks on application tab.
 
 *function*
 
-Callback function that is fired when user deletes currently observed system.
+Callback function that is fired when user removes currently observed system.
 
 ## showDelete
 
 *boolean*
 
-Toggle to display delete button for removing system from inventory DB.
+Toggle to display remove button for removing system from inventory DB.
 
 ## appList
 
@@ -122,7 +122,7 @@ React element to be rendered as wrapper for tags element value, including tags m
 
 *element*
 
-React element to be rendered as wrapper for rendering delete button.
+React element to be rendered as wrapper for rendering remove button.
 
 ## ActionsWrapper
 

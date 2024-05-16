@@ -73,7 +73,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Staleness must be before deletion
+          Staleness must be before removal
         </p>
       );
     } else {
@@ -87,7 +87,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Stale warning must be before deletion
+          Stale warning must be before removal
         </p>
       );
     } else if (formValue < newFormValues['conventional_time_to_stale']) {
@@ -114,7 +114,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Deletion must be after staleness
+          Removal must be after staleness
         </p>
       );
     } else if (formValue < newFormValues['conventional_time_to_stale']) {
@@ -123,7 +123,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Deletion must be after stale warning
+          Removal must be after stale warning
         </p>
       );
     } else {
@@ -151,7 +151,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Staleness must be before deletion
+          Staleness must be before removal
         </p>
       );
     } else {
@@ -169,7 +169,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100 "
           style={{ width: '200px' }}
         >
-          Stale warning must be before deletion
+          Stale warning must be before removal
         </p>
       );
     } else if (formValue < newFormValues['immutable_time_to_stale']) {
@@ -196,7 +196,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Deletion must be after staleness
+          Removal must be after staleness
         </p>
       );
     } else if (formValue < newFormValues['immutable_time_to_stale']) {
@@ -205,7 +205,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
           className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
           style={{ width: '200px' }}
         >
-          Deletion must be after stale warning
+          Removal must be after stale warning
         </p>
       );
     } else {
@@ -239,7 +239,7 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
             </span>
 
             <span className="pf-v5-u-font-size-sm">
-              - Systems are deleted after 2 years since last check-in.
+              - Systems are removed after 2 years since last check-in.
             </span>
           </Flex>
         ) : (
@@ -256,7 +256,7 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
             </span>
 
             <span className="pf-v5-u-font-size-sm">
-              - Systems are deleted after 14 days since last check-in.
+              - Systems are removed after 14 days since last check-in.
             </span>
           </Flex>
         )
@@ -286,7 +286,7 @@ export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
         <Flex direction={{ default: 'column' }}>
           <p className="pf-v5-u-font-size-sm">
             Configure the number of days it will take for your systems to be
-            marked as stale, stale warning, and be deleted.
+            marked as stale, stale warning, and be removed.
           </p>
           <Flex
             direction={{ default: 'column' }}
@@ -305,7 +305,7 @@ export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
               check-in.
             </span>
             <span className="pf-v5-u-font-size-sm">
-              - Systems are deleted after 14 days since last check-in.
+              - Systems are removed after 14 days since last check-in.
             </span>
           </Flex>
           {hasEdgeSystems && (
@@ -327,7 +327,7 @@ export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
                 check-in.
               </span>
               <span className="pf-v5-u-font-size-sm">
-                - Systems are deleted after 2 years since last check-in.
+                - Systems are removed after 2 years since last check-in.
               </span>
             </Flex>
           )}
@@ -412,7 +412,7 @@ export const systemStalenessWarningItems = (activeTabKey) => {
         : 'conventional_time_to_stale_warning',
       title: 'System stale warning',
       modalMessage:
-        'A stale warning status on a system indicates that your system has not checked-in in a while, and is at risk of being deleted from your inventory.',
+        'A stale warning status on a system indicates that your system has not checked-in in a while, and is at risk of being removed from your inventory.',
     },
     {
       name: '14 days',
@@ -481,9 +481,9 @@ export const systemDeletionItems = (activeTabKey) => {
       apiKey: activeTabKey
         ? 'immutable_time_to_delete'
         : 'conventional_time_to_delete',
-      title: 'System deletion',
+      title: 'System removal',
       modalMessage:
-        'This is the time at which your system will be deleted from your inventory. Once your system is deleted, it will have to be re-registered to be added back to your inventory.',
+        'This is the time at which your system will be removed from your inventory. Once your system is removed, it will have to be re-registered to be added back to your inventory.',
     },
     {
       name: '21 days',

@@ -153,7 +153,7 @@ describe('ConventionalSystemsTab', () => {
 
     expect(
       screen.getByRole('button', {
-        name: /delete/i,
+        name: /remove/i,
       })
     ).toBeEnabled();
 
@@ -164,7 +164,7 @@ describe('ConventionalSystemsTab', () => {
     ).toBeEnabled();
   });
 
-  it('can delete items', async () => {
+  it('can remove items', async () => {
     hosts.apiHostDeleteHostById = jest.fn();
     const selected = new Map();
     selected.set(system1.id, system1);
@@ -184,7 +184,7 @@ describe('ConventionalSystemsTab', () => {
 
     await userEvent.click(
       screen.getByRole('button', {
-        name: /delete/i,
+        name: /remove/i,
       })
     );
     expect(
@@ -192,11 +192,7 @@ describe('ConventionalSystemsTab', () => {
         name: /remove from inventory/i,
       })
     ).toBeVisible();
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: /remove/i,
-      })
-    );
+    await userEvent.click(screen.getByTestId('confirm-inventory-delete'));
     expect(
       screen.queryByRole('heading', {
         name: /remove from inventory/i,
@@ -207,7 +203,7 @@ describe('ConventionalSystemsTab', () => {
         description: `Removal of ${system1.display_name} started.`,
         dismissable: false,
         id: 'remove-initiated',
-        title: 'Delete operation initiated',
+        title: 'Remove operation initiated',
         variant: 'warning',
       },
       type: '@@INSIGHTS-CORE/NOTIFICATIONS/ADD_NOTIFICATION',

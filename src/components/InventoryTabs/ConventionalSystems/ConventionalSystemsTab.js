@@ -40,7 +40,7 @@ const BulkDeleteButton = ({ selectedSystems, ...props }) => {
       ouiaId="bulk-delete-button"
       {...props}
     >
-      Delete
+      Remove
     </ActionButton>
   );
 };
@@ -266,7 +266,7 @@ const ConventionalSystemsTab = ({
             addNotificationAction({
               id: 'remove-initiated',
               variant: 'warning',
-              title: 'Delete operation initiated',
+              title: 'Remove operation initiated',
               description: `Removal of ${displayName} started.`,
               dismissable: false,
             })
