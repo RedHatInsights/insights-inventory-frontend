@@ -13,19 +13,19 @@ import {
   UnknownIcon,
 } from '@patternfly/react-icons';
 import {
-  dangerColor,
-  successColor,
-  warningColor,
-  infoColor,
-  activeColor,
+  global_danger_color_100,
+  global_success_color_100,
+  global_warning_color_100,
+  global_info_color_100,
+  global_active_color_100,
 } from '@patternfly/react-tokens';
 
 export const colorMapper = {
-  green: successColor.value,
-  yellow: warningColor.value,
-  lightBlue: infoColor.value,
-  blue: activeColor.value,
-  red: dangerColor.value,
+  green: global_success_color_100.value,
+  yellow: global_warning_color_100.value,
+  lightBlue: global_info_color_100.value,
+  blue: global_active_color_100.value,
+  red: global_danger_color_100.value,
 };
 
 export const iconMapper = {

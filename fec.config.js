@@ -12,7 +12,7 @@ module.exports = {
   debug: true,
   plugins: [
     new webpack.DefinePlugin({
-      IS_DEV: false,
+      IS_DEV: process.env.NODE_ENV === 'development',
     }),
   ],
   moduleFederation: {
