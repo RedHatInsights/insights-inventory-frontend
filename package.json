@@ -35,46 +35,6 @@
     "redux-promise-middleware": "^6.2.0",
     "semver": "^7.3.7"
   },
-  "release": {
-    "branches": "master",
-    "analyzeCommits": {
-      "preset": "angular",
-      "releaseRules": [
-        {
-          "type": "refactor",
-          "release": "patch"
-        },
-        {
-          "type": "style",
-          "release": "patch"
-        },
-        {
-          "type": "update",
-          "release": "patch"
-        },
-        {
-          "type": "docs",
-          "release": "patch"
-        },
-        {
-          "type": "test",
-          "release": "patch"
-        }
-      ]
-    },
-    "prepare": [],
-    "publish": [
-      [
-        "@semantic-release/github",
-        {
-          "successComment": false,
-          "failComment": false,
-          "labels": false,
-          "releasedLabels": false
-        }
-      ]
-    ]
-  },
   "jest": {
     "testEnvironment": "jsdom",
     "coverageDirectory": "./codecov-jest/",
@@ -127,8 +87,6 @@
     "@patternfly/patternfly": "^5.2.0",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.3",
     "@redhat-cloud-services/frontend-components-config": "^5.1.1",
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
     "@stoplight/prism-cli": "^4.10.5",
     "@testing-library/jest-dom": "^6.2.1",
     "@testing-library/react": "^14.1.2",
@@ -153,7 +111,6 @@
     "node-fetch": "^2.6.7",
     "npm-run-all": "^4.1.5",
     "redux-mock-store": "^1.5.4",
-    "semantic-release": "^19.0.5",
     "stylelint": "^13.13.1",
     "stylelint-config-recommended-scss": "^4.3.0",
     "stylelint-scss": "^3.21.0",
