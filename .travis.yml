@@ -9,13 +9,12 @@ if: tag IS blank
 jobs:
   include:
     - stage: Lint
-      script: npm run lint && commitlint-travis
+      script: 
+        - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then npm run lint; fi'
+        - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then npm run lint && commitlint-travis; fi'
     - stage: Test
       script: npm run test && npm run test:ct
       after_success: npm run coverage
-    - stage: Tag
-      if: (fork = false) AND (branch = master)
-      script: npx semantic-release
 env:
   global:
     - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
