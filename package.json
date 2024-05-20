@@ -87,7 +87,7 @@
     "@patternfly/patternfly": "^5.2.0",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.3",
     "@redhat-cloud-services/frontend-components-config": "^5.1.1",
-    "@stoplight/prism-cli": "^4.10.5",
+    "@stoplight/prism-cli": "^5.8.1",
     "@testing-library/jest-dom": "^6.2.1",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
