@@ -43,36 +43,51 @@ export const staleness = [
 ];
 
 export const currentDate = new Date().toISOString();
-export const lastSeenItems = [
+export const lastSeenFilterItems = [
   {
-    value: {
-      updatedStart: subtractDate(1),
-      updatedEnd: currentDate,
-      mark: 'last24',
-    },
+    value: 'last24',
     label: 'Within the last 24 hours',
   },
   {
-    value: { updatedEnd: subtractDate(1), mark: '24more' },
+    value: '24more',
     label: 'More than 1 day ago',
   },
   {
-    value: { updatedEnd: subtractDate(7), mark: '7more' },
+    value: '7more',
     label: 'More than 7 days ago',
   },
   {
-    value: { updatedEnd: subtractDate(15), mark: '15more' },
+    value: '15more',
     label: 'More than 15 days ago',
   },
   {
-    value: { updatedEnd: subtractDate(30), mark: '30more' },
+    value: '30more',
     label: 'More than 30 days ago',
   },
   {
-    value: { mark: 'custom' },
+    value: 'custom',
     label: 'Custom',
   },
 ];
+export const lastSeenDefaults = {
+  last24: {
+    updatedStart: subtractDate(1),
+    updatedEnd: currentDate,
+  },
+  '24more': {
+    updatedEnd: subtractDate(1),
+  },
+  '7more': {
+    updatedEnd: subtractDate(7),
+  },
+  '15more': {
+    updatedEnd: subtractDate(15),
+  },
+  '30more': {
+    updatedEnd: subtractDate(30),
+  },
+  custom: {},
+};
 export const registered = [
   {
     label: 'insights-client',
@@ -244,9 +259,7 @@ export const generateFilter = (
     },
     !isEmpty(lastSeenFilter) && {
       lastSeenFilter: Array.isArray(lastSeenFilter)
-        ? lastSeenItems.filter(
-            (item) => item.value.mark === lastSeenFilter[0]
-          )[0].value
+        ? { mark: lastSeenFilter[0], ...lastSeenDefaults[lastSeenFilter[0]] }
         : [lastSeenFilter],
     },
     !isEmpty(updateMethodFilter) && {
