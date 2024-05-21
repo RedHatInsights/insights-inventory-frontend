@@ -1,14 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchOperatingSystems } from '../../store/inventory-actions';
-import {
-  buildOSFilterChip,
-  getSelectedOsFilterVersions,
-  groupOSFilterVersions,
-  onOSFilterChange,
-  toGroupSelection,
-} from '../../Utilities/OperatingSystemFilterHelpers';
+import { useCallback, useState } from 'react';
+import { appendGroupSelection, toOsFilterGroups } from './helpers';
+import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
+import { OS_CHIP } from '../../Utilities/constants';
 
+export const operatingSystemFilterState = { operatingSystemFilter: [] };
 export const OPERATING_SYSTEM_FILTER = 'OPERATING_SYSTEM_FILTER';
 export const operatingSystemFilterReducer = (_state, { type, payload }) => ({
   ...(type === OPERATING_SYSTEM_FILTER && {
@@ -16,103 +11,72 @@ export const operatingSystemFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
-/**
- * OS version filter hook.
- * @param {Array} apiParams - an array containing parameters for GET /system_profile/operating_system call
- * @return {Array} An array containing config object, chips array and value setter function.
- */
-const useOperatingSystemFilter = (
-  apiParams = [],
+export const useOperatingSystemFilter = (
+  [state, dispatch] = [operatingSystemFilterState],
+  // TODO Get rid of all additional (unnecessary) parameters
+  apiParams,
   hasAccess,
   showCentosVersions
 ) => {
-  const dispatch = useDispatch();
-  const operatingSystems = useSelector(
-    ({ entities }) => entities?.operatingSystems
-  );
-  const operatingSystemsLoaded =
-    useSelector(({ entities }) => entities?.operatingSystemsLoaded) || false;
+  const [operatingSystemsStateValue, setStateValue] = useState({});
+  const operatingSystemsValue = dispatch
+    ? state.operatingSystemFilter
+    : operatingSystemsStateValue;
 
-  // selected versions has the boolean set to true
-  const [selected, setSelected] = useState({});
-  const [groups, setGroups] = useState([]);
-
-  useEffect(() => {
-    if (typeof hasAccess === 'undefined') {
-      dispatch(fetchOperatingSystems(apiParams, showCentosVersions));
-    } else if (typeof hasAccess !== 'undefined' && hasAccess === true) {
-      dispatch(fetchOperatingSystems(apiParams, showCentosVersions));
+  const { operatingSystems, operatingSystemsLoaded } = useFetchOperatingSystems(
+    {
+      apiParams,
+      hasAccess,
+      showCentosVersions,
     }
-  }, []);
-
-  useEffect(() => {
-    const newGroups = groupOSFilterVersions(operatingSystems);
-    setGroups(
-      (operatingSystems || []).length === 0
-        ? [{ items: [{ label: 'No versions available' }] }]
-        : newGroups
-    );
-    setSelected(
-      toGroupSelection(
-        getSelectedOsFilterVersions(selected),
-        (operatingSystems || []).map(({ groupLabel, osName, value }) => ({
-          groupLabel,
-          osName,
-          value,
-        }))
-      )
-    );
-  }, [operatingSystems]);
-
-  // PrimaryToolbar filter configuration
-  const config = useMemo(
-    () => ({
-      label: 'Operating System',
-      value: 'operating-system-filter',
-      type: 'group',
-      filterValues: {
-        selected,
-        groups,
-        onChange: (event, newSelection, clickedGroup, clickedItem) => {
-          setSelected(
-            onOSFilterChange(event, newSelection, clickedGroup, clickedItem)
-          );
-        },
-      },
-    }),
-    [selected, groups]
   );
 
-  const chips = useMemo(
-    () => buildOSFilterChip(selected, operatingSystems),
-    [selected, operatingSystems]
-  );
-
-  // receives an array of OS version values, e.g., ['7.3', '9.0']
+  const groups = toOsFilterGroups(operatingSystems, operatingSystemsLoaded);
   const setValue = useCallback(
-    (versions = []) => {
-      setSelected(
-        toGroupSelection(
-          versions,
-          operatingSystemsLoaded
-            ? (operatingSystems || []).map(({ groupLabel, osName, value }) => ({
-                groupLabel,
-                osName,
-                value,
-              }))
-            : undefined
-        )
-      );
+    (newSelection) => {
+      const fullSelection = appendGroupSelection(newSelection, groups);
+
+      return dispatch
+        ? dispatch({ type: OPERATING_SYSTEM_FILTER, payload: fullSelection })
+        : setStateValue(fullSelection);
     },
-    [operatingSystemsLoaded, operatingSystems]
+    [groups, dispatch]
   );
 
-  const value = useMemo(
-    () => getSelectedOsFilterVersions(selected),
-    [selected]
-  );
+  const filter = {
+    label: 'Operating System',
+    value: 'operating-system-filter',
+    type: 'group',
+    filterValues: {
+      selected: operatingSystemsValue,
+      groups,
+      onChange: (_e, newSelection) => setValue(newSelection),
+    },
+  };
 
-  return [config, chips, value, setValue];
+  const chips = Object.values(operatingSystemsValue)
+    .flatMap((selection) => Object.keys(selection || {}))
+    .map((osVersionValue) =>
+      groups
+        .flatMap(({ items }) => items)
+        .find(({ value }) => value === osVersionValue)
+    )
+    .filter((v) => !!v)
+    .map(({ label: name, ...props }) => ({
+      name,
+      ...props,
+    }));
+
+  const chip =
+    Object.values(operatingSystemsValue).length > 0
+      ? [
+          {
+            category: 'Operating System',
+            type: OS_CHIP,
+            chips,
+          },
+        ]
+      : [];
+
+  return [filter, chip, operatingSystemsValue, setValue];
 };
-
-export default useOperatingSystemFilter;

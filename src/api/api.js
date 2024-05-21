@@ -32,7 +32,6 @@ export const groupsApi = new GroupsApi(undefined, INVENTORY_API_BASE, instance);
 export const getEntitySystemProfile = (item) =>
   hosts.apiHostGetHostSystemProfileById([item]);
 
-/* eslint camelcase: off */
 export const mapData = ({ facts = {}, ...oneResult }) => ({
   ...oneResult,
   rawFacts: facts,
@@ -46,9 +45,7 @@ export const mapData = ({ facts = {}, ...oneResult }) => ({
         typeof item !== 'string'
           ? {
               ...item,
-              // eslint-disable-next-line camelcase
               os_release: item.os_release || item.release,
-              // eslint-disable-next-line camelcase
               display_name: item.display_name || item.fqdn || item.id,
             }
           : item
@@ -105,70 +102,77 @@ export const constructTags = (tagFilters) => {
   );
 };
 
+const buildOperatingSystemFilter = (osFilterState = {}) => {
+  const osFilterStateWithoutMajors = Object.fromEntries(
+    Object.entries(osFilterState).map(([majorKey, items]) => {
+      return [
+        majorKey,
+        Object.fromEntries(
+          Object.entries(items).filter(([minorKey]) => {
+            return minorKey !== majorKey;
+          })
+        ),
+      ];
+    })
+  );
+
+  return Object.entries(
+    Object.values(osFilterStateWithoutMajors).reduce(
+      (acc, item) => ({ ...acc, ...item }),
+      {}
+    )
+  )
+    .filter(([, value]) => value === true)
+    .map(([key]) => {
+      const keyParts = key.split('-');
+      return [
+        keyParts.slice(0, keyParts.length - 2).join(' '),
+        keyParts[keyParts.length - 1],
+      ];
+    })
+    .reduce((oses, [osName, version]) => {
+      if (!oses[osName]) {
+        oses[osName] = {
+          version: { eq: [] },
+        };
+      }
+      return {
+        ...oses,
+        [osName]: {
+          version: {
+            eq: [...oses[osName].version.eq, version],
+          },
+        },
+      };
+    }, {});
+};
+
 export const calculateSystemProfile = ({
   osFilter,
   rhcdFilter,
   updateMethodFilter,
   hostTypeFilter,
 }) => {
-  let systemProfile = {};
-  const osFilterValues = Array.isArray(osFilter)
-    ? osFilter
-    : Object.values(osFilter || {}).flatMap((majorOsVersion) =>
-        Object.keys(majorOsVersion)
-      );
+  const operating_system = buildOperatingSystemFilter(osFilter);
 
-  if (osFilterValues?.length > 0) {
-    let centosVersions = [];
-    let rhelVersions = [];
-    systemProfile.operating_system = {};
+  const system_profile = {
+    ...(hostTypeFilter ? { host_type: hostTypeFilter } : { host_type: 'nil' }),
+    ...(updateMethodFilter
+      ? {
+          [UPDATE_METHOD_KEY]: {
+            eq: updateMethodFilter,
+          },
+        }
+      : {}),
+    ...(rhcdFilter ? { [RHCD_FILTER_KEY]: rhcdFilter } : {}),
+    ...(Object.keys(operating_system).length ? { operating_system } : {}),
+  };
 
-    osFilterValues.forEach((filterValue) => {
-      if (filterValue.osName === 'RHEL') {
-        rhelVersions.push(filterValue.value);
+  return Object.keys(system_profile).length
+    ? {
+        system_profile,
       }
-
-      if (filterValue.osName === 'CentOS Linux') {
-        centosVersions.push(filterValue.value);
-      }
-    });
-
-    if (centosVersions.length) {
-      systemProfile.operating_system['CentOS Linux'] = {
-        version: {
-          eq: centosVersions,
-        },
-      };
-    }
-
-    if (rhelVersions.length) {
-      systemProfile.operating_system['RHEL'] = {
-        version: {
-          eq: rhelVersions,
-        },
-      };
-    }
-  }
-
-  if (rhcdFilter) {
-    systemProfile[RHCD_FILTER_KEY] = rhcdFilter;
-  }
-
-  if (updateMethodFilter) {
-    systemProfile[UPDATE_METHOD_KEY] = {
-      eq: updateMethodFilter,
-    };
-  }
-
-  if (hostTypeFilter) {
-    systemProfile['host_type'] = hostTypeFilter;
-  } else {
-    systemProfile['host_type'] = 'nil';
-  }
-
-  return generateFilter({
-    system_profile: systemProfile,
-  });
+    : {};
 };
 
 export const filtersReducer = (acc, filter = {}) => ({
@@ -242,6 +246,8 @@ export async function getEntities(
             ...(controller?.signal !== undefined
               ? { signal: controller.signal }
               : {}),
+            // TODO We should not be doing this, but use the "fields" param of the function
+            // We then probably do not need to (ab)use the generateFilter function
             query: generateFilter(fields, 'fields'),
           }
         );
@@ -273,6 +279,28 @@ export async function getEntities(
 
     return data;
   } else if (!hasItems) {
+    const combinedFilters = {
+      ...(options?.globalFilter?.filter || {}),
+      ...(options?.filter || {}),
+      ...(filters || {}),
+    };
+
+    const filterQueryParams =
+      Object.keys(combinedFilters).length &&
+      generateFilter(calculateSystemProfile(combinedFilters));
+
+    const fieldsQueryParams =
+      Object.keys(fields || {}).length && generateFilter(fields, 'fields');
+
+    const lastSeenFilterQueryParams = {
+      ...(filters?.lastSeenFilter?.updatedStart && {
+        updated_start: filters.lastSeenFilter.updatedStart,
+      }),
+      ...(filters?.lastSeenFilter?.updatedEnd && {
+        updated_end: filters.lastSeenFilter.updatedEnd,
+      }),
+    };
+
     return hosts
       .apiHostGetHostList(
         undefined,
@@ -302,21 +330,14 @@ export async function getEntities(
             ? { signal: controller.signal }
             : {}),
           query: {
-            ...(options?.globalFilter?.filter &&
-              generateFilter(options.globalFilter.filter)),
-            ...(options.filter &&
-              Object.keys(options.filter).length &&
-              generateFilter(options.filter)),
-            ...calculateSystemProfile(filters),
-            ...(fields &&
-              Object.keys(fields).length &&
-              generateFilter(fields, 'fields')),
-            ...(filters?.lastSeenFilter?.updatedStart && {
-              updated_start: filters.lastSeenFilter.updatedStart,
-            }),
-            ...(filters?.lastSeenFilter?.updatedEnd && {
-              updated_end: filters.lastSeenFilter.updatedEnd,
-            }),
+            // TODO We should be using the fields and filter (function) parameter instead
+            // Side note: we probably do this because it seems the js-clients have issues with parameters that have array values or smth
+            ...(Object.keys(filterQueryParams).length ? filterQueryParams : {}),
+            ...(Object.keys(fieldsQueryParams).length ? fieldsQueryParams : {}),
+            // TODO There should be a way to pass these via the filter func param
+            ...(Object.keys(lastSeenFilterQueryParams).length
+              ? lastSeenFilterQueryParams
+              : {}),
           },
         }
       )

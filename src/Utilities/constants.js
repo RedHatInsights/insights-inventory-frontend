@@ -249,11 +249,10 @@ export const generateFilter = (
       isEmpty(status) && {
         staleFilter: [],
       },
-    !isEmpty(operatingSystem) && {
-      osFilter: Array.isArray(operatingSystem)
-        ? operatingSystem
-        : [operatingSystem],
-    },
+    !isEmpty(operatingSystem) &&
+      Object.keys(operatingSystem).length && {
+        osFilter: operatingSystem,
+      },
     !isEmpty(rhcdFilter) && {
       rhcdFilter: Array.isArray(rhcdFilter) ? rhcdFilter : [rhcdFilter],
     },

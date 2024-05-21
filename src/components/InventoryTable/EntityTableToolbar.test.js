@@ -8,6 +8,10 @@ import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { availableVersions } from '../../Utilities/__mocks__/OperatingSystemFilterHelpers.fixtures';
 import { mockSystemProfile, mockTags } from '../../__mocks__/hostApi';
+import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
+import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
+import { buildOperatingSystems } from '../../__factories__/operatingSystems';
+
 import EntityTableToolbar from './EntityTableToolbar';
 import TitleColumn from './TitleColumn';
 
@@ -18,6 +22,9 @@ jest.mock('../../Utilities/constants', () => ({
   ...jest.requireActual('../../Utilities/constants'),
   lastSeenFilterItems: jest.fn().mockReturnValue([]),
 }));
+
+jest.mock('../../Utilities/hooks/useFetchOperatingSystems');
+jest.mock('../../Utilities/hooks/useFetchBatched');
 
 const expectDefaultFiltersVisible = async () => {
   const DEFAULT_FILTERS = [
@@ -75,6 +82,12 @@ describe('EntityTableToolbar', () => {
   let stateWithActiveFilter;
   let mockStore;
   let onRefreshData;
+  const operatingSystems = [
+    ...buildOperatingSystems(10, { osName: 'RHEL', major: 8 }),
+    ...buildOperatingSystems(5, { osName: 'RHEL', major: 9 }),
+    ...buildOperatingSystems(20, { osName: 'CentOS', major: 7 }),
+    ...buildOperatingSystems(20, { osName: 'CentOS Linux', major: 7 }),
+  ];
 
   beforeEach(() => {
     mockTags.onGet().reply(200, { results: [] });
@@ -153,6 +166,16 @@ describe('EntityTableToolbar', () => {
         activeFilters: [{ value: 'hostname_or_id', filter: 'test' }],
       },
     };
+
+    useFetchBatched.mockReturnValue({
+      fetchBatched: () =>
+        new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
+    });
+
+    useFetchOperatingSystems.mockReturnValue({
+      operatingSystems,
+      operatingSystemsLoaded: true,
+    });
   });
 
   describe('DOM', () => {
@@ -696,7 +719,7 @@ describe('EntityTableToolbar', () => {
           })
         );
         const actions = store.getActions();
-        expect(actions.length).toBe(4);
+        expect(actions.length).toBe(2);
         expect(actions[actions.length - 2]).toMatchObject({
           type: 'CLEAR_FILTERS',
         });
