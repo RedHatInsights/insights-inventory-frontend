@@ -42,3 +42,142 @@ export const containsSpecialChars = (str) => {
   const specialChars = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
   return specialChars.test(str);
 };
+
+const filterGroup = (groupName, groupKey) => ({
+  groupSelectable: true,
+  label: groupName,
+  value: groupKey,
+  type: 'checkbox',
+  items: [],
+});
+
+const filterGroupItem = (groupKey, name, major, minor) => ({
+  type: 'checkbox',
+  label: `${name} ${major}.${minor}`,
+  value: `${groupKey}-${major}.${minor}`,
+  groupKey,
+});
+
+const getSortable = (property, item) => {
+  if (typeof property === 'function') {
+    return property(item);
+  } else {
+    return item[property];
+  }
+};
+
+export const orderArrayByProp = (property, objects, direction) => {
+  const sorted = objects.sort((a, b) => {
+    return String(getSortable(property, a))
+      .toLowerCase()
+      .localeCompare(
+        String(getSortable(property, b)).toLowerCase(),
+        {},
+        { numeric: true }
+      );
+  });
+
+  if (direction === 'asc') {
+    return sorted;
+  } else {
+    return sorted.reverse();
+  }
+};
+
+export const toOsFilterGroups = (
+  operatingSystems = [],
+  operatingSystemsLoaded
+) => {
+  if (operatingSystems.length === 0 || !operatingSystemsLoaded) {
+    return [{ items: [{ isDisabled: true, label: 'No versions available' }] }];
+  } else {
+    return orderArrayByProp(
+      'major',
+      Object.values(
+        operatingSystems.reduce((groups, { value: { name, major, minor } }) => {
+          const groupName = [name, major].join(' ');
+          const groupKey = groupName.split(' ').join('-');
+
+          if (!groups[groupKey]) {
+            groups[groupKey] = filterGroup(groupName, groupKey);
+          }
+          const item = filterGroupItem(groupKey, name, major, minor);
+
+          return {
+            ...groups,
+            [groupKey]: {
+              ...groups[groupKey],
+              major,
+              items: [...groups[groupKey].items, item],
+            },
+          };
+        }, {})
+      ).map(({ items, ...rest }) => ({
+        ...rest,
+        items: orderArrayByProp('minor', items, 'desc'),
+      })),
+      'desc'
+    );
+  }
+};
+
+const makeGroupSelection = (groupKey, groupSelection, groupItemItems) => {
+  if (groupSelection[groupKey] === false) {
+    return [];
+  } else {
+    return [
+      groupKey,
+      {
+        [groupKey]: true,
+        ...Object.fromEntries(groupItemItems.map(({ value }) => [value, true])),
+      },
+    ];
+  }
+};
+
+export const appendGroupSelection = (selection = {}, groups) =>
+  Object.fromEntries(
+    Object.entries(selection)
+      .map(([groupKey, groupSelection]) => {
+        const groupItemItems = groups.find(
+          ({ value }) => value === groupKey
+        )?.items;
+        const selectedGroupItems = Object.fromEntries(
+          Object.entries(groupSelection).filter(([osKey]) => {
+            return osKey !== groupKey;
+          })
+        );
+        const appendGroup =
+          Object.keys(selectedGroupItems).length < groupItemItems?.length &&
+          groupSelection[groupKey] === true;
+
+        const removeGroup =
+          Object.keys(selectedGroupItems).length === groupItemItems?.length &&
+          groupSelection[groupKey] === false;
+
+        if (appendGroup) {
+          return makeGroupSelection(groupKey, groupSelection, groupItemItems);
+        } else if (removeGroup) {
+          return [];
+        } else {
+          const selectedMinor = Object.fromEntries(
+            Object.entries(selectedGroupItems).filter(([, v]) => v !== false)
+          );
+
+          return [
+            groupKey,
+            {
+              // FIXME (In conditional/group filter component) This returns either null or true
+              // If some but not all are selected it should be "null", if all are selected "true"
+              // However, due to a bug in the GroupFilter component the null gets cast to a Boolean, but it should not
+              [groupKey]:
+                Object.keys(selectedMinor).length === groupItemItems?.length
+                  ? true
+                  : null,
+              ...selectedMinor,
+            },
+          ];
+        }
+      })
+      .filter(([k, v]) => !!k && !!v)
+  );
