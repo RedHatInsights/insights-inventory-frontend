@@ -100,7 +100,7 @@ describe('DeleteModal', () => {
 
       await userEvent.click(
         screen.getByRole('button', {
-          name: /remove/i,
+          name: /delete/i,
         })
       );
       expect(onConfirm).toHaveBeenCalled();

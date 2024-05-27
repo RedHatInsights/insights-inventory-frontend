@@ -189,17 +189,13 @@ describe('ConventionalSystemsTab', () => {
     );
     expect(
       screen.getByRole('heading', {
-        name: /remove from inventory/i,
+        name: /delete from inventory/i,
       })
     ).toBeVisible();
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: /remove/i,
-      })
-    );
+    await userEvent.click(screen.getByTestId('confirm-inventory-delete'));
     expect(
       screen.queryByRole('heading', {
-        name: /remove from inventory/i,
+        name: /delete from inventory/i,
       })
     ).not.toBeInTheDocument();
     shouldDispatch(store, {

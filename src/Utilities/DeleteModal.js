@@ -36,7 +36,7 @@ const DeleteModal = ({
   return (
     <Modal
       variant="small"
-      title="Remove from inventory"
+      title="Delete from inventory"
       className="ins-c-inventory__table--remove sentry-mask data-hj-suppress"
       ouiaId="inventory-delete-modal"
       isOpen={isModalOpen}
@@ -73,9 +73,10 @@ const DeleteModal = ({
           <Button
             variant="danger"
             ouiaId="confirm-inventory-delete"
+            data-testid="confirm-inventory-delete"
             onClick={onConfirm}
           >
-            Remove
+            Delete
           </Button>
           <Button
             variant="link"
