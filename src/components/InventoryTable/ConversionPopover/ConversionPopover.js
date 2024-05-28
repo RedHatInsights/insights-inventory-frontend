@@ -46,7 +46,11 @@ const ConversionPopover = () => {
         </Button>
       }
     >
-      <Label isCompact color="cyan">
+      <Label
+        isCompact
+        color="cyan"
+        style={{ cursor: 'pointer', marginLeft: '8px' }}
+      >
         Convert system to RHEL
       </Label>
     </Popover>
