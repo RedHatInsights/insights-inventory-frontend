@@ -99,7 +99,7 @@ describe('TitleColumn', () => {
       })
     );
     await waitFor(() => {
-      expect(navigate).toBeCalledWith('/available#pre-conversion-analysis');
+      expect(navigate).toBeCalledWith('/available/convert-to-rhel-preanalysis');
     });
   });
 

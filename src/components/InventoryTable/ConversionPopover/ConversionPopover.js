@@ -18,15 +18,15 @@ const ConversionPopover = () => {
       headerContent={'Convert this system to RHEL'}
       bodyContent={
         <TextContent>
-          <Text style={{ maxWidth: '380px' }}>
+          <Text style={{ maxWidth: '380px', fontSize: '14px' }}>
             On June 30, 2024, CentOS Linux 7 will reach End of Life (EOL).
           </Text>
-          <Text style={{ maxWidth: '380px' }}>
+          <Text style={{ maxWidth: '380px', fontSize: '14px' }}>
             Red Hat can help migrate CentOS Linux 7 users to maintain continuity
             in their environment after the EOL date, whether they’re on premise
             or in the cloud.
           </Text>
-          <Text>
+          <Text style={{ fontSize: '14px' }}>
             <a
               href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/centos-migration"
               target="_blank"
@@ -40,7 +40,7 @@ const ConversionPopover = () => {
       footerContent={
         <Button
           variant="secondary"
-          onClick={() => navigate('/available#pre-conversion-analysis')}
+          onClick={() => navigate('/available/convert-to-rhel-preanalysis')}
         >
           Run a pre-conversion analysis of this system
         </Button>
