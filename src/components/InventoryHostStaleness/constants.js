@@ -346,57 +346,209 @@ export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
 };
 
 export const systemStalenessItems = (activeTabKey) => {
-  const allDays = [1, 2, 3, 4, 5, 6, 7];
-  const apiKey = activeTabKey
-    ? 'immutable_time_to_stale'
-    : 'conventional_time_to_stale';
-  const title = 'System staleness';
-  const newItems = allDays.map((value) => ({
-    name: value + ' days',
-    value,
-    apiKey,
-    title,
-  }));
-  newItems[0].modalMessage =
-    'A stale status on a system indicates that your system has not checked-in in a certain amount of time.';
-
-  return newItems;
+  return [
+    {
+      name: '1 day',
+      value: 1,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
+      title: 'System staleness',
+      modalMessage:
+        'A stale status on a system indicates that your system has not checked-in in a certain amount of time.',
+    },
+    {
+      name: '2 days',
+      value: 2,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
+    },
+    {
+      name: '3 days',
+      value: 3,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
+    },
+    {
+      name: '4 days',
+      value: 4,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
+    },
+    {
+      name: '5 days',
+      value: 5,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
+    },
+    {
+      name: '6 days',
+      value: 6,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
+    },
+    {
+      name: '7 days',
+      value: 7,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale'
+        : 'conventional_time_to_stale',
+    },
+  ];
 };
 
 export const systemStalenessWarningItems = (activeTabKey) => {
-  const allDays = [2, 3, 4, 5, 6, 7, 14, 21, 30, 60, 90, 120];
-  const apiKey = activeTabKey
-    ? 'immutable_time_to_stale_warning'
-    : 'conventional_time_to_stale_warning';
-  const title = 'System stale warning';
-  const newItems = allDays.map((value) => ({
-    name: value + ' days',
-    value,
-    apiKey,
-    title,
-  }));
-  newItems[0].modalMessage =
-    'A stale warning status on a system indicates that your system has not checked-in in a while, and is at risk of being deleted from your inventory.';
-
-  return newItems;
+  return [
+    {
+      name: '7 days',
+      value: 7,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+      title: 'System stale warning',
+      modalMessage:
+        'A stale warning status on a system indicates that your system has not checked-in in a while, and is at risk of being deleted from your inventory.',
+    },
+    {
+      name: '14 days',
+      value: 14,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+    },
+    {
+      name: '21 days',
+      value: 21,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+    },
+    {
+      name: '30 days',
+      value: 30,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+    },
+    {
+      name: '60 days',
+      value: 60,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+    },
+    {
+      name: '90 days',
+      value: 90,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+    },
+    {
+      name: '120 days',
+      value: 120,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+    },
+    {
+      name: '150 days',
+      value: 150,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+    },
+    {
+      name: '180 days',
+      value: 180,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_stale_warning'
+        : 'conventional_time_to_stale_warning',
+    },
+  ];
 };
 
 export const systemDeletionItems = (activeTabKey) => {
-  const allDays = [3, 4, 5, 6, 7, 14, 21, 30, 60, 90, 120];
-  const apiKey = activeTabKey
-    ? 'immutable_time_to_delete'
-    : 'conventional_time_to_delete';
-  const title = 'System deletion';
-  const newItems = allDays.map((value) => ({
-    name: value + ' days',
-    value,
-    apiKey,
-    title,
-  }));
-  newItems[0].modalMessage =
-    'This is the time at which your system will be deleted from your inventory. Once your system is deleted, it will have to be re-registered to be added back to your inventory.';
-
-  return newItems;
+  return [
+    {
+      name: '14 days',
+      value: 14,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+      title: 'System deletion',
+      modalMessage:
+        'This is the time at which your system will be deleted from your inventory. Once your system is deleted, it will have to be re-registered to be added back to your inventory.',
+    },
+    {
+      name: '21 days',
+      value: 21,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+    {
+      name: '30 days',
+      value: 30,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+    {
+      name: '60 days',
+      value: 60,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+    {
+      name: '90 days',
+      value: 90,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+    {
+      name: '120 days',
+      value: 120,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+    {
+      name: '150 days',
+      value: 150,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+    {
+      name: '180 days',
+      value: 180,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+    {
+      name: '1 year',
+      value: 365,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+    {
+      name: '2 years',
+      value: 730,
+      apiKey: activeTabKey
+        ? 'immutable_time_to_delete'
+        : 'conventional_time_to_delete',
+    },
+  ];
 };
 
 export const formValidation = async (newFormValues, setIsFormValid) => {
