@@ -152,10 +152,11 @@ export const calculateSystemProfile = ({
   rhcdFilter,
   updateMethodFilter,
   hostTypeFilter,
+  system_profile,
 }) => {
   const operating_system = buildOperatingSystemFilter(osFilter);
-
-  const system_profile = {
+  const newSystemProfile = {
+    ...system_profile,
     ...(hostTypeFilter ? { host_type: hostTypeFilter } : { host_type: 'nil' }),
     ...(updateMethodFilter
       ? {
@@ -168,9 +169,9 @@ export const calculateSystemProfile = ({
     ...(Object.keys(operating_system).length ? { operating_system } : {}),
   };
 
-  return Object.keys(system_profile).length
+  return Object.keys(newSystemProfile).length
     ? {
-        system_profile,
+        system_profile: newSystemProfile,
       }
     : {};
 };
