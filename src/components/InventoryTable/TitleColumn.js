@@ -96,9 +96,7 @@ const TitleColumn = ({ children, id, item, ...props }) => (
             {children}
           </Link>
           {item?.system_profile?.operating_system?.name === 'CentOS Linux' && (
-            <div>
-              <ConversionPopover />
-            </div>
+            <ConversionPopover />
           )}
         </span>
       )}
