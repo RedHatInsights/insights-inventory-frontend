@@ -364,7 +364,7 @@ export const systemStalenessItems = (activeTabKey) => {
 };
 
 export const systemStalenessWarningItems = (activeTabKey) => {
-  const allDays = [2, 3, 4, 5, 6, 7, 14, 21, 30, 60, 90, 120];
+  const allDays = [2, 3, 4, 5, 6, 7, 14, 21, 30, 60, 90, 120, 150, 180];
   const apiKey = activeTabKey
     ? 'immutable_time_to_stale_warning'
     : 'conventional_time_to_stale_warning';
@@ -382,13 +382,19 @@ export const systemStalenessWarningItems = (activeTabKey) => {
 };
 
 export const systemDeletionItems = (activeTabKey) => {
-  const allDays = [3, 4, 5, 6, 7, 14, 21, 30, 60, 90, 120];
+  const allDays = [3, 4, 5, 6, 7, 14, 21, 30, 60, 90, 120, 150, 180, 365, 730];
   const apiKey = activeTabKey
     ? 'immutable_time_to_delete'
     : 'conventional_time_to_delete';
   const title = 'System deletion';
+
   const newItems = allDays.map((value) => ({
-    name: value + ' days',
+    name:
+      value < 365
+        ? `${value} days`
+        : value === 365
+        ? `1 year`
+        : `${Math.floor(value / 365)} years`,
     value,
     apiKey,
     title,
