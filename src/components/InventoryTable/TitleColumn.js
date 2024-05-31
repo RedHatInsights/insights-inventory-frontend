@@ -43,7 +43,7 @@ const TitleColumn = ({ children, id, item, ...props }) => (
         children
       ) : (
         <span>
-          {item?.system_profile?.bootc_status ? (
+          {item?.system_profile?.bootc_status?.booted?.image_digest ? (
             <Popover
               triggerAction="hover"
               headerContent="Image-based system"
