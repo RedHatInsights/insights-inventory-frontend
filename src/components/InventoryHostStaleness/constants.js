@@ -352,7 +352,7 @@ export const systemStalenessItems = (activeTabKey) => {
     : 'conventional_time_to_stale';
   const title = 'System staleness';
   const newItems = allDays.map((value) => ({
-    name: value + ' days',
+    name: value === 1 ? '1 day' : `${value} days`,
     value,
     apiKey,
     title,
