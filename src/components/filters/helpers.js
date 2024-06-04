@@ -55,6 +55,8 @@ const filterGroupItem = (groupKey, name, major, minor) => ({
   type: 'checkbox',
   label: `${name} ${major}.${minor}`,
   value: `${groupKey}-${major}.${minor}`,
+  major,
+  minor,
   groupKey,
 });
 
