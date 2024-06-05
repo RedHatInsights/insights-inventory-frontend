@@ -16,6 +16,7 @@ import { InfrastructureCard } from '../InfrastructureCard';
 import { ConfigurationCard } from '../ConfigurationCard';
 import { SystemStatusCard } from '../SystemStatusCard';
 import { DataCollectorsCard } from '../DataCollectorsCard/DataCollectorsCard';
+import { SubscriptionCard } from '../SubscriptionCard';
 import { Provider } from 'react-redux';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
@@ -99,6 +100,7 @@ class GeneralInformation extends Component {
       SystemStatusCardWrapper,
       DataCollectorsCardWrapper,
       CollectionCardWrapper,
+      SubscriptionCardWrapper,
       children,
       entity,
     } = this.props;
@@ -158,6 +160,12 @@ class GeneralInformation extends Component {
                 {BiosCardWrapper && (
                   <GridItem>
                     <BiosCardWrapper handleClick={this.handleModalToggle} />
+                  </GridItem>
+                )}
+
+                {SubscriptionCardWrapper && (
+                  <GridItem>
+                    <SubscriptionCardWrapper />
                   </GridItem>
                 )}
 
@@ -276,6 +284,10 @@ GeneralInformation.propTypes = {
     PropTypes.elementType,
     PropTypes.bool,
   ]),
+  SubscriptionCardWrapper: PropTypes.oneOfType([
+    PropTypes.elementType,
+    PropTypes.bool,
+  ]),
   children: PropTypes.node,
   navigate: PropTypes.any,
   inventoryId: PropTypes.string.isRequired,
@@ -295,6 +307,7 @@ GeneralInformation.defaultProps = {
   SystemStatusCardWrapper: SystemStatusCard,
   DataCollectorsCardWrapper: DataCollectorsCard,
   CollectionCardWrapper: false,
+  SubscriptionCardWrapper: SubscriptionCard,
   systemProfilePrefetched: false,
   showImageDetails: false,
   showRuntimesProcesses: false,

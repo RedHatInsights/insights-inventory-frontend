@@ -68,3 +68,11 @@ export const collectInfoTest = {
   insights_client_version: 'test-client',
   insights_egg_version: 'test-egg',
 };
+
+export const subscriptionsTest = {
+  system_purpose: {
+    usage: 'Development',
+    sla: 'Self-Support',
+    role: 'Red Hat Enterprise Linux Server',
+  },
+};
