@@ -35,7 +35,7 @@ describe('Inventory', () => {
 
   test('changes main content when toggle is clicked', async () => {
     mountWithContext();
-    const bifrostToggle = screen.getByLabelText('Bifrost');
+    const bifrostToggle = screen.getByLabelText('View by images');
 
     await userEvent.click(bifrostToggle);
 
