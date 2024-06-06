@@ -7,6 +7,8 @@ exports[`useOperatingSystemFilter with operating systems loaded should return co
     "chips": [
       {
         "groupKey": "RHEL-7",
+        "major": 7,
+        "minor": 6,
         "name": "RHEL 7.6",
         "type": "checkbox",
         "value": "RHEL-7-7.6",

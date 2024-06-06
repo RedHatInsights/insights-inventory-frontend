@@ -23,8 +23,8 @@ describe('Validates datepicker dates', () => {
 describe('toOsFilterGroups', () => {
   it('return "No versions available" when OSes are not loaded', () => {
     const operatingSystems = [];
-    const operatingSystemsLoaded = false;
-    expect(toOsFilterGroups(operatingSystems, operatingSystemsLoaded)).toEqual([
+
+    expect(toOsFilterGroups(operatingSystems, false)).toEqual([
       { items: [{ isDisabled: true, label: 'No versions available' }] },
     ]);
   });
@@ -37,10 +37,18 @@ describe('toOsFilterGroups', () => {
       ...buildOperatingSystems(20, { osName: 'CentOS Linux', major: 7 }),
       ...buildOperatingSystems(20, { osName: 'CentOS Linux', major: 8 }),
     ];
-    const operatingSystemsLoaded = true;
-    expect(
-      toOsFilterGroups(operatingSystems, operatingSystemsLoaded)
-    ).toMatchSnapshot();
+
+    expect(toOsFilterGroups(operatingSystems, true)).toMatchSnapshot();
+  });
+
+  it('returns os versions ordered descending', () => {
+    const operatingSystems = [
+      ...buildOperatingSystems(5, { osName: 'RHEL', major: 7 }),
+    ];
+    const filterGroups = toOsFilterGroups(operatingSystems, true)[0];
+
+    expect(filterGroups.items[0].minor).toEqual(4);
+    expect(filterGroups.items[filterGroups.items.length - 1].minor).toEqual(0);
   });
 });
 
