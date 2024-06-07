@@ -70,9 +70,9 @@ export const collectInfoTest = {
 };
 
 export const subscriptionsTest = {
-  system_purpose: {
-    usage: 'Development',
-    sla: 'Self-Support',
-    role: 'Red Hat Enterprise Linux Server',
+  facts: {
+    SYSPURPOSE_USAGE: 'Development',
+    SYSPURPOSE_SLA: 'Self-Support',
+    SYSPURPOSE_ROLE: 'Red Hat Enterprise Linux Server',
   },
 };

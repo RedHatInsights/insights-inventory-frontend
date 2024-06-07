@@ -9,10 +9,10 @@ function safeParser(toParse, key) {
   }
 }
 
-export const subscriptionsSelector = ({ system_purpose } = {}) => ({
-  usage: system_purpose?.usage,
-  sla: system_purpose?.sla,
-  role: system_purpose?.role,
+export const subscriptionsSelector = ({ facts } = {}) => ({
+  usage: facts?.SYSPURPOSE_USAGE,
+  sla: facts?.SYSPURPOSE_SLA,
+  role: facts?.SYSPURPOSE_ROLE,
 });
 
 export const propertiesSelector = (
