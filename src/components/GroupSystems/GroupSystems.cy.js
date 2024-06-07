@@ -26,6 +26,7 @@ import {
   PAGINATION_NEXT,
   PT_CONDITIONAL_FILTER_TOGGLE,
   PT_BULK_SELECT,
+  PT_BULK_SELECT_CHECKBOX,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _, { cloneDeep } from 'lodash';
 import fixtures from '../../../cypress/fixtures/hosts.json';
@@ -309,7 +310,7 @@ describe('selection and bulk selection', () => {
   });
 
   it('can select and deselect systems', () => {
-    const middleRow = Math.ceil(DEFAULT_ROW_COUNT / 4);
+    const middleRow = Math.ceil(DEFAULT_ROW_COUNT / 7.5);
     selectRowN(middleRow);
     checkSelectedNumber(1);
     selectRowN(Math.ceil(middleRow / 2));
@@ -346,7 +347,7 @@ describe('selection and bulk selection', () => {
 
   it('can select none', () => {
     selectRowN(1);
-    cy.get(PT_BULK_SELECT).click(); // open selection dropdown
+    cy.get(PT_BULK_SELECT_CHECKBOX).click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select none (0 items)').click();
     checkSelectedNumber(0);
   });

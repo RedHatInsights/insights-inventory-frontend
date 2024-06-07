@@ -46,7 +46,7 @@ hostInGroup.results[0].system_profile.operating_system.name = 'RHEL';
 
 describe('renders correctly', () => {
   before(() => cy.mockWindowInsights());
-  beforeEach(() => prepareTest());
+  beforeEach(() => prepareTest(hostInGroup));
 
   it('renders main components for edge host', () => {
     cy.get('.ins-entity-detail').should('have.length', 1);
@@ -133,7 +133,8 @@ describe('rbac integration', () => {
                 attributeFilter: {
                   key: 'group.id',
                   operation: 'equal',
-                  value: null,
+                  //ask about this value
+                  value: 'group-a-id',
                 },
               },
             ],
@@ -142,7 +143,7 @@ describe('rbac integration', () => {
       })
     );
 
-    beforeEach(prepareTest);
+    beforeEach(() => prepareTest(hostInGroup));
 
     it('should enable delete and edit buttons', () => {
       cy.contains('Delete').should('exist').and('be.enabled');
