@@ -660,6 +660,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                         >
                           <th
                             class="pf-v5-c-table__th"
+                            scope="col"
                             tabindex="-1"
                           />
                           <th

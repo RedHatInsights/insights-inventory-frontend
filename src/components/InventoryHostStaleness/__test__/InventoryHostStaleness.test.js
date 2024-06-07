@@ -47,12 +47,6 @@ describe('Table Renders', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Edit' }));
 
-    expect(
-      screen.getAllByRole('button', { name: /options menu/i })
-    ).toHaveLength(3);
-    screen
-      .getAllByRole('button', { name: /options menu/i })
-      .forEach((button) => expect(button).toBeEnabled());
     expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled();
   });

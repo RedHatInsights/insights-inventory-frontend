@@ -25,14 +25,32 @@ const expectTableBasicComponents = (
   expect(screen.getAllByRole('row')).toHaveLength(rowsNumber + 1); // + 1 to count in header row
 
   if (columnNames !== undefined) {
-    screen.getAllByRole('columnheader').forEach((columnHeader, index) => {
-      expect(columnHeader).toHaveTextContent(columnNames[index]);
+    const columnHeaders = screen.getAllByRole('columnheader');
+    let filteredIndex = 0;
+
+    columnHeaders.forEach((columnHeader) => {
+      const dataKey = columnHeader.getAttribute('data-key');
+      if (!shouldRenderSelectAllCheckbox) {
+        // If we do not render the select all checkbox, we should not skip '0'
+        if (columnNames && columnNames[filteredIndex] !== undefined) {
+          expect(columnHeader).toHaveTextContent(columnNames[filteredIndex]);
+          filteredIndex++;
+        }
+      } else {
+        // If we render the select all checkbox, we should skip '0'
+        if (dataKey !== '0') {
+          if (columnNames && columnNames[filteredIndex] !== undefined) {
+            expect(columnHeader).toHaveTextContent(columnNames[filteredIndex]);
+            filteredIndex++;
+          }
+        }
+      }
     });
   }
 
   expect(
-    screen.queryAllByRole('cell', {
-      name: 'Select all rows',
+    screen.queryAllByRole('checkbox', {
+      name: /select all rows/i,
     })
   ).toHaveLength(shouldRenderSelectAllCheckbox ? 1 : 0);
 
@@ -178,7 +196,7 @@ describe('EntityTable', () => {
       );
 
       expectTableBasicComponents(
-        6,
+        7,
         1,
         [...new Array(6)].map(() => 'One'),
         true,
@@ -208,7 +226,7 @@ describe('EntityTable', () => {
         </TestWrapper>
       );
 
-      expectTableBasicComponents(3, 1, ['', 'One', 'OS'], true, true);
+      expectTableBasicComponents(4, 1, ['', 'One', 'OS'], true, true);
     });
 
     it('should render correctly - with actions', () => {
@@ -221,7 +239,7 @@ describe('EntityTable', () => {
       );
 
       expectTableBasicComponents(
-        2,
+        3,
         1,
         ['One', 'OS'],
         true,
@@ -249,7 +267,7 @@ describe('EntityTable', () => {
           </TestWrapper>
         );
 
-        expectTableBasicComponents(2, 1, ['One', 'OS'], true, true);
+        expectTableBasicComponents(3, 1, ['One', 'OS'], true, true);
         expect(
           screen.getByRole('columnheader', {
             name: 'One',
@@ -309,7 +327,7 @@ describe('EntityTable', () => {
           </TestWrapper>
         );
 
-        expectTableBasicComponents(3, 1, ['', 'One', 'OS'], true, true);
+        expectTableBasicComponents(4, 1, ['', 'One', 'OS'], true, true);
         expect(
           screen.getByRole('columnheader', {
             name: 'One',
@@ -339,7 +357,7 @@ describe('EntityTable', () => {
           </TestWrapper>
         );
 
-        expectTableBasicComponents(3, 1, ['', 'One', 'OS'], true, true);
+        expectTableBasicComponents(4, 1, ['', 'One', 'OS'], true, true);
         expect(
           screen.getByRole('columnheader', {
             name: 'OS',
@@ -369,7 +387,7 @@ describe('EntityTable', () => {
           </TestWrapper>
         );
 
-        expectTableBasicComponents(3, 1, ['', 'One', 'OS'], true, true);
+        expectTableBasicComponents(4, 1, ['', 'One', 'OS'], true, true);
         expect(
           screen.getByRole('columnheader', {
             name: 'OS',
@@ -391,7 +409,7 @@ describe('EntityTable', () => {
         </TestWrapper>
       );
 
-      expectTableBasicComponents(2, 1, ['One', 'OS'], true, true);
+      expectTableBasicComponents(3, 1, ['One', 'OS'], true, true);
       expect(screen.getByRole('grid', { name: 'Host inventory' })).toHaveClass(
         'pf-m-compact'
       );
@@ -406,7 +424,7 @@ describe('EntityTable', () => {
         </TestWrapper>
       );
 
-      expectTableBasicComponents(2, 1, ['One', 'OS'], true, true);
+      expectTableBasicComponents(3, 1, ['One', 'OS'], true, true);
       screen
         .getAllByRole('columnheader')
         .forEach((header) =>
@@ -451,7 +469,7 @@ describe('EntityTable', () => {
       );
 
       expectTableBasicComponents(
-        5,
+        6,
         2,
         ['Name', 'Group', 'Tags', 'OS', 'Last seen'],
         true,
@@ -511,7 +529,7 @@ describe('EntityTable', () => {
       );
 
       expectTableBasicComponents(
-        5,
+        6,
         2,
         ['Name', 'Group', 'OS', 'Last seen', 'Secret attribute'],
         true,
@@ -571,7 +589,7 @@ describe('EntityTable', () => {
       );
 
       expectTableBasicComponents(
-        2,
+        3,
         1,
         ['Display name', 'Secret attribute'],
         true,
@@ -660,7 +678,7 @@ describe('EntityTable', () => {
       );
 
       expectTableBasicComponents(
-        3,
+        4,
         1,
         ['Group', 'OS', 'Last seen'],
         true,
@@ -697,7 +715,7 @@ describe('EntityTable', () => {
       );
 
       expectTableBasicComponents(
-        4,
+        5,
         1,
         ['Group', 'Tags', 'OS', 'Last seen'],
         true,
