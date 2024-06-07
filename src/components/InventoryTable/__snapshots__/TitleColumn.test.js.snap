@@ -30,6 +30,7 @@ exports[`TitleColumn should render correctly with NO data 1`] = `
           style="display: contents;"
         >
           <span
+            aria-label="Package mode icon"
             class="pf-v5-c-icon"
             style="margin-right: 8px;"
           >
@@ -38,7 +39,6 @@ exports[`TitleColumn should render correctly with NO data 1`] = `
             >
               <svg
                 aria-hidden="true"
-                aria-label="Package mode icon"
                 class="pf-v5-svg"
                 color="var(--pf-v5-global--icon--Color--light)"
                 fill="currentColor"
@@ -76,6 +76,7 @@ exports[`TitleColumn should render correctly with data 1`] = `
           style="display: contents;"
         >
           <span
+            aria-label="Package mode icon"
             class="pf-v5-c-icon"
             style="margin-right: 8px;"
           >
@@ -84,7 +85,6 @@ exports[`TitleColumn should render correctly with data 1`] = `
             >
               <svg
                 aria-hidden="true"
-                aria-label="Package mode icon"
                 class="pf-v5-svg"
                 color="var(--pf-v5-global--icon--Color--light)"
                 fill="currentColor"
@@ -125,6 +125,7 @@ exports[`TitleColumn should render correctly with href 1`] = `
           style="display: contents;"
         >
           <span
+            aria-label="Package mode icon"
             class="pf-v5-c-icon"
             style="margin-right: 8px;"
           >
@@ -133,7 +134,6 @@ exports[`TitleColumn should render correctly with href 1`] = `
             >
               <svg
                 aria-hidden="true"
-                aria-label="Package mode icon"
                 class="pf-v5-svg"
                 color="var(--pf-v5-global--icon--Color--light)"
                 fill="currentColor"
@@ -177,6 +177,7 @@ exports[`TitleColumn should render correctly with os_release 1`] = `
           style="display: contents;"
         >
           <span
+            aria-label="Package mode icon"
             class="pf-v5-c-icon"
             style="margin-right: 8px;"
           >
@@ -185,7 +186,6 @@ exports[`TitleColumn should render correctly with os_release 1`] = `
             >
               <svg
                 aria-hidden="true"
-                aria-label="Package mode icon"
                 class="pf-v5-svg"
                 color="var(--pf-v5-global--icon--Color--light)"
                 fill="currentColor"
@@ -226,6 +226,7 @@ exports[`TitleColumn should render correctly with to 1`] = `
           style="display: contents;"
         >
           <span
+            aria-label="Package mode icon"
             class="pf-v5-c-icon"
             style="margin-right: 8px;"
           >
@@ -234,7 +235,6 @@ exports[`TitleColumn should render correctly with to 1`] = `
             >
               <svg
                 aria-hidden="true"
-                aria-label="Package mode icon"
                 class="pf-v5-svg"
                 color="var(--pf-v5-global--icon--Color--light)"
                 fill="currentColor"
