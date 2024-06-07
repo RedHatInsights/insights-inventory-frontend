@@ -5,7 +5,7 @@ import LoadingCard from '../LoadingCard';
 import { subscriptionsSelector } from '../selectors';
 
 const SubscriptionCardCore = ({
-  systemPurpose,
+  subscriptionFacts,
   detailLoaded,
   hasUsage,
   hasSLA,
@@ -16,9 +16,11 @@ const SubscriptionCardCore = ({
       title="Subscriptions"
       isLoading={!detailLoaded}
       items={[
-        ...(hasUsage ? [{ title: 'Usage', value: systemPurpose.usage }] : []),
-        ...(hasSLA ? [{ title: 'SLA', value: systemPurpose.sla }] : []),
-        ...(hasRole ? [{ title: 'Role', value: systemPurpose.role }] : []),
+        ...(hasUsage
+          ? [{ title: 'Usage', value: subscriptionFacts.usage }]
+          : []),
+        ...(hasSLA ? [{ title: 'SLA', value: subscriptionFacts.sla }] : []),
+        ...(hasRole ? [{ title: 'Role', value: subscriptionFacts.role }] : []),
       ]}
     />
   );
@@ -26,7 +28,7 @@ const SubscriptionCardCore = ({
 
 SubscriptionCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
-  bios: PropTypes.shape({
+  subscriptionFacts: PropTypes.shape({
     usage: PropTypes.string,
     sla: PropTypes.string,
     role: PropTypes.string,
@@ -43,8 +45,8 @@ SubscriptionCardCore.defaultProps = {
 };
 
 export const SubscriptionCard = connect(
-  ({ systemProfileStore: { systemProfile } }) => ({
-    systemPurpose: subscriptionsSelector(systemProfile),
+  ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
+    subscriptionFacts: subscriptionsSelector(entity),
     detailLoaded: systemProfile && systemProfile.loaded,
   })
 )(SubscriptionCardCore);

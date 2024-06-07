@@ -1214,7 +1214,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                           class=""
                           data-ouia-component-id="Usage value"
                         >
-                          Production
+                          Development
                         </dd>
                         <dt
                           aria-label="SLA title"
@@ -1228,7 +1228,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                           class=""
                           data-ouia-component-id="SLA value"
                         >
-                          Not available
+                          Self-Support
                         </dd>
                         <dt
                           aria-label="Role title"
@@ -1242,7 +1242,7 @@ exports[`GeneralInformation should render correctly 1`] = `
                           class=""
                           data-ouia-component-id="Role value"
                         >
-                          Not available
+                          Red Hat Enterprise Linux Server
                         </dd>
                       </dl>
                     </div>

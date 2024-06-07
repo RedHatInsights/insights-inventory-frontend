@@ -15,15 +15,19 @@ describe('SubscriptionCard', () => {
       systemProfileStore: {
         systemProfile: {
           loaded: true,
-          ...subscriptionsTest,
           cpu_flags: ['one'],
+        },
+      },
+      entityDetails: {
+        entity: {
+          ...subscriptionsTest,
         },
       },
     };
   });
 
   it('should render correctly - loading', () => {
-    const store = mockStore({ systemProfileStore: {} });
+    const store = mockStore({ entityDetails: {}, systemProfileStore: {} });
     const view = render(
       <TestWrapper store={store}>
         <SubscriptionCard />
