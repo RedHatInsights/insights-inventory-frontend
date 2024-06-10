@@ -8,6 +8,7 @@ import { updateGroupById, validateGroupName } from '../utils/api';
 import { nameValidator } from '../helpers/validate';
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
+import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const renameGroupSchema = (namePresenceValidator) => ({
   fields: [
@@ -36,6 +37,7 @@ const RenameGroupModal = ({
 }) => {
   const { id, name } = modalState;
   const dispatch = useDispatch();
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   const handleRenameModal = (values) => {
     const statusMessages = {
@@ -43,7 +45,12 @@ const RenameGroupModal = ({
         title: 'Success',
         description: `${name} has been renamed to ${values.name} successfully`,
       },
-      onError: { title: 'Error', description: 'Failed to rename group' },
+      onError: {
+        title: 'Error',
+        description: isWorkspaceEnabled
+          ? 'Failed to rename workspace'
+          : 'Failed to rename group',
+      },
     };
     apiWithToast(
       dispatch,
@@ -56,7 +63,9 @@ const RenameGroupModal = ({
     const check = async (value) => {
       const results = await validateGroupName(value);
       if (results === true) {
-        throw 'Group name already exists';
+        throw isWorkspaceEnabled
+          ? 'Workspace name already exists'
+          : 'Group name already exists';
       }
 
       return undefined;
@@ -71,7 +80,7 @@ const RenameGroupModal = ({
     <Modal
       isModalOpen={isModalOpen}
       closeModal={() => setIsModalOpen(false)}
-      title="Rename group"
+      title={isWorkspaceEnabled ? 'Rename workspace' : 'Rename group'}
       submitLabel="Save"
       schema={schema}
       initialValues={modalState}

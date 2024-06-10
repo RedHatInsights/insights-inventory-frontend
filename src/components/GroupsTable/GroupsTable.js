@@ -25,12 +25,15 @@ import { Link } from 'react-router-dom';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+  NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+  NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   TABLE_DEFAULT_PAGINATION,
 } from '../../constants';
 import { fetchGroups } from '../../store/inventory-actions';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
 import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { getGroups } from '../InventoryGroups/utils/api';
@@ -122,6 +125,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const groups = useMemo(() => data?.results || [], [data]);
   const { fetchBatched } = useFetchBatched();
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
   const loadingState = uninitialized || loading;
 
   const fetchData = useCallback(
@@ -321,7 +325,11 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
             rowData?.groupId
           )}
-          noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+          noAccessTooltip={
+            isWorkspaceEnabled
+              ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
+              : NO_MODIFY_GROUP_TOOLTIP_MESSAGE
+          }
           onClick={() => {
             setSelectedGroup({
               id: rowData?.groupId,
@@ -330,7 +338,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
             setRenameModalOpen(true);
           }}
         >
-          Rename group
+          {isWorkspaceEnabled ? 'Rename workspace' : 'Rename group'}
         </ActionDropdownItem>
       ),
     },
@@ -340,7 +348,11 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
             rowData?.groupId
           )}
-          noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+          noAccessTooltip={
+            isWorkspaceEnabled
+              ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
+              : NO_MODIFY_GROUP_TOOLTIP_MESSAGE
+          }
           onClick={() => {
             setSelectedGroup({
               id: rowData?.groupId,
@@ -349,7 +361,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
             setDeleteModalOpen(true);
           }}
         >
-          Delete group
+          {isWorkspaceEnabled ? 'Delete workspace' : 'Delete group'}
         </ActionDropdownItem>
       ),
     },
@@ -456,11 +468,15 @@ const GroupsTable = ({ onCreateGroupClick }) => {
             <ActionButton
               key="create-group-btn"
               requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-              noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+              noAccessTooltip={
+                isWorkspaceEnabled
+                  ? NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE
+                  : NO_MODIFY_GROUPS_TOOLTIP_MESSAGE
+              }
               onClick={onCreateGroupClick}
               ouiaId="CreateGroupButton"
             >
-              Create group
+              {isWorkspaceEnabled ? 'Create workspace' : 'Create group'}
             </ActionButton>,
             {
               label: (
@@ -468,12 +484,22 @@ const GroupsTable = ({ onCreateGroupClick }) => {
                   requiredPermissions={selectedIds.flatMap((id) =>
                     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(id)
                   )}
-                  noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                  noAccessTooltip={
+                    isWorkspaceEnabled
+                      ? NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE
+                      : NO_MODIFY_GROUPS_TOOLTIP_MESSAGE
+                  }
                   onClick={() => setDeleteModalOpen(true)}
                   isAriaDisabled={selectedIds.length === 0}
                   checkAll
                 >
-                  {selectedIds.length > 1 ? 'Delete groups' : 'Delete group'}
+                  {selectedIds.length > 1
+                    ? isWorkspaceEnabled
+                      ? 'Delete workspaces'
+                      : 'Delete groups'
+                    : isWorkspaceEnabled
+                    ? 'Delete workspace'
+                    : 'Delete group'}
                 </ActionDropdownItem>
               ),
             },

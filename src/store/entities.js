@@ -38,7 +38,7 @@ export const defaultState = {
   },
 };
 
-export const defaultColumns = () => [
+export const defaultColumns = (isWorkspaceEnabled) => [
   {
     key: 'display_name',
     sortKey: 'display_name',
@@ -50,12 +50,14 @@ export const defaultColumns = () => [
   {
     key: 'groups',
     sortKey: 'group_name',
-    title: 'Group',
+    title: isWorkspaceEnabled ? 'Workspace' : 'Group',
     props: { width: 10 },
     // eslint-disable-next-line camelcase
     renderFunc: (groups) =>
       isEmpty(groups) ? (
-        <div className="pf-v5-u-disabled-color-200">No group</div>
+        <div className="pf-v5-u-disabled-color-200">{`No ${
+          isWorkspaceEnabled ? 'workspace' : 'group'
+        }`}</div>
       ) : (
         groups[0].name
       ), // currently, one group at maximum is supported

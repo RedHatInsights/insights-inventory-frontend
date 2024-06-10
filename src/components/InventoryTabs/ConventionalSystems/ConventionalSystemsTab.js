@@ -20,6 +20,7 @@ import RemoveHostsFromGroupModal from '../../InventoryGroups/Modals/RemoveHostsF
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
+  NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
@@ -34,6 +35,7 @@ import useGlobalFilter from '../../filters/useGlobalFilter';
 import useOnRefresh from '../../filters/useOnRefresh';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { AccountStatContext } from '../../../Routes';
+import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
   const requiredPermissions = selectedSystems.map(({ groups }) =>
@@ -108,6 +110,7 @@ const ConventionalSystemsTab = ({
     rows,
     loaded
   );
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   const onRefresh = useOnRefresh((options) => {
     onSetfilters(options?.filters);
@@ -163,7 +166,8 @@ const ConventionalSystemsTab = ({
     onEditOpen,
     handleModalToggle,
     setRemoveHostsFromGroupModalOpen,
-    setAddHostGroupModalOpen
+    setAddHostGroupModalOpen,
+    isWorkspaceEnabled
   );
 
   const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
@@ -206,14 +210,18 @@ const ConventionalSystemsTab = ({
                   key="bulk-add-to-group"
                   requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
                   isAriaDisabled={!isBulkAddHostsToGroupsEnabled()}
-                  noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                  noAccessTooltip={
+                    isWorkspaceEnabled
+                      ? NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE
+                      : NO_MODIFY_GROUPS_TOOLTIP_MESSAGE
+                  }
                   onClick={() => {
                     setCurrentSystem(Array.from(selected.values()));
                     setAddHostGroupModalOpen(true);
                   }}
                   ignoreResourceDefinitions
                 >
-                  Add to group
+                  {isWorkspaceEnabled ? 'Add to workspace' : 'Add to group'}
                 </ActionDropdownItem>
               ),
             },
@@ -235,7 +243,11 @@ const ConventionalSystemsTab = ({
                       : []
                   }
                   isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
-                  noAccessTooltip={NO_MODIFY_GROUPS_TOOLTIP_MESSAGE}
+                  noAccessTooltip={
+                    isWorkspaceEnabled
+                      ? NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE
+                      : NO_MODIFY_GROUPS_TOOLTIP_MESSAGE
+                  }
                   onClick={() => {
                     setCurrentSystem(Array.from(selected.values()));
                     setRemoveHostsFromGroupModalOpen(true);
@@ -245,7 +257,9 @@ const ConventionalSystemsTab = ({
                     : {})}
                   checkAll
                 >
-                  Remove from group
+                  {isWorkspaceEnabled
+                    ? 'Remove from workspace'
+                    : 'Remove from group'}
                 </ActionDropdownItem>
               ),
             },

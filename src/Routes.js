@@ -151,7 +151,11 @@ export const Routes = () => {
     </Suspense>
   ) : (
     <AccountStatContext.Provider
-      value={{ hasConventionalSystems, hasEdgeDevices, hasBootcImages }}
+      value={{
+        hasConventionalSystems,
+        hasEdgeDevices,
+        hasBootcImages,
+      }}
     >
       {element}
     </AccountStatContext.Provider>

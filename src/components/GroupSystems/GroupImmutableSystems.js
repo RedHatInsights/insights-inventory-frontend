@@ -9,6 +9,7 @@ import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFrom
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
   NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+  NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
 } from '../../constants';
 import {
@@ -30,6 +31,7 @@ import {
 import { edgeColumns } from '../ImmutableDevices/columns';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 export const prepareColumns = (
   initialColumns,
   hideGroupColumn,
@@ -53,7 +55,7 @@ export const prepareColumns = (
     </div>
   );
 
-  // map columns to the speicifc order
+  // map columns to the specific order
   return [
     'display_name',
     'groups',
@@ -70,6 +72,13 @@ export const prepareColumns = (
 
 const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const dispatch = useDispatch();
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
+  const noAccessTooltip = isWorkspaceEnabled
+    ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
+    : NO_MODIFY_GROUP_TOOLTIP_MESSAGE;
+  const removeLabel = isWorkspaceEnabled
+    ? 'Remove from workspace'
+    : 'Remove from group';
   const mergeColumns = (inventoryColumns) => {
     const filteredColumns = inventoryColumns.filter(
       (column) => column.key !== 'groups'
@@ -258,13 +267,13 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       setCurrentSystem([row]);
                       setRemoveHostsFromGroupModalOpen(true);
                     }}
                   >
-                    Remove from group
+                    {removeLabel}
                   </ActionDropdownItem>
                 ),
               },
@@ -277,7 +286,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       setCurrentSystem([row]);
                       navigate(`/insights/inventory/${row.id}/update`);
@@ -298,7 +307,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       dispatch(clearEntitiesAction());
                       setAddToGroupModalOpen(true);
@@ -311,7 +320,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    noAccessTooltip={noAccessTooltip}
                     key="update-systems-button"
                     onClick={() => {
                       setupdateDevice(true);
@@ -325,12 +334,12 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                 </div>,
               ],
               {
-                label: 'Remove from group',
+                label: removeLabel,
                 props: {
                   isAriaDisabled: !canModify || calculateSelected() === 0,
                   ...(!canModify && {
                     tooltipProps: {
-                      content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                      content: noAccessTooltip,
                     },
                   }),
                 },

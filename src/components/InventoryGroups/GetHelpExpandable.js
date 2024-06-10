@@ -11,11 +11,13 @@ import React from 'react';
 import { USER_ACCESS_ADMIN_PERMISSIONS } from '../../constants';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const GetHelpExpandable = () => {
   const { hasAccess: isUserAccessAdministrator, isOrgAdmin } =
     usePermissionsWithContext(USER_ACCESS_ADMIN_PERMISSIONS);
   const { quickStarts } = useChrome();
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
     <ExpandableSection
@@ -33,7 +35,10 @@ const GetHelpExpandable = () => {
               quickStarts.activateQuickstart('insights-inventory-groups')
             }
           >
-            Create an Inventory group <ArrowRightIcon />
+            {isWorkspaceEnabled
+              ? 'Create a workspace'
+              : 'Create an Inventory group'}{' '}
+            <ArrowRightIcon />
           </Button>
         </ListItem>
         {isUserAccessAdministrator || isOrgAdmin ? (
@@ -46,7 +51,10 @@ const GetHelpExpandable = () => {
                 quickStarts.activateQuickstart('insights-inventory-groups-rbac')
               }
             >
-              Configure User Access for your Inventory groups <ArrowRightIcon />
+              {isWorkspaceEnabled
+                ? 'Configure User Access for your workspaces'
+                : 'Configure User Access for your Inventory groups'}{' '}
+              <ArrowRightIcon />
             </Button>
           </ListItem>
         ) : (

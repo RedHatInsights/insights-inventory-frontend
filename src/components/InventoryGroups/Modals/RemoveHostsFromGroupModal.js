@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { removeHostsFromGroup } from '../utils/api';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import { AlertActionLink, Text } from '@patternfly/react-core';
+import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const schema = (hosts) => {
   const hostsInGroup = hosts.filter(({ groups }) => groups.length > 0); // selection can contain ungroupped hosts
@@ -76,6 +77,7 @@ const RemoveHostsFromGroupModal = ({
   reloadTimeout,
 }) => {
   const dispatch = useDispatch();
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
   const groupId = hosts.find(({ groups }) => groups.length > 0).groups[0].id;
 
   const handleRemoveHosts = () =>
@@ -93,7 +95,7 @@ const RemoveHostsFromGroupModal = ({
     <Modal
       isModalOpen={isModalOpen}
       closeModal={() => setIsModalOpen(false)}
-      title="Remove from group"
+      title={isWorkspaceEnabled ? 'Remove from workspace' : 'Remove from group'}
       variant="danger"
       submitLabel="Remove"
       schema={schema(hosts)}
