@@ -46,6 +46,11 @@ describe('Table Renders', () => {
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'Edit' }));
+    const menuToggleButtons = screen
+      .getAllByRole('button')
+      .filter((button) => button.classList.contains('pf-v5-c-menu-toggle'));
+
+    menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
 
     expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled();

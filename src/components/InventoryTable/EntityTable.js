@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { selectEntity, setSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { TableGridBreakpoint, TableVariant } from '@patternfly/react-table';
 import {
   Table as PfTable,
   TableBody,
@@ -106,7 +107,11 @@ const EntityTable = ({
               sortBy,
               noSystemsTable,
             })}
-            gridBreakPoint={columns?.length > 5 ? 'grid-lg' : 'gird-md'}
+            gridBreakPoint={
+              columns?.length > 5
+                ? TableGridBreakpoint.gridLg
+                : TableGridBreakpoint.gridMd
+            }
             className="ins-c-entity-table sentry-mask data-hj-suppress"
             onSort={(event, index, direction) => {
               onSortChange(
@@ -186,7 +191,7 @@ EntityTable.defaultProps = {
   hasCheckbox: true,
   showActions: false,
   rows: [],
-  variant: 'compact',
+  variant: TableVariant.compact,
   onExpandClick: () => undefined,
   tableProps: {},
 };
