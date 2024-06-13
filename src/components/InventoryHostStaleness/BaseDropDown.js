@@ -48,11 +48,8 @@ const BaseDropdown = ({
 
   const toggle = (toggleRef) => {
     const getNameByValue = (value) => {
-      for (const obj of dropdownItems) {
-        if (obj.value === value) {
-          return obj.name;
-        }
-      }
+      const item = dropdownItems.find((obj) => obj.value === value);
+      return item ? item.name : 'undefined';
     };
     return (
       <MenuToggle

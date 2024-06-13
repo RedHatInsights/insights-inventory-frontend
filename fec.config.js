@@ -26,7 +26,6 @@ module.exports = {
         },
       },
     ],
-    root: resolve(__dirname, './'),
     exposes: {
       // Application root
       './RootApp': resolve(__dirname, '/src/AppEntry'),
