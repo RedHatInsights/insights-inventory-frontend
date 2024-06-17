@@ -40,7 +40,10 @@
     "coverageDirectory": "./codecov-jest/",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.js",
+      "src/**/*.{js,jsx}",
+      "!src/**/*.cy.js",
+      "!src/**/__fixtures__/*.js",
+      "!src/**/__factories__/*.js",
       "!src/entry.js",
       "!src/entry-dev.js"
     ],
