@@ -54,7 +54,7 @@ const GroupDetailInfo = ({ chrome }) => {
           </span>
         ) : (
           <span>
-            Manage your ${isWorkspaceEnabled ? 'workspace' : 'inventory group'}{' '}
+            Manage your {isWorkspaceEnabled ? 'workspace' : 'inventory group'}{' '}
             user access configuration under Identity & Access Management {'>'}{' '}
             User Access.
           </span>
