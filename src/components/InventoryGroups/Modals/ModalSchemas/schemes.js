@@ -92,7 +92,7 @@ export const addHostSchema = (hosts, chrome, isWorkspaceEnabled) => ({
     },
     {
       component: 'select',
-      name: isWorkspaceEnabled ? 'workspace' : 'group',
+      name: 'group',
       label: isWorkspaceEnabled ? 'Select a workspace' : 'Select a group',
       simpleValue: true,
       isSearchable: true, // enables typeahead
