@@ -27,9 +27,7 @@ export const useSystemTypeFilter = (
     type: 'checkbox',
     filterValues: {
       value: systemTypeValue,
-      onChange: (_e, value) => {
-        setValue(value);
-      },
+      onChange: (_e, value) => setValue(value),
       items: defaultSystemTypeOptions,
     },
   };

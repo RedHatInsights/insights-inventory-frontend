@@ -310,7 +310,7 @@ const EntityTableToolbar = ({
       setUpdateMethodValue(updateMethodFilter);
     enabledFilters.lastSeenFilter && setLastSeenFilterValue(lastSeenFilter);
     enabledFilters.hostGroupFilter && setHostGroupValue(hostGroupFilter);
-    enabledFilters.systemTypeFilter && setHostGroupValue(systemTypeFilter);
+    enabledFilters.systemTypeFilter && setSystemTypeValue(systemTypeFilter);
   }, []);
 
   /**

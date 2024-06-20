@@ -203,6 +203,7 @@ export function reduceFilters(filters = []) {
         'lastSeenFilter',
         'hostGroupFilter',
         '',
+        'systemTypeFilter',
       ].find((item) => Object.keys(oneFilter).includes(item));
 
       return {
@@ -237,7 +238,8 @@ export const generateFilter = (
   rhcdFilter,
   updateMethodFilter,
   hostGroupFilter,
-  lastSeenFilter
+  lastSeenFilter,
+  systemTypeFilter
 ) =>
   [
     !isEmpty(status) && {
@@ -282,6 +284,11 @@ export const generateFilter = (
       hostGroupFilter: Array.isArray(hostGroupFilter)
         ? hostGroupFilter
         : [hostGroupFilter],
+    },
+    !isEmpty(systemTypeFilter) && {
+      systemTypeFilter: Array.isArray(systemTypeFilter)
+        ? systemTypeFilter
+        : [systemTypeFilter],
     },
   ].filter(Boolean);
 
