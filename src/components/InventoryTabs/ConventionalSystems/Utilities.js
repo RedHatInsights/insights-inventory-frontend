@@ -3,6 +3,7 @@ import {
   HOST_GROUP_CHIP,
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
+  SYSTEM_TYPE_KEY,
 } from '../../../Utilities/constants';
 
 const mapTags = ({ category, values }) =>
@@ -60,6 +61,10 @@ const filterMapper = {
   hostGroupFilter: ({ hostGroupFilter }, searchParams) =>
     hostGroupFilter?.forEach((item) =>
       searchParams.append(HOST_GROUP_CHIP, item)
+    ),
+  systemTypeFilter: ({ systemTypeFilter }, searchParams) =>
+    systemTypeFilter?.forEach((item) =>
+      searchParams.append(SYSTEM_TYPE_KEY, item)
     ),
 };
 
