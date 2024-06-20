@@ -31,22 +31,28 @@ const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
     </SplitItem>
     <SplitItem>
       <ToggleGroup aria-label="Inventory content toggle">
-        <Tooltip content="View by systems" position="top-end">
-          <ToggleGroupItem
-            icon={<DesktopIcon />}
-            aria-label="Hybrid inventory"
-            isSelected={mainContent === pageContents.hybridInventory.key}
-            onChange={() => changeMainContent(pageContents.hybridInventory.key)}
-          />
-        </Tooltip>
-        <Tooltip content="View by images" position="top-end">
-          <ToggleGroupItem
-            icon={<FontAwesomeImageIcon />}
-            aria-label="Bifrost"
-            isSelected={mainContent === pageContents.bifrost.key}
-            onChange={() => changeMainContent(pageContents.bifrost.key)}
-          />
-        </Tooltip>
+        <Tooltip
+          content="View by systems"
+          triggerRef={() => document.getElementById('view-by-systems-toggle')}
+        />
+        <ToggleGroupItem
+          id="view-by-systems-toggle"
+          icon={<DesktopIcon />}
+          aria-label="View by systems"
+          isSelected={mainContent === pageContents.hybridInventory.key}
+          onChange={() => changeMainContent(pageContents.hybridInventory.key)}
+        />
+        <Tooltip
+          content="View by images"
+          triggerRef={() => document.getElementById('view-by-images-toggle')}
+        />
+        <ToggleGroupItem
+          id="view-by-images-toggle"
+          icon={<FontAwesomeImageIcon />}
+          aria-label="View by images"
+          isSelected={mainContent === pageContents.bifrost.key}
+          onChange={() => changeMainContent(pageContents.bifrost.key)}
+        />
       </ToggleGroup>
     </SplitItem>
   </Split>

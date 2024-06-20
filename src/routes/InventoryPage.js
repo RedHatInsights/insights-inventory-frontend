@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './inventory.scss';
-import Main from '@redhat-cloud-services/frontend-components/Main';
 import HybridInventory from './InventoryComponents/HybridInventory';
 import InventoryPageHeader from './InventoryComponents/InventoryPageHeader';
 import BifrostPage from './InventoryComponents/BifrostPage';
+import { PageSection } from '@patternfly/react-core';
 
 export const pageContents = {
   hybridInventory: {
@@ -27,9 +27,9 @@ const Inventory = (props) => {
         mainContent={mainContent}
         changeMainContent={setMainContent}
       />
-      <Main>
+      <PageSection>
         {React.createElement(pageContents[mainContent].component, { ...props })}
-      </Main>
+      </PageSection>
     </React.Fragment>
   );
 };

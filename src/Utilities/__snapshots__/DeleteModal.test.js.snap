@@ -62,7 +62,7 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
               <span
                 class="pf-v5-c-modal-box__title-text"
               >
-                Remove from inventory
+                Delete from inventory
               </span>
             </h1>
           </header>
@@ -189,9 +189,10 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
                   data-ouia-component-id="confirm-inventory-delete"
                   data-ouia-component-type="PF5/Button"
                   data-ouia-safe="true"
+                  data-testid="confirm-inventory-delete"
                   type="button"
                 >
-                  Remove
+                  Delete
                 </button>
                 <button
                   aria-disabled="false"
@@ -275,7 +276,7 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
               <span
                 class="pf-v5-c-modal-box__title-text"
               >
-                Remove from inventory
+                Delete from inventory
               </span>
             </h1>
           </header>
@@ -402,9 +403,10 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
                   data-ouia-component-id="confirm-inventory-delete"
                   data-ouia-component-type="PF5/Button"
                   data-ouia-safe="true"
+                  data-testid="confirm-inventory-delete"
                   type="button"
                 >
-                  Remove
+                  Delete
                 </button>
                 <button
                   aria-disabled="false"

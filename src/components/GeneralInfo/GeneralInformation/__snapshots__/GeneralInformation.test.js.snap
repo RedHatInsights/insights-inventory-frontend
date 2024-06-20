@@ -1189,6 +1189,97 @@ exports[`GeneralInformation should render correctly 1`] = `
                         data-ouia-safe="true"
                         data-pf-content="true"
                       >
+                        Subscriptions
+                      </h1>
+                    </div>
+                  </div>
+                  <div
+                    class="pf-v5-l-stack__item pf-m-fill"
+                  >
+                    <div
+                      class="pf-v5-c-content"
+                    >
+                      <dl
+                        class=""
+                      >
+                        <dt
+                          aria-label="Usage title"
+                          class=""
+                          data-ouia-component-id="Usage title"
+                        >
+                          Usage
+                        </dt>
+                        <dd
+                          aria-label="Usage value"
+                          class=""
+                          data-ouia-component-id="Usage value"
+                        >
+                          Development
+                        </dd>
+                        <dt
+                          aria-label="SLA title"
+                          class=""
+                          data-ouia-component-id="SLA title"
+                        >
+                          SLA
+                        </dt>
+                        <dd
+                          aria-label="SLA value"
+                          class=""
+                          data-ouia-component-id="SLA value"
+                        >
+                          Self-Support
+                        </dd>
+                        <dt
+                          aria-label="Role title"
+                          class=""
+                          data-ouia-component-id="Role title"
+                        >
+                          Role
+                        </dt>
+                        <dd
+                          aria-label="Role value"
+                          class=""
+                          data-ouia-component-id="Role value"
+                        >
+                          Red Hat Enterprise Linux Server
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="pf-v5-l-grid__item"
+          >
+            <div
+              class="pf-v5-c-card"
+              data-ouia-component-id="system-properties-card"
+              data-ouia-component-type="PF5/Card"
+              data-ouia-safe="true"
+              id=""
+            >
+              <div
+                class="pf-v5-c-card__body"
+              >
+                <div
+                  class="pf-v5-l-stack pf-m-gutter"
+                >
+                  <div
+                    class="pf-v5-l-stack__item"
+                  >
+                    <div
+                      class="pf-v5-c-content"
+                    >
+                      <h1
+                        class=""
+                        data-ouia-component-id="SystemPropertiesCardTitle"
+                        data-ouia-component-type="PF5/Text"
+                        data-ouia-safe="true"
+                        data-pf-content="true"
+                      >
                         Configuration
                       </h1>
                     </div>

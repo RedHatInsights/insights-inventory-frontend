@@ -82,7 +82,7 @@ HeaderInfo.propTypes = {
   addNotification: PropTypes.func,
 };
 DetailHeader.propTypes = {
-  BreadcrumbWrapper: PropTypes.elementType,
+  BreadcrumbWrapper: PropTypes.node,
   shouldWrapAsPage: PropTypes.bool,
   additionalClasses: PropTypes.object,
 };

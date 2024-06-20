@@ -1,162 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`useOperatingSystemFilter with operating systems loaded should match snapshot 1`] = `
-[
-  {
-    "filterValues": {
-      "groups": [
-        {
-          "groupSelectable": true,
-          "items": [
-            {
-              "label": "RHEL 8.10",
-              "type": "checkbox",
-              "value": "8.10",
-            },
-            {
-              "label": "RHEL 8.5",
-              "type": "checkbox",
-              "value": "8.5",
-            },
-          ],
-          "label": "RHEL 8",
-          "type": "checkbox",
-          "value": "RHEL 8",
-        },
-        {
-          "groupSelectable": true,
-          "items": [
-            {
-              "label": "CentOS Linux 8.6",
-              "type": "checkbox",
-              "value": "8.6",
-            },
-          ],
-          "label": "CentOS Linux 8",
-          "type": "checkbox",
-          "value": "CentOS Linux 8",
-        },
-        {
-          "groupSelectable": true,
-          "items": [
-            {
-              "label": "RHEL 7.0",
-              "type": "checkbox",
-              "value": "7.0",
-            },
-          ],
-          "label": "RHEL 7",
-          "type": "checkbox",
-          "value": "RHEL 7",
-        },
-        {
-          "groupSelectable": true,
-          "items": [
-            {
-              "label": "CentOS Linux 7.9",
-              "type": "checkbox",
-              "value": "7.9",
-            },
-          ],
-          "label": "CentOS Linux 7",
-          "type": "checkbox",
-          "value": "CentOS Linux 7",
-        },
-        {
-          "groupSelectable": true,
-          "items": [
-            {
-              "label": "RHEL 6.10",
-              "type": "checkbox",
-              "value": "6.10",
-            },
-            {
-              "label": "RHEL 6.9",
-              "type": "checkbox",
-              "value": "6.9",
-            },
-          ],
-          "label": "RHEL 6",
-          "type": "checkbox",
-          "value": "RHEL 6",
-        },
-      ],
-      "onChange": [Function],
-      "selected": {
-        "CentOS Linux 7": {
-          "7.9": false,
-          "CentOS Linux 7": false,
-        },
-        "CentOS Linux 8": {
-          "8.6": false,
-          "CentOS Linux 8": false,
-        },
-        "RHEL 6": {
-          "6.10": false,
-          "6.9": false,
-          "RHEL 6": false,
-        },
-        "RHEL 7": {
-          "7.0": false,
-          "RHEL 7": false,
-        },
-        "RHEL 8": {
-          "8.10": false,
-          "8.5": false,
-          "RHEL 8": false,
-        },
-      },
-    },
-    "label": "Operating System",
-    "type": "group",
-    "value": "operating-system-filter",
-  },
-  [],
-  [],
-  [Function],
-]
-`;
-
 exports[`useOperatingSystemFilter with operating systems loaded should return correct chips array, current value and value setter 1`] = `
 [
   {
     "category": "Operating System",
     "chips": [
       {
-        "groupLabel": "RHEL 8",
-        "name": "RHEL 8.5",
-        "osName": "RHEL",
-        "value": "8.5",
+        "groupKey": "RHEL-7",
+        "major": 7,
+        "minor": 6,
+        "name": "RHEL 7.6",
+        "type": "checkbox",
+        "value": "RHEL-7-7.6",
       },
     ],
     "type": "operating_system",
   },
-]
-`;
-
-exports[`useOperatingSystemFilter with operating systems loaded should return empty state value if no versions obtained 1`] = `
-[
-  {
-    "filterValues": {
-      "groups": [
-        {
-          "items": [
-            {
-              "label": "No versions available",
-            },
-          ],
-        },
-      ],
-      "onChange": [Function],
-      "selected": {},
-    },
-    "label": "Operating System",
-    "type": "group",
-    "value": "operating-system-filter",
-  },
-  [],
-  [],
-  [Function],
 ]
 `;
 
@@ -168,6 +27,7 @@ exports[`useOperatingSystemFilter with operating systems yet not loaded should r
         {
           "items": [
             {
+              "isDisabled": true,
               "label": "No versions available",
             },
           ],
@@ -181,7 +41,7 @@ exports[`useOperatingSystemFilter with operating systems yet not loaded should r
     "value": "operating-system-filter",
   },
   [],
-  [],
+  {},
   [Function],
 ]
 `;

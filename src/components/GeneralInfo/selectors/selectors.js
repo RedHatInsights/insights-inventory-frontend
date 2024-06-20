@@ -9,6 +9,12 @@ function safeParser(toParse, key) {
   }
 }
 
+export const subscriptionsSelector = ({ facts } = {}) => ({
+  usage: facts?.SYSPURPOSE_USAGE,
+  sla: facts?.SYSPURPOSE_SLA,
+  role: facts?.SYSPURPOSE_ROLE,
+});
+
 export const propertiesSelector = (
   {
     number_of_cpus,

@@ -39,9 +39,9 @@ describe('InventoryContentToggle', () => {
     useFeatureFlag.mockReturnValue(true);
 
     mountWithContext();
-    expect(screen.getByLabelText('Hybrid inventory')).toBeVisible();
-    expect(screen.getByLabelText('Bifrost')).toBeVisible();
-    expect(screen.getByLabelText('Bifrost')).toHaveAttribute(
+    expect(screen.getByLabelText('View by systems')).toBeVisible();
+    expect(screen.getByLabelText('View by images')).toBeVisible();
+    expect(screen.getByLabelText('View by images')).toHaveAttribute(
       'aria-pressed',
       'true'
     );
@@ -54,15 +54,15 @@ describe('InventoryContentToggle', () => {
       ...defaultContextValues,
       hasBootcImages: false,
     });
-    expect(screen.queryByLabelText('Hybrid inventory')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('Bifrost')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('View by systems')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('View by images')).not.toBeInTheDocument();
     expect(screen.getByText('Systems')).toBeVisible();
   });
 
   test('calls changeMainContent with correct content key when Bifrost is clicked', async () => {
     mountWithContext();
 
-    await user.click(screen.getByLabelText('Bifrost'));
+    await user.click(screen.getByLabelText('View by images'));
 
     expect(defaultProps.changeMainContent).toHaveBeenCalledWith('bifrost');
     expect(defaultProps.changeMainContent).toHaveBeenCalledTimes(1);
@@ -71,7 +71,7 @@ describe('InventoryContentToggle', () => {
   test('calls changeMainContent with correct content key when Hybrid inventory is clicked', async () => {
     mountWithContext();
 
-    await user.click(screen.getByLabelText('Hybrid inventory'));
+    await user.click(screen.getByLabelText('View by systems'));
 
     expect(defaultProps.changeMainContent).toHaveBeenCalledWith(
       'hybridInventory'

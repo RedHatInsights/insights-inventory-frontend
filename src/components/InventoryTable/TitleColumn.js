@@ -43,7 +43,7 @@ const TitleColumn = ({ children, id, item, ...props }) => (
         children
       ) : (
         <span>
-          {item?.system_profile?.bootc_status ? (
+          {item?.system_profile?.bootc_status?.booted?.image_digest ? (
             <Popover
               triggerAction="hover"
               headerContent="Image-based system"
@@ -56,11 +56,10 @@ const TitleColumn = ({ children, id, item, ...props }) => (
                 </div>
               }
             >
-              <Icon style={{ marginRight: '8px' }}>
+              <Icon style={{ marginRight: '8px' }} aria-label="Image mode icon">
                 <FontAwesomeImageIcon
                   fill="var(--pf-v5-global--icon--Color--light)"
                   margin="0px"
-                  aria-label="Image mode icon"
                 />
               </Icon>
             </Popover>
@@ -77,11 +76,11 @@ const TitleColumn = ({ children, id, item, ...props }) => (
                 </div>
               }
             >
-              <Icon style={{ marginRight: '8px' }}>
-                <BundleIcon
-                  color="var(--pf-v5-global--icon--Color--light)"
-                  aria-label="Package mode icon"
-                />
+              <Icon
+                style={{ marginRight: '8px' }}
+                aria-label="Package mode icon"
+              >
+                <BundleIcon color="var(--pf-v5-global--icon--Color--light)" />
               </Icon>
             </Popover>
           )}
@@ -100,9 +99,7 @@ const TitleColumn = ({ children, id, item, ...props }) => (
             {children}
           </Link>
           {item?.system_profile?.operating_system?.name === 'CentOS Linux' && (
-            <div>
-              <ConversionPopover />
-            </div>
+            <ConversionPopover />
           )}
         </span>
       )}

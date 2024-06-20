@@ -67,6 +67,11 @@ describe('GeneralInformation', () => {
         entity: {
           id: 'test-id',
           per_reporter_staleness: {},
+          facts: {
+            SYSPURPOSE_USAGE: 'Development',
+            SYSPURPOSE_SLA: 'Self-Support',
+            SYSPURPOSE_ROLE: 'Red Hat Enterprise Linux Server',
+          },
         },
       },
       systemProfileStore: {
@@ -295,7 +300,9 @@ describe('GeneralInformation', () => {
       );
 
       await waitFor(() => {
-        expect(navigate).toBeCalledWith('/available#pre-conversion-analysis');
+        expect(navigate).toBeCalledWith(
+          '/available/convert-to-rhel-preanalysis'
+        );
       });
     });
 

@@ -13,7 +13,7 @@
     "@patternfly/react-core": "^5.2.3",
     "@patternfly/react-icons": "^5.2.1",
     "@patternfly/react-table": "^5.2.4",
-    "@redhat-cloud-services/frontend-components": "^4.2.6",
+    "@redhat-cloud-services/frontend-components": "^4.2.8",
     "@redhat-cloud-services/frontend-components-notifications": "^4.1.0",
     "@redhat-cloud-services/frontend-components-utilities": "^4.0.10",
     "@redhat-cloud-services/host-inventory-client": "1.2.13",
@@ -35,52 +35,15 @@
     "redux-promise-middleware": "^6.2.0",
     "semver": "^7.3.7"
   },
-  "release": {
-    "branches": "master",
-    "analyzeCommits": {
-      "preset": "angular",
-      "releaseRules": [
-        {
-          "type": "refactor",
-          "release": "patch"
-        },
-        {
-          "type": "style",
-          "release": "patch"
-        },
-        {
-          "type": "update",
-          "release": "patch"
-        },
-        {
-          "type": "docs",
-          "release": "patch"
-        },
-        {
-          "type": "test",
-          "release": "patch"
-        }
-      ]
-    },
-    "prepare": [],
-    "publish": [
-      [
-        "@semantic-release/github",
-        {
-          "successComment": false,
-          "failComment": false,
-          "labels": false,
-          "releasedLabels": false
-        }
-      ]
-    ]
-  },
   "jest": {
     "testEnvironment": "jsdom",
     "coverageDirectory": "./codecov-jest/",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.js",
+      "src/**/*.{js,jsx}",
+      "!src/**/*.cy.js",
+      "!src/**/__fixtures__/*.js",
+      "!src/**/__factories__/*.js",
       "!src/entry.js",
       "!src/entry-dev.js"
     ],
@@ -121,15 +84,13 @@
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@commitlint/travis-cli": "^17.6.7",
-    "@cypress/code-coverage": "^3.12.9",
+    "@cypress/code-coverage": "^3.12.37",
     "@cypress/react18": "^2.0.0",
     "@faker-js/faker": "^8.2.0",
     "@patternfly/patternfly": "^5.2.0",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.3",
     "@redhat-cloud-services/frontend-components-config": "^5.1.1",
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
-    "@stoplight/prism-cli": "^4.10.5",
+    "@stoplight/prism-cli": "^5.8.1",
     "@testing-library/jest-dom": "^6.2.1",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
@@ -153,7 +114,6 @@
     "node-fetch": "^2.6.7",
     "npm-run-all": "^4.1.5",
     "redux-mock-store": "^1.5.4",
-    "semantic-release": "^19.0.5",
     "stylelint": "^13.13.1",
     "stylelint-config-recommended-scss": "^4.3.0",
     "stylelint-scss": "^3.21.0",

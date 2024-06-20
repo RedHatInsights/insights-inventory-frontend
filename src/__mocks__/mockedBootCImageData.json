@@ -1,0 +1,39 @@
+[
+    {
+        "image": "India Pale Ale",
+        "hashCommitCount": 2,
+        "systemCount": 3,
+        "hashes": [
+            {
+                "image_digest": "Hazy",
+                "hashSystemCount": 2
+            },
+            {
+                "image_digest": "West Coast",
+                "hashSystemCount": 1
+            }
+        ]
+    },
+    {
+        "image": "Belgian",
+        "hashCommitCount": 1,
+        "systemCount": 1,
+        "hashes": [
+            {
+                "image_digest": "Dubbel",
+                "hashSystemCount": 1
+            }
+        ]
+    },
+    {
+        "image": "Stout",
+        "hashCommitCount": 1,
+        "systemCount": 1,
+        "hashes": [
+            {
+                "image_digest": "Bourbon Barrell Aged",
+                "hashSystemCount": 1
+            }
+        ]
+    }
+]
