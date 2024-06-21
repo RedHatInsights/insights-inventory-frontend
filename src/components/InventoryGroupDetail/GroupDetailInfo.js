@@ -48,7 +48,7 @@ const GroupDetailInfo = ({ chrome }) => {
       <CardBody>
         {isUserAccessAdministrator ? (
           <span>
-             Manage your {isWorkspaceEnabled ? 'workspace' : 'inventory group'}{' '}
+            Manage your {isWorkspaceEnabled ? 'workspace' : 'inventory group'}{' '}
             user access configuration under{' '}
             <a href={path}>Identity & Access Management {'>'} User Access</a>.
           </span>
