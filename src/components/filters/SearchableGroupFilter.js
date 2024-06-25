@@ -11,6 +11,7 @@ import {
 
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const SearchableGroupFilter = ({
   initialGroups,
@@ -18,13 +19,14 @@ const SearchableGroupFilter = ({
   setSelectedGroupNames,
   showNoGroupOption = false,
 }) => {
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
   const initialValues = useMemo(
     () => [
       ...(showNoGroupOption
         ? [
             {
               itemId: '',
-              children: 'No group',
+              children: isWorkspaceEnabled ? 'No workspace' : 'No group',
             },
           ]
         : []),
@@ -33,7 +35,7 @@ const SearchableGroupFilter = ({
         children: name,
       })),
     ],
-    [initialGroups]
+    [initialGroups, isWorkspaceEnabled]
   );
 
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +56,14 @@ const SearchableGroupFilter = ({
 
       // when no options are found after filtering, display 'No groups found'
       if (!newSelectOptions.length) {
-        newSelectOptions = [{ isDisabled: true, children: 'No groups found' }];
+        newSelectOptions = [
+          {
+            isDisabled: true,
+            children: isWorkspaceEnabled
+              ? 'No workspace found'
+              : 'No groups found',
+          },
+        ];
       }
     }
 
@@ -153,7 +162,9 @@ const SearchableGroupFilter = ({
           onKeyDown={onInputKeyDown}
           id="multi-typeahead-select-input"
           autoComplete="off"
-          placeholder="Filter by group"
+          placeholder={
+            isWorkspaceEnabled ? 'Filter by workspace' : 'Filter by group'
+          }
         />
       </TextInputGroup>
     </MenuToggle>
@@ -175,7 +186,11 @@ const SearchableGroupFilter = ({
       >
         <SelectList isAriaMultiselectable>
           {selectOptions.length === 0 ? (
-            <SelectOption key="none">No groups available</SelectOption>
+            <SelectOption key="none">
+              {isWorkspaceEnabled
+                ? 'No workspaces available'
+                : 'No groups available'}
+            </SelectOption>
           ) : (
             selectOptions.map((option, index) => (
               <div key={option.itemId || option.children}>

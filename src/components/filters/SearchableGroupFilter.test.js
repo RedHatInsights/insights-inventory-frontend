@@ -3,6 +3,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import SearchableGroupFilter from './SearchableGroupFilter';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
+
+jest.mock('../../Utilities/hooks/useWorkspaceFeatureFlag');
+useWorkspaceFeatureFlag.mockReturnValue(false);
 
 const setter = jest.fn();
 

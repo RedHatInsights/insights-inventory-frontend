@@ -33,6 +33,7 @@ import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/Page
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AccountStatContext } from '../../../Routes';
 import { hybridInventoryTabKeys } from '../../../Utilities/constants';
+import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
@@ -63,6 +64,7 @@ const AddSystemsToGroupModal = ({
     true,
     pageSelected
   );
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   const alreadyHasGroup = [...selected].filter(
     // eslint-disable-next-line camelcase
@@ -222,7 +224,11 @@ const AddSystemsToGroupModal = ({
                   <Alert
                     variant="warning"
                     isInline
-                    title="One or more of the selected systems already belong to a group. Only ungrouped systems can be added. Unselect these systems to move forward."
+                    title={
+                      isWorkspaceEnabled
+                        ? 'One or more of the selected systems already belong to a workspace. Only systems not already belonging to a workspace can be added. Unselect these systems to move forward.'
+                        : 'One or more of the selected systems already belong to a group. Only ungrouped systems can be added. Unselect these systems to move forward.'
+                    }
                   />
                 </FlexItem>
               )}

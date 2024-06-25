@@ -8,6 +8,7 @@ import {
 } from '../../constants';
 import { ActionButton } from '../InventoryTable/ActionWithRBAC';
 import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const GroupDetailInfo = ({ chrome }) => {
   const path = `${chrome.isBeta() ? '/preview' : ''}/iam/user-access`;
@@ -15,6 +16,7 @@ const GroupDetailInfo = ({ chrome }) => {
     'rbac',
     USER_ACCESS_ADMIN_PERMISSIONS
   );
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
     <Card>
@@ -46,13 +48,15 @@ const GroupDetailInfo = ({ chrome }) => {
       <CardBody>
         {isUserAccessAdministrator ? (
           <span>
-            Manage your inventory group user access configuration under{' '}
+            Manage your {isWorkspaceEnabled ? 'workspace' : 'inventory group'}{' '}
+            user access configuration under{' '}
             <a href={path}>Identity & Access Management {'>'} User Access</a>.
           </span>
         ) : (
           <span>
-            Manage your inventory group user access configuration under Identity
-            & Access Management {'>'} User Access.
+            Manage your {isWorkspaceEnabled ? 'workspace' : 'inventory group'}{' '}
+            user access configuration under Identity & Access Management {'>'}{' '}
+            User Access.
           </span>
         )}
       </CardBody>

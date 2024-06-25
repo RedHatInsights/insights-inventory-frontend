@@ -245,8 +245,12 @@ export const REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS = (groupId) => [
 
 export const NO_MODIFY_GROUPS_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify groups. Contact your organization administrator.';
+export const NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE =
+  'You do not have the necessary permissions to modify workspaces. Contact your organization administrator.';
 export const NO_MODIFY_GROUP_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this group. Contact your organization administrator.';
+export const NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE =
+  'You do not have the necessary permissions to modify this workspace. Contact your organization administrator.';
 export const NO_MODIFY_HOSTS_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify hosts. Contact your organization administrator.';
 export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =

@@ -41,6 +41,8 @@ export const routes = {
   update: '/:inventoryId/update',
   edgeInventory: '/manage-edge-inventory',
   staleness: '/staleness-and-deletion',
+  workspace: '/workspace',
+  workspaceDetail: '/workspace/:groupId',
 };
 
 export const AccountStatContext = createContext({
@@ -105,6 +107,14 @@ export const Routes = () => {
       element: <InventoryOrEdgeGroupDetailsView />,
     },
     {
+      path: '/workspace',
+      element: <InventoryOrEdgeView />,
+    },
+    {
+      path: '/workspace/:groupId',
+      element: <InventoryOrEdgeGroupDetailsView />,
+    },
+    {
       path: '/:inventoryId/update',
       element: <EdgeInventoryUpdate />,
     },
@@ -151,7 +161,11 @@ export const Routes = () => {
     </Suspense>
   ) : (
     <AccountStatContext.Provider
-      value={{ hasConventionalSystems, hasEdgeDevices, hasBootcImages }}
+      value={{
+        hasConventionalSystems,
+        hasEdgeDevices,
+        hasBootcImages,
+      }}
     >
       {element}
     </AccountStatContext.Provider>

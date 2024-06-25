@@ -9,6 +9,7 @@ import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFrom
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
   NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+  NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   getSearchParams,
 } from '../../constants';
@@ -24,6 +25,7 @@ import useGlobalFilter from '../filters/useGlobalFilter';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 export const prepareColumns = (
   initialColumns,
@@ -101,6 +103,13 @@ const GroupSystems = ({ groupName, groupId }) => {
   );
 
   const [searchParams] = useSearchParams();
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
+  const noAccessTooltip = isWorkspaceEnabled
+    ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
+    : NO_MODIFY_GROUP_TOOLTIP_MESSAGE;
+  const removeLabel = isWorkspaceEnabled
+    ? 'Remove from workspace'
+    : 'Remove from group';
 
   useEffect(() => {
     const { page, perPage } = getSearchParams(searchParams);
@@ -205,13 +214,13 @@ const GroupSystems = ({ groupName, groupId }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId
                     )}
-                    noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                    noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       setCurrentSystem([row]);
                       setRemoveHostsFromGroupModalOpen(true);
                     }}
                   >
-                    Remove from group
+                    {removeLabel}
                   </ActionDropdownItem>
                 ),
               },
@@ -224,7 +233,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                 requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                   groupId
                 )}
-                noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+                noAccessTooltip={noAccessTooltip}
                 onClick={() => {
                   dispatch(clearEntitiesAction());
                   setAddToGroupModalOpen(true);
@@ -234,12 +243,12 @@ const GroupSystems = ({ groupName, groupId }) => {
                 Add systems
               </ActionButton>,
               {
-                label: 'Remove from group',
+                label: removeLabel,
                 props: {
                   isAriaDisabled: !canModify || calculateSelected() === 0,
                   ...(!canModify && {
                     tooltipProps: {
-                      content: NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+                      content: noAccessTooltip,
                     },
                   }),
                 },

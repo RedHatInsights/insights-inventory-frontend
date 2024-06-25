@@ -13,12 +13,15 @@ import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupM
 import PropTypes from 'prop-types';
 import {
   NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
+  NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
 } from '../../constants';
 import { ActionButton } from '../InventoryTable/ActionWithRBAC';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const NoSystemsEmptyState = ({ groupId, groupName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
     <EmptyState
@@ -44,12 +47,18 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
         headingLevel="h4"
       />
       <EmptyStateBody>
-        To manage systems more effectively, add systems to the group.
+        {`To manage systems more effectively, add systems to the ${
+          isWorkspaceEnabled ? 'workspace' : 'group'
+        }.`}
       </EmptyStateBody>
       <EmptyStateFooter>
         <ActionButton
           requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)}
-          noAccessTooltip={NO_MODIFY_GROUP_TOOLTIP_MESSAGE}
+          noAccessTooltip={
+            isWorkspaceEnabled
+              ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
+              : NO_MODIFY_GROUP_TOOLTIP_MESSAGE
+          }
           variant="primary"
           onClick={() => setIsModalOpen(true)}
           ouiaId="add-systems-button"

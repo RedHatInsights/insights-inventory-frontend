@@ -7,6 +7,8 @@ import { TEXT_INPUT } from '@redhat-cloud-services/frontend-components-utilities
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { getStore } from '../../../store';
+import { featureFlagsInterceptors } from '../../../../cypress/support/interceptors';
+import FlagProvider from '@unleash/proxy-client-react';
 
 const mockResponse = [
   {
@@ -63,15 +65,25 @@ describe('Create Group Modal', () => {
       },
     }).as('validate');
 
+    featureFlagsInterceptors.successful();
+
     mount(
-      <MemoryRouter>
-        <Provider store={getStore()}>
-          <CreateGroupModal
-            isModalOpen={true}
-            reloadData={() => console.log('data reloaded')}
-          />
-        </Provider>
-      </MemoryRouter>
+      <FlagProvider
+        config={{
+          url: 'http://localhost:8002/feature_flags',
+          clientKey: 'abc',
+          appName: 'abc',
+        }}
+      >
+        <MemoryRouter>
+          <Provider store={getStore()}>
+            <CreateGroupModal
+              isModalOpen={true}
+              reloadData={() => console.log('data reloaded')}
+            />
+          </Provider>
+        </MemoryRouter>
+      </FlagProvider>
     );
   });
 

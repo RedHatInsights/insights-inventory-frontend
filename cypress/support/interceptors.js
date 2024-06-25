@@ -291,6 +291,40 @@ export const featureFlagsInterceptors = {
       },
     }).as('getEdgeFeatureFlag');
   },
+  workspacesSuccessful: () => {
+    cy.intercept('GET', '/feature_flags*', {
+      statusCode: 200,
+      body: {
+        toggles: [
+          {
+            name: 'platform.rbac.groups-to-workspaces-rename',
+            enabled: true,
+            variant: {
+              name: 'disabled',
+              enabled: true,
+            },
+          },
+        ],
+      },
+    }).as('getWorkspacesFeatureFlag');
+  },
+  workspacesDisabled: () => {
+    cy.intercept('GET', '/feature_flags*', {
+      statusCode: 200,
+      body: {
+        toggles: [
+          {
+            name: 'platform.rbac.groups-to-workspaces-rename',
+            enabled: false,
+            variant: {
+              name: 'disabled',
+              enabled: false,
+            },
+          },
+        ],
+      },
+    }).as('getWorkspacesFeatureFlag');
+  },
 };
 
 export const edgeInterceptors = {

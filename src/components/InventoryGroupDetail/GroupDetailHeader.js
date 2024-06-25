@@ -30,6 +30,7 @@ import useInsightsNavigate from '@redhat-cloud-services/frontend-components-util
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import EdgeUpdateDeviceModal from './EdgeUpdateDeviceModal';
 import { getInventoryGroupDevicesUpdateInfo } from '../../api/edge/updates';
+import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const GroupDetailHeader = ({ groupId }) => {
   const dispatch = useDispatch();
@@ -59,6 +60,8 @@ const GroupDetailHeader = ({ groupId }) => {
     'edgeParity.inventory-groups-enabled'
   );
 
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
+
   useEffect(() => {
     if (isEdgeParityGroupsEnabled) {
       (async () => {
@@ -79,7 +82,14 @@ const GroupDetailHeader = ({ groupId }) => {
     if (canRead) {
       if (uninitialized || loading) {
         return (
-          <Skeleton width="250px" screenreaderText="Loading group details" />
+          <Skeleton
+            width="250px"
+            screenreaderText={
+              isWorkspaceEnabled
+                ? 'Loading workspace details'
+                : 'Loading group details'
+            }
+          />
         );
       } else {
         return name || groupId; // in case of error, render just id from URL
@@ -119,7 +129,9 @@ const GroupDetailHeader = ({ groupId }) => {
       )}
       <Breadcrumb>
         <BreadcrumbItem>
-          <Link to="../groups">Groups</Link>
+          <Link to="../groups">
+            {isWorkspaceEnabled ? 'Workspaces' : 'Groups'}
+          </Link>
         </BreadcrumbItem>
         <BreadcrumbItem isActive>{getTitle()}</BreadcrumbItem>
       </Breadcrumb>
@@ -146,7 +158,7 @@ const GroupDetailHeader = ({ groupId }) => {
                 isDisabled={!canModify || uninitialized || loading}
                 ouiaId="group-actions-dropdown-toggle"
               >
-                Group actions
+                {isWorkspaceEnabled ? 'Workspace actions' : 'Group actions'}
               </MenuToggle>
             )}
           >

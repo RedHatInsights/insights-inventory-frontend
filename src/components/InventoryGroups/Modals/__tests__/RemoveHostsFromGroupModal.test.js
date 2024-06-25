@@ -4,12 +4,18 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { removeHostsFromGroup } from '../../utils/api';
 import RemoveHostsFromGroupModal from '../RemoveHostsFromGroupModal';
+import useWorkspaceFeatureFlag from '../../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 jest.mock('react-redux');
 jest.mock('../../utils/api');
+jest.mock('../../../../Utilities/hooks/useWorkspaceFeatureFlag');
 
 describe('RemoveHostsFromGroupModal', () => {
   const setIsModalOpen = jest.fn();
+
+  beforeEach(() => {
+    useWorkspaceFeatureFlag.mockReturnValue(false);
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
