@@ -54,6 +54,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
               >
                 <th
                   class="pf-v5-c-table__th"
+                  scope="col"
                   tabindex="-1"
                 />
                 <th
@@ -388,6 +389,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
               >
                 <th
                   class="pf-v5-c-table__th"
+                  scope="col"
                   tabindex="-1"
                 />
                 <th
@@ -722,6 +724,7 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
               >
                 <th
                   class="pf-v5-c-table__th"
+                  scope="col"
                   tabindex="-1"
                 />
                 <th

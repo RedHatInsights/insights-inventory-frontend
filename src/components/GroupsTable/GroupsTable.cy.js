@@ -295,7 +295,9 @@ describe('selection and bulk selection', () => {
 
   it('can select none', () => {
     selectRowN(1);
-    cy.get(PT_BULK_SELECT).contains('1 selected').click(); // open selection dropdown
+    cy.get(
+      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle > .pf-v5-c-menu-toggle__controls'
+    ).click();
     cy.get(PT_BULK_SELECT_LIST).find(MENU_ITEM).eq(1).click();
     checkSelectedNumber(0);
   });
