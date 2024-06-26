@@ -41,8 +41,8 @@ export const routes = {
   update: '/:inventoryId/update',
   edgeInventory: '/manage-edge-inventory',
   staleness: '/staleness-and-deletion',
-  workspace: '/workspace',
-  workspaceDetail: '/workspace/:groupId',
+  workspace: '/workspaces',
+  workspaceDetail: '/workspaces/:groupId',
 };
 
 export const AccountStatContext = createContext({
@@ -107,11 +107,11 @@ export const Routes = () => {
       element: <InventoryOrEdgeGroupDetailsView />,
     },
     {
-      path: '/workspace',
+      path: '/workspaces',
       element: <InventoryOrEdgeView />,
     },
     {
-      path: '/workspace/:groupId',
+      path: '/workspaces/:groupId',
       element: <InventoryOrEdgeGroupDetailsView />,
     },
     {
