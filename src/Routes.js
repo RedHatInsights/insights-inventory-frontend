@@ -17,6 +17,7 @@ import {
 } from './Utilities/edge';
 import { inventoryHasConventionalSystems } from './Utilities/conventional';
 import Fallback from './components/SpinnerFallback';
+import useWorkspaceFeatureFlag from './Utilities/hooks/useWorkspaceFeatureFlag';
 
 const InventoryOrEdgeGroupDetailsView = lazy(() =>
   import('./routes/InventoryOrEdgeGroupDetailsComponent')
@@ -63,6 +64,7 @@ export const Routes = () => {
 
   const stalenessAndDeletionEnabled = useFeatureFlag('hbi.custom-staleness');
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
+  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   useEffect(() => {
     // zero state check
@@ -100,11 +102,19 @@ export const Routes = () => {
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
     {
       path: '/groups',
-      element: <InventoryOrEdgeView />,
+      element: isWorkspaceEnabled ? (
+        <Navigate to="/workspaces" />
+      ) : (
+        <InventoryOrEdgeView />
+      ),
     },
     {
       path: '/groups/:groupId',
-      element: <InventoryOrEdgeGroupDetailsView />,
+      element: isWorkspaceEnabled ? (
+        <Navigate to="/workspaces/:groupId" />
+      ) : (
+        <InventoryOrEdgeGroupDetailsView />
+      ),
     },
     {
       path: '/workspaces',
