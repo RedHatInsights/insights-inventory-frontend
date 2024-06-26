@@ -107,11 +107,11 @@ export const Routes = () => {
       element: <InventoryOrEdgeGroupDetailsView />,
     },
     {
-      path: '/workspace',
+      path: '/workspaces',
       element: <InventoryOrEdgeView />,
     },
     {
-      path: '/workspace/:groupId',
+      path: '/workspaces/:groupId',
       element: <InventoryOrEdgeGroupDetailsView />,
     },
     {
