@@ -76,12 +76,8 @@ const waitForTable = (waitNetwork = false) => {
     cy.wait('@getHosts');
   }
 
-  // indicating the table is loaded
-  cy.get('table[aria-label="Host inventory"]').should(
-    'have.attr',
-    'data-ouia-safe',
-    'true'
-  );
+  // indicating first rows and the table are loaded
+  cy.get('[data-label="Name"]').contains('dolor');
 };
 
 describe('test data', () => {
@@ -418,8 +414,6 @@ describe('edge cases', () => {
     systemProfileInterceptors['operating system, successful empty']();
     groupsInterceptors['successful with some items']();
     mountTable();
-
-    waitForTable();
 
     checkEmptyState('No matching systems found', true);
     checkPaginationTotal(0);
