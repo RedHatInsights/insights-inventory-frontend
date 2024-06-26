@@ -11,6 +11,7 @@ import { mockSystemProfile, mockTags } from '../../__mocks__/hostApi';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
 import { buildOperatingSystems } from '../../__factories__/operatingSystems';
+import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 
 import EntityTableToolbar from './EntityTableToolbar';
 import TitleColumn from './TitleColumn';
@@ -25,6 +26,8 @@ jest.mock('../../Utilities/constants', () => ({
 
 jest.mock('../../Utilities/hooks/useFetchOperatingSystems');
 jest.mock('../../Utilities/hooks/useFetchBatched');
+
+jest.mock('@redhat-cloud-services/frontend-components-utilities/interceptors');
 
 const expectDefaultFiltersVisible = async () => {
   const DEFAULT_FILTERS = [
@@ -835,6 +838,60 @@ describe('EntityTableToolbar', () => {
           name: /system update method/i,
         })
       ).not.toBeInTheDocument();
+    });
+  });
+
+  describe('export', () => {
+    const formats = ['json', 'csv'];
+
+    it('should call the exports API', async () => {
+      const format = formats[Math.floor(Math.random() * formats.length)];
+      const axisoPostMock = jest.fn(async () => {});
+      useAxiosWithPlatformInterceptors.mockImplementation(() => {
+        return {
+          post: axisoPostMock,
+        };
+      });
+      const store = mockStore({
+        entities: {
+          ...initialState.entities,
+          activeFilters: [],
+        },
+      });
+
+      render(
+        <Provider store={store}>
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded
+            enableExport
+          />
+        </Provider>
+      );
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: 'Export',
+        })
+      );
+
+      await userEvent.click(
+        screen.queryByRole('menuitem', {
+          name: 'Export to ' + format.toUpperCase(),
+        })
+      );
+
+      expect(axisoPostMock).toHaveBeenCalledWith('/api/export/v1/exports', {
+        format,
+        name: 'inventory-export',
+        sources: [
+          {
+            application: 'urn:redhat:application:inventory',
+            resource: 'urn:redhat:application:inventory:systems',
+            filters: {},
+          },
+        ],
+      });
     });
   });
 });

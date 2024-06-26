@@ -1,3 +1,4 @@
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import {
   ACTION_TYPES,
   CHANGE_SORT,
@@ -249,3 +250,18 @@ export const toggleDrawer = (isOpened) => ({
   type: TOGGLE_DRAWER,
   payload: { isOpened },
 });
+
+export const exportSuccessNotifiction = () =>
+  addNotification({
+    id: 'inventory-export-success',
+    variant: 'info',
+    title:
+      'Preparing export. Once complete, your download will start automatically.',
+  });
+
+export const exportErrorNotifiction = () =>
+  addNotification({
+    id: 'inventory-export-error',
+    variant: 'danger',
+    title: 'Export cannot be generated.',
+  });
