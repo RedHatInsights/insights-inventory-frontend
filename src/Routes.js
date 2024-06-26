@@ -103,7 +103,7 @@ export const Routes = () => {
     {
       path: '/groups',
       element: isWorkspaceEnabled ? (
-        <Navigate to="/workspaces" />
+        <Navigate to="/insights/inventory/workspaces" />
       ) : (
         <InventoryOrEdgeView />
       ),
@@ -111,7 +111,7 @@ export const Routes = () => {
     {
       path: '/groups/:groupId',
       element: isWorkspaceEnabled ? (
-        <Navigate to="/workspaces/:groupId" />
+        <Navigate to="/insights/inventory/workspaces/:groupId" />
       ) : (
         <InventoryOrEdgeGroupDetailsView />
       ),
