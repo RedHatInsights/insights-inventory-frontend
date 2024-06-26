@@ -18,6 +18,7 @@ import {
 import { inventoryHasConventionalSystems } from './Utilities/conventional';
 import Fallback from './components/SpinnerFallback';
 import useWorkspaceFeatureFlag from './Utilities/hooks/useWorkspaceFeatureFlag';
+import Redirect from './Utilities/Redirect';
 
 const InventoryOrEdgeGroupDetailsView = lazy(() =>
   import('./routes/InventoryOrEdgeGroupDetailsComponent')
@@ -103,7 +104,7 @@ export const Routes = () => {
     {
       path: '/groups',
       element: isWorkspaceEnabled ? (
-        <Navigate to="/insights/inventory/workspaces" />
+        <Redirect to="/insights/inventory/workspaces" replace="replace" />
       ) : (
         <InventoryOrEdgeView />
       ),
@@ -111,7 +112,10 @@ export const Routes = () => {
     {
       path: '/groups/:groupId',
       element: isWorkspaceEnabled ? (
-        <Navigate to="/insights/inventory/workspaces/:groupId" />
+        <Redirect
+          to="/insights/inventory/workspaces/:groupId"
+          replace="replace"
+        />
       ) : (
         <InventoryOrEdgeGroupDetailsView />
       ),
