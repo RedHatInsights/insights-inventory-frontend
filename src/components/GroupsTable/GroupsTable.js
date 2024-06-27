@@ -258,7 +258,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
               {
                 title: (
                   <NoEntitiesFound
-                    entities="groups"
+                    entities={isWorkspaceEnabled ? 'workspaces' : 'groups'}
                     onClearAll={onResetFilters}
                   />
                 ),
