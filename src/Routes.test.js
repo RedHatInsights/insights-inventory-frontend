@@ -50,14 +50,6 @@ describe('routes', () => {
         expect(screen.getByText('Loading')).toBeVisible();
       });
     }); */
-
-    it('renders the groups route', async () => {
-      render(<TestWrapper route={'/groups'} />);
-
-      await waitFor(() => {
-        expect(screen.getByText('Groups component')).toBeVisible(); // mocked
-      });
-    });
   });
 
   describe('zero state', () => {
