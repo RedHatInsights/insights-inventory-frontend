@@ -32,7 +32,9 @@ const GetHelpExpandable = () => {
             className="ins-c-groups-help-expandable__link"
             size="lg"
             onClick={() =>
-              quickStarts.activateQuickstart('insights-inventory-groups')
+              isWorkspaceEnabled
+                ? quickStarts.activateQuickstart('insights-inventory-workspace')
+                : quickStarts.activateQuickstart('insights-inventory-groups')
             }
           >
             {isWorkspaceEnabled
@@ -48,7 +50,13 @@ const GetHelpExpandable = () => {
               className="ins-c-groups-help-expandable__link"
               size="lg"
               onClick={() =>
-                quickStarts.activateQuickstart('insights-inventory-groups-rbac')
+                isWorkspaceEnabled
+                  ? quickStarts.activateQuickstart(
+                      'insights-inventory-workspace-rbac'
+                    )
+                  : quickStarts.activateQuickstart(
+                      'insights-inventory-groups-rbac'
+                    )
               }
             >
               {isWorkspaceEnabled

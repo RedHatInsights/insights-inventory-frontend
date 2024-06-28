@@ -57,10 +57,10 @@ const generateContent = (groups = [], isWorkspaceEnabled) => ({
   title:
     groups.length > 1
       ? isWorkspaceEnabled
-        ? 'Delete workspaces'
+        ? 'Delete workspaces?'
         : 'Delete groups?'
       : isWorkspaceEnabled
-      ? 'Delete workspace'
+      ? 'Delete workspace?'
       : 'Delete group?',
   titleIconVariant: () => (
     <Icon status="warning">
