@@ -24,6 +24,7 @@ const BaseDropdown = ({
   modalMessage,
   isFormValid,
   setIsFormValid,
+  ouiaId,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(currentItem);
@@ -61,6 +62,7 @@ const BaseDropdown = ({
           width: '200px',
         }}
         status={!isFormValid && 'danger'}
+        data-ouia-component-id={ouiaId}
       >
         {getNameByValue(selected)}
       </MenuToggle>
@@ -101,6 +103,7 @@ const BaseDropdown = ({
             toggle={toggle}
             selections={selected}
             isScrollable
+            ouiaId={ouiaId}
           >
             {dropdownItems.map((item) => (
               <SelectOption
@@ -134,6 +137,7 @@ BaseDropdown.propTypes = {
   modalMessage: PropTypes.string,
   isFormValid: PropTypes.any,
   setIsFormValid: PropTypes.any,
+  ouiaId: PropTypes.string,
 };
 
 export default BaseDropdown;
