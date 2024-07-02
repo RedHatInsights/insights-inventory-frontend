@@ -8,6 +8,7 @@ import {
   systemStalenessItems,
   systemStalenessWarningItems,
 } from './constants';
+import capitalize from 'lodash/capitalize';
 
 const TabCard = ({
   isEditing,
@@ -45,7 +46,9 @@ const TabCard = ({
           {dropdownArray(activeTabKey).map((item) => (
             <FlexItem key={item[0].title}>
               <BaseDropdown
-                data-ouia-component-id={item[0].title}
+                ouiaId={`${
+                  activeTabKey === 0 ? 'Conventional' : 'Immutable'
+                }${item[0].title.split(' ').map(capitalize).join('')}Dropdown`}
                 dropdownItems={item}
                 currentItem={newFormValues[item[0].apiKey]}
                 disabled={!isEditing}
