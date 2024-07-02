@@ -33,7 +33,7 @@ const ConversionAlert = (props) => {
           </a>
         </Text>
         <Text component={TextVariants.p}>
-          <a onClick={() => navigate('/available/convert-to-rhel-preanalysis')}>
+          <a onClick={() => navigate('/available/convert-to-rhel-analysis')}>
             Run a Pre-conversion analysis of this system
           </a>
         </Text>

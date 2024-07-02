@@ -40,7 +40,7 @@ const ConversionPopover = () => {
       footerContent={
         <Button
           variant="secondary"
-          onClick={() => navigate('/available/convert-to-rhel-preanalysis')}
+          onClick={() => navigate('/available/convert-to-rhel-analysis')}
         >
           Run a pre-conversion analysis of this system
         </Button>
