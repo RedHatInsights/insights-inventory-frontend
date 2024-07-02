@@ -84,6 +84,7 @@ const InventoryTable = forwardRef(
       hasCheckbox,
       abortOnUnmount = true,
       showCentosVersions = false,
+      enableExport,
       ...props
     },
     ref
@@ -273,6 +274,7 @@ const InventoryTable = forwardRef(
             ...activeFiltersConfig,
           }}
           showCentosVersions={showCentosVersions}
+          enableExport={enableExport}
         >
           {children}
         </EntityTableToolbar>
@@ -347,6 +349,7 @@ InventoryTable.propTypes = {
   abortOnUnmount: PropTypes.bool,
   showCentosVersions: PropTypes.bool,
   showNoGroupOption: PropTypes.bool, // group filter option
+  enableExport: PropTypes.bool,
 };
 
 export default InventoryTable;

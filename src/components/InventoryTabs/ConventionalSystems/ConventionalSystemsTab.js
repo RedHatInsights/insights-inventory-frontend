@@ -111,6 +111,7 @@ const ConventionalSystemsTab = ({
     loaded
   );
   const isWorkspaceEnabled = useWorkspaceFeatureFlag();
+  const isExportEnabled = useFeatureFlag('hbi.export-data');
 
   const onRefresh = useOnRefresh((options) => {
     onSetfilters(options?.filters);
@@ -268,6 +269,7 @@ const ConventionalSystemsTab = ({
         bulkSelect={bulkSelectConfig}
         showCentosVersions
         showNoGroupOption
+        enableExport={isExportEnabled}
       />
 
       <DeleteModal
