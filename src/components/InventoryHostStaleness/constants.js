@@ -276,9 +276,9 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
 export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
   return (
     <Popover
-      aria-label="Orginization level popover"
+      aria-label="Organization level popover"
       headerContent={
-        <Title headingLevel="h4">Orginization level setting</Title>
+        <Title headingLevel="h4">Organization level setting</Title>
       }
       hasAutoWidth
       position="top"
@@ -336,7 +336,7 @@ export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
     >
       <Button
         variant="plain"
-        aria-label="Orginization level popover"
+        aria-label="Organization level popover"
         style={{ padding: 0 }}
       >
         <OutlinedQuestionCircleIcon className="pf-v5-u-ml-sm" />
