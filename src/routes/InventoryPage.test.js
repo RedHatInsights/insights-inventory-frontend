@@ -3,8 +3,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { AccountStatContext } from '../Routes';
 import InventoryPage from './InventoryPage';
+import { AccountStatContext } from '../Contexts';
 
 jest.mock('./InventoryComponents/HybridInventory', () => () => (
   <div data-testid="HybridInventory" />

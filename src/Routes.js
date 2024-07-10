@@ -1,10 +1,4 @@
-import React, {
-  Suspense,
-  createContext,
-  lazy,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
@@ -19,6 +13,7 @@ import { inventoryHasConventionalSystems } from './Utilities/conventional';
 import Fallback from './components/SpinnerFallback';
 import useWorkspaceFeatureFlag from './Utilities/hooks/useWorkspaceFeatureFlag';
 import Redirect from './Utilities/Redirect';
+import { AccountStatContext } from './Contexts';
 
 const InventoryOrEdgeGroupDetailsView = lazy(() =>
   import('./routes/InventoryOrEdgeGroupDetailsComponent')
@@ -46,12 +41,6 @@ export const routes = {
   workspace: '/workspaces',
   workspaceDetail: '/workspaces/:groupId',
 };
-
-export const AccountStatContext = createContext({
-  hasConventionalSystems: true,
-  hasEdgeDevices: false,
-  hasBootcImages: false,
-});
 
 export const Routes = () => {
   const [hasConventionalSystems, setHasConventionalSystems] = useState(true);

@@ -31,9 +31,9 @@ import ImmutableDevicesView from '../../InventoryTabs/ImmutableDevices/EdgeDevic
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { InfoCircleIcon } from '@patternfly/react-icons';
-import { AccountStatContext } from '../../../Routes';
 import { hybridInventoryTabKeys } from '../../../Utilities/constants';
 import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
+import { AccountStatContext } from '../../../Contexts';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
