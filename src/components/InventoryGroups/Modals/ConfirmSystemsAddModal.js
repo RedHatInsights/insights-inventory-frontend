@@ -1,7 +1,7 @@
 import { FormSpy, useFormApi } from '@data-driven-forms/react-form-renderer';
 import { Button, Flex, Icon } from '@patternfly/react-core';
 import ExclamationTriangleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
-import { warningColor } from '@patternfly/react-tokens';
+import { global_warning_color_100 as warningColor } from '@patternfly/react-tokens';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from './Modal';
