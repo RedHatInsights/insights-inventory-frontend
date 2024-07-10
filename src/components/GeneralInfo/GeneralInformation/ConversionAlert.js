@@ -14,10 +14,10 @@ const ConversionAlert = (props) => {
     >
       <TextContent>
         <Text component={TextVariants.p}>
-          On June 30, 2024, CentOS Linux 7 will reach End of Life (EOL). Convert
-          your system to RHEL using the Convert2RHEL tool to migrate your system
-          to a fully supported production-grade operating system while
-          maintaining existing OS customizations, configurations, and
+          As of June 30, 2024, CentOS Linux 7 has reached end of life (EOL).
+          Convert your system to RHEL using the Convert2RHEL tool to migrate
+          your system to a fully supported production-grade operating system
+          while maintaining existing OS customizations, configurations, and
           preferences.
         </Text>
         <Text component={TextVariants.p}>

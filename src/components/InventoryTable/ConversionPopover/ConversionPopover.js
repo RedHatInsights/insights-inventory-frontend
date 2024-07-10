@@ -19,7 +19,7 @@ const ConversionPopover = () => {
       bodyContent={
         <TextContent>
           <Text style={{ maxWidth: '380px', fontSize: '14px' }}>
-            On June 30, 2024, CentOS Linux 7 will reach End of Life (EOL).
+            As of June 30, 2024, CentOS Linux 7 has reached end of life (EOL).
           </Text>
           <Text style={{ maxWidth: '380px', fontSize: '14px' }}>
             Red Hat can help migrate CentOS Linux 7 users to maintain continuity
