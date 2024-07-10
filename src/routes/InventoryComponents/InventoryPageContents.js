@@ -1,5 +1,5 @@
-import HybridInventory from './InventoryComponents/HybridInventory';
-import BifrostPage from './InventoryComponents/BifrostPage';
+import BifrostPage from './BifrostPage';
+import HybridInventory from './HybridInventory';
 
 export const pageContents = {
   hybridInventory: {
