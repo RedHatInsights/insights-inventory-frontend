@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
@@ -32,43 +32,7 @@ import { edgeColumns } from '../ImmutableDevices/columns';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
-export const prepareColumns = (
-  initialColumns,
-  hideGroupColumn,
-  openTabOnClick = false
-) => {
-  // hides the "groups" column
-  const columns = hideGroupColumn
-    ? initialColumns.filter(({ key }) => key !== 'groups')
-    : initialColumns;
-  columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc = (
-    value,
-    hostId
-  ) => (
-    <div className="sentry-mask data-hj-suppress">
-      <Link
-        to={`../${hostId}`}
-        {...(openTabOnClick ? { target: '_blank' } : {})}
-      >
-        {value}
-      </Link>
-    </div>
-  );
-
-  // map columns to the specific order
-  return [
-    'display_name',
-    'groups',
-    'tags',
-    'system_profile',
-    'update_method',
-    'updated',
-    'image',
-    'status',
-  ]
-    .map((colKey) => columns.find(({ key }) => key === colKey))
-    .filter(Boolean); // eliminate possible undefined's
-};
+import { prepareColumnsImmutable as prepareColumns } from './helpers';
 
 const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const dispatch = useDispatch();

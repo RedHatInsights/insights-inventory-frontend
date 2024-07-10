@@ -11,4 +11,4 @@ const ImmutableDevices = React.forwardRef((props, ref) => (
 
 export default ImmutableDevices;
 
-export { default as useOperatingSystemFilter } from '../components/filters/useOperatingSystemFilter';
+export { useOperatingSystemFilter } from '../components/filters/useOperatingSystemFilter';

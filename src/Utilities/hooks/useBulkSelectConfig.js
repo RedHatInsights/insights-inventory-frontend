@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { Spinner } from '@patternfly/react-core';
-import { flatten, map } from 'lodash';
+import flatten from 'lodash/flatten';
+import map from 'lodash/map';
 import React, { Fragment, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/actions';

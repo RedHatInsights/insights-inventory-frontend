@@ -11,4 +11,4 @@ const InventoryTable = React.forwardRef((props, ref) => (
 
 export default InventoryTable;
 
-export { default as useOperatingSystemFilter } from '../components/filters/useOperatingSystemFilter';
+export { useOperatingSystemFilter } from '../components/filters/useOperatingSystemFilter';

@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import { AccountStatContext } from '../../Routes';
 import InventoryPageHeader from './InventoryPageHeader';
+import { AccountStatContext } from '../../Contexts';
 
 jest.mock('../../Utilities/useFeatureFlag');
 

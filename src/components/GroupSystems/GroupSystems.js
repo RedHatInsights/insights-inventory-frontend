@@ -1,10 +1,10 @@
-import { TableVariant, fitContent } from '@patternfly/react-table';
+import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
@@ -26,58 +26,7 @@ import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
 import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
-
-export const prepareColumns = (
-  initialColumns,
-  hideGroupColumn,
-  openTabOnClick = false
-) => {
-  // hides the "groups" column
-  const columns = hideGroupColumn
-    ? initialColumns.filter(({ key }) => key !== 'groups')
-    : initialColumns;
-
-  // additionally insert the "update method" column
-  columns.splice(columns.length - 2 /* must be the 3rd col from the end */, 0, {
-    key: 'update_method',
-    title: 'Update method',
-    sortKey: 'update_method',
-    transforms: [fitContent],
-    renderFunc: (value, hostId, systemData) =>
-      systemData?.system_profile?.system_update_method || 'N/A',
-    props: {
-      // TODO: remove isStatic when the sorting is supported by API
-      isStatic: true,
-      width: 10,
-    },
-  });
-
-  columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc = (
-    value,
-    hostId
-  ) => (
-    <div className="sentry-mask data-hj-suppress">
-      <Link
-        to={`../${hostId}`}
-        {...(openTabOnClick ? { target: '_blank' } : {})}
-      >
-        {value}
-      </Link>
-    </div>
-  );
-
-  // map columns to the speicifc order
-  return [
-    'display_name',
-    'groups',
-    'tags',
-    'system_profile',
-    'update_method',
-    'updated',
-  ]
-    .map((colKey) => columns.find(({ key }) => key === colKey))
-    .filter(Boolean); // eliminate possible undefined's
-};
+import { prepareColumnsCoventional as prepareColumns } from './helpers';
 
 const GroupSystems = ({ groupName, groupId }) => {
   const dispatch = useDispatch();
