@@ -1,20 +1,8 @@
 import React, { useState } from 'react';
 import './inventory.scss';
-import HybridInventory from './InventoryComponents/HybridInventory';
 import InventoryPageHeader from './InventoryComponents/InventoryPageHeader';
-import BifrostPage from './InventoryComponents/BifrostPage';
 import { PageSection } from '@patternfly/react-core';
-
-export const pageContents = {
-  hybridInventory: {
-    key: 'hybridInventory',
-    component: HybridInventory,
-  },
-  bifrost: {
-    key: 'bifrost',
-    component: BifrostPage,
-  },
-};
+import { pageContents } from './InventoryComponents/InventoryPageContents';
 
 const Inventory = (props) => {
   const [mainContent, setMainContent] = useState(

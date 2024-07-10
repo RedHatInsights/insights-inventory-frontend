@@ -16,9 +16,9 @@ import {
 } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { DesktopIcon } from '@patternfly/react-icons';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import { pageContents } from '../InventoryPage';
 import FontAwesomeImageIcon from '../../components/FontAwesomeImageIcon';
 import { AccountStatContext } from '../../Contexts';
+import { pageContents } from './InventoryPageContents';
 
 const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
   <Split hasGutter>
