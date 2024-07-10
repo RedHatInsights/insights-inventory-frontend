@@ -19,7 +19,6 @@ import {
   fetchGroupDetail,
   selectEntity,
 } from '../../../store/inventory-actions';
-import { prepareColumns } from '../../GroupSystems/GroupSystems';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
@@ -34,6 +33,7 @@ import { InfoCircleIcon } from '@patternfly/react-icons';
 import { hybridInventoryTabKeys } from '../../../Utilities/constants';
 import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 import { AccountStatContext } from '../../../Contexts';
+import { prepareColumnsCoventional as prepareColumns } from '../../GroupSystems/helpers';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
