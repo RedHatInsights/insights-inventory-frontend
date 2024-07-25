@@ -140,7 +140,7 @@
     "verify": "npm-run-all build lint test",
     "verify:local": "npm-run-all build lint test:local test:ct",
     "nightly": "npm run travis:verify",
-    "test:ct": "BABEL_ENV=componentTest cypress run --component --browser chrome",
+    "test:ct": "BABEL_ENV=componentTest cypress run --component",
     "test:openct": "BABEL_ENV=componentTest cypress open --component",
     "test:openct:mock": "MOCK=true npm run test:openct",
     "coverage": "bash coverage.sh",
