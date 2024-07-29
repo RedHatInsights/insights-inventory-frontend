@@ -16,8 +16,8 @@ This is the frontend application for [Insights Inventory](https://github.com/Red
 
 1. Clone the repository.
 2. Install dependencies with `npm install`.
-3. Run development server with `npm run start:proxy:beta`. See `dev.webpack.config.js` and `package.json` (npm scripts) for more options and parameters available.
-4. Local version of the app will be available at `https://stage.foo.redhat.com:1337/preview/insights/inventory/`. If you run with slightly different setup (for example, using production environment), you should still see the generated URL in your terminal, the webpack script output.
+3. Run development server with `npm run start:proxy`. See `dev.webpack.config.js` and `package.json` (npm scripts) for more options and parameters available.
+4. Local version of the app will be available at `https://stage.foo.redhat.com:1337/insights/inventory/`. If you run with slightly different setup (for example, using production environment), you should still see the generated URL in your terminal, the webpack script output.
 
 ## Testing your changes
 

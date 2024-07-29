@@ -38,11 +38,6 @@ describe('group detail information page', () => {
       mountPage({ chrome: { isBeta: () => false } });
       cy.get('a').should('have.attr', 'href', '/iam/user-access');
     });
-
-    it('in beta environment', () => {
-      mountPage({ chrome: { isBeta: () => true } });
-      cy.get('a').should('have.attr', 'href', '/preview/iam/user-access');
-    });
   });
 
   describe('with no user access administrator role', () => {

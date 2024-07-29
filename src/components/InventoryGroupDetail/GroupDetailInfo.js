@@ -10,8 +10,8 @@ import { ActionButton } from '../InventoryTable/ActionWithRBAC';
 import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
-const GroupDetailInfo = ({ chrome }) => {
-  const path = `${chrome.isBeta() ? '/preview' : ''}/iam/user-access`;
+const GroupDetailInfo = () => {
+  const path = '/iam/user-access';
   const { hasAccess: isUserAccessAdministrator, isLoading } = usePermissions(
     'rbac',
     USER_ACCESS_ADMIN_PERMISSIONS
