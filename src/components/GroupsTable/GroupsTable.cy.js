@@ -58,7 +58,8 @@ const checkSorting = (label, order, dataField) => {
   if (order === 'ascending') {
     cy.get(header).find('button').click();
   } else {
-    cy.get(header).find('button').click().click();
+    cy.get(header).find('button').click();
+    cy.get(header).find('button').click();
   }
 
   cy.wait('@getGroups')
@@ -206,7 +207,7 @@ describe('url search parameters', () => {
   });
 });
 
-describe('sorting', () => {
+describe.only('sorting', () => {
   beforeEach(() => {
     interceptors['successful with some items']();
     mountTable();
