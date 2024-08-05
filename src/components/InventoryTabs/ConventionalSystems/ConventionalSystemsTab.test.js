@@ -11,6 +11,7 @@ import { hosts } from '../../../api';
 import ConventionalSystemsTab from './ConventionalSystemsTab';
 import { calculatePagination } from './Utilities';
 import { shouldDispatch } from '../../../Utilities/testUtils';
+import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -210,6 +211,50 @@ describe('ConventionalSystemsTab', () => {
     });
     shouldDispatch(store, {
       type: 'REMOVE_ENTITY',
+    });
+  });
+
+  describe('Export', () => {
+    it('should show the export when enabled', async () => {
+      useFeatureFlag.mockImplementation(() => true);
+      const store = mockStore(initialStore);
+      renderWithProviders(
+        <ConventionalSystemsTab initialLoading={false} />,
+        store
+      );
+
+      await waitFor(() => {
+        screen.getByTestId('inventory-table-top-toolbar');
+        screen.getByTestId('inventory-table-bottom-toolbar');
+        screen.getByTestId('inventory-table-list');
+      });
+
+      expect(
+        screen.getByRole('button', {
+          name: 'Export',
+        })
+      ).toBeInTheDocument();
+    });
+
+    it('should NOT show the export when disabled', async () => {
+      useFeatureFlag.mockImplementation(() => false);
+      const store = mockStore(initialStore);
+      renderWithProviders(
+        <ConventionalSystemsTab initialLoading={false} />,
+        store
+      );
+
+      await waitFor(() => {
+        screen.getByTestId('inventory-table-top-toolbar');
+        screen.getByTestId('inventory-table-bottom-toolbar');
+        screen.getByTestId('inventory-table-list');
+      });
+
+      expect(
+        screen.queryByRole('button', {
+          name: 'Export',
+        })
+      ).not.toBeInTheDocument();
     });
   });
 });
