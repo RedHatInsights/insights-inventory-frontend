@@ -101,6 +101,8 @@ export const loadEntities = (
         hideFilters: config.hideFilters,
       }))
       .catch((error) => {
+        //Somehow this catch block hides prior JS errors. Log is intended to be aware of them
+        console.log(error);
         throw { ...error, type: 'LOAD_ENTITIES' };
       }),
     meta: {

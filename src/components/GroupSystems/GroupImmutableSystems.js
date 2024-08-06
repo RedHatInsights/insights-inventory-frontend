@@ -100,7 +100,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   ) => {
     const enhancedConfig = enhancedEdgeConfig(groupName.toString(), config);
     const defaultData = await defaultGetEntities(
-      items,
+      null,
       enhancedConfig,
       showTags
     );
@@ -109,13 +109,11 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     setDeviceData(updateInfo?.update_devices_uuids || []);
     setDeviceImageSet(updateInfo?.device_image_set_info);
     const rowInfo = [];
-    let items = [];
     if (defaultData.total > 0) {
       const customResult = await edgeImageDataResult(mapDeviceIds.mapDeviceIds);
       customResult?.data?.devices.forEach((row) => {
         rowInfo.push({ ...row, id: row.DeviceUUID });
       });
-      items = rowInfo.map(({ id }) => id);
 
       return {
         results: mergeArraysByKey([defaultData.results, rowInfo]),
@@ -123,7 +121,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       };
     } else {
       return {
-        results: mergeArraysByKey([defaultData.results]),
+        results: mergeArraysByKey([]),
         total: 0,
       };
     }
@@ -218,7 +216,6 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
         <InventoryTable
           columns={(columns) => mergeColumns(prepareColumns(columns))}
           hideFilters={{ hostGroupFilter: true }}
-          // getEntities={entities}
           getEntities={customGetEntities}
           tableProps={{
             isStickyHeader: true,
