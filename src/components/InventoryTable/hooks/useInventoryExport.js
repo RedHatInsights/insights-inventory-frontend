@@ -3,7 +3,7 @@ import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/fronten
 
 const EXPORT_SERVICE_PATH = '/api/export/v1/exports';
 const EXPORT_SERVICE_APPLICATON = 'urn:redhat:application:inventory';
-const EXPORT_SERVICE_RESOURCE = EXPORT_SERVICE_APPLICATON + ':systems';
+const EXPORT_SERVICE_RESOURCE = EXPORT_SERVICE_APPLICATON + ':export:systems';
 
 const buildExportJson = (filters, format) => ({
   name: 'inventory-export',
