@@ -926,7 +926,7 @@ describe('EntityTableToolbar', () => {
         sources: [
           {
             application: 'urn:redhat:application:inventory',
-            resource: 'urn:redhat:application:inventory:systems',
+            resource: 'urn:redhat:application:inventory:export:systems',
             filters: {},
           },
         ],
