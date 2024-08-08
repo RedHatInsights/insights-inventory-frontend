@@ -12,8 +12,8 @@ const InsightsDisconnected = () => (
       <Grid hasGutter>
         <GridItem>Insights client not reporting</GridItem>
         <GridItem>
-          From the main navigation, open &quot;Registration Assistant&quot; to
-          learn how to set up Insights.
+          From the main navigation, open &quot;Register Systems&quot; to learn
+          how to set up Insights.
         </GridItem>
       </Grid>
     }
