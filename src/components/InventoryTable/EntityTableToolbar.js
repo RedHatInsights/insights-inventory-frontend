@@ -603,7 +603,9 @@ const EntityTableToolbar = ({
             <Skeleton size={SkeletonSize.lg} />
           )
         }
-        exportConfig={enableExport && exportConfig}
+        exportConfig={
+          props.exportConfig ? props.exportConfig : enableExport && exportConfig
+        }
       >
         {lastSeenFilterValue?.mark === 'custom' && (
           <Split>
@@ -695,6 +697,7 @@ EntityTableToolbar.propTypes = {
   showNoGroupOption: PropTypes.bool,
   showSystemTypeFilter: PropTypes.bool,
   enableExport: PropTypes.bool,
+  exportConfig: PropTypes.object,
 };
 
 EntityTableToolbar.defaultProps = {
