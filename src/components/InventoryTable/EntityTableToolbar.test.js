@@ -843,22 +843,61 @@ describe('EntityTableToolbar', () => {
 
   describe('export', () => {
     const formats = ['json', 'csv'];
+    const format = formats[Math.floor(Math.random() * formats.length)];
+    const axiosPostMock = jest.fn(async () => {});
 
-    it('should call the exports API', async () => {
-      const format = formats[Math.floor(Math.random() * formats.length)];
-      const axisoPostMock = jest.fn(async () => {});
+    beforeEach(() => {
       useAxiosWithPlatformInterceptors.mockImplementation(() => {
         return {
-          post: axisoPostMock,
+          post: axiosPostMock,
         };
       });
+    });
+
+    it('it should not override a passed in exportConfig', async () => {
       const store = mockStore({
         entities: {
           ...initialState.entities,
           activeFilters: [],
         },
       });
+      const onSelectMock = jest.fn(async () => {});
 
+      render(
+        <Provider store={store}>
+          <EntityTableToolbar
+            onRefreshData={onRefreshData}
+            loaded
+            enableExport
+            exportConfig={{
+              onSelect: onSelectMock,
+            }}
+          />
+        </Provider>
+      );
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: 'Export',
+        })
+      );
+
+      await userEvent.click(
+        screen.queryByRole('menuitem', {
+          name: 'Export to ' + format.toUpperCase(),
+        })
+      );
+
+      expect(onSelectMock).toHaveBeenCalled();
+    });
+
+    it('should call the exports API', async () => {
+      const store = mockStore({
+        entities: {
+          ...initialState.entities,
+          activeFilters: [],
+        },
+      });
       render(
         <Provider store={store}>
           <EntityTableToolbar
@@ -881,7 +920,7 @@ describe('EntityTableToolbar', () => {
         })
       );
 
-      expect(axisoPostMock).toHaveBeenCalledWith('/api/export/v1/exports', {
+      expect(axiosPostMock).toHaveBeenCalledWith('/api/export/v1/exports', {
         format,
         name: 'inventory-export',
         sources: [
