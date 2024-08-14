@@ -27,7 +27,7 @@ export const useTextFilter = ([state, dispatch] = [textFilterState]) => {
     },
   };
   const chip =
-    value?.length > 0
+    value?.trim().length > 0
       ? [
           {
             category: 'Display name',
