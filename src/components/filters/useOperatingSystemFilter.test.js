@@ -43,7 +43,7 @@ describe('useOperatingSystemFilter', () => {
       );
       const [config] = result.current;
       expect(config.filterValues.groups.length).toBe(5);
-      expect(config.label).toBe('Operating System'); // should be all caps
+      expect(config.label).toBe('Operating system'); // should be all caps
       expect(config.type).toBe('group');
     });
 

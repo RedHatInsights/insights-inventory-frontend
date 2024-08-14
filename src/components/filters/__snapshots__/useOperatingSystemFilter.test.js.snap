@@ -3,7 +3,7 @@
 exports[`useOperatingSystemFilter with operating systems loaded should return correct chips array, current value and value setter 1`] = `
 [
   {
-    "category": "Operating System",
+    "category": "Operating system",
     "chips": [
       {
         "groupKey": "RHEL-7",
@@ -36,7 +36,7 @@ exports[`useOperatingSystemFilter with operating systems yet not loaded should r
       "onChange": [Function],
       "selected": {},
     },
-    "label": "Operating System",
+    "label": "Operating system",
     "type": "group",
     "value": "operating-system-filter",
   },

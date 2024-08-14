@@ -24,6 +24,7 @@ export const useRhcdFilter = ([state, dispatch] = [rhcdFilterState]) => {
       value: rhcdValue,
       onChange: (_e, value) => setValue(value),
       items: rhcdOptions,
+      placeholder: 'Filter by RHC status',
     },
   };
   const chip =

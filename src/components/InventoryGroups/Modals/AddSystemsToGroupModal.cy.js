@@ -32,8 +32,8 @@ const TABLE_HEADERS = [
 const AVAILABLE_FILTER_NAMES = [
   'Name',
   'Status',
-  'Operating System',
-  'Data Collector',
+  'Operating system',
+  'Data collector',
   'RHC status',
   'Last seen',
   'Group',
