@@ -8,13 +8,11 @@ import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 
 const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
+  const PAGINATION_DEFAULT = { perPage: 10, page: 1 };
   const dispatch = useDispatch();
   const [filterBy, setFilterBy] = useState('');
   const [selected, setSelected] = useState([]);
-  const [statePagination, setStatePagination] = useState({
-    perPage: 10,
-    page: 1,
-  });
+  const [statePagination, setStatePagination] = useState(PAGINATION_DEFAULT);
 
   const showTagDialog = useSelector(
     ({ entities, entityDetails }) => (entities || entityDetails)?.showTagDialog
@@ -114,6 +112,7 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
         setSelected([]);
         setFilterBy('');
         onToggleModal();
+        setStatePagination(PAGINATION_DEFAULT);
         dispatch(toggleTagModal(false));
       }}
       filters={[
