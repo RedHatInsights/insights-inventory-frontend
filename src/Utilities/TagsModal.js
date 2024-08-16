@@ -6,9 +6,9 @@ import { TagModal } from '@redhat-cloud-services/frontend-components/TagModal';
 import { cellWidth } from '@patternfly/react-table';
 import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
+import { PAGINATION_DEFAULT } from '../constants';
 
 const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
-  const PAGINATION_DEFAULT = { perPage: 10, page: 1 };
   const dispatch = useDispatch();
   const [filterBy, setFilterBy] = useState('');
   const [selected, setSelected] = useState([]);

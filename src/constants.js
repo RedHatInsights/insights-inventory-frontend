@@ -269,6 +269,7 @@ export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
 export const GENERAL_HOSTS_READ_PERMISSIONS = 'inventory:hosts:read';
 export const GENERAL_HOSTS_WRITE_PERMISSIONS = 'inventory:hosts:write';
 export const USER_ACCESS_ADMIN_PERMISSIONS = ['rbac:*:*'];
+export const PAGINATION_DEFAULT = { perPage: 10, page: 1 };
 
 export const TAB_REQUIRED_PERMISSIONS = {
   /**
