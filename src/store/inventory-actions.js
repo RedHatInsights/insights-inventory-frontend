@@ -258,12 +258,19 @@ export const exportSuccessNotifiction = () =>
     id: 'inventory-export-success',
     variant: 'info',
     title:
-      'Preparing export. Once complete, your download will start automatically.',
+      'The requested export is being prepared. When ready, the download will start automatically.',
   });
 
 export const exportErrorNotifiction = () =>
   addNotification({
     id: 'inventory-export-error',
     variant: 'danger',
-    title: 'Export cannot be generated.',
+    title: 'The requested export could not be created. Please try again.',
+  });
+
+export const exportDownloadNotifiction = () =>
+  addNotification({
+    id: 'inventory-export-download',
+    variant: 'success',
+    title: 'The requested export is being downloaded.',
   });

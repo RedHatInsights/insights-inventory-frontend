@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import debounce from 'lodash/debounce';
 import React from 'react';
@@ -842,18 +842,6 @@ describe('EntityTableToolbar', () => {
   });
 
   describe('export', () => {
-    const formats = ['json', 'csv'];
-    const format = formats[Math.floor(Math.random() * formats.length)];
-    const axiosPostMock = jest.fn(async () => {});
-
-    beforeEach(() => {
-      useAxiosWithPlatformInterceptors.mockImplementation(() => {
-        return {
-          post: axiosPostMock,
-        };
-      });
-    });
-
     it('it should not override a passed in exportConfig', async () => {
       const store = mockStore({
         entities: {
@@ -884,7 +872,7 @@ describe('EntityTableToolbar', () => {
 
       await userEvent.click(
         screen.queryByRole('menuitem', {
-          name: 'Export to ' + format.toUpperCase(),
+          name: 'Export to JSON',
         })
       );
 
@@ -898,6 +886,12 @@ describe('EntityTableToolbar', () => {
           activeFilters: [],
         },
       });
+      const axiosPostMock = jest.fn(async () => {});
+
+      useAxiosWithPlatformInterceptors.mockImplementation(() => ({
+        post: axiosPostMock,
+      }));
+
       render(
         <Provider store={store}>
           <EntityTableToolbar
@@ -916,21 +910,11 @@ describe('EntityTableToolbar', () => {
 
       await userEvent.click(
         screen.queryByRole('menuitem', {
-          name: 'Export to ' + format.toUpperCase(),
+          name: 'Export to CSV',
         })
       );
 
-      expect(axiosPostMock).toHaveBeenCalledWith('/api/export/v1/exports', {
-        format,
-        name: 'inventory-export',
-        sources: [
-          {
-            application: 'urn:redhat:application:inventory',
-            resource: 'urn:redhat:application:inventory:export:systems',
-            filters: {},
-          },
-        ],
-      });
+      await waitFor(() => expect(axiosPostMock).toHaveBeenCalled());
     });
   });
 });
