@@ -50,7 +50,7 @@ export const editDisplayName = (id, value, origValue) => ({
     notifications: {
       fulfilled: {
         variant: 'success',
-        title: `Display name for entity with ID ${id} has been changed to ${value}`,
+        title: `Display name has been changed to ${value}`,
         dismissable: true,
       },
     },

@@ -38,8 +38,7 @@ describe('editDisplayName', () => {
       notifications: {
         fulfilled: {
           variant: 'success',
-          title:
-            'Display name for entity with ID 4 has been changed to test-value',
+          title: 'Display name has been changed to test-value',
           dismissable: true,
         },
       },

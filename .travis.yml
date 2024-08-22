@@ -10,9 +10,7 @@ if: tag IS blank
 jobs:
   include:
     - stage: Lint
-      script: 
-        - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then npm run lint; fi'
-        - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then npm run lint && commitlint-travis; fi'
+      script: npm run lint && commitlint-travis
     - stage: Test
       script: npm run test && npm run test:ct
       after_success: npm run coverage
