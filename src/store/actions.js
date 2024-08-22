@@ -80,7 +80,7 @@ export const editAnsibleHost = (id, value, origValue) => ({
     notifications: {
       fulfilled: {
         variant: 'success',
-        title: 'Ansible hostname has been updated',
+        title: `Ansible hostname has been changed to ${value}`,
         dismissable: true,
       },
     },
