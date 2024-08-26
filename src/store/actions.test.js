@@ -61,7 +61,7 @@ describe('editAnsibleHost', () => {
       notifications: {
         fulfilled: {
           variant: 'success',
-          title: 'Ansible hostname has been updated',
+          title: `Ansible hostname has been changed to test-value`,
           dismissable: true,
         },
       },
