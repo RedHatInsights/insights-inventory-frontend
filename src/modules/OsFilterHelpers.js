@@ -60,7 +60,7 @@ const groupOSVersions = (versions) => {
  */
 export const buildOSFilterConfig = (config = {}, operatingSystems = []) => ({
   ...config,
-  label: 'Operating System',
+  label: 'Operating system',
   value: 'os-filter',
   type: 'group',
   filterValues: {

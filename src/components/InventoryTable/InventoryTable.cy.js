@@ -60,8 +60,8 @@ const shorterGroupsFixtures = {
 const AVAILABLE_FILTER_NAMES = [
   'Name',
   'Status',
-  'Operating System',
-  'Data Collector',
+  'Operating system',
+  'Data collector',
   'RHC status',
   'Last seen',
   'Group',
@@ -271,7 +271,7 @@ describe('hiding filters', () => {
     mountTable({ hasAccess: true, hideFilters: { registeredWith: true } });
     waitForTable();
     cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
-    cy.get(DROPDOWN_ITEM).should('not.contain', 'Data Collector');
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Data collector');
   });
 
   it('can hide rhcd filter', () => {
@@ -285,7 +285,7 @@ describe('hiding filters', () => {
     mountTable({ hasAccess: true, hideFilters: { operatingSystem: true } });
     waitForTable();
     cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
-    cy.get(DROPDOWN_ITEM).should('not.contain', 'Operating System');
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Operating system');
   });
 
   it('can hide last seen filter', () => {

@@ -7,7 +7,7 @@ describe('useRegisteredWithFilter', () => {
     const [filter] = result.current;
 
     expect(filter).toMatchObject({
-      label: 'Data Collector',
+      label: 'Data collector',
       value: 'data-collector-registered-with',
       type: 'checkbox',
     });
@@ -32,7 +32,7 @@ describe('useRegisteredWithFilter', () => {
     expect(filter.filterValues.value.length).toBe(1);
     expect(chip).toMatchObject([
       {
-        category: 'Data Collector',
+        category: 'Data collector',
         chips: [{ name: 'insights-client', value: 'puptoo' }],
         type: 'registered_with',
       },

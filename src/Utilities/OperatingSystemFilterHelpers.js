@@ -111,7 +111,7 @@ export const buildOSFilterChip = (
   return minors?.length > 0
     ? [
         {
-          category: 'Operating System',
+          category: 'Operating system',
           type: OS_CHIP,
           chips,
         },

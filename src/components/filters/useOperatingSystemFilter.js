@@ -44,7 +44,7 @@ export const useOperatingSystemFilter = (
   );
 
   const filter = {
-    label: 'Operating System',
+    label: 'Operating system',
     value: 'operating-system-filter',
     type: 'group',
     filterValues: {
@@ -71,7 +71,7 @@ export const useOperatingSystemFilter = (
     Object.values(operatingSystemsValue).length > 0
       ? [
           {
-            category: 'Operating System',
+            category: 'Operating system',
             type: OS_CHIP,
             chips,
           },

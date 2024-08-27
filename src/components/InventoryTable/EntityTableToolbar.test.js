@@ -33,8 +33,8 @@ const expectDefaultFiltersVisible = async () => {
   const DEFAULT_FILTERS = [
     'Name',
     'Status',
-    'Operating System',
-    'Data Collector',
+    'Operating system',
+    'Data collector',
     'RHC status',
     'Last seen',
   ];

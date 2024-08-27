@@ -3,7 +3,7 @@
 exports[`buildOSFilterChip returns five version chips 1`] = `
 [
   {
-    "category": "Operating System",
+    "category": "Operating system",
     "chips": [
       {
         "groupLabel": "RHEL 6",

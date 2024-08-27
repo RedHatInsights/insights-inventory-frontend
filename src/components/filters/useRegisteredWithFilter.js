@@ -22,7 +22,7 @@ export const useRegisteredWithFilter = (
     : setStateValue;
 
   const filter = {
-    label: 'Data Collector',
+    label: 'Data collector',
     value: 'data-collector-registered-with',
     type: 'checkbox',
     filterValues: {
@@ -35,7 +35,7 @@ export const useRegisteredWithFilter = (
     registeredWithValue?.length > 0
       ? [
           {
-            category: 'Data Collector',
+            category: 'Data collector',
             type: REGISTERED_CHIP,
             chips: registered
               .filter(({ value }) => registeredWithValue.includes(value))
