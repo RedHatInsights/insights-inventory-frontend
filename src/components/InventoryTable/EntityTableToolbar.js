@@ -18,8 +18,6 @@ import {
   fetchAllTags,
   setFilter,
   toggleTagModal,
-  exportSuccessNotifiction,
-  exportErrorNotifiction,
 } from '../../store/actions';
 import debounce from 'lodash/debounce';
 import {
@@ -73,7 +71,8 @@ import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 import { fromValidator, oldestDate, toValidator } from '../filters/helpers';
-import useInventoryExport from './hooks/useInventoryExport';
+import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
+
 /**
  * Table toolbar used at top of inventory table.
  * It uses couple of filters and acces redux data along side all passed props.
@@ -255,12 +254,6 @@ const EntityTableToolbar = ({
     filters: {
       ...activeFilters,
       ...customFilters,
-    },
-    onSuccess: () => {
-      dispatch(exportSuccessNotifiction());
-    },
-    onError: () => {
-      dispatch(exportErrorNotifiction());
     },
   });
 
