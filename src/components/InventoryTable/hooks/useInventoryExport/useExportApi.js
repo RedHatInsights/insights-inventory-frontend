@@ -18,14 +18,14 @@ const useExportApi = () => {
     [axios]
   );
 
-  const list = useCallback(
-    () => axios.get(EXPORT_SERVICE_PATH + '/exports'),
+  const status = useCallback(
+    (id) => axios.get(EXPORT_SERVICE_PATH + '/exports/' + id + '/status'),
     [axios]
   );
 
   return {
     create,
-    list,
+    status,
   };
 };
 

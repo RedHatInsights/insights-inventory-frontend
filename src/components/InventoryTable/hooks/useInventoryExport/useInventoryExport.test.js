@@ -18,6 +18,11 @@ jest.mock('react-redux', () => ({
 
 const FORMATS = ['json', 'csv'];
 const FORMAT = FORMATS[Math.floor(Math.random() * FORMATS.length)];
+const ERROR_NOTIFICATION = {
+  id: 'inventory-export-error',
+  title: 'The requested export could not be created. Please try again.',
+  variant: 'danger',
+};
 
 const exportObjects = exports(1, { status: 'complete' });
 const exampleGetResponse = {
@@ -47,27 +52,39 @@ describe('useInventoryExport', () => {
 
     if (
       url ===
-      EXPORT_SERVICE_PATH + '/exports' + exampleGetResponse.data[0].id
+      EXPORT_SERVICE_PATH +
+        '/exports/' +
+        exampleGetResponse.data[0].id +
+        '/status'
     ) {
       return exampleGetResponse.data[0];
     }
   });
   const dispatchMock = jest.fn(() => {});
   let origfetch = global.fetch;
+  let origURL = global.URL;
 
   beforeEach(() => {
+    jest.clearAllMocks();
     useAxiosWithPlatformInterceptors.mockImplementation(() => ({
       post: axiosPostMock,
       get: axiosGetMock,
     }));
     useDispatch.mockImplementation(() => dispatchMock);
-    global.fetch = async () => ({});
+    global.fetch = async () => ({
+      blob: async () => ({}),
+      headers: {
+        get: () =>
+          'attachment; filename="2024-09-12T12:27:59Z-sd-ed92-4ff9-a23f-sad.zip"',
+      },
+    });
+    global.URL.createObjectURL = jest.fn(() => 'details');
   });
 
   afterEach(() => {
     global.fetch = origfetch;
+    global.URL = origURL;
     jest.useRealTimers();
-    jest.clearAllMocks();
   });
 
   it('should return an onSelect function', () => {
@@ -113,7 +130,10 @@ describe('useInventoryExport', () => {
 
     await waitFor(() =>
       expect(axiosGetMock).toHaveBeenCalledWith(
-        EXPORT_SERVICE_PATH + '/exports'
+        EXPORT_SERVICE_PATH +
+          '/exports/' +
+          exampleGetResponse.data[0].id +
+          '/status'
       )
     );
 
@@ -125,6 +145,57 @@ describe('useInventoryExport', () => {
       })
     );
   });
+
+  it(
+    'should trigger a notification when a export has a failed status for ' +
+      FORMAT.toUpperCase(),
+    async () => {
+      const axiosErrorMock = jest.fn(async (url) => {
+        if (url === EXPORT_SERVICE_PATH + '/exports') {
+          return exampleGetResponse;
+        }
+
+        if (
+          url ===
+          EXPORT_SERVICE_PATH +
+            '/exports/' +
+            exampleGetResponse.data[0].id +
+            '/status'
+        ) {
+          return {
+            ...exampleGetResponse.data[0],
+            status: 'failed',
+          };
+        }
+      });
+      useAxiosWithPlatformInterceptors.mockImplementation(() => ({
+        post: axiosPostMock,
+        get: axiosErrorMock,
+      }));
+      jest.useFakeTimers({ advanceTimers: true });
+
+      const { result } = renderHook(() => useInventoryExport());
+
+      result.current.onSelect(undefined, FORMAT);
+
+      await waitFor(() => expect(axiosPostMock).toHaveBeenCalled());
+      jest.clearAllMocks();
+      jest.advanceTimersByTime(DOWNLOAD_CHECK_INTERVAL * 4);
+
+      await waitFor(() =>
+        expect(axiosErrorMock).toHaveBeenCalledWith(
+          EXPORT_SERVICE_PATH +
+            '/exports/' +
+            exampleGetResponse.data[0].id +
+            '/status'
+        )
+      );
+
+      expect(dispatchMock).toHaveBeenCalledWith(
+        buildNoficationAction(ERROR_NOTIFICATION)
+      );
+    }
+  );
 
   it('should call onError if requesting export fails', async () => {
     const errorPostMock = jest.fn(async () => {
@@ -141,11 +212,7 @@ describe('useInventoryExport', () => {
     await waitFor(() => expect(errorPostMock).toHaveBeenCalled());
 
     expect(dispatchMock).toHaveBeenCalledWith(
-      buildNoficationAction({
-        id: 'inventory-export-error',
-        title: 'The requested export could not be created. Please try again.',
-        variant: 'danger',
-      })
+      buildNoficationAction(ERROR_NOTIFICATION)
     );
   });
 
@@ -165,11 +232,7 @@ describe('useInventoryExport', () => {
     await waitFor(() => expect(axiosErrorMock).toHaveBeenCalled());
 
     expect(dispatchMock).toHaveBeenCalledWith(
-      buildNoficationAction({
-        id: 'inventory-export-error',
-        title: 'The requested export could not be created. Please try again.',
-        variant: 'danger',
-      })
+      buildNoficationAction(ERROR_NOTIFICATION)
     );
   });
 });

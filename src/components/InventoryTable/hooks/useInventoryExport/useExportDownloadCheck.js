@@ -2,8 +2,18 @@ import { useRef, useState, useEffect, useCallback } from 'react';
 import { DOWNLOAD_CHECK_INTERVAL } from './constants';
 import useExportApi from './useExportApi';
 
+/**
+ *  A hook to periodically check for an available download for an export
+ *
+ *  @param {object} [options] Options
+ *  @param {object} [options.onDownloadAvailable] Callback function, called when the requested export is available to download
+ *  @param {object} [options.onError] Callback function, called when the requested export failed or an error occured
+ *
+ *  @returns {function} Function to set an export ID to check for
+ *
+ */
 const useExportDownloadCheck = ({ onDownloadAvailable, onError }) => {
-  const { list } = useExportApi();
+  const { status } = useExportApi();
   const checking = useRef(false);
   const [checkForDownload, setCheckForDownload] = useState();
 
@@ -11,16 +21,14 @@ const useExportDownloadCheck = ({ onDownloadAvailable, onError }) => {
     async (checkForExportId) => {
       checking.current = true;
       try {
-        const exportsToDownload = await list();
-        const exportToDownload = exportsToDownload.data.find(
-          ({ id, status }) => id === checkForExportId && status === 'complete'
-        );
+        const exportStatus = await status(checkForExportId);
 
-        if (exportToDownload) {
+        if (exportStatus.status === 'complete') {
           setCheckForDownload(undefined);
           checking.current = false;
-
-          await onDownloadAvailable?.(exportToDownload);
+          await onDownloadAvailable?.(exportStatus);
+        } else if (exportStatus.status === 'failed') {
+          throw new Error('Export failed');
         } else {
           checking.current = false;
           console.log('No download for ', checkForExportId);
@@ -32,17 +40,15 @@ const useExportDownloadCheck = ({ onDownloadAvailable, onError }) => {
         onError?.(error);
       }
     },
-    [list, onDownloadAvailable, checking]
+    [status, onDownloadAvailable, checking, onError]
   );
 
   useEffect(() => {
     if (checkForDownload) {
       const downloadCheck = setInterval(async () => {
-        if (checking.current) {
-          return;
+        if (!checking.current) {
+          await checkDownloads(checkForDownload);
         }
-
-        await checkDownloads(checkForDownload);
       }, DOWNLOAD_CHECK_INTERVAL);
 
       return () => {
