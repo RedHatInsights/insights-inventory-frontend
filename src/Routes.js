@@ -2,7 +2,6 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
-import LostPage from './components/LostPage';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
@@ -52,7 +51,6 @@ export const Routes = () => {
     'edgeParity.inventory-list'
   );
 
-  const stalenessAndDeletionEnabled = useFeatureFlag('hbi.custom-staleness');
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
@@ -133,11 +131,7 @@ export const Routes = () => {
     },
     {
       path: '/staleness-and-deletion',
-      element: stalenessAndDeletionEnabled ? (
-        <InventoryHostStaleness />
-      ) : (
-        <LostPage />
-      ),
+      element: <InventoryHostStaleness />,
     },
   ]);
 
