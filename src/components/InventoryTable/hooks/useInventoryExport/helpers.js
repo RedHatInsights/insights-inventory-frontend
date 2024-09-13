@@ -19,14 +19,18 @@ export const buildExportRequestJson = (filters, format) => ({
 export const downloadFile = async (
   url,
   { filename = `${new Date().toISOString()}`, format } = {}
-) => {
+) =>
   await fetch(url)
-    .then((response) => response.blob())
-    .then((blob) => {
+    .then(async (response) => {
+      const filename = decodeURIComponent(
+        response.headers.get('content-disposition').match(/filename="(.*)"/)[1]
+      );
+
+      return [await response.blob(), filename];
+    })
+    .then(([blob, exportFileName]) => {
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = filename + '.' + format;
+      link.download = exportFileName || filename + '.' + format;
       link.click();
-    })
-    .catch(console.error);
-};
+    });
