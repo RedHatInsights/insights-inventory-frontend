@@ -1,4 +1,3 @@
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 export const INVENTORY_API_BASE = '/api/inventory/v1';
 export const EDGE_API_BASE = '/api/edge/v1';
 import flatMap from 'lodash/flatMap';
