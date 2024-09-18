@@ -1,9 +1,7 @@
 import React, { useCallback } from 'react';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
-  NO_MODIFY_GROUPS_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
-  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
@@ -17,8 +15,7 @@ const useTableActions = (
   onEditOpen,
   handleModalToggle,
   setRemoveHostsFromGroupModalOpen,
-  setAddHostGroupModalOpen,
-  isWorkspaceEnabled
+  setAddHostGroupModalOpen
 ) => {
   const tableActionsCallback = useCallback(
     (row) => {
@@ -73,15 +70,11 @@ const useTableActions = (
                 setAddHostGroupModalOpen(true);
               }}
               requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-              noAccessTooltip={
-                isWorkspaceEnabled
-                  ? NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE
-                  : NO_MODIFY_GROUPS_TOOLTIP_MESSAGE
-              }
+              noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
               isAriaDisabled={row.groups.length > 0} // additional condition for enabling the button
               ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
             >
-              {isWorkspaceEnabled ? 'Add to workspace' : 'Add to group'}
+              Add to workspace
             </ActionDropdownItem>
           ),
         },
@@ -98,17 +91,11 @@ const useTableActions = (
                   ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(row.groups[0].id)
                   : []
               }
-              noAccessTooltip={
-                isWorkspaceEnabled
-                  ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
-                  : NO_MODIFY_GROUP_TOOLTIP_MESSAGE
-              }
+              noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
               isAriaDisabled={row.groups.length === 0}
               override={row?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
             >
-              {isWorkspaceEnabled
-                ? 'Remove from workspace'
-                : 'Remove from group'}
+              Remove from workspace
             </ActionDropdownItem>
           ),
         },
@@ -116,7 +103,7 @@ const useTableActions = (
 
       return [...groupActions, ...hostActions];
     },
-    [isWorkspaceEnabled]
+    []
   );
 
   return tableActionsCallback;

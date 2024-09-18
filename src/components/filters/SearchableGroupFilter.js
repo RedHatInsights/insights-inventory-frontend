@@ -11,7 +11,6 @@ import {
 
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const SearchableGroupFilter = ({
   initialGroups,
@@ -19,14 +18,13 @@ const SearchableGroupFilter = ({
   setSelectedGroupNames,
   showNoGroupOption = false,
 }) => {
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
   const initialValues = useMemo(
     () => [
       ...(showNoGroupOption
         ? [
             {
               itemId: '',
-              children: isWorkspaceEnabled ? 'No workspace' : 'No group',
+              children: 'No workspace',
             },
           ]
         : []),
@@ -35,7 +33,7 @@ const SearchableGroupFilter = ({
         children: name,
       })),
     ],
-    [initialGroups, isWorkspaceEnabled]
+    [initialGroups]
   );
 
   const [isOpen, setIsOpen] = useState(false);
@@ -59,9 +57,7 @@ const SearchableGroupFilter = ({
         newSelectOptions = [
           {
             isDisabled: true,
-            children: isWorkspaceEnabled
-              ? 'No workspace found'
-              : 'No groups found',
+            children: 'No workspace found',
           },
         ];
       }
@@ -162,9 +158,7 @@ const SearchableGroupFilter = ({
           onKeyDown={onInputKeyDown}
           id="multi-typeahead-select-input"
           autoComplete="off"
-          placeholder={
-            isWorkspaceEnabled ? 'Filter by workspace' : 'Filter by group'
-          }
+          placeholder="Filter by workspace"
         />
       </TextInputGroup>
     </MenuToggle>
@@ -186,11 +180,7 @@ const SearchableGroupFilter = ({
       >
         <SelectList isAriaMultiselectable>
           {selectOptions.length === 0 ? (
-            <SelectOption key="none">
-              {isWorkspaceEnabled
-                ? 'No workspaces available'
-                : 'No groups available'}
-            </SelectOption>
+            <SelectOption key="none">No workspaces available</SelectOption>
           ) : (
             selectOptions.map((option, index) => (
               <div key={option.itemId || option.children}>

@@ -8,7 +8,6 @@ import { useSearchParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
-  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   getSearchParams,
@@ -25,7 +24,6 @@ import useGlobalFilter from '../filters/useGlobalFilter';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 import { prepareColumnsCoventional as prepareColumns } from './helpers';
 
 const GroupSystems = ({ groupName, groupId }) => {
@@ -52,13 +50,8 @@ const GroupSystems = ({ groupName, groupId }) => {
   );
 
   const [searchParams] = useSearchParams();
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
-  const noAccessTooltip = isWorkspaceEnabled
-    ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
-    : NO_MODIFY_GROUP_TOOLTIP_MESSAGE;
-  const removeLabel = isWorkspaceEnabled
-    ? 'Remove from workspace'
-    : 'Remove from group';
+  const noAccessTooltip = NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE;
+  const removeLabel = 'Remove from workspace';
 
   useEffect(() => {
     const { page, perPage } = getSearchParams(searchParams);

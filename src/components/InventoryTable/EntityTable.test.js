@@ -5,7 +5,7 @@ import React from 'react';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { TestWrapper } from '../../Utilities/TestingUtilities';
-import { defaultColumns } from '../../store/entities';
+import { DEFAULT_COLUMNS } from '../../store/entities';
 import EntityTable from './EntityTable';
 import TitleColumn from './TitleColumn';
 
@@ -441,7 +441,7 @@ describe('EntityTable', () => {
       initialState = {
         entities: {
           ...initialState.entities,
-          columns: defaultColumns(),
+          columns: DEFAULT_COLUMNS,
           rows: [
             {
               id: 'testing-id',
