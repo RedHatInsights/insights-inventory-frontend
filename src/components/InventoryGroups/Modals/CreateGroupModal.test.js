@@ -4,11 +4,9 @@ import { validateGroupName } from '../utils/api';
 import CreateGroupModal, { validate } from './CreateGroupModal';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 jest.mock('../utils/api');
 jest.mock('react-redux');
-jest.mock('../../../Utilities/hooks/useWorkspaceFeatureFlag');
 
 describe('validate function', () => {
   afterEach(() => {
@@ -51,10 +49,6 @@ describe('validate function', () => {
 });
 
 describe('create group modal', () => {
-  beforeEach(() => {
-    useWorkspaceFeatureFlag.mockReturnValue(false);
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });

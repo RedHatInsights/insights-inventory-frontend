@@ -14,14 +14,12 @@ import PropTypes from 'prop-types';
 import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { GENERAL_GROUPS_WRITE_PERMISSION } from '../../constants';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_WRITE_PERMISSION];
 
 const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
   const { hasAccess: canModifyGroups } =
     usePermissionsWithContext(REQUIRED_PERMISSIONS);
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
     <EmptyState
@@ -30,7 +28,7 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
       data-ouia-safe={true}
     >
       <EmptyStateHeader
-        titleText={isWorkspaceEnabled ? 'No workspaces' : 'No inventory groups'}
+        titleText="No workspaces"
         icon={
           <EmptyStateIcon
             icon={PlusCircleIcon}
@@ -41,9 +39,7 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
         headingLevel="h4"
       />
       <EmptyStateBody>
-        {`Manage device operations efficiently by creating ${
-          isWorkspaceEnabled ? 'workspaces' : 'inventory groups.'
-        }`}
+        Manage device operations efficiently by creating workspaces
       </EmptyStateBody>
       <EmptyStateFooter>
         {canModifyGroups ? (
@@ -52,16 +48,14 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
             onClick={onCreateGroupClick}
             ouiaId="CreateGroupButton"
           >
-            {isWorkspaceEnabled ? 'Create workspace' : 'Create group'}
+            Create workspace
           </Button>
         ) : (
           <Tooltip
-            content={`You do not have the necessary permissions to modify ${
-              isWorkspaceEnabled ? 'workspaces' : 'groups'
-            }. Contact your organization administrator.`}
+            content="You do not have the necessary permissions to modify workspaces. Contact your organization administrator."
           >
             <Button variant="primary" isAriaDisabled ouiaId="CreateGroupButton">
-              {isWorkspaceEnabled ? 'Create workspace' : 'Create group'}
+              Create workspace
             </Button>
           </Tooltip>
         )}

@@ -20,26 +20,18 @@ import {
   ExclamationTriangleIcon,
 } from '@patternfly/react-icons';
 import useFetchBatched from '../../../Utilities/hooks/useFetchBatched';
-import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
-const generateSchema = (groups, isWorkspaceEnabled) => ({
+const generateSchema = (groups) => ({
   fields: [
     {
       component: componentTypes.PLAIN_TEXT,
       name: 'warning-message',
       label:
         groups.length > 1 ? (
-          isWorkspaceEnabled ? (
-            <Text>
-              <strong>{groups.length}</strong> workspaces and all their data
-              will be deleted.
-            </Text>
-          ) : (
-            <Text>
-              <strong>{groups.length}</strong> groups and all their data will be
-              deleted.
-            </Text>
-          )
+          <Text>
+            <strong>{groups.length}</strong> workspaces and all their data
+            will be deleted.
+          </Text>
         ) : (
           <Text>
             <strong>{groups[0]?.name}</strong> and all its data will be deleted.
@@ -55,15 +47,11 @@ const generateSchema = (groups, isWorkspaceEnabled) => ({
   ],
 });
 
-const generateContent = (groups = [], isWorkspaceEnabled) => ({
+const generateContent = (groups = []) => ({
   title:
     groups.length > 1
-      ? isWorkspaceEnabled
         ? 'Delete workspaces?'
-        : 'Delete groups?'
-      : isWorkspaceEnabled
-      ? 'Delete workspace?'
-      : 'Delete group?',
+        : 'Delete workspace?',
   titleIconVariant: () => (
     <Icon status="warning">
       <ExclamationTriangleIcon />
@@ -71,7 +59,7 @@ const generateContent = (groups = [], isWorkspaceEnabled) => ({
   ),
   variant: 'danger',
   submitLabel: 'Delete',
-  schema: generateSchema(groups, isWorkspaceEnabled),
+  schema: generateSchema(groups),
 });
 
 const DeleteGroupModal = ({
@@ -87,7 +75,6 @@ const DeleteGroupModal = ({
   );
   const [isLoading, setIsLoading] = useState(true);
   const { fetchBatchedInline } = useFetchBatched();
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   useEffect(() => {
     // check that all groups are empty before deletion
@@ -117,19 +104,15 @@ const DeleteGroupModal = ({
         title: 'Success',
         description:
           groupIds.length > 1
-            ? `${groupIds.length} ${
-                isWorkspaceEnabled ? 'workspaces' : 'groups'
-              } deleted`
+            ? `${groupIds.length} workspaces deleted`
             : `${fetchedGroups?.[0]?.name} has been removed successfully`,
       },
       onError: {
         title: 'Error',
         description:
           groupIds.length > 1
-            ? `Failed to delete ${groupIds.length} ${
-                isWorkspaceEnabled ? 'workspaces' : 'groups'
-              }`
-            : `Failed to delete ${isWorkspaceEnabled ? 'workspace' : 'group'} ${
+            ? `Failed to delete ${groupIds.length} workspaces`
+            : `Failed to delete workspace ${
                 fetchedGroups?.[0]?.name
               }`,
       },
@@ -151,12 +134,8 @@ const DeleteGroupModal = ({
       variant="small"
       title={
         fetchedGroups.length > 1
-          ? isWorkspaceEnabled
-            ? 'Cannot delete workspaces at this time'
-            : 'Cannot delete groups at this time'
-          : isWorkspaceEnabled
-          ? 'Cannot delete workspace at this time'
-          : 'Cannot delete group at this time'
+          ? 'Cannot delete workspaces at this time'
+          : 'Cannot delete workspace at this time'
       }
       titleIconVariant={() => (
         <Icon status="danger">
@@ -177,18 +156,12 @@ const DeleteGroupModal = ({
     >
       {fetchedGroups.length > 1 ? (
         <Text>
-          {`${
-            isWorkspaceEnabled ? 'Workspaces' : 'Groups'
-          } containing systems cannot be deleted. To delete ${
-            isWorkspaceEnabled ? 'workspaces' : 'groups'
-          }, first
-          remove all of the systems from them.`}
+          Workspaces containing systems cannot be deleted. To delete
+          workspaces, first remove all of the systems from them.
         </Text>
       ) : (
         <Text>
-          {`${
-            isWorkspaceEnabled ? 'Workspaces' : 'Groups'
-          } containing systems cannot be deleted. To delete`}{' '}
+          Workspaces containing systems cannot be deleted. To delete{' '}
           <strong>{fetchedGroups[0].name}</strong>, first remove all of the
           systems from it.
         </Text>
@@ -200,7 +173,7 @@ const DeleteGroupModal = ({
       closeModal={() => setIsModalOpen(false)}
       onSubmit={handleDeleteGroup}
       reloadData={reloadData}
-      {...generateContent(fetchedGroups, isWorkspaceEnabled)}
+      {...generateContent(fetchedGroups)}
     />
   );
 };

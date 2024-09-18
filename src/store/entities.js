@@ -38,7 +38,7 @@ export const defaultState = {
   },
 };
 
-export const defaultColumns = (isWorkspaceEnabled) => [
+export const DEFAULT_COLUMNS = [
   {
     key: 'display_name',
     sortKey: 'display_name',
@@ -50,14 +50,14 @@ export const defaultColumns = (isWorkspaceEnabled) => [
   {
     key: 'groups',
     sortKey: 'group_name',
-    title: isWorkspaceEnabled ? 'Workspace' : 'Group',
+    title: 'Workspace',
     props: { width: 10 },
     // eslint-disable-next-line camelcase
     renderFunc: (groups) =>
       isEmpty(groups) ? (
-        <div className="pf-v5-u-disabled-color-200">{`No ${
-          isWorkspaceEnabled ? 'workspace' : 'group'
-        }`}</div>
+        <div className="pf-v5-u-disabled-color-200">
+          No workspace
+        </div>
       ) : (
         groups[0].name
       ), // currently, one group at maximum is supported
@@ -144,7 +144,7 @@ function entitiesPending(state, { meta }) {
     ...((state.columns && {
       columns: mergeArraysByKey(
         [
-          defaultColumns().filter(
+          DEFAULT_COLUMNS.filter(
             ({ key }) => key !== 'tags' || meta?.showTags
           ),
           state.columns,

@@ -10,7 +10,6 @@ import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
-import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const AddSelectedHostsToGroupModal = ({
   isModalOpen,
@@ -21,7 +20,6 @@ const AddSelectedHostsToGroupModal = ({
   const dispatch = useDispatch();
   const chrome = useChrome();
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
   const handleAddDevices = (values) => {
     const group = JSON.parse(values.group); // parse is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
     const statusMessages = {
@@ -54,9 +52,9 @@ const AddSelectedHostsToGroupModal = ({
         <Modal
           isModalOpen={isModalOpen}
           closeModal={() => setIsModalOpen(false)}
-          title={isWorkspaceEnabled ? 'Add to workspace' : 'Add to group'}
+          title="Add to workspace"
           submitLabel="Add"
-          schema={addHostSchema(hosts, chrome, isWorkspaceEnabled)}
+          schema={addHostSchema(hosts, chrome)}
           additionalMappers={{
             'create-group-btn': {
               component: CreateGroupButton,

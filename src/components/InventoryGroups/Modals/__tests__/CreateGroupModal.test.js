@@ -4,17 +4,10 @@ import '@testing-library/jest-dom';
 import { getStore } from '../../../../store';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import useWorkspaceFeatureFlag from '../../../../Utilities/hooks/useWorkspaceFeatureFlag';
-
-jest.mock('../../../../Utilities/hooks/useWorkspaceFeatureFlag');
 
 import CreateGroupModal from '../CreateGroupModal';
 
 describe('CreateGroupModal', () => {
-  beforeEach(() => {
-    useWorkspaceFeatureFlag.mockReturnValue(false);
-  });
-
   it('renders correctly', () => {
     render(
       <MemoryRouter>

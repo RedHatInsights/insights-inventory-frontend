@@ -7,16 +7,14 @@ import {
 } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { Flex } from '@patternfly/react-core';
 import InventoryGroupsPopover from '../components/InventoryGroups/SmallComponents/Popover';
-import useWorkspaceFeatureFlag from '../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const Groups = () => {
   const chrome = useChrome();
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   useEffect(() => {
     chrome?.hideGlobalFilter?.();
     chrome?.updateDocumentTitle?.(
-      `${isWorkspaceEnabled ? 'Workspaces' : 'Groups'} - Inventory`
+      `Workspaces - Inventory`
     );
   }, []);
 
@@ -25,7 +23,7 @@ const Groups = () => {
       <PageHeader>
         <Flex spaceItems={{ default: 'spaceItemsSm' }}>
           <PageHeaderTitle
-            title={isWorkspaceEnabled ? 'Workspaces' : 'Groups'}
+            title="Workspaces"
           />
           <InventoryGroupsPopover />
         </Flex>
