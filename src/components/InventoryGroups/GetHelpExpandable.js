@@ -11,13 +11,11 @@ import React from 'react';
 import { USER_ACCESS_ADMIN_PERMISSIONS } from '../../constants';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const GetHelpExpandable = () => {
   const { hasAccess: isUserAccessAdministrator, isOrgAdmin } =
     usePermissionsWithContext(USER_ACCESS_ADMIN_PERMISSIONS);
   const { quickStarts } = useChrome();
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
     <ExpandableSection
@@ -32,15 +30,10 @@ const GetHelpExpandable = () => {
             className="ins-c-groups-help-expandable__link"
             size="lg"
             onClick={() =>
-              isWorkspaceEnabled
-                ? quickStarts.activateQuickstart('insights-inventory-workspace')
-                : quickStarts.activateQuickstart('insights-inventory-groups')
+              quickStarts.activateQuickstart('insights-inventory-workspace')
             }
           >
-            {isWorkspaceEnabled
-              ? 'Create a workspace'
-              : 'Create an Inventory group'}{' '}
-            <ArrowRightIcon />
+            Create an Inventory group <ArrowRightIcon />
           </Button>
         </ListItem>
         {isUserAccessAdministrator || isOrgAdmin ? (
@@ -50,19 +43,12 @@ const GetHelpExpandable = () => {
               className="ins-c-groups-help-expandable__link"
               size="lg"
               onClick={() =>
-                isWorkspaceEnabled
-                  ? quickStarts.activateQuickstart(
-                      'insights-inventory-workspace-rbac'
-                    )
-                  : quickStarts.activateQuickstart(
-                      'insights-inventory-groups-rbac'
-                    )
+                quickStarts.activateQuickstart(
+                  'insights-inventory-workspace-rbac'
+                )
               }
             >
-              {isWorkspaceEnabled
-                ? 'Configure User Access for your workspaces'
-                : 'Configure User Access for your Inventory groups'}{' '}
-              <ArrowRightIcon />
+              Configure User Access for your workspaces <ArrowRightIcon />
             </Button>
           </ListItem>
         ) : (
