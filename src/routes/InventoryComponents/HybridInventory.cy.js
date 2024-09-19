@@ -41,11 +41,7 @@ const waitForTable = (waitNetwork = false) => {
   }
 
   // indicating the table is loaded
-  cy.get('table[aria-label="Host inventory"]').should(
-    'have.attr',
-    'data-ouia-safe',
-    'true'
-  );
+  cy.get('[data-label="Name"]').contains('dolor');
 };
 
 before(() => {
