@@ -42,7 +42,7 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
-    "coverageDirectory": "./codecov-jest/",
+    "coverageDirectory": "coverage-jest",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
@@ -126,14 +126,14 @@
     "start": "fec dev",
     "start:proxy": "PROXY=true fec dev",
     "static": "fec static",
-    "travis:verify": "npm-run-all build lint test",
     "verify": "npm-run-all build lint test",
     "verify:local": "npm-run-all build lint test:local test:ct",
     "nightly": "npm run travis:verify",
     "test:ct": "BABEL_ENV=componentTest cypress run --component",
     "test:openct": "BABEL_ENV=componentTest cypress open --component",
     "test:openct:mock": "MOCK=true npm run test:openct",
-    "coverage": "bash coverage.sh",
+    "test:coverage": "curl -sSL 'https://raw.githubusercontent.com/RedHatInsights/insights-interact-tools/refs/heads/main/scripts/coverage.sh' | bash",
+    "travis:verify": "npm run test:coverage",
     "mock-server": "prism mock -d $npm_package_config_api_schema_path",
     "start:mock": "MOCK=true npm run start:proxy",
     "start:mock:beta": "MOCK=true npm run start:proxy:beta",
@@ -146,12 +146,16 @@
     "appname": "inventory"
   },
   "nyc": {
-    "report-dir": "codecov-cypress",
+    "report-dir": "coverage-cypress",
     "include": [
-      "src/**/*"
+      "src/**/*.{js,jsx}"
     ],
     "exclude": [
-      "src/**/*.test.js"
+      "src/**/*.test.js",
+      "src/**/*.cy.js",
+      "src/**/__fixtures__/**",
+      "src/**/__factories__/**",
+      "src/{entry,entry-dev}.js"
     ]
   },
   "config": {
