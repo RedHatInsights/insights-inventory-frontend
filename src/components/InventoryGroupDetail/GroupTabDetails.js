@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
 import { EmptyStateNoAccessToSystems } from './EmptyStateNoAccess';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 
@@ -29,7 +28,6 @@ const GroupTabDetailsWrapper = ({
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
   );
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
   const conventionalSystemsContent = useMemo(
     () => (
       <GroupSystems
@@ -111,11 +109,7 @@ const GroupTabDetailsWrapper = ({
           )}
         </PageSection>
       </Tab>
-      <Tab
-        eventKey={1}
-        title={isWorkspaceEnabled ? 'Workspace info' : 'Group info'}
-        aria-label="Group info tab"
-      >
+      <Tab eventKey={1} title="Workspace info" aria-label="Group info tab">
         {activeTabKey === 1 && ( // helps to lazy load the component
           <PageSection>
             <Suspense
