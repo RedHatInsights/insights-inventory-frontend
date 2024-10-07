@@ -171,7 +171,6 @@ const AddSystemsToGroupModal = ({
         canSelectAll: false,
       }}
       bulkSelect={bulkSelectConfig}
-      initialLoading={true}
       showTags
       showCentosVersions
       showNoGroupOption

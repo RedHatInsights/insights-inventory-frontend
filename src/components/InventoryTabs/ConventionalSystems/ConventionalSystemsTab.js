@@ -70,7 +70,6 @@ const ConventionalSystemsTab = ({
   lastSeenFilter,
   page,
   perPage,
-  initialLoading,
   hasAccess,
   hostGroupFilter,
   systemTypeFilter,
@@ -79,7 +78,7 @@ const ConventionalSystemsTab = ({
   const inventory = useRef(null);
   const [isModalOpen, handleModalToggle] = useState(false);
   const [currentSystem, setCurrentSystem] = useState({});
-  const [filters, onSetfilters] = useState(
+  const [filters, onSetFilters] = useState(
     generateFilter(
       status,
       source,
@@ -114,7 +113,7 @@ const ConventionalSystemsTab = ({
   const isExportEnabled = useFeatureFlag('hbi.export-data');
 
   const onRefresh = useOnRefresh((options) => {
-    onSetfilters(options?.filters);
+    onSetFilters(options?.filters);
   });
 
   useEffect(() => {
@@ -178,15 +177,11 @@ const ConventionalSystemsTab = ({
       <InventoryTableCmp
         showSystemTypeFilter={isBootcEnabled && hasBootcImages}
         hasAccess={hasAccess}
-        isRbacEnabled
         customFilters={{ filters, globalFilter }}
         isFullView
         showTags
         onRefresh={onRefresh}
         hasCheckbox
-        autoRefresh
-        ignoreRefresh
-        initialLoading={initialLoading}
         ref={inventory}
         tableProps={{
           actionResolver: tableActions,
@@ -403,10 +398,6 @@ ConventionalSystemsTab.propTypes = {
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),
-};
-
-ConventionalSystemsTab.defaultProps = {
-  initialLoading: true,
 };
 
 export default ConventionalSystemsTab;

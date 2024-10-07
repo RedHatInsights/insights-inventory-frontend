@@ -142,7 +142,7 @@ describe('ConventionalSystemsTab', () => {
   it('renders correctly when write permissions', async () => {
     const store = mockStore(initialStore);
     renderWithProviders(
-      <ConventionalSystemsTab initialLoading={false} />,
+      <ConventionalSystemsTab initialLoading={false} hasAccess={true} />,
       store
     );
 
@@ -179,7 +179,7 @@ describe('ConventionalSystemsTab', () => {
       },
     });
     renderWithProviders(
-      <ConventionalSystemsTab initialLoading={false} />,
+      <ConventionalSystemsTab initialLoading={false} hasAccess={true} />,
       store
     );
 
@@ -219,7 +219,7 @@ describe('ConventionalSystemsTab', () => {
       useFeatureFlag.mockImplementation(() => true);
       const store = mockStore(initialStore);
       renderWithProviders(
-        <ConventionalSystemsTab initialLoading={false} />,
+        <ConventionalSystemsTab initialLoading={false} hasAccess={true} />,
         store
       );
 
@@ -240,7 +240,7 @@ describe('ConventionalSystemsTab', () => {
       useFeatureFlag.mockImplementation(() => false);
       const store = mockStore(initialStore);
       renderWithProviders(
-        <ConventionalSystemsTab initialLoading={false} />,
+        <ConventionalSystemsTab initialLoading={false} hasAccess={true} />,
         store
       );
 

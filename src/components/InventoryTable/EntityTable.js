@@ -158,7 +158,6 @@ EntityTable.propTypes = {
   hasCheckbox: PropTypes.bool,
   showActions: PropTypes.bool,
   hasItems: PropTypes.bool,
-  showHealth: PropTypes.bool,
   sortBy: PropTypes.shape({
     key: PropTypes.string,
     direction: PropTypes.oneOf(['asc', 'desc']),
@@ -186,7 +185,6 @@ EntityTable.propTypes = {
 
 EntityTable.defaultProps = {
   loaded: false,
-  showHealth: false,
   expandable: false,
   hasCheckbox: true,
   showActions: false,

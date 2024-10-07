@@ -10,14 +10,26 @@ const useOnRefresh = (extraCallback) => {
   const location = useLocation();
 
   return (options, defaultCallback) => {
-    const searchParams = new URLSearchParams();
-    calculateFilters(searchParams, options?.filters);
-    calculatePagination(searchParams, options?.page, options?.per_page);
-    const search = searchParams.toString();
-    navigate({
-      search,
-      hash: location.hash,
-    });
+    const filterSearchParams = calculateFilters(
+      new URLSearchParams(),
+      options?.filters
+    );
+
+    const searchParams = calculatePagination(
+      filterSearchParams,
+      options?.page,
+      options?.per_page
+    );
+
+    navigate(
+      {
+        search: searchParams.toString(),
+        hash: location.hash,
+      },
+      {
+        replace: true,
+      }
+    );
 
     if (defaultCallback) {
       defaultCallback(options);
