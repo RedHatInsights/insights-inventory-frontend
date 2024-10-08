@@ -4,7 +4,7 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -150,7 +150,7 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -296,7 +296,7 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -442,7 +442,7 @@ exports[`InfrastructureCard should not render hasType 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -594,7 +594,7 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -746,7 +746,7 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -936,7 +936,7 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -1102,7 +1102,7 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -1250,7 +1250,7 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -1416,7 +1416,7 @@ exports[`InfrastructureCard should render extra 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="infrastructure-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""

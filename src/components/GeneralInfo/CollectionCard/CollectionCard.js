@@ -43,6 +43,7 @@ const CollectionCard = ({
   <LoadingCard
     title="Collection information"
     isLoading={!detailLoaded}
+    cardId="collection-card"
     items={[
       ...(hasClient
         ? [
