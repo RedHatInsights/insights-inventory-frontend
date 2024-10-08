@@ -75,7 +75,6 @@ These applications import `InventoryTable` component through federated modules:
 - [compliance-frontend](https://github.com/RedHatInsights/compliance-frontend)
 - [patchman-ui](https://github.com/RedHatInsights/patchman-ui)
 - [malware-detection-frontend](https://github.com/RedHatInsights/malware-detection-frontend)
-- [drift-frontend](https://github.com/RedHatInsights/drift-frontend)
 - [ros-frontend](https://github.com/RedHatInsights/ros-frontend)
 - [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend)
 - [edge-frontend](https://github.com/RedHatInsights/edge-frontend)
