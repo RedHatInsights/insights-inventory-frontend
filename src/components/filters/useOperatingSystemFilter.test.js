@@ -1,8 +1,7 @@
-import { act, renderHook } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { mockSystemProfile } from '../../__mocks__/hostApi';
 import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
 import { buildOperatingSystems } from '../../__factories__/operatingSystems';
-
 import { useOperatingSystemFilter } from './useOperatingSystemFilter';
 jest.mock('../../Utilities/hooks/useFetchOperatingSystems');
 
@@ -70,6 +69,27 @@ describe('useOperatingSystemFilter', () => {
         },
       });
       expect(chipsUpdated).toMatchSnapshot();
+    });
+  });
+
+  describe('with custom operating system fetch endpoint', () => {
+    it('Should use the provided custom fetch function', async () => {
+      const fetchCustomOSes = jest.fn(
+        Promise.resolve({
+          operatingSystems,
+          operatingSystemsLoaded: true,
+        })
+      );
+
+      renderHook(() =>
+        useOperatingSystemFilter(undefined, [], true, true, fetchCustomOSes)
+      );
+
+      await waitFor(() =>
+        expect(useFetchOperatingSystems).toHaveBeenCalledWith(
+          expect.objectContaining({ fetchCustomOSes })
+        )
+      );
     });
   });
 });
