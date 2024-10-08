@@ -26,7 +26,12 @@ const useFetchOperatingSystems = ({
 
       return await getOperatingSystems(...fetchArgs);
     }
-  }, [hasAccess, apiParams, showCentosVersions]);
+  }, [
+    hasAccess,
+    JSON.stringify(apiParams),
+    showCentosVersions,
+    typeof fetchCustomOSes !== 'undefined',
+  ]);
 
   useEffect(() => {
     (async () => {
