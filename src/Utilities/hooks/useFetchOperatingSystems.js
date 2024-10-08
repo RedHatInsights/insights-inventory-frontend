@@ -1,23 +1,30 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getOperatingSystems } from '../../api';
 
+const initialState = {
+  operatingSystems: [],
+  operatingSystemsLoaded: false,
+};
+
 const useFetchOperatingSystems = ({
   apiParams = [],
   hasAccess,
   showCentosVersions,
+  fetchCustomOSes,
 }) => {
   const mounted = useRef(true);
-  const initialState = {
-    operatingSystems: [],
-    operatingSystemsLoaded: false,
-  };
+
   const [data, setData] = useState(initialState);
 
   const fetchOperatingSystems = useCallback(async () => {
-    if (typeof hasAccess === 'undefined') {
-      return await getOperatingSystems(apiParams, showCentosVersions);
-    } else if (typeof hasAccess !== 'undefined' && hasAccess === true) {
-      return await getOperatingSystems(apiParams, showCentosVersions);
+    const fetchArgs = [apiParams, showCentosVersions];
+
+    if (typeof hasAccess === 'undefined' || hasAccess === true) {
+      if (fetchCustomOSes) {
+        return await fetchCustomOSes(...fetchArgs);
+      }
+
+      return await getOperatingSystems(...fetchArgs);
     }
   }, [hasAccess, apiParams, showCentosVersions]);
 
@@ -36,7 +43,7 @@ const useFetchOperatingSystems = ({
       setData(initialState);
       mounted.current = false;
     };
-  }, []);
+  }, [fetchOperatingSystems]);
 
   return data;
 };

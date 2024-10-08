@@ -13,13 +13,19 @@ import { buildHosts, buildHostsPayload } from '../../__factories__/hosts';
 import * as api from '../../api/api';
 import * as groupsApi from '../InventoryGroups/utils/api';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
-import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
 import { buildOperatingSystems } from '../../__factories__/operatingSystems';
 
 import InventoryTable from './InventoryTable';
 import { shouldDispatch, shouldNotDispatch } from '../../Utilities/testUtils';
+import { getOperatingSystems } from '../../api/api';
 
-jest.mock('../../Utilities/hooks/useFetchOperatingSystems');
+jest.mock('../../api/api', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../api/api'),
+  getOperatingSystems: jest.fn(() =>
+    Promise.resolve({ total: 0, results: [] })
+  ),
+}));
 jest.mock('../../Utilities/hooks/useFetchBatched');
 
 const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
@@ -182,17 +188,20 @@ const errorState = {
   },
 };
 
+const operatingSystems = [
+  ...buildOperatingSystems(20, { osName: 'RHEL', major: 8 }),
+  ...buildOperatingSystems(20, { osName: 'CentOS Linux', major: 7 }),
+];
 describe('InventoryTable', () => {
-  const operatingSystems = [
-    ...buildOperatingSystems(20, { osName: 'RHEL', major: 8 }),
-    ...buildOperatingSystems(20, { osName: 'CentOS Linux', major: 7 }),
-  ];
   useFeatureFlag.mockReturnValue(false);
-  useFetchOperatingSystems.mockReturnValue({
-    operatingSystems,
-    operatingSystemsLoaded: true,
+  beforeEach(() => {
+    getOperatingSystems.mockReturnValue(
+      Promise.resolve({
+        results: operatingSystems,
+        total: operatingSystems.length,
+      })
+    );
   });
-
   useFetchBatched.mockReturnValue({
     fetchBatched: () =>
       new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
@@ -227,12 +236,24 @@ describe('InventoryTable', () => {
       });
     });
 
-    it('fetches operating system versions', async () => {
+    it('fetches operating system versions using custom API', async () => {
+      const store = mockStore(initialState);
+      const fetchCustomOSes = jest.fn(() =>
+        Promise.resolve({ total: 0, results: [] })
+      );
+      renderTable(store, { fetchCustomOSes });
+
+      await waitFor(() => {
+        expect(fetchCustomOSes).toBeCalled();
+      });
+    });
+
+    it('fetches operating system versions using default API', async () => {
       const store = mockStore(initialState);
       renderTable(store);
 
       await waitFor(() => {
-        expect(useFetchOperatingSystems).toBeCalled();
+        expect(getOperatingSystems).toBeCalled();
       });
     });
 
