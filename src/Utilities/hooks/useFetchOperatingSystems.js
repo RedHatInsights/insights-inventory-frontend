@@ -17,14 +17,16 @@ const useFetchOperatingSystems = ({
   const [data, setData] = useState(initialState);
 
   const fetchOperatingSystems = useCallback(async () => {
+    if (hasAccess === false) return;
+
+    const fetchFn = fetchCustomOSes || getOperatingSystems;
     const fetchArgs = [apiParams, showCentosVersions];
+    console.log(fetchFn, 'fetchFN');
 
-    if (typeof hasAccess === 'undefined' || hasAccess === true) {
-      if (fetchCustomOSes) {
-        return await fetchCustomOSes(...fetchArgs);
-      }
-
-      return await getOperatingSystems(...fetchArgs);
+    try {
+      return await fetchFn(...fetchArgs);
+    } catch (error) {
+      return { results: [] };
     }
   }, [
     hasAccess,
@@ -38,7 +40,7 @@ const useFetchOperatingSystems = ({
       const result = await fetchOperatingSystems();
       if (mounted.current) {
         setData({
-          operatingSystems: result.results,
+          operatingSystems: result?.results || [],
           operatingSystemsLoaded: true,
         });
       }
