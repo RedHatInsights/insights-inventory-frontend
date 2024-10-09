@@ -19,7 +19,7 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <div
               class="pf-v5-c-card"
-              data-ouia-component-id="system-properties-card"
+              data-ouia-component-id="system-card"
               data-ouia-component-type="PF5/Card"
               data-ouia-safe="true"
               id=""
@@ -340,7 +340,7 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <div
               class="pf-v5-c-card"
-              data-ouia-component-id="system-properties-card"
+              data-ouia-component-id="infrastructure-card"
               data-ouia-component-type="PF5/Card"
               data-ouia-safe="true"
               id=""
@@ -505,7 +505,7 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <div
               class="pf-v5-c-card"
-              data-ouia-component-id="system-properties-card"
+              data-ouia-component-id="system-status-card"
               data-ouia-component-type="PF5/Card"
               data-ouia-safe="true"
               id=""
@@ -610,7 +610,7 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <div
               class="pf-v5-c-card"
-              data-ouia-component-id="system-properties-card"
+              data-ouia-component-id="dataCollector-card"
               data-ouia-component-type="PF5/Card"
               data-ouia-safe="true"
               id=""
@@ -989,7 +989,7 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <div
               class="pf-v5-c-card"
-              data-ouia-component-id="system-properties-card"
+              data-ouia-component-id="os-card"
               data-ouia-component-type="PF5/Card"
               data-ouia-safe="true"
               id=""
@@ -1112,7 +1112,7 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <div
               class="pf-v5-c-card"
-              data-ouia-component-id="system-properties-card"
+              data-ouia-component-id="bios-card"
               data-ouia-component-type="PF5/Card"
               data-ouia-safe="true"
               id=""
@@ -1203,7 +1203,7 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <div
               class="pf-v5-c-card"
-              data-ouia-component-id="system-properties-card"
+              data-ouia-component-id="subscriptions-card"
               data-ouia-component-type="PF5/Card"
               data-ouia-safe="true"
               id=""
@@ -1294,7 +1294,7 @@ exports[`GeneralInformation should render correctly 1`] = `
           >
             <div
               class="pf-v5-c-card"
-              data-ouia-component-id="system-properties-card"
+              data-ouia-component-id="configuration-card"
               data-ouia-component-type="PF5/Card"
               data-ouia-safe="true"
               id=""
