@@ -25,13 +25,14 @@ const useFetchOperatingSystems = ({
     try {
       return await fetchFn(...fetchArgs);
     } catch (error) {
+      console.error(error);
       return { results: [] };
     }
   }, [
     hasAccess,
     JSON.stringify(apiParams),
     showCentosVersions,
-    typeof fetchCustomOSes !== 'undefined',
+    fetchCustomOSes,
   ]);
 
   useEffect(() => {
