@@ -17,6 +17,7 @@
   - [initialLoading](#initialloading)
   - [ignoreRefresh](#ignorerefresh)
   - [showTagModal](#showtagmodal)
+  - [fetchCustomOSes](#fetchCustomOSes)
 
 # Props
 
@@ -123,3 +124,28 @@ On the initial mount and when items/sortBy are changed, the inventoryTable ignor
 *boolean*
 
 Will enable TagModal even the filter or the column is not shown.
+
+## fetchCustomOSes
+
+*falsy | (apFilters) => array*
+
+Operating systems filter by default fetches the os versions from inventory API. However, there might be requirement to fetch from some other custom API endpoints. In this case, you can provide your custom operating system API fetch funtion as a prop. The returned result must be in the shape of:
+
+```
+  {
+      "total": Number,
+      "count": Number,
+      "page": Number,
+      "per_page": Number,
+      "results": [
+          {
+              "value": {
+                  "name": String,
+                  "major": Number,
+                  "minor": Number,
+              },
+              "count": Number
+          },
+      ]
+  }
+```
