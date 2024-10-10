@@ -103,6 +103,7 @@ const EntityTableToolbar = ({
   showCentosVersions,
   showNoGroupOption,
   enableExport,
+  fetchCustomOSes,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -171,7 +172,13 @@ const EntityTableToolbar = ({
     setEndDate,
   ] = useLastSeenFilter(reducer);
   const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] =
-    useOperatingSystemFilter(reducer, [], hasAccess, showCentosVersions);
+    useOperatingSystemFilter(
+      reducer,
+      [],
+      hasAccess,
+      showCentosVersions,
+      fetchCustomOSes
+    );
   const [
     updateMethodConfig,
     updateMethodChips,
@@ -691,6 +698,7 @@ EntityTableToolbar.propTypes = {
   showSystemTypeFilter: PropTypes.bool,
   enableExport: PropTypes.bool,
   exportConfig: PropTypes.object,
+  fetchCustomOSes: PropTypes.func,
 };
 
 EntityTableToolbar.defaultProps = {
