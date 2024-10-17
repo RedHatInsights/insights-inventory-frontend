@@ -9,6 +9,7 @@ import {
   TextContent,
   TextVariants,
   Tooltip,
+  Flex,
 } from '@patternfly/react-core';
 import {
   PageHeader,
@@ -19,9 +20,11 @@ import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import FontAwesomeImageIcon from '../../components/FontAwesomeImageIcon';
 import { AccountStatContext } from '../../Contexts';
 import { pageContents } from './InventoryPageContents';
+import { InventoryPopover } from './InventoryPopover';
 
 const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
   <Split hasGutter>
+    <InventoryPopover />
     <SplitItem>
       <TextContent>
         <Text style={{ paddingTop: '5px' }} component={TextVariants.h4}>
@@ -63,13 +66,16 @@ const InventoryPageHeader = (toggleProps) => {
   const { hasBootcImages } = useContext(AccountStatContext);
   return (
     <PageHeader className="pf-m-light">
-      <PageHeaderTitle
-        title="Systems"
-        actionsContent={
-          isBifrostEnabled &&
-          hasBootcImages && <InventoryContentToggle {...toggleProps} />
-        }
-      />
+      <Flex spaceItems={{ default: 'spaceItemsSm' }}>
+        <PageHeaderTitle
+          title="Systems"
+          actionsContent={
+            isBifrostEnabled &&
+            hasBootcImages && <InventoryContentToggle {...toggleProps} />
+          }
+        />
+        <InventoryPopover />
+      </Flex>
     </PageHeader>
   );
 };
