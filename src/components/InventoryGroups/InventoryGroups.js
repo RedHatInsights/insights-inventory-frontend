@@ -55,7 +55,6 @@ const InventoryGroups = () => {
     <PageSection
       data-ouia-component-id="groups-table-wrapper"
       data-testid="groups-table-wrapper"
-      style={{ height: '100%' }}
     >
       {createModalOpen && (
         <CreateGroupModal
