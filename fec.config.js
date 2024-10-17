@@ -1,6 +1,7 @@
 const { resolve } = require('path');
 const packageJson = require('./package.json');
 const webpack = require('webpack');
+const { sentryWebpackPlugin } = require('@sentry/webpack-plugin');
 
 const bundle = 'insights';
 const appName = packageJson[bundle].appname;
@@ -10,10 +11,27 @@ module.exports = {
   appUrl: `/${bundle}/${appName}`,
   useProxy: process.env.PROXY === 'true',
   debug: true,
+  devtool: 'hidden-source-map',
   plugins: [
     new webpack.DefinePlugin({
       IS_DEV: process.env.NODE_ENV !== 'production',
     }),
+    // Put the Sentry Webpack plugin after all other plugins
+    ...(process.env.SENTRY_AUTH_TOKEN
+      ? [
+          sentryWebpackPlugin({
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            org: 'red-hat-it',
+            project: 'inventory-rhel',
+            _experiments: {
+              moduleMetadata: ({ release }) => ({
+                dsn: process.env.SENTRY_INVENTORY_DSN,
+                release,
+              }),
+            },
+          }),
+        ]
+      : []),
   ],
   moduleFederation: {
     shared: [
