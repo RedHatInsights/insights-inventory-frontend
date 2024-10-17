@@ -6,7 +6,6 @@ import { getGroups } from '../InventoryGroups/utils/api';
 import SearchableGroupFilter from './SearchableGroupFilter';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 export const groupFilterState = { hostGroupFilter: null };
 export const GROUP_FILTER = 'GROUP_FILTER';
@@ -16,14 +15,11 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
-export const buildHostGroupChips = (
-  selectedGroups = [],
-  isWorkspaceEnabled
-) => {
+export const buildHostGroupChips = (selectedGroups = []) => {
   const chips = [...selectedGroups]?.map((group) =>
     group === ''
       ? {
-          name: isWorkspaceEnabled ? 'No workspace' : 'No group',
+          name: 'No workspace',
           value: '',
         }
       : {
@@ -34,7 +30,7 @@ export const buildHostGroupChips = (
   return chips?.length > 0
     ? [
         {
-          category: isWorkspaceEnabled ? 'Workspace' : 'Group',
+          category: 'Workspace',
           type: HOST_GROUP_CHIP,
           chips,
         },
@@ -54,8 +50,6 @@ const useGroupFilter = (showNoGroupOption = false) => {
     true,
     false
   );
-
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -93,14 +87,14 @@ const useGroupFilter = (showNoGroupOption = false) => {
   }, [hasAccess]);
 
   const chips = useMemo(
-    () => buildHostGroupChips(selectedGroupNames, isWorkspaceEnabled),
+    () => buildHostGroupChips(selectedGroupNames),
     [selectedGroupNames]
   );
 
   // hostGroupConfig is used in EntityTableToolbar.js
   const hostGroupConfig = useMemo(
     () => ({
-      label: isWorkspaceEnabled ? 'Workspace' : 'Group',
+      label: 'Workspace',
       value: 'group-host-filter',
       type: 'custom',
       filterValues: {

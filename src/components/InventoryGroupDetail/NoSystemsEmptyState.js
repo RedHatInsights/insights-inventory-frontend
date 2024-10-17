@@ -12,16 +12,13 @@ import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/r
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import PropTypes from 'prop-types';
 import {
-  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
 } from '../../constants';
 import { ActionButton } from '../InventoryTable/ActionWithRBAC';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const NoSystemsEmptyState = ({ groupId, groupName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
     <EmptyState
@@ -47,18 +44,12 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
         headingLevel="h4"
       />
       <EmptyStateBody>
-        {`To manage systems more effectively, add systems to the ${
-          isWorkspaceEnabled ? 'workspace' : 'group'
-        }.`}
+        To manage systems more effectively, add systems to the workspace.
       </EmptyStateBody>
       <EmptyStateFooter>
         <ActionButton
           requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)}
-          noAccessTooltip={
-            isWorkspaceEnabled
-              ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
-              : NO_MODIFY_GROUP_TOOLTIP_MESSAGE
-          }
+          noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
           variant="primary"
           onClick={() => setIsModalOpen(true)}
           ouiaId="add-systems-button"

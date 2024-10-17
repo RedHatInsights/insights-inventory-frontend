@@ -31,7 +31,6 @@ import {
   hybridInventoryTabKeys,
 } from '../../Utilities/constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 const InventoryGroupDetail = ({ groupId }) => {
@@ -57,8 +56,6 @@ const InventoryGroupDetail = ({ groupId }) => {
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
   );
 
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
-
   useEffect(() => {
     if (canViewGroup === true) {
       dispatch(fetchGroupDetail(groupId));
@@ -71,11 +68,7 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   useEffect(() => {
     // if available, change ID to the group's name in the window title
-    chrome?.updateDocumentTitle?.(
-      `${groupName || groupId} - ${
-        isWorkspaceEnabled ? 'Workspaces' : 'Inventory Groups'
-      }`
-    );
+    chrome?.updateDocumentTitle?.(`${groupName || groupId} - Workspaces`);
   }, [data]);
 
   // TODO: append search parameter to identify the active tab
@@ -162,7 +155,7 @@ const InventoryGroupDetail = ({ groupId }) => {
             </Tab>
             <Tab
               eventKey={1}
-              title={isWorkspaceEnabled ? 'Workspace info' : 'Group info'}
+              title="Workspace info"
               aria-label="Group info tab"
             >
               {activeTabKey === 1 && ( // helps to lazy load the component
