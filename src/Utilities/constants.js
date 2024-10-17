@@ -102,7 +102,8 @@ export const registered = [
     idName: 'Subscription manager id',
     idValue: 'subscription_manager_id',
   },
-  { label: 'Satellite/Discovery', value: 'yupana' },
+  { label: 'Satellite', value: 'satellite' },
+  { label: 'Discovery', value: 'discovery' },
   { label: 'insights-client not connected', value: '!puptoo' },
 ];
 export const InventoryContext = createContext({});

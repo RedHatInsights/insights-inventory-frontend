@@ -58,8 +58,14 @@ Clickable.propTypes = {
   singular: PropTypes.string,
 };
 
-const LoadingCard = ({ title, isLoading, items, children }) => (
-  <Card ouiaId="system-properties-card">
+const LoadingCard = ({
+  title,
+  isLoading,
+  items,
+  cardId = 'system-properties-card',
+  children,
+}) => (
+  <Card ouiaId={`${cardId}`}>
     <CardBody>
       <Stack hasGutter>
         <StackItem>
@@ -145,6 +151,7 @@ const LoadingCard = ({ title, isLoading, items, children }) => (
 LoadingCard.propTypes = {
   title: PropTypes.node.isRequired,
   isLoading: PropTypes.bool,
+  cardId: PropTypes.string,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.node,

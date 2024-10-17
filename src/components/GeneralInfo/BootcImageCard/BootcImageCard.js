@@ -17,6 +17,7 @@ export const BootcImageCard = ({ handleClick, extra }) => {
     <LoadingCard
       title="BOOTC"
       isLoading={!detailLoaded}
+      cardId="bootmc-card"
       items={[
         ...[{ title: 'Booted Image', value: bootc.bootedImage }],
         ...[{ title: 'Booted Image Digest', value: bootc.bootedImageDigest }],

@@ -15,7 +15,8 @@ describe('useRegisteredWithFilter', () => {
     expect(filter.filterValues.items).toMatchObject([
       { label: 'insights-client', value: 'puptoo' },
       { label: 'subscription-manager', value: 'rhsm-conduit' },
-      { label: 'Satellite/Discovery', value: 'yupana' },
+      { label: 'Satellite', value: 'satellite' },
+      { label: 'Discovery', value: 'discovery' },
       { label: 'insights-client not connected', value: '!puptoo' },
     ]);
   });

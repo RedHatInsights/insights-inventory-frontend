@@ -14,6 +14,7 @@ const SubscriptionCardCore = ({
   return (
     <LoadingCard
       title="Subscriptions"
+      cardId="subscriptions-card"
       isLoading={!detailLoaded}
       items={[
         ...(hasUsage

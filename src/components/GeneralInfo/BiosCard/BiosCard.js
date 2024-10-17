@@ -17,6 +17,7 @@ const BiosCardCore = ({
 }) => (
   <LoadingCard
     title="BIOS"
+    cardId="bios-card"
     isLoading={!detailLoaded}
     items={[
       ...(hasVendor ? [{ title: 'Vendor', value: bios.vendor }] : []),

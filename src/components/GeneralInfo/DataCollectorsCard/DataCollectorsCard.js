@@ -39,7 +39,11 @@ const DataCollectorsCardCore = ({
   const isExpanded = (collector) => expandedNames.includes(collector.name);
   const data = collectors ?? getDefaultCollectors(entity);
   return (
-    <LoadingCard title="Data collectors" isLoading={!detailLoaded}>
+    <LoadingCard
+      cardId="dataCollector-card"
+      title="Data collectors"
+      isLoading={!detailLoaded}
+    >
       <Table
         aria-label="Data collectors"
         variant={TableVariant.compact}

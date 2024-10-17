@@ -94,6 +94,7 @@ class SystemCardCore extends Component {
         <LoadingCard
           title="System properties"
           isLoading={!detailLoaded}
+          cardId="system-card"
           items={[
             ...(hasHostName
               ? [
