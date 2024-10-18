@@ -9,9 +9,6 @@
 
 .ins-c-inventory__table--toolbar {
     &:not(.ins-c-inventory__table--toolbar-has-items) {
-        .pf-v5-c-toolbar__content {
-            .pf-v5-c-toolbar__item:last-child { min-width: 12.5rem; }
-        }
         .pf-v5-c-pagination__nav-page-select input {  min-width: 4.68755rem; }
     }
 
