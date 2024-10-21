@@ -18,6 +18,10 @@
     .ins-c-chip-filters .pf-v5-c-chip-group:not(:last-of-type) { margin-right: var(--pf-v5-global--spacer--xs); }
 
     .ins-c-tagfilter { width: initial; }
+
+    .ins-c-tagfilter.pf-v5-c-menu-toggle {
+        height: 36px;
+    }
 }
 
 .ins-c-table__empty {
