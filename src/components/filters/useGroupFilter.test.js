@@ -2,14 +2,8 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useGroupFilter from './useGroupFilter';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 jest.mock('../../Utilities/hooks/useFetchBatched');
-jest.mock('../../Utilities/useFeatureFlag', () => ({
-  __esModule: true,
-  default: () => true,
-}));
-jest.mock('../../Utilities/hooks/useWorkspaceFeatureFlag');
 jest.mock('../InventoryGroups/utils/api', () => ({
   __esModule: true,
   getGroups: () =>
@@ -63,10 +57,6 @@ describe('groups request not yet resolved', () => {
 });
 
 describe('with some groups available', () => {
-  beforeEach(() => {
-    useWorkspaceFeatureFlag.mockReturnValue(false);
-  });
-
   const pageOffsetfetchBatched = jest.fn(
     () =>
       new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }]))
