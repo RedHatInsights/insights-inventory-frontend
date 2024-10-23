@@ -94,6 +94,10 @@
 
     .ins-c-inventory__list-tags {
         display: inline-block;
+        
+        .pf-v5-c-button {
+            padding-left: 0;
+        }
     }
 
     .ins-composed-col div {
