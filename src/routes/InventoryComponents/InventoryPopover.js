@@ -19,7 +19,7 @@ export const InventoryPopover = () => {
       aria-label="Inventory popover"
       headerContent={<Title headingLevel="h4">{'About inventory'}</Title>}
       position="right"
-      maxWidth="450px"
+      maxWidth="650px"
       bodyContent={
         <TextContent>
           <Flex direction={{ default: 'column' }}>
@@ -84,8 +84,9 @@ export const InventoryPopover = () => {
     >
       <Button
         variant="plain"
-        aria-label="Open Inventory groups popover"
+        aria-label="Open Inventory systems popover"
         style={{ padding: 0 }}
+        ouiaId="AboutInventorySystemsPopover"
       >
         <OutlinedQuestionCircleIcon />
       </Button>
