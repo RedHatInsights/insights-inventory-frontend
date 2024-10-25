@@ -26,7 +26,6 @@ import {
   PAGINATION_NEXT,
   PT_CONDITIONAL_FILTER_TOGGLE,
   PT_BULK_SELECT,
-  PT_BULK_SELECT_CHECKBOX,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _, { cloneDeep } from 'lodash';
 import fixtures from '../../../cypress/fixtures/hosts.json';
@@ -343,7 +342,8 @@ describe('selection and bulk selection', () => {
 
   it('can select none', () => {
     selectRowN(1);
-    cy.get(PT_BULK_SELECT_CHECKBOX).click(); // open selection dropdown
+    const BULK_SELECT_TOGGLE = '[class="pf-v5-c-menu-toggle__controls"]';
+    cy.get(BULK_SELECT_TOGGLE).first().click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select none (0 items)').click();
     checkSelectedNumber(0);
   });
