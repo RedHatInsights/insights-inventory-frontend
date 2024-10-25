@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Flex,
   Split,
   SplitItem,
   ToggleGroup,
@@ -9,7 +10,6 @@ import {
   TextContent,
   TextVariants,
   Tooltip,
-  Flex,
 } from '@patternfly/react-core';
 import {
   PageHeader,
@@ -65,16 +65,18 @@ const InventoryPageHeader = (toggleProps) => {
   const { hasBootcImages } = useContext(AccountStatContext);
   return (
     <PageHeader className="pf-m-light">
-      <Flex spaceItems={{ default: 'spaceItemsSm' }}>
-        <PageHeaderTitle
-          title="Systems"
-          actionsContent={
-            isBifrostEnabled &&
-            hasBootcImages && <InventoryContentToggle {...toggleProps} />
-          }
-        />
-        <InventoryPopover />
-      </Flex>
+      <PageHeaderTitle
+        title={
+          <Flex spaceItems={{ default: 'spaceItemsSm' }}>
+            <div>Systems</div>
+            <InventoryPopover />
+          </Flex>
+        }
+        actionsContent={
+          isBifrostEnabled &&
+          hasBootcImages && <InventoryContentToggle {...toggleProps} />
+        }
+      />
     </PageHeader>
   );
 };
