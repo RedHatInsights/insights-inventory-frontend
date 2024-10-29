@@ -22,6 +22,7 @@ const InfrastructureCardCore = ({
   <LoadingCard
     title="Infrastructure"
     isLoading={!detailLoaded}
+    cardId="infrastructure-card"
     items={[
       ...(hasType ? [{ title: 'Type', value: infrastructure.type }] : []),
       ...(hasVendor ? [{ title: 'Vendor', value: infrastructure.vendor }] : []),

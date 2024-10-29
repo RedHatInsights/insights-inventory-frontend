@@ -4,7 +4,7 @@ exports[`SubscriptionCard should not render hasRole 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="subscriptions-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -82,7 +82,7 @@ exports[`SubscriptionCard should not render hasSLA 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="subscriptions-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -160,7 +160,7 @@ exports[`SubscriptionCard should not render hasUsage 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="subscriptions-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -238,7 +238,7 @@ exports[`SubscriptionCard should render correctly - loading 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="subscriptions-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -348,7 +348,7 @@ exports[`SubscriptionCard should render correctly with data 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="subscriptions-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""

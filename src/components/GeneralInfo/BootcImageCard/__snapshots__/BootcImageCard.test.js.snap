@@ -4,7 +4,7 @@ exports[`BootcImageCard should render correctly - no data 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="bootmc-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""
@@ -214,7 +214,7 @@ exports[`BootcImageCard should render correctly with data 1`] = `
 <DocumentFragment>
   <div
     class="pf-v5-c-card"
-    data-ouia-component-id="system-properties-card"
+    data-ouia-component-id="bootmc-card"
     data-ouia-component-type="PF5/Card"
     data-ouia-safe="true"
     id=""

@@ -16,7 +16,8 @@ export const useOperatingSystemFilter = (
   // TODO Get rid of all additional (unnecessary) parameters
   apiParams,
   hasAccess,
-  showCentosVersions
+  showCentosVersions,
+  fetchCustomOSes
 ) => {
   const [operatingSystemsStateValue, setStateValue] = useState({});
   const operatingSystemsValue = dispatch
@@ -28,6 +29,7 @@ export const useOperatingSystemFilter = (
       apiParams,
       hasAccess,
       showCentosVersions,
+      fetchCustomOSes,
     }
   );
 

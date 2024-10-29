@@ -18,6 +18,7 @@ const SystemStatusCardCore = ({
 }) => (
   <LoadingCard
     title="System status"
+    cardId="system-status-card"
     isLoading={!detailLoaded}
     items={[
       ...(hasState

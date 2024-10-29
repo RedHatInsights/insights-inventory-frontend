@@ -21,6 +21,7 @@ const OperatingSystemCardCore = ({
 }) => (
   <LoadingCard
     title="Operating system"
+    cardId="os-card"
     isLoading={!detailLoaded}
     items={[
       ...(hasRelease

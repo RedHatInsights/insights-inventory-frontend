@@ -34,6 +34,7 @@ const ConfigurationCardCore = ({
   <LoadingCard
     title="Configuration"
     isLoading={!detailLoaded}
+    cardId="configuration-card"
     items={[
       ...(hasPackages
         ? [
