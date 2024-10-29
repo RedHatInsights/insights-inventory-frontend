@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Flex,
   Split,
   SplitItem,
   ToggleGroup,
@@ -19,6 +20,7 @@ import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import FontAwesomeImageIcon from '../../components/FontAwesomeImageIcon';
 import { AccountStatContext } from '../../Contexts';
 import { pageContents } from './InventoryPageContents';
+import { InventoryPopover } from './InventoryPopover';
 
 const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
   <Split hasGutter>
@@ -64,7 +66,12 @@ const InventoryPageHeader = (toggleProps) => {
   return (
     <PageHeader className="pf-m-light">
       <PageHeaderTitle
-        title="Systems"
+        title={
+          <Flex spaceItems={{ default: 'spaceItemsSm' }}>
+            <div>Systems</div>
+            <InventoryPopover />
+          </Flex>
+        }
         actionsContent={
           isBifrostEnabled &&
           hasBootcImages && <InventoryContentToggle {...toggleProps} />
