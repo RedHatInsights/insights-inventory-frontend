@@ -24,7 +24,7 @@
     "marked": "^4.0.10",
     "moment": "^2.29.4",
     "p-all": "^4.0.0",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-dom": "^18.2.0",
     "react-redux": "^7.2.9",
     "react-router-dom": "^6.21.3",
