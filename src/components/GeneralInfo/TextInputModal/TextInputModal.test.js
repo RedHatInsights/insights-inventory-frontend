@@ -99,16 +99,53 @@ describe('TextInputModal', () => {
       expect(onCancel).toBeCalled();
     });
 
-    it('onSubmit should be called', async () => {
+    it('onSubmit should be called with trimmed string', async () => {
       const onSubmit = jest.fn();
       render(<TextInputModal isOpen onSubmit={onSubmit} />);
 
-      await userEvent.click(
-        screen.getByRole('button', {
-          name: /save/i,
-        })
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /input text/i,
+        }),
+        'some '
       );
-      expect(onSubmit).toBeCalled();
+
+      const submitButton = screen.getByRole('button', {
+        name: /save/i,
+      });
+
+      await userEvent.click(submitButton);
+      expect(onSubmit).toBeCalledWith('some');
+
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /input text/i,
+        }),
+        ' some'
+      );
+      expect(onSubmit).toBeCalledWith('some');
+    });
+
+    it('submitButton should be disabled', async () => {
+      const onSubmit = jest.fn();
+      render(<TextInputModal isOpen onSubmit={onSubmit} />);
+
+      const submitButton = screen.getByRole('button', {
+        name: /save/i,
+      });
+
+      /*eslint-disable jest-dom/prefer-enabled-disabled*/
+      expect(submitButton).toHaveProperty('disabled');
+
+      await userEvent.type(
+        screen.getByRole('textbox', {
+          name: /input text/i,
+        }),
+        '  '
+      );
+
+      expect(submitButton).toHaveProperty('disabled');
+      /*eslint-enable jest-dom/prefer-enabled-disabled*/
     });
 
     it('X button should call onClose', async () => {
