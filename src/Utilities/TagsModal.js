@@ -106,7 +106,6 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
           })) || [],
       })}
       loaded={loaded}
-      width="auto"
       isOpen={showTagDialog}
       toggleModal={() => {
         setSelected([]);

@@ -15,6 +15,7 @@ import {
   TextListItem,
   TextVariants,
 } from '@patternfly/react-core';
+import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 
 const InsightsPrompt = () => {
   return (
@@ -89,6 +90,11 @@ const InsightsPrompt = () => {
               </Card>
             </GridItem>
           </Grid>
+        </GridItem>
+        <GridItem style={{ paddingBottom: '8px' }}>
+          <InsightsLink to={'/'} app="registration">
+            How to register with insights-client?
+          </InsightsLink>
         </GridItem>
         <GridItem>
           <Button

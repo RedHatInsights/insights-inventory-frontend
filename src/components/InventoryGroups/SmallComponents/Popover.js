@@ -43,6 +43,7 @@ const InventoryGroupsPopover = () => {
         variant="plain"
         aria-label="Open Inventory groups popover"
         style={{ padding: 0 }}
+        ouiaId="AboutInventoryWorkspacesPopover"
       >
         <OutlinedQuestionCircleIcon />
       </Button>

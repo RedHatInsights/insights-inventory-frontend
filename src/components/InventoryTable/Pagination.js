@@ -46,6 +46,7 @@ const FooterPagination = ({
       onSetPage={onSetPage}
       onPerPageSelect={onPerPageSelect}
       titles={{
+        items: '',
         optionsToggleAriaLabel: 'Items per page',
       }}
       {...paginationProps}
