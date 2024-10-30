@@ -93,13 +93,13 @@ export const registered = [
   {
     label: 'insights-client',
     value: 'puptoo',
-    idName: 'Insights id',
+    idName: 'Insights Client ID',
     idValue: 'insights_id',
   },
   {
     label: 'subscription-manager',
     value: 'rhsm-conduit',
-    idName: 'Subscription manager id',
+    idName: 'Subscription Manager ID',
     idValue: 'subscription_manager_id',
   },
   { label: 'Satellite', value: 'satellite' },
