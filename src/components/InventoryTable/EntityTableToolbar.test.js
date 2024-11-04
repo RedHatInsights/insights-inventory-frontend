@@ -692,10 +692,7 @@ describe('EntityTableToolbar', () => {
           })
         );
         expect(onRefreshData).toHaveBeenCalledWith({
-          filters: [
-            { filter: '', value: 'hostname_or_id' },
-            { tagFilters: [] },
-          ],
+          filters: [{ tagFilters: [] }],
           page: 1,
           perPage: 50,
         });
