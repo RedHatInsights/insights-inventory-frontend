@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Modal, TextInput } from '@patternfly/react-core';
+import {
+  Button,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
+  Modal,
+  TextInput,
+  ValidatedOptions,
+} from '@patternfly/react-core';
 
 export default class TextInputModal extends Component {
   constructor(props) {
@@ -51,9 +59,12 @@ export default class TextInputModal extends Component {
             key="confirm"
             data-action="confirm"
             variant="primary"
-            onClick={() => onSubmit(this.state.value)}
+            onClick={() => onSubmit(this.state.value?.trim())}
             ouiaId={confirmOuiaId}
-            isDisabled={this.props.value === this.state.value}
+            isDisabled={
+              this.props.value === this.state.value ||
+              this.state.value?.trim().length === 0
+            }
           >
             Save
           </Button>,
@@ -74,7 +85,17 @@ export default class TextInputModal extends Component {
           ouiaId={inputOuiaId}
           onChange={(_event, value) => this.setState({ value })}
           aria-label={ariaLabel}
+          validated={value?.trim().length === 0 && ValidatedOptions.error}
         />
+        <FormHelperText>
+          <HelperText id="helper-text2" aria-live="polite">
+            {value?.trim().length === 0 && (
+              <HelperTextItem variant="error">
+                Name cannot be blank
+              </HelperTextItem>
+            )}
+          </HelperText>
+        </FormHelperText>
       </Modal>
     );
   }

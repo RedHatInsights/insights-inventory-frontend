@@ -178,9 +178,9 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   };
 
   const batchedApi = async () => {
-    edgeSystemCheck();
-    fetchApiStalenessData();
-    fetchDefaultValues();
+    await edgeSystemCheck();
+    await fetchApiStalenessData();
+    await fetchDefaultValues();
     setIsLoading(false);
   };
 

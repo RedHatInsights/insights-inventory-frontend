@@ -22,7 +22,7 @@ exports[`Pagination render should render correctly - with no access 1`] = `
       <b>
         0
       </b>
-       items
+       
     </div>
     <div>
       <button
@@ -44,7 +44,7 @@ exports[`Pagination render should render correctly - with no access 1`] = `
           <b>
             0
           </b>
-           items
+           
         </span>
         <span
           class="pf-v5-c-menu-toggle__controls"
@@ -239,7 +239,7 @@ exports[`Pagination render should render correctly with data 1`] = `
       <b>
         0
       </b>
-       items
+       
     </div>
     <div>
       <button
@@ -260,7 +260,7 @@ exports[`Pagination render should render correctly with data 1`] = `
           <b>
             0
           </b>
-           items
+           
         </span>
         <span
           class="pf-v5-c-menu-toggle__controls"
@@ -464,7 +464,7 @@ exports[`Pagination render should render correctly with data and isFull 1`] = `
           <b>
             500
           </b>
-           items
+           
         </span>
         <span
           class="pf-v5-c-menu-toggle__controls"
@@ -656,7 +656,7 @@ exports[`Pagination render should render correctly with data and props 1`] = `
       <b>
         500
       </b>
-       items
+       
     </div>
     <div>
       <button
@@ -677,7 +677,7 @@ exports[`Pagination render should render correctly with data and props 1`] = `
           <b>
             500
           </b>
-           items
+           
         </span>
         <span
           class="pf-v5-c-menu-toggle__controls"

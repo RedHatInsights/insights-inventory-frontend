@@ -173,7 +173,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                       <div
                         class="ins-c__flex-row-margin"
                       >
-                        Insights id:
+                        Insights Client ID:
                       </div>
                       <div
                         class="pf-m-grow"
@@ -278,7 +278,7 @@ exports[`DataCollectorsCard should render correctly - no data 1`] = `
                       <div
                         class="ins-c__flex-row-margin"
                       >
-                        Subscription manager id:
+                        Subscription Manager ID:
                       </div>
                       <div
                         class="pf-m-grow"
@@ -545,7 +545,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                       <div
                         class="ins-c__flex-row-margin"
                       >
-                        Insights id:
+                        Insights Client ID:
                       </div>
                       <div
                         class="pf-m-grow"
@@ -650,7 +650,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                       <div
                         class="ins-c__flex-row-margin"
                       >
-                        Subscription manager id:
+                        Subscription Manager ID:
                       </div>
                       <div
                         class="pf-m-grow"
