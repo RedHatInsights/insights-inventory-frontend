@@ -10,7 +10,6 @@ import {
 } from './Utilities/edge';
 import { inventoryHasConventionalSystems } from './Utilities/conventional';
 import Fallback from './components/SpinnerFallback';
-import useWorkspaceFeatureFlag from './Utilities/hooks/useWorkspaceFeatureFlag';
 import Redirect from './Utilities/Redirect';
 import { AccountStatContext } from './Contexts';
 
@@ -52,7 +51,6 @@ export const Routes = () => {
   );
 
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   useEffect(() => {
     // zero state check
@@ -90,21 +88,17 @@ export const Routes = () => {
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
     {
       path: '/groups',
-      element: isWorkspaceEnabled ? (
+      element: (
         <Redirect to="/insights/inventory/workspaces" replace="replace" />
-      ) : (
-        <InventoryOrEdgeView />
       ),
     },
     {
       path: '/groups/:groupId',
-      element: isWorkspaceEnabled ? (
+      element: (
         <Redirect
           to="/insights/inventory/workspaces/:groupId"
           replace="replace"
         />
-      ) : (
-        <InventoryOrEdgeGroupDetailsView />
       ),
     },
     {

@@ -8,7 +8,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
-  NO_MODIFY_GROUP_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
 } from '../../constants';
@@ -31,18 +30,12 @@ import {
 import { edgeColumns } from '../ImmutableDevices/columns';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 import { prepareColumnsImmutable as prepareColumns } from './helpers';
 
 const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const dispatch = useDispatch();
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
-  const noAccessTooltip = isWorkspaceEnabled
-    ? NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE
-    : NO_MODIFY_GROUP_TOOLTIP_MESSAGE;
-  const removeLabel = isWorkspaceEnabled
-    ? 'Remove from workspace'
-    : 'Remove from group';
+  const noAccessTooltip = NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE;
+  const removeLabel = 'Remove from workspace';
   const mergeColumns = (inventoryColumns) => {
     const filteredColumns = inventoryColumns.filter(
       (column) => column.key !== 'groups'
