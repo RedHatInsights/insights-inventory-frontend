@@ -14,8 +14,8 @@ export NODE_BUILD_VERSION=18
 COMMON_BUILDER=https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master
 
 
-export IQE_PLUGINS="host-inventory-frontend"
-export IQE_MARKER_EXPRESSION="smoke"
+export IQE_PLUGINS="host-inventory"
+export IQE_MARKER_EXPRESSION="ui and smoke"
 export IQE_ENV="ephemeral"
 export IQE_SELENIUM="true"
 export IQE_CJI_TIMEOUT="30m"
