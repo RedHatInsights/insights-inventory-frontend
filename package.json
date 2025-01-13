@@ -83,7 +83,7 @@
     "@cypress/react18": "^2.0.1",
     "@faker-js/faker": "^8.2.0",
     "@patternfly/patternfly": "^5.3.1",
-    "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.9",
+    "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.4",
     "@redhat-cloud-services/frontend-components-config": "^6.3.5",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.21",
     "@semantic-release/changelog": "^6.0.1",
