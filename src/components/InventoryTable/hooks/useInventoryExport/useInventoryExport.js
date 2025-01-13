@@ -10,6 +10,9 @@ import { buildExportRequestJson, downloadFile } from './helpers';
 import useExportApi from './useExportApi';
 import useExportDownloadCheck from './useExportDownloadCheck';
 
+const CSV_ITEM_TEXT =  'Export all systems to CSV';
+const JSON_ITEM_TEXT =  'Export all systems to JSON';
+
 /**
  *  A hook encapsulating functionality to provide an export configuration for the InventoryTable to request an export.
  *
@@ -56,6 +59,10 @@ const useInventoryExport = ({ filters = {} } = {}) => {
   );
 
   return {
+    itemTexts: {
+      csv: CSV_ITEM_TEXT,
+      json: JSON_ITEM_TEXT,
+    },
     onSelect,
   };
 };
