@@ -8,7 +8,7 @@ const PatchTab = ({ inventoryId }) => {
 
   return (
     <AsyncComponent
-      appName="patch"
+      scope="patch"
       module="./SystemDetail"
       //inventoryId is a requred prop by Patch module
       inventoryId={inventoryId}

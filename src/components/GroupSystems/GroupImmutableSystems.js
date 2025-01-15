@@ -201,7 +201,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
       )}
       {updateDevice && (
         <AsyncComponent
-          appName="edge"
+          scope="edge"
           module="./UpdateDeviceModal"
           navigateProp={useNavigate}
           locationProp={useLocation}

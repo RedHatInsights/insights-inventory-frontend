@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const AdvisorTab = ({ inventoryId }) => {
   return (
     <AsyncComponent
-      appName="advisor"
+      scope="advisor"
       module="./SystemDetail"
       store={useStore()}
       customItnl

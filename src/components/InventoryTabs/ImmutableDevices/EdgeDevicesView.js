@@ -14,7 +14,7 @@ const ImmutableDevicesView = (props) => {
   const notificationProp = getNotificationProp(dispatch);
   return (
     <AsyncComponent
-      appName="edge"
+      scope="edge"
       module="./DevicesView"
       ErrorComponent={<ErrorState />}
       navigateProp={useNavigate}
