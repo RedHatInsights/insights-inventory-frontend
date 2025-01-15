@@ -147,4 +147,5 @@ module.exports = {
       ),
     },
   },
+  _unstableSpdy: true,
 };
