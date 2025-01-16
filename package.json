@@ -84,7 +84,7 @@
     "@faker-js/faker": "^8.2.0",
     "@patternfly/patternfly": "^5.3.1",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.10",
-    "@redhat-cloud-services/frontend-components-config": "^6.3.6",
+    "@redhat-cloud-services/frontend-components-config": "^6.3.7",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.21",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
