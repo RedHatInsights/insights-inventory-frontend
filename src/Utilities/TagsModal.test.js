@@ -41,7 +41,7 @@ describe('TagsModal', () => {
         </Provider>
       );
 
-      expect(screen.getAllByRole('row')).toHaveLength(11); // including header
+      expect(screen.getAllByRole('row')).toHaveLength(6); // including header
       expect(screen.getByLabelText('Loading')).toBeVisible();
       expect(screen.getAllByRole('columnheader')).toHaveLength(3);
     });

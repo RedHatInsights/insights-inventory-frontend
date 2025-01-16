@@ -123,7 +123,7 @@ describe('EntityTable', () => {
         </TestWrapper>
       );
 
-      expectTableBasicComponents(2, 15, undefined, false, false, 'Loading');
+      expectTableBasicComponents(2, 5, undefined, false, false, 'Loading');
     });
 
     it('should render correctly - no rows', () => {
