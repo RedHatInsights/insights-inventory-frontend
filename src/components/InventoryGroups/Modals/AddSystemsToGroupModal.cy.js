@@ -2,7 +2,6 @@
 
 import {
   ALERT,
-  PT_CONDITIONAL_FILTER_TOGGLE,
   DROPDOWN_ITEM,
   TABLE,
   checkTableHeaders,
@@ -141,7 +140,7 @@ describe('AddSystemsToGroupModal', () => {
       mountModal();
 
       cy.wait('@getHosts');
-      cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
+      cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
       cy.get(DROPDOWN_ITEM).each(($item, i) => {
         expect($item.text()).to.equal(AVAILABLE_FILTER_NAMES[i]);
       });

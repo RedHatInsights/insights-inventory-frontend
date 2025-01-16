@@ -6,7 +6,6 @@ import {
   DROPDOWN_ITEM,
   MENU_ITEM,
   MENU_TOGGLE,
-  PT_BULK_SELECT,
   PT_BULK_SELECT_CHECKBOX,
   PT_BULK_SELECT_LIST,
   MODAL_CONTENT,
@@ -282,7 +281,9 @@ describe('selection and bulk selection', () => {
   });
 
   it('can select all in dropdown toggle', () => {
-    cy.get(PT_BULK_SELECT).click(); // open selection dropdown
+    cy.get(
+      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle'
+    ).click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select all').click();
     checkSelectedNumber(fixtures.total);
   });
