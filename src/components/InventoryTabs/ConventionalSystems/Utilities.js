@@ -88,3 +88,10 @@ export const calculatePagination = (searchParams, page, perPage) => {
   !isNaN(parseInt(newPage)) && searchParams.append('page', newPage);
   !isNaN(parseInt(newPerPage)) && searchParams.append('per_page', newPerPage);
 };
+
+export const calculateSorting = (searchParams, sortBy) => {
+  if (sortBy != null && sortBy?.key != null) {
+    const sort = sortBy.direction === 'desc' ? `-${sortBy.key}` : sortBy.key;
+    searchParams.append('sort', sort);
+  }
+};

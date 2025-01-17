@@ -30,8 +30,17 @@ import { INVENTORY_ACTION_MENU_ITEM } from '../../../cypress/support/utils';
 const TEST_GROUP_NAME = 'ancd';
 const TEST_GROUP_ID = '54b302e4-07d2-45c5-b2f8-92a286847f9d';
 
-const mountTable = (props = { hasAccess: true }) => {
-  cy.mountWithContext(Inventory, {}, props);
+const mountTable = (
+  initialEntry = '/insights/inventory',
+  props = { hasAccess: true }
+) => {
+  cy.mountWithContext(
+    Inventory,
+    {
+      routerProps: { initialEntries: [initialEntry], initialIndex: 0 },
+    },
+    props
+  );
 };
 
 const waitForTable = (waitNetwork = false) => {
@@ -77,7 +86,10 @@ describe('test data', () => {
   });
 });
 
-const prepareTest = (waitNetwork = true) => {
+const prepareTest = (
+  waitNetwork = true,
+  initialEntry = '/insights/inventory'
+) => {
   cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
     statusCode: 200,
     body: hostTagsFixtures,
@@ -90,7 +102,7 @@ const prepareTest = (waitNetwork = true) => {
   systemProfileInterceptors['operating system, successful empty']();
   groupsInterceptors['successful with some items']();
   hostsInterceptors.successful();
-  mountTable();
+  mountTable(initialEntry);
   waitForTable(waitNetwork);
 };
 
@@ -481,5 +493,50 @@ describe('hybrid inventory table', () => {
         cy.get(MENU_ITEM).contains('Add to group').shouldHaveAriaDisabled();
       });
     });
+  });
+});
+
+const testSorting = (
+  { name, urlName, apiName },
+  isAsc = true,
+  skipUrlParams = false
+) => {
+  cy.log(`Testing ${name} column sorting`);
+  // Set url params
+  if (skipUrlParams) {
+    prepareTest(false, `/insights/inventory`);
+  } else {
+    const urlParam = `${!isAsc ? '-' : ''}${urlName}`;
+    prepareTest(false, `/insights/inventory?sort=${urlParam}`);
+  }
+
+  // Check api call
+  cy.wait('@getHosts')
+    .its('request.url')
+    .should('include', `order_by=${apiName}`)
+    .should('include', `order_how=${!isAsc ? 'DESC' : 'ASC'}`);
+
+  // Check if table is showing sorting
+  const tableSortDirection = isAsc ? 'ascending' : 'descending';
+  cy.get(`th[data-label="${name}"]`)
+    .invoke('attr', 'aria-sort')
+    .should('eq', tableSortDirection);
+};
+
+describe('conventional table', () => {
+  it('sorting loads from url', () => {
+    const sortableColumns = [
+      { name: 'Name', urlName: 'display_name', apiName: 'display_name' },
+      { name: 'Group', urlName: 'group_name', apiName: 'group_name' },
+      { name: 'OS', urlName: 'operating_system', apiName: 'operating_system' },
+      { name: 'Last seen', urlName: 'updated', apiName: 'updated' },
+    ];
+
+    for (const col of sortableColumns) {
+      // Ascending
+      testSorting(col, true);
+      // Descending
+      testSorting(col, false);
+    }
   });
 });

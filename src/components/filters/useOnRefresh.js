@@ -2,6 +2,7 @@ import useInsightsNavigate from '@redhat-cloud-services/frontend-components-util
 import {
   calculateFilters,
   calculatePagination,
+  calculateSorting,
 } from '../InventoryTabs/ConventionalSystems/Utilities';
 import { useLocation } from 'react-router-dom';
 
@@ -13,6 +14,7 @@ const useOnRefresh = (extraCallback) => {
     const searchParams = new URLSearchParams();
     calculateFilters(searchParams, options?.filters);
     calculatePagination(searchParams, options?.page, options?.per_page);
+    calculateSorting(searchParams, options?.sortBy);
     const search = searchParams.toString();
     navigate({
       search,

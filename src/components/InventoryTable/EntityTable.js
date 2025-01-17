@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { selectEntity, setSort } from '../../store/actions';
+import { selectEntity, changeSort } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { TableGridBreakpoint, TableVariant } from '@patternfly/react-table';
 import {
@@ -54,7 +54,7 @@ const EntityTable = ({
 
   const onSortChange = (_event, key, direction, index) => {
     if (key !== 'action' && key !== 'health') {
-      dispatch(setSort({ index, key, direction }));
+      dispatch(changeSort({ index, key, direction: direction?.toLowerCase() }));
     }
 
     onSort?.({ index, key, direction });

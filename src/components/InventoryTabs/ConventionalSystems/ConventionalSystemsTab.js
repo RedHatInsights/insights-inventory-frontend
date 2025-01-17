@@ -74,6 +74,7 @@ const ConventionalSystemsTab = ({
   hasAccess,
   hostGroupFilter,
   systemTypeFilter,
+  sortBy,
 }) => {
   const chrome = useChrome();
   const inventory = useRef(null);
@@ -122,6 +123,10 @@ const ConventionalSystemsTab = ({
     chrome.appAction('system-list');
     chrome.appObjectId();
     dispatch(actions.clearNotifications());
+
+    if (sortBy && sortBy?.key != null) {
+      dispatch(actions.setSort(sortBy.key, sortBy.direction));
+    }
 
     if (perPage || page) {
       dispatch(
@@ -180,6 +185,7 @@ const ConventionalSystemsTab = ({
         hasAccess={hasAccess}
         isRbacEnabled
         customFilters={{ filters, globalFilter }}
+        sortBy={sortBy}
         isFullView
         showTags
         onRefresh={onRefresh}
@@ -381,6 +387,10 @@ ConventionalSystemsTab.propTypes = {
       PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     ),
   ]),
+  sortBy: PropTypes.shape({
+    key: PropTypes.string,
+    direction: PropTypes.string,
+  }),
   initialLoading: PropTypes.bool,
   rhcdFilter: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
