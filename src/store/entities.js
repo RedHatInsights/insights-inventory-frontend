@@ -182,6 +182,7 @@ function entitiesLoaded(
       total,
       loaded,
       filters,
+      sortBy,
     },
     meta,
   }
@@ -212,6 +213,7 @@ function entitiesLoaded(
     page: page !== undefined ? page : state.page,
     count: count !== undefined ? count : state.count,
     total: total !== undefined ? total : state.total,
+    sortBy: sortBy !== undefined ? sortBy : state.sortBy,
   };
 }
 

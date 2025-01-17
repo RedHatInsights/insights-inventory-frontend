@@ -5,6 +5,7 @@ import {
   CLEAR_NOTIFICATIONS,
   SET_INVENTORY_FILTER,
   SET_PAGINATION,
+  SET_SORT,
 } from './action-types';
 import { getEntitySystemProfile, hosts } from '../api';
 import { deleteSystemsById } from '../components/InventoryTable/utils/api';
@@ -62,6 +63,14 @@ export const setPagination = (page, perPage) => ({
   payload: {
     page,
     perPage,
+  },
+});
+
+export const setSort = (key, direction) => ({
+  type: SET_SORT,
+  payload: {
+    key,
+    direction,
   },
 });
 

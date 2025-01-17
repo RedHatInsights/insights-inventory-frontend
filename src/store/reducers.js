@@ -4,6 +4,7 @@ import {
   SELECT_ENTITY,
   SET_INVENTORY_FILTER,
   SET_PAGINATION,
+  SET_SORT,
 } from './action-types';
 import systemProfileStore from './systemProfileStore';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
@@ -117,6 +118,13 @@ function onSetPagination(state, { payload }) {
   };
 }
 
+function onSetSort(state, { payload }) {
+  return {
+    ...state,
+    sortBy: payload || state.sortBy,
+  };
+}
+
 let reducers = {
   notifications: notificationsReducer,
   systemProfileStore,
@@ -133,6 +141,7 @@ export const tableReducer = applyReducerHash(
     FILTER_SELECT: (state) => ({ ...state, selected: {} }),
     [SET_INVENTORY_FILTER]: onSetFilter,
     [SET_PAGINATION]: onSetPagination,
+    [SET_SORT]: onSetSort,
     [ACTION_TYPES.UPDATE_DISPLAY_NAME_FULFILLED]: updateEntity,
   },
   defaultState

@@ -66,7 +66,7 @@ export const loadEntities = (
       };
 
   const orderBy = config.orderBy || 'updated';
-  const orderDirection = config.orderDirection || 'DESC';
+  const orderDirection = config.orderDirection || 'desc';
 
   const lastDateRequest = Date.now();
 
@@ -86,7 +86,7 @@ export const loadEntities = (
       .then(({ results, ...data }) => ({
         ...data,
         filters,
-        sortBy: { key: orderBy, direction: orderDirection },
+        sortBy: { key: orderBy, direction: orderDirection.toLowerCase() },
         results:
           items.length > 0
             ? items.map((item) => ({
@@ -138,7 +138,7 @@ export const selectEntity = (id, selected) => ({
   payload: { id, selected },
 });
 
-export const setSort = (data) => ({
+export const changeSort = (data) => ({
   type: CHANGE_SORT,
   payload: data,
 });

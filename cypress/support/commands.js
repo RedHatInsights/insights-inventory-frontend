@@ -75,6 +75,7 @@ Cypress.Commands.add(
           },
         },
         getApp: () => 'inventory',
+        getBundle: () => 'insights',
       },
     };
   }

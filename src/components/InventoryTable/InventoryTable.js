@@ -113,11 +113,14 @@ const InventoryTable = forwardRef(
       perPage,
       total,
     };
-    const sortBy = useSelector(
-      ({ entities: { sortBy: invSortBy } }) =>
-        hasItems ? propsSortBy : invSortBy,
-      shallowEqual
-    );
+
+    const sortBy = useSelector(({ entities: { sortBy: invSortBy } }) => {
+      const propsSortByOrFallback =
+        propsSortBy?.key != null ? propsSortBy : invSortBy;
+      const invSortByOrFallback =
+        invSortBy?.key != null ? invSortBy : propsSortBy;
+      return hasItems ? propsSortByOrFallback : invSortByOrFallback;
+    }, shallowEqual);
 
     const reduxLoaded = useSelector(({ entities }) =>
       hasItems && isLoaded !== undefined
@@ -193,7 +196,7 @@ const InventoryTable = forwardRef(
         page: options?.page || cachedProps.page,
         per_page: options?.per_page || options?.perPage || cachedProps.perPage,
         items: cachedProps.items,
-        sortBy: cachedProps.sortBy,
+        sortBy: options?.sortBy || cachedProps.sortBy,
         hideFilters: cachedProps.hideFilters,
         filters: activeFilters,
         hasItems: cachedProps.hasItems,
