@@ -8,7 +8,6 @@ import {
 } from '../../../cypress/support/interceptors';
 import { DropdownItem } from '@patternfly/react-core/deprecated';
 import {
-  PT_CONDITIONAL_FILTER_TOGGLE,
   PT_CONDITIONAL_FILTER_LIST,
   DROPDOWN_ITEM,
   MENU_ITEM,
@@ -171,9 +170,10 @@ describe('ImmutableDevices', () => {
     mountWithProps({ mergeAppColumns, getEntities: getEntitiesProp });
 
     cy.get('thead > tr > [data-label="Test-column"]');
-    cy.get(
-      '[data-ouia-component-id="OUIA-Generated-TableRow-90"] > [data-label="Test-column"]'
-    ).should('have.text', 'Test-column-value');
+    cy.get(TABLE_ROW)
+      .eq(0)
+      .find('[data-label="Test-column"]')
+      .should('have.text', 'Test-column-value'); // TODO: return to OUIA-based selectors
   });
 
   it('Should take to details page on system name click', () => {
@@ -220,7 +220,7 @@ describe('ImmutableDevices', () => {
 
     mountWithProps({ ...defaultProps, hideFilters });
 
-    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
+    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
     cy.get(PT_CONDITIONAL_FILTER_LIST).find(DROPDOWN_ITEM).contains('Tags');
   });
 

@@ -9,7 +9,7 @@ const RosTab = () => {
 
   return (
     <AsyncComponent
-      appName="ros"
+      scope="ros"
       module="./SystemDetail"
       getRegistry={getRegistry}
       inventoryId={inventoryId}

@@ -26,7 +26,7 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
   return (
     <EmptyState
       data-ouia-component-id="empty-state"
-      data-ouia-component-type="PF4/EmptyState"
+      data-ouia-component-type="PF5/EmptyState"
       data-ouia-safe={true}
     >
       <EmptyStateHeader

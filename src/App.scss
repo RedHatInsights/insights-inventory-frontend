@@ -1,4 +1,4 @@
-@import './src/Utilities.scss';
+@use './Utilities.scss';
 @import '~@redhat-cloud-services/frontend-components-notifications/index.css';
 
 table.ins-entity-table th {

@@ -195,7 +195,7 @@ class GeneralInformation extends Component {
                 {this.props.showImageDetails && (
                   <GridItem>
                     <AsyncComponent
-                      appName="edge"
+                      scope="edge"
                       module="./ImagesInformationCard"
                       deviceIdProps={this.props.inventoryId || entity.id}
                     />
@@ -205,7 +205,7 @@ class GeneralInformation extends Component {
                 {this.props.showRuntimesProcesses && entity.fqdn && (
                   <GridItem>
                     <AsyncComponent
-                      appName="runtimes"
+                      scope="runtimes"
                       module="./RuntimesProcessesCard"
                       hostname={entity.fqdn}
                     />

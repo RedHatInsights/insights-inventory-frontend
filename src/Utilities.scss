@@ -1,8 +1,8 @@
 // Sass Imports
 
-@import 'Utilities/_variables.scss';
-@import 'Utilities/_colors.scss';
-@import 'Utilities/_helpers.scss';
-@import 'Utilities/_mixins.scss';
+@forward 'Utilities/_variables.scss';
+@forward 'Utilities/_colors.scss';
+@forward 'Utilities/_helpers.scss';
+@forward 'Utilities/_mixins.scss';
 
 @import '~@redhat-cloud-services/frontend-components/index.css';

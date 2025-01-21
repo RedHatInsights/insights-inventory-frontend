@@ -7,7 +7,7 @@ const ComplianceTab = () => {
   const { inventoryId } = useParams('/:inventoryId');
   return (
     <AsyncComponent
-      appName="compliance"
+      scope="compliance"
       module="./SystemDetail"
       store={useStore()}
       customItnl

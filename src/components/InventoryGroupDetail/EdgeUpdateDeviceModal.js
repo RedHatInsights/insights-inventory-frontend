@@ -11,7 +11,7 @@ const EdgeUpdateDeviceModal = (props) => {
   const notificationProp = getNotificationProp(dispatch);
   return (
     <AsyncComponent
-      appName="edge"
+      scope="edge"
       module="./UpdateDeviceModal"
       ErrorComponent={<ErrorState />}
       navigateProp={useNavigate}

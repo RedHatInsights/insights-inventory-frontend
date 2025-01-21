@@ -11,7 +11,7 @@ const EdgeGroupsView = (props) => {
   const notificationProp = getNotificationProp(dispatch);
   return (
     <AsyncComponent
-      appName="edge"
+      scope="edge"
       module="./Groups"
       ErrorComponent={<ErrorState />}
       navigateProp={useNavigate}
