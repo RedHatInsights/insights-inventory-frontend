@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import debounce from 'lodash/debounce';
 import React from 'react';
@@ -910,11 +910,11 @@ describe('EntityTableToolbar', () => {
 
       await userEvent.click(
         screen.queryByRole('menuitem', {
-          name: 'Export to CSV',
+          name: 'Export all systems to CSV',
         })
       );
 
-      await waitFor(() => expect(axiosPostMock).toHaveBeenCalled());
+      expect(axiosPostMock).toHaveBeenCalled();
     });
   });
 });
