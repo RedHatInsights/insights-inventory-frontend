@@ -11,7 +11,7 @@ import {
 import { PlusCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
-import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
+import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { GENERAL_GROUPS_WRITE_PERMISSION } from '../../constants';
 import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';

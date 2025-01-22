@@ -12,8 +12,7 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
-
-import ExclamationTriangleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 
 const DeleteModal = ({
   handleModalToggle,

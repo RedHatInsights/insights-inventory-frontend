@@ -4,7 +4,6 @@ import validatorTypes from '@data-driven-forms/react-form-renderer/validator-typ
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import Modal from './Modal';
 import { deleteGroupsById, getGroupsByIds } from '../utils/api';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import {
   Backdrop,
   Bullseye,
@@ -16,7 +15,10 @@ import {
 } from '@patternfly/react-core';
 import apiWithToast from '../utils/apiWithToast';
 import { useDispatch } from 'react-redux';
-import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import {
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+} from '@patternfly/react-icons';
 import useFetchBatched from '../../../Utilities/hooks/useFetchBatched';
 import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 

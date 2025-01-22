@@ -20,9 +20,11 @@ import {
   Skeleton,
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
-import BugIcon from '@patternfly/react-icons/dist/js/icons/bug-icon';
-import EnhancementIcon from '@patternfly/react-icons/dist/js/icons/enhancement-icon';
-import SecurityIcon from '@patternfly/react-icons/dist/js/icons/security-icon';
+import {
+  BugIcon,
+  EnhancementIcon,
+  SecurityIcon,
+} from '@patternfly/react-icons';
 
 const SystemIssues = ({ isOpened }) => {
   const dispatch = useDispatch();

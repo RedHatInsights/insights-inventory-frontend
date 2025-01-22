@@ -45,12 +45,8 @@
       "!src/entry.js",
       "!src/entry-dev.js"
     ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest",
-      "^.+\\.mjs$": "babel-jest"
-    },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!(@patternfly/react-core/|@patternfly/react-icons/|@redhat-cloud-services|@openshift|lodash-es|@patternfly/react-table|@patternfly/react-tokens|@patternfly/react-styles/|p-all|uuid)).*$"
+      "node_modules/(?!(uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp))"
     ],
     "setupFiles": [
       "<rootDir>/config/setupTests.js"
@@ -62,11 +58,7 @@
       "url": "http://localhost:5000/"
     },
     "moduleNameMapper": {
-      "\\.(css|scss)$": "identity-obj-proxy",
-      "customReact": "react",
-      "PFReactCore": "@patternfly/react-core",
-      "PFReactTable": "@patternfly/react-table",
-      "reactRedux": "react-redux"
+      "\\.(css|scss)$": "identity-obj-proxy"
     }
   },
   "devDependencies": {
@@ -85,10 +77,10 @@
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^2.0.10",
     "@redhat-cloud-services/frontend-components-config": "^6.3.8",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.21",
-    "@stoplight/prism-cli": "^5.8.1",
+    "@stoplight/prism-cli": "^5.12.0",
     "@testing-library/jest-dom": "^6.2.1",
-    "@testing-library/react": "^14.1.2",
-    "@testing-library/user-event": "^14.5.2",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "axios-mock-adapter": "^1.20.0",
     "babel-loader": "^9.2.1",
     "babel-plugin-istanbul": "^7.0.0",
@@ -106,9 +98,9 @@
     "node-fetch": "^2.6.7",
     "npm-run-all": "^4.1.5",
     "redux-mock-store": "^1.5.4",
-    "stylelint": "^13.13.1",
-    "stylelint-config-recommended-scss": "^4.3.0",
-    "stylelint-scss": "^3.21.0",
+    "stylelint": "^16.13.2",
+    "stylelint-config-recommended-scss": "^14.1.0",
+    "stylelint-scss": "^6.10.1",
     "ts-patch": "^3.1.2",
     "typescript": "^5.4.5"
   },
