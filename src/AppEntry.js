@@ -3,12 +3,11 @@ import { Provider } from 'react-redux';
 import { getStore, updateReducers } from './store';
 import RegistryContext from './store/registeryContext';
 import App from './App';
-import logger from 'redux-logger';
 import Fallback from './components/SpinnerFallback';
 
-const InventoryApp = () => {
+const InventoryApp = ({logger}) => {
   const registry = useMemo(() => {
-    const store = IS_DEV ? getStore(logger) : getStore();
+    const store = logger ? getStore(logger) : getStore();
     return {
       register: (newReducers) =>
         store.replaceReducer(updateReducers(newReducers)),

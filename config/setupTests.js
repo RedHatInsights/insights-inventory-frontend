@@ -60,5 +60,3 @@ global.insights = {
     getApp: jest.fn(),
   },
 };
-
-global.IS_DEV = true;
