@@ -15,6 +15,7 @@ const ConfirmSystemsAddModal = ({
   onCancel,
   hostsNumber,
 }) => {
+  const { handleSubmit, getState } = useFormApi();
   const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
@@ -33,7 +34,6 @@ const ConfirmSystemsAddModal = ({
       reloadData={() => {}}
       onSubmit={onSubmit}
       customFormTemplate={({ formFields, schema }) => {
-        const { handleSubmit, getState } = useFormApi();
         const { submitting, valid } = getState();
 
         return (
