@@ -14,7 +14,7 @@ const EdgeDeviceGroupiew = (props) => {
   const notificationProp = getNotificationProp(dispatch);
   return (
     <AsyncComponent
-      appName="edge"
+      scope="edge"
       module="./DevicesGroupDetail"
       ErrorComponent={<ErrorState />}
       navigateProp={useNavigate}

@@ -23,15 +23,27 @@ module.exports = {
             authToken: process.env.SENTRY_AUTH_TOKEN,
             org: 'red-hat-it',
             project: 'inventory-rhel',
-            _experiments: {
-              moduleMetadata: ({ release }) => ({
-                dsn: 'https://f6f21a635c05b0f91875de6a557f8c34@o490301.ingest.us.sentry.io/4507454722211840',
-                release,
-              }),
-            },
+            moduleMetadata: ({ release }) => ({
+              dsn: 'https://f6f21a635c05b0f91875de6a557f8c34@o490301.ingest.us.sentry.io/4507454722211840',
+              release,
+              org: 'red-hat-it',
+              project: 'inventory-rhel',
+            }),
           }),
         ]
-      : []),
+      : [
+          // Justs injects the debug ids
+          sentryWebpackPlugin({
+            org: 'red-hat-it',
+            project: 'inventory-rhel',
+            moduleMetadata: ({ release }) => ({
+              dsn: 'https://f6f21a635c05b0f91875de6a557f8c34@o490301.ingest.us.sentry.io/4507454722211840',
+              release,
+              org: 'red-hat-it',
+              project: 'inventory-rhel',
+            }),
+          }),
+        ]),
   ],
   moduleFederation: {
     shared: [
@@ -135,4 +147,5 @@ module.exports = {
       ),
     },
   },
+  _unstableSpdy: true,
 };

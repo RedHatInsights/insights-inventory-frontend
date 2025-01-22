@@ -19,7 +19,7 @@ const NoEntitiesFound = ({ entities, onClearAll, showIcon }) => (
   <EmptyState
     variant={EmptyStateVariant.full}
     data-ouia-component-id="empty-state"
-    data-ouia-component-type="PF4/EmptyState"
+    data-ouia-component-type="PF5/EmptyState"
     data-ouia-safe={true}
   >
     {showIcon && <EmptyStateIcon icon={SearchIcon} />}

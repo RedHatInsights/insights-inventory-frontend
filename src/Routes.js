@@ -149,7 +149,6 @@ export const Routes = () => {
     <Suspense fallback={<Fallback />}>
       <AsyncComponent
         appId={'inventory_zero_state'}
-        appName="dashboard"
         module="./AppZeroState"
         scope="dashboard"
         ErrorComponent={<ErrorState />}

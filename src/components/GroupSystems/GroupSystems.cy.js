@@ -24,8 +24,6 @@ import {
   selectRowN,
   PAGINATION_TOP,
   PAGINATION_NEXT,
-  PT_CONDITIONAL_FILTER_TOGGLE,
-  PT_BULK_SELECT,
 } from '@redhat-cloud-services/frontend-components-utilities';
 import _, { cloneDeep } from 'lodash';
 import fixtures from '../../../cypress/fixtures/hosts.json';
@@ -272,7 +270,7 @@ describe('filtering', () => {
     mountTable();
     waitForTable(true);
 
-    cy.get(PT_CONDITIONAL_FILTER_TOGGLE).click();
+    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
   });
 
@@ -328,7 +326,9 @@ describe('selection and bulk selection', () => {
     }); */
 
   it('can select page in dropdown toggle', () => {
-    cy.get(PT_BULK_SELECT).click(); // open selection dropdown
+    cy.get(
+      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle' // TODO: return to OUIA-based selectors
+    ).click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select page').click();
     checkSelectedNumber(fixtures.count);
   });

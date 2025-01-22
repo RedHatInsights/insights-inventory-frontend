@@ -13,7 +13,7 @@ const ImmutableDevicesTab = () => {
   const notificationProp = getNotificationProp(dispatch);
   return (
     <AsyncComponent
-      appName="edge"
+      scope="edge"
       module="./Inventory"
       navigateProp={useNavigate}
       locationProp={useLocation}

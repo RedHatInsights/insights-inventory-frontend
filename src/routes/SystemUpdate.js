@@ -22,7 +22,7 @@ const SystemUpdate = () => {
 
   return inventoryId !== null ? (
     <AsyncComponent
-      appName="edge"
+      scope="edge"
       module="./UpdateSystem"
       navigateProp={useNavigate}
       locationProp={useLocation}
