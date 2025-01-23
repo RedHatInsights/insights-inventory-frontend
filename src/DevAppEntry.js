@@ -1,5 +1,5 @@
 import React from 'react';
-import logger from 'redux-logger'
+import logger from 'redux-logger';
 
 import AppEntry from './AppEntry';
 

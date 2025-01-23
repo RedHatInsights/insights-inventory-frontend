@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+
 import { Provider } from 'react-redux';
 import { getStore, updateReducers } from './store';
 import RegistryContext from './store/registeryContext';
 import App from './App';
 import Fallback from './components/SpinnerFallback';
 
-const InventoryApp = ({logger}) => {
+const InventoryApp = ({ logger }) => {
   const registry = useMemo(() => {
     const store = logger ? getStore(logger) : getStore();
     return {
@@ -13,7 +15,7 @@ const InventoryApp = ({logger}) => {
         store.replaceReducer(updateReducers(newReducers)),
       getStore: () => store,
     };
-  }, []);
+  }, [logger]);
 
   return registry ? (
     <RegistryContext.Provider
@@ -28,6 +30,10 @@ const InventoryApp = ({logger}) => {
   ) : (
     <Fallback />
   );
+};
+
+InventoryApp.propTypes = {
+  logger: PropTypes.object,
 };
 
 export default InventoryApp;
