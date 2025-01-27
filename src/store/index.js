@@ -28,7 +28,7 @@ const appReducers = {
   ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES)),
 };
 
-const composeEnhancers = IS_DEV
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   : compose;
 

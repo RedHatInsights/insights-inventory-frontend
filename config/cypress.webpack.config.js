@@ -1,5 +1,4 @@
 const { resolve } = require('path');
-const webpack = require('webpack');
 const config = require('@redhat-cloud-services/frontend-components-config');
 
 const { config: webpackConfig, plugins } = config({
@@ -20,32 +19,35 @@ const { config: webpackConfig, plugins } = config({
   }),
 });
 
-plugins.push(
-  new webpack.DefinePlugin({
-    IS_DEV: true,
-  })
-);
-
-// required to mock the chrome functionss
-webpackConfig.module.rules.push({
-  resolve: {
-    alias: {
-      '@redhat-cloud-services/frontend-components/useChrome': resolve(
-        __dirname,
-        './overrideChrome.js'
-      ),
-      '../useChrome': resolve(__dirname, './overrideChrome.js'),
-    },
-  },
-});
-
-webpackConfig.module.rules.push({
-  test: /cypress\/.*\.js$/,
-  exclude: /(node_modules|bower_components)/i,
-  use: ['babel-loader'],
-});
-
 module.exports = {
   ...webpackConfig,
   plugins,
+  module: {
+    ...webpackConfig.module,
+    rules: [
+      ...webpackConfig.module.rules,
+      {
+        resolve: {
+          alias: {
+            '@redhat-cloud-services/frontend-components/useChrome': resolve(
+              __dirname,
+              './overrideChrome.js'
+            ),
+            '../useChrome': resolve(__dirname, './overrideChrome.js'),
+          },
+        },
+      },
+      {
+        test: /\.(?:js|mjs|cjs)$/,
+        exclude: /(node_modules|bower_components)/i,
+        use: ['babel-loader'],
+      },
+    ],
+  },
+  resolve: {
+    fallback: {
+      stream: require.resolve('stream-browserify'),
+      zlib: require.resolve('browserify-zlib'),
+    },
+  },
 };

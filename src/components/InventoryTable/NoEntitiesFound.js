@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   EmptyState,
@@ -9,8 +10,7 @@ import {
   EmptyStateHeader,
   EmptyStateFooter,
 } from '@patternfly/react-core';
-import PropTypes from 'prop-types';
-import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
+import { SearchIcon } from '@patternfly/react-icons';
 
 /**
  * Empty state stable when no systems (or other entities) are found.

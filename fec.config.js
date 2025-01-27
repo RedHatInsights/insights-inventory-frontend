@@ -13,9 +13,6 @@ module.exports = {
   debug: true,
   devtool: 'hidden-source-map',
   plugins: [
-    new webpack.DefinePlugin({
-      IS_DEV: process.env.NODE_ENV !== 'production',
-    }),
     // Put the Sentry Webpack plugin after all other plugins
     ...(process.env.SENTRY_AUTH_TOKEN
       ? [
@@ -58,7 +55,10 @@ module.exports = {
     ],
     exposes: {
       // Application root
-      './RootApp': resolve(__dirname, '/src/AppEntry'),
+      './RootApp': resolve(
+        __dirname,
+        `/src/${process.env.NODE_ENV !== 'production' ? 'Dev' : ''}AppEntry`
+      ),
       // System detail
       './SystemDetail': resolve(
         __dirname,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+
 import {
   INVENTORY_FETCH_BOOTC,
   INVENTORY_FETCH_NON_BOOTC,
@@ -9,6 +10,7 @@ import {
 import BifrostTable from './BifrostTable';
 
 const BifrostPage = () => {
+  const axios = useAxiosWithPlatformInterceptors();
   const [bootcImages, setBootcImages] = useState();
   const [loaded, setLoaded] = useState(false);
 
@@ -70,7 +72,7 @@ const BifrostPage = () => {
     };
 
     fetchBootcImages();
-  }, []);
+  }, [axios]);
 
   return <BifrostTable bootcImages={bootcImages} loaded={loaded} />;
 };

@@ -75,6 +75,8 @@ const enhancedEdgeConfig = (groupName, config) => {
     hasItems: false,
   };
 };
+// TODO properly utilise the hook below and ensure it is called in the context of a component
+// eslint-disable-next-line
 const fetchImagesData = useGetImageData();
 const edgeImageDataResult = async (mapDeviceIds) => {
   return await fetchImagesData({

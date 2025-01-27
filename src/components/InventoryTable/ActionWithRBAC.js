@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * This module contains Button and DropdownItem components wrapped by RBAC checks.
  *

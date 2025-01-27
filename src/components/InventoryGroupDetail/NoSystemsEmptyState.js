@@ -8,7 +8,7 @@ import {
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 
-import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens/dist/js/global_palette_black_600';
+import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import PropTypes from 'prop-types';
 import {

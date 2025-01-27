@@ -9,7 +9,7 @@ import {
   EmptyStateHeader,
   EmptyStateFooter,
 } from '@patternfly/react-core';
-import CubesIcon from '@patternfly/react-icons/dist/js/icons/cubes-icon';
+import { CubesIcon } from '@patternfly/react-icons';
 import { redirectToInventoryList } from './helpers';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 

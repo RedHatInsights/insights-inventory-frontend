@@ -1,1 +1,1 @@
-import('./bootstrap');
+export * from './AppEntry.js';

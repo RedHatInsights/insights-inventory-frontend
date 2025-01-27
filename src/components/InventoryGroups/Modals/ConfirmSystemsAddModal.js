@@ -1,9 +1,10 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { FormSpy, useFormApi } from '@data-driven-forms/react-form-renderer';
 import { Button, Flex, Icon } from '@patternfly/react-core';
-import ExclamationTriangleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { global_warning_color_100 as warningColor } from '@patternfly/react-tokens';
-import PropTypes from 'prop-types';
-import React from 'react';
+
 import Modal from './Modal';
 import { confirmSystemsAddSchema } from './ModalSchemas/schemes';
 import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
@@ -15,6 +16,7 @@ const ConfirmSystemsAddModal = ({
   onCancel,
   hostsNumber,
 }) => {
+  const { handleSubmit, getState } = useFormApi();
   const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
@@ -33,7 +35,6 @@ const ConfirmSystemsAddModal = ({
       reloadData={() => {}}
       onSubmit={onSubmit}
       customFormTemplate={({ formFields, schema }) => {
-        const { handleSubmit, getState } = useFormApi();
         const { submitting, valid } = getState();
 
         return (
