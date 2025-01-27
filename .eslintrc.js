@@ -7,10 +7,6 @@ module.exports = {
     'plugin:jest-dom/recommended',
     'plugin:react-hooks/recommended',
   ],
-  globals: {
-    IS_DEV: 'readonly',
-    React: true,
-  },
   rules: {
     'rulesdir/forbid-pf-relative-imports': 'off',
   },
