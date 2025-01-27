@@ -27,7 +27,7 @@ export const useLastSeenFilter = (
   const filter = {
     label: 'Last seen',
     value: 'last_seen',
-    type: 'radio',
+    type: 'singleSelect',
     filterValues: {
       value: lastSeenValue?.mark,
       onChange: (_e, mark) => setValue({ ...lastSeenDefaults[mark], mark }),
