@@ -14,9 +14,7 @@ import {
 jest.mock('@redhat-cloud-services/frontend-components-utilities/interceptors');
 
 describe('BifrostPage', () => {
-  const axiosMock = jest.fn(async () => ({
-    data: mockedBootCStatusData,
-  }));
+  const axiosMock = jest.fn(async () => mockedBootCStatusData);
 
   beforeEach(() => {
     useAxiosWithPlatformInterceptors.mockImplementation(() => ({
