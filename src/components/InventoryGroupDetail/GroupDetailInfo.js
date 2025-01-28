@@ -8,7 +8,6 @@ import {
 } from '../../constants';
 import { ActionButton } from '../InventoryTable/ActionWithRBAC';
 import { usePermissions } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import useWorkspaceFeatureFlag from '../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const GroupDetailInfo = () => {
   const path = '/iam/user-access';
@@ -16,7 +15,6 @@ const GroupDetailInfo = () => {
     'rbac',
     USER_ACCESS_ADMIN_PERMISSIONS
   );
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
     <Card>
@@ -48,15 +46,13 @@ const GroupDetailInfo = () => {
       <CardBody>
         {isUserAccessAdministrator ? (
           <span>
-            Manage your {isWorkspaceEnabled ? 'workspace' : 'inventory group'}{' '}
-            user access configuration under{' '}
-            <a href={path}>Identity & Access Management {'>'} User Access</a>.
+            Manage your workspace user access configuration under{' '}
+            <a href={path}>Identity & Access Management &gt; User Access</a>.
           </span>
         ) : (
           <span>
-            Manage your {isWorkspaceEnabled ? 'workspace' : 'inventory group'}{' '}
-            user access configuration under Identity & Access Management {'>'}{' '}
-            User Access.
+            Manage your workspace user access configuration under Identity &
+            Access Management &gt; User Access.
           </span>
         )}
       </CardBody>
