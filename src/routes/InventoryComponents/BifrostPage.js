@@ -25,7 +25,7 @@ const BifrostPage = () => {
         `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_NON_BOOTC}&${INVENTORY_FILTER_NO_HOST_TYPE}&per_page=1`
       );
 
-      const booted = result.data.results.map(
+      const booted = result.results.map(
         (system) => system.system_profile.bootc_status.booted
       );
 
@@ -62,7 +62,7 @@ const BifrostPage = () => {
         })),
         {
           image: 'Package based systems',
-          systemCount: packageBasedSystems.data.total,
+          systemCount: packageBasedSystems.total,
           hashCommitCount: '-',
         },
       ];
