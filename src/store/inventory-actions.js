@@ -66,7 +66,7 @@ export const loadEntities = (
       };
 
   const orderBy = config.orderBy || 'updated';
-  const orderDirection = config.orderDirection || 'desc';
+  const orderDirection = config.orderDirection?.toUpperCase() || 'DESC';
 
   const lastDateRequest = Date.now();
 

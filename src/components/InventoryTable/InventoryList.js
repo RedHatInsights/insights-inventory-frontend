@@ -43,7 +43,11 @@ const ContextInventoryList = ({
       onRefreshData({}, ignoreRefresh);
     }
 
-    if (!props.hasItems && !isEqual(prevSortBy.current, props.sortBy)) {
+    if (
+      !props.hasItems &&
+      props.loaded == true &&
+      !isEqual(prevSortBy.current, props.sortBy)
+    ) {
       prevSortBy.current = props.sortBy;
       onRefreshData({});
     }
