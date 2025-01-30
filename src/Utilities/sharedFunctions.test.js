@@ -1,6 +1,10 @@
 /* eslint-disable no-constant-condition */
 import { REPORTER_PUPTOO } from './constants';
-import { subtractWeeks, verifyCulledReporter } from './sharedFunctions';
+import {
+  removeTrailingSlash,
+  subtractWeeks,
+  verifyCulledReporter,
+} from './sharedFunctions';
 
 describe('sharedFunctions', () => {
   describe('verfiyDisconnectedSystem', () => {
@@ -37,6 +41,19 @@ describe('sharedFunctions', () => {
       const testDate = new Date('2022-07-20T10:07:08.313Z');
       const result = subtractWeeks(1, testDate);
       expect(result.getDate()).toEqual(13);
+    });
+  });
+  describe('removeTrailingSlash', () => {
+    it('Should remove the last slash', () => {
+      const url = 'https://console.redhat.com/';
+      const result = removeTrailingSlash(url);
+      expect(result).toEqual('https://console.redhat.com');
+    });
+
+    it('Should not modify the url if there is not a slash at the end', () => {
+      const url = 'https://console.redhat.com';
+      const result = removeTrailingSlash(url);
+      expect(result).toEqual('https://console.redhat.com');
     });
   });
 });

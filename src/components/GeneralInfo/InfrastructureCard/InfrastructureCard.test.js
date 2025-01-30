@@ -59,6 +59,17 @@ describe('InfrastructureCard', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  it('should render correctly with trailing slash', () => {
+    const store = mockStore(initialState);
+    location.pathname = 'localhost:3000/example/path/';
+    const view = render(
+      <TestWrapper store={store}>
+        <InfrastructureCard />
+      </TestWrapper>
+    );
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
   it('should render correctly with rhsm facts', () => {
     const store = mockStore({
       ...initialState,
