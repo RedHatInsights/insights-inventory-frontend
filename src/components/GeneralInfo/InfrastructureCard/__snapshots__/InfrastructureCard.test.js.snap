@@ -1246,6 +1246,172 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
 </DocumentFragment>
 `;
 
+exports[`InfrastructureCard should render correctly with trailing slash 1`] = `
+<DocumentFragment>
+  <div
+    class="pf-v5-c-card"
+    data-ouia-component-id="infrastructure-card"
+    data-ouia-component-type="PF5/Card"
+    data-ouia-safe="true"
+    id=""
+  >
+    <div
+      class="pf-v5-c-card__body"
+    >
+      <div
+        class="pf-v5-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-v5-l-stack__item"
+        >
+          <div
+            class="pf-v5-c-content"
+          >
+            <h1
+              class=""
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF5/Text"
+              data-ouia-safe="true"
+              data-pf-content="true"
+            >
+              Infrastructure
+            </h1>
+          </div>
+        </div>
+        <div
+          class="pf-v5-l-stack__item pf-m-fill"
+        >
+          <div
+            class="pf-v5-c-content"
+          >
+            <dl
+              class=""
+            >
+              <dt
+                aria-label="Type title"
+                class=""
+                data-ouia-component-id="Type title"
+              >
+                Type
+              </dt>
+              <dd
+                aria-label="Type value"
+                class=""
+                data-ouia-component-id="Type value"
+              >
+                test-type
+              </dd>
+              <dt
+                aria-label="Vendor title"
+                class=""
+                data-ouia-component-id="Vendor title"
+              >
+                Vendor
+              </dt>
+              <dd
+                aria-label="Vendor value"
+                class=""
+                data-ouia-component-id="Vendor value"
+              >
+                test-vendor
+              </dd>
+              <dt
+                aria-label="Public IP title"
+                class=""
+                data-ouia-component-id="Public IP title"
+              >
+                Public IP
+              </dt>
+              <dd
+                aria-label="Public IP value"
+                class=""
+                data-ouia-component-id="Public IP value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="IPv4 addresses title"
+                class=""
+                data-ouia-component-id="IPv4 addresses title"
+              >
+                IPv4 addresses
+              </dt>
+              <dd
+                aria-label="IPv4 addresses value"
+                class=""
+                data-ouia-component-id="IPv4 addresses value"
+              >
+                <div>
+                  <a
+                    href="localhost:3000/example/path/ipv4"
+                  >
+                    1 address
+                  </a>
+                </div>
+              </dd>
+              <dt
+                aria-label="IPv6 addresses title"
+                class=""
+                data-ouia-component-id="IPv6 addresses title"
+              >
+                IPv6 addresses
+              </dt>
+              <dd
+                aria-label="IPv6 addresses value"
+                class=""
+                data-ouia-component-id="IPv6 addresses value"
+              >
+                <div>
+                  <a
+                    href="localhost:3000/example/path/ipv6"
+                  >
+                    1 address
+                  </a>
+                </div>
+              </dd>
+              <dt
+                aria-label="FQDN title"
+                class=""
+                data-ouia-component-id="FQDN title"
+              >
+                FQDN
+              </dt>
+              <dd
+                aria-label="FQDN value"
+                class=""
+                data-ouia-component-id="FQDN value"
+              >
+                Not available
+              </dd>
+              <dt
+                aria-label="Interfaces/NICs title"
+                class=""
+                data-ouia-component-id="Interfaces/NICs title"
+              >
+                Interfaces/NICs
+              </dt>
+              <dd
+                aria-label="Interfaces/NICs value"
+                class=""
+                data-ouia-component-id="Interfaces/NICs value"
+              >
+                <div>
+                  <a
+                    href="localhost:3000/example/path/interfaces"
+                  >
+                    1 NIC
+                  </a>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`InfrastructureCard should render enabled/disabled 1`] = `
 <DocumentFragment>
   <div
