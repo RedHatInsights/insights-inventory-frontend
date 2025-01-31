@@ -18,6 +18,7 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { Link, useLocation } from 'react-router-dom';
+import { removeTrailingSlash } from '../../../Utilities/sharedFunctions';
 
 const valueToText = (value, singular, plural) => {
   if ((value || value === 0) && singular) {
@@ -36,7 +37,8 @@ const valueToText = (value, singular, plural) => {
 export const Clickable = ({ value, target, plural, singular, onClick }) => {
   const { pathname } = useLocation();
   // const { modalId } = useParams(); is causing regression when using LoadingCard derived components in Federated mode
-  const modalId = pathname.split('/').pop();
+  const path = removeTrailingSlash(pathname);
+  const modalId = path.split('/').pop();
   useEffect(() => {
     if (target === modalId) {
       onClick({ value, target });
@@ -44,9 +46,7 @@ export const Clickable = ({ value, target, plural, singular, onClick }) => {
   }, [modalId, target]);
 
   return (
-    <Link to={`${pathname}/${target}`}>
-      {valueToText(value, singular, plural)}
-    </Link>
+    <Link to={`${path}/${target}`}>{valueToText(value, singular, plural)}</Link>
   );
 };
 

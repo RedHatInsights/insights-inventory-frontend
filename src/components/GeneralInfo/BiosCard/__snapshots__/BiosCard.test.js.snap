@@ -639,7 +639,7 @@ exports[`BiosCard should render extra 1`] = `
               >
                 <div>
                   <a
-                    href="//undefined"
+                    href="/undefined"
                   >
                     1 tests
                   </a>

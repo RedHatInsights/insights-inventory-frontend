@@ -68,3 +68,5 @@ export const loadSystems = (options, showTags, getEntities) => {
 
   return loadEntities(limitedItems, config, { showTags }, getEntities);
 };
+
+export const removeTrailingSlash = (path) => path.replace(/\/$/, '');
