@@ -34,6 +34,12 @@
     "redux-promise-middleware": "^6.2.0",
     "semver": "^7.3.7"
   },
+  "overrides": {
+    "better-docs": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0"
+    }
+  },
   "jest": {
     "testEnvironment": "jsdom",
     "coverageDirectory": "./codecov-jest/",
