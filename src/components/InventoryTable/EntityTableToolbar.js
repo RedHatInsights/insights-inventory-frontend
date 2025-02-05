@@ -70,7 +70,7 @@ import {
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
-import { fromValidator, oldestDate, toValidator } from '../filters/helpers';
+import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
 import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
 
 /**
@@ -488,7 +488,7 @@ const EntityTableToolbar = ({
     enabledFilters.hostGroupFilter && setHostGroupValue([]);
     enabledFilters.systemTypeFilter && setSystemTypeValue([]);
     setEndDate();
-    setStartDate(oldestDate);
+    setStartDate(UNIX_EPOCH);
     dispatch(setFilter([]));
     updateData({ page: 1, filters: [] });
   };
@@ -622,7 +622,9 @@ const EntityTableToolbar = ({
               <DatePicker
                 value={endDate}
                 onChange={onToChange}
-                rangeStart={new Date(startDate)}
+                rangeStart={
+                  startDate === UNIX_EPOCH ? new Date() : new Date(startDate)
+                }
                 validators={[toValidator(startDate)]}
                 aria-label="End date"
                 placeholder="End"

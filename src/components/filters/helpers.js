@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const oldestDate = new Date(1970, 1, 1);
+export const UNIX_EPOCH = new Date(0);
 //validators control what date ranges can be selected in the component.
 //both validators need to keep in mind todays date, and the other components inputed date.
 
@@ -10,7 +10,7 @@ export const fromValidator = (maxDate) => (date) => {
   const todaysDate = moment().startOf('day');
   const newMaxDate = moment(maxDate).startOf('day');
 
-  if (date < oldestDate) {
+  if (date < UNIX_EPOCH) {
     return 'Date is before the allowable range.';
   } else if (date > newMaxDate) {
     return `End date must be later than Start date.`;
