@@ -79,6 +79,7 @@ class SystemCardCore extends Component {
       hasHostName,
       hasDisplayName,
       hasAnsibleHostname,
+      hasWorkspace,
       hasSAP,
       hasSystemPurpose,
       hasCPUs,
@@ -89,6 +90,7 @@ class SystemCardCore extends Component {
       extra,
     } = this.props;
     const { isDisplayNameModalOpen, isAnsibleHostModalOpen } = this.state;
+
     return (
       <Fragment>
         <LoadingCard
@@ -156,6 +158,18 @@ class SystemCardCore extends Component {
                     ),
                     size: 'md',
                     customClass: 'sentry-mask data-hj-suppress',
+                  },
+                ]
+              : []),
+            ...(hasWorkspace
+              ? [
+                  {
+                    title: 'Workspace',
+                    value:
+                      entity.groups?.length > 0 && entity.groups?.[0]?.name,
+                    size: 'md',
+                    customClass: 'sentry-mask data-hj-suppress',
+                    target: `/workspaces/${entity.groups?.[0]?.id}`,
                   },
                 ]
               : []),
@@ -302,6 +316,7 @@ SystemCardCore.defaultProps = {
   hasHostName: true,
   hasDisplayName: true,
   hasAnsibleHostname: true,
+  hasWorkspace: true,
   hasSAP: true,
   hasSystemPurpose: true,
   hasCPUs: true,

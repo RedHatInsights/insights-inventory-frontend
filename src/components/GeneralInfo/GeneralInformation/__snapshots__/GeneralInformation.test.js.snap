@@ -231,6 +231,20 @@ exports[`GeneralInformation should render correctly 1`] = `
                           </a>
                         </dd>
                         <dt
+                          aria-label="Workspace title"
+                          class=""
+                          data-ouia-component-id="Workspace title"
+                        >
+                          Workspace
+                        </dt>
+                        <dd
+                          aria-label="Workspace value"
+                          class="sentry-mask data-hj-suppress"
+                          data-ouia-component-id="Workspace value"
+                        >
+                          Not available
+                        </dd>
+                        <dt
                           aria-label="SAP title"
                           class=""
                           data-ouia-component-id="SAP title"
