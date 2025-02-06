@@ -18,6 +18,7 @@ import {
   SkeletonSize,
 } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { Link, useLocation } from 'react-router-dom';
+import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 
 const valueToText = (value, singular, plural) => {
   if ((value || value === 0) && singular) {
@@ -42,6 +43,14 @@ export const Clickable = ({ value, target, plural, singular, onClick }) => {
       onClick({ value, target });
     }
   }, [modalId, target]);
+
+  if (target?.[0] === '/') {
+    return (
+      <InsightsLink to={target} app="inventory">
+        {valueToText(value, singular, plural)}
+      </InsightsLink>
+    );
+  }
 
   return (
     <Link to={`${pathname}/${target}`}>
@@ -120,7 +129,7 @@ const LoadingCard = ({
                             <Skeleton size={size || SkeletonSize.sm} />
                           )}
                           {!isLoading &&
-                            (onClick && value ? (
+                            ((onClick || target?.[0] === '/') && value ? (
                               <div>
                                 <Clickable
                                   onClick={onClick}
