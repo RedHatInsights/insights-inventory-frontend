@@ -17,7 +17,7 @@ import { PageSection } from '@patternfly/react-core';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
- * @param {*} props onTabSelect can be used to notify parent component that detail has been selected.
+ *  @param {*} props onTabSelect can be used to notify parent component that detail has been selected.
  */
 const ApplicationDetails = ({
   onTabSelect,

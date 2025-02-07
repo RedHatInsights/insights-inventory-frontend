@@ -12,6 +12,10 @@ const convertItem = ({ children, isOpen, ...item }) => item;
 
 /**
  * Component that works as a side channel for consumers to notify inventory of new data changes.
+ *  @param props
+ *  @param props.showHealth
+ *  @param props.onRefreshData
+ *  @param props.ignoreRefresh
  */
 const ContextInventoryList = ({
   showHealth,
@@ -32,7 +36,7 @@ const ContextInventoryList = ({
    * Function to calculate for new changes, this function limits re-renders by checking if previous items are
    * same as new items.
    * If items are not passed, it only checks for props sortBy.
-   * @param {*} prevProps previous props - items, hasItems, sortBy.
+   *  @param {*} prevProps previous props - items, hasItems, sortBy.
    */
   useEffect(() => {
     if (

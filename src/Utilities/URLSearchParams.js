@@ -1,6 +1,8 @@
 /**
  * This module exports functions to work with the URL search parameters.
  * The functions require window.location and window.history to be available.
+ *  @param filters
+ *  @param filtersConfig
  */
 export const updateURLSearchParams = (filters = {}, filtersConfig) => {
   const filtersVerified = Object.fromEntries(

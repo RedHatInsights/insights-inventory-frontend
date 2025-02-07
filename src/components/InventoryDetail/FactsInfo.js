@@ -14,7 +14,7 @@ import { REPORTER_PUPTOO } from '../../Utilities/constants';
 /**
  * Basic information about system.
  * UUID and last seen.
- * @param {*} props entity and if entity is loaded.
+ *  @param {*} props entity and if entity is loaded.
  */
 const FactsInfo = ({
   entity,
