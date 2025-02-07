@@ -4,6 +4,11 @@
 
 This is the frontend application for [Insights Inventory](https://github.com/RedHatInsights/insights-inventory). It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
 
+## Documentation
+
+The repository contains components covered with the documentation comments using JSDoc markup language. The HTML documentation can be generated with the `npm run docs` script. Additionally, the documentation is automatically built with the [Generate and Release Documentation](/.github/workflows//docs.yml) GitHub action.
+The deployed documentation is available at https://redhatinsights.github.io/insights-inventory-frontend.
+
 ## First time setup
 
 ### Quick start

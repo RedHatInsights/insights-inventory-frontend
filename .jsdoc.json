@@ -1,0 +1,38 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc"]
+  },
+  "source": {
+    "include": ["src/", "README.md"]
+  },
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/better-docs/typescript",
+    "node_modules/better-docs/category"
+  ],
+  "opts": {
+    "destination": "./docs/",
+    "template": "node_modules/better-docs",
+    "recurse": true,
+    "tutorials": "./src/docs/"
+  },
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": true,
+    "search": true,
+    "better-docs": {
+      "name": "Inventory Frontend Documentation",
+      "navLinks": [
+        {
+          "label": "Inventory Frontend GitHub repository",
+          "href": "https://github.com/RedHatInsights/insights-inventory-frontend"
+        },
+        {
+          "label": "Inventory REST API Documentation",
+          "href": "https://console.redhat.com/docs/api/inventory"
+        }
+      ]
+    }
+  }
+}
