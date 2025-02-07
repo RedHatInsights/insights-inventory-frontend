@@ -62,7 +62,7 @@ const BaseDropdown = ({
           width: '200px',
         }}
         status={!isFormValid && 'danger'}
-        data-ouia-component-id={ouiaId}
+        ouiaId={ouiaId}
       >
         {getNameByValue(selected)}
       </MenuToggle>
@@ -130,7 +130,6 @@ BaseDropdown.propTypes = {
   placeholder: PropTypes.string,
   title: PropTypes.string,
   currentItem: PropTypes.number,
-  filter: PropTypes.object,
   newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,
   edit: PropTypes.bool,
