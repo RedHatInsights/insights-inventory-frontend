@@ -58,7 +58,14 @@ AppInfo.propTypes = {
   }),
 };
 
-// TODO: This component can be removed once all apps migrate to componentMapper and activeApp
+/**
+ *  @deprecated This component can be removed once all apps migrate to componentMapper and activeApp
+ *
+ *  @param   {object}             props                 Component Props
+ *  @param   {object}             props.componentMapper Enables passing different components list
+ *  @param   {object}             props.activeApp       Identifies the active app
+ *  @returns {React.ReactElement}                       Returns the app information for the active app
+ */
 const AppInfoWrapper = ({ componentMapper, activeApp, ...props }) => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -90,7 +97,12 @@ const AppInfoWrapper = ({ componentMapper, activeApp, ...props }) => {
 
 AppInfoWrapper.propTypes = AppInfo.propTypes;
 
-// TODO: Remove once all apps send `componentMapper` and `activeApp` and use directly AppInfo
+/**
+ *  @deprecated Remove once all apps send `componentMapper` and `activeApp` and use directly AppInfo
+ *
+ *  @param   {object}             props Component Props
+ *  @returns {React.ReactElement}       Returns the app information for the active app
+ */
 const AppInfoCmp = (props) =>
   props.componentMapper && props.activeApp ? (
     <AppInfo {...props} />
