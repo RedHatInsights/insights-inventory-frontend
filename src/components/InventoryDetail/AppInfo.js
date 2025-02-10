@@ -11,7 +11,11 @@ import {
 /**
  * Small component that just renders active detail with some specific class.
  * This component detail is accessed from redux if no component found `missing component` is displayed.
- * @param {*} props `componentsMapper` if you want to pass different components list.
+ *
+ *  @param   {object}             props                 Component Props
+ *  @param   {object}             props.componentMapper Enables passing different components list
+ *  @param   {object}             props.activeApp       Identifies the active app
+ *  @returns {React.ReactElement}                       Returns the app information for the active app
  */
 const AppInfo = ({ componentMapper: Cmp, activeApp }) => {
   const store = useStore();
@@ -55,9 +59,12 @@ AppInfo.propTypes = {
 };
 
 /**
- * This component can be removed once all apps migrate to componentMapper and activeApp.
- * @param { componentMapper, activeApp } props.
- * @returns AppInfo component
+ *  @deprecated This component can be removed once all apps migrate to componentMapper and activeApp
+ *
+ *  @param   {object}             props                 Component Props
+ *  @param   {object}             props.componentMapper Enables passing different components list
+ *  @param   {object}             props.activeApp       Identifies the active app
+ *  @returns {React.ReactElement}                       Returns the app information for the active app
  */
 const AppInfoWrapper = ({ componentMapper, activeApp, ...props }) => {
   const { search } = useLocation();
@@ -90,7 +97,12 @@ const AppInfoWrapper = ({ componentMapper, activeApp, ...props }) => {
 
 AppInfoWrapper.propTypes = AppInfo.propTypes;
 
-// TODO: Remove once all apps send `componentMapper` and `activeApp` and use directly AppInfo
+/**
+ *  @deprecated Remove once all apps send `componentMapper` and `activeApp` and use directly AppInfo
+ *
+ *  @param   {object}             props Component Props
+ *  @returns {React.ReactElement}       Returns the app information for the active app
+ */
 const AppInfoCmp = (props) =>
   props.componentMapper && props.activeApp ? (
     <AppInfo {...props} />

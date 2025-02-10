@@ -5,6 +5,16 @@ import PropTypes from 'prop-types';
 
 /**
  * Bottom pagination used in table. It can remember what page user is on if user entered the page number in input.
+ *  @param props
+ *  @param props.total
+ *  @param props.page
+ *  @param props.perPage
+ *  @param props.direction
+ *  @param props.isFull
+ *  @param props.hasAccess
+ *  @param props.paginationProps
+ *  @param props.onRefreshData
+ *  @param props.loaded
  */
 const FooterPagination = ({
   total,
@@ -19,16 +29,16 @@ const FooterPagination = ({
 }) => {
   /**
    * Thi method sets new page and combines previous props to apply sort, filters etc.
-   * @param {*} event html event to figure if target was input.
-   * @param {*} page current page to change to.
+   *  @param {*} _event  html event to figure if target was input.
+   *  @param {*} pageArg current page to change to.
    */
   const onSetPage = (_event, pageArg) => onRefreshData({ page: pageArg });
 
   /**
    * This method changes per page, it automatically sets page to first one.
    * It also applies previous sort, filters, etc.
-   * @param {*} _event event is now not used.
-   * @param {*} perPage new perPage set by user.
+   *  @param {*} _event     event is now not used.
+   *  @param {*} perPageArg new perPage set by user.
    */
   const onPerPageSelect = (_event, perPageArg) =>
     onRefreshData({ page: 1, per_page: perPageArg });

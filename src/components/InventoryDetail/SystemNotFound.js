@@ -15,7 +15,7 @@ import useInsightsNavigate from '@redhat-cloud-services/frontend-components-util
 
 /**
  * Empty state when system was not found in inventory.
- * @param {*} params - inventoryId and onBackToListClick.
+ *  @param {*} props - inventoryId and onBackToListClick.
  */
 const SystemNotFound = ({ inventoryId, onBackToListClick }) => {
   const navigate = useInsightsNavigate();

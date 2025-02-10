@@ -3,13 +3,13 @@ import { DOWNLOAD_CHECK_INTERVAL } from './constants';
 import useExportApi from './useExportApi';
 
 /**
- *  A hook to periodically check for an available download for an export
+ * A hook to periodically check for an available download for an export
  *
- *  @param {object} [options] Options
- *  @param {object} [options.onDownloadAvailable] Callback function, called when the requested export is available to download
- *  @param {object} [options.onError] Callback function, called when the requested export failed or an error occured
+ *  @param   {object}   [options]                     Options
+ *  @param   {object}   [options.onDownloadAvailable] Callback function, called when the requested export is available to download
+ *  @param   {object}   [options.onError]             Callback function, called when the requested export failed or an error occured
  *
- *  @returns {function} Function to set an export ID to check for
+ *  @returns {Function}                               Function to set an export ID to check for
  *
  */
 const useExportDownloadCheck = ({ onDownloadAvailable, onError }) => {
