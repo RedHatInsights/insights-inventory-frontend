@@ -5,7 +5,7 @@ import {
   lastSeenDefaults,
 } from '../../Utilities/constants';
 import moment from 'moment';
-import { containsSpecialChars, oldestDate } from './helpers.js';
+import { containsSpecialChars, UNIX_EPOCH } from './helpers.js';
 export const lastSeenFilterState = { lastSeenFilter: [] };
 export const LAST_SEEN_FILTER = 'LAST_SEEN_FILTER';
 export const DEFAULT_DATE_LENGTH = 9;
@@ -52,7 +52,7 @@ export const useLastSeenFilter = (
         ]
       : [];
 
-  const [startDate, setStartDate] = useState(oldestDate);
+  const [startDate, setStartDate] = useState(UNIX_EPOCH);
   const [endDate, setEndDate] = useState();
   const todaysDate = moment();
 
@@ -109,7 +109,7 @@ export const useLastSeenFilter = (
       (!containsSpecialChars(date) &&
         selectedFromDate < todaysDate &&
         date.length > DEFAULT_DATE_LENGTH &&
-        selectedFromDate > oldestDate) ||
+        selectedFromDate > UNIX_EPOCH) ||
       date.length === 0
     ) {
       if (date > newToDate) {
