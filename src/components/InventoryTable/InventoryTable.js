@@ -47,9 +47,9 @@ export const inventoryCache = () => {
 
 /**
  * This component is used to combine all essential components together:
- *   * EntityTableToolbar - to control top toolbar.
- *   * InventoryList - to allow consumers to change data from outside and contains actual inventory table.
- *   * Pagination - bottom pagination.
+ * EntityTableToolbar - to control top toolbar.
+ * InventoryList - to allow consumers to change data from outside and contains actual inventory table.
+ * Pagination - bottom pagination.
  * It also calculates pagination and sortBy from props or from store if consumer passed items or not.
  */
 
@@ -182,7 +182,9 @@ const InventoryTable = forwardRef(
 
     /**
      * If consumer wants to change data they can call this function via component ref.
-     * @param {*} options new options to be applied, like pagination, filters, etc.
+     *  @param {*} options          new options to be applied, like pagination, filters, etc.
+     *  @param     disableOnRefresh
+     *  @param     forceRefresh
      */
     const onRefreshData = (
       options = {},

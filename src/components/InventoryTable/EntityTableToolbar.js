@@ -76,7 +76,7 @@ import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
 /**
  * Table toolbar used at top of inventory table.
  * It uses couple of filters and acces redux data along side all passed props.
- * @param {*} props used in this component.
+ *  @param {*} props used in this component.
  */
 const EntityTableToolbar = ({
   total,
@@ -266,6 +266,7 @@ const EntityTableToolbar = ({
 
   /**
    * Function to dispatch load systems and fetch all tags.
+   *  @param options
    */
   const onRefreshDataInner = (options) => {
     if (hasAccess) {
@@ -279,9 +280,9 @@ const EntityTableToolbar = ({
   /**
    * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
    * `onRefresh` function takes two parameters
-   *   * entire config with new changes.
-   *   * callback to update data.
-   * @param {*} config new config to fetch data.
+   * entire config with new changes.
+   * callback to update data.
+   *  @param {*} config new config to fetch data.
    */
   const updateData = (config) => {
     if (hasAccess) {
@@ -331,8 +332,8 @@ const EntityTableToolbar = ({
 
   /**
    * Function used to change text filter.
-   * @param {*} value new value used for filtering.
-   * @param {*} debounced if debounce function should be used.
+   *  @param {*} value     new value used for filtering.
+   *  @param {*} debounced if debounce function should be used.
    */
   const onSetTextFilter = (value, debounced = true) => {
     const trimmedValue = value?.trim();
@@ -353,9 +354,9 @@ const EntityTableToolbar = ({
 
   /**
    * General function to apply filter (excluding tag and text).
-   * @param {*} value new value to be set of specified filter.
-   * @param {*} filterKey which filter should be changed.
-   * @param {*} refresh refresh callback function.
+   *  @param {*} value     new value to be set of specified filter.
+   *  @param {*} filterKey which filter should be changed.
+   *  @param {*} refresh   refresh callback function.
    */
   const onSetFilter = (value, filterKey, refresh) => {
     const newFilters = [
