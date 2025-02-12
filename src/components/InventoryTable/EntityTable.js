@@ -17,7 +17,7 @@ import useColumns from './hooks/useColumns';
  * The actual (PF)table component. It calculates each cell and every table property.
  * It uses rows, columns and loaded from redux to show correct data.
  * When row is selected `selectEntity` is dispatched.
- * @param {*} props all props used in this component.
+ *  @param {*} props all props used in this component.
  */
 const EntityTable = ({
   hasItems,

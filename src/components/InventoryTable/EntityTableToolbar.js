@@ -70,13 +70,13 @@ import {
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
-import { fromValidator, oldestDate, toValidator } from '../filters/helpers';
+import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
 import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
 
 /**
  * Table toolbar used at top of inventory table.
  * It uses couple of filters and acces redux data along side all passed props.
- * @param {*} props used in this component.
+ *  @param {*} props used in this component.
  */
 const EntityTableToolbar = ({
   total,
@@ -266,6 +266,7 @@ const EntityTableToolbar = ({
 
   /**
    * Function to dispatch load systems and fetch all tags.
+   *  @param options
    */
   const onRefreshDataInner = (options) => {
     if (hasAccess) {
@@ -279,9 +280,9 @@ const EntityTableToolbar = ({
   /**
    * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
    * `onRefresh` function takes two parameters
-   *   * entire config with new changes.
-   *   * callback to update data.
-   * @param {*} config new config to fetch data.
+   * entire config with new changes.
+   * callback to update data.
+   *  @param {*} config new config to fetch data.
    */
   const updateData = (config) => {
     if (hasAccess) {
@@ -331,8 +332,8 @@ const EntityTableToolbar = ({
 
   /**
    * Function used to change text filter.
-   * @param {*} value new value used for filtering.
-   * @param {*} debounced if debounce function should be used.
+   *  @param {*} value     new value used for filtering.
+   *  @param {*} debounced if debounce function should be used.
    */
   const onSetTextFilter = (value, debounced = true) => {
     const trimmedValue = value?.trim();
@@ -353,9 +354,9 @@ const EntityTableToolbar = ({
 
   /**
    * General function to apply filter (excluding tag and text).
-   * @param {*} value new value to be set of specified filter.
-   * @param {*} filterKey which filter should be changed.
-   * @param {*} refresh refresh callback function.
+   *  @param {*} value     new value to be set of specified filter.
+   *  @param {*} filterKey which filter should be changed.
+   *  @param {*} refresh   refresh callback function.
    */
   const onSetFilter = (value, filterKey, refresh) => {
     const newFilters = [
@@ -488,7 +489,7 @@ const EntityTableToolbar = ({
     enabledFilters.hostGroupFilter && setHostGroupValue([]);
     enabledFilters.systemTypeFilter && setSystemTypeValue([]);
     setEndDate();
-    setStartDate(oldestDate);
+    setStartDate(UNIX_EPOCH);
     dispatch(setFilter([]));
     updateData({ page: 1, filters: [] });
   };
@@ -622,7 +623,9 @@ const EntityTableToolbar = ({
               <DatePicker
                 value={endDate}
                 onChange={onToChange}
-                rangeStart={new Date(startDate)}
+                rangeStart={
+                  startDate === UNIX_EPOCH ? new Date() : new Date(startDate)
+                }
                 validators={[toValidator(startDate)]}
                 aria-label="End date"
                 placeholder="End"

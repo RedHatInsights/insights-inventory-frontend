@@ -1,6 +1,5 @@
 const { resolve } = require('path');
 const packageJson = require('./package.json');
-const webpack = require('webpack');
 const { sentryWebpackPlugin } = require('@sentry/webpack-plugin');
 
 const bundle = 'insights';

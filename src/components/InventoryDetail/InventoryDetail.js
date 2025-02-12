@@ -16,7 +16,7 @@ import DetailHeader from './DetailHeader';
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
  * This component is connected to redux and reads `loaded` and `entity`.
- * @param {*} props additional features from parent component.
+ *  @param {*} props additional features from parent component.
  */
 const InventoryDetail = ({
   showTags,

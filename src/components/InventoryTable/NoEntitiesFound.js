@@ -14,6 +14,10 @@ import { SearchIcon } from '@patternfly/react-icons';
 
 /**
  * Empty state stable when no systems (or other entities) are found.
+ *  @param props
+ *  @param props.entities
+ *  @param props.onClearAll
+ *  @param props.showIcon
  */
 const NoEntitiesFound = ({ entities, onClearAll, showIcon }) => (
   <EmptyState
