@@ -15,6 +15,7 @@ const fields = [
   'Host name',
   'Display name',
   'Ansible hostname',
+  'Workspace',
   'SAP',
   'System purpose',
   'Number of CPUs',
@@ -83,7 +84,7 @@ describe('SystemCard', () => {
     fields.forEach(screen.getByText);
     expect(
       screen.getAllByRole('definition').map((element) => element.textContent)
-    ).toEqual(['', '', '', '', '', '', '', '', '', '']);
+    ).toEqual(['', '', '', '', '', '', '', '', '', '', '']);
     screen.getByRole('button', {
       name: /action for host name/i,
     });
@@ -109,6 +110,7 @@ describe('SystemCard', () => {
       'test-display-name',
       'test-ansible-host',
       'Not available',
+      'Not available',
       'Production',
       '1',
       '1',
@@ -116,6 +118,37 @@ describe('SystemCard', () => {
       '0 flags',
       '5 MB',
     ]);
+  });
+
+  it('should render correctly with Workspace', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          entityDetails: {
+            entity: {
+              ...initialState.entityDetails.entity,
+              groups: [
+                {
+                  id: 'your_favourite_uuid',
+                  name: 'workspace_name',
+                },
+              ],
+            },
+          },
+          systemProfileStore: {
+            ...initialState.systemProfileStore,
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(screen.getByText('workspace_name')).toBeInTheDocument();
+    expect(screen.getByText('workspace_name')).toHaveAttribute(
+      'href',
+      '//inventory/workspaces/your_favourite_uuid'
+    );
   });
 
   it('should render correctly with SAP IDS', () => {
@@ -165,6 +198,7 @@ describe('SystemCard', () => {
       'Not available',
       'test-display-name',
       'test-ansible-host',
+      'Not available',
       'Not available',
       'Not available',
       '2',
@@ -417,6 +451,7 @@ describe('SystemCard', () => {
     'hasHostName',
     'hasDisplayName',
     'hasAnsibleHostname',
+    'hasWorkspace',
     'hasSAP',
     'hasSystemPurpose',
     'hasCPUs',
@@ -459,6 +494,7 @@ describe('SystemCard', () => {
       'Not available',
       'test-display-name',
       'test-ansible-host',
+      'Not available',
       'Not available',
       'Production',
       '1',
