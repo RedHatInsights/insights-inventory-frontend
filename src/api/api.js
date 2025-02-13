@@ -2,34 +2,49 @@ export const INVENTORY_API_BASE = '/api/inventory/v1';
 export const EDGE_API_BASE = '/api/edge/v1';
 import flatMap from 'lodash/flatMap';
 
-import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import axiosInstance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import {
   generateFilter,
   mergeArraysByKey,
 } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import {
-  GroupsApi,
-  HostsApi,
-  SystemProfileApi,
-  TagsApi,
+  apiHostGetHostById,
+  apiHostGetHostList,
+  apiHostGetHostSystemProfileById,
+  apiHostGetHostTags,
+  apiStalenessCreateStaleness,
+  apiStalenessGetDefaultStaleness,
+  apiStalenessGetStaleness,
+  apiSystemProfileGetOperatingSystem,
+  apiTagGetTags,
 } from '@redhat-cloud-services/host-inventory-client';
 import {
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   allStaleFilters,
 } from '../Utilities/constants';
+import { APIFactory } from '@redhat-cloud-services/javascript-clients-shared';
 
-export { instance };
-export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
-export const tags = new TagsApi(undefined, INVENTORY_API_BASE, instance);
-export const systemProfile = new SystemProfileApi(
-  undefined,
+export { axiosInstance as instance };
+
+const hostInventoryApi = APIFactory(
   INVENTORY_API_BASE,
-  instance
+  {
+    apiHostGetHostSystemProfileById,
+    apiHostGetHostTags,
+    apiHostGetHostById,
+    apiHostGetHostList,
+    apiTagGetTags,
+    apiSystemProfileGetOperatingSystem,
+    apiStalenessGetDefaultStaleness,
+    apiStalenessGetStaleness,
+    apiStalenessCreateStaleness,
+  },
+  { axios: axiosInstance }
 );
-export const groupsApi = new GroupsApi(undefined, INVENTORY_API_BASE, instance);
+
 export const getEntitySystemProfile = (item) =>
-  hosts.apiHostGetHostSystemProfileById([item]);
+  hostInventoryApi.apiHostGetHostSystemProfileById([item]);
 
 export const mapData = ({ facts = {}, ...oneResult }) => ({
   ...oneResult,
@@ -61,7 +76,7 @@ export const mapTags = (
   { orderBy, orderDirection } = {}
 ) => {
   if (data.results.length > 0) {
-    return hosts
+    return hostInventoryApi
       .apiHostGetHostTags(
         data.results.map(({ id }) => id),
         data.per_page,
@@ -232,7 +247,7 @@ export async function getEntities(
   showTags
 ) {
   if (hasItems && items?.length > 0) {
-    let data = await hosts.apiHostGetHostById(
+    let data = await hostInventoryApi.apiHostGetHostById(
       items,
       undefined,
       perPage,
@@ -249,7 +264,7 @@ export async function getEntities(
     );
     if (fields && Object.keys(fields).length) {
       try {
-        const result = await hosts.apiHostGetHostSystemProfileById(
+        const result = await hostInventoryApi.apiHostGetHostSystemProfileById(
           items,
           perPage,
           undefined,
@@ -316,7 +331,7 @@ export async function getEntities(
       }),
     };
 
-    return hosts
+    return hostInventoryApi
       .apiHostGetHostList(
         undefined,
         undefined,
@@ -379,7 +394,7 @@ export async function getEntities(
 }
 
 export function getTags(systemId, search, { pagination } = { pagination: {} }) {
-  return hosts.apiHostGetHostTags(
+  return hostInventoryApi.apiHostGetHostTags(
     systemId,
     pagination.perPage || 10,
     pagination.page || 1,
@@ -390,7 +405,7 @@ export function getTags(systemId, search, { pagination } = { pagination: {} }) {
 }
 
 export function getAllTags(search, pagination = {}) {
-  return tags.apiTagGetTags(
+  return hostInventoryApi.apiTagGetTags(
     [],
     'tag',
     'ASC',
@@ -412,9 +427,8 @@ export function getAllTags(search, pagination = {}) {
 }
 
 export const getOperatingSystems = async (params = [], showCentosVersions) => {
-  let operatingSystems = await systemProfile.apiSystemProfileGetOperatingSystem(
-    ...params
-  );
+  let operatingSystems =
+    await hostInventoryApi.apiSystemProfileGetOperatingSystem(...params);
   if (!showCentosVersions) {
     const newResults = operatingSystems.results.filter(
       ({ value }) => !value.name.toLowerCase().startsWith('centos')
@@ -425,23 +439,20 @@ export const getOperatingSystems = async (params = [], showCentosVersions) => {
 };
 
 export const fetchDefaultStalenessValues = () => {
-  return instance.get(`${INVENTORY_API_BASE}/account/staleness/defaults`);
+  return hostInventoryApi.apiStalenessGetDefaultStaleness();
 };
 
 export const fetchStalenessData = () => {
-  return instance.get(`${INVENTORY_API_BASE}/account/staleness`);
+  return hostInventoryApi.apiStalenessGetStaleness();
 };
 
 export const postStalenessData = (data) => {
-  return instance.post(`${INVENTORY_API_BASE}/account/staleness`, data);
-};
-export const patchStalenessData = (data) => {
-  return instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+  return hostInventoryApi.apiStalenessCreateStaleness(data);
 };
 
 export const fetchEdgeSystem = () => {
   try {
-    return instance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
+    return axiosInstance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
   } catch (err) {
     console.log(err);
   }
@@ -449,12 +460,17 @@ export const fetchEdgeSystem = () => {
 
 export const useGetImageData = () => {
   return (deviceIDs) => {
-    return instance.post(`${EDGE_API_BASE}/devices/devicesview`, deviceIDs);
+    return axiosInstance.post(
+      `${EDGE_API_BASE}/devices/devicesview`,
+      deviceIDs
+    );
   };
 };
 export const fetchEdgeEnforceGroups = () => {
   try {
-    return instance.get(`${EDGE_API_BASE}/device-groups/enforce-edge-groups`);
+    return axiosInstance.get(
+      `${EDGE_API_BASE}/device-groups/enforce-edge-groups`
+    );
   } catch (err) {
     console.error(err);
   }
