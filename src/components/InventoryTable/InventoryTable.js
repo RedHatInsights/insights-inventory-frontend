@@ -238,7 +238,17 @@ const InventoryTable = forwardRef(
 
     const prevFilters = useRef(customFilters);
     useEffect(() => {
-      if (autoRefresh && !isEqual(prevFilters.current, customFilters)) {
+      console.log({
+        autoRefresh,
+        prevFilters: prevFilters?.current,
+        customFilters,
+      });
+      // customFilters should be truly custom ig
+      if (
+        autoRefresh &&
+        !isEqual(prevFilters.current?.globalFilter, customFilters?.globalFilter)
+      ) {
+        console.log('onrefresh');
         onRefreshData();
         prevFilters.current = customFilters;
       }

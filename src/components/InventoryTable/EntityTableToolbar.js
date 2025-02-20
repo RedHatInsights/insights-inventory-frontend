@@ -73,6 +73,7 @@ import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
 import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
+import { useCallback } from 'react';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -277,7 +278,6 @@ const EntityTableToolbar = ({
       }
     }
   };
-
   /**
    * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
    * `onRefresh` function takes two parameters
@@ -294,7 +294,10 @@ const EntityTableToolbar = ({
   /**
    * Debounced `updateData` function.
    */
-  const debouncedRefresh = debounce((config) => updateData(config), 800);
+  const debouncedRefresh = useCallback(
+    debounce((config) => updateData(config), 800),
+    [hasAccess]
+  );
 
   /**
    * Component did mount effect to calculate actual filters from redux.
