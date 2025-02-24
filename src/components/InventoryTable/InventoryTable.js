@@ -3,6 +3,7 @@
 import React, {
   Fragment,
   forwardRef,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -21,6 +22,7 @@ import { clearErrors, entitiesLoading } from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
 import { useSearchParams } from 'react-router-dom';
 import { ACTION_TYPES } from '../../store/action-types';
+import { debounce } from 'lodash';
 
 /**
  * A helper function to store props and to always return the latest state.
@@ -89,6 +91,7 @@ const InventoryTable = forwardRef(
     },
     ref
   ) => {
+    console.log('INVENTORY TABLE PROPSS on god', props);
     const hasItems = Boolean(items);
     const error = useSelector(({ entities }) => entities?.error);
     const page = useSelector(
@@ -160,7 +163,7 @@ const InventoryTable = forwardRef(
     useEffect(() => {
       if (error) {
         if (hasLoadEntitiesError) {
-          onRefreshData({ page: 1 });
+          debouncedOnRefreshData({ page: 1 });
           dispatch(clearErrors());
         }
       }
@@ -209,6 +212,8 @@ const InventoryTable = forwardRef(
         globalFilter: cachedProps?.customFilters?.globalFilter,
       };
 
+      debugger;
+
       //Check for the rbac permissions
       const cachedParams = cache.current.getParams();
       if (hasAccess && (!isEqual(cachedParams, newParams) || forceRefresh)) {
@@ -216,6 +221,7 @@ const InventoryTable = forwardRef(
         if (onRefresh && !disableOnRefresh) {
           dispatch(entitiesLoading());
           onRefresh(newParams, (options) => {
+            console.log('onrefresh fr fr');
             dispatch(
               loadSystems(
                 { ...newParams, ...options, controller: controller.current },
@@ -225,6 +231,7 @@ const InventoryTable = forwardRef(
             );
           });
         } else {
+          console.log('onrefresh else fr fr');
           dispatch(
             loadSystems(
               { ...newParams, controller: controller.current },
@@ -236,10 +243,37 @@ const InventoryTable = forwardRef(
       }
     };
 
+    const debouncedOnRefreshData = useCallback(
+      debounce((...args) => {
+        return onRefreshData(...args);
+      }, 800),
+      []
+    );
+
+    const onSort = ({ index, key, direction }) => {
+      onRefreshData({
+        sortBy: {
+          index,
+          key,
+          direction,
+        },
+      });
+    };
+
     const prevFilters = useRef(customFilters);
     useEffect(() => {
-      if (autoRefresh && !isEqual(prevFilters.current, customFilters)) {
-        onRefreshData();
+      console.log({
+        autoRefresh,
+        prevFilters: prevFilters?.current,
+        customFilters,
+      });
+      // customFilters should be truly custom ig
+      if (
+        autoRefresh &&
+        !isEqual(prevFilters.current?.globalFilter, customFilters?.globalFilter)
+      ) {
+        console.log('onrefresh');
+        debouncedOnRefreshData();
         prevFilters.current = customFilters;
       }
     });
@@ -268,7 +302,7 @@ const InventoryTable = forwardRef(
           perPage={pagination.perPage}
           showTags={showTags}
           getTags={getTags}
-          onRefreshData={onRefreshData}
+          onRefreshData={debouncedOnRefreshData}
           sortBy={sortBy}
           hideFilters={hideFilters}
           paginationProps={paginationProps}
@@ -296,9 +330,10 @@ const InventoryTable = forwardRef(
           sortBy={sortBy}
           perPage={pagination.perPage}
           showTags={showTags}
-          onRefreshData={onRefreshData}
+          onRefreshData={debouncedOnRefreshData}
           loaded={loaded}
           ignoreRefresh={ignoreRefresh}
+          onSort={onSort}
         />
         <TableToolbar
           isFooter
