@@ -26,11 +26,11 @@ const ContextInventoryList = ({
   const prevItems = useRef(props.items);
   const prevSortBy = useRef(props.sortBy);
 
-  useEffect(() => {
-    if (props.hasItems) {
-      onRefreshData({}, ignoreRefresh);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (props.hasItems) {
+  //     onRefreshData({}, ignoreRefresh);
+  //   }
+  // }, []);
 
   /**
    * Function to calculate for new changes, this function limits re-renders by checking if previous items are
@@ -45,15 +45,15 @@ const ContextInventoryList = ({
     ) {
       prevItems.current = props.items;
       onRefreshData({}, ignoreRefresh);
-    }
-
-    if (
+    } else if (
       !props.hasItems &&
       props.loaded == true &&
       !isEqual(prevSortBy.current, props.sortBy)
     ) {
+      debugger;
       prevSortBy.current = props.sortBy;
-      onRefreshData({});
+      console.log('useeffect inventorylist => onrefreshdata');
+      // onRefreshData({});
     }
   });
 

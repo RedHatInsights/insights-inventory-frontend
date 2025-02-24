@@ -57,6 +57,7 @@ const EntityTable = ({
       dispatch(changeSort({ index, key, direction: direction?.toLowerCase() }));
     }
 
+    console.log('onsort v onsortchange 💀', onSort);
     onSort?.({ index, key, direction });
   };
 
