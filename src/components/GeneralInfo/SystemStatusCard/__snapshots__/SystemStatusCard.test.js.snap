@@ -162,16 +162,16 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
                 01 Apr 2014 00:00 UTC
               </dd>
               <dt
-                aria-label="Last upload title"
+                aria-label="Last seen title"
                 class=""
-                data-ouia-component-id="Last upload title"
+                data-ouia-component-id="Last seen title"
               >
-                Last upload
+                Last seen
               </dt>
               <dd
-                aria-label="Last upload value"
+                aria-label="Last seen value"
                 class=""
-                data-ouia-component-id="Last upload value"
+                data-ouia-component-id="Last seen value"
               >
                 01 Jun 2014 00:00 UTC
               </dd>
@@ -240,16 +240,16 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
                 Active
               </dd>
               <dt
-                aria-label="Last upload title"
+                aria-label="Last seen title"
                 class=""
-                data-ouia-component-id="Last upload title"
+                data-ouia-component-id="Last seen title"
               >
-                Last upload
+                Last seen
               </dt>
               <dd
-                aria-label="Last upload value"
+                aria-label="Last seen value"
                 class=""
-                data-ouia-component-id="Last upload value"
+                data-ouia-component-id="Last seen value"
               >
                 01 Jun 2014 00:00 UTC
               </dd>
@@ -332,16 +332,16 @@ exports[`SystemStatusCard should not render hasState 1`] = `
                 01 Apr 2014 00:00 UTC
               </dd>
               <dt
-                aria-label="Last upload title"
+                aria-label="Last seen title"
                 class=""
-                data-ouia-component-id="Last upload title"
+                data-ouia-component-id="Last seen title"
               >
-                Last upload
+                Last seen
               </dt>
               <dd
-                aria-label="Last upload value"
+                aria-label="Last seen value"
                 class=""
-                data-ouia-component-id="Last upload value"
+                data-ouia-component-id="Last seen value"
               >
                 01 Jun 2014 00:00 UTC
               </dd>
@@ -450,16 +450,16 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
                 </div>
               </dd>
               <dt
-                aria-label="Last upload title"
+                aria-label="Last seen title"
                 class=""
-                data-ouia-component-id="Last upload title"
+                data-ouia-component-id="Last seen title"
               >
-                Last upload
+                Last seen
               </dt>
               <dd
-                aria-label="Last upload value"
+                aria-label="Last seen value"
                 class=""
-                data-ouia-component-id="Last upload value"
+                data-ouia-component-id="Last seen value"
               >
                 <div
                   class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
@@ -568,16 +568,16 @@ exports[`SystemStatusCard should render correctly with data 1`] = `
                 01 Apr 2014 00:00 UTC
               </dd>
               <dt
-                aria-label="Last upload title"
+                aria-label="Last seen title"
                 class=""
-                data-ouia-component-id="Last upload title"
+                data-ouia-component-id="Last seen title"
               >
-                Last upload
+                Last seen
               </dt>
               <dd
-                aria-label="Last upload value"
+                aria-label="Last seen value"
                 class=""
-                data-ouia-component-id="Last upload value"
+                data-ouia-component-id="Last seen value"
               >
                 01 Jun 2014 00:00 UTC
               </dd>

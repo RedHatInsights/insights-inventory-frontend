@@ -585,16 +585,16 @@ exports[`GeneralInformation should render correctly 1`] = `
                           Invalid date
                         </dd>
                         <dt
-                          aria-label="Last upload title"
+                          aria-label="Last seen title"
                           class=""
-                          data-ouia-component-id="Last upload title"
+                          data-ouia-component-id="Last seen title"
                         >
-                          Last upload
+                          Last seen
                         </dt>
                         <dd
-                          aria-label="Last upload value"
+                          aria-label="Last seen value"
                           class=""
-                          data-ouia-component-id="Last upload value"
+                          data-ouia-component-id="Last seen value"
                         >
                           Invalid date
                         </dd>
