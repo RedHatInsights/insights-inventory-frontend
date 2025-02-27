@@ -42,7 +42,7 @@ const SystemStatusCardCore = ({
       ...(hasLastCheckIn
         ? [
             {
-              title: 'Last upload',
+              title: 'Last seen',
               value: entity && (
                 <DateFormat date={entity.updated} type="exact" />
               ),
