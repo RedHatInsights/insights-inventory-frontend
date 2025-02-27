@@ -24,7 +24,6 @@ const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
       <Provider store={store}>
         <RenderWrapper
           {...props}
-          isRbacEnabled
           inventoryRef={innerRef}
           store={store}
           cmp={component}
