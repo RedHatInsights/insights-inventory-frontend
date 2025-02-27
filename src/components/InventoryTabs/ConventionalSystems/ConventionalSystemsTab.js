@@ -179,7 +179,6 @@ const ConventionalSystemsTab = ({
       <InventoryTableCmp
         showSystemTypeFilter={isBootcEnabled && hasBootcImages}
         hasAccess={hasAccess}
-        isRbacEnabled
         customFilters={{ filters, globalFilter }}
         sortBy={sortBy}
         isFullView

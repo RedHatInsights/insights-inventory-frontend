@@ -73,7 +73,6 @@ const DetailRenderer = ({ isRbacEnabled, ...props }) => {
 };
 
 DetailRenderer.propTypes = {
-  isRbacEnabled: PropTypes.bool,
   inventoryId: PropTypes.string.isRequired,
 };
 

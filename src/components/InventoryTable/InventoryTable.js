@@ -6,7 +6,6 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
@@ -18,7 +17,7 @@ import Pagination from './Pagination';
 import AccessDenied from '../../Utilities/AccessDenied';
 import { loadSystems } from '../../Utilities/sharedFunctions';
 import isEqual from 'lodash/isEqual';
-import { clearErrors, entitiesLoading } from '../../store/actions';
+import { entitiesLoading } from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
 import { useSearchParams } from 'react-router-dom';
 import { ACTION_TYPES } from '../../store/action-types';
@@ -82,9 +81,7 @@ const InventoryTable = forwardRef(
       showTagModal,
       activeFiltersConfig,
       tableProps,
-      isRbacEnabled,
       hasCheckbox,
-      abortOnUnmount = true,
       showCentosVersions = false,
       enableExport,
       ...props
@@ -125,7 +122,7 @@ const InventoryTable = forwardRef(
       return hasItems ? propsSortByOrFallback : invSortByOrFallback;
     }, shallowEqual);
 
-    const reduxLoaded = useSelector(({ entities }) =>
+    const loaded = useSelector(({ entities }) =>
       hasItems && isLoaded !== undefined
         ? isLoaded && entities?.loaded
         : entities?.loaded
@@ -133,112 +130,51 @@ const InventoryTable = forwardRef(
 
     const [searchParams] = useSearchParams();
 
-    const controller = useRef(new AbortController());
-
-    /**
-     * If initialLoading is set to true, then the component should be in loading state until
-     * entities.loaded is false (and then we can use the redux loading state and forget this one)
-     */
-    const [initialLoadingActive, disableInitialLoading] =
-      useState(initialLoading);
-    useEffect(() => {
-      if (!reduxLoaded) {
-        disableInitialLoading();
-      }
-    }, [reduxLoaded]);
-    const loaded = reduxLoaded && !initialLoadingActive;
-
     const dispatch = useDispatch();
     const store = useStore();
 
-    useEffect(() => {
-      return () => {
-        if (abortOnUnmount) controller.current.abort();
-      };
-    }, []);
     const hasLoadEntitiesError =
       error?.status === 404 &&
       error?.type === ACTION_TYPES.LOAD_ENTITIES &&
       parseInt(searchParams.get('page')) !== 1;
-    useEffect(() => {
-      if (error) {
-        if (hasLoadEntitiesError) {
-          debouncedOnRefreshData({ page: 1 });
-          dispatch(clearErrors());
-        }
-      }
-    }, [error]);
-
-    const cache = useRef(inventoryCache());
-    cache.current.updateProps({
-      page,
-      perPage,
-      items,
-      sortBy,
-      hideFilters,
-      showTags,
-      getEntities,
-      customFilters,
-      hasItems,
-      activeFiltersConfig,
-    });
 
     /**
      * If consumer wants to change data they can call this function via component ref.
      *  @param {*} options          new options to be applied, like pagination, filters, etc.
      *  @param     disableOnRefresh
-     *  @param     forceRefresh
      */
-    const onRefreshData = (
-      options = {},
-      disableOnRefresh,
-      forceRefresh = false
-    ) => {
+    const onRefreshData = (options = {}, disableOnRefresh) => {
       const { activeFilters } = store.getState().entities;
-      const cachedProps = cache.current?.getProps() || {};
 
       const newParams = {
-        page: options?.page || cachedProps.page,
-        per_page: options?.per_page || options?.perPage || cachedProps.perPage,
-        items: cachedProps.items,
-        sortBy: options?.sortBy || cachedProps.sortBy,
-        hideFilters: cachedProps.hideFilters,
+        page: options?.page || page,
+        per_page: options?.per_page || perPage,
+        items: items,
+        sortBy: options?.sortBy || sortBy,
+        hideFilters: options?.hideFilters || hideFilters,
         filters: activeFilters,
-        hasItems: cachedProps.hasItems,
+        hasItems: hasItems,
         //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
-        activeFiltersConfig: cachedProps.activeFiltersConfig,
+        activeFiltersConfig: activeFiltersConfig,
         ...customFilters,
         ...options,
-        globalFilter: cachedProps?.customFilters?.globalFilter,
+        globalFilter: customFilters?.globalFilter,
       };
 
-      debugger;
-
       //Check for the rbac permissions
-      const cachedParams = cache.current.getParams();
-      if (hasAccess && (!isEqual(cachedParams, newParams) || forceRefresh)) {
-        cache.current.updateParams(newParams);
+      if (hasAccess) {
+        // cache.current.updateParams(newParams);
         if (onRefresh && !disableOnRefresh) {
           dispatch(entitiesLoading());
           onRefresh(newParams, (options) => {
             console.log('onrefresh fr fr');
             dispatch(
-              loadSystems(
-                { ...newParams, ...options, controller: controller.current },
-                cachedProps.showTags,
-                cachedProps.getEntities
-              )
+              loadSystems({ ...newParams, ...options }, showTags, getEntities)
             );
           });
         } else {
           console.log('onrefresh else fr fr');
-          dispatch(
-            loadSystems(
-              { ...newParams, controller: controller.current },
-              cachedProps.showTags,
-              cachedProps.getEntities
-            )
-          );
+          dispatch(loadSystems(newParams, showTags, getEntities));
         }
       }
     };
@@ -385,9 +321,7 @@ InventoryTable.propTypes = {
   showTagModal: PropTypes.bool,
   activeFiltersConfig: PropTypes.object,
   tableProps: PropTypes.object,
-  isRbacEnabled: PropTypes.bool,
   hasCheckbox: PropTypes.bool,
-  abortOnUnmount: PropTypes.bool,
   showCentosVersions: PropTypes.bool,
   showNoGroupOption: PropTypes.bool, // group filter option
   enableExport: PropTypes.bool,
