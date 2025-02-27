@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
  *  @param props.paginationProps
  *  @param props.onRefreshData
  *  @param props.loaded
+ *  @param props.ouiaId
  */
 const FooterPagination = ({
   total,
@@ -26,6 +27,7 @@ const FooterPagination = ({
   paginationProps,
   onRefreshData,
   loaded,
+  ouiaId,
 }) => {
   /**
    * Thi method sets new page and combines previous props to apply sort, filters etc.
@@ -59,6 +61,7 @@ const FooterPagination = ({
         items: '',
         optionsToggleAriaLabel: 'Items per page',
       }}
+      ouiaId={ouiaId}
       {...paginationProps}
     />
   ) : null;
@@ -74,6 +77,7 @@ FooterPagination.propTypes = {
   paginationProps: PropTypes.object,
   loaded: PropTypes.bool,
   onRefreshData: PropTypes.func.isRequired,
+  ouiaId: PropTypes.string,
 };
 
 FooterPagination.defaultProps = {

@@ -315,6 +315,7 @@ const InventoryTable = forwardRef(
             onRefreshData={onRefreshData}
             paginationProps={paginationProps}
             loaded={loaded}
+            ouiaId={'bottom-pagination'}
           />
         </TableToolbar>
       </Fragment>
