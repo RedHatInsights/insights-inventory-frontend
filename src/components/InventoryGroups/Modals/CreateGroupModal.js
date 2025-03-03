@@ -6,18 +6,15 @@ import apiWithToast from '../utils/apiWithToast';
 import { createGroup, validateGroupName } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
-import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
-export const validate = async (value = '', isWorkspaceEnabled) => {
+export const validate = async (value = '') => {
   if (value.length === 0) {
     return undefined; // the input is empty
   }
 
   const results = await validateGroupName(value.trim());
   if (results === true) {
-    throw isWorkspaceEnabled
-      ? 'Workspace name already exists'
-      : 'Group name already exists';
+    throw 'Workspace name already exists';
   }
 
   return undefined;
@@ -31,7 +28,6 @@ const CreateGroupModal = ({
   setterOfModalBefore,
 }) => {
   const dispatch = useDispatch();
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   const handleCreateGroup = useCallback(
     (values) => {
@@ -42,26 +38,24 @@ const CreateGroupModal = ({
         },
         onError: {
           title: 'Error',
-          description: isWorkspaceEnabled
-            ? 'Failed to create workspace'
-            : 'Failed to create group',
+          description: 'Failed to create workspace'
         },
       };
       return apiWithToast(dispatch, () => createGroup(values), statusMessages);
     },
-    [isModalOpen, isWorkspaceEnabled]
+    [isModalOpen]
   );
 
   const schema = useMemo(() => {
     const d = awesomeDebouncePromise(
-      (value) => validate(value, isWorkspaceEnabled),
+      (value) => validate(value),
       500,
       {
         onlyResolvesLast: false,
       }
     );
-    return createGroupSchema(d, isWorkspaceEnabled);
-  }, [isWorkspaceEnabled]);
+    return createGroupSchema(d);
+  }, []);
 
   const onClose = () => {
     if (modalBefore) {
@@ -76,7 +70,7 @@ const CreateGroupModal = ({
     <Modal
       isModalOpen={isModalOpen}
       closeModal={onClose}
-      title={isWorkspaceEnabled ? 'Create workspace' : 'Create group'}
+      title="Create workspace"
       submitLabel="Create"
       schema={schema}
       reloadData={reloadData}

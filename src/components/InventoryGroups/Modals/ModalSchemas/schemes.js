@@ -7,14 +7,13 @@ import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { getWritableGroups } from '../../utils/api';
 
 export const createGroupSchema = (
-  namePresenceValidator,
-  isWorkspaceEnabled
+  namePresenceValidator
 ) => ({
   fields: [
     {
       component: componentTypes.TEXT_FIELD,
       name: 'name',
-      label: isWorkspaceEnabled ? 'Workspace name' : 'Group name',
+      label: 'Workspace name',
       helperText:
         'Can only contain letters, numbers, spaces, hyphens ( - ), and underscores ( _ ).',
       isRequired: true,
@@ -30,17 +29,13 @@ export const createGroupSchema = (
   ],
 });
 
-export const confirmSystemsAddSchema = (hostsNumber, isWorkspaceEnabled) => ({
+export const confirmSystemsAddSchema = (hostsNumber) => ({
   fields: [
     {
       component: componentTypes.PLAIN_TEXT,
       name: 'warning-message',
-      label: `${hostsNumber} of the systems you selected already belong to a ${
-        isWorkspaceEnabled ? 'workspace' : 'group'
-      }.
-             Moving them to a different ${
-               isWorkspaceEnabled ? 'workspace' : 'group'
-             } will impact their configuration.`,
+      label: `${hostsNumber} of the systems you selected already belong to a workspace.
+        Moving them to a different workspace will impact their configuration.`,
     },
     {
       component: componentTypes.CHECKBOX,
@@ -51,10 +46,10 @@ export const confirmSystemsAddSchema = (hostsNumber, isWorkspaceEnabled) => ({
   ],
 });
 
-const createDescription = (hosts, isWorkspaceEnabled) => {
+const createDescription = (hosts) => {
   return (
     <Text>
-      {`Select a ${isWorkspaceEnabled ? 'workspace' : 'group'} to add`}{' '}
+      Select a workspace to add{' '}
       <strong>
         {hosts.length > 1 ? `${hosts.length} systems` : hosts[0].display_name}
       </strong>{' '}
@@ -83,33 +78,27 @@ const loadOptions = awesomeDebouncePromise(
   { onlyResolvesLast: false }
 );
 
-export const addHostSchema = (hosts, chrome, isWorkspaceEnabled) => ({
+export const addHostSchema = (hosts, chrome) => ({
   fields: [
     {
       component: componentTypes.PLAIN_TEXT,
       name: 'description',
-      label: createDescription(hosts, isWorkspaceEnabled),
+      label: createDescription(hosts),
     },
     {
       component: 'select',
       name: 'group',
-      label: isWorkspaceEnabled ? 'Select a workspace' : 'Select a group',
+      label: 'Select a workspace',
       simpleValue: true,
       isSearchable: true, // enables typeahead
       isRequired: true,
       isClearable: true,
-      placeholder: isWorkspaceEnabled
-        ? 'Type or click to select a workspace'
-        : 'Type or click to select a group',
+      placeholder: 'Type or click to select a workspace',
       loadOptions: (searchValue) => loadOptions(searchValue, chrome),
       options: [],
       validate: [{ type: validatorTypes.REQUIRED }],
-      updatingMessage: isWorkspaceEnabled
-        ? 'Loading workspaces...'
-        : 'Loading groups...',
-      loadingMessage: isWorkspaceEnabled
-        ? 'Loading workspaces...'
-        : 'Loading groups...',
+      updatingMessage: 'Loading workspaces...',
+      loadingMessage: 'Loading workspaces...'
     },
     {
       component: 'create-group-btn',
