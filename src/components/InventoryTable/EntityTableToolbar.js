@@ -72,6 +72,7 @@ import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
 import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
+import { useCallback } from 'react';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -276,7 +277,6 @@ const EntityTableToolbar = ({
       }
     }
   };
-
   /**
    * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
    * `onRefresh` function takes two parameters
@@ -293,7 +293,10 @@ const EntityTableToolbar = ({
   /**
    * Debounced `updateData` function.
    */
-  const debouncedRefresh = debounce((config) => updateData(config), 800);
+  const debouncedRefresh = useCallback(
+    debounce((config) => updateData(config), 800),
+    [hasAccess]
+  );
 
   /**
    * Component did mount effect to calculate actual filters from redux.
@@ -336,6 +339,7 @@ const EntityTableToolbar = ({
    *  @param {*} debounced if debounce function should be used.
    */
   const onSetTextFilter = (value, debounced = true) => {
+    console.log('ON SET TEXT FILTER', value, debounced);
     const trimmedValue = value?.trim();
 
     const textualFilter = activeFilters?.find(
@@ -490,8 +494,8 @@ const EntityTableToolbar = ({
     enabledFilters.systemTypeFilter && setSystemTypeValue([]);
     setEndDate();
     setStartDate(UNIX_EPOCH);
-    dispatch(setFilter([]));
-    updateData({ page: 1, filters: [] });
+    // dispatch(setFilter([]));
+    // updateData({ page: 1, filters: [] });
   };
 
   /**
@@ -518,6 +522,7 @@ const EntityTableToolbar = ({
         ...(activeFiltersConfig?.filters || []),
       ],
       onDelete: (e, [deleted, ...restDeleted], isAll) => {
+        console.log('onDelete args', e, [deleted, ...restDeleted], isAll);
         if (isAll) {
           dispatch(clearFilters());
           resetFilters();
@@ -551,6 +556,8 @@ const EntityTableToolbar = ({
       : []),
     ...(filterConfig?.items || []),
   ];
+
+  console.log({ filterConfig });
 
   return (
     <Fragment>
