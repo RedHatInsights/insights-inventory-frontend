@@ -8,33 +8,25 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import React from 'react';
-import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
-const InventoryGroupsPopover = () => {
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
-
-  return (
+const InventoryGroupsPopover = () => (
     <Popover
       aria-label="Inventory Groups popover"
       headerContent={
         <Title headingLevel="h4">
-          {isWorkspaceEnabled ? 'Workspaces' : 'Inventory groups'}
+          Workspaces
         </Title>
       }
       position="right"
       bodyContent={
         <TextContent>
           <Text component={TextVariants.p}>
-            {`${
-              isWorkspaceEnabled ? 'Workspaces' : 'Inventory groups'
-            } allow you to select specific systems and group them
-          together to better organize your inventory.`}
+            Workspaces allow you to select specific systems and
+            group them together to better organize your inventory.
           </Text>
           <Text component={TextVariants.p}>
-            {`You can also manage user access to specific ${
-              isWorkspaceEnabled ? 'workspaces' : 'inventory groups'
-            } to
-          enhance security within your organization.`}
+            You can also manage user access to specific workspaces
+            to enhance security within your organization.
           </Text>
         </TextContent>
       }
@@ -49,6 +41,5 @@ const InventoryGroupsPopover = () => {
       </Button>
     </Popover>
   );
-};
 
 export default InventoryGroupsPopover;
