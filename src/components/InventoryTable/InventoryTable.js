@@ -88,7 +88,7 @@ const InventoryTable = forwardRef(
     },
     ref
   ) => {
-    console.log('INVENTORY TABLE PROPSS on god', props);
+    console.log('INVENTORY TABLE PROPSS on god', props, activeFiltersConfig);
     const hasItems = Boolean(items);
     const error = useSelector(({ entities }) => entities?.error);
     const page = useSelector(
@@ -146,6 +146,8 @@ const InventoryTable = forwardRef(
     const onRefreshData = (options = {}, disableOnRefresh) => {
       const { activeFilters } = store.getState().entities;
 
+      console.log('xddd', { options, activeFiltersConfig });
+
       const newParams = {
         page: options?.page || page,
         per_page: options?.per_page || perPage,
@@ -155,8 +157,8 @@ const InventoryTable = forwardRef(
         filters: activeFilters,
         hasItems: hasItems,
         //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
-        activeFiltersConfig: activeFiltersConfig,
-        ...customFilters,
+        activeFiltersConfig: options?.activeFiltersConfig,
+        ...options?.customFilters,
         ...options,
         globalFilter: customFilters?.globalFilter,
       };
@@ -167,24 +169,37 @@ const InventoryTable = forwardRef(
         if (onRefresh && !disableOnRefresh) {
           dispatch(entitiesLoading());
           onRefresh(newParams, (options) => {
-            console.log('onrefresh fr fr');
-            dispatch(
-              loadSystems({ ...newParams, ...options }, showTags, getEntities)
-            );
+            let obj = {
+              ...newParams,
+              ...options,
+            };
+            console.log('onrefresh fr fr', obj);
+            dispatch(loadSystems(obj, showTags, getEntities));
           });
         } else {
-          console.log('onrefresh else fr fr');
+          console.log('onrefresh else fr fr', newParams);
           dispatch(loadSystems(newParams, showTags, getEntities));
         }
       }
     };
 
-    const debouncedOnRefreshData = useCallback(
+    const debouncedOnRefreshDataa = useCallback(
       debounce((...args) => {
         return onRefreshData(...args);
       }, 800),
       []
     );
+
+    const debouncedOnRefreshData = (...args) => {
+      const [arg0, ...rest] = args;
+      const options = {
+        ...arg0,
+        activeFiltersConfig,
+        customFilters,
+      };
+
+      debouncedOnRefreshDataa(options, ...rest);
+    };
 
     const onSort = ({ index, key, direction }) => {
       onRefreshData({
@@ -204,10 +219,7 @@ const InventoryTable = forwardRef(
         customFilters,
       });
       // customFilters should be truly custom ig
-      if (
-        autoRefresh &&
-        !isEqual(prevFilters.current?.globalFilter, customFilters?.globalFilter)
-      ) {
+      if (autoRefresh && !isEqual(prevFilters.current, customFilters)) {
         console.log('onrefresh');
         debouncedOnRefreshData();
         prevFilters.current = customFilters;
