@@ -22,7 +22,7 @@ describe('groups table page', () => {
     cy.wait('@getGroups');
 
     cy.get('#groups-table').should('not.exist');
-    cy.get('.pf-v5-c-empty-state').find('h4').contains('No inventory groups');
+    cy.get('.pf-v5-c-empty-state').find('h4').contains('No workspaces');
   });
 
   it('renders error message when request fails', () => {

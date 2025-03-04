@@ -35,13 +35,13 @@ describe('AddSelectedHostsToGroupModal', () => {
       mountModal();
     });
 
-    it('create group button is hidden', () => {
-      cy.get('button').contains('Create a new group').should('not.exist');
+    it('create workspace button is hidden', () => {
+      cy.get('button').contains('Create a new workspace').should('not.exist');
     });
   });
 
   describe('with limited groups write permissions', () => {
-    it('should still hide the create group button', () => {
+    it('should still hide the create workspace button', () => {
       cy.mockWindowInsights({
         userPermissions: [
           {
@@ -60,7 +60,7 @@ describe('AddSelectedHostsToGroupModal', () => {
       });
 
       mountModal();
-      cy.get('button').contains('Create a new group').should('not.exist');
+      cy.get('button').contains('Create a new workspace').should('not.exist');
     });
   });
 
@@ -84,9 +84,11 @@ describe('AddSelectedHostsToGroupModal', () => {
       cy.wait('@getGroups').its('request.url').should('contain', '?name=abcd');
     });
 
-    it('create group button is visible', () => {
-      cy.get('button').contains('Create a new group').should('exist');
-      cy.get('button').contains('Create a new group').shouldHaveAriaEnabled();
+    it('create workspace button is visible', () => {
+      cy.get('button').contains('Create a new workspace').should('exist');
+      cy.get('button')
+        .contains('Create a new workspace')
+        .shouldHaveAriaEnabled();
     });
   });
 });
