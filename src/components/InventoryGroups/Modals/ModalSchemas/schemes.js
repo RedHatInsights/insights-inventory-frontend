@@ -6,9 +6,7 @@ import { Text } from '@patternfly/react-core';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { getWritableGroups } from '../../utils/api';
 
-export const createGroupSchema = (
-  namePresenceValidator
-) => ({
+export const createGroupSchema = (namePresenceValidator) => ({
   fields: [
     {
       component: componentTypes.TEXT_FIELD,
@@ -98,7 +96,7 @@ export const addHostSchema = (hosts, chrome) => ({
       options: [],
       validate: [{ type: validatorTypes.REQUIRED }],
       updatingMessage: 'Loading workspaces...',
-      loadingMessage: 'Loading workspaces...'
+      loadingMessage: 'Loading workspaces...',
     },
     {
       component: 'create-group-btn',

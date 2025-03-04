@@ -45,7 +45,7 @@ const RenameGroupModal = ({
       },
       onError: {
         title: 'Error',
-        description: 'Failed to rename workspace'
+        description: 'Failed to rename workspace',
       },
     };
     apiWithToast(

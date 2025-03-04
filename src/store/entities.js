@@ -55,9 +55,7 @@ export const DEFAULT_COLUMNS = [
     // eslint-disable-next-line camelcase
     renderFunc: (groups) =>
       isEmpty(groups) ? (
-        <div className="pf-v5-u-disabled-color-200">
-          No workspace
-        </div>
+        <div className="pf-v5-u-disabled-color-200">No workspace</div>
       ) : (
         groups[0].name
       ), // currently, one group at maximum is supported
@@ -144,9 +142,7 @@ function entitiesPending(state, { meta }) {
     ...((state.columns && {
       columns: mergeArraysByKey(
         [
-          DEFAULT_COLUMNS.filter(
-            ({ key }) => key !== 'tags' || meta?.showTags
-          ),
+          DEFAULT_COLUMNS.filter(({ key }) => key !== 'tags' || meta?.showTags),
           state.columns,
         ],
         'key'

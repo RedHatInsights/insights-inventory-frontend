@@ -38,7 +38,7 @@ const CreateGroupModal = ({
         },
         onError: {
           title: 'Error',
-          description: 'Failed to create workspace'
+          description: 'Failed to create workspace',
         },
       };
       return apiWithToast(dispatch, () => createGroup(values), statusMessages);
@@ -47,13 +47,9 @@ const CreateGroupModal = ({
   );
 
   const schema = useMemo(() => {
-    const d = awesomeDebouncePromise(
-      (value) => validate(value),
-      500,
-      {
-        onlyResolvesLast: false,
-      }
-    );
+    const d = awesomeDebouncePromise((value) => validate(value), 500, {
+      onlyResolvesLast: false,
+    });
     return createGroupSchema(d);
   }, []);
 
