@@ -33,7 +33,7 @@ const GetHelpExpandable = () => {
               quickStarts.activateQuickstart('insights-inventory-workspace')
             }
           >
-            Create an Inventory group <ArrowRightIcon />
+            Create a workspace <ArrowRightIcon />
           </Button>
         </ListItem>
         {isUserAccessAdministrator || isOrgAdmin ? (

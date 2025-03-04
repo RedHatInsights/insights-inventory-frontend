@@ -20,7 +20,7 @@ it('shows no groups available message', async () => {
       name: /menu toggle/i,
     })
   );
-  expect(screen.getByText('No groups available')).toBeVisible();
+  expect(screen.getByText('No workspaces available')).toBeVisible();
 });
 
 it('shows some groups when available', async () => {
@@ -100,7 +100,7 @@ it('shows no group option', async () => {
   );
   expect(
     screen.getByRole('menuitem', {
-      name: /no group/i,
+      name: /no workspace/i,
     })
   ).toBeVisible();
 });
@@ -120,7 +120,7 @@ it('can select no group option', async () => {
       name: /menu toggle/i,
     })
   );
-  await userEvent.click(screen.getByText('No group'));
+  await userEvent.click(screen.getByText('No workspace'));
   expect(setter).toBeCalledWith(['']);
 });
 
@@ -139,7 +139,7 @@ it('can select no group option with pre-selected item', async () => {
       name: /menu toggle/i,
     })
   );
-  await userEvent.click(screen.getByText('No group'));
+  await userEvent.click(screen.getByText('No workspace'));
   expect(setter).toBeCalledWith(['group-1', '']);
 });
 
@@ -160,7 +160,7 @@ it('shows no group as the only option', async () => {
   );
   expect(
     screen.getByRole('menuitem', {
-      name: /no group/i,
+      name: /no workspace/i,
     })
   ).toBeVisible();
   expect(screen.getAllByRole('menuitem').length).toBe(1);

@@ -471,7 +471,7 @@ describe('EntityTable', () => {
       expectTableBasicComponents(
         6,
         2,
-        ['Name', 'Group', 'Tags', 'OS', 'Last seen'],
+        ['Name', 'Workspace', 'Tags', 'OS', 'Last seen'],
         true,
         true
       );
@@ -531,7 +531,7 @@ describe('EntityTable', () => {
       expectTableBasicComponents(
         6,
         2,
-        ['Name', 'Group', 'OS', 'Last seen', 'Secret attribute'],
+        ['Name', 'Workspace', 'OS', 'Last seen', 'Secret attribute'],
         true,
         true
       );
@@ -680,7 +680,7 @@ describe('EntityTable', () => {
       expectTableBasicComponents(
         4,
         1,
-        ['Group', 'OS', 'Last seen'],
+        ['Workspace', 'OS', 'Last seen'],
         true,
         true
       );
@@ -717,7 +717,7 @@ describe('EntityTable', () => {
       expectTableBasicComponents(
         5,
         1,
-        ['Group', 'Tags', 'OS', 'Last seen'],
+        ['Workspace', 'Tags', 'OS', 'Last seen'],
         true,
         true
       );

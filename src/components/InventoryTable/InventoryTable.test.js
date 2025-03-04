@@ -28,7 +28,7 @@ jest.mock('../../api/api', () => ({
 }));
 jest.mock('../../Utilities/hooks/useFetchBatched');
 
-const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
+const TABLE_HEADERS = ['Name', 'Workspace', 'OS', 'Last seen'];
 const TABLE_HEADERS_SORTING_KEYS = [
   'display_name',
   'group_name',
@@ -42,7 +42,7 @@ const DEFAULT_FILTER_NAMES = [
   'Data collector',
   'RHC status',
   'Last seen',
-  'Group',
+  'Workspace',
 ];
 
 const renderTable = (store, props) => {
@@ -110,7 +110,7 @@ const checkRowsContent = (hostsData) => {
       try {
         expect(row).toHaveTextContent(hostsData[index].display_name);
         expect(row).toHaveTextContent(
-          hostsData[index].groups?.[0]?.name || 'No group'
+          hostsData[index].groups?.[0]?.name || 'No workspace'
         );
         const os = hostsData[index].system_profile.operating_system;
         expect(row).toHaveTextContent(`${os.name} ${os.major}.${os.minor}`);

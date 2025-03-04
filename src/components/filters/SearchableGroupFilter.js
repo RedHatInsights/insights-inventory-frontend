@@ -52,7 +52,7 @@ const SearchableGroupFilter = ({
           .includes(inputValue.toLowerCase())
       );
 
-      // when no options are found after filtering, display 'No groups found'
+      // when no options are found after filtering, display 'No workspace found'
       if (!newSelectOptions.length) {
         newSelectOptions = [
           {
