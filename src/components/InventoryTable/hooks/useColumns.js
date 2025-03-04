@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers/helpers';
-import { defaultColumns } from '../../../store/entities';
+import { DEFAULT_COLUMNS } from '../../../store/entities';
 import isEqual from 'lodash/isEqual';
-import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const isColumnEnabled = (key, disableColumns, showTags) =>
   (key === 'tags' && showTags) ||
@@ -17,7 +16,6 @@ const useColumns = (
   showTags,
   columnsCounter
 ) => {
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
   const columnsRedux = useSelector(
     ({ entities: { columns } }) => columns,
     isEqual
@@ -30,15 +28,15 @@ const useColumns = (
     () =>
       disableDefaultColumns === true
         ? []
-        : defaultColumns(isWorkspaceEnabled).filter(({ key }) =>
+        : DEFAULT_COLUMNS.filter(({ key }) =>
             isColumnEnabled(key, disabledColumns, showTags)
           ),
-    [disabledColumns, disableDefaultColumns, showTags, isWorkspaceEnabled]
+    [disabledColumns, disableDefaultColumns, showTags]
   );
 
   return useMemo(() => {
     if (typeof columnsProp === 'function') {
-      return columnsProp(defaultColumns(isWorkspaceEnabled));
+      return columnsProp(DEFAULT_COLUMNS);
     } else if (columnsProp) {
       return mergeArraysByKey([defaultColumnsFiltered, columnsProp], 'key');
     } else if (!columnsProp && columnsRedux) {
@@ -60,7 +58,6 @@ const useColumns = (
       ? columnsRedux.map(({ key }) => key).join()
       : columnsRedux,
     columnsCounter,
-    isWorkspaceEnabled,
   ]);
 };
 

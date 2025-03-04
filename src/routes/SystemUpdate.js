@@ -5,17 +5,15 @@ import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComp
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getNotificationProp } from '../Utilities/edge';
 import { useDispatch } from 'react-redux';
-import useWorkspaceFeatureFlag from '../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const SystemUpdate = () => {
   const chrome = useChrome();
   const dispatch = useDispatch();
   const notificationProp = getNotificationProp(dispatch);
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(
-      `${isWorkspaceEnabled ? 'Workspaces' : 'Groups'} - Inventory`
+      `Workspaces - Inventory`
     );
   }, [chrome]);
   const { inventoryId } = useParams();

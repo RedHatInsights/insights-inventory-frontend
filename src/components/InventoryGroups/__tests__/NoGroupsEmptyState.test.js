@@ -5,7 +5,6 @@ import React from 'react';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { getStore } from '../../../store';
 import NoGroupsEmptyState from '../NoGroupsEmptyState';
-import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
@@ -14,13 +13,7 @@ jest.mock(
   })
 );
 
-jest.mock('../../../Utilities/hooks/useWorkspaceFeatureFlag');
-
 describe('NoGroupsEmptyState', () => {
-  beforeEach(() => {
-    useWorkspaceFeatureFlag.mockReturnValue(false);
-  });
-
   it('renders title and icon', () => {
     render(
       <TestWrapper store={getStore()}>
