@@ -1,7 +1,8 @@
 import React from 'react';
 import SystemStatusCard from './SystemStatusCard';
 import configureStore from 'redux-mock-store';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -22,8 +23,16 @@ describe('SystemStatusCard', () => {
     initialState = {
       entityDetails: {
         entity: {
-          updated: '6/01/2014',
-          created: '04/01/2014',
+          per_reporter_staleness: {
+            reporter1: {
+              last_check_in: '2025-03-05T00:00:00.0+00:00',
+            },
+            reporter2: {
+              last_check_in: '2025-03-06T00:00:00.0+00:00',
+            },
+          },
+          updated: '2014-06-01T00:00:00.0+00:00',
+          created: '2014-04-01T00:00:00.0+00:00',
         },
       },
       systemProfileStore: {
@@ -56,4 +65,13 @@ describe('SystemStatusCard', () => {
       expect(view.asFragment()).toMatchSnapshot();
     })
   );
+
+  it('should display most recent date from reporters', () => {
+    const store = mockStore(initialState);
+    render(<SystemStatusCard store={store} />);
+
+    expect(screen.getByLabelText('Last seen value')).toHaveTextContent(
+      '06 Mar 2025 00:00 UTC'
+    );
+  });
 });
