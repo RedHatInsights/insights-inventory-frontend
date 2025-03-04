@@ -20,7 +20,7 @@ describe('CreateGroupModal', () => {
       </MemoryRouter>
     );
     expect(
-      screen.getByRole('heading', { name: /Rename group/ })
+      screen.getByRole('heading', { name: /Rename workspace/ })
     ).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Save/ })).toBeInTheDocument();

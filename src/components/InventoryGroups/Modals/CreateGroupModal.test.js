@@ -30,7 +30,9 @@ describe('validate function', () => {
   it('throws error if the name is present', async () => {
     validateGroupName.mockResolvedValue(true);
 
-    await expect(validate('test')).rejects.toBe('Group name already exists');
+    await expect(validate('test')).rejects.toBe(
+      'Workspace name already exists'
+    );
   });
 
   it('does not check on undefined input', async () => {
@@ -85,7 +87,7 @@ describe('create group modal', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', {
-        name: /group name/i,
+        name: /workspace name/i,
       }),
       '_abc'
     );
@@ -116,7 +118,7 @@ describe('create group modal', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', {
-        name: /group name/i,
+        name: /workspace name/i,
       }),
       '###'
     );
