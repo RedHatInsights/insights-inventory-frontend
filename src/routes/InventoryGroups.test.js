@@ -18,12 +18,12 @@ jest.mock(
   })
 );
 
-describe('inventory groups route', () => {
+describe('workspaces route', () => {
   it('renders header and table wrapper', () => {
     render(<InventoryGroups />);
 
     screen.getByRole('heading', {
-      name: /groups/i,
+      name: /workspaces/i,
     });
     screen.getByTestId('groups-table-wrapper');
   });
@@ -35,10 +35,10 @@ describe('inventory groups route', () => {
       screen.getByText(/help get started with new features/i)
     );
     screen.getByRole('button', {
-      name: /create an inventory group/i,
+      name: /create a workspace/i,
     });
     screen.getByRole('button', {
-      name: /configure user access for your inventory groups/i,
+      name: /configure user access for your workspaces/i,
     });
   });
 });

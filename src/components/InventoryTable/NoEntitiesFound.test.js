@@ -19,11 +19,11 @@ describe('NoSystemsTable', () => {
   });
 
   it('should render correctly - no groups', () => {
-    render(<NoEntitiesFound entities="groups" />);
+    render(<NoEntitiesFound entities="workspaces" />);
 
     expect(
       screen.getByRole('heading', {
-        name: /no matching groups found/i,
+        name: /no matching workspaces found/i,
       })
     ).toBeVisible();
     expect(

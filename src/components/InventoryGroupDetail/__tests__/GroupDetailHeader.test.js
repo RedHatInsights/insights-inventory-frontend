@@ -58,7 +58,7 @@ describe('group detail header', () => {
     );
 
     screen.getByRole('button', {
-      name: /group actions/i,
+      name: /workspace actions/i,
     });
   });
 });

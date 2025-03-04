@@ -110,7 +110,7 @@ describe('with some groups available', () => {
     expect(value).toEqual(['group-1']);
     expect(chips).toMatchObject([
       {
-        category: 'Group',
+        category: 'Workspace',
         chips: [
           {
             name: 'group-1',
@@ -163,10 +163,10 @@ describe('with some groups available', () => {
     expect(value).toEqual(['']);
     expect(chips).toMatchObject([
       {
-        category: 'Group',
+        category: 'Workspace',
         chips: [
           {
-            name: 'No group',
+            name: 'No workspace',
             value: '',
           },
         ],

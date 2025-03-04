@@ -22,7 +22,7 @@ describe('NoGroupsEmptyState', () => {
     );
 
     screen.getByRole('heading', {
-      name: /no inventory groups/i,
+      name: /no workspaces/i,
     });
     screen.getByTestId('no-groups-icon');
   });
@@ -37,7 +37,7 @@ describe('NoGroupsEmptyState', () => {
 
     await userEvent.click(
       screen.getByRole('button', {
-        name: /create group/i,
+        name: /create workspace/i,
       })
     );
     expect(onCreateGroupClick).toBeCalled();
