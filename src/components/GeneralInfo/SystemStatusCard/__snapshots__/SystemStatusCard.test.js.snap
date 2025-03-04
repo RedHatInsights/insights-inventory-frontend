@@ -70,6 +70,20 @@ exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
                 01 Apr 2014 00:00 UTC
               </dd>
               <dt
+                aria-label="Last updated title"
+                class=""
+                data-ouia-component-id="Last updated title"
+              >
+                Last updated
+              </dt>
+              <dd
+                aria-label="Last updated value"
+                class=""
+                data-ouia-component-id="Last updated value"
+              >
+                01 Jun 2014 00:00 UTC
+              </dd>
+              <dt
                 aria-label="RHC title"
                 class=""
                 data-ouia-component-id="RHC title"
@@ -173,6 +187,20 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
                 class=""
                 data-ouia-component-id="Last seen value"
               >
+                06 Mar 2025 00:00 UTC
+              </dd>
+              <dt
+                aria-label="Last updated title"
+                class=""
+                data-ouia-component-id="Last updated title"
+              >
+                Last updated
+              </dt>
+              <dd
+                aria-label="Last updated value"
+                class=""
+                data-ouia-component-id="Last updated value"
+              >
                 01 Jun 2014 00:00 UTC
               </dd>
             </dl>
@@ -250,6 +278,20 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
                 aria-label="Last seen value"
                 class=""
                 data-ouia-component-id="Last seen value"
+              >
+                06 Mar 2025 00:00 UTC
+              </dd>
+              <dt
+                aria-label="Last updated title"
+                class=""
+                data-ouia-component-id="Last updated title"
+              >
+                Last updated
+              </dt>
+              <dd
+                aria-label="Last updated value"
+                class=""
+                data-ouia-component-id="Last updated value"
               >
                 01 Jun 2014 00:00 UTC
               </dd>
@@ -342,6 +384,20 @@ exports[`SystemStatusCard should not render hasState 1`] = `
                 aria-label="Last seen value"
                 class=""
                 data-ouia-component-id="Last seen value"
+              >
+                06 Mar 2025 00:00 UTC
+              </dd>
+              <dt
+                aria-label="Last updated title"
+                class=""
+                data-ouia-component-id="Last updated title"
+              >
+                Last updated
+              </dt>
+              <dd
+                aria-label="Last updated value"
+                class=""
+                data-ouia-component-id="Last updated value"
               >
                 01 Jun 2014 00:00 UTC
               </dd>
@@ -470,6 +526,26 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
                 </div>
               </dd>
               <dt
+                aria-label="Last updated title"
+                class=""
+                data-ouia-component-id="Last updated title"
+              >
+                Last updated
+              </dt>
+              <dd
+                aria-label="Last updated value"
+                class=""
+                data-ouia-component-id="Last updated value"
+              >
+                <div
+                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                >
+                  <span
+                    class="pf-v5-screen-reader"
+                  />
+                </div>
+              </dd>
+              <dt
                 aria-label="RHC title"
                 class=""
                 data-ouia-component-id="RHC title"
@@ -578,6 +654,20 @@ exports[`SystemStatusCard should render correctly with data 1`] = `
                 aria-label="Last seen value"
                 class=""
                 data-ouia-component-id="Last seen value"
+              >
+                06 Mar 2025 00:00 UTC
+              </dd>
+              <dt
+                aria-label="Last updated title"
+                class=""
+                data-ouia-component-id="Last updated title"
+              >
+                Last updated
+              </dt>
+              <dd
+                aria-label="Last updated value"
+                class=""
+                data-ouia-component-id="Last updated value"
               >
                 01 Jun 2014 00:00 UTC
               </dd>
