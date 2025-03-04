@@ -26,7 +26,7 @@ before(() => {
 });
 
 const waitPageLoad = () =>
-  cy.get('h1').should('not.have.text', 'Loading group details');
+  cy.get('h1').should('not.have.text', 'Loading workspace details');
 
 describe('test data', () => {
   it('the group has no hosts', () => {
@@ -117,10 +117,7 @@ describe('integration with rbac', () => {
     });
 
     it('empty state is rendered', () => {
-      cy.get('h5').should(
-        'have.text',
-        'Inventory group access permissions needed'
-      );
+      cy.get('h5').should('have.text', 'Workspace access permissions needed');
     });
 
     it('actions are disabled', () => {
@@ -164,11 +161,11 @@ describe('integration with rbac', () => {
     it('should not allow to see systems', () => {
       cy.get(TAB_CONTENT)
         .find('h5')
-        .should('have.text', 'Access needed for systems in this group');
+        .should('have.text', 'Access needed for systems in this workspace');
     });
 
     it('should allow to see the group info tab', () => {
-      cy.get(TAB_BUTTON).contains('Group info').click();
+      cy.get(TAB_BUTTON).contains('Workspace info').click();
       cy.get(TAB_CONTENT)
         .eq(1) // <- workaround since PF renders both tab contents and hides the first
         .find('.pf-v5-c-card__title') // TODO: tie to OUIA

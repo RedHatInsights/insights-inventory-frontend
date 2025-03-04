@@ -31,7 +31,7 @@ import {
 import { ORDER_TO_URL } from '../../../cypress/support/utils';
 import InventoryTable from './InventoryTable';
 
-const TABLE_HEADERS = ['Name', 'Group', 'OS', 'Last seen'];
+const TABLE_HEADERS = ['Name', 'Workspace', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 
@@ -63,7 +63,7 @@ const AVAILABLE_FILTER_NAMES = [
   'Data collector',
   'RHC status',
   'Last seen',
-  'Group',
+  'Workspace',
 ];
 
 const setTableInterceptors = () => {
@@ -208,7 +208,7 @@ describe('with default parameters', () => {
     describe('groups filter', () => {
       it('options are populated correctly', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-        cy.get(DROPDOWN_ITEM).contains('Group').click();
+        cy.get(DROPDOWN_ITEM).contains('Workspace').click();
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').should(
           'have.text',
@@ -220,15 +220,15 @@ describe('with default parameters', () => {
 
       it('creates a chip', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-        cy.get(DROPDOWN_ITEM).contains('Group').click();
+        cy.get(DROPDOWN_ITEM).contains('Workspace').click();
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').eq(0).click();
-        hasChip('Group', firstGroupName);
+        hasChip('Workspace', firstGroupName);
       });
 
       it('triggers new request', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-        cy.get(DROPDOWN_ITEM).contains('Group').click();
+        cy.get(DROPDOWN_ITEM).contains('Workspace').click();
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').eq(0).click();
         cy.wait('@getHosts')
@@ -256,7 +256,7 @@ describe('hiding filters', () => {
     mountTable({ hasAccess: true, hideFilters: { hostGroupFilter: true } });
     waitForTable();
     cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Workspace');
   });
 
   it('can hide name filter', () => {
@@ -308,22 +308,24 @@ describe('with no group filter option', () => {
 
   it('no group is the first option', () => {
     cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).contains('Group').click();
+    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
     cy.ouiaId('FilterByGroup').click();
-    cy.ouiaId('FilterByGroupOption').first().should('have.text', 'No group');
+    cy.ouiaId('FilterByGroupOption')
+      .first()
+      .should('have.text', 'No workspace');
   });
 
   it('creates no group chip', () => {
     cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).contains('Group').click();
+    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
     cy.ouiaId('FilterByGroup').click();
     cy.ouiaId('FilterByGroupOption').eq(0).click();
-    hasChip('Group', 'No group');
+    hasChip('Workspace', 'No workspace');
   });
 
   it('triggers new request with empty parameter', () => {
     cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).contains('Group').click();
+    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
     cy.ouiaId('FilterByGroup').click();
     cy.ouiaId('FilterByGroupOption').eq(0).click();
     cy.wait('@getHosts').its('request.url').should('include', `group_name=`);
