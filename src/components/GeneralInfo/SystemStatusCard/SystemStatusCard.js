@@ -11,6 +11,7 @@ const SystemStatusCardCore = ({
   hasState,
   hasRegistered,
   hasLastCheckIn,
+  hasLastUpdated,
   hasRHC,
   entity,
   systemProfile,
@@ -43,6 +44,25 @@ const SystemStatusCardCore = ({
         ? [
             {
               title: 'Last seen',
+              value: entity && (
+                <DateFormat
+                  date={
+                    entity.per_reporter_staleness &&
+                    Object.values(entity.per_reporter_staleness)
+                      .map((reporter) => reporter.last_check_in)
+                      .sort()
+                      .reverse()[0]
+                  }
+                  type="exact"
+                />
+              ),
+            },
+          ]
+        : []),
+      ...(hasLastUpdated
+        ? [
+            {
+              title: 'Last updated',
               value: entity && (
                 <DateFormat date={entity.updated} type="exact" />
               ),
@@ -85,6 +105,7 @@ SystemStatusCardCore.defaultProps = {
   handleClick: () => undefined,
   hasState: true,
   hasLastCheckIn: true,
+  hasLastUpdated: true,
   hasRegistered: true,
   hasRHC: true,
 };
