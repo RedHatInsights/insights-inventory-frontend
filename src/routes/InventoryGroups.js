@@ -13,18 +13,14 @@ const Groups = () => {
 
   useEffect(() => {
     chrome?.hideGlobalFilter?.();
-    chrome?.updateDocumentTitle?.(
-      `Workspaces - Inventory`
-    );
+    chrome?.updateDocumentTitle?.(`Workspaces - Inventory`);
   }, []);
 
   return (
     <React.Fragment>
       <PageHeader>
         <Flex spaceItems={{ default: 'spaceItemsSm' }}>
-          <PageHeaderTitle
-            title="Workspaces"
-          />
+          <PageHeaderTitle title="Workspaces" />
           <InventoryGroupsPopover />
         </Flex>
       </PageHeader>

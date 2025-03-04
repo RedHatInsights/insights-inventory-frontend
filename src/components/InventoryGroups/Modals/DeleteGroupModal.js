@@ -29,8 +29,8 @@ const generateSchema = (groups) => ({
       label:
         groups.length > 1 ? (
           <Text>
-            <strong>{groups.length}</strong> workspaces and all their data
-            will be deleted.
+            <strong>{groups.length}</strong> workspaces and all their data will
+            be deleted.
           </Text>
         ) : (
           <Text>
@@ -48,10 +48,7 @@ const generateSchema = (groups) => ({
 });
 
 const generateContent = (groups = []) => ({
-  title:
-    groups.length > 1
-        ? 'Delete workspaces?'
-        : 'Delete workspace?',
+  title: groups.length > 1 ? 'Delete workspaces?' : 'Delete workspace?',
   titleIconVariant: () => (
     <Icon status="warning">
       <ExclamationTriangleIcon />
@@ -112,9 +109,7 @@ const DeleteGroupModal = ({
         description:
           groupIds.length > 1
             ? `Failed to delete ${groupIds.length} workspaces`
-            : `Failed to delete workspace ${
-                fetchedGroups?.[0]?.name
-              }`,
+            : `Failed to delete workspace ${fetchedGroups?.[0]?.name}`,
       },
     };
     apiWithToast(dispatch, () => deleteGroupsById(groupIds), statusMessages);
@@ -156,8 +151,8 @@ const DeleteGroupModal = ({
     >
       {fetchedGroups.length > 1 ? (
         <Text>
-          Workspaces containing systems cannot be deleted. To delete
-          workspaces, first remove all of the systems from them.
+          Workspaces containing systems cannot be deleted. To delete workspaces,
+          first remove all of the systems from them.
         </Text>
       ) : (
         <Text>

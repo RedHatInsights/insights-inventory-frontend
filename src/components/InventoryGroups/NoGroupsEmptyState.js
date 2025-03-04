@@ -51,9 +51,7 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
             Create workspace
           </Button>
         ) : (
-          <Tooltip
-            content="You do not have the necessary permissions to modify workspaces. Contact your organization administrator."
-          >
+          <Tooltip content="You do not have the necessary permissions to modify workspaces. Contact your organization administrator.">
             <Button variant="primary" isAriaDisabled ouiaId="CreateGroupButton">
               Create workspace
             </Button>

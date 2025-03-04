@@ -12,9 +12,7 @@ const SystemUpdate = () => {
   const notificationProp = getNotificationProp(dispatch);
 
   useEffect(() => {
-    chrome?.updateDocumentTitle?.(
-      `Workspaces - Inventory`
-    );
+    chrome?.updateDocumentTitle?.(`Workspaces - Inventory`);
   }, [chrome]);
   const { inventoryId } = useParams();
 

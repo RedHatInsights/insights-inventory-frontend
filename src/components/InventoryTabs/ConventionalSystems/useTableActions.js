@@ -17,94 +17,91 @@ const useTableActions = (
   setRemoveHostsFromGroupModalOpen,
   setAddHostGroupModalOpen
 ) => {
-  const tableActionsCallback = useCallback(
-    (row) => {
-      const hostActions = [
-        {
-          title: (
-            <ActionDropdownItem
-              key={`${row.id}-edit`}
-              onClick={() => {
-                setCurrentSystem(row);
-                onEditOpen(() => true);
-              }}
-              requiredPermissions={[
-                REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                  row.groups?.[0]?.id ?? null
-                ),
-              ]}
-              noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-            >
-              Edit
-            </ActionDropdownItem>
-          ),
-        },
-        {
-          title: (
-            <ActionDropdownItem
-              key={`${row.id}-delete`}
-              onClick={() => {
-                setCurrentSystem(row);
-                handleModalToggle(() => true);
-              }}
-              requiredPermissions={[
-                REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                  row.groups?.[0]?.id ?? null
-                ),
-              ]}
-              noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-            >
-              Delete
-            </ActionDropdownItem>
-          ),
-        },
-      ];
+  const tableActionsCallback = useCallback((row) => {
+    const hostActions = [
+      {
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-edit`}
+            onClick={() => {
+              setCurrentSystem(row);
+              onEditOpen(() => true);
+            }}
+            requiredPermissions={[
+              REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                row.groups?.[0]?.id ?? null
+              ),
+            ]}
+            noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+          >
+            Edit
+          </ActionDropdownItem>
+        ),
+      },
+      {
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-delete`}
+            onClick={() => {
+              setCurrentSystem(row);
+              handleModalToggle(() => true);
+            }}
+            requiredPermissions={[
+              REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                row.groups?.[0]?.id ?? null
+              ),
+            ]}
+            noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+          >
+            Delete
+          </ActionDropdownItem>
+        ),
+      },
+    ];
 
-      const groupActions = [
-        {
-          title: (
-            <ActionDropdownItem
-              key={`${row.id}-add-to-group`}
-              onClick={() => {
-                setCurrentSystem([row]);
-                setAddHostGroupModalOpen(true);
-              }}
-              requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-              noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-              isAriaDisabled={row.groups.length > 0} // additional condition for enabling the button
-              ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
-            >
-              Add to workspace
-            </ActionDropdownItem>
-          ),
-        },
-        {
-          title: (
-            <ActionDropdownItem
-              key={`${row.id}-remove-from-group`}
-              onClick={() => {
-                setCurrentSystem([row]);
-                setRemoveHostsFromGroupModalOpen(true);
-              }}
-              requiredPermissions={
-                row?.groups?.[0]?.id !== undefined
-                  ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(row.groups[0].id)
-                  : []
-              }
-              noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-              isAriaDisabled={row.groups.length === 0}
-              override={row?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
-            >
-              Remove from workspace
-            </ActionDropdownItem>
-          ),
-        },
-      ];
+    const groupActions = [
+      {
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-add-to-group`}
+            onClick={() => {
+              setCurrentSystem([row]);
+              setAddHostGroupModalOpen(true);
+            }}
+            requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+            noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
+            isAriaDisabled={row.groups.length > 0} // additional condition for enabling the button
+            ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
+          >
+            Add to workspace
+          </ActionDropdownItem>
+        ),
+      },
+      {
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-remove-from-group`}
+            onClick={() => {
+              setCurrentSystem([row]);
+              setRemoveHostsFromGroupModalOpen(true);
+            }}
+            requiredPermissions={
+              row?.groups?.[0]?.id !== undefined
+                ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(row.groups[0].id)
+                : []
+            }
+            noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
+            isAriaDisabled={row.groups.length === 0}
+            override={row?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
+          >
+            Remove from workspace
+          </ActionDropdownItem>
+        ),
+      },
+    ];
 
-      return [...groupActions, ...hostActions];
-    },
-    []
-  );
+    return [...groupActions, ...hostActions];
+  }, []);
 
   return tableActionsCallback;
 };
