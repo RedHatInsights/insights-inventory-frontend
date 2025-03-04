@@ -113,7 +113,7 @@ describe('hybrid inventory table', () => {
     it('cannot add host to another group', () => {
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM)
-        .contains('Add to group')
+        .contains('Add to workspace')
         .should('have.attr', 'aria-disabled', 'true');
     });
 
@@ -123,14 +123,14 @@ describe('hybrid inventory table', () => {
       // TODO: implement ouia selector for this component
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(MENU_ITEM)
-        .contains('Remove from group')
+        .contains('Remove from workspace')
         .should('have.attr', 'aria-disabled', 'true');
     });
 
     it('cannot remove host without group, bulk select', () => {
       cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM)
-        .contains('Remove from group')
+        .contains('Remove from workspace')
         .should('have.attr', 'aria-disabled', 'true');
     });
 
@@ -140,9 +140,9 @@ describe('hybrid inventory table', () => {
         `/api/inventory/v1/groups/${hostsFixtures.results[0].groups[0].id}/hosts/${hostsFixtures.results[0].id}`
       ).as('request');
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
-      cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+      cy.get(DROPDOWN_ITEM).contains('Remove from workspace').click();
       cy.get(MODAL_CONTENT).within(() => {
-        cy.get('h1').should('have.text', 'Remove from group');
+        cy.get('h1').should('have.text', 'Remove from workspace');
         cy.get('button[type="submit"]').click();
         cy.wait('@request');
       });
@@ -155,9 +155,9 @@ describe('hybrid inventory table', () => {
         `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
       ).as('request');
       cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
-      cy.get(DROPDOWN_ITEM).contains('Add to group').click();
+      cy.get(DROPDOWN_ITEM).contains('Add to workspace').click();
       cy.get(MODAL_CONTENT).within(() => {
-        cy.get('h1').should('have.text', 'Add to group');
+        cy.get('h1').should('have.text', 'Add to workspace');
         cy.wait('@getGroups');
         cy.get('.pf-v5-c-select__toggle').click(); // TODO: implement ouia selector for this component
         cy.get('.pf-v5-c-select__menu-item').eq(0).click();
@@ -176,7 +176,7 @@ describe('hybrid inventory table', () => {
       // TODO: implement ouia selector for this component
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(MENU_ITEM)
-        .contains('Remove from group')
+        .contains('Remove from workspace')
         .should('have.attr', 'aria-disabled', 'true');
     });
 
@@ -197,10 +197,10 @@ describe('hybrid inventory table', () => {
       // TODO: implement ouia selector for this component
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
-      cy.get(MENU_ITEM).contains('Remove from group').click();
+      cy.get(MENU_ITEM).contains('Remove from workspace').click();
 
       cy.get(MODAL_CONTENT).within(() => {
-        cy.get('h1').should('have.text', 'Remove from group');
+        cy.get('h1').should('have.text', 'Remove from workspace');
         cy.get('button[type="submit"]').click();
         cy.wait('@request');
       });
@@ -222,10 +222,10 @@ describe('hybrid inventory table', () => {
       // TODO: implement ouia selector for this component
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
-      cy.get(MENU_ITEM).contains('Add to group').click();
+      cy.get(MENU_ITEM).contains('Add to workspace').click();
 
       cy.get(MODAL_CONTENT).within(() => {
-        cy.get('h1').should('have.text', 'Add to group');
+        cy.get('h1').should('have.text', 'Add to workspace');
         cy.wait('@getGroups');
         cy.get('.pf-v5-c-select__toggle').click(); // TODO: implement ouia selector for this component
         cy.get(SELECT_MENU_ITEM).contains(TEST_GROUP_NAME).click();
@@ -240,15 +240,15 @@ describe('hybrid inventory table', () => {
       cy.wait('@getHosts'); // data must be reloaded
     });
 
-    it('can add to a new group', () => {
+    it('can add to a new workspace', () => {
       cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-      cy.get(MENU_ITEM).contains('Add to group').click();
+      cy.get(MENU_ITEM).contains('Add to workspace').click();
       cy.get(MODAL_CONTENT)
         .find('button')
-        .contains('Create a new group')
+        .contains('Create a new workspace')
         .click();
-      cy.get(MODAL_CONTENT).find('h1').should('have.text', 'Create group');
+      cy.get(MODAL_CONTENT).find('h1').should('have.text', 'Create workspace');
     });
   });
 
@@ -282,11 +282,11 @@ describe('hybrid inventory table', () => {
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
         cy.get(MENU_ITEM)
-          .contains('Remove from group')
+          .contains('Remove from workspace')
           .should('have.attr', 'aria-disabled', 'true');
 
         cy.get(MENU_ITEM)
-          .contains('Add to group')
+          .contains('Add to workspace')
           .should('have.attr', 'aria-disabled', 'true');
       });
     });
@@ -356,9 +356,11 @@ describe('hybrid inventory table', () => {
 
       it('cannot add or remove from group', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
-        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM)
-          .contains('Remove from group')
+          .contains('Add to workspace')
+          .shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from workspace')
           .shouldHaveAriaDisabled();
       });
     });
@@ -436,19 +438,21 @@ describe('hybrid inventory table', () => {
 
       it('can remove from permitted group', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
-        cy.get(DROPDOWN_ITEM).contains('Add to group').shouldHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM)
-          .contains('Remove from group')
+          .contains('Add to workspace')
+          .shouldHaveAriaDisabled();
+        cy.get(DROPDOWN_ITEM)
+          .contains('Remove from workspace')
           .shouldNotHaveAriaDisabled();
       });
 
-      it('add to group is enabled for ungroupped hosts', () => {
+      it('add to workspace is enabled for ungroupped hosts', () => {
         cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM)
-          .contains('Add to group')
+          .contains('Add to workspace')
           .shouldNotHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM)
-          .contains('Remove from group')
+          .contains('Remove from workspace')
           .shouldHaveAriaDisabled();
       });
 
@@ -457,13 +461,13 @@ describe('hybrid inventory table', () => {
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
         cy.get(MENU_ITEM)
-          .contains('Remove from group')
+          .contains('Remove from workspace')
           .shouldNotHaveAriaDisabled();
         cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
         cy.get(MENU_ITEM)
-          .contains('Remove from group')
+          .contains('Remove from workspace')
           .shouldNotHaveAriaDisabled();
       });
 
@@ -473,7 +477,7 @@ describe('hybrid inventory table', () => {
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
         cy.get(DROPDOWN_ITEM)
-          .contains('Remove from group')
+          .contains('Remove from workspace')
           .shouldNotHaveAriaDisabled();
       });
 
@@ -482,15 +486,17 @@ describe('hybrid inventory table', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(4).click();
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-        cy.get(MENU_ITEM).contains('Add to group').shouldNotHaveAriaDisabled();
+        cy.get(MENU_ITEM)
+          .contains('Add to workspace')
+          .shouldNotHaveAriaDisabled();
       });
 
-      it('cannot bulk add to group if groupped hosts selected', () => {
+      it('cannot bulk add to workspace if groupped hosts selected', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
         cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-        cy.get(MENU_ITEM).contains('Add to group').shouldHaveAriaDisabled();
+        cy.get(MENU_ITEM).contains('Add to workspace').shouldHaveAriaDisabled();
       });
     });
   });
@@ -527,7 +533,7 @@ describe('conventional table', () => {
   it('sorting loads from url', () => {
     const sortableColumns = [
       { name: 'Name', urlName: 'display_name', apiName: 'display_name' },
-      { name: 'Group', urlName: 'group_name', apiName: 'group_name' },
+      { name: 'Workspace', urlName: 'group_name', apiName: 'group_name' },
       { name: 'OS', urlName: 'operating_system', apiName: 'operating_system' },
       { name: 'Last seen', urlName: 'updated', apiName: 'updated' },
     ];

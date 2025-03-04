@@ -21,7 +21,7 @@ import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 
 const TABLE_HEADERS = [
   'Name',
-  'Group',
+  'Workspace',
   'Tags',
   'OS',
   'Update method',
@@ -35,7 +35,7 @@ const AVAILABLE_FILTER_NAMES = [
   'Data collector',
   'RHC status',
   'Last seen',
-  'Group',
+  'Workspace',
   'Tags',
 ];
 

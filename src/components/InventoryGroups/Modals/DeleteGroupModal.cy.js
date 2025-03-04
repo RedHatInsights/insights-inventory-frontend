@@ -37,10 +37,10 @@ describe('multiple non-empty groups', () => {
   });
 
   it('renders correct content', () => {
-    cy.get('h1').should('have.text', 'Cannot delete groups at this time');
+    cy.get('h1').should('have.text', 'Cannot delete workspaces at this time');
     cy.get('p').should(
       'contain.text',
-      `Groups containing systems cannot be deleted.`
+      `Workspaces containing systems cannot be deleted.`
     );
   });
 
@@ -83,7 +83,7 @@ describe('multiple non-empty groups', () => {
 
     cy.get('p').should(
       'contain.text',
-      `Groups containing systems cannot be deleted.`
+      `Workspaces containing systems cannot be deleted.`
     );
   });
 });
@@ -109,10 +109,10 @@ describe('multiple empty groups', () => {
   });
 
   it('renders correct content', () => {
-    cy.get('h1').should('have.text', 'Delete groups?');
+    cy.get('h1').should('have.text', 'Delete workspaces?');
     cy.get('p').should(
       'have.text',
-      `${fixtures.results.length} groups and all their data will be deleted.`
+      `${fixtures.results.length} workspaces and all their data will be deleted.`
     );
   });
 
@@ -159,7 +159,7 @@ describe('multiple empty groups', () => {
 
     cy.get('p').should(
       'contain.text',
-      `groups and all their data will be deleted.`
+      `workspaces and all their data will be deleted.`
     );
   });
 });
@@ -184,10 +184,10 @@ describe('single non-empty group', () => {
   });
 
   it('renders correct content', () => {
-    cy.get('h1').should('have.text', 'Cannot delete group at this time');
+    cy.get('h1').should('have.text', 'Cannot delete workspace at this time');
     cy.get('p').should(
       'have.text',
-      `Groups containing systems cannot be deleted. To delete ${fixtures.results[0].name}, first remove all of the systems from it.`
+      `Workspaces containing systems cannot be deleted. To delete ${fixtures.results[0].name}, first remove all of the systems from it.`
     );
   });
 
@@ -223,7 +223,7 @@ describe('single empty group', () => {
   });
 
   it('renders correct content', () => {
-    cy.get('h1').should('have.text', 'Delete group?');
+    cy.get('h1').should('have.text', 'Delete workspace?');
     cy.get('p').should(
       'contain.text',
       `${fixtures.results[0].name} and all its data will be deleted.`

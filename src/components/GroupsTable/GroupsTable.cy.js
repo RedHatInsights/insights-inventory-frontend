@@ -317,7 +317,7 @@ describe('actions', () => {
 
   it('bulk delete action is disabled when no items selected', () => {
     cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-    cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
+    cy.get(DROPDOWN_ITEM).contains('Delete workspace').shouldHaveAriaDisabled();
   });
 
   describe('deletion', () => {
@@ -332,8 +332,10 @@ describe('actions', () => {
         .eq(TEST_ID + 1)
         .find(MENU_TOGGLE)
         .click();
-      cy.get(MENU_ITEM).contains('Delete group').click();
-      cy.get(MODAL_CONTENT).find('h1').should('contain.text', 'Delete group?');
+      cy.get(MENU_ITEM).contains('Delete workspace').click();
+      cy.get(MODAL_CONTENT)
+        .find('h1')
+        .should('contain.text', 'Delete workspace?');
       cy.get(MODAL_CONTENT)
         .find('p')
         .should(
@@ -345,8 +347,10 @@ describe('actions', () => {
     it('can delete a group, 2', () => {
       selectRowN(TEST_ID + 1);
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-      cy.get(DROPDOWN_ITEM).contains('Delete group').click();
-      cy.get(MODAL_CONTENT).find('h1').should('contain.text', 'Delete group?');
+      cy.get(DROPDOWN_ITEM).contains('Delete workspace').click();
+      cy.get(MODAL_CONTENT)
+        .find('h1')
+        .should('contain.text', 'Delete workspace?');
       cy.get(MODAL_CONTENT)
         .find('p')
         .should(
@@ -362,10 +366,10 @@ describe('actions', () => {
 
       selectRowN(3);
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-      cy.get(DROPDOWN_ITEM).contains('Delete group').click();
+      cy.get(DROPDOWN_ITEM).contains('Delete workspace').click();
       cy.get(MODAL_CONTENT)
         .find('h1')
-        .should('contain.text', 'Cannot delete group at this time');
+        .should('contain.text', 'Cannot delete workspace at this time');
     });
 
     it('can delete more groups', () => {
@@ -377,17 +381,19 @@ describe('actions', () => {
       TEST_ROWS.forEach((row) => selectRowN(row));
 
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-      cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
-      cy.get(MODAL_CONTENT).find('h1').should('contain.text', 'Delete groups?');
+      cy.get(DROPDOWN_ITEM).contains('Delete workspaces').click();
+      cy.get(MODAL_CONTENT)
+        .find('h1')
+        .should('contain.text', 'Delete workspaces?');
       cy.get(MODAL_CONTENT)
         .find('p')
         .should(
           'contain.text',
-          `${TEST_ROWS.length} groups and all their data will be deleted.`
+          `${TEST_ROWS.length} workspaces and all their data will be deleted.`
         );
     });
 
-    it('cannot delete groups if at least one is not empty', () => {
+    it('cannot delete workspaces if at least one is not empty', () => {
       const fixturesThreeGroups = _.cloneDeep(fixtures);
       fixturesThreeGroups.results = fixturesThreeGroups.results.slice(0, 3);
       interceptors['successful with some items'](fixturesThreeGroups);
@@ -396,17 +402,17 @@ describe('actions', () => {
       TEST_ROWS.forEach((row) => selectRowN(row));
 
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-      cy.get(DROPDOWN_ITEM).contains('Delete groups').click();
+      cy.get(DROPDOWN_ITEM).contains('Delete workspaces').click();
       cy.get(MODAL_CONTENT)
         .find('h1')
-        .should('contain.text', 'Cannot delete groups at this time');
+        .should('contain.text', 'Cannot delete workspaces at this time');
     });
   });
 
   it('can create a group', () => {
     cy.get(TOOLBAR)
       .find('button')
-      .contains('Create group')
+      .contains('Create workspace')
       .shouldHaveAriaEnabled();
   });
 });
@@ -417,7 +423,7 @@ describe('edge cases', () => {
     mountTable();
 
     cy.wait('@getGroups').then(() => {
-      checkEmptyState('No matching groups found', true);
+      checkEmptyState('No matching workspaces found', true);
       checkPaginationTotal(0);
     });
   });
@@ -452,16 +458,18 @@ describe('integration with rbac', () => {
     it('disables general actions', () => {
       cy.get(TOOLBAR)
         .find('button')
-        .contains('Create group')
+        .contains('Create workspace')
         .shouldHaveAriaDisabled();
 
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Delete workspace')
+        .shouldHaveAriaDisabled();
     });
 
     it('disables per-row actions', () => {
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
-      cy.get(MENU_ITEM).contains('Delete group').shouldHaveAriaDisabled();
+      cy.get(MENU_ITEM).contains('Delete workspace').shouldHaveAriaDisabled();
     });
   });
 
@@ -495,24 +503,28 @@ describe('integration with rbac', () => {
     it('has actions enabled for permitted group', () => {
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM)
-        .contains('Rename group')
+        .contains('Rename workspace')
         .shouldNotHaveAriaDisabled();
       cy.get(DROPDOWN_ITEM)
-        .contains('Delete group')
+        .contains('Delete workspace')
         .shouldNotHaveAriaDisabled();
     });
 
     it('has actions disabled for another group', () => {
       cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
-      cy.get(DROPDOWN_ITEM).contains('Rename group').shouldHaveAriaDisabled();
-      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Rename workspace')
+        .shouldHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Delete workspace')
+        .shouldHaveAriaDisabled();
     });
 
     it('should allow to bulk delete permitted groups', () => {
       selectRowN(0);
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM)
-        .contains('Delete group')
+        .contains('Delete workspace')
         .shouldNotHaveAriaDisabled();
     });
 
@@ -520,7 +532,9 @@ describe('integration with rbac', () => {
       selectRowN(0);
       selectRowN(1);
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
-      cy.get(DROPDOWN_ITEM).contains('Delete group').shouldHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Delete workspace')
+        .shouldHaveAriaDisabled();
     });
   });
 });

@@ -266,12 +266,12 @@ describe('filtering', () => {
     cy.wait('@getHosts'); // TODO: reset filters shouldn't trigger this second extra call
   });
 
-  it('should not contain group filter', () => {
+  it('should not contain workspaces filter', () => {
     mountTable();
     waitForTable(true);
 
     cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).should('not.contain', 'Group');
+    cy.get(DROPDOWN_ITEM).should('not.contain', 'Workspaces');
   });
 
   it('should read url pagination', () => {
@@ -373,9 +373,9 @@ describe('actions', () => {
       `/api/inventory/v1/groups/${TEST_ID}/hosts/${hostsAllInGroupFixtures.results[0].id}`
     ).as('request');
     cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
-    cy.get(DROPDOWN_ITEM).contains('Remove from group').click();
+    cy.get(DROPDOWN_ITEM).contains('Remove from workspace').click();
     cy.get(MODAL_CONTENT).within(() => {
-      cy.get('h1').should('have.text', 'Remove from group');
+      cy.get('h1').should('have.text', 'Remove from workspace');
       cy.get('button[type="submit"]').click();
       cy.wait('@request');
     });
@@ -396,10 +396,10 @@ describe('actions', () => {
     // TODO: implement ouia selector for this component
     cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
-    cy.get(MENU_ITEM).contains('Remove from group').click();
+    cy.get(MENU_ITEM).contains('Remove from workspace').click();
 
     cy.get(MODAL_CONTENT).within(() => {
-      cy.get('h1').should('have.text', 'Remove from group');
+      cy.get('h1').should('have.text', 'Remove from workspace');
       cy.get('button[type="submit"]').click();
       cy.wait('@request');
     });
@@ -489,13 +489,15 @@ describe('integration with rbac', () => {
       cy.get('button').contains('Add systems').shouldHaveAriaDisabled();
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM)
-        .contains('Remove from group')
+        .contains('Remove from workspace')
         .shouldHaveAriaDisabled();
     });
 
     it('per-row dropdown should be disabled', () => {
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
-      cy.get('button').contains('Remove from group').shouldHaveAriaDisabled();
+      cy.get('button')
+        .contains('Remove from workspace')
+        .shouldHaveAriaDisabled();
     });
   });
 
@@ -516,7 +518,9 @@ describe('integration with rbac', () => {
       // TODO: implement ouia selector for this component
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
 
-      cy.get(DROPDOWN_ITEM).contains('Remove from group').should('be.enabled');
+      cy.get(DROPDOWN_ITEM)
+        .contains('Remove from workspace')
+        .should('be.enabled');
     });
 
     it('add systems button is enabled', () => {

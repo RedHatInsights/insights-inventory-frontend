@@ -7,7 +7,6 @@ import { global_warning_color_100 as warningColor } from '@patternfly/react-toke
 
 import Modal from './Modal';
 import { confirmSystemsAddSchema } from './ModalSchemas/schemes';
-import useWorkspaceFeatureFlag from '../../../Utilities/hooks/useWorkspaceFeatureFlag';
 
 const ConfirmSystemsAddModal = ({
   isModalOpen,
@@ -17,21 +16,18 @@ const ConfirmSystemsAddModal = ({
   hostsNumber,
 }) => {
   const { handleSubmit, getState } = useFormApi();
-  const isWorkspaceEnabled = useWorkspaceFeatureFlag();
 
   return (
     <Modal
       isModalOpen={isModalOpen}
-      title={`Add all selected systems to ${
-        isWorkspaceEnabled ? 'workspace' : 'group'
-      }?`}
+      title={`Add all selected systems to workspace?`}
       titleIconVariant={() => (
         <Icon color={warningColor.value}>
           <ExclamationTriangleIcon />
         </Icon>
       )}
       closeModal={onCancel}
-      schema={confirmSystemsAddSchema(hostsNumber, isWorkspaceEnabled)}
+      schema={confirmSystemsAddSchema(hostsNumber)}
       reloadData={() => {}}
       onSubmit={onSubmit}
       customFormTemplate={({ formFields, schema }) => {
@@ -54,9 +50,7 @@ const ConfirmSystemsAddModal = ({
                       color="primary"
                       variant="primary"
                     >
-                      {`Yes, add all systems to ${
-                        isWorkspaceEnabled ? 'workspace' : 'group'
-                      }`}
+                      Yes, add all systems to workspace
                     </Button>
                     <Button variant="secondary" onClick={onBack}>
                       Back
