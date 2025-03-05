@@ -150,7 +150,7 @@ const InventoryTable = forwardRef(
 
     useEffect(() => {
       return () => {
-        abortOnUnmount && controller.current.abort();
+        if (abortOnUnmount) controller.current.abort();
       };
     }, []);
     const hasLoadEntitiesError =

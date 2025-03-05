@@ -74,7 +74,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
         groups.push(firstRequest);
       }
 
-      !ignore && setFetchedGroups(groups.flatMap(({ results }) => results));
+      if (!ignore) setFetchedGroups(groups.flatMap(({ results }) => results));
     };
 
     let ignore = false;

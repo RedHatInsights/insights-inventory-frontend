@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable camelcase */
 import './EntityTableToolbar.scss';
 import React, { Fragment, useEffect, useReducer } from 'react';

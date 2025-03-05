@@ -30,7 +30,7 @@ const waitPageLoad = () =>
 
 describe('test data', () => {
   it('the group has no hosts', () => {
-    groupDetailFixtures.results[0].host_count === 0;
+    expect(groupDetailFixtures.results[0].host_count).to.equal(0);
   });
 });
 

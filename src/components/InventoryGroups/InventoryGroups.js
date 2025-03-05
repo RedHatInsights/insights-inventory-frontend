@@ -27,7 +27,7 @@ const InventoryGroups = () => {
       const { total } = await getGroups();
 
       if (total > 0) {
-        !ignore.current && setHasGroups(true);
+        if (!ignore.current) setHasGroups(true);
       }
     } catch (error) {
       if (!ignore.current) {
@@ -36,7 +36,7 @@ const InventoryGroups = () => {
       }
     }
 
-    !ignore.current && setIsLoading(false);
+    if (!ignore.current) setIsLoading(false);
   };
 
   const onCreateGroupClick = useCallback(() => {
