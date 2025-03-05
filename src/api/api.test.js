@@ -4,14 +4,14 @@ import {
   constructTags,
   filtersReducer,
   getEntitySystemProfile,
-  hosts,
   mapData,
 } from './api';
 import mockedData from '../__mocks__/mockedData.json';
 import MockAdapter from 'axios-mock-adapter';
+import { hostInventoryApi } from './hostInventoryApi';
 
 describe('system_profile', () => {
-  const mockedHosts = new MockAdapter(hosts.axios);
+  const mockedHosts = new MockAdapter(hostInventoryApi.axios);
   it('should send the data as JSON', async () => {
     mockedHosts
       .onGet('/api/inventory/v1/hosts/4/system_profile')

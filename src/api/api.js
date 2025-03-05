@@ -8,43 +8,29 @@ import {
   mergeArraysByKey,
 } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import {
-  apiHostGetHostById,
-  apiHostGetHostList,
-  apiHostGetHostSystemProfileById,
-  apiHostGetHostTags,
-  apiStalenessCreateStaleness,
-  apiStalenessGetDefaultStaleness,
-  apiStalenessGetStaleness,
-  apiSystemProfileGetOperatingSystem,
-  apiTagGetTags,
-} from '@redhat-cloud-services/host-inventory-client';
-import {
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   allStaleFilters,
 } from '../Utilities/constants';
-import { APIFactory } from '@redhat-cloud-services/javascript-clients-shared';
+import {
+  ApiTagGetTagsOrderByEnum,
+  ApiTagGetTagsOrderHowEnum,
+} from '@redhat-cloud-services/host-inventory-client/ApiTagGetTags';
+import {
+  createStaleness as apiCreateStaleness,
+  getDefaultStaleness as apiGetDefaultStaleness,
+  getHostById as apiGetHostById,
+  getHostList as apiGetHostList,
+  getHostSystemProfileById as apiGetHostSystemProfileById,
+  getHostTags as apiGetHostTags,
+  getStaleness as apiGetStaleness,
+  getTags as apiGetTags,
+} from './hostInventoryApi';
 
 export { axiosInstance as instance };
 
-const hostInventoryApi = APIFactory(
-  INVENTORY_API_BASE,
-  {
-    apiHostGetHostSystemProfileById,
-    apiHostGetHostTags,
-    apiHostGetHostById,
-    apiHostGetHostList,
-    apiTagGetTags,
-    apiSystemProfileGetOperatingSystem,
-    apiStalenessGetDefaultStaleness,
-    apiStalenessGetStaleness,
-    apiStalenessCreateStaleness,
-  },
-  { axios: axiosInstance }
-);
-
 export const getEntitySystemProfile = (item) =>
-  hostInventoryApi.apiHostGetHostSystemProfileById([item]);
+  apiGetHostSystemProfileById({ hostIdList: [item] });
 
 export const mapData = ({ facts = {}, ...oneResult }) => ({
   ...oneResult,
@@ -76,14 +62,13 @@ export const mapTags = (
   { orderBy, orderDirection } = {}
 ) => {
   if (data.results.length > 0) {
-    return hostInventoryApi
-      .apiHostGetHostTags(
-        data.results.map(({ id }) => id),
-        data.per_page,
-        1,
-        orderBy,
-        orderDirection
-      )
+    return apiGetHostTags({
+      hostIdList: data.results.map(({ id }) => id),
+      perPage: data.per_page,
+      page: 1,
+      orderBy,
+      orderHow: orderDirection,
+    }) // FIXME: this method doesn't work with object
       .then(({ results: tags }) => ({
         ...data,
         results: data.results.map((row) => ({
@@ -247,40 +232,32 @@ export async function getEntities(
   showTags
 ) {
   if (hasItems && items?.length > 0) {
-    let data = await hostInventoryApi.apiHostGetHostById(
-      items,
-      undefined,
+    let data = await apiGetHostById({
+      hostIdList: items,
       perPage,
       page,
       orderBy,
-      orderDirection,
-      undefined,
-      undefined,
-      {
+      orderHow: orderDirection,
+      options: {
         ...(controller?.signal !== undefined
           ? { signal: controller.signal }
           : {}),
-      }
-    );
+      },
+    });
     if (fields && Object.keys(fields).length) {
       try {
-        const result = await hostInventoryApi.apiHostGetHostSystemProfileById(
-          items,
+        const result = await apiGetHostSystemProfileById({
+          hostIdList: items,
           perPage,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          {
+          options: {
             ...(controller?.signal !== undefined
               ? { signal: controller.signal }
               : {}),
             // TODO We should not be doing this, but use the "fields" param of the function
             // We then probably do not need to (ab)use the generateFilter function
             query: generateFilter(fields, 'fields'),
-          }
-        );
+          },
+        });
 
         data = {
           ...data,
@@ -331,46 +308,35 @@ export async function getEntities(
       }),
     };
 
-    return hostInventoryApi
-      .apiHostGetHostList(
-        undefined,
-        undefined,
-        filters.hostnameOrId,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        filters.hostGroupFilter,
-        undefined,
-        perPage,
-        page,
-        orderBy,
-        orderDirection,
-        filters.staleFilter,
-        [
-          ...constructTags(filters?.tagFilters),
-          ...(options?.globalFilter?.tags || []),
-        ],
-        filters?.registeredWithFilter,
-        undefined,
-        undefined,
-        {
-          ...(controller?.signal !== undefined
-            ? { signal: controller.signal }
+    return apiGetHostList({
+      hostnameOrId: filters.hostnameOrId,
+      groupName: filters.hostGroupFilter,
+      perPage,
+      page,
+      orderBy,
+      orderHow: orderDirection,
+      staleness: filters.staleFilter,
+      tags: [
+        ...constructTags(filters?.tagFilters),
+        ...(options?.globalFilter?.tags || []),
+      ],
+      registeredWith: filters?.registeredWithFilter,
+      options: {
+        ...(controller?.signal !== undefined
+          ? { signal: controller.signal }
+          : {}),
+        query: {
+          // TODO We should be using the fields and filter (function) parameter instead
+          // Side note: we probably do this because it seems the js-clients have issues with parameters that have array values or smth
+          ...(Object.keys(filterQueryParams).length ? filterQueryParams : {}),
+          ...(Object.keys(fieldsQueryParams).length ? fieldsQueryParams : {}),
+          // TODO There should be a way to pass these via the filter func param
+          ...(Object.keys(lastSeenFilterQueryParams).length
+            ? lastSeenFilterQueryParams
             : {}),
-          query: {
-            // TODO We should be using the fields and filter (function) parameter instead
-            // Side note: we probably do this because it seems the js-clients have issues with parameters that have array values or smth
-            ...(Object.keys(filterQueryParams).length ? filterQueryParams : {}),
-            ...(Object.keys(fieldsQueryParams).length ? fieldsQueryParams : {}),
-            // TODO There should be a way to pass these via the filter func param
-            ...(Object.keys(lastSeenFilterQueryParams).length
-              ? lastSeenFilterQueryParams
-              : {}),
-          },
-        }
-      )
+        },
+      },
+    })
       .then((data) =>
         showTags ? mapTags(data, { orderBy, orderDirection }) : data
       )
@@ -394,60 +360,48 @@ export async function getEntities(
 }
 
 export function getTags(systemId, search, { pagination } = { pagination: {} }) {
-  return hostInventoryApi.apiHostGetHostTags(
-    systemId,
-    pagination.perPage || 10,
-    pagination.page || 1,
-    undefined,
-    undefined,
-    search
-  );
+  return apiGetHostTags({
+    hostIdList: [systemId], // TODO: can cause a bug when passing with array
+    perPage: pagination.perPage || 10,
+    page: pagination.page || 1,
+    search,
+  });
 }
 
 export function getAllTags(search, pagination = {}) {
-  return hostInventoryApi.apiTagGetTags(
-    [],
-    'tag',
-    'ASC',
-    pagination.perPage || 10,
-    pagination.page || 1,
-    //TODO: ask the backend to return all tags by default.
-    allStaleFilters,
+  return apiGetTags({
+    tags: [],
+    orderBy: ApiTagGetTagsOrderByEnum.Tag,
+    orderHow: ApiTagGetTagsOrderHowEnum.Asc,
+    perPage: pagination.perPage || 10,
+    page: pagination.page || 1,
+    staleness: allStaleFilters,
     search,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined
-  );
+  });
 }
 
-export const getOperatingSystems = async (params = [], showCentosVersions) => {
-  let operatingSystems =
-    await hostInventoryApi.apiSystemProfileGetOperatingSystem(...params);
-  if (!showCentosVersions) {
-    const newResults = operatingSystems.results.filter(
-      ({ value }) => !value.name.toLowerCase().startsWith('centos')
-    );
-    operatingSystems.results = newResults;
-  }
-  return operatingSystems;
-};
+export function getAllTagsWithObject(search, pagination = {}) {
+  return apiGetTags({
+    tags: [],
+    orderBy: ApiTagGetTagsOrderByEnum.Tag,
+    orderHow: ApiTagGetTagsOrderHowEnum.Asc,
+    perPage: pagination.perPage || 10,
+    page: pagination.page || 1,
+    staleness: allStaleFilters,
+    search: search,
+  });
+}
 
 export const fetchDefaultStalenessValues = () => {
-  return hostInventoryApi.apiStalenessGetDefaultStaleness();
+  return apiGetDefaultStaleness();
 };
 
 export const fetchStalenessData = () => {
-  return hostInventoryApi.apiStalenessGetStaleness();
+  return apiGetStaleness();
 };
 
 export const postStalenessData = (data) => {
-  return hostInventoryApi.apiStalenessCreateStaleness(data);
+  return apiCreateStaleness({ stalenessIn: data });
 };
 
 export const fetchEdgeSystem = () => {

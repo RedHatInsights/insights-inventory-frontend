@@ -1,5 +1,5 @@
-import { hosts } from '../../../api';
 import pAll from 'p-all';
+import { deleteHostById } from '../../../api/hostInventoryApi';
 
 const resolve = async (fns, limit = 2) => {
   const results = await pAll(fns, {
@@ -18,7 +18,7 @@ export const deleteSystemsById = (items, batchSize = 50) => {
 
   const results = resolve(
     arr.map((itemArray) => () => {
-      return hosts.apiHostDeleteHostById(itemArray);
+      return deleteHostById({ hostIdList: itemArray });
     })
   );
   return results;

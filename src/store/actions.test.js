@@ -5,12 +5,12 @@ import {
   fetchGroups,
   systemProfile,
 } from './actions';
-import { hosts } from '../api';
 import mockedData from '../__mocks__/mockedData.json';
 import mockedGroups from '../__mocks__/mockedGroups.json';
 import MockAdapter from 'axios-mock-adapter';
+import { hostInventoryApi } from '../api/hostInventoryApi';
 
-const mocked = new MockAdapter(hosts.axios);
+const mocked = new MockAdapter(hostInventoryApi.axios);
 
 describe('systemProfile', () => {
   it('should return correct redux action', async () => {
