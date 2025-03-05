@@ -1,6 +1,4 @@
 /* eslint-disable camelcase */
-import { instance } from '@redhat-cloud-services/frontend-components-utilities/interceptors/interceptors';
-import { INVENTORY_API_BASE } from '../../../api';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   GROUPS_WILDCARD,
@@ -10,21 +8,18 @@ import {
 } from '../../../constants';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import {
+  addHostListToGroup,
+  deleteHostsFromGroup,
+  getGroupList,
+  getGroupsById,
+  patchGroupById,
+} from '../../../api/hostInventoryApi';
 
 export const getGroups = (
   search = {},
   pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }
-) => {
-  const parameters = new URLSearchParams({
-    ...search,
-    ...pagination,
-  }).toString();
-  const path = `${INVENTORY_API_BASE}/groups${
-    parameters.length > 0 ? '?' + parameters : ''
-  }`;
-
-  return instance.get(path);
-};
+) => getGroupList({ ...search, ...pagination });
 
 export const getWritableGroups = async (
   groupName,
@@ -95,48 +90,30 @@ export const getWritableGroups = async (
   }
 };
 
-export const getGroupsByIds = (groupIds, search = {}) => {
-  const parameters = new URLSearchParams(search).toString();
-  const path = `${INVENTORY_API_BASE}/groups/${groupIds.join(',')}${
-    parameters.length > 0 ? '?' + parameters : ''
-  }`;
+export const getGroupsByIds = (groupIds, search = {}) =>
+  getGroupsById({ groupIdList: groupIds, ...search });
 
-  return instance.get(path);
-};
+export const createGroup = (payload) => createGroup(payload);
 
-export const createGroup = (payload) => {
-  return instance.post(`${INVENTORY_API_BASE}/groups`, {
-    name: payload.name,
-  });
-};
-
-export const validateGroupName = (name) => {
-  return instance
-    .get(`${INVENTORY_API_BASE}/groups`)
-    .then((resp) => resp?.results.some((group) => group.name === name));
-};
-
-export const getGroupDetail = (groupId) => {
-  return instance.get(`${INVENTORY_API_BASE}/groups/${groupId}`);
-};
-
-export const updateGroupById = (id, payload) => {
-  return instance.patch(`${INVENTORY_API_BASE}/groups/${id}`, payload);
-};
-
-export const deleteGroupsById = (ids = []) => {
-  return instance.delete(`${INVENTORY_API_BASE}/groups/${ids.join(',')}`);
-};
-
-export const addHostsToGroupById = (id, hostIds) => {
-  return instance.post(`${INVENTORY_API_BASE}/groups/${id}/hosts`, hostIds);
-};
-
-export const removeHostsFromGroup = (groupId, hostIds) => {
-  return instance.delete(
-    `${INVENTORY_API_BASE}/groups/${groupId}/hosts/${hostIds.join(',')}`
+// TODO: improve the function to check against all workspaces since now it checks only against first 50 workspaces
+export const validateGroupName = (name) =>
+  getGroupList().then((response) =>
+    response?.results.some((group) => group.name === name)
   );
-};
+
+export const getGroupDetail = (groupId) =>
+  getGroupsById({ groupIdList: [groupId] });
+
+export const updateGroupById = (id, payload) =>
+  patchGroupById({ groupId: id, groupIn: payload });
+
+export const deleteGroupsById = (ids = []) => deleteGroupsById({ ids });
+
+export const addHostsToGroupById = (id, hostIds) =>
+  addHostListToGroup({ groupId: id, requestBody: hostIds });
+
+export const removeHostsFromGroup = (groupId, hostIds) =>
+  deleteHostsFromGroup({ groupId, hostIdList: hostIds });
 
 getGroups.propTypes = {
   search: PropTypes.shape({

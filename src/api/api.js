@@ -25,6 +25,7 @@ import {
   getHostTags as apiGetHostTags,
   getStaleness as apiGetStaleness,
   getTags as apiGetTags,
+  getOperatingSystem,
 } from './hostInventoryApi';
 
 export { axiosInstance as instance };
@@ -68,7 +69,7 @@ export const mapTags = (
       page: 1,
       orderBy,
       orderHow: orderDirection,
-    }) // FIXME: this method doesn't work with object
+    })
       .then(({ results: tags }) => ({
         ...data,
         results: data.results.map((row) => ({
@@ -380,17 +381,17 @@ export function getAllTags(search, pagination = {}) {
   });
 }
 
-export function getAllTagsWithObject(search, pagination = {}) {
-  return apiGetTags({
-    tags: [],
-    orderBy: ApiTagGetTagsOrderByEnum.Tag,
-    orderHow: ApiTagGetTagsOrderHowEnum.Asc,
-    perPage: pagination.perPage || 10,
-    page: pagination.page || 1,
-    staleness: allStaleFilters,
-    search: search,
-  });
-}
+export const getOperatingSystems = async (params = [], showCentosVersions) => {
+  let operatingSystems = await getOperatingSystem(...params);
+  console.log('###', operatingSystems);
+  if (!showCentosVersions) {
+    const newResults = operatingSystems.results.filter(
+      ({ value }) => !value.name.toLowerCase().startsWith('centos')
+    );
+    operatingSystems.results = newResults;
+  }
+  return operatingSystems;
+};
 
 export const fetchDefaultStalenessValues = () => {
   return apiGetDefaultStaleness();
