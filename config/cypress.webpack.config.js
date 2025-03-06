@@ -46,6 +46,7 @@ module.exports = {
     ],
   },
   resolve: {
+    ...webpackConfig.resolve,
     fallback: {
       stream: require.resolve('stream-browserify'),
       zlib: require.resolve('browserify-zlib'),

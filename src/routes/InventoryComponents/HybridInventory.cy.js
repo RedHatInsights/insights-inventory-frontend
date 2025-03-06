@@ -190,7 +190,7 @@ describe('hybrid inventory table', () => {
         }/hosts/${hostsFixtures.results
           .slice(0, 2)
           .map(({ id }) => id)
-          .join(',')}`
+          .join('%2C')}`
       ).as('request');
 
       cy.get(TABLE_ROW_CHECKBOX).eq(0).click();

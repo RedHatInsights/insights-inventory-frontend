@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import {
   addHostListToGroup,
+  deleteGroups,
   deleteHostsFromGroup,
   getGroupList,
   getGroupsById,
@@ -19,7 +20,14 @@ import {
 export const getGroups = (
   search = {},
   pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }
-) => getGroupList({ ...search, ...pagination });
+) =>
+  getGroupList({
+    ...search,
+    orderBy: search.order_by,
+    orderHow: search.order_how,
+    page: pagination.page,
+    perPage: pagination.per_page,
+  });
 
 export const getWritableGroups = async (
   groupName,
@@ -107,7 +115,8 @@ export const getGroupDetail = (groupId) =>
 export const updateGroupById = (id, payload) =>
   patchGroupById({ groupId: id, groupIn: payload });
 
-export const deleteGroupsById = (ids = []) => deleteGroupsById({ ids });
+export const deleteGroupsById = (ids = []) =>
+  deleteGroups({ groupIdList: ids });
 
 export const addHostsToGroupById = (id, hostIds) =>
   addHostListToGroup({ groupId: id, requestBody: hostIds });
