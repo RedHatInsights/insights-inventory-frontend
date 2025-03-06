@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AccessDenied from '../../Utilities/AccessDenied';
 
-const EmptyStateNoAccessToSystems = () => (
+export const EmptyStateNoAccessToSystems = () => (
   <AccessDenied
     title="Access needed for systems in this workspace"
     showReturnButton={false}
@@ -17,14 +18,15 @@ const EmptyStateNoAccessToSystems = () => (
   />
 );
 
-const EmptyStateNoAccessToGroup = () => (
+export const EmptyStateNoAccessToGroups = ({ isSingle }) => (
   <AccessDenied
     title="Workspace access permissions needed"
     showReturnButton={false}
     description={
       <div>
-        You do not have the necessary workspace permissions to see this
-        workspace. Contact your organization administrator for access.
+        You do not have the necessary workspace permissions to see
+        {isSingle ? 'this workspace' : 'workspaces'}. Contact your organization
+        administrator for access.
       </div>
     }
     variant="large" // overrides the default "full" value
@@ -32,23 +34,6 @@ const EmptyStateNoAccessToGroup = () => (
   />
 );
 
-const EmptyStateNoAccessToGroups = () => (
-  <AccessDenied
-    title="Workspace access permissions needed"
-    showReturnButton={false}
-    description={
-      <div>
-        You do not have the necessary workspace permissions to see workspaces.
-        Contact your organization administrator for access.
-      </div>
-    }
-    variant="large" // overrides the default "full" value
-    requiredPermission="inventory:groups:read"
-  />
-);
-
-export {
-  EmptyStateNoAccessToGroup,
-  EmptyStateNoAccessToSystems,
-  EmptyStateNoAccessToGroups,
+EmptyStateNoAccessToGroups.propTypes = {
+  isSingle: PropTypes.bool,
 };

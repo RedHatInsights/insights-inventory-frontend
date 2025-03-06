@@ -314,45 +314,37 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const displayedIds = map(rows, 'groupId');
   const pageSelected = difference(displayedIds, selectedIds).length === 0;
 
+  const modifyActionButton = (buttonText, onClick, rowData) => ({
+    title: (
+      <ActionDropdownItem
+        requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+          rowData?.groupId
+        )}
+        noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
+        onClick={() => {
+          setSelectedGroup({
+            id: rowData?.groupId,
+            name: rowData?.groupName,
+          });
+          onClick();
+        }}
+      >
+        {buttonText}
+      </ActionDropdownItem>
+    ),
+  });
+
   const groupsActionsResolver = (rowData) => [
-    {
-      title: (
-        <ActionDropdownItem
-          requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-            rowData?.groupId
-          )}
-          noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-          onClick={() => {
-            setSelectedGroup({
-              id: rowData?.groupId,
-              name: rowData?.groupName,
-            });
-            setRenameModalOpen(true);
-          }}
-        >
-          Rename workspace
-        </ActionDropdownItem>
-      ),
-    },
-    {
-      title: (
-        <ActionDropdownItem
-          requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-            rowData?.groupId
-          )}
-          noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-          onClick={() => {
-            setSelectedGroup({
-              id: rowData?.groupId,
-              name: rowData?.groupName,
-            });
-            setDeleteModalOpen(true);
-          }}
-        >
-          Delete workspace
-        </ActionDropdownItem>
-      ),
-    },
+    modifyActionButton(
+      'Rename workspace',
+      () => setRenameModalOpen(true),
+      rowData
+    ),
+    modifyActionButton(
+      'Delete workspace',
+      () => setDeleteModalOpen(true),
+      rowData
+    ),
   ];
 
   return (

@@ -17,6 +17,14 @@ jest.mock(
     usePermissionsWithContext: () => ({ hasAccess: true }),
   })
 );
+jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
+  __esModule: true,
+  default: () => ({
+    quickStarts: {
+      activateQuickstart: () => {},
+    },
+  }),
+}));
 
 describe('workspaces route', () => {
   it('renders header and table wrapper', () => {
