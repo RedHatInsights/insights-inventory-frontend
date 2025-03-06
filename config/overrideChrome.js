@@ -26,6 +26,9 @@ const chromeMock = {
       }),
   },
   hideGlobalFilter: () => {},
+  quickStarts: {
+    activateQuickstart: () => {},
+  },
 };
 
 export default () => chromeMock;

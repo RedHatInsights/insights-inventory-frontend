@@ -19,7 +19,7 @@ import {
   REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS,
 } from '../../constants';
 import {
-  EmptyStateNoAccessToGroup,
+  EmptyStateNoAccessToGroups,
   EmptyStateNoAccessToSystems,
 } from './EmptyStateNoAccess';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
@@ -128,7 +128,7 @@ const InventoryGroupDetail = ({ groupId }) => {
         </PageSection>
       ) : (
         <PageSection>
-          <EmptyStateNoAccessToGroup />
+          <EmptyStateNoAccessToGroups isSingle />
         </PageSection>
       )}
     </React.Fragment>
@@ -176,7 +176,7 @@ const InventoryGroupDetail = ({ groupId }) => {
         </PageSection>
       ) : (
         <PageSection>
-          <EmptyStateNoAccessToGroup />
+          <EmptyStateNoAccessToGroups isSingle />
         </PageSection>
       )}
     </React.Fragment>
