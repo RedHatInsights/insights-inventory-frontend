@@ -132,6 +132,7 @@ const InventoryTable = forwardRef(
 
     const dispatch = useDispatch();
     const store = useStore();
+    const { activeFilters } = store.getState().entities;
 
     const hasLoadEntitiesError =
       error?.status === 404 &&
@@ -144,8 +145,6 @@ const InventoryTable = forwardRef(
      *  @param     disableOnRefresh
      */
     const onRefreshData = (options = {}, disableOnRefresh) => {
-      const { activeFilters } = store.getState().entities;
-
       console.log('xddd', { options, activeFiltersConfig });
 
       const newParams = {
@@ -154,8 +153,8 @@ const InventoryTable = forwardRef(
         items: items,
         sortBy: options?.sortBy || sortBy,
         hideFilters: options?.hideFilters || hideFilters,
-        filters: activeFilters,
-        hasItems: hasItems,
+        filters: options?.activeFilters,
+        hasItems: options.hasItems,
         //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
         activeFiltersConfig: options?.activeFiltersConfig,
         ...options?.customFilters,
@@ -190,19 +189,28 @@ const InventoryTable = forwardRef(
       []
     );
 
-    const debouncedOnRefreshData = (...args) => {
+    const buildOptions = (...args) => {
       const [arg0, ...rest] = args;
       const options = {
         ...arg0,
         activeFiltersConfig,
+        activeFilters,
         customFilters,
+        hasItems,
       };
+      return [options, ...rest];
+    };
 
-      debouncedOnRefreshDataa(options, ...rest);
+    const wrappedOnRefreshData = (...args) => {
+      onRefreshData(...buildOptions(...args));
+    };
+
+    const debouncedOnRefreshData = (...args) => {
+      debouncedOnRefreshDataa(...buildOptions(...args));
     };
 
     const onSort = ({ index, key, direction }) => {
-      onRefreshData({
+      wrappedOnRefreshData({
         sortBy: {
           index,
           key,
@@ -295,7 +303,7 @@ const InventoryTable = forwardRef(
             page={pagination.page}
             perPage={pagination.perPage}
             hasItems={hasItems}
-            onRefreshData={onRefreshData}
+            onRefreshData={wrappedOnRefreshData}
             paginationProps={paginationProps}
             loaded={loaded}
             ouiaId={'bottom-pagination'}
