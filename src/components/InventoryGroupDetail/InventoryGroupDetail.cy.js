@@ -30,7 +30,7 @@ const waitPageLoad = () =>
 
 describe('test data', () => {
   it('the group has no hosts', () => {
-    groupDetailFixtures.results[0].host_count === 0;
+    expect(groupDetailFixtures.results[0].host_count).to.equal(0);
   });
 });
 
@@ -164,7 +164,7 @@ describe('integration with rbac', () => {
         .should('have.text', 'Access needed for systems in this workspace');
     });
 
-    it('should allow to see the group info tab', () => {
+    it('should allow to see the workspace info tab', () => {
       cy.get(TAB_BUTTON).contains('Workspace info').click();
       cy.get(TAB_CONTENT)
         .eq(1) // <- workaround since PF renders both tab contents and hides the first

@@ -125,7 +125,7 @@ const SearchableGroupFilter = ({
         handleMenuArrowKeys(event.key);
         break;
       default:
-        !isOpen && setIsOpen(true);
+        if (!isOpen) setIsOpen(true);
     }
   };
 

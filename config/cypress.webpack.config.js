@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { resolve } = require('path');
 const config = require('@redhat-cloud-services/frontend-components-config');
 
@@ -45,6 +46,7 @@ module.exports = {
     ],
   },
   resolve: {
+    ...webpackConfig.resolve,
     fallback: {
       stream: require.resolve('stream-browserify'),
       zlib: require.resolve('browserify-zlib'),

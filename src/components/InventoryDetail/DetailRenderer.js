@@ -3,9 +3,9 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import AccessDenied from '../../Utilities/AccessDenied';
-import { hosts } from '../../api';
 import { REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS } from '../../constants';
 import DetailWrapper from './DetailWrapper';
+import { getHostById } from '../../api/hostInventoryApi';
 
 const DetailRenderer = ({ isRbacEnabled, ...props }) => {
   const [hostGroupId, setHostGroupId] = useState(null);
@@ -23,12 +23,11 @@ const DetailRenderer = ({ isRbacEnabled, ...props }) => {
     const getHostGroup = async () => {
       // request only if necessary
       if (isRbacEnabled === true) {
-        const data = await hosts.apiHostGetHostById(
-          [props.inventoryId],
-          undefined,
-          1,
-          1
-        );
+        const data = await getHostById({
+          hostIdList: [props.inventoryId],
+          perPage: 1,
+          page: 1,
+        });
 
         if (
           ignore !== true &&

@@ -26,6 +26,10 @@ jest.mock('../../api/api', () => ({
     Promise.resolve({ total: 0, results: [] })
   ),
 }));
+jest.mock('../InventoryGroups/utils/api', () => ({
+  __esModule: true,
+  ...jest.requireActual('../InventoryGroups/utils/api'),
+}));
 jest.mock('../../Utilities/hooks/useFetchBatched');
 
 const TABLE_HEADERS = ['Name', 'Workspace', 'OS', 'Last seen'];

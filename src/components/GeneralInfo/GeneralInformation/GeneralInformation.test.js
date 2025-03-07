@@ -18,12 +18,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
 import mockedData from '../../../__mocks__/mockedData.json';
-import { hosts } from '../../../api/api';
 import { cloneDeep } from 'lodash';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
+import { hostInventoryApi } from '../../../api/hostInventoryApi';
 
-const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
+const mock = new MockAdapter(hostInventoryApi.axios, {
+  onNoMatch: 'throwException',
+});
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',

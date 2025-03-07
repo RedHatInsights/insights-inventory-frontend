@@ -23,7 +23,7 @@ describe('group detail page component', () => {
       name: /group systems tab/i,
     });
     screen.getByRole('tab', {
-      name: /group info tab/i,
+      name: /workspace info tab/i,
     });
   });
 });

@@ -102,7 +102,7 @@ export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
     selectedTags[deleted?.key][deletedItem?.key] = false;
   }
 
-  onApplyTags && onApplyTags(selectedTags, false);
+  if (onApplyTags) onApplyTags(selectedTags, false);
   return selectedTags;
 };
 

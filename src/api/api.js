@@ -2,34 +2,36 @@ export const INVENTORY_API_BASE = '/api/inventory/v1';
 export const EDGE_API_BASE = '/api/edge/v1';
 import flatMap from 'lodash/flatMap';
 
-import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import axiosInstance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import {
   generateFilter,
   mergeArraysByKey,
 } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import {
-  GroupsApi,
-  HostsApi,
-  SystemProfileApi,
-  TagsApi,
-} from '@redhat-cloud-services/host-inventory-client';
-import {
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   allStaleFilters,
 } from '../Utilities/constants';
+import {
+  ApiTagGetTagsOrderByEnum,
+  ApiTagGetTagsOrderHowEnum,
+} from '@redhat-cloud-services/host-inventory-client/ApiTagGetTags';
+import {
+  createStaleness as apiCreateStaleness,
+  getDefaultStaleness as apiGetDefaultStaleness,
+  getHostById as apiGetHostById,
+  getHostList as apiGetHostList,
+  getHostSystemProfileById as apiGetHostSystemProfileById,
+  getHostTags as apiGetHostTags,
+  getStaleness as apiGetStaleness,
+  getTags as apiGetTags,
+  getOperatingSystem,
+} from './hostInventoryApi';
 
-export { instance };
-export const hosts = new HostsApi(undefined, INVENTORY_API_BASE, instance);
-export const tags = new TagsApi(undefined, INVENTORY_API_BASE, instance);
-export const systemProfile = new SystemProfileApi(
-  undefined,
-  INVENTORY_API_BASE,
-  instance
-);
-export const groupsApi = new GroupsApi(undefined, INVENTORY_API_BASE, instance);
+export { axiosInstance as instance };
+
 export const getEntitySystemProfile = (item) =>
-  hosts.apiHostGetHostSystemProfileById([item]);
+  apiGetHostSystemProfileById({ hostIdList: [item] });
 
 export const mapData = ({ facts = {}, ...oneResult }) => ({
   ...oneResult,
@@ -61,14 +63,13 @@ export const mapTags = (
   { orderBy, orderDirection } = {}
 ) => {
   if (data.results.length > 0) {
-    return hosts
-      .apiHostGetHostTags(
-        data.results.map(({ id }) => id),
-        data.per_page,
-        1,
-        orderBy,
-        orderDirection
-      )
+    return apiGetHostTags({
+      hostIdList: data.results.map(({ id }) => id),
+      perPage: data.per_page,
+      page: 1,
+      orderBy,
+      orderHow: orderDirection,
+    })
       .then(({ results: tags }) => ({
         ...data,
         results: data.results.map((row) => ({
@@ -232,40 +233,32 @@ export async function getEntities(
   showTags
 ) {
   if (hasItems && items?.length > 0) {
-    let data = await hosts.apiHostGetHostById(
-      items,
-      undefined,
+    let data = await apiGetHostById({
+      hostIdList: items,
       perPage,
       page,
       orderBy,
-      orderDirection,
-      undefined,
-      undefined,
-      {
+      orderHow: orderDirection,
+      options: {
         ...(controller?.signal !== undefined
           ? { signal: controller.signal }
           : {}),
-      }
-    );
+      },
+    });
     if (fields && Object.keys(fields).length) {
       try {
-        const result = await hosts.apiHostGetHostSystemProfileById(
-          items,
+        const result = await apiGetHostSystemProfileById({
+          hostIdList: items,
           perPage,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          undefined,
-          {
+          options: {
             ...(controller?.signal !== undefined
               ? { signal: controller.signal }
               : {}),
             // TODO We should not be doing this, but use the "fields" param of the function
             // We then probably do not need to (ab)use the generateFilter function
             query: generateFilter(fields, 'fields'),
-          }
-        );
+          },
+        });
 
         data = {
           ...data,
@@ -316,46 +309,35 @@ export async function getEntities(
       }),
     };
 
-    return hosts
-      .apiHostGetHostList(
-        undefined,
-        undefined,
-        filters.hostnameOrId,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        filters.hostGroupFilter,
-        undefined,
-        perPage,
-        page,
-        orderBy,
-        orderDirection,
-        filters.staleFilter,
-        [
-          ...constructTags(filters?.tagFilters),
-          ...(options?.globalFilter?.tags || []),
-        ],
-        filters?.registeredWithFilter,
-        undefined,
-        undefined,
-        {
-          ...(controller?.signal !== undefined
-            ? { signal: controller.signal }
+    return apiGetHostList({
+      hostnameOrId: filters.hostnameOrId,
+      groupName: filters.hostGroupFilter,
+      perPage,
+      page,
+      orderBy,
+      orderHow: orderDirection,
+      staleness: filters.staleFilter,
+      tags: [
+        ...constructTags(filters?.tagFilters),
+        ...(options?.globalFilter?.tags || []),
+      ],
+      registeredWith: filters?.registeredWithFilter,
+      options: {
+        ...(controller?.signal !== undefined
+          ? { signal: controller.signal }
+          : {}),
+        query: {
+          // TODO We should be using the fields and filter (function) parameter instead
+          // Side note: we probably do this because it seems the js-clients have issues with parameters that have array values or smth
+          ...(Object.keys(filterQueryParams).length ? filterQueryParams : {}),
+          ...(Object.keys(fieldsQueryParams).length ? fieldsQueryParams : {}),
+          // TODO There should be a way to pass these via the filter func param
+          ...(Object.keys(lastSeenFilterQueryParams).length
+            ? lastSeenFilterQueryParams
             : {}),
-          query: {
-            // TODO We should be using the fields and filter (function) parameter instead
-            // Side note: we probably do this because it seems the js-clients have issues with parameters that have array values or smth
-            ...(Object.keys(filterQueryParams).length ? filterQueryParams : {}),
-            ...(Object.keys(fieldsQueryParams).length ? fieldsQueryParams : {}),
-            // TODO There should be a way to pass these via the filter func param
-            ...(Object.keys(lastSeenFilterQueryParams).length
-              ? lastSeenFilterQueryParams
-              : {}),
-          },
-        }
-      )
+        },
+      },
+    })
       .then((data) =>
         showTags ? mapTags(data, { orderBy, orderDirection }) : data
       )
@@ -379,42 +361,28 @@ export async function getEntities(
 }
 
 export function getTags(systemId, search, { pagination } = { pagination: {} }) {
-  return hosts.apiHostGetHostTags(
-    systemId,
-    pagination.perPage || 10,
-    pagination.page || 1,
-    undefined,
-    undefined,
-    search
-  );
+  return apiGetHostTags({
+    hostIdList: [systemId], // TODO: can cause a bug when passing with array
+    perPage: pagination.perPage || 10,
+    page: pagination.page || 1,
+    search,
+  });
 }
 
 export function getAllTags(search, pagination = {}) {
-  return tags.apiTagGetTags(
-    [],
-    'tag',
-    'ASC',
-    pagination.perPage || 10,
-    pagination.page || 1,
-    //TODO: ask the backend to return all tags by default.
-    allStaleFilters,
+  return apiGetTags({
+    tags: [],
+    orderBy: ApiTagGetTagsOrderByEnum.Tag,
+    orderHow: ApiTagGetTagsOrderHowEnum.Asc,
+    perPage: pagination.perPage || 10,
+    page: pagination.page || 1,
+    staleness: allStaleFilters,
     search,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined
-  );
+  });
 }
 
 export const getOperatingSystems = async (params = [], showCentosVersions) => {
-  let operatingSystems = await systemProfile.apiSystemProfileGetOperatingSystem(
-    ...params
-  );
+  let operatingSystems = await getOperatingSystem(...params);
   if (!showCentosVersions) {
     const newResults = operatingSystems.results.filter(
       ({ value }) => !value.name.toLowerCase().startsWith('centos')
@@ -425,23 +393,20 @@ export const getOperatingSystems = async (params = [], showCentosVersions) => {
 };
 
 export const fetchDefaultStalenessValues = () => {
-  return instance.get(`${INVENTORY_API_BASE}/account/staleness/defaults`);
+  return apiGetDefaultStaleness();
 };
 
 export const fetchStalenessData = () => {
-  return instance.get(`${INVENTORY_API_BASE}/account/staleness`);
+  return apiGetStaleness();
 };
 
 export const postStalenessData = (data) => {
-  return instance.post(`${INVENTORY_API_BASE}/account/staleness`, data);
-};
-export const patchStalenessData = (data) => {
-  return instance.patch(`${INVENTORY_API_BASE}/account/staleness`, data);
+  return apiCreateStaleness({ stalenessIn: data });
 };
 
 export const fetchEdgeSystem = () => {
   try {
-    return instance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
+    return axiosInstance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
   } catch (err) {
     console.log(err);
   }
@@ -449,12 +414,17 @@ export const fetchEdgeSystem = () => {
 
 export const useGetImageData = () => {
   return (deviceIDs) => {
-    return instance.post(`${EDGE_API_BASE}/devices/devicesview`, deviceIDs);
+    return axiosInstance.post(
+      `${EDGE_API_BASE}/devices/devicesview`,
+      deviceIDs
+    );
   };
 };
 export const fetchEdgeEnforceGroups = () => {
   try {
-    return instance.get(`${EDGE_API_BASE}/device-groups/enforce-edge-groups`);
+    return axiosInstance.get(
+      `${EDGE_API_BASE}/device-groups/enforce-edge-groups`
+    );
   } catch (err) {
     console.error(err);
   }

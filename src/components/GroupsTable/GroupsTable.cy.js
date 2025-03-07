@@ -74,11 +74,11 @@ describe('test data', () => {
   it('first two rows do not have hosts', () => {
     expect(
       fixtures.results.slice(0, 2).every(({ host_count }) => host_count === 0)
-    ).to.be.true;
+    ).to.equal(true);
   });
 
   it('the third row has at least one host', () => {
-    expect(fixtures.results[2].host_count > 0).to.be.true;
+    expect(fixtures.results[2].host_count > 0).to.equal(true);
   });
 
   it('at least one group has known host number', () => {

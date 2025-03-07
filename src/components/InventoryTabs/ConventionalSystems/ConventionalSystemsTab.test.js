@@ -6,12 +6,12 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { useGetRegistry } from '../../../Utilities/constants';
-import { mockSystemProfile } from '../../../__mocks__/hostApi';
-import { hosts } from '../../../api';
+import { mock } from '../../../__mocks__/hostApi';
 import ConventionalSystemsTab from './ConventionalSystemsTab';
 import { calculatePagination } from './Utilities';
 import { shouldDispatch } from '../../../Utilities/testUtils';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
+import { hostInventoryApi } from '../../../api/hostInventoryApi';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -136,7 +136,7 @@ describe('ConventionalSystemsTab', () => {
   beforeEach(() => {
     mockStore = configureStore();
     useGetRegistry.mockImplementation(() => () => ({ register: () => ({}) }));
-    mockSystemProfile.onGet().reply(200, { results: [] });
+    mock.onGet().reply(200, { results: [] });
   });
 
   it('renders correctly when write permissions', async () => {
@@ -166,7 +166,7 @@ describe('ConventionalSystemsTab', () => {
   });
 
   it('can delete items', async () => {
-    hosts.apiHostDeleteHostById = jest.fn();
+    hostInventoryApi.apiHostDeleteHostById = jest.fn();
     const selected = new Map();
     selected.set(system1.id, system1);
 

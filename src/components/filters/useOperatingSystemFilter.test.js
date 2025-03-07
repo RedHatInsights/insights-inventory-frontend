@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { mockSystemProfile } from '../../__mocks__/hostApi';
+import { mock } from '../../__mocks__/hostApi';
 import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
 import { buildOperatingSystems } from '../../__factories__/operatingSystems';
 import { useOperatingSystemFilter } from './useOperatingSystemFilter';
@@ -15,7 +15,7 @@ describe('useOperatingSystemFilter', () => {
   ];
 
   beforeEach(() => {
-    mockSystemProfile.onGet().replyOnce(200);
+    mock.onGet().replyOnce(200);
     useFetchOperatingSystems.mockReturnValue({
       operatingSystems,
       operatingSystemsLoaded: true,

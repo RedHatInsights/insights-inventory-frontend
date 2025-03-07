@@ -67,22 +67,24 @@ describe('test data', () => {
       hostsFixtures.results
         .slice(0, 2)
         .every(({ groups }) => groups[0].name === TEST_GROUP_NAME)
-    ).to.be.true;
+    ).to.equal(true);
   });
 
   it(`the third host has a group different to ${TEST_GROUP_NAME}`, () => {
-    expect(hostsFixtures.results[2].groups[0].name !== TEST_GROUP_NAME).to.be
-      .true;
+    expect(
+      hostsFixtures.results[2].groups[0].name !== TEST_GROUP_NAME
+    ).to.equal(true);
   });
 
   it(`groups has the group ${TEST_GROUP_NAME}`, () => {
-    expect(groupsFixtures.results.some(({ name }) => name === TEST_GROUP_NAME))
-      .to.be.true;
+    expect(
+      groupsFixtures.results.some(({ name }) => name === TEST_GROUP_NAME)
+    ).to.equal(true);
   });
 
   it('the fourth and fifth hosts are not in a group', () => {
-    expect(hostsFixtures.results[3].groups.length === 0).to.be.true;
-    expect(hostsFixtures.results[4].groups.length === 0).to.be.true;
+    expect(hostsFixtures.results[3].groups.length === 0).to.equal(true);
+    expect(hostsFixtures.results[4].groups.length === 0).to.equal(true);
   });
 });
 
@@ -188,7 +190,7 @@ describe('hybrid inventory table', () => {
         }/hosts/${hostsFixtures.results
           .slice(0, 2)
           .map(({ id }) => id)
-          .join(',')}`
+          .join('%2C')}`
       ).as('request');
 
       cy.get(TABLE_ROW_CHECKBOX).eq(0).click();

@@ -53,7 +53,7 @@ class GeneralInformation extends Component {
     { cells, rows, expandable, filters } = {},
     modalVariant = 'small'
   ) => {
-    rows &&
+    if (rows)
       this.onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
     if (this.state.isModalOpen) {
       this.props.navigate(-1);

@@ -1,8 +1,9 @@
-import { getAllTags, tags } from './api';
+import { getAllTags } from './api';
 import MockAdapter from 'axios-mock-adapter';
+import { hostInventoryApi } from './hostInventoryApi';
 
 describe('getAllTags', () => {
-  const mockedTags = new MockAdapter(tags.axios, {
+  const mockedTags = new MockAdapter(hostInventoryApi.axios, {
     onNoMatch: 'throwException',
   });
   it('should generate get all tags call', async () => {

@@ -11,6 +11,11 @@ import * as api from '../api/api';
 import TagsModal from './TagsModal';
 
 jest.mock('lodash/debounce');
+jest.mock('../api/api', () => ({
+  __esModule: true,
+  ...jest.requireActual('../api/api'),
+}));
+
 describe('TagsModal', () => {
   let initialState;
   let mockStore;

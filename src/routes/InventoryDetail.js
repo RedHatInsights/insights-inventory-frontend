@@ -157,7 +157,7 @@ const Inventory = () => {
     chrome?.hideGlobalFilter?.(true);
     chrome.appAction('system-detail');
 
-    inventoryId && dispatch(actions.systemProfile(inventoryId));
+    if (inventoryId) dispatch(actions.systemProfile(inventoryId));
   }, []);
 
   useEffect(() => {

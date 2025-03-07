@@ -7,8 +7,9 @@ import {
   SET_PAGINATION,
   SET_SORT,
 } from './action-types';
-import { getEntitySystemProfile, hosts } from '../api';
+import { getEntitySystemProfile } from '../api';
 import { deleteSystemsById } from '../components/InventoryTable/utils/api';
+import { patchHostById } from '../api/hostInventoryApi';
 export * from './system-issues-actions';
 export * from './inventory-actions';
 
@@ -43,7 +44,10 @@ export const clearNotifications = () => {
 
 export const editDisplayName = (id, value, origValue) => ({
   type: ACTION_TYPES.UPDATE_DISPLAY_NAME,
-  payload: hosts.apiHostPatchHostById([id], { display_name: value }), // eslint-disable-line camelcase
+  payload: patchHostById({
+    hostIdList: [id],
+    patchHostIn: { display_name: value },
+  }),
   meta: {
     id,
     value,
@@ -81,7 +85,10 @@ export const systemProfile = (itemId) => ({
 
 export const editAnsibleHost = (id, value, origValue) => ({
   type: ACTION_TYPES.SET_ANSIBLE_HOST,
-  payload: hosts.apiHostPatchHostById([id], { ansible_host: value }), // eslint-disable-line camelcase
+  payload: patchHostById({
+    hostIdList: [id],
+    patchHostIn: { ansible_host: value },
+  }),
   meta: {
     id,
     value,

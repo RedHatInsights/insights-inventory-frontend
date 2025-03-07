@@ -20,14 +20,14 @@ const apiWithToast = (dispatch, api, statusMessages) => {
   const fetchData = async () => {
     try {
       const response = await api();
-      hasInfo &&
+      if (hasInfo)
         dispatch({
           ...addNotification({
             variant: 'info',
             ...statusMessages.onInfo,
           }),
         });
-      hasSuccess &&
+      if (hasSuccess)
         dispatch({
           ...addNotification({
             variant: 'success',

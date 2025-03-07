@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { availableVersions } from '../../Utilities/__mocks__/OperatingSystemFilterHelpers.fixtures';
-import { mockSystemProfile, mockTags } from '../../__mocks__/hostApi';
+import { mock } from '../../__mocks__/hostApi';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
 import { buildOperatingSystems } from '../../__factories__/operatingSystems';
@@ -93,8 +93,7 @@ describe('EntityTableToolbar', () => {
   ];
 
   beforeEach(() => {
-    mockTags.onGet().reply(200, { results: [] });
-    mockSystemProfile.onGet().reply(200, { results: [] });
+    mock.onGet().reply(200, { results: [] });
     onRefreshData = jest.fn();
     debounce.mockImplementation(jest.requireActual('lodash/debounce'));
     mockStore = configureStore([promiseMiddleware()]);

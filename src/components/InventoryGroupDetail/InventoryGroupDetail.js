@@ -156,7 +156,7 @@ const InventoryGroupDetail = ({ groupId }) => {
             <Tab
               eventKey={1}
               title="Workspace info"
-              aria-label="Group info tab"
+              aria-label="Workspace info tab"
             >
               {activeTabKey === 1 && ( // helps to lazy load the component
                 <PageSection>

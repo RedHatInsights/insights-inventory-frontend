@@ -16,13 +16,7 @@ import { REPORTER_PUPTOO } from '../../Utilities/constants';
  * UUID and last seen.
  *  @param {*} props entity and if entity is loaded.
  */
-const FactsInfo = ({
-  entity,
-  loaded,
-  UUIDWrapper,
-  LastSeenWrapper,
-  ...props
-}) => (
+const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
   <Grid className="ins-entity-facts" {...props}>
     <GridItem md={6}>
       <Flex>
@@ -76,7 +70,6 @@ const FactsInfo = ({
 FactsInfo.propTypes = {
   loaded: PropTypes.bool,
   entity: PropTypes.object,
-  UUIDWrapper: PropTypes.elementType,
   LastSeenWrapper: PropTypes.elementType,
 };
 

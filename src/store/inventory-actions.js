@@ -18,12 +18,12 @@ import {
   getEntitySystemProfile,
   getOperatingSystems,
   getTags,
-  hosts,
 } from '../api';
 import {
   getGroupDetail,
   getGroups,
 } from '../components/InventoryGroups/utils/api';
+import { deleteHostById, patchHostById } from '../api/hostInventoryApi';
 
 export const loadEntities = (
   items = [],
@@ -164,7 +164,10 @@ export const systemProfile = (itemId) => ({
 
 export const editDisplayName = (id, value) => ({
   type: ACTION_TYPES.SET_DISPLAY_NAME,
-  payload: hosts.apiHostPatchHostById(id, { display_name: value }), // eslint-disable-line camelcase
+  payload: patchHostById({
+    hostIdList: [id],
+    patchHostIn: { display_name: value },
+  }),
   meta: {
     notifications: {
       fulfilled: {
@@ -178,7 +181,10 @@ export const editDisplayName = (id, value) => ({
 
 export const editAnsibleHost = (id, value) => ({
   type: ACTION_TYPES.SET_ANSIBLE_HOST,
-  payload: hosts.apiHostPatchHostById(id, { ansible_host: value }), // eslint-disable-line camelcase
+  payload: patchHostById({
+    hostIdList: [id],
+    patchHostIn: { ansible_host: value },
+  }),
   meta: {
     notifications: {
       fulfilled: {
@@ -234,7 +240,7 @@ export const fetchOperatingSystems = (params = [], showCentosVersions) => ({
 
 export const deleteEntity = (systems, displayName) => ({
   type: ACTION_TYPES.REMOVE_ENTITY,
-  payload: hosts.apiHostDeleteHostById(systems),
+  payload: deleteHostById({ hostIdList: systems }),
   meta: {
     notifications: {
       fulfilled: {

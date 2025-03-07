@@ -7,9 +7,9 @@ import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
 import mockedData from '../../../__mocks__/mockedData.json';
 import { rhsmFacts, testProperties } from '../../../__mocks__/selectors';
-import { hosts } from '../../../api/api';
 import SystemCard from './SystemCard';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
+import { hostInventoryApi } from '../../../api/hostInventoryApi';
 
 const fields = [
   'Host name',
@@ -25,7 +25,9 @@ const fields = [
   'RAM',
 ];
 
-const mock = new MockAdapter(hosts.axios, { onNoMatch: 'throwException' });
+const mock = new MockAdapter(hostInventoryApi.axios, {
+  onNoMatch: 'throwException',
+});
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',

@@ -387,7 +387,7 @@ describe('actions', () => {
       `/api/inventory/v1/groups/${TEST_ID}/hosts/${hostsAllInGroupFixtures.results
         .slice(0, 2)
         .map(({ id }) => id)
-        .join(',')}`
+        .join('%2C')}`
     ).as('request');
 
     cy.get(TABLE_ROW_CHECKBOX).eq(0).click();

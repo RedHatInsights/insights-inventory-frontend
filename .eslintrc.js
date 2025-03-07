@@ -1,6 +1,6 @@
 module.exports = {
-  parser: '@babel/eslint-parser',
-  plugins: ['jsdoc'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['jsdoc', '@typescript-eslint'],
   extends: [
     '@redhat-cloud-services/eslint-config-redhat-cloud-services',
     'plugin:cypress/recommended',
@@ -8,8 +8,10 @@ module.exports = {
     'plugin:jest-dom/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsdoc/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   rules: {
+    '@typescript-eslint/no-unused-vars': 1,
     'rulesdir/forbid-pf-relative-imports': 'off',
     'jsdoc/tag-lines': 0,
     'jsdoc/require-jsdoc': 0,
