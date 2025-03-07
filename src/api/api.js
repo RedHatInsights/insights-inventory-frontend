@@ -383,7 +383,6 @@ export function getAllTags(search, pagination = {}) {
 
 export const getOperatingSystems = async (params = [], showCentosVersions) => {
   let operatingSystems = await getOperatingSystem(...params);
-  console.log('###', operatingSystems);
   if (!showCentosVersions) {
     const newResults = operatingSystems.results.filter(
       ({ value }) => !value.name.toLowerCase().startsWith('centos')
