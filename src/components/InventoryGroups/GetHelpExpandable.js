@@ -21,7 +21,7 @@ const QuickstartButton = ({ quickStartId, children }) => {
       variant="link"
       className="ins-c-groups-help-expandable__link"
       size="lg"
-      onClick={quickStarts.activateQuickstart(quickStartId)}
+      onClick={() => quickStarts.activateQuickstart(quickStartId)}
     >
       {children} <ArrowRightIcon />
     </Button>
