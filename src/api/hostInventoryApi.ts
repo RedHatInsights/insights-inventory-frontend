@@ -19,6 +19,7 @@ import { ApiHostGroupAddHostListToGroupParams } from '@redhat-cloud-services/hos
 import { ApiHostGroupDeleteHostsFromGroupParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGroupDeleteHostsFromGroup';
 import { ApiGroupGetGroupListParams } from '@redhat-cloud-services/host-inventory-client/ApiGroupGetGroupList';
 import { ApiSystemProfileGetOperatingSystemParams } from '@redhat-cloud-services/host-inventory-client/ApiSystemProfileGetOperatingSystem';
+import { ApiStalenessUpdateStalenessParams } from '@redhat-cloud-services/host-inventory-client/ApiStalenessUpdateStaleness';
 
 export const INVENTORY_API_BASE = '/api/inventory/v1';
 
@@ -183,16 +184,23 @@ const getTags = async ({
 const getDefaultStaleness = async ({
   options,
 }: ApiStalenessGetDefaultStalenessParams = {}) =>
-  await hostInventoryApi.apiStalenessGetDefaultStaleness(
-    // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
-    options
-  );
+  await hostInventoryApi.apiStalenessGetDefaultStaleness({ options });
 
 const createStaleness = async ({
   stalenessIn,
   options,
 }: ApiStalenessCreateStalenessParams) =>
   await hostInventoryApi.apiStalenessCreateStaleness(
+    // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
+    stalenessIn,
+    options
+  );
+
+const updateStaleness = async ({
+  stalenessIn,
+  options,
+}: ApiStalenessUpdateStalenessParams) =>
+  await hostInventoryApi.apiStalenessUpdateStaleness(
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     stalenessIn,
     options
@@ -345,6 +353,7 @@ export {
   getTags,
   getDefaultStaleness,
   createStaleness,
+  updateStaleness,
   getStaleness,
   patchHostById,
   deleteHostById,
