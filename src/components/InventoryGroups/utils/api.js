@@ -101,8 +101,6 @@ export const getWritableGroups = async (
 export const getGroupsByIds = (groupIds, search = {}) =>
   getGroupsById({ groupIdList: groupIds, ...search });
 
-export const createGroup = (payload) => createGroup(payload);
-
 // TODO: improve the function to check against all workspaces since now it checks only against first 50 workspaces
 export const validateGroupName = (name) =>
   getGroupList().then((response) =>

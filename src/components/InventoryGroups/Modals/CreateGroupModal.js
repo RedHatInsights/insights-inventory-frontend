@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { createGroupSchema } from './ModalSchemas/schemes';
 import Modal from './Modal';
 import apiWithToast from '../utils/apiWithToast';
-import { createGroup, validateGroupName } from '../utils/api';
+import { validateGroupName } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
+import { createGroup } from '../../../api/hostInventoryApi';
 
 export const validate = async (value = '') => {
   if (value.length === 0) {
@@ -41,7 +42,11 @@ const CreateGroupModal = ({
           description: 'Failed to create workspace',
         },
       };
-      return apiWithToast(dispatch, () => createGroup(values), statusMessages);
+      return apiWithToast(
+        dispatch,
+        () => createGroup({ groupIn: values }),
+        statusMessages
+      );
     },
     [isModalOpen]
   );
