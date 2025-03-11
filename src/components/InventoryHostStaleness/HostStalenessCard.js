@@ -30,12 +30,12 @@ import {
   fetchDefaultStalenessValues,
   fetchEdgeSystem,
   fetchStalenessData,
-  patchStalenessData,
   postStalenessData,
 } from '../../api';
 import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { updateStaleness } from '../../api/hostInventoryApi';
 
 const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [filter, setFilter] = useState({});
@@ -111,7 +111,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           );
         });
     } else {
-      patchStalenessData(apiData)
+      updateStaleness({ stalenessIn: apiData })
         .then(() => {
           dispatch(
             addNotificationAction({
