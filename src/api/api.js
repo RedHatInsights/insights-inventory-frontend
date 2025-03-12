@@ -256,7 +256,7 @@ export async function getEntities(
               : {}),
             // TODO We should not be doing this, but use the "fields" param of the function
             // We then probably do not need to (ab)use the generateFilter function
-            query: generateFilter(fields, 'fields'),
+            params: generateFilter(fields, 'fields'),
           },
         });
 
@@ -300,15 +300,6 @@ export async function getEntities(
     const fieldsQueryParams =
       Object.keys(fields || {}).length && generateFilter(fields, 'fields');
 
-    const lastSeenFilterQueryParams = {
-      ...(filters?.lastSeenFilter?.updatedStart && {
-        updated_start: filters.lastSeenFilter.updatedStart,
-      }),
-      ...(filters?.lastSeenFilter?.updatedEnd && {
-        updated_end: filters.lastSeenFilter.updatedEnd,
-      }),
-    };
-
     return apiGetHostList({
       hostnameOrId: filters.hostnameOrId,
       groupName: filters.hostGroupFilter,
@@ -317,6 +308,8 @@ export async function getEntities(
       orderBy,
       orderHow: orderDirection,
       staleness: filters.staleFilter,
+      updatedStart: filters.lastSeenFilter?.updatedStart,
+      updatedEnd: filters.lastSeenFilter?.updatedEnd,
       tags: [
         ...constructTags(filters?.tagFilters),
         ...(options?.globalFilter?.tags || []),
@@ -326,15 +319,9 @@ export async function getEntities(
         ...(controller?.signal !== undefined
           ? { signal: controller.signal }
           : {}),
-        query: {
-          // TODO We should be using the fields and filter (function) parameter instead
-          // Side note: we probably do this because it seems the js-clients have issues with parameters that have array values or smth
+        params: {
           ...(Object.keys(filterQueryParams).length ? filterQueryParams : {}),
           ...(Object.keys(fieldsQueryParams).length ? fieldsQueryParams : {}),
-          // TODO There should be a way to pass these via the filter func param
-          ...(Object.keys(lastSeenFilterQueryParams).length
-            ? lastSeenFilterQueryParams
-            : {}),
         },
       },
     })
