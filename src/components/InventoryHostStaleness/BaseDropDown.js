@@ -29,8 +29,7 @@ const BaseDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(currentItem);
   const onSelect = (event, value) => {
-    let select = dropdownItems.find((item) => item.value === value);
-    setSelected(select.name);
+    setSelected(value);
     setIsOpen(false);
   };
 
