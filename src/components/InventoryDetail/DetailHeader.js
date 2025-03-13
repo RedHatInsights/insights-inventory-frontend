@@ -9,7 +9,6 @@ import { verifyCulledReporter } from '../../Utilities/sharedFunctions';
 import PageHeader from '@redhat-cloud-services/frontend-components/PageHeader';
 import classnames from 'classnames';
 import { REPORTER_PUPTOO } from '../../Utilities/constants';
-import OsModeLabel from './OsModeLabel';
 
 const HeaderInfo = ({
   entity,
@@ -27,15 +26,6 @@ const HeaderInfo = ({
       UUIDWrapper={UUIDWrapper}
       LastSeenWrapper={LastSeenWrapper}
     />
-    {loaded && (
-      <OsModeLabel
-        osMode={
-          entity?.system_profile?.bootc_status?.booted?.image_digest
-            ? 'image'
-            : 'package'
-        }
-      />
-    )}
     {loaded &&
       verifyCulledReporter(entity?.per_reporter_staleness, REPORTER_PUPTOO) && (
         <InsightsPrompt />
@@ -95,9 +85,6 @@ DetailHeader.propTypes = {
   BreadcrumbWrapper: PropTypes.node,
   shouldWrapAsPage: PropTypes.bool,
   additionalClasses: PropTypes.object,
-};
-OsModeLabel.propTypes = {
-  isImageMode: PropTypes.bool,
 };
 
 export default DetailHeader;
