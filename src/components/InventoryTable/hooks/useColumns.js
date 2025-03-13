@@ -45,6 +45,7 @@ const useColumns = (
       return defaultColumnsFiltered;
     }
   }, [
+    columnsProp,
     showTags,
     Array.isArray(disableDefaultColumns)
       ? disableDefaultColumns.join()
