@@ -11,6 +11,8 @@ import { getFact } from './helpers';
 import InsightsDisconnected from '../../Utilities/InsightsDisconnected';
 import { verifyCulledReporter } from '../../Utilities/sharedFunctions';
 import { REPORTER_PUPTOO } from '../../Utilities/constants';
+import OsModeLabel from './OsModeLabel';
+
 /**
  * Basic information about system.
  * UUID and last seen.
@@ -57,12 +59,28 @@ const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
             ) && <InsightsDisconnected />}
         </FlexItem>
       </Flex>
-      {loaded &&
-        entity?.system_profile?.operating_system?.name === 'CentOS Linux' && (
-          <div>
-            <Label color="cyan">CentOS Linux system</Label>
-          </div>
-        )}
+      <Flex>
+        <FlexItem>
+          {loaded &&
+            entity?.system_profile?.operating_system?.name ===
+              'CentOS Linux' && (
+              <div>
+                <Label color="cyan">CentOS Linux system</Label>
+              </div>
+            )}
+        </FlexItem>
+        <FlexItem>
+          {loaded && (
+            <OsModeLabel
+              osMode={
+                entity?.system_profile?.bootc_status?.booted?.image_digest
+                  ? 'image'
+                  : 'package'
+              }
+            />
+          )}
+        </FlexItem>
+      </Flex>
     </GridItem>
   </Grid>
 );

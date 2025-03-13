@@ -7,18 +7,18 @@ describe('OsModeLabel', () => {
   it('should render with package mode', () => {
     render(<OsModeLabel osMode="package" />);
 
-    expect(screen.getByText('RHEL Package mode')).toBeVisible();
+    expect(screen.getByText('Package mode')).toBeVisible();
   });
 
   it('should render with image mode', () => {
     render(<OsModeLabel osMode="image" />);
 
-    expect(screen.getByText('RHEL Image mode')).toBeVisible();
+    expect(screen.getByText('Image mode')).toBeVisible();
   });
 
   it('should render package mode by default', () => {
     render(<OsModeLabel />);
 
-    expect(screen.getByText('RHEL Package mode')).toBeVisible();
+    expect(screen.getByText('Package mode')).toBeVisible();
   });
 });
