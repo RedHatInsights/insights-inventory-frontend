@@ -10,7 +10,7 @@ export const prepareColumnsCoventional = (
   // hides the "groups" column
   const columns = hideGroupColumn
     ? initialColumns.filter(({ key }) => key !== 'groups')
-    : initialColumns;
+    : [...initialColumns];
 
   // additionally insert the "update method" column
   columns.splice(columns.length - 2 /* must be the 3rd col from the end */, 0, {
@@ -62,7 +62,7 @@ export const prepareColumnsImmutable = (
   // hides the "groups" column
   const columns = hideGroupColumn
     ? initialColumns.filter(({ key }) => key !== 'groups')
-    : initialColumns;
+    : [...initialColumns];
   columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc = (
     value,
     hostId
