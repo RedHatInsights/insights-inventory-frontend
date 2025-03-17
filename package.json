@@ -90,9 +90,9 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
-    "@babel/eslint-parser": "^7.25.1",
-    "@babel/plugin-transform-runtime": "^7.25.4",
+    "@babel/core": "^7.26.10",
+    "@babel/eslint-parser": "^7.26.10",
+    "@babel/plugin-transform-runtime": "^7.26.10",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@commitlint/cli": "^17.6.7",
@@ -113,7 +113,7 @@
     "@typescript-eslint/eslint-plugin": "^8.26.0",
     "@typescript-eslint/parser": "^8.26.0",
     "axios-mock-adapter": "^1.20.0",
-    "babel-loader": "^9.2.1",
+    "babel-loader": "^10.0.0",
     "babel-plugin-istanbul": "^7.0.0",
     "babel-plugin-transform-imports": "^2.0.0",
     "better-docs": "^2.7.3",
