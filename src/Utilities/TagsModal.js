@@ -31,11 +31,16 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
       entities?.tagModalLoaded || entityDetails?.tagModalLoaded
   );
 
-  const activeSystemTag = useSelector(({ entities, entityDetails }) =>
-    entities?.activeSystemTag?.created
-      ? entities.activeSystemTag
-      : entityDetails?.entity
-  );
+  const activeSystemTag = useSelector(({ entities, entityDetails }) => {
+    if (entityDetails?.entity) {
+      return entityDetails?.entity;
+    }
+
+    if (entities?.activeSystemTag) {
+      return entities.activeSystemTag;
+    }
+  });
+
   const tags = useSelector(({ entities, entityDetails }) => {
     const activeTags =
       entities?.activeSystemTag?.tags || entityDetails?.entity?.tags;
@@ -72,17 +77,21 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
     setFilterBy(filterTagsBy);
   }, [filterTagsBy]);
 
-  const fetchTags = (pagination, filterBy) => {
-    if (!activeSystemTag) {
-      dispatch(fetchAllTags(filterBy, pagination, getTags));
-    } else {
-      setStatePagination(() => pagination);
-    }
-  };
+  const fetchTags = useCallback(
+    (pagination, filterBy) => {
+      if (!activeSystemTag) {
+        dispatch(fetchAllTags(filterBy, pagination, getTags));
+      } else {
+        setStatePagination(() => pagination);
+      }
+    },
+    [activeSystemTag, dispatch, getTags]
+  );
 
-  const debouncedFetch = useCallback(debounce(fetchTags, 800), [
-    activeSystemTag,
-  ]);
+  const debouncedFetch = useCallback(
+    () => debounce(fetchTags, 800),
+    [fetchTags]
+  );
 
   return (
     <TagModal
@@ -143,7 +152,9 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
       bulkSelect={{ id: 'bulk-select-tags' }}
       title={
         activeSystemTag
-          ? `${activeSystemTag.display_name} (${tagsCount})`
+          ? `${
+              activeSystemTag.display_name || activeSystemTag.name
+            } (${tagsCount})`
           : `All tags in inventory (${tagsCount})`
       }
     />

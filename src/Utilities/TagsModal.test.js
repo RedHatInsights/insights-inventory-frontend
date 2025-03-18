@@ -92,13 +92,11 @@ describe('TagsModal', () => {
         })
       ).toBeVisible();
 
-      expect(screen.getAllByRole('cell')).toHaveLength(4);
+      expect(screen.getAllByRole('cell')).toHaveLength(3);
       screen
         .getAllByRole('cell')
         .forEach((cell, index) =>
-          expect(cell).toHaveTextContent(
-            ['', 'some', 'test', 'something'][index]
-          )
+          expect(cell).toHaveTextContent(['some', 'test', 'something'][index])
         );
     });
 
