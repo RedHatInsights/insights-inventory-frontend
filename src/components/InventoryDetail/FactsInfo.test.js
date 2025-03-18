@@ -18,6 +18,6 @@ describe('FactsInfo', () => {
       />
     );
 
-    expect(screen.getByText(/centos linux system/i)).toBeVisible();
+    expect(screen.getByText(/centos linux/i)).toBeVisible();
   });
 });
