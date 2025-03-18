@@ -65,12 +65,13 @@ const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
             entity?.system_profile?.operating_system?.name ===
               'CentOS Linux' && (
               <div>
-                <Label color="cyan">CentOS Linux system</Label>
+                <Label color="cyan">CentOS Linux</Label>
               </div>
             )}
         </FlexItem>
         <FlexItem>
-          {loaded && (
+          {loaded &&
+          entity?.system_profile?.system_update_method !== 'rpm-ostree' ? (
             <OsModeLabel
               osMode={
                 entity?.system_profile?.bootc_status?.booted?.image_digest
@@ -78,7 +79,7 @@ const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
                   : 'package'
               }
             />
-          )}
+          ) : null}
         </FlexItem>
       </Flex>
     </GridItem>
