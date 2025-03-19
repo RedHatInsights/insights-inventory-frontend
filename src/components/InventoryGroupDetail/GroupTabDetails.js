@@ -6,7 +6,7 @@ import {
   TabTitleText,
   Tabs,
 } from '@patternfly/react-core';
-import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import React, { Suspense, lazy, useMemo, useState } from 'react';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import GroupSystems from '../GroupSystems/GroupSystems';
 import GroupImmutableSystems from '../GroupSystems/GroupImmutableSystems';
@@ -20,10 +20,11 @@ const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 const GroupTabDetailsWrapper = ({
   groupId,
   groupName,
-  activeTab,
+  activeTab: activeSystemsTab,
+  setActiveTab: setActiveSystemsTab,
   hasEdgeImages,
 }) => {
-  const [tab, setTab] = useState(0);
+  const [activeTab, setActiveTab] = useState('systems');
 
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
@@ -50,56 +51,37 @@ const GroupTabDetailsWrapper = ({
     [groupId, groupName]
   );
 
-  const [component, setComponent] = useState(conventionalSystemsContent);
-
-  useEffect(() => {
-    if (activeTab === hybridInventoryTabKeys.conventional.key) {
-      setComponent(conventionalSystemsContent);
-    } else {
-      setComponent(immutableSystemsContent);
-    }
-  }, [activeTab]);
-  const handleTabClick = (_event, tabIndex) => {
-    setTab(tabIndex);
-    if (tabIndex === hybridInventoryTabKeys.conventional.key) {
-      setComponent(conventionalSystemsContent);
-    } else {
-      setComponent(immutableSystemsContent);
-    }
-  };
-
-  const [activeTabKey, setActiveTabKey] = useState(0);
-
   return (
     <Tabs
-      activeKey={activeTabKey}
-      onSelect={(event, value) => setActiveTabKey(value)}
+      activeKey={activeTab}
+      onSelect={(_event, value) => setActiveTab(value)}
       aria-label="Group tabs"
       role="region"
       inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
       mountOnEnter
       unmountOnExit
     >
-      <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
+      <Tab eventKey="systems" title="Systems" aria-label="Group systems tab">
         <PageSection>
           {canViewHosts && hasEdgeImages ? (
             <Tabs
               className="pf-m-light pf-v5-c-table"
-              activeKey={activeTab && tab == 0 ? activeTab : tab}
-              onSelect={handleTabClick}
+              activeKey={activeSystemsTab}
+              onSelect={(_event, tabIndex) => setActiveSystemsTab(tabIndex)}
               aria-label="Hybrid inventory tabs"
+              unmountOnExit
             >
               <Tab
                 eventKey={hybridInventoryTabKeys.conventional.key}
                 title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
               >
-                {component}
+                {conventionalSystemsContent}
               </Tab>
               <Tab
                 eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
-                {component}
+                {immutableSystemsContent}
               </Tab>
             </Tabs>
           ) : canViewHosts ? (
@@ -109,20 +91,18 @@ const GroupTabDetailsWrapper = ({
           )}
         </PageSection>
       </Tab>
-      <Tab eventKey={1} title="Workspace info" aria-label="Group info tab">
-        {activeTabKey === 1 && ( // helps to lazy load the component
-          <PageSection>
-            <Suspense
-              fallback={
-                <Bullseye>
-                  <Spinner />
-                </Bullseye>
-              }
-            >
-              <GroupDetailInfo />
-            </Suspense>
-          </PageSection>
-        )}
+      <Tab eventKey="info" title="Workspace info" aria-label="Group info tab">
+        <PageSection>
+          <Suspense
+            fallback={
+              <Bullseye>
+                <Spinner />
+              </Bullseye>
+            }
+          >
+            <GroupDetailInfo />
+          </Suspense>
+        </PageSection>
       </Tab>
     </Tabs>
   );
@@ -131,7 +111,8 @@ const GroupTabDetailsWrapper = ({
 GroupTabDetailsWrapper.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
-  activeTab: PropTypes.string,
+  activeTab: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
   hasEdgeImages: PropTypes.bool,
 };
 export default GroupTabDetailsWrapper;
