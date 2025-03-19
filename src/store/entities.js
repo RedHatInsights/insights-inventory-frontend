@@ -295,10 +295,22 @@ function selectFilter(
   };
 }
 
+const getActiveSystemTag = (state, meta) => {
+  if (state.rows) {
+    return state.rows.find(
+      ({ id, insightsId, insights_id }) =>
+        meta.systemId === insightsId || insights_id || id
+    );
+  }
+  if (state.entity) {
+    return state.entity;
+  }
+  return {};
+};
+
 export function showTags(state, { payload, meta }) {
-  const { tags, ...activeSystemTag } = state.rows
-    ? state.rows.find(({ id }) => meta.systemId === id)
-    : state.entity || {};
+  const activeSystemTag = getActiveSystemTag(state, meta);
+
   return {
     ...state,
     tagModalLoaded: true,
@@ -314,9 +326,8 @@ export function showTags(state, { payload, meta }) {
 }
 
 export function showTagsPending(state, { meta }) {
-  const { tags, ...activeSystemTag } = state.rows
-    ? state.rows.find(({ id }) => meta.systemId === id)
-    : state.entity || {};
+  const activeSystemTag = getActiveSystemTag(state, meta);
+
   return {
     ...state,
     tagModalLoaded: false,
