@@ -123,6 +123,7 @@ const InventoryGroupDetail = ({ groupId }) => {
             groupId={groupId}
             groupName={groupName}
             activeTab={activeTab}
+            setActiveTab={setActiveTab}
             hasEdgeImages={hasEdgeImages}
           />
         </PageSection>
