@@ -6,7 +6,7 @@ import {
   TabTitleText,
   Tabs,
 } from '@patternfly/react-core';
-import React, { Suspense, lazy, useMemo, useState } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import GroupSystems from '../GroupSystems/GroupSystems';
 import GroupImmutableSystems from '../GroupSystems/GroupImmutableSystems';
@@ -29,27 +29,6 @@ const GroupTabDetailsWrapper = ({
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
   );
-  const conventionalSystemsContent = useMemo(
-    () => (
-      <GroupSystems
-        groupName={groupName}
-        groupId={groupId}
-        hostType={hybridInventoryTabKeys.conventional.key}
-      />
-    ),
-    [groupId, groupName]
-  );
-
-  const immutableSystemsContent = useMemo(
-    () => (
-      <GroupImmutableSystems
-        groupId={groupId}
-        groupName={groupName}
-        hostType={hybridInventoryTabKeys.immutable.key}
-      />
-    ),
-    [groupId, groupName]
-  );
 
   return (
     <Tabs
@@ -59,7 +38,6 @@ const GroupTabDetailsWrapper = ({
       role="region"
       inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
       mountOnEnter
-      unmountOnExit
     >
       <Tab eventKey="systems" title="Systems" aria-label="Group systems tab">
         <PageSection>
@@ -75,13 +53,21 @@ const GroupTabDetailsWrapper = ({
                 eventKey={hybridInventoryTabKeys.conventional.key}
                 title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
               >
-                {conventionalSystemsContent}
+                <GroupSystems
+                  groupName={groupName}
+                  groupId={groupId}
+                  hostType={hybridInventoryTabKeys.conventional.key}
+                />{' '}
               </Tab>
               <Tab
                 eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
-                {immutableSystemsContent}
+                <GroupImmutableSystems
+                  groupId={groupId}
+                  groupName={groupName}
+                  hostType={hybridInventoryTabKeys.immutable.key}
+                />
               </Tab>
             </Tabs>
           ) : canViewHosts ? (

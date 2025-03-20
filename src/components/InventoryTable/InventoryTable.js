@@ -358,4 +358,6 @@ InventoryTable.propTypes = {
   enableExport: PropTypes.bool,
 };
 
+InventoryTable.displayName = 'InventoryTable';
+
 export default InventoryTable;
