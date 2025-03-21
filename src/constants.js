@@ -1,9 +1,11 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   HOST_GROUP_CHIP,
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
 } from './Utilities/constants';
+import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 
 export const tagsMapper = (acc, curr) => {
   let [namespace, keyValue] = curr.split('/');
@@ -259,6 +261,19 @@ export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this host. Contact your organization administrator.';
 export const NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE =
   'You must be an organization administrator to modify User Access configuration.';
+const REMEDIATIONS_DISPLAY = 'Automation Toolkit > Remediations';
+const REMEDIATIONS_LINK = (
+  <InsightsLink aria-label="rhc-remediations-link" to={'/'} app="remediations">
+    {REMEDIATIONS_DISPLAY}
+  </InsightsLink>
+);
+export const RHC_TOOLTIP_MESSAGE = (
+  <span>
+    The displayed RHC status indicates that the RHC client is installed and
+    configured but may not reflect actual connectivity. For further
+    troubleshooting, please visit {REMEDIATIONS_LINK}.
+  </span>
+);
 export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';
 export const GROUPS_WILDCARD = 'inventory:groups:*';
 export const INVENTORY_WILDCARD = 'inventory:*:*';
