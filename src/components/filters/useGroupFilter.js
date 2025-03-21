@@ -84,16 +84,15 @@ const useGroupFilter = (showNoGroupOption = false) => {
     return () => {
       ignore = true;
     };
-  }, [hasAccess]);
+  }, [hasAccess, pageOffsetfetchBatched]);
 
   const chips = useMemo(
     () => buildHostGroupChips(selectedGroupNames),
     [selectedGroupNames]
   );
 
-  // hostGroupConfig is used in EntityTableToolbar.js
-  const hostGroupConfig = useMemo(
-    () => ({
+  return [
+    {
       label: 'Workspace',
       value: 'group-host-filter',
       type: 'custom',
@@ -107,12 +106,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
           />
         ),
       },
-    }),
-    [fetchedGroups, selectedGroupNames]
-  );
-
-  return [
-    hostGroupConfig,
+    },
     chips,
     selectedGroupNames,
     (groupNames) => setSelectedGroupNames(groupNames || []),
