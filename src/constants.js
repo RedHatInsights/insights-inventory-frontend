@@ -259,6 +259,8 @@ export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this host. Contact your organization administrator.';
 export const NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE =
   'You must be an organization administrator to modify User Access configuration.';
+export const RHC_TOOLTIP_MESSAGE =
+  'The displayed RHC status indicates that the RHC client is installed and configured but may not reflect actual connectivity. For further troubleshooting, please visit Automation Toolkit > Remediations.';
 export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';
 export const GROUPS_WILDCARD = 'inventory:groups:*';
 export const INVENTORY_WILDCARD = 'inventory:*:*';
