@@ -2,32 +2,13 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { propertiesSelector } from '../selectors';
 import { editAnsibleHost, editDisplayName } from '../../../store/actions';
 import TextInputModal from '../TextInputModal';
-import { Button, Popover } from '@patternfly/react-core';
+import TitleWithPopover from '../TitleWithPopover';
 import EditButton from '../EditButton';
 import { generalMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
-
-const TitleWithPopover = ({ title, content }) => (
-  <React.Fragment>
-    <span>{title}</span>
-    <Popover
-      headerContent={<div>{title}</div>}
-      bodyContent={<div>{content}</div>}
-    >
-      <Button
-        variant="plain"
-        aria-label={`Action for ${title}`}
-        className="ins-active-general_information__popover-icon"
-      >
-        <OutlinedQuestionCircleIcon />
-      </Button>
-    </Popover>
-  </React.Fragment>
-);
 
 class SystemCardCore extends Component {
   state = {
@@ -325,11 +306,6 @@ SystemCardCore.defaultProps = {
   hasCPUFlags: true,
   hasRAM: true,
   extra: [],
-};
-
-TitleWithPopover.propTypes = {
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
