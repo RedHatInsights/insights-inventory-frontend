@@ -3,6 +3,7 @@ import SystemStatusCard from './SystemStatusCard';
 import configureStore from 'redux-mock-store';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -73,5 +74,22 @@ describe('SystemStatusCard', () => {
     expect(screen.getByLabelText('Last seen value')).toHaveTextContent(
       '06 Mar 2025 00:00 UTC'
     );
+  });
+
+  it('should render correctly with data', async () => {
+    const store = mockStore(initialState);
+    render(<SystemStatusCard store={store} />);
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /action for rhc/i })
+    );
+
+    screen.logTestingPlaygroundURL();
+
+    expect(
+      screen.getByText(
+        /the displayed rhc status indicates that the rhc client is installed and configured but may not reflect actual connectivity\. for further troubleshooting, please visit automation toolkit > remediations\./i
+      )
+    ).toBeInTheDocument();
   });
 });
