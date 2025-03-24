@@ -33,6 +33,7 @@ import { InfoCircleIcon } from '@patternfly/react-icons';
 import { hybridInventoryTabKeys } from '../../../Utilities/constants';
 import { AccountStatContext } from '../../../Contexts';
 import { prepareColumnsCoventional as prepareColumns } from '../../GroupSystems/helpers';
+import { defaultConventionalSystemsGetEntities } from '../helpers/defaultConventionalSystemsGetEntities';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
@@ -160,19 +161,7 @@ const AddSystemsToGroupModal = ({
   const ConventionalInventoryTable = (
     <InventoryTable
       columns={(columns) => prepareColumns(columns, false, true)}
-      getEntities={async (items, config, showTags, defaultGetEntities) =>
-        await defaultGetEntities(
-          items,
-          {
-            ...config,
-            filters: {
-              ...config.filters,
-              hostTypeFilter: 'nil', // request only conventional systems
-            },
-          },
-          showTags
-        )
-      }
+      getEntities={defaultConventionalSystemsGetEntities}
       variant={TableVariant.compact} // TODO: this doesn't affect the table variant
       tableProps={{
         isStickyHeader: false,

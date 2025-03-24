@@ -25,7 +25,7 @@ import {
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
-import { getHostList } from '../../api/hostInventoryApi';
+import { getHostsCount } from './helpers/getHostsCount';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 
@@ -74,36 +74,20 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   useEffect(() => {
     // determines the active tab opened by default
-    const lookUpAvailableSystems = async () => {
-      const conventionalSystems = await getHostList({
-        groupName,
-        perPage: 1,
-        page: 1,
-        filter: { system_profile: { host_type: 'edge' } },
-      });
+    const setInitialTab = async () => {
+      const hostsCount = await getHostsCount({ groupName });
 
-      const immutableSystems = await getHostList({
-        groupName,
-        perPage: 1,
-        page: 1,
-        filter: { system_profile: { host_type: 'nil' } },
-      });
-
-      if (immutableSystems.data.total > 0) {
+      if (hostsCount.immutableHostsCount > 0) {
         setHasEdgeImages(true);
 
-        if (conventionalSystems.data.total === 0) {
+        if (hostsCount.conventionalHostsCount === 0) {
           setActiveTab(hybridInventoryTabKeys.immutable.key);
         }
       }
     };
 
     if (edgeParityEnabled) {
-      try {
-        lookUpAvailableSystems();
-      } catch (error) {
-        console.error(error);
-      }
+      setInitialTab();
     }
   }, [edgeParityEnabled, groupName]);
 
