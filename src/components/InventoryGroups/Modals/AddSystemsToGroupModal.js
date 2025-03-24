@@ -39,7 +39,6 @@ const AddSystemsToGroupModal = ({
   setIsModalOpen,
   groupId,
   groupName,
-  edgeParityIsAllowed,
   activeTab,
 }) => {
   const dispatch = useDispatch();
@@ -121,9 +120,7 @@ const AddSystemsToGroupModal = ({
     'edgeParity.inventory-groups-enabled'
   );
   const edgeParityEnabled =
-    edgeParityIsAllowed &&
-    edgeParityInventoryListEnabled &&
-    edgeParityInventoryGroupsEnabled;
+    edgeParityInventoryListEnabled && edgeParityInventoryGroupsEnabled;
 
   const [selectedImmutableDevices, setSelectedImmutableDevices] = useState([]);
   const selectedImmutableKeys = selectedImmutableDevices.map(
@@ -307,7 +304,6 @@ AddSystemsToGroupModal.propTypes = {
   reloadData: PropTypes.func,
   groupId: PropTypes.string,
   groupName: PropTypes.string,
-  edgeParityIsAllowed: PropTypes.bool,
   activeTab: PropTypes.string,
 };
 
