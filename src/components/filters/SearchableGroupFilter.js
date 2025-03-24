@@ -33,7 +33,7 @@ const SearchableGroupFilter = ({
         children: name,
       })),
     ],
-    [initialGroups]
+    [initialGroups, showNoGroupOption]
   );
 
   const [isOpen, setIsOpen] = useState(false);
@@ -65,7 +65,7 @@ const SearchableGroupFilter = ({
 
     setSelectOptions(newSelectOptions);
     setFocusedItemIndex(0);
-  }, [inputValue]);
+  }, [inputValue, initialValues]);
 
   const handleMenuArrowKeys = (key) => {
     let indexToFocus;
