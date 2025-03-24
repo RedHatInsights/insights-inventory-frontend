@@ -266,13 +266,15 @@ const EntityTableToolbar = ({
     },
   });
 
+  const { defaultOnRefreshData, debouncedOnRefreshData } = onRefreshData;
+
   /**
    * Function to dispatch load systems and fetch all tags.
    *  @param options
    */
   const onRefreshDataInner = (options) => {
     if (hasAccess) {
-      onRefreshData(options);
+      debouncedOnRefreshData(options);
       if (showTags && !hasItems) {
         dispatch(fetchAllTags(filterTagsBy, {}, getTags));
       }
@@ -600,9 +602,10 @@ const EntityTableToolbar = ({
               itemCount: !hasAccess ? 0 : total,
               isDisabled: !hasAccess,
               perPage,
-              onSetPage: (_e, newPage) => onRefreshData({ page: newPage }),
+              onSetPage: (_e, newPage) =>
+                defaultOnRefreshData({ page: newPage }),
               onPerPageSelect: (_e, newPerPage) =>
-                onRefreshData({ page: 1, per_page: newPerPage }),
+                defaultOnRefreshData({ page: 1, per_page: newPerPage }),
               titles: {
                 optionsToggleAriaLabel: 'Items per page',
               },
@@ -673,7 +676,10 @@ EntityTableToolbar.propTypes = {
   }),
   actionsConfig: PropTypes.object,
   activeFiltersConfig: PropTypes.object,
-  onRefreshData: PropTypes.func,
+  onRefreshData: PropTypes.shape({
+    defaultOnRefreshData: PropTypes.func,
+    debouncedOnRefreshData: PropTypes.func,
+  }),
   customFilters: PropTypes.shape({
     tags: PropTypes.oneOfType([
       PropTypes.object,

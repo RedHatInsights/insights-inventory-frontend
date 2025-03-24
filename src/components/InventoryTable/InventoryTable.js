@@ -234,6 +234,11 @@ const InventoryTable = forwardRef(
       }
     });
 
+    const onRefreshDataCallbacks = {
+      defaultOnRefreshData: wrappedOnRefreshData,
+      debouncedOnRefreshData: debouncedOnRefreshData,
+    };
+
     return hasAccess === false && isFullView ? (
       <AccessDenied
         title="This application requires Inventory permissions"
@@ -258,7 +263,7 @@ const InventoryTable = forwardRef(
           perPage={pagination.perPage}
           showTags={showTags}
           getTags={getTags}
-          onRefreshData={debouncedOnRefreshData}
+          onRefreshData={onRefreshDataCallbacks}
           sortBy={sortBy}
           hideFilters={hideFilters}
           paginationProps={paginationProps}
