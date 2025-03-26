@@ -33,13 +33,13 @@ import { InfoCircleIcon } from '@patternfly/react-icons';
 import { hybridInventoryTabKeys } from '../../../Utilities/constants';
 import { AccountStatContext } from '../../../Contexts';
 import { prepareColumnsCoventional as prepareColumns } from '../../GroupSystems/helpers';
+import { defaultConventionalSystemsGetEntities } from '../helpers/defaultConventionalSystemsGetEntities';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
   setIsModalOpen,
   groupId,
   groupName,
-  edgeParityIsAllowed,
   activeTab,
 }) => {
   const dispatch = useDispatch();
@@ -121,9 +121,7 @@ const AddSystemsToGroupModal = ({
     'edgeParity.inventory-groups-enabled'
   );
   const edgeParityEnabled =
-    edgeParityIsAllowed &&
-    edgeParityInventoryListEnabled &&
-    edgeParityInventoryGroupsEnabled;
+    edgeParityInventoryListEnabled && edgeParityInventoryGroupsEnabled;
 
   const [selectedImmutableDevices, setSelectedImmutableDevices] = useState([]);
   const selectedImmutableKeys = selectedImmutableDevices.map(
@@ -163,6 +161,7 @@ const AddSystemsToGroupModal = ({
   const ConventionalInventoryTable = (
     <InventoryTable
       columns={(columns) => prepareColumns(columns, false, true)}
+      getEntities={defaultConventionalSystemsGetEntities}
       variant={TableVariant.compact} // TODO: this doesn't affect the table variant
       tableProps={{
         isStickyHeader: false,
@@ -294,7 +293,6 @@ AddSystemsToGroupModal.propTypes = {
   reloadData: PropTypes.func,
   groupId: PropTypes.string,
   groupName: PropTypes.string,
-  edgeParityIsAllowed: PropTypes.bool,
   activeTab: PropTypes.string,
 };
 

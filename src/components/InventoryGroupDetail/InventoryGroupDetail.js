@@ -23,16 +23,12 @@ import {
   EmptyStateNoAccessToSystems,
 } from './EmptyStateNoAccess';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import axios from 'axios';
-import {
-  INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS,
-  INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
-  INVENTORY_TOTAL_FETCH_URL_SERVER,
-  hybridInventoryTabKeys,
-} from '../../Utilities/constants';
+import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
+import { getHostsCount } from './helpers/getHostsCount';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
+
 const InventoryGroupDetail = ({ groupId }) => {
   const [activeTabKey, setActiveTabKey] = useState(0);
 
@@ -64,48 +60,36 @@ const InventoryGroupDetail = ({ groupId }) => {
     return () => {
       dispatch({ type: 'GROUP_DETAIL_RESET' });
     };
-  }, [canViewGroup]);
+  }, [canViewGroup, groupId, dispatch]);
 
   useEffect(() => {
     // if available, change ID to the group's name in the window title
     chrome?.updateDocumentTitle?.(`${groupName || groupId} - Workspaces`);
-  }, [data]);
+  }, [groupName, groupId, chrome]);
 
   // TODO: append search parameter to identify the active tab
 
   const [hasEdgeImages, setHasEdgeImages] = useState(false);
-  const EdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
+  const edgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
 
   useEffect(() => {
-    if (EdgeParityEnabled) {
-      try {
-        axios
-          .get(
-            `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}&group_name=${groupName}`
-          )
-          .then((result) => {
-            const accountHasEdgeImages = result?.data?.total > 0;
-            setHasEdgeImages(accountHasEdgeImages);
-            axios
-              .get(
-                `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS}&group_name=${groupName}&filter[system_profile][host_type]=nil`
-              )
-              .then((conventionalImages) => {
-                const accountHasConventionalImages =
-                  conventionalImages?.data?.total > 0;
-                if (accountHasEdgeImages && !accountHasConventionalImages) {
-                  setActiveTab(hybridInventoryTabKeys.immutable.key);
-                } else {
-                  setActiveTab(hybridInventoryTabKeys.conventional.key);
-                }
-              });
-          });
-      } catch (e) {
-        setHasEdgeImages(false);
-        setActiveTab(hybridInventoryTabKeys.conventional.key);
+    // determines the active tab opened by default
+    const setInitialTab = async () => {
+      const hostsCount = await getHostsCount({ groupName });
+
+      if (hostsCount.immutableHostsCount > 0) {
+        setHasEdgeImages(true);
+
+        if (hostsCount.conventionalHostsCount === 0) {
+          setActiveTab(hybridInventoryTabKeys.immutable.key);
+        }
       }
+    };
+
+    if (edgeParityEnabled) {
+      setInitialTab();
     }
-  }, [data]);
+  }, [edgeParityEnabled, groupName]);
 
   if (
     (fulfilled && data.total === 0) || // group does not exist
@@ -114,7 +98,7 @@ const InventoryGroupDetail = ({ groupId }) => {
     navigate('/groups');
   }
 
-  return hasEdgeImages && canViewGroup && EdgeParityEnabled ? (
+  return hasEdgeImages && canViewGroup && edgeParityEnabled ? (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
       {canViewGroup ? (
@@ -140,7 +124,7 @@ const InventoryGroupDetail = ({ groupId }) => {
         <PageSection variant="light" type="tabs">
           <Tabs
             activeKey={activeTabKey}
-            onSelect={(event, value) => setActiveTabKey(value)}
+            onSelect={(_event, value) => setActiveTabKey(value)}
             aria-label="Group tabs"
             role="region"
             inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
@@ -186,7 +170,6 @@ const InventoryGroupDetail = ({ groupId }) => {
 
 InventoryGroupDetail.propTypes = {
   groupId: PropTypes.string.isRequired,
-  groupName: PropTypes.string,
 };
 
 export default InventoryGroupDetail;
