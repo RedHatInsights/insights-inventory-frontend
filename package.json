@@ -97,7 +97,7 @@
     "@babel/preset-react": "^7.24.7",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^17.6.7",
-    "@commitlint/travis-cli": "^17.6.7",
+    "@commitlint/travis-cli": "^19.8.0",
     "@cypress/code-coverage": "^3.13.10",
     "@cypress/react18": "^2.0.1",
     "@faker-js/faker": "^8.2.0",
