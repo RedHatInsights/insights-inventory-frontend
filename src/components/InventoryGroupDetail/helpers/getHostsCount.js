@@ -5,7 +5,16 @@ export const getConventionalHostsCount = (params) =>
     perPage: 1,
     page: 1,
     ...params,
-    filter: { system_profile: { host_type: 'edge' }, ...params.filter },
+    options: {
+      params: {
+        filter: {
+          system_profile: {
+            host_type: 'nil',
+          },
+        },
+      },
+      ...params?.options,
+    },
   });
 
 export const getImmutableHostsCount = (params) =>
@@ -13,18 +22,26 @@ export const getImmutableHostsCount = (params) =>
     perPage: 1,
     page: 1,
     ...params,
-    filter: { system_profile: { host_type: 'nil' }, ...params.filter },
+    options: {
+      params: {
+        filter: {
+          system_profile: {
+            host_type: 'edge',
+          },
+        },
+      },
+      ...params?.options,
+    },
   });
 
 export const getHostsCount = async (params) => {
   try {
-    const conventionalHostsCount = await getConventionalHostsCount(params).data
-      .total;
-    const immutableHostsCount = await getImmutableHostsCount(params).data.total;
+    const conventionalHosts = await getConventionalHostsCount(params);
+    const immutableHosts = await getImmutableHostsCount(params);
 
     return {
-      conventionalHostsCount,
-      immutableHostsCount,
+      conventionalHostsCount: conventionalHosts.total,
+      immutableHostsCount: immutableHosts.total,
     };
   } catch (error) {
     console.error(error);
