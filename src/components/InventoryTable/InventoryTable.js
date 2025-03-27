@@ -3,9 +3,9 @@
 import React, {
   Fragment,
   forwardRef,
+  useCallback,
   useEffect,
   useRef,
-  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
@@ -17,10 +17,11 @@ import Pagination from './Pagination';
 import AccessDenied from '../../Utilities/AccessDenied';
 import { loadSystems } from '../../Utilities/sharedFunctions';
 import isEqual from 'lodash/isEqual';
-import { clearErrors, entitiesLoading } from '../../store/actions';
+import { entitiesLoading } from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
 import { useSearchParams } from 'react-router-dom';
 import { ACTION_TYPES } from '../../store/action-types';
+import { debounce } from 'lodash';
 
 /**
  * A helper function to store props and to always return the latest state.
@@ -80,15 +81,14 @@ const InventoryTable = forwardRef(
       showTagModal,
       activeFiltersConfig,
       tableProps,
-      isRbacEnabled,
       hasCheckbox,
-      abortOnUnmount = true,
       showCentosVersions = false,
       enableExport,
       ...props
     },
     ref
   ) => {
+    console.log('INVENTORY TABLE PROPSS on god', props, activeFiltersConfig);
     const hasItems = Boolean(items);
     const error = useSelector(({ entities }) => entities?.error);
     const page = useSelector(
@@ -119,10 +119,16 @@ const InventoryTable = forwardRef(
         propsSortBy?.key != null ? propsSortBy : invSortBy;
       const invSortByOrFallback =
         invSortBy?.key != null ? invSortBy : propsSortBy;
+      // console.log(
+      //   'sortBy Inside',
+      //   propsSortByOrFallback,
+      //   invSortByOrFallback,
+      //   hasItems ? propsSortByOrFallback : invSortByOrFallback
+      // );
       return hasItems ? propsSortByOrFallback : invSortByOrFallback;
     }, shallowEqual);
 
-    const reduxLoaded = useSelector(({ entities }) =>
+    const loaded = useSelector(({ entities }) =>
       hasItems && isLoaded !== undefined
         ? isLoaded && entities?.loaded
         : entities?.loaded
@@ -130,119 +136,183 @@ const InventoryTable = forwardRef(
 
     const [searchParams] = useSearchParams();
 
-    const controller = useRef(new AbortController());
-
-    /**
-     * If initialLoading is set to true, then the component should be in loading state until
-     * entities.loaded is false (and then we can use the redux loading state and forget this one)
-     */
-    const [initialLoadingActive, disableInitialLoading] =
-      useState(initialLoading);
-    useEffect(() => {
-      if (!reduxLoaded) {
-        disableInitialLoading();
-      }
-    }, [reduxLoaded]);
-    const loaded = reduxLoaded && !initialLoadingActive;
-
     const dispatch = useDispatch();
     const store = useStore();
+    const { activeFilters } = store.getState().entities;
 
-    useEffect(() => {
-      return () => {
-        if (abortOnUnmount) controller.current.abort();
-      };
-    }, []);
     const hasLoadEntitiesError =
       error?.status === 404 &&
       error?.type === ACTION_TYPES.LOAD_ENTITIES &&
       parseInt(searchParams.get('page')) !== 1;
-    useEffect(() => {
-      if (error) {
-        if (hasLoadEntitiesError) {
-          onRefreshData({ page: 1 });
-          dispatch(clearErrors());
-        }
-      }
-    }, [error]);
-
-    const cache = useRef(inventoryCache());
-    cache.current.updateProps({
-      page,
-      perPage,
-      items,
-      sortBy,
-      hideFilters,
-      showTags,
-      getEntities,
-      customFilters,
-      hasItems,
-      activeFiltersConfig,
-    });
 
     /**
      * If consumer wants to change data they can call this function via component ref.
      *  @param {*} options          new options to be applied, like pagination, filters, etc.
      *  @param     disableOnRefresh
-     *  @param     forceRefresh
      */
-    const onRefreshData = (
-      options = {},
-      disableOnRefresh,
-      forceRefresh = false
-    ) => {
-      const { activeFilters } = store.getState().entities;
-      const cachedProps = cache.current?.getProps() || {};
+    const onRefreshData = (options = {}, disableOnRefresh) => {
+      console.log('xddd', { options, activeFiltersConfig, sortBy });
 
       const newParams = {
-        page: options?.page || cachedProps.page,
-        per_page: options?.per_page || options?.perPage || cachedProps.perPage,
-        items: cachedProps.items,
-        sortBy: options?.sortBy || cachedProps.sortBy,
-        hideFilters: cachedProps.hideFilters,
-        filters: activeFilters,
-        hasItems: cachedProps.hasItems,
+        page: options?.page || page,
+        per_page: options?.per_page || perPage,
+        items: items,
+        sortBy: options?.sortBy || sortBy,
+        hideFilters: options?.hideFilters || hideFilters,
+        filters: options?.activeFilters,
+        hasItems: options.hasItems,
         //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
-        activeFiltersConfig: cachedProps.activeFiltersConfig,
-        ...customFilters,
+        activeFiltersConfig: options?.activeFiltersConfig,
+        ...options?.customFilters,
         ...options,
-        globalFilter: cachedProps?.customFilters?.globalFilter,
+        globalFilter: customFilters?.globalFilter,
       };
 
       //Check for the rbac permissions
-      const cachedParams = cache.current.getParams();
-      if (hasAccess && (!isEqual(cachedParams, newParams) || forceRefresh)) {
-        cache.current.updateParams(newParams);
+      if (hasAccess) {
+        // cache.current.updateParams(newParams);
         if (onRefresh && !disableOnRefresh) {
           dispatch(entitiesLoading());
           onRefresh(newParams, (options) => {
-            dispatch(
-              loadSystems(
-                { ...newParams, ...options, controller: controller.current },
-                cachedProps.showTags,
-                cachedProps.getEntities
-              )
+            let obj = {
+              ...newParams,
+              ...options,
+            };
+            // Get keys from customFilters and update them in prevFilters
+            const newPrevFilters = Object.keys(customFilters).reduce(
+              (acc, curr) => ({
+                ...acc,
+                [curr]: obj.hasOwnProperty(curr)
+                  ? obj[curr]
+                  : customFilters[curr],
+              }),
+              prevFilters.current
             );
+            prevFilters.current = newPrevFilters;
+            console.log({ newPrevFilters });
+            console.log('onrefresh fr fr', obj);
+            dispatch(loadSystems(obj, showTags, getEntities));
           });
         } else {
-          dispatch(
-            loadSystems(
-              { ...newParams, controller: controller.current },
-              cachedProps.showTags,
-              cachedProps.getEntities
-            )
-          );
+          console.log('onrefresh else fr fr', newParams);
+          dispatch(loadSystems(newParams, showTags, getEntities));
         }
       }
     };
 
-    const prevFilters = useRef(customFilters);
+    const debouncedOnRefreshDataa = (...args) => onRefreshData(...args);
+
+    // const debouncedOnRefreshDataa = useCallback(
+    //   debounce((...args) => {
+    //     return onRefreshData(...args);
+    //   }, 800),
+    //   [onRefreshData]
+    // );
+
+    // useEffect(() => {
+    //   return () => {
+    //     debouncedOnRefreshDataa.cancel();
+    //   };
+    // }, [debouncedOnRefreshDataa]);
+
+    const buildOptions = (...args) => {
+      const [arg0, ...rest] = args;
+      const options = {
+        ...arg0,
+        activeFiltersConfig,
+        activeFilters,
+        customFilters,
+        hasItems,
+      };
+      return [options, ...rest];
+    };
+
+    const wrappedOnRefreshData = (...args) => {
+      onRefreshData(...buildOptions(...args));
+    };
+
+    const debouncedOnRefreshData = (...args) => {
+      debouncedOnRefreshDataa(...buildOptions(...args));
+    };
+
+    // const firstMount = useRef(true);
+
+    const onSort = ({ index, key, direction }) => {
+      wrappedOnRefreshData({
+        sortBy: {
+          index,
+          key,
+          direction,
+        },
+      });
+    };
+
+    const prevFilters = useRef(null);
     useEffect(() => {
-      if (autoRefresh && !isEqual(prevFilters.current, customFilters)) {
-        onRefreshData();
+      console.log({
+        autoRefresh,
+        prevFilters: prevFilters?.current,
+        customFilters,
+      });
+      console.log('useeffect customfilters', { prevFilters, customFilters });
+      debugger;
+      if (
+        ((customFilters.hasOwnProperty('globalFilter') &&
+          customFilters?.globalFilter !== undefined) ||
+          !customFilters.hasOwnProperty('globalFilter')) &&
+        !isEqual(prevFilters.current, customFilters)
+      ) {
+        // if (!isEqual(prevFilters.current?.filters, customFilters?.filters)) {
+        debugger;
+        console.log(
+          'onrefresh not equal',
+          prevFilters.current?.filters,
+          customFilters?.filters
+        );
+        // if (
+        //   Array.isArray(prevFilters.current?.filters) &&
+        //   prevFilters.current.filters?.length === 0
+        // ) {
+        // firstMount.current = false;
         prevFilters.current = customFilters;
+        debouncedOnRefreshData();
+        // }
+        // prevFilters.current = customFilters;
       }
-    });
+    }, [customFilters]);
+
+    // useEffect(() => {
+    //   // console.log({
+    //   //   autoRefresh,
+    //   //   prevFilters: prevFilters?.current,
+    //   //   customFilters,
+    //   // });
+    //   // console.log('useeffect init customfilters', {
+    //   //   prevFilters,
+    //   //   customFilters,
+    //   // });
+    //   // customFilters should be truly custom ig
+    //   // if (!isEqual(prevFilters.current, customFilters)) {
+    //   // console.log(
+    //   //   'onrefresh not equal',
+    //   //   prevFilters.current?.filters,
+    //   //   customFilters?.filters
+    //   // );
+    //   // if (
+    //   //   Array.isArray(prevFilters.current?.filters) &&
+    //   //   prevFilters.current.filters?.length === 0
+    //   // ) {
+    //   debouncedOnRefreshData();
+    //   firstMount.current = false;
+    //   // }
+    //   // prevFilters.current = customFilters;
+    //   // }
+    // }, []);
+
+    const onRefreshDataCallbacks = {
+      defaultOnRefreshData: wrappedOnRefreshData,
+      debouncedOnRefreshData: debouncedOnRefreshData,
+    };
 
     return hasAccess === false && isFullView ? (
       <AccessDenied
@@ -268,7 +338,7 @@ const InventoryTable = forwardRef(
           perPage={pagination.perPage}
           showTags={showTags}
           getTags={getTags}
-          onRefreshData={onRefreshData}
+          onRefreshData={onRefreshDataCallbacks}
           sortBy={sortBy}
           hideFilters={hideFilters}
           paginationProps={paginationProps}
@@ -296,9 +366,10 @@ const InventoryTable = forwardRef(
           sortBy={sortBy}
           perPage={pagination.perPage}
           showTags={showTags}
-          onRefreshData={onRefreshData}
+          onRefreshData={debouncedOnRefreshData}
           loaded={loaded}
           ignoreRefresh={ignoreRefresh}
+          onSort={onSort}
         />
         <TableToolbar
           isFooter
@@ -312,7 +383,7 @@ const InventoryTable = forwardRef(
             page={pagination.page}
             perPage={pagination.perPage}
             hasItems={hasItems}
-            onRefreshData={onRefreshData}
+            onRefreshData={wrappedOnRefreshData}
             paginationProps={paginationProps}
             loaded={loaded}
             ouiaId={'bottom-pagination'}
@@ -350,9 +421,7 @@ InventoryTable.propTypes = {
   showTagModal: PropTypes.bool,
   activeFiltersConfig: PropTypes.object,
   tableProps: PropTypes.object,
-  isRbacEnabled: PropTypes.bool,
   hasCheckbox: PropTypes.bool,
-  abortOnUnmount: PropTypes.bool,
   showCentosVersions: PropTypes.bool,
   showNoGroupOption: PropTypes.bool, // group filter option
   enableExport: PropTypes.bool,

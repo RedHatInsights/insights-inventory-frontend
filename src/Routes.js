@@ -115,9 +115,7 @@ export const Routes = () => {
     },
     {
       path: '/manage-edge-inventory',
-      element: (
-        <RenderWrapper cmp={InventoryTable} isRbacEnabled isImmutableTabOpen />
-      ),
+      element: <RenderWrapper cmp={InventoryTable} isImmutableTabOpen />,
     },
     {
       path: '*',
