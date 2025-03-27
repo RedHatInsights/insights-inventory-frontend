@@ -119,6 +119,12 @@ const InventoryTable = forwardRef(
         propsSortBy?.key != null ? propsSortBy : invSortBy;
       const invSortByOrFallback =
         invSortBy?.key != null ? invSortBy : propsSortBy;
+      // console.log(
+      //   'sortBy Inside',
+      //   propsSortByOrFallback,
+      //   invSortByOrFallback,
+      //   hasItems ? propsSortByOrFallback : invSortByOrFallback
+      // );
       return hasItems ? propsSortByOrFallback : invSortByOrFallback;
     }, shallowEqual);
 
@@ -145,7 +151,7 @@ const InventoryTable = forwardRef(
      *  @param     disableOnRefresh
      */
     const onRefreshData = (options = {}, disableOnRefresh) => {
-      console.log('xddd', { options, activeFiltersConfig });
+      console.log('xddd', { options, activeFiltersConfig, sortBy });
 
       const newParams = {
         page: options?.page || page,
@@ -182,12 +188,20 @@ const InventoryTable = forwardRef(
       }
     };
 
-    const debouncedOnRefreshDataa = useCallback(
-      debounce((...args) => {
-        return onRefreshData(...args);
-      }, 800),
-      []
-    );
+    const debouncedOnRefreshDataa = (...args) => onRefreshData(...args);
+
+    // const debouncedOnRefreshDataa = useCallback(
+    //   debounce((...args) => {
+    //     return onRefreshData(...args);
+    //   }, 800),
+    //   [onRefreshData]
+    // );
+
+    // useEffect(() => {
+    //   return () => {
+    //     debouncedOnRefreshDataa.cancel();
+    //   };
+    // }, [debouncedOnRefreshDataa]);
 
     const buildOptions = (...args) => {
       const [arg0, ...rest] = args;
@@ -209,6 +223,8 @@ const InventoryTable = forwardRef(
       debouncedOnRefreshDataa(...buildOptions(...args));
     };
 
+    // const firstMount = useRef(true);
+
     const onSort = ({ index, key, direction }) => {
       wrappedOnRefreshData({
         sortBy: {
@@ -219,20 +235,67 @@ const InventoryTable = forwardRef(
       });
     };
 
-    const prevFilters = useRef(customFilters);
+    const prevFilters = useRef(null);
     useEffect(() => {
       console.log({
         autoRefresh,
         prevFilters: prevFilters?.current,
         customFilters,
       });
-      // customFilters should be truly custom ig
-      if (autoRefresh && !isEqual(prevFilters.current, customFilters)) {
-        console.log('onrefresh');
-        debouncedOnRefreshData();
+      console.log('useeffect customfilters', { prevFilters, customFilters });
+      debugger;
+      if (
+        ((customFilters.hasOwnProperty('globalFilter') &&
+          customFilters?.globalFilter !== undefined) ||
+          !customFilters.hasOwnProperty('globalFilter')) &&
+        !isEqual(prevFilters.current, customFilters)
+      ) {
+        // if (!isEqual(prevFilters.current?.filters, customFilters?.filters)) {
+        debugger;
+        console.log(
+          'onrefresh not equal',
+          prevFilters.current?.filters,
+          customFilters?.filters
+        );
+        // if (
+        //   Array.isArray(prevFilters.current?.filters) &&
+        //   prevFilters.current.filters?.length === 0
+        // ) {
+        // firstMount.current = false;
         prevFilters.current = customFilters;
+        debouncedOnRefreshData();
+        // }
+        // prevFilters.current = customFilters;
       }
-    });
+    }, [customFilters]);
+
+    // useEffect(() => {
+    //   // console.log({
+    //   //   autoRefresh,
+    //   //   prevFilters: prevFilters?.current,
+    //   //   customFilters,
+    //   // });
+    //   // console.log('useeffect init customfilters', {
+    //   //   prevFilters,
+    //   //   customFilters,
+    //   // });
+    //   // customFilters should be truly custom ig
+    //   // if (!isEqual(prevFilters.current, customFilters)) {
+    //   // console.log(
+    //   //   'onrefresh not equal',
+    //   //   prevFilters.current?.filters,
+    //   //   customFilters?.filters
+    //   // );
+    //   // if (
+    //   //   Array.isArray(prevFilters.current?.filters) &&
+    //   //   prevFilters.current.filters?.length === 0
+    //   // ) {
+    //   debouncedOnRefreshData();
+    //   firstMount.current = false;
+    //   // }
+    //   // prevFilters.current = customFilters;
+    //   // }
+    // }, []);
 
     const onRefreshDataCallbacks = {
       defaultOnRefreshData: wrappedOnRefreshData,

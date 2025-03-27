@@ -298,8 +298,16 @@ const EntityTableToolbar = ({
    */
   const debouncedRefresh = useCallback(
     debounce((config) => updateData(config), 800),
-    [hasAccess]
+    [updateData]
   );
+
+  console.log('xd');
+
+  useEffect(() => {
+    return () => {
+      debouncedRefresh.cancel();
+    };
+  }, [debouncedRefresh]);
 
   /**
    * Component did mount effect to calculate actual filters from redux.
@@ -456,7 +464,7 @@ const EntityTableToolbar = ({
     [TAG_CHIP]: (deleted) =>
       setSelectedTags(
         onDeleteTag(deleted, selectedTags, (selectedTags) =>
-          onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData)
+          onSetFilter(mapGroups(selectedTags), 'tagFilters', debouncedRefresh)
         )
       ),
     [STALE_CHIP]: (deleted) =>
