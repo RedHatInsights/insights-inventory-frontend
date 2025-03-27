@@ -178,6 +178,18 @@ const InventoryTable = forwardRef(
               ...newParams,
               ...options,
             };
+            // Get keys from customFilters and update them in prevFilters
+            const newPrevFilters = Object.keys(customFilters).reduce(
+              (acc, curr) => ({
+                ...acc,
+                [curr]: obj.hasOwnProperty(curr)
+                  ? obj[curr]
+                  : customFilters[curr],
+              }),
+              prevFilters.current
+            );
+            prevFilters.current = newPrevFilters;
+            console.log({ newPrevFilters });
             console.log('onrefresh fr fr', obj);
             dispatch(loadSystems(obj, showTags, getEntities));
           });
