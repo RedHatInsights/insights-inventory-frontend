@@ -222,6 +222,7 @@ const InventoryTable = forwardRef(
     const prevFilters = useRef(null);
     useEffect(() => {
       if (
+        (autoRefresh || prevFilters.current === null) &&
         ((customFilters?.hasOwnProperty('globalFilter') &&
           customFilters?.globalFilter !== undefined) ||
           !customFilters?.hasOwnProperty('globalFilter')) &&
