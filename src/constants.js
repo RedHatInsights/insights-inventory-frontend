@@ -269,9 +269,13 @@ const REMEDIATIONS_LINK = (
 );
 export const RHC_TOOLTIP_MESSAGE = (
   <span>
-    The displayed RHC status indicates that the RHC client is installed and
-    configured but may not reflect actual connectivity. For further
-    troubleshooting, please visit {REMEDIATIONS_LINK}.
+    The RHC client was installed and configured but may not reflect actual
+    connectivity.
+    <br />
+    <br /> To view the remediation status of your system, got to{' '}
+    {REMEDIATIONS_LINK} and open a remediation that your system is associated
+    with. Under the <b>Systems</b> tab, you will find the{' '}
+    <b>Connection Status</b>.
   </span>
 );
 export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';

@@ -87,7 +87,7 @@ describe('SystemStatusCard', () => {
 
     expect(
       screen.queryByText(
-        /the displayed rhc status indicates that the rhc client is installed and configured but may not reflect actual connectivity\. for further troubleshooting, please visit \./i
+        /the rhc client was installed and configured but may not reflect actual connectivity\. to view the remediation status of your system, got to and open a remediation that your system is associated with\. under the tab, you will find the \./i
       )
     ).not.toBeInTheDocument();
 
@@ -97,7 +97,7 @@ describe('SystemStatusCard', () => {
 
     expect(
       screen.getByText(
-        /the displayed rhc status indicates that the rhc client is installed and configured but may not reflect actual connectivity\. for further troubleshooting, please visit \./i
+        /the rhc client was installed and configured but may not reflect actual connectivity\. to view the remediation status of your system, got to and open a remediation that your system is associated with\. under the tab, you will find the \./i
       )
     ).toBeInTheDocument();
 
