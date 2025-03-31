@@ -159,6 +159,7 @@ function clearFilters(state) {
   return {
     ...state,
     activeFilters: [],
+    page: 1,
   };
 }
 

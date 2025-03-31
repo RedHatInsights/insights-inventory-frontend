@@ -108,6 +108,7 @@ const EntityTableToolbar = ({
   fetchCustomOSes,
   ...props
 }) => {
+  console.log('ONREFRESHDATA VIVON', onRefreshData);
   const dispatch = useDispatch();
   const reducer = useReducer(
     filtersReducer([
