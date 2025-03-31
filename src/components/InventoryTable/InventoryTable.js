@@ -202,19 +202,6 @@ const InventoryTable = forwardRef(
 
     const debouncedOnRefreshDataa = (...args) => onRefreshData(...args);
 
-    // const debouncedOnRefreshDataa = useCallback(
-    //   debounce((...args) => {
-    //     return onRefreshData(...args);
-    //   }, 800),
-    //   [onRefreshData]
-    // );
-
-    // useEffect(() => {
-    //   return () => {
-    //     debouncedOnRefreshDataa.cancel();
-    //   };
-    // }, [debouncedOnRefreshDataa]);
-
     const buildOptions = (...args) => {
       const [arg0, ...rest] = args;
       const options = {
@@ -234,8 +221,6 @@ const InventoryTable = forwardRef(
     const debouncedOnRefreshData = (...args) => {
       debouncedOnRefreshDataa(...buildOptions(...args));
     };
-
-    // const firstMount = useRef(true);
 
     const onSort = ({ index, key, direction }) => {
       wrappedOnRefreshData({
@@ -257,9 +242,9 @@ const InventoryTable = forwardRef(
       console.log('useeffect customfilters', { prevFilters, customFilters });
       debugger;
       if (
-        ((customFilters.hasOwnProperty('globalFilter') &&
+        ((customFilters?.hasOwnProperty('globalFilter') &&
           customFilters?.globalFilter !== undefined) ||
-          !customFilters.hasOwnProperty('globalFilter')) &&
+          !customFilters?.hasOwnProperty('globalFilter')) &&
         !isEqual(prevFilters.current, customFilters)
       ) {
         // if (!isEqual(prevFilters.current?.filters, customFilters?.filters)) {
