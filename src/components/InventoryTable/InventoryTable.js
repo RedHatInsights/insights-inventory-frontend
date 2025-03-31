@@ -88,7 +88,6 @@ const InventoryTable = forwardRef(
     },
     ref
   ) => {
-    console.log('INVENTORY TABLE PROPSS on god', props, activeFiltersConfig);
     const hasItems = Boolean(items);
     const error = useSelector(({ entities }) => entities?.error);
     const page = useSelector(
@@ -119,12 +118,6 @@ const InventoryTable = forwardRef(
         propsSortBy?.key != null ? propsSortBy : invSortBy;
       const invSortByOrFallback =
         invSortBy?.key != null ? invSortBy : propsSortBy;
-      // console.log(
-      //   'sortBy Inside',
-      //   propsSortByOrFallback,
-      //   invSortByOrFallback,
-      //   hasItems ? propsSortByOrFallback : invSortByOrFallback
-      // );
       return hasItems ? propsSortByOrFallback : invSortByOrFallback;
     }, shallowEqual);
 
@@ -151,8 +144,6 @@ const InventoryTable = forwardRef(
      *  @param     disableOnRefresh
      */
     const onRefreshData = (options = {}, disableOnRefresh) => {
-      console.log('xddd', { options, activeFiltersConfig, sortBy });
-
       const newParams = {
         page: options?.page || page,
         per_page: options?.per_page || perPage,
@@ -170,7 +161,6 @@ const InventoryTable = forwardRef(
 
       //Check for the rbac permissions
       if (hasAccess) {
-        // cache.current.updateParams(newParams);
         if (onRefresh && !disableOnRefresh) {
           dispatch(entitiesLoading());
           onRefresh(newParams, (options) => {
@@ -189,12 +179,9 @@ const InventoryTable = forwardRef(
               prevFilters.current
             );
             prevFilters.current = newPrevFilters;
-            console.log({ newPrevFilters });
-            console.log('onrefresh fr fr', obj);
             dispatch(loadSystems(obj, showTags, getEntities));
           });
         } else {
-          console.log('onrefresh else fr fr', newParams);
           dispatch(loadSystems(newParams, showTags, getEntities));
         }
       }
@@ -234,65 +221,16 @@ const InventoryTable = forwardRef(
 
     const prevFilters = useRef(null);
     useEffect(() => {
-      console.log({
-        autoRefresh,
-        prevFilters: prevFilters?.current,
-        customFilters,
-      });
-      console.log('useeffect customfilters', { prevFilters, customFilters });
-      debugger;
       if (
         ((customFilters?.hasOwnProperty('globalFilter') &&
           customFilters?.globalFilter !== undefined) ||
           !customFilters?.hasOwnProperty('globalFilter')) &&
         !isEqual(prevFilters.current, customFilters)
       ) {
-        // if (!isEqual(prevFilters.current?.filters, customFilters?.filters)) {
-        debugger;
-        console.log(
-          'onrefresh not equal',
-          prevFilters.current?.filters,
-          customFilters?.filters
-        );
-        // if (
-        //   Array.isArray(prevFilters.current?.filters) &&
-        //   prevFilters.current.filters?.length === 0
-        // ) {
-        // firstMount.current = false;
         prevFilters.current = customFilters;
         debouncedOnRefreshData();
-        // }
-        // prevFilters.current = customFilters;
       }
     }, [customFilters]);
-
-    // useEffect(() => {
-    //   // console.log({
-    //   //   autoRefresh,
-    //   //   prevFilters: prevFilters?.current,
-    //   //   customFilters,
-    //   // });
-    //   // console.log('useeffect init customfilters', {
-    //   //   prevFilters,
-    //   //   customFilters,
-    //   // });
-    //   // customFilters should be truly custom ig
-    //   // if (!isEqual(prevFilters.current, customFilters)) {
-    //   // console.log(
-    //   //   'onrefresh not equal',
-    //   //   prevFilters.current?.filters,
-    //   //   customFilters?.filters
-    //   // );
-    //   // if (
-    //   //   Array.isArray(prevFilters.current?.filters) &&
-    //   //   prevFilters.current.filters?.length === 0
-    //   // ) {
-    //   debouncedOnRefreshData();
-    //   firstMount.current = false;
-    //   // }
-    //   // prevFilters.current = customFilters;
-    //   // }
-    // }, []);
 
     const onRefreshDataCallbacks = {
       defaultOnRefreshData: wrappedOnRefreshData,
