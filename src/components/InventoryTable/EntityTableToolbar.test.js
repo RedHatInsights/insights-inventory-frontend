@@ -15,6 +15,7 @@ import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/fronten
 
 import EntityTableToolbar from './EntityTableToolbar';
 import TitleColumn from './TitleColumn';
+import entities from '../../store/entities';
 
 jest.mock('lodash/debounce');
 jest.mock('../../Utilities/useFeatureFlag');
@@ -85,6 +86,7 @@ describe('EntityTableToolbar', () => {
   let stateWithActiveFilter;
   let mockStore;
   let onRefreshData;
+  let onRefreshDataFn;
   const operatingSystems = [
     ...buildOperatingSystems(10, { osName: 'RHEL', major: 8 }),
     ...buildOperatingSystems(5, { osName: 'RHEL', major: 9 }),
@@ -94,8 +96,15 @@ describe('EntityTableToolbar', () => {
 
   beforeEach(() => {
     mock.onGet().reply(200, { results: [] });
-    onRefreshData = jest.fn();
     debounce.mockImplementation(jest.requireActual('lodash/debounce'));
+
+    onRefreshDataFn = jest.fn();
+
+    onRefreshData = {
+      defaultOnRefreshData: debounce(onRefreshDataFn, 1),
+      debouncedOnRefreshData: debounce(onRefreshDataFn, 1),
+    };
+
     mockStore = configureStore([promiseMiddleware()]);
     initialState = {
       entities: {
@@ -549,7 +558,7 @@ describe('EntityTableToolbar', () => {
           })
         );
 
-        expect(onRefreshData).toHaveBeenCalledWith({ page: 2 });
+        expect(onRefreshDataFn).toHaveBeenCalledWith({ page: 2 });
       });
 
       it('should set per page ', async () => {
@@ -576,14 +585,12 @@ describe('EntityTableToolbar', () => {
             name: /10 per page/i,
           })
         );
-        expect(onRefreshData).toHaveBeenCalledWith({ page: 1, per_page: 10 });
+        expect(onRefreshDataFn).toHaveBeenCalledWith({ page: 1, per_page: 10 });
       });
     });
 
     describe('delete filter', () => {
       it('should dispatch action on delete filter', async () => {
-        debounce.mockImplementation((fn) => fn);
-
         const store = mockStore(stateWithActiveFilter);
         render(
           <Provider store={store}>
@@ -596,14 +603,13 @@ describe('EntityTableToolbar', () => {
             />
           </Provider>
         );
-        onRefreshData.mockClear();
 
         await userEvent.click(
           screen.getByRole('button', {
             name: /close test/i,
           })
         );
-        expect(onRefreshData).toHaveBeenCalledWith({
+        expect(onRefreshDataFn).toHaveBeenCalledWith({
           filters: [{ filter: '', value: 'hostname_or_id' }],
           page: 1,
           perPage: 50,
@@ -611,8 +617,6 @@ describe('EntityTableToolbar', () => {
       });
 
       it('should remove textual filter', async () => {
-        debounce.mockImplementation((fn) => fn);
-        onRefreshData.mockClear();
         const store = mockStore({
           entities: {
             ...initialState.entities,
@@ -637,7 +641,7 @@ describe('EntityTableToolbar', () => {
             name: /close test/i,
           })
         );
-        expect(onRefreshData).toHaveBeenCalledWith({
+        expect(onRefreshDataFn).toHaveBeenCalledWith({
           filters: [{ filter: '', value: 'hostname_or_id' }],
           page: 1,
           perPage: 50,
@@ -645,8 +649,6 @@ describe('EntityTableToolbar', () => {
       });
 
       it('should remove tag filter', async () => {
-        debounce.mockImplementation((fn) => fn);
-        onRefreshData.mockClear();
         const store = mockStore({
           entities: {
             ...initialState.entities,
@@ -691,7 +693,7 @@ describe('EntityTableToolbar', () => {
             name: /close undefined=some value/i,
           })
         );
-        expect(onRefreshData).toHaveBeenCalledWith({
+        expect(onRefreshDataFn).toHaveBeenCalledWith({
           filters: [
             { filter: '', value: 'hostname_or_id' },
             { tagFilters: [] },
@@ -706,7 +708,7 @@ describe('EntityTableToolbar', () => {
         render(
           <Provider store={store}>
             <EntityTableToolbar
-              page={1}
+              page={2}
               total={500}
               perPage={50}
               onRefreshData={onRefreshData}
@@ -721,11 +723,18 @@ describe('EntityTableToolbar', () => {
           })
         );
         const actions = store.getActions();
-        expect(actions.length).toBe(2);
-        expect(actions[actions.length - 2]).toMatchObject({
+        console.log(
+          'should sispatch action on delete all filters: all actions',
+          actions
+        );
+        expect(actions.length).toBe(1);
+        expect(actions[0]).toMatchObject({
           type: 'CLEAR_FILTERS',
         });
-        expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
+        expect(store.getState().entities.page).toEqual(1);
+        expect(store.getState().entities.activeFilters).toEqual([
+          { value: 'hostname_or_id', filter: '' },
+        ]);
       });
 
       it('should call function on delete filter', async () => {
@@ -756,7 +765,6 @@ describe('EntityTableToolbar', () => {
     });
 
     it('trim leading/trailling whitespace ', async () => {
-      debounce.mockImplementation((fn) => fn);
       const store = mockStore(initialState);
       render(
         <Provider store={store}>

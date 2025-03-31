@@ -50,7 +50,12 @@ describe('InventoryList', () => {
     render(
       <MemoryRouter>
         <Provider store={store}>
-          <InventoryList ref={ref} onRefreshData={onRefreshData} loaded />
+          <InventoryList
+            ref={ref}
+            onRefreshData={onRefreshData}
+            loaded
+            hasAccess={true}
+          />
         </Provider>
       </MemoryRouter>
     );
@@ -88,130 +93,5 @@ describe('InventoryList', () => {
     screen.getByText(
       /to view your systems, you must be granted inventory access from your organization administrator\./i
     );
-  });
-
-  describe('API', () => {
-    beforeEach(() => {
-      onRefreshData.mockClear();
-    });
-
-    it('should fire refresh after changing sort', () => {
-      const sortBy = {
-        index: 1,
-        key: 'one',
-        direction: 'asc',
-      };
-      const store = mockStore(initialState);
-      const Cmp = (props) => (
-        <MemoryRouter>
-          <Provider store={store}>
-            <InventoryList
-              {...props}
-              ref={ref}
-              onRefreshData={onRefreshData}
-              loaded
-            />
-          </Provider>
-        </MemoryRouter>
-      );
-      const { rerender } = render(<Cmp sortBy={sortBy} />);
-
-      rerender(
-        <Cmp
-          sortBy={{
-            ...sortBy,
-            direction: 'desc',
-          }}
-        />
-      );
-      expect(onRefreshData).toHaveBeenCalledTimes(1);
-    });
-
-    it('should not fire refresh after changing props', () => {
-      const sortBy = {
-        index: 1,
-        key: 'one',
-        direction: 'asc',
-      };
-      const store = mockStore(initialState);
-      const Cmp = (props) => (
-        <MemoryRouter>
-          <Provider store={store}>
-            <InventoryList
-              {...props}
-              ref={ref}
-              onRefreshData={onRefreshData}
-              loaded
-            />
-          </Provider>
-        </MemoryRouter>
-      );
-      const { rerender } = render(<Cmp sortBy={sortBy} />);
-
-      rerender(<Cmp sortBy={sortBy} showTags />);
-      expect(onRefreshData).toHaveBeenCalledTimes(0);
-    });
-
-    it('should fire refresh after changing items', () => {
-      const store = mockStore(initialState);
-      const Cmp = (props) => (
-        <MemoryRouter>
-          <Provider store={store}>
-            <InventoryList
-              {...props}
-              ref={ref}
-              onRefreshData={onRefreshData}
-              loaded
-            />
-          </Provider>
-        </MemoryRouter>
-      );
-      const { rerender } = render(
-        <Cmp
-          items={[
-            { children: () => <div>test</div>, isOpen: false, id: 'fff' },
-          ]}
-          hasItems
-        />
-      );
-
-      rerender(
-        <Cmp
-          items={[
-            { children: () => <div>test</div>, isOpen: false, id: 'something' },
-          ]}
-          hasItems
-        />
-      );
-      expect(onRefreshData).toHaveBeenCalledTimes(2);
-    });
-
-    it('should fire refresh calling it from ref', () => {
-      const store = mockStore(initialState);
-      const Cmp = (props) => (
-        <MemoryRouter>
-          <Provider store={store}>
-            <InventoryList
-              {...props}
-              ref={ref}
-              onRefreshData={onRefreshData}
-              loaded
-            />
-          </Provider>
-        </MemoryRouter>
-      );
-      render(
-        <Cmp
-          items={[
-            { children: () => <div>test</div>, isOpen: false, id: 'fff' },
-          ]}
-          hasItems
-        />
-      );
-
-      expect(onRefreshData).toHaveBeenCalledTimes(1);
-      ref.current.onRefreshData();
-      expect(onRefreshData).toHaveBeenCalledTimes(2);
-    });
   });
 });

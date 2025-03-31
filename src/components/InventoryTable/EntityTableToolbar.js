@@ -73,6 +73,7 @@ import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
 import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
+import { useCallback } from 'react';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -107,6 +108,7 @@ const EntityTableToolbar = ({
   fetchCustomOSes,
   ...props
 }) => {
+  console.log('ONREFRESHDATA VIVON', onRefreshData);
   const dispatch = useDispatch();
   const reducer = useReducer(
     filtersReducer([
@@ -265,19 +267,20 @@ const EntityTableToolbar = ({
     },
   });
 
+  const { defaultOnRefreshData, debouncedOnRefreshData } = onRefreshData;
+
   /**
    * Function to dispatch load systems and fetch all tags.
    *  @param options
    */
   const onRefreshDataInner = (options) => {
     if (hasAccess) {
-      onRefreshData(options);
+      debouncedOnRefreshData(options);
       if (showTags && !hasItems) {
         dispatch(fetchAllTags(filterTagsBy, {}, getTags));
       }
     }
   };
-
   /**
    * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
    * `onRefresh` function takes two parameters
@@ -294,7 +297,16 @@ const EntityTableToolbar = ({
   /**
    * Debounced `updateData` function.
    */
-  const debouncedRefresh = debounce((config) => updateData(config), 800);
+  const debouncedRefresh = useCallback(
+    debounce((config) => updateData(config), 800),
+    [updateData]
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedRefresh.cancel();
+    };
+  }, [debouncedRefresh]);
 
   /**
    * Component did mount effect to calculate actual filters from redux.
@@ -450,7 +462,7 @@ const EntityTableToolbar = ({
     [TAG_CHIP]: (deleted) =>
       setSelectedTags(
         onDeleteTag(deleted, selectedTags, (selectedTags) =>
-          onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData)
+          onSetFilter(mapGroups(selectedTags), 'tagFilters', debouncedRefresh)
         )
       ),
     [STALE_CHIP]: (deleted) =>
@@ -491,8 +503,6 @@ const EntityTableToolbar = ({
     enabledFilters.systemTypeFilter && setSystemTypeValue([]);
     setEndDate();
     setStartDate(UNIX_EPOCH);
-    dispatch(setFilter([]));
-    updateData({ page: 1, filters: [] });
   };
 
   /**
@@ -593,9 +603,10 @@ const EntityTableToolbar = ({
               itemCount: !hasAccess ? 0 : total,
               isDisabled: !hasAccess,
               perPage,
-              onSetPage: (_e, newPage) => onRefreshData({ page: newPage }),
+              onSetPage: (_e, newPage) =>
+                defaultOnRefreshData({ page: newPage }),
               onPerPageSelect: (_e, newPerPage) =>
-                onRefreshData({ page: 1, per_page: newPerPage }),
+                defaultOnRefreshData({ page: 1, per_page: newPerPage }),
               titles: {
                 optionsToggleAriaLabel: 'Items per page',
               },
@@ -666,7 +677,10 @@ EntityTableToolbar.propTypes = {
   }),
   actionsConfig: PropTypes.object,
   activeFiltersConfig: PropTypes.object,
-  onRefreshData: PropTypes.func,
+  onRefreshData: PropTypes.shape({
+    defaultOnRefreshData: PropTypes.func,
+    debouncedOnRefreshData: PropTypes.func,
+  }),
   customFilters: PropTypes.shape({
     tags: PropTypes.oneOfType([
       PropTypes.object,
