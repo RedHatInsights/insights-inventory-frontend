@@ -3,8 +3,8 @@
   "version": "1.14.8",
   "private": false,
   "engines": {
-    "node": ">=15.0.0",
-    "npm": ">=7.0.0"
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@data-driven-forms/pf4-component-mapper": "^3.22.2",
