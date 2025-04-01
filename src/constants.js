@@ -272,7 +272,7 @@ export const RHC_TOOLTIP_MESSAGE = (
     The RHC client was installed and configured but may not reflect actual
     connectivity.
     <br />
-    <br /> To view the remediation status of your system, got to{' '}
+    <br /> To view the remediation status of your system, go to{' '}
     {REMEDIATIONS_LINK} and open a remediation that your system is associated
     with. Under the <b>Systems</b> tab, you will find the{' '}
     <b>Connection Status</b>.
