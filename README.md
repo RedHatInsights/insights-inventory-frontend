@@ -1,4 +1,4 @@
-[![Build Status](https://app.travis-ci.com/RedHatInsights/insights-inventory-frontend.svg?branch=master)](https://app.travis-ci.com/RedHatInsights/insights-inventory-frontend) [![GitHub release](https://img.shields.io/github/release/RedHatInsights/insights-inventory-frontend.svg)](https://github.com/RedHatInsights/insights-inventory-frontend/releases/latest) [![codecov](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend/branch/master/graph/badge.svg?token=XC4AD7NQFW)](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend)
+[![Build Status](https://app.travis-ci.com/RedHatInsights/insights-inventory-frontend.svg?branch=master)](https://app.travis-ci.com/RedHatInsights/insights-inventory-frontend) [![GitHub release](https://img.shields.io/github/release/RedHatInsights/insights-inventory-frontend.svg)](https://github.com/RedHatInsights/insights-inventory-frontend/releases/latest/) [![codecov](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend/branch/master/graph/badge.svg?token=XC4AD7NQFW)](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend)
 
 # Insights Inventory Frontend
 
