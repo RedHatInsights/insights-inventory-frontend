@@ -86,7 +86,7 @@ const InventoryGroupDetail = ({ groupId }) => {
       }
     };
 
-    if (edgeParityEnabled) {
+    if (edgeParityEnabled && groupName) {
       setInitialTab();
     }
   }, [edgeParityEnabled, groupName]);

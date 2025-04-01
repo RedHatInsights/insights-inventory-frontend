@@ -57,7 +57,7 @@ const GroupTabDetailsWrapper = ({
                   groupName={groupName}
                   groupId={groupId}
                   hostType={hybridInventoryTabKeys.conventional.key}
-                />{' '}
+                />
               </Tab>
               <Tab
                 eventKey={hybridInventoryTabKeys.immutable.key}
