@@ -345,8 +345,10 @@ const EntityTableToolbar = ({
     if (textualFilter) {
       textualFilter.filter = trimmedValue;
     } else {
-      // TODO This is sus
-      activeFilters?.push({ value: TEXT_FILTER, filter: trimmedValue });
+      if (trimmedValue) {
+        // TODO This is sus
+        activeFilters?.push({ value: TEXT_FILTER, filter: trimmedValue });
+      }
     }
 
     const refresh = debounced ? debouncedRefresh : updateData;
