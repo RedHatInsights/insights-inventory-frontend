@@ -66,6 +66,7 @@ const appList = {
         <ApplicationTab appName="compliance" title="Compliance" {...props} />
       ),
       nonEdge: true,
+      nonImage: true,
     },
     {
       title: 'Patch',
@@ -131,10 +132,13 @@ const Inventory = () => {
         .replace(' ', '-')
         .toUpperCase() || 'RHEL';
 
+    let imageModeSystem = !!entity?.system_profile?.bootc_status;
     let newApps =
       entity &&
       appList[osSlug]?.map((app) => {
-        app.isDisabled = app.nonEdge && hostType === 'edge' ? true : false;
+        app.isDisabled =
+          (app.nonEdge && hostType === 'edge') ||
+          (app.nonImage && imageModeSystem === true);
         app['data-cy'] = `${app.name}-tab`;
 
         if (app.name === 'ros') {
