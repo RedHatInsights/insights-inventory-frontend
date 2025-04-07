@@ -229,6 +229,37 @@ export const hostsInterceptors = {
       }
     );
   },
+  emptyHybridSystems: () => {
+    cy.intercept(
+      '/api/inventory/v1/hosts*',
+      { hostname: 'localhost' },
+      (req) => {
+        if (req.url.includes('filter[system_profile][host_type]=edge')) {
+          req.reply({
+            statusCode: 200,
+            body: {
+              count: 1,
+              page: 1,
+              per_page: DEFAULT_ROW_COUNT,
+              total: 0,
+              results: [],
+            },
+          });
+        } else {
+          req.reply({
+            statusCode: 200,
+            body: {
+              count: 0,
+              page: 1,
+              per_page: DEFAULT_ROW_COUNT,
+              total: 0,
+              results: [],
+            },
+          });
+        }
+      }
+    ).as('emptyHybridSystems');
+  },
 };
 
 export const systemProfileInterceptors = {
