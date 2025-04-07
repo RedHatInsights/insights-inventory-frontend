@@ -90,16 +90,20 @@ const InventoryTable = forwardRef(
   ) => {
     const hasItems = Boolean(items);
     const error = useSelector(({ entities }) => entities?.error);
-    const page = useSelector(
-      ({ entities: { page: invPage } }) =>
-        hasItems ? propsPage : invPage || 1,
-      shallowEqual
-    );
-    const perPage = useSelector(
-      ({ entities: { perPage: invPerPage } }) =>
-        hasItems ? propsPerPage : invPerPage || 50,
-      shallowEqual
-    );
+    const page = useSelector(({ entities: { page: invPage } }) => {
+      const propsPageOrFallback = propsPage != null ? propsPage : invPage;
+      const invPageOrFallback = invPage != null ? invPage : propsPage;
+      console.log('WTF', propsPageOrFallback, invPageOrFallback);
+      return hasItems ? propsPageOrFallback : invPageOrFallback ?? 1;
+    }, shallowEqual);
+
+    const perPage = useSelector(({ entities: { perPage: invPerPage } }) => {
+      const propsPerPageOrFallback =
+        propsPerPage != null ? propsPerPage : invPerPage;
+      const invPerPageOrFallback =
+        invPerPage != null ? invPerPage : propsPerPage;
+      return hasItems ? propsPerPageOrFallback : invPerPageOrFallback ?? 50;
+    }, shallowEqual);
     const total = useSelector(({ entities: { total: invTotal } }) => {
       if (hasItems) {
         return propsTotal !== undefined ? propsTotal : items?.length;

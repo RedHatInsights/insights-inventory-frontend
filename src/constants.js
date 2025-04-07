@@ -163,8 +163,8 @@ export const getSearchParams = (searchParams) => {
   const rhcdFilter = searchParams.getAll(RHCD_FILTER_KEY);
   const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
   const hostGroupFilter = searchParams.getAll(HOST_GROUP_CHIP);
-  const page = searchParams.get('page');
-  const perPage = searchParams.get('per_page');
+  const page = parseInt(searchParams.get('page'), 10);
+  const perPage = parseInt(searchParams.get('per_page'), 10);
   const lastSeenFilter = searchParams.getAll('last_seen');
   const systemTypeFilter = searchParams.getAll('system_type');
   const sortBy = {

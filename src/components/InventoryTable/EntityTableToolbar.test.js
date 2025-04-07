@@ -96,7 +96,12 @@ describe('EntityTableToolbar', () => {
 
   beforeEach(() => {
     mock.onGet().reply(200, { results: [] });
-    debounce.mockImplementation(jest.requireActual('lodash/debounce'));
+    // Force debounce time to 0
+    debounce.mockImplementation(
+      jest.fn((fn, _delay, ...args) =>
+        jest.requireActual('lodash/debounce')(fn, 0, ...args)
+      )
+    );
 
     onRefreshDataFn = jest.fn();
 

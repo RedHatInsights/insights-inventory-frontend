@@ -35,6 +35,7 @@ import {
 } from '../../../cypress/support/interceptors';
 import { ORDER_TO_URL } from '../../../cypress/support/utils';
 import GroupSystems from './GroupSystems';
+import * as globalFilterModule from '../filters/useGlobalFilter';
 
 const GROUP_NAME = 'foobar';
 const ROOT = 'div[id="group-systems-table"]';
@@ -89,6 +90,12 @@ before(() => {
 
 describe('renders correctly', () => {
   beforeEach(() => {
+    cy.stub(globalFilterModule, 'default').returns(() => ({
+      tags: { deez: 'nuts' },
+      filter: {
+        vi: 'von',
+      },
+    }));
     cy.intercept('*', { statusCode: 200, body: { results: [] } });
 
     hostsInterceptors.successful(hostsAllInGroupFixtures);
@@ -96,6 +103,12 @@ describe('renders correctly', () => {
     systemProfileInterceptors['operating system, successful empty']();
     groupsInterceptors['successful with some items']();
 
+    cy.stub(globalFilterModule, 'default').returns(() => ({
+      tags: { deez: 'nuts' },
+      filter: {
+        vi: 'von',
+      },
+    }));
     mountTable();
 
     waitForTable();
@@ -259,7 +272,7 @@ describe('filtering', () => {
     cy.get('button').contains('Reset filters').click();
     cy.wait('@getHosts')
       .its('request.url')
-      .should('not.contain', 'hostname_or_id');
+      .should('contain', 'hostname_or_id=&');
 
     cy.get(CHIP_GROUP).should('not.exist');
 

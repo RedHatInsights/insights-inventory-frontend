@@ -414,7 +414,7 @@ const EntityTableToolbar = ({
 
   useEffect(() => {
     if (shouldReload && showTags && enabledFilters.tags) {
-      onSetFilter(mapGroups(selectedTags), 'tagFilters', debouncedRefresh);
+      onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData);
     }
   }, [selectedTags]);
 
@@ -461,9 +461,10 @@ const EntityTableToolbar = ({
     [TEXTUAL_CHIP]: () => setTextFilter(''),
     [TAG_CHIP]: (deleted) =>
       setSelectedTags(
-        onDeleteTag(deleted, selectedTags, (selectedTags) =>
-          onSetFilter(mapGroups(selectedTags), 'tagFilters', debouncedRefresh)
-        )
+        onDeleteTag(deleted, selectedTags, (selectedTags) => {
+          console.log('ondeletetag xd', deleted, selectedTags);
+          return onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData);
+        })
       ),
     [STALE_CHIP]: (deleted) =>
       setStaleFilter(onDeleteFilter(deleted, staleFilter)),
@@ -503,6 +504,8 @@ const EntityTableToolbar = ({
     enabledFilters.systemTypeFilter && setSystemTypeValue([]);
     setEndDate();
     setStartDate(UNIX_EPOCH);
+    // dispatch(setFilter([]));
+    // updateData({ page: 1, filters: [] });
   };
 
   /**
@@ -562,6 +565,8 @@ const EntityTableToolbar = ({
       : []),
     ...(filterConfig?.items || []),
   ];
+
+  console.log({ filterConfig });
 
   return (
     <Fragment>

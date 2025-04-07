@@ -50,14 +50,26 @@ const GroupSystems = ({ groupName, groupId }) => {
   );
 
   const [searchParams] = useSearchParams();
+
+  const parsedSearchParams = useMemo(
+    () => getSearchParams(searchParams),
+    [searchParams.toString()]
+  );
   const noAccessTooltip = NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE;
   const removeLabel = 'Remove from workspace';
 
   useEffect(() => {
-    const { page, perPage } = getSearchParams(searchParams);
-
-    if (perPage !== null || page !== null) {
-      dispatch(setPagination(page, perPage));
+    if (parsedSearchParams?.perPage || parsedSearchParams?.page) {
+      dispatch(
+        setPagination(
+          Array.isArray(parsedSearchParams.page)
+            ? parsedSearchParams.page[0]
+            : parsedSearchParams.page,
+          Array.isArray(parsedSearchParams.perPage)
+            ? parsedSearchParams.perPage[0]
+            : parsedSearchParams.perPage
+        )
+      );
     }
 
     return () => {
@@ -128,6 +140,8 @@ const GroupSystems = ({ groupName, groupId }) => {
       )}
       {!addToGroupModalOpen && (
         <InventoryTable
+          page={parsedSearchParams?.page}
+          perPage={parsedSearchParams?.perPage}
           columns={(columns) => prepareColumns(columns, true)}
           hideFilters={{ hostGroupFilter: true }}
           initialLoading
