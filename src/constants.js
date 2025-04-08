@@ -86,7 +86,8 @@ export const generateFilters = (
         id: filter.id || `${activeLabel}-${activeKey}`,
         onChange: (_e, newFilter) =>
           onChange(activeKey, newFilter, activeLabel),
-        value: activeFilters[activeKey] && activeFilters[activeKey].value,
+        value:
+          (activeFilters[activeKey] && activeFilters[activeKey].value) || '',
         ...(filter.options && { items: filter.options }),
       },
     };
