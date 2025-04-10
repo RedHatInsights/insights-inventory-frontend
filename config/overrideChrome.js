@@ -3,7 +3,6 @@ const chromeMock = {
   isBeta: () => false,
   appAction: () => {},
   appObjectId: () => {},
-  on: () => () => {},
   getApp: () => 'inventory',
   getBundle: () => 'insights',
   getUserPermissions: () => [{ permission: 'inventory:*:*' }],
@@ -28,6 +27,28 @@ const chromeMock = {
   hideGlobalFilter: () => {},
   quickStarts: {
     activateQuickstart: () => {},
+  },
+  on: (e, fn) => {
+    if (e === 'GLOBAL_FILTER_UPDATE') {
+      fn({ data: {} });
+      return () => {};
+    }
+  },
+  mapGlobalFilter: () => {
+    return [
+      {
+        group: {
+          name: 'Workloads',
+          noFilter: true,
+        },
+        isSelected: false,
+        item: {
+          tagKey: 'SAP',
+        },
+      },
+      [],
+      [],
+    ];
   },
 };
 

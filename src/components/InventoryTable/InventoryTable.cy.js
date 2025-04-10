@@ -193,7 +193,7 @@ describe('with default parameters', () => {
       cy.get('button').contains('Reset filters').click();
       cy.wait('@getHosts')
         .its('request.url')
-        .should('not.contain', 'hostname_or_id');
+        .should('contain', 'hostname_or_id=&');
 
       cy.get(CHIP_GROUP).should('not.exist');
     });

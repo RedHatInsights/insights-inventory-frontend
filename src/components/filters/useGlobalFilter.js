@@ -38,8 +38,7 @@ const useGlobalFilter = () => {
     return () => unlisten();
   }, [edgeParityFilterDeviceEnabled]);
 
-  return {};
-  // return globalFilter;
+  return globalFilter;
 };
 
 export default useGlobalFilter;
