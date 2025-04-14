@@ -9,20 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run travis:verify
-      - run: npm run build
-  commitlint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - run: npm ci
+      - run: npm run lint
+      - name: Print Base SHA
+        run: echo "Base SHA ${{ github.event.pull_request.base.sha }}"
+      - name: Print Head SHA
+        run: echo "Head SHA ${{ github.event.pull_request.head.sha }}"
       - name: Validate current commit (last commit) with commitlint
         if: github.event_name == 'push'
         run: npx commitlint --last --verbose
-
       - name: Validate PR commits with commitlint
         if: github.event_name == 'pull_request'
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+      - run: npm run travis:verify
+      - run: npm run build
