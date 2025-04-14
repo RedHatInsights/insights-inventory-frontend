@@ -235,7 +235,7 @@ const InventoryTable = forwardRef(
         prevFilters.current = customFilters;
         debouncedOnRefreshData();
       }
-    }, [customFilters]);
+    }, [customFilters, prevFilters]);
 
     const onRefreshDataCallbacks = {
       defaultOnRefreshData: wrappedOnRefreshData,

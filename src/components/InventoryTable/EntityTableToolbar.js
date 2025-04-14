@@ -414,7 +414,7 @@ const EntityTableToolbar = ({
 
   useEffect(() => {
     if (shouldReload && showTags && enabledFilters.tags) {
-      onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData);
+      onSetFilter(mapGroups(selectedTags), 'tagFilters', debouncedRefresh);
     }
   }, [selectedTags]);
 
@@ -507,6 +507,8 @@ const EntityTableToolbar = ({
     // dispatch(setFilter([]));
     // updateData({ page: 1, filters: [] });
   };
+
+  console.log({ selectedTags });
 
   /**
    * Function to create active filters chips.
