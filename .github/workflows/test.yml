@@ -13,10 +13,6 @@ jobs:
           fetch-depth: 0
       - run: npm ci
       - run: npm run lint
-      - name: Print Base SHA
-        run: echo "Base SHA ${{ github.event.pull_request.base.sha }}"
-      - name: Print Head SHA
-        run: echo "Head SHA ${{ github.event.pull_request.head.sha }}"
       - name: Validate current commit (last commit) with commitlint
         if: github.event_name == 'push'
         run: npx commitlint --last --verbose
