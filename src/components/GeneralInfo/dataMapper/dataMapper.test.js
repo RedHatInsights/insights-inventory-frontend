@@ -10,7 +10,7 @@ import {
   workloadsDataMapper,
 } from './dataMapper';
 
-const mockWorkloadsData = {
+export const mockWorkloadsData = {
   ansible: {
     catalog_worker_version: '9.8.7, banana.42, 0.0.abc',
     controller_version: 'x.1.2, foo.bar, 3.3.3',

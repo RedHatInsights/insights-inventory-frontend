@@ -213,12 +213,10 @@ export const workloadsDataMapper = ({ data = [], fieldKeys = [] } = {}) => {
         fieldKeys.map((key) => {
           const value = item[key];
 
-          // Flatten arrays to comma-separated strings
           if (Array.isArray(value)) {
             return value.join(', ');
           }
 
-          // Handle missing or undefined values gracefully
           return value !== undefined ? value : '';
         })
       );
