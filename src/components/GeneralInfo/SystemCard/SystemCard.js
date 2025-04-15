@@ -7,8 +7,15 @@ import { editAnsibleHost, editDisplayName } from '../../../store/actions';
 import TextInputModal from '../TextInputModal';
 import TitleWithPopover from '../TitleWithPopover';
 import EditButton from '../EditButton';
-import { generalMapper } from '../dataMapper';
+import { generalMapper, workloadsDataMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
+import { Clickable } from '../LoadingCard/LoadingCard';
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+} from '@patternfly/react-icons';
+import { Icon, Tooltip } from '@patternfly/react-core';
 
 class SystemCardCore extends Component {
   state = {
@@ -61,7 +68,6 @@ class SystemCardCore extends Component {
       hasDisplayName,
       hasAnsibleHostname,
       hasWorkspace,
-      hasSAP,
       hasSystemPurpose,
       hasCPUs,
       hasSockets,
@@ -69,8 +75,183 @@ class SystemCardCore extends Component {
       hasCPUFlags,
       hasRAM,
       extra,
+      workloadsData,
     } = this.props;
     const { isDisplayNameModalOpen, isAnsibleHostModalOpen } = this.state;
+    const workloadsTypesKeys = [
+      'ansible',
+      'crowdstrike',
+      'ibm_db2',
+      'intersystems',
+      'mssql',
+      'oracle_db',
+      'rhel_ai',
+      'sap',
+    ];
+    function checkWorkloadsKeys(input = {}, referenceKeys) {
+      return referenceKeys.filter(
+        (key) => typeof input[key] === 'object' && input[key] !== null
+      );
+    }
+    const workloadsTypes = checkWorkloadsKeys(
+      workloadsData,
+      workloadsTypesKeys
+    );
+
+    const workloadConfigs = [
+      {
+        type: 'sap',
+        title: 'SAP',
+        onClick: () =>
+          handleClick(
+            'SAP IDs (SID)',
+            generalMapper(workloadsData.sap.sids, 'SID')
+          ),
+        target: 'sap_sids',
+      },
+      {
+        type: 'ansible',
+        title: 'Ansible Automation Platform',
+        onClick: () =>
+          handleClick(
+            'Ansible',
+            workloadsDataMapper({
+              data: [workloadsData.ansible],
+              fieldKeys: [
+                'catalog_worker_version',
+                'controller_version',
+                'hub_version',
+                'sso_version',
+              ],
+            })
+          ),
+        target: 'ansible',
+      },
+      {
+        type: 'mssql',
+        title: 'Microsoft SQL',
+        onClick: () =>
+          handleClick(
+            'Microsoft SQL',
+            workloadsDataMapper({
+              data: [{ version: workloadsData.mssql.version }],
+            })
+          ),
+        target: 'mssql',
+      },
+      {
+        type: 'crowdstrike',
+        title: 'CrowdStrike',
+        onClick: () =>
+          handleClick(
+            'CrowdStrike',
+            workloadsDataMapper({
+              data: [workloadsData.crowdstrike],
+              fieldKeys: ['falcon_aid', 'falcon_backend', 'falcon_version'],
+            })
+          ),
+        target: 'crowdstrike',
+      },
+      {
+        type: 'rhel_ai',
+        title: 'RHEL AI',
+        onClick: () =>
+          handleClick(
+            'RHEL AI',
+            workloadsDataMapper({
+              data: [workloadsData.rhel_ai],
+              fieldKeys: [
+                'amd_gpu_models',
+                'intel_gaudi_hpu_models',
+                'nvidia_gpu_models',
+                'rhel_ai_version_id',
+                'variant',
+              ],
+            })
+          ),
+        target: 'rhel_ai',
+      },
+      {
+        type: 'intersystems',
+        title: 'InterSystems',
+        onClick: () =>
+          handleClick(
+            'InterSystems',
+            workloadsDataMapper({
+              data: workloadsData.intersystems.running_instances,
+              fieldKeys: ['instance_name', 'product', 'version'],
+            })
+          ),
+        target: 'intersystems',
+      },
+      {
+        type: 'ibm_db2',
+        customRender: () => {
+          const isRunning = workloadsData?.ibm_db2?.is_running;
+          return (
+            <>
+              <Icon status={isRunning ? 'success' : 'warning'}>
+                <Tooltip content={isRunning ? 'Running' : 'Failed'}>
+                  {isRunning ? (
+                    <CheckCircleIcon />
+                  ) : (
+                    <ExclamationTriangleIcon />
+                  )}
+                </Tooltip>
+              </Icon>{' '}
+              IBM Db2
+            </>
+          );
+        },
+      },
+      {
+        type: 'oracle_db',
+        customRender: () => {
+          const isRunning = workloadsData?.oracle_db?.is_running;
+          return (
+            <>
+              <Icon status={isRunning ? 'success' : 'warning'}>
+                <Tooltip content={isRunning ? 'Running' : 'Failed'}>
+                  {isRunning ? (
+                    <CheckCircleIcon />
+                  ) : (
+                    <ExclamationTriangleIcon />
+                  )}
+                </Tooltip>
+              </Icon>{' '}
+              Oracle Database
+            </>
+          );
+        },
+      },
+    ];
+
+    const renderedWorkloads = workloadConfigs
+      .filter(({ type }) => workloadsTypes.includes(type))
+      .map(({ type, title, onClick, target, customRender }) => {
+        if (typeof customRender === 'function') {
+          return <Fragment key={type}>{customRender()}</Fragment>;
+        }
+
+        return (
+          <Clickable
+            key={type}
+            onClick={onClick}
+            target={target}
+            workload={type}
+            title={title}
+          />
+        );
+      });
+
+    const interleavedWorkloads = renderedWorkloads.reduce(
+      (acc, curr, index) => {
+        if (index !== 0) acc.push(', ');
+        acc.push(curr);
+        return acc;
+      },
+      []
+    );
 
     return (
       <Fragment>
@@ -154,22 +335,21 @@ class SystemCardCore extends Component {
                   },
                 ]
               : []),
-            ...(hasSAP
+            ...(workloadsTypes.length > 0
               ? [
                   {
-                    title: 'SAP',
-                    value: properties.sapIds?.length,
-                    singular: 'identifier',
-                    target: 'sap_sids',
-                    onClick: () => {
-                      handleClick(
-                        'SAP IDs (SID)',
-                        generalMapper(properties.sapIds, 'SID')
-                      );
-                    },
+                    title: 'Workloads',
+                    size: 'md',
+                    value: <Fragment>{interleavedWorkloads}</Fragment>,
                   },
                 ]
-              : []),
+              : [
+                  {
+                    title: 'Workloads',
+                    size: 'md',
+                    value: 'Not available',
+                  },
+                ]),
             ...(hasSystemPurpose
               ? [{ title: 'System purpose', value: properties.systemPurpose }]
               : []),
@@ -281,7 +461,6 @@ SystemCardCore.propTypes = {
   hasHostName: PropTypes.bool,
   hasDisplayName: PropTypes.bool,
   hasAnsibleHostname: PropTypes.bool,
-  hasSAP: PropTypes.bool,
   hasSystemPurpose: PropTypes.bool,
   hasCPUs: PropTypes.bool,
   hasSockets: PropTypes.bool,
@@ -298,7 +477,6 @@ SystemCardCore.defaultProps = {
   hasDisplayName: true,
   hasAnsibleHostname: true,
   hasWorkspace: true,
-  hasSAP: true,
   hasSystemPurpose: true,
   hasCPUs: true,
   hasSockets: true,
@@ -325,6 +503,7 @@ export const SystemCard = connect(
     entity,
     detailLoaded: systemProfile && systemProfile.loaded,
     properties: propertiesSelector(systemProfile, entity),
+    workloadsData: systemProfile?.workloads,
   }),
   mapDispatchToProps
 )(SystemCardCore);
