@@ -194,3 +194,38 @@ export const generalMapper = (data = [], title = '') => ({
   rows: data.map((item) => [item]),
   filters: [{ type: 'text' }],
 });
+
+export const workloadsDataMapper = ({ data = [], fieldKeys = [] } = {}) => {
+  const toTitleCase = (str) =>
+    str
+      .replace(/_/g, ' ')
+      .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1));
+
+  const isSingleColumn = fieldKeys.length === 0;
+
+  const cells = isSingleColumn
+    ? [{ title: 'Value' }]
+    : fieldKeys.map((key) => ({ title: toTitleCase(key) }));
+
+  const rows = isSingleColumn
+    ? data.map((item) => [item.version])
+    : data.map((item) =>
+        fieldKeys.map((key) => {
+          const value = item[key];
+
+          // Flatten arrays to comma-separated strings
+          if (Array.isArray(value)) {
+            return value.join(', ');
+          }
+
+          // Handle missing or undefined values gracefully
+          return value !== undefined ? value : '';
+        })
+      );
+
+  return {
+    cells,
+    rows,
+    filters: [{ type: 'text' }],
+  };
+};
