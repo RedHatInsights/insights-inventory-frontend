@@ -96,14 +96,35 @@ export const onDeleteFilter = (deleted, currFilter = []) => {
   return currFilter.filter((item) => item !== deletedItem);
 };
 
-export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
-  const deletedItem = deleted?.chips?.[0];
-  if (selectedTags?.[deleted?.key]?.[deletedItem?.key] !== undefined) {
-    selectedTags[deleted?.key][deletedItem?.key] = false;
-  }
+const buildNewCategoryTags = (deleted, category, categoryTags) =>
+  Object.entries(categoryTags).reduce((newCategoryTags, [tagName, tag]) => {
+    const isDeleted =
+      deleted.category === category &&
+      deleted.chips[0].value === tag.item?.meta?.tag.value &&
+      deleted.chips[0].tagKey === tag.item?.meta?.tag.key;
+    return [...newCategoryTags, ...(isDeleted ? [] : [[tagName, tag]])];
+  }, []);
 
-  if (onApplyTags) onApplyTags(selectedTags, false);
-  return selectedTags;
+export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
+  const newSelectedTags = Object.fromEntries(
+    Object.entries(selectedTags).reduce((newTags, [category, categoryTags]) => {
+      const newCategoryTags = buildNewCategoryTags(
+        deleted,
+        category,
+        categoryTags
+      );
+
+      return [
+        ...newTags,
+        ...(newCategoryTags.length
+          ? [[category, Object.fromEntries(newCategoryTags)]]
+          : []),
+      ];
+    }, [])
+  );
+
+  if (onApplyTags) onApplyTags(newSelectedTags, false);
+  return newSelectedTags;
 };
 
 export const onDeleteGroupFilter = (deleted, currFilter) =>

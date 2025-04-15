@@ -196,7 +196,7 @@ const EntityTableToolbar = ({
     selectedTags,
     setSelectedTags,
     filterTagsBy,
-    seFilterTagsBy,
+    setFilterTagsBy,
   } = useTagsFilter(
     allTags,
     allTagsLoaded,
@@ -554,6 +554,30 @@ const EntityTableToolbar = ({
       : []),
     ...(filterConfig?.items || []),
   ];
+  const preselectedTags = Object.entries(selectedTags).reduce(
+    (sTags, [namespace, tag]) => {
+      const tags = Object.values(tag).map(
+        ({
+          item: {
+            meta: {
+              tag: { key, value },
+            },
+          },
+        }) => ({
+          id: `${namespace}/${key}=${value}`,
+          cells: [key, value, namespace],
+          item: {
+            meta: {
+              tag: { key, value },
+            },
+          },
+        })
+      );
+
+      return [...sTags, ...tags];
+    },
+    []
+  );
 
   return (
     <Fragment>
@@ -640,9 +664,9 @@ const EntityTableToolbar = ({
       </PrimaryToolbar>
       {(showTags || enabledFilters.tags || showTagModal) && (
         <TagsModal
+          selected={preselectedTags}
           filterTagsBy={filterTagsBy}
           onApply={(selected) => setSelectedTags(arrayToSelection(selected))}
-          onToggleModal={() => seFilterTagsBy('')}
           getTags={getTags}
         />
       )}
