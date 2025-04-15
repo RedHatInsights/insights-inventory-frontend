@@ -107,6 +107,7 @@ const EntityTableToolbar = ({
   fetchCustomOSes,
   ...props
 }) => {
+  console.log('showTagModal', showTagModal);
   const dispatch = useDispatch();
   const reducer = useReducer(
     filtersReducer([
@@ -554,7 +555,32 @@ const EntityTableToolbar = ({
       : []),
     ...(filterConfig?.items || []),
   ];
-
+  const preselectedTags = Object.entries(selectedTags).reduce(
+    (sTags, [namespace, tag]) => {
+      console.log('tag', sTags, tag);
+      const tags = Object.values(tag).map(
+        ({
+          item: {
+            meta: {
+              tag: { key, value },
+            },
+          },
+        }) => ({
+          id: `${namespace}/${key}=${value}`,
+          cells: [key, value, namespace],
+          item: {
+            meta: {
+              tag: { key, value },
+            },
+          },
+        })
+      );
+      console.log('tag', Object.values(tag), tags);
+      return [...sTags, ...tags];
+    },
+    []
+  );
+  console.log('selectedTags', selectedTags, preselectedTags);
   return (
     <Fragment>
       <PrimaryToolbar
@@ -640,8 +666,12 @@ const EntityTableToolbar = ({
       </PrimaryToolbar>
       {(showTags || enabledFilters.tags || showTagModal) && (
         <TagsModal
+          selected={preselectedTags}
           filterTagsBy={filterTagsBy}
-          onApply={(selected) => setSelectedTags(arrayToSelection(selected))}
+          onApply={(selected) => {
+            console.log('Soply', selected);
+            return setSelectedTags(arrayToSelection(selected));
+          }}
           onToggleModal={() => seFilterTagsBy('')}
           getTags={getTags}
         />
