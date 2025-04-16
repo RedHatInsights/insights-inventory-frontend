@@ -1,48 +1,50 @@
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import TextInputModal from './TextInputModal';
 
 describe('TextInputModal', () => {
-  describe('getDerivedStateFromProps', () => {
-    it('should set state value to undefined', () => {
-      expect(
-        TextInputModal.getDerivedStateFromProps(
-          {
-            isOpen: false,
-            value: 'some-value',
-          },
-          { value: 'test' }
-        )
-      ).toEqual({
-        value: undefined,
+  describe('State management with props', () => {
+    it('modal should not be present in DOM when closed', () => {
+      const { rerender } = render(<TextInputModal isOpen={true} value="foo" />);
+      rerender(<TextInputModal isOpen={false} value="foo" />);
+
+      const input = screen.queryByRole('textbox', {
+        name: /input text/i,
       });
+      expect(input).not.toBeInTheDocument();
     });
 
-    it('should keep the value same if isOpen set and state value set', () => {
-      expect(
-        TextInputModal.getDerivedStateFromProps(
-          {
-            isOpen: true,
-            value: 'some-value',
-          },
-          { value: 'test' }
-        )
-      ).toBe(null);
+    it('should have correct value when modal is reopened', () => {
+      const { rerender } = render(<TextInputModal isOpen={true} value="foo" />);
+      rerender(<TextInputModal isOpen={false} value="foo" />);
+      rerender(<TextInputModal isOpen={true} value="bar" />);
+
+      const input = screen.getByRole('textbox', {
+        name: /input text/i,
+      });
+      expect(input).toHaveValue('bar');
     });
 
-    it('should set the state value', () => {
-      expect(
-        TextInputModal.getDerivedStateFromProps(
-          {
-            isOpen: true,
-            value: 'some-value',
-          },
-          { value: undefined }
-        )
-      ).toEqual({
-        value: 'some-value',
+    it('should set value to initialValue when modal is opened', () => {
+      render(<TextInputModal isOpen={true} value="foo" />);
+
+      const input = screen.getByRole('textbox', {
+        name: /input text/i,
       });
+
+      expect(input).toHaveValue('foo');
+    });
+
+    it('should set value to empty string if initialValue is not provided', () => {
+      render(<TextInputModal isOpen={true} />);
+
+      const input = screen.getByRole('textbox', {
+        name: /input text/i,
+      });
+
+      expect(input).toHaveValue('');
     });
   });
 
@@ -71,22 +73,6 @@ describe('TextInputModal', () => {
   });
 
   describe('API', () => {
-    it('getDerivedStateFromProps should be called', async () => {
-      const getDerivedStateFromProps = jest.spyOn(
-        TextInputModal,
-        'getDerivedStateFromProps'
-      );
-      render(<TextInputModal isOpen />);
-
-      await userEvent.type(
-        screen.getByRole('textbox', {
-          name: /input text/i,
-        }),
-        'some'
-      );
-      expect(getDerivedStateFromProps).toBeCalled();
-    });
-
     it('onCancel should be called', async () => {
       const onCancel = jest.fn();
       render(<TextInputModal isOpen onCancel={onCancel} />);
@@ -115,14 +101,6 @@ describe('TextInputModal', () => {
       });
 
       await userEvent.click(submitButton);
-      expect(onSubmit).toBeCalledWith('some');
-
-      await userEvent.type(
-        screen.getByRole('textbox', {
-          name: /input text/i,
-        }),
-        ' some'
-      );
       expect(onSubmit).toBeCalledWith('some');
     });
 
