@@ -97,13 +97,30 @@ export const onDeleteFilter = (deleted, currFilter = []) => {
 };
 
 export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
-  const deletedItem = deleted?.chips?.[0];
-  if (selectedTags?.[deleted?.key]?.[deletedItem?.key] !== undefined) {
-    selectedTags[deleted?.key][deletedItem?.key] = false;
-  }
+  const newSelectedTags = Object.fromEntries(
+    Object.entries(selectedTags).reduce((newTags, [category, categoryTags]) => {
+      const newCategoryTags = Object.entries(categoryTags).reduce(
+        (newCategoryTags, [tagName, tag]) => {
+          const isDeleted =
+            deleted.category === category &&
+            deleted.chips[0].value === tag.item?.meta?.tag.value &&
+            deleted.chips[0].tagKey === tag.item?.meta?.tag.key;
+          return [...newCategoryTags, ...(isDeleted ? [] : [[tagName, tag]])];
+        },
+        []
+      );
 
-  if (onApplyTags) onApplyTags(selectedTags, false);
-  return selectedTags;
+      return [
+        ...newTags,
+        ...(newCategoryTags.length
+          ? [[category, Object.fromEntries(newCategoryTags)]]
+          : []),
+      ];
+    }, [])
+  );
+
+  if (onApplyTags) onApplyTags(newSelectedTags, false);
+  return newSelectedTags;
 };
 
 export const onDeleteGroupFilter = (deleted, currFilter) =>

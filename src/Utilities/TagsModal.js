@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchAllTags, toggleTagModal } from '../store/actions';
@@ -8,12 +8,17 @@ import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import { PAGINATION_DEFAULT } from '../constants';
 
-const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
+const TagsModal = ({
+  filterTagsBy,
+  onToggleModal,
+  onApply,
+  getTags,
+  selected: preselectedTags = [],
+}) => {
   const dispatch = useDispatch();
   const [filterBy, setFilterBy] = useState('');
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState();
   const [statePagination, setStatePagination] = useState(PAGINATION_DEFAULT);
-
   const showTagDialog = useSelector(
     ({ entities, entityDetails }) => (entities || entityDetails)?.showTagDialog
   );
@@ -77,6 +82,10 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
     setFilterBy(filterTagsBy);
   }, [filterTagsBy]);
 
+  useEffect(() => {
+    setSelected(preselectedTags);
+  }, [JSON.stringify(preselectedTags)]);
+
   const fetchTags = useCallback(
     (pagination, filterBy) => {
       if (!activeSystemTag) {
@@ -93,6 +102,31 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
     [fetchTags]
   );
 
+  const isSelected = (id, { key, value, namespace }) =>
+    id == `${namespace}/${key}=${value}`;
+
+  const rows = useMemo(() => {
+    console.log('tagssssss', tags);
+    return tags?.map(({ key, value, namespace }) => {
+      const isSel =
+        selected?.filter(({ id }) => isSelected(id, { key, value, namespace }))
+          .length || false;
+
+      return {
+        id: `${namespace}/${key}=${value}`,
+        selected: isSel,
+        cells: [key, value, namespace],
+        item: {
+          meta: {
+            tag: { key, value },
+          },
+        },
+      };
+    });
+  }, [selected, tags]);
+
+  console.log('preselectedTags', preselectedTags, rows, tags);
+
   return (
     <TagModal
       className="ins-c-inventory__tags-modal"
@@ -105,14 +139,7 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
           ...pagination,
           count: tagsCount,
         },
-        rows:
-          tags?.map(({ key, value, namespace }) => ({
-            id: `${namespace}/${key}=${value}`,
-            selected: selected.find(
-              ({ id }) => id === `${namespace}/${key}=${value}`
-            ),
-            cells: [key, value, namespace],
-          })) || [],
+        rows,
       })}
       loaded={loaded}
       isOpen={showTagDialog}
@@ -145,7 +172,10 @@ const TagsModal = ({ filterTagsBy, onToggleModal, onApply, getTags }) => {
         { title: 'Tag source', transforms: [cellWidth(30)] },
       ]}
       {...(!activeSystemTag && {
-        onSelect: (selected) => setSelected(selected),
+        onSelect: (selected) => {
+          console.log('Selllley', selected);
+          setSelected(selected);
+        },
         selected,
         onApply: () => onApply && onApply(selected),
       })}
