@@ -152,15 +152,18 @@ describe('hybrid inventory table', () => {
     });
 
     it('can add to existing group', () => {
+      cy.wait('@getGroups');
+      cy.wait('@getGroups'); // wait for two sequential requests to groups with page 1 and 2 (the groups filter)
+
       cy.intercept(
         'POST',
         `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
       ).as('request');
       cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM).contains('Add to workspace').click();
+      cy.wait('@getGroups');
       cy.get(MODAL_CONTENT).within(() => {
         cy.get('h1').should('have.text', 'Add to workspace');
-        cy.wait('@getGroups');
         cy.get('.pf-v5-c-select__toggle').click(); // TODO: implement ouia selector for this component
         cy.get('.pf-v5-c-select__menu-item').eq(0).click();
         cy.get('button[type="submit"]').click();
@@ -262,7 +265,7 @@ describe('hybrid inventory table', () => {
         });
       });
 
-      beforeEach(() => prepareTest(false));
+      beforeEach(() => prepareTest());
 
       it('all per-row actions are disabled', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
