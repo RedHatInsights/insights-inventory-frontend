@@ -7,8 +7,14 @@ import { editAnsibleHost, editDisplayName } from '../../../store/actions';
 import TextInputModal from '../TextInputModal';
 import TitleWithPopover from '../TitleWithPopover';
 import EditButton from '../EditButton';
-import { generalMapper } from '../dataMapper';
+import { generalMapper, workloadsDataMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
+import { Clickable } from '../LoadingCard/LoadingCard';
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+} from '@patternfly/react-icons';
+import { Icon } from '@patternfly/react-core';
 
 class SystemCardCore extends Component {
   state = {
@@ -61,7 +67,6 @@ class SystemCardCore extends Component {
       hasDisplayName,
       hasAnsibleHostname,
       hasWorkspace,
-      hasSAP,
       hasSystemPurpose,
       hasCPUs,
       hasSockets,
@@ -69,8 +74,28 @@ class SystemCardCore extends Component {
       hasCPUFlags,
       hasRAM,
       extra,
+      workloadsData,
     } = this.props;
     const { isDisplayNameModalOpen, isAnsibleHostModalOpen } = this.state;
+    const workloadsTypesKeys = [
+      'ansible',
+      'crowdstrike',
+      'ibm_db2',
+      'intersystems',
+      'mssql',
+      'oracle_db',
+      'rhel_ai',
+      'sap',
+    ];
+    function checkWorkloadsKeys(input = {}, referenceKeys) {
+      return referenceKeys.filter(
+        (key) => typeof input[key] === 'object' && input[key] !== null
+      );
+    }
+    const workloadsTypes = checkWorkloadsKeys(
+      workloadsData,
+      workloadsTypesKeys
+    );
 
     return (
       <Fragment>
@@ -154,22 +179,199 @@ class SystemCardCore extends Component {
                   },
                 ]
               : []),
-            ...(hasSAP
+            ...(workloadsTypes.length > 0
               ? [
                   {
-                    title: 'SAP',
-                    value: properties.sapIds?.length,
-                    singular: 'identifier',
-                    target: 'sap_sids',
-                    onClick: () => {
-                      handleClick(
-                        'SAP IDs (SID)',
-                        generalMapper(properties.sapIds, 'SID')
-                      );
-                    },
+                    title: 'Workloads',
+                    size: 'md',
+                    value: (
+                      <Fragment>
+                        {workloadsTypes.includes('sap') && (
+                          <Fragment>
+                            <Clickable
+                              onClick={() => {
+                                handleClick(
+                                  'SAP IDs (SID)',
+                                  generalMapper(workloadsData.sap.sids, 'SID')
+                                );
+                              }}
+                              target="sap_sids"
+                              workload="sap"
+                              title="SAP"
+                            />
+                            {workloadsTypes.length > 1 ? `, ` : ''}
+                          </Fragment>
+                        )}
+                        {workloadsTypes.includes('ansible') && (
+                          <Fragment>
+                            <Clickable
+                              onClick={() => {
+                                handleClick(
+                                  'Ansible',
+                                  workloadsDataMapper({
+                                    data: [workloadsData.ansible],
+                                    fieldKeys: [
+                                      'catalog_worker_version',
+                                      'controller_version',
+                                      'hub_version',
+                                      'sso_version',
+                                    ],
+                                  })
+                                );
+                              }}
+                              target="ansible"
+                              workload="ansible"
+                              title="Ansible Automation Platform"
+                            />
+                            {workloadsTypes.length > 1 ? `, ` : ''}
+                          </Fragment>
+                        )}
+                        {workloadsTypes.includes('mssql') && (
+                          <Fragment>
+                            <Clickable
+                              onClick={() => {
+                                handleClick(
+                                  'Microsoft SQL',
+                                  workloadsDataMapper({
+                                    data: [
+                                      { version: workloadsData.mssql.version },
+                                    ],
+                                  })
+                                );
+                              }}
+                              target="mssql"
+                              workload="mssql"
+                              title="Microsoft SQL"
+                            />
+                            {workloadsTypes.length > 1 ? `, ` : ''}
+                          </Fragment>
+                        )}
+                        {workloadsTypes.includes('crowdstrike') && (
+                          <Fragment>
+                            <Clickable
+                              onClick={() => {
+                                handleClick(
+                                  'CrowdStrike',
+                                  workloadsDataMapper({
+                                    data: [workloadsData.crowdstrike],
+                                    fieldKeys: [
+                                      'falcon_aid',
+                                      'falcon_backend',
+                                      'falcon_version',
+                                    ],
+                                  })
+                                );
+                              }}
+                              target="crowdstrike"
+                              workload="crowdstrike"
+                              title="CrowdStrike"
+                            />
+                            {workloadsTypes.length > 1 ? `, ` : ''}
+                          </Fragment>
+                        )}
+                        {workloadsTypes.includes('rhel_ai') && (
+                          <Fragment>
+                            <Clickable
+                              onClick={() => {
+                                handleClick(
+                                  'RHEL AI',
+                                  workloadsDataMapper({
+                                    data: [workloadsData.rhel_ai],
+                                    fieldKeys: [
+                                      'amd_gpu_models',
+                                      'intel_gaudi_hpu_models',
+                                      'nvidia_gpu_models',
+                                      'rhel_ai_version_id',
+                                      'variant',
+                                    ],
+                                  })
+                                );
+                              }}
+                              target="rhel_ai"
+                              workload="rhel_ai"
+                              title="RHEL AI"
+                            />
+                            {workloadsTypes.length > 1 ? `, ` : ''}
+                          </Fragment>
+                        )}
+                        {workloadsTypes.includes('intersystems') && (
+                          <Fragment>
+                            <Clickable
+                              onClick={() => {
+                                handleClick(
+                                  'InterSystems',
+                                  workloadsDataMapper({
+                                    data: workloadsData.intersystems
+                                      .running_instances,
+                                    fieldKeys: [
+                                      'instance_name',
+                                      'product',
+                                      'version',
+                                    ],
+                                  })
+                                );
+                              }}
+                              target="intersystems"
+                              workload="intersystems"
+                              title="InterSystems"
+                            />
+                            {workloadsTypes.length > 1 ? `, ` : ''}
+                          </Fragment>
+                        )}
+                        {workloadsTypes.includes('ibm_db2') && (
+                          <Fragment>
+                            {workloadsData.ibm_db2.is_running ? (
+                              <>
+                                IBM Db2{' '}
+                                <Icon status="success">
+                                  <CheckCircleIcon />
+                                </Icon>{' '}
+                                Running
+                              </>
+                            ) : (
+                              <>
+                                IBM Db2{' '}
+                                <Icon status="danger">
+                                  <ExclamationCircleIcon />
+                                </Icon>{' '}
+                                Failed
+                              </>
+                            )}
+                            {workloadsTypes.length > 1 ? `, ` : ''}
+                          </Fragment>
+                        )}
+                        {workloadsTypes.includes('oracle_db') && (
+                          <Fragment>
+                            {workloadsData.oracle_db.is_running ? (
+                              <>
+                                Oracle Database{' '}
+                                <Icon status="danger">
+                                  <ExclamationCircleIcon />
+                                </Icon>{' '}
+                                Running
+                              </>
+                            ) : (
+                              <>
+                                Oracle Database{' '}
+                                <Icon status="danger">
+                                  <ExclamationCircleIcon />
+                                </Icon>{' '}
+                                Failed
+                              </>
+                            )}
+                          </Fragment>
+                        )}
+                      </Fragment>
+                    ),
                   },
                 ]
-              : []),
+              : [
+                  {
+                    title: 'Workloads',
+                    value: 'Not available',
+                    size: 'md',
+                  },
+                ]),
             ...(hasSystemPurpose
               ? [{ title: 'System purpose', value: properties.systemPurpose }]
               : []),
@@ -281,7 +483,6 @@ SystemCardCore.propTypes = {
   hasHostName: PropTypes.bool,
   hasDisplayName: PropTypes.bool,
   hasAnsibleHostname: PropTypes.bool,
-  hasSAP: PropTypes.bool,
   hasSystemPurpose: PropTypes.bool,
   hasCPUs: PropTypes.bool,
   hasSockets: PropTypes.bool,
@@ -298,7 +499,6 @@ SystemCardCore.defaultProps = {
   hasDisplayName: true,
   hasAnsibleHostname: true,
   hasWorkspace: true,
-  hasSAP: true,
   hasSystemPurpose: true,
   hasCPUs: true,
   hasSockets: true,
@@ -325,6 +525,7 @@ export const SystemCard = connect(
     entity,
     detailLoaded: systemProfile && systemProfile.loaded,
     properties: propertiesSelector(systemProfile, entity),
+    workloadsData: systemProfile?.workloads,
   }),
   mapDispatchToProps
 )(SystemCardCore);

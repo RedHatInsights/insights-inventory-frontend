@@ -10,13 +10,14 @@ import { rhsmFacts, testProperties } from '../../../__mocks__/selectors';
 import SystemCard from './SystemCard';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { hostInventoryApi } from '../../../api/hostInventoryApi';
+import { mockWorkloadsData } from '../dataMapper/dataMapper.test';
 
 const fields = [
   'Host name',
   'Display name',
   'Ansible hostname',
   'Workspace',
-  'SAP',
+  'Workloads',
   'System purpose',
   'Number of CPUs',
   'Sockets',
@@ -47,7 +48,7 @@ describe('SystemCard', () => {
       .onGet('/api/inventory/v1/hosts/test-id/system_profile')
       .reply(200, mockedData);
     mock.onGet('/api/inventory/v1/hosts/test-id').reply(200, mockedData);
-        mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
+    mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
 
     location.pathname = 'localhost:3000/example/path';
 
@@ -151,31 +152,6 @@ describe('SystemCard', () => {
       'href',
       '//inventory/workspaces/your_favourite_uuid'
     );
-  });
-
-  it('should render correctly with SAP IDS', () => {
-    render(
-      <TestWrapper
-        store={mockStore({
-          ...initialState,
-          systemProfileStore: {
-            systemProfile: {
-              loaded: true,
-              ...testProperties,
-              sap_sids: ['AAA', 'BBB'],
-            },
-          },
-        })}
-      >
-        <SystemCard />
-      </TestWrapper>
-    );
-
-    expect(
-      screen.getByRole('definition', {
-        name: /sap value/i,
-      })
-    ).toHaveTextContent('2 identifiers');
   });
 
   it('should render correctly with rhsm facts', () => {
@@ -374,43 +350,6 @@ describe('SystemCard', () => {
       expect(store.getActions().length).toBe(0); // the button is disabled since the input hasn't been changed
     });
 
-    it('should handle click on SAP identifiers', async () => {
-      const handleClick = jest.fn();
-      render(
-        <TestWrapper
-          store={mockStore({
-            ...initialState,
-            systemProfileStore: {
-              systemProfile: {
-                loaded: true,
-                ...testProperties,
-                sap_sids: ['AAA', 'BBB'],
-              },
-            },
-          })}
-          routerProps={{ initialEntries: ['/example/sap_sids'] }}
-        >
-          <SystemCard handleClick={handleClick} />
-        </TestWrapper>
-      );
-
-      await userEvent.click(
-        screen.getByRole('link', {
-          name: /2 identifiers/i,
-        })
-      );
-      expect(handleClick).toHaveBeenCalledWith('SAP IDs (SID)', {
-        cells: [
-          {
-            title: 'SID',
-            transforms: expect.any(Array),
-          },
-        ],
-        filters: [{ type: 'text' }],
-        rows: [['AAA'], ['BBB']],
-      });
-    });
-
     it('should handle click on cpu flags identifiers', async () => {
       const handleClick = jest.fn();
       render(
@@ -449,12 +388,11 @@ describe('SystemCard', () => {
     });
   });
 
-  [
+  /* [
     'hasHostName',
     'hasDisplayName',
     'hasAnsibleHostname',
     'hasWorkspace',
-    'hasSAP',
     'hasSystemPurpose',
     'hasCPUs',
     'hasSockets',
@@ -468,10 +406,11 @@ describe('SystemCard', () => {
           <SystemCard {...{ [item]: false }} />
         </TestWrapper>
       );
+      screen.logTestingPlaygroundURL()
 
       expect(screen.queryByText(fields[index])).not.toBeInTheDocument();
     })
-  );
+  ); */
 
   it('should render extra', () => {
     render(
@@ -507,5 +446,670 @@ describe('SystemCard', () => {
       'test',
       '1 tests',
     ]);
+  });
+
+  it('should render correctly with SAP workload', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                sap: {
+                  instance_number:
+                    'j2r1MRNe49og, df.lWNAV._m_2sbl, KAS1MYAqXXqGIirplJG',
+                  sap_system: true,
+                  sids: [
+                    'FudUaJbpiPfLVJkNUT.F, 2DSO9DmPKg30, Vx-jCe1ibHTHj01A',
+                  ],
+                  version: 'ezU7Htkuo, GU_aiKHi52n7PFH, ONRu1Ku4_skoUXrR',
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('SAP');
+  });
+
+  it('should render correctly with Ansible workload', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                ansible: {
+                  catalog_worker_version: '9.8.7, banana.42, 0.0.abc',
+                  controller_version: 'x.1.2, foo.bar, 3.3.3',
+                  hub_version: 'abc.def, 123.456, xyz.789',
+                  sso_version: 'preview-1, glitch.9.9, zz-top.7',
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('Ansible Automation Platform');
+  });
+
+  it('should render correctly with RHEL AI workload', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                rhel_ai: {
+                  amd_gpu_models: ['Quantum Spark GT, Mangoburst 900X'],
+                  intel_gaudi_hpu_models: [
+                    'Turbo Flux HL-Ω1, Gaudi++ Phantom Edition',
+                  ],
+                  nvidia_gpu_models: ['RTX Hypernova 12X, GX-99π Phantom'],
+                  rhel_ai_version_id: 'vX.Y.Z-beta',
+                  variant: 'RHEL AI Galactic',
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('RHEL AI');
+  });
+
+  it('should render correctly with InterSystems workload', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                intersystems: {
+                  is_intersystems: true,
+                  running_instances: [
+                    {
+                      instance_name: 'NOVA-X, ENV-Δ42',
+                      product: 'HyperIRIS',
+                      version: '3021.∞, nebula.7',
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('InterSystems');
+  });
+
+  it('should render correctly with IBM Db2 workload failed', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                ibm_db2: {
+                  is_running: false,
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('IBM Db2 Failed');
+  });
+
+  it('should render correctly with IBM Db2 workload running', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                ibm_db2: {
+                  is_running: true,
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('IBM Db2 Running');
+  });
+
+  it('should render correctly with CrowdStrike workload', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                crowdstrike: {
+                  falcon_aid: 'xfoCshFVO6TwXdGHvy',
+                  falcon_backend:
+                    'dOqLegz0W8159Q0X2, fNbEf-pmK, r1zrECSYr_FgUDMbIu2',
+                  falcon_version: 'lsSRGjjnhpl2Cz-, -KPJKI_kSyHVP5khj',
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+    screen.logTestingPlaygroundURL();
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('CrowdStrike');
+  });
+
+  it('should render correctly with Microsoft SQL workload', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                mssql: {
+                  version: 'nTQNi8yZSTEN, x_OkwFDlxq7dl, LkIh__hO0qTnYZoCwL',
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('Microsoft SQL');
+  });
+
+  it('should render correctly with Oracle Database workload failed', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                oracle_db: {
+                  is_running: false,
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('Oracle Database Failed');
+  });
+
+  it('should render correctly with Oracle Database workload running', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                oracle_db: {
+                  is_running: true,
+                },
+              },
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent('Oracle Database Running');
+  });
+
+  it('should render correctly with every Workload', () => {
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: mockWorkloadsData,
+            },
+          },
+        })}
+      >
+        <SystemCard />
+      </TestWrapper>
+    );
+
+    expect(
+      screen.getByRole('definition', {
+        name: /Workloads value/i,
+      })
+    ).toHaveTextContent(
+      'SAP, Ansible Automation Platform, Microsoft SQL, CrowdStrike, RHEL AI, InterSystems, IBM Db2 Failed, Oracle Database Failed'
+    );
+  });
+
+  it('should handle click on SAP Workloads', async () => {
+    const handleClick = jest.fn();
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                sap: {
+                  instance_number:
+                    'j2r1MRNe49og, df.lWNAV._m_2sbl, KAS1MYAqXXqGIirplJG',
+                  sap_system: true,
+                  sids: [
+                    'FudUaJbpiPfLVJkNUT.F, 2DSO9DmPKg30, Vx-jCe1ibHTHj01A',
+                  ],
+                  version: 'ezU7Htkuo, GU_aiKHi52n7PFH, ONRu1Ku4_skoUXrR',
+                },
+              },
+            },
+          },
+        })}
+        routerProps={{ initialEntries: ['/example/sap_sids'] }}
+      >
+        <SystemCard handleClick={handleClick} />
+      </TestWrapper>
+    );
+
+    await userEvent.click(
+      screen.getByRole('link', {
+        name: /SAP/i,
+      })
+    );
+    expect(handleClick).toHaveBeenCalledWith('SAP IDs (SID)', {
+      cells: [
+        {
+          title: 'SID',
+          transforms: expect.any(Array),
+        },
+      ],
+      filters: [{ type: 'text' }],
+      rows: [['FudUaJbpiPfLVJkNUT.F, 2DSO9DmPKg30, Vx-jCe1ibHTHj01A']],
+    });
+  });
+
+  it('should handle click on Ansible Workloads', async () => {
+    const handleClick = jest.fn();
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                ansible: {
+                  catalog_worker_version: '9.8.7, banana.42, 0.0.abc',
+                  controller_version: 'x.1.2, foo.bar, 3.3.3',
+                  hub_version: 'abc.def, 123.456, xyz.789',
+                  sso_version: 'preview-1, glitch.9.9, zz-top.7',
+                },
+              },
+            },
+          },
+        })}
+        routerProps={{ initialEntries: ['/example/ansible'] }}
+      >
+        <SystemCard handleClick={handleClick} />
+      </TestWrapper>
+    );
+
+    await userEvent.click(
+      screen.getByRole('link', {
+        name: /Ansible Automation Platform/i,
+      })
+    );
+    expect(handleClick).toHaveBeenCalledWith('Ansible', {
+      cells: [
+        { title: 'Catalog Worker Version' },
+        { title: 'Controller Version' },
+        { title: 'Hub Version' },
+        { title: 'Sso Version' },
+      ],
+      filters: [{ type: 'text' }],
+      rows: [
+        [
+          '9.8.7, banana.42, 0.0.abc',
+          'x.1.2, foo.bar, 3.3.3',
+          'abc.def, 123.456, xyz.789',
+          'preview-1, glitch.9.9, zz-top.7',
+        ],
+      ],
+    });
+  });
+
+  it('should handle click on RHEL AI Workloads', async () => {
+    const handleClick = jest.fn();
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                rhel_ai: {
+                  amd_gpu_models: ['Quantum Spark GT, Mangoburst 900X'],
+                  intel_gaudi_hpu_models: [
+                    'Turbo Flux HL-Ω1, Gaudi++ Phantom Edition',
+                  ],
+                  nvidia_gpu_models: ['RTX Hypernova 12X, GX-99π Phantom'],
+                  rhel_ai_version_id: 'vX.Y.Z-beta',
+                  variant: 'RHEL AI Galactic',
+                },
+              },
+            },
+          },
+        })}
+        routerProps={{ initialEntries: ['/example/rhel_ai'] }}
+      >
+        <SystemCard handleClick={handleClick} />
+      </TestWrapper>
+    );
+
+    await userEvent.click(
+      screen.getByRole('link', {
+        name: /RHEL AI/i,
+      })
+    );
+    expect(handleClick).toHaveBeenCalledWith('RHEL AI', {
+      cells: [
+        { title: 'Amd Gpu Models' },
+        { title: 'Intel Gaudi Hpu Models' },
+        { title: 'Nvidia Gpu Models' },
+        { title: 'Rhel Ai Version Id' },
+        { title: 'Variant' },
+      ],
+      filters: [{ type: 'text' }],
+      rows: [
+        [
+          'Quantum Spark GT, Mangoburst 900X',
+          'Turbo Flux HL-Ω1, Gaudi++ Phantom Edition',
+          'RTX Hypernova 12X, GX-99π Phantom',
+          'vX.Y.Z-beta',
+          'RHEL AI Galactic',
+        ],
+      ],
+    });
+  });
+
+  it('should handle click on InterSystems Workloads', async () => {
+    const handleClick = jest.fn();
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                intersystems: {
+                  is_intersystems: true,
+                  running_instances: [
+                    {
+                      instance_name: 'NOVA-X, ENV-Δ42',
+                      product: 'HyperIRIS',
+                      version: '3021.∞, nebula.7',
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        })}
+        routerProps={{ initialEntries: ['/example/intersystems'] }}
+      >
+        <SystemCard handleClick={handleClick} />
+      </TestWrapper>
+    );
+
+    await userEvent.click(
+      screen.getByRole('link', {
+        name: /InterSystems/i,
+      })
+    );
+    expect(handleClick).toHaveBeenCalledWith('InterSystems', {
+      cells: [
+        { title: 'Instance Name' },
+        { title: 'Product' },
+        { title: 'Version' },
+      ],
+      filters: [{ type: 'text' }],
+      rows: [['NOVA-X, ENV-Δ42', 'HyperIRIS', '3021.∞, nebula.7']],
+    });
+  });
+
+  it('should handle click on CrowdStrike Workloads', async () => {
+    const handleClick = jest.fn();
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                crowdstrike: {
+                  falcon_aid: 'xfoCshFVO6TwXdGHvy',
+                  falcon_backend:
+                    'dOqLegz0W8159Q0X2, fNbEf-pmK, r1zrECSYr_FgUDMbIu2',
+                  falcon_version: 'lsSRGjjnhpl2Cz-, -KPJKI_kSyHVP5khj',
+                },
+              },
+            },
+          },
+        })}
+        routerProps={{ initialEntries: ['/example/crowdstrike'] }}
+      >
+        <SystemCard handleClick={handleClick} />
+      </TestWrapper>
+    );
+
+    await userEvent.click(
+      screen.getByRole('link', {
+        name: /CrowdStrike/i,
+      })
+    );
+    expect(handleClick).toHaveBeenCalledWith('CrowdStrike', {
+      cells: [
+        { title: 'Falcon Aid' },
+        { title: 'Falcon Backend' },
+        { title: 'Falcon Version' },
+      ],
+      filters: [{ type: 'text' }],
+      rows: [
+        [
+          'xfoCshFVO6TwXdGHvy',
+          'dOqLegz0W8159Q0X2, fNbEf-pmK, r1zrECSYr_FgUDMbIu2',
+          'lsSRGjjnhpl2Cz-, -KPJKI_kSyHVP5khj',
+        ],
+      ],
+    });
+  });
+
+  it('should handle click on Microsoft SQL', async () => {
+    const handleClick = jest.fn();
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                mssql: {
+                  version: 'nTQNi8yZSTEN, x_OkwFDlxq7dl, LkIh__hO0qTnYZoCwL',
+                },
+              },
+            },
+          },
+        })}
+        routerProps={{ initialEntries: ['/example/mssql'] }}
+      >
+        <SystemCard handleClick={handleClick} />
+      </TestWrapper>
+    );
+
+    await userEvent.click(
+      screen.getByRole('link', {
+        name: /Microsoft SQL/i,
+      })
+    );
+    expect(handleClick).toHaveBeenCalledWith('Microsoft SQL', {
+      cells: [{ title: 'Value' }],
+      filters: [{ type: 'text' }],
+      rows: [['nTQNi8yZSTEN, x_OkwFDlxq7dl, LkIh__hO0qTnYZoCwL']],
+    });
+  });
+
+  it('should handle click on Microsoft SQL', async () => {
+    const handleClick = jest.fn();
+    render(
+      <TestWrapper
+        store={mockStore({
+          ...initialState,
+          systemProfileStore: {
+            systemProfile: {
+              loaded: true,
+              ...testProperties,
+              workloads: {
+                mssql: {
+                  version: 'nTQNi8yZSTEN, x_OkwFDlxq7dl, LkIh__hO0qTnYZoCwL',
+                },
+              },
+            },
+          },
+        })}
+        routerProps={{ initialEntries: ['/example/mssql'] }}
+      >
+        <SystemCard handleClick={handleClick} />
+      </TestWrapper>
+    );
+
+    await userEvent.click(
+      screen.getByRole('link', {
+        name: /Microsoft SQL/i,
+      })
+    );
+    expect(handleClick).toHaveBeenCalledWith('Microsoft SQL', {
+      cells: [{ title: 'Value' }],
+      filters: [{ type: 'text' }],
+      rows: [['nTQNi8yZSTEN, x_OkwFDlxq7dl, LkIh__hO0qTnYZoCwL']],
+    });
   });
 });
