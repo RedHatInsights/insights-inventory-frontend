@@ -9,8 +9,8 @@ import TitleWithPopover from '../TitleWithPopover';
 import EditButton from '../EditButton';
 import { generalMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
-import { Clickable } from '../LoadingCard/LoadingCard';
-import { workloadConfigs, workloadsTypesKeys } from './SystemCardConfigs';
+import { workloadsTypesKeys } from './SystemCardConfigs';
+import WorkloadsSection from './Workloads';
 
 class SystemCardCore extends Component {
   state = {
@@ -82,33 +82,6 @@ class SystemCardCore extends Component {
     const workloadsTypes = checkWorkloadsKeys(
       workloadsData,
       workloadsTypesKeys
-    );
-
-    const renderedWorkloads = workloadConfigs(handleClick, workloadsData)
-      .filter(({ type }) => workloadsTypes.includes(type))
-      .map(({ type, title, onClick, target, customRender }) => {
-        if (typeof customRender === 'function') {
-          return <Fragment key={type}>{customRender()}</Fragment>;
-        }
-
-        return (
-          <Clickable
-            key={type}
-            onClick={onClick}
-            target={target}
-            workload={type}
-            title={title}
-          />
-        );
-      });
-
-    const interleavedWorkloads = renderedWorkloads.reduce(
-      (acc, curr, index) => {
-        if (index !== 0) acc.push(', ');
-        acc.push(curr);
-        return acc;
-      },
-      []
     );
 
     return (
@@ -198,7 +171,13 @@ class SystemCardCore extends Component {
                   {
                     title: 'Workloads',
                     size: 'md',
-                    value: <Fragment>{interleavedWorkloads}</Fragment>,
+                    value: (
+                      <WorkloadsSection
+                        handleClick={handleClick}
+                        workloadsData={workloadsData}
+                        workloadsTypes={workloadsTypes}
+                      />
+                    ),
                   },
                 ]
               : [
