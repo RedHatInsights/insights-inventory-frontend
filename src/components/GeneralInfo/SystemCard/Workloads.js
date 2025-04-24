@@ -10,33 +10,30 @@ const WorkloadsSection = ({ handleClick, workloadsData, workloadsTypes }) => {
     );
   }, [handleClick, workloadsData, workloadsTypes]);
 
-  const interleaved = useMemo(() => {
-    const rendered = filteredConfigs.map(
-      ({ type, title, onClick, target, customRender }) => {
-        if (typeof customRender === 'function') {
-          return <Fragment key={type}>{customRender()}</Fragment>;
-        }
-
+  return filteredConfigs.map(
+    ({ type, title, onClick, target, customRender }, index) => {
+      if (typeof customRender === 'function') {
         return (
+          <Fragment key={type}>
+            {index > 0 && ', '}
+            {customRender()}
+          </Fragment>
+        );
+      }
+
+      return (
+        <Fragment key={type}>
+          {index > 0 && ', '}
           <Clickable
-            key={type}
             onClick={onClick}
             target={target}
             workload={type}
             title={title}
           />
-        );
-      }
-    );
-
-    return rendered.reduce((acc, curr, index) => {
-      if (index !== 0) acc.push(', ');
-      acc.push(curr);
-      return acc;
-    }, []);
-  }, [filteredConfigs]);
-
-  return <Fragment>{interleaved}</Fragment>;
+        </Fragment>
+      );
+    }
+  );
 };
 
 WorkloadsSection.propTypes = {
