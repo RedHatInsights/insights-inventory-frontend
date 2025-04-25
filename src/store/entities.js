@@ -21,10 +21,11 @@ import groupBy from 'lodash/groupBy';
 import TitleColumn from '../components/InventoryTable/TitleColumn';
 import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
-import { Tooltip } from '@patternfly/react-core';
+import { Icon, Tooltip } from '@patternfly/react-core';
 import { verifyCulledReporter } from '../Utilities/sharedFunctions';
 import { fitContent } from '@patternfly/react-table';
 import isEmpty from 'lodash/isEmpty';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 
 export const defaultState = {
   loaded: false,
@@ -90,7 +91,26 @@ export const DEFAULT_COLUMNS = [
   {
     key: 'updated',
     sortKey: 'updated',
-    title: 'Last seen',
+    dataLabel: 'Last seen',
+    title: (
+      <span>
+        Last seen
+        <Tooltip
+          content="Last seen represents the most recent time a system
+          checked in and uploaded sufficient data for Insights analysis.
+          The timestamp may vary between applications as they rely on
+          different data collectors."
+        >
+          <Icon>
+            <OutlinedQuestionCircleIcon
+              className="pf-v5-u-ml-sm"
+              color="var(--pf-v5-global--secondary-color--100)"
+              style={{ verticalAlign: -2 }}
+            />
+          </Icon>
+        </Tooltip>
+      </span>
+    ),
     // eslint-disable-next-line react/display-name
     renderFunc: (
       value,
