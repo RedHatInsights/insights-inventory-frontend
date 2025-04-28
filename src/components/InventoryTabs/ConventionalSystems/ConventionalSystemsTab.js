@@ -34,6 +34,7 @@ import useGlobalFilter from '../../filters/useGlobalFilter';
 import useOnRefresh from '../../filters/useOnRefresh';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { AccountStatContext } from '../../../Contexts';
+import { INVENTORY_COLUMNS } from '../../../store/constants';
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
   const requiredPermissions = selectedSystems.map(({ groups }) =>
@@ -174,6 +175,11 @@ const ConventionalSystemsTab = ({
 
   const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
   const { hasBootcImages } = useContext(AccountStatContext);
+
+  const isLastCheckInEnabled = useFeatureFlag(
+    'hbi.create_last_check_in_update_per_reporter_staleness'
+  );
+
   return (
     <Fragment>
       <InventoryTableCmp
@@ -190,10 +196,13 @@ const ConventionalSystemsTab = ({
         ignoreRefresh
         initialLoading={initialLoading}
         ref={inventory}
+        disableDefaultColumns={isLastCheckInEnabled}
         tableProps={{
           actionResolver: tableActions,
           canSelectAll: false,
         }}
+        columns={INVENTORY_COLUMNS}
+        lastSeenOverride={isLastCheckInEnabled ? 'last_check_in' : null}
         actionsConfig={{
           actions: [
             <BulkDeleteButton

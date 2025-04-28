@@ -149,3 +149,8 @@ Operating systems filter by default fetches the os versions from inventory API. 
       ]
   }
 ```
+
+## lastSeenOverride
+*string*
+
+Overrides the "Last Seen" column to use the specified `key` and `sortKey` instead of the default `updated` value. Also ensures proper handling when the default sorting is set to `updated`.

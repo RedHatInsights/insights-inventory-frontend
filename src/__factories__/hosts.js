@@ -9,6 +9,7 @@ export const buildHosts = (length) =>
     insights_id: faker.lorem.slug({ min: 1, max: 3 }),
     display_name: faker.lorem.word(),
     updated: faker.date.past({ years: 3 }),
+    last_check_in: faker.date.past({ years: 2 }),
     system_profile: {
       operating_system: {
         name: sample(OS_VERSIONS),

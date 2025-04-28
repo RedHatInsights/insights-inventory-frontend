@@ -38,14 +38,15 @@ const EntityTable = ({
   disableDefaultColumns,
   loaded,
   columnsCounter,
+  lastSeenOverride,
 }) => {
   const dispatch = useDispatch();
-  const columns = useColumns(
-    columnsProp,
+  const columns = useColumns(columnsProp, {
     disableDefaultColumns,
     showTags,
-    columnsCounter
-  );
+    columnsCounter,
+    lastSeenOverride,
+  });
   const rows = useSelector(({ entities: { rows } }) => rows);
   const onItemSelect = (_event, checked, rowId) => {
     const row = isExpandable ? rows[rowId / 2] : rows[rowId];
@@ -182,6 +183,7 @@ EntityTable.propTypes = {
   isLoaded: PropTypes.bool,
   actions: PropTypes.array,
   noDetail: PropTypes.any,
+  lastSeenOverride: PropTypes.string,
 };
 
 EntityTable.defaultProps = {

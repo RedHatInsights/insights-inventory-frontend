@@ -4,6 +4,9 @@ import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-uti
 import { DEFAULT_COLUMNS } from '../../../store/entities';
 import isEqual from 'lodash/isEqual';
 
+const renameColumnKey = (col, oldKey, newKey) =>
+  col.key === oldKey ? { ...col, key: newKey, sortKey: newKey } : col;
+
 const isColumnEnabled = (key, disableColumns, showTags) =>
   (key === 'tags' && showTags) ||
   (key !== 'tags' &&
@@ -12,9 +15,7 @@ const isColumnEnabled = (key, disableColumns, showTags) =>
 
 const useColumns = (
   columnsProp,
-  disableDefaultColumns,
-  showTags,
-  columnsCounter
+  { disableDefaultColumns, showTags, columnsCounter, lastSeenOverride }
 ) => {
   const columnsRedux = useSelector(
     ({ entities: { columns } }) => columns,
@@ -23,24 +24,31 @@ const useColumns = (
   const disabledColumns = Array.isArray(disableDefaultColumns)
     ? disableDefaultColumns
     : [];
-  //condition for the newDefaultColumns should be removed after inventory groups is released
+
+  const lastSeenOverrider = (col) =>
+    lastSeenOverride ? renameColumnKey(col, 'updated', lastSeenOverride) : col;
+
   const defaultColumnsFiltered = useMemo(
     () =>
       disableDefaultColumns === true
         ? []
         : DEFAULT_COLUMNS.filter(({ key }) =>
             isColumnEnabled(key, disabledColumns, showTags)
-          ),
-    [disabledColumns, disableDefaultColumns, showTags]
+          ).map(lastSeenOverrider),
+    [disabledColumns, disableDefaultColumns, showTags, lastSeenOverride]
   );
 
   return useMemo(() => {
     if (typeof columnsProp === 'function') {
       return columnsProp(DEFAULT_COLUMNS);
     } else if (columnsProp) {
-      return mergeArraysByKey([defaultColumnsFiltered, columnsProp], 'key');
+      const columnsPropFiltered = columnsProp.map(lastSeenOverrider);
+      return mergeArraysByKey(
+        [defaultColumnsFiltered, columnsPropFiltered],
+        'key'
+      );
     } else if (!columnsProp && columnsRedux) {
-      return columnsRedux;
+      return columnsRedux.map(lastSeenOverrider);
     } else {
       return defaultColumnsFiltered;
     }
@@ -59,6 +67,7 @@ const useColumns = (
       ? columnsRedux.map(({ key }) => key).join()
       : columnsRedux,
     columnsCounter,
+    lastSeenOverride,
   ]);
 };
 

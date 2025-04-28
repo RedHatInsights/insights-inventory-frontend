@@ -540,7 +540,7 @@ describe('conventional table', () => {
       { name: 'Name', urlName: 'display_name', apiName: 'display_name' },
       { name: 'Workspace', urlName: 'group_name', apiName: 'group_name' },
       { name: 'OS', urlName: 'operating_system', apiName: 'operating_system' },
-      { name: 'Last seen', urlName: 'updated', apiName: 'updated' },
+      { name: 'Last seen', urlName: 'last_check_in', apiName: 'last_check_in' },
     ];
 
     for (const col of sortableColumns) {
