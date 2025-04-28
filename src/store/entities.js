@@ -26,6 +26,7 @@ import { verifyCulledReporter } from '../Utilities/sharedFunctions';
 import { fitContent } from '@patternfly/react-table';
 import isEmpty from 'lodash/isEmpty';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import { LastSeenColumnHeader } from '../Utilities/LastSeenColumnHeader';
 
 export const defaultState = {
   loaded: false,
@@ -92,25 +93,7 @@ export const DEFAULT_COLUMNS = [
     key: 'updated',
     sortKey: 'updated',
     dataLabel: 'Last seen',
-    title: (
-      <span>
-        Last seen
-        <Tooltip
-          content="Last seen represents the most recent time a system
-          checked in and uploaded sufficient data for Insights analysis.
-          The timestamp may vary between applications as they rely on
-          different data collectors."
-        >
-          <Icon>
-            <OutlinedQuestionCircleIcon
-              className="pf-v5-u-ml-sm"
-              color="var(--pf-v5-global--secondary-color--100)"
-              style={{ verticalAlign: -2 }}
-            />
-          </Icon>
-        </Tooltip>
-      </span>
-    ),
+    title: <LastSeenColumnHeader />,
     // eslint-disable-next-line react/display-name
     renderFunc: (
       value,
