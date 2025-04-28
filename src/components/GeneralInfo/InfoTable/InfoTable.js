@@ -141,6 +141,7 @@ const InfoTable = ({
               : [{ name: filter.value || '' }],
           })),
           onDelete: onDeleteFilter,
+          deleteTitle: 'Reset filters',
         }}
       />
       {cells.length !== 1 ? (
