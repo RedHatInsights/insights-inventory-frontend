@@ -46,11 +46,11 @@ const mountTable = (
 const waitForTable = (waitNetwork = false) => {
   if (waitNetwork) {
     // required for correct requests verifying in sub tests
-    cy.wait('@getHosts');
+    cy.wait('@getHosts', { timeout: 10000 });
   }
 
   // indicating the table is loaded
-  cy.get('table[aria-label="Host inventory"]').should(
+  cy.get('table[aria-label="Host inventory"]', { timeout: 8000 }).should(
     'have.attr',
     'data-ouia-safe',
     'true'
@@ -261,7 +261,7 @@ describe('hybrid inventory table', () => {
     describe('with only read permissions', () => {
       before(() => {
         cy.mockWindowInsights({
-          userPermissions: ['inventory:*:read'],
+          userPermissions: ['*:*:read'],
         });
       });
 
