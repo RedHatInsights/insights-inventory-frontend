@@ -2,9 +2,18 @@ import React from 'react';
 import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import { nameValidator } from '../../helpers/validate';
-import { Text } from '@patternfly/react-core';
+import {
+  FormGroup,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
+  Text,
+  TextInput,
+} from '@patternfly/react-core';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { getWritableGroups } from '../../utils/api';
+import { useFieldApi } from '@data-driven-forms/react-form-renderer';
+import { showError } from '@data-driven-forms/pf4-component-mapper';
 
 export const createGroupSchema = (namePresenceValidator) => ({
   fields: [
@@ -43,6 +52,43 @@ export const confirmSystemsAddSchema = (hostsNumber) => ({
     },
   ],
 });
+
+export const CreateWorkspaceTextField = (props) => {
+  const fieldData = useFieldApi(props);
+
+  const { validated } = fieldData.meta.validating
+    ? { validated: 'indeterminate' }
+    : showError(fieldData?.meta, fieldData.validateOnMount);
+
+  const validationInternal =
+    (fieldData.meta.touched || fieldData.validateOnMount) &&
+    (fieldData.meta.error ||
+      fieldData.meta.submitError ||
+      fieldData.meta.warning);
+  return (
+    <FormGroup
+      label={fieldData?.label}
+      isRequired={fieldData?.isRequired}
+      fieldId={fieldData.id || fieldData.input.name}
+    >
+      <TextInput
+        {...fieldData?.input}
+        isRequired={fieldData?.isRequired}
+        validated={validated}
+        id={fieldData.id || fieldData.input.name}
+      />
+      {(fieldData?.helperText || ['error', 'warning'].includes(validated)) && (
+        <FormHelperText>
+          <HelperText>
+            <HelperTextItem variant={validated} hasIcon>
+              {validationInternal || fieldData?.helperText}
+            </HelperTextItem>
+          </HelperText>
+        </FormHelperText>
+      )}
+    </FormGroup>
+  );
+};
 
 const createDescription = (hosts) => {
   return (
