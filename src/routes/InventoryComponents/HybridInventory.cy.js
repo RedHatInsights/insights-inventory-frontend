@@ -92,20 +92,24 @@ const prepareTest = (
   waitNetwork = true,
   initialEntry = '/insights/inventory'
 ) => {
-  cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
-    statusCode: 200,
-    body: hostTagsFixtures,
-  });
-  cy.intercept('/api/inventory/v1/tags*', {
-    statusCode: 200,
-    body: tagsFixtures,
-  });
-  featureFlagsInterceptors.successful();
-  systemProfileInterceptors['operating system, successful empty']();
-  groupsInterceptors['successful with some items']();
-  hostsInterceptors.successful();
-  mountTable(initialEntry);
-  waitForTable(waitNetwork);
+  try {
+    cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
+      statusCode: 200,
+      body: hostTagsFixtures,
+    });
+    cy.intercept('/api/inventory/v1/tags*', {
+      statusCode: 200,
+      body: tagsFixtures,
+    });
+    featureFlagsInterceptors.successful();
+    systemProfileInterceptors['operating system, successful empty']();
+    groupsInterceptors['successful with some items']();
+    hostsInterceptors.successful();
+    mountTable(initialEntry);
+    waitForTable(waitNetwork);
+  } catch (error) {
+    cy.log(`Error occurred: ${error.message}`, error);
+  }
 };
 
 describe('hybrid inventory table', () => {

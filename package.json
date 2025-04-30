@@ -152,7 +152,7 @@
     "verify": "npm-run-all build lint test",
     "verify:local": "npm-run-all build lint test:local test:ct",
     "nightly": "npm run ci:verify",
-    "test:ct": "BABEL_ENV=componentTest cypress run --component",
+    "test:ct": "BABEL_ENV=componentTest cypress run --browser chrome --component",
     "test:openct": "BABEL_ENV=componentTest cypress open --component",
     "test:openct:mock": "MOCK=true npm run test:openct",
     "test:coverage": "curl -sSL 'https://raw.githubusercontent.com/RedHatInsights/insights-interact-tools/refs/heads/main/scripts/coverage.sh' | bash",
