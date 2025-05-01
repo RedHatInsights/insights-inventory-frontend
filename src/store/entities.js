@@ -21,10 +21,12 @@ import groupBy from 'lodash/groupBy';
 import TitleColumn from '../components/InventoryTable/TitleColumn';
 import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
-import { Tooltip } from '@patternfly/react-core';
+import { Icon, Tooltip } from '@patternfly/react-core';
 import { verifyCulledReporter } from '../Utilities/sharedFunctions';
 import { fitContent } from '@patternfly/react-table';
 import isEmpty from 'lodash/isEmpty';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import { LastSeenColumnHeader } from '../Utilities/LastSeenColumnHeader';
 
 export const defaultState = {
   loaded: false,
@@ -90,7 +92,8 @@ export const DEFAULT_COLUMNS = [
   {
     key: 'updated',
     sortKey: 'updated',
-    title: 'Last seen',
+    dataLabel: 'Last seen',
+    title: <LastSeenColumnHeader />,
     // eslint-disable-next-line react/display-name
     renderFunc: (
       value,
