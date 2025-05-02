@@ -30,6 +30,25 @@ import { INVENTORY_ACTION_MENU_ITEM } from '../../../cypress/support/utils';
 const TEST_GROUP_NAME = 'ancd';
 const TEST_GROUP_ID = '54b302e4-07d2-45c5-b2f8-92a286847f9d';
 
+Cypress.on('uncaught:exception', (error) => {
+  console.error('Uncaught exception:', error);
+
+  return false; // still fail the test
+});
+
+Cypress.on('fail', (error) => {
+  console.error('Test failed:', error, {
+    message: error.message,
+    stack: error.stack,
+    name: error.name,
+    code: error.code,
+    fileName: error.fileName,
+    lineNumber: error.lineNumber,
+  });
+
+  throw error; // still fail the test
+});
+
 const mountTable = (
   initialEntry = '/insights/inventory',
   props = { hasAccess: true }
@@ -92,24 +111,20 @@ const prepareTest = (
   waitNetwork = true,
   initialEntry = '/insights/inventory'
 ) => {
-  try {
-    cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
-      statusCode: 200,
-      body: hostTagsFixtures,
-    });
-    cy.intercept('/api/inventory/v1/tags*', {
-      statusCode: 200,
-      body: tagsFixtures,
-    });
-    featureFlagsInterceptors.successful();
-    systemProfileInterceptors['operating system, successful empty']();
-    groupsInterceptors['successful with some items']();
-    hostsInterceptors.successful();
-    mountTable(initialEntry);
-    waitForTable(waitNetwork);
-  } catch (error) {
-    cy.log(`Error occurred: ${error.message}`, error);
-  }
+  cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
+    statusCode: 200,
+    body: hostTagsFixtures,
+  });
+  cy.intercept('/api/inventory/v1/tags*', {
+    statusCode: 200,
+    body: tagsFixtures,
+  });
+  featureFlagsInterceptors.successful();
+  systemProfileInterceptors['operating system, successful empty']();
+  groupsInterceptors['successful with some items']();
+  hostsInterceptors.successful();
+  mountTable(initialEntry);
+  waitForTable(waitNetwork);
 };
 
 describe('hybrid inventory table', () => {
