@@ -339,6 +339,40 @@ export const featureFlagsInterceptors = {
       },
     }).as('getWorkspacesFeatureFlag');
   },
+  lastSeenSuccessful: () => {
+    cy.intercept('GET', '/feature_flags*', {
+      statusCode: 200,
+      body: {
+        toggles: [
+          {
+            name: 'hbi.create_last_check_in_update_per_reporter_staleness',
+            enabled: true,
+            variant: {
+              name: 'disabled',
+              enabled: true,
+            },
+          },
+        ],
+      },
+    }).as('getLastSeenFeatureFlag');
+  },
+  lastSeenDisabled: () => {
+    cy.intercept('GET', '/feature_flags*', {
+      statusCode: 200,
+      body: {
+        toggles: [
+          {
+            name: 'hbi.create_last_check_in_update_per_reporter_staleness',
+            enabled: false,
+            variant: {
+              name: 'disabled',
+              enabled: false,
+            },
+          },
+        ],
+      },
+    }).as('getLastSeenFeatureFlag');
+  },
 };
 
 export const edgeInterceptors = {

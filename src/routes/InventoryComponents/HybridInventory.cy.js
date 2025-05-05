@@ -90,7 +90,8 @@ describe('test data', () => {
 
 const prepareTest = (
   waitNetwork = true,
-  initialEntry = '/insights/inventory'
+  initialEntry = '/insights/inventory',
+  { interceptors } = { interceptors: [] }
 ) => {
   cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
     statusCode: 200,
@@ -104,6 +105,7 @@ const prepareTest = (
   systemProfileInterceptors['operating system, successful empty']();
   groupsInterceptors['successful with some items']();
   hostsInterceptors.successful();
+  interceptors.forEach((ic) => ic());
   mountTable(initialEntry);
   waitForTable(waitNetwork);
 };
@@ -513,12 +515,17 @@ const testSorting = (
   skipUrlParams = false
 ) => {
   cy.log(`Testing ${name} column sorting`);
+
   // Set url params
   if (skipUrlParams) {
-    prepareTest(false, `/insights/inventory`);
+    prepareTest(false, `/insights/inventory`, {
+      interceptors: [featureFlagsInterceptors.lastSeenSuccessful],
+    });
   } else {
     const urlParam = `${!isAsc ? '-' : ''}${urlName}`;
-    prepareTest(false, `/insights/inventory?sort=${urlParam}`);
+    prepareTest(false, `/insights/inventory?sort=${urlParam}`, {
+      interceptors: [featureFlagsInterceptors.lastSeenSuccessful],
+    });
   }
 
   // Check api call
