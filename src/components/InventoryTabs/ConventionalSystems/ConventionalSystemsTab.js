@@ -35,6 +35,7 @@ import useOnRefresh from '../../filters/useOnRefresh';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { AccountStatContext } from '../../../Contexts';
 import { INVENTORY_COLUMNS } from '../../../store/constants';
+import { DEFAULT_COLUMNS } from '../../../store/entities';
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
   const requiredPermissions = selectedSystems.map(({ groups }) =>
@@ -201,7 +202,7 @@ const ConventionalSystemsTab = ({
           actionResolver: tableActions,
           canSelectAll: false,
         }}
-        columns={INVENTORY_COLUMNS}
+        columns={isLastCheckInEnabled ? INVENTORY_COLUMNS : DEFAULT_COLUMNS}
         lastSeenOverride={isLastCheckInEnabled ? 'last_check_in' : null}
         actionsConfig={{
           actions: [
