@@ -503,7 +503,7 @@ describe('SystemCard', () => {
           name: /Workloads value/i,
         })
       ).toHaveTextContent(
-        /SAP|Ansible|CrowdStrike|RHEL AI|InterSystems|IBM Db2|Microsoft SQL|Oracle Database/
+        /SAP|Ansible Automation Platform|CrowdStrike|RHEL AI|InterSystems|IBM Db2|Microsoft SQL|Oracle Database/
       );
     });
   });
