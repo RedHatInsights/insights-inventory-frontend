@@ -195,7 +195,11 @@ export const generalMapper = (data = [], title = '') => ({
   filters: [{ type: 'text' }],
 });
 
-export const workloadsDataMapper = ({ data = [], fieldKeys = [] } = {}) => {
+export const workloadsDataMapper = ({
+  data = [],
+  fieldKeys = [],
+  columnTitles,
+} = {}) => {
   const toTitleCase = (str) =>
     str
       .replace(/_/g, ' ')
@@ -204,9 +208,17 @@ export const workloadsDataMapper = ({ data = [], fieldKeys = [] } = {}) => {
   const isSingleColumn = fieldKeys.length === 0;
 
   const getCells = () => {
+    if (
+      columnTitles !== undefined &&
+      columnTitles.length === fieldKeys.length
+    ) {
+      return columnTitles.map((title) => ({ title }));
+    }
+
     if (isSingleColumn) {
       return [{ title: 'Value' }];
     }
+
     return fieldKeys.map((key) => ({ title: toTitleCase(key) }));
   };
 

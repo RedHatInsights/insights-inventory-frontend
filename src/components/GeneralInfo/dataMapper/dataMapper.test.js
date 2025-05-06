@@ -774,11 +774,12 @@ describe('workloadsDataMapper test', () => {
     const result = workloadsDataMapper({
       data: [mockWorkloadsData.ansible],
       fieldKeys: ['controller_version', 'hub_version'],
+      columnTitles: ['Controller version', 'Hub version'],
     });
 
     expect(result.cells).toEqual([
-      { title: 'Controller Version' },
-      { title: 'Hub Version' },
+      { title: 'Controller version' },
+      { title: 'Hub version' },
     ]);
     expect(result.rows).toEqual([
       ['x.1.2, foo.bar, 3.3.3', 'abc.def, 123.456, xyz.789'],
@@ -789,6 +790,7 @@ describe('workloadsDataMapper test', () => {
     const result = workloadsDataMapper({
       data: [mockWorkloadsData.rhel_ai],
       fieldKeys: ['amd_gpu_models', 'nvidia_gpu_models'],
+      columnTitles: ['AMD GPU models', 'Nvidia GPU models'],
     });
 
     expect(result.rows).toEqual([
@@ -803,10 +805,11 @@ describe('workloadsDataMapper test', () => {
     const result = workloadsDataMapper({
       data: mockWorkloadsData.intersystems.running_instances,
       fieldKeys: ['instance_name', 'product', 'version'],
+      columnTitles: ['Instance name', 'Product', 'Version'],
     });
 
     expect(result.cells).toEqual([
-      { title: 'Instance Name' },
+      { title: 'Instance name' },
       { title: 'Product' },
       { title: 'Version' },
     ]);

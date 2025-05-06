@@ -23,7 +23,7 @@ export const workloadClickTestCases = [
     },
   },
   {
-    name: 'Ansible',
+    name: 'Ansible Automation Platform',
     linkText: /Ansible Automation Platform/i,
     workloads: {
       ansible: {
@@ -33,13 +33,13 @@ export const workloadClickTestCases = [
         sso_version: 'preview-1, glitch.9.9, zz-top.7',
       },
     },
-    expectedClickTitle: 'Ansible',
+    expectedClickTitle: 'Ansible Automation Platform',
     expectedData: {
       cells: [
-        { title: 'Catalog Worker Version' },
-        { title: 'Controller Version' },
-        { title: 'Hub Version' },
-        { title: 'Sso Version' },
+        { title: 'Catalog worker version' },
+        { title: 'Controller version' },
+        { title: 'Hub version' },
+        { title: 'SSO version' },
       ],
       filters: [{ type: 'text' }],
       rows: [
@@ -67,10 +67,10 @@ export const workloadClickTestCases = [
     expectedClickTitle: 'RHEL AI',
     expectedData: {
       cells: [
-        { title: 'Amd Gpu Models' },
-        { title: 'Intel Gaudi Hpu Models' },
-        { title: 'Nvidia Gpu Models' },
-        { title: 'Rhel Ai Version Id' },
+        { title: 'AMD GPU models' },
+        { title: 'Intel Gaudi HPU models' },
+        { title: 'Nvidia GPU models' },
+        { title: 'RHEL AI version ID' },
         { title: 'Variant' },
       ],
       filters: [{ type: 'text' }],
@@ -103,7 +103,7 @@ export const workloadClickTestCases = [
     expectedClickTitle: 'InterSystems',
     expectedData: {
       cells: [
-        { title: 'Instance Name' },
+        { title: 'Instance name' },
         { title: 'Product' },
         { title: 'Version' },
       ],
@@ -124,9 +124,9 @@ export const workloadClickTestCases = [
     expectedClickTitle: 'CrowdStrike',
     expectedData: {
       cells: [
-        { title: 'Falcon Aid' },
-        { title: 'Falcon Backend' },
-        { title: 'Falcon Version' },
+        { title: 'Falcon AID' },
+        { title: 'Falcon backend' },
+        { title: 'Falcon version' },
       ],
       filters: [{ type: 'text' }],
       rows: [

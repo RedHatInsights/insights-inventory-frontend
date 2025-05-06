@@ -22,7 +22,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
     title: 'Ansible Automation Platform',
     onClick: () =>
       handleClick(
-        'Ansible',
+        'Ansible Automation Platform',
         workloadsDataMapper({
           data: [workloadsData.ansible],
           fieldKeys: [
@@ -30,6 +30,12 @@ export const workloadConfigs = (handleClick, workloadsData) => [
             'controller_version',
             'hub_version',
             'sso_version',
+          ],
+          columnTitles: [
+            'Catalog worker version',
+            'Controller version',
+            'Hub version',
+            'SSO version',
           ],
         })
       ),
@@ -56,6 +62,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
         workloadsDataMapper({
           data: [workloadsData.crowdstrike],
           fieldKeys: ['falcon_aid', 'falcon_backend', 'falcon_version'],
+          columnTitles: ['Falcon AID', 'Falcon backend', 'Falcon version'],
         })
       ),
     target: 'crowdstrike',
@@ -75,6 +82,13 @@ export const workloadConfigs = (handleClick, workloadsData) => [
             'rhel_ai_version_id',
             'variant',
           ],
+          columnTitles: [
+            'AMD GPU models',
+            'Intel Gaudi HPU models',
+            'Nvidia GPU models',
+            'RHEL AI version ID',
+            'Variant',
+          ],
         })
       ),
     target: 'rhel_ai',
@@ -88,6 +102,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
         workloadsDataMapper({
           data: workloadsData.intersystems.running_instances,
           fieldKeys: ['instance_name', 'product', 'version'],
+          columnTitles: ['Instance name', 'Product', 'Version'],
         })
       ),
     target: 'intersystems',
