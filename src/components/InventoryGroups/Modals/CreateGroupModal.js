@@ -1,12 +1,16 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { createGroupSchema } from './ModalSchemas/schemes';
+import {
+  createGroupSchema,
+  CreateWorkspaceTextField,
+} from './ModalSchemas/schemes';
 import Modal from './Modal';
 import apiWithToast from '../utils/apiWithToast';
 import { validateGroupName } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { createGroup } from '../../../api/hostInventoryApi';
+import { componentTypes } from '@data-driven-forms/react-form-renderer';
 
 export const validate = async (value = '') => {
   if (value.length === 0) {
@@ -76,6 +80,9 @@ const CreateGroupModal = ({
       schema={schema}
       reloadData={reloadData}
       onSubmit={handleCreateGroup}
+      additionalMappers={{
+        [componentTypes.TEXT_FIELD]: CreateWorkspaceTextField,
+      }}
     />
   );
 };

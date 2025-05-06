@@ -54,7 +54,7 @@ const RepoModal = ({
         initialValues={initialValues}
         componentMapper={
           additionalMappers
-            ? { ...additionalMappers, ...componentMapper }
+            ? { ...componentMapper, ...additionalMappers }
             : componentMapper
         }
         //reload comes from the table and fetches fresh data

@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, GridItem, Modal } from '@patternfly/react-core';
+import { Grid, GridItem, Modal, ModalVariant } from '@patternfly/react-core';
 import { SortByDirection } from '@patternfly/react-table';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 
@@ -23,219 +23,208 @@ import useInsightsNavigate from '@redhat-cloud-services/frontend-components-util
 import './general-information.scss';
 import { ConversionAlert } from './ConversionAlert';
 
-class GeneralInformation extends Component {
-  state = {
-    isModalOpen: false,
-    modalTitle: '',
-    modalVariant: 'small',
-  };
+import sortBy from 'lodash/sortBy';
 
-  onSort = (_event, index, direction, customRows) => {
-    const { rows } = this.state;
-    const sorted = (customRows || rows).sort((a, b) => {
-      const firstRow = a.cells || a;
-      const secondRow = b.cells || b;
-      const aSortBy = (
-        '' + (firstRow[index].sortValue || firstRow[index])
-      ).toLocaleLowerCase();
-      const bSortBy = (
-        '' + (secondRow[index].sortValue || secondRow[index])
-      ).toLocaleLowerCase();
-      return aSortBy < bSortBy ? -1 : 1;
-    });
-    this.setState({
-      rows: direction === SortByDirection.asc ? sorted : sorted.reverse(),
-    });
-  };
+const GeneralInformation = ({
+  store,
+  writePermissions,
+  SystemCardWrapper = SystemCard,
+  OperatingSystemCardWrapper = OperatingSystemCard,
+  BiosCardWrapper = BiosCard,
+  BootcImageCardWrapper = BootcImageCard,
+  InfrastructureCardWrapper = InfrastructureCard,
+  ConfigurationCardWrapper = ConfigurationCard,
+  SystemStatusCardWrapper = SystemStatusCard,
+  DataCollectorsCardWrapper = DataCollectorsCard,
+  CollectionCardWrapper = false,
+  SubscriptionCardWrapper = SubscriptionCard,
+  children,
+  navigate,
+  entity,
+  inventoryId,
+  loadSystemDetail,
+  systemProfilePrefetched = false,
+  showImageDetails = false,
+  isBootcHost = false,
+  showRuntimesProcesses = false,
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalVariant, setModalVariant] = useState(ModalVariant.small);
+  const [modalData, setModalData] = useState({
+    cells: [],
+    rows: [],
+    expandable: false,
+    filters: [],
+  });
 
-  handleModalToggle = (
-    modalTitle = '',
-    { cells, rows, expandable, filters } = {},
-    modalVariant = 'small'
-  ) => {
-    if (rows)
-      this.onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
-    if (this.state.isModalOpen) {
-      this.props.navigate(-1);
+  //Avoids duplicate profile fetch if consumer app already fetched, while staying backwards compatible
+  useEffect(() => {
+    if (!systemProfilePrefetched) {
+      loadSystemDetail?.(inventoryId || entity.id);
     }
+  }, [entity.id, inventoryId, loadSystemDetail, systemProfilePrefetched]);
 
-    this.setState(({ isModalOpen }) => ({
-      isModalOpen: !isModalOpen,
-      modalTitle,
-      cells,
-      expandable,
-      filters,
-      modalVariant,
+  const onSort = (_event, index, direction, customRows, secondaryIndex) => {
+    const sortAttributes = [
+      (row) => {
+        const value = row[index]?.sortValue || row[index];
+        return String(value).toLocaleLowerCase();
+      },
+    ];
+    if (secondaryIndex !== undefined) {
+      sortAttributes.push((row) => {
+        const value = row[secondaryIndex]?.sortValue || row[secondaryIndex];
+        return value.toLocaleLowerCase();
+      });
+    }
+    const toSort = [...(customRows || modalData.rows)];
+    const sorted = sortBy(toSort, sortAttributes);
+    setModalData((prevData) => ({
+      ...prevData,
+      rows: direction === SortByDirection.asc ? sorted : [...sorted].reverse(),
     }));
   };
 
-  componentDidMount() {
-    //Avoids duplicate profile fetch if consumer app already fetched, while staying backwards compatible
-    if (!this.props.systemProfilePrefetched) {
-      this.props.loadSystemDetail?.(
-        this.props.inventoryId || this.props.entity.id
-      );
+  const handleModalToggle = (
+    modalTitle = '',
+    { cells, rows, expandable, filters } = {},
+    modalVariant = ModalVariant.small
+  ) => {
+    if (isModalOpen) {
+      navigate(-1);
     }
-  }
 
-  render() {
-    const {
-      isModalOpen,
-      modalTitle,
+    setIsModalOpen(!isModalOpen);
+    setModalTitle(modalTitle);
+    setModalVariant(modalVariant);
+    setModalData({
       cells,
       rows,
       expandable,
       filters,
-      modalVariant,
-    } = this.state;
-    const {
-      store,
-      writePermissions,
-      SystemCardWrapper,
-      OperatingSystemCardWrapper,
-      BiosCardWrapper,
-      BootcImageCardWrapper,
-      InfrastructureCardWrapper,
-      ConfigurationCardWrapper,
-      SystemStatusCardWrapper,
-      DataCollectorsCardWrapper,
-      CollectionCardWrapper,
-      SubscriptionCardWrapper,
-      children,
-      entity,
-    } = this.props;
-    const Wrapper = store ? Provider : Fragment;
-    return (
-      <Wrapper {...(store && { store })}>
-        {entity?.system_profile?.operating_system?.name === 'CentOS Linux' && (
-          <ConversionAlert
-            style={{ marginBottom: 'var(--pf-v5-global--spacer--md)' }}
-          />
-        )}
-        <div className="ins-c-general-information">
-          <Grid hasGutter>
-            <GridItem md={6} sm={12}>
-              <Grid hasGutter>
-                {SystemCardWrapper && (
-                  <GridItem>
-                    <SystemCardWrapper
-                      handleClick={this.handleModalToggle}
-                      writePermissions={writePermissions}
-                    />
-                  </GridItem>
-                )}
-                {InfrastructureCardWrapper && (
-                  <GridItem>
-                    <InfrastructureCardWrapper
-                      handleClick={this.handleModalToggle}
-                    />
-                  </GridItem>
-                )}
-                {SystemStatusCardWrapper && (
-                  <GridItem>
-                    <SystemStatusCardWrapper
-                      handleClick={this.handleModalToggle}
-                    />
-                  </GridItem>
-                )}
-                {DataCollectorsCardWrapper && (
-                  <GridItem>
-                    <DataCollectorsCardWrapper
-                      handleClick={this.handleModalToggle}
-                    />
-                  </GridItem>
-                )}
-              </Grid>
-            </GridItem>
-            <GridItem md={6} sm={12}>
-              <Grid hasGutter>
-                {OperatingSystemCardWrapper && (
-                  <GridItem>
-                    <OperatingSystemCardWrapper
-                      handleClick={this.handleModalToggle}
-                    />
-                  </GridItem>
-                )}
+    });
+    if (rows) onSort(undefined, expandable ? 1 : 0, SortByDirection.asc, rows);
+  };
 
-                {BiosCardWrapper && (
-                  <GridItem>
-                    <BiosCardWrapper handleClick={this.handleModalToggle} />
-                  </GridItem>
-                )}
+  const Wrapper = store ? Provider : Fragment;
 
-                {SubscriptionCardWrapper && (
-                  <GridItem>
-                    <SubscriptionCardWrapper />
-                  </GridItem>
-                )}
+  return (
+    <Wrapper {...(store && { store })}>
+      {entity?.system_profile?.operating_system?.name === 'CentOS Linux' && (
+        <ConversionAlert
+          style={{ marginBottom: 'var(--pf-v5-global--spacer--md)' }}
+        />
+      )}
+      <div className="ins-c-general-information">
+        <Grid hasGutter>
+          <GridItem md={6} sm={12}>
+            <Grid hasGutter>
+              {SystemCardWrapper && (
+                <GridItem>
+                  <SystemCardWrapper
+                    handleClick={handleModalToggle}
+                    writePermissions={writePermissions}
+                  />
+                </GridItem>
+              )}
+              {InfrastructureCardWrapper && (
+                <GridItem>
+                  <InfrastructureCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
+              {SystemStatusCardWrapper && (
+                <GridItem>
+                  <SystemStatusCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
+              {DataCollectorsCardWrapper && (
+                <GridItem>
+                  <DataCollectorsCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
+            </Grid>
+          </GridItem>
+          <GridItem md={6} sm={12}>
+            <Grid hasGutter>
+              {OperatingSystemCardWrapper && (
+                <GridItem>
+                  <OperatingSystemCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
 
-                {this.props.isBootcHost && BootcImageCardWrapper && (
-                  <GridItem>
-                    <BootcImageCardWrapper
-                      handleClick={this.handleModalToggle}
-                    />
-                  </GridItem>
-                )}
+              {BiosCardWrapper && (
+                <GridItem>
+                  <BiosCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
 
-                {ConfigurationCardWrapper && (
-                  <GridItem>
-                    <ConfigurationCardWrapper
-                      handleClick={this.handleModalToggle}
-                    />
-                  </GridItem>
-                )}
-                {CollectionCardWrapper && (
-                  <GridItem>
-                    <CollectionCardWrapper
-                      handleClick={this.handleModalToggle}
-                    />
-                  </GridItem>
-                )}
+              {SubscriptionCardWrapper && (
+                <GridItem>
+                  <SubscriptionCardWrapper />
+                </GridItem>
+              )}
 
-                {this.props.showImageDetails && (
-                  <GridItem>
-                    <AsyncComponent
-                      scope="edge"
-                      module="./ImagesInformationCard"
-                      deviceIdProps={this.props.inventoryId || entity.id}
-                    />
-                  </GridItem>
-                )}
+              {isBootcHost && BootcImageCardWrapper && (
+                <GridItem>
+                  <BootcImageCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
 
-                {this.props.showRuntimesProcesses && entity.fqdn && (
-                  <GridItem>
-                    <AsyncComponent
-                      scope="runtimes"
-                      module="./RuntimesProcessesCard"
-                      hostname={entity.fqdn}
-                    />
-                  </GridItem>
-                )}
-              </Grid>
-            </GridItem>
-            {children}
-            <Modal
-              title={modalTitle || ''}
-              aria-label={`${modalTitle || ''} modal`}
-              isOpen={isModalOpen}
-              onClose={() => this.handleModalToggle()}
-              className="ins-c-inventory__detail--dialog"
-              variant={modalVariant}
-            >
-              <InfoTable
-                cells={cells}
-                rows={rows}
-                expandable={expandable}
-                onSort={this.onSort}
-                filters={filters}
-              />
-            </Modal>
-          </Grid>
-        </div>
-      </Wrapper>
-    );
-  }
-}
+              {ConfigurationCardWrapper && (
+                <GridItem>
+                  <ConfigurationCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
+              {CollectionCardWrapper && (
+                <GridItem>
+                  <CollectionCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
+
+              {showImageDetails && (
+                <GridItem>
+                  <AsyncComponent
+                    scope="edge"
+                    module="./ImagesInformationCard"
+                    deviceIdProps={inventoryId || entity.id}
+                  />
+                </GridItem>
+              )}
+
+              {showRuntimesProcesses && entity.fqdn && (
+                <GridItem>
+                  <AsyncComponent
+                    scope="runtimes"
+                    module="./RuntimesProcessesCard"
+                    hostname={entity.fqdn}
+                  />
+                </GridItem>
+              )}
+            </Grid>
+          </GridItem>
+          {children}
+          <Modal
+            title={modalTitle || ''}
+            aria-label={`${modalTitle || ''} modal`}
+            isOpen={isModalOpen}
+            onClose={() => handleModalToggle()}
+            className="ins-c-inventory__detail--dialog"
+            variant={modalVariant}
+          >
+            <InfoTable
+              cells={modalData.cells}
+              rows={modalData.rows}
+              expandable={modalData.expandable}
+              onSort={onSort}
+              filters={modalData.filters}
+            />
+          </Modal>
+        </Grid>
+      </div>
+    </Wrapper>
+  );
+};
 
 GeneralInformation.propTypes = {
   entity: PropTypes.shape({
