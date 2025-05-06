@@ -57,6 +57,7 @@ describe('ConventionalSystemsTab', () => {
     subscription_manager_id: 'dd9714be-20fc-46c7-8fc0-ef2e4d5112cf',
     tags: [],
     updated: '2020-10-27T10:07:14.453072+00:00',
+    last_check_in: '2021-10-27T10:07:14.453072+00:00',
     groups: [],
   };
 
@@ -97,7 +98,7 @@ describe('ConventionalSystemsTab', () => {
           renderFunc: (value) => value,
         },
         {
-          key: 'updated',
+          key: 'last_check_in',
           title: 'Last seen',
           renderFunc: (value) => value,
           props: { width: 25 },
@@ -109,7 +110,7 @@ describe('ConventionalSystemsTab', () => {
       page: 1,
       perPage: 50,
       rows: [system1],
-      sortBy: { key: 'updated', direction: 'desc' },
+      sortBy: { key: 'last_check_in', direction: 'desc' },
       tagsLoaded: false,
       total: 1,
       operatingSystems: [],

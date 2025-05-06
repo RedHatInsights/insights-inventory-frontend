@@ -85,6 +85,7 @@ const InventoryTable = forwardRef(
       abortOnUnmount = true,
       showCentosVersions = false,
       enableExport,
+      lastSeenOverride,
       ...props
     },
     ref
@@ -114,7 +115,20 @@ const InventoryTable = forwardRef(
       total,
     };
 
+    const columns = lastSeenOverride
+      ? props?.columns?.map((col) =>
+          col.key === 'updated'
+            ? {
+                ...col,
+                key: lastSeenOverride,
+                sortKey: lastSeenOverride,
+              }
+            : col
+        )
+      : props?.columns;
+
     const sortBy = useSelector(({ entities: { sortBy: invSortBy } }) => {
+      console.log('LMAO invsortby', invSortBy, 'propsSortBy', propsSortBy);
       const propsSortByOrFallback =
         propsSortBy?.key != null ? propsSortBy : invSortBy;
       const invSortByOrFallback =
@@ -194,11 +208,16 @@ const InventoryTable = forwardRef(
       const { activeFilters } = store.getState().entities;
       const cachedProps = cache.current?.getProps() || {};
 
+      let sortBy = options?.sortBy || cachedProps.sortBy;
+      if (lastSeenOverride && sortBy?.key === 'updated') {
+        sortBy = { ...sortBy, key: lastSeenOverride };
+      }
+
       const newParams = {
         page: options?.page || cachedProps.page,
         per_page: options?.per_page || options?.perPage || cachedProps.perPage,
         items: cachedProps.items,
-        sortBy: options?.sortBy || cachedProps.sortBy,
+        sortBy: sortBy,
         hideFilters: cachedProps.hideFilters,
         filters: activeFilters,
         hasItems: cachedProps.hasItems,
@@ -258,6 +277,7 @@ const InventoryTable = forwardRef(
       <Fragment>
         <EntityTableToolbar
           {...props}
+          columns={columns}
           data-testid="inventory-table-top-toolbar"
           customFilters={customFilters}
           hasAccess={hasAccess}
@@ -285,6 +305,7 @@ const InventoryTable = forwardRef(
         </EntityTableToolbar>
         <InventoryList
           {...props}
+          columns={columns}
           hasCheckbox={hasCheckbox}
           tableProps={tableProps}
           customFilters={customFilters}
@@ -356,6 +377,8 @@ InventoryTable.propTypes = {
   showCentosVersions: PropTypes.bool,
   showNoGroupOption: PropTypes.bool, // group filter option
   enableExport: PropTypes.bool,
+  lastSeenOverride: PropTypes.string,
+  columns: PropTypes.array,
 };
 
 InventoryTable.displayName = 'InventoryTable';
