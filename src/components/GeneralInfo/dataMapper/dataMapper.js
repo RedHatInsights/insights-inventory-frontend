@@ -208,15 +208,18 @@ export const workloadsDataMapper = ({
   const isSingleColumn = fieldKeys.length === 0;
 
   const getCells = () => {
+    if (
+      columnTitles !== undefined &&
+      columnTitles.length === fieldKeys.length
+    ) {
+      return columnTitles.map((title) => ({ title }));
+    }
+
     if (isSingleColumn) {
       return [{ title: 'Value' }];
     }
 
-    if (columnTitles === undefined || columnTitles.length === 0) {
-      return fieldKeys.map((key) => ({ title: toTitleCase(key) }));
-    }
-
-    return columnTitles.map((title) => ({ title }));
+    return fieldKeys.map((key) => ({ title: toTitleCase(key) }));
   };
 
   const formatValue = (value) => {
