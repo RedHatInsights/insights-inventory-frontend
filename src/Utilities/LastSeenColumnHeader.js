@@ -8,7 +8,7 @@ export const LastSeenColumnHeader = () => (
     <Tooltip
       content="Last seen represents the most recent time a system
           checked in and uploaded sufficient data for Insights analysis.
-          The timestamp may vary between applications as they rely on
+          The timestamps may vary between applications as they rely on
           different data collectors."
     >
       <Icon>
