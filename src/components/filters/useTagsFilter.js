@@ -14,6 +14,7 @@ export const useTagsFilter = (
     setValue,
     filterTagsBy,
     seFilterTagsBy,
+    setFilterTagsBy = seFilterTagsBy,
   } = tagsFilter(
     allTags,
     loaded,
@@ -37,6 +38,6 @@ export const useTagsFilter = (
     selectedTags,
     setSelectedTags: setValue,
     filterTagsBy,
-    seFilterTagsBy,
+    setFilterTagsBy,
   };
 };

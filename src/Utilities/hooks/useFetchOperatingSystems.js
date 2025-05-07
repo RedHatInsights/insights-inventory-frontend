@@ -36,6 +36,7 @@ const useFetchOperatingSystems = ({
   ]);
 
   useEffect(() => {
+    mounted.current = true;
     (async () => {
       const result = await fetchOperatingSystems();
       if (mounted.current) {

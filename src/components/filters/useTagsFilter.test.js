@@ -150,7 +150,7 @@ describe('useTagsFilter', () => {
     );
 
     act(() => {
-      result.current.seFilterTagsBy('test');
+      result.current.setFilterTagsBy('test');
     });
     expect(result.current.filterTagsBy).toBe('test');
   });

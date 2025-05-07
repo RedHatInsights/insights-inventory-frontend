@@ -145,26 +145,53 @@ describe('onDeleteFilter', () => {
 
 describe('onDeleteTag', () => {
   const selectedTags = {
-    some: {
-      tag: true,
+    AAzfYuEy: {
+      'Eetzha=dbFigb': {
+        isSelected: true,
+        group: {
+          label: 'AAzfYuEy',
+          value: 'AAzfYuEy',
+          type: 'checkbox',
+        },
+        item: {
+          meta: {
+            tag: {
+              key: 'Eetzha',
+              value: 'dbFigb',
+            },
+          },
+        },
+      },
     },
   };
+
   it('should call onDeleteTag with updated value', () => {
     const onApplyTags = jest.fn();
     const data = onDeleteTag(
       {
+        type: 'tags',
+        key: 'AAzfYuEy',
+        category: 'AAzfYuEy',
         chips: [
           {
-            key: 'tag',
+            key: 'Eetzha=dbFigb',
+            tagKey: 'Eetzha',
+            value: 'dbFigb',
+            name: 'Eetzha=dbFigb',
+            group: {
+              value: 'AAzfYuEy',
+              label: 'AAzfYuEy',
+              type: 'checkbox',
+            },
           },
         ],
-        key: 'some',
       },
       selectedTags,
       onApplyTags
     );
+
     expect(onApplyTags).toHaveBeenCalled();
-    expect(data.some.tag).toBe(false);
+    expect(data['AAzfYuEy']?.['Eetzha=dbFigb']).toBe(undefined);
   });
 
   it('should call onDeleteTag without updated value', () => {
