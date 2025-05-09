@@ -23,12 +23,12 @@ export const InventoryPopover = () => {
       bodyContent={
         <TextContent>
           <Flex direction={{ default: 'column' }}>
-            <Text component={TextVariants.p}>
+            <Text>
               Inventory offers a centralized, detailed overview of all systems
               within your organization, enabling tracking and management of your
               infrastructure.
             </Text>
-            <Text component={TextVariants.p}>
+            <Text>
               To appear in Inventory, systems must first be registered with Red
               Hat. You can register systems using several methods, including the
               Red Hat Insights client, Red Hat Satellite, or Red Hat
@@ -39,6 +39,10 @@ export const InventoryPopover = () => {
               when systems are marked as stale, and set the duration for system
               inactivity before they are automatically removed from the
               inventory.
+            </Text>
+            <Text>
+              To stay informed about changes in your inventory, you can
+              configure notifications for inventory events.
             </Text>
             <span>
               <a
@@ -75,6 +79,19 @@ export const InventoryPopover = () => {
                 rel="noreferrer"
               >
                 Managing system staleness and deletion
+                <ExternalLinkAltIcon className="pf-v5-u-ml-xs" />
+              </a>
+            </span>
+
+            <span>
+              <a
+                href={
+                  'https://docs.redhat.com/en/documentation/red_hat_insights/1-latest/html/viewing_and_managing_system_inventory/configuring-inventory-events_user-access'
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                Configuring notifications for inventory events
                 <ExternalLinkAltIcon className="pf-v5-u-ml-xs" />
               </a>
             </span>
