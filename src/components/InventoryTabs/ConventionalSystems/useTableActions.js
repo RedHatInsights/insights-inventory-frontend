@@ -15,9 +15,22 @@ const useTableActions = (
   onEditOpen,
   handleModalToggle,
   setRemoveHostsFromGroupModalOpen,
-  setAddHostGroupModalOpen
+  setAddHostGroupModalOpen,
+  isKesselEnabled
 ) => {
   const tableActionsCallback = useCallback((row) => {
+    const isAddtoWorkspaceDisabled = (row) => {
+      if (isKesselEnabled) {
+        return !row.groups[0]?.ungrouped;
+      }
+      return row.groups.length > 0;
+    };
+    const isRemoveFromWorkspaceDisabled = (row) => {
+      if (isKesselEnabled) {
+        return row.groups[0]?.ungrouped;
+      }
+      return row.groups.length === 0;
+    };
     const hostActions = [
       {
         title: (
@@ -66,7 +79,7 @@ const useTableActions = (
             }}
             requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
             noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-            isAriaDisabled={row?.groups?.[0]?.ungrouped !== true} // additional condition for enabling the button
+            isAriaDisabled={isAddtoWorkspaceDisabled(row)} // additional condition for enabling the button
             ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
           >
             Add to workspace
@@ -81,11 +94,13 @@ const useTableActions = (
               setCurrentSystem([row]);
               setRemoveHostsFromGroupModalOpen(true);
             }}
-            requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-              row?.groups?.[0]?.id
-            )}
+            requiredPermissions={
+              row?.groups?.[0]?.id !== undefined
+                ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(row.groups[0].id)
+                : []
+            }
             noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-            isAriaDisabled={row?.groups?.[0]?.ungrouped === true}
+            isAriaDisabled={isRemoveFromWorkspaceDisabled(row)}
             override={row?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
           >
             Remove from workspace

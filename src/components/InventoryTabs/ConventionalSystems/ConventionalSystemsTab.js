@@ -112,6 +112,7 @@ const ConventionalSystemsTab = ({
     loaded
   );
   const isExportEnabled = useFeatureFlag('hbi.export-data');
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   const onRefresh = useOnRefresh((options) => {
     onSetfilters(options?.filters);
@@ -144,6 +145,23 @@ const ConventionalSystemsTab = ({
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const isBulkRemoveFromGroupsEnabled = () => {
+    if (isKesselEnabled) {
+      return (
+        // can't remove from ungrouped group
+        Array.from(selected.values()).every(
+          ({ groups }) => groups.ungrouped !== true
+        ) &&
+        calculateSelected() > 0 &&
+        Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
+        uniq(
+          // can remove from at maximum one group at a time
+          Array.from(selected.values())
+            .filter(({ groups }) => groups.length > 0)
+            .map(({ groups }) => groups[0].name)
+        ).length === 1
+      );
+    }
+
     return (
       calculateSelected() > 0 &&
       Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
@@ -160,6 +178,10 @@ const ConventionalSystemsTab = ({
     if (calculateSelected() > 0) {
       const selectedHosts = Array.from(selected.values());
 
+      if (isKesselEnabled) {
+        return selectedHosts.every(({ groups }) => groups.ungrouped !== true);
+      }
+
       return selectedHosts.every(({ groups }) => groups.length === 0);
     }
 
@@ -171,7 +193,8 @@ const ConventionalSystemsTab = ({
     onEditOpen,
     handleModalToggle,
     setRemoveHostsFromGroupModalOpen,
-    setAddHostGroupModalOpen
+    setAddHostGroupModalOpen,
+    isKesselEnabled
   );
 
   const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
