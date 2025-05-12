@@ -28,9 +28,7 @@ const useTableActions = (
               onEditOpen(() => true);
             }}
             requiredPermissions={[
-              REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                row.groups?.[0]?.id ?? null
-              ),
+              REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(row?.groups?.[0]?.id),
             ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
           >
@@ -47,9 +45,7 @@ const useTableActions = (
               handleModalToggle(() => true);
             }}
             requiredPermissions={[
-              REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                row.groups?.[0]?.id ?? null
-              ),
+              REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(row?.groups?.[0]?.id),
             ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
           >
@@ -70,7 +66,7 @@ const useTableActions = (
             }}
             requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
             noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-            isAriaDisabled={row.groups.length > 0} // additional condition for enabling the button
+            isAriaDisabled={row?.groups?.[0]?.ungrouped !== true} // additional condition for enabling the button
             ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
           >
             Add to workspace
@@ -85,13 +81,11 @@ const useTableActions = (
               setCurrentSystem([row]);
               setRemoveHostsFromGroupModalOpen(true);
             }}
-            requiredPermissions={
-              row?.groups?.[0]?.id !== undefined
-                ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(row.groups[0].id)
-                : []
-            }
+            requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+              row?.groups?.[0]?.id
+            )}
             noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-            isAriaDisabled={row.groups.length === 0}
+            isAriaDisabled={row?.groups?.[0]?.ungrouped === true}
             override={row?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
           >
             Remove from workspace
