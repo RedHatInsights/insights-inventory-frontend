@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useEffect, useMemo, useState } from 'react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
@@ -25,7 +24,7 @@ export const buildHostGroupChips = (selectedGroups = []) => {
       : {
           name: group,
           value: group,
-        }
+        },
   );
   return chips?.length > 0
     ? [
@@ -48,7 +47,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
   const { hasAccess } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS,
     true,
-    false
+    false,
   );
 
   useEffect(() => {
@@ -66,7 +65,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
               firstRequest.total - 50,
               {},
               50,
-              1
+              1,
             )
           : [];
 
@@ -88,7 +87,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
 
   const chips = useMemo(
     () => buildHostGroupChips(selectedGroupNames),
-    [selectedGroupNames]
+    [selectedGroupNames],
   );
 
   return [

@@ -14,10 +14,10 @@ export const updateMethodFilterReducer = (_state, { type, payload }) => ({
 });
 
 export const useUpdateMethodFilter = (
-  [state, dispatch] = [updateMethodFilterState]
+  [state, dispatch] = [updateMethodFilterState],
 ) => {
   const EdgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter'
+    'edgeParity.inventory-list-filter',
   );
   const updateMethodOptions = useMemo(() => {
     return EdgeParityFilterDeviceEnabled

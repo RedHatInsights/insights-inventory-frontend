@@ -24,7 +24,7 @@ describe('LoadingCard', () => {
             isLoading={isLoading}
             title={`Card that is ${isLoading ? 'loading' : 'loaded'}`}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -49,7 +49,7 @@ describe('LoadingCard', () => {
             },
           ]}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(view.asFragment()).toMatchSnapshot();
@@ -73,7 +73,7 @@ describe('LoadingCard', () => {
             },
           ]}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(view.asFragment()).toMatchSnapshot();
@@ -83,7 +83,7 @@ describe('LoadingCard', () => {
     const view = render(
       <TestWrapper>
         <Clickable onClick={jest.fn()} />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -103,7 +103,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^None$/);
@@ -125,7 +125,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^0 systems$/);
@@ -146,11 +146,11 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
-        /^Not available$/
+        /^Not available$/,
       );
       expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
@@ -168,7 +168,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^None$/);
@@ -188,11 +188,11 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
-        /^Not available$/
+        /^Not available$/,
       );
       expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
@@ -211,7 +211,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^0 systems$/);
@@ -233,7 +233,7 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(/^23 systems$/);
@@ -256,11 +256,11 @@ describe('LoadingCard', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.getByRole('definition')).toHaveTextContent(
-        /^23 processes$/
+        /^23 processes$/,
       );
       expect(screen.getAllByRole('link')).toHaveLength(1);
     });
@@ -270,12 +270,12 @@ describe('LoadingCard', () => {
     render(
       <TestWrapper>
         <Clickable value="15" target="some-target" />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(screen.getByRole('link', { name: /15/i })).toHaveAttribute(
       'href',
-      'localhost:3000/example/path/some-target'
+      'localhost:3000/example/path/some-target',
     );
   });
 
@@ -285,7 +285,7 @@ describe('LoadingCard', () => {
     render(
       <TestWrapper>
         <Clickable onClick={onClick} value="15" target="path" />,
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     await userEvent.click(screen.getByRole('link', { name: /15/i }));
@@ -300,7 +300,7 @@ describe('LoadingCard', () => {
     const view = render(
       <TestWrapper>
         <Clickable onClick={onClick} value={0} target="some-target" />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     await waitFor(() => {

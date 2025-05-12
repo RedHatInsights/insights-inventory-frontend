@@ -29,7 +29,7 @@ export const loadEntities = (
   items = [],
   { filters, ...config },
   { showTags } = {},
-  getEntities = defaultGetEntities
+  getEntities = defaultGetEntities,
 ) => {
   const itemIds = items
     .reduce(
@@ -37,7 +37,7 @@ export const loadEntities = (
         ...acc,
         curr && typeof curr === 'string' ? curr : curr.id,
       ],
-      []
+      [],
     )
     .filter(Boolean);
 
@@ -81,7 +81,7 @@ export const loadEntities = (
         orderDirection,
       },
       showTags,
-      defaultGetEntities
+      defaultGetEntities,
     )
       .then(({ results, ...data }) => ({
         ...data,
@@ -96,7 +96,7 @@ export const loadEntities = (
               }))
             : results,
         page: config.page || data?.page,
-        // eslint-disable-next-line camelcase
+
         per_page: config.per_page || data?.per_page,
         hideFilters: config.hideFilters,
       }))
@@ -213,7 +213,7 @@ export const toggleTagModal = (isOpen) => ({
 export const fetchAllTags = (
   search,
   pagination,
-  getTags = defaultGetAllTags
+  getTags = defaultGetAllTags,
 ) => ({
   type: ACTION_TYPES.ALL_TAGS,
   payload: getTags(search, pagination),

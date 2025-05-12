@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
@@ -71,7 +70,7 @@ const AppInfoWrapper = ({ componentMapper, activeApp, ...props }) => {
   const searchParams = new URLSearchParams(search);
   if (!componentMapper || !activeApp) {
     console.warn(
-      'Please pass componentMapper and activeApp. We will be deprecating the old store controls'
+      'Please pass componentMapper and activeApp. We will be deprecating the old store controls',
     );
   }
 

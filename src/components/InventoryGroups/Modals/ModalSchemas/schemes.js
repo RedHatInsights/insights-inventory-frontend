@@ -110,7 +110,7 @@ const loadOptions = awesomeDebouncePromise(
     const fetchedGroups = await getWritableGroups(
       searchValue,
       { page: 1, per_page: 100 }, // TODO: make the list paginated
-      () => chrome.getUserPermissions('inventory')
+      () => chrome.getUserPermissions('inventory'),
     );
 
     return fetchedGroups.map(({ name, id }) => ({
@@ -119,7 +119,7 @@ const loadOptions = awesomeDebouncePromise(
     }));
   },
   250,
-  { onlyResolvesLast: false }
+  { onlyResolvesLast: false },
 );
 
 export const addHostSchema = (hosts, chrome) => ({

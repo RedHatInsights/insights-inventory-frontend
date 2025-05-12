@@ -7,7 +7,7 @@ import '@testing-library/jest-dom';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 jest.mock(
-  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate'
+  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate',
 );
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -27,7 +27,7 @@ describe('TitleColumn', () => {
 
   it('should render correctly with data', () => {
     const { asFragment } = render(
-      <TitleColumn id="testId">something</TitleColumn>
+      <TitleColumn id="testId">something</TitleColumn>,
     );
     expect(asFragment()).toMatchSnapshot();
   });
@@ -36,7 +36,7 @@ describe('TitleColumn', () => {
     const { asFragment } = render(
       <TitleColumn id="testId" item={{ os_release: 'os_release' }}>
         something
-      </TitleColumn>
+      </TitleColumn>,
     );
 
     expect(asFragment()).toMatchSnapshot();
@@ -46,7 +46,7 @@ describe('TitleColumn', () => {
     const { asFragment } = render(
       <TitleColumn id="testId" item={{ href: '/link/to/item' }}>
         something
-      </TitleColumn>
+      </TitleColumn>,
     );
 
     expect(asFragment()).toMatchSnapshot();
@@ -56,7 +56,7 @@ describe('TitleColumn', () => {
     const { asFragment } = render(
       <TitleColumn id="testId" item={{ to: { pathname: '/link/to/item' } }}>
         something
-      </TitleColumn>
+      </TitleColumn>,
     );
 
     expect(asFragment()).toMatchSnapshot();
@@ -70,7 +70,7 @@ describe('TitleColumn', () => {
         noDetail={true}
       >
         something
-      </TitleColumn>
+      </TitleColumn>,
     );
     expect(asFragment()).toMatchSnapshot();
   });
@@ -88,7 +88,7 @@ describe('TitleColumn', () => {
         >
           something
         </TitleColumn>
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(screen.getByText(/convert system to rhel/i)).toBeVisible();
@@ -96,7 +96,7 @@ describe('TitleColumn', () => {
     await userEvent.click(
       screen.getByRole('button', {
         name: /run a pre-conversion analysis of this system/i,
-      })
+      }),
     );
     await waitFor(() => {
       expect(navigate).toBeCalledWith('/available/convert-to-rhel-analysis');
@@ -114,7 +114,7 @@ describe('TitleColumn', () => {
           loaded
         >
           something
-        </TitleColumn>
+        </TitleColumn>,
       );
 
       await userEvent.click(screen.getByText(/something/i));
@@ -130,7 +130,7 @@ describe('TitleColumn', () => {
           onRowClick={onClick}
         >
           something
-        </TitleColumn>
+        </TitleColumn>,
       );
 
       await userEvent.click(screen.getByText(/something/i));

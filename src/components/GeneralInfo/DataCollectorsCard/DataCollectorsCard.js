@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -28,13 +27,13 @@ const DataCollectorsCardCore = ({
     (collector, isExpanding = true) =>
       setExpandedNames((prevExpanded) => {
         const otherExpandedNames = prevExpanded.filter(
-          (r) => r !== collector.name
+          (r) => r !== collector.name,
         );
         return isExpanding
           ? [...otherExpandedNames, collector.name]
           : otherExpandedNames;
       }),
-    []
+    [],
   );
   const isExpanded = (collector) => expandedNames.includes(collector.name);
   const data = collectors ?? getDefaultCollectors(entity);
@@ -131,7 +130,7 @@ export const DataCollectorsCard = connect(
     systemProfile,
     detailLoaded: systemProfile?.loaded,
     defaultCollectors: getDefaultCollectors(entity),
-  })
+  }),
 )(DataCollectorsCardCore);
 
 DataCollectorsCard.propTypes = DataCollectorsCardCore.propTypes;

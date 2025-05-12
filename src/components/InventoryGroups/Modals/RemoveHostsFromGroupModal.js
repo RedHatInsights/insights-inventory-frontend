@@ -84,9 +84,9 @@ const RemoveHostsFromGroupModal = ({
       async () =>
         await removeHostsFromGroup(
           groupId,
-          hosts.map(({ id }) => id)
+          hosts.map(({ id }) => id),
         ),
-      statusMessages(hosts)
+      statusMessages(hosts),
     );
 
   return (
@@ -107,16 +107,15 @@ const RemoveHostsFromGroupModal = ({
 RemoveHostsFromGroupModal.propTypes = {
   modalState: PropTypes.arrayOf(
     PropTypes.shape({
-      // eslint-disable-next-line camelcase
       display_name: PropTypes.string,
       id: PropTypes.string,
       groups: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.string,
           name: PropTypes.string,
-        })
+        }),
       ),
-    })
+    }),
   ).isRequired,
   isModalOpen: PropTypes.bool.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,

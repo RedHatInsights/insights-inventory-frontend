@@ -27,7 +27,7 @@ describe('Redirect', () => {
         replace,
         state,
       },
-      {}
+      {},
     );
   });
 });

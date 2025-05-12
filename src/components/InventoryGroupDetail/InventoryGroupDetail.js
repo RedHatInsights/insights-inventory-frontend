@@ -33,12 +33,12 @@ const InventoryGroupDetail = ({ groupId }) => {
   const [activeTabKey, setActiveTabKey] = useState(0);
 
   const [activeTab, setActiveTab] = useState(
-    hybridInventoryTabKeys.conventional.key
+    hybridInventoryTabKeys.conventional.key,
   );
 
   const dispatch = useDispatch();
   const { data, fulfilled, rejected, error } = useSelector(
-    (state) => state.groupDetail
+    (state) => state.groupDetail,
   );
   const navigate = useInsightsNavigate();
 
@@ -46,10 +46,10 @@ const InventoryGroupDetail = ({ groupId }) => {
   const groupName = data?.results?.[0]?.name;
 
   const { hasAccess: canViewGroup } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
+    REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId),
   );
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
+    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId),
   );
 
   useEffect(() => {

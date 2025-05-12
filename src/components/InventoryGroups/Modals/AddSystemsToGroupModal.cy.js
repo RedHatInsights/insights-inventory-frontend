@@ -1,5 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
-
 import {
   ALERT,
   DROPDOWN_ITEM,
@@ -51,22 +49,20 @@ const mountModal = () =>
       groupId: '620f9ae75A8F6b83d78F3B55Af1c4b2C',
       isModalOpen: true,
       setIsModalOpen: () => {},
-    }
+    },
   );
 
 describe('test data', () => {
   it('at least one system is already in a group', () => {
     const alreadyInGroup = hostsFixtures.results.filter(
-      // eslint-disable-next-line camelcase
-      ({ group_name }) => !_.isEmpty(group_name)
+      ({ group_name }) => !_.isEmpty(group_name),
     );
     expect(alreadyInGroup.length).to.be.gte(1);
   });
 
   it('the first system in group has specific id', () => {
     const alreadyInGroup = hostsFixtures.results.filter(
-      // eslint-disable-next-line camelcase
-      ({ group_name }) => !_.isEmpty(group_name)
+      ({ group_name }) => !_.isEmpty(group_name),
     );
     expect(alreadyInGroup[0].id).to.eq('anim');
   });
@@ -108,7 +104,7 @@ describe('AddSystemsToGroupModal', () => {
     cy.get('table[aria-label="Host inventory"]').should(
       'have.attr',
       'data-ouia-safe',
-      'true'
+      'true',
     );
     cy.get('button').contains('Add systems').should('be.disabled');
     selectRowN(3);
@@ -125,7 +121,7 @@ describe('AddSystemsToGroupModal', () => {
     cy.get('table[aria-label="Host inventory"]').should(
       'have.attr',
       'data-ouia-safe',
-      'true'
+      'true',
     );
     selectRowN(0);
     cy.get(ALERT); // check the alert is shown

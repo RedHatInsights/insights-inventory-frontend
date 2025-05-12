@@ -13,7 +13,7 @@ const GroupDetailInfo = () => {
   const path = '/iam/user-access';
   const { hasAccess: isUserAccessAdministrator, isLoading } = usePermissions(
     'rbac',
-    USER_ACCESS_ADMIN_PERMISSIONS
+    USER_ACCESS_ADMIN_PERMISSIONS,
   );
 
   return (

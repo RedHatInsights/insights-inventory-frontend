@@ -31,7 +31,7 @@ const DetailWrapper = ({
   const store = useStore();
   const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
   const isExpanded = useSelector(
-    ({ entityDetails }) => entityDetails?.isToggleOpened
+    ({ entityDetails }) => entityDetails?.isToggleOpened,
   );
   const loaded = useSelector(({ entityDetails }) => entityDetails?.loaded);
 

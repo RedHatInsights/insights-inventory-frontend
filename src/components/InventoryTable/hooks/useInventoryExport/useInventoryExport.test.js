@@ -113,7 +113,7 @@ describe('useInventoryExport', () => {
               resource: EXPORT_SERVICE_RESOURCE,
             },
           ],
-        }
+        },
       );
     });
 
@@ -123,7 +123,7 @@ describe('useInventoryExport', () => {
         title:
           'The requested export is being prepared. When ready, the download will start automatically.',
         variant: 'info',
-      })
+      }),
     );
     jest.clearAllMocks();
     jest.advanceTimersByTime(DOWNLOAD_CHECK_INTERVAL * 2);
@@ -133,8 +133,8 @@ describe('useInventoryExport', () => {
         EXPORT_SERVICE_PATH +
           '/exports/' +
           exampleGetResponse.data[0].id +
-          '/status'
-      )
+          '/status',
+      ),
     );
 
     expect(dispatchMock).toHaveBeenCalledWith(
@@ -142,7 +142,7 @@ describe('useInventoryExport', () => {
         id: 'inventory-export-download',
         title: 'The requested export is being downloaded.',
         variant: 'success',
-      })
+      }),
     );
   });
 
@@ -187,14 +187,14 @@ describe('useInventoryExport', () => {
           EXPORT_SERVICE_PATH +
             '/exports/' +
             exampleGetResponse.data[0].id +
-            '/status'
-        )
+            '/status',
+        ),
       );
 
       expect(dispatchMock).toHaveBeenCalledWith(
-        buildNoficationAction(ERROR_NOTIFICATION)
+        buildNoficationAction(ERROR_NOTIFICATION),
       );
-    }
+    },
   );
 
   it('should call onError if requesting export fails', async () => {
@@ -212,7 +212,7 @@ describe('useInventoryExport', () => {
     await waitFor(() => expect(errorPostMock).toHaveBeenCalled());
 
     expect(dispatchMock).toHaveBeenCalledWith(
-      buildNoficationAction(ERROR_NOTIFICATION)
+      buildNoficationAction(ERROR_NOTIFICATION),
     );
   });
 
@@ -232,7 +232,7 @@ describe('useInventoryExport', () => {
     await waitFor(() => expect(axiosErrorMock).toHaveBeenCalled());
 
     expect(dispatchMock).toHaveBeenCalledWith(
-      buildNoficationAction(ERROR_NOTIFICATION)
+      buildNoficationAction(ERROR_NOTIFICATION),
     );
   });
 });

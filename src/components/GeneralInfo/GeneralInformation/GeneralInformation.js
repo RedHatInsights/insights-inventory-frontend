@@ -89,7 +89,7 @@ const GeneralInformation = ({
   const handleModalToggle = (
     modalTitle = '',
     { cells, rows, expandable, filters } = {},
-    modalVariant = ModalVariant.small
+    modalVariant = ModalVariant.small,
   ) => {
     if (isModalOpen) {
       navigate(-1);

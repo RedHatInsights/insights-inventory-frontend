@@ -12,8 +12,8 @@ export const buildGroups = (length, allEmpty, allNonEmpty) => {
       host_count: allEmpty
         ? 0
         : allNonEmpty
-        ? faker.number.int({ min: 1, max: 100 })
-        : faker.number.int({ min: 0, max: 100 }),
+          ? faker.number.int({ min: 1, max: 100 })
+          : faker.number.int({ min: 0, max: 100 }),
     };
   });
 };
@@ -23,7 +23,7 @@ export const buildGroupsPayload = (
   per_page = 50,
   total = 20,
   allEmpty = false,
-  allNonEmpty = false
+  allNonEmpty = false,
 ) => {
   const count = Math.min(page * per_page, total);
 

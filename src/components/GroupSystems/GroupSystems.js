@@ -35,7 +35,7 @@ const GroupSystems = ({ groupName, groupId }) => {
   const inventory = useRef(null);
 
   const selected = useSelector(
-    (state) => state?.entities?.selected || new Map()
+    (state) => state?.entities?.selected || new Map(),
   );
   const rows = useSelector(({ entities }) => entities?.rows || []);
   const total = useSelector(({ entities }) => entities?.total);
@@ -46,7 +46,7 @@ const GroupSystems = ({ groupName, groupId }) => {
   const [addToGroupModalOpen, setAddToGroupModalOpen] = useState(false);
 
   const { hasAccess: canModify } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
+    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
   );
 
   const [searchParams] = useSearchParams();
@@ -90,7 +90,7 @@ const GroupSystems = ({ groupName, groupId }) => {
       rhcdFilter,
       updateMethodFilter,
       hostGroupFilter,
-      lastSeenFilter
+      lastSeenFilter,
     );
   }, [addToGroupModalOpen]);
 
@@ -101,7 +101,7 @@ const GroupSystems = ({ groupName, groupId }) => {
     rows,
     true,
     pageSelected,
-    groupName
+    groupName,
   );
 
   return (
@@ -142,7 +142,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                   hostGroupFilter: [groupName],
                 },
               },
-              showTags
+              showTags,
             )
           }
           tableProps={{
@@ -154,7 +154,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                 title: (
                   <ActionDropdownItem
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
+                      groupId,
                     )}
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
@@ -173,7 +173,7 @@ const GroupSystems = ({ groupName, groupId }) => {
               <ActionButton
                 key="add-systems-button"
                 requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                  groupId
+                  groupId,
                 )}
                 noAccessTooltip={noAccessTooltip}
                 onClick={() => {

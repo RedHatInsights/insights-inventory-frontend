@@ -17,8 +17,8 @@ describe('useTagsFilter', () => {
           },
         ],
         true,
-        0
-      )
+        0,
+      ),
     );
     const filter = result.current.tagsFilter;
 
@@ -81,8 +81,8 @@ describe('useTagsFilter', () => {
           },
         ],
         true,
-        0
-      )
+        0,
+      ),
     );
 
     const setValue = result.current.setSelectedTags;
@@ -145,8 +145,8 @@ describe('useTagsFilter', () => {
           },
         ],
         true,
-        0
-      )
+        0,
+      ),
     );
 
     act(() => {
@@ -173,8 +173,8 @@ describe('useTagsFilter', () => {
         ],
         true,
         10,
-        showMore
-      )
+        showMore,
+      ),
     );
 
     act(() => {

@@ -23,7 +23,7 @@ const mountWithContext = (contextValues = defaultContextValues) => {
   render(
     <AccountStatContext.Provider value={{ ...contextValues }}>
       <InventoryPage />
-    </AccountStatContext.Provider>
+    </AccountStatContext.Provider>,
   );
 };
 

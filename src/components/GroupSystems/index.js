@@ -8,7 +8,7 @@ import GroupImmutableSystems from './GroupImmutableSystems';
 
 const GroupSystemsWrapper = ({ groupName, groupId, hostType }) => {
   const { uninitialized, loading, data } = useSelector(
-    (state) => state.groupDetail
+    (state) => state.groupDetail,
   );
   return uninitialized || loading ? (
     <EmptyState>

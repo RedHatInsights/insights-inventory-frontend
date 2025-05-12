@@ -55,7 +55,7 @@ const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
           {loaded &&
             verifyCulledReporter(
               getFact('per_reporter_staleness', entity),
-              REPORTER_PUPTOO
+              REPORTER_PUPTOO,
             ) && <InsightsDisconnected />}
         </FlexItem>
       </Flex>

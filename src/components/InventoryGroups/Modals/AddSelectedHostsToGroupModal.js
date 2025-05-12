@@ -40,9 +40,9 @@ const AddSelectedHostsToGroupModal = ({
       () =>
         addHostsToGroupById(
           group.id,
-          hosts.map(({ id }) => id)
+          hosts.map(({ id }) => id),
         ),
-      statusMessages
+      statusMessages,
     );
   };
 
@@ -83,10 +83,9 @@ const AddSelectedHostsToGroupModal = ({
 AddSelectedHostsToGroupModal.propTypes = {
   modalState: PropTypes.arrayOf(
     PropTypes.shape({
-      // eslint-disable-next-line camelcase
       display_name: PropTypes.string,
       id: PropTypes.string,
-    })
+    }),
   ).isRequired,
   isModalOpen: PropTypes.bool,
   setIsModalOpen: PropTypes.func,

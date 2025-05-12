@@ -11,10 +11,10 @@ describe('NoSystemsTable', () => {
     expect(
       screen.getByRole('heading', {
         name: /no matching systems found/i,
-      })
+      }),
     ).toBeVisible();
     expect(
-      screen.getByText(/to continue, edit your filter settings and try again/i)
+      screen.getByText(/to continue, edit your filter settings and try again/i),
     ).toBeVisible();
   });
 
@@ -24,10 +24,10 @@ describe('NoSystemsTable', () => {
     expect(
       screen.getByRole('heading', {
         name: /no matching workspaces found/i,
-      })
+      }),
     ).toBeVisible();
     expect(
-      screen.getByText(/to continue, edit your filter settings and try again/i)
+      screen.getByText(/to continue, edit your filter settings and try again/i),
     ).toBeVisible();
   });
 
@@ -38,7 +38,7 @@ describe('NoSystemsTable', () => {
     await userEvent.click(
       screen.getByRole('button', {
         name: /clear all filters/i,
-      })
+      }),
     );
     expect(callback).toBeCalled();
   });

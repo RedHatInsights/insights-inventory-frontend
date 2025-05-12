@@ -6,9 +6,9 @@ export const cves = async (systemId) => {
     const [low, moderate, important, critical] = await Promise.all(
       [2, 4, 5, 7].map((impact) =>
         instance.get(
-          `/api/vulnerability//v1/systems/${systemId}/cves?page=1&page_size=1&impact=${impact}`
-        )
-      )
+          `/api/vulnerability//v1/systems/${systemId}/cves?page=1&page_size=1&impact=${impact}`,
+        ),
+      ),
     );
     return { low, moderate, important, critical };
   } catch (_e) {

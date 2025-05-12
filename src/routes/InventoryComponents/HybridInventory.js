@@ -8,13 +8,15 @@ import { getSearchParams } from '../../constants';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { AccountStatContext } from '../../Contexts';
 
-const ConventionalSystemsTab = lazy(() =>
-  import(
-    '../../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab'
-  )
+const ConventionalSystemsTab = lazy(
+  () =>
+    import(
+      '../../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab'
+    ),
 );
-const ImmutableDevicesTab = lazy(() =>
-  import('../../components/InventoryTabs/ImmutableDevices/EdgeDevicesTab')
+const ImmutableDevicesTab = lazy(
+  () =>
+    import('../../components/InventoryTabs/ImmutableDevices/EdgeDevicesTab'),
 );
 
 const SuspenseWrapper = ({ children }) => (
@@ -32,7 +34,7 @@ const HybridInventory = (props) => {
   const [searchParams] = useSearchParams();
   const parsedSearchParams = useMemo(
     () => getSearchParams(searchParams),
-    [searchParams.toString()]
+    [searchParams.toString()],
   );
   const fullProps = { ...props, ...parsedSearchParams };
   const isEdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');

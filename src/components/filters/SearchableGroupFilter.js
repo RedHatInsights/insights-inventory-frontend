@@ -33,7 +33,7 @@ const SearchableGroupFilter = ({
         children: name,
       })),
     ],
-    [initialGroups, showNoGroupOption]
+    [initialGroups, showNoGroupOption],
   );
 
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +49,7 @@ const SearchableGroupFilter = ({
       newSelectOptions = initialValues.filter((menuItem) =>
         String(menuItem.children)
           .toLowerCase()
-          .includes(inputValue.toLowerCase())
+          .includes(inputValue.toLowerCase()),
       );
 
       // when no options are found after filtering, display 'No workspace found'
@@ -98,7 +98,7 @@ const SearchableGroupFilter = ({
 
   const onInputKeyDown = (event) => {
     const enabledMenuItems = selectOptions.filter(
-      (menuItem) => !menuItem.isDisabled
+      (menuItem) => !menuItem.isDisabled,
     );
     const [firstMenuItem] = enabledMenuItems;
     const focusedItem = focusedItemIndex
@@ -209,7 +209,7 @@ SearchableGroupFilter.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       id: PropTypes.string,
-    }).isRequired
+    }).isRequired,
   ),
   selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
