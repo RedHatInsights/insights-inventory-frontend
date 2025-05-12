@@ -1,5 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
-/* eslint-disable camelcase */
 import {
   CHIP,
   CHIP_GROUP,
@@ -73,7 +71,7 @@ const TEST_GROUP_ID = 'bBEbFFB0D339fA46eD81cCA301d85AAF';
 describe('test data', () => {
   it('first two rows do not have hosts', () => {
     expect(
-      fixtures.results.slice(0, 2).every(({ host_count }) => host_count === 0)
+      fixtures.results.slice(0, 2).every(({ host_count }) => host_count === 0),
     ).to.equal(true);
   });
 
@@ -221,7 +219,7 @@ describe('sorting', () => {
           checkSorting(label, order, category);
         });
       });
-    }
+    },
   );
 });
 
@@ -282,7 +280,7 @@ describe('selection and bulk selection', () => {
 
   it('can select all in dropdown toggle', () => {
     cy.get(
-      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle'
+      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle',
     ).click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select all').click();
     checkSelectedNumber(fixtures.total);
@@ -298,7 +296,7 @@ describe('selection and bulk selection', () => {
   it('can select none', () => {
     selectRowN(1);
     cy.get(
-      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle > .pf-v5-c-menu-toggle__controls'
+      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle > .pf-v5-c-menu-toggle__controls',
     ).click();
     cy.get(PT_BULK_SELECT_LIST).find(MENU_ITEM).eq(1).click();
     checkSelectedNumber(0);
@@ -340,7 +338,7 @@ describe('actions', () => {
         .find('p')
         .should(
           'contain.text',
-          `${fixtures.results[TEST_ID].name} and all its data will be deleted.`
+          `${fixtures.results[TEST_ID].name} and all its data will be deleted.`,
         );
     });
 
@@ -355,7 +353,7 @@ describe('actions', () => {
         .find('p')
         .should(
           'contain.text',
-          `${fixtures.results[TEST_ID].name} and all its data will be deleted.`
+          `${fixtures.results[TEST_ID].name} and all its data will be deleted.`,
         );
     });
 
@@ -389,7 +387,7 @@ describe('actions', () => {
         .find('p')
         .should(
           'contain.text',
-          `${TEST_ROWS.length} workspaces and all their data will be deleted.`
+          `${TEST_ROWS.length} workspaces and all their data will be deleted.`,
         );
     });
 

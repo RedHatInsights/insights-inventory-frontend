@@ -7,7 +7,7 @@ const useEdgeGroups = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const edgeParityInventoryGroupsEnabled = useFeatureFlag(
-    'edgeParity.inventory-groups-enabled'
+    'edgeParity.inventory-groups-enabled',
   );
 
   useEffect(() => {

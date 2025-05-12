@@ -13,8 +13,8 @@ describe('tableReducer', () => {
         {
           type: INVENTORY_ACTION_TYPES.LOAD_ENTITIES_FULFILLED,
           payload: { results: [{ id: '123' }] },
-        }
-      )
+        },
+      ),
     ).toEqual({ rows: [{ id: '123', selected: undefined }] });
   });
 
@@ -26,8 +26,8 @@ describe('tableReducer', () => {
           type: INVENTORY_ACTION_TYPES.LOAD_ENTITIES_FULFILLED,
           payload: { results: [{ id: '123' }] },
           meta: { lastDateRequest: 1 },
-        }
-      )
+        },
+      ),
     ).toEqual({
       lastDateRequest: 1,
       rows: [{ id: '123', selected: undefined }],
@@ -42,8 +42,8 @@ describe('tableReducer', () => {
           type: INVENTORY_ACTION_TYPES.LOAD_ENTITIES_FULFILLED,
           payload: { results: [{ id: '123' }] },
           meta: { lastDateRequest: 1 },
-        }
-      )
+        },
+      ),
     ).toEqual({ lastDateRequest: 2 });
   });
 });
@@ -55,7 +55,7 @@ describe('entitesDetailReducer', () => {
 
   test('should show default state', () => {
     expect(
-      entitesDetailReducer(INVENTORY_ACTION_TYPES)(undefined, {})
+      entitesDetailReducer(INVENTORY_ACTION_TYPES)(undefined, {}),
     ).toMatchObject({ loaded: false });
   });
 });

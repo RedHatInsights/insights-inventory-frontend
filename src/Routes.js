@@ -13,16 +13,16 @@ import Fallback from './components/SpinnerFallback';
 import Redirect from './Utilities/Redirect';
 import { AccountStatContext } from './Contexts';
 
-const InventoryOrEdgeGroupDetailsView = lazy(() =>
-  import('./routes/InventoryOrEdgeGroupDetailsComponent')
+const InventoryOrEdgeGroupDetailsView = lazy(
+  () => import('./routes/InventoryOrEdgeGroupDetailsComponent'),
 );
-const InventoryOrEdgeView = lazy(() =>
-  import('./routes/InventoryOrEdgeComponent')
+const InventoryOrEdgeView = lazy(
+  () => import('./routes/InventoryOrEdgeComponent'),
 );
 const InventoryTable = lazy(() => import('./routes/InventoryPage'));
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
-const InventoryHostStaleness = lazy(() =>
-  import('./routes/InventoryHostStaleness')
+const InventoryHostStaleness = lazy(
+  () => import('./routes/InventoryHostStaleness'),
 );
 
 const EdgeInventoryUpdate = lazy(() => import('./routes/SystemUpdate'));
@@ -47,7 +47,7 @@ export const Routes = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const edgeParityInventoryListEnabled = useFeatureFlag(
-    'edgeParity.inventory-list'
+    'edgeParity.inventory-list',
   );
 
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');

@@ -31,7 +31,7 @@ describe('SubscriptionCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <SubscriptionCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -41,7 +41,7 @@ describe('SubscriptionCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <SubscriptionCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -52,9 +52,9 @@ describe('SubscriptionCard', () => {
       const view = render(
         <TestWrapper store={store}>
           <SubscriptionCard {...{ [item]: false }} />
-        </TestWrapper>
+        </TestWrapper>,
       );
       expect(view.asFragment()).toMatchSnapshot();
-    })
+    }),
   );
 });

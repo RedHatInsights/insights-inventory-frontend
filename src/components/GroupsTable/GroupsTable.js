@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   Pagination,
   PaginationVariant,
@@ -95,8 +94,8 @@ const groupsTableFiltersConfig = {
     transformFromParam: (value) =>
       parseInt(
         Object.entries(GROUPS_TABLE_COLUMNS_TO_URL).find(
-          ([, name]) => name === value
-        )?.[0]
+          ([, name]) => name === value,
+        )?.[0],
       ),
   },
   sortDirection: {
@@ -107,7 +106,7 @@ const groupsTableFiltersConfig = {
 const GroupsTable = ({ onCreateGroupClick }) => {
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, fulfilled, data } = useSelector(
-    (state) => state.groups
+    (state) => state.groups,
   );
   const [rowsGenerated, setRowsGenerated] = useState(false);
   const location = useLocation();
@@ -134,14 +133,14 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         return dispatch(
           fetchGroups(
             { ...search, order_by, order_how },
-            { page, per_page: perPage }
-          )
+            { page, per_page: perPage },
+          ),
         );
       } else {
         return dispatch(fetchGroups(search, { page, per_page: perPage }));
       }
     }, REQUEST_DEBOUNCE_TIMEOUT), // wait the timeout before making the final fetch
-    []
+    [],
   );
 
   useEffect(() => {
@@ -215,7 +214,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         },
       },
     ],
-    [filters.name, rejected]
+    [filters.name, rejected],
   );
 
   const onResetFilters = () => setFilters(GROUPS_TABLE_INITIAL_STATE);
@@ -318,7 +317,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
     title: (
       <ActionDropdownItem
         requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-          rowData?.groupId
+          rowData?.groupId,
         )}
         noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
         onClick={() => {
@@ -338,12 +337,12 @@ const GroupsTable = ({ onCreateGroupClick }) => {
     modifyActionButton(
       'Rename workspace',
       () => setRenameModalOpen(true),
-      rowData
+      rowData,
     ),
     modifyActionButton(
       'Delete workspace',
       () => setDeleteModalOpen(true),
-      rowData
+      rowData,
     ),
   ];
 
@@ -458,7 +457,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
               label: (
                 <ActionDropdownItem
                   requiredPermissions={selectedIds.flatMap((id) =>
-                    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(id)
+                    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(id),
                   )}
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
                   onClick={() => setDeleteModalOpen(true)}

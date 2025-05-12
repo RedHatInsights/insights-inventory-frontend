@@ -15,7 +15,7 @@ const useTableActions = (
   onEditOpen,
   handleModalToggle,
   setRemoveHostsFromGroupModalOpen,
-  setAddHostGroupModalOpen
+  setAddHostGroupModalOpen,
 ) => {
   const tableActionsCallback = useCallback((row) => {
     const hostActions = [
@@ -29,7 +29,7 @@ const useTableActions = (
             }}
             requiredPermissions={[
               REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                row.groups?.[0]?.id ?? null
+                row.groups?.[0]?.id ?? null,
               ),
             ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
@@ -48,7 +48,7 @@ const useTableActions = (
             }}
             requiredPermissions={[
               REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                row.groups?.[0]?.id ?? null
+                row.groups?.[0]?.id ?? null,
               ),
             ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}

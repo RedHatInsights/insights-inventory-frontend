@@ -34,7 +34,7 @@ describe('CollectionCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <CollectionCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -44,7 +44,7 @@ describe('CollectionCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <CollectionCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -54,7 +54,7 @@ describe('CollectionCard', () => {
     render(
       <TestWrapper store={store}>
         <CollectionCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     await userEvent.hover(screen.getByText('test-client'));
     await screen.findByText(/RPM version: test-client/i);
@@ -73,10 +73,10 @@ describe('CollectionCard', () => {
       render(
         <TestWrapper store={store}>
           <CollectionCard {...{ [flag]: false }} />
-        </TestWrapper>
+        </TestWrapper>,
       );
       expect(screen.queryByText(title)).not.toBeInTheDocument();
-    })
+    }),
   );
 
   it('should render extra', () => {
@@ -94,7 +94,7 @@ describe('CollectionCard', () => {
             },
           ]}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });

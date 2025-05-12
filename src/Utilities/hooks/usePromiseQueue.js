@@ -25,7 +25,7 @@ const usePromiseQueue = (limit = DEFAULT_CONCURRENT_PROMISES) => {
 
       return results;
     },
-    [limit]
+    [limit],
   );
 
   return {

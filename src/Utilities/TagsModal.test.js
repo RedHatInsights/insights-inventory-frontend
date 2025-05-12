@@ -1,4 +1,3 @@
-/* eslint-disable no-import-assign */
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -43,7 +42,7 @@ describe('TagsModal', () => {
       render(
         <Provider store={store}>
           <TagsModal />
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.getAllByRole('row')).toHaveLength(6); // including header
@@ -73,30 +72,30 @@ describe('TagsModal', () => {
       render(
         <Provider store={store}>
           <TagsModal />
-        </Provider>
+        </Provider>,
       );
 
       expect(
         screen.getByRole('columnheader', {
           name: /name/i,
-        })
+        }),
       ).toBeVisible();
       expect(
         screen.getByRole('columnheader', {
           name: /value/i,
-        })
+        }),
       ).toBeVisible();
       expect(
         screen.getByRole('columnheader', {
           name: /tag source/i,
-        })
+        }),
       ).toBeVisible();
 
       expect(screen.getAllByRole('cell')).toHaveLength(3);
       screen
         .getAllByRole('cell')
         .forEach((cell, index) =>
-          expect(cell).toHaveTextContent(['some', 'test', 'something'][index])
+          expect(cell).toHaveTextContent(['some', 'test', 'something'][index]),
         );
     });
 
@@ -128,19 +127,19 @@ describe('TagsModal', () => {
       render(
         <Provider store={store}>
           <TagsModal store={store} />
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.getByText(/all tags in inventory \(50\)/i)).toBeVisible();
       expect(
         screen.getByRole('button', {
           name: /apply tags/i,
-        })
+        }),
       ).toBeDisabled();
       expect(
         screen.getByRole('button', {
           name: /cancel/i,
-        })
+        }),
       ).toBeEnabled();
     });
   });
@@ -180,18 +179,18 @@ describe('TagsModal', () => {
       render(
         <Provider store={store}>
           <TagsModal onApply={onApply} />
-        </Provider>
+        </Provider>,
       );
 
       await userEvent.click(
         screen.getByRole('checkbox', {
           name: /select row 0/i,
-        })
+        }),
       );
       await userEvent.click(
         screen.getByRole('button', {
           name: /apply tags/i,
-        })
+        }),
       );
       expect(onApply).toHaveBeenCalledTimes(1);
     });
@@ -224,13 +223,13 @@ describe('TagsModal', () => {
       render(
         <Provider store={store}>
           <TagsModal />
-        </Provider>
+        </Provider>,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /close/i,
-        })
+        }),
       );
       const actions = store.getActions();
       expect(actions[0]).toMatchObject({
@@ -267,14 +266,14 @@ describe('TagsModal', () => {
       render(
         <Provider store={store}>
           <TagsModal />
-        </Provider>
+        </Provider>,
       );
 
       expect(
-        screen.getAllByRole('button', { name: /go to next page/i })
+        screen.getAllByRole('button', { name: /go to next page/i }),
       ).toHaveLength(2);
       await userEvent.click(
-        screen.getAllByRole('button', { name: /go to next page/i })[0]
+        screen.getAllByRole('button', { name: /go to next page/i })[0],
       );
       const actions = store.getActions();
       expect(actions[0]).toMatchObject({ type: 'ALL_TAGS_PENDING' });

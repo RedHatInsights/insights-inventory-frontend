@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import {
   BREADCRUMB,
   EMPTY_STATE_ICON,

@@ -12,7 +12,7 @@ describe('BifrostTable', () => {
     expect(
       screen.getByRole('grid', {
         name: /loading/i,
-      })
+      }),
     ).toBeVisible();
   });
 
@@ -22,19 +22,19 @@ describe('BifrostTable', () => {
     expect(
       screen.getByRole('cell', {
         name: /india pale ale/i,
-      })
+      }),
     ).toBeVisible();
 
     expect(
       screen.getByRole('cell', {
         name: /belgian/i,
-      })
+      }),
     ).toBeVisible();
 
     expect(
       screen.getByRole('cell', {
         name: /stout/i,
-      })
+      }),
     ).toBeVisible();
   });
 
@@ -43,7 +43,7 @@ describe('BifrostTable', () => {
     expect(
       screen.queryByRole('cell', {
         name: /hash commit table/i,
-      })
+      }),
     ).not.toBeInTheDocument();
 
     const row = screen.getByRole('row', {
@@ -53,25 +53,25 @@ describe('BifrostTable', () => {
     await userEvent.click(
       within(row).getByRole('button', {
         name: /details/i,
-      })
+      }),
     );
 
     expect(
       screen.getByRole('cell', {
         name: /hash commit table/i,
-      })
+      }),
     ).toBeVisible();
 
     await userEvent.click(
       within(row).getByRole('button', {
         name: /details/i,
-      })
+      }),
     );
 
     expect(
       screen.queryByRole('cell', {
         name: /hash commit table/i,
-      })
+      }),
     ).not.toBeInTheDocument();
   });
 });

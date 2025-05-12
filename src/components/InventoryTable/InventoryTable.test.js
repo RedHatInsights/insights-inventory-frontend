@@ -23,7 +23,7 @@ jest.mock('../../api/api', () => ({
   __esModule: true,
   ...jest.requireActual('../../api/api'),
   getOperatingSystems: jest.fn(() =>
-    Promise.resolve({ total: 0, results: [] })
+    Promise.resolve({ total: 0, results: [] }),
   ),
 }));
 jest.mock('../InventoryGroups/utils/api', () => ({
@@ -53,19 +53,19 @@ const renderTable = (store, props) => {
   const view = render(
     <TestWrapper store={store}>
       <InventoryTable {...props} />
-    </TestWrapper>
+    </TestWrapper>,
   );
 
   return {
     ...view,
     rerender: (
       // overriding `rerender` in order to preserve TestWrapper
-      props
+      props,
     ) =>
       view.rerender(
         <TestWrapper store={store}>
           <InventoryTable {...props} />
-        </TestWrapper>
+        </TestWrapper>,
       ),
   };
 };
@@ -77,7 +77,7 @@ jest.mock(
   () => ({
     esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: true }),
-  })
+  }),
 );
 
 const expectMainComponents = () => {
@@ -87,7 +87,7 @@ const expectMainComponents = () => {
     screen.getByTestId('inventory-table-bottom-toolbar');
   } catch (error) {
     throw new Error(
-      `Not all of the main InventoryTable components were found.\n\n${error}`
+      `Not all of the main InventoryTable components were found.\n\n${error}`,
     );
   }
 };
@@ -96,7 +96,7 @@ const expectFilters = async (filterNames) => {
   await userEvent.click(
     screen.getByRole('button', {
       name: /conditional filter/i,
-    })
+    }),
   );
 
   filterNames.forEach((name) => {
@@ -114,13 +114,13 @@ const checkRowsContent = (hostsData) => {
       try {
         expect(row).toHaveTextContent(hostsData[index].display_name);
         expect(row).toHaveTextContent(
-          hostsData[index].groups?.[0]?.name || 'No workspace'
+          hostsData[index].groups?.[0]?.name || 'No workspace',
         );
         const os = hostsData[index].system_profile.operating_system;
         expect(row).toHaveTextContent(`${os.name} ${os.major}.${os.minor}`);
       } catch (error) {
         throw new Error(
-          `The row ${index} does not match the expected content.\n\n${error}`
+          `The row ${index} does not match the expected content.\n\n${error}`,
         );
       }
     });
@@ -133,10 +133,10 @@ const checkPagination = (perPage, page, total) => {
         ? '0 - 0'
         : `${perPage * (page - 1) + 1} - ${Math.min(perPage * page, total)}`;
     expect(
-      screen.queryByTestId('inventory-table-top-toolbar')
+      screen.queryByTestId('inventory-table-top-toolbar'),
     ).toHaveTextContent(`${currentRange} of ${total}`);
     expect(
-      screen.queryByTestId('inventory-table-bottom-toolbar')
+      screen.queryByTestId('inventory-table-bottom-toolbar'),
     ).toHaveTextContent(`${currentRange} of ${total}`);
   } catch (error) {
     throw new Error(`Failed verifying pagination.\n\n${error}`);
@@ -203,7 +203,7 @@ describe('InventoryTable', () => {
       Promise.resolve({
         results: operatingSystems,
         total: operatingSystems.length,
-      })
+      }),
     );
   });
   useFetchBatched.mockReturnValue({
@@ -243,7 +243,7 @@ describe('InventoryTable', () => {
     it('fetches operating system versions using custom API', async () => {
       const store = mockStore(initialState);
       const fetchCustomOSes = jest.fn(() =>
-        Promise.resolve({ total: 0, results: [] })
+        Promise.resolve({ total: 0, results: [] }),
       );
       renderTable(store, { fetchCustomOSes });
 
@@ -278,7 +278,7 @@ describe('InventoryTable', () => {
         expect(
           screen.getByRole('columnheader', {
             name: title,
-          })
+          }),
         ).toBeVisible();
       });
     });
@@ -331,7 +331,7 @@ describe('InventoryTable', () => {
       expect(
         screen.getByRole('spinbutton', {
           name: /current page/i,
-        })
+        }),
       ).toHaveValue(1);
     });
 
@@ -341,7 +341,7 @@ describe('InventoryTable', () => {
       checkPagination(
         loadedState.entities.per_page,
         loadedState.entities.page,
-        loadedState.entities.total
+        loadedState.entities.total,
       );
     });
 
@@ -351,7 +351,7 @@ describe('InventoryTable', () => {
       expect(
         screen.getByRole('columnheader', {
           name: /last seen/i,
-        })
+        }),
       ).toHaveAttribute('aria-sort', 'descending');
     });
 
@@ -365,7 +365,7 @@ describe('InventoryTable', () => {
             await userEvent.click(
               screen.getByRole('button', {
                 name: header,
-              })
+              }),
             );
             await waitFor(() => {
               shouldDispatch(store, {
@@ -374,7 +374,7 @@ describe('InventoryTable', () => {
                 key: sortKey,
               });
             });
-          })
+          }),
       );
     });
 
@@ -386,14 +386,14 @@ describe('InventoryTable', () => {
         screen.getByRole('textbox', {
           name: /text input/i,
         }),
-        'test'
+        'test',
       );
       await waitFor(() => {
         expect(getEntitiesSpied).toBeCalledWith(
           [],
           expect.objectContaining({ filters: { hostnameOrId: 'test' } }),
           undefined,
-          expect.anything()
+          expect.anything(),
         );
       });
     });
@@ -405,7 +405,7 @@ describe('InventoryTable', () => {
       await userEvent.click(
         screen.getByRole('checkbox', {
           name: /select row 0/i,
-        })
+        }),
       );
       await waitFor(() => {
         shouldDispatch(store, {
@@ -422,7 +422,7 @@ describe('InventoryTable', () => {
       await userEvent.click(
         screen.getByRole('checkbox', {
           name: /select all rows/i,
-        })
+        }),
       );
       await waitFor(() => {
         shouldDispatch(store, {
@@ -456,7 +456,7 @@ describe('InventoryTable', () => {
         expect(
           screen.getByRole('columnheader', {
             name: title,
-          })
+          }),
         ).not.toHaveAttribute('aria-sort');
       });
     });
@@ -489,13 +489,13 @@ describe('InventoryTable', () => {
         name: /go to landing page/i,
       });
       expect(
-        screen.queryByTestId('inventory-table-top-toolbar')
+        screen.queryByTestId('inventory-table-top-toolbar'),
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByTestId('inventory-table-list')
+        screen.queryByTestId('inventory-table-list'),
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByTestId('inventory-table-bottom-toolbar')
+        screen.queryByTestId('inventory-table-bottom-toolbar'),
       ).not.toBeInTheDocument();
     });
 
@@ -514,7 +514,7 @@ describe('InventoryTable', () => {
           map(items, 'id'),
           expect.anything(),
           undefined,
-          expect.anything()
+          expect.anything(),
         );
       });
 
@@ -575,12 +575,12 @@ describe('InventoryTable', () => {
         expect(
           screen.queryByRole('button', {
             name: /conditional filter/i,
-          })
+          }),
         ).not.toBeInTheDocument();
         expect(
           screen.queryByRole('textbox', {
             name: /text input/i,
-          })
+          }),
         ).not.toBeInTheDocument();
       });
 
@@ -589,7 +589,7 @@ describe('InventoryTable', () => {
         renderTable(store, { hideFilters: { name: true } });
 
         await expectFilters(
-          DEFAULT_FILTER_NAMES.filter((name) => name !== 'Name')
+          DEFAULT_FILTER_NAMES.filter((name) => name !== 'Name'),
         );
       });
 
@@ -600,12 +600,12 @@ describe('InventoryTable', () => {
         expect(
           screen.queryByRole('button', {
             name: /conditional filter/i,
-          })
+          }),
         ).not.toBeInTheDocument();
         expect(
           screen.queryByRole('textbox', {
             name: /text input/i,
-          })
+          }),
         ).toBeVisible();
       });
     });
@@ -632,7 +632,7 @@ describe('InventoryTable', () => {
       expect(
         screen.queryByRole('heading', {
           name: /something went wrong/i,
-        })
+        }),
       ).not.toBeInTheDocument();
     });
   });

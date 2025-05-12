@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import {
   CHIP,
   CHIP_GROUP,
@@ -52,7 +51,7 @@ hostsAllInGroupFixtures.results = hostsAllInGroupFixtures.results.map(
         name: 'ancd',
       },
     ],
-  })
+  }),
 );
 
 const TEST_ID = hostsAllInGroupFixtures.results[0].groups[0].id;
@@ -64,7 +63,7 @@ const mountTable = (initialEntries) =>
   cy.mountWithContext(
     GroupSystems,
     initialEntries ? { routerProps: { initialEntries } } : undefined,
-    { groupName: GROUP_NAME, groupId: TEST_ID }
+    { groupName: GROUP_NAME, groupId: TEST_ID },
   );
 
 const waitForTable = (waitNetwork = false) => {
@@ -202,7 +201,7 @@ describe('sorting', () => {
 
   _.zip(
     ['display_name', 'operating_system', 'updated'],
-    SORTABLE_HEADERS
+    SORTABLE_HEADERS,
   ).forEach(([category, label]) => {
     SORTING_ORDERS.forEach((order) => {
       it(`${order} by ${label}`, () => {
@@ -327,7 +326,7 @@ describe('selection and bulk selection', () => {
 
   it('can select page in dropdown toggle', () => {
     cy.get(
-      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle' // TODO: return to OUIA-based selectors
+      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle', // TODO: return to OUIA-based selectors
     ).click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select page').click();
     checkSelectedNumber(fixtures.count);
@@ -370,7 +369,7 @@ describe('actions', () => {
   it('can remove host from group', () => {
     cy.intercept(
       'DELETE',
-      `/api/inventory/v1/groups/${TEST_ID}/hosts/${hostsAllInGroupFixtures.results[0].id}`
+      `/api/inventory/v1/groups/${TEST_ID}/hosts/${hostsAllInGroupFixtures.results[0].id}`,
     ).as('request');
     cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
     cy.get(DROPDOWN_ITEM).contains('Remove from workspace').click();
@@ -387,7 +386,7 @@ describe('actions', () => {
       `/api/inventory/v1/groups/${TEST_ID}/hosts/${hostsAllInGroupFixtures.results
         .slice(0, 2)
         .map(({ id }) => id)
-        .join('%2C')}`
+        .join('%2C')}`,
     ).as('request');
 
     cy.get(TABLE_ROW_CHECKBOX).eq(0).click();

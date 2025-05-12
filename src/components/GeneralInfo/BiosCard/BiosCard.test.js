@@ -27,7 +27,7 @@ describe('BiosCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <BiosCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -37,7 +37,7 @@ describe('BiosCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <BiosCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -56,7 +56,7 @@ describe('BiosCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <BiosCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -67,10 +67,10 @@ describe('BiosCard', () => {
       const view = render(
         <TestWrapper store={store}>
           <BiosCard {...{ [item]: false }} />
-        </TestWrapper>
+        </TestWrapper>,
       );
       expect(view.asFragment()).toMatchSnapshot();
-    })
+    }),
   );
 
   it('should render extra', () => {
@@ -88,7 +88,7 @@ describe('BiosCard', () => {
             },
           ]}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(view.asFragment()).toMatchSnapshot();

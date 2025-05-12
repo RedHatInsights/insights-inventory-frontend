@@ -38,7 +38,7 @@ describe('Table Renders', () => {
     return render(
       <TestWrapper store={getStore()}>
         <HostStalenessCard canModifyHostStaleness={canModifyHostStaleness} />
-      </TestWrapper>
+      </TestWrapper>,
     );
   };
 
@@ -56,7 +56,7 @@ describe('Table Renders', () => {
     const menuToggleButtons = await waitFor(() =>
       screen
         .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle'))
+        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
     );
 
     menuToggleButtons.forEach((button) => expect(button).toBeDisabled());
@@ -71,16 +71,16 @@ describe('Table Renders', () => {
     const menuToggleButtons = await waitFor(() =>
       screen
         .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle'))
+        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
     );
 
     menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
 
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled()
+      expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled(),
     );
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled()
+      expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled(),
     );
   });
 
@@ -93,7 +93,7 @@ describe('Table Renders', () => {
     const menuToggleButtons = await waitFor(() =>
       screen
         .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle'))
+        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
     );
 
     menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
@@ -103,14 +103,14 @@ describe('Table Renders', () => {
     });
     await userEvent.click(option);
     expect(
-      screen.getByText(/staleness must be before stale warning/i)
+      screen.getByText(/staleness must be before stale warning/i),
     ).toBeInTheDocument();
 
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled(),
     );
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled()
+      expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled(),
     );
   });
 
@@ -123,7 +123,7 @@ describe('Table Renders', () => {
     const menuToggleButtons = await waitFor(() =>
       screen
         .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle'))
+        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
     );
 
     menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
@@ -133,14 +133,14 @@ describe('Table Renders', () => {
     });
     await userEvent.click(option);
     expect(
-      screen.getByText(/stale warning must be before deletion/i)
+      screen.getByText(/stale warning must be before deletion/i),
     ).toBeInTheDocument();
 
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled(),
     );
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled()
+      expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled(),
     );
   });
 });

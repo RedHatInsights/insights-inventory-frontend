@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import reducer, { isPending } from './systemIssues';
 import { SYSTEM_ISSUE_TYPES } from './action-types';
 
@@ -55,7 +54,7 @@ describe('advisor', () => {
           },
         },
       },
-      {}
+      {},
     );
     expect(newState).toMatchObject({
       systemIssues: {
@@ -86,7 +85,7 @@ describe('advisor', () => {
             total_risk: 5,
           },
         ],
-      }
+      },
     );
     expect(newState).toMatchObject({
       systemIssues: {
@@ -134,7 +133,7 @@ describe('cve', () => {
           },
         },
       },
-      {}
+      {},
     );
     expect(newState).toMatchObject({
       systemIssues: {
@@ -191,7 +190,7 @@ describe('cve', () => {
             },
           },
         },
-      }
+      },
     );
     expect(newState).toMatchObject({
       systemIssues: {
@@ -250,7 +249,7 @@ describe('compliance', () => {
           },
         },
       },
-      {}
+      {},
     );
     expect(newState).toMatchObject({
       systemIssues: {
@@ -288,7 +287,7 @@ describe('compliance', () => {
             },
           },
         },
-      }
+      },
     );
     expect(newState).toMatchObject({
       systemIssues: {
@@ -341,7 +340,7 @@ describe('patch', () => {
           },
         },
       },
-      {}
+      {},
     );
     expect(newState).toMatchObject({
       systemIssues: {
@@ -384,7 +383,7 @@ describe('patch', () => {
             },
           },
         },
-      }
+      },
     );
     expect(newState).toMatchObject({
       systemIssues: {

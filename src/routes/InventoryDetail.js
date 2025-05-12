@@ -115,11 +115,11 @@ const Inventory = () => {
   const dispatch = useDispatch();
   const [availableApps, setAvailableApps] = useState([]);
   const entityLoaded = useSelector(
-    ({ entityDetails }) => entityDetails?.loaded
+    ({ entityDetails }) => entityDetails?.loaded,
   );
   const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
   const { cloud_provider: cloudProvider, host_type: hostType } = useSelector(
-    ({ systemProfileStore }) => systemProfileStore?.systemProfile || []
+    ({ systemProfileStore }) => systemProfileStore?.systemProfile || [],
   );
   const getDevice = useGetDevice();
   const [deviceData, setDeviceData] = useState(null);
@@ -153,7 +153,7 @@ const Inventory = () => {
 
   const { hasAccess: canDeleteHost } = usePermissionsWithContext([
     REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-      entity?.groups?.[0]?.id ?? null // null stands for ungroupped hosts
+      entity?.groups?.[0]?.id ?? null, // null stands for ungroupped hosts
     ),
   ]);
 
@@ -191,10 +191,10 @@ const Inventory = () => {
         {
           search: `?appName=${appName}`,
         },
-        { replace: true }
+        { replace: true },
       );
     },
-    [searchParams]
+    [searchParams],
   );
 
   const actionsEdge =

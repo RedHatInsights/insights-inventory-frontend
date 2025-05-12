@@ -26,12 +26,12 @@ describe('BifrostPage', () => {
     render(<BifrostPage />);
     await waitFor(() =>
       expect(axiosMock).toHaveBeenCalledWith(
-        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_BOOTC}&fields[system_profile]=bootc_status`
-      )
+        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_BOOTC}&fields[system_profile]=bootc_status`,
+      ),
     );
 
     expect(axiosMock).toHaveBeenCalledWith(
-      `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_NON_BOOTC}&${INVENTORY_FILTER_NO_HOST_TYPE}&per_page=1`
+      `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_NON_BOOTC}&${INVENTORY_FILTER_NO_HOST_TYPE}&per_page=1`,
     );
   });
 });

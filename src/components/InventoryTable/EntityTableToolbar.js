@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable camelcase */
+
 import './EntityTableToolbar.scss';
 import React, { Fragment, useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -132,17 +132,17 @@ const EntityTableToolbar = ({
       ...lastSeenFilterState,
       ...groupFilterState,
       ...systemTypeFilterState,
-    }
+    },
   );
   const activeFilters = useSelector(
-    ({ entities: { activeFilters } }) => activeFilters
+    ({ entities: { activeFilters } }) => activeFilters,
   );
   const allTagsLoaded = useSelector(
-    ({ entities: { allTagsLoaded } }) => allTagsLoaded
+    ({ entities: { allTagsLoaded } }) => allTagsLoaded,
   );
   const allTags = useSelector(({ entities: { allTags } }) => allTags);
   const additionalTagsCount = useSelector(
-    ({ entities: { additionalTagsCount } }) => additionalTagsCount
+    ({ entities: { additionalTagsCount } }) => additionalTagsCount,
   );
   const [nameFilter, nameChip, textFilter, setTextFilter] =
     useTextFilter(reducer);
@@ -178,7 +178,7 @@ const EntityTableToolbar = ({
       [],
       hasAccess,
       showCentosVersions,
-      fetchCustomOSes
+      fetchCustomOSes,
     );
   const [
     updateMethodConfig,
@@ -202,7 +202,7 @@ const EntityTableToolbar = ({
     allTagsLoaded,
     additionalTagsCount,
     () => dispatch(toggleTagModal(true)),
-    reducer
+    reducer,
   );
 
   const [
@@ -222,8 +222,8 @@ const EntityTableToolbar = ({
           {
             ...options?.paginationhideFilters,
           },
-          getTags
-        )
+          getTags,
+        ),
       );
     }
   }, 800);
@@ -340,7 +340,7 @@ const EntityTableToolbar = ({
     const trimmedValue = value?.trim();
 
     const textualFilter = activeFilters?.find(
-      (oneFilter) => oneFilter.value === TEXT_FILTER
+      (oneFilter) => oneFilter.value === TEXT_FILTER,
     );
     if (textualFilter) {
       textualFilter.filter = trimmedValue;
@@ -365,7 +365,7 @@ const EntityTableToolbar = ({
     const newFilters = [
       ...(activeFilters || []).filter(
         (oneFilter) =>
-          !Object.prototype.hasOwnProperty.call(oneFilter, filterKey)
+          !Object.prototype.hasOwnProperty.call(oneFilter, filterKey),
       ),
       { [filterKey]: value },
     ];
@@ -397,7 +397,7 @@ const EntityTableToolbar = ({
       onSetFilter(
         registeredWithFilter,
         'registeredWithFilter',
-        debouncedRefresh
+        debouncedRefresh,
       );
     }
   }, [registeredWithFilter]);
@@ -452,8 +452,8 @@ const EntityTableToolbar = ({
     [TAG_CHIP]: (deleted) =>
       setSelectedTags(
         onDeleteTag(deleted, selectedTags, (selectedTags) =>
-          onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData)
-        )
+          onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData),
+        ),
       ),
     [STALE_CHIP]: (deleted) =>
       setStaleFilter(onDeleteFilter(deleted, staleFilter)),
@@ -465,7 +465,7 @@ const EntityTableToolbar = ({
       setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
     [LAST_SEEN_CHIP]: (deleted) => {
       setLastSeenFilterValue(
-        onDeleteFilter(deleted, [lastSeenFilterValue.mark])
+        onDeleteFilter(deleted, [lastSeenFilterValue.mark]),
       ),
         setStartDate(),
         setEndDate();
@@ -571,12 +571,12 @@ const EntityTableToolbar = ({
               tag: { key, value },
             },
           },
-        })
+        }),
       );
 
       return [...sTags, ...tags];
     },
-    []
+    [],
   );
 
   return (

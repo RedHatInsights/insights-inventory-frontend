@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import PropTypes from 'prop-types';

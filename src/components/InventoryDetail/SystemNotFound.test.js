@@ -9,7 +9,7 @@ describe('SystemNotFound', () => {
     render(
       <TestWrapper>
         <SystemNotFound />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     screen.getByRole('heading', {
@@ -25,7 +25,7 @@ describe('SystemNotFound', () => {
     render(
       <TestWrapper>
         <SystemNotFound inventoryId="something" />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     screen.getByText(/system with id something does not exist/i);
@@ -40,13 +40,13 @@ it('should call onBackToListClick correctly', async () => {
         inventoryId="something"
         onBackToListClick={onBackToListClick}
       />
-    </TestWrapper>
+    </TestWrapper>,
   );
 
   await userEvent.click(
     screen.getByRole('button', {
       name: /back to previous page/i,
-    })
+    }),
   );
   expect(onBackToListClick).toHaveBeenCalled();
 });

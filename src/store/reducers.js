@@ -144,7 +144,7 @@ export const tableReducer = applyReducerHash(
     [SET_SORT]: onSetSort,
     [ACTION_TYPES.UPDATE_DISPLAY_NAME_FULFILLED]: updateEntity,
   },
-  defaultState
+  defaultState,
 );
 
 export const entitesDetailReducer = () =>
@@ -152,12 +152,12 @@ export const entitesDetailReducer = () =>
     {
       [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityLoaded,
     },
-    defaultState
+    defaultState,
   );
 
 export function mergeWithEntities(
   additionalReducers = (state) => state,
-  defaultState = {}
+  defaultState = {},
 ) {
   return {
     entities: (state, payload) => ({
@@ -167,10 +167,10 @@ export function mergeWithEntities(
             {
               ...entitiesReducer,
             },
-            { ...entitiesDefault, ...defaultState }
+            { ...entitiesDefault, ...defaultState },
           )(state, payload),
         },
-        payload
+        payload,
       ),
     }),
   };
@@ -178,7 +178,7 @@ export function mergeWithEntities(
 
 export function mergeWithDetail(
   additionalReducers = (state) => state,
-  defaultState = {}
+  defaultState = {},
 ) {
   return {
     entityDetails: (state, payload) => ({
@@ -188,10 +188,10 @@ export function mergeWithDetail(
             {
               ...entityDetailsReducer,
             },
-            { ...entityDefault, ...defaultState }
+            { ...entityDefault, ...defaultState },
           )(state, payload),
         },
-        payload
+        payload,
       ),
     }),
   };

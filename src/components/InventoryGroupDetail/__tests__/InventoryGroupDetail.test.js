@@ -16,7 +16,7 @@ describe('group detail page component', () => {
     render(
       <TestWrapper store={getStore()}>
         <InventoryGroupDetail groupId="group-id-2" />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     screen.getByRole('tab', {

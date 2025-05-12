@@ -44,7 +44,7 @@ describe('InfrastructureCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <InfrastructureCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -54,7 +54,7 @@ describe('InfrastructureCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <InfrastructureCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -71,7 +71,7 @@ describe('InfrastructureCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <InfrastructureCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -91,7 +91,7 @@ describe('InfrastructureCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <InfrastructureCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -105,11 +105,11 @@ describe('InfrastructureCard', () => {
       render(
         <TestWrapper store={store}>
           <InfrastructureCard handleClick={onClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
-        screen.getAllByRole('link', { name: /1 address/i })[0]
+        screen.getAllByRole('link', { name: /1 address/i })[0],
       );
       await waitFor(() => {
         expect(onClick).toHaveBeenCalledTimes(1);
@@ -124,11 +124,11 @@ describe('InfrastructureCard', () => {
       render(
         <TestWrapper store={store}>
           <InfrastructureCard handleClick={onClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
-        screen.getAllByRole('link', { name: /1 address/i })[1]
+        screen.getAllByRole('link', { name: /1 address/i })[1],
       );
       await waitFor(() => {
         expect(onClick).toHaveBeenCalledTimes(1);
@@ -143,7 +143,7 @@ describe('InfrastructureCard', () => {
       render(
         <TestWrapper store={store}>
           <InfrastructureCard handleClick={onClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(screen.getByRole('link', { name: /1 NIC/i }));
@@ -159,11 +159,11 @@ describe('InfrastructureCard', () => {
       const view = render(
         <TestWrapper store={store}>
           <InfrastructureCard {...{ [item]: false }} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
-    })
+    }),
   );
 
   it('should render extra', () => {
@@ -181,7 +181,7 @@ describe('InfrastructureCard', () => {
             },
           ]}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(view.asFragment()).toMatchSnapshot();

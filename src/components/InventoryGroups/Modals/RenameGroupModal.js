@@ -51,7 +51,7 @@ const RenameGroupModal = ({
     apiWithToast(
       dispatch,
       () => updateGroupById(id, { name: values.name }),
-      statusMessages
+      statusMessages,
     );
   };
 
@@ -65,7 +65,6 @@ const RenameGroupModal = ({
       return undefined;
     };
 
-    // eslint-disable-next-line new-cap
     const d = awesomeDebouncePromise(check, 500, { onlyResolvesLast: false });
     return renameGroupSchema(d);
   }, []);

@@ -42,10 +42,10 @@ const expectDefaultFiltersVisible = async () => {
   await userEvent.click(
     screen.getByRole('button', {
       name: /conditional filter toggle/i,
-    })
+    }),
   );
   DEFAULT_FILTERS.forEach((filterName) =>
-    expect(screen.getByRole('menuitem', { name: filterName })).toBeVisible()
+    expect(screen.getByRole('menuitem', { name: filterName })).toBeVisible(),
   );
 };
 
@@ -53,30 +53,30 @@ const expectPagerDisabled = (perPageEnabled = true) => {
   expect(
     screen.getByRole('navigation', {
       name: /pagination/i,
-    })
+    }),
   ).toBeVisible();
   if (perPageEnabled) {
     expect(
       screen.getByRole('button', {
         name: /items per page/i,
-      })
+      }),
     ).toBeEnabled();
   } else {
     expect(
       screen.getByRole('button', {
         name: /items per page/i,
-      })
+      }),
     ).toBeDisabled();
   }
   expect(
     screen.getByRole('button', {
       name: /go to previous page/i,
-    })
+    }),
   ).toBeDisabled();
   expect(
     screen.getByRole('button', {
       name: /go to next page/i,
-    })
+    }),
   ).toBeDisabled();
 };
 
@@ -190,19 +190,19 @@ describe('EntityTableToolbar', () => {
       render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded={false} />
-        </Provider>
+        </Provider>,
       );
 
       await expectDefaultFiltersVisible();
       expect(
         screen.getByRole('textbox', {
           name: 'text input',
-        })
+        }),
       ).toBeVisible();
       expect(
         screen.queryByRole('navigation', {
           name: /pagination/i,
-        })
+        }),
       ).not.toBeInTheDocument();
     });
 
@@ -211,14 +211,14 @@ describe('EntityTableToolbar', () => {
       render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
-        </Provider>
+        </Provider>,
       );
 
       await expectDefaultFiltersVisible();
       expect(
         screen.getByRole('textbox', {
           name: 'text input',
-        })
+        }),
       ).toBeVisible();
       expectPagerDisabled();
     });
@@ -233,13 +233,13 @@ describe('EntityTableToolbar', () => {
             loaded
             total={1}
           />
-        </Provider>
+        </Provider>,
       );
       await expectDefaultFiltersVisible();
       expect(
         screen.getByRole('menuitem', {
           name: /tags/i,
-        })
+        }),
       ).toBeVisible();
     });
 
@@ -252,18 +252,18 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
           />
-        </Provider>
+        </Provider>,
       );
 
       expect(
         screen.getByRole('button', {
           name: /conditional filter/i,
-        })
+        }),
       ).toBeDisabled();
       expect(
         screen.getByRole('textbox', {
           name: /text input/i,
-        })
+        }),
       ).toBeDisabled();
       expectPagerDisabled(false);
     });
@@ -278,18 +278,18 @@ describe('EntityTableToolbar', () => {
             loaded
             total={1}
           />
-        </Provider>
+        </Provider>,
       );
 
       expect(
         screen.queryByRole('textbox', {
           name: 'text input',
-        })
+        }),
       ).not.toBeInTheDocument();
       expect(
         screen.getByRole('button', {
           name: /items per page/i,
-        })
+        }),
       ).toBeEnabled();
     });
 
@@ -305,19 +305,19 @@ describe('EntityTableToolbar', () => {
             }}
             total={1}
           />
-        </Provider>
+        </Provider>,
       );
 
       await expectDefaultFiltersVisible();
       expect(
         screen.getByRole('button', {
           name: /conditional filter/i,
-        })
+        }),
       ).toHaveTextContent('Filter by text');
       expect(
         screen.getByRole('menuitem', {
           name: /filter by text/i,
-        })
+        }),
       ).toBeVisible();
     });
 
@@ -346,7 +346,7 @@ describe('EntityTableToolbar', () => {
             showTags
             total={1}
           />
-        </Provider>
+        </Provider>,
       );
 
       const category = screen.getByRole('group', { name: 'Some' });
@@ -365,7 +365,7 @@ describe('EntityTableToolbar', () => {
       render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
-        </Provider>
+        </Provider>,
       );
 
       const category = screen.getByRole('group', { name: 'Status' });
@@ -407,14 +407,14 @@ describe('EntityTableToolbar', () => {
             showTags
             total={1}
           />
-        </Provider>
+        </Provider>,
       );
 
       const category = screen.getByRole('group', { name: 'something' });
       expect(category).toBeVisible();
       expect(category).toContainElement(
         // TODO: fix improper store mocking
-        screen.getByText(/undefined=some value/i)
+        screen.getByText(/undefined=some value/i),
       );
     });
 
@@ -447,14 +447,14 @@ describe('EntityTableToolbar', () => {
       render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
-        </Provider>
+        </Provider>,
       );
 
       const category = screen.queryByRole('group', { name: 'something' });
       expect(category).not.toBeInTheDocument();
       expect(
         // TODO: fix improper store mocking
-        screen.queryByText(/undefined=some value/i)
+        screen.queryByText(/undefined=some value/i),
       ).not.toBeInTheDocument();
     });
 
@@ -465,7 +465,7 @@ describe('EntityTableToolbar', () => {
           <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1}>
             <div>something</div>
           </EntityTableToolbar>
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.getByText(/something/i)).toBeVisible();
@@ -482,13 +482,13 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
           />
-        </Provider>
+        </Provider>,
       );
 
       expect(
         // TODO: improve PrimaryToolbar and Pagination accessibility
         // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-        container.querySelector('.pf-v5-c-pagination__total-items')
+        container.querySelector('.pf-v5-c-pagination__total-items'),
       ).toHaveTextContent('1 - 50 of 500');
     });
 
@@ -508,7 +508,7 @@ describe('EntityTableToolbar', () => {
             }}
             showTags
           />
-        </Provider>
+        </Provider>,
       );
 
       const category = screen.getByRole('group', { name: 'RHC status' });
@@ -517,12 +517,12 @@ describe('EntityTableToolbar', () => {
       expect(
         screen.getByRole('button', {
           name: /close active/i,
-        })
+        }),
       ).toBeVisible();
       expect(
         screen.getByRole('button', {
           name: /clear filters/i,
-        })
+        }),
       ).toBeVisible();
     });
   });
@@ -540,13 +540,13 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>
+          </Provider>,
         );
 
         await userEvent.click(
           screen.getByRole('button', {
             name: /go to next page/i,
-          })
+          }),
         );
 
         expect(onRefreshData).toHaveBeenCalledWith({ page: 2 });
@@ -563,18 +563,18 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>
+          </Provider>,
         );
 
         await userEvent.click(
           screen.getByRole('button', {
             name: /items per page/i,
-          })
+          }),
         );
         await userEvent.click(
           screen.getByRole('menuitem', {
             name: /10 per page/i,
-          })
+          }),
         );
         expect(onRefreshData).toHaveBeenCalledWith({ page: 1, per_page: 10 });
       });
@@ -594,14 +594,14 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>
+          </Provider>,
         );
         onRefreshData.mockClear();
 
         await userEvent.click(
           screen.getByRole('button', {
             name: /close test/i,
-          })
+          }),
         );
         expect(onRefreshData).toHaveBeenCalledWith({
           filters: [{ filter: '', value: 'hostname_or_id' }],
@@ -629,13 +629,13 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>
+          </Provider>,
         );
 
         await userEvent.click(
           screen.getByRole('button', {
             name: /close test/i,
-          })
+          }),
         );
         expect(onRefreshData).toHaveBeenCalledWith({
           filters: [{ filter: '', value: 'hostname_or_id' }],
@@ -682,14 +682,14 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>
+          </Provider>,
         );
 
         // TODO: fix improper store mocking
         await userEvent.click(
           screen.getByRole('button', {
             name: /close undefined=some value/i,
-          })
+          }),
         );
         expect(onRefreshData).toHaveBeenCalledWith({
           filters: [{ tagFilters: [] }],
@@ -709,13 +709,13 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>
+          </Provider>,
         );
 
         await userEvent.click(
           screen.getByRole('button', {
             name: /clear filters/i,
-          })
+          }),
         );
         const actions = store.getActions();
         expect(actions.length).toBe(2);
@@ -740,13 +740,13 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>
+          </Provider>,
         );
 
         await userEvent.click(
           screen.getByRole('button', {
             name: /close test/i,
-          })
+          }),
         );
         expect(onDelete).toHaveBeenCalled();
       });
@@ -765,14 +765,14 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
           />
-        </Provider>
+        </Provider>,
       );
 
       await userEvent.type(
         screen.getByRole('textbox', {
           name: /text input/i,
         }),
-        '   some-value   '
+        '   some-value   ',
       );
       const state = store.getState();
       expect(state.entities.activeFilters).toMatchObject([
@@ -799,18 +799,18 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
           />
-        </Provider>
+        </Provider>,
       );
 
       expect(
         screen.getByRole('button', {
           name: /test reset filters/i,
-        })
+        }),
       ).toBeVisible();
       expect(
         screen.queryByRole('button', {
           name: /clear filters/i,
-        })
+        }),
       ).not.toBeInTheDocument();
     });
   });
@@ -821,18 +821,18 @@ describe('EntityTableToolbar', () => {
       render(
         <Provider store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded />
-        </Provider>
+        </Provider>,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /conditional filter/i,
-        })
+        }),
       );
       expect(
         screen.queryByRole('menuitem', {
           name: /system update method/i,
-        })
+        }),
       ).not.toBeInTheDocument();
     });
   });
@@ -857,19 +857,19 @@ describe('EntityTableToolbar', () => {
               onSelect: onSelectMock,
             }}
           />
-        </Provider>
+        </Provider>,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: 'Export',
-        })
+        }),
       );
 
       await userEvent.click(
         screen.queryByRole('menuitem', {
           name: 'Export to JSON',
-        })
+        }),
       );
 
       expect(onSelectMock).toHaveBeenCalled();
@@ -895,19 +895,19 @@ describe('EntityTableToolbar', () => {
             loaded
             enableExport
           />
-        </Provider>
+        </Provider>,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: 'Export',
-        })
+        }),
       );
 
       await userEvent.click(
         screen.queryByRole('menuitem', {
           name: 'Export all systems to CSV',
-        })
+        }),
       );
 
       expect(axiosPostMock).toHaveBeenCalled();

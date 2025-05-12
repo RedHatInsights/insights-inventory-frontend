@@ -12,10 +12,10 @@ jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
   () => ({
     ...jest.requireActual(
-      '@redhat-cloud-services/frontend-components-utilities/RBACHook'
+      '@redhat-cloud-services/frontend-components-utilities/RBACHook',
     ),
     usePermissionsWithContext: () => ({ hasAccess: true }),
-  })
+  }),
 );
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
   __esModule: true,
@@ -40,7 +40,7 @@ describe('workspaces route', () => {
     render(<InventoryGroups />);
 
     await userEvent.click(
-      screen.getByText(/help get started with new features/i)
+      screen.getByText(/help get started with new features/i),
     );
     screen.getByRole('button', {
       name: /create a workspace/i,

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { registered } from '../../../Utilities/index';
 import { verifyCollectorStaleness } from '../../../Utilities/sharedFunctions';
 function safeParser(toParse, key) {
@@ -26,7 +25,7 @@ export const propertiesSelector = (
     system_purpose,
     cpu_flags,
   } = {},
-  { facts } = {}
+  { facts } = {},
 ) => ({
   cpuNumber: number_of_cpus || facts?.rhsm?.CPU_CORES,
   sockets: number_of_sockets || facts?.rhsm?.CPU_SOCKETS,
@@ -60,7 +59,7 @@ export const operatingSystem = (
     kernel_modules,
     system_update_method,
   } = {},
-  { facts } = {}
+  { facts } = {},
 ) => ({
   release: operating_system,
   kernelRelease: os_kernel_version,
@@ -102,7 +101,7 @@ export const infrastructureSelector = (
     public_dns,
     network = {},
   } = {},
-  { facts } = {}
+  { facts } = {},
 ) => ({
   type:
     infrastructure_type ||
@@ -151,7 +150,7 @@ export const getDefaultCollectors = (entity) =>
     .map((reporter) => ({
       name: reporter.label,
       status: getCollectorStatus(
-        entity?.per_reporter_staleness[reporter.value]
+        entity?.per_reporter_staleness[reporter.value],
       ),
       updated: entity?.per_reporter_staleness[reporter.value]?.last_check_in,
       details: {

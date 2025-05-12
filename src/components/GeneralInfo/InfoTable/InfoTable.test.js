@@ -7,13 +7,13 @@ import InfoTable from './InfoTable';
 
 const paginationShouldExist = () => {
   expect(
-    screen.getAllByRole('button', { name: /items per page/i })
+    screen.getAllByRole('button', { name: /items per page/i }),
   ).toHaveLength(2);
   expect(
-    screen.getAllByRole('button', { name: /go to previous page/i })
+    screen.getAllByRole('button', { name: /go to previous page/i }),
   ).toHaveLength(2);
   expect(
-    screen.getAllByRole('button', { name: /go to next page/i })
+    screen.getAllByRole('button', { name: /go to next page/i }),
   ).toHaveLength(2);
   screen.getByRole('button', {
     name: /go to first page/i,
@@ -47,14 +47,14 @@ describe('InfoTable', () => {
             { title: 'second from title' },
             ['multiple', 'cells'],
           ]}
-        />
+        />,
       );
 
       paginationShouldExist();
       expect(
         screen.queryByRole('grid', {
           name: /general information dialog table/i,
-        })
+        }),
       ).not.toBeInTheDocument();
       expect(screen.queryByRole('columnheader')).not.toBeInTheDocument();
       screen.getByText('first');
@@ -71,16 +71,16 @@ describe('InfoTable', () => {
             [{ title: 'second from title' }, 'another'],
             ['multiple', 'cells'],
           ]}
-        />
+        />,
       );
 
       paginationShouldExist();
       expect(
         screen.getByRole('grid', {
           name: /general information dialog table/i,
-        })
+        }),
       ).toHaveTextContent(
-        'One cellSecond onefirstsecondsecond from titleanothermultiplecells'
+        'One cellSecond onefirstsecondsecond from titleanothermultiplecells',
       );
       expect(screen.getAllByRole('row')).toHaveLength(4); // including header
       screen.getByRole('columnheader', {
@@ -107,27 +107,27 @@ describe('InfoTable', () => {
               cells: ['multiple', 'cells'],
             },
           ]}
-        />
+        />,
       );
 
       within(
         screen.getByRole('row', {
           name: /details first second/i,
-        })
+        }),
       ).getByRole('button', {
         name: /details/i,
       });
       within(
         screen.getByRole('row', {
           name: /details second from title/i,
-        })
+        }),
       ).getByRole('button', {
         name: /details/i,
       });
       within(
         screen.getByRole('row', {
           name: /details multiple cells/i,
-        })
+        }),
       ).getByRole('button', {
         name: /details/i,
       });
@@ -144,13 +144,13 @@ describe('InfoTable', () => {
             [{ title: 'second from title' }, 'another'],
             ['multiple', 'cells'],
           ]}
-        />
+        />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /one cell/i,
-        })
+        }),
       );
       expect(onSort).toBeCalled();
     });
@@ -178,13 +178,13 @@ describe('InfoTable', () => {
               cells: ['child'],
             },
           ]}
-        />
+        />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /one cell/i,
-        })
+        }),
       );
       expect(onSort.mock.calls[0][1]).toBe(0);
       expect(onSort.mock.calls[0][2]).toBe('desc');
@@ -195,7 +195,7 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map(() => [...new Array(2)])}
-        />
+        />,
       );
 
       expect(screen.getAllByRole('row')).toHaveLength(11); // including header
@@ -206,17 +206,17 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
-            [...new Array(2)].map((_e, cell) => `${index}-${cell}`)
+            [...new Array(2)].map((_e, cell) => `${index}-${cell}`),
           )}
-        />
+        />,
       );
 
       await userEvent.click(
-        screen.getAllByRole('button', { name: /go to next page/i })[0]
+        screen.getAllByRole('button', { name: /go to next page/i })[0],
       );
 
       expect(
-        screen.getAllByRole('row').map((element) => element.textContent)
+        screen.getAllByRole('row').map((element) => element.textContent),
       ).toEqual([
         'One cellSecond one',
         '10-010-1',
@@ -237,30 +237,30 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
-            [...new Array(2)].map((_e, cell) => `${index}-${cell}`)
+            [...new Array(2)].map((_e, cell) => `${index}-${cell}`),
           )}
           filters={[{ index: 0 }, { index: 1 }]}
-        />
+        />,
       );
 
       await userEvent.click(
-        screen.getAllByRole('button', { name: /go to next page/i })[0]
+        screen.getAllByRole('button', { name: /go to next page/i })[0],
       );
       expect(
         screen.getByRole('spinbutton', {
           name: /current page/i,
-        }).value
+        }).value,
       ).toBe('2');
       await userEvent.type(
         screen.getByRole('textbox', {
           name: /text input/i,
         }),
-        '10-0'
+        '10-0',
       );
       expect(
         screen.getByRole('spinbutton', {
           name: /current page/i,
-        }).value
+        }).value,
       ).toBe('1');
     });
 
@@ -269,35 +269,35 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map(() =>
-            [...new Array(2)].map((_e, cell) => `item-${cell}`)
+            [...new Array(2)].map((_e, cell) => `item-${cell}`),
           )}
           filters={[{ index: 0 }, { index: 1 }]}
-        />
+        />,
       );
 
       await userEvent.type(
         screen.getByRole('textbox', {
           name: /text input/i,
         }),
-        'item'
+        'item',
       );
       await userEvent.click(
-        screen.getAllByRole('button', { name: /go to next page/i })[0]
+        screen.getAllByRole('button', { name: /go to next page/i })[0],
       );
       expect(
         screen.getByRole('spinbutton', {
           name: /current page/i,
-        }).value
+        }).value,
       ).toBe('2');
       await userEvent.click(
         screen.getByRole('button', {
           name: /close item/i,
-        })
+        }),
       );
       expect(
         screen.getByRole('spinbutton', {
           name: /current page/i,
-        }).value
+        }).value,
       ).toBe('1');
     });
 
@@ -306,18 +306,18 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
-            [...new Array(2)].map((_e, cell) => `${index}-${cell}`)
+            [...new Array(2)].map((_e, cell) => `${index}-${cell}`),
           )}
-        />
+        />,
       );
 
       await userEvent.click(
-        screen.getAllByRole('button', { name: /items per page/i })[0]
+        screen.getAllByRole('button', { name: /items per page/i })[0],
       );
       await userEvent.click(
         screen.getByRole('menuitem', {
           name: /20 per page/i,
-        })
+        }),
       );
       expect(screen.getAllByRole('row')).toHaveLength(21); // including header
     });
@@ -327,19 +327,19 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
-            [...new Array(2)].map((_e, cell) => `${index}-${cell}`)
+            [...new Array(2)].map((_e, cell) => `${index}-${cell}`),
           )}
-        />
+        />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /go to last page/i,
-        })
+        }),
       );
       expect(screen.getAllByRole('row')).toHaveLength(11); // including header
       expect(
-        screen.getAllByRole('row').map((element) => element.textContent)
+        screen.getAllByRole('row').map((element) => element.textContent),
       ).toEqual([
         'One cellSecond one',
         '40-040-1',
@@ -360,18 +360,18 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
-            [...new Array(2)].map((_e, cell) => `${index}-${cell}`)
+            [...new Array(2)].map((_e, cell) => `${index}-${cell}`),
           )}
-        />
+        />,
       );
 
       await userEvent.click(
-        screen.getAllByRole('button', { name: /items per page/i })[1]
+        screen.getAllByRole('button', { name: /items per page/i })[1],
       );
       await userEvent.click(
         screen.getByRole('menuitem', {
           name: /20 per page/i,
-        })
+        }),
       );
       expect(screen.getAllByRole('row')).toHaveLength(21); // including header
     });
@@ -382,14 +382,14 @@ describe('InfoTable', () => {
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map(() => [...new Array(2)])}
           filters={[{ index: 0 }, { index: 1 }]}
-        />
+        />,
       );
 
       await userEvent.type(
         screen.getByRole('textbox', {
           name: /text input/i,
         }),
-        'something'
+        'something',
       );
       expect(screen.getAllByRole('row')).toHaveLength(1); // including header
     });
@@ -399,17 +399,17 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
-            [...new Array(2)].map((_e, cell) => `${index}-${cell}`)
+            [...new Array(2)].map((_e, cell) => `${index}-${cell}`),
           )}
           filters={[{ index: 0 }, { index: 1 }]}
-        />
+        />,
       );
 
       await userEvent.type(
         screen.getByRole('textbox', {
           name: /text input/i,
         }),
-        '10-0'
+        '10-0',
       );
       expect(screen.getAllByRole('row')).toHaveLength(2); // including header
     });
@@ -420,20 +420,20 @@ describe('InfoTable', () => {
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map(() => [...new Array(2)])}
           filters={[{ index: 0 }, { index: 1 }]}
-        />
+        />,
       );
 
       await userEvent.type(
         screen.getByRole('textbox', {
           name: /text input/i,
         }),
-        'something'
+        'something',
       );
       expect(screen.getAllByRole('row')).toHaveLength(1); // including header
       await userEvent.click(
         screen.getByRole('button', {
           name: /close something/i,
-        })
+        }),
       );
       expect(screen.getAllByRole('row')).toHaveLength(11); // including header
     });
@@ -443,21 +443,21 @@ describe('InfoTable', () => {
         <InfoTable
           cells={[{ title: 'One cell' }, 'Second one']}
           rows={[...new Array(50)].map((_e, index) =>
-            [...new Array(2)].map((_e, cell) => `${index}-${cell}`)
+            [...new Array(2)].map((_e, cell) => `${index}-${cell}`),
           )}
           filters={[{ type: 'checkbox', options: [{ label: 'ff' }] }]}
-        />
+        />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /options menu/i,
-        })
+        }),
       );
       await userEvent.click(
         screen.getByRole('checkbox', {
           name: /ff/i,
-        })
+        }),
       );
       expect(screen.getAllByRole('row')).toHaveLength(1); // including header
     });
