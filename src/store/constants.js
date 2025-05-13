@@ -63,7 +63,6 @@ export const INVENTORY_COLUMNS = [
   {
     key: 'last_check_in',
     sortKey: 'last_check_in',
-    dataLabel: 'Last seen',
     title: 'Last seen',
     // eslint-disable-next-line react/display-name
     renderFunc: (
