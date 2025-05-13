@@ -10,6 +10,7 @@ import { Tooltip } from '@patternfly/react-core';
 import { verifyCulledReporter } from '../Utilities/sharedFunctions';
 import { fitContent } from '@patternfly/react-table';
 import isEmpty from 'lodash/isEmpty';
+import { LastSeenColumnHeader } from '../Utilities/LastSeenColumnHeader';
 
 export const INVENTORY_COLUMNS = [
   {
@@ -63,7 +64,8 @@ export const INVENTORY_COLUMNS = [
   {
     key: 'last_check_in',
     sortKey: 'last_check_in',
-    title: 'Last seen',
+    dataLabel: 'Last seen',
+    title: <LastSeenColumnHeader />,
     // eslint-disable-next-line react/display-name
     renderFunc: (
       value,
