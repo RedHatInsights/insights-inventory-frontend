@@ -8,8 +8,7 @@ import testingLibrary from 'eslint-plugin-testing-library';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-export default defineConfig([
-  globalIgnores(['node_modules/*', 'static/*', 'dist/*', 'docs/*']),
+const flatPlugins = [
   fecPlugin,
   pluginCypress.configs.recommended,
   reactHooks.configs['recommended-latest'],
@@ -17,6 +16,11 @@ export default defineConfig([
   tseslint.configs.recommended,
   testingLibrary.configs['flat/react'],
   jestDom.configs['flat/recommended'],
+];
+
+export default defineConfig([
+  globalIgnores(['node_modules/*', 'static/*', 'dist/*', 'docs/*']),
+  ...flatPlugins,
   {
     languageOptions: {
       parser: tsParser,
