@@ -148,10 +148,10 @@ const ConventionalSystemsTab = ({
     if (isKesselEnabled) {
       return (
         // can't remove from ungrouped group
-        Array.from(selected.values()).every(
+        calculateSelected() > 0 &&
+        Array.from(selected?.values()).every(
           ({ groups }) => groups.ungrouped !== true
         ) &&
-        calculateSelected() > 0 &&
         Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
         uniq(
           // can remove from at maximum one group at a time
