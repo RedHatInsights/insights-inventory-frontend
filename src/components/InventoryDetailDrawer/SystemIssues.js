@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/display-name */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,16 +28,16 @@ const SystemIssues = ({ isOpened }) => {
   const dispatch = useDispatch();
   const systemId = useSelector(({ entityDetails: { entity } }) => entity?.id);
   const advisor = useSelector(
-    ({ entityDetails: { systemIssues } }) => systemIssues?.advisor
+    ({ entityDetails: { systemIssues } }) => systemIssues?.advisor,
   );
   const compliance = useSelector(
-    ({ entityDetails: { systemIssues } }) => systemIssues?.compliance
+    ({ entityDetails: { systemIssues } }) => systemIssues?.compliance,
   );
   const cve = useSelector(
-    ({ entityDetails: { systemIssues } }) => systemIssues?.cve
+    ({ entityDetails: { systemIssues } }) => systemIssues?.cve,
   );
   const patch = useSelector(
-    ({ entityDetails: { systemIssues } }) => systemIssues?.patch
+    ({ entityDetails: { systemIssues } }) => systemIssues?.patch,
   );
   useEffect(() => {
     if (systemId && isOpened) {

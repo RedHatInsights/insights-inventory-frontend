@@ -16,12 +16,12 @@ const HostStaleness = () => {
   const chrome = useChrome();
   const { hasAccess: canReadHostStaleness } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS,
-    true
+    true,
   );
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(
-      'Staleness and Deletion - System Configuration'
+      'Staleness and Deletion - System Configuration',
     );
     chrome.hideGlobalFilter(true);
   }, []);

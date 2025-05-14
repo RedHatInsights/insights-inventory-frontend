@@ -13,27 +13,27 @@ describe('DetailWrapper', () => {
   mock.onGet('/api/insights/v1/system/test-id/reports/').reply(200, 'test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2',
     )
     .reply(200, 'low-test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=4'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=4',
     )
     .reply(200, 'moderate-test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=5'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=5',
     )
     .reply(200, 'important-test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=7'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=7',
     )
     .reply(200, 'critical-test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2',
     )
     .reply(500);
   mock.onPost('/api/compliance/graphql').reply(200, 'test');
@@ -94,7 +94,7 @@ describe('DetailWrapper', () => {
           })}
         >
           <DetailWrapper />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -104,7 +104,7 @@ describe('DetailWrapper', () => {
       const view = render(
         <Provider store={mockStore(initialState)}>
           <DetailWrapper />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -114,7 +114,7 @@ describe('DetailWrapper', () => {
       render(
         <Provider store={mockStore(initialState)}>
           <DetailWrapper />
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.queryByText('ns/k=v')).not.toBeInTheDocument();
@@ -124,7 +124,7 @@ describe('DetailWrapper', () => {
       render(
         <Provider store={mockStore(initialState)}>
           <DetailWrapper showTags />
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.getByText('ns/k=v')).toBeVisible();
@@ -134,11 +134,11 @@ describe('DetailWrapper', () => {
       render(
         <Provider store={mockStore(initialState)}>
           <DetailWrapper Wrapper={() => <h2 aria-label="test">something</h2>} />
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.getByRole('heading', { name: 'test' })).toHaveTextContent(
-        'something'
+        'something',
       );
     });
 
@@ -161,7 +161,7 @@ describe('DetailWrapper', () => {
       render(
         <Provider store={store}>
           <DetailWrapper />
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.getByLabelText('Disconnected indicator')).toBeVisible();
@@ -189,11 +189,11 @@ describe('DetailWrapper', () => {
       render(
         <Provider store={mockStore(initialState)}>
           <DetailWrapper />
-        </Provider>
+        </Provider>,
       );
 
       expect(
-        screen.queryByLabelText('Disconnected indicator')
+        screen.queryByLabelText('Disconnected indicator'),
       ).not.toBeInTheDocument();
     });
 
@@ -203,11 +203,11 @@ describe('DetailWrapper', () => {
           <DetailWrapper>
             <h2 aria-label="test">something</h2>
           </DetailWrapper>
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.getByRole('heading', { name: 'test' })).toHaveTextContent(
-        'something'
+        'something',
       );
     });
 
@@ -215,11 +215,11 @@ describe('DetailWrapper', () => {
       render(
         <Provider store={mockStore(initialState)}>
           <DetailWrapper className="test-classname" />
-        </Provider>
+        </Provider>,
       );
 
       expect(screen.getByTestId('inventory-drawer')).toHaveClass(
-        'test-classname'
+        'test-classname',
       );
     });
   });
@@ -230,13 +230,13 @@ describe('DetailWrapper', () => {
       render(
         <Provider store={store}>
           <DetailWrapper className="test" />
-        </Provider>
+        </Provider>,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /close drawer panel/i,
-        })
+        }),
       );
       const actions = store.getActions();
       expect(actions[actions.length - 1]).toMatchObject({

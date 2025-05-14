@@ -7,7 +7,6 @@ describe('getAllTags', () => {
     onNoMatch: 'throwException',
   });
   it('should generate get all tags call', async () => {
-    // eslint-disable-next-line max-len
     const params =
       '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&staleness=stale_warning';
     mockedTags
@@ -18,7 +17,6 @@ describe('getAllTags', () => {
   });
 
   it('should generate get all tags call with search', async () => {
-    // eslint-disable-next-line max-len
     const params =
       '?order_by=tag&order_how=ASC&per_page=10&page=1&staleness=fresh&staleness=stale&staleness=stale_warning&search=something';
     mockedTags
@@ -30,7 +28,6 @@ describe('getAllTags', () => {
 
   describe('pagination', () => {
     it('should generate get all tags call with perPage', async () => {
-      // eslint-disable-next-line max-len
       const params =
         '?order_by=tag&order_how=ASC&per_page=50&page=1&staleness=fresh&staleness=stale&staleness=stale_warning';
       mockedTags
@@ -43,7 +40,6 @@ describe('getAllTags', () => {
     });
 
     it('should generate get all tags call with page', async () => {
-      // eslint-disable-next-line max-len
       const params =
         '?order_by=tag&order_how=ASC&per_page=10&page=20&staleness=fresh&staleness=stale&staleness=stale_warning';
       mockedTags

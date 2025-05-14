@@ -9,7 +9,7 @@ describe('reloadWrapper', () => {
       {
         payload: promise,
       },
-      callback
+      callback,
     );
     expect(callback).toHaveBeenCalled();
     expect(data).toBeDefined();
@@ -150,7 +150,7 @@ describe('generateFilter', () => {
         undefined,
         undefined,
         undefined,
-        'something'
+        'something',
       );
       expect(result.length).toBe(3);
       expect(result).toMatchObject([

@@ -31,7 +31,7 @@ const InventoryDetail = ({
 }) => {
   const dispatch = useDispatch();
   const loaded = useSelector(
-    ({ entityDetails }) => entityDetails?.loaded || false
+    ({ entityDetails }) => entityDetails?.loaded || false,
   );
   const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
   //TODO: one all apps migrate to away from AppAinfo, remove this
@@ -92,7 +92,7 @@ InventoryDetail.propTypes = {
       title: PropTypes.node,
       name: PropTypes.string.isRequired,
       pageId: PropTypes.string,
-    })
+    }),
   ),
 };
 InventoryDetail.defaultProps = {
@@ -110,19 +110,18 @@ InventoryDetail.defaultProps = {
 
 const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
   const { inventoryId: entityId } = useParams();
-  /*eslint-disable no-console*/
+
   if (!inventoryId) {
     console.warn('~~~~~~~~~~');
     console.warn('~~~~~~~~~~');
     console.warn(
-      'Missing inventoryId! Please provide one, we will remove the fallback from URL soon.'
+      'Missing inventoryId! Please provide one, we will remove the fallback from URL soon.',
     );
     console.warn(`Please use DetailHead component in the fed-mod to render 
             only Inventory header. Migrate away InventoryDetailHead`);
     console.warn('~~~~~~~~~~');
     console.warn('~~~~~~~~~~');
   }
-  /*eslint-enable no-console*/
 
   return (
     <InventoryDetail

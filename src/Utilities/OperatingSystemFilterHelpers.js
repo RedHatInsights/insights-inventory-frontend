@@ -10,13 +10,13 @@ export const updateGroupSelectionIdentifier = (selection, groupLabel, major) =>
     [groupLabel, groupLabel],
     Object.values({ ...selection[groupLabel] })
       .filter((v) => v !== major)
-      .every(Boolean)
+      .every(Boolean),
   );
 
 const isVersionSelected = (selectedVersions, osVersion) =>
   selectedVersions.some(
     ({ value, osName }) =>
-      value === osVersion.value && osName === osVersion.osName
+      value === osVersion.value && osName === osVersion.osName,
   );
 
 /**
@@ -34,12 +34,12 @@ export const toGroupSelection = (value = [], availableVersions) =>
         acc,
         [`${groupName}`, version.value],
         isVersionSelected(value, version),
-        Object
+        Object,
       );
       updateGroupSelectionIdentifier(acc, groupName, major);
       return acc;
     },
-    {}
+    {},
   );
 
 export const compareVersions = (a, b, asc = true) =>
@@ -83,7 +83,7 @@ export const groupOSFilterVersions = (versions = []) => {
       });
 
       return prev;
-    }, {})
+    }, {}),
   );
 
   // sort by major versions in descending order
@@ -100,12 +100,12 @@ export const groupOSFilterVersions = (versions = []) => {
 
 export const buildOSFilterChip = (
   operatingSystemValue = {},
-  operatingSystems = []
+  operatingSystems = [],
 ) => {
   const minors = getSelectedOsFilterVersions(operatingSystemValue);
   let filteredMinors = operatingSystems.filter(({ groupLabel, value }) => {
     let minorsReturnedValue = minors.some(
-      (minor) => minor.value === value && minor.osGroup === groupLabel
+      (minor) => minor.value === value && minor.osGroup === groupLabel,
     );
     return minorsReturnedValue;
   });
@@ -130,7 +130,7 @@ export const onOSFilterChange = (
   event,
   selection,
   clickedGroup,
-  clickedItem
+  clickedItem,
 ) => {
   const newSelection = Object.assign({}, selection);
   const value = newSelection[clickedGroup.value][clickedItem.value];
@@ -141,7 +141,7 @@ export const onOSFilterChange = (
     newSelection[group] = mapValues(newSelection[group], () => value);
   } else {
     newSelection[group][group] = Object.values(
-      omit(newSelection[group], [group])
+      omit(newSelection[group], [group]),
     ).every(Boolean);
   }
 

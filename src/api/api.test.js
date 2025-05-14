@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   calculateSystemProfile,
   constructTags,
@@ -53,7 +52,7 @@ describe('calculateSystemProfile', () => {
             'CentOS-7-7.6': true,
           },
         },
-      })
+      }),
     ).toEqual({
       system_profile: {
         host_type: 'nil',
@@ -88,8 +87,8 @@ describe('filtersReducer', () => {
         {
           value: 'hostname_or_id',
           filter: 'something',
-        }
-      )
+        },
+      ),
     ).toMatchObject({ hostnameOrId: 'something' });
   });
 
@@ -99,8 +98,8 @@ describe('filtersReducer', () => {
         {},
         {
           tagFilters: 'something',
-        }
-      )
+        },
+      ),
     ).toMatchObject({ tagFilters: 'something' });
   });
 
@@ -110,8 +109,8 @@ describe('filtersReducer', () => {
         {},
         {
           staleFilter: 'something',
-        }
-      )
+        },
+      ),
     ).toMatchObject({ staleFilter: 'something' });
   });
 
@@ -121,8 +120,8 @@ describe('filtersReducer', () => {
         {},
         {
           osFilter: 'something',
-        }
-      )
+        },
+      ),
     ).toMatchObject({ osFilter: 'something' });
   });
 
@@ -132,8 +131,8 @@ describe('filtersReducer', () => {
         {},
         {
           registeredWithFilter: 'something',
-        }
-      )
+        },
+      ),
     ).toMatchObject({ registeredWithFilter: 'something' });
   });
 });
@@ -160,7 +159,7 @@ describe('constructTags', () => {
           ],
           category: '',
         },
-      ])
+      ]),
     ).toMatchObject(['namespace/some key=some value', 'some key']);
   });
 });
@@ -175,7 +174,7 @@ describe('mapData', () => {
             facts: 'test',
           },
         ],
-      })
+      }),
     ).toMatchObject({
       facts: {
         something: 'test',
@@ -194,7 +193,7 @@ describe('mapData', () => {
             },
           },
         ],
-      })
+      }),
     ).toMatchObject({
       facts: {
         another: 'test',
@@ -214,7 +213,7 @@ describe('mapData', () => {
               },
             },
           ],
-        })
+        }),
       ).toMatchObject({
         facts: {
           os_release: 'test',
@@ -233,7 +232,7 @@ describe('mapData', () => {
               },
             },
           ],
-        })
+        }),
       ).toMatchObject({
         facts: {
           os_release: 'test',
@@ -254,7 +253,7 @@ describe('mapData', () => {
               },
             },
           ],
-        })
+        }),
       ).toMatchObject({
         facts: {
           display_name: 'test',
@@ -273,7 +272,7 @@ describe('mapData', () => {
               },
             },
           ],
-        })
+        }),
       ).toMatchObject({
         facts: {
           display_name: 'test',
@@ -292,7 +291,7 @@ describe('mapData', () => {
               },
             },
           ],
-        })
+        }),
       ).toMatchObject({
         facts: {
           display_name: 'test',

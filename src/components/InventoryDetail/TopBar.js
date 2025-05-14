@@ -179,7 +179,7 @@ const TopBar = ({
               dismissable: false,
             });
             deleteEntity([entity.id], entity.display_name, () =>
-              redirectToInventoryList(entity.id, onBackToListClick, navigate)
+              redirectToInventoryList(entity.id, onBackToListClick, navigate),
             );
             setIsModalOpen(false);
           }}
@@ -201,7 +201,7 @@ TopBar.propTypes = {
       key: PropTypes.string,
       title: PropTypes.node,
       onClick: PropTypes.func,
-    })
+    }),
   ),
   deleteEntity: PropTypes.func,
   addNotification: PropTypes.func,

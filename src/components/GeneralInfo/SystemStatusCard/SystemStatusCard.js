@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -129,7 +128,7 @@ export const SystemStatusCard = connect(
     systemProfile,
     detailLoaded: systemProfile?.loaded,
     systemStatus: systemStatus(entity),
-  })
+  }),
 )(SystemStatusCardCore);
 
 SystemStatusCard.propTypes = SystemStatusCardCore.propTypes;

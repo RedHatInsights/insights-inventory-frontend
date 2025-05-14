@@ -28,7 +28,7 @@ jest.mock(
   () => ({
     esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: true }),
-  })
+  }),
 );
 jest.mock('../../../Utilities/useFeatureFlag');
 
@@ -125,7 +125,7 @@ describe('ConventionalSystemsTab', () => {
     render(
       <MemoryRouter>
         <Provider store={store}>{children}</Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
   /* beforeAll(() => {
@@ -144,7 +144,7 @@ describe('ConventionalSystemsTab', () => {
     const store = mockStore(initialStore);
     renderWithProviders(
       <ConventionalSystemsTab initialLoading={false} />,
-      store
+      store,
     );
 
     await waitFor(() => {
@@ -156,13 +156,13 @@ describe('ConventionalSystemsTab', () => {
     expect(
       screen.getByRole('button', {
         name: /delete/i,
-      })
+      }),
     ).toBeEnabled();
 
     expect(
       within(screen.getAllByRole('row')[1]).getByRole('button', {
         name: /kebab toggle/i,
-      })
+      }),
     ).toBeEnabled();
   });
 
@@ -181,24 +181,24 @@ describe('ConventionalSystemsTab', () => {
     });
     renderWithProviders(
       <ConventionalSystemsTab initialLoading={false} />,
-      store
+      store,
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /delete/i,
-      })
+      }),
     );
     expect(
       screen.getByRole('heading', {
         name: /delete from inventory/i,
-      })
+      }),
     ).toBeVisible();
     await userEvent.click(screen.getByTestId('confirm-inventory-delete'));
     expect(
       screen.queryByRole('heading', {
         name: /delete from inventory/i,
-      })
+      }),
     ).not.toBeInTheDocument();
     shouldDispatch(store, {
       payload: {
@@ -221,7 +221,7 @@ describe('ConventionalSystemsTab', () => {
       const store = mockStore(initialStore);
       renderWithProviders(
         <ConventionalSystemsTab initialLoading={false} />,
-        store
+        store,
       );
 
       await waitFor(() => {
@@ -233,7 +233,7 @@ describe('ConventionalSystemsTab', () => {
       expect(
         screen.getByRole('button', {
           name: 'Export',
-        })
+        }),
       ).toBeInTheDocument();
     });
 
@@ -242,7 +242,7 @@ describe('ConventionalSystemsTab', () => {
       const store = mockStore(initialStore);
       renderWithProviders(
         <ConventionalSystemsTab initialLoading={false} />,
-        store
+        store,
       );
 
       await waitFor(() => {
@@ -254,7 +254,7 @@ describe('ConventionalSystemsTab', () => {
       expect(
         screen.queryByRole('button', {
           name: 'Export',
-        })
+        }),
       ).not.toBeInTheDocument();
     });
   });

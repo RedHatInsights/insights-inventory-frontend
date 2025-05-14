@@ -35,22 +35,22 @@ describe('cve', () => {
   it('should perform get call', async () => {
     mock
       .onGet(
-        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2'
+        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2',
       )
       .replyOnce(200, 'low-test');
     mock
       .onGet(
-        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=4'
+        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=4',
       )
       .replyOnce(200, 'moderate-test');
     mock
       .onGet(
-        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=5'
+        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=5',
       )
       .replyOnce(200, 'important-test');
     mock
       .onGet(
-        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=7'
+        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=7',
       )
       .replyOnce(200, 'critical-test');
     const { low, moderate, important, critical } = await cves('test-id');
@@ -63,7 +63,7 @@ describe('cve', () => {
   it('should not fail', async () => {
     mock
       .onGet(
-        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2'
+        '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2',
       )
       .reply(500);
     const data = await cves('test-id');

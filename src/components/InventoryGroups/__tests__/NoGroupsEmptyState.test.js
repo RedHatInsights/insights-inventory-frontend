@@ -10,7 +10,7 @@ jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
   () => ({
     usePermissionsWithContext: () => ({ hasAccess: true }),
-  })
+  }),
 );
 
 describe('NoGroupsEmptyState', () => {
@@ -18,7 +18,7 @@ describe('NoGroupsEmptyState', () => {
     render(
       <TestWrapper store={getStore()}>
         <NoGroupsEmptyState />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     screen.getByRole('heading', {
@@ -32,13 +32,13 @@ describe('NoGroupsEmptyState', () => {
     render(
       <TestWrapper store={getStore()}>
         <NoGroupsEmptyState onCreateGroupClick={onCreateGroupClick} />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /create workspace/i,
-      })
+      }),
     );
     expect(onCreateGroupClick).toBeCalled();
   });

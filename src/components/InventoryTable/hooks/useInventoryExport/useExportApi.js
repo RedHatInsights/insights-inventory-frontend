@@ -15,12 +15,12 @@ const useExportApi = () => {
         .catch((error) => {
           onError?.(error);
         }),
-    [axios]
+    [axios],
   );
 
   const status = useCallback(
     (id) => axios.get(EXPORT_SERVICE_PATH + '/exports/' + id + '/status'),
-    [axios]
+    [axios],
   );
 
   return {

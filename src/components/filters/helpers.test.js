@@ -63,7 +63,7 @@ describe('appendGroupSelection', () => {
       ...buildOperatingSystems(5, { osName: 'CentOS', major: 9 }),
       ...buildOperatingSystems(4, { osName: 'Alma Linux', major: 8 }),
     ],
-    true
+    true,
   );
 
   it('returns a new selection', () => {
@@ -90,33 +90,33 @@ describe('appendGroupSelection', () => {
     expect(
       appendGroupSelection(selection, operatingSystemsGroups)['RHEL-8'][
         'RHEL-8'
-      ]
+      ],
     ).toEqual(null);
 
     expect(
       appendGroupSelection(selection, operatingSystemsGroups)['RHEL-7'][
         'RHEL-7-7.7'
-      ]
+      ],
     ).toEqual(undefined);
 
     expect(
       Object.keys(
         appendGroupSelection(selection, operatingSystemsGroups)[
           'CentOS-Linux-7'
-        ]
-      ).length
+        ],
+      ).length,
     ).toEqual(11);
 
     expect(
       appendGroupSelection(selection, operatingSystemsGroups)['CentOS-Linux-7'][
         'CentOS-Linux-7-7.7'
-      ]
+      ],
     ).toEqual(true);
     console.log(
-      appendGroupSelection(selection, operatingSystemsGroups)['Alma-Linux-8']
+      appendGroupSelection(selection, operatingSystemsGroups)['Alma-Linux-8'],
     );
     expect(
-      appendGroupSelection(selection, operatingSystemsGroups)['Alma-Linux-8']
+      appendGroupSelection(selection, operatingSystemsGroups)['Alma-Linux-8'],
     ).toEqual({ 'Alma-Linux-8': null, 'Alma-Linux-8-8.1': true });
   });
 
@@ -129,8 +129,8 @@ describe('appendGroupSelection', () => {
 
     expect(
       Object.keys(
-        appendGroupSelection(selection, operatingSystemsGroups)['RHEL-8']
-      ).length
+        appendGroupSelection(selection, operatingSystemsGroups)['RHEL-8'],
+      ).length,
     ).toEqual(11);
   });
 

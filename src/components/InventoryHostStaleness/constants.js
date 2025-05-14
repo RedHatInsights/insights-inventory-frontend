@@ -393,8 +393,8 @@ export const systemDeletionItems = (activeTabKey) => {
       value < 365
         ? `${value} days`
         : value === 365
-        ? `1 year`
-        : `${Math.floor(value / 365)} years`,
+          ? `1 year`
+          : `${Math.floor(value / 365)} years`,
     value,
     apiKey,
     title,

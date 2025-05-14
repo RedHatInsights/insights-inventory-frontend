@@ -152,10 +152,10 @@ export function filterToGroup(filter = [], valuesKey = 'values') {
             },
           },
         }),
-        {}
+        {},
       ),
     }),
-    {}
+    {},
   );
 }
 
@@ -180,7 +180,7 @@ export const arrayToSelection = (selected) =>
         },
       },
     }),
-    {}
+    {},
   );
 
 export function reduceFilters(filters = []) {
@@ -215,7 +215,7 @@ export function reduceFilters(filters = []) {
     {
       textFilter: '',
       tagFilters: {},
-    }
+    },
   );
 }
 
@@ -240,7 +240,7 @@ export const generateFilter = (
   updateMethodFilter,
   hostGroupFilter,
   lastSeenFilter,
-  systemTypeFilter
+  systemTypeFilter,
 ) =>
   [
     !isEmpty(status) && {

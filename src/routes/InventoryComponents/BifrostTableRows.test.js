@@ -11,7 +11,7 @@ describe('BifrostTableRows', () => {
       <BifrostTableRows
         column={imageTableColumns[0]}
         data={mockedBootCImageData[0]}
-      />
+      />,
     );
 
     expect(screen.getByText(/india pale ale/i)).toBeVisible();
@@ -23,7 +23,7 @@ describe('BifrostTableRows', () => {
       <BifrostTableRows
         column={imageTableColumns[1]}
         data={mockedBootCImageData[0]}
-      />
+      />,
     );
 
     expect(screen.getByText(/2/i)).toBeVisible();
@@ -35,7 +35,7 @@ describe('BifrostTableRows', () => {
       <BifrostTableRows
         column={imageTableColumns[2]}
         data={mockedBootCImageData[0]}
-      />
+      />,
     );
 
     expect(screen.getByText(/3/i)).toBeVisible();
@@ -47,7 +47,7 @@ describe('BifrostTableRows', () => {
       <BifrostTableRows
         column={hashTableColumns[0]}
         data={mockedBootCImageData[0].hashes[0]}
-      />
+      />,
     );
 
     expect(screen.getByText(/hazy/i)).toBeVisible();
@@ -59,7 +59,7 @@ describe('BifrostTableRows', () => {
       <BifrostTableRows
         column={hashTableColumns[1]}
         data={mockedBootCImageData[0].hashes[0]}
-      />
+      />,
     );
 
     expect(screen.getByText(/2/i)).toBeVisible();

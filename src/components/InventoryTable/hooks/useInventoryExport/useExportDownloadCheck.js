@@ -40,7 +40,7 @@ const useExportDownloadCheck = ({ onDownloadAvailable, onError }) => {
         onError?.(error);
       }
     },
-    [status, onDownloadAvailable, checking, onError]
+    [status, onDownloadAvailable, checking, onError],
   );
 
   useEffect(() => {

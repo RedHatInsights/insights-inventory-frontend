@@ -20,7 +20,7 @@ const TagsModal = ({
   const [selected, setSelected] = useState();
   const [statePagination, setStatePagination] = useState(PAGINATION_DEFAULT);
   const showTagDialog = useSelector(
-    ({ entities, entityDetails }) => (entities || entityDetails)?.showTagDialog
+    ({ entities, entityDetails }) => (entities || entityDetails)?.showTagDialog,
   );
 
   const pagination = useSelector(({ entities, entityDetails }) => {
@@ -33,7 +33,7 @@ const TagsModal = ({
 
   const loaded = useSelector(
     ({ entities, entityDetails }) =>
-      entities?.tagModalLoaded || entityDetails?.tagModalLoaded
+      entities?.tagModalLoaded || entityDetails?.tagModalLoaded,
   );
 
   const activeSystemTag = useSelector(({ entities, entityDetails }) => {
@@ -54,18 +54,18 @@ const TagsModal = ({
       return activeTags
         ?.filter((tag) =>
           Object.values(tag).some((val) =>
-            val?.toLowerCase().includes(filterBy.toLowerCase())
-          )
+            val?.toLowerCase().includes(filterBy.toLowerCase()),
+          ),
         )
         .slice(
           statePagination?.perPage * (statePagination?.page - 1),
-          statePagination?.perPage * statePagination?.page
+          statePagination?.perPage * statePagination?.page,
         );
     }
 
     return entities?.allTags?.reduce(
       (acc, { tags }) => [...acc, ...flatten(tags.map(({ tag }) => tag))],
-      []
+      [],
     );
   });
 
@@ -73,7 +73,7 @@ const TagsModal = ({
     const activeTags = (
       entities?.activeSystemTag?.tags || entityDetails?.entity?.tags
     )?.filter((tag) =>
-      Object.values(tag).some((val) => val?.includes(filterBy))
+      Object.values(tag).some((val) => val?.includes(filterBy)),
     );
     return activeTags ? activeTags.length : entities?.allTagsTotal;
   });
@@ -94,12 +94,12 @@ const TagsModal = ({
         setStatePagination(() => pagination);
       }
     },
-    [activeSystemTag, dispatch, getTags]
+    [activeSystemTag, dispatch, getTags],
   );
 
   const debouncedFetch = useCallback(
     () => debounce(fetchTags, 800),
-    [fetchTags]
+    [fetchTags],
   );
 
   const isSelected = (id, { key, value, namespace }) =>

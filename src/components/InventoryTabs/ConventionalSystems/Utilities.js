@@ -9,7 +9,7 @@ import {
 const mapTags = ({ category, values }) =>
   values.map(
     ({ tagKey, value }) =>
-      `${category ? `${category}/` : ''}${tagKey}${value ? `=${value}` : ''}`
+      `${category ? `${category}/` : ''}${tagKey}${value ? `=${value}` : ''}`,
   );
 
 const filterMapper = {
@@ -18,7 +18,7 @@ const filterMapper = {
   osFilter: ({ osFilter }, searchParams) => {
     // TODO This is very hackish. There should be a schema/feature on how the values translate into params
     const osParams = Object.entries(
-      Object.values(osFilter).reduce((acc, item) => ({ ...acc, ...item }), {})
+      Object.values(osFilter).reduce((acc, item) => ({ ...acc, ...item }), {}),
     )
       .filter(([, value]) => value === true)
       .map(([key]) => key);
@@ -37,7 +37,7 @@ const filterMapper = {
   },
   registeredWithFilter: ({ registeredWithFilter }, searchParams) =>
     registeredWithFilter?.forEach((item) =>
-      searchParams.append('source', item)
+      searchParams.append('source', item),
     ),
   value: ({ value, filter }, searchParams) =>
     value === 'hostname_or_id' &&
@@ -52,19 +52,19 @@ const filterMapper = {
     Object.keys(lastSeenFilter || {})?.forEach(
       (item) =>
         item === 'mark' &&
-        searchParams.append('last_seen', lastSeenFilter[item])
+        searchParams.append('last_seen', lastSeenFilter[item]),
     ),
   updateMethodFilter: ({ updateMethodFilter }, searchParams) =>
     updateMethodFilter?.forEach((item) =>
-      searchParams.append(UPDATE_METHOD_KEY, item)
+      searchParams.append(UPDATE_METHOD_KEY, item),
     ),
   hostGroupFilter: ({ hostGroupFilter }, searchParams) =>
     hostGroupFilter?.forEach((item) =>
-      searchParams.append(HOST_GROUP_CHIP, item)
+      searchParams.append(HOST_GROUP_CHIP, item),
     ),
   systemTypeFilter: ({ systemTypeFilter }, searchParams) =>
     systemTypeFilter?.forEach((item) =>
-      searchParams.append(SYSTEM_TYPE_KEY, item)
+      searchParams.append(SYSTEM_TYPE_KEY, item),
     ),
 };
 

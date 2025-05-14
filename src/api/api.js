@@ -39,7 +39,7 @@ export const mapData = ({ facts = {}, ...oneResult }) => ({
   facts: {
     ...facts.reduce?.(
       (acc, curr) => ({ ...acc, [curr.namespace]: curr.facts }),
-      {}
+      {},
     ),
     ...flatMap(facts, (oneFact) => Object.values(oneFact))
       .map((item) =>
@@ -49,18 +49,18 @@ export const mapData = ({ facts = {}, ...oneResult }) => ({
               os_release: item.os_release || item.release,
               display_name: item.display_name || item.fqdn || item.id,
             }
-          : item
+          : item,
       )
       .reduce(
         (acc, curr) => ({ ...acc, ...(typeof curr !== 'string' ? curr : {}) }),
-        {}
+        {},
       ),
   },
 });
 
 export const mapTags = (
   data = { results: [] },
-  { orderBy, orderDirection } = {}
+  { orderBy, orderDirection } = {},
 ) => {
   if (data.results.length > 0) {
     return apiGetHostTags({
@@ -96,8 +96,8 @@ export const constructTags = (tagFilters) => {
         ({ value: tagValue, tagKey }) =>
           `${namespace ? `${namespace}/` : ''}${tagKey}${
             tagValue ? `=${tagValue}` : ''
-          }`
-      )
+          }`,
+      ),
     ) || ''
   );
 };
@@ -110,17 +110,17 @@ const buildOperatingSystemFilter = (osFilterState = {}) => {
         Object.fromEntries(
           Object.entries(items).filter(([minorKey]) => {
             return minorKey !== majorKey;
-          })
+          }),
         ),
       ];
-    })
+    }),
   );
 
   return Object.entries(
     Object.values(osFilterStateWithoutMajors).reduce(
       (acc, item) => ({ ...acc, ...item }),
-      {}
-    )
+      {},
+    ),
   )
     .filter(([, value]) => value === true)
     .map(([key]) => {
@@ -230,7 +230,7 @@ export async function getEntities(
     },
     ...options
   },
-  showTags
+  showTags,
 ) {
   if (hasItems && items?.length > 0) {
     let data = await apiGetHostById({
@@ -264,11 +264,11 @@ export async function getEntities(
           ...data,
           results: mergeArraysByKey(
             [data?.results, result?.results || []],
-            'id'
+            'id',
           ),
         };
       } catch (e) {
-        console.error(e); // eslint-disable-line
+        console.error(e);
       }
     }
 
@@ -281,7 +281,7 @@ export async function getEntities(
         mapData({
           ...result,
           display_name: result.display_name || result.fqdn || result.id,
-        })
+        }),
       ),
     };
 
@@ -326,7 +326,7 @@ export async function getEntities(
       },
     })
       .then((data) =>
-        showTags ? mapTags(data, { orderBy, orderDirection }) : data
+        showTags ? mapTags(data, { orderBy, orderDirection }) : data,
       )
       .then(({ results = [], ...data } = {}) => ({
         ...data,
@@ -335,7 +335,7 @@ export async function getEntities(
           mapData({
             ...result,
             display_name: result.display_name || result.fqdn || result.id,
-          })
+          }),
         ),
       }));
   }
@@ -372,7 +372,7 @@ export const getOperatingSystems = async (params = [], showCentosVersions) => {
   let operatingSystems = await getOperatingSystem(...params);
   if (!showCentosVersions) {
     const newResults = operatingSystems.results.filter(
-      ({ value }) => !value.name.toLowerCase().startsWith('centos')
+      ({ value }) => !value.name.toLowerCase().startsWith('centos'),
     );
     operatingSystems.results = newResults;
   }
@@ -403,14 +403,14 @@ export const useGetImageData = () => {
   return (deviceIDs) => {
     return axiosInstance.post(
       `${EDGE_API_BASE}/devices/devicesview`,
-      deviceIDs
+      deviceIDs,
     );
   };
 };
 export const fetchEdgeEnforceGroups = () => {
   try {
     return axiosInstance.get(
-      `${EDGE_API_BASE}/device-groups/enforce-edge-groups`
+      `${EDGE_API_BASE}/device-groups/enforce-edge-groups`,
     );
   } catch (err) {
     console.error(err);

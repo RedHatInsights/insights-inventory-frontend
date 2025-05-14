@@ -76,7 +76,7 @@ const ContextInventoryList = ({
 const InventoryList = React.forwardRef(
   ({ hasAccess, onRefreshData, ...props }, ref) => {
     const activeFilters = useSelector(
-      ({ entities: { activeFilters } }) => activeFilters
+      ({ entities: { activeFilters } }) => activeFilters,
     );
 
     if (ref) {
@@ -97,7 +97,7 @@ const InventoryList = React.forwardRef(
         onRefreshData={onRefreshData}
       />
     );
-  }
+  },
 );
 
 ContextInventoryList.propTypes = {
@@ -133,7 +133,7 @@ InventoryList.propTypes = {
         isOpen: PropTypes.bool,
         title: PropTypes.node,
       }),
-    ])
+    ]),
   ),
   entities: PropTypes.arrayOf(PropTypes.any),
   customFilters: PropTypes.shape({

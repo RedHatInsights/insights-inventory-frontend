@@ -63,7 +63,7 @@ const EntityTable = ({
 
   const cells = useMemo(
     () => loaded && createColumns(columns, hasItems, rows, isExpandable),
-    [loaded, columns, hasItems, rows, isExpandable]
+    [loaded, columns, hasItems, rows, isExpandable],
   );
 
   const tableSortBy = {
@@ -74,7 +74,7 @@ const EntityTable = ({
           // Inventory API has different sort key for some columns
           (sortBy?.key === 'operating_system' &&
             item.key === 'system_profile') ||
-          (sortBy?.key === 'group_name' && item.key === 'groups')
+          (sortBy?.key === 'group_name' && item.key === 'groups'),
       ) +
       Boolean(hasCheckbox) +
       Boolean(expandable),
@@ -122,7 +122,7 @@ const EntityTable = ({
                   cells?.[index - Boolean(hasCheckbox) - Boolean(expandable)]
                     ?.key,
                 direction,
-                index
+                index,
               );
             }}
             sortBy={tableSortBy}

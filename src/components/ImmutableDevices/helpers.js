@@ -46,7 +46,7 @@ export const iconMapper = {
 export const getDeviceStatus = (
   deviceStatus,
   isUpdateAvailable,
-  dispatcherStatus
+  dispatcherStatus,
 ) => {
   if (dispatcherStatus === 'ERROR') {
     return 'error';

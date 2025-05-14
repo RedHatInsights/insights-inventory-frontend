@@ -52,7 +52,7 @@ describe('InventoryList', () => {
         <Provider store={store}>
           <InventoryList ref={ref} onRefreshData={onRefreshData} loaded />
         </Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     screen.getByRole('columnheader', {
@@ -79,14 +79,14 @@ describe('InventoryList', () => {
             loaded
           />
         </Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     screen.getByRole('heading', {
       name: /you do not have access to inventory/i,
     });
     screen.getByText(
-      /to view your systems, you must be granted inventory access from your organization administrator\./i
+      /to view your systems, you must be granted inventory access from your organization administrator\./i,
     );
   });
 
@@ -122,7 +122,7 @@ describe('InventoryList', () => {
             ...sortBy,
             direction: 'desc',
           }}
-        />
+        />,
       );
       expect(onRefreshData).toHaveBeenCalledTimes(1);
     });
@@ -172,7 +172,7 @@ describe('InventoryList', () => {
             { children: () => <div>test</div>, isOpen: false, id: 'fff' },
           ]}
           hasItems
-        />
+        />,
       );
 
       rerender(
@@ -181,7 +181,7 @@ describe('InventoryList', () => {
             { children: () => <div>test</div>, isOpen: false, id: 'something' },
           ]}
           hasItems
-        />
+        />,
       );
       expect(onRefreshData).toHaveBeenCalledTimes(2);
     });
@@ -206,7 +206,7 @@ describe('InventoryList', () => {
             { children: () => <div>test</div>, isOpen: false, id: 'fff' },
           ]}
           hasItems
-        />
+        />,
       );
 
       expect(onRefreshData).toHaveBeenCalledTimes(1);

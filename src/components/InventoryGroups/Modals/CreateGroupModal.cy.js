@@ -1,5 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
-/* eslint-disable camelcase */
 import React from 'react';
 import { mount } from 'cypress/react';
 import CreateGroupModal from './CreateGroupModal';
@@ -83,7 +81,7 @@ describe('Create Group Modal', () => {
             />
           </Provider>
         </MemoryRouter>
-      </FlagProvider>
+      </FlagProvider>,
     );
   });
 
@@ -95,7 +93,7 @@ describe('Create Group Modal', () => {
     cy.get(`button[type="submit"]`).should(
       'have.attr',
       'aria-disabled',
-      'true'
+      'true',
     );
   });
 });

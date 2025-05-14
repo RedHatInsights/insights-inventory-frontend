@@ -16,7 +16,7 @@ export const lastSeenFilterReducer = (_state, { type, payload }) => ({
 });
 
 export const useLastSeenFilter = (
-  [state, dispatch] = [lastSeenFilterState]
+  [state, dispatch] = [lastSeenFilterState],
 ) => {
   let [lastSeenStateValue, setLastSeenValue] = useState({});
   const lastSeenValue = dispatch ? state.lastSeenFilter : [lastSeenStateValue];
@@ -43,7 +43,7 @@ export const useLastSeenFilter = (
             type: LAST_SEEN_CHIP,
             chips: [
               lastSeenFilterItems.find(
-                ({ value }) => value === lastSeenValue?.mark
+                ({ value }) => value === lastSeenValue?.mark,
               )?.label,
             ]
               .filter(Boolean)

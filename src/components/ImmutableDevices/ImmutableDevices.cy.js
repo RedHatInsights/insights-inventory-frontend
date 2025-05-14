@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ImmutableDevices from './ImmutableDevices';
@@ -47,7 +46,7 @@ const mountWithProps = (props) => {
     {
       routerProps: { initialEntries: ['/insights/inventory'] },
     },
-    props
+    props,
   );
 };
 
@@ -73,11 +72,11 @@ describe('ImmutableDevices', () => {
       items,
       config,
       showTags,
-      defaultGetEntities
+      defaultGetEntities,
     ) => {
       const result = await defaultGetEntities(items, config, showTags);
       result.results.map(
-        (row, index) => (row.ImageName = `Test-image-${index}`)
+        (row, index) => (row.ImageName = `Test-image-${index}`),
       );
       return result;
     };
@@ -94,7 +93,7 @@ describe('ImmutableDevices', () => {
       mountWithProps(defaultProps);
 
       cy.get('td[data-label="Status"] > #status > :nth-child(2) > p').contains(
-        'Unknown'
+        'Unknown',
       );
     });
 
@@ -107,7 +106,7 @@ describe('ImmutableDevices', () => {
       mountWithProps(defaultProps);
 
       cy.get('td[data-label="Status"] > #status > :nth-child(2) > p').contains(
-        'Update available'
+        'Update available',
       );
     });
 
@@ -120,7 +119,7 @@ describe('ImmutableDevices', () => {
       mountWithProps(defaultProps);
 
       cy.get('td[data-label="Status"] > #status > :nth-child(2) > p').contains(
-        'Unresponsive'
+        'Unresponsive',
       );
     });
 
@@ -133,7 +132,7 @@ describe('ImmutableDevices', () => {
       mountWithProps(defaultProps);
 
       cy.get('td[data-label="Status"] > #status > :nth-child(2) > p').contains(
-        'Updating'
+        'Updating',
       );
     });
 
@@ -146,7 +145,7 @@ describe('ImmutableDevices', () => {
       mountWithProps(defaultProps);
 
       cy.get('td[data-label="Status"] > #status > :nth-child(2) > p').contains(
-        'Error'
+        'Error',
       );
     });
   });
@@ -211,7 +210,7 @@ describe('ImmutableDevices', () => {
     mountWithProps({ ...defaultProps, actionsConfig: { actions } });
 
     cy.get('.ins-c-primary-toolbar__first-action > .pf-v5-c-button').should(
-      'be.visible'
+      'be.visible',
     );
   });
 

@@ -11,13 +11,13 @@ describe('NestedHashTable', () => {
     expect(
       screen.getByRole('cell', {
         name: /hazy/i,
-      })
+      }),
     ).toBeVisible();
 
     expect(
       screen.getByRole('cell', {
         name: /west coast/i,
-      })
+      }),
     ).toBeVisible();
   });
 });

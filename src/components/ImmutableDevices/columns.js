@@ -29,12 +29,12 @@ export const edgeColumns = [
     renderFunc: (
       StatusText,
       DEVICE_ID,
-      { UpdateAvailable, DispatcherStatus }
+      { UpdateAvailable, DispatcherStatus },
     ) => {
       const deviceStatus = getDeviceStatus(
         StatusText,
         UpdateAvailable,
-        DispatcherStatus
+        DispatcherStatus,
       );
       return deviceStatus === 'error' || deviceStatus === 'unresponsive' ? (
         <Status

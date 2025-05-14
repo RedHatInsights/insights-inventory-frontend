@@ -18,7 +18,7 @@ const expectTableBasicComponents = (
   shouldRenderSelectAllCheckbox = true,
   shouldRenderSelectCheckboxes = true,
   ariaLabel = 'Host inventory',
-  shouldRenderPerRowActions = false
+  shouldRenderPerRowActions = false,
 ) => {
   expect(screen.getByRole('grid', { name: ariaLabel })).toBeVisible();
   expect(screen.getAllByRole('columnheader')).toHaveLength(columnsNumber);
@@ -51,19 +51,19 @@ const expectTableBasicComponents = (
   expect(
     screen.queryAllByRole('checkbox', {
       name: /select all rows/i,
-    })
+    }),
   ).toHaveLength(shouldRenderSelectAllCheckbox ? 1 : 0);
 
   expect(
     screen.queryAllByRole('cell', {
       name: /select row/i,
-    })
+    }),
   ).toHaveLength(shouldRenderSelectCheckboxes ? rowsNumber : 0);
 
   expect(
     screen.queryAllByRole('button', {
       name: /kebab toggle/i,
-    })
+    }),
   ).toHaveLength(shouldRenderPerRowActions ? rowsNumber : 0);
 };
 
@@ -120,7 +120,7 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable disableDefaultColumns loaded={false} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(2, 5, undefined, false, false, 'Loading');
@@ -138,15 +138,17 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable disableDefaultColumns loaded />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(1, 1, ['One'], false, false);
       expect(
-        screen.getByRole('heading', { name: 'No matching systems found' })
+        screen.getByRole('heading', { name: 'No matching systems found' }),
       ).toBeVisible();
       expect(
-        screen.getByText('To continue, edit your filter settings and try again')
+        screen.getByText(
+          'To continue, edit your filter settings and try again',
+        ),
       ).toBeVisible();
     });
 
@@ -162,18 +164,18 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded noSystemsTable={<div>NO SYSTEMS</div>} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(1, 1, ['One'], false, false);
       expect(screen.getByText('NO SYSTEMS')).toBeVisible();
       expect(
-        screen.queryByRole('heading', { name: 'No matching systems found' })
+        screen.queryByRole('heading', { name: 'No matching systems found' }),
       ).not.toBeInTheDocument();
       expect(
         screen.queryByText(
-          'To continue, edit your filter settings and try again'
-        )
+          'To continue, edit your filter settings and try again',
+        ),
       ).not.toBeInTheDocument();
     });
 
@@ -192,7 +194,7 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(
@@ -200,7 +202,7 @@ describe('EntityTable', () => {
         1,
         [...new Array(6)].map(() => 'One'),
         true,
-        true
+        true,
       );
       expect(screen.getAllByRole('cell', { name: 'data' })).toHaveLength(6);
     });
@@ -211,7 +213,7 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded hasCheckbox={false} disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(2, 1, ['One', 'OS'], false, false);
@@ -223,7 +225,7 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded expandable disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(4, 1, ['', 'One', 'OS'], true, true);
@@ -235,7 +237,7 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded actions={['action 1']} disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(
@@ -245,7 +247,7 @@ describe('EntityTable', () => {
         true,
         true,
         undefined,
-        true
+        true,
       );
     });
 
@@ -264,18 +266,18 @@ describe('EntityTable', () => {
                 directions: 'asc',
               }}
             />
-          </TestWrapper>
+          </TestWrapper>,
         );
 
         expectTableBasicComponents(3, 1, ['One', 'OS'], true, true);
         expect(
           screen.getByRole('columnheader', {
             name: 'One',
-          })
+          }),
         ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -294,18 +296,18 @@ describe('EntityTable', () => {
                 directions: 'asc',
               }}
             />
-          </TestWrapper>
+          </TestWrapper>,
         );
 
         expectTableBasicComponents(2, 1, ['One', 'OS'], false, false);
         expect(
           screen.getByRole('columnheader', {
             name: 'One',
-          })
+          }),
         ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -324,18 +326,18 @@ describe('EntityTable', () => {
                 directions: 'asc',
               }}
             />
-          </TestWrapper>
+          </TestWrapper>,
         );
 
         expectTableBasicComponents(4, 1, ['', 'One', 'OS'], true, true);
         expect(
           screen.getByRole('columnheader', {
             name: 'One',
-          })
+          }),
         ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -354,18 +356,18 @@ describe('EntityTable', () => {
                 direction: 'asc',
               }}
             />
-          </TestWrapper>
+          </TestWrapper>,
         );
 
         expectTableBasicComponents(4, 1, ['', 'One', 'OS'], true, true);
         expect(
           screen.getByRole('columnheader', {
             name: 'OS',
-          })
+          }),
         ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -384,18 +386,18 @@ describe('EntityTable', () => {
                 direction: 'desc',
               }}
             />
-          </TestWrapper>
+          </TestWrapper>,
         );
 
         expectTableBasicComponents(4, 1, ['', 'One', 'OS'], true, true);
         expect(
           screen.getByRole('columnheader', {
             name: 'OS',
-          })
+          }),
         ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
         const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator'
+          '.pf-v5-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -406,12 +408,12 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded disableDefaultColumns variant="compact" />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(3, 1, ['One', 'OS'], true, true);
       expect(screen.getByRole('grid', { name: 'Host inventory' })).toHaveClass(
-        'pf-m-compact'
+        'pf-m-compact',
       );
     });
 
@@ -421,18 +423,18 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded disableDefaultColumns hasItems />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(3, 1, ['One', 'OS'], true, true);
       screen
         .getAllByRole('columnheader')
         .forEach((header) =>
-          expect(header).not.toHaveClass('pf-v5-c-table__sort')
+          expect(header).not.toHaveClass('pf-v5-c-table__sort'),
         );
       // eslint-disable-next-line testing-library/no-node-access
       const sortIndicator = document.querySelectorAll(
-        '.pf-v5-c-table__sort-indicator'
+        '.pf-v5-c-table__sort-indicator',
       );
       expect(sortIndicator).toHaveLength(0);
     });
@@ -465,7 +467,7 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(
@@ -473,7 +475,7 @@ describe('EntityTable', () => {
         2,
         ['Name', 'Workspace', 'Tags', 'OS', 'Last seen'],
         true,
-        true
+        true,
       );
       expect(screen.getByLabelText('Disconnected indicator')).toBeVisible();
     });
@@ -525,7 +527,7 @@ describe('EntityTable', () => {
               },
             ]}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(
@@ -533,15 +535,15 @@ describe('EntityTable', () => {
         2,
         ['Name', 'Workspace', 'OS', 'Last seen', 'Secret attribute'],
         true,
-        true
+        true,
       );
       expect(screen.getAllByTestId('custom-cell')).toHaveLength(4);
       screen
         .getAllByTestId('custom-cell')
         .forEach((cell, index) =>
           expect(cell).toHaveTextContent(
-            ['name_1', 'super_secret_1', 'name_2', 'super_secret_2'][index]
-          )
+            ['name_1', 'super_secret_1', 'name_2', 'super_secret_2'][index],
+          ),
         );
     });
 
@@ -585,7 +587,7 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded columns={getColumns} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(
@@ -593,13 +595,13 @@ describe('EntityTable', () => {
         1,
         ['Display name', 'Secret attribute'],
         true,
-        true
+        true,
       );
       expect(screen.getAllByTestId('custom-cell')).toHaveLength(2);
       screen
         .getAllByTestId('custom-cell')
         .forEach((cell, index) =>
-          expect(cell).toHaveTextContent(['name_1', 'super_secret_1'][index])
+          expect(cell).toHaveTextContent(['name_1', 'super_secret_1'][index]),
         );
       expect(getColumns).toHaveBeenCalledTimes(1);
     });
@@ -674,7 +676,7 @@ describe('EntityTable', () => {
             columns={[]}
             disableDefaultColumns={['display_name']}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(
@@ -682,7 +684,7 @@ describe('EntityTable', () => {
         1,
         ['Workspace', 'OS', 'Last seen'],
         true,
-        true
+        true,
       );
     });
 
@@ -711,7 +713,7 @@ describe('EntityTable', () => {
             disableDefaultColumns={['display_name']}
             showTags
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expectTableBasicComponents(
@@ -719,7 +721,7 @@ describe('EntityTable', () => {
         1,
         ['Workspace', 'Tags', 'OS', 'Last seen'],
         true,
-        true
+        true,
       );
     });
   });
@@ -733,13 +735,13 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded disableDefaultColumns onRowClick={onRowClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
         screen.getByRole('link', {
           name: 'data',
-        })
+        }),
       );
       await waitFor(() => {
         expect(onRowClick).toHaveBeenCalledTimes(1);
@@ -767,13 +769,13 @@ describe('EntityTable', () => {
             expandable
             onExpandClick={onExpand}
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: 'Details',
-        })
+        }),
       );
       await waitFor(() => {
         expect(onExpand).toHaveBeenCalledTimes(1);
@@ -785,13 +787,13 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded expandable disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
         screen.getByRole('checkbox', {
           name: /select row 0/i,
-        })
+        }),
       );
       const actions = store.getActions();
       expect(actions.length).toBe(1);
@@ -806,13 +808,13 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
         screen.getByRole('checkbox', {
           name: /select all rows/i,
-        })
+        }),
       );
       const actions = store.getActions();
       expect(actions.length).toBe(1);
@@ -827,13 +829,13 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: 'One',
-        })
+        }),
       );
       const actions = store.getActions();
       expect(actions.length).toBe(1);
@@ -849,13 +851,13 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded onSort={onSort} disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: 'One',
-        })
+        }),
       );
       await waitFor(() => {
         expect(onSort).toHaveBeenCalledTimes(1);
@@ -873,12 +875,12 @@ describe('EntityTable', () => {
       render(
         <TestWrapper store={store}>
           <EntityTable loaded onSort={onSort} disableDefaultColumns />
-        </TestWrapper>
+        </TestWrapper>,
       );
       await userEvent.click(
         screen.getByRole('button', {
           name: 'Health',
-        })
+        }),
       );
       const actions = store.getActions();
       expect(actions.length).toBe(0);

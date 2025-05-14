@@ -9,7 +9,7 @@ const makeActions = (actions) => {
       [`${curr}_FULFILLED`]: `${curr}_FULFILLED`,
       [`${curr}_REJECTED`]: `${curr}_REJECTED`,
     }),
-    {}
+    {},
   );
 };
 

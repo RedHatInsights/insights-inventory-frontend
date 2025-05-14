@@ -49,7 +49,7 @@ export const SubscriptionCard = connect(
   ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
     subscriptionFacts: subscriptionsSelector(entity),
     detailLoaded: systemProfile && systemProfile.loaded,
-  })
+  }),
 )(SubscriptionCardCore);
 
 SubscriptionCard.propTypes = SubscriptionCardCore.propTypes;

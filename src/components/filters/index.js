@@ -14,5 +14,5 @@ export const filtersReducer = (reducersList) => (state, action) =>
       ...acc,
       ...curr?.(state, action),
     }),
-    state
+    state,
   );

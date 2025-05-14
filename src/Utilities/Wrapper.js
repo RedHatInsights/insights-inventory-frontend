@@ -13,7 +13,7 @@ const RenderWrapper = ({
   const { hasAccess } = usePermissionsWithContext(
     [GENERAL_HOSTS_READ_PERMISSIONS],
     true,
-    false // omit RD check to find out if there are any inventory:hosts:read available
+    false, // omit RD check to find out if there are any inventory:hosts:read available
   );
 
   return (

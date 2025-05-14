@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import RenameGroupModal from './RenameGroupModal';
 import { TEXT_INPUT } from '@redhat-cloud-services/frontend-components-utilities';
 import groups from '../../../../cypress/fixtures/groups.json';
@@ -19,7 +18,7 @@ const TEST_GROUP_NAME = 'Ut';
 describe('test data', () => {
   it('fixtures should have the test group', () => {
     expect(
-      groups.results.find(({ name }) => name === TEST_GROUP_NAME)
+      groups.results.find(({ name }) => name === TEST_GROUP_NAME),
     ).not.to.eq(undefined);
   });
 });

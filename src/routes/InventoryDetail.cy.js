@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import {
   edgeInterceptors,
   featureFlagsInterceptors,
@@ -105,7 +104,7 @@ describe('rbac integration', () => {
             ],
           },
         ],
-      })
+      }),
     );
     beforeEach(() => prepareTest(hostInGroup));
 
@@ -140,7 +139,7 @@ describe('rbac integration', () => {
             ],
           },
         ],
-      })
+      }),
     );
 
     beforeEach(() => prepareTest(hostInGroup));

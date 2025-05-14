@@ -161,7 +161,7 @@ describe('filterRows', () => {
           key: 0,
           value: 'something',
         },
-      }
+      },
     );
     expect(rows.length).toBe(0);
   });
@@ -222,7 +222,7 @@ describe('generateFilters', () => {
         { type: 'something' },
         { type: 'another', options: [{ label: 'ff' }] },
         { index: 2 },
-      ]
+      ],
     );
     expect(filters[0]).toMatchObject({
       value: '0',
@@ -251,7 +251,7 @@ describe('generateFilters', () => {
     const filters = generateFilters(
       ['Name', 'Surname'],
       [{ type: 'checkbox' }],
-      { 0: { value: 'something' } }
+      { 0: { value: 'something' } },
     );
     expect(filters[0].filterValues.value).toBe('something');
   });
@@ -262,7 +262,7 @@ describe('generateFilters', () => {
       ['Name', 'Surname'],
       [{ type: 'checkbox' }],
       {},
-      callback
+      callback,
     );
     filters[0].filterValues.onChange({}, 'newValue');
     expect(callback).toHaveBeenCalled();
@@ -297,7 +297,7 @@ describe('onDeleteFilter', () => {
         chips: [{ name: 'something' }],
       },
       false,
-      { first: { value: ['something', 'second'] } }
+      { first: { value: ['something', 'second'] } },
     );
     expect(newFilters).toEqual({
       first: {
