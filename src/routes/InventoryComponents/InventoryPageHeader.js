@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Flex,
+  FlexItem,
+  Alert,
   Split,
   SplitItem,
   ToggleGroup,
@@ -63,20 +65,45 @@ const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
 const InventoryPageHeader = (toggleProps) => {
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const { hasBootcImages } = useContext(AccountStatContext);
+
   return (
     <PageHeader className="pf-m-light">
-      <PageHeaderTitle
-        title={
-          <Flex spaceItems={{ default: 'spaceItemsSm' }}>
-            <div>Systems</div>
-            <InventoryPopover />
-          </Flex>
-        }
-        actionsContent={
-          isBifrostEnabled &&
-          hasBootcImages && <InventoryContentToggle {...toggleProps} />
-        }
-      />
+      <Flex direction={{ default: 'column' }}>
+        <FlexItem>
+          <Alert
+            variant="info"
+            isInline
+            title={<>Upcoming decommission of hosted edge management service</>}
+            className="pf-v5-u-mt-sm pf-v5-u-mb-sm"
+          >
+            <TextContent>
+              <Text>
+                As of July 31, 2025, the hosted edge management service
+                supported. Consequently, pushing image updates to Immutable
+                Immutable (OSTree) systems via the Hybrid Cloud Console using
+                Console using this service will be discontinued. Customers are
+                are encouraged to explore Red Hat Edge Manager (RHEM) as the
+                recommended alternative for managing their edge systems.
+              </Text>
+            </TextContent>
+          </Alert>
+        </FlexItem>
+
+        <FlexItem>
+          <PageHeaderTitle
+            title={
+              <Flex spaceItems={{ default: 'spaceItemsSm' }}>
+                <div>Systems</div>
+                <InventoryPopover />
+              </Flex>
+            }
+            actionsContent={
+              isBifrostEnabled &&
+              hasBootcImages && <InventoryContentToggle {...toggleProps} />
+            }
+          />
+        </FlexItem>
+      </Flex>
     </PageHeader>
   );
 };
@@ -85,4 +112,5 @@ InventoryContentToggle.propTypes = {
   changeMainContent: PropTypes.func,
   mainContent: PropTypes.string,
 };
+
 export default InventoryPageHeader;
