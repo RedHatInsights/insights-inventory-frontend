@@ -20,6 +20,8 @@ const InventoryOrEdgeView = lazy(
   () => import('./routes/InventoryOrEdgeComponent'),
 );
 const InventoryTable = lazy(() => import('./routes/InventoryPage'));
+const Systems = lazy(() => import('./routes/Systems'));
+
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryHostStaleness = lazy(
   () => import('./routes/InventoryHostStaleness'),
@@ -82,7 +84,7 @@ export const Routes = () => {
   let element = useRoutes([
     {
       path: '/',
-      element: <RenderWrapper cmp={InventoryTable} />,
+      element: <Systems />,
     },
     { path: '/:inventoryId', element: <InventoryDetail /> },
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
