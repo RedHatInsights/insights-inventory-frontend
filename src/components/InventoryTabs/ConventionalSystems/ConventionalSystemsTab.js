@@ -150,7 +150,7 @@ const ConventionalSystemsTab = ({
         // can't remove from ungrouped group
         calculateSelected() > 0 &&
         Array.from(selected?.values()).every(
-          ({ groups }) => groups.ungrouped !== true
+          ({ groups }) => groups[0].ungrouped !== true
         ) &&
         Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
         uniq(

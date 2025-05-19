@@ -526,6 +526,24 @@ describe('hybrid inventory table', () => {
       });
     });
   });
+
+  describe('integration with kessel', () => {
+    beforeEach(() =>
+      prepareTest(false, `/insights/inventory`, {
+        interceptors: [featureFlagsInterceptors.kesselSuccessful],
+      })
+    );
+
+    it('add to workspace is enabled for ungrouped hosts', () => {
+      cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Add to workspace')
+        .shouldNotHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Remove from workspace')
+        .shouldHaveAriaDisabled();
+    });
+  });
 });
 
 const testSorting = (
