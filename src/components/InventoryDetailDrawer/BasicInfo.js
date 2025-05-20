@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -15,7 +13,7 @@ import { useSelector } from 'react-redux';
 
 const BasicInfo = ({ hideInvLink, showTags }) => {
   const displayName = useSelector(
-    ({ entityDetails: { entity } }) => entity?.display_name
+    ({ entityDetails: { entity } }) => entity?.display_name,
   );
   const systemId = useSelector(({ entityDetails: { entity } }) => entity?.id);
   const tags = useSelector(({ entityDetails: { entity } }) => entity?.tags);

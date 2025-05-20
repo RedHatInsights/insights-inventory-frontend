@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import HostStalenessCard from './HostStalenessCard';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
@@ -21,7 +20,7 @@ const REQUIRED_PERMISSIONS = [
 const InventoryHostStaleness = () => {
   const { hasAccess: canModifyHostStaleness } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS,
-    true
+    true,
   );
 
   return (

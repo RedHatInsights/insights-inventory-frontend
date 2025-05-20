@@ -44,7 +44,7 @@ const DetailHeader = ({
     <PageHeader
       className={classnames(
         'pf-m-light ins-inventory-detail',
-        additionalClasses
+        additionalClasses,
       )}
     >
       {BreadcrumbWrapper}
@@ -65,7 +65,7 @@ HeaderInfo.propTypes = {
       title: PropTypes.node,
       onClick: PropTypes.func,
       key: PropTypes.string,
-    })
+    }),
   ),
   onBackToListClick: PropTypes.func,
   children: PropTypes.node,

@@ -8,7 +8,7 @@ jest.mock(
   () => ({
     __esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: false }),
-  })
+  }),
 );
 
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
@@ -38,7 +38,7 @@ describe('EditButton with no access', () => {
     expect(screen.getByRole('link', { name: /edit/i })).toBeVisible();
     expect(screen.getByRole('link', { name: /edit/i })).toHaveAttribute(
       'href',
-      'http://localhost:5000//some-link'
+      'http://localhost:5000//some-link',
     );
   });
 });

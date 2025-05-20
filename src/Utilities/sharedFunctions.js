@@ -45,7 +45,7 @@ export const loadSystems = (options, showTags, getEntities) => {
     options?.items?.length > options.per_page
       ? options?.items?.slice(
           (options?.page - 1) * options.per_page,
-          options?.page * options.per_page
+          options?.page * options.per_page,
         )
       : options?.items;
 

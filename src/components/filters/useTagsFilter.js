@@ -5,7 +5,7 @@ export const useTagsFilter = (
   loaded = false,
   additionalTagsCount = 0,
   onShowMoreClick,
-  stateMapper
+  stateMapper,
 ) => {
   const {
     filter,
@@ -21,7 +21,7 @@ export const useTagsFilter = (
     additionalTagsCount,
     onShowMoreClick,
     stateMapper,
-    'system'
+    'system',
   );
 
   return {

@@ -40,7 +40,7 @@ describe('ConfigurationCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <ConfigurationCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -50,7 +50,7 @@ describe('ConfigurationCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <ConfigurationCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -71,7 +71,7 @@ describe('ConfigurationCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <ConfigurationCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -83,7 +83,7 @@ describe('ConfigurationCard', () => {
       render(
         <TestWrapper store={store}>
           <ConfigurationCard />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(screen.getAllByRole('link')[0]);
@@ -100,7 +100,7 @@ describe('ConfigurationCard', () => {
       render(
         <TestWrapper store={store}>
           <ConfigurationCard handleClick={onClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(screen.getAllByRole('link')[0]);
@@ -117,7 +117,7 @@ describe('ConfigurationCard', () => {
       render(
         <TestWrapper store={store}>
           <ConfigurationCard handleClick={onClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(screen.getAllByRole('link')[1]);
@@ -134,7 +134,7 @@ describe('ConfigurationCard', () => {
       render(
         <TestWrapper store={store}>
           <ConfigurationCard handleClick={onClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(screen.getAllByRole('link')[2]);
@@ -151,7 +151,7 @@ describe('ConfigurationCard', () => {
       render(
         <TestWrapper store={store}>
           <ConfigurationCard handleClick={onClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(screen.getAllByRole('link')[3]);
@@ -172,11 +172,11 @@ describe('ConfigurationCard', () => {
       render(
         <TestWrapper store={store}>
           <ConfigurationCard {...{ [flag]: false }} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.queryByText(title)).not.toBeInTheDocument();
-    })
+    }),
   );
 
   it('should render extra', () => {
@@ -194,7 +194,7 @@ describe('ConfigurationCard', () => {
             },
           ]}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(view.asFragment()).toMatchSnapshot();

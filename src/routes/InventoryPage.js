@@ -6,7 +6,7 @@ import { pageContents } from './InventoryComponents/InventoryPageContents';
 
 const Inventory = (props) => {
   const [mainContent, setMainContent] = useState(
-    pageContents.hybridInventory.key
+    pageContents.hybridInventory.key,
   );
 
   return (

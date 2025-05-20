@@ -43,7 +43,7 @@ export const tagsMapper = (acc, curr) => {
 export const prepareRows = (rows = [], pagination = {}) =>
   rows.slice(
     (pagination.page - 1) * pagination.perPage,
-    pagination.page * pagination.perPage
+    pagination.page * pagination.perPage,
   );
 
 export const isDate = (date) => {
@@ -65,14 +65,14 @@ export const filterRows = (rows = [], activeFilters = {}) =>
                 .toLocaleLowerCase()
                 .indexOf(filter.value.toLocaleLowerCase()) !== -1)
         );
-      })
+      }),
   );
 
 export const generateFilters = (
   cells = [],
   filters = [],
   activeFilters = {},
-  onChange = () => undefined
+  onChange = () => undefined,
 ) =>
   filters.map((filter, key) => {
     const activeKey = filter.index || key;
@@ -96,7 +96,7 @@ export const generateFilters = (
 export const onDeleteFilter = (
   deleted = {},
   deleteAll = false,
-  activeFilters = {}
+  activeFilters = {},
 ) => {
   if (deleteAll) {
     return {};
@@ -106,7 +106,7 @@ export const onDeleteFilter = (
       workingItem &&
       Array.isArray(workingItem.value) &&
       workingItem.value.filter(
-        (item) => !deleted.chips.find(({ name }) => name === item)
+        (item) => !deleted.chips.find(({ name }) => name === item),
       );
     const newFilter =
       workingItem &&

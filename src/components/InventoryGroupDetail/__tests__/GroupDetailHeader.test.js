@@ -33,7 +33,7 @@ describe('group detail header', () => {
     render(
       <MemoryRouter>
         <GroupDetailHeader groupId="group-id-2" />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByRole('heading')).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('group detail header', () => {
     render(
       <MemoryRouter>
         <GroupDetailHeader groupId="group-id-2" />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(screen.getByRole('navigation')).toHaveClass('pf-v5-c-breadcrumb');
@@ -54,7 +54,7 @@ describe('group detail header', () => {
     render(
       <MemoryRouter>
         <GroupDetailHeader groupId="group-id-2" />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     screen.getByRole('button', {

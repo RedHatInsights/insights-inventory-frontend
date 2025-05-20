@@ -16,7 +16,7 @@ export const redirectToInventoryList = (id, onBackToListClick, navigate) => {
     } else {
       location.href = location.pathname.replace(
         new RegExp(`${[id]}.*`, 'g'),
-        ''
+        '',
       );
     }
   }

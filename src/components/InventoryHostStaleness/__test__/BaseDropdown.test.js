@@ -21,13 +21,13 @@ describe('BaseDropdown', () => {
         setIsFormValid={jest.fn()}
         modalMessage={'Modal message'}
         isFormValid={true}
-      />
+      />,
     );
 
     expect(
       screen.getByRole('button', {
         name: /test1/i,
-      })
+      }),
     ).toHaveAttribute('data-ouia-component-id', 'TestOuiaIdValue');
   });
 });

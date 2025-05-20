@@ -33,7 +33,7 @@ describe('useColumns', () => {
           columnsCounter: 0,
           lastSeenOverride: null,
         }),
-      { wrapper: (props) => wrapper({ ...props, store }) }
+      { wrapper: (props) => wrapper({ ...props, store }) },
     );
 
     expect(columnsProp).toHaveBeenCalledWith(DEFAULT_COLUMNS);
@@ -50,7 +50,7 @@ describe('useColumns', () => {
           columnsCounter: 0,
           lastSeenOverride: null,
         }),
-      { wrapper: (props) => wrapper({ ...props, store }) }
+      { wrapper: (props) => wrapper({ ...props, store }) },
     );
 
     const expected = mergeArraysByKey([DEFAULT_COLUMNS, customColumns], 'key');
@@ -66,7 +66,7 @@ describe('useColumns', () => {
           columnsCounter: 0,
           lastSeenOverride: null,
         }),
-      { wrapper: (props) => wrapper({ ...props, store }) }
+      { wrapper: (props) => wrapper({ ...props, store }) },
     );
 
     expect(result.current).toEqual(DEFAULT_COLUMNS);
@@ -87,7 +87,7 @@ describe('useColumns', () => {
           columnsCounter: 0,
           lastSeenOverride: null,
         }),
-      { wrapper: (props) => wrapper({ ...props, store }) }
+      { wrapper: (props) => wrapper({ ...props, store }) },
     );
 
     const expected = DEFAULT_COLUMNS.filter(({ key }) => key !== 'tags');
@@ -103,7 +103,7 @@ describe('useColumns', () => {
           columnsCounter: 0,
           lastSeenOverride: null,
         }),
-      { wrapper: (props) => wrapper({ ...props, store }) }
+      { wrapper: (props) => wrapper({ ...props, store }) },
     );
 
     expect(result.current).toEqual(DEFAULT_COLUMNS);
@@ -119,13 +119,13 @@ describe('useColumns', () => {
           columnsCounter: 0,
           lastSeenOverride: overrideKey,
         }),
-      { wrapper: (props) => wrapper({ ...props, store }) }
+      { wrapper: (props) => wrapper({ ...props, store }) },
     );
 
     const updatedColumns = DEFAULT_COLUMNS.map((col) =>
       col.key === 'updated'
         ? { ...col, key: overrideKey, sortKey: overrideKey }
-        : col
+        : col,
     );
     console.log('result', result.current);
     console.log('updatedcolumns', updatedColumns);
@@ -142,13 +142,13 @@ describe('useColumns', () => {
           columnsCounter: 0,
           lastSeenOverride: overrideKey,
         }),
-      { wrapper: (props) => wrapper({ ...props, store }) }
+      { wrapper: (props) => wrapper({ ...props, store }) },
     );
 
     const updatedColumns = DEFAULT_COLUMNS.map((col) =>
       col.key === 'updated'
         ? { ...col, key: overrideKey, sortKey: overrideKey }
-        : col
+        : col,
     );
     console.log('result', result.current);
     console.log('updatedcolumns', updatedColumns);
@@ -165,13 +165,13 @@ describe('useColumns', () => {
           columnsCounter: 0,
           lastSeenOverride: overrideKey,
         }),
-      { wrapper: (props) => wrapper({ ...props, store }) }
+      { wrapper: (props) => wrapper({ ...props, store }) },
     );
 
     const updatedColumns = DEFAULT_COLUMNS.map((col) =>
       col.key === 'updated'
         ? { ...col, key: overrideKey, sortKey: overrideKey }
-        : col
+        : col,
     );
     console.log('result', result.current);
     console.log('updatedcolumns', updatedColumns);

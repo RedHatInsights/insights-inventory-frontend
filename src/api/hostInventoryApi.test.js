@@ -13,7 +13,7 @@ describe('APIFactory', () => {
         apiStalenessGetDefaultStaleness: expect.any(Function),
         apiStalenessGetStaleness: expect.any(Function),
         apiStalenessCreateStaleness: expect.any(Function),
-      })
+      }),
     );
   });
 });

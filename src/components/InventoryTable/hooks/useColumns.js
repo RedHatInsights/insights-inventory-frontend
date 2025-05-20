@@ -15,11 +15,11 @@ const isColumnEnabled = (key, disableColumns, showTags) =>
 
 const useColumns = (
   columnsProp,
-  { disableDefaultColumns, showTags, columnsCounter, lastSeenOverride }
+  { disableDefaultColumns, showTags, columnsCounter, lastSeenOverride },
 ) => {
   const columnsRedux = useSelector(
     ({ entities: { columns } }) => columns,
-    isEqual
+    isEqual,
   );
   const disabledColumns = Array.isArray(disableDefaultColumns)
     ? disableDefaultColumns
@@ -33,9 +33,9 @@ const useColumns = (
       disableDefaultColumns === true
         ? []
         : DEFAULT_COLUMNS.filter(({ key }) =>
-            isColumnEnabled(key, disabledColumns, showTags)
+            isColumnEnabled(key, disabledColumns, showTags),
           ).map(lastSeenOverrider),
-    [disabledColumns, disableDefaultColumns, showTags, lastSeenOverride]
+    [disabledColumns, disableDefaultColumns, showTags, lastSeenOverride],
   );
 
   return useMemo(() => {
@@ -45,7 +45,7 @@ const useColumns = (
       const columnsPropFiltered = columnsProp.map(lastSeenOverrider);
       return mergeArraysByKey(
         [defaultColumnsFiltered, columnsPropFiltered],
-        'key'
+        'key',
       );
     } else if (!columnsProp && columnsRedux) {
       return columnsRedux.map(lastSeenOverrider);
@@ -61,8 +61,8 @@ const useColumns = (
     Array.isArray(columnsProp)
       ? columnsProp.map(({ key }) => key).join()
       : typeof columnsProp === 'function'
-      ? 'function'
-      : columnsProp,
+        ? 'function'
+        : columnsProp,
     Array.isArray(columnsRedux)
       ? columnsRedux.map(({ key }) => key).join()
       : columnsRedux,

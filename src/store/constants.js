@@ -26,7 +26,7 @@ export const INVENTORY_COLUMNS = [
     sortKey: 'group_name',
     title: 'Workspace',
     props: { width: 10 },
-    // eslint-disable-next-line camelcase
+
     renderFunc: (groups) =>
       isEmpty(groups) ? (
         <div className="pf-v5-u-disabled-color-200">No workspace</div>
@@ -39,7 +39,7 @@ export const INVENTORY_COLUMNS = [
     key: 'tags',
     title: 'Tags',
     props: { width: 10, isStatic: true },
-    // eslint-disable-next-line react/display-name
+
     renderFunc: (value, systemId) => (
       <TagWithDialog count={value.length} systemId={systemId} />
     ),
@@ -53,7 +53,7 @@ export const INVENTORY_COLUMNS = [
         <span>OS</span>
       </Tooltip>
     ),
-    // eslint-disable-next-line react/display-name
+
     renderFunc: (systemProfile) => (
       <OperatingSystemFormatter
         operatingSystem={systemProfile?.operating_system}
@@ -66,7 +66,7 @@ export const INVENTORY_COLUMNS = [
     sortKey: 'last_check_in',
     dataLabel: 'Last seen',
     title: <LastSeenColumnHeader />,
-    // eslint-disable-next-line react/display-name
+
     renderFunc: (
       value,
       _id,
@@ -75,7 +75,7 @@ export const INVENTORY_COLUMNS = [
         stale_warning_timestamp: staleWarn,
         stale_timestamp: stale,
         per_reporter_staleness: perReporterStaleness,
-      }
+      },
     ) => {
       return CullingInformation ? (
         <CullingInformation

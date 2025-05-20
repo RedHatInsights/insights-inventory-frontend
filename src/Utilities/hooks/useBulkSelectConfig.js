@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Spinner } from '@patternfly/react-core';
 import flatten from 'lodash/flatten';
 import map from 'lodash/map';
@@ -15,7 +14,7 @@ export const useBulkSelectConfig = (
   rows,
   loaded,
   pageSelected,
-  groupName
+  groupName,
 ) => {
   const [isBulkLoading, setBulkLoading] = useState(false);
   const { fetchBatched } = useFetchBatched();
@@ -51,7 +50,7 @@ export const useBulkSelectConfig = (
           : activeFilters,
         globalFilter: globalFilter ?? {},
       },
-      total
+      total,
     );
     const results = flatten(map(data, 'results'));
     dispatch(actions.selectEntity(results, selected));

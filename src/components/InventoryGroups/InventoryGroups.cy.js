@@ -40,7 +40,7 @@ describe('groups table page', () => {
 
     cy.get('[role=progressbar]').should(
       'have.class',
-      'pf-v5-c-spinner pf-m-xl'
+      'pf-v5-c-spinner pf-m-xl',
     );
   });
 

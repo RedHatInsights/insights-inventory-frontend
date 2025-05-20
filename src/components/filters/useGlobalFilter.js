@@ -5,7 +5,7 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 const useGlobalFilter = () => {
   const chrome = useChrome();
   const edgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter'
+    'edgeParity.inventory-list-filter',
   );
   const [globalFilter, setGlobalFilter] = useState();
 

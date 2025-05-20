@@ -49,10 +49,10 @@ const CreateGroupModal = ({
       return apiWithToast(
         dispatch,
         () => createGroup({ groupIn: values }),
-        statusMessages
+        statusMessages,
       );
     },
-    [isModalOpen]
+    [isModalOpen],
   );
 
   const schema = useMemo(() => {

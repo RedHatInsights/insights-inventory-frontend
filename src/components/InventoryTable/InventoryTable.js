@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-/* eslint-disable camelcase */
 import React, {
   Fragment,
   forwardRef,
@@ -88,19 +86,19 @@ const InventoryTable = forwardRef(
       lastSeenOverride,
       ...props
     },
-    ref
+    ref,
   ) => {
     const hasItems = Boolean(items);
     const error = useSelector(({ entities }) => entities?.error);
     const page = useSelector(
       ({ entities: { page: invPage } }) =>
         hasItems ? propsPage : invPage || 1,
-      shallowEqual
+      shallowEqual,
     );
     const perPage = useSelector(
       ({ entities: { perPage: invPerPage } }) =>
         hasItems ? propsPerPage : invPerPage || 50,
-      shallowEqual
+      shallowEqual,
     );
     const total = useSelector(({ entities: { total: invTotal } }) => {
       if (hasItems) {
@@ -123,7 +121,7 @@ const InventoryTable = forwardRef(
                 key: lastSeenOverride,
                 sortKey: lastSeenOverride,
               }
-            : col
+            : col,
         )
       : props?.columns;
 
@@ -138,7 +136,7 @@ const InventoryTable = forwardRef(
     const reduxLoaded = useSelector(({ entities }) =>
       hasItems && isLoaded !== undefined
         ? isLoaded && entities?.loaded
-        : entities?.loaded
+        : entities?.loaded,
     );
 
     const [searchParams] = useSearchParams();
@@ -202,7 +200,7 @@ const InventoryTable = forwardRef(
     const onRefreshData = (
       options = {},
       disableOnRefresh,
-      forceRefresh = false
+      forceRefresh = false,
     ) => {
       const { activeFilters } = store.getState().entities;
       const cachedProps = cache.current?.getProps() || {};
@@ -238,8 +236,8 @@ const InventoryTable = forwardRef(
               loadSystems(
                 { ...newParams, ...options, controller: controller.current },
                 cachedProps.showTags,
-                cachedProps.getEntities
-              )
+                cachedProps.getEntities,
+              ),
             );
           });
         } else {
@@ -247,8 +245,8 @@ const InventoryTable = forwardRef(
             loadSystems(
               { ...newParams, controller: controller.current },
               cachedProps.showTags,
-              cachedProps.getEntities
-            )
+              cachedProps.getEntities,
+            ),
           );
         }
       }
@@ -342,7 +340,7 @@ const InventoryTable = forwardRef(
     ) : (
       errorState
     );
-  }
+  },
 );
 
 InventoryTable.propTypes = {

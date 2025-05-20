@@ -52,14 +52,14 @@ const getNotificationProp = (dispatch) => {
 
 const inventoryHasEdgeSystems = async () => {
   const result = await axios.get(
-    `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}`
+    `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}`,
   );
   return result?.data?.total > 0;
 };
 
 const inventoryHasBootcImages = async () => {
   const result = await axios.get(
-    `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_BOOTC_PARAMS}`
+    `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_BOOTC_PARAMS}`,
   );
   return result?.data?.total > 0;
 };
