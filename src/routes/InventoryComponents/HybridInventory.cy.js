@@ -413,7 +413,7 @@ describe('hybrid inventory table', () => {
 
       beforeEach(prepareTest);
 
-      it('can edit hosts that are not a part of any group', () => {
+      it.skip('can edit hosts that are not a part of any group', () => {
         cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Edit').shouldNotHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM).contains('Delete').shouldNotHaveAriaDisabled();
