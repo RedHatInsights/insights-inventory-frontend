@@ -128,7 +128,6 @@ const InventoryTable = forwardRef(
       : props?.columns;
 
     const sortBy = useSelector(({ entities: { sortBy: invSortBy } }) => {
-      console.log('LMAO invsortby', invSortBy, 'propsSortBy', propsSortBy);
       const propsSortByOrFallback =
         propsSortBy?.key != null ? propsSortBy : invSortBy;
       const invSortByOrFallback =
