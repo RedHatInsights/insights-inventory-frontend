@@ -9,7 +9,8 @@ import {
 } from './serialisers';
 import { fetchSystems } from './helpers';
 
-const Inventory = () => (
+// TODO put behind feature flag
+const Systems = () => (
   <>
     <InventoryPageHeader />
     <PageSection>
@@ -17,6 +18,7 @@ const Inventory = () => (
         // TODO This and the serialisers should maybe be a default of the SystemsTable for apps that don't pass a fetch function
         items={fetchSystems}
         options={{
+          debug: true,
           onSelect: true,
           perPage: 50,
           serialisers: {
@@ -30,4 +32,4 @@ const Inventory = () => (
   </>
 );
 
-export default Inventory;
+export default Systems;

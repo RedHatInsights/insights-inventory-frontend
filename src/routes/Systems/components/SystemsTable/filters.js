@@ -1,4 +1,5 @@
 import Workspace from './components/filters/Workspace';
+import { fetchTags } from '../../helpers';
 
 export const CUSTOM_FILTER_TYPES = {
   workspace: {
@@ -64,12 +65,40 @@ const rhcStatus = {
 const tags = {
   label: 'Tags',
   type: 'group',
-  fetchItems: async () => {
-    return;
+  groups: async (...args) => {
+    const { results: tags } = await fetchTags();
+    const tagsInGroups = tags.reduce((groups, { tag }) => {
+      return {
+        ...groups,
+        [tag.namespace]: [...(groups[tag.namespace] || []), tag],
+      };
+    }, {});
+    const filterGroups = Object.entries(tagsInGroups).reduce(
+      (filter, [group, tags]) => {
+        return [
+          ...filter,
+          {
+            label: group,
+            value: group,
+            items: tags.map(({ key, value }) => ({
+              label: `${key}=${value}`,
+              value: `${key}=${value}`,
+            })),
+          },
+        ];
+      },
+      []
+    );
+
+    return filterGroups;
   },
   modal: {
     title: 'All tags in Inventory',
-    fetchItems: async () => {},
+    groups: async (...args) => {
+      const tags = await fetchTags();
+
+      return tags;
+    },
     table: {
       columns: [
         {
@@ -82,4 +111,4 @@ const tags = {
   },
 };
 
-export default [displayName, statusFilter, dataCollector, rhcStatus];
+export default [displayName, statusFilter, tags, dataCollector, rhcStatus];

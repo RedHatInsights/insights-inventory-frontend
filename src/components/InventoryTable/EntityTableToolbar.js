@@ -460,9 +460,9 @@ const EntityTableToolbar = ({
     [LAST_SEEN_CHIP]: (deleted) => {
       setLastSeenFilterValue(
         onDeleteFilter(deleted, [lastSeenFilterValue.mark]),
-      ),
-        setStartDate(),
-        setEndDate();
+      );
+      setStartDate();
+      setEndDate();
     },
     [UPDATE_METHOD_KEY]: (deleted) =>
       setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
