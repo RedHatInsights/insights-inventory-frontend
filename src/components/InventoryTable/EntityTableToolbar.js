@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './EntityTableToolbar.scss';
 import React, { Fragment, useEffect, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -190,20 +188,14 @@ const EntityTableToolbar = ({
     useGroupFilter(showNoGroupOption);
 
   const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
-  const {
-    tagsFilter,
-    tagsChip,
-    selectedTags,
-    setSelectedTags,
-    filterTagsBy,
-    setFilterTagsBy,
-  } = useTagsFilter(
-    allTags,
-    allTagsLoaded,
-    additionalTagsCount,
-    () => dispatch(toggleTagModal(true)),
-    reducer,
-  );
+  const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =
+    useTagsFilter(
+      allTags,
+      allTagsLoaded,
+      additionalTagsCount,
+      () => dispatch(toggleTagModal(true)),
+      reducer,
+    );
 
   const [
     systemTypeConfig,

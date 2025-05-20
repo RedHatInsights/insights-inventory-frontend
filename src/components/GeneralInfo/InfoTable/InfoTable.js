@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { Fragment, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Pagination,
@@ -12,9 +6,7 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
-import PrimaryToolbar, {
-  SortBy,
-} from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
+import PrimaryToolbar from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
 import TableToolbar from '@redhat-cloud-services/frontend-components/TableToolbar';
 import { SortByDirection, TableVariant } from '@patternfly/react-table';
 import {

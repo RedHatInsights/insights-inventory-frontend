@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 export const systemIssuesInstance = instance;
 
@@ -11,7 +12,7 @@ export const cves = async (systemId) => {
       ),
     );
     return { low, moderate, important, critical };
-  } catch (_e) {
+  } catch (error) {
     return {};
   }
 };
@@ -19,7 +20,7 @@ export const cves = async (systemId) => {
 export const patch = async (systemId) => {
   try {
     return await instance.get(`/api/patch/v3/systems/${systemId}`);
-  } catch (_e) {
+  } catch (error) {
     return {};
   }
 };
@@ -27,7 +28,7 @@ export const patch = async (systemId) => {
 export const advisor = async (systemId) => {
   try {
     return await instance.get(`/api/insights/v1/system/${systemId}/reports/`);
-  } catch (_e) {
+  } catch (error) {
     return {};
   }
 };
@@ -59,7 +60,7 @@ export const compliance = async (systemId) => {
         systemId,
       },
     });
-  } catch (_e) {
+  } catch (error) {
     return {};
   }
 };
