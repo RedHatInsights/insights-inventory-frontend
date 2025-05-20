@@ -16,7 +16,7 @@ const useTableActions = (
   handleModalToggle,
   setRemoveHostsFromGroupModalOpen,
   setAddHostGroupModalOpen,
-  isKesselEnabled
+  isKesselEnabled,
 ) => {
   const tableActionsCallback = useCallback((row) => {
     const isAddtoWorkspaceDisabled = (row) => {

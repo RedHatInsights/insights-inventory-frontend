@@ -102,7 +102,6 @@ const EntityTableToolbar = ({
   showTagModal,
   showSystemTypeFilter,
   showCentosVersions,
-  showNoGroupOption,
   enableExport,
   fetchCustomOSes,
   ...props
@@ -187,7 +186,7 @@ const EntityTableToolbar = ({
     setUpdateMethodValue,
   ] = useUpdateMethodFilter(reducer);
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
-    useGroupFilter(showNoGroupOption);
+    useGroupFilter();
 
   const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
   const {
@@ -724,7 +723,6 @@ EntityTableToolbar.propTypes = {
   showTagModal: PropTypes.bool,
   disableDefaultColumns: PropTypes.any,
   showCentosVersions: PropTypes.bool,
-  showNoGroupOption: PropTypes.bool,
   showSystemTypeFilter: PropTypes.bool,
   enableExport: PropTypes.bool,
   exportConfig: PropTypes.object,
@@ -736,7 +734,6 @@ EntityTableToolbar.defaultProps = {
   hasAccess: true,
   activeFiltersConfig: {},
   hideFilters: {},
-  showNoGroupOption: false,
 };
 
 export default EntityTableToolbar;

@@ -531,7 +531,7 @@ describe('hybrid inventory table', () => {
     beforeEach(() =>
       prepareTest(false, `/insights/inventory`, {
         interceptors: [featureFlagsInterceptors.kesselSuccessful],
-      })
+      }),
     );
 
     it('add to workspace is enabled for ungrouped hosts', () => {

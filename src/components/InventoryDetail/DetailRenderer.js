@@ -11,7 +11,7 @@ const DetailRenderer = ({ isRbacEnabled, ...props }) => {
   const [hostGroupId, setHostGroupId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { hasAccess } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(hostGroupId)
+    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(hostGroupId),
   );
 
   useEffect(() => {

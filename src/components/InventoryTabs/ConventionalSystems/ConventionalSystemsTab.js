@@ -150,14 +150,14 @@ const ConventionalSystemsTab = ({
         // can't remove from ungrouped group
         calculateSelected() > 0 &&
         Array.from(selected?.values()).every(
-          ({ groups }) => groups[0].ungrouped !== true
+          ({ groups }) => groups[0].ungrouped !== true,
         ) &&
         Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
         uniq(
           // can remove from at maximum one group at a time
           Array.from(selected.values())
             .filter(({ groups }) => groups.length > 0)
-            .map(({ groups }) => groups[0].name)
+            .map(({ groups }) => groups[0].name),
         ).length === 1
       );
     }
@@ -179,7 +179,9 @@ const ConventionalSystemsTab = ({
       const selectedHosts = Array.from(selected.values());
 
       if (isKesselEnabled) {
-        return selectedHosts.every(({ groups }) => groups.ungrouped !== true);
+        return selectedHosts.every(
+          ({ groups }) => groups[0].ungrouped !== true,
+        );
       }
 
       return selectedHosts.every(({ groups }) => groups.length === 0);
@@ -194,7 +196,7 @@ const ConventionalSystemsTab = ({
     handleModalToggle,
     setRemoveHostsFromGroupModalOpen,
     setAddHostGroupModalOpen,
-    isKesselEnabled
+    isKesselEnabled,
   );
 
   const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
@@ -293,7 +295,6 @@ const ConventionalSystemsTab = ({
         }}
         bulkSelect={bulkSelectConfig}
         showCentosVersions
-        showNoGroupOption
         enableExport={isExportEnabled}
       />
 
