@@ -293,3 +293,40 @@ describe('hiding filters', () => {
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Last seen');
   });
 });
+
+describe('with no group filter option', () => {
+  before(() => {
+    cy.mockWindowInsights();
+  });
+
+  beforeEach(() => {
+    setTableInterceptors();
+    mountTable({ showNoGroupOption: true });
+    waitForTable(true);
+  });
+
+  it('no group is the first option', () => {
+    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
+    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
+    cy.ouiaId('FilterByGroup').click();
+    cy.ouiaId('FilterByGroupOption')
+      .first()
+      .should('have.text', 'No workspace');
+  });
+
+  it('creates no group chip', () => {
+    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
+    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
+    cy.ouiaId('FilterByGroup').click();
+    cy.ouiaId('FilterByGroupOption').eq(0).click();
+    hasChip('Workspace', 'No workspace');
+  });
+
+  it('triggers new request with empty parameter', () => {
+    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
+    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
+    cy.ouiaId('FilterByGroup').click();
+    cy.ouiaId('FilterByGroupOption').eq(0).click();
+    cy.wait('@getHosts').its('request.url').should('include', `group_name=`);
+  });
+});

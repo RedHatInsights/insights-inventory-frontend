@@ -373,23 +373,6 @@ export const featureFlagsInterceptors = {
       },
     }).as('getLastSeenFeatureFlag');
   },
-  kesselSuccessful: () => {
-    cy.intercept('GET', '/feature_flags*', {
-      statusCode: 200,
-      body: {
-        toggles: [
-          {
-            name: 'hbi.kessel-migration',
-            enabled: true,
-            variant: {
-              name: 'disabled',
-              enabled: true,
-            },
-          },
-        ],
-      },
-    }).as('getKesselFeatureFlag');
-  }
 };
 
 export const edgeInterceptors = {

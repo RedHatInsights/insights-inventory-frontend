@@ -372,6 +372,7 @@ InventoryTable.propTypes = {
   hasCheckbox: PropTypes.bool,
   abortOnUnmount: PropTypes.bool,
   showCentosVersions: PropTypes.bool,
+  showNoGroupOption: PropTypes.bool, // group filter option
   enableExport: PropTypes.bool,
   lastSeenOverride: PropTypes.string,
   columns: PropTypes.array,
