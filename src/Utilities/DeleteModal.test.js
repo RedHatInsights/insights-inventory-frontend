@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import DeleteModal from './DeleteModal';
 import { render, screen } from '@testing-library/react';
@@ -11,11 +10,11 @@ describe('DeleteModal', () => {
         <DeleteModal
           currentSytems={{ display_name: 'something' }}
           isModalOpen
-        />
+        />,
       );
 
       screen.getByText(
-        /something will be removed from all localhost:5000 applications and services/i
+        /something will be removed from all localhost:5000 applications and services/i,
       );
       expect(view.baseElement).toMatchSnapshot();
     });
@@ -28,11 +27,11 @@ describe('DeleteModal', () => {
             { display_name: 'another' },
           ]}
           isModalOpen
-        />
+        />,
       );
 
       screen.getByText(
-        /2 systems will be removed from all localhost:5000 applications and services/i
+        /2 systems will be removed from all localhost:5000 applications and services/i,
       );
       expect(view.baseElement).toMatchSnapshot();
     });
@@ -53,13 +52,13 @@ describe('DeleteModal', () => {
           ]}
           isModalOpen
           handleModalToggle={onClose}
-        />
+        />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /close/i,
-        })
+        }),
       );
       expect(onClose).toHaveBeenCalled();
     });
@@ -74,13 +73,13 @@ describe('DeleteModal', () => {
           ]}
           isModalOpen
           handleModalToggle={onClose}
-        />
+        />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /cancel/i,
-        })
+        }),
       );
       expect(onClose).toHaveBeenCalled();
     });
@@ -95,13 +94,13 @@ describe('DeleteModal', () => {
           ]}
           isModalOpen
           onConfirm={onConfirm}
-        />
+        />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /delete/i,
-        })
+        }),
       );
       expect(onConfirm).toHaveBeenCalled();
     });

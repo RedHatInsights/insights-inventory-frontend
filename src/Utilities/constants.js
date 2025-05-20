@@ -152,10 +152,10 @@ export function filterToGroup(filter = [], valuesKey = 'values') {
             },
           },
         }),
-        {}
+        {},
       ),
     }),
-    {}
+    {},
   );
 }
 
@@ -165,14 +165,17 @@ export const arrayToSelection = (selected) =>
       ...acc,
       [namespace]: {
         ...acc[namespace?.title || namespace],
-        [key?.title || key]: {
+        [`${key?.title || key}=${value?.title || value}`]: {
           isSelected: true,
           group: {
             value: namespace?.title || namespace,
             label: namespace?.title || namespace,
           },
           item: {
-            value: key?.title || key,
+            tagKey: key?.title || key,
+            tagValue: value?.title || value,
+            value: `${key?.title || key}=${value?.title || value}`,
+            id: `${key?.title || key}-${value?.title || value}`,
             meta: {
               tag: { key: key?.title || key, value: value?.title || value },
             },
@@ -180,7 +183,7 @@ export const arrayToSelection = (selected) =>
         },
       },
     }),
-    {}
+    {},
   );
 
 export function reduceFilters(filters = []) {
@@ -215,7 +218,7 @@ export function reduceFilters(filters = []) {
     {
       textFilter: '',
       tagFilters: {},
-    }
+    },
   );
 }
 
@@ -240,7 +243,7 @@ export const generateFilter = (
   updateMethodFilter,
   hostGroupFilter,
   lastSeenFilter,
-  systemTypeFilter
+  systemTypeFilter,
 ) =>
   [
     !isEmpty(status) && {

@@ -49,7 +49,7 @@ const InfrastructureCardCore = ({
               onClick: () => {
                 handleClick(
                   'IPv4',
-                  generalMapper(infrastructure.ipv4, 'IP address')
+                  generalMapper(infrastructure.ipv4, 'IP address'),
                 );
               },
             },
@@ -66,7 +66,7 @@ const InfrastructureCardCore = ({
               onClick: () => {
                 handleClick(
                   'IPv6',
-                  generalMapper(infrastructure.ipv6, 'IP address')
+                  generalMapper(infrastructure.ipv6, 'IP address'),
                 );
               },
             },
@@ -95,7 +95,7 @@ const InfrastructureCardCore = ({
                 handleClick(
                   'Interfaces/NICs',
                   interfaceMapper(infrastructure.nics),
-                  'medium'
+                  'medium',
                 );
               },
             },
@@ -152,7 +152,7 @@ const mapStateToProps = ({
 });
 
 export const InfrastructureCard = connect(mapStateToProps)(
-  InfrastructureCardCore
+  InfrastructureCardCore,
 );
 
 InfrastructureCard.propTypes = InfrastructureCardCore.propTypes;

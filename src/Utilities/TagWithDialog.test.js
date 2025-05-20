@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -34,12 +33,12 @@ describe('EntityTable', () => {
       expect(
         screen.getByRole('button', {
           name: /tag count/i,
-        })
+        }),
       ).toBeVisible();
       expect(
         screen.getByRole('button', {
           name: /tag count/i,
-        })
+        }),
       ).toHaveTextContent('10');
       expect(view.asFragment()).toMatchSnapshot();
     });
@@ -53,7 +52,7 @@ describe('EntityTable', () => {
       await userEvent.click(
         screen.getByRole('button', {
           name: /tag count/i,
-        })
+        }),
       );
       const actions = store.getActions();
       expect(actions.length).toBe(0);
@@ -66,7 +65,7 @@ describe('EntityTable', () => {
       await userEvent.click(
         screen.getByRole('button', {
           name: /tag count/i,
-        })
+        }),
       );
       const actions = store.getActions();
       expect(actions.length).toBe(3);

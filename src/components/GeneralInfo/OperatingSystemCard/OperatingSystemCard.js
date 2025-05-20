@@ -64,7 +64,7 @@ const OperatingSystemCardCore = ({
               onClick: () => {
                 handleClick(
                   'Kernel modules',
-                  generalMapper(systemInfo.kernelModules, 'Module')
+                  generalMapper(systemInfo.kernelModules, 'Module'),
                 );
               },
             },
@@ -117,7 +117,7 @@ export const OperatingSystemCard = connect(
   ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
     detailLoaded: systemProfile && systemProfile.loaded,
     systemInfo: operatingSystem(systemProfile, entity),
-  })
+  }),
 )(OperatingSystemCardCore);
 
 OperatingSystemCard.propTypes = OperatingSystemCardCore.propTypes;

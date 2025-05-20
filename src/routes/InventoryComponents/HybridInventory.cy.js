@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 /**
  * The file contains the tests relevant to the Inventory table (/inventory).
  * The tests for the federal module are implemented in another cy spec.
@@ -51,14 +50,14 @@ Cypress.on('fail', (error) => {
 
 const mountTable = (
   initialEntry = '/insights/inventory',
-  props = { hasAccess: true }
+  props = { hasAccess: true },
 ) => {
   cy.mountWithContext(
     Inventory,
     {
       routerProps: { initialEntries: [initialEntry], initialIndex: 0 },
     },
-    props
+    props,
   );
 };
 
@@ -72,7 +71,7 @@ const waitForTable = (waitNetwork = false) => {
   cy.get('table[aria-label="Host inventory"]').should(
     'have.attr',
     'data-ouia-safe',
-    'true'
+    'true',
   );
 };
 
@@ -85,19 +84,19 @@ describe('test data', () => {
     expect(
       hostsFixtures.results
         .slice(0, 2)
-        .every(({ groups }) => groups[0].name === TEST_GROUP_NAME)
+        .every(({ groups }) => groups[0].name === TEST_GROUP_NAME),
     ).to.equal(true);
   });
 
   it(`the third host has a group different to ${TEST_GROUP_NAME}`, () => {
     expect(
-      hostsFixtures.results[2].groups[0].name !== TEST_GROUP_NAME
+      hostsFixtures.results[2].groups[0].name !== TEST_GROUP_NAME,
     ).to.equal(true);
   });
 
   it(`groups has the group ${TEST_GROUP_NAME}`, () => {
     expect(
-      groupsFixtures.results.some(({ name }) => name === TEST_GROUP_NAME)
+      groupsFixtures.results.some(({ name }) => name === TEST_GROUP_NAME),
     ).to.equal(true);
   });
 
@@ -110,7 +109,7 @@ describe('test data', () => {
 const prepareTest = (
   waitNetwork = true,
   initialEntry = '/insights/inventory',
-  { interceptors } = { interceptors: [] }
+  { interceptors } = { interceptors: [] },
 ) => {
   cy.intercept(/\/api\/inventory\/v1\/hosts\/.*\/tags.*/, {
     statusCode: 200,
@@ -160,7 +159,7 @@ describe('hybrid inventory table', () => {
     it('can remove from a group', () => {
       cy.intercept(
         'DELETE',
-        `/api/inventory/v1/groups/${hostsFixtures.results[0].groups[0].id}/hosts/${hostsFixtures.results[0].id}`
+        `/api/inventory/v1/groups/${hostsFixtures.results[0].groups[0].id}/hosts/${hostsFixtures.results[0].id}`,
       ).as('request');
       cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM).contains('Remove from workspace').click();
@@ -178,7 +177,7 @@ describe('hybrid inventory table', () => {
 
       cy.intercept(
         'POST',
-        `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`
+        `/api/inventory/v1/groups/${groupsFixtures.results[0].id}/hosts`,
       ).as('request');
       cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM).contains('Add to workspace').click();
@@ -214,7 +213,7 @@ describe('hybrid inventory table', () => {
         }/hosts/${hostsFixtures.results
           .slice(0, 2)
           .map(({ id }) => id)
-          .join('%2C')}`
+          .join('%2C')}`,
       ).as('request');
 
       cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
@@ -239,7 +238,7 @@ describe('hybrid inventory table', () => {
         `/api/inventory/v1/groups/${
           groupsFixtures.results.find(({ name }) => name === TEST_GROUP_NAME)
             ?.id
-        }/hosts`
+        }/hosts`,
       ).as('request');
 
       cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
@@ -260,7 +259,7 @@ describe('hybrid inventory table', () => {
           .its('request.body')
           .should(
             'deep.equal',
-            hostsFixtures.results.slice(3, 5).map(({ id }) => id)
+            hostsFixtures.results.slice(3, 5).map(({ id }) => id),
           );
       });
       cy.wait('@getHosts'); // data must be reloaded
@@ -293,7 +292,7 @@ describe('hybrid inventory table', () => {
         cy.get(INVENTORY_ACTION_MENU_ITEM).should(
           'have.attr',
           'aria-disabled',
-          'true'
+          'true',
         );
       });
 
@@ -549,7 +548,7 @@ describe('hybrid inventory table', () => {
 const testSorting = (
   { name, urlName, apiName },
   isAsc = true,
-  skipUrlParams = false
+  skipUrlParams = false,
 ) => {
   cy.log(`Testing ${name} column sorting`);
 

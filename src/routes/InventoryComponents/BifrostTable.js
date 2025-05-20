@@ -20,7 +20,7 @@ const BifrostTable = ({ bootcImages, loaded }) => {
   const setImageExpanded = (image, isExpanding = true) =>
     setExpandedImageNames((prevExpanded) => {
       const otherExpandedImageNames = prevExpanded.filter(
-        (r) => r !== image.image
+        (r) => r !== image.image,
       );
       return isExpanding
         ? [...otherExpandedImageNames, image.image]

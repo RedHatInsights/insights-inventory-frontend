@@ -37,7 +37,7 @@ const ApplicationDetails = ({
       }));
   });
   const disabledApps = useSelector(
-    ({ systemProfileStore }) => systemProfileStore?.disabledApps
+    ({ systemProfileStore }) => systemProfileStore?.disabledApps,
   );
   const [activeTabs, setActiveTabs] = useState(items);
   const [currentApp, setCurrentApp] = useState(activeApp || items?.[0]?.name);
@@ -46,7 +46,7 @@ const ApplicationDetails = ({
 
   useEffect(() => {
     const filteredResult = items.filter(
-      (app) => !disabledApps?.includes(app.name)
+      (app) => !disabledApps?.includes(app.name),
     );
     if (filteredResult !== 0 && typeof filteredResult !== 'undefined') {
       setActiveTabs(filteredResult);
@@ -58,7 +58,7 @@ const ApplicationDetails = ({
 
   const isDisconnected = useMemo(
     () => verifyCulledReporter(perReporterStaleness, REPORTER_PUPTOO),
-    [currentApp]
+    [currentApp],
   );
 
   const isRHSMSystem = useMemo(() => {
@@ -86,7 +86,7 @@ const ApplicationDetails = ({
               activeKey={currentApp}
               onSelect={(event, item) => {
                 const activeItem = activeTabs.find(
-                  (oneApp) => oneApp.name === item
+                  (oneApp) => oneApp.name === item,
                 );
                 if (onTabSelect) {
                   onTabSelect(event, item, activeItem.name || item);
@@ -152,7 +152,7 @@ ApplicationDetails.propTypes = {
       title: PropTypes.node,
       name: PropTypes.string.isRequired,
       pageId: PropTypes.string,
-    })
+    }),
   ),
   onTabSelect: PropTypes.func,
   activeApp: PropTypes.string,

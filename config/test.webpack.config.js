@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 const { resolve } = require('path');
 const config = require('@redhat-cloud-services/frontend-components-config');
 

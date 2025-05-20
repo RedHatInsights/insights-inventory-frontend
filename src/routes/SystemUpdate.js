@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';

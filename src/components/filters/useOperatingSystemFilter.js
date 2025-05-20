@@ -17,7 +17,7 @@ export const useOperatingSystemFilter = (
   apiParams,
   hasAccess,
   showCentosVersions,
-  fetchCustomOSes
+  fetchCustomOSes,
 ) => {
   const [operatingSystemsStateValue, setStateValue] = useState({});
   const operatingSystemsValue = dispatch
@@ -30,7 +30,7 @@ export const useOperatingSystemFilter = (
       hasAccess,
       showCentosVersions,
       fetchCustomOSes,
-    }
+    },
   );
 
   const groups = toOsFilterGroups(operatingSystems, operatingSystemsLoaded);
@@ -42,7 +42,7 @@ export const useOperatingSystemFilter = (
         ? dispatch({ type: OPERATING_SYSTEM_FILTER, payload: fullSelection })
         : setStateValue(fullSelection);
     },
-    [groups, dispatch]
+    [groups, dispatch],
   );
 
   const filter = {
@@ -61,7 +61,7 @@ export const useOperatingSystemFilter = (
     .map((osVersionValue) =>
       groups
         .flatMap(({ items }) => items)
-        .find(({ value }) => value === osVersionValue)
+        .find(({ value }) => value === osVersionValue),
     )
     .filter((v) => !!v)
     .map(({ label: name, ...props }) => ({

@@ -46,7 +46,7 @@ const getHostSystemProfileById = async ({
     orderHow,
     branchId,
     fields,
-    options
+    options,
   );
 
 const getHostTags = async ({
@@ -66,7 +66,7 @@ const getHostTags = async ({
     orderBy,
     orderHow,
     search,
-    options
+    options,
   );
 
 const getHostById = async ({
@@ -88,7 +88,7 @@ const getHostById = async ({
     orderBy,
     orderHow,
     fields,
-    options
+    options,
   );
 
 const getHostList = async ({
@@ -134,7 +134,7 @@ const getHostList = async ({
     registeredWith,
     filter,
     fields,
-    options
+    options,
   );
 
 const getTags = async ({
@@ -178,7 +178,7 @@ const getTags = async ({
     groupName,
     registeredWith,
     filter,
-    options
+    options,
   );
 
 const getDefaultStaleness = async ({
@@ -193,7 +193,7 @@ const createStaleness = async ({
   await hostInventoryApi.apiStalenessCreateStaleness(
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     stalenessIn,
-    options
+    options,
   );
 
 const updateStaleness = async ({
@@ -203,7 +203,7 @@ const updateStaleness = async ({
   await hostInventoryApi.apiStalenessUpdateStaleness(
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     stalenessIn,
-    options
+    options,
   );
 
 const getStaleness = async ({ options }: ApiStalenessGetStalenessParams = {}) =>
@@ -220,7 +220,7 @@ const patchHostById = async ({
     hostIdList,
     patchHostIn,
     branchId,
-    options
+    options,
   );
 
 const deleteHostById = async ({
@@ -232,7 +232,7 @@ const deleteHostById = async ({
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     hostIdList,
     branchId,
-    options
+    options,
   );
 
 const getGroupList = async ({
@@ -250,7 +250,7 @@ const getGroupList = async ({
     page,
     orderBy,
     orderHow,
-    options
+    options,
   );
 
 const getGroupsById = async ({
@@ -268,14 +268,14 @@ const getGroupsById = async ({
     page,
     orderBy,
     orderHow,
-    options
+    options,
   );
 
 const createGroup = async ({ groupIn, options }: ApiGroupCreateGroupParams) =>
   await hostInventoryApi.apiGroupCreateGroup(
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     groupIn,
-    options
+    options,
   );
 
 const patchGroupById = async ({
@@ -287,7 +287,7 @@ const patchGroupById = async ({
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     groupId,
     groupIn,
-    options
+    options,
   );
 
 const deleteGroups = async ({
@@ -297,7 +297,7 @@ const deleteGroups = async ({
   await hostInventoryApi.apiGroupDeleteGroups(
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     groupIdList,
-    options
+    options,
   );
 
 const addHostListToGroup = async ({
@@ -309,7 +309,7 @@ const addHostListToGroup = async ({
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     groupId,
     requestBody,
-    options
+    options,
   );
 
 const deleteHostsFromGroup = async ({
@@ -321,7 +321,7 @@ const deleteHostsFromGroup = async ({
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     groupId,
     hostIdList,
-    options
+    options,
   );
 
 const getOperatingSystem = async ({
@@ -341,7 +341,7 @@ const getOperatingSystem = async ({
     staleness,
     registeredWith,
     filter,
-    options
+    options,
   );
 
 export {

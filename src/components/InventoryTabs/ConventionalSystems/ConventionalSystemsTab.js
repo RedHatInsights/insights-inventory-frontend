@@ -39,7 +39,7 @@ import { DEFAULT_COLUMNS } from '../../../store/entities';
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
   const requiredPermissions = selectedSystems.map(({ groups }) =>
-    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groups?.[0]?.id ?? null)
+    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groups?.[0]?.id ?? null),
   );
 
   return (
@@ -91,8 +91,8 @@ const ConventionalSystemsTab = ({
       updateMethodFilter,
       hostGroupFilter,
       lastSeenFilter,
-      systemTypeFilter
-    )
+      systemTypeFilter,
+    ),
   );
   const [ediOpen, onEditOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
@@ -109,7 +109,7 @@ const ConventionalSystemsTab = ({
     globalFilter,
     total,
     rows,
-    loaded
+    loaded,
   );
   const isExportEnabled = useFeatureFlag('hbi.export-data');
   const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
@@ -132,8 +132,8 @@ const ConventionalSystemsTab = ({
       dispatch(
         actions.setPagination(
           Array.isArray(page) ? page[0] : page,
-          Array.isArray(perPage) ? perPage[0] : perPage
-        )
+          Array.isArray(perPage) ? perPage[0] : perPage,
+        ),
       );
     }
 
@@ -169,7 +169,7 @@ const ConventionalSystemsTab = ({
         // can remove from at maximum one group at a time
         Array.from(selected.values())
           .filter(({ groups }) => groups.length > 0)
-          .map(({ groups }) => groups[0].name)
+          .map(({ groups }) => groups[0].name),
       ).length === 1
     );
   };
@@ -203,7 +203,7 @@ const ConventionalSystemsTab = ({
   const { hasBootcImages } = useContext(AccountStatContext);
 
   const isLastCheckInEnabled = useFeatureFlag(
-    'hbi.create_last_check_in_update_per_reporter_staleness'
+    'hbi.create_last_check_in_update_per_reporter_staleness',
   );
 
   return (
@@ -269,9 +269,9 @@ const ConventionalSystemsTab = ({
                           .flatMap(({ groups }) =>
                             groups?.[0]?.id !== undefined
                               ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                                  groups[0].id
+                                  groups[0].id,
                                 )
-                              : null
+                              : null,
                           )
                           .filter(Boolean) // don't check ungroupped hosts
                       : []
@@ -324,7 +324,7 @@ const ConventionalSystemsTab = ({
               title: 'Delete operation initiated',
               description: `Removal of ${displayName} started.`,
               dismissable: false,
-            })
+            }),
           );
           dispatch(actions.deleteEntity(removeSystems, displayName));
           handleModalToggle(false);
@@ -352,7 +352,7 @@ const ConventionalSystemsTab = ({
 
             setTimeout(
               () => inventory.current.onRefreshData(filters, false, true),
-              500
+              500,
             );
           }}
         />
@@ -369,7 +369,7 @@ const ConventionalSystemsTab = ({
 
             setTimeout(
               () => inventory.current.onRefreshData(filters, false, true),
-              500
+              500,
             );
           }}
         />
@@ -397,14 +397,14 @@ ConventionalSystemsTab.propTypes = {
     PropTypes.string,
     PropTypes.number,
     PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     ),
   ]),
   perPage: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     ),
   ]),
   sortBy: PropTypes.shape({

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -137,5 +136,5 @@ export default connect(
     entity,
     detailLoaded: systemProfile && systemProfile.loaded,
     collectionInformation: collectionInformationSelector(systemProfile),
-  })
+  }),
 )(CollectionCard);

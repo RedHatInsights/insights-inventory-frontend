@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 /**
  * Cypress tests aim mainly to verify the correct behavior of network calls,
  * compliance with the filter, sorting and pagination scenarios.
@@ -153,7 +152,7 @@ describe('with default parameters', () => {
 
     _.zip(
       ['display_name', 'operating_system', 'updated'],
-      SORTABLE_HEADERS
+      SORTABLE_HEADERS,
     ).forEach(([category, label]) => {
       SORTING_ORDERS.forEach((order) => {
         it(`${order} by ${label}`, () => {
@@ -212,7 +211,7 @@ describe('with default parameters', () => {
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').should(
           'have.text',
-          shorterGroupsFixtures.results.map(({ name }) => name).join('')
+          shorterGroupsFixtures.results.map(({ name }) => name).join(''),
         );
       });
 

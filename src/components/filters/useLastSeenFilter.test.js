@@ -25,7 +25,7 @@ describe('useLastSeenFilter', () => {
           },
         },
         () => jest.fn(),
-      ])
+      ]),
     );
 
     const [filter] = result.current;
@@ -39,7 +39,7 @@ describe('useLastSeenFilter', () => {
           onChange: () => jest.fn(),
           items: lastSeenFilterItems,
         },
-      })
+      }),
     );
   });
 });

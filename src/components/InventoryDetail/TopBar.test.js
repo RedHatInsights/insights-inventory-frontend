@@ -7,7 +7,7 @@ import TopBar from './TopBar';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 jest.mock(
-  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate'
+  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate',
 );
 
 describe('TopBar', () => {
@@ -20,18 +20,18 @@ describe('TopBar', () => {
     render(
       <TestWrapper>
         <TopBar entity={entity} loaded />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /actions/i,
-      })
+      }),
     );
     await userEvent.click(
       screen.getByRole('menuitem', {
         name: /view system in inventory/i,
-      })
+      }),
     );
 
     expect(navigateMocked).toBeCalled();
@@ -41,13 +41,13 @@ describe('TopBar', () => {
     render(
       <TestWrapper>
         <TopBar entity={entity} loaded hideInvLink />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(
       screen.queryByRole('button', {
         name: /actions/i,
-      })
+      }),
     ).not.toBeInTheDocument();
   });
 
@@ -60,13 +60,13 @@ describe('TopBar', () => {
           loaded
           actions={[{ title: 'title', onClick }]}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /actions/i,
-      })
+      }),
     );
     screen.getByRole('menuitem', {
       name: /view system in inventory/i,
@@ -74,7 +74,7 @@ describe('TopBar', () => {
     await userEvent.click(
       screen.getByRole('menuitem', {
         name: /title/i,
-      })
+      }),
     );
     expect(onClick).toBeCalled();
   });
@@ -83,13 +83,13 @@ describe('TopBar', () => {
     render(
       <TestWrapper>
         <TopBar />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(
       screen.queryByRole('button', {
         name: /actions/i,
-      })
+      }),
     ).not.toBeInTheDocument();
   });
 
@@ -97,13 +97,13 @@ describe('TopBar', () => {
     render(
       <TestWrapper>
         <TopBar entity={entity} loaded showDelete />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(
       screen.getByRole('button', {
         name: /delete/i,
-      })
+      }),
     ).toHaveAttribute('aria-disabled', 'false');
   });
 
@@ -111,13 +111,13 @@ describe('TopBar', () => {
     render(
       <TestWrapper>
         <TopBar entity={entity} loaded showDelete={false} />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(
       screen.getByRole('button', {
         name: /delete/i,
-      })
+      }),
     ).toHaveAttribute('aria-disabled', 'true');
   });
 });

@@ -21,12 +21,12 @@ const defaultProps = {
 
 const mountWithContext = (
   props = defaultProps,
-  contextValues = defaultContextValues
+  contextValues = defaultContextValues,
 ) => {
   render(
     <AccountStatContext.Provider value={{ ...contextValues }}>
       <InventoryPageHeader {...props} />
-    </AccountStatContext.Provider>
+    </AccountStatContext.Provider>,
   );
 };
 const user = userEvent.setup();
@@ -43,7 +43,7 @@ describe('InventoryContentToggle', () => {
     expect(screen.getByLabelText('View by images')).toBeVisible();
     expect(screen.getByLabelText('View by images')).toHaveAttribute(
       'aria-pressed',
-      'true'
+      'true',
     );
   });
 
@@ -74,7 +74,7 @@ describe('InventoryContentToggle', () => {
     await user.click(screen.getByLabelText('View by systems'));
 
     expect(defaultProps.changeMainContent).toHaveBeenCalledWith(
-      'hybridInventory'
+      'hybridInventory',
     );
     expect(defaultProps.changeMainContent).toHaveBeenCalledTimes(1);
   });

@@ -13,7 +13,7 @@ export const systemTypeFilterReducer = (_state, { type, payload }) => ({
 });
 
 export const useSystemTypeFilter = (
-  [state, dispatch] = [systemTypeFilterState]
+  [state, dispatch] = [systemTypeFilterState],
 ) => {
   let [filterStateValue, setStateValue] = useState([]);
   const systemTypeValue = dispatch ? state.systemTypeFilter : filterStateValue;

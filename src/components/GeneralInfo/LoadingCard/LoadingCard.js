@@ -103,7 +103,7 @@ const LoadingCard = ({
                       title: itemTitle,
                       customClass,
                     },
-                    key
+                    key,
                   ) => {
                     const title =
                       typeof itemTitle === 'string'
@@ -145,7 +145,7 @@ const LoadingCard = ({
                         </TextListItem>
                       </Fragment>
                     );
-                  }
+                  },
                 )}
               </TextList>
             </TextContent>
@@ -170,7 +170,7 @@ LoadingCard.propTypes = {
       plural: PropTypes.string,
       singular: PropTypes.string,
       customClass: PropTypes.string,
-    })
+    }),
   ),
   children: PropTypes.node,
 };

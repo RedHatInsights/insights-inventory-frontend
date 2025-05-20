@@ -41,16 +41,16 @@ function updateAnsibleName(state, { meta }, useOrigValue) {
         row.id === meta?.id
           ? {
               ...row,
-              // eslint-disable-next-line camelcase
+
               ansible_host: value,
             }
-          : row
+          : row,
       ),
     }),
     ...(state.entity && {
       entity: {
         ...state.entity,
-        // eslint-disable-next-line camelcase
+
         ansible_host: value,
       },
     }),
@@ -66,16 +66,16 @@ export function updateEntity(state, { meta }, useOrigValue) {
         row.id === meta?.id
           ? {
               ...row,
-              // eslint-disable-next-line camelcase
+
               display_name: value,
             }
-          : row
+          : row,
       ),
     }),
     ...(state.entity && {
       entity: {
         ...state.entity,
-        // eslint-disable-next-line camelcase
+
         display_name: value,
       },
     }),

@@ -21,11 +21,10 @@ import groupBy from 'lodash/groupBy';
 import TitleColumn from '../components/InventoryTable/TitleColumn';
 import InsightsDisconnected from '../Utilities/InsightsDisconnected';
 import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
-import { Icon, Tooltip } from '@patternfly/react-core';
+import { Tooltip } from '@patternfly/react-core';
 import { verifyCulledReporter } from '../Utilities/sharedFunctions';
 import { fitContent } from '@patternfly/react-table';
 import isEmpty from 'lodash/isEmpty';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { LastSeenColumnHeader } from '../Utilities/LastSeenColumnHeader';
 
 export const defaultState = {
@@ -54,7 +53,7 @@ export const DEFAULT_COLUMNS = [
     sortKey: 'group_name',
     title: 'Workspace',
     props: { width: 10 },
-    // eslint-disable-next-line camelcase
+
     renderFunc: (groups) =>
       isEmpty(groups) ? (
         <div className="pf-v5-u-disabled-color-200">No workspace</div>
@@ -67,7 +66,7 @@ export const DEFAULT_COLUMNS = [
     key: 'tags',
     title: 'Tags',
     props: { width: 10, isStatic: true },
-    // eslint-disable-next-line react/display-name
+
     renderFunc: (value, systemId) => (
       <TagWithDialog count={value.length} systemId={systemId} />
     ),
@@ -81,7 +80,7 @@ export const DEFAULT_COLUMNS = [
         <span>OS</span>
       </Tooltip>
     ),
-    // eslint-disable-next-line react/display-name
+
     renderFunc: (systemProfile) => (
       <OperatingSystemFormatter
         operatingSystem={systemProfile?.operating_system}
@@ -94,7 +93,7 @@ export const DEFAULT_COLUMNS = [
     sortKey: 'updated',
     dataLabel: 'Last seen',
     title: <LastSeenColumnHeader />,
-    // eslint-disable-next-line react/display-name
+
     renderFunc: (
       value,
       _id,
@@ -103,7 +102,7 @@ export const DEFAULT_COLUMNS = [
         stale_warning_timestamp: staleWarn,
         stale_timestamp: stale,
         per_reporter_staleness: perReporterStaleness,
-      }
+      },
     ) => {
       return CullingInformation ? (
         <CullingInformation
@@ -148,7 +147,7 @@ function entitiesPending(state, { meta }) {
           DEFAULT_COLUMNS.filter(({ key }) => key !== 'tags' || meta?.showTags),
           state.columns,
         ],
-        'key'
+        'key',
       ),
     }) ||
       {}),
@@ -169,7 +168,6 @@ const clearEntities = () => {
   return defaultState;
 };
 
-// eslint-disable-next-line camelcase
 function entitiesLoaded(
   state,
   {
@@ -184,7 +182,7 @@ function entitiesLoaded(
       sortBy,
     },
     meta,
-  }
+  },
 ) {
   // Older requests should not rewrite the state
   if (meta.lastDateRequest < state.lastDateRequest) {
@@ -206,7 +204,7 @@ function entitiesLoaded(
     loaded: loaded === undefined || loaded,
     // filter data only if we are loaded
     rows: mergeArraysByKey([state.rows, results]).filter((item) =>
-      !loaded ? true : item.created
+      !loaded ? true : item.created,
     ),
     perPage: perPage !== undefined ? perPage : state.perPage,
     page: page !== undefined ? page : state.page,
@@ -268,25 +266,25 @@ function selectFilter(
       item: { items, ...item },
       selected,
     },
-  }
+  },
 ) {
   let { activeFilters = [] } = state;
   if (selected) {
     activeFilters = [...activeFilters, item, ...(items ? items : [])];
     const values = activeFilters.map((active) => active.value);
     activeFilters = activeFilters.filter(
-      (filter, key) => values.lastIndexOf(filter.value) === key
+      (filter, key) => values.lastIndexOf(filter.value) === key,
     );
   } else {
     activeFilters.splice(
       activeFilters.map((active) => active.value).indexOf(item.value),
-      1
+      1,
     );
     if (items) {
       items.forEach((subItem) => {
         activeFilters.splice(
           activeFilters.map((active) => active.value).indexOf(subItem.value),
-          1
+          1,
         );
       });
     }
@@ -302,7 +300,7 @@ const getActiveSystemTag = (state, meta) => {
   if (state.rows) {
     return state.rows.find(
       ({ id, insightsId, insights_id }) =>
-        meta.systemId === insightsId || insights_id || id
+        meta.systemId === insightsId || insights_id || id,
     );
   }
   if (state.entity) {
@@ -355,7 +353,7 @@ export function allTags(
   {
     payload: { results, total, page, per_page: perPage },
     meta: { lastDateRequestTags },
-  }
+  },
 ) {
   // only the latest request can change state
   if (lastDateRequestTags < state.lastDateRequestTags) {
@@ -365,7 +363,7 @@ export function allTags(
   return {
     ...state,
     allTags: Object.entries(
-      groupBy(results, ({ tag: { namespace } }) => namespace)
+      groupBy(results, ({ tag: { namespace } }) => namespace),
     ).map(([key, value]) => ({
       name: key,
       tags: value,

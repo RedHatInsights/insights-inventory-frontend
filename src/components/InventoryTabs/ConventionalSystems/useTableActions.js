@@ -42,7 +42,7 @@ const useTableActions = (
             }}
             requiredPermissions={[
               REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                row.groups?.[0]?.id ?? null
+                row.groups?.[0]?.id ?? null,
               ),
             ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}

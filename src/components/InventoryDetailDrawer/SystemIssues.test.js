@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import SystemIssues from './SystemIssues';
 import configureStore from 'redux-mock-store';
@@ -14,27 +13,27 @@ describe('SystemIssues', () => {
   mock.onGet('/api/insights/v1/system/test-id/reports/').reply(200, 'test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2',
     )
     .reply(200, 'low-test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=4'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=4',
     )
     .reply(200, 'moderate-test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=5'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=5',
     )
     .reply(200, 'important-test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=7'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=7',
     )
     .reply(200, 'critical-test');
   mock
     .onGet(
-      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2'
+      '/api/vulnerability//v1/systems/test-id/cves?page=1&page_size=1&impact=2',
     )
     .reply(500);
   mock.onPost('/api/compliance/graphql').reply(200, 'test');
@@ -102,7 +101,7 @@ describe('SystemIssues', () => {
       const view = render(
         <Provider store={store}>
           <SystemIssues />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -113,7 +112,7 @@ describe('SystemIssues', () => {
       const view = render(
         <Provider store={store}>
           <SystemIssues />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -124,7 +123,7 @@ describe('SystemIssues', () => {
       const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -145,7 +144,7 @@ describe('SystemIssues', () => {
       const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -166,7 +165,7 @@ describe('SystemIssues', () => {
       const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -187,7 +186,7 @@ describe('SystemIssues', () => {
       const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -208,7 +207,7 @@ describe('SystemIssues', () => {
       const view = render(
         <Provider store={store}>
           <SystemIssues isOpened />
-        </Provider>
+        </Provider>,
       );
 
       expect(view.asFragment()).toMatchSnapshot();

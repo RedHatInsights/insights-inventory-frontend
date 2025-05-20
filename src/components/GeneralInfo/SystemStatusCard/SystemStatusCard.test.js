@@ -62,10 +62,10 @@ describe('SystemStatusCard', () => {
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
       const view = render(
-        <SystemStatusCard store={store} {...{ [item]: false }} />
+        <SystemStatusCard store={store} {...{ [item]: false }} />,
       );
       expect(view.asFragment()).toMatchSnapshot();
-    })
+    }),
   );
 
   it('should display most recent date from reporters', () => {
@@ -73,7 +73,7 @@ describe('SystemStatusCard', () => {
     render(<SystemStatusCard store={store} />);
 
     expect(screen.getByLabelText('Last seen value')).toHaveTextContent(
-      '06 Mar 2025 00:00 UTC'
+      '06 Mar 2025 00:00 UTC',
     );
   });
 
@@ -82,29 +82,29 @@ describe('SystemStatusCard', () => {
     render(
       <TestWrapper store={store}>
         <SystemStatusCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(
       screen.queryByText(
-        /the rhc client was installed and configured but may not reflect actual connectivity\. to view the remediation status of your system, got to and open a remediation that your system is associated with\. under the tab, you will find the \./i
-      )
+        /the rhc client was installed and configured but may not reflect actual connectivity\. to view the remediation status of your system, got to and open a remediation that your system is associated with\. under the tab, you will find the \./i,
+      ),
     ).not.toBeInTheDocument();
 
     await userEvent.click(
-      screen.getByRole('button', { name: /action for rhc/i })
+      screen.getByRole('button', { name: /action for rhc/i }),
     );
 
     expect(
       screen.getByText(
-        /the rhc client was installed and configured but may not reflect actual connectivity\. to view the remediation status of your system, go to and open a remediation that your system is associated with\. under the tab, you will find the \./i
-      )
+        /the rhc client was installed and configured but may not reflect actual connectivity\. to view the remediation status of your system, go to and open a remediation that your system is associated with\. under the tab, you will find the \./i,
+      ),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('link', {
         name: /rhc-remediations-link/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 });

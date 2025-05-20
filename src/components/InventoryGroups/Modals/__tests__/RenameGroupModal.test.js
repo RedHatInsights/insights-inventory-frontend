@@ -17,10 +17,10 @@ describe('CreateGroupModal', () => {
             modalState={{ id: '1', name: 'sre-group' }}
           />
         </Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(
-      screen.getByRole('heading', { name: /Rename workspace/ })
+      screen.getByRole('heading', { name: /Rename workspace/ }),
     ).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Save/ })).toBeInTheDocument();
