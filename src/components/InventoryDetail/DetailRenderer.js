@@ -14,7 +14,7 @@ const DetailRenderer = ({ isRbacEnabled, ...props }) => {
     /**
      * hostGroupId can be null, and the ungrouped hosts permissions will be checked in that case
      */
-    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(hostGroupId)
+    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(hostGroupId),
   );
 
   useEffect(() => {

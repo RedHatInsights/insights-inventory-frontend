@@ -13,12 +13,12 @@ describe('URLSearchParams', () => {
           name: {
             paramName: 'name',
           },
-        }
+        },
       );
       expect(window.history.replaceState).toHaveBeenCalledWith(
         null,
         '',
-        '/?name=123'
+        '/?name=123',
       );
     });
 
@@ -32,12 +32,12 @@ describe('URLSearchParams', () => {
             paramName: 'name',
             transformToParam: (value) => value + '_param',
           },
-        }
+        },
       );
       expect(window.history.replaceState).toHaveBeenCalledWith(
         null,
         '',
-        '/?name=123_param'
+        '/?name=123_param',
       );
     });
   });
@@ -53,8 +53,8 @@ describe('URLSearchParams', () => {
             nameFilter: {
               paramName: 'name',
             },
-          }
-        )
+          },
+        ),
       ).toEqual({
         nameFilter: '123',
       });
@@ -71,8 +71,8 @@ describe('URLSearchParams', () => {
               paramName: 'name',
               transformFromParam: (value) => parseInt(value),
             },
-          }
-        )
+          },
+        ),
       ).toEqual({
         nameFilter: 123,
       });

@@ -5,7 +5,6 @@ import {
   Popover,
   Text,
   TextContent,
-  TextVariants,
   Title,
 } from '@patternfly/react-core';
 import {

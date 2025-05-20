@@ -69,7 +69,7 @@ export const BiosCard = connect(
   ({ systemProfileStore: { systemProfile } }) => ({
     detailLoaded: systemProfile && systemProfile.loaded,
     bios: biosSelector(systemProfile),
-  })
+  }),
 )(BiosCardCore);
 
 BiosCard.propTypes = BiosCardCore.propTypes;

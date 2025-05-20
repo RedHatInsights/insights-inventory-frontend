@@ -42,7 +42,7 @@ const groupOSVersions = (versions) => {
       });
 
       return prev;
-    }, {})
+    }, {}),
   );
 
   // sort by major versions in descending order
@@ -78,10 +78,10 @@ export const buildOSFilterConfig = (config = {}, operatingSystems = []) => ({
           return {
             ...prev,
             [major]: Object.fromEntries(
-              Object.entries(minors).filter((version) => version[1] === true)
+              Object.entries(minors).filter((version) => version[1] === true),
             ),
           };
-        }, {})
+        }, {}),
       ),
     groups:
       operatingSystems.length === 0

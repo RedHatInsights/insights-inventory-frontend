@@ -35,7 +35,7 @@ export const buildCells = (item, columns, extra) => {
 export const createRows = (
   rows = [],
   columns = [],
-  { actions, expandable, noSystemsTable, ...extra } = {}
+  { actions, expandable, noSystemsTable, ...extra } = {},
 ) => {
   if (rows.length === 0) {
     return [
@@ -87,7 +87,7 @@ export const createRows = (
           parent: key * 2,
           fullWidth: true,
         },
-    ])
+    ]),
   ).filter(Boolean);
 };
 
@@ -111,7 +111,7 @@ export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
       const newCategoryTags = buildNewCategoryTags(
         deleted,
         category,
-        categoryTags
+        categoryTags,
       );
 
       return [
@@ -120,7 +120,7 @@ export const onDeleteTag = (deleted, selectedTags, onApplyTags) => {
           ? [[category, Object.fromEntries(newCategoryTags)]]
           : []),
       ];
-    }, [])
+    }, []),
   );
 
   if (onApplyTags) onApplyTags(newSelectedTags, false);
@@ -134,16 +134,16 @@ export const onDeleteGroupFilter = (deleted, currFilter) =>
       Object.fromEntries(
         Object.entries(group).filter(
           ([itemKey]) =>
-            itemKey !== deleted?.chips?.[0].value && itemKey !== groupKey
-        )
+            itemKey !== deleted?.chips?.[0].value && itemKey !== groupKey,
+        ),
       ),
-    ])
+    ]),
   );
 
 const includesSortable = (transforms) =>
   transforms?.reduce(
     (acc, fn) => acc || fn.toString().includes('onSort:'),
-    false
+    false,
   );
 
 export const createColumns = (columns, hasItems, rows, isExpandable) =>

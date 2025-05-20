@@ -9,7 +9,7 @@ jest.mock(
   () => ({
     __esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: false }),
-  })
+  }),
 );
 
 jest.mock('react-redux', () => ({
@@ -24,7 +24,7 @@ const checkDisabledEditButton = async () => {
     expect(screen.queryByRole('tooltip')).toBeVisible();
   });
   expect(screen.queryByRole('tooltip')).toHaveTextContent(
-    'You do not have the necessary permissions to modify this host.'
+    'You do not have the necessary permissions to modify this host.',
   );
   expect(screen.queryByRole('link')).not.toBeInTheDocument();
 };
@@ -45,20 +45,20 @@ describe('EditButton with no access', () => {
 
   it('disables with no permission - write permissions set to false', async () => {
     render(
-      <EditButton onClick={onClick} link={link} writePermissions={false} />
+      <EditButton onClick={onClick} link={link} writePermissions={false} />,
     );
     await checkDisabledEditButton();
   });
 
   it('enables when write permissions are set to true', () => {
     render(
-      <EditButton onClick={onClick} link={link} writePermissions={true} />
+      <EditButton onClick={onClick} link={link} writePermissions={true} />,
     );
 
     expect(screen.getByRole('link', { name: /edit/i })).toBeVisible();
     expect(screen.getByRole('link', { name: /edit/i })).toHaveAttribute(
       'href',
-      'http://localhost:5000//some-link'
+      'http://localhost:5000//some-link',
     );
   });
 });

@@ -40,7 +40,7 @@ describe('BootcImageCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <BootcImageCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -50,7 +50,7 @@ describe('BootcImageCard', () => {
     const view = render(
       <TestWrapper store={store}>
         <BootcImageCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });

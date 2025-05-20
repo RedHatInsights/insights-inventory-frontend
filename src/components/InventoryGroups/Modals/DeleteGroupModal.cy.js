@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import {
   CHECKBOX,
   MODAL_CONTENT,
@@ -40,7 +39,7 @@ describe('multiple non-empty groups', () => {
     cy.get('h1').should('have.text', 'Cannot delete workspaces at this time');
     cy.get('p').should(
       'contain.text',
-      `Workspaces containing systems cannot be deleted.`
+      `Workspaces containing systems cannot be deleted.`,
     );
   });
 
@@ -83,7 +82,7 @@ describe('multiple non-empty groups', () => {
 
     cy.get('p').should(
       'contain.text',
-      `Workspaces containing systems cannot be deleted.`
+      `Workspaces containing systems cannot be deleted.`,
     );
   });
 });
@@ -112,7 +111,7 @@ describe('multiple empty groups', () => {
     cy.get('h1').should('have.text', 'Delete workspaces?');
     cy.get('p').should(
       'have.text',
-      `${fixtures.results.length} workspaces and all their data will be deleted.`
+      `${fixtures.results.length} workspaces and all their data will be deleted.`,
     );
   });
 
@@ -128,7 +127,7 @@ describe('multiple empty groups', () => {
 
   it('can close the modal with the cross button', () => {
     cy.get(
-      '[data-ouia-component-id="group-modal-ModalBoxCloseButton"]'
+      '[data-ouia-component-id="group-modal-ModalBoxCloseButton"]',
     ).click();
     cy.get('@setIsModalOpen').should('be.calledOnce');
   });
@@ -140,7 +139,7 @@ describe('multiple empty groups', () => {
 
   it('handles big number of groups', () => {
     groupsInterceptors['successful with some items'](
-      buildGroupsPayload(undefined, undefined, 20, true)
+      buildGroupsPayload(undefined, undefined, 20, true),
     );
 
     const setIsModalOpen = cy.stub().as('setIsModalOpen');
@@ -159,7 +158,7 @@ describe('multiple empty groups', () => {
 
     cy.get('p').should(
       'contain.text',
-      `workspaces and all their data will be deleted.`
+      `workspaces and all their data will be deleted.`,
     );
   });
 });
@@ -187,7 +186,7 @@ describe('single non-empty group', () => {
     cy.get('h1').should('have.text', 'Cannot delete workspace at this time');
     cy.get('p').should(
       'have.text',
-      `Workspaces containing systems cannot be deleted. To delete ${fixtures.results[0].name}, first remove all of the systems from it.`
+      `Workspaces containing systems cannot be deleted. To delete ${fixtures.results[0].name}, first remove all of the systems from it.`,
     );
   });
 
@@ -226,7 +225,7 @@ describe('single empty group', () => {
     cy.get('h1').should('have.text', 'Delete workspace?');
     cy.get('p').should(
       'contain.text',
-      `${fixtures.results[0].name} and all its data will be deleted.`
+      `${fixtures.results[0].name} and all its data will be deleted.`,
     );
   });
 

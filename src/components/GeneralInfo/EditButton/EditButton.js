@@ -35,7 +35,7 @@ const EditButtonUnknownPermissions = (props) => {
 
   const { hasAccess: canEditHost } = usePermissionsWithContext([
     REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-      entity?.groups?.[0]?.id ?? null // null stands for ungroupped hosts
+      entity?.groups?.[0]?.id ?? null, // null stands for ungroupped hosts
     ),
   ]);
 

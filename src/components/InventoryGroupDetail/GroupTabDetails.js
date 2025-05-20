@@ -27,7 +27,7 @@ const GroupTabDetailsWrapper = ({
   const [activeTab, setActiveTab] = useState('systems');
 
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
+    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId),
   );
 
   return (

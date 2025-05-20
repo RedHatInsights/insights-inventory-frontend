@@ -15,7 +15,7 @@ const ApplicationTab = ({ appName, title, ...props }) => {
   const { hasAccess, isOrgAdmin } = usePermissionsWithContext(
     TAB_REQUIRED_PERMISSIONS[appName],
     true, // all must be fulfilled
-    false
+    false,
   );
 
   const tabs = {

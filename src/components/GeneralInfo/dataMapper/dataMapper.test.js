@@ -38,7 +38,7 @@ describe('diskMapper', () => {
           },
           mounttype: 'type',
         },
-      ])
+      ]),
     ).toMatchInlineSnapshot(`
       {
         "cells": [
@@ -100,7 +100,7 @@ describe('diskMapper', () => {
           },
           mounttype: 'type',
         },
-      ])
+      ]),
     ).toMatchInlineSnapshot(`
       {
         "cells": [
@@ -262,7 +262,7 @@ describe('interfaceMapper', () => {
           state: 'WRONG',
           type: 'test-type2',
         },
-      ])
+      ]),
     ).toMatchInlineSnapshot(`
       {
         "cells": [
@@ -394,7 +394,7 @@ describe('productsMapper', () => {
         {
           name: 'test-name',
         },
-      ])
+      ]),
     ).toMatchInlineSnapshot(`
       {
         "cells": [
@@ -498,7 +498,7 @@ describe('repositoriesMapper', () => {
             gpgcheck: false,
           },
         ],
-      })
+      }),
     ).toMatchInlineSnapshot(`
       {
         "cells": [

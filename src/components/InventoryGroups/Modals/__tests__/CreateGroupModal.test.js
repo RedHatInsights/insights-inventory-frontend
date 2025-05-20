@@ -17,10 +17,10 @@ describe('CreateGroupModal', () => {
             reloadData={() => console.log('data reloaded')}
           />
         </Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     expect(
-      screen.getByRole('heading', { name: /Create workspace/ })
+      screen.getByRole('heading', { name: /Create workspace/ }),
     ).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Create/ })).toBeInTheDocument();

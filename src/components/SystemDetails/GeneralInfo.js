@@ -6,18 +6,18 @@ export { default as TextInputModal } from '../GeneralInfo/TextInputModal';
 
 const GeneralInfoTab = (props) => {
   const systemProfile = useSelector(
-    ({ systemProfileStore }) => systemProfileStore?.systemProfile
+    ({ systemProfileStore }) => systemProfileStore?.systemProfile,
   );
   const isEdgeHost = systemProfile?.host_type === 'edge';
   const isBootcHost = !!systemProfile.bootc_status?.booted?.image_digest;
   const enableEdgeImageDetails = useFeatureFlag(
-    'edgeParity.inventory-system-detail'
+    'edgeParity.inventory-system-detail',
   );
   const enableEdgeInventoryListDetails = useFeatureFlag(
-    'edgeParity.inventory-list'
+    'edgeParity.inventory-list',
   );
   const enableRuntimesInventoryCard = useFeatureFlag(
-    'runtimes.inventory-card.enabled'
+    'runtimes.inventory-card.enabled',
   );
 
   return (

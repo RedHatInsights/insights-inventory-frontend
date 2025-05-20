@@ -32,7 +32,7 @@ const mountWithProps = (props) => {
     {
       routerProps: { initialEntries: ['/insights/inventory'] },
     },
-    props
+    props,
   );
 };
 
@@ -76,7 +76,7 @@ describe('When edge parity feature is enabled', () => {
       {
         routerProps: { initialEntries: [tabPathname] },
       },
-      { ...edgeEnabledProps, path: tabPathname, tabPathname: tabPathname }
+      { ...edgeEnabledProps, path: tabPathname, tabPathname: tabPathname },
     );
 
     cy.get('div[id="conventional"]').should('have.length', 1);

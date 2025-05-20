@@ -13,7 +13,7 @@ const InventoryOrEdgeGroupDetailsView = () => {
   const [hasConventionalSystems, setHasConventionalSystems] = useState(true);
   const [hasEdgeDevices, setHasEdgeDevices] = useState(true);
   const edgeParityInventoryListEnabled = useFeatureFlag(
-    'edgeParity.inventory-list'
+    'edgeParity.inventory-list',
   );
 
   useEffect(() => {

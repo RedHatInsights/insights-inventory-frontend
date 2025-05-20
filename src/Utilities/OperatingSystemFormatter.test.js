@@ -16,7 +16,7 @@ describe('OperatingSystemFormatter', () => {
     render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'RHEL 7.4'
+      'RHEL 7.4',
     );
   });
 
@@ -30,7 +30,7 @@ describe('OperatingSystemFormatter', () => {
     render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'CentOS Linux 7.4'
+      'CentOS Linux 7.4',
     );
   });
 
@@ -44,7 +44,7 @@ describe('OperatingSystemFormatter', () => {
     render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'RHEL'
+      'RHEL',
     );
   });
 
@@ -58,7 +58,7 @@ describe('OperatingSystemFormatter', () => {
     render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'RHEL 7.0'
+      'RHEL 7.0',
     );
   });
 
@@ -70,7 +70,7 @@ describe('OperatingSystemFormatter', () => {
     render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'Windows'
+      'Windows',
     );
   });
 
@@ -84,7 +84,7 @@ describe('OperatingSystemFormatter', () => {
     render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'CentOS Stream'
+      'CentOS Stream',
     );
   });
 
@@ -96,7 +96,7 @@ describe('OperatingSystemFormatter', () => {
     render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'Not available'
+      'Not available',
     );
   });
 
@@ -106,7 +106,7 @@ describe('OperatingSystemFormatter', () => {
     render(<OperatingSystemFormatter operatingSystem={operatingSystem} />);
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'Not available'
+      'Not available',
     );
   });
 });

@@ -13,13 +13,13 @@ const useFetchBatched = () => {
             fetchFunction(filter, {
               page: pageOffset + pageIdx + 1,
               per_page: batchSize,
-            })
-        )
+            }),
+        ),
       );
 
       return results;
     },
-    [resolve]
+    [resolve],
   );
 
   const fetchBatched = useMemo(
@@ -31,8 +31,8 @@ const useFetchBatched = () => {
         const results = resolve(
           [...new Array(pages)].map(
             (_, pageIdx) => () =>
-              fetchFunction(filter, { page: pageIdx + 1, per_page: batchSize })
-          )
+              fetchFunction(filter, { page: pageIdx + 1, per_page: batchSize }),
+          ),
         );
 
         return results;
@@ -44,16 +44,16 @@ const useFetchBatched = () => {
           [...new Array(pages)].map(
             (_, pageIdx) => () =>
               fetchFunction(
-                list.slice(batchSize * pageIdx, batchSize * (pageIdx + 1))
-              )
-          )
+                list.slice(batchSize * pageIdx, batchSize * (pageIdx + 1)),
+              ),
+          ),
         );
 
         return results;
       },
       pageOffsetfetchBatched,
     }),
-    [isLoading, resolve, pageOffsetfetchBatched]
+    [isLoading, resolve, pageOffsetfetchBatched],
   );
 
   return fetchBatched;

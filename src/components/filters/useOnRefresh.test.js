@@ -20,7 +20,9 @@ describe('useOnRefresh', () => {
     });
 
     act(() =>
-      result.current({ filters: [{ value: 'hostname_or_id', filter: 'test' }] })
+      result.current({
+        filters: [{ value: 'hostname_or_id', filter: 'test' }],
+      }),
     );
     expect(mockNavigate).toHaveBeenCalledWith({
       hash: '',

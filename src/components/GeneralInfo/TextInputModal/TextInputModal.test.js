@@ -66,7 +66,7 @@ describe('TextInputModal', () => {
 
     it('should render aria label', () => {
       const view = render(
-        <TextInputModal isOpen ariaLabel="Some aria label" />
+        <TextInputModal isOpen ariaLabel="Some aria label" />,
       );
       expect(view.baseElement).toMatchSnapshot();
     });
@@ -80,7 +80,7 @@ describe('TextInputModal', () => {
       await userEvent.click(
         screen.getByRole('button', {
           name: /cancel/i,
-        })
+        }),
       );
       expect(onCancel).toBeCalled();
     });
@@ -93,7 +93,7 @@ describe('TextInputModal', () => {
         screen.getByRole('textbox', {
           name: /input text/i,
         }),
-        'some '
+        'some ',
       );
 
       const submitButton = screen.getByRole('button', {
@@ -119,7 +119,7 @@ describe('TextInputModal', () => {
         screen.getByRole('textbox', {
           name: /input text/i,
         }),
-        '  '
+        '  ',
       );
 
       expect(submitButton).toHaveProperty('disabled');
@@ -133,7 +133,7 @@ describe('TextInputModal', () => {
       await userEvent.click(
         screen.getByRole('button', {
           name: /close/i,
-        })
+        }),
       );
       expect(onCancel).toBeCalled();
     });

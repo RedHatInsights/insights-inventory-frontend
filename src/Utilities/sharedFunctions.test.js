@@ -1,4 +1,3 @@
-/* eslint-disable no-constant-condition */
 import { REPORTER_PUPTOO } from './constants';
 import { subtractWeeks, verifyCulledReporter } from './sharedFunctions';
 
@@ -11,12 +10,12 @@ describe('sharedFunctions', () => {
 
     it('should return false when puptoo is defined and stale_timestamp is not more recent than 2 weeks ago', () => {
       const testDate = subtractWeeks(1);
-      // eslint-disable-next-line camelcase
+
       const result = verifyCulledReporter(
         {
           puptoo: { stale_timestamp: testDate.toDateString() },
         },
-        REPORTER_PUPTOO
+        REPORTER_PUPTOO,
       );
       expect(result).toBeFalsy();
     });
@@ -28,7 +27,7 @@ describe('sharedFunctions', () => {
       const expectedDate = new Date(
         today.getFullYear(),
         today.getMonth(),
-        today.getDate() - 7
+        today.getDate() - 7,
       );
       expect(result.getDate()).toEqual(expectedDate.getDate());
     });

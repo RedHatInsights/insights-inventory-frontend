@@ -40,7 +40,7 @@ export function calculateRepos(repos) {
               disabled: [...acc.disabled, curr],
             }),
       }),
-      { enabled: [], disabled: [] }
+      { enabled: [], disabled: [] },
     )
   );
 }
@@ -54,7 +54,7 @@ export function calculateInterfaces(interfaces) {
         ipv4: [...acc.ipv4, ...(curr.ipv4_addresses || [])].filter(Boolean),
         ipv6: [...acc.ipv6, ...(curr.ipv6_addresses || [])].filter(Boolean),
       }),
-      { interfaces: [], ipv4: [], ipv6: [] }
+      { interfaces: [], ipv4: [], ipv6: [] },
     )
   );
 }
@@ -93,5 +93,5 @@ export default applyReducerHash(
   },
   {
     systemProfile: defaultState,
-  }
+  },
 );

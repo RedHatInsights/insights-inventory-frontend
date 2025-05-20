@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   editAnsibleHost,
   editDisplayName,
@@ -26,7 +25,7 @@ describe('systemProfile', () => {
 describe('editDisplayName', () => {
   it('should call correct endpoint', async () => {
     mocked.onPatch('/api/inventory/v1/hosts/4').reply(({ data }) => {
-      expect(data).toEqual(JSON.stringify({ display_name: 'test-value' })); // eslint-disable-line camelcase
+      expect(data).toEqual(JSON.stringify({ display_name: 'test-value' }));
       return [200, mockedData];
     });
     const { type, meta } = await editDisplayName('4', 'test-value');
@@ -49,7 +48,7 @@ describe('editDisplayName', () => {
 describe('editAnsibleHost', () => {
   it('should call correct endpoint', async () => {
     mocked.onPatch('/api/inventory/v1/hosts/4').reply(({ data }) => {
-      expect(data).toEqual(JSON.stringify({ ansible_host: 'test-value' })); // eslint-disable-line camelcase
+      expect(data).toEqual(JSON.stringify({ ansible_host: 'test-value' }));
       return [200, mockedData];
     });
     const { type, meta } = await editAnsibleHost('4', 'test-value');

@@ -30,7 +30,7 @@ export const getTableParams = (param) => {
       value = param[curr].reduce(
         (multiVals, val) =>
           multiVals === '' ? `${curr}=${val}` : `${multiVals}&${curr}=${val}`,
-        ''
+        '',
       );
     }
     if (
@@ -42,8 +42,8 @@ export const getTableParams = (param) => {
     return value === undefined
       ? acc
       : acc === ''
-      ? `${value}`
-      : `${acc}&${value}`;
+        ? `${value}`
+        : `${acc}&${value}`;
   }, '');
 
   return query;

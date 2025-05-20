@@ -38,7 +38,6 @@ export const toValidator = (minDate) => (dateToValidate) => {
 };
 
 export const containsSpecialChars = (str) => {
-  // eslint-disable-next-line no-useless-escape
   const specialChars = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~]/;
   return specialChars.test(str);
 };
@@ -75,7 +74,7 @@ export const orderArrayByProp = (property, objects, direction) => {
       .localeCompare(
         String(getSortable(property, b)).toLowerCase(),
         {},
-        { numeric: true }
+        { numeric: true },
       );
   });
 
@@ -88,7 +87,7 @@ export const orderArrayByProp = (property, objects, direction) => {
 
 export const toOsFilterGroups = (
   operatingSystems = [],
-  operatingSystemsLoaded
+  operatingSystemsLoaded,
 ) => {
   if (operatingSystems.length === 0 || !operatingSystemsLoaded) {
     return [{ items: [{ isDisabled: true, label: 'No versions available' }] }];
@@ -113,12 +112,12 @@ export const toOsFilterGroups = (
               items: [...groups[groupKey].items, item],
             },
           };
-        }, {})
+        }, {}),
       ).map(({ items, ...rest }) => ({
         ...rest,
         items: orderArrayByProp('minor', items, 'desc'),
       })),
-      'desc'
+      'desc',
     );
   }
 };
@@ -142,12 +141,12 @@ export const appendGroupSelection = (selection = {}, groups) =>
     Object.entries(selection)
       .map(([groupKey, groupSelection]) => {
         const groupItemItems = groups.find(
-          ({ value }) => value === groupKey
+          ({ value }) => value === groupKey,
         )?.items;
         const selectedGroupItems = Object.fromEntries(
           Object.entries(groupSelection).filter(([osKey]) => {
             return osKey !== groupKey;
-          })
+          }),
         );
         const appendGroup =
           Object.keys(selectedGroupItems).length < groupItemItems?.length &&
@@ -163,7 +162,7 @@ export const appendGroupSelection = (selection = {}, groups) =>
           return [];
         } else {
           const selectedMinor = Object.fromEntries(
-            Object.entries(selectedGroupItems).filter(([, v]) => v !== false)
+            Object.entries(selectedGroupItems).filter(([, v]) => v !== false),
           );
 
           return [
@@ -181,5 +180,5 @@ export const appendGroupSelection = (selection = {}, groups) =>
           ];
         }
       })
-      .filter(([k, v]) => !!k && !!v)
+      .filter(([k, v]) => !!k && !!v),
   );

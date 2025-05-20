@@ -164,7 +164,7 @@ class SystemCardCore extends Component {
                     onClick: () => {
                       handleClick(
                         'SAP IDs (SID)',
-                        generalMapper(properties.sapIds, 'SID')
+                        generalMapper(properties.sapIds, 'SID'),
                       );
                     },
                   },
@@ -197,7 +197,7 @@ class SystemCardCore extends Component {
                     onClick: () =>
                       handleClick(
                         'CPU flags',
-                        generalMapper(properties.cpuFlags, 'flag name')
+                        generalMapper(properties.cpuFlags, 'flag name'),
                       ),
                   },
                 ]
@@ -221,7 +221,7 @@ class SystemCardCore extends Component {
           onCancel={this.onCancel}
           onSubmit={this.onSubmit(
             setDisplayName,
-            entity && entity.display_name
+            entity && entity.display_name,
           )}
           className="sentry-mask data-hj-suppress"
         />
@@ -237,7 +237,7 @@ class SystemCardCore extends Component {
           onCancel={this.onCancel}
           onSubmit={this.onSubmit(
             setAnsibleHost,
-            entity && this.getAnsibleHost()
+            entity && this.getAnsibleHost(),
           )}
           className="sentry-mask data-hj-suppress"
         />
@@ -249,9 +249,8 @@ class SystemCardCore extends Component {
 SystemCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
   entity: PropTypes.shape({
-    // eslint-disable-next-line camelcase
     display_name: PropTypes.string,
-    // eslint-disable-next-line camelcase
+
     ansible_host: PropTypes.string,
     fqdn: PropTypes.string,
     id: PropTypes.string,
@@ -264,11 +263,11 @@ SystemCardCore.propTypes = {
     storage: PropTypes.arrayOf(
       PropTypes.shape({
         device: PropTypes.string,
-        // eslint-disable-next-line camelcase
+
         mount_point: PropTypes.string,
         options: PropTypes.shape({}),
         type: PropTypes.string,
-      })
+      }),
     ),
     sapIds: PropTypes.arrayOf(PropTypes.string),
     systemPurpose: PropTypes.string,
@@ -326,7 +325,7 @@ export const SystemCard = connect(
     detailLoaded: systemProfile && systemProfile.loaded,
     properties: propertiesSelector(systemProfile, entity),
   }),
-  mapDispatchToProps
+  mapDispatchToProps,
 )(SystemCardCore);
 
 SystemCard.propTypes = SystemCardCore.propTypes;

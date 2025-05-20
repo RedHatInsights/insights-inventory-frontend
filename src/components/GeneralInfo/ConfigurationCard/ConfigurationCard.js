@@ -46,7 +46,7 @@ const ConfigurationCardCore = ({
               onClick: () => {
                 handleClick(
                   'Installed packages',
-                  generalMapper(configuration.packages, 'Package name')
+                  generalMapper(configuration.packages, 'Package name'),
                 );
               },
             },
@@ -62,7 +62,7 @@ const ConfigurationCardCore = ({
               onClick: () => {
                 handleClick(
                   'Services',
-                  generalMapper(configuration.services, 'Service name')
+                  generalMapper(configuration.services, 'Service name'),
                 );
               },
             },
@@ -79,7 +79,7 @@ const ConfigurationCardCore = ({
               onClick: () => {
                 handleClick(
                   'Running processes',
-                  generalMapper(configuration.processes, 'Process name')
+                  generalMapper(configuration.processes, 'Process name'),
                 );
               },
             },
@@ -95,7 +95,7 @@ const ConfigurationCardCore = ({
                 handleClick(
                   'Repositories',
                   repositoriesMapper(configuration.repositories),
-                  'medium'
+                  'medium',
                 );
               },
             },
@@ -119,21 +119,19 @@ ConfigurationCardCore.propTypes = {
     repositories: PropTypes.shape({
       enabled: PropTypes.arrayOf(
         PropTypes.shape({
-          // eslint-disable-next-line camelcase
           base_url: PropTypes.string,
           name: PropTypes.string,
           enabled: PropTypes.bool,
           gpgcheck: PropTypes.bool,
-        })
+        }),
       ),
       disabled: PropTypes.arrayOf(
         PropTypes.shape({
-          // eslint-disable-next-line camelcase
           base_url: PropTypes.string,
           name: PropTypes.string,
           enabled: PropTypes.bool,
           gpgcheck: PropTypes.bool,
-        })
+        }),
       ),
     }),
   }),
@@ -157,7 +155,7 @@ export const ConfigurationCard = connect(
   ({ systemProfileStore: { systemProfile } }) => ({
     detailLoaded: systemProfile && systemProfile.loaded,
     configuration: configurationSelector(systemProfile),
-  })
+  }),
 )(ConfigurationCardCore);
 
 ConfigurationCard.propTypes = ConfigurationCardCore.propTypes;

@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import React from 'react';
 import {
   CheckCircleIcon,
@@ -135,7 +133,7 @@ export const interfaceMapper = (data = []) => ({
 });
 
 export const repositoriesMapper = (
-  { enabled, disabled } = { enabled: [], disabled: [] }
+  { enabled, disabled } = { enabled: [], disabled: [] },
 ) => ({
   cells: [
     {

@@ -17,7 +17,7 @@ jest.mock('./Utilities/conventional');
 jest.mock('./Utilities/edge');
 jest.mock(
   '@redhat-cloud-services/frontend-components/AsyncComponent',
-  () => () => <span>Zero state</span>
+  () => () => <span>Zero state</span>,
 );
 jest.mock('./Utilities/Wrapper', () => () => <span>Route component</span>);
 

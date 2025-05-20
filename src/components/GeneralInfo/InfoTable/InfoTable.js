@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { Fragment, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Pagination,
@@ -12,9 +6,7 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
-import PrimaryToolbar, {
-  SortBy,
-} from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
+import PrimaryToolbar from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
 import TableToolbar from '@redhat-cloud-services/frontend-components/TableToolbar';
 import { SortByDirection, TableVariant } from '@patternfly/react-table';
 import {
@@ -47,7 +39,7 @@ const InfoTable = ({
   // Memo
   const activeRows = useMemo(
     () => filterRows(rows, activeFilters),
-    [rows, activeFilters]
+    [rows, activeFilters],
   );
 
   const mappedRows = useMemo(
@@ -64,10 +56,10 @@ const InfoTable = ({
                 cells: [{ title: child }],
                 parent: key * 2,
               },
-            ]
+            ],
           )
         : prepareRows(activeRows, pagination),
-    [activeRows, pagination, expandable, opened]
+    [activeRows, pagination, expandable, opened],
   );
 
   // Handlers
@@ -79,12 +71,12 @@ const InfoTable = ({
           expandable ? index - 1 : index,
           direction,
           undefined,
-          expandable ? 1 : 0
+          expandable ? 1 : 0,
         );
       }
       setSortBy({ index, direction });
     },
-    [expandable, onSort]
+    [expandable, onSort],
   );
 
   const onCollapse = (_event, index, isOpen) => {
@@ -210,9 +202,9 @@ InfoTable.propTypes = {
         PropTypes.shape({
           value: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
           label: PropTypes.node,
-        })
+        }),
       ),
-    })
+    }),
   ),
 };
 

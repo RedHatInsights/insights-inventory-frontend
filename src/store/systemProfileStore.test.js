@@ -19,7 +19,7 @@ describe('formatBytes', () => {
     it(`size ${oneSize}`, () => {
       const formatted = formatBytes(Number(511 + '0'.repeat(3 * key)));
       expect(formatted.substring(formatted.length - 2)).toBe(
-        `${key === 0 ? ' ' : ''}${oneSize}`
+        `${key === 0 ? ' ' : ''}${oneSize}`,
       );
     });
   });
@@ -42,14 +42,14 @@ it('should calculate repos', () => {
 it('should calculate NIC', () => {
   const interfaces = calculateInterfaces([
     {
-      ipv4_addresses: ['1'], // eslint-disable-line camelcase
+      ipv4_addresses: ['1'],
     },
     {
-      ipv4_addresses: ['1'], // eslint-disable-line camelcase
-      ipv6_addresses: ['1'], // eslint-disable-line camelcase
+      ipv4_addresses: ['1'],
+      ipv6_addresses: ['1'],
     },
     {
-      ipv6_addresses: ['1'], // eslint-disable-line camelcase
+      ipv6_addresses: ['1'],
     },
   ]);
   expect(interfaces.interfaces.length).toBe(3);
@@ -70,7 +70,7 @@ describe('systemProfilePending', () => {
     expect(
       systemProfilePending({
         test: 'data',
-      })
+      }),
     ).toEqual({
       test: 'data',
       systemProfile: {

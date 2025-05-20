@@ -10,13 +10,12 @@ const mountModal = (
     setIsModalOpen: () => {},
     modalState: [
       {
-        // eslint-disable-next-line camelcase
         display_name: 'host1',
         id: 'host1-id',
       },
     ],
     reloadData: () => {},
-  }
+  },
 ) => {
   cy.mountWithContext(AddSelectedHostsToGroupModal, {}, props);
 };

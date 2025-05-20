@@ -21,11 +21,11 @@ describe('RemoveHostsFromGroupModal', () => {
         isModalOpen
         setIsModalOpen={setIsModalOpen}
         modalState={[{ display_name: 'host-1', groups: [{ name: 'group-1' }] }]}
-      />
+      />,
     );
 
     expect(screen.getByTestId('desc')).toHaveTextContent(
-      'host-1 will no longer be part of group-1 and its configuration will be impacted.'
+      'host-1 will no longer be part of group-1 and its configuration will be impacted.',
     );
   });
 
@@ -38,11 +38,11 @@ describe('RemoveHostsFromGroupModal', () => {
           { display_name: 'host-1', groups: [{ name: 'group-1' }] },
           { display_name: 'host-2', groups: [{ name: 'group-1' }] },
         ]}
-      />
+      />,
     );
 
     expect(screen.getByTestId('desc')).toHaveTextContent(
-      '2 systems will no longer be part of group-1 and their configuration will be impacted.'
+      '2 systems will no longer be part of group-1 and their configuration will be impacted.',
     );
   });
 
@@ -52,13 +52,13 @@ describe('RemoveHostsFromGroupModal', () => {
         isModalOpen
         setIsModalOpen={setIsModalOpen}
         modalState={[{ display_name: 'host-1', groups: [{ name: 'group-1' }] }]}
-      />
+      />,
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /close/i,
-      })
+      }),
     );
 
     expect(setIsModalOpen).toBeCalled();
@@ -70,13 +70,13 @@ describe('RemoveHostsFromGroupModal', () => {
         isModalOpen
         setIsModalOpen={setIsModalOpen}
         modalState={[{ display_name: 'host-1', groups: [{ name: 'group-1' }] }]}
-      />
+      />,
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /cancel/i,
-      })
+      }),
     );
 
     expect(setIsModalOpen).toBeCalled();
@@ -94,13 +94,13 @@ describe('RemoveHostsFromGroupModal', () => {
             groups: [{ name: 'group-1', id: 'g1' }],
           },
         ]}
-      />
+      />,
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /remove/i,
-      })
+      }),
     );
 
     expect(removeHostsFromGroup).toBeCalledWith('g1', ['h1']);
@@ -123,13 +123,13 @@ describe('RemoveHostsFromGroupModal', () => {
             groups: [{ name: 'group-1', id: 'g1' }],
           },
         ]}
-      />
+      />,
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /remove/i,
-      })
+      }),
     );
 
     expect(removeHostsFromGroup).toBeCalledWith('g1', ['h1', 'h2']);

@@ -40,5 +40,5 @@ export default applyReducerHash(
       };
     },
   },
-  initialState
+  initialState,
 );

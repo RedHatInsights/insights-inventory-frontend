@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, GridItem, Modal, ModalVariant } from '@patternfly/react-core';
@@ -89,7 +89,7 @@ const GeneralInformation = ({
   const handleModalToggle = (
     modalTitle = '',
     { cells, rows, expandable, filters } = {},
-    modalVariant = ModalVariant.small
+    modalVariant = ModalVariant.small,
   ) => {
     if (isModalOpen) {
       navigate(-1);

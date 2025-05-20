@@ -2,7 +2,7 @@ export const defaultConventionalSystemsGetEntities = async (
   items,
   config,
   showTags,
-  defaultGetEntities
+  defaultGetEntities,
 ) =>
   await defaultGetEntities(
     items,
@@ -13,5 +13,5 @@ export const defaultConventionalSystemsGetEntities = async (
         hostTypeFilter: 'nil', // request only conventional systems
       },
     },
-    showTags
+    showTags,
   );
