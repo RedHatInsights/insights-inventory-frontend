@@ -13,7 +13,6 @@ const flatPlugins = [
   pluginCypress.configs.recommended,
   reactHooks.configs['recommended-latest'],
   jsdoc.configs['flat/recommended'],
-  tseslint.configs.recommended,
   testingLibrary.configs['flat/react'],
   jestDom.configs['flat/recommended'],
 ];
@@ -22,16 +21,27 @@ export default defineConfig([
   globalIgnores(['node_modules/*', 'static/*', 'dist/*', 'docs/*']),
   ...flatPlugins,
   {
+    files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parser: tsParser,
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
     },
     rules: {
+      'no-unused-vars': 'warn',
+      // Add other TypeScript-specific rules here
+    },
+  },
+  {
+    rules: {
       'rulesdir/disallow-fec-relative-imports': 'off',
-      '@typescript-eslint/no-unused-vars': 1,
       'rulesdir/forbid-pf-relative-imports': 'off',
       'jsdoc/tag-lines': 0,
       'jsdoc/require-jsdoc': 0,
-
       'jsdoc/check-line-alignment': [
         'error',
         'always',
@@ -41,13 +51,13 @@ export default defineConfig([
           },
         },
       ],
-
       'jsdoc/check-tag-names': [
         'warn',
         {
           definedTags: ['category', 'subcategory'],
         },
       ],
+      // Add other non-TypeScript specific rules here
     },
   },
 ]);
