@@ -39,7 +39,7 @@ export const buildHostGroupChips = (selectedGroups = []) => {
 
 const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_READ_PERMISSION];
 
-const useGroupFilter = (showNoGroupOption = false) => {
+const useGroupFilter = () => {
   const { pageOffsetfetchBatched } = useFetchBatched();
   const [fetchedGroups, setFetchedGroups] = useState([]);
   const [selectedGroupNames, setSelectedGroupNames] = useState([]);
@@ -101,7 +101,6 @@ const useGroupFilter = (showNoGroupOption = false) => {
             initialGroups={fetchedGroups}
             selectedGroupNames={selectedGroupNames}
             setSelectedGroupNames={setSelectedGroupNames}
-            showNoGroupOption={showNoGroupOption}
           />
         ),
       },
