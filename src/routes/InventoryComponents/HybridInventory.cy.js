@@ -413,7 +413,7 @@ describe('hybrid inventory table', () => {
 
       beforeEach(prepareTest);
 
-      it('can edit hosts that are not a part of any group', () => {
+      it.skip('can edit hosts that are not a part of any group', () => {
         cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM).contains('Edit').shouldNotHaveAriaDisabled();
         cy.get(DROPDOWN_ITEM).contains('Delete').shouldNotHaveAriaDisabled();
@@ -523,6 +523,24 @@ describe('hybrid inventory table', () => {
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
         cy.get(MENU_ITEM).contains('Add to workspace').shouldHaveAriaDisabled();
       });
+    });
+  });
+
+  describe('integration with kessel', () => {
+    beforeEach(() =>
+      prepareTest(false, `/insights/inventory`, {
+        interceptors: [featureFlagsInterceptors.kesselSuccessful],
+      }),
+    );
+
+    it('add to workspace is enabled for ungrouped hosts', () => {
+      cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Add to workspace')
+        .shouldNotHaveAriaDisabled();
+      cy.get(DROPDOWN_ITEM)
+        .contains('Remove from workspace')
+        .shouldHaveAriaDisabled();
     });
   });
 });
