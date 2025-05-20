@@ -7,6 +7,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import testingLibrary from 'eslint-plugin-testing-library';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
+import inventoryCustomPlugin from './eslint-plugin-inventory-custom/index.mjs';
 
 const flatPlugins = [
   fecPlugin,
@@ -58,6 +59,14 @@ export default defineConfig([
         },
       ],
       // Add other non-TypeScript specific rules here
+    },
+  },
+  {
+    plugins: {
+      'inventory-custom': inventoryCustomPlugin,
+    },
+    rules: {
+      'inventory-custom/no-deprecated-inventory-table': 'warn',
     },
   },
 ]);
