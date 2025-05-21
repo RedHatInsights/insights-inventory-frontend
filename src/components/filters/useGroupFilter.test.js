@@ -174,6 +174,32 @@ describe('with some groups available', () => {
       },
     ]);
   });
+
+  it('does not show no group option with kessel enabled', async () => {
+    const { result } = renderHook(() => useGroupFilter(true, true));
+
+    await waitFor(() => {
+      expect(pageOffsetfetchBatched).toBeCalled();
+    });
+    const [config] = result.current;
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      {
+        "children": <SearchableGroupFilter
+          initialGroups={
+            [
+              {
+                "name": "group-1",
+              },
+              undefined,
+            ]
+          }
+          selectedGroupNames={[]}
+          setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
+        />,
+      }
+    `);
+  });
 });
 
 describe('no groups:read permission', () => {

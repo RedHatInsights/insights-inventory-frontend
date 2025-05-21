@@ -184,8 +184,10 @@ const EntityTableToolbar = ({
     updateMethodValue,
     setUpdateMethodValue,
   ] = useUpdateMethodFilter(reducer);
+
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
-    useGroupFilter(showNoGroupOption);
+    useGroupFilter(showNoGroupOption, isKesselEnabled);
 
   const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
   const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =

@@ -168,7 +168,6 @@ const AddSystemsToGroupModal = ({
       initialLoading={true}
       showTags
       showCentosVersions
-      showNoGroupOption
     />
   );
 

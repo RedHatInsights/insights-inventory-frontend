@@ -16,7 +16,7 @@ const SearchableGroupFilter = ({
   initialGroups,
   selectedGroupNames,
   setSelectedGroupNames,
-  showNoGroupOption = false,
+  showNoGroupOption,
 }) => {
   const initialValues = useMemo(
     () => [
