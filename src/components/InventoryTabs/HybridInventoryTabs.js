@@ -1,7 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
+import {
+  Tab,
+  TabTitleText,
+  Tabs,
+  Alert,
+  Text,
+  TextContent,
+} from '@patternfly/react-core';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +22,6 @@ const HybridInventoryTabs = ({
   hasConventionalSystems,
 }) => {
   const { search } = useLocation();
-  //used to hold URL params across tab changes
   const prevSearchRef = useRef('');
   const navigate = useNavigate();
 
@@ -64,6 +70,23 @@ const HybridInventoryTabs = ({
         eventKey={hybridInventoryTabKeys.immutable.key}
         title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
       >
+        <Alert
+          variant="info"
+          isInline
+          title={<>Upcoming decommission of hosted edge management service</>}
+          className="pf-v5-u-mt-sm pf-v5-u-mb-sm"
+        >
+          <TextContent>
+            <Text>
+              As of July 31, 2025, the hosted edge management service will no
+              longer be supported. Consequently, pushing image updates to
+              Immutable (OSTree) systems via the Hybrid Cloud Console using this
+              service will be discontinued. Customers are encouraged to explore
+              Red Hat Edge Manager (RHEM) as the recommended alternative for
+              managing their edge systems.
+            </Text>
+          </TextContent>
+        </Alert>
         {ImmutableDevicesTab}
       </Tab>
     </Tabs>
@@ -87,4 +110,5 @@ HybridInventoryTabs.defaultProps = {
   hasConventionalSystems: true,
   accountHasEdgeImages: true,
 };
+
 export default HybridInventoryTabs;
