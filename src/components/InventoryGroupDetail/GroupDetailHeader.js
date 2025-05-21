@@ -158,14 +158,14 @@ const GroupDetailHeader = ({ groupId }) => {
               <DropdownItem
                 key="rename-group"
                 onClick={() => setRenameModalOpen(true)}
-                isAriaDisabled={isKesselEnabled ? ungrouped : false}
+                isAriaDisabled={isKesselEnabled ?? ungrouped}
               >
                 Rename
               </DropdownItem>
               <DropdownItem
                 key="delete-group"
                 onClick={() => setDeleteModalOpen(true)}
-                isAriaDisabled={isKesselEnabled ? ungrouped : false}
+                isAriaDisabled={isKesselEnabled ?? ungrouped}
               >
                 Delete
               </DropdownItem>

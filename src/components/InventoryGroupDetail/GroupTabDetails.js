@@ -102,7 +102,7 @@ GroupTabDetailsWrapper.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
   hasEdgeImages: PropTypes.bool,
-  ungrouped: PropTypes.string,
+  ungrouped: PropTypes.bool,
 };
 
 GroupTabDetailsWrapper.defaultProps = {

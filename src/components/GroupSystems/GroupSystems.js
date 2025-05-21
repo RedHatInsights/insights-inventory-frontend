@@ -180,7 +180,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                 requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                   groupId,
                 )}
-                isAriaDisabled={isKesselEnabled ? ungrouped : false}
+                isAriaDisabled={isKesselEnabled && ungrouped}
                 noAccessTooltip={noAccessTooltip}
                 onClick={() => {
                   dispatch(clearEntitiesAction());
