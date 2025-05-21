@@ -160,7 +160,6 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId,
                     )}
-                    isAriaDisabled={isKesselEnabled && ungrouped}
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       setCurrentSystem([row]);
@@ -180,7 +179,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                 requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                   groupId,
                 )}
-                isAriaDisabled={isKesselEnabled ? ungrouped : false}
+                isAriaDisabled={isKesselEnabled && ungrouped}
                 noAccessTooltip={noAccessTooltip}
                 onClick={() => {
                   dispatch(clearEntitiesAction());
@@ -226,7 +225,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
 GroupSystems.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
-  ungrouped: PropTypes.string,
+  ungrouped: PropTypes.bool,
   hostType: PropTypes.string,
 };
 

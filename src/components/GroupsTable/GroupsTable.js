@@ -137,7 +137,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           fetchGroups(
             {
               ...search,
-              ...(isKesselEnabled && { type: 'all' }),
+              ...(isKesselEnabled && { group_type: 'all' }),
               order_by,
               order_how,
             },
