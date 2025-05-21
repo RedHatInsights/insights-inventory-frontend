@@ -16,24 +16,15 @@ const SearchableGroupFilter = ({
   initialGroups,
   selectedGroupNames,
   setSelectedGroupNames,
-  showNoGroupOption = false,
 }) => {
   const initialValues = useMemo(
     () => [
-      ...(showNoGroupOption
-        ? [
-            {
-              itemId: '',
-              children: 'No workspace',
-            },
-          ]
-        : []),
       ...initialGroups.map(({ name }) => ({
         itemId: name, // group name is unique by design
         children: name,
       })),
     ],
-    [initialGroups, showNoGroupOption],
+    [initialGroups],
   );
 
   const [isOpen, setIsOpen] = useState(false);
@@ -213,7 +204,6 @@ SearchableGroupFilter.propTypes = {
   ),
   selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
-  showNoGroupOption: PropTypes.bool,
 };
 
 export default SearchableGroupFilter;
