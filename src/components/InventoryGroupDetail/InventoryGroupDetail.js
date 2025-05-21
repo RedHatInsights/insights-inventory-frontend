@@ -134,7 +134,11 @@ const InventoryGroupDetail = ({ groupId }) => {
             <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
               <PageSection>
                 {canViewHosts ? (
-                  <GroupSystems groupName={groupName} groupId={groupId} />
+                  <GroupSystems
+                    groupName={groupName}
+                    groupId={groupId}
+                    ungrouped={ungrouped}
+                  />
                 ) : (
                   <EmptyStateNoAccessToSystems />
                 )}

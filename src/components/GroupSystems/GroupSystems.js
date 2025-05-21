@@ -118,7 +118,6 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
           }}
           groupId={groupId}
           groupName={groupName}
-          ungrouped={ungrouped}
           edgeParityIsAllowed={true}
           activeTab={hybridInventoryTabKeys.conventional.key}
         />
@@ -160,7 +159,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId,
                     )}
-                    isAriaDisabled={isKesselEnabled && ungrouped}
+                    isAriaDisabled={isKesselEnabled && ungrouped} // nao funciona, tem q ter o props
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       setCurrentSystem([row]);
@@ -180,7 +179,6 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                 requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                   groupId,
                 )}
-                isAriaDisabled={isKesselEnabled && ungrouped}
                 noAccessTooltip={noAccessTooltip}
                 onClick={() => {
                   dispatch(clearEntitiesAction());
@@ -193,7 +191,9 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
               {
                 label: removeLabel,
                 props: {
-                  isAriaDisabled: !canModify || calculateSelected() === 0,
+                  isAriaDisabled: isKesselEnabled
+                    ? ungrouped
+                    : !canModify || calculateSelected() === 0,
                   ...(!canModify && {
                     tooltipProps: {
                       content: noAccessTooltip,

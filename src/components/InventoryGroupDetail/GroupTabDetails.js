@@ -73,7 +73,11 @@ const GroupTabDetailsWrapper = ({
               </Tab>
             </Tabs>
           ) : canViewHosts ? (
-            <GroupSystems groupName={groupName} groupId={groupId} />
+            <GroupSystems
+              groupName={groupName}
+              groupId={groupId}
+              ungrouped={ungrouped}
+            />
           ) : (
             <EmptyStateNoAccessToSystems />
           )}

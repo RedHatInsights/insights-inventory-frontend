@@ -135,7 +135,12 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         const order_how = upperCase(sortDirection);
         return dispatch(
           fetchGroups(
-            { ...search, order_by, order_how },
+            {
+              ...search,
+              ...(isKesselEnabled && { type: 'all' }),
+              order_by,
+              order_how,
+            },
             { page, per_page: perPage },
           ),
         );
