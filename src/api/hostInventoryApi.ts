@@ -237,7 +237,6 @@ const deleteHostById = async ({
 
 const getGroupList = async ({
   name,
-  type,
   perPage,
   page,
   orderBy,
@@ -247,7 +246,6 @@ const getGroupList = async ({
   await hostInventoryApi.apiGroupGetGroupList(
     // @ts-expect-error The types for the inline paramters are all wrongly marked as required while they can be optional
     name,
-    type,
     perPage,
     page,
     orderBy,

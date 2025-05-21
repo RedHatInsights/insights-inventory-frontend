@@ -100,6 +100,7 @@ const EntityTableToolbar = ({
   showTagModal,
   showSystemTypeFilter,
   showCentosVersions,
+  showNoGroupOption,
   enableExport,
   fetchCustomOSes,
   ...props
@@ -718,6 +719,7 @@ EntityTableToolbar.propTypes = {
   disableDefaultColumns: PropTypes.any,
   showCentosVersions: PropTypes.bool,
   showSystemTypeFilter: PropTypes.bool,
+  showNoGroupOption: PropTypes.bool,
   enableExport: PropTypes.bool,
   exportConfig: PropTypes.object,
   fetchCustomOSes: PropTypes.func,
@@ -728,6 +730,7 @@ EntityTableToolbar.defaultProps = {
   hasAccess: true,
   activeFiltersConfig: {},
   hideFilters: {},
+  showNoGroupOption: false,
 };
 
 export default EntityTableToolbar;

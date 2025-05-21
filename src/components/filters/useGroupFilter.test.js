@@ -49,6 +49,7 @@ describe('groups request not yet resolved', () => {
           initialGroups={[]}
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
         />,
       }
     `);
@@ -88,6 +89,7 @@ describe('with some groups available', () => {
           }
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
         />,
       }
     `);
@@ -140,6 +142,7 @@ describe('with some groups available', () => {
           }
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
+          showNoGroupOption={true}
         />,
       }
     `);
