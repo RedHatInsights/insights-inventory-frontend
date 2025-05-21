@@ -23,6 +23,7 @@ const GroupTabDetailsWrapper = ({
   activeTab: activeSystemsTab,
   setActiveTab: setActiveSystemsTab,
   hasEdgeImages,
+  ungrouped,
 }) => {
   const [activeTab, setActiveTab] = useState('systems');
 
@@ -56,6 +57,7 @@ const GroupTabDetailsWrapper = ({
                 <GroupSystems
                   groupName={groupName}
                   groupId={groupId}
+                  ungrouped={ungrouped}
                   hostType={hybridInventoryTabKeys.conventional.key}
                 />
               </Tab>
@@ -100,5 +102,10 @@ GroupTabDetailsWrapper.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
   hasEdgeImages: PropTypes.bool,
+  ungrouped: PropTypes.string,
+};
+
+GroupTabDetailsWrapper.defaultProps = {
+  ungrouped: false,
 };
 export default GroupTabDetailsWrapper;

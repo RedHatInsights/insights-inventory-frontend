@@ -25,14 +25,17 @@ import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
 import { prepareColumnsCoventional as prepareColumns } from './helpers';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
-const GroupSystems = ({ groupName, groupId }) => {
+const GroupSystems = ({ groupName, groupId, ungrouped }) => {
   const dispatch = useDispatch();
   const globalFilter = useGlobalFilter();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [currentSystem, setCurrentSystem] = useState([]);
   const inventory = useRef(null);
+
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   const selected = useSelector(
     (state) => state?.entities?.selected || new Map(),
@@ -115,6 +118,7 @@ const GroupSystems = ({ groupName, groupId }) => {
           }}
           groupId={groupId}
           groupName={groupName}
+          ungrouped={ungrouped}
           edgeParityIsAllowed={true}
           activeTab={hybridInventoryTabKeys.conventional.key}
         />
@@ -156,6 +160,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId,
                     )}
+                    isAriaDisabled={isKesselEnabled && ungrouped}
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       setCurrentSystem([row]);
@@ -175,6 +180,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                 requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                   groupId,
                 )}
+                isAriaDisabled={isKesselEnabled ? ungrouped : false}
                 noAccessTooltip={noAccessTooltip}
                 onClick={() => {
                   dispatch(clearEntitiesAction());
@@ -218,7 +224,12 @@ const GroupSystems = ({ groupName, groupId }) => {
 GroupSystems.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
+  ungrouped: PropTypes.string,
   hostType: PropTypes.string,
+};
+
+GroupSystems.defaultProps = {
+  ungrouped: false,
 };
 
 export default GroupSystems;

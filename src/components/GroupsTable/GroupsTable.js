@@ -46,6 +46,7 @@ import {
   ActionDropdownItem,
 } from '../InventoryTable/ActionWithRBAC';
 import PropTypes from 'prop-types';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 const GROUPS_TABLE_INITIAL_STATE = {
   perPage: TABLE_DEFAULT_PAGINATION,
@@ -123,6 +124,8 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const { fetchBatched } = useFetchBatched();
   const loadingState = uninitialized || loading;
 
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+
   const fetchData = useCallback(
     debounce((filters) => {
       const { perPage, page, sortIndex, sortDirection, ...search } = filters;
@@ -164,6 +167,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
       ],
       groupId: group.id,
       groupName: group.name,
+      ungrouped: group.ungrouped,
       selected: selectedIds.includes(group.id),
     }));
     setRows(newRows);
@@ -319,6 +323,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
           rowData?.groupId,
         )}
+        isAriaDisabled={isKesselEnabled ? rowData?.ungrouped : false}
         noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
         onClick={() => {
           setSelectedGroup({
@@ -332,6 +337,16 @@ const GroupsTable = ({ onCreateGroupClick }) => {
       </ActionDropdownItem>
     ),
   });
+
+  const containsUngrouped = (selectedIds) => {
+    for (const id of selectedIds) {
+      ungrouped = groups.find(id)?.ungrouped;
+      if (ungrouped) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const groupsActionsResolver = (rowData) => [
     modifyActionButton(
@@ -461,7 +476,11 @@ const GroupsTable = ({ onCreateGroupClick }) => {
                   )}
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
                   onClick={() => setDeleteModalOpen(true)}
-                  isAriaDisabled={selectedIds.length === 0}
+                  isAriaDisabled={
+                    isKesselEnabled
+                      ? containsUngrouped(selectedIds)
+                      : selectedIds.length === 0
+                  }
                   checkAll
                 >
                   {selectedIds.length > 1

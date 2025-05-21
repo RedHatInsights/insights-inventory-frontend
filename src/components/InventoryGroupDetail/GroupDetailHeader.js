@@ -57,6 +57,7 @@ const GroupDetailHeader = ({ groupId }) => {
   const isEdgeParityGroupsEnabled = useFeatureFlag(
     'edgeParity.inventory-groups-enabled',
   );
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   useEffect(() => {
     if (isEdgeParityGroupsEnabled) {
@@ -73,6 +74,7 @@ const GroupDetailHeader = ({ groupId }) => {
   }, [edgeUpdateModal]);
 
   const name = data?.results?.[0]?.name;
+  const ungrouped = data?.results?.[0]?.ungrouped;
 
   const getTitle = () => {
     if (canRead) {
@@ -156,12 +158,14 @@ const GroupDetailHeader = ({ groupId }) => {
               <DropdownItem
                 key="rename-group"
                 onClick={() => setRenameModalOpen(true)}
+                isAriaDisabled={isKesselEnabled ? ungrouped : false}
               >
                 Rename
               </DropdownItem>
               <DropdownItem
                 key="delete-group"
                 onClick={() => setDeleteModalOpen(true)}
+                isAriaDisabled={isKesselEnabled ? ungrouped : false}
               >
                 Delete
               </DropdownItem>
