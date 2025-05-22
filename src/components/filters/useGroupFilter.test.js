@@ -49,6 +49,7 @@ describe('groups request not yet resolved', () => {
           initialGroups={[]}
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
         />,
       }
     `);
@@ -88,6 +89,7 @@ describe('with some groups available', () => {
           }
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
         />,
       }
     `);
@@ -140,6 +142,7 @@ describe('with some groups available', () => {
           }
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
+          showNoGroupOption={true}
         />,
       }
     `);
@@ -170,6 +173,32 @@ describe('with some groups available', () => {
         type: 'group_name',
       },
     ]);
+  });
+
+  it('does not show no group option with kessel enabled', async () => {
+    const { result } = renderHook(() => useGroupFilter(true, true));
+
+    await waitFor(() => {
+      expect(pageOffsetfetchBatched).toBeCalled();
+    });
+    const [config] = result.current;
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      {
+        "children": <SearchableGroupFilter
+          initialGroups={
+            [
+              {
+                "name": "group-1",
+              },
+              undefined,
+            ]
+          }
+          selectedGroupNames={[]}
+          setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
+        />,
+      }
+    `);
   });
 });
 

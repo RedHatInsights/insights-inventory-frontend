@@ -39,7 +39,7 @@ export const buildHostGroupChips = (selectedGroups = []) => {
 
 const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_READ_PERMISSION];
 
-const useGroupFilter = () => {
+const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
   const { pageOffsetfetchBatched } = useFetchBatched();
   const [fetchedGroups, setFetchedGroups] = useState([]);
   const [selectedGroupNames, setSelectedGroupNames] = useState([]);
@@ -54,8 +54,10 @@ const useGroupFilter = () => {
     const fetchOptions = async () => {
       if (!hasAccess) return;
 
+      const search = isKesselEnabled ? { type: 'all' } : undefined;
+
       const firstRequest = !ignore
-        ? await getGroups(undefined, { page: 1, per_page: 50 })
+        ? await getGroups(search, { page: 1, per_page: 50 })
         : { total: 0 };
 
       const groups =
@@ -101,6 +103,7 @@ const useGroupFilter = () => {
             initialGroups={fetchedGroups}
             selectedGroupNames={selectedGroupNames}
             setSelectedGroupNames={setSelectedGroupNames}
+            showNoGroupOption={showNoGroupOption && !isKesselEnabled}
           />
         ),
       },

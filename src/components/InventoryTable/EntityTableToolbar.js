@@ -100,6 +100,7 @@ const EntityTableToolbar = ({
   showTagModal,
   showSystemTypeFilter,
   showCentosVersions,
+  showNoGroupOption,
   enableExport,
   fetchCustomOSes,
   ...props
@@ -183,8 +184,10 @@ const EntityTableToolbar = ({
     updateMethodValue,
     setUpdateMethodValue,
   ] = useUpdateMethodFilter(reducer);
+
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
-    useGroupFilter();
+    useGroupFilter(showNoGroupOption, isKesselEnabled);
 
   const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
   const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =
@@ -716,6 +719,7 @@ EntityTableToolbar.propTypes = {
   disableDefaultColumns: PropTypes.any,
   showCentosVersions: PropTypes.bool,
   showSystemTypeFilter: PropTypes.bool,
+  showNoGroupOption: PropTypes.bool,
   enableExport: PropTypes.bool,
   exportConfig: PropTypes.object,
   fetchCustomOSes: PropTypes.func,
@@ -726,6 +730,7 @@ EntityTableToolbar.defaultProps = {
   hasAccess: true,
   activeFiltersConfig: {},
   hideFilters: {},
+  showNoGroupOption: false,
 };
 
 export default EntityTableToolbar;

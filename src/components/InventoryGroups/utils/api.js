@@ -32,6 +32,7 @@ export const getWritableGroups = async (
   groupName,
   pagination = {},
   getUserPermissions,
+  isKesselEnabled = false,
 ) => {
   let groupsWritePermissions = [];
 
@@ -58,7 +59,11 @@ export const getWritableGroups = async (
     ) // has general groups write permission; can fetch all groups
   ) {
     const groups = await getGroups(
-      groupName ? { name: groupName } : {},
+      groupName
+        ? { name: groupName }
+        : isKesselEnabled
+          ? { type: 'standard' }
+          : {},
       pagination,
     );
 
@@ -124,6 +129,7 @@ export const removeHostsFromGroup = (groupId, hostIds) =>
 getGroups.propTypes = {
   search: PropTypes.shape({
     name: PropTypes.string,
+    type: PropTypes.string,
   }),
   pagination: PropTypes.shape({
     per_page: PropTypes.number,
