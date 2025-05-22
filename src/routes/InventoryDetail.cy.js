@@ -8,7 +8,7 @@ import {
 import InventoryDetail from './InventoryDetail';
 import hostDetail from '../../cypress/fixtures/hostDetail.json';
 import _ from 'lodash';
-import { MODAL_CONTENT } from '@redhat-cloud-services/frontend-components-utilities';
+import { TEXT_INPUT } from '@redhat-cloud-services/frontend-components-utilities';
 
 const mountWithProps = (options, props = {}) =>
   cy.mountWithContext(InventoryDetail, options, props);
@@ -114,10 +114,9 @@ describe('rbac integration', () => {
 
     it('should enable edit buttons', () => {
       cy.ouiaId('Display name value').find('[aria-label="Edit"]').click();
-      cy.get(MODAL_CONTENT).find('h1').contains('Edit display name');
-      cy.ouiaId('edit-display-name-modal-ModalBoxCloseButton').click();
+      cy.get(TEXT_INPUT).first().should('have.value', 'host-1');
       cy.ouiaId('Ansible hostname value').find('[aria-label="Edit"]').click();
-      cy.get(MODAL_CONTENT).find('h1').contains('Edit Ansible host');
+      cy.get(TEXT_INPUT).last().should('have.value', 'fqdn-1');
     });
   });
 
@@ -150,10 +149,9 @@ describe('rbac integration', () => {
 
     it('should enable edit buttons', () => {
       cy.ouiaId('Display name value').find('[aria-label="Edit"]').click();
-      cy.get(MODAL_CONTENT).find('h1').contains('Edit display name');
-      cy.ouiaId('edit-display-name-modal-ModalBoxCloseButton').click();
+      cy.get(TEXT_INPUT).first().should('have.value', 'host-1');
       cy.ouiaId('Ansible hostname value').find('[aria-label="Edit"]').click();
-      cy.get(MODAL_CONTENT).find('h1').contains('Edit Ansible host');
+      cy.get(TEXT_INPUT).last().should('have.value', 'fqdn-1');
     });
   });
 });

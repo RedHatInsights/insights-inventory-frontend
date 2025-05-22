@@ -284,21 +284,13 @@ describe('SystemCard', () => {
       );
 
       await userEvent.click(
-        within(
-          screen.getByRole('definition', {
-            name: /display name value/i,
-          }),
-        ).getByRole('img', {
-          hidden: true,
-        }),
+        (await screen.findAllByRole('button', { name: /edit/i }))[0],
       );
 
-      screen.getByRole('heading', {
-        name: /edit display name/i,
-      });
-      screen.getByRole('textbox', {
-        name: /host inventory display name/i,
-      });
+      const textbox = await screen.findByRole('textbox');
+
+      expect(textbox).toBeVisible();
+      expect(textbox).toHaveValue('test-display-name');
     });
 
     it('should show edit ansible hostname', async () => {
@@ -309,21 +301,13 @@ describe('SystemCard', () => {
       );
 
       await userEvent.click(
-        within(
-          screen.getByRole('definition', {
-            name: /ansible hostname value/i,
-          }),
-        ).getByRole('img', {
-          hidden: true,
-        }),
+        (await screen.findAllByRole('button', { name: /edit/i }))[1],
       );
 
-      screen.getByRole('heading', {
-        name: /edit ansible host/i,
-      });
-      screen.getByRole('textbox', {
-        name: /ansible host/i,
-      });
+      const textbox = await screen.findByRole('textbox');
+
+      expect(textbox).toBeVisible();
+      expect(textbox).toHaveValue('test-ansible-host');
     });
 
     it('should not call edit display name actions', async () => {

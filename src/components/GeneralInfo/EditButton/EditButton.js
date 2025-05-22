@@ -12,10 +12,8 @@ import {
 import { useSelector } from 'react-redux';
 import { Button, Tooltip } from '@patternfly/react-core';
 
-const InnerButton = ({ link, onClick }) => (
+const InnerButton = ({ onClick }) => (
   <Button
-    component="a"
-    href={`${window.location.href}/${link}`}
     onClick={onClick}
     className="ins-c-inventory__detail--action"
     aria-label="Edit"
@@ -26,7 +24,6 @@ const InnerButton = ({ link, onClick }) => (
 );
 
 InnerButton.propTypes = {
-  link: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
@@ -42,7 +39,12 @@ const EditButtonUnknownPermissions = (props) => {
   if (!canEditHost) {
     return (
       <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
-        <Button isAriaDisabled aria-label="Edit" variant="plain">
+        <Button
+          isAriaDisabled
+          isDisabled={true}
+          aria-label="Edit"
+          variant="plain"
+        >
           <PencilAltIcon />
         </Button>
       </Tooltip>
@@ -70,7 +72,12 @@ const EditButtonWrapper = ({ writePermissions, ...props }) => {
 
   return (
     <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
-      <Button isAriaDisabled aria-label="Edit" variant="plain">
+      <Button
+        isAriaDisabled
+        isDisabled={true}
+        aria-label="Edit"
+        variant="plain"
+      >
         <PencilAltIcon />
       </Button>
     </Tooltip>
