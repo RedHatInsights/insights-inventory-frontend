@@ -19,28 +19,22 @@ jest.mock('react-redux', () => ({
 
 describe('EditButton with access', () => {
   let onClick;
-  let link;
 
   beforeEach(() => {
     onClick = jest.fn();
-    link = 'some-link';
   });
 
   it('enables with permission', () => {
-    render(<EditButton onClick={onClick} link={link} />);
+    render(<EditButton onClick={onClick} />);
 
-    expect(screen.getByRole('link', { name: /edit/i })).toBeVisible();
-    expect(screen.getByRole('link', { name: /edit/i })).toHaveAttribute(
-      'href',
-      'http://localhost:5000//some-link',
-    );
+    expect(screen.getByRole('button', { name: /edit/i })).toBeVisible();
   });
 
   it('click on link', async () => {
-    render(<EditButton onClick={onClick} link={link} />);
+    render(<EditButton onClick={onClick} />);
 
     expect(onClick).not.toHaveBeenCalled();
-    await userEvent.click(screen.getByRole('link', { name: /edit/i }));
+    await userEvent.click(screen.getByRole('button', { name: /edit/i }));
     await waitFor(() => expect(onClick).toHaveBeenCalled());
   });
 });

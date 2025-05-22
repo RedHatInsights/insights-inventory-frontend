@@ -26,39 +26,29 @@ const checkDisabledEditButton = async () => {
   expect(screen.queryByRole('tooltip')).toHaveTextContent(
     'You do not have the necessary permissions to modify this host.',
   );
-  expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  expect(screen.queryByRole('button')).toBeDisabled();
 };
 
 describe('EditButton with no access', () => {
   let onClick;
-  let link;
 
   beforeEach(() => {
     onClick = jest.fn();
-    link = 'some-link';
   });
 
   it('disables with no permission', async () => {
-    render(<EditButton onClick={onClick} link={link} />);
+    render(<EditButton onClick={onClick} />);
     await checkDisabledEditButton();
   });
 
   it('disables with no permission - write permissions set to false', async () => {
-    render(
-      <EditButton onClick={onClick} link={link} writePermissions={false} />,
-    );
+    render(<EditButton onClick={onClick} writePermissions={false} />);
     await checkDisabledEditButton();
   });
 
   it('enables when write permissions are set to true', () => {
-    render(
-      <EditButton onClick={onClick} link={link} writePermissions={true} />,
-    );
+    render(<EditButton onClick={onClick} writePermissions={true} />);
 
-    expect(screen.getByRole('link', { name: /edit/i })).toBeVisible();
-    expect(screen.getByRole('link', { name: /edit/i })).toHaveAttribute(
-      'href',
-      'http://localhost:5000//some-link',
-    );
+    expect(screen.getByRole('button', { name: /edit/i })).toBeVisible();
   });
 });
