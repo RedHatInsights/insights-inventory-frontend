@@ -68,9 +68,9 @@ const AddSystemsToGroupModal = ({
 
   const alreadyHasGroup = [...selected].filter((entry) => {
     return isKesselEnabled
-      ? entry[1]?.groups?.[0]?.name !== undefined &&
-          entry[1]?.groups?.[0]?.name !== ''
-      : !entry[1]?.groups?.[0]?.ungrouped;
+      ? !entry[1]?.groups?.[0]?.ungrouped
+      : entry[1]?.groups?.[0]?.name !== undefined &&
+          entry[1]?.groups?.[0]?.name !== '';
   });
 
   const handleSystemAddition = useCallback(

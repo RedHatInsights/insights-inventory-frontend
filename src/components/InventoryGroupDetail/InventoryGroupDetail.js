@@ -44,6 +44,7 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   const chrome = useChrome();
   const groupName = data?.results?.[0]?.name;
+  const ungrouped = data?.results?.[0]?.ungrouped;
 
   const { hasAccess: canViewGroup } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId),
@@ -106,6 +107,7 @@ const InventoryGroupDetail = ({ groupId }) => {
           <GroupTabDetails
             groupId={groupId}
             groupName={groupName}
+            ungrouped={ungrouped}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             hasEdgeImages={hasEdgeImages}
@@ -132,7 +134,11 @@ const InventoryGroupDetail = ({ groupId }) => {
             <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
               <PageSection>
                 {canViewHosts ? (
-                  <GroupSystems groupName={groupName} groupId={groupId} />
+                  <GroupSystems
+                    groupName={groupName}
+                    groupId={groupId}
+                    ungrouped={ungrouped}
+                  />
                 ) : (
                   <EmptyStateNoAccessToSystems />
                 )}

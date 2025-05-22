@@ -6,7 +6,7 @@ import NoSystemsEmptyState from '../InventoryGroupDetail/NoSystemsEmptyState';
 import GroupSystems from './GroupSystems';
 import GroupImmutableSystems from './GroupImmutableSystems';
 
-const GroupSystemsWrapper = ({ groupName, groupId, hostType }) => {
+const GroupSystemsWrapper = ({ groupName, groupId, ungrouped, hostType }) => {
   const { uninitialized, loading, data } = useSelector(
     (state) => state.groupDetail,
   );
@@ -20,7 +20,11 @@ const GroupSystemsWrapper = ({ groupName, groupId, hostType }) => {
     hostType === 'immutable' ? (
       <GroupImmutableSystems groupId={groupId} groupName={groupName} />
     ) : (
-      <GroupSystems groupId={groupId} groupName={groupName} />
+      <GroupSystems
+        groupId={groupId}
+        groupName={groupName}
+        ungrouped={ungrouped ?? false}
+      />
     )
   ) : (
     <NoSystemsEmptyState groupId={groupId} groupName={groupName} />
@@ -30,6 +34,7 @@ const GroupSystemsWrapper = ({ groupName, groupId, hostType }) => {
 GroupSystemsWrapper.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
+  ungrouped: PropTypes.bool,
   hostType: PropTypes.string,
 };
 
