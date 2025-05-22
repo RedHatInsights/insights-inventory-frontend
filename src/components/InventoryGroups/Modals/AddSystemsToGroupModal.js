@@ -49,6 +49,8 @@ const AddSystemsToGroupModal = ({
   const selected = useSelector(
     (state) => state?.entities?.selected || new Map(),
   );
+
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
   const rows = useSelector(({ entities }) => entities?.rows || []);
 
   const total = useSelector(({ entities }) => entities?.total);
@@ -65,10 +67,10 @@ const AddSystemsToGroupModal = ({
   );
 
   const alreadyHasGroup = [...selected].filter((entry) => {
-    return (
-      entry[1]?.groups?.[0]?.name !== undefined &&
-      entry[1]?.groups?.[0]?.name !== ''
-    );
+    return isKesselEnabled
+      ? !entry[1]?.groups?.[0]?.ungrouped
+      : entry[1]?.groups?.[0]?.name !== undefined &&
+          entry[1]?.groups?.[0]?.name !== '';
   });
 
   const handleSystemAddition = useCallback(
@@ -131,7 +133,10 @@ const AddSystemsToGroupModal = ({
   const noneSelected = overallSelectedKeys.length === 0;
 
   const immutableDevicesAlreadyHasGroup = selectedImmutableDevices.filter(
-    (immutableDevice) => immutableDevice.deviceGroups?.length > 0,
+    (immutableDevice) =>
+      isKesselEnabled
+        ? !immutableDevice.deviceGroups?.[0]?.ungrouped
+        : immutableDevice.deviceGroups?.length > 0,
   );
   // showWarning when conventional or immutable systems had groups
   const showWarning =

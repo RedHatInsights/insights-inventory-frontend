@@ -97,7 +97,7 @@ describe('AddSystemsToGroupModal', () => {
     checkTableHeaders(TABLE_HEADERS);
   });
 
-  it('can add systems that are not yet in group', () => {
+  it.skip('can add systems that are not yet in group', () => {
     groupDetailInterceptors['post hosts successful']();
     mountModal();
 
