@@ -4,43 +4,15 @@ import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import { propertiesSelector } from '../selectors';
 import { editAnsibleHost, editDisplayName } from '../../../store/actions';
-import TextInputModal from '../TextInputModal';
 import TitleWithPopover from '../TitleWithPopover';
-import EditButton from '../EditButton';
 import { generalMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
+import { NameInlineEdit } from './NameInlineEdit';
 
 class SystemCardCore extends Component {
-  state = {
-    isDisplayNameModalOpen: false,
-    isAnsibleHostModalOpen: false,
-  };
-
-  onCancel = () => {
-    this.setState({
-      isDisplayNameModalOpen: false,
-      isAnsibleHostModalOpen: false,
-    });
-  };
-
   onSubmit = (fn, origValue) => (value) => {
     const { entity } = this.props;
     fn(entity.id, value, origValue);
-    this.onCancel();
-  };
-
-  onShowDisplayModal = (event) => {
-    event.preventDefault();
-    this.setState({
-      isDisplayNameModalOpen: true,
-    });
-  };
-
-  onShowAnsibleModal = (event) => {
-    event.preventDefault();
-    this.setState({
-      isAnsibleHostModalOpen: true,
-    });
   };
 
   getAnsibleHost = () => {
@@ -70,7 +42,6 @@ class SystemCardCore extends Component {
       hasRAM,
       extra,
     } = this.props;
-    const { isDisplayNameModalOpen, isAnsibleHostModalOpen } = this.state;
 
     return (
       <Fragment>
@@ -104,14 +75,11 @@ class SystemCardCore extends Component {
                       />
                     ),
                     value: (
-                      <Fragment>
-                        {entity.display_name}
-                        <EditButton
-                          writePermissions={writePermissions}
-                          link="display_name"
-                          onClick={this.onShowDisplayModal}
-                        />
-                      </Fragment>
+                      <NameInlineEdit
+                        textValue={entity.display_name}
+                        onSubmit={this.onSubmit(setDisplayName)}
+                        writePermissions={writePermissions}
+                      />
                     ),
                     size: 'md',
                     customClass: 'sentry-mask data-hj-suppress',
@@ -128,14 +96,11 @@ class SystemCardCore extends Component {
                       />
                     ),
                     value: (
-                      <Fragment>
-                        {this.getAnsibleHost()}
-                        <EditButton
-                          writePermissions={writePermissions}
-                          link="ansible_name"
-                          onClick={this.onShowAnsibleModal}
-                        />
-                      </Fragment>
+                      <NameInlineEdit
+                        textValue={this.getAnsibleHost()}
+                        writePermissions={writePermissions}
+                        onSubmit={this.onSubmit(setAnsibleHost)}
+                      />
                     ),
                     size: 'md',
                     customClass: 'sentry-mask data-hj-suppress',
@@ -208,38 +173,6 @@ class SystemCardCore extends Component {
               ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
             })),
           ]}
-        />
-        <TextInputModal
-          isOpen={isDisplayNameModalOpen}
-          title="Edit display name"
-          value={entity && entity.display_name}
-          ariaLabel="Host inventory display name"
-          modalOuiaId="edit-display-name-modal"
-          cancelOuiaId="cancel-edit-display-name"
-          confirmOuiaId="confirm-edit-display-name"
-          inputOuiaId="input-edit-display-name"
-          onCancel={this.onCancel}
-          onSubmit={this.onSubmit(
-            setDisplayName,
-            entity && entity.display_name,
-          )}
-          className="sentry-mask data-hj-suppress"
-        />
-        <TextInputModal
-          isOpen={isAnsibleHostModalOpen}
-          title="Edit Ansible host"
-          value={entity && this.getAnsibleHost()}
-          ariaLabel="Ansible host"
-          modalOuiaId="edit-ansible-name-modal"
-          cancelOuiaId="cancel-edit-ansible-name"
-          confirmOuiaId="confirm-edit-ansible-name"
-          inputOuiaId="input-edit-ansible-name"
-          onCancel={this.onCancel}
-          onSubmit={this.onSubmit(
-            setAnsibleHost,
-            entity && this.getAnsibleHost(),
-          )}
-          className="sentry-mask data-hj-suppress"
         />
       </Fragment>
     );

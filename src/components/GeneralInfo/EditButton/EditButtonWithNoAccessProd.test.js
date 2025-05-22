@@ -25,20 +25,14 @@ jest.mock('react-redux', () => ({
 
 describe('EditButton with no access', () => {
   let onClick;
-  let link;
 
   beforeEach(() => {
     onClick = jest.fn();
-    link = 'some-link';
   });
 
   it('renders on production', () => {
-    render(<EditButton onClick={onClick} link={link} />);
+    render(<EditButton onClick={onClick} />);
 
-    expect(screen.getByRole('link', { name: /edit/i })).toBeVisible();
-    expect(screen.getByRole('link', { name: /edit/i })).toHaveAttribute(
-      'href',
-      'http://localhost:5000//some-link',
-    );
+    expect(screen.getByRole('button', { name: /edit/i })).toBeVisible();
   });
 });
