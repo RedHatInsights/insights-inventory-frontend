@@ -10,6 +10,7 @@ import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 
 const AddSelectedHostsToGroupModal = ({
   isModalOpen,
@@ -40,11 +41,12 @@ const AddSelectedHostsToGroupModal = ({
       () =>
         addHostsToGroupById(
           group.id,
-          hosts.map(({ id }) => id)
+          hosts.map(({ id }) => id),
         ),
-      statusMessages
+      statusMessages,
     );
   };
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   return (
     <>
@@ -54,7 +56,7 @@ const AddSelectedHostsToGroupModal = ({
           closeModal={() => setIsModalOpen(false)}
           title="Add to workspace"
           submitLabel="Add"
-          schema={addHostSchema(hosts, chrome)}
+          schema={addHostSchema(hosts, chrome, isKesselEnabled)}
           additionalMappers={{
             'create-group-btn': {
               component: CreateGroupButton,
@@ -83,10 +85,9 @@ const AddSelectedHostsToGroupModal = ({
 AddSelectedHostsToGroupModal.propTypes = {
   modalState: PropTypes.arrayOf(
     PropTypes.shape({
-      // eslint-disable-next-line camelcase
       display_name: PropTypes.string,
       id: PropTypes.string,
-    })
+    }),
   ).isRequired,
   isModalOpen: PropTypes.bool,
   setIsModalOpen: PropTypes.func,

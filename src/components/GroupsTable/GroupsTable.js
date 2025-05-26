@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   Pagination,
   PaginationVariant,
@@ -47,6 +46,7 @@ import {
   ActionDropdownItem,
 } from '../InventoryTable/ActionWithRBAC';
 import PropTypes from 'prop-types';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 const GROUPS_TABLE_INITIAL_STATE = {
   perPage: TABLE_DEFAULT_PAGINATION,
@@ -95,8 +95,8 @@ const groupsTableFiltersConfig = {
     transformFromParam: (value) =>
       parseInt(
         Object.entries(GROUPS_TABLE_COLUMNS_TO_URL).find(
-          ([, name]) => name === value
-        )?.[0]
+          ([, name]) => name === value,
+        )?.[0],
       ),
   },
   sortDirection: {
@@ -107,7 +107,7 @@ const groupsTableFiltersConfig = {
 const GroupsTable = ({ onCreateGroupClick }) => {
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, fulfilled, data } = useSelector(
-    (state) => state.groups
+    (state) => state.groups,
   );
   const [rowsGenerated, setRowsGenerated] = useState(false);
   const location = useLocation();
@@ -124,6 +124,8 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const { fetchBatched } = useFetchBatched();
   const loadingState = uninitialized || loading;
 
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+
   const fetchData = useCallback(
     debounce((filters) => {
       const { perPage, page, sortIndex, sortDirection, ...search } = filters;
@@ -133,15 +135,20 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         const order_how = upperCase(sortDirection);
         return dispatch(
           fetchGroups(
-            { ...search, order_by, order_how },
-            { page, per_page: perPage }
-          )
+            {
+              ...search,
+              ...(isKesselEnabled && { type: 'all' }),
+              order_by,
+              order_how,
+            },
+            { page, per_page: perPage },
+          ),
         );
       } else {
         return dispatch(fetchGroups(search, { page, per_page: perPage }));
       }
     }, REQUEST_DEBOUNCE_TIMEOUT), // wait the timeout before making the final fetch
-    []
+    [],
   );
 
   useEffect(() => {
@@ -165,6 +172,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
       ],
       groupId: group.id,
       groupName: group.name,
+      ungrouped: group.ungrouped,
       selected: selectedIds.includes(group.id),
     }));
     setRows(newRows);
@@ -215,7 +223,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         },
       },
     ],
-    [filters.name, rejected]
+    [filters.name, rejected],
   );
 
   const onResetFilters = () => setFilters(GROUPS_TABLE_INITIAL_STATE);
@@ -318,8 +326,9 @@ const GroupsTable = ({ onCreateGroupClick }) => {
     title: (
       <ActionDropdownItem
         requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-          rowData?.groupId
+          rowData?.groupId,
         )}
+        isAriaDisabled={isKesselEnabled ? rowData?.ungrouped : false}
         noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
         onClick={() => {
           setSelectedGroup({
@@ -334,16 +343,26 @@ const GroupsTable = ({ onCreateGroupClick }) => {
     ),
   });
 
+  const containsUngrouped = (selectedIds) => {
+    for (const id of selectedIds) {
+      ungrouped = groups.find(id)?.ungrouped;
+      if (ungrouped) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const groupsActionsResolver = (rowData) => [
     modifyActionButton(
       'Rename workspace',
       () => setRenameModalOpen(true),
-      rowData
+      rowData,
     ),
     modifyActionButton(
       'Delete workspace',
       () => setDeleteModalOpen(true),
-      rowData
+      rowData,
     ),
   ];
 
@@ -458,11 +477,15 @@ const GroupsTable = ({ onCreateGroupClick }) => {
               label: (
                 <ActionDropdownItem
                   requiredPermissions={selectedIds.flatMap((id) =>
-                    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(id)
+                    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(id),
                   )}
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
                   onClick={() => setDeleteModalOpen(true)}
-                  isAriaDisabled={selectedIds.length === 0}
+                  isAriaDisabled={
+                    isKesselEnabled
+                      ? containsUngrouped(selectedIds)
+                      : selectedIds.length === 0
+                  }
                   checkAll
                 >
                   {selectedIds.length > 1

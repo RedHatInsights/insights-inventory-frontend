@@ -47,8 +47,10 @@ const AddSystemsToGroupModal = ({
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const [systemsSelectModalOpen, setSystemSelectModalOpen] = useState(true);
   const selected = useSelector(
-    (state) => state?.entities?.selected || new Map()
+    (state) => state?.entities?.selected || new Map(),
   );
+
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
   const rows = useSelector(({ entities }) => entities?.rows || []);
 
   const total = useSelector(({ entities }) => entities?.total);
@@ -61,18 +63,15 @@ const AddSystemsToGroupModal = ({
     total,
     rows,
     true,
-    pageSelected
+    pageSelected,
   );
 
-  const alreadyHasGroup = [...selected].filter(
-    // eslint-disable-next-line camelcase
-    (entry) => {
-      return (
-        entry[1]?.groups?.[0]?.name !== undefined &&
-        entry[1]?.groups?.[0]?.name !== ''
-      );
-    }
-  );
+  const alreadyHasGroup = [...selected].filter((entry) => {
+    return isKesselEnabled
+      ? !entry[1]?.groups?.[0]?.ungrouped
+      : entry[1]?.groups?.[0]?.name !== undefined &&
+          entry[1]?.groups?.[0]?.name !== '';
+  });
 
   const handleSystemAddition = useCallback(
     (hostIds) => {
@@ -98,10 +97,10 @@ const AddSystemsToGroupModal = ({
       return apiWithToast(
         dispatch,
         () => addHostsToGroupById(groupId, hostIds),
-        statusMessages
+        statusMessages,
       );
     },
-    [isModalOpen]
+    [isModalOpen],
   );
 
   const numOfSelectedSystems = selected ? selected.size : 0;
@@ -115,17 +114,17 @@ const AddSystemsToGroupModal = ({
   };
 
   const edgeParityInventoryListEnabled = useFeatureFlag(
-    'edgeParity.inventory-list'
+    'edgeParity.inventory-list',
   );
   const edgeParityInventoryGroupsEnabled = useFeatureFlag(
-    'edgeParity.inventory-groups-enabled'
+    'edgeParity.inventory-groups-enabled',
   );
   const edgeParityEnabled =
     edgeParityInventoryListEnabled && edgeParityInventoryGroupsEnabled;
 
   const [selectedImmutableDevices, setSelectedImmutableDevices] = useState([]);
   const selectedImmutableKeys = selectedImmutableDevices.map(
-    (immutableDevice) => immutableDevice.id
+    (immutableDevice) => immutableDevice.id,
   );
 
   // overallSelectedKeys is the list of the conventional and immutable systems ids
@@ -134,7 +133,10 @@ const AddSystemsToGroupModal = ({
   const noneSelected = overallSelectedKeys.length === 0;
 
   const immutableDevicesAlreadyHasGroup = selectedImmutableDevices.filter(
-    (immutableDevice) => immutableDevice.deviceGroups?.length > 0
+    (immutableDevice) =>
+      isKesselEnabled
+        ? !immutableDevice.deviceGroups?.[0]?.ungrouped
+        : immutableDevice.deviceGroups?.length > 0,
   );
   // showWarning when conventional or immutable systems had groups
   const showWarning =
@@ -144,7 +146,7 @@ const AddSystemsToGroupModal = ({
   const [activeTabKey, setActiveTabKey] = useState(
     hybridInventoryTabKeys[activeTab] === undefined
       ? hybridInventoryTabKeys.conventional.key
-      : activeTab
+      : activeTab,
   );
 
   const handleTabClick = (_event, tabKey) => {
@@ -171,7 +173,6 @@ const AddSystemsToGroupModal = ({
       initialLoading={true}
       showTags
       showCentosVersions
-      showNoGroupOption
     />
   );
 

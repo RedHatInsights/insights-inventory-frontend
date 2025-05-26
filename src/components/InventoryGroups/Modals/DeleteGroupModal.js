@@ -68,7 +68,7 @@ const DeleteGroupModal = ({
   const dispatch = useDispatch();
   const [fetchedGroups, setFetchedGroups] = useState(undefined);
   const groupsAreEmpty = (fetchedGroups || []).every(
-    ({ host_count: hostCount }) => hostCount === 0
+    ({ host_count: hostCount }) => hostCount === 0,
   );
   const [isLoading, setIsLoading] = useState(true);
   const { fetchBatchedInline } = useFetchBatched();

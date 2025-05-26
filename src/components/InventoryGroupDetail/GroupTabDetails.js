@@ -23,11 +23,12 @@ const GroupTabDetailsWrapper = ({
   activeTab: activeSystemsTab,
   setActiveTab: setActiveSystemsTab,
   hasEdgeImages,
+  ungrouped,
 }) => {
   const [activeTab, setActiveTab] = useState('systems');
 
   const { hasAccess: canViewHosts } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId)
+    REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId),
   );
 
   return (
@@ -56,6 +57,7 @@ const GroupTabDetailsWrapper = ({
                 <GroupSystems
                   groupName={groupName}
                   groupId={groupId}
+                  ungrouped={ungrouped}
                   hostType={hybridInventoryTabKeys.conventional.key}
                 />
               </Tab>
@@ -71,7 +73,11 @@ const GroupTabDetailsWrapper = ({
               </Tab>
             </Tabs>
           ) : canViewHosts ? (
-            <GroupSystems groupName={groupName} groupId={groupId} />
+            <GroupSystems
+              groupName={groupName}
+              groupId={groupId}
+              ungrouped={ungrouped}
+            />
           ) : (
             <EmptyStateNoAccessToSystems />
           )}
@@ -100,5 +106,10 @@ GroupTabDetailsWrapper.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
   hasEdgeImages: PropTypes.bool,
+  ungrouped: PropTypes.bool,
+};
+
+GroupTabDetailsWrapper.defaultProps = {
+  ungrouped: false,
 };
 export default GroupTabDetailsWrapper;

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable camelcase */
+
 import React from 'react';
 import Pagination from './Pagination';
 import configureStore from 'redux-mock-store';
@@ -66,29 +66,29 @@ describe('Pagination', () => {
       expect(
         screen.getByRole('button', {
           name: /go to first page/i,
-        })
+        }),
       ).toBeDisabled();
       expect(
         screen.getByRole('button', {
           name: /go to previous page/i,
-        })
+        }),
       ).toBeDisabled();
       expect(
         screen.getByRole('button', {
           name: /go to next page/i,
-        })
+        }),
       ).toBeDisabled();
       expect(
         screen.getByRole('button', {
           name: /go to last page/i,
-        })
+        }),
       ).toBeDisabled();
     });
 
     it('should render correctly - with no access', () => {
       const store = mockStore(initialState);
       const view = render(
-        <WrappedPagination store={store} hasAccess={false} />
+        <WrappedPagination store={store} hasAccess={false} />,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -97,19 +97,19 @@ describe('Pagination', () => {
     it('should render correctly with data and props', () => {
       const store = mockStore(initialState);
       const view = render(
-        <WrappedPagination store={store} page={1} perPage={50} total={500} />
+        <WrappedPagination store={store} page={1} perPage={50} total={500} />,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
       expect(
         screen.getByRole('button', {
           name: /go to first page/i,
-        })
+        }),
       ).toBeDisabled();
       expect(
         screen.getByRole('button', {
           name: /go to previous page/i,
-        })
+        }),
       ).toBeDisabled();
     });
 
@@ -122,19 +122,19 @@ describe('Pagination', () => {
           perPage={50}
           total={500}
           isFull
-        />
+        />,
       );
 
       expect(view.asFragment()).toMatchSnapshot();
       expect(
         screen.getByRole('button', {
           name: /go to first page/i,
-        })
+        }),
       ).toBeDisabled();
       expect(
         screen.getByRole('button', {
           name: /go to previous page/i,
-        })
+        }),
       ).toBeDisabled();
     });
   });
@@ -143,18 +143,18 @@ describe('Pagination', () => {
     it('should call perPage change', async () => {
       const store = mockStore(initialState);
       render(
-        <WrappedPagination store={store} page={1} perPage={50} total={500} />
+        <WrappedPagination store={store} page={1} perPage={50} total={500} />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /items per page/i,
-        })
+        }),
       );
       await userEvent.click(
         screen.getByRole('menuitem', {
           name: /10 per page/i,
-        })
+        }),
       );
       expect(onRefreshData).toHaveBeenCalledWith({ page: 1, per_page: 10 });
     });
@@ -162,13 +162,13 @@ describe('Pagination', () => {
     it('should call onSetPage change without', async () => {
       const store = mockStore(initialState);
       render(
-        <WrappedPagination store={store} page={1} perPage={50} total={500} />
+        <WrappedPagination store={store} page={1} perPage={50} total={500} />,
       );
 
       await userEvent.click(
         screen.getByRole('button', {
           name: /go to next page/i,
-        })
+        }),
       );
       expect(onRefreshData).toHaveBeenCalledWith({ page: 2 });
     });

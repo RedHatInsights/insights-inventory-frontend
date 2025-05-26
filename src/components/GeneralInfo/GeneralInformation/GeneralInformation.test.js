@@ -32,10 +32,10 @@ jest.mock(
   () => ({
     esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: true }),
-  })
+  }),
 );
 jest.mock(
-  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate'
+  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate',
 );
 
 const expectCardsToExist = (
@@ -47,13 +47,13 @@ const expectCardsToExist = (
     'Operating system',
     'BIOS',
     'Configuration',
-  ]
+  ],
 ) => {
   titles.forEach((title) => {
     expect(
       screen.getByRole('heading', {
         name: title,
-      })
+      }),
     ).toBeVisible();
   });
 };
@@ -117,7 +117,7 @@ describe('GeneralInformation', () => {
         <Provider store={store}>
           <GeneralInformation inventoryId={'test-id'} />
         </Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expectCardsToExist();
@@ -130,7 +130,7 @@ describe('GeneralInformation', () => {
         <Provider store={store}>
           <GeneralInformation inventoryId={'test-id'} />
         </Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expectCardsToExist();
@@ -158,13 +158,13 @@ describe('GeneralInformation', () => {
                 inventoryId={'test-id'}
               />
             </Provider>
-          </MemoryRouter>
+          </MemoryRouter>,
         );
 
         expect(
           screen.queryByRole('heading', {
             name: title,
-          })
+          }),
         ).not.toBeInTheDocument();
       });
 
@@ -178,13 +178,13 @@ describe('GeneralInformation', () => {
                 inventoryId={'test-id'}
               />
             </Provider>
-          </MemoryRouter>
+          </MemoryRouter>,
         );
 
         expect(
           screen.queryByRole('heading', {
             name: title,
-          })
+          }),
         ).not.toBeInTheDocument();
       });
     });
@@ -210,7 +210,7 @@ describe('GeneralInformation', () => {
           <Provider store={store}>
             <GeneralInformation inventoryId={'test-id'} />
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
@@ -223,7 +223,7 @@ describe('GeneralInformation', () => {
           <Provider store={store}>
             <GeneralInformation inventoryId={'test-id'} />
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       await waitFor(() => {
@@ -240,7 +240,7 @@ describe('GeneralInformation', () => {
           <Provider store={store}>
             <GeneralInformation inventoryId={'test-id'} />
           </Provider>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       await userEvent.click(screen.getAllByText('2 addresses')[0]);
@@ -270,21 +270,21 @@ describe('GeneralInformation', () => {
       render(
         <TestWrapper store={mockStore(state)}>
           <GeneralInformation inventoryId={'test-id'} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(
         screen.getByRole('heading', {
           name: /convert this centos system to rhel/i,
-        })
+        }),
       ).toBeVisible();
       expect(
         screen.getByRole('link', {
           name: /learn more about centos migration here\./i,
-        })
+        }),
       ).toHaveAttribute(
         'href',
-        'https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/centos-migration'
+        'https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/centos-migration',
       );
     });
 
@@ -294,11 +294,11 @@ describe('GeneralInformation', () => {
       render(
         <TestWrapper store={mockStore(state)}>
           <GeneralInformation inventoryId={'test-id'} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(
-        screen.getByText(/run a pre-conversion analysis of this system/i)
+        screen.getByText(/run a pre-conversion analysis of this system/i),
       );
 
       await waitFor(() => {
@@ -311,13 +311,13 @@ describe('GeneralInformation', () => {
       render(
         <TestWrapper store={store}>
           <GeneralInformation inventoryId={'test-id'} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(
         screen.queryByRole('heading', {
           name: /convert this centos system to rhel/i,
-        })
+        }),
       ).not.toBeInTheDocument();
     });
   });

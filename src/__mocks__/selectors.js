@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export const testProperties = {
   number_of_cpus: 1,
   number_of_sockets: 1,

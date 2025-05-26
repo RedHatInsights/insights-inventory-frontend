@@ -18,7 +18,7 @@ describe('buildCells', () => {
           dot: 'dot',
         },
       },
-      [{ key: 'first' }, { key: 'second.dot' }, { key: 'third' }]
+      [{ key: 'first' }, { key: 'second.dot' }, { key: 'third' }],
     );
     expect(data.length).toBe(3);
     expect(data[0]).toBe('test');
@@ -35,7 +35,7 @@ describe('buildCells', () => {
           dot: 'dot',
         },
       },
-      [{ key: 'first' }, { key: 'second.dot' }, { key: 'third', renderFunc }]
+      [{ key: 'first' }, { key: 'second.dot' }, { key: 'third', renderFunc }],
     );
     expect(data.length).toBe(3);
     expect(data[0]).toBe('test');
@@ -82,7 +82,7 @@ describe('createRows', () => {
       const data = createRows(
         rows.map((item) => ({ ...item, children: <div>Something</div> })),
         cells,
-        { expandable: true }
+        { expandable: true },
       );
       expect(data[1].parent).toBe(0);
       expect(data[3].parent).toBe(2);
@@ -97,7 +97,7 @@ describe('createRows', () => {
           isOpen: true,
         })),
         cells,
-        { expandable: true }
+        { expandable: true },
       );
       expect(data[0].isOpen).toBe(true);
       expect(data.length).toBe(rows.length * 2);
@@ -116,7 +116,7 @@ describe('onDeleteFilter', () => {
           },
         ],
       },
-      filter
+      filter,
     );
     expect(data.length).toBe(0);
   });
@@ -130,7 +130,7 @@ describe('onDeleteFilter', () => {
           },
         ],
       },
-      filter
+      filter,
     );
     expect(data.length).toBe(1);
     expect(data).toMatchObject(filter);
@@ -187,7 +187,7 @@ describe('onDeleteTag', () => {
         ],
       },
       selectedTags,
-      onApplyTags
+      onApplyTags,
     );
 
     expect(onApplyTags).toHaveBeenCalled();
@@ -211,7 +211,7 @@ describe('createColumns', () => {
         { data: 'something' },
       ],
       false,
-      ['something']
+      ['something'],
     );
     expect(data[0].transforms.length).toBe(2);
     expect(data[0].cellFormatters.length).toBe(1);
@@ -224,7 +224,7 @@ describe('createColumns', () => {
       [{ data: 'something' }],
       false,
       ['something'],
-      true
+      true,
     );
     expect(data[0].cellFormatters.length).toBe(1);
   });
@@ -233,7 +233,7 @@ describe('createColumns', () => {
     const data = createColumns(
       [{ data: 'something', props: { width: 10 } }],
       false,
-      ['something']
+      ['something'],
     );
     expect(data[0].transforms.length).toBe(2);
   });
@@ -249,7 +249,7 @@ describe('createColumns', () => {
       const data = createColumns(
         [{ data: 'something', transforms: [sortable] }],
         false,
-        ['something']
+        ['something'],
       );
 
       expect(data[0].transforms).toEqual([sortable]);
@@ -261,7 +261,7 @@ describe('createColumns', () => {
       const data = createColumns(
         [{ data: 'something', transforms: [thisAddsSorting] }],
         false,
-        ['something']
+        ['something'],
       );
 
       expect(data[0].transforms).toEqual([thisAddsSorting]);
@@ -273,7 +273,7 @@ describe('createColumns', () => {
       const data = createColumns(
         [{ data: 'something', props: { isStatic: true } }],
         false,
-        ['something']
+        ['something'],
       );
       expect(data[0].transforms.length).toBe(0);
     });

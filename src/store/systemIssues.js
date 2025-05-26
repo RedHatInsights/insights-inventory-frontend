@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { SYSTEM_ISSUE_TYPES } from './action-types';
 
 export function advisor(state, { payload }) {

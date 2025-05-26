@@ -19,7 +19,7 @@ export const deleteSystemsById = (items, batchSize = 50) => {
   const results = resolve(
     arr.map((itemArray) => () => {
       return deleteHostById({ hostIdList: itemArray });
-    })
+    }),
   );
   return results;
 };

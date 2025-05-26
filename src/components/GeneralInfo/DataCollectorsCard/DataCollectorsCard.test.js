@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import DataCollectorsCard from './DataCollectorsCard';
 import configureStore from 'redux-mock-store';
@@ -71,7 +70,7 @@ describe('DataCollectorsCard', () => {
             },
           ],
         }}
-      />
+      />,
     );
     expect(view.asFragment()).toMatchSnapshot();
   });

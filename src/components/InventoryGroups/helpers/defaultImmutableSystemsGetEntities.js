@@ -2,7 +2,7 @@ export const defaultImmutableSystemsGetEntities = async (
   items,
   config,
   showTags,
-  defaultGetEntities
+  defaultGetEntities,
 ) =>
   await defaultGetEntities(
     items,
@@ -13,5 +13,5 @@ export const defaultImmutableSystemsGetEntities = async (
         hostTypeFilter: 'edge', // request only edge systems
       },
     },
-    showTags
+    showTags,
   );

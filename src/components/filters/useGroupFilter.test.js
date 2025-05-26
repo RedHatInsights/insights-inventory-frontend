@@ -10,7 +10,7 @@ jest.mock('../InventoryGroups/utils/api', () => ({
     new Promise((resolve) =>
       resolve({
         total: 60,
-      })
+      }),
     ),
 }));
 
@@ -20,7 +20,7 @@ jest.mock(
     esModule: true,
 
     usePermissionsWithContext: jest.fn(),
-  })
+  }),
 );
 
 describe('groups request not yet resolved', () => {
@@ -59,7 +59,7 @@ describe('groups request not yet resolved', () => {
 describe('with some groups available', () => {
   const pageOffsetfetchBatched = jest.fn(
     () =>
-      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }]))
+      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
   );
 
   beforeAll(() => {
@@ -174,12 +174,38 @@ describe('with some groups available', () => {
       },
     ]);
   });
+
+  it('does not show no group option with kessel enabled', async () => {
+    const { result } = renderHook(() => useGroupFilter(true, true));
+
+    await waitFor(() => {
+      expect(pageOffsetfetchBatched).toBeCalled();
+    });
+    const [config] = result.current;
+    expect(config.filterValues).toMatchInlineSnapshot(`
+      {
+        "children": <SearchableGroupFilter
+          initialGroups={
+            [
+              {
+                "name": "group-1",
+              },
+              undefined,
+            ]
+          }
+          selectedGroupNames={[]}
+          setSelectedGroupNames={[Function]}
+          showNoGroupOption={false}
+        />,
+      }
+    `);
+  });
 });
 
 describe('no groups:read permission', () => {
   const pageOffsetfetchBatched = jest.fn(
     () =>
-      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }]))
+      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
   );
 
   beforeAll(() => {
@@ -196,7 +222,7 @@ describe('no groups:read permission', () => {
       () => {
         expect(pageOffsetfetchBatched).not.toBeCalled();
       },
-      { timeout: 5000 }
+      { timeout: 5000 },
     );
   });
 });

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   GROUPS_WILDCARD,
@@ -19,7 +18,7 @@ import {
 
 export const getGroups = (
   search = {},
-  pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION }
+  pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION },
 ) =>
   getGroupList({
     ...search,
@@ -32,7 +31,8 @@ export const getGroups = (
 export const getWritableGroups = async (
   groupName,
   pagination = {},
-  getUserPermissions
+  getUserPermissions,
+  isKesselEnabled = false,
 ) => {
   let groupsWritePermissions = [];
 
@@ -45,7 +45,7 @@ export const getWritableGroups = async (
         GROUPS_WILDCARD,
         INVENTORY_WILDCARD,
         INVENTORY_WRITE_WILDCARD,
-      ].includes(permission)
+      ].includes(permission),
     );
   } catch (error) {
     console.error('Could not fetch groups permissions.', error);
@@ -54,13 +54,17 @@ export const getWritableGroups = async (
   if (
     !isEmpty(
       groupsWritePermissions.filter(({ resourceDefinitions }) =>
-        isEmpty(resourceDefinitions)
-      )
+        isEmpty(resourceDefinitions),
+      ),
     ) // has general groups write permission; can fetch all groups
   ) {
     const groups = await getGroups(
-      groupName ? { name: groupName } : {},
-      pagination
+      groupName
+        ? { name: groupName }
+        : isKesselEnabled
+          ? { type: 'standard' }
+          : {},
+      pagination,
     );
 
     return groups.results;
@@ -81,19 +85,19 @@ export const getWritableGroups = async (
               cur.resourceDefinitions.map(({ attributeFilter }) =>
                 attributeFilter.operation === 'in'
                   ? attributeFilter.value
-                  : [attributeFilter.value]
+                  : [attributeFilter.value],
               ),
             ],
-            []
+            [],
           )
-          .flat()
+          .flat(),
       );
     } catch (error) {
       console.error('Could not fetch writable groups.', error);
     }
 
     return groups.results.filter(({ name }) =>
-      name.toLowerCase().includes(groupName ? groupName.toLowerCase() : '')
+      name.toLowerCase().includes(groupName ? groupName.toLowerCase() : ''),
     );
   }
 };
@@ -104,7 +108,7 @@ export const getGroupsByIds = (groupIds, search = {}) =>
 // TODO: improve the function to check against all workspaces since now it checks only against first 50 workspaces
 export const validateGroupName = (name) =>
   getGroupList().then((response) =>
-    response?.results.some((group) => group.name === name)
+    response?.results.some((group) => group.name === name),
   );
 
 export const getGroupDetail = (groupId) =>
@@ -125,6 +129,7 @@ export const removeHostsFromGroup = (groupId, hostIds) =>
 getGroups.propTypes = {
   search: PropTypes.shape({
     name: PropTypes.string,
+    type: PropTypes.string,
   }),
   pagination: PropTypes.shape({
     per_page: PropTypes.number,

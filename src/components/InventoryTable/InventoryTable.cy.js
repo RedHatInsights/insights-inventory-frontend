@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 /**
  * Cypress tests aim mainly to verify the correct behavior of network calls,
  * compliance with the filter, sorting and pagination scenarios.
@@ -153,7 +152,7 @@ describe('with default parameters', () => {
 
     _.zip(
       ['display_name', 'operating_system', 'updated'],
-      SORTABLE_HEADERS
+      SORTABLE_HEADERS,
     ).forEach(([category, label]) => {
       SORTING_ORDERS.forEach((order) => {
         it(`${order} by ${label}`, () => {
@@ -212,7 +211,7 @@ describe('with default parameters', () => {
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').should(
           'have.text',
-          shorterGroupsFixtures.results.map(({ name }) => name).join('')
+          shorterGroupsFixtures.results.map(({ name }) => name).join(''),
         );
       });
 
@@ -292,42 +291,5 @@ describe('hiding filters', () => {
     waitForTable();
     cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Last seen');
-  });
-});
-
-describe('with no group filter option', () => {
-  before(() => {
-    cy.mockWindowInsights();
-  });
-
-  beforeEach(() => {
-    setTableInterceptors();
-    mountTable({ showNoGroupOption: true });
-    waitForTable(true);
-  });
-
-  it('no group is the first option', () => {
-    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
-    cy.ouiaId('FilterByGroup').click();
-    cy.ouiaId('FilterByGroupOption')
-      .first()
-      .should('have.text', 'No workspace');
-  });
-
-  it('creates no group chip', () => {
-    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
-    cy.ouiaId('FilterByGroup').click();
-    cy.ouiaId('FilterByGroupOption').eq(0).click();
-    hasChip('Workspace', 'No workspace');
-  });
-
-  it('triggers new request with empty parameter', () => {
-    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).contains('Workspace').click();
-    cy.ouiaId('FilterByGroup').click();
-    cy.ouiaId('FilterByGroupOption').eq(0).click();
-    cy.wait('@getHosts').its('request.url').should('include', `group_name=`);
   });
 });

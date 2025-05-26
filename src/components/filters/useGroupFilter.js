@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useEffect, useMemo, useState } from 'react';
 import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
@@ -25,7 +24,7 @@ export const buildHostGroupChips = (selectedGroups = []) => {
       : {
           name: group,
           value: group,
-        }
+        },
   );
   return chips?.length > 0
     ? [
@@ -40,7 +39,7 @@ export const buildHostGroupChips = (selectedGroups = []) => {
 
 const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_READ_PERMISSION];
 
-const useGroupFilter = (showNoGroupOption = false) => {
+const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
   const { pageOffsetfetchBatched } = useFetchBatched();
   const [fetchedGroups, setFetchedGroups] = useState([]);
   const [selectedGroupNames, setSelectedGroupNames] = useState([]);
@@ -48,15 +47,17 @@ const useGroupFilter = (showNoGroupOption = false) => {
   const { hasAccess } = usePermissionsWithContext(
     REQUIRED_PERMISSIONS,
     true,
-    false
+    false,
   );
 
   useEffect(() => {
     const fetchOptions = async () => {
       if (!hasAccess) return;
 
+      const search = isKesselEnabled ? { type: 'all' } : undefined;
+
       const firstRequest = !ignore
-        ? await getGroups(undefined, { page: 1, per_page: 50 })
+        ? await getGroups(search, { page: 1, per_page: 50 })
         : { total: 0 };
 
       const groups =
@@ -66,7 +67,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
               firstRequest.total - 50,
               {},
               50,
-              1
+              1,
             )
           : [];
 
@@ -88,7 +89,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
 
   const chips = useMemo(
     () => buildHostGroupChips(selectedGroupNames),
-    [selectedGroupNames]
+    [selectedGroupNames],
   );
 
   return [
@@ -102,7 +103,7 @@ const useGroupFilter = (showNoGroupOption = false) => {
             initialGroups={fetchedGroups}
             selectedGroupNames={selectedGroupNames}
             setSelectedGroupNames={setSelectedGroupNames}
-            showNoGroupOption={showNoGroupOption}
+            showNoGroupOption={showNoGroupOption && !isKesselEnabled}
           />
         ),
       },

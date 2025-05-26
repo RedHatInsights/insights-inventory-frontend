@@ -29,7 +29,7 @@ describe('useOperatingSystemFilter', () => {
         operatingSystemsLoaded: true,
       });
       const { result } = renderHook(() =>
-        useOperatingSystemFilter(undefined, [], true, true)
+        useOperatingSystemFilter(undefined, [], true, true),
       );
       expect(result.current).toMatchSnapshot();
     });
@@ -38,7 +38,7 @@ describe('useOperatingSystemFilter', () => {
   describe('with operating systems loaded', () => {
     it('should return correct filter config', () => {
       const { result } = renderHook(() =>
-        useOperatingSystemFilter(undefined, [], true, true)
+        useOperatingSystemFilter(undefined, [], true, true),
       );
       const [config] = result.current;
       expect(config.filterValues.groups.length).toBe(5);
@@ -48,7 +48,7 @@ describe('useOperatingSystemFilter', () => {
 
     it('should return correct chips array, current value and value setter', () => {
       const { result } = renderHook(() =>
-        useOperatingSystemFilter(undefined, [], true, true)
+        useOperatingSystemFilter(undefined, [], true, true),
       );
       const [, chips, value, setValue] = result.current;
       expect(chips.length).toBe(0);
@@ -78,17 +78,17 @@ describe('useOperatingSystemFilter', () => {
         Promise.resolve({
           operatingSystems,
           operatingSystemsLoaded: true,
-        })
+        }),
       );
 
       renderHook(() =>
-        useOperatingSystemFilter(undefined, [], true, true, fetchCustomOSes)
+        useOperatingSystemFilter(undefined, [], true, true, fetchCustomOSes),
       );
 
       await waitFor(() =>
         expect(useFetchOperatingSystems).toHaveBeenCalledWith(
-          expect.objectContaining({ fetchCustomOSes })
-        )
+          expect.objectContaining({ fetchCustomOSes }),
+        ),
       );
     });
   });

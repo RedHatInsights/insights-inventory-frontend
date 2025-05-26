@@ -31,7 +31,7 @@ describe('validate function', () => {
     validateGroupName.mockResolvedValue(true);
 
     await expect(validate('test')).rejects.toBe(
-      'Workspace name already exists'
+      'Workspace name already exists',
     );
   });
 
@@ -64,13 +64,13 @@ describe('create group modal', () => {
         isModalOpen
         setIsModalOpen={setIsModalOpen}
         reloadData={reloadData}
-      />
+      />,
     );
 
     expect(
       screen.getByRole('button', {
         name: /create/i,
-      })
+      }),
     ).toBeDisabled();
   });
 
@@ -82,21 +82,21 @@ describe('create group modal', () => {
         isModalOpen
         setIsModalOpen={setIsModalOpen}
         reloadData={reloadData}
-      />
+      />,
     );
 
     await userEvent.type(
       screen.getByRole('textbox', {
         name: /workspace name/i,
       }),
-      '_abc'
+      '_abc',
     );
 
     await waitFor(() => {
       expect(
         screen.getByRole('button', {
           name: /create/i,
-        })
+        }),
       ).toBeEnabled();
     });
   });
@@ -107,39 +107,39 @@ describe('create group modal', () => {
         isModalOpen
         setIsModalOpen={setIsModalOpen}
         reloadData={reloadData}
-      />
+      />,
     );
 
     expect(
       screen.getByRole('button', {
         name: /create/i,
-      })
+      }),
     ).toBeDisabled();
 
     await userEvent.type(
       screen.getByRole('textbox', {
         name: /workspace name/i,
       }),
-      '###'
+      '###',
     );
 
     expect(
       screen.getByRole('button', {
         name: /create/i,
-      })
+      }),
     ).toBeDisabled();
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /create/i,
-      })
+      }),
     ); // must change focus for the hint to appear (DDF implementation)
 
     await waitFor(() => {
       expect(
         screen.getByText(
-          'Valid characters include letters, numbers, spaces, hyphens ( - ), and underscores ( _ ).'
-        )
+          'Valid characters include letters, numbers, spaces, hyphens ( - ), and underscores ( _ ).',
+        ),
       ).toBeVisible();
     });
   });

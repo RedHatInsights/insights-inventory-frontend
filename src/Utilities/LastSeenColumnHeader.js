@@ -5,7 +5,7 @@ import useFeatureFlag from './useFeatureFlag';
 
 export const LastSeenColumnHeader = () => {
   const isLastCheckInEnabled = useFeatureFlag(
-    'hbi.create_last_check_in_update_per_reporter_staleness'
+    'hbi.create_last_check_in_update_per_reporter_staleness',
   );
   return (
     <span>

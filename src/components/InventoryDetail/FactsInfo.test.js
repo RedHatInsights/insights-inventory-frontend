@@ -15,7 +15,7 @@ describe('FactsInfo', () => {
             },
           },
         }}
-      />
+      />,
     );
 
     expect(screen.getByText(/centos linux/i)).toBeVisible();

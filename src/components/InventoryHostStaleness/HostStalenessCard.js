@@ -79,8 +79,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
         newFormValues[filterKey] &&
         (apiData[filterKey] = daysToSecondsConversion(
           newFormValues[filterKey],
-          filterKey
-        ))
+          filterKey,
+        )),
     );
     // system_default means the account has no record, therefor, post for new instance of record.
     if (filter.id === 'system_default') {
@@ -93,7 +93,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               title: 'Organization level settings saved',
               description: `Organization level settings saved`,
               dismissable: true,
-            })
+            }),
           );
           fetchApiStalenessData();
           setIsEditing(!isEditing);
@@ -107,7 +107,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               title: 'Error saving organization level settings',
               description: `Error saving organization level settings`,
               dismissable: true,
-            })
+            }),
           );
         });
     } else {
@@ -119,7 +119,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               variant: 'success',
               title: 'Organization level settings saved',
               dismissable: true,
-            })
+            }),
           );
           fetchApiStalenessData();
           setIsEditing(!isEditing);
@@ -132,7 +132,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               variant: 'danger',
               title: 'Error saving organization level settings',
               dismissable: true,
-            })
+            }),
           );
         });
     }
@@ -143,7 +143,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     let newFilter = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
-        (newFilter[filterKey] = secondsToDaysConversion(results[filterKey]))
+        (newFilter[filterKey] = secondsToDaysConversion(results[filterKey])),
     );
     newFilter['id'] = results.id;
     setFilter(newFilter);

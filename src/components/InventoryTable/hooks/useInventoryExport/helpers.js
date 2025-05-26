@@ -18,12 +18,12 @@ export const buildExportRequestJson = (filters, format) => ({
 // TODO Extend the function in fec to allow downloading a link and not just a blob and replace this.
 export const downloadFile = async (
   url,
-  { filename = `${new Date().toISOString()}`, format } = {}
+  { filename = `${new Date().toISOString()}`, format } = {},
 ) =>
   await fetch(url)
     .then(async (response) => {
       const filename = decodeURIComponent(
-        response.headers.get('content-disposition').match(/filename="(.*)"/)[1]
+        response.headers.get('content-disposition').match(/filename="(.*)"/)[1],
       );
 
       return [await response.blob(), filename];

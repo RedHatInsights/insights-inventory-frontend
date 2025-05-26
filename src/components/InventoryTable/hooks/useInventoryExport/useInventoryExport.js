@@ -36,7 +36,7 @@ const useInventoryExport = ({ filters = {} } = {}) => {
           EXPORT_SERVICE_PATH + '/exports/' + exportToDownload.id,
           {
             format: EXPORT_FILE_FORMAT,
-          }
+          },
         );
         dispatch(exportDownloadNotifiction());
       } catch {
@@ -55,7 +55,7 @@ const useInventoryExport = ({ filters = {} } = {}) => {
           checkForDownload(data.id);
         },
       }),
-    [filters]
+    [filters],
   );
 
   return {

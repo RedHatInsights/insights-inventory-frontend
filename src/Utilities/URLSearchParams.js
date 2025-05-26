@@ -11,7 +11,7 @@ export const updateURLSearchParams = (filters = {}, filtersConfig) => {
       .map(([key, value]) => {
         const { paramName, transformToParam } = filtersConfig[key];
         return [paramName, transformToParam ? transformToParam(value) : value];
-      })
+      }),
   );
   const newSearch = new URLSearchParams(filtersVerified).toString();
   const newPathname = window.location.pathname + '?' + newSearch;
@@ -23,12 +23,12 @@ export const readURLSearchParams = (params = '', filtersConfig) => {
   const filtersVerified = Array.from(searchParams.entries())
     .filter(([key]) =>
       // check whether the parameter is present in the filters configuration
-      Object.values(filtersConfig).find(({ paramName }) => paramName === key)
+      Object.values(filtersConfig).find(({ paramName }) => paramName === key),
     )
     .map(([key, value]) => {
       // transform back to the filters representation
       const [filterName, { transformFromParam }] = Object.entries(
-        filtersConfig
+        filtersConfig,
       ).find(([, config]) => config.paramName === key);
 
       return [

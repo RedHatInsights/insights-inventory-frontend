@@ -1,4 +1,3 @@
-/* eslint-disable quote-props */
 import { cloneDeep } from 'lodash';
 import {
   buildOSFilterChip,
@@ -29,7 +28,7 @@ describe('toGroupSelection', () => {
 
   it('return a select value for a group selection with available version', () => {
     expect(toGroupSelection(groupSelection2, availableVersions)).toEqual(
-      testValue2
+      testValue2,
     );
   });
 });
@@ -53,7 +52,7 @@ describe('getSelectedOsFilterVersions', () => {
     const value = cloneDeep(testValue2);
     expect(getSelectedOsFilterVersions({})).toEqual([]);
     expect(getSelectedOsFilterVersions({ 'RHEL 7': { 7.1: false } })).toEqual(
-      []
+      [],
     );
     expect(getSelectedOsFilterVersions(value)).toEqual(groupSelection2);
   });
@@ -96,7 +95,7 @@ describe('onOSFilterChange', () => {
       '8.10': true,
     };
     expect(
-      onOSFilterChange(undefined, selection, clickedGroup, clickedItem)
+      onOSFilterChange(undefined, selection, clickedGroup, clickedItem),
     ).toEqual(testValue4);
   });
 
@@ -107,7 +106,7 @@ describe('onOSFilterChange', () => {
       '8.10': false,
     };
     expect(
-      onOSFilterChange(undefined, selection, clickedGroup, clickedItem)
+      onOSFilterChange(undefined, selection, clickedGroup, clickedItem),
     ).toEqual(testValue3);
   });
 
@@ -122,7 +121,7 @@ describe('onOSFilterChange', () => {
       '8.10': false,
     };
     expect(
-      onOSFilterChange(undefined, selection, clickedGroup, clickedItem)
+      onOSFilterChange(undefined, selection, clickedGroup, clickedItem),
     ).toEqual(testValue4);
   });
 
@@ -137,7 +136,7 @@ describe('onOSFilterChange', () => {
       '8.10': true,
     };
     expect(
-      onOSFilterChange(undefined, selection, clickedGroup, clickedItem)
+      onOSFilterChange(undefined, selection, clickedGroup, clickedItem),
     ).toEqual(testValue3);
   });
 });

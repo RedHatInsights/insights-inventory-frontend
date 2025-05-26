@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const prepareColumnsCoventional = (
   initialColumns,
   hideGroupColumn,
-  openTabOnClick = false
+  openTabOnClick = false,
 ) => {
   // hides the "groups" column
   const columns = hideGroupColumn
@@ -29,7 +29,7 @@ export const prepareColumnsCoventional = (
 
   columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc = (
     value,
-    hostId
+    hostId,
   ) => (
     <div className="sentry-mask data-hj-suppress">
       <Link
@@ -57,7 +57,7 @@ export const prepareColumnsCoventional = (
 export const prepareColumnsImmutable = (
   initialColumns,
   hideGroupColumn,
-  openTabOnClick = false
+  openTabOnClick = false,
 ) => {
   // hides the "groups" column
   const columns = hideGroupColumn
@@ -65,7 +65,7 @@ export const prepareColumnsImmutable = (
     : [...initialColumns];
   columns[columns.findIndex(({ key }) => key === 'display_name')].renderFunc = (
     value,
-    hostId
+    hostId,
   ) => (
     <div className="sentry-mask data-hj-suppress">
       <Link

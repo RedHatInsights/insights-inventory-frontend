@@ -34,18 +34,18 @@ describe('BasicInfo', () => {
     render(
       <Provider store={store}>
         <BasicInfo />
-      </Provider>
+      </Provider>,
     );
 
     expect(
       screen.queryByRole('heading', {
         name: /something/i,
-      })
+      }),
     ).not.toBeInTheDocument();
     expect(
       screen.getByRole('link', {
         name: /open in inventory/i,
-      })
+      }),
     ).toBeVisible();
   });
 
@@ -54,18 +54,18 @@ describe('BasicInfo', () => {
     render(
       <Provider store={store}>
         <BasicInfo />
-      </Provider>
+      </Provider>,
     );
 
     expect(
       screen.getByRole('heading', {
         name: /something/i,
-      })
+      }),
     ).toBeVisible();
     expect(
       screen.getByRole('link', {
         name: /open in inventory/i,
-      })
+      }),
     ).toBeVisible();
   });
 
@@ -74,18 +74,18 @@ describe('BasicInfo', () => {
     render(
       <Provider store={store}>
         <BasicInfo hideInvLink />
-      </Provider>
+      </Provider>,
     );
 
     expect(
       screen.getByRole('heading', {
         name: /something/i,
-      })
+      }),
     ).toBeVisible();
     expect(
       screen.queryByRole('link', {
         name: /open in inventory/i,
-      })
+      }),
     ).not.toBeInTheDocument();
   });
 
@@ -94,7 +94,7 @@ describe('BasicInfo', () => {
     const view = render(
       <Provider store={store}>
         <BasicInfo showTags />
-      </Provider>
+      </Provider>,
     );
 
     expect(view.asFragment()).toMatchSnapshot();

@@ -47,9 +47,9 @@ export const getStore = (...middleware) => {
             errorDescriptionKey: ['response.data.detail'],
           }),
           ...middleware,
-        ]
-      )
-    )
+        ],
+      ),
+    ),
   );
 };
 

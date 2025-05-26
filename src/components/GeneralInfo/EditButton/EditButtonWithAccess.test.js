@@ -9,7 +9,7 @@ jest.mock(
   () => ({
     esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: true }),
-  })
+  }),
 );
 
 jest.mock('react-redux', () => ({
@@ -32,7 +32,7 @@ describe('EditButton with access', () => {
     expect(screen.getByRole('link', { name: /edit/i })).toBeVisible();
     expect(screen.getByRole('link', { name: /edit/i })).toHaveAttribute(
       'href',
-      'http://localhost:5000//some-link'
+      'http://localhost:5000//some-link',
     );
   });
 

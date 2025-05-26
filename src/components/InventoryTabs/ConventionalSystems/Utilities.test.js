@@ -37,8 +37,8 @@ describe('calculateFilters', () => {
 
     expect(
       calculateFilters(searchParams, filtersWithSelectedOsVersions).getAll(
-        'operating_system'
-      )
+        'operating_system',
+      ),
     ).toEqual([
       'RHEL9.5',
       'RHEL9.4',

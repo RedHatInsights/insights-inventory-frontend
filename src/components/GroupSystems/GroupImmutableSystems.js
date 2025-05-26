@@ -38,7 +38,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const removeLabel = 'Remove from workspace';
   const mergeColumns = (inventoryColumns) => {
     const filteredColumns = inventoryColumns.filter(
-      (column) => column.key !== 'groups'
+      (column) => column.key !== 'groups',
     );
     return [...filteredColumns, ...edgeColumns];
   };
@@ -58,7 +58,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const inventory = useRef(null);
 
   const selected = useSelector(
-    (state) => state?.entities?.selected || new Map()
+    (state) => state?.entities?.selected || new Map(),
   );
 
   let rows = useSelector(({ entities }) => entities?.rows || []);
@@ -71,7 +71,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const [addToGroupModalOpen, setAddToGroupModalOpen] = useState(false);
   const [updateDevice, setupdateDevice] = useState(false);
   const { hasAccess: canModify } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
+    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
   );
 
   const getUpdateInfo = useGetInventoryGroupUpdateInfo();
@@ -89,13 +89,13 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     _items,
     config,
     showTags,
-    defaultGetEntities
+    defaultGetEntities,
   ) => {
     const enhancedConfig = enhancedEdgeConfig(groupName.toString(), config);
     const defaultData = await defaultGetEntities(
       null,
       enhancedConfig,
-      showTags
+      showTags,
     );
     const mapDeviceIds = mapDefaultData(defaultData.results);
     const updateInfo = await getUpdateInfo(groupId);
@@ -148,7 +148,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     rows,
     true,
     pageSelected,
-    groupName
+    groupName,
   );
 
   useEffect(() => {
@@ -219,7 +219,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                 title: (
                   <ActionDropdownItem
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
+                      groupId,
                     )}
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
@@ -238,7 +238,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                       deviceData === null || !deviceData.includes(row.id)
                     }
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
+                      groupId,
                     )}
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
@@ -259,7 +259,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                   <ActionButton
                     key="add-systems-button"
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
+                      groupId,
                     )}
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
@@ -272,7 +272,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
                   </ActionButton>
                   <ActionButton
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
+                      groupId,
                     )}
                     noAccessTooltip={noAccessTooltip}
                     key="update-systems-button"

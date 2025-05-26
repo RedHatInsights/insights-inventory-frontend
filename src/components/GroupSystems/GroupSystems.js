@@ -25,8 +25,9 @@ import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
 import { prepareColumnsCoventional as prepareColumns } from './helpers';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
-const GroupSystems = ({ groupName, groupId }) => {
+const GroupSystems = ({ groupName, groupId, ungrouped }) => {
   const dispatch = useDispatch();
   const globalFilter = useGlobalFilter();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
@@ -34,8 +35,10 @@ const GroupSystems = ({ groupName, groupId }) => {
   const [currentSystem, setCurrentSystem] = useState([]);
   const inventory = useRef(null);
 
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+
   const selected = useSelector(
-    (state) => state?.entities?.selected || new Map()
+    (state) => state?.entities?.selected || new Map(),
   );
   const rows = useSelector(({ entities }) => entities?.rows || []);
   const total = useSelector(({ entities }) => entities?.total);
@@ -46,7 +49,7 @@ const GroupSystems = ({ groupName, groupId }) => {
   const [addToGroupModalOpen, setAddToGroupModalOpen] = useState(false);
 
   const { hasAccess: canModify } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
+    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
   );
 
   const [searchParams] = useSearchParams();
@@ -90,7 +93,7 @@ const GroupSystems = ({ groupName, groupId }) => {
       rhcdFilter,
       updateMethodFilter,
       hostGroupFilter,
-      lastSeenFilter
+      lastSeenFilter,
     );
   }, [addToGroupModalOpen]);
 
@@ -101,7 +104,7 @@ const GroupSystems = ({ groupName, groupId }) => {
     rows,
     true,
     pageSelected,
-    groupName
+    groupName,
   );
 
   return (
@@ -142,7 +145,7 @@ const GroupSystems = ({ groupName, groupId }) => {
                   hostGroupFilter: [groupName],
                 },
               },
-              showTags
+              showTags,
             )
           }
           tableProps={{
@@ -154,8 +157,9 @@ const GroupSystems = ({ groupName, groupId }) => {
                 title: (
                   <ActionDropdownItem
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId
+                      groupId,
                     )}
+                    isAriaDisabled={isKesselEnabled && ungrouped} // nao funciona, tem q ter o props
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       setCurrentSystem([row]);
@@ -173,7 +177,7 @@ const GroupSystems = ({ groupName, groupId }) => {
               <ActionButton
                 key="add-systems-button"
                 requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                  groupId
+                  groupId,
                 )}
                 noAccessTooltip={noAccessTooltip}
                 onClick={() => {
@@ -187,7 +191,9 @@ const GroupSystems = ({ groupName, groupId }) => {
               {
                 label: removeLabel,
                 props: {
-                  isAriaDisabled: !canModify || calculateSelected() === 0,
+                  isAriaDisabled: isKesselEnabled
+                    ? ungrouped
+                    : !canModify || calculateSelected() === 0,
                   ...(!canModify && {
                     tooltipProps: {
                       content: noAccessTooltip,
@@ -218,7 +224,12 @@ const GroupSystems = ({ groupName, groupId }) => {
 GroupSystems.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
+  ungrouped: PropTypes.string,
   hostType: PropTypes.string,
+};
+
+GroupSystems.defaultProps = {
+  ungrouped: false,
 };
 
 export default GroupSystems;

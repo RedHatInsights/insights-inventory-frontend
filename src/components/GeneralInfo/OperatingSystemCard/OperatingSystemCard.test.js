@@ -53,11 +53,11 @@ describe('OperatingSystemCard', () => {
         store={mockStore({ systemProfileStore: {}, entityDetails: {} })}
       >
         <OperatingSystemCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(
-      screen.getAllByRole('definition').map((element) => element.textContent)
+      screen.getAllByRole('definition').map((element) => element.textContent),
     ).toEqual(['', '', '', '', '']);
   });
 
@@ -65,11 +65,11 @@ describe('OperatingSystemCard', () => {
     render(
       <TestWrapper store={mockStore(initialState)}>
         <OperatingSystemCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(
-      screen.getAllByRole('definition').map((element) => element.textContent)
+      screen.getAllByRole('definition').map((element) => element.textContent),
     ).toEqual([
       'test-release',
       'test-kernel',
@@ -92,11 +92,11 @@ describe('OperatingSystemCard', () => {
         })}
       >
         <OperatingSystemCard />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     expect(
-      screen.getAllByRole('definition').map((element) => element.textContent)
+      screen.getAllByRole('definition').map((element) => element.textContent),
     ).toEqual([
       'Not available',
       'Not available',
@@ -111,7 +111,7 @@ describe('OperatingSystemCard', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
           <OperatingSystemCard />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(screen.queryByRole('link')).not.toBeInTheDocument();
@@ -139,7 +139,7 @@ describe('OperatingSystemCard', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
           <OperatingSystemCard handleClick={onClick} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       await userEvent.click(screen.getByRole('link'));
@@ -158,13 +158,13 @@ describe('OperatingSystemCard', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
           <OperatingSystemCard {...{ [item]: false }} />
-        </TestWrapper>
+        </TestWrapper>,
       );
 
       expect(
-        screen.queryByRole('definition', { name: fields[index] })
+        screen.queryByRole('definition', { name: fields[index] }),
       ).not.toBeInTheDocument();
-    })
+    }),
   );
 
   it('should render extra', () => {
@@ -181,7 +181,7 @@ describe('OperatingSystemCard', () => {
             },
           ]}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     screen.getByRole('definition', {

@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/disallow-fec-relative-imports */
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -35,15 +34,15 @@ const GroupDetailHeader = ({ groupId }) => {
   const dispatch = useDispatch();
   const navigate = useInsightsNavigate();
   const { uninitialized, loading, data } = useSelector(
-    (state) => state.groupDetail
+    (state) => state.groupDetail,
   );
 
   const { hasAccess: canRead } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId)
+    REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId),
   );
 
   const { hasAccess: canModify } = usePermissionsWithContext(
-    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId)
+    REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
   );
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -56,8 +55,9 @@ const GroupDetailHeader = ({ groupId }) => {
   const [edgeDeviceUpdateInfo, setEdgeDeviceUpdateInfo] = useState(null);
 
   const isEdgeParityGroupsEnabled = useFeatureFlag(
-    'edgeParity.inventory-groups-enabled'
+    'edgeParity.inventory-groups-enabled',
   );
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   useEffect(() => {
     if (isEdgeParityGroupsEnabled) {
@@ -74,6 +74,7 @@ const GroupDetailHeader = ({ groupId }) => {
   }, [edgeUpdateModal]);
 
   const name = data?.results?.[0]?.name;
+  const ungrouped = data?.results?.[0]?.ungrouped;
 
   const getTitle = () => {
     if (canRead) {
@@ -157,12 +158,14 @@ const GroupDetailHeader = ({ groupId }) => {
               <DropdownItem
                 key="rename-group"
                 onClick={() => setRenameModalOpen(true)}
+                isAriaDisabled={isKesselEnabled ?? ungrouped}
               >
                 Rename
               </DropdownItem>
               <DropdownItem
                 key="delete-group"
                 onClick={() => setDeleteModalOpen(true)}
+                isAriaDisabled={isKesselEnabled ?? ungrouped}
               >
                 Delete
               </DropdownItem>

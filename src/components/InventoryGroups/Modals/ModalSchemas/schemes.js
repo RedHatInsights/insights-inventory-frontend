@@ -106,11 +106,12 @@ const createDescription = (hosts) => {
 //it allows to create custom item types in the modal
 
 const loadOptions = awesomeDebouncePromise(
-  async (searchValue, chrome) => {
+  async (searchValue, chrome, isKesselEnabled = false) => {
     const fetchedGroups = await getWritableGroups(
       searchValue,
       { page: 1, per_page: 100 }, // TODO: make the list paginated
-      () => chrome.getUserPermissions('inventory')
+      () => chrome.getUserPermissions('inventory'),
+      isKesselEnabled,
     );
 
     return fetchedGroups.map(({ name, id }) => ({
@@ -119,10 +120,10 @@ const loadOptions = awesomeDebouncePromise(
     }));
   },
   250,
-  { onlyResolvesLast: false }
+  { onlyResolvesLast: false },
 );
 
-export const addHostSchema = (hosts, chrome) => ({
+export const addHostSchema = (hosts, chrome, isKesselEnabled = false) => ({
   fields: [
     {
       component: componentTypes.PLAIN_TEXT,
@@ -138,7 +139,8 @@ export const addHostSchema = (hosts, chrome) => ({
       isRequired: true,
       isClearable: true,
       placeholder: 'Type or click to select a workspace',
-      loadOptions: (searchValue) => loadOptions(searchValue, chrome),
+      loadOptions: (searchValue) =>
+        loadOptions(searchValue, chrome, isKesselEnabled),
       options: [],
       validate: [{ type: validatorTypes.REQUIRED }],
       updatingMessage: 'Loading workspaces...',
