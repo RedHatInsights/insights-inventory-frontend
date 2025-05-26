@@ -24,7 +24,7 @@ const SearchableGroupFilter = ({
         ? [
             {
               itemId: '',
-              children: 'No group',
+              children: 'No workspace',
             },
           ]
         : []),

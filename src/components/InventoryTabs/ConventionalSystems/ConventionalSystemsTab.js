@@ -223,6 +223,7 @@ const ConventionalSystemsTab = ({
         initialLoading={initialLoading}
         ref={inventory}
         disableDefaultColumns={isLastCheckInEnabled}
+        showNoGroupOption
         tableProps={{
           actionResolver: tableActions,
           canSelectAll: false,
