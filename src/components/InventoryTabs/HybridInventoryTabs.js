@@ -8,9 +8,11 @@ import {
   Alert,
   Text,
   TextContent,
+  Button,
 } from '@patternfly/react-core';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import { useNavigate } from 'react-router-dom';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 
 const HybridInventoryTabs = ({
   ConventionalSystemsTab,
@@ -84,6 +86,21 @@ const HybridInventoryTabs = ({
               service will be discontinued. Customers are encouraged to explore
               Red Hat Edge Manager (RHEM) as the recommended alternative for
               managing their edge systems.
+            </Text>
+            <Text>
+              <Button
+                component="a"
+                target="_blank"
+                variant="link"
+                icon={<ExternalLinkAltIcon />}
+                iconPosition="right"
+                isInline
+                href={
+                  'https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/managing_device_fleets_with_the_red_hat_edge_manager/index'
+                }
+              >
+                Red Hat Edge Manager (RHEM) documentation
+              </Button>
             </Text>
           </TextContent>
         </Alert>
