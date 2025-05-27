@@ -7,7 +7,54 @@ import {
   productsMapper,
   repositoriesMapper,
   statusHelper,
+  workloadsDataMapper,
 } from './dataMapper';
+
+export const mockWorkloadsData = {
+  ansible: {
+    catalog_worker_version: '9.8.7, banana.42, 0.0.abc',
+    controller_version: 'x.1.2, foo.bar, 3.3.3',
+    hub_version: 'abc.def, 123.456, xyz.789',
+    sso_version: 'preview-1, glitch.9.9, zz-top.7',
+  },
+  rhel_ai: {
+    amd_gpu_models: ['Quantum Spark GT, Mangoburst 900X'],
+    intel_gaudi_hpu_models: ['Turbo Flux HL-Ω1, Gaudi++ Phantom Edition'],
+    nvidia_gpu_models: ['RTX Hypernova 12X, GX-99π Phantom'],
+    rhel_ai_version_id: 'vX.Y.Z-beta',
+    variant: 'RHEL AI Galactic',
+  },
+  intersystems: {
+    is_intersystems: true,
+    running_instances: [
+      {
+        instance_name: 'NOVA-X, ENV-Δ42',
+        product: 'HyperIRIS',
+        version: '3021.∞, nebula.7',
+      },
+    ],
+  },
+  crowdstrike: {
+    falcon_aid: 'xfoCshFVO6TwXdGHvy',
+    falcon_backend: 'dOqLegz0W8159Q0X2, fNbEf-pmK, r1zrECSYr_FgUDMbIu2',
+    falcon_version: 'lsSRGjjnhpl2Cz-, -KPJKI_kSyHVP5khj',
+  },
+  ibm_db2: {
+    is_running: false,
+  },
+  mssql: {
+    version: 'nTQNi8yZSTEN, x_OkwFDlxq7dl, LkIh__hO0qTnYZoCwL',
+  },
+  oracle_db: {
+    is_running: false,
+  },
+  sap: {
+    instance_number: 'j2r1MRNe49og, df.lWNAV._m_2sbl, KAS1MYAqXXqGIirplJG',
+    sap_system: true,
+    sids: ['FudUaJbpiPfLVJkNUT.F, 2DSO9DmPKg30, Vx-jCe1ibHTHj01A'],
+    version: 'ezU7Htkuo, GU_aiKHi52n7PFH, ONRu1Ku4_skoUXrR',
+  },
+};
 
 Object.keys(statusHelper).map((oneStatus) => {
   it(`should return ${oneStatus}`, () => {
@@ -719,5 +766,90 @@ describe('repositoriesMapper', () => {
         "rows": [],
       }
     `);
+  });
+});
+
+describe('workloadsDataMapper test', () => {
+  it('maps Ansible data correctly with selected fieldKeys', () => {
+    const result = workloadsDataMapper({
+      data: [mockWorkloadsData.ansible],
+      fieldKeys: ['controller_version', 'hub_version'],
+      columnTitles: ['Controller version', 'Hub version'],
+    });
+
+    expect(result.cells).toEqual([
+      { title: 'Controller version' },
+      { title: 'Hub version' },
+    ]);
+    expect(result.rows).toEqual([
+      ['x.1.2, foo.bar, 3.3.3', 'abc.def, 123.456, xyz.789'],
+    ]);
+  });
+
+  it('flattens array values for RHEL AI correctly', () => {
+    const result = workloadsDataMapper({
+      data: [mockWorkloadsData.rhel_ai],
+      fieldKeys: ['amd_gpu_models', 'nvidia_gpu_models'],
+      columnTitles: ['AMD GPU models', 'Nvidia GPU models'],
+    });
+
+    expect(result.rows).toEqual([
+      [
+        'Quantum Spark GT, Mangoburst 900X',
+        'RTX Hypernova 12X, GX-99π Phantom',
+      ],
+    ]);
+  });
+
+  it('handles Intersystems running_instances array correctly', () => {
+    const result = workloadsDataMapper({
+      data: mockWorkloadsData.intersystems.running_instances,
+      fieldKeys: ['instance_name', 'product', 'version'],
+      columnTitles: ['Instance name', 'Product', 'Version'],
+    });
+
+    expect(result.cells).toEqual([
+      { title: 'Instance name' },
+      { title: 'Product' },
+      { title: 'Version' },
+    ]);
+
+    expect(result.rows).toEqual([
+      ['NOVA-X, ENV-Δ42', 'HyperIRIS', '3021.∞, nebula.7'],
+    ]);
+  });
+
+  it('returns single-column structure when no fieldKeys are provided', () => {
+    const result = workloadsDataMapper({
+      data: [{ version: '1.0.0' }],
+      fieldKeys: [],
+    });
+
+    expect(result.cells).toEqual([{ title: 'Value' }]);
+    expect(result.rows).toEqual([['1.0.0']]);
+  });
+
+  it('handles missing fields gracefully', () => {
+    const result = workloadsDataMapper({
+      data: [{ foo: 'bar' }],
+      fieldKeys: ['foo', 'missing_field'],
+    });
+
+    expect(result.rows).toEqual([['bar', '']]);
+  });
+
+  it('handles mixed types (boolean, string, array)', () => {
+    const result = workloadsDataMapper({
+      data: [
+        {
+          bool_field: true,
+          string_field: 'hello',
+          array_field: ['a', 'b', 'c'],
+        },
+      ],
+      fieldKeys: ['bool_field', 'string_field', 'array_field'],
+    });
+
+    expect(result.rows).toEqual([[true, 'hello', 'a, b, c']]);
   });
 });
