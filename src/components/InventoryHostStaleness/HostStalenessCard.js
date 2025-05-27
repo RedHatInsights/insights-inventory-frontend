@@ -14,6 +14,9 @@ import {
   Tabs,
   Title,
   Tooltip,
+  Alert,
+  TextContent,
+  Text,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
@@ -61,13 +64,11 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
   };
-
   //Cancel button when a user opts out of saving changes
   const resetToOriginalValues = () => {
     setNewFormValues(filter);
     setIsEditing(!isEditing);
   };
-
   //On save Button
   const saveHostData = async () => {
     let apiData = {};
@@ -81,7 +82,6 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           filterKey,
         )),
     );
-
     // system_default means the account has no record, therefor, post for new instance of record.
     if (filter.id === 'system_default') {
       postStalenessData(apiData)
@@ -149,7 +149,6 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     setFilter(newFilter);
     setNewFormValues(newFilter);
   };
-
   //keeps track of what default the backend wants
   const fetchDefaultValues = async () => {
     let results = await fetchDefaultStalenessValues().catch((err) => err);
@@ -173,6 +172,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
       ...immutableFilter,
     });
   };
+
   const edgeSystemCheck = () => {
     fetchEdgeSystem().then((res) => setHasEdgeSystems(res.data.total > 0));
   };
@@ -286,22 +286,47 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                     </TabTitleText>
                   }
                 >
-                  <TabCard
-                    isEditing={isEditing}
-                    filter={filter}
-                    setFilter={setFilter}
-                    activeTabKey={1}
-                    newFormValues={newFormValues}
-                    setNewFormValues={setNewFormValues}
-                    isFormValid={isFormValid}
-                    setIsFormValid={setIsFormValid}
-                    hostStalenessImmutableDefaults={
-                      hostStalenessImmutableDefaults
-                    }
-                    hostStalenessConventionalDefaults={
-                      hostStalenessConventionalDefaults
-                    }
-                  />
+                  <>
+                    <Alert
+                      variant="info"
+                      isInline
+                      title={
+                        <>
+                          Upcoming decommission of hosted edge management
+                          service
+                        </>
+                      }
+                      className="pf-v5-u-mt-sm pf-v5-u-mb-sm"
+                    >
+                      <TextContent>
+                        <Text>
+                          As of July 31, 2025, the hosted edge management will
+                          no longer be supported. Consequently, pushing image
+                          updates to Immutable (OSTree) systems via the Hybrid
+                          cloud console using this service will be discontinued.
+                          Customers are encouraged to explore Red Hat Edge
+                          Manager (RHEM) as the recommended alternative for
+                          managing their edge systems.
+                        </Text>
+                      </TextContent>
+                    </Alert>
+                    <TabCard
+                      isEditing={isEditing}
+                      filter={filter}
+                      setFilter={setFilter}
+                      activeTabKey={1}
+                      newFormValues={newFormValues}
+                      setNewFormValues={setNewFormValues}
+                      isFormValid={isFormValid}
+                      setIsFormValid={setIsFormValid}
+                      hostStalenessImmutableDefaults={
+                        hostStalenessImmutableDefaults
+                      }
+                      hostStalenessConventionalDefaults={
+                        hostStalenessConventionalDefaults
+                      }
+                    />
+                  </>
                 </Tab>
               </Tabs>
             ) : (
@@ -363,11 +388,12 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   ]}
                   ouiaId="BasicModal"
                 >
-                  {`Changing the organization level setting for system staleness and
-              deletion may impact your systems. Some systems may be deleted as a result.`}
+                  Changing the organization level setting for system staleness
+                  and deletion may impact your systems. Some systems may be
+                  deleted as a result.
                 </Modal>
               </Flex>
-            )}{' '}
+            )}
           </CardBody>
         </Card>
       ) : (
