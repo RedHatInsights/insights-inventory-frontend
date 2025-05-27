@@ -6,7 +6,7 @@ import { Clickable } from '../LoadingCard/LoadingCard';
 const WorkloadsSection = ({ handleClick, workloadsData, workloadsTypes }) => {
   const filteredConfigs = useMemo(() => {
     return workloadConfigs(handleClick, workloadsData).filter(({ type }) =>
-      workloadsTypes.includes(type)
+      workloadsTypes.includes(type),
     );
   }, [handleClick, workloadsData, workloadsTypes]);
 
@@ -32,7 +32,7 @@ const WorkloadsSection = ({ handleClick, workloadsData, workloadsTypes }) => {
           />
         </Fragment>
       );
-    }
+    },
   );
 };
 

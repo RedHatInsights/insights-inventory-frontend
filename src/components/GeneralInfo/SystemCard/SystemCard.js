@@ -76,12 +76,12 @@ class SystemCardCore extends Component {
 
     function checkWorkloadsKeys(input = {}, referenceKeys) {
       return referenceKeys.filter(
-        (key) => typeof input[key] === 'object' && input[key] !== null
+        (key) => typeof input[key] === 'object' && input[key] !== null,
       );
     }
     const workloadsTypes = checkWorkloadsKeys(
       workloadsData,
-      workloadsTypesKeys
+      workloadsTypesKeys,
     );
 
     return (
@@ -214,7 +214,7 @@ class SystemCardCore extends Component {
                     onClick: () =>
                       handleClick(
                         'CPU flags',
-                        generalMapper(properties.cpuFlags, 'flag name')
+                        generalMapper(properties.cpuFlags, 'flag name'),
                       ),
                   },
                 ]
@@ -238,7 +238,7 @@ class SystemCardCore extends Component {
           onCancel={this.onCancel}
           onSubmit={this.onSubmit(
             setDisplayName,
-            entity && entity.display_name
+            entity && entity.display_name,
           )}
           className="sentry-mask data-hj-suppress"
         />
@@ -254,7 +254,7 @@ class SystemCardCore extends Component {
           onCancel={this.onCancel}
           onSubmit={this.onSubmit(
             setAnsibleHost,
-            entity && this.getAnsibleHost()
+            entity && this.getAnsibleHost(),
           )}
           className="sentry-mask data-hj-suppress"
         />
@@ -266,9 +266,8 @@ class SystemCardCore extends Component {
 SystemCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
   entity: PropTypes.shape({
-    // eslint-disable-next-line camelcase
     display_name: PropTypes.string,
-    // eslint-disable-next-line camelcase
+
     ansible_host: PropTypes.string,
     fqdn: PropTypes.string,
     id: PropTypes.string,
@@ -281,11 +280,11 @@ SystemCardCore.propTypes = {
     storage: PropTypes.arrayOf(
       PropTypes.shape({
         device: PropTypes.string,
-        // eslint-disable-next-line camelcase
+
         mount_point: PropTypes.string,
         options: PropTypes.shape({}),
         type: PropTypes.string,
-      })
+      }),
     ),
     sapIds: PropTypes.arrayOf(PropTypes.string),
     systemPurpose: PropTypes.string,
@@ -342,7 +341,7 @@ export const SystemCard = connect(
     properties: propertiesSelector(systemProfile, entity),
     workloadsData: systemProfile?.workloads,
   }),
-  mapDispatchToProps
+  mapDispatchToProps,
 )(SystemCardCore);
 
 SystemCard.propTypes = SystemCardCore.propTypes;

@@ -13,7 +13,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
     onClick: () =>
       handleClick(
         'SAP IDs (SID)',
-        generalMapper(workloadsData.sap.sids, 'SID')
+        generalMapper(workloadsData.sap.sids, 'SID'),
       ),
     target: 'sap_sids',
   },
@@ -37,7 +37,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
             'Hub version',
             'SSO version',
           ],
-        })
+        }),
       ),
     target: 'ansible',
   },
@@ -49,7 +49,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
         'Microsoft SQL',
         workloadsDataMapper({
           data: [{ version: workloadsData.mssql.version }],
-        })
+        }),
       ),
     target: 'mssql',
   },
@@ -63,7 +63,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
           data: [workloadsData.crowdstrike],
           fieldKeys: ['falcon_aid', 'falcon_backend', 'falcon_version'],
           columnTitles: ['Falcon AID', 'Falcon backend', 'Falcon version'],
-        })
+        }),
       ),
     target: 'crowdstrike',
   },
@@ -89,7 +89,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
             'RHEL AI version ID',
             'Variant',
           ],
-        })
+        }),
       ),
     target: 'rhel_ai',
   },
@@ -103,7 +103,7 @@ export const workloadConfigs = (handleClick, workloadsData) => [
           data: workloadsData.intersystems.running_instances,
           fieldKeys: ['instance_name', 'product', 'version'],
           columnTitles: ['Instance name', 'Product', 'Version'],
-        })
+        }),
       ),
     target: 'intersystems',
   },
