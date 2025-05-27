@@ -9,6 +9,8 @@ import TitleWithPopover from '../TitleWithPopover';
 import EditButton from '../EditButton';
 import { generalMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
+import { workloadsTypesKeys } from './SystemCardConfigs';
+import WorkloadsSection from './Workloads';
 
 class SystemCardCore extends Component {
   state = {
@@ -61,7 +63,6 @@ class SystemCardCore extends Component {
       hasDisplayName,
       hasAnsibleHostname,
       hasWorkspace,
-      hasSAP,
       hasSystemPurpose,
       hasCPUs,
       hasSockets,
@@ -69,8 +70,19 @@ class SystemCardCore extends Component {
       hasCPUFlags,
       hasRAM,
       extra,
+      workloadsData = {},
     } = this.props;
     const { isDisplayNameModalOpen, isAnsibleHostModalOpen } = this.state;
+
+    function checkWorkloadsKeys(input = {}, referenceKeys) {
+      return referenceKeys.filter(
+        (key) => typeof input[key] === 'object' && input[key] !== null
+      );
+    }
+    const workloadsTypes = checkWorkloadsKeys(
+      workloadsData,
+      workloadsTypesKeys
+    );
 
     return (
       <Fragment>
@@ -154,22 +166,27 @@ class SystemCardCore extends Component {
                   },
                 ]
               : []),
-            ...(hasSAP
+            ...(workloadsTypes.length > 0
               ? [
                   {
-                    title: 'SAP',
-                    value: properties.sapIds?.length,
-                    singular: 'identifier',
-                    target: 'sap_sids',
-                    onClick: () => {
-                      handleClick(
-                        'SAP IDs (SID)',
-                        generalMapper(properties.sapIds, 'SID'),
-                      );
-                    },
+                    title: 'Workloads',
+                    size: 'md',
+                    value: (
+                      <WorkloadsSection
+                        handleClick={handleClick}
+                        workloadsData={workloadsData}
+                        workloadsTypes={workloadsTypes}
+                      />
+                    ),
                   },
                 ]
-              : []),
+              : [
+                  {
+                    title: 'Workloads',
+                    size: 'md',
+                    value: 'Not available',
+                  },
+                ]),
             ...(hasSystemPurpose
               ? [{ title: 'System purpose', value: properties.systemPurpose }]
               : []),
@@ -197,7 +214,7 @@ class SystemCardCore extends Component {
                     onClick: () =>
                       handleClick(
                         'CPU flags',
-                        generalMapper(properties.cpuFlags, 'flag name'),
+                        generalMapper(properties.cpuFlags, 'flag name')
                       ),
                   },
                 ]
@@ -221,7 +238,7 @@ class SystemCardCore extends Component {
           onCancel={this.onCancel}
           onSubmit={this.onSubmit(
             setDisplayName,
-            entity && entity.display_name,
+            entity && entity.display_name
           )}
           className="sentry-mask data-hj-suppress"
         />
@@ -237,7 +254,7 @@ class SystemCardCore extends Component {
           onCancel={this.onCancel}
           onSubmit={this.onSubmit(
             setAnsibleHost,
-            entity && this.getAnsibleHost(),
+            entity && this.getAnsibleHost()
           )}
           className="sentry-mask data-hj-suppress"
         />
@@ -249,8 +266,9 @@ class SystemCardCore extends Component {
 SystemCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
   entity: PropTypes.shape({
+    // eslint-disable-next-line camelcase
     display_name: PropTypes.string,
-
+    // eslint-disable-next-line camelcase
     ansible_host: PropTypes.string,
     fqdn: PropTypes.string,
     id: PropTypes.string,
@@ -263,11 +281,11 @@ SystemCardCore.propTypes = {
     storage: PropTypes.arrayOf(
       PropTypes.shape({
         device: PropTypes.string,
-
+        // eslint-disable-next-line camelcase
         mount_point: PropTypes.string,
         options: PropTypes.shape({}),
         type: PropTypes.string,
-      }),
+      })
     ),
     sapIds: PropTypes.arrayOf(PropTypes.string),
     systemPurpose: PropTypes.string,
@@ -280,7 +298,6 @@ SystemCardCore.propTypes = {
   hasHostName: PropTypes.bool,
   hasDisplayName: PropTypes.bool,
   hasAnsibleHostname: PropTypes.bool,
-  hasSAP: PropTypes.bool,
   hasSystemPurpose: PropTypes.bool,
   hasCPUs: PropTypes.bool,
   hasSockets: PropTypes.bool,
@@ -297,7 +314,6 @@ SystemCardCore.defaultProps = {
   hasDisplayName: true,
   hasAnsibleHostname: true,
   hasWorkspace: true,
-  hasSAP: true,
   hasSystemPurpose: true,
   hasCPUs: true,
   hasSockets: true,
@@ -324,8 +340,9 @@ export const SystemCard = connect(
     entity,
     detailLoaded: systemProfile && systemProfile.loaded,
     properties: propertiesSelector(systemProfile, entity),
+    workloadsData: systemProfile?.workloads,
   }),
-  mapDispatchToProps,
+  mapDispatchToProps
 )(SystemCardCore);
 
 SystemCard.propTypes = SystemCardCore.propTypes;

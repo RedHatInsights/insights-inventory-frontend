@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import React from 'react';
 import {
   CheckCircleIcon,
@@ -133,7 +135,7 @@ export const interfaceMapper = (data = []) => ({
 });
 
 export const repositoriesMapper = (
-  { enabled, disabled } = { enabled: [], disabled: [] },
+  { enabled, disabled } = { enabled: [], disabled: [] }
 ) => ({
   cells: [
     {
@@ -192,3 +194,50 @@ export const generalMapper = (data = [], title = '') => ({
   rows: data.map((item) => [item]),
   filters: [{ type: 'text' }],
 });
+
+export const workloadsDataMapper = ({
+  data = [],
+  fieldKeys = [],
+  columnTitles,
+} = {}) => {
+  const toTitleCase = (str) =>
+    str
+      .replace(/_/g, ' ')
+      .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.slice(1));
+
+  const isSingleColumn = fieldKeys.length === 0;
+
+  const getCells = () => {
+    if (
+      columnTitles !== undefined &&
+      columnTitles.length === fieldKeys.length
+    ) {
+      return columnTitles.map((title) => ({ title }));
+    }
+
+    if (isSingleColumn) {
+      return [{ title: 'Value' }];
+    }
+
+    return fieldKeys.map((key) => ({ title: toTitleCase(key) }));
+  };
+
+  const formatValue = (value) => {
+    if (Array.isArray(value)) return value.join(', ');
+    if (value === undefined || value === null) return '';
+    return value;
+  };
+
+  const getRows = () => {
+    if (isSingleColumn) {
+      return data.map((item) => [item.version]);
+    }
+    return data.map((item) => fieldKeys.map((key) => formatValue(item[key])));
+  };
+
+  return {
+    cells: getCells(),
+    rows: getRows(),
+    filters: [{ type: 'text' }],
+  };
+};

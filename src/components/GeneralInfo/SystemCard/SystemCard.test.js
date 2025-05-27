@@ -10,13 +10,18 @@ import { rhsmFacts, testProperties } from '../../../__mocks__/selectors';
 import SystemCard from './SystemCard';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { hostInventoryApi } from '../../../api/hostInventoryApi';
+import { mockWorkloadsData } from '../dataMapper/dataMapper.test';
+import {
+  workloadClickTestCases,
+  workloadTestCases,
+} from './SystemCardTestsFixtures';
 
 const fields = [
   'Host name',
   'Display name',
   'Ansible hostname',
   'Workspace',
-  'SAP',
+  'Workloads',
   'System purpose',
   'Number of CPUs',
   'Sockets',
@@ -34,7 +39,7 @@ jest.mock(
   () => ({
     esModule: true,
     usePermissionsWithContext: () => ({ hasAccess: true }),
-  }),
+  })
 );
 
 describe('SystemCard', () => {
@@ -47,7 +52,7 @@ describe('SystemCard', () => {
       .onGet('/api/inventory/v1/hosts/test-id/system_profile')
       .reply(200, mockedData);
     mock.onGet('/api/inventory/v1/hosts/test-id').reply(200, mockedData);
-        mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
+    mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
 
     location.pathname = 'localhost:3000/example/path';
 
@@ -77,7 +82,7 @@ describe('SystemCard', () => {
         store={mockStore({ systemProfileStore: {}, entityDetails: {} })}
       >
         <SystemCard />
-      </TestWrapper>,
+      </TestWrapper>
     );
 
     screen.getByRole('heading', {
@@ -85,7 +90,7 @@ describe('SystemCard', () => {
     });
     fields.forEach(screen.getByText);
     expect(
-      screen.getAllByRole('definition').map((element) => element.textContent),
+      screen.getAllByRole('definition').map((element) => element.textContent)
     ).toEqual(['', '', '', '', '', '', '', '', '', '', '']);
     screen.getByRole('button', {
       name: /action for host name/i,
@@ -102,11 +107,11 @@ describe('SystemCard', () => {
     render(
       <TestWrapper store={mockStore(initialState)}>
         <SystemCard />
-      </TestWrapper>,
+      </TestWrapper>
     );
 
     expect(
-      screen.getAllByRole('definition').map((element) => element.textContent),
+      screen.getAllByRole('definition').map((element) => element.textContent)
     ).toEqual([
       'Not available',
       'test-display-name',
@@ -143,39 +148,14 @@ describe('SystemCard', () => {
         })}
       >
         <SystemCard />
-      </TestWrapper>,
+      </TestWrapper>
     );
 
     expect(screen.getByText('workspace_name')).toBeInTheDocument();
     expect(screen.getByText('workspace_name')).toHaveAttribute(
       'href',
-      '//inventory/workspaces/your_favourite_uuid',
+      '//inventory/workspaces/your_favourite_uuid'
     );
-  });
-
-  it('should render correctly with SAP IDS', () => {
-    render(
-      <TestWrapper
-        store={mockStore({
-          ...initialState,
-          systemProfileStore: {
-            systemProfile: {
-              loaded: true,
-              ...testProperties,
-              sap_sids: ['AAA', 'BBB'],
-            },
-          },
-        })}
-      >
-        <SystemCard />
-      </TestWrapper>,
-    );
-
-    expect(
-      screen.getByRole('definition', {
-        name: /sap value/i,
-      }),
-    ).toHaveTextContent('2 identifiers');
   });
 
   it('should render correctly with rhsm facts', () => {
@@ -191,11 +171,11 @@ describe('SystemCard', () => {
         })}
       >
         <SystemCard />
-      </TestWrapper>,
+      </TestWrapper>
     );
 
     expect(
-      screen.getAllByRole('definition').map((element) => element.textContent),
+      screen.getAllByRole('definition').map((element) => element.textContent)
     ).toEqual([
       'Not available',
       'test-display-name',
@@ -216,13 +196,13 @@ describe('SystemCard', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
           <SystemCard />
-        </TestWrapper>,
+        </TestWrapper>
       );
 
       expect(
         screen.getByRole('definition', {
           name: /ansible hostname value/i,
-        }),
+        })
       ).toHaveTextContent('test-ansible-host');
     });
 
@@ -241,13 +221,13 @@ describe('SystemCard', () => {
           })}
         >
           <SystemCard />
-        </TestWrapper>,
+        </TestWrapper>
       );
 
       expect(
         screen.getByRole('definition', {
           name: /ansible hostname value/i,
-        }),
+        })
       ).toHaveTextContent('test-fqdn');
     });
 
@@ -266,13 +246,13 @@ describe('SystemCard', () => {
           })}
         >
           <SystemCard />
-        </TestWrapper>,
+        </TestWrapper>
       );
 
       expect(
         screen.getByRole('definition', {
           name: /ansible hostname value/i,
-        }),
+        })
       ).toHaveTextContent('test-id');
     });
 
@@ -280,17 +260,17 @@ describe('SystemCard', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
           <SystemCard />
-        </TestWrapper>,
+        </TestWrapper>
       );
 
       await userEvent.click(
         within(
           screen.getByRole('definition', {
             name: /display name value/i,
-          }),
+          })
         ).getByRole('img', {
           hidden: true,
-        }),
+        })
       );
 
       screen.getByRole('heading', {
@@ -305,17 +285,17 @@ describe('SystemCard', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
           <SystemCard />
-        </TestWrapper>,
+        </TestWrapper>
       );
 
       await userEvent.click(
         within(
           screen.getByRole('definition', {
             name: /ansible hostname value/i,
-          }),
+          })
         ).getByRole('img', {
           hidden: true,
-        }),
+        })
       );
 
       screen.getByRole('heading', {
@@ -335,17 +315,17 @@ describe('SystemCard', () => {
       render(
         <TestWrapper store={store}>
           <SystemCard />
-        </TestWrapper>,
+        </TestWrapper>
       );
 
       await userEvent.click(
         within(
           screen.getByRole('definition', {
             name: /display name value/i,
-          }),
+          })
         ).getByRole('img', {
           hidden: true,
-        }),
+        })
       );
       expect(store.getActions().length).toBe(0); // the button is disabled since the input hasn't been changed
     });
@@ -359,56 +339,19 @@ describe('SystemCard', () => {
       render(
         <TestWrapper store={store}>
           <SystemCard />
-        </TestWrapper>,
+        </TestWrapper>
       );
 
       await userEvent.click(
         within(
           screen.getByRole('definition', {
             name: /ansible hostname value/i,
-          }),
+          })
         ).getByRole('img', {
           hidden: true,
-        }),
+        })
       );
       expect(store.getActions().length).toBe(0); // the button is disabled since the input hasn't been changed
-    });
-
-    it('should handle click on SAP identifiers', async () => {
-      const handleClick = jest.fn();
-      render(
-        <TestWrapper
-          store={mockStore({
-            ...initialState,
-            systemProfileStore: {
-              systemProfile: {
-                loaded: true,
-                ...testProperties,
-                sap_sids: ['AAA', 'BBB'],
-              },
-            },
-          })}
-          routerProps={{ initialEntries: ['/example/sap_sids'] }}
-        >
-          <SystemCard handleClick={handleClick} />
-        </TestWrapper>,
-      );
-
-      await userEvent.click(
-        screen.getByRole('link', {
-          name: /2 identifiers/i,
-        }),
-      );
-      expect(handleClick).toHaveBeenCalledWith('SAP IDs (SID)', {
-        cells: [
-          {
-            title: 'SID',
-            transforms: expect.any(Array),
-          },
-        ],
-        filters: [{ type: 'text' }],
-        rows: [['AAA'], ['BBB']],
-      });
     });
 
     it('should handle click on cpu flags identifiers', async () => {
@@ -428,13 +371,13 @@ describe('SystemCard', () => {
           routerProps={{ initialEntries: ['/example/flag'] }}
         >
           <SystemCard handleClick={handleClick} />
-        </TestWrapper>,
+        </TestWrapper>
       );
 
       await userEvent.click(
         screen.getByRole('link', {
           name: /2 flags/i,
-        }),
+        })
       );
       expect(handleClick).toHaveBeenCalledWith('CPU flags', {
         cells: [
@@ -449,29 +392,28 @@ describe('SystemCard', () => {
     });
   });
 
-  [
-    'hasHostName',
-    'hasDisplayName',
-    'hasAnsibleHostname',
-    'hasWorkspace',
-    'hasSAP',
-    'hasSystemPurpose',
-    'hasCPUs',
-    'hasSockets',
-    'hasCores',
-    'hasCPUFlags',
-    'hasRAM',
-  ].map((item, index) =>
-    it(`should not render ${item}`, () => {
-      render(
-        <TestWrapper store={mockStore(initialState)}>
-          <SystemCard {...{ [item]: false }} />
-        </TestWrapper>,
-      );
+  const fieldsToTest = [
+    ['hasHostName', 'Host name'],
+    ['hasDisplayName', 'Display name'],
+    ['hasAnsibleHostname', 'Ansible hostname'],
+    ['hasWorkspace', 'Workspace'],
+    ['hasSystemPurpose', 'System purpose'],
+    ['hasCPUs', 'Number of CPUs'],
+    ['hasSockets', 'Sockets'],
+    ['hasCores', 'Cores per socket'],
+    ['hasCPUFlags', 'CPU flags'],
+    ['hasRAM', 'RAM'],
+  ];
 
-      expect(screen.queryByText(fields[index])).not.toBeInTheDocument();
-    }),
-  );
+  it.each(fieldsToTest)('should not render %s when disabled', (prop, label) => {
+    render(
+      <TestWrapper store={mockStore(initialState)}>
+        <SystemCard {...{ [prop]: false }} />
+      </TestWrapper>
+    );
+
+    expect(screen.queryByText(label)).not.toBeInTheDocument();
+  });
 
   it('should render extra', () => {
     render(
@@ -487,11 +429,11 @@ describe('SystemCard', () => {
             },
           ]}
         />
-      </TestWrapper>,
+      </TestWrapper>
     );
 
     expect(
-      screen.getAllByRole('definition').map((element) => element.textContent),
+      screen.getAllByRole('definition').map((element) => element.textContent)
     ).toEqual([
       'Not available',
       'test-display-name',
@@ -507,5 +449,106 @@ describe('SystemCard', () => {
       'test',
       '1 tests',
     ]);
+  });
+
+  describe('SystemCard workload rendering', () => {
+    it.each(workloadTestCases)(
+      'should render correctly with $name workload',
+      ({ workloads, expectedText }) => {
+        render(
+          <TestWrapper
+            store={mockStore({
+              ...initialState,
+              systemProfileStore: {
+                systemProfile: {
+                  loaded: true,
+                  ...testProperties,
+                  workloads,
+                },
+              },
+            })}
+          >
+            <SystemCard />
+          </TestWrapper>
+        );
+
+        expect(
+          screen.getByRole('definition', {
+            name: /Workloads value/i,
+          })
+        ).toHaveTextContent(expectedText);
+      }
+    );
+
+    it('should render correctly with every workload', () => {
+      render(
+        <TestWrapper
+          store={mockStore({
+            ...initialState,
+            systemProfileStore: {
+              systemProfile: {
+                loaded: true,
+                ...testProperties,
+                workloads: mockWorkloadsData,
+              },
+            },
+          })}
+        >
+          <SystemCard />
+        </TestWrapper>
+      );
+
+      expect(
+        screen.getByRole('definition', {
+          name: /Workloads value/i,
+        })
+      ).toHaveTextContent(
+        /SAP|Ansible Automation Platform|CrowdStrike|RHEL AI|InterSystems|IBM Db2|Microsoft SQL|Oracle Database/
+      );
+    });
+  });
+
+  describe('SystemCard workload clicks', () => {
+    it.each(workloadClickTestCases)(
+      'should handle click on %s Workloads',
+      async ({
+        name,
+        linkText,
+        workloads,
+        expectedClickTitle,
+        expectedData,
+      }) => {
+        const handleClick = jest.fn();
+
+        render(
+          <TestWrapper
+            store={mockStore({
+              ...initialState,
+              systemProfileStore: {
+                systemProfile: {
+                  loaded: true,
+                  ...testProperties,
+                  workloads,
+                },
+              },
+            })}
+            routerProps={{ initialEntries: [`/example/${name.toLowerCase()}`] }}
+          >
+            <SystemCard handleClick={handleClick} />
+          </TestWrapper>
+        );
+
+        await userEvent.click(
+          screen.getByRole('link', {
+            name: linkText,
+          })
+        );
+
+        expect(handleClick).toHaveBeenCalledWith(
+          expectedClickTitle,
+          expectedData
+        );
+      }
+    );
   });
 });
