@@ -19,6 +19,7 @@ import {
   Text,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
 import {
   CONVENTIONAL_TAB_TOOLTIP,
@@ -307,6 +308,21 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                           Customers are encouraged to explore Red Hat Edge
                           Manager (RHEM) as the recommended alternative for
                           managing their edge systems.
+                        </Text>
+                        <Text>
+                          <Button
+                            component="a"
+                            target="_blank"
+                            variant="link"
+                            icon={<ExternalLinkAltIcon />}
+                            iconPosition="right"
+                            isInline
+                            href={
+                              'https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/managing_device_fleets_with_the_red_hat_edge_manager/index'
+                            }
+                          >
+                            Red Hat Edge Manager (RHEM) documentation
+                          </Button>
                         </Text>
                       </TextContent>
                     </Alert>
