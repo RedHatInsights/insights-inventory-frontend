@@ -54,7 +54,7 @@ const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
     const fetchOptions = async () => {
       if (!hasAccess) return;
 
-      const search = isKesselEnabled ? { type: 'all' } : undefined;
+      const search = isKesselEnabled ? { groupType: 'all' } : {};
 
       const firstRequest = !ignore
         ? await getGroups(search, { page: 1, per_page: 50 })
@@ -65,7 +65,7 @@ const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
           ? await pageOffsetfetchBatched(
               getGroups,
               firstRequest.total - 50,
-              {},
+              search,
               50,
               1,
             )
