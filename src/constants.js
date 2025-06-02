@@ -77,7 +77,8 @@ export const generateFilters = (
   filters.map((filter, key) => {
     const activeKey = filter.index || key;
     const activeLabel =
-      cells[activeKey] && (cells[activeKey].title || cells[activeKey]);
+      cells[activeKey] &&
+      (cells[activeKey].title?.toLowerCase() || cells[activeKey]);
     return {
       value: String(activeKey),
       label: activeLabel,

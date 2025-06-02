@@ -234,14 +234,14 @@ describe('generateFilters', () => {
     });
     expect(filters[2]).toMatchObject({
       value: '2',
-      label: 'Third',
+      label: 'third',
       filterValues: {
         items: [{ label: 'ff' }],
       },
     });
     expect(filters[3]).toMatchObject({
       value: '2',
-      label: 'Third',
+      label: 'third',
       type: 'text',
     });
     expect(filters.length).toBe(4);
