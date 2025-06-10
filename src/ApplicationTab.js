@@ -28,10 +28,7 @@ const ApplicationTab = ({ appName, title, ...props }) => {
 
   const Tab = tabs[appName];
 
-  return hasAccess ||
-    (isOrgAdmin &&
-      appName !==
-        'advisor') /** TODO: remove the advisor exception once the rbac-config is updated */ ? (
+  return hasAccess || isOrgAdmin ? (
     <Tab {...props} />
   ) : (
     <AccessDenied
