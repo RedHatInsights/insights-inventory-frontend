@@ -54,10 +54,8 @@ const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
     const fetchOptions = async () => {
       if (!hasAccess) return;
 
-      const search = isKesselEnabled ? { type: 'all' } : undefined;
-
       const firstRequest = !ignore
-        ? await getGroups(search, { page: 1, per_page: 50 })
+        ? await getGroups(undefined, { page: 1, per_page: 50 })
         : { total: 0 };
 
       const groups =
@@ -103,7 +101,8 @@ const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
             initialGroups={fetchedGroups}
             selectedGroupNames={selectedGroupNames}
             setSelectedGroupNames={setSelectedGroupNames}
-            showNoGroupOption={showNoGroupOption && !isKesselEnabled}
+            showNoGroupOption={showNoGroupOption}
+            isKesselEnabled={isKesselEnabled}
           />
         ),
       },
