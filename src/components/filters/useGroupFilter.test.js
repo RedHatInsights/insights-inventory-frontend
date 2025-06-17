@@ -47,6 +47,7 @@ describe('groups request not yet resolved', () => {
       {
         "children": <SearchableGroupFilter
           initialGroups={[]}
+          isKesselEnabled={false}
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
@@ -87,6 +88,7 @@ describe('with some groups available', () => {
               undefined,
             ]
           }
+          isKesselEnabled={false}
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
@@ -140,6 +142,7 @@ describe('with some groups available', () => {
               undefined,
             ]
           }
+          isKesselEnabled={false}
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={true}
@@ -193,9 +196,10 @@ describe('with some groups available', () => {
               undefined,
             ]
           }
+          isKesselEnabled={true}
           selectedGroupNames={[]}
           setSelectedGroupNames={[Function]}
-          showNoGroupOption={false}
+          showNoGroupOption={true}
         />,
       }
     `);
