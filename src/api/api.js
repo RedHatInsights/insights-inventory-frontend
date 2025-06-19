@@ -12,10 +12,7 @@ import {
   UPDATE_METHOD_KEY,
   allStaleFilters,
 } from '../Utilities/constants';
-import {
-  ApiTagGetTagsOrderByEnum,
-  ApiTagGetTagsOrderHowEnum,
-} from '@redhat-cloud-services/host-inventory-client/ApiTagGetTags';
+import { ApiTagGetTagsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiTagGetTags';
 import {
   createStaleness as apiCreateStaleness,
   getDefaultStaleness as apiGetDefaultStaleness,
@@ -360,7 +357,7 @@ export function getAllTags(search, pagination = {}) {
   return apiGetTags({
     tags: [],
     orderBy: ApiTagGetTagsOrderByEnum.Tag,
-    orderHow: ApiTagGetTagsOrderHowEnum.Asc,
+    orderHow: 'ASC',
     perPage: pagination.perPage || 10,
     page: pagination.page || 1,
     staleness: allStaleFilters,

@@ -96,6 +96,7 @@ const getHostList = async ({
   fqdn,
   hostnameOrId,
   insightsId,
+  subscriptionManagerId,
   providerId,
   providerType,
   updatedStart,
@@ -119,6 +120,7 @@ const getHostList = async ({
     fqdn,
     hostnameOrId,
     insightsId,
+    subscriptionManagerId,
     providerId,
     providerType,
     updatedStart,
@@ -241,6 +243,7 @@ const getGroupList = async ({
   page,
   orderBy,
   orderHow,
+  groupType,
   options,
 }: ApiGroupGetGroupListParams = {}) =>
   await hostInventoryApi.apiGroupGetGroupList(
@@ -250,6 +253,7 @@ const getGroupList = async ({
     page,
     orderBy,
     orderHow,
+    groupType,
     options,
   );
 

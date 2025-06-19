@@ -109,7 +109,7 @@ In case they don't match, update this client package to it's latest version by r
 
 Then, re-install the modules by running this command: `rm -rf node_modules && npm install`
 
-And re-run the application
+And re-run the application.
 This should solve this issue.
 
 In case these steps did not solve your issue, it is possible that the latest package had not been released yet.

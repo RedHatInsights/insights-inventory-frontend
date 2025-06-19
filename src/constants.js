@@ -77,7 +77,8 @@ export const generateFilters = (
   filters.map((filter, key) => {
     const activeKey = filter.index || key;
     const activeLabel =
-      cells[activeKey] && (cells[activeKey].title || cells[activeKey]);
+      cells[activeKey] &&
+      (cells[activeKey].title?.toLowerCase() || cells[activeKey]);
     return {
       value: String(activeKey),
       label: activeLabel,
@@ -299,7 +300,7 @@ export const TAB_REQUIRED_PERMISSIONS = {
    * https://github.com/RedHatInsights/rbac-config/tree/master/configs/stage/roles
    * viewer roles.
    */
-  advisor: ['advisor:*:*'], // corresponds to the Advisor administrator - an only available - RBAC role
+  advisor: ['advisor:*:read'],
   vulnerability: [
     'vulnerability:vulnerability_results:read',
     'vulnerability:system.opt_out:read',
