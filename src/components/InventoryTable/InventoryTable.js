@@ -19,6 +19,7 @@ import { clearErrors, entitiesLoading } from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
 import { useSearchParams } from 'react-router-dom';
 import { ACTION_TYPES } from '../../store/action-types';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 /**
  * A helper function to store props and to always return the latest state.
@@ -143,6 +144,10 @@ const InventoryTable = forwardRef(
 
     const controller = useRef(new AbortController());
 
+    const edgeParityFilterDeviceEnabled = useFeatureFlag(
+      'edgeParity.inventory-list-filter',
+    );
+
     /**
      * If initialLoading is set to true, then the component should be in loading state until
      * entities.loaded is false (and then we can use the redux loading state and forget this one)
@@ -234,7 +239,12 @@ const InventoryTable = forwardRef(
           onRefresh(newParams, (options) => {
             dispatch(
               loadSystems(
-                { ...newParams, ...options, controller: controller.current },
+                {
+                  ...newParams,
+                  ...options,
+                  controller: controller.current,
+                  filterImmutableByDefault: edgeParityFilterDeviceEnabled,
+                },
                 cachedProps.showTags,
                 cachedProps.getEntities,
               ),
@@ -243,7 +253,11 @@ const InventoryTable = forwardRef(
         } else {
           dispatch(
             loadSystems(
-              { ...newParams, controller: controller.current },
+              {
+                ...newParams,
+                controller: controller.current,
+                filterImmutableByDefault: edgeParityFilterDeviceEnabled,
+              },
               cachedProps.showTags,
               cachedProps.getEntities,
             ),
