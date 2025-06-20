@@ -34,7 +34,15 @@ const valueToText = (value, singular, plural) => {
   return value || 'Not available';
 };
 
-export const Clickable = ({ value, target, plural, singular, onClick }) => {
+export const Clickable = ({
+  value,
+  target,
+  plural,
+  singular,
+  onClick,
+  workload,
+  title,
+}) => {
   const { pathname } = useLocation();
   // const { modalId } = useParams(); is causing regression when using LoadingCard derived components in Federated mode
   const modalId = pathname.split('/').pop();
@@ -47,14 +55,14 @@ export const Clickable = ({ value, target, plural, singular, onClick }) => {
   if (target?.[0] === '/') {
     return (
       <InsightsLink to={target} app="inventory">
-        {valueToText(value, singular, plural)}
+        {workload ? title : valueToText(value, singular, plural)}
       </InsightsLink>
     );
   }
 
   return (
     <Link to={`${pathname}/${target}`}>
-      {valueToText(value, singular, plural)}
+      {workload ? title : valueToText(value, singular, plural)}
     </Link>
   );
 };
@@ -65,6 +73,8 @@ Clickable.propTypes = {
   onClick: PropTypes.func,
   plural: PropTypes.string,
   singular: PropTypes.string,
+  title: PropTypes.string,
+  workload: PropTypes.string,
 };
 
 const LoadingCard = ({
@@ -109,7 +119,6 @@ const LoadingCard = ({
                       typeof itemTitle === 'string'
                         ? itemTitle
                         : itemTitle?.props?.title;
-
                     return (
                       <Fragment key={key}>
                         <TextListItem

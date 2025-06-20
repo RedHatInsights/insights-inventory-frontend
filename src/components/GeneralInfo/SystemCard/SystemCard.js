@@ -7,6 +7,8 @@ import { editAnsibleHost, editDisplayName } from '../../../store/actions';
 import TitleWithPopover from '../TitleWithPopover';
 import { generalMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
+import { workloadsTypesKeys } from './SystemCardConfigs';
+import WorkloadsSection from './Workloads';
 import { NameInlineEdit } from './NameInlineEdit';
 
 class SystemCardCore extends Component {
@@ -33,7 +35,6 @@ class SystemCardCore extends Component {
       hasDisplayName,
       hasAnsibleHostname,
       hasWorkspace,
-      hasSAP,
       hasSystemPurpose,
       hasCPUs,
       hasSockets,
@@ -41,7 +42,18 @@ class SystemCardCore extends Component {
       hasCPUFlags,
       hasRAM,
       extra,
+      workloadsData = {},
     } = this.props;
+
+    function checkWorkloadsKeys(input = {}, referenceKeys) {
+      return referenceKeys.filter(
+        (key) => typeof input[key] === 'object' && input[key] !== null,
+      );
+    }
+    const workloadsTypes = checkWorkloadsKeys(
+      workloadsData,
+      workloadsTypesKeys,
+    );
 
     return (
       <Fragment>
@@ -119,22 +131,27 @@ class SystemCardCore extends Component {
                   },
                 ]
               : []),
-            ...(hasSAP
+            ...(workloadsTypes.length > 0
               ? [
                   {
-                    title: 'SAP',
-                    value: properties.sapIds?.length,
-                    singular: 'identifier',
-                    target: 'sap_sids',
-                    onClick: () => {
-                      handleClick(
-                        'SAP IDs (SID)',
-                        generalMapper(properties.sapIds, 'SID'),
-                      );
-                    },
+                    title: 'Workloads',
+                    size: 'md',
+                    value: (
+                      <WorkloadsSection
+                        handleClick={handleClick}
+                        workloadsData={workloadsData}
+                        workloadsTypes={workloadsTypes}
+                      />
+                    ),
                   },
                 ]
-              : []),
+              : [
+                  {
+                    title: 'Workloads',
+                    size: 'md',
+                    value: 'Not available',
+                  },
+                ]),
             ...(hasSystemPurpose
               ? [{ title: 'System purpose', value: properties.systemPurpose }]
               : []),
@@ -213,7 +230,6 @@ SystemCardCore.propTypes = {
   hasHostName: PropTypes.bool,
   hasDisplayName: PropTypes.bool,
   hasAnsibleHostname: PropTypes.bool,
-  hasSAP: PropTypes.bool,
   hasSystemPurpose: PropTypes.bool,
   hasCPUs: PropTypes.bool,
   hasSockets: PropTypes.bool,
@@ -230,7 +246,6 @@ SystemCardCore.defaultProps = {
   hasDisplayName: true,
   hasAnsibleHostname: true,
   hasWorkspace: true,
-  hasSAP: true,
   hasSystemPurpose: true,
   hasCPUs: true,
   hasSockets: true,
@@ -257,6 +272,7 @@ export const SystemCard = connect(
     entity,
     detailLoaded: systemProfile && systemProfile.loaded,
     properties: propertiesSelector(systemProfile, entity),
+    workloadsData: systemProfile?.workloads,
   }),
   mapDispatchToProps,
 )(SystemCardCore);

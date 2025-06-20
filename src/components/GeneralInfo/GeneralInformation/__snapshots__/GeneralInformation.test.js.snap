@@ -245,16 +245,16 @@ exports[`GeneralInformation should render correctly 1`] = `
                           Not available
                         </dd>
                         <dt
-                          aria-label="SAP title"
+                          aria-label="Workloads title"
                           class=""
-                          data-ouia-component-id="SAP title"
+                          data-ouia-component-id="Workloads title"
                         >
-                          SAP
+                          Workloads
                         </dt>
                         <dd
-                          aria-label="SAP value"
+                          aria-label="Workloads value"
                           class=""
-                          data-ouia-component-id="SAP value"
+                          data-ouia-component-id="Workloads value"
                         >
                           Not available
                         </dd>
