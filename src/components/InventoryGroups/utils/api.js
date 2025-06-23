@@ -62,7 +62,7 @@ export const getWritableGroups = async (
       groupName
         ? { name: groupName }
         : isKesselEnabled
-          ? { type: 'standard' }
+          ? { group_type: 'standard' }
           : {},
       pagination,
     );
