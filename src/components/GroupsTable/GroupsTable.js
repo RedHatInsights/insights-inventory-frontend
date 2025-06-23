@@ -345,7 +345,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
 
   const containsUngrouped = (selectedIds) => {
     for (const id of selectedIds) {
-      ungrouped = groups.find(id)?.ungrouped;
+      const ungrouped = groups.find((group) => group.id === id)?.ungrouped;
       if (ungrouped) {
         return true;
       }
