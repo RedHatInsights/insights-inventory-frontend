@@ -180,7 +180,7 @@ const ConventionalSystemsTab = ({
 
       if (isKesselEnabled) {
         return selectedHosts.every(
-          ({ groups }) => groups[0].ungrouped !== true,
+          ({ groups }) => groups[0]?.ungrouped === true,
         );
       }
 
