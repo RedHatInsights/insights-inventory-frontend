@@ -2,23 +2,47 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import OsModeLabel from './OsModeLabel';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+
+jest.mock('../../Utilities/useFeatureFlag');
 
 describe('OsModeLabel', () => {
-  it('should render with package mode', () => {
-    render(<OsModeLabel osMode="package" />);
-
-    expect(screen.getByText('Package mode')).toBeVisible();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('should render with image mode', () => {
-    render(<OsModeLabel osMode="image" />);
+  const testCases = [
+    {
+      flagEnabled: true,
+      description: 'when feature flag is enabled',
+      modes: [
+        { osMode: 'package', expectedText: 'Package mode' },
+        { osMode: 'image', expectedText: 'Image mode' },
+        { osMode: undefined, expectedText: 'Package mode' }, // Default case
+      ],
+    },
+    {
+      flagEnabled: false,
+      description: 'when feature flag is disabled',
+      modes: [
+        { osMode: 'package', expectedText: 'Package-based' },
+        { osMode: 'image', expectedText: 'Image-based' },
+        { osMode: undefined, expectedText: 'Package-based' }, // Default case
+      ],
+    },
+  ];
 
-    expect(screen.getByText('Image mode')).toBeVisible();
-  });
+  describe.each(testCases)('$description', ({ flagEnabled, modes }) => {
+    beforeEach(() => {
+      useFeatureFlag.mockImplementation(() => flagEnabled);
+    });
 
-  it('should render package mode by default', () => {
-    render(<OsModeLabel />);
-
-    expect(screen.getByText('Package mode')).toBeVisible();
+    test.each(modes)(
+      'should render $expectedText for osMode: "$osMode"',
+      ({ osMode, expectedText }) => {
+        render(<OsModeLabel osMode={osMode} />);
+        expect(screen.getByText(expectedText)).toBeVisible();
+      },
+    );
   });
 });

@@ -653,7 +653,6 @@ describe('EntityTable', () => {
     });
 
     it('should disable just one default column', () => {
-      jest.mock('../../Utilities/useFeatureFlag');
       initialState = {
         entities: {
           ...initialState.entities,
@@ -727,8 +726,6 @@ describe('EntityTable', () => {
   });
 
   describe('API', () => {
-    jest.mock('../../Utilities/useFeatureFlag');
-
     it('should call onRowClick', async () => {
       const onRowClick = jest.fn();
       const store = mockStore(initialState);

@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import FactsInfo from './FactsInfo';
 
+jest.mock('../../Utilities/useFeatureFlag');
+
 describe('FactsInfo', () => {
   it('should render extra label for CentOS system', () => {
     render(
