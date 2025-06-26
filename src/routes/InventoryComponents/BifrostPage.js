@@ -6,13 +6,18 @@ import {
   INVENTORY_FETCH_NON_BOOTC,
   INVENTORY_FILTER_NO_HOST_TYPE,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
+  INVENTORY_TOTAL_FETCH_EDGE_TYPE,
 } from '../../Utilities/constants';
 import BifrostTable from './BifrostTable';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 const BifrostPage = () => {
   const axios = useAxiosWithPlatformInterceptors();
   const [bootcImages, setBootcImages] = useState();
   const [loaded, setLoaded] = useState(false);
+  const edgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter',
+  );
 
   useEffect(() => {
     const fetchBootcImages = async () => {
@@ -23,6 +28,10 @@ const BifrostPage = () => {
 
       const packageBasedSystems = await axios.get(
         `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_NON_BOOTC}&${INVENTORY_FILTER_NO_HOST_TYPE}&per_page=1`,
+      );
+
+      const immutableImageBasedSystems = await axios.get(
+        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_TYPE}&per_page=1`,
       );
 
       const booted = result.results.map(
@@ -66,6 +75,14 @@ const BifrostPage = () => {
           hashCommitCount: '-',
         },
       ];
+
+      if (!edgeParityFilterDeviceEnabled) {
+        updated.push({
+          image: 'Immutable (OSTree) image based systems',
+          systemCount: immutableImageBasedSystems.total,
+          hashCommitCount: '-',
+        });
+      }
 
       setLoaded(true);
       setBootcImages(updated);
