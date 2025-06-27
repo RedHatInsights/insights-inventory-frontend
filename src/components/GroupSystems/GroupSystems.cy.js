@@ -403,6 +403,19 @@ describe('actions', () => {
       cy.wait('@request');
     });
   });
+
+  it('disables "Add systems" button on Ungrouped hosts', () => {
+    featureFlagsInterceptors.kesselSuccessful();
+    cy.mountWithContext(GroupSystems, undefined, {
+      groupName: GROUP_NAME,
+      groupId: TEST_ID,
+      ungrouped: true,
+    });
+    waitForTable(true);
+    cy.get('button')
+      .contains('Add systems')
+      .should('have.attr', 'aria-disabled', 'true'); // Check if the button is disabled
+  });
 });
 
 describe('edge cases', () => {
