@@ -185,6 +185,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                   setAddToGroupModalOpen(true);
                 }}
                 ouiaId="add-systems-button"
+                isAriaDisabled={isKesselEnabled ? ungrouped : !canModify}
               >
                 Add systems
               </ActionButton>,
