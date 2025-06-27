@@ -48,11 +48,13 @@ import {
 import PropTypes from 'prop-types';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
-const GROUPS_TABLE_INITIAL_STATE = (isKesselEnabled) => ({
-  perPage: TABLE_DEFAULT_PAGINATION,
-  page: 1,
-  groupType: isKesselEnabled ? 'all' : 'standard',
-});
+const GROUPS_TABLE_INITIAL_STATE = (isKesselEnabled) => {
+  return {
+    perPage: TABLE_DEFAULT_PAGINATION,
+    page: 1,
+    groupType: isKesselEnabled ? 'all' : 'standard',
+  };
+};
 
 const GROUPS_TABLE_COLUMNS = [
   {
@@ -140,7 +142,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
           fetchGroups(
             {
               ...search,
-              ...(isKesselEnabled && { type: 'all' }),
               order_by,
               order_how,
             },
