@@ -48,10 +48,11 @@ import {
 import PropTypes from 'prop-types';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
-const GROUPS_TABLE_INITIAL_STATE = {
+const GROUPS_TABLE_INITIAL_STATE = (isKesselEnabled) => ({
   perPage: TABLE_DEFAULT_PAGINATION,
   page: 1,
-};
+  groupType: isKesselEnabled ? 'all' : 'standard',
+});
 
 const GROUPS_TABLE_COLUMNS = [
   {
@@ -78,6 +79,9 @@ const GROUPS_TABLE_COLUMNS_TO_URL = {
 const REQUEST_DEBOUNCE_TIMEOUT = 500;
 
 const groupsTableFiltersConfig = {
+  groupType: {
+    paramName: 'group_type',
+  },
   name: {
     paramName: 'name',
   },
@@ -105,6 +109,7 @@ const groupsTableFiltersConfig = {
 };
 
 const GroupsTable = ({ onCreateGroupClick }) => {
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, fulfilled, data } = useSelector(
     (state) => state.groups,
@@ -112,7 +117,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const [rowsGenerated, setRowsGenerated] = useState(false);
   const location = useLocation();
   const [filters, setFilters] = useState({
-    ...GROUPS_TABLE_INITIAL_STATE,
+    ...GROUPS_TABLE_INITIAL_STATE(isKesselEnabled),
     ...readURLSearchParams(location.search, groupsTableFiltersConfig),
   });
   const [rows, setRows] = useState([]);
@@ -123,8 +128,6 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const groups = useMemo(() => data?.results || [], [data]);
   const { fetchBatched } = useFetchBatched();
   const loadingState = uninitialized || loading;
-
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   const fetchData = useCallback(
     debounce((filters) => {
@@ -226,7 +229,8 @@ const GroupsTable = ({ onCreateGroupClick }) => {
     [filters.name, rejected],
   );
 
-  const onResetFilters = () => setFilters(GROUPS_TABLE_INITIAL_STATE);
+  const onResetFilters = () =>
+    setFilters(GROUPS_TABLE_INITIAL_STATE(isKesselEnabled));
 
   const activeFiltersConfig = {
     showDeleteButton: !!filters.name,
