@@ -144,18 +144,22 @@ const buildOperatingSystemFilter = (osFilterState = {}) => {
     }, {});
 };
 
-export const calculateSystemProfile = ({
-  osFilter,
-  rhcdFilter,
-  updateMethodFilter,
-  hostTypeFilter,
-  system_profile,
-  systemTypeFilter,
-}) => {
+export const calculateSystemProfile = (
+  {
+    osFilter,
+    rhcdFilter,
+    updateMethodFilter,
+    hostTypeFilter,
+    system_profile,
+    systemTypeFilter,
+  },
+  filterImmutable = true,
+) => {
   const operating_system = buildOperatingSystemFilter(osFilter);
+  const defaultHostTypeFilter = filterImmutable ? { host_type: 'nil' } : {};
   const newSystemProfile = {
     ...system_profile,
-    ...(hostTypeFilter ? { host_type: hostTypeFilter } : { host_type: 'nil' }),
+    ...(hostTypeFilter ? { host_type: hostTypeFilter } : defaultHostTypeFilter),
     ...(updateMethodFilter
       ? {
           [UPDATE_METHOD_KEY]: {
@@ -225,6 +229,7 @@ export async function getEntities(
         /* needed for image based systems */ 'bootc_status',
       ],
     },
+    filterImmutableByDefault = true,
     ...options
   },
   showTags,
@@ -292,7 +297,9 @@ export async function getEntities(
 
     const filterQueryParams =
       Object.keys(combinedFilters).length &&
-      generateFilter(calculateSystemProfile(combinedFilters));
+      generateFilter(
+        calculateSystemProfile(combinedFilters, filterImmutableByDefault),
+      );
 
     const fieldsQueryParams =
       Object.keys(fields || {}).length && generateFilter(fields, 'fields');
