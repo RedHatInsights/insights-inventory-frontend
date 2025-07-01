@@ -17,14 +17,7 @@ import {
 } from '../../../../cypress/support/interceptors';
 import AddSystemsToGroupModal from './AddSystemsToGroupModal';
 
-const TABLE_HEADERS = [
-  'Name',
-  'Workspace',
-  'Tags',
-  'OS',
-  'Update method',
-  'Last seen',
-];
+const TABLE_HEADERS = ['Name', 'Workspace', 'Tags', 'OS', 'Last seen'];
 
 const AVAILABLE_FILTER_NAMES = [
   'Name',
