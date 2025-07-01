@@ -37,7 +37,7 @@ import GroupSystems from './GroupSystems';
 
 const GROUP_NAME = 'foobar';
 const ROOT = 'div[id="group-systems-table"]';
-const TABLE_HEADERS = ['Name', 'Tags', 'OS', 'Update method', 'Last seen'];
+const TABLE_HEADERS = ['Name', 'Tags', 'OS', 'Last seen'];
 const SORTABLE_HEADERS = ['Name', 'OS', 'Last seen'];
 const DEFAULT_ROW_COUNT = 50;
 
