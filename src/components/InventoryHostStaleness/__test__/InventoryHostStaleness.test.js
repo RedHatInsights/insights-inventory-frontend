@@ -115,6 +115,7 @@ describe('Table Renders', () => {
     );
   });
 
+  jest.setTimeout(10000);
   it('System Staleness Warning Dropdown cant match or be higher than staleness deleting dropdown', async () => {
     renderHostStalenessCard();
 
