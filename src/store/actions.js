@@ -24,6 +24,13 @@ export const deleteEntity = (systems, displayName) => ({
         description: `${displayName} has been successfully removed.`,
         dismissable: true,
       },
+      rejected: {
+        variant: 'danger',
+        title: 'System failed to be removed from Inventory',
+        description:
+          'There was an error processing the request. Please try again.',
+        dismissable: true,
+      },
     },
     systems,
   },
