@@ -173,10 +173,10 @@ const TopBar = ({
           onConfirm={() => {
             addNotification({
               id: 'remove-initiated',
-              variant: 'warning',
+              variant: 'info',
               title: 'Delete operation initiated',
               description: `Removal of ${entity.display_name} started.`,
-              dismissable: false,
+              dismissable: true,
             });
             deleteEntity([entity.id], entity.display_name, () =>
               redirectToInventoryList(entity.id, onBackToListClick, navigate),

@@ -203,10 +203,10 @@ describe('ConventionalSystemsTab', () => {
     shouldDispatch(store, {
       payload: {
         description: `Removal of ${system1.display_name} started.`,
-        dismissable: false,
+        dismissable: true,
         id: 'remove-initiated',
         title: 'Delete operation initiated',
-        variant: 'warning',
+        variant: 'info',
       },
       type: '@@INSIGHTS-CORE/NOTIFICATIONS/ADD_NOTIFICATION',
     });
