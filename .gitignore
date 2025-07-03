@@ -35,3 +35,15 @@ coverage-*
 .env.sentry-build-plugin
 
 docs/*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Environment files
+.env
+
+# Auth files
+.auth/
