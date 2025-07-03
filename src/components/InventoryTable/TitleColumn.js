@@ -5,6 +5,8 @@ import { ConversionPopover } from './ConversionPopover/ConversionPopover';
 import { Icon, Popover } from '@patternfly/react-core';
 import { BundleIcon } from '@patternfly/react-icons';
 import FontAwesomeImageIcon from '../FontAwesomeImageIcon';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+import { systemTypeContent } from '../../Utilities/constants';
 
 /**
  * Helper function to proprly calculate what to do when user clicks on first cell.
@@ -27,7 +29,6 @@ const onRowClick = (event, id, { loaded, onRowClick: rowClick, noDetail }) => {
   event.preventDefault();
   event.stopPropagation();
 };
-
 /**
  * Helper component to generate first cell in plain inventory either with clickable detail or just data from attribut.
  * This is later on used in redux in `renderFunc`.
@@ -36,76 +37,84 @@ const onRowClick = (event, id, { loaded, onRowClick: rowClick, noDetail }) => {
  *  @param {*}          item     row data, holds every information from redux store for currecnt row.
  *  @param {*}          props    additional props passed from `EntityTable` - holds any props passed to inventory table.
  */
-const TitleColumn = ({ children, id, item, ...props }) => (
-  <div className="ins-composed-col sentry-mask data-hj-suppress">
-    {item?.os_release && <div key="os_release">{item?.os_release}</div>}
-    <div key="data" className={props?.noDetail ? 'ins-m-nodetail' : ''}>
-      {props?.noDetail ? (
-        children
-      ) : (
-        <span>
-          {item?.system_profile?.bootc_status?.booted?.image_digest ? (
-            <Popover
-              triggerAction="hover"
-              headerContent="Image-based system"
-              bodyContent={
-                <div>
-                  Image mode for Red Hat Enterprise Linux is a container-native
-                  approach that uses the same bits but delivers them as a
-                  container image. Updates are immutable and the experience is
-                  very close to running a containerized application.
-                </div>
-              }
-            >
-              <Icon style={{ marginRight: '8px' }} aria-label="Image mode icon">
-                <FontAwesomeImageIcon
-                  fill="var(--pf-v5-global--icon--Color--light)"
-                  margin="0px"
-                />
-              </Icon>
-            </Popover>
-          ) : (
-            <Popover
-              triggerAction="hover"
-              headerContent="Package-based system"
-              bodyContent={
-                <div>
-                  Package mode is a familiar RHEL experience across any
-                  footprint where the OS is assembled and updated from rpm
-                  packages. This is traditionally how RHEL is deployed and will
-                  remain the preferred method for many.
-                </div>
-              }
-            >
-              <Icon
-                style={{ marginRight: '8px' }}
-                aria-label="Package mode icon"
+const TitleColumn = ({ children, id, item, ...props }) => {
+  const edgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter',
+  );
+  // const featureKey = edgeParityFilterDeviceEnabled ? 'enabled' : 'disabled';
+  return (
+    <div className="ins-composed-col sentry-mask data-hj-suppress">
+      {item?.os_release && <div key="os_release">{item?.os_release}</div>}
+      <div key="data" className={props?.noDetail ? 'ins-m-nodetail' : ''}>
+        {props?.noDetail ? (
+          children
+        ) : (
+          <span>
+            {item?.system_profile?.bootc_status?.booted?.image_digest ? (
+              <Popover
+                triggerAction="hover"
+                headerContent="Image-based system"
+                bodyContent={
+                  <div>
+                    {
+                      systemTypeContent[edgeParityFilterDeviceEnabled]
+                        ?.imageContent
+                    }
+                  </div>
+                }
               >
-                <BundleIcon color="var(--pf-v5-global--icon--Color--light)" />
-              </Icon>
-            </Popover>
-          )}
-          <Link
-            to={item?.href || item?.to || id}
-            {...{
-              ...(props?.onRowClick
-                ? {
-                    onClick: (event) => {
-                      onRowClick(event, id, props);
-                    },
-                  }
-                : {}),
-            }}
-          >
-            {children}
-          </Link>
-          {item?.system_profile?.operating_system?.name === 'CentOS Linux' && (
-            <ConversionPopover />
-          )}
-        </span>
-      )}
+                <Icon
+                  style={{ marginRight: '8px' }}
+                  aria-label="Image mode icon"
+                >
+                  <FontAwesomeImageIcon
+                    fill="var(--pf-v5-global--icon--Color--light)"
+                    margin="0px"
+                  />
+                </Icon>
+              </Popover>
+            ) : (
+              <Popover
+                triggerAction="hover"
+                headerContent="Package-based system"
+                bodyContent={
+                  <div>
+                    {
+                      systemTypeContent[edgeParityFilterDeviceEnabled]
+                        ?.packageContent
+                    }
+                  </div>
+                }
+              >
+                <Icon
+                  style={{ marginRight: '8px' }}
+                  aria-label="Package mode icon"
+                >
+                  <BundleIcon color="var(--pf-v5-global--icon--Color--light)" />
+                </Icon>
+              </Popover>
+            )}
+            <Link
+              to={item?.href || item?.to || id}
+              {...{
+                ...(props?.onRowClick
+                  ? {
+                      onClick: (event) => {
+                        onRowClick(event, id, props);
+                      },
+                    }
+                  : {}),
+              }}
+            >
+              {children}
+            </Link>
+            {item?.system_profile?.operating_system?.name ===
+              'CentOS Linux' && <ConversionPopover />}
+          </span>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default TitleColumn;

@@ -3,25 +3,26 @@ import PropTypes from 'prop-types';
 import { Icon, Label, Popover, PopoverPosition } from '@patternfly/react-core';
 import FontAwesomeImageIcon from '../FontAwesomeImageIcon';
 import { BundleIcon } from '@patternfly/react-icons';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+import { systemTypeContent } from '../../Utilities/constants';
 
 const OsModeLabel = ({ osMode = 'package' }) => {
+  const edgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter',
+  );
   const modeContent = {
     image: {
-      label: 'Image mode',
+      label: systemTypeContent[edgeParityFilterDeviceEnabled]?.imageLabel,
       header: 'Image-based system',
       bodyContent:
-        'Image mode is a container-native approach that uses \
-        the same bits but delivers them as a container image and the experience \
-        is very close to running a containerized application.',
+        systemTypeContent[edgeParityFilterDeviceEnabled]?.imageContent,
       icon: <FontAwesomeImageIcon />,
     },
     package: {
-      label: 'Package mode',
+      label: systemTypeContent[edgeParityFilterDeviceEnabled]?.packageLabel,
       header: 'Package-based system',
       bodyContent:
-        'Package mode is a familiar experience across any footprint where \
-        the OS is assembled and updated from rpm packages. This traditional \
-        deployment method will remain the preferred method for many.',
+        systemTypeContent[edgeParityFilterDeviceEnabled]?.packageContent,
       icon: <BundleIcon />,
     },
   };

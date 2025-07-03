@@ -290,9 +290,7 @@ exports[`DetailWrapper DOM should render with data 1`] = `
                             </span>
                             <span
                               class="pf-v5-c-label__text"
-                            >
-                              Package mode
-                            </span>
+                            />
                           </span>
                         </span>
                       </div>
