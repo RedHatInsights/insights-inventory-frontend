@@ -4,6 +4,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import GroupDetailHeader from '../GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('../../../Utilities/useFeatureFlag');
 jest.mock('react-redux', () => {
@@ -50,7 +51,7 @@ describe('group detail header', () => {
     expect(screen.getByRole('navigation')).toHaveTextContent('group-name-1');
   });
 
-  it('renders the actions dropdown', () => {
+  it('renders the actions dropdown', async () => {
     render(
       <MemoryRouter>
         <GroupDetailHeader groupId="group-id-2" />
@@ -60,5 +61,25 @@ describe('group detail header', () => {
     screen.getByRole('button', {
       name: /workspace actions/i,
     });
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /workspace actions/i,
+      }),
+    );
+
+    expect(screen.getAllByRole('menuitem')).toHaveLength(2);
+
+    expect(
+      screen.getByRole('menuitem', {
+        name: /rename/i,
+      }),
+    ).toBeVisible();
+
+    expect(
+      screen.getByRole('menuitem', {
+        name: /delete/i,
+      }),
+    ).toBeVisible();
   });
 });
