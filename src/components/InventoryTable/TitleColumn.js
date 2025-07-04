@@ -41,7 +41,7 @@ const TitleColumn = ({ children, id, item, ...props }) => {
   const edgeParityFilterDeviceEnabled = useFeatureFlag(
     'edgeParity.inventory-list-filter',
   );
-  // const featureKey = edgeParityFilterDeviceEnabled ? 'enabled' : 'disabled';
+
   return (
     <div className="ins-composed-col sentry-mask data-hj-suppress">
       {item?.os_release && <div key="os_release">{item?.os_release}</div>}
@@ -50,7 +50,8 @@ const TitleColumn = ({ children, id, item, ...props }) => {
           children
         ) : (
           <span>
-            {item?.system_profile?.bootc_status?.booted?.image_digest ? (
+            {item?.system_profile?.bootc_status?.booted?.image_digest ||
+            item?.system_profile?.host_type === 'edge' ? (
               <Popover
                 triggerAction="hover"
                 headerContent="Image-based system"
