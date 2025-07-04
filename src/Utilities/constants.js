@@ -126,11 +126,11 @@ export const updateMethodOptions = initUpdateMethodOptions;
 
 export const systemTypeOptions = [
   {
-    label: 'Package mode',
+    label: 'Package-based system',
     value: 'nil',
   },
   {
-    label: 'Image mode',
+    label: 'Image-based system',
     value: 'not_nil',
   },
 ];
