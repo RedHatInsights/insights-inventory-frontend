@@ -321,10 +321,10 @@ const ConventionalSystemsTab = ({
           dispatch(
             addNotificationAction({
               id: 'remove-initiated',
-              variant: 'warning',
+              variant: 'info',
               title: 'Delete operation initiated',
               description: `Removal of ${displayName} started.`,
-              dismissable: false,
+              dismissable: true,
             }),
           );
           dispatch(actions.deleteEntity(removeSystems, displayName));
