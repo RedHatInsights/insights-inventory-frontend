@@ -119,9 +119,28 @@ const AddSystemsToGroupModal = ({
   const edgeParityInventoryGroupsEnabled = useFeatureFlag(
     'edgeParity.inventory-groups-enabled',
   );
+  const edgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter',
+  );
   const edgeParityEnabled =
     edgeParityInventoryListEnabled && edgeParityInventoryGroupsEnabled;
 
+  const defaultInventorySystemsGetEntities = (
+    items,
+    config,
+    showTags,
+    defaultGetEntities,
+  ) =>
+    defaultGetEntities(
+      items,
+      {
+        ...config,
+        filters: {
+          ...config.filters,
+        },
+      },
+      showTags,
+    );
   const [selectedImmutableDevices, setSelectedImmutableDevices] = useState([]);
   const selectedImmutableKeys = selectedImmutableDevices.map(
     (immutableDevice) => immutableDevice.id,
@@ -163,7 +182,11 @@ const AddSystemsToGroupModal = ({
   const ConventionalInventoryTable = (
     <InventoryTable
       columns={(columns) => prepareColumns(columns, false, true)}
-      getEntities={defaultConventionalSystemsGetEntities}
+      getEntities={
+        edgeParityFilterDeviceEnabled
+          ? defaultConventionalSystemsGetEntities
+          : defaultInventorySystemsGetEntities
+      }
       variant={TableVariant.compact} // TODO: this doesn't affect the table variant
       tableProps={{
         isStickyHeader: false,
