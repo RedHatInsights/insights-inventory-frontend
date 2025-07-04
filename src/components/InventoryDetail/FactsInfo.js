@@ -70,11 +70,11 @@ const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
             )}
         </FlexItem>
         <FlexItem>
-          {loaded &&
-          entity?.system_profile?.system_update_method !== 'rpm-ostree' ? (
+          {loaded ? (
             <OsModeLabel
               osMode={
-                entity?.system_profile?.bootc_status?.booted?.image_digest
+                entity?.system_profile?.bootc_status?.booted?.image_digest ||
+                entity?.system_profile?.host_type === 'edge'
                   ? 'image'
                   : 'package'
               }
