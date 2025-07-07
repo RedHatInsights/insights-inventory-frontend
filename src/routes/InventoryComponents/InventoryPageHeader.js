@@ -6,10 +6,10 @@ import {
   SplitItem,
   ToggleGroup,
   ToggleGroupItem,
-  Text,
-  TextContent,
-  TextVariants,
+  Content,
+  ContentVariants,
   Tooltip,
+  FlexItem,
 } from '@patternfly/react-core';
 import {
   PageHeader,
@@ -25,11 +25,11 @@ import { InventoryPopover } from './InventoryPopover';
 const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
   <Split hasGutter>
     <SplitItem>
-      <TextContent>
-        <Text style={{ paddingTop: '5px' }} component={TextVariants.h4}>
+      <Content>
+        <Content style={{ paddingTop: '5px' }} component={ContentVariants.h4}>
           View by
-        </Text>
-      </TextContent>
+        </Content>
+      </Content>
     </SplitItem>
     <SplitItem>
       <ToggleGroup aria-label="Inventory content toggle">
@@ -67,9 +67,14 @@ const InventoryPageHeader = (toggleProps) => {
     <PageHeader className="pf-m-light">
       <PageHeaderTitle
         title={
-          <Flex spaceItems={{ default: 'spaceItemsSm' }}>
-            <div>Systems</div>
-            <InventoryPopover />
+          <Flex
+            style={{ alignItems: 'center' }}
+            spaceItems={{ default: 'spaceItemsSm' }}
+          >
+            <FlexItem>Systems</FlexItem>
+            <FlexItem>
+              <InventoryPopover />
+            </FlexItem>
           </Flex>
         }
         actionsContent={

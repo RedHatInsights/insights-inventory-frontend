@@ -12,20 +12,12 @@ import {
   TimesCircleIcon,
   UnknownIcon,
 } from '@patternfly/react-icons';
-import {
-  global_danger_color_100,
-  global_success_color_100,
-  global_warning_color_100,
-  global_info_color_100,
-  global_active_color_100,
-} from '@patternfly/react-tokens';
 
 export const colorMapper = {
-  green: global_success_color_100.value,
-  yellow: global_warning_color_100.value,
-  lightBlue: global_info_color_100.value,
-  blue: global_active_color_100.value,
-  red: global_danger_color_100.value,
+  green: 'var(--pf-t--global--icon--color--status--success--default)',
+  yellow: 'var(--pf-t--global--icon--color--status--warning--default)',
+  blue: 'var(pf-t--global--icon--color--status--info--default)',
+  red: 'var(--pf-t--global--icon--color--status--danger--default)',
 };
 
 export const iconMapper = {

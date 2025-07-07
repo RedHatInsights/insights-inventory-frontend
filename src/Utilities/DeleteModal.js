@@ -5,12 +5,12 @@ import {
   ClipboardCopy,
   Level,
   LevelItem,
-  Modal,
   Split,
   SplitItem,
   Stack,
   StackItem,
 } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 
 const DeleteModal = ({
   handleModalToggle,

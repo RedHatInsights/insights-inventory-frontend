@@ -15,7 +15,7 @@ const Inventory = (props) => {
         mainContent={mainContent}
         changeMainContent={setMainContent}
       />
-      <PageSection>
+      <PageSection hasBodyWrapper={false}>
         {React.createElement(pageContents[mainContent].component, { ...props })}
       </PageSection>
     </React.Fragment>

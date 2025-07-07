@@ -274,10 +274,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'One',
           }),
-        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        ).toHaveClass('pf-v6-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
-        const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator',
+        const sortIndicator = document.getElementsByClassName(
+          'pf-v6-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -304,10 +304,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'One',
           }),
-        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        ).toHaveClass('pf-v6-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
-        const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator',
+        const sortIndicator = document.getElementsByClassName(
+          'pf-v6-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -334,10 +334,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'One',
           }),
-        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        ).toHaveClass('pf-v6-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
-        const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator',
+        const sortIndicator = document.getElementsByClassName(
+          'pf-v6-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -364,10 +364,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'OS',
           }),
-        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        ).toHaveClass('pf-v6-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
-        const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator',
+        const sortIndicator = document.getElementsByClassName(
+          'pf-v6-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -394,10 +394,10 @@ describe('EntityTable', () => {
           screen.getByRole('columnheader', {
             name: 'OS',
           }),
-        ).toHaveClass('pf-v5-c-table__sort pf-m-selected');
+        ).toHaveClass('pf-v6-c-table__sort pf-m-selected');
         // eslint-disable-next-line testing-library/no-node-access
-        const sortIndicator = document.querySelectorAll(
-          '.pf-v5-c-table__sort-indicator',
+        const sortIndicator = document.getElementsByClassName(
+          'pf-v6-c-table__sort-indicator',
         );
         expect(sortIndicator).toHaveLength(2);
       });
@@ -430,11 +430,11 @@ describe('EntityTable', () => {
       screen
         .getAllByRole('columnheader')
         .forEach((header) =>
-          expect(header).not.toHaveClass('pf-v5-c-table__sort'),
+          expect(header).not.toHaveClass('pf-v6-c-table__sort'),
         );
       // eslint-disable-next-line testing-library/no-node-access
-      const sortIndicator = document.querySelectorAll(
-        '.pf-v5-c-table__sort-indicator',
+      const sortIndicator = document.getElementsByClassName(
+        'pf-v6-c-table__sort-indicator',
       );
       expect(sortIndicator).toHaveLength(0);
     });

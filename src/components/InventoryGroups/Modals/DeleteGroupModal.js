@@ -9,12 +9,11 @@ import {
   Bullseye,
   Button,
   Icon,
-  Modal as PfModal,
   Spinner,
-  Text,
+  Content,
 } from '@patternfly/react-core';
-import apiWithToast from '../utils/apiWithToast';
-import { useDispatch } from 'react-redux';
+import { Modal as PfModal } from '@patternfly/react-core/deprecated';
+import useApiWithToast from '../utils/apiWithToast';
 import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
@@ -28,14 +27,14 @@ const generateSchema = (groups) => ({
       name: 'warning-message',
       label:
         groups.length > 1 ? (
-          <Text>
+          <Content component="p">
             <strong>{groups.length}</strong> workspaces and all their data will
             be deleted.
-          </Text>
+          </Content>
         ) : (
-          <Text>
+          <Content component="p">
             <strong>{groups[0]?.name}</strong> and all its data will be deleted.
-          </Text>
+          </Content>
         ),
     },
     {
@@ -65,7 +64,7 @@ const DeleteGroupModal = ({
   reloadData,
   groupIds,
 }) => {
-  const dispatch = useDispatch();
+  const apiWithToast = useApiWithToast();
   const [fetchedGroups, setFetchedGroups] = useState(undefined);
   const groupsAreEmpty = (fetchedGroups || []).every(
     ({ host_count: hostCount }) => hostCount === 0,
@@ -112,7 +111,7 @@ const DeleteGroupModal = ({
             : `Failed to delete workspace ${fetchedGroups?.[0]?.name}`,
       },
     };
-    apiWithToast(dispatch, () => deleteGroupsById(groupIds), statusMessages);
+    apiWithToast(() => deleteGroupsById(groupIds), statusMessages);
   };
 
   return isLoading ? (
@@ -150,16 +149,16 @@ const DeleteGroupModal = ({
       ]}
     >
       {fetchedGroups.length > 1 ? (
-        <Text>
+        <Content component="p">
           Workspaces containing systems cannot be deleted. To delete workspaces,
           first remove all of the systems from them.
-        </Text>
+        </Content>
       ) : (
-        <Text>
+        <Content component="p">
           Workspaces containing systems cannot be deleted. To delete{' '}
           <strong>{fetchedGroups[0].name}</strong>, first remove all of the
           systems from it.
-        </Text>
+        </Content>
       )}
     </PfModal>
   ) : (

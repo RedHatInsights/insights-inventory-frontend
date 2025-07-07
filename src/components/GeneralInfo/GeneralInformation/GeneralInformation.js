@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, GridItem, Modal, ModalVariant } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { SortByDirection } from '@patternfly/react-table';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 
@@ -113,7 +114,7 @@ const GeneralInformation = ({
     <Wrapper {...(store && { store })}>
       {entity?.system_profile?.operating_system?.name === 'CentOS Linux' && (
         <ConversionAlert
-          style={{ marginBottom: 'var(--pf-v5-global--spacer--md)' }}
+          style={{ marginBottom: 'var(--pf-t--global--spacer--md)' }}
         />
       )}
       <div className="ins-c-general-information">

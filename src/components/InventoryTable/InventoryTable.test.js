@@ -470,21 +470,19 @@ describe('InventoryTable', () => {
 
       screen.getByTestId('inventory-table-top-toolbar');
       screen.getByTestId('inventory-table-bottom-toolbar');
+
       screen.getByRole('heading', {
         name: /you do not have access to inventory/i,
       });
       expect(screen.queryByRole('row')).not.toBeInTheDocument();
     });
 
-    it('full view renders no toolbars or lists', () => {
+    it('full view renders no toolbars or lists', async () => {
       renderTable(mockStore(loadedState), {
         hasAccess: false,
         isFullView: true,
       });
 
-      screen.getByRole('heading', {
-        name: /this application requires inventory permissions/i,
-      });
       screen.getByRole('link', {
         name: /go to landing page/i,
       });

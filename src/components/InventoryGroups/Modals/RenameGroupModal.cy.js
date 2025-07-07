@@ -41,7 +41,7 @@ describe('render the modal', () => {
     cy.wait('@validate').then((xhr) => {
       expect(xhr.request.url).to.contain('groups');
     });
-    cy.get(`button[type="submit"]`).shouldHaveAriaDisabled();
+    cy.get(`button[type="submit"]`).should('be.disabled');
   });
 
   it('user can rename the group', () => {
@@ -52,7 +52,7 @@ describe('render the modal', () => {
     });
 
     cy.get(TEXT_INPUT).type('newname');
-    cy.get(`button[type="submit"]`).shouldHaveAriaDisabled();
+    cy.get(`button[type="submit"]`).should('be.disabled');
     cy.get(`button[type="submit"]`).click();
     cy.wait('@rename');
   });

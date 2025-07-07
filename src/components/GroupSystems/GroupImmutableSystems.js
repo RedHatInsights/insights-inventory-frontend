@@ -255,7 +255,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
           actionsConfig={{
             actions: [
               [
-                <div key="primary-actions" className="pf-v5-c-action-list">
+                <div key="primary-actions" className="pf-v6-c-action-list">
                   <ActionButton
                     key="add-systems-button"
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(

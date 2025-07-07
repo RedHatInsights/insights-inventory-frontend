@@ -3,28 +3,32 @@
 exports[`InfrastructureCard should not render hasIPv4 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-28"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -33,110 +37,157 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-30"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                test-type
-              </dd>
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
-              >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                test-vendor
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv6"
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/interfaces"
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 NIC
-                  </a>
-                </div>
-              </dd>
+                    test-type
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    test-vendor
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv6"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/interfaces"
+                      >
+                        1 NIC
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -149,28 +200,32 @@ exports[`InfrastructureCard should not render hasIPv4 1`] = `
 exports[`InfrastructureCard should not render hasIPv6 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-31"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -179,110 +234,157 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-33"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                test-type
-              </dd>
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
-              >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                test-vendor
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv4"
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/interfaces"
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 NIC
-                  </a>
-                </div>
-              </dd>
+                    test-type
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    test-vendor
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv4"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/interfaces"
+                      >
+                        1 NIC
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -295,28 +397,32 @@ exports[`InfrastructureCard should not render hasIPv6 1`] = `
 exports[`InfrastructureCard should not render hasInterfaces 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-34"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -325,110 +431,157 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-36"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                test-type
-              </dd>
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
-              >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                test-vendor
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv4"
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv6"
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
+                    test-type
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    test-vendor
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv4"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv6"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -441,28 +594,32 @@ exports[`InfrastructureCard should not render hasInterfaces 1`] = `
 exports[`InfrastructureCard should not render hasType 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-22"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -471,116 +628,163 @@ exports[`InfrastructureCard should not render hasType 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-24"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                test-vendor
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv4"
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv6"
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/interfaces"
+                    test-vendor
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 NIC
-                  </a>
-                </div>
-              </dd>
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv4"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv6"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/interfaces"
+                      >
+                        1 NIC
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -593,28 +797,32 @@ exports[`InfrastructureCard should not render hasType 1`] = `
 exports[`InfrastructureCard should not render hasVendor 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-25"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -623,116 +831,163 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-27"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                test-type
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv4"
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv6"
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/interfaces"
+                    test-type
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 NIC
-                  </a>
-                </div>
-              </dd>
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv4"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv6"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/interfaces"
+                      >
+                        1 NIC
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -745,28 +1000,32 @@ exports[`InfrastructureCard should not render hasVendor 1`] = `
 exports[`InfrastructureCard should render correctly - no data 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-1"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -775,154 +1034,207 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-3"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
-              >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -935,28 +1247,32 @@ exports[`InfrastructureCard should render correctly - no data 1`] = `
 exports[`InfrastructureCard should render correctly with data 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-4"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -965,130 +1281,183 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-6"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                test-type
-              </dd>
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
-              >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                test-vendor
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv4"
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv6"
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/interfaces"
+                    test-type
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 NIC
-                  </a>
-                </div>
-              </dd>
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    test-vendor
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv4"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv6"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/interfaces"
+                      >
+                        1 NIC
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -1101,28 +1470,32 @@ exports[`InfrastructureCard should render correctly with data 1`] = `
 exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-7"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -1131,112 +1504,165 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-9"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                virtual
-              </dd>
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
-              >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                Not available
-              </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    virtual
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -1249,28 +1675,32 @@ exports[`InfrastructureCard should render correctly with rhsm facts 1`] = `
 exports[`InfrastructureCard should render enabled/disabled 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-10"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -1279,130 +1709,183 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-12"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                test-type
-              </dd>
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
-              >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                test-vendor
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv4"
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv6"
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/interfaces"
+                    test-type
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 NIC
-                  </a>
-                </div>
-              </dd>
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    test-vendor
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv4"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv6"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/interfaces"
+                      >
+                        1 NIC
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -1415,28 +1898,32 @@ exports[`InfrastructureCard should render enabled/disabled 1`] = `
 exports[`InfrastructureCard should render extra 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="infrastructure-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-37"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -1445,164 +1932,229 @@ exports[`InfrastructureCard should render extra 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-39"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="Infrastructure title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="Infrastructure title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Type title"
-                class=""
-                data-ouia-component-id="Type title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Type
-              </dt>
-              <dd
-                aria-label="Type value"
-                class=""
-                data-ouia-component-id="Type value"
-              >
-                test-type
-              </dd>
-              <dt
-                aria-label="Vendor title"
-                class=""
-                data-ouia-component-id="Vendor title"
-              >
-                Vendor
-              </dt>
-              <dd
-                aria-label="Vendor value"
-                class=""
-                data-ouia-component-id="Vendor value"
-              >
-                test-vendor
-              </dd>
-              <dt
-                aria-label="Public IP title"
-                class=""
-                data-ouia-component-id="Public IP title"
-              >
-                Public IP
-              </dt>
-              <dd
-                aria-label="Public IP value"
-                class=""
-                data-ouia-component-id="Public IP value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="IPv4 addresses title"
-                class=""
-                data-ouia-component-id="IPv4 addresses title"
-              >
-                IPv4 addresses
-              </dt>
-              <dd
-                aria-label="IPv4 addresses value"
-                class=""
-                data-ouia-component-id="IPv4 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv4"
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="IPv6 addresses title"
-                class=""
-                data-ouia-component-id="IPv6 addresses title"
-              >
-                IPv6 addresses
-              </dt>
-              <dd
-                aria-label="IPv6 addresses value"
-                class=""
-                data-ouia-component-id="IPv6 addresses value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/ipv6"
+                    Type
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Type value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Type value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 address
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="FQDN title"
-                class=""
-                data-ouia-component-id="FQDN title"
-              >
-                FQDN
-              </dt>
-              <dd
-                aria-label="FQDN value"
-                class=""
-                data-ouia-component-id="FQDN value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Interfaces/NICs title"
-                class=""
-                data-ouia-component-id="Interfaces/NICs title"
-              >
-                Interfaces/NICs
-              </dt>
-              <dd
-                aria-label="Interfaces/NICs value"
-                class=""
-                data-ouia-component-id="Interfaces/NICs value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/interfaces"
+                    test-type
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 NIC
-                  </a>
-                </div>
-              </dd>
-              <dt
-                aria-label="something title"
-                class=""
-                data-ouia-component-id="something title"
-              >
-                something
-              </dt>
-              <dd
-                aria-label="something value"
-                class=""
-                data-ouia-component-id="something value"
-              >
-                test
-              </dd>
-              <dt
-                aria-label="with click title"
-                class=""
-                data-ouia-component-id="with click title"
-              >
-                with click
-              </dt>
-              <dd
-                aria-label="with click value"
-                class=""
-                data-ouia-component-id="with click value"
-              >
-                <div>
-                  <a
-                    href="localhost:3000/example/path/undefined"
+                    Vendor
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Vendor value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Vendor value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
                   >
-                    1 tests
-                  </a>
-                </div>
-              </dd>
+                    test-vendor
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Public IP
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Public IP value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Public IP value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv4 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv4 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv4 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv4"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    IPv6 addresses
+                  </span>
+                </dt>
+                <dd
+                  aria-label="IPv6 addresses value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="IPv6 addresses value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/ipv6"
+                      >
+                        1 address
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    FQDN
+                  </span>
+                </dt>
+                <dd
+                  aria-label="FQDN value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="FQDN value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Interfaces/NICs
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Interfaces/NICs value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Interfaces/NICs value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/interfaces"
+                      >
+                        1 NIC
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    something
+                  </span>
+                </dt>
+                <dd
+                  aria-label="something value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="something value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    test
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    with click
+                  </span>
+                </dt>
+                <dd
+                  aria-label="with click value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="with click value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/undefined"
+                      >
+                        1 tests
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>

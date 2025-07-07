@@ -6,7 +6,6 @@ import {
   CardBody,
   CardHeader,
   Flex,
-  Modal,
   Popover,
   Spinner,
   Tab,
@@ -15,9 +14,9 @@ import {
   Title,
   Tooltip,
   Alert,
-  TextContent,
-  Text,
+  Content,
 } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
@@ -36,7 +35,7 @@ import {
   fetchStalenessData,
   postStalenessData,
 } from '../../api';
-import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updateStaleness } from '../../api/hostInventoryApi';
@@ -211,7 +210,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               Keep or customize your organization's default settings using the
               options below.
             </p>
-            <Flex className="pf-v5-u-mt-md">
+            <Flex className="pf-v6-u-mt-md">
               <Title headingLevel="h6">System configuration</Title>
               {canModifyHostStaleness ? (
                 <Button
@@ -242,7 +241,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
             {edgeStalenessEnabled ? (
               <Tabs
                 id={'HostTabs'}
-                className="pf-m-light pf-v5-c-table pf-v5-u-mb-lg pf-v5-u-mt-lg"
+                className="pf-m-light pf-v6-c-table pf-v6-u-mb-lg pf-v6-u-mt-lg"
                 activeKey={activeTabKey}
                 onSelect={handleTabClick}
               >
@@ -258,7 +257,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                         }
                         bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
                       >
-                        <OutlinedQuestionCircleIcon className="pf-v5-u-ml-md" />
+                        <OutlinedQuestionCircleIcon className="pf-v6-u-ml-md" />
                       </Popover>
                     </TabTitleText>
                   }
@@ -290,7 +289,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                         headerContent={<div>Immutable (OSTree)</div>}
                         bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
                       >
-                        <OutlinedQuestionCircleIcon className="pf-v5-u-ml-md" />
+                        <OutlinedQuestionCircleIcon className="pf-v6-u-ml-md" />
                       </Popover>
                     </TabTitleText>
                   }
@@ -305,10 +304,10 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                           service
                         </>
                       }
-                      className="pf-v5-u-mt-sm pf-v5-u-mb-sm"
+                      className="pf-v6-u-mt-sm pf-v6-u-mb-sm"
                     >
-                      <TextContent>
-                        <Text>
+                      <Content>
+                        <Content component="p">
                           As of July 31, 2025, the hosted edge management will
                           no longer be supported. Consequently, pushing image
                           updates to Immutable (OSTree) systems via the Hybrid
@@ -316,8 +315,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                           Customers are encouraged to explore Red Hat Edge
                           Manager (RHEM) as the recommended alternative for
                           managing their edge systems.
-                        </Text>
-                        <Text>
+                        </Content>
+                        <Content component="p">
                           <Button
                             component="a"
                             target="_blank"
@@ -331,8 +330,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                           >
                             Red Hat Edge Manager (RHEM) documentation
                           </Button>
-                        </Text>
-                      </TextContent>
+                        </Content>
+                      </Content>
                     </Alert>
                     <TabCard
                       isEditing={isEditing}
@@ -372,7 +371,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
             {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                 <Button
-                  className="pf-v5-u-mt-md"
+                  className="pf-v6-u-mt-md"
                   size={'sm'}
                   onClick={() => handleModalToggle()}
                   isDisabled={!isFormValid}
@@ -380,7 +379,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                   Save
                 </Button>
                 <Button
-                  className="pf-v5-u-mt-md"
+                  className="pf-v6-u-mt-md"
                   size={'sm'}
                   variant="link"
                   //CancelButton when a user opts out of saving changes

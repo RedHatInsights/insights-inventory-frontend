@@ -53,6 +53,7 @@ const InventoryGroups = () => {
 
   return (
     <PageSection
+      hasBodyWrapper={false}
       data-ouia-component-id="groups-table-wrapper"
       data-testid="groups-table-wrapper"
     >
