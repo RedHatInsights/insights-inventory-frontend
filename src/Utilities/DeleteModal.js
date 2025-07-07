@@ -17,19 +17,21 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 const DeleteModal = ({
   handleModalToggle,
   isModalOpen,
-  currentSytems,
+  currentSystems,
   onConfirm,
 }) => {
   let systemToRemove;
   let systemLabel = 'system';
-  if (Array.isArray(currentSytems)) {
+  let systemPronoun = 'this';
+  if (Array.isArray(currentSystems)) {
     systemToRemove =
-      currentSytems.length === 1
-        ? currentSytems[0].display_name
-        : `${currentSytems.length} systems`;
-    systemLabel = currentSytems.length === 1 ? systemLabel : 'systems';
+      currentSystems.length === 1
+        ? currentSystems[0].display_name
+        : `${currentSystems.length} systems`;
+    systemLabel = currentSystems.length === 1 ? systemLabel : 'systems';
+    systemPronoun = currentSystems.length === 1 ? systemPronoun : 'these';
   } else {
-    systemToRemove = currentSytems.display_name;
+    systemToRemove = currentSystems.display_name;
   }
 
   return (
@@ -58,8 +60,8 @@ const DeleteModal = ({
               {systemLabel} to add it back to your inventory.
             </StackItem>
             <StackItem>
-              To disable the daily upload for this {systemLabel}, use the
-              following command:
+              To disable the daily upload for {systemPronoun} {systemLabel}, use
+              the following command:
             </StackItem>
             <StackItem>
               <ClipboardCopy>insights-client --unregister</ClipboardCopy>
@@ -97,7 +99,7 @@ const ActiveSystemProp = PropTypes.shape({
 
 DeleteModal.propTypes = {
   isModalOpen: PropTypes.bool,
-  currentSytems: PropTypes.oneOfType([
+  currentSystems: PropTypes.oneOfType([
     ActiveSystemProp,
     PropTypes.arrayOf(ActiveSystemProp),
   ]),
@@ -107,7 +109,7 @@ DeleteModal.propTypes = {
 
 DeleteModal.defaultProps = {
   isModalOpen: false,
-  currentSytems: {},
+  currentSystems: {},
   handleModalToggle: () => undefined,
   onConfirm: () => undefined,
 };
