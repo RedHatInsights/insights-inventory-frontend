@@ -5,9 +5,8 @@ import {
   CreateWorkspaceTextField,
 } from './ModalSchemas/schemes';
 import Modal from './Modal';
-import apiWithToast from '../utils/apiWithToast';
+import useApiWithToast from '../utils/apiWithToast';
 import { validateGroupName } from '../utils/api';
-import { useDispatch } from 'react-redux';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { createGroup } from '../../../api/hostInventoryApi';
 import { componentTypes } from '@data-driven-forms/react-form-renderer';
@@ -32,7 +31,7 @@ const CreateGroupModal = ({
   modalBefore = false,
   setterOfModalBefore,
 }) => {
-  const dispatch = useDispatch();
+  const apiWithToast = useApiWithToast();
 
   const handleCreateGroup = useCallback(
     (values) => {
@@ -47,7 +46,6 @@ const CreateGroupModal = ({
         },
       };
       return apiWithToast(
-        dispatch,
         () => createGroup({ groupIn: values }),
         statusMessages,
       );

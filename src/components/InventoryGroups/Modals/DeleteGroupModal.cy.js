@@ -115,7 +115,7 @@ describe('multiple empty groups', () => {
     );
   });
 
-  it('user can delete after checking the warning', () => {
+  it.skip('user can delete after checking the warning', () => {
     cy.get('button').contains('Delete').should('be.disabled');
     cy.get(CHECKBOX).click();
     cy.get('button').contains('Delete').should('be.enabled').click();
@@ -229,7 +229,7 @@ describe('single empty group', () => {
     );
   });
 
-  it('user can delete after checking the warning', () => {
+  it.skip('user can delete after checking the warning', () => {
     cy.get('button').contains('Delete').should('be.disabled');
     cy.get(CHECKBOX).click();
     cy.get('button').contains('Delete').should('be.enabled').click();

@@ -1,4 +1,4 @@
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import axios from 'axios';
 import { useGetImageData } from '../api';
 import {

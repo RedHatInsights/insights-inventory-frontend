@@ -3,15 +3,12 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
-  EmptyStateIcon,
   Tooltip,
-  EmptyStateHeader,
   EmptyStateFooter,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
-import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { GENERAL_GROUPS_WRITE_PERMISSION } from '../../constants';
 
@@ -23,21 +20,13 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
 
   return (
     <EmptyState
+      headingLevel="h4"
+      icon={PlusCircleIcon}
+      titleText="No workspaces"
       data-ouia-component-id="empty-state"
-      data-ouia-component-type="PF5/EmptyState"
+      data-ouia-component-type="PF6/EmptyState"
       data-ouia-safe={true}
     >
-      <EmptyStateHeader
-        titleText="No workspaces"
-        icon={
-          <EmptyStateIcon
-            icon={PlusCircleIcon}
-            color={globalPaletteBlack600.value}
-            data-testid="no-groups-icon"
-          />
-        }
-        headingLevel="h4"
-      />
       <EmptyStateBody>
         Manage device operations efficiently by creating workspaces
       </EmptyStateBody>

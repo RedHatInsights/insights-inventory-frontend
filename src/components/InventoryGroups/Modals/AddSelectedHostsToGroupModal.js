@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import { addHostsToGroupById } from '../utils/api';
-import apiWithToast from '../utils/apiWithToast';
-import { useDispatch } from 'react-redux';
+import useApiWithToast from '../utils/apiWithToast';
 import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
@@ -18,8 +17,8 @@ const AddSelectedHostsToGroupModal = ({
   modalState: hosts,
   reloadData,
 }) => {
-  const dispatch = useDispatch();
   const chrome = useChrome();
+  const apiWithToast = useApiWithToast();
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
   const handleAddDevices = (values) => {
     const group = JSON.parse(values.group); // parse is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
@@ -37,7 +36,6 @@ const AddSelectedHostsToGroupModal = ({
     };
 
     apiWithToast(
-      dispatch,
       () =>
         addHostsToGroupById(
           group.id,

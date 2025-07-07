@@ -65,7 +65,7 @@ const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
             entity?.system_profile?.operating_system?.name ===
               'CentOS Linux' && (
               <div>
-                <Label color="cyan">CentOS Linux</Label>
+                <Label color="teal">CentOS Linux</Label>
               </div>
             )}
         </FlexItem>

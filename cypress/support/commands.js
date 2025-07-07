@@ -57,7 +57,7 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
           </RBACProvider>
         </MemoryRouter>
       </Provider>
-    </FlagProvider>
+    </FlagProvider>,
   );
 });
 
@@ -78,23 +78,33 @@ Cypress.Commands.add(
         getBundle: () => 'insights',
       },
     };
-  }
+  },
 );
 
 Cypress.Commands.add(
   'shouldHaveAriaDisabled',
   { prevSubject: true },
-  (subject) => cy.wrap(subject).should('have.attr', 'aria-disabled', 'true')
+  (subject) => cy.wrap(subject).should('have.attr', 'aria-disabled', 'true'),
 );
 
 Cypress.Commands.add(
   'shouldHaveAriaEnabled',
   { prevSubject: true },
-  (subject) => cy.wrap(subject).should('have.attr', 'aria-disabled', 'false')
+  (subject) => {
+    cy.wrap(subject).then(($el) => {
+      // A button is considered enabled if it either doesn't have aria-disabled
+      // or if aria-disabled is explicitly set to "false"
+      const ariaDisabled = $el.attr('aria-disabled');
+      expect(ariaDisabled).to.satisfy(
+        (value) => value === undefined || value === 'false',
+        'Button should be enabled (no aria-disabled or aria-disabled="false")',
+      );
+    });
+  },
 );
 
 Cypress.Commands.add(
   'shouldNotHaveAriaDisabled',
   { prevSubject: true },
-  (subject) => cy.wrap(subject).should('not.have.attr', 'aria-disabled')
+  (subject) => cy.wrap(subject).should('not.have.attr', 'aria-disabled'),
 );

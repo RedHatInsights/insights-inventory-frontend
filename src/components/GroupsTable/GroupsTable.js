@@ -206,7 +206,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         filterValues: {
           children: (
             <SearchInput
-              data-ouia-component-type="PF5/TextInput"
+              data-ouia-component-type="PF6/TextInput"
               data-ouia-component-id="name-filter"
               placeholder="Filter by name"
               value={filters.name || ''}

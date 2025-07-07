@@ -9,7 +9,7 @@ import {
 import './InventoryDetail.scss';
 import SystemNotFound from './SystemNotFound';
 import { reloadWrapper } from '../../Utilities/index';
-import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications';
 import ApplicationDetails from './ApplicationDetails';
 import './InventoryDetail.scss';
 import DetailHeader from './DetailHeader';

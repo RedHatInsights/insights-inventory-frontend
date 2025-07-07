@@ -69,9 +69,9 @@ describe('group detail page', () => {
     groupDetailInterceptors['long responding']();
     mountPage();
 
-    cy.get(BREADCRUMB).find('li').last().find('.pf-v5-c-skeleton');
-    cy.get('h1').find('.pf-v5-c-skeleton');
-    cy.get('.pf-v5-c-empty-state').find('.pf-v5-c-spinner');
+    cy.get(BREADCRUMB).find('li').last().find('.pf-v6-c-skeleton');
+    cy.get('h1').find('.pf-v6-c-skeleton');
+    cy.get('.pf-v6-c-empty-state').find('.pf-v6-c-spinner');
   });
 
   it('can rename group', () => {
@@ -102,7 +102,7 @@ describe('group detail page', () => {
     cy.get(MENU_TOGGLE).should('be.enabled').click();
     cy.get(MENU_ITEM).contains('Delete').click();
 
-    cy.get(`div[class="pf-v5-c-check"]`).click();
+    cy.get(`div[class="pf-v6-c-check"]`).click();
     cy.get(`button[type="submit"]`).click();
     cy.wait('@deleteGroup')
       .its('request.url')
@@ -135,7 +135,10 @@ describe('integration with rbac', () => {
     });
 
     it('empty state is rendered', () => {
-      cy.get('h5').should('have.text', 'Workspace access permissions needed');
+      cy.get('h5').should(
+        'contain.text',
+        'Workspace access permissions needed',
+      );
     });
 
     it('actions are disabled', () => {
@@ -179,14 +182,14 @@ describe('integration with rbac', () => {
     it('should not allow to see systems', () => {
       cy.get(TAB_CONTENT)
         .find('h5')
-        .should('have.text', 'Access needed for systems in this workspace');
+        .should('contain.text', 'Access needed for systems in this workspace');
     });
 
     it('should allow to see the workspace info tab', () => {
       cy.get(TAB_BUTTON).contains('Workspace info').click();
       cy.get(TAB_CONTENT)
         .eq(1) // <- workaround since PF renders both tab contents and hides the first
-        .find('.pf-v5-c-card__title') // TODO: tie to OUIA
+        .find('.pf-v6-c-card__title') // TODO: tie to OUIA
         .should('have.text', 'User access configuration');
     });
 
@@ -225,7 +228,7 @@ describe('integration with rbac', () => {
 
     it('actions are disabled', () => {
       cy.get(MENU_TOGGLE).should('be.disabled');
-      cy.get('button').contains('Add systems').shouldHaveAriaDisabled();
+      cy.contains('button', 'Add systems').shouldHaveAriaDisabled();
     });
 
     it('should allow to see systems', () => {

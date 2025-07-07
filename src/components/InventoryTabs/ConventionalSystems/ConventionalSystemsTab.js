@@ -8,7 +8,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../../store/actions';
-import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import DeleteModal from '../../../Utilities/DeleteModal';
 import { TextInputModal } from '../../SystemDetails/GeneralInfo';
 import { generateFilter } from '../../../Utilities/constants';
@@ -76,6 +76,7 @@ const ConventionalSystemsTab = ({
   systemTypeFilter,
   sortBy,
 }) => {
+  const addNotification = useAddNotification();
   const chrome = useChrome();
   const inventory = useRef(null);
   const [isModalOpen, handleModalToggle] = useState(false);
@@ -318,15 +319,13 @@ const ConventionalSystemsTab = ({
             removeSystems = [currentSystem.id];
           }
 
-          dispatch(
-            addNotificationAction({
-              id: 'remove-initiated',
-              variant: 'info',
-              title: 'Delete operation initiated',
-              description: `Removal of ${displayName} started.`,
-              dismissable: true,
-            }),
-          );
+          addNotification({
+            id: 'remove-initiated',
+            variant: 'info',
+            title: 'Delete operation initiated',
+            description: `Removal of ${displayName} started.`,
+            dismissable: true,
+          });
           dispatch(actions.deleteEntity(removeSystems, displayName));
           handleModalToggle(false);
         }}

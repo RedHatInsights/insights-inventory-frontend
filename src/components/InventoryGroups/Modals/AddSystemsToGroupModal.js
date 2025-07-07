@@ -5,15 +5,15 @@ import {
   Flex,
   FlexItem,
   Label,
-  Modal,
   Tab,
   TabTitleText,
   Tabs,
 } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import React, { useCallback, useContext, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   clearFilters,
   fetchGroupDetail,
@@ -21,7 +21,7 @@ import {
 } from '../../../store/inventory-actions';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
-import apiWithToast from '../utils/apiWithToast';
+import useApiWithToast from '../utils/apiWithToast';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
@@ -41,7 +41,7 @@ const AddSystemsToGroupModal = ({
   groupName,
   activeTab,
 }) => {
-  const dispatch = useDispatch();
+  const apiWithToast = useApiWithToast();
 
   const selected = useSelector(
     (state) => state?.entities?.selected || new Map(),
@@ -91,11 +91,7 @@ const AddSystemsToGroupModal = ({
           } to ${groupName || groupId}`,
         },
       };
-      return apiWithToast(
-        dispatch,
-        () => addHostsToGroupById(groupId, hostIds),
-        statusMessages,
-      );
+      apiWithToast(() => addHostsToGroupById(groupId, hostIds), statusMessages);
     },
     [isModalOpen],
   );
@@ -257,7 +253,7 @@ const AddSystemsToGroupModal = ({
         >
           {edgeParityEnabled && hasEdgeDevices ? (
             <Tabs
-              className="pf-m-light pf-v5-c-table"
+              className="pf-m-light pf-v6-c-table"
               activeKey={activeTabKey}
               onSelect={handleTabClick}
               aria-label="Hybrid inventory tabs"
@@ -272,7 +268,7 @@ const AddSystemsToGroupModal = ({
                 eventKey={hybridInventoryTabKeys.immutable.key}
                 title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
               >
-                <section className={'pf-v5-c-toolbar'}>
+                <section className={'pf-v6-c-toolbar'}>
                   <ImmutableDevicesView
                     skeletonRowQuantity={15}
                     hasCheckbox={true}

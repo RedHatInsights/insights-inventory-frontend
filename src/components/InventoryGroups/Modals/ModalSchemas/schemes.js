@@ -7,7 +7,7 @@ import {
   FormHelperText,
   HelperText,
   HelperTextItem,
-  Text,
+  Content,
   TextInput,
 } from '@patternfly/react-core';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
@@ -80,7 +80,7 @@ export const CreateWorkspaceTextField = (props) => {
       {(fieldData?.helperText || ['error', 'warning'].includes(validated)) && (
         <FormHelperText>
           <HelperText>
-            <HelperTextItem variant={validated} hasIcon>
+            <HelperTextItem variant={validated}>
               {validationInternal || fieldData?.helperText}
             </HelperTextItem>
           </HelperText>
@@ -92,13 +92,13 @@ export const CreateWorkspaceTextField = (props) => {
 
 const createDescription = (hosts) => {
   return (
-    <Text>
+    <Content component="p">
       Select a workspace to add{' '}
       <strong>
         {hosts.length > 1 ? `${hosts.length} systems` : hosts[0].display_name}
       </strong>{' '}
       to, or create a new one.
-    </Text>
+    </Content>
   );
 };
 
