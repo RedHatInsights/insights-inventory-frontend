@@ -21,7 +21,7 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
 
   return isEditingOpen ? (
     <FormGroup>
-      <div className="pf-v5-c-inline-edit__group">
+      <div className="pf-v6-c-inline-edit__group">
         <div style={{ width: '100%' }}>
           <TextInput
             aria-label="name"
@@ -39,9 +39,10 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
             </HelperText>
           </FormHelperText>
         </div>
-        <div className="pf-v5-c-inline-edit__group pf-v5-m-action-group pf-v5-m-icon-group">
-          <div className="pf-v5-c-inline-edit__action pf-v5-m-valid pf-v5-u-display-inline">
+        <div className="pf-v6-c-inline-edit__group pf-v6-m-action-group pf-v6-m-icon-group">
+          <div className="pf-v6-c-inline-edit__action pf-v6-m-valid pf-v6-u-display-inline">
             <Button
+              icon={<CheckIcon />}
               variant="plain"
               type="button"
               aria-label="submit"
@@ -50,23 +51,21 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
                 setEditingOpen(false);
               }}
               isDisabled={!isValid}
-              className="pf-v5-u-display-inline"
-              style={{
-                color: isValid
-                  ? 'var(--pf-v5-global--primary-color--100)'
-                  : 'var(--pf-v5-c-button--disabled--Color)',
-              }}
-            >
-              <CheckIcon />
-            </Button>
+              className="pf-v6-u-display-inline"
+            />
           </div>
           <div
-            className="pf-v5-c-inline-edit__action"
+            className="pf-v6-c-inline-edit__action"
             style={{
               display: 'inline',
             }}
           >
             <Button
+              icon={
+                <Icon>
+                  <TimesIcon />
+                </Icon>
+              }
               variant="plain"
               type="button"
               aria-label="cancel"
@@ -74,12 +73,8 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
                 setEditingOpen(false);
                 setCurrentValue(textValue);
               }}
-              className="pf-v5-u-display-inline"
-            >
-              <Icon>
-                <TimesIcon />
-              </Icon>
-            </Button>
+              className="pf-v6-u-display-inline"
+            />
           </div>
         </div>
       </div>

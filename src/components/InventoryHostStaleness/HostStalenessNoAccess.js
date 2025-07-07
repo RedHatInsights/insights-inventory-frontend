@@ -3,21 +3,18 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
-  EmptyStateIcon,
-  EmptyStateHeader,
   EmptyStateFooter,
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, LockIcon } from '@patternfly/react-icons';
 
 const HostStalenessNoAccess = () => {
   return (
-    <EmptyState>
-      <EmptyStateHeader
-        titleText="Access permissions needed"
-        icon={<EmptyStateIcon icon={LockIcon} />}
-        headingLevel="h5"
-      />
-      <EmptyStateBody className="pf-v5-u-mb-xl">
+    <EmptyState
+      headingLevel="h5"
+      icon={LockIcon}
+      titleText="Access permissions needed"
+    >
+      <EmptyStateBody className="pf-v6-u-mb-xl">
         You do not have the necessary Staleness and Deletion viewer role
         required to view this page.
       </EmptyStateBody>
@@ -29,7 +26,7 @@ const HostStalenessNoAccess = () => {
         >
           <p>
             Learn more about managing user access{' '}
-            <ExternalLinkAltIcon className="pf-v5-u-ml-sm " />
+            <ExternalLinkAltIcon className="pf-v6-u-ml-sm " />
           </p>
         </Button>
       </EmptyStateFooter>

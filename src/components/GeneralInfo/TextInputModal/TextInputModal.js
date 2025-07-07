@@ -6,10 +6,10 @@ import {
   FormHelperText,
   HelperText,
   HelperTextItem,
-  Modal,
   TextInput,
   ValidatedOptions,
 } from '@patternfly/react-core';
+import { Modal } from '@patternfly/react-core/deprecated';
 
 const TextInputModal = ({
   title = '',

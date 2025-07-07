@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import debounce from 'lodash/debounce';
 import React from 'react';
@@ -349,7 +349,7 @@ describe('EntityTableToolbar', () => {
         </Provider>,
       );
 
-      const category = screen.getByRole('group', { name: 'Some' });
+      const category = screen.getByRole('list', { name: 'Some' });
       expect(category).toBeVisible();
       expect(category).toContainElement(screen.getByText('something'));
       expect(category).toContainElement(screen.getByText('something 2'));
@@ -368,7 +368,7 @@ describe('EntityTableToolbar', () => {
         </Provider>,
       );
 
-      const category = screen.getByRole('group', { name: 'Status' });
+      const category = screen.getByRole('list', { name: 'Status' });
       expect(category).toBeVisible();
       expect(category).toContainElement(screen.getByText('Fresh'));
     });
@@ -410,7 +410,7 @@ describe('EntityTableToolbar', () => {
         </Provider>,
       );
 
-      const category = screen.getByRole('group', { name: 'something' });
+      const category = screen.getByRole('list', { name: 'something' });
       expect(category).toBeVisible();
       expect(category).toContainElement(
         // TODO: fix improper store mocking
@@ -450,7 +450,7 @@ describe('EntityTableToolbar', () => {
         </Provider>,
       );
 
-      const category = screen.queryByRole('group', { name: 'something' });
+      const category = screen.queryByRole('list', { name: 'something' });
       expect(category).not.toBeInTheDocument();
       expect(
         // TODO: fix improper store mocking
@@ -473,7 +473,7 @@ describe('EntityTableToolbar', () => {
 
     it('should render correctly', () => {
       const store = mockStore(initialState);
-      const { container } = render(
+      render(
         <Provider store={store}>
           <EntityTableToolbar
             page={1}
@@ -485,11 +485,12 @@ describe('EntityTableToolbar', () => {
         </Provider>,
       );
 
-      expect(
-        // TODO: improve PrimaryToolbar and Pagination accessibility
-        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-        container.querySelector('.pf-v5-c-pagination__total-items'),
-      ).toHaveTextContent('1 - 50 of 500');
+      const button = screen.getByRole('button', {
+        name: /items per page/i,
+      });
+
+      expect(within(button).getByText(/1 \- 50/i)).toBeVisible();
+      expect(within(button).getByText(/500/i)).toBeVisible();
     });
 
     it('should render correctly - with customFilters', () => {
@@ -511,7 +512,7 @@ describe('EntityTableToolbar', () => {
         </Provider>,
       );
 
-      const category = screen.getByRole('group', { name: 'RHC status' });
+      const category = screen.getByRole('list', { name: 'RHC status' });
       expect(category).toBeVisible();
       expect(category).toContainElement(screen.getByText('Active'));
       expect(

@@ -4,21 +4,20 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { Button, Popover } from '@patternfly/react-core';
 
 const TitleWithPopover = ({ title, content, headerContent }) => (
-  <React.Fragment>
-    <span>{title}</span>
+  <span>
+    {title}
     <Popover
       headerContent={<div>{headerContent || title}</div>}
       bodyContent={<div>{content}</div>}
     >
       <Button
+        icon={<OutlinedQuestionCircleIcon />}
         variant="plain"
         aria-label={`Action for ${title}`}
         className="ins-active-general_information__popover-icon"
-      >
-        <OutlinedQuestionCircleIcon />
-      </Button>
+      />
     </Popover>
-  </React.Fragment>
+  </span>
 );
 
 TitleWithPopover.propTypes = {

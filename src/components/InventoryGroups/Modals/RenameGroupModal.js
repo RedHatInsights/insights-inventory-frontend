@@ -6,8 +6,7 @@ import Modal from './Modal';
 import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { updateGroupById, validateGroupName } from '../utils/api';
 import { nameValidator } from '../helpers/validate';
-import apiWithToast from '../utils/apiWithToast';
-import { useDispatch } from 'react-redux';
+import useApiWithToast from '../utils/apiWithToast';
 
 const renameGroupSchema = (namePresenceValidator) => ({
   fields: [
@@ -35,7 +34,7 @@ const RenameGroupModal = ({
   reloadData,
 }) => {
   const { id, name } = modalState;
-  const dispatch = useDispatch();
+  const apiWithToast = useApiWithToast();
 
   const handleRenameModal = (values) => {
     const statusMessages = {
@@ -49,7 +48,6 @@ const RenameGroupModal = ({
       },
     };
     apiWithToast(
-      dispatch,
       () => updateGroupById(id, { name: values.name }),
       statusMessages,
     );

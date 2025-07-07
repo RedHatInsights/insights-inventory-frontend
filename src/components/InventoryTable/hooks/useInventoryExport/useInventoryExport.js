@@ -1,10 +1,5 @@
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  exportSuccessNotifiction,
-  exportErrorNotifiction,
-  exportDownloadNotifiction,
-} from '../../../../store/actions';
 import { EXPORT_SERVICE_PATH, EXPORT_FILE_FORMAT } from './constants';
 import { buildExportRequestJson, downloadFile } from './helpers';
 import useExportApi from './useExportApi';
@@ -24,10 +19,14 @@ const JSON_ITEM_TEXT = 'Export all systems to JSON';
  *
  */
 const useInventoryExport = ({ filters = {} } = {}) => {
-  const dispatch = useDispatch();
+  const addNotification = useAddNotification();
   const { create } = useExportApi();
   const onError = () => {
-    dispatch(exportErrorNotifiction());
+    addNotification({
+      id: 'inventory-export-error',
+      variant: 'danger',
+      title: 'The requested export could not be created. Please try again.',
+    });
   };
   const checkForDownload = useExportDownloadCheck({
     onDownloadAvailable: async (exportToDownload) => {
@@ -38,7 +37,11 @@ const useInventoryExport = ({ filters = {} } = {}) => {
             format: EXPORT_FILE_FORMAT,
           },
         );
-        dispatch(exportDownloadNotifiction());
+        addNotification({
+          id: 'inventory-export-download',
+          variant: 'success',
+          title: 'The requested export is being downloaded.',
+        });
       } catch {
         onError();
       }
@@ -51,7 +54,12 @@ const useInventoryExport = ({ filters = {} } = {}) => {
       create(buildExportRequestJson(filters, format), {
         onError,
         onSuccess: (data) => {
-          dispatch(exportSuccessNotifiction());
+          addNotification({
+            id: 'inventory-export-success',
+            variant: 'info',
+            title:
+              'The requested export is being prepared. When ready, the download will start automatically.',
+          });
           checkForDownload(data.id);
         },
       }),

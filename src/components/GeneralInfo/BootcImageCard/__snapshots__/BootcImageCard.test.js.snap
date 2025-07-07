@@ -3,28 +3,32 @@
 exports[`BootcImageCard should render correctly - no data 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="bootmc-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-1"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -33,174 +37,233 @@ exports[`BootcImageCard should render correctly - no data 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-3"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="BOOTC title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="BOOTC title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Booted Image title"
-                class=""
-                data-ouia-component-id="Booted Image title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Booted Image
-              </dt>
-              <dd
-                aria-label="Booted Image value"
-                class=""
-                data-ouia-component-id="Booted Image value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Booted Image Digest title"
-                class=""
-                data-ouia-component-id="Booted Image Digest title"
-              >
-                Booted Image Digest
-              </dt>
-              <dd
-                aria-label="Booted Image Digest value"
-                class=""
-                data-ouia-component-id="Booted Image Digest value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Booted Image
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Booted Image value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Booted Image value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Staged Image title"
-                class=""
-                data-ouia-component-id="Staged Image title"
-              >
-                Staged Image
-              </dt>
-              <dd
-                aria-label="Staged Image value"
-                class=""
-                data-ouia-component-id="Staged Image value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Booted Image Digest
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Booted Image Digest value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Booted Image Digest value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Staged Image Digest title"
-                class=""
-                data-ouia-component-id="Staged Image Digest title"
-              >
-                Staged Image Digest
-              </dt>
-              <dd
-                aria-label="Staged Image Digest value"
-                class=""
-                data-ouia-component-id="Staged Image Digest value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Staged Image
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Staged Image value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Staged Image value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Available Image title"
-                class=""
-                data-ouia-component-id="Available Image title"
-              >
-                Available Image
-              </dt>
-              <dd
-                aria-label="Available Image value"
-                class=""
-                data-ouia-component-id="Available Image value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Staged Image Digest
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Staged Image Digest value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Staged Image Digest value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Available Image Digest title"
-                class=""
-                data-ouia-component-id="Available Image Digest title"
-              >
-                Available Image Digest
-              </dt>
-              <dd
-                aria-label="Available Image Digest value"
-                class=""
-                data-ouia-component-id="Available Image Digest value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Available Image
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Available Image value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Available Image value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Rollback Image title"
-                class=""
-                data-ouia-component-id="Rollback Image title"
-              >
-                Rollback Image
-              </dt>
-              <dd
-                aria-label="Rollback Image value"
-                class=""
-                data-ouia-component-id="Rollback Image value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Available Image Digest
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Available Image Digest value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Available Image Digest value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
-              <dt
-                aria-label="Rollback Image Digest title"
-                class=""
-                data-ouia-component-id="Rollback Image Digest title"
-              >
-                Rollback Image Digest
-              </dt>
-              <dd
-                aria-label="Rollback Image Digest value"
-                class=""
-                data-ouia-component-id="Rollback Image Digest value"
-              >
-                <div
-                  class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Rollback Image
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Rollback Image value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Rollback Image value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
                   <span
-                    class="pf-v5-screen-reader"
-                  />
-                </div>
-              </dd>
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Rollback Image Digest
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Rollback Image Digest value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Rollback Image Digest value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>
@@ -213,28 +276,32 @@ exports[`BootcImageCard should render correctly - no data 1`] = `
 exports[`BootcImageCard should render correctly with data 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v5-c-card"
+    class="pf-v6-c-card"
     data-ouia-component-id="bootmc-card"
-    data-ouia-component-type="PF5/Card"
+    data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v5-c-card__body"
+      class="pf-v6-c-card__body"
     >
       <div
-        class="pf-v5-l-stack pf-m-gutter"
+        class="pf-v6-l-stack pf-m-gutter"
       >
         <div
-          class="pf-v5-l-stack__item"
+          class="pf-v6-l-stack__item"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-4"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <h1
-              class=""
+              class="pf-v6-c-content--h1"
               data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF5/Text"
+              data-ouia-component-type="PF6/Content"
               data-ouia-safe="true"
               data-pf-content="true"
             >
@@ -243,126 +310,185 @@ exports[`BootcImageCard should render correctly with data 1`] = `
           </div>
         </div>
         <div
-          class="pf-v5-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-content"
+            class="pf-v6-c-content"
+            data-ouia-component-id="OUIA-Generated-Content-6"
+            data-ouia-component-type="PF6/Content"
+            data-ouia-safe="true"
+            data-pf-content="true"
           >
             <dl
-              class=""
+              aria-label="BOOTC title"
+              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+              data-ouia-component-id="BOOTC title"
+              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
             >
-              <dt
-                aria-label="Booted Image title"
-                class=""
-                data-ouia-component-id="Booted Image title"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                Booted Image
-              </dt>
-              <dd
-                aria-label="Booted Image value"
-                class=""
-                data-ouia-component-id="Booted Image value"
-              >
-                quay.io:5000/bootc-insights:latest
-              </dd>
-              <dt
-                aria-label="Booted Image Digest title"
-                class=""
-                data-ouia-component-id="Booted Image Digest title"
-              >
-                Booted Image Digest
-              </dt>
-              <dd
-                aria-label="Booted Image Digest value"
-                class=""
-                data-ouia-component-id="Booted Image Digest value"
-              >
-                sha256:8fa5b818d1560c7d15d8744069651b671acd13ec5290c2bb55d1fae2492fcb5f
-              </dd>
-              <dt
-                aria-label="Staged Image title"
-                class=""
-                data-ouia-component-id="Staged Image title"
-              >
-                Staged Image
-              </dt>
-              <dd
-                aria-label="Staged Image value"
-                class=""
-                data-ouia-component-id="Staged Image value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Staged Image Digest title"
-                class=""
-                data-ouia-component-id="Staged Image Digest title"
-              >
-                Staged Image Digest
-              </dt>
-              <dd
-                aria-label="Staged Image Digest value"
-                class=""
-                data-ouia-component-id="Staged Image Digest value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Available Image title"
-                class=""
-                data-ouia-component-id="Available Image title"
-              >
-                Available Image
-              </dt>
-              <dd
-                aria-label="Available Image value"
-                class=""
-                data-ouia-component-id="Available Image value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Available Image Digest title"
-                class=""
-                data-ouia-component-id="Available Image Digest title"
-              >
-                Available Image Digest
-              </dt>
-              <dd
-                aria-label="Available Image Digest value"
-                class=""
-                data-ouia-component-id="Available Image Digest value"
-              >
-                Not available
-              </dd>
-              <dt
-                aria-label="Rollback Image title"
-                class=""
-                data-ouia-component-id="Rollback Image title"
-              >
-                Rollback Image
-              </dt>
-              <dd
-                aria-label="Rollback Image value"
-                class=""
-                data-ouia-component-id="Rollback Image value"
-              >
-                quay.io:5000/bootc-insights:latest
-              </dd>
-              <dt
-                aria-label="Rollback Image Digest title"
-                class=""
-                data-ouia-component-id="Rollback Image Digest title"
-              >
-                Rollback Image Digest
-              </dt>
-              <dd
-                aria-label="Rollback Image Digest value"
-                class=""
-                data-ouia-component-id="Rollback Image Digest value"
-              >
-                sha256:99dec597bd1e95565d9df181cab9bf0278b15e79a613dbd0a357d60f295e9a72
-              </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Booted Image
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Booted Image value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Booted Image value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    quay.io:5000/bootc-insights:latest
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Booted Image Digest
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Booted Image Digest value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Booted Image Digest value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    sha256:8fa5b818d1560c7d15d8744069651b671acd13ec5290c2bb55d1fae2492fcb5f
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Staged Image
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Staged Image value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Staged Image value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Staged Image Digest
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Staged Image Digest value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Staged Image Digest value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Available Image
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Available Image value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Available Image value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Available Image Digest
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Available Image Digest value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Available Image Digest value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Not available
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Rollback Image
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Rollback Image value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Rollback Image value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    quay.io:5000/bootc-insights:latest
+                  </div>
+                </dd>
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Rollback Image Digest
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Rollback Image Digest value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Rollback Image Digest value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    sha256:99dec597bd1e95565d9df181cab9bf0278b15e79a613dbd0a357d60f295e9a72
+                  </div>
+                </dd>
+              </div>
             </dl>
           </div>
         </div>

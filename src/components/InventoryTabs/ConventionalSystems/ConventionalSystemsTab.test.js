@@ -12,6 +12,7 @@ import { calculatePagination } from './Utilities';
 import { shouldDispatch } from '../../../Utilities/testUtils';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { hostInventoryApi } from '../../../api/hostInventoryApi';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -31,6 +32,15 @@ jest.mock(
   }),
 );
 jest.mock('../../../Utilities/useFeatureFlag');
+jest.mock(
+  '@redhat-cloud-services/frontend-components-notifications/hooks',
+  () => ({
+    ...jest.requireActual(
+      '@redhat-cloud-services/frontend-components-notifications/hooks',
+    ),
+    useAddNotification: jest.fn(),
+  }),
+);
 
 describe('ConventionalSystemsTab', () => {
   let mockStore;
@@ -128,16 +138,13 @@ describe('ConventionalSystemsTab', () => {
       </MemoryRouter>,
     );
 
-  /* beforeAll(() => {
-    InventoryList.mockImplementation(() => (
-      <div data-testid="inventory-table-list">InventoryTable</div>
-    ));
-  });
- */
+  const notificationMock = jest.fn();
+
   beforeEach(() => {
     mockStore = configureStore();
     useGetRegistry.mockImplementation(() => () => ({ register: () => ({}) }));
     mock.onGet().reply(200, { results: [] });
+    useAddNotification.mockImplementation(() => notificationMock);
   });
 
   it('renders correctly when write permissions', async () => {
@@ -200,15 +207,12 @@ describe('ConventionalSystemsTab', () => {
         name: /delete system from inventory\?/i,
       }),
     ).not.toBeInTheDocument();
-    shouldDispatch(store, {
-      payload: {
-        description: `Removal of ${system1.display_name} started.`,
-        dismissable: true,
-        id: 'remove-initiated',
-        title: 'Delete operation initiated',
-        variant: 'info',
-      },
-      type: '@@INSIGHTS-CORE/NOTIFICATIONS/ADD_NOTIFICATION',
+    expect(notificationMock).toHaveBeenCalledWith({
+      description: `Removal of ${system1.display_name} started.`,
+      dismissable: true,
+      id: 'remove-initiated',
+      title: 'Delete operation initiated',
+      variant: 'info',
     });
     shouldDispatch(store, {
       type: 'REMOVE_ENTITY',
