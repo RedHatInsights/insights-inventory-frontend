@@ -13,7 +13,7 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -27,8 +27,6 @@ import {
 } from '../../constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import EdgeUpdateDeviceModal from './EdgeUpdateDeviceModal';
-import { getInventoryGroupDevicesUpdateInfo } from '../../api/edge/updates';
 
 const GroupDetailHeader = ({ groupId }) => {
   const dispatch = useDispatch();
@@ -48,30 +46,8 @@ const GroupDetailHeader = ({ groupId }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [edgeUpdateModal, setEdgeUpdateModal] = useState({
-    deviceData: [],
-    isOpen: false,
-  });
-  const [edgeDeviceUpdateInfo, setEdgeDeviceUpdateInfo] = useState(null);
 
-  const isEdgeParityGroupsEnabled = useFeatureFlag(
-    'edgeParity.inventory-groups-enabled',
-  );
   const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
-
-  useEffect(() => {
-    if (isEdgeParityGroupsEnabled) {
-      (async () => {
-        try {
-          const groupEdgeDevicesUpdateInfo =
-            await getInventoryGroupDevicesUpdateInfo(groupId);
-          setEdgeDeviceUpdateInfo(groupEdgeDevicesUpdateInfo);
-        } catch (error) {
-          console.error(error);
-        }
-      })();
-    }
-  }, [edgeUpdateModal]);
 
   const name = data?.results?.[0]?.name;
   const ungrouped = data?.results?.[0]?.ungrouped;
@@ -112,13 +88,6 @@ const GroupDetailHeader = ({ groupId }) => {
           setIsModalOpen={() => setDeleteModalOpen(false)}
           reloadData={() => navigate('/groups')}
           groupIds={[groupId]}
-        />
-      )}
-      {edgeUpdateModal.isOpen && (
-        <EdgeUpdateDeviceModal
-          inventoryGroupUpdateDevicesInfo={edgeDeviceUpdateInfo}
-          updateModal={edgeUpdateModal}
-          setUpdateModal={setEdgeUpdateModal}
         />
       )}
       <Breadcrumb>
@@ -169,17 +138,6 @@ const GroupDetailHeader = ({ groupId }) => {
               >
                 Delete
               </DropdownItem>
-              {isEdgeParityGroupsEnabled && (
-                <DropdownItem
-                  key="update-edge-devices"
-                  onClick={() =>
-                    setEdgeUpdateModal({ deviceData: [], isOpen: true })
-                  }
-                  isDisabled={!edgeDeviceUpdateInfo?.update_valid}
-                >
-                  Update
-                </DropdownItem>
-              )}
             </DropdownList>
           </Dropdown>
         </FlexItem>
