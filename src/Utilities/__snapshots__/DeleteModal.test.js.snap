@@ -119,7 +119,9 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
                 <div
                   class="pf-v5-l-stack__item"
                 >
-                  To disable the daily upload for this 
+                  To disable the daily upload for 
+                  these
+                   
                   systems
                   , use the following command:
                 </div>
@@ -332,7 +334,9 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
                 <div
                   class="pf-v5-l-stack__item"
                 >
-                  To disable the daily upload for this 
+                  To disable the daily upload for 
+                  this
+                   
                   system
                   , use the following command:
                 </div>

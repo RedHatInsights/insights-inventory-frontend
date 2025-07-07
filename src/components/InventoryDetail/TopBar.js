@@ -169,7 +169,7 @@ const TopBar = ({
           className="sentry-mask data-hj-suppress"
           handleModalToggle={() => setIsModalOpen(!isModalOpen)}
           isModalOpen={isModalOpen}
-          currentSytems={entity}
+          currentSystems={entity}
           onConfirm={() => {
             addNotification({
               id: 'remove-initiated',

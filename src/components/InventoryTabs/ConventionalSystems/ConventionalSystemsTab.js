@@ -303,7 +303,7 @@ const ConventionalSystemsTab = ({
         className="sentry-mask data-hj-suppress"
         handleModalToggle={handleModalToggle}
         isModalOpen={isModalOpen}
-        currentSytems={currentSystem}
+        currentSystems={currentSystem}
         onConfirm={() => {
           let displayName;
           let removeSystems;

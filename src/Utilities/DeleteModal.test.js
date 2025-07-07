@@ -8,7 +8,7 @@ describe('DeleteModal', () => {
     it('should render correctly with one system', () => {
       const view = render(
         <DeleteModal
-          currentSytems={{ display_name: 'something' }}
+          currentSystems={{ display_name: 'something' }}
           isModalOpen
         />,
       );
@@ -22,7 +22,7 @@ describe('DeleteModal', () => {
     it('should render correctly with multiple systems', () => {
       const view = render(
         <DeleteModal
-          currentSytems={[
+          currentSystems={[
             { display_name: 'something' },
             { display_name: 'another' },
           ]}
@@ -46,7 +46,7 @@ describe('DeleteModal', () => {
       const onClose = jest.fn();
       render(
         <DeleteModal
-          currentSytems={[
+          currentSystems={[
             { display_name: 'something' },
             { display_name: 'another' },
           ]}
@@ -67,7 +67,7 @@ describe('DeleteModal', () => {
       const onClose = jest.fn();
       render(
         <DeleteModal
-          currentSytems={[
+          currentSystems={[
             { display_name: 'something' },
             { display_name: 'another' },
           ]}
@@ -88,7 +88,7 @@ describe('DeleteModal', () => {
       const onConfirm = jest.fn();
       render(
         <DeleteModal
-          currentSytems={[
+          currentSystems={[
             { display_name: 'something' },
             { display_name: 'another' },
           ]}
