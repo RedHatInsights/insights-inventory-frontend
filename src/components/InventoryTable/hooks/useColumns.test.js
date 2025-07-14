@@ -127,8 +127,6 @@ describe('useColumns', () => {
         ? { ...col, key: overrideKey, sortKey: overrideKey }
         : col,
     );
-    console.log('result', result.current);
-    console.log('updatedcolumns', updatedColumns);
     expect(result.current).toEqual(updatedColumns);
   });
 
@@ -150,8 +148,6 @@ describe('useColumns', () => {
         ? { ...col, key: overrideKey, sortKey: overrideKey }
         : col,
     );
-    console.log('result', result.current);
-    console.log('updatedcolumns', updatedColumns);
     expect(result.current).toEqual(updatedColumns);
   });
 
@@ -173,8 +169,6 @@ describe('useColumns', () => {
         ? { ...col, key: overrideKey, sortKey: overrideKey }
         : col,
     );
-    console.log('result', result.current);
-    console.log('updatedcolumns', updatedColumns);
     expect(result.current).toEqual(updatedColumns);
   });
 });
