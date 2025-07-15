@@ -22,7 +22,6 @@ import {
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
 import apiWithToast from '../utils/apiWithToast';
-import ConfirmSystemsAddModal from './ConfirmSystemsAddModal';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
@@ -44,8 +43,6 @@ const AddSystemsToGroupModal = ({
 }) => {
   const dispatch = useDispatch();
 
-  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
-  const [systemsSelectModalOpen, setSystemSelectModalOpen] = useState(true);
   const selected = useSelector(
     (state) => state?.entities?.selected || new Map(),
   );
@@ -199,23 +196,15 @@ const AddSystemsToGroupModal = ({
     />
   );
 
+  const handleAddSystemsButton = async () => {
+    await handleSystemAddition(overallSelectedKeys);
+    dispatch(fetchGroupDetail(groupId));
+    handleModalClose();
+  };
+
   return (
     isModalOpen && (
       <>
-        {/** confirmation modal */}
-        <ConfirmSystemsAddModal
-          isModalOpen={confirmationModalOpen}
-          onSubmit={() => {
-            handleSystemAddition(overallSelectedKeys);
-            setIsModalOpen(false);
-          }}
-          onBack={() => {
-            setConfirmationModalOpen(false);
-            setSystemSelectModalOpen(true); // switch back to the systems table modal
-          }}
-          onCancel={handleModalClose}
-          hostsNumber={alreadyHasGroup.length}
-        />
         {/** hosts selection modal */}
         <Modal
           header={
@@ -236,7 +225,7 @@ const AddSystemsToGroupModal = ({
               )}
             </Flex>
           }
-          isOpen={systemsSelectModalOpen}
+          isOpen={isModalOpen}
           onClose={handleModalClose}
           footer={
             <Flex direction={{ default: 'column' }} style={{ width: '100%' }}>
@@ -253,16 +242,7 @@ const AddSystemsToGroupModal = ({
                 <Button
                   key="confirm"
                   variant="primary"
-                  onClick={async () => {
-                    if (showWarning) {
-                      setSystemSelectModalOpen(false);
-                      setConfirmationModalOpen(true); // switch to the confirmation modal
-                    } else {
-                      await handleSystemAddition(overallSelectedKeys);
-                      dispatch(fetchGroupDetail(groupId));
-                      handleModalClose();
-                    }
-                  }}
+                  onClick={handleAddSystemsButton}
                   isDisabled={noneSelected || showWarning}
                 >
                   Add systems
