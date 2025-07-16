@@ -8,6 +8,8 @@ import { instance } from '@redhat-cloud-services/frontend-components-utilities/i
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import userEvent from '@testing-library/user-event';
 
+jest.mock('../../../Utilities/useFeatureFlag');
+
 describe('Table Renders', () => {
   beforeAll(() => {
     const mock = new MockAdapter(instance);
@@ -41,13 +43,6 @@ describe('Table Renders', () => {
       </TestWrapper>,
     );
   };
-
-  it('renders table with two tabs', async () => {
-    renderHostStalenessCard();
-
-    await screen.findByRole('tab', { name: 'Conventional (RPM-DNF)' });
-    await screen.findByRole('tab', { name: 'Immutable (OSTree)' });
-  });
 
   it('editing is disabled when edit is not clicked', async () => {
     renderHostStalenessCard();

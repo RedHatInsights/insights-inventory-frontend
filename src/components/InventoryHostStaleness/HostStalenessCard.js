@@ -40,6 +40,7 @@ import { addNotification as addNotificationAction } from '@redhat-cloud-services
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updateStaleness } from '../../api/hostInventoryApi';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [filter, setFilter] = useState({});
@@ -56,7 +57,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     hostStalenessConventionalDefaults,
     setHostStalenessConventionalDefaults,
   ] = useState({});
-
+  const edgeParityStalenessEnabled = useFeatureFlag('edgeParity.ui.staleness');
+  const edgeStalenessEnabled = edgeParityStalenessEnabled && hasEdgeSystems;
   const dispatch = useDispatch();
 
   const handleTabClick = (_event, tabIndex) => {
@@ -73,7 +75,9 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   //On save Button
   const saveHostData = async () => {
     let apiData = {};
-    let apiKeys = hasEdgeSystems ? hostStalenessApiKeys : conventionalApiKeys;
+    let apiKeys = edgeStalenessEnabled
+      ? hostStalenessApiKeys
+      : conventionalApiKeys;
     apiKeys.forEach(
       (filterKey) =>
         filterKey !== 'id' &&
@@ -196,7 +200,10 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
               Organization level system staleness and deletion
-              <InventoryHostStalenessPopover hasEdgeSystems={hasEdgeSystems} />
+              <InventoryHostStalenessPopover
+                hasEdgeSystems={hasEdgeSystems}
+                edgeParityStalenessEnabled={edgeParityStalenessEnabled}
+              />
             </Title>
           </CardHeader>
           <CardBody>
@@ -232,7 +239,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 </Tooltip>
               )}
             </Flex>
-            {hasEdgeSystems ? (
+            {edgeStalenessEnabled ? (
               <Tabs
                 id={'HostTabs'}
                 className="pf-m-light pf-v5-c-table pf-v5-u-mb-lg pf-v5-u-mt-lg"
