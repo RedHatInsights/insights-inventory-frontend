@@ -140,4 +140,57 @@ describe('Table Renders', () => {
       expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled(),
     );
   });
+
+  jest.setTimeout(10000);
+  it('Will reset to default', async () => {
+    renderHostStalenessCard();
+
+    await screen.findByRole('button', { name: 'Edit' });
+    await userEvent.click(screen.getByRole('button', { name: 'Edit' }));
+
+    const menuToggleButtons = await waitFor(() =>
+      screen
+        .getAllByRole('button')
+        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
+    );
+
+    menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
+    await userEvent.click(menuToggleButtons[0]);
+    const option1 = screen.getByRole('option', {
+      name: /2 days/i,
+    });
+    await userEvent.click(option1);
+
+    await userEvent.click(menuToggleButtons[1]);
+    const option2 = screen.getByRole('option', {
+      name: /6 days/i,
+    });
+    await userEvent.click(option2);
+
+    await userEvent.click(menuToggleButtons[2]);
+    const option3 = screen.getByRole('option', {
+      name: /21 days/i,
+    });
+    await userEvent.click(option3);
+
+    expect(
+      screen.queryByRole('button', { name: /7 days/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /2 days/i })).toBeVisible();
+    expect(screen.getByRole('button', { name: /6 days/i })).toBeVisible();
+    expect(screen.getByRole('button', { name: /21 days/i })).toBeVisible();
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /reset to default setting/i,
+      }),
+    );
+
+    expect(
+      screen.queryByRole('button', { name: /6 days/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /1 day/i })).toBeVisible();
+    expect(screen.getByRole('button', { name: /7 days/i })).toBeVisible();
+    expect(screen.getByRole('button', { name: /14 days/i })).toBeVisible();
+  });
 });
