@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   Button,
   ClipboardCopy,
-  Icon,
   Level,
   LevelItem,
   Modal,
@@ -12,7 +11,6 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 
 const DeleteModal = ({
   handleModalToggle,
@@ -37,7 +35,8 @@ const DeleteModal = ({
   return (
     <Modal
       variant="small"
-      title="Delete from inventory"
+      title="Delete system from inventory?"
+      titleIconVariant="warning"
       className="ins-c-inventory__table--remove sentry-mask data-hj-suppress"
       ouiaId="inventory-delete-modal"
       isOpen={isModalOpen}
@@ -47,11 +46,6 @@ const DeleteModal = ({
       }
     >
       <Split hasGutter>
-        <SplitItem>
-          <Icon size="xl" status="warning">
-            <ExclamationTriangleIcon />
-          </Icon>
-        </SplitItem>
         <SplitItem isFilled>
           <Stack hasGutter>
             <StackItem>
