@@ -40,7 +40,7 @@ const TabCard = ({
     <React.Fragment>
       <Card isPlain className="pf-v5-u-mb-lg">
         <Flex
-          justifyContent={{ default: 'justifyContentSpaceBetween' }}
+          spaceItems={{ default: 'spaceItems2xl' }}
           style={{ minHeight: '110px' }}
         >
           {dropdownArray(activeTabKey).map((item) => (
