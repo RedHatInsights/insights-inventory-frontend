@@ -35,7 +35,7 @@ const DeleteModal = ({
   return (
     <Modal
       variant="small"
-      title="Delete from inventory"
+      title="Delete system from inventory?"
       titleIconVariant="warning"
       className="ins-c-inventory__table--remove sentry-mask data-hj-suppress"
       ouiaId="inventory-delete-modal"

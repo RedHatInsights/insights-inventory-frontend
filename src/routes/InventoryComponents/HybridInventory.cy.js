@@ -348,7 +348,7 @@ describe('hybrid inventory table', () => {
       it('can delete hosts in the test group', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
         cy.get(INVENTORY_ACTION_MENU_ITEM).contains('Delete').click();
-        cy.get(MODAL_CONTENT).contains('Delete from inventory');
+        cy.get(MODAL_CONTENT).contains('Delete system from inventory?');
       });
 
       it('cannot edit nor delete hosts that are not in the test group', () => {

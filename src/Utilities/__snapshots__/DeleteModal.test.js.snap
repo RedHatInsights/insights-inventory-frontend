@@ -84,7 +84,7 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
             <span
               class="pf-v5-c-modal-box__title-text"
             >
-              Delete from inventory
+              Delete system from inventory?
             </span>
           </h1>
         </header>
@@ -296,7 +296,7 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
             <span
               class="pf-v5-c-modal-box__title-text"
             >
-              Delete from inventory
+              Delete system from inventory?
             </span>
           </h1>
         </header>
