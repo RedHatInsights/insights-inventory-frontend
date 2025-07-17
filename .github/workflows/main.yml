@@ -34,3 +34,39 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         run: npm run build --if-present
+
+      - name: Install Sentry CLI
+        if: ${{ github.event.inputs.commit_hash != '' }}
+        run: npm install -g @sentry/cli
+      - name: Upload sourcemaps to Sentry
+        if: ${{ github.event.inputs.commit_hash != '' }}
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: |
+          COMMIT=${{ github.event.inputs.commit_hash || github.sha }}
+
+          PROJECTS=(
+            advisor-rhel
+            vulnerability-rhel
+            compliance-rhel
+            remediations-rhel
+            dashboard-rhel
+            malware-rhel
+            ocp-advisor
+            ocp-vulnerability
+            patchman-rhel
+            registration-assistant-rhel
+            sed-frontend-rhc
+            tasks-rhel
+            policies-rhel
+          )
+          for PROJECT in "${PROJECTS[@]}"; do
+            echo "Uploading sourcemaps to $PROJECT..."
+            sentry-cli releases files "$COMMIT" upload-sourcemaps ./dist/js \
+              --org red-hat-it \
+              --project "$PROJECT" \
+              --release "$COMMIT" \
+              --dist "$COMMIT" \
+              --url-prefix '~/insights/inventory/js' \
+              --validate
+          done
