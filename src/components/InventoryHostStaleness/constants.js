@@ -273,7 +273,10 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
   );
 };
 
-export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
+export const InventoryHostStalenessPopover = ({
+  hasEdgeSystems,
+  edgeParityStalenessEnabled,
+}) => {
   return (
     <Popover
       aria-label="Organization level popover"
@@ -308,7 +311,7 @@ export const InventoryHostStalenessPopover = ({ hasEdgeSystems }) => {
               - Systems are deleted after 14 days since last check-in.
             </span>
           </Flex>
-          {hasEdgeSystems && (
+          {hasEdgeSystems && edgeParityStalenessEnabled && (
             <Flex
               direction={{ default: 'column' }}
               spaceItems={{ default: 'spaceItemsNone' }}
@@ -449,4 +452,5 @@ HostStalenessResetDefaultPopover.propTypes = {
 
 InventoryHostStalenessPopover.propTypes = {
   hasEdgeSystems: PropTypes.bool,
+  edgeParityStalenessEnabled: PropTypes.bool,
 };
