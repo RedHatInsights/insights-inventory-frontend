@@ -6,6 +6,7 @@ import { Icon, Popover } from '@patternfly/react-core';
 import { BundleIcon } from '@patternfly/react-icons';
 // // TODO Try to replace with PF icon
 import FontAwesomeImageIcon from '../FontAwesomeImageIcon';
+import PropTypes from 'prop-types';
 
 const onRowClick = (event, id, { loaded, onRowClick: rowClick, noDetail }) => {
   if (loaded && !noDetail) {
@@ -89,5 +90,18 @@ const DisplayName = ({ id, props, ...item }) => (
     </div>
   </div>
 );
+
+// Fix: should we pass prop named props?
+// why noDetail and onRowClick give us eslint errors of not declared outside of props
+DisplayName.propTypes = {
+  id: PropTypes.string,
+  item: PropTypes.object,
+  props: PropTypes.shape({
+    noDetail: PropTypes.bool,
+    onRowClick: PropTypes.func,
+  }),
+  onRowClick: PropTypes.func,
+  noDetail: PropTypes.bool,
+};
 
 export default DisplayName;

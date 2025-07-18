@@ -15,7 +15,6 @@ const displayName = {
   label: 'Name',
   filterSerialiser: (_config, [value]) => ({
     hostnameOrId: value,
-    displayName: value,
   }),
 };
 
@@ -65,7 +64,7 @@ const rhcStatus = {
 const tags = {
   label: 'Tags',
   type: 'group',
-  groups: async (...args) => {
+  groups: async () => {
     const { results: tags } = await fetchTags();
     const tagsInGroups = tags.reduce((groups, { tag }) => {
       return {
@@ -87,14 +86,14 @@ const tags = {
           },
         ];
       },
-      []
+      [],
     );
 
     return filterGroups;
   },
   modal: {
     title: 'All tags in Inventory',
-    groups: async (...args) => {
+    groups: async () => {
       const tags = await fetchTags();
 
       return tags;

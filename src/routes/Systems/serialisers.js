@@ -44,7 +44,7 @@ export const filtersSerialiser = (state, filters) => {
           : []),
       ];
     },
-    []
+    [],
   );
 
   return queryParts.length > 0

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TableToolsTable } from 'bastilian-tabletools';
 
 import columns from './columns';
@@ -20,5 +21,10 @@ const SystemsTable = ({ items, options }) => (
     options={options}
   />
 );
+
+SystemsTable.propTypes = {
+  items: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+  options: PropTypes.object,
+};
 
 export default SystemsTable;

@@ -4,6 +4,7 @@ import { DateFormat } from '@redhat-cloud-services/frontend-components/DateForma
 import { verifyCulledReporter } from '../../../../../../Utilities/sharedFunctions';
 import InsightsDisconnected from '../../../../../../Utilities/InsightsDisconnected';
 import { REPORTER_PUPTOO } from '../../../../../../Utilities/constants';
+import PropTypes from 'prop-types';
 
 const LastSeen = ({
   updated,
@@ -37,5 +38,23 @@ const LastSeen = ({
     <DateFormat date={updated} />{' '}
   </CullingInformation>
 );
+
+const datePropType = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number,
+  PropTypes.instanceOf(Date),
+]);
+
+LastSeen.propTypes = {
+  updated: datePropType,
+  culled_timestamp: datePropType,
+  stale_warning_timestamp: datePropType,
+  stale_timestamp: datePropType,
+  per_reporter_staleness: PropTypes.objectOf(
+    PropTypes.shape({
+      stale_timestamp: datePropType,
+    }),
+  ),
+};
 
 export default LastSeen;
