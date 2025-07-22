@@ -55,7 +55,7 @@
       "!src/entry-dev.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp))"
+      "node_modules/(?!(uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp|bastilian-tabletools))"
     ],
     "setupFiles": [
       "<rootDir>/config/setupTests.js"
