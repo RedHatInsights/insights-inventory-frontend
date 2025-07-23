@@ -3,10 +3,9 @@ import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/fronten
 
 import {
   INVENTORY_FETCH_BOOTC,
-  INVENTORY_FETCH_NON_BOOTC,
-  INVENTORY_FILTER_NO_HOST_TYPE,
+  INVENTORY_PACKAGE_BASED_SYSTEMS,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
-  INVENTORY_TOTAL_FETCH_EDGE_TYPE,
+  INVENTORY_FETCH_EDGE,
 } from '../../Utilities/constants';
 import BifrostTable from './BifrostTable';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
@@ -27,11 +26,11 @@ const BifrostPage = () => {
       );
 
       const packageBasedSystems = await axios.get(
-        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_NON_BOOTC}&${INVENTORY_FILTER_NO_HOST_TYPE}&per_page=1`,
+        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_PACKAGE_BASED_SYSTEMS}&per_page=1`,
       );
 
       const immutableImageBasedSystems = await axios.get(
-        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_TYPE}&per_page=1`,
+        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_EDGE}&per_page=1`,
       );
 
       const booted = result.results.map(
