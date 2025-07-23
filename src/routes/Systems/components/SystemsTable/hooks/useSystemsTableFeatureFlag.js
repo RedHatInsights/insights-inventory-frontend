@@ -1,11 +1,10 @@
 import useFeatureFlag from '../../../../../Utilities/useFeatureFlag';
-import useLocalStorage from '../../../../../Utilities/useLocalStorage';
 
 const useSystemsTableFeatureFlag = () => {
-  const unleashFlag = useFeatureFlag('ui.systems-table');
-  const localFlag = useLocalStorage('ui.systems-table', false);
+  const hasUnleashFlag = useFeatureFlag('ui.systems-table');
+  const hasLocalFlag = localStorage.getItem('ui.systems-table') === 'true';
 
-  const isSystemsTableEnabled = unleashFlag || localFlag;
+  const isSystemsTableEnabled = hasUnleashFlag || hasLocalFlag;
 
   return isSystemsTableEnabled;
 };
