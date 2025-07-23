@@ -182,3 +182,31 @@ export const appendGroupSelection = (selection = {}, groups) =>
       })
       .filter(([k, v]) => !!k && !!v),
   );
+// Utility to expand selected values into actual filterable values
+export const getExpandedSystemTypeValues = (
+  systemTypeOptions,
+  selectedValues,
+) => {
+  if (!Array.isArray(selectedValues)) return [];
+  return selectedValues.flatMap((selected) => {
+    const match = systemTypeOptions.find((opt) => opt.value === selected);
+    if (match?.packageBasedValues) return match.packageBasedValues;
+    if (match?.imageBasedValues) return match.imageBasedValues;
+    return [];
+  });
+};
+// Utility to get selected top-level types based on current expanded values
+export const getSelectedSystemTypeLabels = (
+  systemTypeOptions,
+  expandedValues,
+) => {
+  return systemTypeOptions.filter(
+    ({ packageBasedValues, imageBasedValues }) => {
+      const values = [
+        ...(packageBasedValues || []),
+        ...(imageBasedValues || []),
+      ];
+      return values.some((val) => expandedValues.includes(val));
+    },
+  );
+};
