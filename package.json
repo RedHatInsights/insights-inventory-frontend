@@ -104,6 +104,7 @@
     "@eslint/js": "^9.26.0",
     "@faker-js/faker": "^9.6.0",
     "@patternfly/patternfly": "^5.3.1",
+    "@playwright/test": "^1.54.1",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.0.0",
     "@redhat-cloud-services/frontend-components-config": "^6.4.8",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.24",
@@ -112,6 +113,7 @@
     "@testing-library/jest-dom": "^6.2.1",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.0.10",
     "@typescript-eslint/eslint-plugin": "^8.26.0",
     "@typescript-eslint/parser": "^8.26.0",
     "axios-mock-adapter": "^1.20.0",
@@ -167,7 +169,8 @@
     "prepare": "husky install",
     "commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
     "postinstall": "ts-patch install",
-    "docs": "jsdoc --configure .jsdoc.json"
+    "docs": "jsdoc --configure .jsdoc.json",
+    "test:pw": "npx playwright test"
   },
   "insights": {
     "appname": "inventory"
