@@ -134,9 +134,13 @@ module.exports = {
         __dirname,
         '/src/modules/ImmutableDevices.js',
       ),
-      './IOPInventoryTable': resolve(
+      './IOPInventoryTableModule': resolve(
         __dirname,
-        '/src/modules/IOPInventoryTable.js',
+        '/src/modules/IOPInventoryTableModule.js',
+      ),
+      './IOPHybridInventory': resolve(
+        __dirname,
+        '/src/modules/IOPHybridInventory.js',
       ),
     },
   },

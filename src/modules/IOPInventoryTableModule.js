@@ -1,14 +1,14 @@
 import React from 'react';
 import AsyncInventory from './AsyncInventory';
-import { InventoryTable as InventoryTableCmp } from '../components/InventoryTable';
+import { IOPInventoryTable as InventoryTableCmp } from '../components/InventoryTable/IOPInventoryTable';
 
 const BaseIOPInventoryTable = (props) => (
   <AsyncInventory {...props} component={InventoryTableCmp} />
 );
-const IOPInventoryTable = React.forwardRef((props, ref) => (
+const IOPInventoryTableModule = React.forwardRef((props, ref) => (
   <BaseIOPInventoryTable {...props} innerRef={ref} />
 ));
 
-export default IOPInventoryTable;
+export default IOPInventoryTableModule;
 
 export { useOperatingSystemFilter } from '../components/filters/useOperatingSystemFilter';
