@@ -1,9 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   UPDATE_METHOD_KEY,
   updateMethodOptions as defaultUpdateMethodOptions,
 } from '../../Utilities/index';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 export const updateMethodFilterState = { updateMethodFilter: [] };
 export const UPDATE_METHOD_FILTER = 'UPDATE_METHOD_FILTER';
@@ -16,15 +15,6 @@ export const updateMethodFilterReducer = (_state, { type, payload }) => ({
 export const useUpdateMethodFilter = (
   [state, dispatch] = [updateMethodFilterState],
 ) => {
-  const EdgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter',
-  );
-  const updateMethodOptions = useMemo(() => {
-    return EdgeParityFilterDeviceEnabled
-      ? defaultUpdateMethodOptions.filter(({ value }) => value !== 'rpm-ostree')
-      : defaultUpdateMethodOptions;
-  }, [EdgeParityFilterDeviceEnabled]);
-
   let [filterStateValue, setStateValue] = useState([]);
   const updateMethodValue = dispatch
     ? state.updateMethodFilter
@@ -40,7 +30,7 @@ export const useUpdateMethodFilter = (
     filterValues: {
       value: updateMethodValue,
       onChange: (_e, value) => setValue(value),
-      items: updateMethodOptions,
+      items: defaultUpdateMethodOptions,
     },
   };
   const chip =
@@ -49,7 +39,7 @@ export const useUpdateMethodFilter = (
           {
             category: 'System Update Method',
             type: UPDATE_METHOD_KEY,
-            chips: updateMethodOptions
+            chips: defaultUpdateMethodOptions
               .filter(({ value }) => updateMethodValue.includes(value))
               .map(({ label, ...props }) => ({ name: label, ...props })),
           },

@@ -66,7 +66,6 @@ import {
   systemTypeFilterReducer,
   systemTypeFilterState,
 } from '../filters';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
@@ -185,11 +184,11 @@ const EntityTableToolbar = ({
     setUpdateMethodValue,
   ] = useUpdateMethodFilter(reducer);
 
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+  const isKesselEnabled = false;
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
     useGroupFilter(showNoGroupOption, isKesselEnabled);
 
-  const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
+  const isUpdateMethodEnabled = false;
   const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =
     useTagsFilter(
       allTags,
