@@ -2,6 +2,7 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
+import useSystemsTableFeatureFlag from './routes/Systems/components/SystemsTable/hooks/useSystemsTableFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
@@ -20,6 +21,8 @@ const InventoryOrEdgeView = lazy(
   () => import('./routes/InventoryOrEdgeComponent'),
 );
 const InventoryTable = lazy(() => import('./routes/InventoryPage'));
+const Systems = lazy(() => import('./routes/Systems'));
+
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryHostStaleness = lazy(
   () => import('./routes/InventoryHostStaleness'),
@@ -49,7 +52,7 @@ export const Routes = () => {
   const edgeParityInventoryListEnabled = useFeatureFlag(
     'edgeParity.inventory-list',
   );
-
+  const isSystemsTableEnabled = useSystemsTableFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
 
   useEffect(() => {
@@ -82,7 +85,11 @@ export const Routes = () => {
   let element = useRoutes([
     {
       path: '/',
-      element: <RenderWrapper cmp={InventoryTable} />,
+      element: isSystemsTableEnabled ? (
+        <Systems />
+      ) : (
+        <RenderWrapper cmp={InventoryTable} />
+      ),
     },
     { path: '/:inventoryId', element: <InventoryDetail /> },
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
