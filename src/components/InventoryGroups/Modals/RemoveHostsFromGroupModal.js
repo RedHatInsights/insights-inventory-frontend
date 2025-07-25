@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
-import apiWithToast from '../utils/apiWithToast';
-import { useDispatch } from 'react-redux';
+import useApiWithToast from '../utils/apiWithToast';
 import { removeHostsFromGroup } from '../utils/api';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
-import { AlertActionLink, Text } from '@patternfly/react-core';
+import { AlertActionLink, Content } from '@patternfly/react-core';
 
 const schema = (hosts) => {
   const hostsInGroup = hosts.filter(({ groups }) => groups.length > 0); // selection can contain ungroupped hosts
@@ -18,17 +17,17 @@ const schema = (hosts) => {
         name: 'warning-message',
         label:
           hostsInGroup.length === 1 ? (
-            <Text data-testid="desc">
+            <Content component="p" data-testid="desc">
               <strong>{hostsInGroup[0].display_name}</strong> will no longer be
               part of <strong>{groupName}</strong> and its configuration will be
               impacted.
-            </Text>
+            </Content>
           ) : (
-            <Text data-testid="desc">
+            <Content component="p" data-testid="desc">
               <strong>{hostsInGroup.length}</strong> systems will no longer be
               part of <strong>{groupName}</strong> and their configuration will
               be impacted.
-            </Text>
+            </Content>
           ),
       },
     ],
@@ -75,14 +74,13 @@ const RemoveHostsFromGroupModal = ({
   reloadData,
   reloadTimeout,
 }) => {
-  const dispatch = useDispatch();
+  const apiWithToast = useApiWithToast();
   const groupId = hosts.find(({ groups }) => groups.length > 0).groups[0].id;
 
   const handleRemoveHosts = () =>
     apiWithToast(
-      dispatch,
-      async () =>
-        await removeHostsFromGroup(
+      () =>
+        removeHostsFromGroup(
           groupId,
           hosts.map(({ id }) => id),
         ),

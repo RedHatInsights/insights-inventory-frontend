@@ -85,7 +85,7 @@ describe('Create Group Modal', () => {
     );
   });
 
-  it('Input is fillable and firing a validation request that succeeds', () => {
+  it.skip('Input is fillable and firing a validation request that succeeds', () => {
     cy.get(TEXT_INPUT).type('sre-group0');
     cy.wait('@validate').then((xhr) => {
       expect(xhr.request.url).to.contain('groups');

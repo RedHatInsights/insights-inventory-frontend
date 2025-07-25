@@ -18,12 +18,14 @@ const QuickstartButton = ({ quickStartId, children }) => {
 
   return (
     <Button
+      icon={<ArrowRightIcon />}
       variant="link"
       className="ins-c-groups-help-expandable__link"
       size="lg"
+      iconPosition="end"
       onClick={() => quickStarts.activateQuickstart(quickStartId)}
     >
-      {children} <ArrowRightIcon />
+      {children}
     </Button>
   );
 };
@@ -46,13 +48,15 @@ const GetHelpExpandable = () => {
       <List isPlain>
         <ListItem>
           <QuickstartButton quickStartId="insights-inventory-workspace">
-            Create a workspace
+            <span style={{ fontWeight: 'bold' }}>Create a workspace</span>
           </QuickstartButton>
         </ListItem>
         {isUserAccessAdministrator || isOrgAdmin ? (
           <ListItem>
             <QuickstartButton quickStartId="insights-inventory-workspace-rbac">
-              Configure User Access for your workspaces
+              <span style={{ fontWeight: 'bold' }}>
+                Configure User Access for your workspaces
+              </span>
             </QuickstartButton>
           </ListItem>
         ) : (

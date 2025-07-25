@@ -80,7 +80,7 @@ const ApplicationDetails = ({
     <React.Fragment>
       {activeTabs.length > 0 ? (
         <React.Fragment>
-          <section className="pf-v5-u-pr-lg pf-v5-u-pl-lg pf-v5-u-background-color-100-on-md">
+          <section className="pf-v6-u-pr-lg pf-v6-u-pl-lg pf-v6-u-background-color-100-on-md">
             <Tabs
               {...props}
               activeKey={currentApp}
@@ -121,7 +121,7 @@ const ApplicationDetails = ({
                 >
                   {item.name === currentApp && (
                     <Suspense fallback={Spinner}>
-                      <PageSection>
+                      <PageSection hasBodyWrapper={false}>
                         {isEmptyState(currentApp) ? (
                           <NotConnected />
                         ) : (

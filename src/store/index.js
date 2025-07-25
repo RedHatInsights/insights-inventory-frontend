@@ -1,5 +1,4 @@
 import MiddlewareListener from '@redhat-cloud-services/frontend-components-utilities/MiddlewareListener';
-import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 import promise from 'redux-promise-middleware';
 import reducers, {
   entitesDetailReducer,
@@ -39,15 +38,7 @@ export const getStore = (...middleware) => {
     {},
     composeEnhancers(
       applyMiddleware(
-        ...[
-          middlewareListener.getMiddleware(),
-          promise,
-          notificationsMiddleware({
-            errorTitleKey: ['message'],
-            errorDescriptionKey: ['response.data.detail'],
-          }),
-          ...middleware,
-        ],
+        ...[middlewareListener.getMiddleware(), promise, ...middleware],
       ),
     ),
   );

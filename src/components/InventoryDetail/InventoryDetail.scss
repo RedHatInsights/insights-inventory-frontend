@@ -2,12 +2,12 @@
 
 .ins-c-inventory__detail--edit { @include rem('min-width', 500px) }
 
-.ins-inventory-detail.pf-v5-c-page-header.pf-v5-c-page__main-section {
+.ins-inventory-detailpf-v6-c-page-headerpf-v6-c-page__main-section {
     padding-bottom: 0;
 }
 
 .ins-c-inventory__detail--header {
-    .pf-v5-l-split__item:last-child { @include rem('min-width', 100px); }
+    pf-v6-l-split__item:last-child { @include rem('min-width', 100px); }
 }
 
 .ins-c-inventory__detail--action {
@@ -48,14 +48,14 @@
 }
 
 .ins-c-inventory__drawer {
-    .pf-v5-c-drawer__head {
+    pf-v6-c-drawer__head {
       padding: var(--pf-v5-global--spacer--lg);
     }
-  .pf-v5-c-drawer__panel {
+  pf-v6-c-drawer__panel {
     overflow-x: hidden;
     flex-basis: var(--pf-v5-c-drawer__panel--FlexBasis);
 
-    .pf-v5-c-drawer__body {
+    pf-v6-c-drawer__body {
         padding: 0;
     }
   }
@@ -68,9 +68,9 @@
             }
             div span:first-child { padding-right: var(--pf-v5-global--spacer--sm); }
         }
-        .pf-v5-l-grid:not(.ins-entity-facts) {
+        pf-v6-l-grid:not(.ins-entity-facts) {
             a.ins-c-inventory__detail--action { display: none }
-            .pf-v5-l-grid__item:first-of-type dd { grid-column: 1; }
+            pf-v6-l-grid__item:first-of-type dd { grid-column: 1; }
         }
       }
     > * {
@@ -88,7 +88,7 @@
           z-index: -1;
         }
       }
-    > .pf-v5-l-stack__item {
+    > pf-v6-l-stack__item {
       &:not(:last-child):before {
         content: " ";
         display: block;
@@ -136,17 +136,17 @@
 @media screen and (min-width: 768px) {
   .ins-entity-detail {
     .ins-entity-facts, .ins-entity-header {
-      div.pf-v5-l-grid__item:nth-child(even) {
+      divpf-v6-l-grid__item:nth-child(even) {
         text-align: right;
       }
     }
   }
 
   .ins-c-inventory__drawer {
-    .pf-v5-c-drawer__panel { flex-basis: calc(var(--pf-v5-c-drawer__panel--FlexBasis) * 1.5); }
+    pf-v6-c-drawer__panel { flex-basis: calc(var(--pf-v5-c-drawer__panel--FlexBasis) * 1.5); }
   }
 }
 
-.ins-c-inventory__tags-modal .ins-c-primary-toolbar .pf-v5-c-toolbar__content {
+.ins-c-inventory__tags-modal .ins-c-primary-toolbar pf-v6-c-toolbar__content {
     padding: 0;
 }

@@ -1,56 +1,56 @@
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
-const apiWithToast = (dispatch, api, statusMessages) => {
-  const hasSuccess = statusMessages?.onSuccess;
-  const hasInfo = statusMessages?.onInfo;
+const useApiWithToast = () => {
+  const addNotification = useAddNotification();
 
-  if (!statusMessages) {
-    statusMessages = {
-      onSuccess: {
-        title: 'Success',
-        description: 'The request has been made successfully',
-      },
-      onError: {
-        title: 'Error',
-        description: 'An error occurred making the request',
-      },
-    };
-  }
+  const apiWithToast = (api, statusMessages) => {
+    const hasSuccess = statusMessages?.onSuccess;
+    const hasInfo = statusMessages?.onInfo;
 
-  const fetchData = async () => {
-    try {
-      const response = await api();
-      if (hasInfo)
-        dispatch({
-          ...addNotification({
+    if (!statusMessages) {
+      statusMessages = {
+        onSuccess: {
+          title: 'Success',
+          description: 'The request has been made successfully',
+        },
+        onError: {
+          title: 'Error',
+          description: 'An error occurred making the request',
+        },
+      };
+    }
+
+    const fetchData = async () => {
+      try {
+        const response = await api();
+        if (hasInfo)
+          addNotification({
             variant: 'info',
             ...statusMessages.onInfo,
-          }),
-        });
-      if (hasSuccess)
-        dispatch({
-          ...addNotification({
+          });
+        if (hasSuccess)
+          addNotification({
             variant: 'success',
             ...statusMessages.onSuccess,
-          }),
-        });
-      return response;
-    } catch (err) {
-      dispatch({
-        ...addNotification({
+          });
+        return response;
+      } catch (err) {
+        addNotification({
           variant: 'danger',
           ...statusMessages.onError,
           // Add error message from API, if present
           description: err?.Title
             ? `${statusMessages.onError.description}: ${err.Title}`
             : statusMessages.onError.description,
-        }),
-      });
-      return err;
-    }
+        });
+        return err;
+      }
+    };
+
+    return fetchData();
   };
 
-  return fetchData();
+  return apiWithToast;
 };
 
-export default apiWithToast;
+export default useApiWithToast;

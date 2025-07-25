@@ -100,11 +100,13 @@ describe('TopBar', () => {
       </TestWrapper>,
     );
 
+    screen.logTestingPlaygroundURL();
+
     expect(
       screen.getByRole('button', {
         name: /delete/i,
       }),
-    ).toHaveAttribute('aria-disabled', 'false');
+    ).not.toHaveAttribute('aria-disabled');
   });
 
   it('disables delete button', () => {
