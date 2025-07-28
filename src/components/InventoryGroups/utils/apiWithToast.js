@@ -3,10 +3,9 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 const useApiWithToast = () => {
   const addNotification = useAddNotification();
 
-  const apiWithToast = (api, statusMessages) => {
+  return (api, statusMessages) => {
     const hasSuccess = statusMessages?.onSuccess;
     const hasInfo = statusMessages?.onInfo;
-
     if (!statusMessages) {
       statusMessages = {
         onSuccess: {
@@ -19,7 +18,6 @@ const useApiWithToast = () => {
         },
       };
     }
-
     const fetchData = async () => {
       try {
         const response = await api();
@@ -46,11 +44,8 @@ const useApiWithToast = () => {
         return err;
       }
     };
-
     return fetchData();
   };
-
-  return apiWithToast;
 };
 
 export default useApiWithToast;

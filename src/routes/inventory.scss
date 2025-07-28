@@ -9,11 +9,11 @@
     }
 }
 
-.ins-inventory-filters pf-v6-l-grid__item:not([class*="ins-"]) {
+.ins-inventory-filters .pf-v6-l-grid__item:not([class*="ins-"]) {
     margin-top: -4px;
 }
 
-pf-v6-c-breadcrumb pf-v6-c-breadcrumb__item .ins-c-skeleton { @include rem('width', 75px); }
+pf-v6-c-breadcrumb .pf-v6-c-breadcrumb__item .ins-c-skeleton { @include rem('width', 75px); }
 
 .ins-c-inventory__detail--general-info:not(.ins-inventory-detail) {
     background: var(--pf-t-global--background--color--100);

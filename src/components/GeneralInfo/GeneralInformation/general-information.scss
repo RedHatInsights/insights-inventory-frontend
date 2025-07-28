@@ -1,7 +1,7 @@
 @import '~@redhat-cloud-services/frontend-components-utilities/styles/mixins';
 .ins-c-general-information {
-    pf-v6-c-content {
-        pf-v6-l-level div:first-child {
+    .pf-v6-c-content {
+        .pf-v6-l-level div:first-child {
             font-weight: var(--pf-v6-global--FontWeight--bold);
         }
     }
@@ -21,7 +21,7 @@
         word-break: break-all;
     }
 
-    pf-v6-c-modal-box pf-v6-c-table {
+    .pf-v6-c-modal-box pf-v6-c-table {
         white-space: nowrap;
 
         .ins-c-inventory__detail--up {
@@ -52,7 +52,7 @@
     }
 
     @media only screen and (max-width: 768px) {
-    pf-v6-c-modal-box pf-v6-c-table {
+    .pf-v6-c-modal-box pf-v6-c-table {
         white-space: normal;
     }
     }
@@ -61,7 +61,7 @@
         border: none;
     }
     
-    pf-v6-c-table__expandable-row-content {
+    .pf-v6-c-table__expandable-row-content {
         padding-top: var(--pf-t-global--spacer--sm);
         padding-bottom: var(--pf-t-global--spacer--md);
         padding-left: var(--pf-t-global--spacer--md);

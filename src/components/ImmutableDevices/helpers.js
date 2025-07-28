@@ -16,7 +16,7 @@ import {
 export const colorMapper = {
   green: 'var(--pf-t--global--icon--color--status--success--default)',
   yellow: 'var(--pf-t--global--icon--color--status--warning--default)',
-  blue: 'var(pf-t--global--icon--color--status--info--default)',
+  blue: 'var(--pf-t--global--icon--color--status--info--default)',
   red: 'var(--pf-t--global--icon--color--status--danger--default)',
 };
 
