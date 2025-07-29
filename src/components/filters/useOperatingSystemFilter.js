@@ -18,6 +18,7 @@ export const useOperatingSystemFilter = (
   hasAccess,
   showCentosVersions,
   fetchCustomOSes,
+  axios,
 ) => {
   const [operatingSystemsStateValue, setStateValue] = useState({});
   const operatingSystemsValue = dispatch
@@ -26,7 +27,7 @@ export const useOperatingSystemFilter = (
 
   const { operatingSystems, operatingSystemsLoaded } = useFetchOperatingSystems(
     {
-      apiParams,
+      apiParams: { ...apiParams, axios },
       hasAccess,
       showCentosVersions,
       fetchCustomOSes,

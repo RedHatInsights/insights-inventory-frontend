@@ -85,6 +85,7 @@ const InventoryTable = forwardRef(
       showCentosVersions = false,
       enableExport,
       lastSeenOverride,
+      axios,
       ...props
     },
     ref,
@@ -244,6 +245,7 @@ const InventoryTable = forwardRef(
                   ...options,
                   controller: controller.current,
                   filterImmutableByDefault: edgeParityFilterDeviceEnabled,
+                  axios,
                 },
                 cachedProps.showTags,
                 cachedProps.getEntities,
@@ -257,6 +259,7 @@ const InventoryTable = forwardRef(
                 ...newParams,
                 controller: controller.current,
                 filterImmutableByDefault: edgeParityFilterDeviceEnabled,
+                axios,
               },
               cachedProps.showTags,
               cachedProps.getEntities,
@@ -311,6 +314,7 @@ const InventoryTable = forwardRef(
           }}
           showCentosVersions={showCentosVersions}
           enableExport={enableExport}
+          axios={axios}
         >
           {children}
         </EntityTableToolbar>
@@ -389,6 +393,7 @@ InventoryTable.propTypes = {
   enableExport: PropTypes.bool,
   lastSeenOverride: PropTypes.string,
   columns: PropTypes.array,
+  axios: PropTypes.object,
 };
 
 InventoryTable.displayName = 'InventoryTable';

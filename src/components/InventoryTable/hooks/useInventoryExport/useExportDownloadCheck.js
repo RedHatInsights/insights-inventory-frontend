@@ -8,12 +8,13 @@ import useExportApi from './useExportApi';
  *  @param   {object}   [options]                     Options
  *  @param   {object}   [options.onDownloadAvailable] Callback function, called when the requested export is available to download
  *  @param   {object}   [options.onError]             Callback function, called when the requested export failed or an error occured
+ *  @param   {object}   [options.axios]
  *
  *  @returns {Function}                               Function to set an export ID to check for
  *
  */
-const useExportDownloadCheck = ({ onDownloadAvailable, onError }) => {
-  const { status } = useExportApi();
+const useExportDownloadCheck = ({ onDownloadAvailable, onError, axios }) => {
+  const { status } = useExportApi(axios);
   const checking = useRef(false);
   const [checkForDownload, setCheckForDownload] = useState();
 

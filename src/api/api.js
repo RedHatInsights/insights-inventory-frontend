@@ -373,8 +373,8 @@ export function getAllTags(search, pagination = {}) {
   });
 }
 
-export const getOperatingSystems = async (params = [], showCentosVersions) => {
-  let operatingSystems = await getOperatingSystem(...params);
+export const getOperatingSystems = async (params = {}, showCentosVersions) => {
+  let operatingSystems = await getOperatingSystem(params);
   if (!showCentosVersions) {
     const newResults = operatingSystems.results.filter(
       ({ value }) => !value.name.toLowerCase().startsWith('centos'),

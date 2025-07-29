@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const useFetchOperatingSystems = ({
-  apiParams = [],
+  apiParams = {},
   hasAccess,
   showCentosVersions,
   fetchCustomOSes,

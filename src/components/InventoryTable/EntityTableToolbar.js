@@ -103,6 +103,7 @@ const EntityTableToolbar = ({
   showNoGroupOption,
   enableExport,
   fetchCustomOSes,
+  axios,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -177,6 +178,7 @@ const EntityTableToolbar = ({
       hasAccess,
       showCentosVersions,
       fetchCustomOSes,
+      axios,
     );
   const [
     updateMethodConfig,
@@ -253,6 +255,7 @@ const EntityTableToolbar = ({
   };
 
   const exportConfig = useInventoryExport({
+    axios,
     filters: {
       ...activeFilters,
       ...customFilters,
@@ -723,6 +726,7 @@ EntityTableToolbar.propTypes = {
   enableExport: PropTypes.bool,
   exportConfig: PropTypes.object,
   fetchCustomOSes: PropTypes.func,
+  axios: PropTypes.object,
 };
 
 EntityTableToolbar.defaultProps = {
