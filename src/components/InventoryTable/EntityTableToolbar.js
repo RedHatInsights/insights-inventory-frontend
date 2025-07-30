@@ -66,7 +66,6 @@ import {
   systemTypeFilterReducer,
   systemTypeFilterState,
 } from '../filters';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
@@ -183,13 +182,13 @@ const EntityTableToolbar = ({
     updateMethodChips,
     updateMethodValue,
     setUpdateMethodValue,
-  ] = useUpdateMethodFilter(reducer);
+  ] = useUpdateMethodFilter(reducer, props.edgeParityFilterDeviceEnabled);
 
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+  const isKesselEnabled = props.isKesselFFEnabled;
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
     useGroupFilter(showNoGroupOption, isKesselEnabled);
 
-  const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
+  const isUpdateMethodEnabled = props.isUpdateMethodFFEnabled;
   const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =
     useTagsFilter(
       allTags,
@@ -251,13 +250,16 @@ const EntityTableToolbar = ({
       !(hideFilters.all && hideFilters.systemTypeFilter !== false) &&
       !hideFilters.systemTypeFilter,
   };
-
-  const exportConfig = useInventoryExport({
-    filters: {
-      ...activeFilters,
-      ...customFilters,
-    },
-  });
+  // I don't know how to fix this yet It calls chrome from the useExportApi
+  let exportConfig = null;
+  if (!props.loadChromelessInventory) {
+    exportConfig = useInventoryExport({
+      filters: {
+        ...activeFilters,
+        ...customFilters,
+      },
+    });
+  }
 
   /**
    * Function to dispatch load systems and fetch all tags.
@@ -723,6 +725,10 @@ EntityTableToolbar.propTypes = {
   enableExport: PropTypes.bool,
   exportConfig: PropTypes.object,
   fetchCustomOSes: PropTypes.func,
+  isKesselFFEnabled: PropTypes.bool,
+  isUpdateMethodFFEnabled: PropTypes.bool,
+  edgeParityFilterDeviceEnabled: PropTypes.bool,
+  loadChromelessInventory: PropTypes.bool,
 };
 
 EntityTableToolbar.defaultProps = {

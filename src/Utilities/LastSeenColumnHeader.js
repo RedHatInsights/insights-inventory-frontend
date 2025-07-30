@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Icon, Tooltip } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
-import useFeatureFlag from './useFeatureFlag';
+import { AccountStatContext } from '../Contexts';
 
 export const LastSeenColumnHeader = () => {
-  const isLastCheckInEnabled = useFeatureFlag(
-    'hbi.create_last_check_in_update_per_reporter_staleness',
-  );
+  const isLastCheckInEnabled = useContext(AccountStatContext);
   return (
     <span>
       Last seen

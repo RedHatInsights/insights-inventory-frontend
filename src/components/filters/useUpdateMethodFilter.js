@@ -3,7 +3,6 @@ import {
   UPDATE_METHOD_KEY,
   updateMethodOptions as defaultUpdateMethodOptions,
 } from '../../Utilities/index';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 export const updateMethodFilterState = { updateMethodFilter: [] };
 export const UPDATE_METHOD_FILTER = 'UPDATE_METHOD_FILTER';
@@ -15,15 +14,13 @@ export const updateMethodFilterReducer = (_state, { type, payload }) => ({
 
 export const useUpdateMethodFilter = (
   [state, dispatch] = [updateMethodFilterState],
+  edgeParityFilterDeviceEnabled,
 ) => {
-  const EdgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter',
-  );
   const updateMethodOptions = useMemo(() => {
-    return EdgeParityFilterDeviceEnabled
+    return edgeParityFilterDeviceEnabled
       ? defaultUpdateMethodOptions.filter(({ value }) => value !== 'rpm-ostree')
       : defaultUpdateMethodOptions;
-  }, [EdgeParityFilterDeviceEnabled]);
+  }, [edgeParityFilterDeviceEnabled]);
 
   let [filterStateValue, setStateValue] = useState([]);
   const updateMethodValue = dispatch
