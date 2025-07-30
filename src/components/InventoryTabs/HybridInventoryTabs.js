@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import {
   Tab,
   TabTitleText,
@@ -11,12 +11,10 @@ import {
   Button,
 } from '@patternfly/react-core';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
-import { useNavigate } from 'react-router-dom';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 
 const HybridInventoryTabs = ({
   ConventionalSystemsTab,
-  ImmutableDevicesTab,
   tabPathname,
   isImmutableTabOpen,
   isEdgeParityEnabled,
@@ -25,8 +23,7 @@ const HybridInventoryTabs = ({
 }) => {
   const { search } = useLocation();
   const prevSearchRef = useRef('');
-  const navigate = useNavigate();
-
+  const history = useHistory();
   useEffect(() => {
     if (accountHasEdgeImages && !hasConventionalSystems) {
       handleTabClick(undefined, hybridInventoryTabKeys.immutable.key);
@@ -45,9 +42,7 @@ const HybridInventoryTabs = ({
 
     if (tabIndex !== activeTab) {
       prevSearchRef.current = search.toString();
-      navigate(pathWithParams, {
-        replace: true,
-      });
+      history.replace(pathWithParams); // Replaced navigate with history.replace
     }
   };
 
@@ -104,7 +99,6 @@ const HybridInventoryTabs = ({
             </Text>
           </TextContent>
         </Alert>
-        {ImmutableDevicesTab}
       </Tab>
     </Tabs>
   ) : (
@@ -114,7 +108,6 @@ const HybridInventoryTabs = ({
 
 HybridInventoryTabs.propTypes = {
   ConventionalSystemsTab: PropTypes.element.isRequired,
-  ImmutableDevicesTab: PropTypes.element.isRequired,
   isImmutableTabOpen: PropTypes.bool,
   tabPathname: PropTypes.string,
   isEdgeParityEnabled: PropTypes.bool,
