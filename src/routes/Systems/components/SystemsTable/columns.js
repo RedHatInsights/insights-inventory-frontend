@@ -55,4 +55,23 @@ const lastSeen = {
   transforms: [fitContent],
 };
 
-export default [displayName, workspace, tags, operatingSystem, lastSeen];
+export const SHARED_COLUMNS = {
+  displayName,
+  workspace,
+  tags,
+  operatingSystem,
+  lastSeen,
+};
+
+export const resolveColumns = (columns) => {
+  if (typeof columns === 'function') {
+    const customColumns = columns(SHARED_COLUMNS);
+    return Array.isArray(customColumns) ? customColumns : [];
+  }
+
+  if (Array.isArray(columns)) {
+    return columns;
+  }
+
+  return [];
+};

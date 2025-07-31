@@ -7,12 +7,20 @@ import {
   sortSerialiser,
   paginationSerialiser,
 } from './serialisers';
+import { SHARED_COLUMNS } from './components/SystemsTable/columns';
 
 const Systems = () => (
   <>
     <InventoryPageHeader />
     <PageSection>
       <SystemsTable
+        columns={[
+          SHARED_COLUMNS.displayName,
+          SHARED_COLUMNS.workspace,
+          SHARED_COLUMNS.tags,
+          SHARED_COLUMNS.operatingSystem,
+          SHARED_COLUMNS.lastSeen,
+        ]}
         options={{
           // FIXME: remove debug
           debug: true,
