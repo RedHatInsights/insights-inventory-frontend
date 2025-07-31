@@ -326,7 +326,9 @@ const ConventionalSystemsTab = ({
             description: `Removal of ${displayName} started.`,
             dismissable: true,
           });
-          dispatch(actions.deleteEntity(removeSystems, displayName));
+          dispatch(
+            actions.deleteEntity(removeSystems, displayName, addNotification),
+          );
           handleModalToggle(false);
         }}
       />
@@ -336,7 +338,14 @@ const ConventionalSystemsTab = ({
         value={currentSystem.display_name}
         onCancel={() => onEditOpen(false)}
         onSubmit={(value) => {
-          dispatch(actions.editDisplayName(currentSystem.id, value));
+          dispatch(
+            actions.editDisplayName(
+              currentSystem.id,
+              value,
+              _,
+              addNotification,
+            ),
+          );
           onEditOpen(false);
         }}
       />

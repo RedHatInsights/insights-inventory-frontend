@@ -1,4 +1,3 @@
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import axios from 'axios';
 import { useGetImageData } from '../api';
 import {
@@ -9,42 +8,34 @@ import {
 
 const manageEdgeInventoryUrlName = 'manage-edge-inventory';
 
-const getNotificationProp = (dispatch) => {
+const getNotificationProp = (addNotification) => {
   return {
     hasInfo: (hasInfoMessage) => {
-      dispatch({
-        ...addNotification({
-          variant: 'info',
-          ...hasInfoMessage,
-        }),
+      addNotification({
+        variant: 'info',
+        ...hasInfoMessage,
       });
     },
     hasSuccess: (hasSuccessMessage) => {
-      dispatch({
-        ...addNotification({
-          variant: 'success',
-          ...hasSuccessMessage,
-        }),
+      addNotification({
+        variant: 'success',
+        ...hasSuccessMessage,
       });
     },
     hasWarning: (hasSuccessMessage) => {
-      dispatch({
-        ...addNotification({
-          variant: 'warning',
-          ...hasSuccessMessage,
-        }),
+      addNotification({
+        variant: 'warning',
+        ...hasSuccessMessage,
       });
     },
     err: (errMessage, err) => {
-      dispatch({
-        ...addNotification({
-          variant: 'danger',
-          ...errMessage,
-          // Add error message from API, if present
-          description: err?.Title
-            ? `${errMessage.description}: ${err.Title}`
-            : errMessage.description,
-        }),
+      addNotification({
+        variant: 'danger',
+        ...errMessage,
+        // Add error message from API, if present
+        description: err?.Title
+          ? `${errMessage.description}: ${err.Title}`
+          : errMessage.description,
       });
     },
   };

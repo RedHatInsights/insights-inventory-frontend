@@ -24,7 +24,10 @@ const Groups = () => {
           spaceItems={{ default: 'spaceItemsSm' }}
         >
           <FlexItem>
-            <PageHeaderTitle title="Workspaces" />
+            <PageHeaderTitle
+              title="Workspaces"
+              data-ouia-component-id="workspaces-header-title"
+            />
           </FlexItem>
           <FlexItem>
             <InventoryGroupsPopover />

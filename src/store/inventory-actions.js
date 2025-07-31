@@ -22,7 +22,6 @@ import {
   getGroupDetail,
   getGroups,
 } from '../components/InventoryGroups/utils/api';
-import { deleteHostById, patchHostById } from '../api/hostInventoryApi';
 
 export const loadEntities = (
   items = [],
@@ -161,40 +160,6 @@ export const systemProfile = (itemId) => ({
   payload: getEntitySystemProfile(itemId, {}),
 });
 
-export const editDisplayName = (id, value) => ({
-  type: ACTION_TYPES.SET_DISPLAY_NAME,
-  payload: patchHostById({
-    hostIdList: [id],
-    patchHostIn: { display_name: value },
-  }),
-  meta: {
-    notifications: {
-      fulfilled: {
-        variant: 'success',
-        title: 'Display name has been updated',
-        dismissable: true,
-      },
-    },
-  },
-});
-
-export const editAnsibleHost = (id, value) => ({
-  type: ACTION_TYPES.SET_ANSIBLE_HOST,
-  payload: patchHostById({
-    hostIdList: [id],
-    patchHostIn: { ansible_host: value },
-  }),
-  meta: {
-    notifications: {
-      fulfilled: {
-        variant: 'success',
-        title: 'Ansible hostname has been updated',
-        dismissable: true,
-      },
-    },
-  },
-});
-
 export const loadTags = (systemId, search, options, count) => ({
   type: ACTION_TYPES.LOAD_TAGS,
   payload: getTags(systemId, search, options),
@@ -235,22 +200,6 @@ export const fetchGroupDetail = (groupId) => ({
 export const fetchOperatingSystems = (params = [], showCentosVersions) => ({
   type: ACTION_TYPES.OPERATING_SYSTEMS,
   payload: getOperatingSystems(params, showCentosVersions),
-});
-
-export const deleteEntity = (systems, displayName) => ({
-  type: ACTION_TYPES.REMOVE_ENTITY,
-  payload: deleteHostById({ hostIdList: systems }),
-  meta: {
-    notifications: {
-      fulfilled: {
-        variant: 'success',
-        title: 'Delete operation finished',
-        description: `${displayName} has been successfully removed.`,
-        dismissable: true,
-      },
-    },
-    systems,
-  },
 });
 
 export const toggleDrawer = (isOpened) => ({

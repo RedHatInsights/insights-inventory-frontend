@@ -1,11 +1,17 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Button,
   Card,
   CardBody,
   CardHeader,
+  Content,
   Flex,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Popover,
   Spinner,
   Tab,
@@ -13,10 +19,7 @@ import {
   Tabs,
   Title,
   Tooltip,
-  Alert,
-  Content,
 } from '@patternfly/react-core';
-import { Modal } from '@patternfly/react-core/deprecated';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
@@ -35,8 +38,7 @@ import {
   fetchStalenessData,
   postStalenessData,
 } from '../../api';
-import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications';
-import { useDispatch } from 'react-redux';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import PropTypes from 'prop-types';
 import { updateStaleness } from '../../api/hostInventoryApi';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
@@ -58,7 +60,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   ] = useState({});
   const edgeParityStalenessEnabled = useFeatureFlag('edgeParity.ui.staleness');
   const edgeStalenessEnabled = edgeParityStalenessEnabled && hasEdgeSystems;
-  const dispatch = useDispatch();
+  const addNotification = useAddNotification();
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -90,54 +92,46 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     if (filter.id === 'system_default') {
       postStalenessData(apiData)
         .then(() => {
-          dispatch(
-            addNotificationAction({
-              id: 'settings-saved',
-              variant: 'success',
-              title: 'Organization level settings saved',
-              description: `Organization level settings saved`,
-              dismissable: true,
-            }),
-          );
+          addNotification({
+            id: 'settings-saved',
+            variant: 'success',
+            title: 'Organization level settings saved',
+            description: `Organization level settings saved`,
+            dismissable: true,
+          });
           fetchApiStalenessData();
           setIsEditing(!isEditing);
           setIsModalOpen(false);
         })
         .catch(() => {
-          dispatch(
-            addNotificationAction({
-              id: 'settings-saved-failed',
-              variant: 'danger',
-              title: 'Error saving organization level settings',
-              description: `Error saving organization level settings`,
-              dismissable: true,
-            }),
-          );
+          addNotification({
+            id: 'settings-saved-failed',
+            variant: 'danger',
+            title: 'Error saving organization level settings',
+            description: `Error saving organization level settings`,
+            dismissable: true,
+          });
         });
     } else {
       updateStaleness({ stalenessIn: apiData })
         .then(() => {
-          dispatch(
-            addNotificationAction({
-              id: 'settings-saved',
-              variant: 'success',
-              title: 'Organization level settings saved',
-              dismissable: true,
-            }),
-          );
+          addNotification({
+            id: 'settings-saved',
+            variant: 'success',
+            title: 'Organization level settings saved',
+            dismissable: true,
+          });
           fetchApiStalenessData();
           setIsEditing(!isEditing);
           setIsModalOpen(false);
         })
         .catch(() => {
-          dispatch(
-            addNotificationAction({
-              id: 'settings-saved-failed',
-              variant: 'danger',
-              title: 'Error saving organization level settings',
-              dismissable: true,
-            }),
-          );
+          addNotification({
+            id: 'settings-saved-failed',
+            variant: 'danger',
+            title: 'Error saving organization level settings',
+            dismissable: true,
+          });
         });
     }
   };
@@ -389,31 +383,36 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 </Button>
                 <Modal
                   variant="small"
-                  titleIconVariant="warning"
-                  title="Update organization level setting"
                   isOpen={isModalOpen}
                   onClose={handleModalToggle}
-                  actions={[
+                  ouiaId="BasicModal"
+                >
+                  <ModalHeader
+                    title="Update organization level setting"
+                    titleIconVariant="warning"
+                  />
+                  <ModalBody>
+                    Changing the organization level setting for system staleness
+                    and deletion may impact your systems. Some systems may be
+                    deleted as a result.
+                  </ModalBody>
+                  <ModalFooter>
                     <Button
                       key="confirm"
                       variant="primary"
                       onClick={saveHostData}
                     >
                       Update
-                    </Button>,
+                    </Button>
+                    ,
                     <Button
                       key="cancel"
                       variant="link"
                       onClick={handleModalToggle}
                     >
                       Cancel
-                    </Button>,
-                  ]}
-                  ouiaId="BasicModal"
-                >
-                  Changing the organization level setting for system staleness
-                  and deletion may impact your systems. Some systems may be
-                  deleted as a result.
+                    </Button>
+                  </ModalFooter>
                 </Modal>
               </Flex>
             )}

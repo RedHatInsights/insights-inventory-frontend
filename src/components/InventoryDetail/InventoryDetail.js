@@ -9,10 +9,10 @@ import {
 import './InventoryDetail.scss';
 import SystemNotFound from './SystemNotFound';
 import { reloadWrapper } from '../../Utilities/index';
-import { addNotification as addNotificationAction } from '@redhat-cloud-services/frontend-components-notifications';
 import ApplicationDetails from './ApplicationDetails';
 import './InventoryDetail.scss';
 import DetailHeader from './DetailHeader';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
  * This component is connected to redux and reads `loaded` and `entity`.
@@ -30,6 +30,7 @@ const InventoryDetail = ({
   ...headerProps
 }) => {
   const dispatch = useDispatch();
+  const addNotification = useAddNotification();
   const loaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded || false,
   );
@@ -45,8 +46,6 @@ const InventoryDetail = ({
     dispatch(reloadWrapper(action, callback));
   };
 
-  const addNotification = (payload) => dispatch(addNotificationAction(payload));
-
   return (
     <div className="ins-entity-detail">
       {loaded && !entity ? (
@@ -61,7 +60,7 @@ const InventoryDetail = ({
             loaded={loaded}
             onBackToListClick={onBackToListClick}
             deleteEntity={deleteEntity}
-            addNotification={addNotification}
+            addNotification={(payload) => addNotification(payload)}
             showTags={showTags}
             {...headerProps}
           />

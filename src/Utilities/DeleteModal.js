@@ -5,12 +5,15 @@ import {
   ClipboardCopy,
   Level,
   LevelItem,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Split,
   SplitItem,
   Stack,
   StackItem,
 } from '@patternfly/react-core';
-import { Modal } from '@patternfly/react-core/deprecated';
 
 const DeleteModal = ({
   handleModalToggle,
@@ -35,8 +38,6 @@ const DeleteModal = ({
   return (
     <Modal
       variant="small"
-      title="Delete system from inventory?"
-      titleIconVariant="warning"
       className="ins-c-inventory__table--remove sentry-mask data-hj-suppress"
       ouiaId="inventory-delete-modal"
       isOpen={isModalOpen}
@@ -45,43 +46,51 @@ const DeleteModal = ({
         document.getElementsByClassName('inventory')[0] || document.body
       }
     >
-      <Split hasGutter>
-        <SplitItem isFilled>
-          <Stack hasGutter>
-            <StackItem>
-              {systemToRemove} will be removed from all {location.host}{' '}
-              applications and services. You need to re-register the{' '}
-              {systemLabel} to add it back to your inventory.
-            </StackItem>
-            <StackItem>
-              To disable the daily upload for {systemPronoun} {systemLabel}, use
-              the following command:
-            </StackItem>
-            <StackItem>
-              <ClipboardCopy>insights-client --unregister</ClipboardCopy>
-            </StackItem>
-          </Stack>
-        </SplitItem>
-      </Split>
-      <Level hasGutter>
-        <LevelItem>
-          <Button
-            variant="danger"
-            ouiaId="confirm-inventory-delete"
-            data-testid="confirm-inventory-delete"
-            onClick={onConfirm}
-          >
-            Delete
-          </Button>
-          <Button
-            variant="link"
-            ouiaId="cancel-inventory-delete"
-            onClick={() => handleModalToggle(false)}
-          >
-            Cancel
-          </Button>
-        </LevelItem>
-      </Level>
+      <ModalHeader
+        title="Delete system from inventory?"
+        titleIconVariant="warning"
+      />
+      <ModalBody>
+        <Split hasGutter>
+          <SplitItem isFilled>
+            <Stack hasGutter>
+              <StackItem>
+                {systemToRemove} will be removed from all {location.host}{' '}
+                applications and services. You need to re-register the{' '}
+                {systemLabel} to add it back to your inventory.
+              </StackItem>
+              <StackItem>
+                To disable the daily upload for {systemPronoun} {systemLabel},
+                use the following command:
+              </StackItem>
+              <StackItem>
+                <ClipboardCopy>insights-client --unregister</ClipboardCopy>
+              </StackItem>
+            </Stack>
+          </SplitItem>
+        </Split>
+      </ModalBody>
+      <ModalFooter>
+        <Level hasGutter>
+          <LevelItem>
+            <Button
+              variant="danger"
+              ouiaId="confirm-inventory-delete"
+              data-testid="confirm-inventory-delete"
+              onClick={onConfirm}
+            >
+              Delete
+            </Button>
+            <Button
+              variant="link"
+              ouiaId="cancel-inventory-delete"
+              onClick={() => handleModalToggle(false)}
+            >
+              Cancel
+            </Button>
+          </LevelItem>
+        </Level>
+      </ModalFooter>
     </Modal>
   );
 };

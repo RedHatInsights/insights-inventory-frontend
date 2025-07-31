@@ -1,8 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, GridItem } from '@patternfly/react-core';
-import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
+import {
+  Grid,
+  GridItem,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalVariant,
+} from '@patternfly/react-core';
 import { SortByDirection } from '@patternfly/react-table';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 
@@ -206,20 +212,22 @@ const GeneralInformation = ({
           </GridItem>
           {children}
           <Modal
-            title={modalTitle || ''}
             aria-label={`${modalTitle || ''} modal`}
             isOpen={isModalOpen}
             onClose={() => handleModalToggle()}
             className="ins-c-inventory__detail--dialog"
             variant={modalVariant}
           >
-            <InfoTable
-              cells={modalData.cells}
-              rows={modalData.rows}
-              expandable={modalData.expandable}
-              onSort={onSort}
-              filters={modalData.filters}
-            />
+            <ModalHeader title={modalTitle || ''} />
+            <ModalBody>
+              <InfoTable
+                cells={modalData.cells}
+                rows={modalData.rows}
+                expandable={modalData.expandable}
+                onSort={onSort}
+                filters={modalData.filters}
+              />
+            </ModalBody>
           </Modal>
         </Grid>
       </div>

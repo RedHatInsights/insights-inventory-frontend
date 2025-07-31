@@ -9,16 +9,15 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
   />
   <div
     class="pf-v6-c-backdrop"
-    id="pf-modal-part-4"
+    id="pf-modal-part-2"
   >
     <div
       class="pf-v6-l-bullseye"
     >
       <div
-        aria-describedby="pf-modal-part-3"
-        aria-labelledby="pf-modal-part-2"
+        aria-labelledby="pf-modal-part-1"
         aria-modal="true"
-        class="pf-v6-c-modal-box ins-c-inventory__table--remove sentry-mask data-hj-suppress pf-m-warning pf-m-sm"
+        class="pf-v6-c-modal-box ins-c-inventory__table--remove sentry-mask data-hj-suppress pf-m-sm"
         data-ouia-component-id="inventory-delete-modal"
         data-ouia-component-type="PF6/ModalContent"
         data-ouia-safe="true"
@@ -59,8 +58,7 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
           class="pf-v6-c-modal-box__header"
         >
           <h1
-            class="pf-v6-c-modal-box__title pf-m-icon"
-            id="pf-modal-part-2"
+            class="pf-v6-c-modal-box__title pf-m-icon pf-m-warning"
           >
             <span
               class="pf-v6-c-modal-box__title-icon"
@@ -93,7 +91,6 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
         </header>
         <div
           class="pf-v6-c-modal-box__body"
-          id="pf-modal-part-3"
         >
           <div
             class="pf-v6-l-split pf-m-gutter"
@@ -184,6 +181,10 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <footer
+          class="pf-v6-c-modal-box__footer"
+        >
           <div
             class="pf-v6-l-level pf-m-gutter"
           >
@@ -217,7 +218,7 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
               </button>
             </div>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   </div>
@@ -233,16 +234,15 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
   />
   <div
     class="pf-v6-c-backdrop"
-    id="pf-modal-part-3"
+    id="pf-modal-part-1"
   >
     <div
       class="pf-v6-l-bullseye"
     >
       <div
-        aria-describedby="pf-modal-part-2"
-        aria-labelledby="pf-modal-part-1"
+        aria-labelledby="pf-modal-part-0"
         aria-modal="true"
-        class="pf-v6-c-modal-box ins-c-inventory__table--remove sentry-mask data-hj-suppress pf-m-warning pf-m-sm"
+        class="pf-v6-c-modal-box ins-c-inventory__table--remove sentry-mask data-hj-suppress pf-m-sm"
         data-ouia-component-id="inventory-delete-modal"
         data-ouia-component-type="PF6/ModalContent"
         data-ouia-safe="true"
@@ -283,8 +283,7 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
           class="pf-v6-c-modal-box__header"
         >
           <h1
-            class="pf-v6-c-modal-box__title pf-m-icon"
-            id="pf-modal-part-1"
+            class="pf-v6-c-modal-box__title pf-m-icon pf-m-warning"
           >
             <span
               class="pf-v6-c-modal-box__title-icon"
@@ -317,7 +316,6 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
         </header>
         <div
           class="pf-v6-c-modal-box__body"
-          id="pf-modal-part-2"
         >
           <div
             class="pf-v6-l-split pf-m-gutter"
@@ -408,6 +406,10 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <footer
+          class="pf-v6-c-modal-box__footer"
+        >
           <div
             class="pf-v6-l-level pf-m-gutter"
           >
@@ -441,7 +443,7 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
               </button>
             </div>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   </div>

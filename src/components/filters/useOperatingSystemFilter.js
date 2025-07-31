@@ -20,6 +20,11 @@ export const useOperatingSystemFilter = (
   fetchCustomOSes,
   axios,
 ) => {
+  /*console.log(apiParams, 'apiParams test');
+  console.log(hasAccess, 'hasAccess test');
+  console.log(showCentosVersions, 'showCentosVersions test');
+  console.log(fetchCustomOSes, 'fetchCustomOSes test');
+  console.log(axios, 'axios test');*/
   const [operatingSystemsStateValue, setStateValue] = useState({});
   const operatingSystemsValue = dispatch
     ? state.operatingSystemFilter
@@ -46,6 +51,7 @@ export const useOperatingSystemFilter = (
     [groups, dispatch],
   );
 
+  console.log(operatingSystemsValue, 'operatingSystemsValue test');
   const filter = {
     label: 'Operating system',
     value: 'operating-system-filter',

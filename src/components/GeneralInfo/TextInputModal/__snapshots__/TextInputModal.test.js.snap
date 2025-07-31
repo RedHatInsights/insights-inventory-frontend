@@ -9,15 +9,13 @@ exports[`TextInputModal render should render aria label 1`] = `
   />
   <div
     class="pf-v6-c-backdrop"
-    id="pf-modal-part-10"
+    id="pf-modal-part-8"
   >
     <div
       class="pf-v6-l-bullseye"
     >
       <div
-        aria-describedby="pf-modal-part-9"
         aria-label="Some aria label - modal"
-        aria-labelledby="pf-modal-part-7"
         aria-modal="true"
         class="pf-v6-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
         data-ouia-component-id="OUIA-Generated-Modal-small-8"
@@ -56,9 +54,19 @@ exports[`TextInputModal render should render aria label 1`] = `
             </span>
           </button>
         </div>
+        <header
+          class="pf-v6-c-modal-box__header"
+        >
+          <h1
+            class="pf-v6-c-modal-box__title"
+          >
+            <span
+              class="pf-v6-c-modal-box__title-text"
+            />
+          </h1>
+        </header>
         <div
           class="pf-v6-c-modal-box__body"
-          id="pf-modal-part-9"
         >
           <span
             class="pf-v6-c-form-control pf-m-error"
@@ -186,15 +194,13 @@ exports[`TextInputModal render should render open 1`] = `
   />
   <div
     class="pf-v6-c-backdrop"
-    id="pf-modal-part-8"
+    id="pf-modal-part-6"
   >
     <div
       class="pf-v6-l-bullseye"
     >
       <div
-        aria-describedby="pf-modal-part-7"
         aria-label="input text - modal"
-        aria-labelledby="pf-modal-part-5"
         aria-modal="true"
         class="pf-v6-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
         data-ouia-component-id="OUIA-Generated-Modal-small-6"
@@ -233,9 +239,19 @@ exports[`TextInputModal render should render open 1`] = `
             </span>
           </button>
         </div>
+        <header
+          class="pf-v6-c-modal-box__header"
+        >
+          <h1
+            class="pf-v6-c-modal-box__title"
+          >
+            <span
+              class="pf-v6-c-modal-box__title-text"
+            />
+          </h1>
+        </header>
         <div
           class="pf-v6-c-modal-box__body"
-          id="pf-modal-part-7"
         >
           <span
             class="pf-v6-c-form-control pf-m-error"
@@ -363,15 +379,13 @@ exports[`TextInputModal render should render title 1`] = `
   />
   <div
     class="pf-v6-c-backdrop"
-    id="pf-modal-part-9"
+    id="pf-modal-part-7"
   >
     <div
       class="pf-v6-l-bullseye"
     >
       <div
-        aria-describedby="pf-modal-part-8"
         aria-label="input text - modal"
-        aria-labelledby="pf-modal-part-6 pf-modal-part-7"
         aria-modal="true"
         class="pf-v6-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
         data-ouia-component-id="OUIA-Generated-Modal-small-7"
@@ -415,7 +429,6 @@ exports[`TextInputModal render should render title 1`] = `
         >
           <h1
             class="pf-v6-c-modal-box__title"
-            id="pf-modal-part-7"
           >
             <span
               class="pf-v6-c-modal-box__title-text"
@@ -426,7 +439,6 @@ exports[`TextInputModal render should render title 1`] = `
         </header>
         <div
           class="pf-v6-c-modal-box__body"
-          id="pf-modal-part-8"
         >
           <span
             class="pf-v6-c-form-control pf-m-error"
