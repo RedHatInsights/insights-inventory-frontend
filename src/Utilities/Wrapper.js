@@ -17,7 +17,8 @@ const RenderWrapper = ({
     false, // omit RD check to find out if there are any inventory:hosts:read available
   );
   const statContext = useContext(AccountStatContext);
-  const loadChromelessInventory = props?.tableProps?.envContext.loadChromeless;
+  const loadChromelessInventory =
+    props?.tableProps?.envContext?.loadChromeless || false;
   return (
     <Component
       {...props}
@@ -25,7 +26,7 @@ const RenderWrapper = ({
         ref: inventoryRef,
       })}
       isRbacEnabled={isRbacEnabled}
-      hasAccess={props.tableProps.envContext.loadChromeless || hasAccess}
+      hasAccess={props?.tableProps?.envContext?.loadChromeless || hasAccess}
       store={store}
       isUpdateMethodFFEnabled={statContext.isUpdateMethodEnabled}
       isKesselFFEnabled={statContext.isKesselEnabled}
