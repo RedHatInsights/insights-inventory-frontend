@@ -7,12 +7,20 @@ import {
   sortSerialiser,
   paginationSerialiser,
 } from './serialisers';
+import * as defaultColumns from './components/SystemsTable/columns';
 
 const Systems = () => (
   <>
     <InventoryPageHeader />
     <PageSection>
       <SystemsTable
+        columns={[
+          defaultColumns.displayName,
+          defaultColumns.workspace,
+          defaultColumns.tags,
+          defaultColumns.operatingSystem,
+          defaultColumns.lastSeen,
+        ]}
         options={{
           // FIXME: remove debug
           debug: true,
