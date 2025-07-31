@@ -145,14 +145,7 @@ const buildOperatingSystemFilter = (osFilterState = {}) => {
 };
 
 export const calculateSystemProfile = (
-  {
-    osFilter,
-    rhcdFilter,
-    updateMethodFilter,
-    hostTypeFilter,
-    system_profile,
-    systemTypeFilter,
-  },
+  { osFilter, rhcdFilter, updateMethodFilter, hostTypeFilter, system_profile },
   filterImmutable = true,
 ) => {
   const operating_system = buildOperatingSystemFilter(osFilter);
@@ -169,17 +162,6 @@ export const calculateSystemProfile = (
       : {}),
     ...(rhcdFilter ? { [RHCD_FILTER_KEY]: rhcdFilter } : {}),
     ...(Object.keys(operating_system).length ? { operating_system } : {}),
-    ...(systemTypeFilter?.length
-      ? {
-          bootc_status: {
-            booted: {
-              image_digest: {
-                is: systemTypeFilter,
-              },
-            },
-          },
-        }
-      : {}),
   };
 
   return Object.keys(newSystemProfile).length
@@ -320,6 +302,7 @@ export async function getEntities(
         ...(options?.globalFilter?.tags || []),
       ],
       registeredWith: filters?.registeredWithFilter,
+      systemType: filters?.systemTypeFilter,
       options: {
         ...(controller?.signal !== undefined
           ? { signal: controller.signal }
