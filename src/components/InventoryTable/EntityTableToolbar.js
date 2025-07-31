@@ -252,13 +252,12 @@ const EntityTableToolbar = ({
       !(hideFilters.all && hideFilters.systemTypeFilter !== false) &&
       !hideFilters.systemTypeFilter,
   };
-  // I don't know how to fix this yet It calls chrome from the useExportApi
-  /* const exportConfig = useInventoryExport({
-      filters: {
-        ...activeFilters,
-        ...customFilters,
-      },
-    }); */
+  const exportConfig = useInventoryExport({
+    filters: {
+      ...activeFilters,
+      ...customFilters,
+    },
+  });
 
   /**
    * Function to dispatch load systems and fetch all tags.
@@ -626,9 +625,9 @@ const EntityTableToolbar = ({
             <Skeleton size={SkeletonSize.lg} />
           )
         }
-        /* exportConfig={
+        exportConfig={
           props.exportConfig ? props.exportConfig : enableExport && exportConfig
-        } */
+        }
       >
         {lastSeenFilterValue?.mark === 'custom' && (
           <Split>
