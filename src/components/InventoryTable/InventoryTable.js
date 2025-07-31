@@ -83,6 +83,7 @@ const InventoryTable = forwardRef(
       showCentosVersions = false,
       enableExport,
       lastSeenOverride,
+      axios,
       ...props
     },
     ref,
@@ -219,6 +220,7 @@ const InventoryTable = forwardRef(
         ...options,
         globalFilter: cachedProps?.customFilters?.globalFilter,
       };
+      console.log(newParams, 'newParams');
 
       //Check for the rbac permissions
       const cachedParams = cache.current.getParams();
@@ -230,6 +232,7 @@ const InventoryTable = forwardRef(
             dispatch(
               loadSystems(
                 {
+                  axios,
                   ...newParams,
                   ...options,
                   controller: controller.current,
@@ -244,6 +247,7 @@ const InventoryTable = forwardRef(
           dispatch(
             loadSystems(
               {
+                axios,
                 ...newParams,
                 controller: controller.current,
                 filterImmutableByDefault: props.edgeParityFilterDeviceEnabled,
@@ -304,6 +308,8 @@ const InventoryTable = forwardRef(
           isUpdateMethodFFEnabled={props.isUpdateMethodFFEnabled}
           isKesselFFEnabled={props.isKesselFFEnabled}
           edgeParityFilterDeviceEnabled={props.edgeParityFilterDeviceEnabled}
+          loadChromelessInventory={props.loadChromelessInventory}
+          axios={axios}
         >
           {children}
         </EntityTableToolbar>
@@ -385,6 +391,8 @@ InventoryTable.propTypes = {
   edgeParityFilterDeviceEnabled: PropTypes.bool,
   isUpdateMethodFFEnabled: PropTypes.bool,
   isKesselFFEnabled: PropTypes.bool,
+  loadChromelessInventory: PropTypes.bool,
+  axios: PropTypes.func,
 };
 
 InventoryTable.displayName = 'InventoryTable';

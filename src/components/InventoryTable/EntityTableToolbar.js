@@ -102,6 +102,7 @@ const EntityTableToolbar = ({
   showNoGroupOption,
   enableExport,
   fetchCustomOSes,
+  axios,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -176,6 +177,7 @@ const EntityTableToolbar = ({
       hasAccess,
       showCentosVersions,
       fetchCustomOSes,
+      axios,
     );
   const [
     updateMethodConfig,
@@ -251,15 +253,12 @@ const EntityTableToolbar = ({
       !hideFilters.systemTypeFilter,
   };
   // I don't know how to fix this yet It calls chrome from the useExportApi
-  let exportConfig = null;
-  if (!props.loadChromelessInventory) {
-    exportConfig = useInventoryExport({
+  /* const exportConfig = useInventoryExport({
       filters: {
         ...activeFilters,
         ...customFilters,
       },
-    });
-  }
+    }); */
 
   /**
    * Function to dispatch load systems and fetch all tags.
@@ -267,7 +266,7 @@ const EntityTableToolbar = ({
    */
   const onRefreshDataInner = (options) => {
     if (hasAccess) {
-      onRefreshData(options);
+      onRefreshData({ ...options, options: { axios } });
       if (showTags && !hasItems) {
         dispatch(fetchAllTags(filterTagsBy, {}, getTags));
       }
@@ -627,9 +626,9 @@ const EntityTableToolbar = ({
             <Skeleton size={SkeletonSize.lg} />
           )
         }
-        exportConfig={
+        /* exportConfig={
           props.exportConfig ? props.exportConfig : enableExport && exportConfig
-        }
+        } */
       >
         {lastSeenFilterValue?.mark === 'custom' && (
           <Split>
@@ -728,7 +727,7 @@ EntityTableToolbar.propTypes = {
   isKesselFFEnabled: PropTypes.bool,
   isUpdateMethodFFEnabled: PropTypes.bool,
   edgeParityFilterDeviceEnabled: PropTypes.bool,
-  loadChromelessInventory: PropTypes.bool,
+  axios: PropTypes.func,
 };
 
 EntityTableToolbar.defaultProps = {
