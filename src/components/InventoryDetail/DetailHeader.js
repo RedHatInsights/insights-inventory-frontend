@@ -79,7 +79,6 @@ HeaderInfo.propTypes = {
   deleteEntity: PropTypes.func,
   entity: PropTypes.object,
   loaded: PropTypes.bool,
-  addNotification: PropTypes.func,
 };
 DetailHeader.propTypes = {
   BreadcrumbWrapper: PropTypes.node,

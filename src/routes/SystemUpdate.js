@@ -3,12 +3,12 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getNotificationProp } from '../Utilities/edge';
-import { useDispatch } from 'react-redux';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
 const SystemUpdate = () => {
   const chrome = useChrome();
-  const dispatch = useDispatch();
-  const notificationProp = getNotificationProp(dispatch);
+  const addNotification = useAddNotification();
+  const notificationProp = getNotificationProp(addNotification);
 
   useEffect(() => {
     chrome?.updateDocumentTitle?.(`Workspaces - Inventory`);

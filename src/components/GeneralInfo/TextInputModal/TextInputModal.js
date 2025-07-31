@@ -6,10 +6,13 @@ import {
   FormHelperText,
   HelperText,
   HelperTextItem,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   TextInput,
   ValidatedOptions,
 } from '@patternfly/react-core';
-import { Modal } from '@patternfly/react-core/deprecated';
 
 const TextInputModal = ({
   title = '',
@@ -36,13 +39,33 @@ const TextInputModal = ({
   return (
     <Modal
       variant="small"
-      title={title}
       className="ins-c-inventory__detail--edit"
       aria-label={ariaLabel ? `${ariaLabel} - modal` : 'input modal'}
       ouiaId={modalOuiaId}
       isOpen={isOpen}
       onClose={(event) => onCancel(event)}
-      actions={[
+    >
+      <ModalHeader title={title} />
+      <ModalBody>
+        <TextInput
+          value={value}
+          type="text"
+          ouiaId={inputOuiaId}
+          onChange={(_event, value) => setValue(value)}
+          aria-label={ariaLabel}
+          validated={value?.trim().length === 0 && ValidatedOptions.error}
+        />
+        <FormHelperText>
+          <HelperText id="helper-text2" aria-live="polite">
+            {value?.trim().length === 0 && (
+              <HelperTextItem variant="error">
+                Name cannot be blank
+              </HelperTextItem>
+            )}
+          </HelperText>
+        </FormHelperText>
+      </ModalBody>
+      <ModalFooter>
         <Button
           key="confirm"
           data-action="confirm"
@@ -52,7 +75,7 @@ const TextInputModal = ({
           isDisabled={value === initialValue || value?.trim().length === 0}
         >
           Save
-        </Button>,
+        </Button>
         <Button
           key="cancel"
           data-action="cancel"
@@ -61,26 +84,8 @@ const TextInputModal = ({
           ouiaId={cancelOuiaId}
         >
           Cancel
-        </Button>,
-      ]}
-    >
-      <TextInput
-        value={value}
-        type="text"
-        ouiaId={inputOuiaId}
-        onChange={(_event, value) => setValue(value)}
-        aria-label={ariaLabel}
-        validated={value?.trim().length === 0 && ValidatedOptions.error}
-      />
-      <FormHelperText>
-        <HelperText id="helper-text2" aria-live="polite">
-          {value?.trim().length === 0 && (
-            <HelperTextItem variant="error">
-              Name cannot be blank
-            </HelperTextItem>
-          )}
-        </HelperText>
-      </FormHelperText>
+        </Button>
+      </ModalFooter>
     </Modal>
   );
 };
