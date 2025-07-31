@@ -578,19 +578,20 @@ const testSorting = (
 };
 
 describe('conventional table', () => {
-  it('sorting loads from url', () => {
-    const sortableColumns = [
-      { name: 'Name', urlName: 'display_name', apiName: 'display_name' },
-      { name: 'Workspace', urlName: 'group_name', apiName: 'group_name' },
-      { name: 'OS', urlName: 'operating_system', apiName: 'operating_system' },
-      { name: 'Last seen', urlName: 'last_check_in', apiName: 'last_check_in' },
-    ];
+  const sortableColumns = [
+    { name: 'Name', urlName: 'display_name', apiName: 'display_name' },
+    { name: 'Workspace', urlName: 'group_name', apiName: 'group_name' },
+    { name: 'OS', urlName: 'operating_system', apiName: 'operating_system' },
+    { name: 'Last seen', urlName: 'last_check_in', apiName: 'last_check_in' },
+  ];
 
-    for (const col of sortableColumns) {
-      // Ascending
+  sortableColumns.forEach((col) => {
+    it(`can sort by "${col.name}" in ascending order`, () => {
       testSorting(col, true);
-      // Descending
+    });
+
+    it(`can sort by "${col.name}" in descending order`, () => {
       testSorting(col, false);
-    }
+    });
   });
 });
