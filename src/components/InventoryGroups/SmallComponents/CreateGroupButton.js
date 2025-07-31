@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text } from '@patternfly/react-core';
+import { Button, Content } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { GENERAL_GROUPS_WRITE_PERMISSION } from '../../../constants';
@@ -11,8 +11,8 @@ export const CreateGroupButton = ({ closeModal }) => {
 
   return canModifyGroups ? (
     <>
-      <Text>Or</Text>
-      <Button variant="secondary" className="pf-v5-u-w-50" onClick={closeModal}>
+      <Content component="p">Or</Content>
+      <Button variant="secondary" className="pf-v6-u-w-50" onClick={closeModal}>
         Create a new workspace
       </Button>
     </>

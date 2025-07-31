@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import {
   EmptyState,
   EmptyStateBody,
-  EmptyStateIcon,
-  EmptyStateHeader,
   EmptyStateFooter,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 
-import { global_palette_black_600 as globalPaletteBlack600 } from '@patternfly/react-tokens';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import PropTypes from 'prop-types';
 import {
@@ -22,8 +19,11 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
 
   return (
     <EmptyState
+      headingLevel="h4"
+      icon={PlusCircleIcon}
+      titleText="No systems added"
       data-ouia-component-id="empty-state"
-      data-ouia-component-type="PF5/EmptyState"
+      data-ouia-component-type="PF6/EmptyState"
       data-ouia-safe={true}
     >
       <AddSystemsToGroupModal
@@ -32,16 +32,6 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
         groupId={groupId}
         groupName={groupName}
         edgeParityIsAllowed={true}
-      />
-      <EmptyStateHeader
-        titleText="No systems added"
-        icon={
-          <EmptyStateIcon
-            icon={PlusCircleIcon}
-            color={globalPaletteBlack600.value}
-          />
-        }
-        headingLevel="h4"
       />
       <EmptyStateBody>
         To manage systems more effectively, add systems to the workspace.

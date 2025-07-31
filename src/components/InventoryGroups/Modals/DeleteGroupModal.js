@@ -2,23 +2,20 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
-import Modal from './Modal';
+import RepoModal from './Modal';
 import { deleteGroupsById, getGroupsByIds } from '../utils/api';
 import {
   Backdrop,
   Bullseye,
   Button,
-  Icon,
-  Modal as PfModal,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Spinner,
-  Text,
+  Content,
 } from '@patternfly/react-core';
-import apiWithToast from '../utils/apiWithToast';
-import { useDispatch } from 'react-redux';
-import {
-  ExclamationCircleIcon,
-  ExclamationTriangleIcon,
-} from '@patternfly/react-icons';
+import useApiWithToast from '../utils/apiWithToast';
 import useFetchBatched from '../../../Utilities/hooks/useFetchBatched';
 
 const generateSchema = (groups) => ({
@@ -28,14 +25,14 @@ const generateSchema = (groups) => ({
       name: 'warning-message',
       label:
         groups.length > 1 ? (
-          <Text>
+          <Content component="p">
             <strong>{groups.length}</strong> workspaces and all their data will
             be deleted.
-          </Text>
+          </Content>
         ) : (
-          <Text>
+          <Content component="p">
             <strong>{groups[0]?.name}</strong> and all its data will be deleted.
-          </Text>
+          </Content>
         ),
     },
     {
@@ -49,12 +46,8 @@ const generateSchema = (groups) => ({
 
 const generateContent = (groups = []) => ({
   title: groups.length > 1 ? 'Delete workspaces?' : 'Delete workspace?',
-  titleIconVariant: () => (
-    <Icon status="warning">
-      <ExclamationTriangleIcon />
-    </Icon>
-  ),
-  variant: 'danger',
+  titleIconVariant: 'warning',
+  variant: 'small',
   submitLabel: 'Delete',
   schema: generateSchema(groups),
 });
@@ -65,7 +58,7 @@ const DeleteGroupModal = ({
   reloadData,
   groupIds,
 }) => {
-  const dispatch = useDispatch();
+  const apiWithToast = useApiWithToast();
   const [fetchedGroups, setFetchedGroups] = useState(undefined);
   const groupsAreEmpty = (fetchedGroups || []).every(
     ({ host_count: hostCount }) => hostCount === 0,
@@ -112,7 +105,7 @@ const DeleteGroupModal = ({
             : `Failed to delete workspace ${fetchedGroups?.[0]?.name}`,
       },
     };
-    apiWithToast(dispatch, () => deleteGroupsById(groupIds), statusMessages);
+    apiWithToast(() => deleteGroupsById(groupIds), statusMessages);
   };
 
   return isLoading ? (
@@ -125,45 +118,41 @@ const DeleteGroupModal = ({
       </Bullseye>
     </Backdrop>
   ) : !groupsAreEmpty ? ( // groups must have no systems to be deleted
-    <PfModal
+    <Modal
       variant="small"
-      title={
-        fetchedGroups.length > 1
-          ? 'Cannot delete workspaces at this time'
-          : 'Cannot delete workspace at this time'
-      }
-      titleIconVariant={() => (
-        <Icon status="danger">
-          <ExclamationCircleIcon />
-        </Icon>
-      )}
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
-      actions={[
-        <Button
-          key="close"
-          variant="primary"
-          onClick={() => setIsModalOpen(false)}
-        >
-          Close
-        </Button>,
-      ]}
     >
-      {fetchedGroups.length > 1 ? (
-        <Text>
-          Workspaces containing systems cannot be deleted. To delete workspaces,
-          first remove all of the systems from them.
-        </Text>
-      ) : (
-        <Text>
-          Workspaces containing systems cannot be deleted. To delete{' '}
-          <strong>{fetchedGroups[0].name}</strong>, first remove all of the
-          systems from it.
-        </Text>
-      )}
-    </PfModal>
+      <ModalHeader
+        title={
+          fetchedGroups.length > 1
+            ? 'Cannot delete workspaces at this time'
+            : 'Cannot delete workspace at this time'
+        }
+        titleIconVariant="danger"
+      />
+      <ModalBody>
+        {fetchedGroups.length > 1 ? (
+          <Content component="p">
+            Workspaces containing systems cannot be deleted. To delete
+            workspaces, first remove all of the systems from them.
+          </Content>
+        ) : (
+          <Content component="p">
+            Workspaces containing systems cannot be deleted. To delete{' '}
+            <strong>{fetchedGroups[0].name}</strong>, first remove all of the
+            systems from it.
+          </Content>
+        )}
+      </ModalBody>
+      <ModalFooter>
+        <Button variant="primary" onClick={() => setIsModalOpen(false)}>
+          Close
+        </Button>
+      </ModalFooter>
+    </Modal>
   ) : (
-    <Modal
+    <RepoModal
       isModalOpen={isModalOpen}
       closeModal={() => setIsModalOpen(false)}
       onSubmit={handleDeleteGroup}

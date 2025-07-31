@@ -1,6 +1,5 @@
 import 'node-fetch';
 import { renderHook, waitFor } from '@testing-library/react';
-import { useDispatch } from 'react-redux';
 import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import {
   DOWNLOAD_CHECK_INTERVAL,
@@ -10,11 +9,21 @@ import {
 } from './constants';
 import exports from '../../../../__factories__/exports';
 import useInventoryExport from './useInventoryExport';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/interceptors');
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
 }));
+jest.mock(
+  '@redhat-cloud-services/frontend-components-notifications/hooks',
+  () => ({
+    ...jest.requireActual(
+      '@redhat-cloud-services/frontend-components-notifications/hooks',
+    ),
+    useAddNotification: jest.fn(),
+  }),
+);
 
 const FORMATS = ['json', 'csv'];
 const FORMAT = FORMATS[Math.floor(Math.random() * FORMATS.length)];
@@ -38,12 +47,8 @@ const exampleGetResponse = {
   },
 };
 
-const buildNoficationAction = (payload) => ({
-  payload,
-  type: '@@INSIGHTS-CORE/NOTIFICATIONS/ADD_NOTIFICATION',
-});
-
 describe('useInventoryExport', () => {
+  const notificationMock = jest.fn();
   const axiosPostMock = jest.fn(async () => exampleGetResponse.data[0]);
   const axiosGetMock = jest.fn(async (url) => {
     if (url === EXPORT_SERVICE_PATH + '/exports') {
@@ -60,17 +65,19 @@ describe('useInventoryExport', () => {
       return exampleGetResponse.data[0];
     }
   });
-  const dispatchMock = jest.fn(() => {});
+
   let origfetch = global.fetch;
   let origURL = global.URL;
 
   beforeEach(() => {
     jest.clearAllMocks();
+
+    useAddNotification.mockImplementation(() => notificationMock);
     useAxiosWithPlatformInterceptors.mockImplementation(() => ({
       post: axiosPostMock,
       get: axiosGetMock,
     }));
-    useDispatch.mockImplementation(() => dispatchMock);
+
     global.fetch = async () => ({
       blob: async () => ({}),
       headers: {
@@ -117,14 +124,12 @@ describe('useInventoryExport', () => {
       );
     });
 
-    expect(dispatchMock).toHaveBeenCalledWith(
-      buildNoficationAction({
-        id: 'inventory-export-success',
-        title:
-          'The requested export is being prepared. When ready, the download will start automatically.',
-        variant: 'info',
-      }),
-    );
+    expect(notificationMock).toHaveBeenCalledWith({
+      id: 'inventory-export-success',
+      title:
+        'The requested export is being prepared. When ready, the download will start automatically.',
+      variant: 'info',
+    });
     jest.clearAllMocks();
     jest.advanceTimersByTime(DOWNLOAD_CHECK_INTERVAL * 2);
 
@@ -137,13 +142,11 @@ describe('useInventoryExport', () => {
       ),
     );
 
-    expect(dispatchMock).toHaveBeenCalledWith(
-      buildNoficationAction({
-        id: 'inventory-export-download',
-        title: 'The requested export is being downloaded.',
-        variant: 'success',
-      }),
-    );
+    expect(notificationMock).toHaveBeenCalledWith({
+      id: 'inventory-export-download',
+      title: 'The requested export is being downloaded.',
+      variant: 'success',
+    });
   });
 
   it(
@@ -191,9 +194,7 @@ describe('useInventoryExport', () => {
         ),
       );
 
-      expect(dispatchMock).toHaveBeenCalledWith(
-        buildNoficationAction(ERROR_NOTIFICATION),
-      );
+      expect(notificationMock).toHaveBeenCalledWith(ERROR_NOTIFICATION);
     },
   );
 
@@ -211,9 +212,7 @@ describe('useInventoryExport', () => {
 
     await waitFor(() => expect(errorPostMock).toHaveBeenCalled());
 
-    expect(dispatchMock).toHaveBeenCalledWith(
-      buildNoficationAction(ERROR_NOTIFICATION),
-    );
+    expect(notificationMock).toHaveBeenCalledWith(ERROR_NOTIFICATION);
   });
 
   it('should call onError if requesting export fails on download check', async () => {
@@ -231,8 +230,6 @@ describe('useInventoryExport', () => {
 
     await waitFor(() => expect(axiosErrorMock).toHaveBeenCalled());
 
-    expect(dispatchMock).toHaveBeenCalledWith(
-      buildNoficationAction(ERROR_NOTIFICATION),
-    );
+    expect(notificationMock).toHaveBeenCalledWith(ERROR_NOTIFICATION);
   });
 });

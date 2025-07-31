@@ -4,11 +4,11 @@ import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import { resolveRelPath } from '../../Utilities/path';
 import { getNotificationProp } from '../../Utilities/edge';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
 const EdgeUpdateDeviceModal = (props) => {
-  const dispatch = useDispatch();
-  const notificationProp = getNotificationProp(dispatch);
+  const addNotification = useAddNotification();
+  const notificationProp = getNotificationProp(addNotification);
   return (
     <AsyncComponent
       scope="edge"

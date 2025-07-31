@@ -39,7 +39,7 @@ const GroupDetailInfo = () => {
           className: undefined,
         }}
       >
-        <CardTitle className="pf-v5-c-title pf-m-lg card-title">
+        <CardTitle className="pf-v6-c-title pf-m-lg card-title">
           User access configuration
         </CardTitle>
       </CardHeader>

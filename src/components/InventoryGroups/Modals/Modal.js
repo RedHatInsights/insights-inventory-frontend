@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from '@patternfly/react-core';
+import { Modal, ModalHeader, ModalBody } from '@patternfly/react-core';
 import FormRenderer from '@data-driven-forms/react-form-renderer/form-renderer';
 import FormTemplate from '@data-driven-forms/pf4-component-mapper/form-template';
 import componentMapper from '@data-driven-forms/pf4-component-mapper/component-mapper';
@@ -29,51 +29,52 @@ const RepoModal = ({
         document.body.querySelector('.inventory') || document.body
       } // required to support the app's stylesheets
       variant={size ?? 'small'}
-      title={title}
-      titleIconVariant={titleIconVariant ?? null}
       isOpen={isModalOpen}
       onClose={closeModal}
       className={modalClassName}
     >
-      <FormRenderer
-        schema={schema}
-        FormTemplate={
-          customFormTemplate
-            ? customFormTemplate
-            : (props) => (
-                <FormTemplate
-                  {...props}
-                  submitLabel={submitLabel}
-                  disableSubmit={['invalid']}
-                  buttonsProps={{
-                    submit: { variant },
-                  }}
-                />
-              )
-        }
-        initialValues={initialValues}
-        componentMapper={
-          additionalMappers
-            ? { ...componentMapper, ...additionalMappers }
-            : componentMapper
-        }
-        //reload comes from the table and fetches fresh data
-        onSubmit={async (values) => {
-          await onSubmit(values);
-
-          if (reloadData !== undefined) {
-            if (reloadTimeout) {
-              setTimeout(async () => await reloadData(), reloadTimeout);
-            } else {
-              await reloadData();
-            }
+      <ModalHeader title={title} titleIconVariant={titleIconVariant ?? null} />
+      <ModalBody>
+        <FormRenderer
+          schema={schema}
+          FormTemplate={
+            customFormTemplate
+              ? customFormTemplate
+              : (props) => (
+                  <FormTemplate
+                    {...props}
+                    submitLabel={submitLabel}
+                    disableSubmit={['invalid']}
+                    buttonsProps={{
+                      submit: { variant },
+                    }}
+                  />
+                )
           }
+          initialValues={initialValues}
+          componentMapper={
+            additionalMappers
+              ? { ...componentMapper, ...additionalMappers }
+              : componentMapper
+          }
+          //reload comes from the table and fetches fresh data
+          onSubmit={async (values) => {
+            await onSubmit(values);
 
-          closeModal();
-        }}
-        onCancel={() => closeModal()}
-        subscription={{ values: true }}
-      />
+            if (reloadData !== undefined) {
+              if (reloadTimeout) {
+                setTimeout(async () => await reloadData(), reloadTimeout);
+              } else {
+                await reloadData();
+              }
+            }
+
+            closeModal();
+          }}
+          onCancel={() => closeModal()}
+          subscription={{ values: true }}
+        />
+      </ModalBody>
     </Modal>
   );
 };

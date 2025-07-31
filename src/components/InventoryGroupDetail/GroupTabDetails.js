@@ -41,10 +41,10 @@ const GroupTabDetailsWrapper = ({
       mountOnEnter
     >
       <Tab eventKey="systems" title="Systems" aria-label="Group systems tab">
-        <PageSection>
+        <PageSection hasBodyWrapper={false}>
           {canViewHosts && hasEdgeImages ? (
             <Tabs
-              className="pf-m-light pf-v5-c-table"
+              className="pf-m-light pf-v6-c-table"
               activeKey={activeSystemsTab}
               onSelect={(_event, tabIndex) => setActiveSystemsTab(tabIndex)}
               aria-label="Hybrid inventory tabs"
@@ -84,7 +84,7 @@ const GroupTabDetailsWrapper = ({
         </PageSection>
       </Tab>
       <Tab eventKey="info" title="Workspace info" aria-label="Group info tab">
-        <PageSection>
+        <PageSection hasBodyWrapper={false}>
           <Suspense
             fallback={
               <Bullseye>

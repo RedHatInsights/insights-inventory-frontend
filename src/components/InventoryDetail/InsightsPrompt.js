@@ -9,11 +9,8 @@ import {
   ClipboardCopy,
   Grid,
   GridItem,
-  Text,
-  TextContent,
-  TextList,
-  TextListItem,
-  TextVariants,
+  Content,
+  ContentVariants,
 } from '@patternfly/react-core';
 import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 
@@ -28,31 +25,31 @@ const InsightsPrompt = () => {
         <GridItem>
           <Grid hasGutter>
             <GridItem span={4}>
-              <TextContent
+              <Content
                 style={{
-                  '--pf-v5-c-content--LineHeight': '1',
-                  '--pf-v5-c-content--FontSize': '0.9rem',
+                  '--pf-v6-c-content--LineHeight': '1',
+                  '--pf-v6-c-content--FontSize': '0.9rem',
                 }}
               >
-                <Text component={TextVariants.p}>
+                <Content component={ContentVariants.p}>
                   With Insights you can easly:
-                </Text>
-                <TextList
+                </Content>
+                <Content
                   component="ul"
                   style={{
-                    '--pf-v5-c-content--ul--PaddingLeft': '0',
-                    '--pf-v5-c-content--ul--MarginLeft': '1rem',
+                    '--pf-t-c-content--ul--PaddingLeft': '0',
+                    '--pf-t-c-content--ul--MarginLeft': '1rem',
                   }}
                 >
-                  <TextListItem>Optimize your IT Operations</TextListItem>
-                  <TextListItem>
+                  <Content component="li">Optimize your IT Operations</Content>
+                  <Content component="li">
                     Manage your security and compliance
-                  </TextListItem>
-                  <TextListItem>
+                  </Content>
+                  <Content component="li">
                     Resolve operational issues quickly
-                  </TextListItem>
-                </TextList>
-              </TextContent>
+                  </Content>
+                </Content>
+              </Content>
             </GridItem>
             <GridItem span={4}>
               <Card isCompact>

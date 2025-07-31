@@ -31,16 +31,16 @@ exports[`TitleColumn should render correctly with NO data 1`] = `
         >
           <span
             aria-label="Package mode icon"
-            class="pf-v5-c-icon"
+            class="pf-v6-c-icon"
             style="margin-right: 8px;"
           >
             <span
-              class="pf-v5-c-icon__content"
+              class="pf-v6-c-icon__content"
             >
               <svg
                 aria-hidden="true"
-                class="pf-v5-svg"
-                color="var(--pf-v5-global--icon--Color--light)"
+                class="pf-v6-svg"
+                color="var(--pf-t--global--icon--color--subtle)"
                 fill="currentColor"
                 height="1em"
                 role="img"
@@ -77,16 +77,16 @@ exports[`TitleColumn should render correctly with data 1`] = `
         >
           <span
             aria-label="Package mode icon"
-            class="pf-v5-c-icon"
+            class="pf-v6-c-icon"
             style="margin-right: 8px;"
           >
             <span
-              class="pf-v5-c-icon__content"
+              class="pf-v6-c-icon__content"
             >
               <svg
                 aria-hidden="true"
-                class="pf-v5-svg"
-                color="var(--pf-v5-global--icon--Color--light)"
+                class="pf-v6-svg"
+                color="var(--pf-t--global--icon--color--subtle)"
                 fill="currentColor"
                 height="1em"
                 role="img"
@@ -126,16 +126,16 @@ exports[`TitleColumn should render correctly with href 1`] = `
         >
           <span
             aria-label="Package mode icon"
-            class="pf-v5-c-icon"
+            class="pf-v6-c-icon"
             style="margin-right: 8px;"
           >
             <span
-              class="pf-v5-c-icon__content"
+              class="pf-v6-c-icon__content"
             >
               <svg
                 aria-hidden="true"
-                class="pf-v5-svg"
-                color="var(--pf-v5-global--icon--Color--light)"
+                class="pf-v6-svg"
+                color="var(--pf-t--global--icon--color--subtle)"
                 fill="currentColor"
                 height="1em"
                 role="img"
@@ -178,16 +178,16 @@ exports[`TitleColumn should render correctly with os_release 1`] = `
         >
           <span
             aria-label="Package mode icon"
-            class="pf-v5-c-icon"
+            class="pf-v6-c-icon"
             style="margin-right: 8px;"
           >
             <span
-              class="pf-v5-c-icon__content"
+              class="pf-v6-c-icon__content"
             >
               <svg
                 aria-hidden="true"
-                class="pf-v5-svg"
-                color="var(--pf-v5-global--icon--Color--light)"
+                class="pf-v6-svg"
+                color="var(--pf-t--global--icon--color--subtle)"
                 fill="currentColor"
                 height="1em"
                 role="img"
@@ -227,16 +227,16 @@ exports[`TitleColumn should render correctly with to 1`] = `
         >
           <span
             aria-label="Package mode icon"
-            class="pf-v5-c-icon"
+            class="pf-v6-c-icon"
             style="margin-right: 8px;"
           >
             <span
-              class="pf-v5-c-icon__content"
+              class="pf-v6-c-icon__content"
             >
               <svg
                 aria-hidden="true"
-                class="pf-v5-svg"
-                color="var(--pf-v5-global--icon--Color--light)"
+                class="pf-v6-svg"
+                color="var(--pf-t--global--icon--color--subtle)"
                 fill="currentColor"
                 height="1em"
                 role="img"

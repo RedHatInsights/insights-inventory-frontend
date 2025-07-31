@@ -61,7 +61,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     if (formValue >= newFormValues['conventional_time_to_stale_warning']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Staleness must be before stale warning
@@ -70,21 +70,21 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else if (formValue > newFormValues['conventional_time_to_delete']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Staleness must be before deletion
         </p>
       );
     } else {
-      return <p className="pf-v5-u-font-size-sm ">Maximum: 7 days</p>;
+      return <p className="pf-v6-u-font-size-sm ">Maximum: 7 days</p>;
     }
   }
   if (apiKey === 'conventional_time_to_stale_warning') {
     if (formValue >= newFormValues['conventional_time_to_delete']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Stale warning must be before deletion
@@ -93,7 +93,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else if (formValue < newFormValues['conventional_time_to_stale']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Stale warning must be after staleness
@@ -101,7 +101,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     } else {
       return (
-        <p className="pf-v5-u-font-size-sm " style={{ width: '200px' }}>
+        <p className="pf-v6-u-font-size-sm " style={{ width: '200px' }}>
           Maximum: 180 days
         </p>
       );
@@ -111,7 +111,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     if (formValue < newFormValues['conventional_time_to_stale_warning']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Deletion must be after staleness
@@ -120,7 +120,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else if (formValue < newFormValues['conventional_time_to_stale']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Deletion must be after stale warning
@@ -128,7 +128,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     } else {
       return (
-        <p className="pf-v5-u-font-size-sm " style={{ width: '200px' }}>
+        <p className="pf-v6-u-font-size-sm " style={{ width: '200px' }}>
           Maximum: 2 years
         </p>
       );
@@ -139,7 +139,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     if (formValue >= newFormValues['immutable_time_to_stale_warning']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Staleness must be before stale warning
@@ -148,7 +148,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else if (formValue > newFormValues['immutable_time_to_delete']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Staleness must be before deletion
@@ -156,7 +156,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     } else {
       return (
-        <p className="pf-v5-u-font-size-sm " style={{ width: '200px' }}>
+        <p className="pf-v6-u-font-size-sm " style={{ width: '200px' }}>
           Maximum: 7 days
         </p>
       );
@@ -166,7 +166,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     if (formValue >= newFormValues['immutable_time_to_delete']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100 "
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100 "
           style={{ width: '200px' }}
         >
           Stale warning must be before deletion
@@ -175,7 +175,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else if (formValue < newFormValues['immutable_time_to_stale']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Stale warning must be after staleness
@@ -183,7 +183,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     } else {
       return (
-        <p className="pf-v5-u-font-size-sm " style={{ width: '200px' }}>
+        <p className="pf-v6-u-font-size-sm " style={{ width: '200px' }}>
           Maximum: 180 days
         </p>
       );
@@ -193,7 +193,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     if (formValue < newFormValues['immutable_time_to_stale_warning']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Deletion must be after staleness
@@ -202,7 +202,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
     } else if (formValue < newFormValues['immutable_time_to_stale']) {
       return (
         <p
-          className="pf-v5-u-font-size-sm pf-v5-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
           style={{ width: '200px' }}
         >
           Deletion must be after stale warning
@@ -210,7 +210,7 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     } else {
       return (
-        <p className="pf-v5-u-font-size-sm " style={{ width: '200px' }}>
+        <p className="pf-v6-u-font-size-sm " style={{ width: '200px' }}>
           Maximum: 2 years
         </p>
       );
@@ -230,15 +230,15 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
             direction={{ default: 'column' }}
             spaceItems={{ default: 'spaceItemsNone' }}
           >
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">
               - Systems are marked as stale after 2 days since last check-in.
             </span>
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">
               - Systems are marked as stale warning after 180 days since last
               check-in.
             </span>
 
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">
               - Systems are deleted after 2 years since last check-in.
             </span>
           </Flex>
@@ -247,15 +247,15 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
             direction={{ default: 'column' }}
             spaceItems={{ default: 'spaceItemsNone' }}
           >
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">
               - Systems are marked as stale after 1 day since last check-in.
             </span>
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">
               - Systems are marked as stale warning after 7 days since last
               check-in.
             </span>
 
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">
               - Systems are deleted after 14 days since last check-in.
             </span>
           </Flex>
@@ -263,12 +263,11 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
       }
     >
       <Button
+        icon={<OutlinedQuestionCircleIcon className="pf-v6-u-ml-md" />}
         variant="plain"
         aria-label="Organization level popover"
         style={{ padding: 0 }}
-      >
-        <OutlinedQuestionCircleIcon className="pf-v5-u-ml-md" />
-      </Button>
+      />
     </Popover>
   );
 };
@@ -287,7 +286,7 @@ export const InventoryHostStalenessPopover = ({
       position="top"
       bodyContent={
         <Flex direction={{ default: 'column' }}>
-          <p className="pf-v5-u-font-size-sm">
+          <p className="pf-v6-u-font-size-sm">
             Configure the number of days it will take for your systems to be
             marked as stale, stale warning, and be deleted.
           </p>
@@ -295,17 +294,17 @@ export const InventoryHostStalenessPopover = ({
             direction={{ default: 'column' }}
             spaceItems={{ default: 'spaceItemsNone' }}
           >
-            <span className="pf-v5-u-font-size-sm">Default settings are:</span>
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">Default settings are:</span>
+            <span className="pf-v6-u-font-size-sm">
               <p>
                 - Systems are marked as stale after 1 day since last check-in.
               </p>
             </span>
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">
               - Systems are marked as stale warning after 7 days since last
               check-in.
             </span>
-            <span className="pf-v5-u-font-size-sm">
+            <span className="pf-v6-u-font-size-sm">
               - Systems are deleted after 14 days since last check-in.
             </span>
           </Flex>
@@ -314,20 +313,20 @@ export const InventoryHostStalenessPopover = ({
               direction={{ default: 'column' }}
               spaceItems={{ default: 'spaceItemsNone' }}
             >
-              <span className="pf-v5-u-font-size-sm">
+              <span className="pf-v6-u-font-size-sm">
                 Default for Immutable systems (OSTree):
               </span>
-              <span className="pf-v5-u-font-size-sm">
+              <span className="pf-v6-u-font-size-sm">
                 <p>
                   - Systems are marked as stale after 2 days since last
                   check-in.
                 </p>
               </span>
-              <span className="pf-v5-u-font-size-sm">
+              <span className="pf-v6-u-font-size-sm">
                 - Systems are marked as stale warning after 180 days since last
                 check-in.
               </span>
-              <span className="pf-v5-u-font-size-sm">
+              <span className="pf-v6-u-font-size-sm">
                 - Systems are deleted after 2 years since last check-in.
               </span>
             </Flex>
@@ -336,12 +335,11 @@ export const InventoryHostStalenessPopover = ({
       }
     >
       <Button
+        icon={<OutlinedQuestionCircleIcon className="pf-v6-u-ml-sm" />}
         variant="plain"
         aria-label="Organization level popover"
         style={{ padding: 0 }}
-      >
-        <OutlinedQuestionCircleIcon className="pf-v5-u-ml-sm" />
-      </Button>
+      />
     </Popover>
   );
 };
