@@ -30,7 +30,7 @@ const fields = [
   'RAM',
 ];
 
-const mock = new MockAdapter(hostInventoryApi.axios, {
+const mock = new MockAdapter(hostInventoryApi().axios, {
   onNoMatch: 'throwException',
 });
 

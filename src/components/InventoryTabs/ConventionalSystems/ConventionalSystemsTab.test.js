@@ -11,7 +11,6 @@ import ConventionalSystemsTab from './ConventionalSystemsTab';
 import { calculatePagination } from './Utilities';
 import { shouldDispatch } from '../../../Utilities/testUtils';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
-import { hostInventoryApi } from '../../../api/hostInventoryApi';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -167,7 +166,7 @@ describe('ConventionalSystemsTab', () => {
   });
 
   it('can delete items', async () => {
-    hostInventoryApi.apiHostDeleteHostById = jest.fn();
+    mock.onDelete().reply(200, { results: [] });
     const selected = new Map();
     selected.set(system1.id, system1);
 
