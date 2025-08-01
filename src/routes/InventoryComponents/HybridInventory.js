@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import '../inventory.scss';
 import HybridInventoryTabs from '../../components/InventoryTabs/HybridInventoryTabs';
 import { Bullseye, Spinner } from '@patternfly/react-core';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getSearchParams } from '../../constants';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { AccountStatContext } from '../../Contexts';
@@ -30,16 +30,18 @@ const SuspenseWrapper = ({ children }) => (
     {children}
   </Suspense>
 );
+
 const HybridInventory = (props) => {
-  const [searchParams] = useSearchParams();
+  const { search } = useLocation();
   const parsedSearchParams = useMemo(
-    () => getSearchParams(searchParams),
-    [searchParams.toString()],
+    () => getSearchParams(new URLSearchParams(search)),
+    [search],
   );
   const fullProps = { ...props, ...parsedSearchParams };
   const isEdgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
   const { hasEdgeDevices, hasConventionalSystems } =
     useContext(AccountStatContext);
+
   return (
     <HybridInventoryTabs
       ConventionalSystemsTab={
