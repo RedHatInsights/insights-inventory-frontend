@@ -47,7 +47,7 @@ SubscriptionCardCore.defaultProps = {
 
 export const SubscriptionCard = connect(
   ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
-    subscriptionFacts: subscriptionsSelector(entity),
+    subscriptionFacts: subscriptionsSelector(entity, systemProfile),
     detailLoaded: systemProfile && systemProfile.loaded,
   }),
 )(SubscriptionCardCore);

@@ -68,10 +68,18 @@ export const collectInfoTest = {
   insights_egg_version: 'test-egg',
 };
 
-export const subscriptionsTest = {
+export const subscriptionsTestFacts = {
   facts: {
     SYSPURPOSE_USAGE: 'Development',
     SYSPURPOSE_SLA: 'Self-Support',
     SYSPURPOSE_ROLE: 'Red Hat Enterprise Linux Server',
+  },
+};
+
+export const subscriptionsTestSystemPurpose = {
+  system_purpose: {
+    usage: 'Development',
+    sla: 'Self-Support',
+    role: 'Red Hat Enterprise Linux Server',
   },
 };

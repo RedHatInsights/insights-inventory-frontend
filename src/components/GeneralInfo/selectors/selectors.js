@@ -8,11 +8,16 @@ function safeParser(toParse, key) {
   }
 }
 
-export const subscriptionsSelector = ({ facts } = {}) => ({
-  usage: facts?.SYSPURPOSE_USAGE,
-  sla: facts?.SYSPURPOSE_SLA,
-  role: facts?.SYSPURPOSE_ROLE,
-});
+export const subscriptionsSelector = (
+  { facts } = {},
+  { system_purpose } = {},
+) => {
+  return {
+    usage: facts?.SYSPURPOSE_USAGE || system_purpose?.usage,
+    sla: facts?.SYSPURPOSE_SLA || system_purpose?.sla,
+    role: facts?.SYSPURPOSE_ROLE || system_purpose?.role,
+  };
+};
 
 export const propertiesSelector = (
   {

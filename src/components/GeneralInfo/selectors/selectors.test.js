@@ -5,6 +5,7 @@ import {
   infrastructureSelector,
   operatingSystem,
   propertiesSelector,
+  subscriptionsSelector,
 } from './selectors';
 import {
   biosTest,
@@ -12,6 +13,8 @@ import {
   configTest,
   infraTest,
   osTest,
+  subscriptionsTestFacts,
+  subscriptionsTestSystemPurpose,
   testProperties,
 } from '../../../__mocks__/selectors';
 
@@ -137,5 +140,21 @@ it('collectionInformationSelector - no data', () => {
   expect(collectionInformationSelector()).toEqual({
     client: undefined,
     egg: undefined,
+  });
+});
+
+it('subscriptionsSelector should return facts data', () => {
+  expect(subscriptionsSelector(subscriptionsTestFacts, {})).toEqual({
+    usage: 'Development',
+    sla: 'Self-Support',
+    role: 'Red Hat Enterprise Linux Server',
+  });
+});
+
+it('subscriptionsSelector should return system_purpose data', () => {
+  expect(subscriptionsSelector({}, subscriptionsTestSystemPurpose)).toEqual({
+    usage: 'Development',
+    sla: 'Self-Support',
+    role: 'Red Hat Enterprise Linux Server',
   });
 });

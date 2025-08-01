@@ -1,9 +1,13 @@
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
-import { subscriptionsTest } from '../../../__mocks__/selectors';
+import {
+  subscriptionsTestFacts,
+  subscriptionsTestSystemPurpose,
+} from '../../../__mocks__/selectors';
 import SubscriptionCard from './SubscriptionCard';
+import '@testing-library/jest-dom';
 
 describe('SubscriptionCard', () => {
   let initialState;
@@ -20,7 +24,7 @@ describe('SubscriptionCard', () => {
       },
       entityDetails: {
         entity: {
-          ...subscriptionsTest,
+          ...subscriptionsTestFacts,
         },
       },
     };
@@ -57,4 +61,21 @@ describe('SubscriptionCard', () => {
       expect(view.asFragment()).toMatchSnapshot();
     }),
   );
+
+  it('should render correctly with subscription system_purpose data', async () => {
+    initialState.systemProfileStore.systemProfile.system_purpose =
+      subscriptionsTestSystemPurpose.system_purpose;
+    initialState.entityDetails.entity.facts = undefined;
+
+    const store = mockStore(initialState);
+    render(
+      <TestWrapper store={store}>
+        <SubscriptionCard />
+      </TestWrapper>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Development')).toBeInTheDocument();
+    });
+  });
 });
