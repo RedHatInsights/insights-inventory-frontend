@@ -66,7 +66,6 @@ import {
   systemTypeFilterReducer,
   systemTypeFilterState,
 } from '../filters';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
@@ -103,6 +102,7 @@ const EntityTableToolbar = ({
   showNoGroupOption,
   enableExport,
   fetchCustomOSes,
+  axios,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -177,19 +177,20 @@ const EntityTableToolbar = ({
       hasAccess,
       showCentosVersions,
       fetchCustomOSes,
+      axios,
     );
   const [
     updateMethodConfig,
     updateMethodChips,
     updateMethodValue,
     setUpdateMethodValue,
-  ] = useUpdateMethodFilter(reducer);
+  ] = useUpdateMethodFilter(reducer, props.edgeParityFilterDeviceEnabled);
 
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+  const isKesselEnabled = props.isKesselFFEnabled;
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
     useGroupFilter(showNoGroupOption, isKesselEnabled);
 
-  const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
+  const isUpdateMethodEnabled = props.isUpdateMethodFFEnabled;
   const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =
     useTagsFilter(
       allTags,
@@ -251,7 +252,6 @@ const EntityTableToolbar = ({
       !(hideFilters.all && hideFilters.systemTypeFilter !== false) &&
       !hideFilters.systemTypeFilter,
   };
-
   const exportConfig = useInventoryExport({
     filters: {
       ...activeFilters,
@@ -265,7 +265,7 @@ const EntityTableToolbar = ({
    */
   const onRefreshDataInner = (options) => {
     if (hasAccess) {
-      onRefreshData(options);
+      onRefreshData({ ...options, options: { axios } });
       if (showTags && !hasItems) {
         dispatch(fetchAllTags(filterTagsBy, {}, getTags));
       }
@@ -723,6 +723,10 @@ EntityTableToolbar.propTypes = {
   enableExport: PropTypes.bool,
   exportConfig: PropTypes.object,
   fetchCustomOSes: PropTypes.func,
+  isKesselFFEnabled: PropTypes.bool,
+  isUpdateMethodFFEnabled: PropTypes.bool,
+  edgeParityFilterDeviceEnabled: PropTypes.bool,
+  axios: PropTypes.func,
 };
 
 EntityTableToolbar.defaultProps = {

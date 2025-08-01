@@ -18,18 +18,20 @@ const JSON_ITEM_TEXT = 'Export all systems to JSON';
  *
  *  @param   {object}   [options]         Options
  *  @param   {object}   [options.filters] (unused) Filters currently active in the InventoryTable and passed along to the export request
+ *  @param   {object}   [options.axios]
  *
  *  @returns {object}                     [exportConfig] An object to pass to exportConfig
  *  @returns {Function}                   [exportConfig.onSelect] onSelect callback for the exportConfig called when a export format is selected
  *
  */
-const useInventoryExport = ({ filters = {} } = {}) => {
+const useInventoryExport = ({ filters = {}, axios } = {}) => {
   const dispatch = useDispatch();
-  const { create } = useExportApi();
+  const { create } = useExportApi(axios);
   const onError = () => {
     dispatch(exportErrorNotifiction());
   };
   const checkForDownload = useExportDownloadCheck({
+    axios,
     onDownloadAvailable: async (exportToDownload) => {
       try {
         await downloadFile(

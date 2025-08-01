@@ -17,9 +17,7 @@ import { loadSystems } from '../../Utilities/sharedFunctions';
 import isEqual from 'lodash/isEqual';
 import { clearErrors, entitiesLoading } from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
-import { useSearchParams } from 'react-router-dom';
 import { ACTION_TYPES } from '../../store/action-types';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 /**
  * A helper function to store props and to always return the latest state.
@@ -85,6 +83,7 @@ const InventoryTable = forwardRef(
       showCentosVersions = false,
       enableExport,
       lastSeenOverride,
+      axios,
       ...props
     },
     ref,
@@ -140,13 +139,7 @@ const InventoryTable = forwardRef(
         : entities?.loaded,
     );
 
-    const [searchParams] = useSearchParams();
-
     const controller = useRef(new AbortController());
-
-    const edgeParityFilterDeviceEnabled = useFeatureFlag(
-      'edgeParity.inventory-list-filter',
-    );
 
     /**
      * If initialLoading is set to true, then the component should be in loading state until
@@ -170,9 +163,7 @@ const InventoryTable = forwardRef(
       };
     }, []);
     const hasLoadEntitiesError =
-      error?.status === 404 &&
-      error?.type === ACTION_TYPES.LOAD_ENTITIES &&
-      parseInt(searchParams.get('page')) !== 1;
+      error?.status === 404 && error?.type === ACTION_TYPES.LOAD_ENTITIES;
     useEffect(() => {
       if (error) {
         if (hasLoadEntitiesError) {
@@ -229,6 +220,7 @@ const InventoryTable = forwardRef(
         ...options,
         globalFilter: cachedProps?.customFilters?.globalFilter,
       };
+      console.log(newParams, 'newParams');
 
       //Check for the rbac permissions
       const cachedParams = cache.current.getParams();
@@ -240,10 +232,11 @@ const InventoryTable = forwardRef(
             dispatch(
               loadSystems(
                 {
+                  axios,
                   ...newParams,
                   ...options,
                   controller: controller.current,
-                  filterImmutableByDefault: edgeParityFilterDeviceEnabled,
+                  filterImmutableByDefault: props.edgeParityFilterDeviceEnabled,
                 },
                 cachedProps.showTags,
                 cachedProps.getEntities,
@@ -254,9 +247,10 @@ const InventoryTable = forwardRef(
           dispatch(
             loadSystems(
               {
+                axios,
                 ...newParams,
                 controller: controller.current,
-                filterImmutableByDefault: edgeParityFilterDeviceEnabled,
+                filterImmutableByDefault: props.edgeParityFilterDeviceEnabled,
               },
               cachedProps.showTags,
               cachedProps.getEntities,
@@ -311,6 +305,11 @@ const InventoryTable = forwardRef(
           }}
           showCentosVersions={showCentosVersions}
           enableExport={enableExport}
+          isUpdateMethodFFEnabled={props.isUpdateMethodFFEnabled}
+          isKesselFFEnabled={props.isKesselFFEnabled}
+          edgeParityFilterDeviceEnabled={props.edgeParityFilterDeviceEnabled}
+          loadChromelessInventory={props.loadChromelessInventory}
+          axios={axios}
         >
           {children}
         </EntityTableToolbar>
@@ -389,6 +388,11 @@ InventoryTable.propTypes = {
   enableExport: PropTypes.bool,
   lastSeenOverride: PropTypes.string,
   columns: PropTypes.array,
+  edgeParityFilterDeviceEnabled: PropTypes.bool,
+  isUpdateMethodFFEnabled: PropTypes.bool,
+  isKesselFFEnabled: PropTypes.bool,
+  loadChromelessInventory: PropTypes.bool,
+  axios: PropTypes.func,
 };
 
 InventoryTable.displayName = 'InventoryTable';

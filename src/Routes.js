@@ -54,7 +54,14 @@ export const Routes = () => {
   );
   const isSystemsTableEnabled = useSystemsTableFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
-
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+  const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
+  const edgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter',
+  );
+  const isLastCheckInEnabled = useFeatureFlag(
+    'hbi.create_last_check_in_update_per_reporter_staleness',
+  );
   useEffect(() => {
     // zero state check
     (async () => {
@@ -162,6 +169,10 @@ export const Routes = () => {
         hasConventionalSystems,
         hasEdgeDevices,
         hasBootcImages,
+        isKesselEnabled,
+        isUpdateMethodEnabled,
+        edgeParityFilterDeviceEnabled,
+        isLastCheckInEnabled,
       }}
     >
       {element}

@@ -213,6 +213,7 @@ export async function getEntities(
       ],
     },
     filterImmutableByDefault = true,
+    axios,
     ...options
   },
   showTags,
@@ -228,6 +229,7 @@ export async function getEntities(
         ...(controller?.signal !== undefined
           ? { signal: controller.signal }
           : {}),
+        axios,
       },
     });
     if (fields && Object.keys(fields).length) {
@@ -239,6 +241,7 @@ export async function getEntities(
             ...(controller?.signal !== undefined
               ? { signal: controller.signal }
               : {}),
+            axios,
             // TODO We should not be doing this, but use the "fields" param of the function
             // We then probably do not need to (ab)use the generateFilter function
             params: generateFilter(fields, 'fields'),
@@ -307,6 +310,7 @@ export async function getEntities(
         ...(controller?.signal !== undefined
           ? { signal: controller.signal }
           : {}),
+        axios,
         params: {
           ...(Object.keys(filterQueryParams).length ? filterQueryParams : {}),
           ...(Object.keys(fieldsQueryParams).length ? fieldsQueryParams : {}),
@@ -356,8 +360,8 @@ export function getAllTags(search, pagination = {}) {
   });
 }
 
-export const getOperatingSystems = async (params = [], showCentosVersions) => {
-  let operatingSystems = await getOperatingSystem(...params);
+export const getOperatingSystems = async (params = {}, showCentosVersions) => {
+  let operatingSystems = await getOperatingSystem(params);
   if (!showCentosVersions) {
     const newResults = operatingSystems.results.filter(
       ({ value }) => !value.name.toLowerCase().startsWith('centos'),

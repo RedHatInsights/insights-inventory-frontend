@@ -2,12 +2,12 @@ import { useCallback } from 'react';
 import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import { EXPORT_SERVICE_PATH } from './constants';
 
-const useExportApi = () => {
-  const axios = useAxiosWithPlatformInterceptors();
+const useExportApi = (axios) => {
+  const platformAxios = useAxiosWithPlatformInterceptors();
 
   const create = useCallback(
     (params, { onSuccess, onError }) =>
-      axios
+      (axios || platformAxios)
         .post(EXPORT_SERVICE_PATH + '/exports', params)
         .then((...args) => {
           onSuccess?.(...args);
@@ -15,12 +15,15 @@ const useExportApi = () => {
         .catch((error) => {
           onError?.(error);
         }),
-    [axios],
+    [axios, platformAxios],
   );
 
   const status = useCallback(
-    (id) => axios.get(EXPORT_SERVICE_PATH + '/exports/' + id + '/status'),
-    [axios],
+    (id) =>
+      (axios || platformAxios).get(
+        EXPORT_SERVICE_PATH + '/exports/' + id + '/status',
+      ),
+    [axios, platformAxios],
   );
 
   return {
