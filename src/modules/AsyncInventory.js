@@ -42,6 +42,49 @@ AsyncInventory.propTypes = {
   innerRef: PropTypes.shape({
     current: PropTypes.any,
   }),
+  actionsConfig: PropTypes.shape({
+    actions: PropTypes.arrayOf(PropTypes.object),
+  }),
+  activeFiltersConfig: PropTypes.shape({
+    deleteTitle: PropTypes.string,
+    filters: PropTypes.arrayOf(PropTypes.object),
+    onDelete: PropTypes.func,
+  }),
+  autoRefresh: PropTypes.bool,
+  axios: PropTypes.func,
+  bulkSelect: PropTypes.shape({
+    toggleProps: PropTypes.object,
+    count: PropTypes.number,
+    isDisabled: PropTypes.bool,
+    items: PropTypes.arrayOf(PropTypes.object),
+    checked: PropTypes.bool,
+  }),
+  className: PropTypes.string,
+  columns: PropTypes.func,
+  customFilters: PropTypes.shape({
+    advisorFilters: PropTypes.object,
+    SID: PropTypes.arrayOf(PropTypes.string),
+  }),
+  exportConfig: PropTypes.bool,
+  getEntities: PropTypes.func,
+  hasCheckbox: PropTypes.bool,
+  hideFilters: PropTypes.shape({
+    all: PropTypes.bool,
+    name: PropTypes.bool,
+    tags: PropTypes.bool,
+    operatingSystem: PropTypes.bool,
+    hostGroupFilter: PropTypes.bool,
+  }),
+  id: PropTypes.string,
+  initialLoading: PropTypes.bool,
+  showTags: PropTypes.bool,
+  tableProps: PropTypes.shape({
+    variant: PropTypes.string,
+    canSelectAll: PropTypes.bool,
+    isStickyHeader: PropTypes.bool,
+    actionResolver: PropTypes.func,
+    onSelect: PropTypes.func,
+  }),
 };
 
 AsyncInventory.defaultProps = {
