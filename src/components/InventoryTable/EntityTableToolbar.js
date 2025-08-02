@@ -669,6 +669,12 @@ const EntityTableToolbar = ({
 };
 
 EntityTableToolbar.propTypes = {
+  className: PropTypes.string,
+  columns: PropTypes.func,
+  'data-testid': PropTypes.string,
+  id: PropTypes.string,
+  store: PropTypes.object,
+  loadChromelessInventory: PropTypes.bool,
   showTags: PropTypes.bool,
   getTags: PropTypes.func,
   hasAccess: PropTypes.bool,
