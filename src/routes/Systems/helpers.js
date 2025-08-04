@@ -12,9 +12,7 @@ const fetchHostTags = async (hosts) => {
   }
 };
 
-export const fetchTags = async (...args) => {
-  console.log('args tags', ...args);
-
+export const fetchTags = async () => {
   return await getTags();
 };
 
