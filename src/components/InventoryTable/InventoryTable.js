@@ -1,6 +1,7 @@
 import React, {
   Fragment,
   forwardRef,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -18,6 +19,7 @@ import isEqual from 'lodash/isEqual';
 import { clearErrors, entitiesLoading } from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
 import { ACTION_TYPES } from '../../store/action-types';
+import { AccountStatContext } from '../../Contexts';
 
 /**
  * A helper function to store props and to always return the latest state.
@@ -112,6 +114,7 @@ const InventoryTable = forwardRef(
       perPage,
       total,
     };
+    const statContext = useContext(AccountStatContext);
 
     const columns = lastSeenOverride
       ? props?.columns?.map((col) =>
@@ -236,7 +239,9 @@ const InventoryTable = forwardRef(
                   ...newParams,
                   ...options,
                   controller: controller.current,
-                  filterImmutableByDefault: props.edgeParityFilterDeviceEnabled,
+                  filterImmutableByDefault: props.loadChromelessInventory
+                    ? false
+                    : statContext.edgeParityFilterDeviceEnabled,
                 },
                 cachedProps.showTags,
                 cachedProps.getEntities,
@@ -250,7 +255,9 @@ const InventoryTable = forwardRef(
                 axios,
                 ...newParams,
                 controller: controller.current,
-                filterImmutableByDefault: props.edgeParityFilterDeviceEnabled,
+                filterImmutableByDefault: props.loadChromelessInventory
+                  ? false
+                  : statContext.edgeParityFilterDeviceEnabled,
               },
               cachedProps.showTags,
               cachedProps.getEntities,
@@ -305,9 +312,21 @@ const InventoryTable = forwardRef(
           }}
           showCentosVersions={showCentosVersions}
           enableExport={enableExport}
-          isUpdateMethodFFEnabled={props.isUpdateMethodFFEnabled}
-          isKesselFFEnabled={props.isKesselFFEnabled}
-          edgeParityFilterDeviceEnabled={props.edgeParityFilterDeviceEnabled}
+          isUpdateMethodFFEnabled={
+            props.loadChromelessInventory
+              ? false
+              : statContext.isUpdateMethodFFEnabled
+          }
+          isKesselFFEnabled={
+            props.loadChromelessInventory
+              ? false
+              : statContext.isKesselFFEnabled
+          }
+          edgeParityFilterDeviceEnabled={
+            props.loadChromelessInventory
+              ? false
+              : statContext.edgeParityFilterDeviceEnabled
+          }
           loadChromelessInventory={props.loadChromelessInventory}
           axios={axios}
         >
@@ -388,9 +407,6 @@ InventoryTable.propTypes = {
   enableExport: PropTypes.bool,
   lastSeenOverride: PropTypes.string,
   columns: PropTypes.array,
-  edgeParityFilterDeviceEnabled: PropTypes.bool,
-  isUpdateMethodFFEnabled: PropTypes.bool,
-  isKesselFFEnabled: PropTypes.bool,
   loadChromelessInventory: PropTypes.bool,
   axios: PropTypes.func,
 };
