@@ -9,7 +9,7 @@ import { systemProfile } from '../../../store/actions';
 import InfoTable from '../InfoTable';
 // Since there's a problem with cards loading asynchronously we have to import the cards here as named
 import { OperatingSystemCard } from '../OperatingSystemCard';
-import { SystemCard } from '../SystemCard';
+import SystemCard from '../SystemCard';
 import { BiosCard } from '../BiosCard';
 import { BootcImageCard } from '../BootcImageCard';
 import { InfrastructureCard } from '../InfrastructureCard';
