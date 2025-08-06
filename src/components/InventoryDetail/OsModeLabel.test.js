@@ -2,9 +2,6 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import OsModeLabel from './OsModeLabel';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
-
-jest.mock('../../Utilities/useFeatureFlag');
 
 describe('OsModeLabel', () => {
   afterEach(() => {
@@ -13,16 +10,6 @@ describe('OsModeLabel', () => {
 
   const testCases = [
     {
-      flagEnabled: true,
-      description: 'when feature flag is enabled',
-      modes: [
-        { osMode: 'package', expectedText: 'Package mode' },
-        { osMode: 'image', expectedText: 'Image mode' },
-        { osMode: undefined, expectedText: 'Package mode' }, // Default case
-      ],
-    },
-    {
-      flagEnabled: false,
       description: 'when feature flag is disabled',
       modes: [
         { osMode: 'package', expectedText: 'Package-based' },
@@ -32,11 +19,7 @@ describe('OsModeLabel', () => {
     },
   ];
 
-  describe.each(testCases)('$description', ({ flagEnabled, modes }) => {
-    beforeEach(() => {
-      useFeatureFlag.mockImplementation(() => flagEnabled);
-    });
-
+  describe.each(testCases)('$description', ({ modes }) => {
     test.each(modes)(
       'should render $expectedText for osMode: "$osMode"',
       ({ osMode, expectedText }) => {
