@@ -19,7 +19,7 @@ export IQE_MARKER_EXPRESSION="ui and smoke"
 export IQE_ENV="ephemeral"
 export IQE_SELENIUM="true"
 export IQE_CJI_TIMEOUT="30m"
-export REF_ENV="insights-stage"
+export REF_ENV="insights-production"
 
 
 # Install bonfire repo/initialize
