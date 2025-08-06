@@ -23,7 +23,7 @@ import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 import { hostInventoryApi } from '../../../api/hostInventoryApi';
 
-const mock = new MockAdapter(hostInventoryApi.axios, {
+const mock = new MockAdapter(hostInventoryApi().axios, {
   onNoMatch: 'throwException',
 });
 

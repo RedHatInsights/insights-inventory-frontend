@@ -295,9 +295,7 @@ export const InventoryHostStalenessPopover = ({
             direction={{ default: 'column' }}
             spaceItems={{ default: 'spaceItemsNone' }}
           >
-            <span className="pf-v5-u-font-size-sm">
-              Default for Conventional systems (RPM-DNF):
-            </span>
+            <span className="pf-v5-u-font-size-sm">Default settings are:</span>
             <span className="pf-v5-u-font-size-sm">
               <p>
                 - Systems are marked as stale after 1 day since last check-in.

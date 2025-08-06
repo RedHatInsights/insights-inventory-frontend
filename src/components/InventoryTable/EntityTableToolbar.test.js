@@ -607,6 +607,9 @@ describe('EntityTableToolbar', () => {
           filters: [{ filter: '', value: 'hostname_or_id' }],
           page: 1,
           perPage: 50,
+          options: {
+            axios: undefined,
+          },
         });
       });
 
@@ -637,13 +640,19 @@ describe('EntityTableToolbar', () => {
             name: /close test/i,
           }),
         );
+
         expect(onRefreshData).toHaveBeenCalledWith({
-          filters: [{ filter: '', value: 'hostname_or_id' }],
+          filters: [
+            { filter: '', value: 'hostname_or_id' },
+            { staleFilter: [] },
+          ],
           page: 1,
           perPage: 50,
+          options: {
+            axios: undefined,
+          },
         });
       });
-
       it('should remove tag filter', async () => {
         debounce.mockImplementation((fn) => fn);
         onRefreshData.mockClear();
@@ -695,6 +704,9 @@ describe('EntityTableToolbar', () => {
           filters: [{ tagFilters: [] }],
           page: 1,
           perPage: 50,
+          options: {
+            axios: undefined,
+          },
         });
       });
 
@@ -722,7 +734,13 @@ describe('EntityTableToolbar', () => {
         expect(actions[actions.length - 2]).toMatchObject({
           type: 'CLEAR_FILTERS',
         });
-        expect(onRefreshData).toHaveBeenCalledWith({ filters: [], page: 1 });
+        expect(onRefreshData).toHaveBeenCalledWith({
+          filters: [],
+          page: 1,
+          options: {
+            axios: undefined,
+          },
+        });
       });
 
       it('should call function on delete filter', async () => {

@@ -30,6 +30,40 @@ We use Jest with React Testing Library to write unit tests. For larger pieces of
 
 Before opening a pull request, you can run `npm run verify:local` to make sure your changes pass automated tests (Jest and Cypress) and linter (both JS and CSS linters). We also execute [husky](https://typicode.github.io/husky/) hooks with every commit to make sure the changes pass basic lint checks.
 
+## Testing with Playwright
+
+Copy the example env file (`playwright_example.env`) and create a file named:.env For local development only the BASE_URL:https://stage.foo.redhat.com:1337 is required, which is already set in the example config.
+You also need to add the username and password of your Stage testing account to the .env file.
+
+Install the test runner
+`npm install --save-dev @playwright/test`
+
+Install Playwright browsers and dependencies 
+`npx playwright install`
+
+OR
+
+If using any OS other than Fedora/Rhel (i.e., Mac, Ubuntu Linux):
+
+`npx playwright install  --with-deps`
+
+## Proxy setup to execute the test case using the local frontend : [consoledot-testing-proxy](https://github.com/dvagner/consoledot-testing-proxy)
+```
+ podman run -d -e HTTPS_PROXY=$RH_PROXY_URL -p 1337:1337 -v "$(pwd)/config:/config:ro,Z" --replace --name consoledot-testing-proxy quay.io/dvagner/consoledot-testing-proxy
+```
+
+`npx playwright test` will run the complete playwright test suite.
+
+`npx playwright test --headed` will run the complete suite in a vnc-like browser so you can watch its interactions.
+
+**Run the complete test file:**
+
+`npx playwright test test_navigation.test.ts`
+
+**Run a single test:**
+
+`npx playwright test test_navigation.test.ts -g "User can navigate to the workspaces page via the menu"`
+
 ## Commit conventions
 
 In order to keep our commits style consistent and the commits history easy to read, we utilize [semantic-release](https://github.com/semantic-release/semantic-release) which follows [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format). Also, there is a commitlint check run on all branches which ensures that all the commits meet the expected format (`<type>(<scope>): <short summary>`). Following this standard and specifying at least the type and summary for each commit helps to automatically generate a changelog of changes.

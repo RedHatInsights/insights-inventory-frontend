@@ -20,20 +20,20 @@ export const REPORTER_RHSM_PROFILE_BRIDGE = 'rhsm-system-profile-bridge';
 export const APP_NAME_VULNERABILITY = 'vulnerabilities';
 export const APP_NAME_ADVISOR = 'advisor';
 export const APP_NAME_PATCH = 'patch';
+// HOST_TYPE
+export const TYPE_CONVENTIONAL = '=conventional';
+export const TYPE_EDGE = '=edge';
+export const TYPE_BOOTC = '=bootc';
 
 export const INVENTORY_TOTAL_FETCH_URL_SERVER = '/api/inventory/v1/hosts';
 export const INVENTORY_TOTAL_FETCH_EDGE_PARAMS =
   '?filter[system_profile][host_type]=edge&page=1&per_page=1';
 export const INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS = '?page=1&per_page=1';
-export const INVENTORY_FETCH_BOOTC_PARAMS =
-  '?filter[system_profile][bootc_status][booted][image_digest][is]';
-export const INVENTORY_FETCH_BOOTC = `${INVENTORY_FETCH_BOOTC_PARAMS}=not_nil`;
-export const INVENTORY_FETCH_NON_BOOTC = `${INVENTORY_FETCH_BOOTC_PARAMS}=nil`;
-export const INVENTORY_TOTAL_FETCH_BOOTC_PARAMS = `${INVENTORY_FETCH_BOOTC}&per_page=1`;
-export const INVENTORY_FILTER_NO_HOST_TYPE =
-  'filter[system_profile][host_type]=nil';
-export const INVENTORY_TOTAL_FETCH_EDGE_TYPE =
-  '?filter[system_profile][host_type]=edge';
+export const INVENTORY_PACKAGE_BASED_SYSTEMS = `?${SYSTEM_TYPE_KEY}${TYPE_CONVENTIONAL}`;
+export const INVENTORY_IMAGE_BASED_SYSTEMS = `?${SYSTEM_TYPE_KEY}${TYPE_BOOTC}&${SYSTEM_TYPE_KEY}${TYPE_EDGE}`;
+export const INVENTORY_FETCH_BOOTC = `?${SYSTEM_TYPE_KEY}${TYPE_BOOTC}`;
+export const INVENTORY_FETCH_EDGE = `?${SYSTEM_TYPE_KEY}${TYPE_EDGE}`;
+
 export function subtractDate(days) {
   const date = new Date();
   date.setDate(date.getDate() - days);
@@ -127,11 +127,13 @@ export const updateMethodOptions = initUpdateMethodOptions;
 export const systemTypeOptions = [
   {
     label: 'Package-based system',
-    value: 'nil',
+    value: 'conventional',
+    packageBasedValues: ['conventional'],
   },
   {
     label: 'Image-based system',
-    value: 'not_nil',
+    value: 'bootc',
+    imageBasedValues: ['bootc', 'edge'],
   },
 ];
 

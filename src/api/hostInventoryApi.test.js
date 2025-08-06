@@ -2,7 +2,7 @@ import { hostInventoryApi } from './hostInventoryApi';
 
 describe('APIFactory', () => {
   it('should return an object with the expected functions', () => {
-    expect(hostInventoryApi).toEqual(
+    expect(hostInventoryApi()).toEqual(
       expect.objectContaining({
         apiHostGetHostSystemProfileById: expect.any(Function),
         apiHostGetHostTags: expect.any(Function),

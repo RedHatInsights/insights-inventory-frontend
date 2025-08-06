@@ -7,8 +7,7 @@ import mockedBootCStatusData from '../../__mocks__/mockedBootCStatusData.json';
 import {
   INVENTORY_TOTAL_FETCH_URL_SERVER,
   INVENTORY_FETCH_BOOTC,
-  INVENTORY_FETCH_NON_BOOTC,
-  INVENTORY_FILTER_NO_HOST_TYPE,
+  INVENTORY_PACKAGE_BASED_SYSTEMS,
 } from '../../Utilities/constants';
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/interceptors');
@@ -32,7 +31,7 @@ describe('BifrostPage', () => {
     );
 
     expect(axiosMock).toHaveBeenCalledWith(
-      `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_NON_BOOTC}&${INVENTORY_FILTER_NO_HOST_TYPE}&per_page=1`,
+      `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_PACKAGE_BASED_SYSTEMS}&per_page=1`,
     );
   });
 });

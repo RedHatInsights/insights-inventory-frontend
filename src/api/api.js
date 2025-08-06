@@ -145,14 +145,7 @@ const buildOperatingSystemFilter = (osFilterState = {}) => {
 };
 
 export const calculateSystemProfile = (
-  {
-    osFilter,
-    rhcdFilter,
-    updateMethodFilter,
-    hostTypeFilter,
-    system_profile,
-    systemTypeFilter,
-  },
+  { osFilter, rhcdFilter, updateMethodFilter, hostTypeFilter, system_profile },
   filterImmutable = true,
 ) => {
   const operating_system = buildOperatingSystemFilter(osFilter);
@@ -169,17 +162,6 @@ export const calculateSystemProfile = (
       : {}),
     ...(rhcdFilter ? { [RHCD_FILTER_KEY]: rhcdFilter } : {}),
     ...(Object.keys(operating_system).length ? { operating_system } : {}),
-    ...(systemTypeFilter?.length
-      ? {
-          bootc_status: {
-            booted: {
-              image_digest: {
-                is: systemTypeFilter,
-              },
-            },
-          },
-        }
-      : {}),
   };
 
   return Object.keys(newSystemProfile).length
@@ -231,6 +213,7 @@ export async function getEntities(
       ],
     },
     filterImmutableByDefault = true,
+    axios,
     ...options
   },
   showTags,
@@ -246,6 +229,7 @@ export async function getEntities(
         ...(controller?.signal !== undefined
           ? { signal: controller.signal }
           : {}),
+        axios,
       },
     });
     if (fields && Object.keys(fields).length) {
@@ -257,6 +241,7 @@ export async function getEntities(
             ...(controller?.signal !== undefined
               ? { signal: controller.signal }
               : {}),
+            axios,
             // TODO We should not be doing this, but use the "fields" param of the function
             // We then probably do not need to (ab)use the generateFilter function
             params: generateFilter(fields, 'fields'),
@@ -320,10 +305,12 @@ export async function getEntities(
         ...(options?.globalFilter?.tags || []),
       ],
       registeredWith: filters?.registeredWithFilter,
+      systemType: filters?.systemTypeFilter,
       options: {
         ...(controller?.signal !== undefined
           ? { signal: controller.signal }
           : {}),
+        axios,
         params: {
           ...(Object.keys(filterQueryParams).length ? filterQueryParams : {}),
           ...(Object.keys(fieldsQueryParams).length ? fieldsQueryParams : {}),
@@ -373,8 +360,8 @@ export function getAllTags(search, pagination = {}) {
   });
 }
 
-export const getOperatingSystems = async (params = [], showCentosVersions) => {
-  let operatingSystems = await getOperatingSystem(...params);
+export const getOperatingSystems = async (params = {}, showCentosVersions) => {
+  let operatingSystems = await getOperatingSystem(params);
   if (!showCentosVersions) {
     const newResults = operatingSystems.results.filter(
       ({ value }) => !value.name.toLowerCase().startsWith('centos'),

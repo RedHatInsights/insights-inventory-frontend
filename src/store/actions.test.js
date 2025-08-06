@@ -9,7 +9,7 @@ import mockedGroups from '../__mocks__/mockedGroups.json';
 import MockAdapter from 'axios-mock-adapter';
 import { hostInventoryApi } from '../api/hostInventoryApi';
 
-const mocked = new MockAdapter(hostInventoryApi.axios);
+const mocked = new MockAdapter(hostInventoryApi().axios);
 
 describe('systemProfile', () => {
   it('should return correct redux action', async () => {

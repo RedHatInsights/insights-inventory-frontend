@@ -2,6 +2,7 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
+import useSystemsTableFeatureFlag from './routes/Systems/components/SystemsTable/hooks/useSystemsTableFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
@@ -20,6 +21,8 @@ const InventoryOrEdgeView = lazy(
   () => import('./routes/InventoryOrEdgeComponent'),
 );
 const InventoryTable = lazy(() => import('./routes/InventoryPage'));
+const Systems = lazy(() => import('./routes/Systems'));
+
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryHostStaleness = lazy(
   () => import('./routes/InventoryHostStaleness'),
@@ -49,9 +52,16 @@ export const Routes = () => {
   const edgeParityInventoryListEnabled = useFeatureFlag(
     'edgeParity.inventory-list',
   );
-
+  const isSystemsTableEnabled = useSystemsTableFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
-
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+  const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
+  const edgeParityFilterDeviceEnabled = useFeatureFlag(
+    'edgeParity.inventory-list-filter',
+  );
+  const isLastCheckInEnabled = useFeatureFlag(
+    'hbi.create_last_check_in_update_per_reporter_staleness',
+  );
   useEffect(() => {
     // zero state check
     (async () => {
@@ -82,7 +92,11 @@ export const Routes = () => {
   let element = useRoutes([
     {
       path: '/',
-      element: <RenderWrapper cmp={InventoryTable} />,
+      element: isSystemsTableEnabled ? (
+        <Systems />
+      ) : (
+        <RenderWrapper cmp={InventoryTable} />
+      ),
     },
     { path: '/:inventoryId', element: <InventoryDetail /> },
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
@@ -155,6 +169,10 @@ export const Routes = () => {
         hasConventionalSystems,
         hasEdgeDevices,
         hasBootcImages,
+        isKesselEnabled,
+        isUpdateMethodEnabled,
+        edgeParityFilterDeviceEnabled,
+        isLastCheckInEnabled,
       }}
     >
       {element}
