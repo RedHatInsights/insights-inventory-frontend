@@ -2,6 +2,9 @@
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags, getTags } from '../../api/hostInventoryApi';
 import defaultColumns from './components/SystemsTable/columns';
+import defaultFilters, {
+  CUSTOM_FILTER_TYPES,
+} from './components/SystemsTable/filters';
 
 const fetchHostTags = async (hosts) => {
   if (hosts.length) {
@@ -52,5 +55,16 @@ export const resolveColumns = (columns) => {
     return columns(defaultColumns);
   } else {
     return columns;
+  }
+};
+
+export const resolveFilters = (filters) => {
+  if (typeof filters === 'function') {
+    return filters({
+      customFilterTypes: CUSTOM_FILTER_TYPES,
+      filterConfig: defaultFilters,
+    });
+  } else {
+    return filters;
   }
 };

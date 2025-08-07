@@ -10,6 +10,12 @@ jest.mock('bastilian-tabletools', () => ({
   )),
 }));
 
+// Mock the filters module to break the circular dependency
+jest.mock('./filters', () => ({
+  CUSTOM_FILTER_TYPES: {},
+  default: [],
+}));
+
 jest.mock('../../helpers.js', () => {
   const actual = jest.requireActual('../../helpers.js');
   return {
@@ -87,6 +93,30 @@ describe('SystemsTable', () => {
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
         columns: columns,
+      }),
+      expect.anything(),
+    );
+  });
+
+  it('should pass filters object', () => {
+    const filters = { filterConfig: [{}, {}, {}], customeFilterTypes: {} };
+
+    render(<SystemsTable filters={filters} />);
+    expect(TableToolsTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        filters: filters,
+      }),
+      expect.anything(),
+    );
+  });
+
+  it('should pass filters object, when filters fn is received', () => {
+    const filters = { filterConfig: [{}, {}, {}], customeFilterTypes: {} };
+
+    render(<SystemsTable filters={() => filters} />);
+    expect(TableToolsTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        filters: filters,
       }),
       expect.anything(),
     );
