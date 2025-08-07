@@ -10,7 +10,7 @@ export const CUSTOM_FILTER_TYPES = {
   },
 };
 
-const displayName = {
+export const displayName = {
   type: 'text',
   label: 'Name',
   filterSerialiser: (_config, [value]) => ({
@@ -18,7 +18,7 @@ const displayName = {
   }),
 };
 
-const statusFilter = {
+export const statusFilter = {
   label: 'Status',
   type: 'checkbox',
   items: [
@@ -31,7 +31,7 @@ const statusFilter = {
   }),
 };
 
-const dataCollector = {
+export const dataCollector = {
   label: 'Data collector',
   type: 'checkbox',
   items: [
@@ -52,7 +52,7 @@ const dataCollector = {
   }),
 };
 
-const rhcStatus = {
+export const rhcStatus = {
   label: 'RHC status',
   type: 'checkbox',
   items: [
@@ -61,7 +61,7 @@ const rhcStatus = {
   ],
 };
 
-const tags = {
+export const tags = {
   label: 'Tags',
   type: 'group',
   groups: async () => {
