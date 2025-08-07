@@ -8,14 +8,14 @@ import Tags from './components/columns/Tags';
 import OperatingSystem from './components/columns/OperatingSystem';
 import LastSeen from './components/columns/LastSeen';
 
-const displayName = {
+export const displayName = {
   key: 'display_name',
   sortable: 'display_name',
   title: 'Name',
   Component: DisplayName,
 };
 
-const workspace = {
+export const workspace = {
   key: 'groups',
   sortable: 'group_name',
   title: 'Workspace',
@@ -24,14 +24,14 @@ const workspace = {
   transforms: [fitContent],
 };
 
-const tags = {
+export const tags = {
   key: 'tags',
   title: 'Tags',
   props: { width: 10 },
   Component: Tags,
 };
 
-const operatingSystem = {
+export const operatingSystem = {
   key: 'system_profile',
   sortable: 'operating_system',
   // Is that for export?
@@ -45,7 +45,7 @@ const operatingSystem = {
   props: { width: 10 },
 };
 
-const lastSeen = {
+export const lastSeen = {
   key: 'updated',
   sortable: 'updated',
   dataLabel: 'Last seen',
