@@ -96,4 +96,28 @@ describe('SystemsTable', () => {
       expect.anything(),
     );
   });
+
+  it('should pass filters object', () => {
+    const filters = { filterConfig: [{}, {}, {}], customeFilterTypes: {} };
+
+    render(<SystemsTable filters={filters} />);
+    expect(TableToolsTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        filters: filters,
+      }),
+      expect.anything(),
+    );
+  });
+
+  it('should pass filters object, when filters fn is received', () => {
+    const filters = { filterConfig: [{}, {}, {}], customeFilterTypes: {} };
+
+    render(<SystemsTable filters={() => filters} />);
+    expect(TableToolsTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        filters: filters,
+      }),
+      expect.anything(),
+    );
+  });
 });
