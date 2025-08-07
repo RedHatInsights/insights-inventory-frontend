@@ -8,6 +8,7 @@ import {
   paginationSerialiser,
 } from './serialisers';
 import * as defaultColumns from './components/SystemsTable/columns';
+import * as defaultFilters from './components/SystemsTable/filters';
 
 const Systems = () => (
   <>
@@ -21,6 +22,16 @@ const Systems = () => (
           defaultColumns.operatingSystem,
           defaultColumns.lastSeen,
         ]}
+        filters={{
+          filterConfig: [
+            defaultFilters.displayName,
+            defaultFilters.statusFilter,
+            defaultFilters.dataCollector,
+            defaultFilters.rhcStatus,
+            defaultFilters.tags,
+          ],
+          customFilterTypes: defaultFilters.CUSTOM_FILTER_TYPES,
+        }}
         options={{
           // FIXME: remove debug
           debug: true,
