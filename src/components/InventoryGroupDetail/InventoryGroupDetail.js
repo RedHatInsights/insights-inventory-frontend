@@ -103,7 +103,7 @@ const InventoryGroupDetail = ({ groupId }) => {
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
       {canViewGroup ? (
-        <PageSection variant="light" type="tabs">
+        <PageSection hasBodyWrapper={false} type="tabs">
           <GroupTabDetails
             groupId={groupId}
             groupName={groupName}
@@ -114,7 +114,7 @@ const InventoryGroupDetail = ({ groupId }) => {
           />
         </PageSection>
       ) : (
-        <PageSection>
+        <PageSection hasBodyWrapper={false}>
           <EmptyStateNoAccessToGroups isSingle />
         </PageSection>
       )}
@@ -123,7 +123,7 @@ const InventoryGroupDetail = ({ groupId }) => {
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
       {canViewGroup ? (
-        <PageSection variant="light" type="tabs">
+        <PageSection hasBodyWrapper={false} type="tabs">
           <Tabs
             activeKey={activeTabKey}
             onSelect={(_event, value) => setActiveTabKey(value)}
@@ -132,7 +132,7 @@ const InventoryGroupDetail = ({ groupId }) => {
             inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
           >
             <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
-              <PageSection>
+              <PageSection hasBodyWrapper={false}>
                 {canViewHosts ? (
                   <GroupSystems
                     groupName={groupName}
@@ -150,7 +150,7 @@ const InventoryGroupDetail = ({ groupId }) => {
               aria-label="Workspace info tab"
             >
               {activeTabKey === 1 && ( // helps to lazy load the component
-                <PageSection>
+                <PageSection hasBodyWrapper={false}>
                   <Suspense
                     fallback={
                       <Bullseye>
@@ -166,7 +166,7 @@ const InventoryGroupDetail = ({ groupId }) => {
           </Tabs>
         </PageSection>
       ) : (
-        <PageSection>
+        <PageSection hasBodyWrapper={false}>
           <EmptyStateNoAccessToGroups isSingle />
         </PageSection>
       )}

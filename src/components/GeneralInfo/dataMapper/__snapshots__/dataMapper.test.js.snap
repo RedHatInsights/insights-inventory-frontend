@@ -7,7 +7,7 @@ exports[`should return DOWN 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="pf-v5-svg ins-c-inventory__detail--down"
+      class="pf-v6-svg ins-c-inventory__detail--down"
       fill="currentColor"
       height="1em"
       role="img"
@@ -29,7 +29,7 @@ exports[`should return UP 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="pf-v5-svg ins-c-inventory__detail--up"
+      class="pf-v6-svg ins-c-inventory__detail--up"
       fill="currentColor"
       height="1em"
       role="img"
@@ -51,7 +51,7 @@ exports[`should return false 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="pf-v5-svg ins-c-inventory__detail--disabled"
+      class="pf-v6-svg ins-c-inventory__detail--disabled"
       fill="currentColor"
       height="1em"
       role="img"
@@ -73,7 +73,7 @@ exports[`should return true 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="pf-v5-svg ins-c-inventory__detail--enabled"
+      class="pf-v6-svg ins-c-inventory__detail--enabled"
       fill="currentColor"
       height="1em"
       role="img"

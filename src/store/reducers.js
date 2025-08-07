@@ -9,11 +9,9 @@ import {
 import systemProfileStore from './systemProfileStore';
 import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
-import { notificationsReducer } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import entitiesReducer, { defaultState as entitiesDefault } from './entities';
 import entityDetailsReducer, {
   entityDefaultState as entityDefault,
-  updateEntity,
 } from './entityDetails';
 import groups from './groups';
 import groupDetail from './groupDetail';
@@ -71,10 +69,17 @@ function entityDeleted(state, { meta }) {
   const selected = state.selected || new Map();
   meta.systems.forEach((id) => selected.delete(id));
 
+  meta.notifications.fulfilled();
+
   return {
     ...state,
     selected: new Map(selected),
   };
+}
+
+function entityDeleteRejected(state, { meta }) {
+  meta.notifications.rejected();
+  return state;
 }
 
 function onEntitiesLoaded(state, { payload, meta }) {
@@ -126,7 +131,6 @@ function onSetSort(state, { payload }) {
 }
 
 let reducers = {
-  notifications: notificationsReducer,
   systemProfileStore,
   groups,
   groupDetail,
@@ -137,12 +141,12 @@ export const tableReducer = applyReducerHash(
     [ACTION_TYPES.GET_ENTITIES_FULFILLED]: entitiesLoaded,
     [INVENTORY_ACTION_TYPES.LOAD_ENTITIES_FULFILLED]: onEntitiesLoaded,
     [`${ACTION_TYPES.REMOVE_ENTITY}_FULFILLED`]: entityDeleted,
+    [`${ACTION_TYPES.REMOVE_ENTITY}_REJECTED`]: entityDeleteRejected,
     [SELECT_ENTITY]: entitySelected,
     FILTER_SELECT: (state) => ({ ...state, selected: {} }),
     [SET_INVENTORY_FILTER]: onSetFilter,
     [SET_PAGINATION]: onSetPagination,
     [SET_SORT]: onSetSort,
-    [ACTION_TYPES.UPDATE_DISPLAY_NAME_FULFILLED]: updateEntity,
   },
   defaultState,
 );

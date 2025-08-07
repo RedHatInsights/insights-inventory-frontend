@@ -51,7 +51,7 @@ describe('Table Renders', () => {
     const menuToggleButtons = await waitFor(() =>
       screen
         .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
+        .filter((button) => button.classList.contains('pf-v6-c-menu-toggle')),
     );
 
     menuToggleButtons.forEach((button) => expect(button).toBeDisabled());
@@ -66,7 +66,7 @@ describe('Table Renders', () => {
     const menuToggleButtons = await waitFor(() =>
       screen
         .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
+        .filter((button) => button.classList.contains('pf-v6-c-menu-toggle')),
     );
 
     menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
@@ -89,7 +89,7 @@ describe('Table Renders', () => {
     const menuToggleButtons = await waitFor(() =>
       screen
         .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
+        .filter((button) => button.classList.contains('pf-v6-c-menu-toggle')),
     );
 
     menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
@@ -120,7 +120,7 @@ describe('Table Renders', () => {
     const menuToggleButtons = await waitFor(() =>
       screen
         .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
+        .filter((button) => button.classList.contains('pf-v6-c-menu-toggle')),
     );
 
     menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
@@ -148,26 +148,31 @@ describe('Table Renders', () => {
     await screen.findByRole('button', { name: 'Edit' });
     await userEvent.click(screen.getByRole('button', { name: 'Edit' }));
 
-    const menuToggleButtons = await waitFor(() =>
-      screen
-        .getAllByRole('button')
-        .filter((button) => button.classList.contains('pf-v5-c-menu-toggle')),
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /1 day/i,
+      }),
     );
-
-    menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
-    await userEvent.click(menuToggleButtons[0]);
     const option1 = screen.getByRole('option', {
       name: /2 days/i,
     });
     await userEvent.click(option1);
 
-    await userEvent.click(menuToggleButtons[1]);
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /7 days/i,
+      }),
+    );
     const option2 = screen.getByRole('option', {
       name: /6 days/i,
     });
     await userEvent.click(option2);
 
-    await userEvent.click(menuToggleButtons[2]);
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: /14 days/i,
+      }),
+    );
     const option3 = screen.getByRole('option', {
       name: /21 days/i,
     });

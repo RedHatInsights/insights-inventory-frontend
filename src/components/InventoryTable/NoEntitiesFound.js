@@ -4,10 +4,8 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
-  EmptyStateIcon,
   EmptyStateVariant,
   EmptyStateActions,
-  EmptyStateHeader,
   EmptyStateFooter,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
@@ -21,16 +19,14 @@ import { SearchIcon } from '@patternfly/react-icons';
  */
 const NoEntitiesFound = ({ entities, onClearAll, showIcon }) => (
   <EmptyState
+    headingLevel="h5"
+    titleText={<>{`No matching ${entities} found`}</>}
     variant={EmptyStateVariant.full}
     data-ouia-component-id="empty-state"
-    data-ouia-component-type="PF5/EmptyState"
+    data-ouia-component-type="PF6/EmptyState"
     data-ouia-safe={true}
+    icon={showIcon && SearchIcon}
   >
-    {showIcon && <EmptyStateIcon icon={SearchIcon} />}
-    <EmptyStateHeader
-      titleText={<>{`No matching ${entities} found`}</>}
-      headingLevel="h5"
-    />
     <EmptyStateBody>
       To continue, edit your filter settings and try again
     </EmptyStateBody>

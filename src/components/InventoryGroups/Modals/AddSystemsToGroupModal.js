@@ -6,6 +6,9 @@ import {
   FlexItem,
   Label,
   Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Tab,
   TabTitleText,
   Tabs,
@@ -13,21 +16,16 @@ import {
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import React, { useCallback, useContext, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  clearFilters,
-  fetchGroupDetail,
-  selectEntity,
-} from '../../../store/inventory-actions';
+import { useSelector } from 'react-redux';
+import { fetchGroupDetail } from '../../../store/inventory-actions';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
-import apiWithToast from '../utils/apiWithToast';
+import useApiWithToast from '../utils/apiWithToast';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import ImmutableDevicesView from '../../InventoryTabs/ImmutableDevices/EdgeDevicesView';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
-import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { hybridInventoryTabKeys } from '../../../Utilities/constants';
 import { AccountStatContext } from '../../../Contexts';
@@ -41,7 +39,7 @@ const AddSystemsToGroupModal = ({
   groupName,
   activeTab,
 }) => {
-  const dispatch = useDispatch();
+  const apiWithToast = useApiWithToast();
 
   const selected = useSelector(
     (state) => state?.entities?.selected || new Map(),
@@ -91,24 +89,10 @@ const AddSystemsToGroupModal = ({
           } to ${groupName || groupId}`,
         },
       };
-      return apiWithToast(
-        dispatch,
-        () => addHostsToGroupById(groupId, hostIds),
-        statusMessages,
-      );
+      apiWithToast(() => addHostsToGroupById(groupId, hostIds), statusMessages);
     },
     [isModalOpen],
   );
-
-  const numOfSelectedSystems = selected ? selected.size : 0;
-
-  const handleModalClose = () => {
-    if (numOfSelectedSystems > 0) {
-      dispatch(selectEntity(-1, false));
-    }
-    dispatch(clearFilters());
-    setIsModalOpen(false);
-  };
 
   const edgeParityInventoryListEnabled = useFeatureFlag(
     'edgeParity.inventory-list',
@@ -197,9 +181,9 @@ const AddSystemsToGroupModal = ({
   );
 
   const handleAddSystemsButton = async () => {
-    await handleSystemAddition(overallSelectedKeys);
-    dispatch(fetchGroupDetail(groupId));
-    handleModalClose();
+    setIsModalOpen(false);
+    handleSystemAddition(overallSelectedKeys);
+    await dispatch(fetchGroupDetail(groupId));
   };
 
   return (
@@ -207,12 +191,15 @@ const AddSystemsToGroupModal = ({
       <>
         {/** hosts selection modal */}
         <Modal
-          header={
-            <Flex direction={{ default: 'row' }} style={{ width: '100%' }}>
-              <FlexItem align={{ default: 'alignLeft' }}>
-                <PageHeaderTitle title={'Add systems'} />
-              </FlexItem>
-              {edgeParityEnabled && !noneSelected && (
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          variant="large" // required to accomodate the systems table
+        >
+          <ModalHeader
+            title="Add systems"
+            titleIconVariant={
+              edgeParityEnabled &&
+              !noneSelected && (
                 <FlexItem align={{ default: 'alignRight' }}>
                   <Label
                     variant="outline"
@@ -222,12 +209,42 @@ const AddSystemsToGroupModal = ({
                     {overallSelectedText}
                   </Label>
                 </FlexItem>
-              )}
-            </Flex>
-          }
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          footer={
+              )
+            }
+          />
+          <ModalBody>
+            {edgeParityEnabled && hasEdgeDevices ? (
+              <Tabs
+                className="pf-m-light pf-v6-c-table"
+                activeKey={activeTabKey}
+                onSelect={handleTabClick}
+                aria-label="Hybrid inventory tabs"
+              >
+                <Tab
+                  eventKey={hybridInventoryTabKeys.conventional.key}
+                  title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
+                >
+                  {ConventionalInventoryTable}
+                </Tab>
+                <Tab
+                  eventKey={hybridInventoryTabKeys.immutable.key}
+                  title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
+                >
+                  <section className={'pf-v6-c-toolbar'}>
+                    <ImmutableDevicesView
+                      skeletonRowQuantity={15}
+                      hasCheckbox={true}
+                      isSystemsView={false}
+                      selectedItems={setSelectedImmutableDevices}
+                    />
+                  </section>
+                </Tab>
+              </Tabs>
+            ) : (
+              ConventionalInventoryTable
+            )}
+          </ModalBody>
+          <ModalFooter>
             <Flex direction={{ default: 'column' }} style={{ width: '100%' }}>
               {showWarning && (
                 <FlexItem fullWidth={{ default: 'fullWidth' }}>
@@ -247,44 +264,16 @@ const AddSystemsToGroupModal = ({
                 >
                   Add systems
                 </Button>
-                <Button key="cancel" variant="link" onClick={handleModalClose}>
+                <Button
+                  key="cancel"
+                  variant="link"
+                  onClick={() => setIsModalOpen(false)}
+                >
                   Cancel
                 </Button>
               </FlexItem>
             </Flex>
-          }
-          variant="large" // required to accomodate the systems table
-        >
-          {edgeParityEnabled && hasEdgeDevices ? (
-            <Tabs
-              className="pf-m-light pf-v5-c-table"
-              activeKey={activeTabKey}
-              onSelect={handleTabClick}
-              aria-label="Hybrid inventory tabs"
-            >
-              <Tab
-                eventKey={hybridInventoryTabKeys.conventional.key}
-                title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
-              >
-                {ConventionalInventoryTable}
-              </Tab>
-              <Tab
-                eventKey={hybridInventoryTabKeys.immutable.key}
-                title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
-              >
-                <section className={'pf-v5-c-toolbar'}>
-                  <ImmutableDevicesView
-                    skeletonRowQuantity={15}
-                    hasCheckbox={true}
-                    isSystemsView={false}
-                    selectedItems={setSelectedImmutableDevices}
-                  />
-                </section>
-              </Tab>
-            </Tabs>
-          ) : (
-            ConventionalInventoryTable
-          )}
+          </ModalFooter>
         </Modal>
       </>
     )

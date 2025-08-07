@@ -7,41 +7,44 @@ exports[`EntityTable DOM should render with count 1`] = `
     data-ouia-component-id="undefined-tag-button"
   >
     <button
-      aria-disabled="false"
       aria-label="Tag count"
-      class="pf-v5-c-button pf-m-plain buttonTagCount-0-2-1"
+      class="pf-v6-c-button pf-m-plain buttonTagCount-0-2-1"
       data-ouia-component-id="TagCount"
-      data-ouia-component-type="PF5/Button"
+      data-ouia-component-type="PF6/Button"
       data-ouia-safe="true"
       type="button"
     >
       <span
-        class="pf-v5-c-icon"
-        data-ouia-component-id="TagCount-icon"
+        class="pf-v6-c-button__icon"
       >
         <span
-          class="pf-v5-c-icon__content pf-m-md"
+          class="pf-v6-c-icon"
+          data-ouia-component-id="TagCount-icon"
         >
-          <svg
-            aria-hidden="true"
-            class="pf-v5-svg"
-            fill="currentColor"
-            height="1em"
-            role="img"
-            viewBox="0 0 512 512"
-            width="1em"
+          <span
+            class="pf-v6-c-icon__content pf-m-md"
           >
-            <path
-              d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              class="pf-v6-svg tagIcon-0-2-2 tagIcon-d0-0-2-4"
+              fill="currentColor"
+              height="1em"
+              role="img"
+              viewBox="0 0 512 512"
+              width="1em"
+            >
+              <path
+                d="M0 252.118V48C0 21.49 21.49 0 48 0h204.118a48 48 0 0 1 33.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137 0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882 0L14.059 286.059A48 48 0 0 1 0 252.118zM112 64c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"
+              />
+            </svg>
+          </span>
         </span>
-      </span>
-      <span
-        class="tagText-0-2-2"
-        data-ouia-component-id="TagCount-text"
-      >
-        10
+        <span
+          class="tagText-0-2-3"
+          data-ouia-component-id="TagCount-text"
+        >
+          10
+        </span>
       </span>
     </button>
   </span>

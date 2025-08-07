@@ -24,7 +24,10 @@ describe('NoGroupsEmptyState', () => {
     screen.getByRole('heading', {
       name: /no workspaces/i,
     });
-    screen.getByTestId('no-groups-icon');
+
+    screen.getByRole('img', {
+      hidden: true,
+    });
   });
 
   it('renders create group button', async () => {

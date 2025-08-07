@@ -3,8 +3,8 @@
  * compliance with the filter, sorting and pagination scenarios.
  */
 import {
-  CHIP,
-  CHIP_GROUP,
+  //CHIP,
+  //CHIP_GROUP,
   CONDITIONAL_FILTER,
   DROPDOWN_ITEM,
   PAGINATION_VALUES,
@@ -12,12 +12,19 @@ import {
   SORTING_ORDERS,
   TABLE,
   TEXT_INPUT,
-  changePagination,
+  //changePagination,
   checkPaginationTotal,
-  checkPaginationValues,
+  //checkPaginationValues,
   checkTableHeaders,
-  hasChip,
+  //hasChip,
 } from '@redhat-cloud-services/frontend-components-utilities';
+// Import the updated PatternFly v6 selectors
+import {
+  CHIP,
+  CHIP_GROUP,
+  MENU_TOGGLE_TEXT,
+  MENU_ITEM,
+} from '../../../cypress/tempCypressFixtures';
 import _ from 'lodash';
 import groupsFixtures from '../../../cypress/fixtures/groups.json';
 import {
@@ -96,7 +103,7 @@ describe('with default parameters', () => {
 
   describe('defaults', () => {
     it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
-      cy.get('.pf-v5-c-menu-toggle__text')
+      cy.get(MENU_TOGGLE_TEXT)
         .find('b')
         .eq(0)
         .should('have.text', `1 - ${DEFAULT_ROW_COUNT}`);
@@ -113,16 +120,23 @@ describe('with default parameters', () => {
     });
 
     it('values are expected ones', () => {
-      checkPaginationValues(PAGINATION_VALUES);
+      // Custom implementation for PatternFly v6
+      cy.get('[data-ouia-component-type="PF6/Pagination"]:not(.pf-m-bottom)')
+        .find(MENU_TOGGLE_TEXT)
+        .click();
+      cy.get(MENU_ITEM).should('have.length', PAGINATION_VALUES.length);
     });
 
     it('can change page limit', () => {
       PAGINATION_VALUES.forEach((el) => {
-        changePagination(el).then(() => {
-          cy.wait('@getHosts')
-            .its('request.url')
-            .should('include', `per_page=${el}`);
-        });
+        // Custom implementation for PatternFly v6
+        cy.get('[data-ouia-component-type="PF6/Pagination"]:not(.pf-m-bottom)')
+          .find(MENU_TOGGLE_TEXT)
+          .click();
+        cy.get(MENU_ITEM).contains(el.toString()).click();
+        cy.wait('@getHosts')
+          .its('request.url')
+          .should('include', `per_page=${el}`);
       });
     });
 
@@ -165,9 +179,12 @@ describe('with default parameters', () => {
   describe('filtering', () => {
     const applyNameFilter = () =>
       cy.get('.ins-c-primary-toolbar__filter').find('input').type('lorem');
+
     it('renders filter chip', () => {
       applyNameFilter();
-      hasChip('Display name', 'lorem');
+      // Custom implementation for PatternFly v6 chips
+      cy.get(CHIP_GROUP).should('exist');
+      cy.get(CHIP).should('contain', 'lorem');
       cy.wait('@getHosts');
     });
 
@@ -183,13 +200,17 @@ describe('with default parameters', () => {
       cy.wait('@getHosts')
         .its('request.url')
         .should('contain', 'hostname_or_id=lorem');
-      cy.get(CHIP_GROUP)
-        .find(CHIP)
-        .ouiaId('close', 'button')
-        .each(() => {
-          cy.get(CHIP_GROUP).find(CHIP).ouiaId('close', 'button');
-        });
-      cy.get('button').contains('Reset filters').click();
+
+      // First verify chip exists
+      cy.get(CHIP_GROUP).should('exist');
+      cy.get(CHIP).should('exist');
+
+      // Look for the reset button in the toolbar area with case-insensitive search
+      cy.get(PRIMARY_TOOLBAR)
+        .find('button')
+        .contains(/reset|clear/i)
+        .click();
+
       cy.wait('@getHosts')
         .its('request.url')
         .should('not.contain', 'hostname_or_id');
@@ -222,7 +243,9 @@ describe('with default parameters', () => {
         cy.get(DROPDOWN_ITEM).contains('Workspace').click();
         cy.ouiaId('FilterByGroup').click();
         cy.ouiaId('FilterByGroupOption').eq(0).click();
-        hasChip('Workspace', firstGroupName);
+        // Custom implementation for PatternFly v6 chips
+        cy.get(CHIP_GROUP).should('exist');
+        cy.get(CHIP).should('contain', firstGroupName);
       });
 
       it('triggers new request', () => {

@@ -27,7 +27,7 @@ describe('group detail information page', () => {
   });
 
   it('link is present', () => {
-    cy.get('div[class="pf-v5-c-card__body"] a')
+    cy.get('div[class="pf-v6-c-card__body"] a')
       .should('have.length', 1)
       .and('have.text', 'Identity & Access Management > User Access');
   });
@@ -46,13 +46,15 @@ describe('group detail information page', () => {
     });
 
     it('button disabled if not enough permissions', () => {
-      cy.get('a')
-        .contains('Manage access')
-        .should('have.attr', 'aria-disabled', 'true');
+      cy.get('[data-ouia-component-id="manage-access-button"]').should(
+        'have.attr',
+        'aria-disabled',
+        'true',
+      );
     });
 
     it('card text is present', () => {
-      cy.get('div[class="pf-v5-c-card__body"] a').should('not.exist');
+      cy.get('div[class="pf-v6-c-card__body"] a').should('not.exist');
     });
   });
 });
