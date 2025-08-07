@@ -274,6 +274,9 @@ const InventoryTable = forwardRef(
       }
     });
 
+    const chromelessInventoryCheck = (flag) =>
+      props.loadChromelessInventory ? false : flag;
+
     return hasAccess === false && isFullView ? (
       <AccessDenied
         title="This application requires Inventory permissions"
@@ -311,21 +314,15 @@ const InventoryTable = forwardRef(
           }}
           showCentosVersions={showCentosVersions}
           enableExport={enableExport}
-          isUpdateMethodFFEnabled={
-            props.loadChromelessInventory
-              ? false
-              : statContext.isUpdateMethodFFEnabled
-          }
-          isKesselFFEnabled={
-            props.loadChromelessInventory
-              ? false
-              : statContext.isKesselFFEnabled
-          }
-          edgeParityFilterDeviceEnabled={
-            props.loadChromelessInventory
-              ? false
-              : statContext.edgeParityFilterDeviceEnabled
-          }
+          isUpdateMethodFFEnabled={chromelessInventoryCheck(
+            statContext.isUpdateMethodEnabled,
+          )}
+          isKesselFFEnabled={chromelessInventoryCheck(
+            statContext.isKesselEnabled,
+          )}
+          edgeParityFilterDeviceEnabled={chromelessInventoryCheck(
+            statContext.edgeParityFilterDeviceEnabled,
+          )}
           loadChromelessInventory={props.loadChromelessInventory}
           axios={axios}
         >
