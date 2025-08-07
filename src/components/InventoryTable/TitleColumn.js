@@ -5,7 +5,6 @@ import { ConversionPopover } from './ConversionPopover/ConversionPopover';
 import { Icon, Popover } from '@patternfly/react-core';
 import { BundleIcon } from '@patternfly/react-icons';
 import FontAwesomeImageIcon from '../FontAwesomeImageIcon';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { systemTypeContent } from '../../Utilities/constants';
 
 /**
@@ -38,10 +37,6 @@ const onRowClick = (event, id, { loaded, onRowClick: rowClick, noDetail }) => {
  *  @param {*}          props    additional props passed from `EntityTable` - holds any props passed to inventory table.
  */
 const TitleColumn = ({ children, id, item, ...props }) => {
-  const edgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter',
-  );
-
   return (
     <div className="ins-composed-col sentry-mask data-hj-suppress">
       {item?.os_release && <div key="os_release">{item?.os_release}</div>}
@@ -55,14 +50,7 @@ const TitleColumn = ({ children, id, item, ...props }) => {
               <Popover
                 triggerAction="hover"
                 headerContent="Image-based system"
-                bodyContent={
-                  <div>
-                    {
-                      systemTypeContent[edgeParityFilterDeviceEnabled]
-                        ?.imageContent
-                    }
-                  </div>
-                }
+                bodyContent={<div>{systemTypeContent.imageContent}</div>}
               >
                 <Icon
                   style={{ marginRight: '8px' }}
@@ -78,14 +66,7 @@ const TitleColumn = ({ children, id, item, ...props }) => {
               <Popover
                 triggerAction="hover"
                 headerContent="Package-based system"
-                bodyContent={
-                  <div>
-                    {
-                      systemTypeContent[edgeParityFilterDeviceEnabled]
-                        ?.packageContent
-                    }
-                  </div>
-                }
+                bodyContent={<div>{systemTypeContent.packageContent}</div>}
               >
                 <Icon
                   style={{ marginRight: '8px' }}
