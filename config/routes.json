@@ -1,3 +1,0 @@
-{
-    "/apps/host-inventory*": { "url": "http://host.docker.internal:8003" }
-}
