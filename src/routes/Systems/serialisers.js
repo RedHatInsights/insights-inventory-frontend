@@ -1,23 +1,23 @@
-// const textFilterSerialiser = (filterConfigItem, value) =>
-//   `regex(.${filterConfigItem.filterAttribute}, "${value}", "i")`;
-//
-// const checkboxFilterSerialiser = (filterConfigItem, values) =>
-//   `.${filterConfigItem.filterAttribute} in [${values
-//     .map((value) => `"${value}"`)
-//     .join(',')}]`;
-//
-// const raidoFilterSerialiser = (filterConfigItem, values) =>
-//   `.${filterConfigItem.filterAttribute} == "${values[0]}"`;
-//
-// const numberFilterSerialiser = (filterConfigItem, value) =>
-//   `.${filterConfigItem.filterAttribute} == ${value}`;
+const textFilterSerialiser = (filterConfigItem, value) =>
+  `regex(.${filterConfigItem.filterAttribute}, "${value}", "i")`;
+
+const checkboxFilterSerialiser = (filterConfigItem, values) =>
+  `.${filterConfigItem.filterAttribute} in [${values
+    .map((value) => `"${value}"`)
+    .join(',')}]`;
+
+const raidoFilterSerialiser = (filterConfigItem, values) =>
+  `.${filterConfigItem.filterAttribute} == "${values[0]}"`;
+
+const numberFilterSerialiser = (filterConfigItem, value) =>
+  `.${filterConfigItem.filterAttribute} == ${value}`;
 
 const filterSerialisers = {
-  // text: textFilterSerialiser,
-  // checkbox: checkboxFilterSerialiser,
-  // radio: raidoFilterSerialiser,
-  // singleSelect: raidoFilterSerialiser,
-  // number: numberFilterSerialiser,
+  text: textFilterSerialiser,
+  checkbox: checkboxFilterSerialiser,
+  radio: raidoFilterSerialiser,
+  singleSelect: raidoFilterSerialiser,
+  number: numberFilterSerialiser,
 };
 
 const findFilterSerialiser = (filterConfigItem) => {
@@ -47,9 +47,20 @@ export const filtersSerialiser = (state, filters) => {
     [],
   );
 
-  return queryParts.length > 0
-    ? queryParts.reduce((allFilters, part) => ({ ...allFilters, ...part }), {})
-    : undefined;
+  const query =
+    queryParts.length > 0
+      ? queryParts.reduce((allFilters, part) => {
+          if (part.filter) {
+            const newPart = {
+              filter: { ...allFilters.filter, ...part.filter },
+            };
+            return { ...allFilters, ...newPart };
+          }
+          return { ...allFilters, ...part };
+        }, {})
+      : undefined;
+
+  return query;
 };
 
 export const sortSerialiser = ({ index, direction } = {}, columns) =>
