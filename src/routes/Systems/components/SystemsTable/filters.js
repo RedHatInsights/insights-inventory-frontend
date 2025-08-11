@@ -1,5 +1,11 @@
 import Workspace from './components/filters/Workspace';
-import { fetchTags } from '../../helpers';
+import {
+  fetchTags,
+  getOsSelectOptions,
+  getLastSeenSelectOptions,
+  getWorkspaceSelectOptions,
+} from './helpers';
+import { getOperatingSystems } from '../../../../api';
 
 export const CUSTOM_FILTER_TYPES = {
   workspace: {
@@ -16,6 +22,57 @@ export const displayName = {
   filterSerialiser: (_config, [value]) => ({
     hostnameOrId: value,
   }),
+};
+
+export const systemType = {
+  label: 'System type',
+  value: 'not_nil',
+  type: 'checkbox',
+  items: [
+    { label: 'Package-based system', value: 'conventional' },
+    { label: 'Image-based system', value: 'image' },
+  ],
+  filterSerialiser: (_config, values) => {
+    const newValues = values
+      .map((val) => (val === 'image' ? ['bootc', 'edge'] : val))
+      .flat();
+    return { systemType: newValues };
+  },
+};
+
+export const operatingSystem = {
+  label: 'Operating system',
+  value: 'operating-system-filter',
+  type: 'group',
+  groups: async () => {
+    try {
+      const { results: osResults } = await getOperatingSystems({}, true);
+      const osData = osResults.map((result) => result.value);
+
+      return [
+        ...getOsSelectOptions('CentOS Linux', osData),
+        ...getOsSelectOptions('RHEL', osData),
+      ];
+    } catch {
+      return [];
+    }
+  },
+  filterSerialiser: (_config, values) => {
+    const osFilters = Object.entries(values).map(([osName, versions]) => ({
+      [osName]: { version: { eq: Object.keys(versions) } },
+    }));
+
+    return {
+      filter: {
+        system_profile: {
+          operating_system: osFilters.reduce(
+            (acc, obj) => ({ ...acc, ...obj }),
+            {},
+          ),
+        },
+      },
+    };
+  },
 };
 
 export const statusFilter = {
@@ -107,6 +164,25 @@ export const tags = {
         },
       ],
     },
+  },
+};
+
+export const lastSeen = {
+  label: 'Last seen',
+  value: 'last_seen',
+  type: 'singleSelect',
+  items: getLastSeenSelectOptions,
+  filterSerialiser: (_config, [value]) => {
+    return value;
+  },
+};
+
+export const workspaceFilter = {
+  label: 'Workspace',
+  type: 'workspace',
+  items: getWorkspaceSelectOptions,
+  filterSerialiser: (_config, values) => {
+    return values;
   },
 };
 
