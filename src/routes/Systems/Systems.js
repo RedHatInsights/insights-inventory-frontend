@@ -29,6 +29,8 @@ const Systems = () => (
             defaultFilters.dataCollector,
             defaultFilters.rhcStatus,
             defaultFilters.tags,
+            defaultFilters.systemType,
+            defaultFilters.operatingSystem,
           ],
           customFilterTypes: defaultFilters.CUSTOM_FILTER_TYPES,
         }}

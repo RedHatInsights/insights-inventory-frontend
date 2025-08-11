@@ -1,6 +1,6 @@
 // TODO remove dependency on fec helpers and components
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
-import { getHostList, getHostTags, getTags } from '../../api/hostInventoryApi';
+import { getHostList, getHostTags } from '../../api/hostInventoryApi';
 import defaultColumns from './components/SystemsTable/columns';
 import uniq from 'lodash/uniq';
 import defaultFilters, {
