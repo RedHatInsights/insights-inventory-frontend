@@ -1,6 +1,6 @@
 // TODO remove dependency on fec helpers and components
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
-import { getHostList, getHostTags, getTags } from '../../api/hostInventoryApi';
+import { getHostList, getHostTags } from '../../api/hostInventoryApi';
 import defaultColumns from './components/SystemsTable/columns';
 import defaultFilters, {
   CUSTOM_FILTER_TYPES,
@@ -16,10 +16,6 @@ const fetchHostTags = async (hosts) => {
   }
 };
 
-export const fetchTags = async () => {
-  return await getTags();
-};
-
 export const fetchSystems = async (serialisedTableState) => {
   const fields = {
     system_profile: [
@@ -28,14 +24,22 @@ export const fetchSystems = async (serialisedTableState) => {
       'bootc_status',
     ],
   };
+  const { filter, ...filterParams } = serialisedTableState?.filters || {};
 
   const params = {
     // TODO Add global filter
     ...(serialisedTableState?.pagination || {}),
-    ...(serialisedTableState?.filters || {}),
     ...(serialisedTableState?.sort || {}),
+    // These are "filters" that are set via a specific URL parameter, like hostname, systemType, staleness, etc.
+    ...filterParams,
     options: {
-      params: generateFilter(fields, 'fields'),
+      params: {
+        // the "generateFilter" function is used here, because coincidentally the "fields URL parameter(s)" behave similar to the filter
+        ...generateFilter(fields, 'fields'),
+        // The rest are those that need to be a filter query parameter, like OS version or name and other "field filters"
+        // "filter", is the object of the merged "filter" prop of the individual object returned from each filter(serialiser)
+        ...generateFilter(filter),
+      },
     },
   };
 
