@@ -22,7 +22,6 @@ const useFetchOperatingSystems = ({
     const fetchFn = fetchCustomOSes || getOperatingSystems;
     const fetchArgs = [apiParams, showCentosVersions];
 
-    console.log(fetchArgs, 'fetchArgs test');
     try {
       return await fetchFn(...fetchArgs);
     } catch (error) {

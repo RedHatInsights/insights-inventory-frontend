@@ -51,7 +51,6 @@ export const useOperatingSystemFilter = (
     [groups, dispatch],
   );
 
-  console.log(operatingSystemsValue, 'operatingSystemsValue test');
   const filter = {
     label: 'Operating system',
     value: 'operating-system-filter',
