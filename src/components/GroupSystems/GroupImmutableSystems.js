@@ -31,9 +31,11 @@ import { edgeColumns } from '../ImmutableDevices/columns';
 import { mergeArraysByKey } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import { prepareColumnsImmutable as prepareColumns } from './helpers';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
 const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
   const dispatch = useDispatch();
+  const addNotification = useAddNotification();
   const noAccessTooltip = NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE;
   const removeLabel = 'Remove from workspace';
   const mergeColumns = (inventoryColumns) => {
@@ -83,7 +85,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
     imageData: null,
   });
 
-  const notificationProp = getNotificationProp(dispatch);
+  const notificationProp = getNotificationProp(addNotification);
 
   const customGetEntities = async (
     _items,
@@ -255,7 +257,7 @@ const GroupImmutableSystems = ({ groupName, groupId, ...props }) => {
           actionsConfig={{
             actions: [
               [
-                <div key="primary-actions" className="pf-v5-c-action-list">
+                <div key="primary-actions" className="pf-v6-c-action-list">
                   <ActionButton
                     key="add-systems-button"
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(

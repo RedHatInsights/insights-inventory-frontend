@@ -33,6 +33,7 @@ function showTagsPending(state) {
 }
 
 function updateAnsibleName(state, { meta }, useOrigValue) {
+  meta.notifications.fulfilled();
   const value = useOrigValue ? meta?.origValue : meta?.value;
   return {
     ...state,
@@ -57,8 +58,22 @@ function updateAnsibleName(state, { meta }, useOrigValue) {
   };
 }
 
-export function updateEntity(state, { meta }, useOrigValue) {
-  const value = useOrigValue ? meta?.origValue : meta?.value;
+function updateAnsibleNameRejected(state, { meta }) {
+  meta.notifications.rejected();
+  return state;
+}
+
+function updateEntity(state, { meta }, useOrigValue) {
+  let value;
+
+  if (useOrigValue) {
+    value = meta?.origValue;
+    meta.notifications.rejected();
+  } else {
+    value = meta?.value;
+    meta.notifications.fulfilled();
+  }
+
   return {
     ...state,
     ...(state.rows && {
@@ -82,6 +97,11 @@ export function updateEntity(state, { meta }, useOrigValue) {
   };
 }
 
+function updateEntityRejected(state, { meta }) {
+  meta.notifications.rejected();
+  return state;
+}
+
 export default {
   [ACTION_TYPES.LOAD_ENTITIES_PENDING]: () => entityDefaultState,
   [ACTION_TYPES.LOAD_ENTITY_PENDING]: entityDetailPending,
@@ -91,11 +111,13 @@ export default {
   [ACTION_TYPES.LOAD_TAGS_FULFILLED]: showTags,
   [TOGGLE_TAG_MODAL]: toggleTagModalReducer,
   [TOGGLE_DRAWER]: toggleDrawer,
-  [ACTION_TYPES.UPDATE_DISPLAY_NAME_PENDING]: updateEntity,
-  [ACTION_TYPES.SET_ANSIBLE_HOST_PENDING]: updateAnsibleName,
+  [`${ACTION_TYPES.SET_ANSIBLE_HOST}_FULFILLED`]: updateAnsibleName,
+  [`${ACTION_TYPES.SET_ANSIBLE_HOST}_REJECTED`]: updateAnsibleNameRejected,
+  [`${ACTION_TYPES.UPDATE_DISPLAY_NAME}_FULFILLED`]: updateEntity,
+  [`${ACTION_TYPES.UPDATE_DISPLAY_NAME}_REJECTED`]: updateEntityRejected,
   [ACTION_TYPES.UPDATE_DISPLAY_NAME_ERROR]: (state, payload) =>
     updateEntity(state, payload, true),
-  [ACTION_TYPES.SET_ANSIBLE_HOST_ERROR]: (state, payload) =>
+  [ACTION_TYPES.SET_ANSIBLE_HOST_REJECTED]: (state, payload) =>
     updateAnsibleName(state, payload, true),
   ...systemIssuesReducer,
 };

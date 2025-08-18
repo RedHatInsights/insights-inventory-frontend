@@ -38,7 +38,7 @@ const TabCard = ({
 
   return (
     <React.Fragment>
-      <Card isPlain className="pf-v5-u-mb-lg">
+      <Card isPlain className="pf-v6-u-mb-lg">
         <Flex
           spaceItems={{ default: 'spaceItems2xl' }}
           style={{ minHeight: '110px' }}

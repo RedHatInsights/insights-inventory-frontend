@@ -6,8 +6,7 @@ import {
   TabTitleText,
   Tabs,
   Alert,
-  Text,
-  TextContent,
+  Content,
   Button,
 } from '@patternfly/react-core';
 import { hybridInventoryTabKeys } from '../../Utilities/constants';
@@ -53,7 +52,7 @@ const HybridInventoryTabs = ({
 
   return isEdgeParityEnabled && accountHasEdgeImages ? (
     <Tabs
-      className="pf-m-light pf-v5-c-table"
+      className="pf-m-light pf-v6-c-table"
       activeKey={activeTab}
       onSelect={handleTabClick}
       aria-label="Hybrid inventory tabs"
@@ -76,18 +75,18 @@ const HybridInventoryTabs = ({
           variant="info"
           isInline
           title={<>Upcoming decommission of hosted edge management service</>}
-          className="pf-v5-u-mt-sm pf-v5-u-mb-sm"
+          className="pf-v6-u-mt-sm pf-v6-u-mb-sm"
         >
-          <TextContent>
-            <Text>
+          <Content>
+            <Content component="p">
               As of July 31, 2025, the hosted edge management service will no
               longer be supported. Consequently, pushing image updates to
               Immutable (OSTree) systems via the Hybrid Cloud Console using this
               service will be discontinued. Customers are encouraged to explore
               Red Hat Edge Manager (RHEM) as the recommended alternative for
               managing their edge systems.
-            </Text>
-            <Text>
+            </Content>
+            <Content component="p">
               <Button
                 component="a"
                 target="_blank"
@@ -101,8 +100,8 @@ const HybridInventoryTabs = ({
               >
                 Red Hat Edge Manager (RHEM) documentation
               </Button>
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </Alert>
         {ImmutableDevicesTab}
       </Tab>

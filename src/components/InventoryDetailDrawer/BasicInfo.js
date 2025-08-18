@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Chip,
-  ChipGroup,
+  Label,
+  LabelGroup,
   Split,
   SplitItem,
   Stack,
   StackItem,
   Title,
 } from '@patternfly/react-core';
+
 import { useSelector } from 'react-redux';
 
 const BasicInfo = ({ hideInvLink, showTags }) => {
@@ -43,17 +44,17 @@ const BasicInfo = ({ hideInvLink, showTags }) => {
           <Split hasGutter>
             <SplitItem>Tags:</SplitItem>
             <SplitItem>
-              <ChipGroup>
+              <LabelGroup>
                 {tags?.length !== 0
                   ? tags?.map((item, key) => (
-                      <Chip key={key} isReadOnly>
+                      <Label variant="outline" key={key}>
                         {item?.namespace && `${item?.namespace}/`}
                         {item?.key}
                         {item?.value && `=${item?.value}`}
-                      </Chip>
+                      </Label>
                     ))
                   : 'No tags'}
-              </ChipGroup>
+              </LabelGroup>
             </SplitItem>
           </Split>
         </StackItem>

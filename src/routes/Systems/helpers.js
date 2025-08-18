@@ -1,6 +1,7 @@
 // TODO remove dependency on fec helpers and components
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags, getTags } from '../../api/hostInventoryApi';
+import defaultColumns from './components/SystemsTable/columns';
 
 const fetchHostTags = async (hosts) => {
   if (hosts.length) {
@@ -12,9 +13,7 @@ const fetchHostTags = async (hosts) => {
   }
 };
 
-export const fetchTags = async (...args) => {
-  console.log('args tags', ...args);
-
+export const fetchTags = async () => {
   return await getTags();
 };
 
@@ -46,4 +45,12 @@ export const fetchSystems = async (serialisedTableState) => {
   }));
 
   return [systems, total];
+};
+
+export const resolveColumns = (columns) => {
+  if (typeof columns === 'function') {
+    return columns(defaultColumns);
+  } else {
+    return columns;
+  }
 };

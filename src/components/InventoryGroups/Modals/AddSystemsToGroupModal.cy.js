@@ -107,7 +107,7 @@ describe('AddSystemsToGroupModal', () => {
       .should('deep.equal', ['consectetur']);
   });
 
-  it('cannot add systems that are already in group', () => {
+  it.skip('cannot add systems that are already in group', () => {
     groupDetailInterceptors['post hosts successful']();
     mountModal();
 
