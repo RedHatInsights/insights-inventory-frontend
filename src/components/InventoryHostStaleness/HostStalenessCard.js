@@ -404,7 +404,6 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                     >
                       Update
                     </Button>
-                    ,
                     <Button
                       key="cancel"
                       variant="link"
