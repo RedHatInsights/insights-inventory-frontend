@@ -6,7 +6,6 @@ import { TestWrapper } from '../../Utilities/TestingUtilities';
 import '@testing-library/jest-dom';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
-jest.mock('../../Utilities/useFeatureFlag');
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate',
 );

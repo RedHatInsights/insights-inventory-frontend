@@ -5,13 +5,12 @@ import {
   CardBody,
   Stack,
   StackItem,
-  Text,
-  TextContent,
-  TextList,
-  TextListItem,
-  TextListItemVariants,
-  TextListVariants,
-  TextVariants,
+  Content,
+  ContentVariants,
+  DescriptionList,
+  DescriptionListGroup,
+  DescriptionListTerm,
+  DescriptionListDescription,
 } from '@patternfly/react-core';
 import {
   Skeleton,
@@ -88,76 +87,79 @@ const LoadingCard = ({
     <CardBody>
       <Stack hasGutter>
         <StackItem>
-          <TextContent>
-            <Text
-              component={TextVariants.h1}
+          <Content>
+            <Content
+              component={ContentVariants.h1}
               ouiaId="SystemPropertiesCardTitle"
             >
               {title}
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </StackItem>
         <StackItem isFilled>
           {items.length ? (
-            <TextContent>
-              <TextList component={TextListVariants.dl}>
-                {items.map(
-                  (
-                    {
-                      onClick,
-                      value,
-                      target,
-                      plural,
-                      singular,
-                      size,
-                      title: itemTitle,
-                      customClass,
+            <Content>
+              <DescriptionList
+                isHorizontal
+                isAutoFit
+                horizontalTermWidthModifier={{
+                  default: '20ch',
+                }}
+                data-ouia-component-id={`${title} title`}
+                aria-label={`${title} title`}
+              >
+                <DescriptionListGroup>
+                  {items.map(
+                    (
+                      {
+                        onClick,
+                        value,
+                        target,
+                        plural,
+                        singular,
+                        size,
+                        title: itemTitle,
+                        customClass,
+                      },
+                      key,
+                    ) => {
+                      const title =
+                        typeof itemTitle === 'string'
+                          ? itemTitle
+                          : itemTitle?.props?.title;
+                      return (
+                        <Fragment key={key}>
+                          <DescriptionListTerm>{itemTitle}</DescriptionListTerm>
+                          <DescriptionListDescription
+                            className={customClass}
+                            data-ouia-component-id={`${title} value`}
+                            aria-label={`${title} value`}
+                          >
+                            {isLoading && (
+                              <Skeleton size={size || SkeletonSize.sm} />
+                            )}
+                            {!isLoading &&
+                              ((onClick || target?.[0] === '/') && value ? (
+                                <div>
+                                  <Clickable
+                                    onClick={onClick}
+                                    value={value}
+                                    target={target}
+                                    plural={plural}
+                                    singular={singular}
+                                  />
+                                </div>
+                              ) : (
+                                valueToText(value, singular, plural)
+                              ))}
+                          </DescriptionListDescription>
+                        </Fragment>
+                      );
                     },
-                    key,
-                  ) => {
-                    const title =
-                      typeof itemTitle === 'string'
-                        ? itemTitle
-                        : itemTitle?.props?.title;
-                    return (
-                      <Fragment key={key}>
-                        <TextListItem
-                          component={TextListItemVariants.dt}
-                          data-ouia-component-id={`${title} title`}
-                          aria-label={`${title} title`}
-                        >
-                          {itemTitle}
-                        </TextListItem>
-                        <TextListItem
-                          className={customClass}
-                          component={TextListItemVariants.dd}
-                          data-ouia-component-id={`${title} value`}
-                          aria-label={`${title} value`}
-                        >
-                          {isLoading && (
-                            <Skeleton size={size || SkeletonSize.sm} />
-                          )}
-                          {!isLoading &&
-                            ((onClick || target?.[0] === '/') && value ? (
-                              <div>
-                                <Clickable
-                                  onClick={onClick}
-                                  value={value}
-                                  target={target}
-                                  plural={plural}
-                                  singular={singular}
-                                />
-                              </div>
-                            ) : (
-                              valueToText(value, singular, plural)
-                            ))}
-                        </TextListItem>
-                      </Fragment>
-                    );
-                  },
-                )}
-              </TextList>
-            </TextContent>
+                  )}
+                </DescriptionListGroup>
+              </DescriptionList>
+            </Content>
           ) : null}
           {children}
         </StackItem>

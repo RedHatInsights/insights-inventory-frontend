@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  Flex,
-  Popover,
-  Text,
-  TextContent,
-  Title,
-} from '@patternfly/react-core';
+import { Button, Flex, Popover, Content, Title } from '@patternfly/react-core';
 import {
   ExternalLinkAltIcon,
   OutlinedQuestionCircleIcon,
@@ -20,29 +13,29 @@ export const InventoryPopover = () => {
       position="right"
       maxWidth="650px"
       bodyContent={
-        <TextContent>
+        <Content>
           <Flex direction={{ default: 'column' }}>
-            <Text>
+            <Content component="p">
               Inventory offers a centralized, detailed overview of all systems
               within your organization, enabling tracking and management of your
               infrastructure.
-            </Text>
-            <Text>
+            </Content>
+            <Content component="p">
               To appear in Inventory, systems must first be registered with Red
               Hat. You can register systems using several methods, including the
               Red Hat Insights client, Red Hat Satellite, or Red Hat
               Subscription Manager (RHSM).
-            </Text>
-            <Text>
+            </Content>
+            <Content component="p">
               As a systems administrator, you have the flexibility to define
               when systems are marked as stale, and set the duration for system
               inactivity before they are automatically removed from the
               inventory.
-            </Text>
-            <Text>
+            </Content>
+            <Content component="p">
               To stay informed about changes in your inventory, you can
               configure notifications for inventory events.
-            </Text>
+            </Content>
             <span>
               <a
                 href={
@@ -52,7 +45,7 @@ export const InventoryPopover = () => {
                 rel="noreferrer"
               >
                 Viewing and managing system inventory
-                <ExternalLinkAltIcon className="pf-v5-u-ml-xs" />
+                <ExternalLinkAltIcon className="pf-v6-u-ml-xs" />
               </a>
             </span>
 
@@ -65,7 +58,7 @@ export const InventoryPopover = () => {
                 rel="noreferrer"
               >
                 Client configuration guide for Red Hat Insights
-                <ExternalLinkAltIcon className="pf-v5-u-ml-xs" />
+                <ExternalLinkAltIcon className="pf-v6-u-ml-xs" />
               </a>
             </span>
 
@@ -78,7 +71,7 @@ export const InventoryPopover = () => {
                 rel="noreferrer"
               >
                 Managing system staleness and deletion
-                <ExternalLinkAltIcon className="pf-v5-u-ml-xs" />
+                <ExternalLinkAltIcon className="pf-v6-u-ml-xs" />
               </a>
             </span>
 
@@ -91,21 +84,19 @@ export const InventoryPopover = () => {
                 rel="noreferrer"
               >
                 Configuring notifications for inventory events
-                <ExternalLinkAltIcon className="pf-v5-u-ml-xs" />
+                <ExternalLinkAltIcon className="pf-v6-u-ml-xs" />
               </a>
             </span>
           </Flex>
-        </TextContent>
+        </Content>
       }
     >
       <Button
+        icon={<OutlinedQuestionCircleIcon />}
         variant="plain"
         aria-label="Open Inventory systems popover"
-        style={{ padding: 0 }}
         ouiaId="AboutInventorySystemsPopover"
-      >
-        <OutlinedQuestionCircleIcon />
-      </Button>
+      />
     </Popover>
   );
 };

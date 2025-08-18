@@ -13,24 +13,26 @@ import { patchHostById } from '../api/hostInventoryApi';
 export * from './system-issues-actions';
 export * from './inventory-actions';
 
-export const deleteEntity = (systems, displayName) => ({
+export const deleteEntity = (systems, displayName, addNotification) => ({
   type: ACTION_TYPES.REMOVE_ENTITY,
   payload: deleteSystemsById(systems),
   meta: {
     notifications: {
-      fulfilled: {
-        variant: 'success',
-        title: 'Delete operation finished',
-        description: `${displayName} has been successfully removed.`,
-        dismissable: true,
-      },
-      rejected: {
-        variant: 'danger',
-        title: 'System failed to be removed from Inventory',
-        description:
-          'There was an error processing the request. Please try again.',
-        dismissable: true,
-      },
+      fulfilled: () =>
+        addNotification({
+          variant: 'success',
+          title: 'Delete operation finished',
+          description: `${displayName} has been successfully removed.`,
+          dismissable: true,
+        }),
+      rejected: () =>
+        addNotification({
+          variant: 'danger',
+          title: 'System failed to be removed from Inventory',
+          description:
+            'There was an error processing the request. Please try again.',
+          dismissable: true,
+        }),
     },
     systems,
   },
@@ -49,7 +51,7 @@ export const clearNotifications = () => {
   };
 };
 
-export const editDisplayName = (id, value, origValue) => ({
+export const editDisplayName = (id, value, origValue, addNotification) => ({
   type: ACTION_TYPES.UPDATE_DISPLAY_NAME,
   payload: patchHostById({
     hostIdList: [id],
@@ -60,11 +62,20 @@ export const editDisplayName = (id, value, origValue) => ({
     value,
     origValue,
     notifications: {
-      fulfilled: {
-        variant: 'success',
-        title: `Display name has been changed to ${value}`,
-        dismissable: true,
-      },
+      fulfilled: () =>
+        addNotification({
+          variant: 'success',
+          title: `Display name has been changed to ${value}`,
+          dismissable: true,
+        }),
+      rejected: () =>
+        addNotification({
+          variant: 'danger',
+          title: 'Display name failed to be changed',
+          description:
+            'There was an error processing the request. Please try again.',
+          dismissable: true,
+        }),
     },
   },
 });
@@ -90,7 +101,7 @@ export const systemProfile = (itemId) => ({
   payload: getEntitySystemProfile(itemId, {}),
 });
 
-export const editAnsibleHost = (id, value, origValue) => ({
+export const editAnsibleHost = (id, value, origValue, addNotification) => ({
   type: ACTION_TYPES.SET_ANSIBLE_HOST,
   payload: patchHostById({
     hostIdList: [id],
@@ -101,11 +112,20 @@ export const editAnsibleHost = (id, value, origValue) => ({
     value,
     origValue,
     notifications: {
-      fulfilled: {
-        variant: 'success',
-        title: `Ansible hostname has been changed to ${value}`,
-        dismissable: true,
-      },
+      fulfilled: () =>
+        addNotification({
+          variant: 'success',
+          title: `Ansible hostname has been changed to ${value}`,
+          dismissable: true,
+        }),
+      rejected: () =>
+        addNotification({
+          variant: 'danger',
+          title: 'Ansible hostname failed to be changed',
+          description:
+            'There was an error processing the request. Please try again.',
+          dismissable: true,
+        }),
     },
   },
 });

@@ -10,6 +10,7 @@ import { workloadsTypesKeys } from './SystemCardConfigs';
 import WorkloadsSection from './Workloads';
 import { NameInlineEdit } from './NameInlineEdit';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
 const SystemCard = ({
   writePermissions,
@@ -27,6 +28,7 @@ const SystemCard = ({
   extra,
 }) => {
   const dispatch = useDispatch();
+  const addNotification = useAddNotification();
   const entity = useSelector((state) => state.entityDetails.entity);
   const systemProfile = useSelector(
     (state) => state.systemProfileStore.systemProfile,
@@ -37,7 +39,7 @@ const SystemCard = ({
   const properties = propertiesSelector(systemProfile, entity);
 
   const onSubmit = (fn, value, origValue) => {
-    dispatch(fn(entity?.id, value, origValue));
+    dispatch(fn(entity?.id, value, origValue, addNotification));
   };
 
   const getAnsibleHost = (entity) => {

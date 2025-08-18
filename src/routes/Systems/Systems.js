@@ -7,20 +7,23 @@ import {
   sortSerialiser,
   paginationSerialiser,
 } from './serialisers';
-import { fetchSystems } from './helpers';
+import * as defaultColumns from './components/SystemsTable/columns';
 
-// TODO put behind feature flag
 const Systems = () => (
   <>
     <InventoryPageHeader />
     <PageSection>
       <SystemsTable
-        // TODO This and the serialisers should maybe be a default of the SystemsTable for apps that don't pass a fetch function
-        items={fetchSystems}
+        columns={[
+          defaultColumns.displayName,
+          defaultColumns.workspace,
+          defaultColumns.tags,
+          defaultColumns.operatingSystem,
+          defaultColumns.lastSeen,
+        ]}
         options={{
+          // FIXME: remove debug
           debug: true,
-          onSelect: true,
-          perPage: 50,
           serialisers: {
             pagination: paginationSerialiser,
             sort: sortSerialiser,

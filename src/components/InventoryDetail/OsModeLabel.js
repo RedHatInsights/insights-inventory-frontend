@@ -3,26 +3,20 @@ import PropTypes from 'prop-types';
 import { Icon, Label, Popover, PopoverPosition } from '@patternfly/react-core';
 import FontAwesomeImageIcon from '../FontAwesomeImageIcon';
 import { BundleIcon } from '@patternfly/react-icons';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { systemTypeContent } from '../../Utilities/constants';
 
 const OsModeLabel = ({ osMode = 'package' }) => {
-  const edgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter',
-  );
   const modeContent = {
     image: {
-      label: systemTypeContent[edgeParityFilterDeviceEnabled]?.imageLabel,
+      label: systemTypeContent.imageLabel,
       header: 'Image-based system',
-      bodyContent:
-        systemTypeContent[edgeParityFilterDeviceEnabled]?.imageContent,
+      bodyContent: systemTypeContent.imageContent,
       icon: <FontAwesomeImageIcon />,
     },
     package: {
-      label: systemTypeContent[edgeParityFilterDeviceEnabled]?.packageLabel,
+      label: systemTypeContent.packageLabel,
       header: 'Package-based system',
-      bodyContent:
-        systemTypeContent[edgeParityFilterDeviceEnabled]?.packageContent,
+      bodyContent: systemTypeContent.packageContent,
       icon: <BundleIcon />,
     },
   };

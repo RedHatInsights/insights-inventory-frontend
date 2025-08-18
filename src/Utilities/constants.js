@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import { TextContent, Text } from '@patternfly/react-core';
+import { Content } from '@patternfly/react-core';
 
 export const TEXT_FILTER = 'hostname_or_id';
 export const TEXTUAL_CHIP = 'textual';
@@ -315,56 +315,30 @@ export const hybridInventoryTabKeys = {
 };
 
 export const systemTypeContent = {
-  true: {
-    imageLabel: 'Image mode',
-    packageLabel: 'Package mode',
-    imageContent: (
-      <TextContent>
-        <Text>
-          Image mode for Red Hat Enterprise Linux is a container-native approach
-          that uses the same bits but delivers them as a container image.
-          Updates are immutable and the experience is very close to running a
-          containerized application.
-        </Text>
-      </TextContent>
-    ),
-    packageContent: (
-      <TextContent>
-        <Text>
-          Package mode is a familiar RHEL experience across any footprint where
-          the OS is assembled and updated from rpm packages. This is
-          traditionally how RHEL is deployed and will remain the preferred
-          method for many.
-        </Text>
-      </TextContent>
-    ),
-  },
-  false: {
-    imageLabel: 'Image-based',
-    packageLabel: 'Package-based',
-    imageContent: (
-      <TextContent>
-        <Text>
-          Image mode for Red Hat Enterprise Linux and Immutable (OSTree) are
-          version-controlled deployment models that support atomic updates and
-          rollbacks.
-        </Text>
-        <Text>
-          Image mode delivers the OS as a container image, while Immutable
-          (OSTree) manages it as a versioned file system tree – both providing
-          consistency and reliability similar to containerized applications.
-        </Text>
-      </TextContent>
-    ),
-    packageContent: (
-      <TextContent>
-        <Text>
-          Package-based deployment is a familiar Red Hat Enterprise Linux (RHEL)
-          experience across any footprint where the OS is assembled and updated
-          from rpm packages. This is traditionally how RHEL is deployed and will
-          remain the preferred method for many.
-        </Text>
-      </TextContent>
-    ),
-  },
+  imageLabel: 'Image-based',
+  packageLabel: 'Package-based',
+  imageContent: (
+    <Content>
+      <Content component="p">
+        Image mode for Red Hat Enterprise Linux and Immutable (OSTree) are
+        version-controlled deployment models that support atomic updates and
+        rollbacks.
+      </Content>
+      <Content component="p">
+        Image mode delivers the OS as a container image, while Immutable
+        (OSTree) manages it as a versioned file system tree – both providing
+        consistency and reliability similar to containerized applications.
+      </Content>
+    </Content>
+  ),
+  packageContent: (
+    <Content>
+      <Content component="p">
+        Package-based deployment is a familiar Red Hat Enterprise Linux (RHEL)
+        experience across any footprint where the OS is assembled and updated
+        from rpm packages. This is traditionally how RHEL is deployed and will
+        remain the preferred method for many.
+      </Content>
+    </Content>
+  ),
 };

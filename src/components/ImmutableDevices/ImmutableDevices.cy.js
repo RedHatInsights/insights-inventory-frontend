@@ -5,7 +5,7 @@ import {
   featureFlagsInterceptors,
   hostsInterceptors,
 } from '../../../cypress/support/interceptors';
-import { DropdownItem } from '@patternfly/react-core/deprecated';
+import { MenuItem } from '@patternfly/react-core';
 import {
   PT_CONDITIONAL_FILTER_LIST,
   DROPDOWN_ITEM,
@@ -209,7 +209,7 @@ describe('ImmutableDevices', () => {
 
     mountWithProps({ ...defaultProps, actionsConfig: { actions } });
 
-    cy.get('.ins-c-primary-toolbar__first-action > .pf-v5-c-button').should(
+    cy.get('.ins-c-primary-toolbar__first-action > .pf-v6-c-button').should(
       'be.visible',
     );
   });
@@ -227,9 +227,9 @@ describe('ImmutableDevices', () => {
     const tableActions = () => [
       {
         title: (
-          <DropdownItem aria-label="Mock table action" key={'moock-button'}>
+          <MenuItem aria-label="Mock table action" key={'moock-button'}>
             mock table action
-          </DropdownItem>
+          </MenuItem>
         ),
       },
     ];

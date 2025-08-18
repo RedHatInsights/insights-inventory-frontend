@@ -1,9 +1,8 @@
 import {
   Button,
   Popover,
-  Text,
-  TextContent,
-  TextVariants,
+  Content,
+  ContentVariants,
   Title,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
@@ -15,26 +14,24 @@ const InventoryGroupsPopover = () => (
     headerContent={<Title headingLevel="h4">Workspaces</Title>}
     position="right"
     bodyContent={
-      <TextContent>
-        <Text component={TextVariants.p}>
+      <Content>
+        <Content component={ContentVariants.p}>
           Workspaces allow you to select specific systems and group them
           together to better organize your inventory.
-        </Text>
-        <Text component={TextVariants.p}>
+        </Content>
+        <Content component={ContentVariants.p}>
           You can also manage user access to specific workspaces to enhance
           security within your organization.
-        </Text>
-      </TextContent>
+        </Content>
+      </Content>
     }
   >
     <Button
+      icon={<OutlinedQuestionCircleIcon />}
       variant="plain"
       aria-label="Open Inventory groups popover"
-      style={{ padding: 0 }}
       ouiaId="AboutInventoryWorkspacesPopover"
-    >
-      <OutlinedQuestionCircleIcon />
-    </Button>
+    />
   </Popover>
 );
 

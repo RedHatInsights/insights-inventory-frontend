@@ -4,9 +4,7 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
-  EmptyStateIcon,
   EmptyStateVariant,
-  EmptyStateHeader,
   EmptyStateFooter,
 } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
@@ -20,12 +18,12 @@ import useInsightsNavigate from '@redhat-cloud-services/frontend-components-util
 const SystemNotFound = ({ inventoryId, onBackToListClick }) => {
   const navigate = useInsightsNavigate();
   return (
-    <EmptyState variant={EmptyStateVariant.full}>
-      <EmptyStateHeader
-        titleText="System not found"
-        icon={<EmptyStateIcon icon={CubesIcon} />}
-        headingLevel="h5"
-      />
+    <EmptyState
+      headingLevel="h5"
+      icon={CubesIcon}
+      titleText="System not found"
+      variant={EmptyStateVariant.full}
+    >
       <EmptyStateBody>
         System with ID {inventoryId} does not exist
       </EmptyStateBody>

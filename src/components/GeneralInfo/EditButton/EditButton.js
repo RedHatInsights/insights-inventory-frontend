@@ -14,13 +14,12 @@ import { Button, Tooltip } from '@patternfly/react-core';
 
 const InnerButton = ({ onClick }) => (
   <Button
+    icon={<PencilAltIcon />}
     onClick={onClick}
     className="ins-c-inventory__detail--action"
     aria-label="Edit"
     variant="link"
-  >
-    <PencilAltIcon />
-  </Button>
+  ></Button>
 );
 
 InnerButton.propTypes = {
@@ -40,13 +39,12 @@ const EditButtonUnknownPermissions = (props) => {
     return (
       <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
         <Button
+          icon={<PencilAltIcon />}
           isAriaDisabled
           isDisabled={true}
           aria-label="Edit"
           variant="plain"
-        >
-          <PencilAltIcon />
-        </Button>
+        />
       </Tooltip>
     );
   }
@@ -73,13 +71,12 @@ const EditButtonWrapper = ({ writePermissions, ...props }) => {
   return (
     <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
       <Button
+        icon={<PencilAltIcon />}
         isAriaDisabled
         isDisabled={true}
         aria-label="Edit"
         variant="plain"
-      >
-        <PencilAltIcon />
-      </Button>
+      />
     </Tooltip>
   );
 };

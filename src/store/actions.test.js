@@ -23,48 +23,58 @@ describe('systemProfile', () => {
 });
 
 describe('editDisplayName', () => {
-  it('should call correct endpoint', async () => {
+  const addNotification = jest.fn();
+  it('should call correct endpoint', () => {
     mocked.onPatch('/api/inventory/v1/hosts/4').reply(({ data }) => {
       expect(data).toEqual(JSON.stringify({ display_name: 'test-value' }));
       return [200, mockedData];
     });
-    const { type, meta } = await editDisplayName('4', 'test-value');
+    const { type, meta } = editDisplayName(
+      '4',
+      'test-value',
+      undefined,
+      addNotification,
+    );
     expect(type).toBe('UPDATE_DISPLAY_NAME');
-    expect(meta).toEqual({
-      id: '4',
-      value: 'test-value',
-      origValue: undefined,
-      notifications: {
-        fulfilled: {
-          variant: 'success',
-          title: 'Display name has been changed to test-value',
-          dismissable: true,
+    expect(meta).toEqual(
+      expect.objectContaining({
+        id: '4',
+        value: 'test-value',
+        origValue: undefined,
+        notifications: {
+          fulfilled: expect.any(Function),
+          rejected: expect.any(Function),
         },
-      },
-    });
+      }),
+    );
   });
 });
 
 describe('editAnsibleHost', () => {
-  it('should call correct endpoint', async () => {
+  const addNotification = jest.fn();
+  it('should call correct endpoint', () => {
     mocked.onPatch('/api/inventory/v1/hosts/4').reply(({ data }) => {
       expect(data).toEqual(JSON.stringify({ ansible_host: 'test-value' }));
       return [200, mockedData];
     });
-    const { type, meta } = await editAnsibleHost('4', 'test-value');
+    const { type, meta } = editAnsibleHost(
+      '4',
+      'test-value',
+      undefined,
+      addNotification,
+    );
     expect(type).toBe('SET_ANSIBLE_HOST');
-    expect(meta).toEqual({
-      id: '4',
-      value: 'test-value',
-      origValue: undefined,
-      notifications: {
-        fulfilled: {
-          variant: 'success',
-          title: `Ansible hostname has been changed to test-value`,
-          dismissable: true,
+    expect(meta).toEqual(
+      expect.objectContaining({
+        id: '4',
+        value: 'test-value',
+        origValue: undefined,
+        notifications: {
+          fulfilled: expect.any(Function),
+          rejected: expect.any(Function),
         },
-      },
-    });
+      }),
+    );
   });
 });
 
@@ -73,7 +83,7 @@ describe('fetchGroups', () => {
     mocked.onGet(new RegExp('/api/inventory/v1/groups*')).reply(() => {
       return [200, mockedGroups];
     });
-    const { type, payload } = await fetchGroups();
+    const { type, payload } = fetchGroups();
     expect(type).toBe('GROUPS');
     expect(await payload).toEqual(mockedGroups);
   });

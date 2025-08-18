@@ -98,6 +98,7 @@ const EntityTable = ({
           <PfTable
             variant={variant}
             aria-label="Host inventory"
+            data-ouia-component-id="systems-table"
             cells={cells}
             rows={createRows(rows, columns, {
               actions,

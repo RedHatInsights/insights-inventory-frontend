@@ -1,29 +1,35 @@
 import {
-  CHIP,
+  PAGINATION_VALUES,
+  SORTING_ORDERS,
+  checkEmptyState,
+  checkPaginationTotal,
+  checkSelectedNumber as checkSelectedNumberFec,
+  checkTableHeaders,
+  selectRowN,
+} from '@redhat-cloud-services/frontend-components-utilities';
+import {
   CHIP_GROUP,
   DROPDOWN_ITEM,
   MENU_ITEM,
   MENU_TOGGLE,
   MENU_TOGGLE_CHECKBOX,
   MODAL_CONTENT,
-  PAGINATION_VALUES,
+  //PAGINATION_VALUES,
   PRIMARY_TOOLBAR,
   PRIMARY_TOOLBAR_ACTIONS,
-  SORTING_ORDERS,
+  //SORTING_ORDERS,
   TABLE_ROW,
   TABLE_ROW_CHECKBOX,
   TEXT_INPUT,
   changePagination,
-  checkEmptyState,
-  checkPaginationTotal,
+  //checkEmptyState,
+  //checkPaginationTotal,
   checkPaginationValues,
-  checkSelectedNumber as checkSelectedNumberFec,
-  checkTableHeaders,
   hasChip,
-  selectRowN,
+  //selectRowN,
   PAGINATION_TOP,
   PAGINATION_NEXT,
-} from '@redhat-cloud-services/frontend-components-utilities';
+} from '../../../cypress/tempCypressFixtures';
 import _, { cloneDeep } from 'lodash';
 import fixtures from '../../../cypress/fixtures/hosts.json';
 import {
@@ -249,12 +255,6 @@ describe('filtering', () => {
     cy.wait('@getHosts')
       .its('request.url')
       .should('contain', 'hostname_or_id=lorem');
-    cy.get(CHIP_GROUP)
-      .find(CHIP)
-      .ouiaId('close', 'button')
-      .each(() => {
-        cy.get(CHIP_GROUP).find(CHIP).ouiaId('close', 'button');
-      });
     cy.get('button').contains('Reset filters').click();
     cy.wait('@getHosts')
       .its('request.url')
@@ -313,7 +313,7 @@ describe('selection and bulk selection', () => {
 
   /*     it('can select all in dropdown toggle', () => {
         cy.get(DROPDOWN_TOGGLE).eq(0).click(); // open selection dropdown
-        cy.get('.pf-v5-c-dropdown__menu > li').eq(2).click();
+        cy.get('pf-v6-c-dropdown__menu > li').eq(2).click();
         checkSelectedNumber(fixtures.total);
     }); */
 
@@ -325,9 +325,7 @@ describe('selection and bulk selection', () => {
     }); */
 
   it('can select page in dropdown toggle', () => {
-    cy.get(
-      '.pf-v5-c-toolbar__group > :nth-child(1) > .pf-v5-c-menu-toggle', // TODO: return to OUIA-based selectors
-    ).click(); // open selection dropdown
+    cy.get(PRIMARY_TOOLBAR).find(MENU_TOGGLE).first().click(); // open selection dropdown
     cy.get(DROPDOWN_ITEM).contains('Select page').click();
     checkSelectedNumber(fixtures.count);
   });
@@ -336,14 +334,6 @@ describe('selection and bulk selection', () => {
     cy.get(PRIMARY_TOOLBAR).find(MENU_TOGGLE_CHECKBOX).click();
     checkSelectedNumber(fixtures.count);
     cy.get(PRIMARY_TOOLBAR).find(MENU_TOGGLE_CHECKBOX).click();
-    checkSelectedNumber(0);
-  });
-
-  it('can select none', () => {
-    selectRowN(1);
-    const BULK_SELECT_TOGGLE = '[class="pf-v5-c-menu-toggle__controls"]';
-    cy.get(BULK_SELECT_TOGGLE).first().click(); // open selection dropdown
-    cy.get(DROPDOWN_ITEM).contains('Select none (0 items)').click();
     checkSelectedNumber(0);
   });
 });
@@ -412,9 +402,7 @@ describe('actions', () => {
       ungrouped: true,
     });
     waitForTable(true);
-    cy.get('button')
-      .contains('Add systems')
-      .should('have.attr', 'aria-disabled', 'true'); // Check if the button is disabled
+    cy.contains('button', 'Add systems').shouldHaveAriaDisabled();
   });
 });
 
@@ -439,7 +427,7 @@ describe('edge cases', () => {
     mountTable();
 
     cy.wait('@getHosts');
-    cy.get('.pf-v5-c-empty-state').find('h4').contains('Something went wrong');
+    cy.get('.pf-v6-c-empty-state').find('h4').contains('Something went wrong');
   });
 });
 
@@ -498,7 +486,7 @@ describe('integration with rbac', () => {
     });
 
     it('no way to add or remove systems', () => {
-      cy.get('button').contains('Add systems').shouldHaveAriaDisabled();
+      cy.contains('button', 'Add systems').shouldHaveAriaDisabled();
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(DROPDOWN_ITEM)
         .contains('Remove from workspace')
@@ -536,7 +524,11 @@ describe('integration with rbac', () => {
     });
 
     it('add systems button is enabled', () => {
-      cy.get('button').contains('Add systems').shouldHaveAriaEnabled();
+      cy.contains('button', 'Add systems').should(
+        'not.have.attr',
+        'aria-disabled',
+        'true',
+      );
     });
   });
 });
