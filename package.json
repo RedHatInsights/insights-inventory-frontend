@@ -171,7 +171,8 @@
     "commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
     "postinstall": "ts-patch install",
     "docs": "jsdoc --configure .jsdoc.json",
-    "test:pw": "npx playwright test"
+    "test:pw": "npx playwright test",
+    "patch:hosts": "fec patch-etc-hosts"
   },
   "insights": {
     "appname": "inventory"

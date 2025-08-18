@@ -47,8 +47,10 @@ If using any OS other than Fedora/Rhel (i.e., Mac, Ubuntu Linux):
 
 `npx playwright install  --with-deps`
 
-## Proxy setup to execute the test case using the local frontend : [consoledot-testing-proxy](https://github.com/dvagner/consoledot-testing-proxy)
+## Proxy setup to execute the test case using the local frontend in static mode : [consoledot-testing-proxy](https://github.com/dominikvagner/consoledot-testing-proxy)
 ```
+ npm run static
+
  podman run -d -e HTTPS_PROXY=$RH_PROXY_URL -p 1337:1337 -v "$(pwd)/config:/config:ro,Z" --replace --name consoledot-testing-proxy quay.io/dvagner/consoledot-testing-proxy
 ```
 
@@ -63,6 +65,8 @@ If using any OS other than Fedora/Rhel (i.e., Mac, Ubuntu Linux):
 **Run a single test:**
 
 `npx playwright test test_navigation.test.ts -g "User can navigate to the workspaces page via the menu"`
+
+Note: You can run all of the above to the stage env setup as well.
 
 ## Commit conventions
 
