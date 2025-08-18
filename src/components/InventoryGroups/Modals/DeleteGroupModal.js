@@ -47,7 +47,6 @@ const generateSchema = (groups) => ({
 const generateContent = (groups = []) => ({
   title: groups.length > 1 ? 'Delete workspaces?' : 'Delete workspace?',
   titleIconVariant: 'warning',
-  variant: 'small',
   submitLabel: 'Delete',
   schema: generateSchema(groups),
 });
