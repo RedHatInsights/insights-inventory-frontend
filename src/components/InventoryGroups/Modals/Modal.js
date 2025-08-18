@@ -13,7 +13,6 @@ const RepoModal = ({
   submitLabel,
   schema,
   initialValues,
-  variant,
   reloadData,
   reloadTimeout,
   size,
@@ -45,9 +44,6 @@ const RepoModal = ({
                     {...props}
                     submitLabel={submitLabel}
                     disableSubmit={['invalid']}
-                    buttonsProps={{
-                      submit: { variant },
-                    }}
                   />
                 )
           }
