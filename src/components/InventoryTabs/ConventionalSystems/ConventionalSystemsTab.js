@@ -95,7 +95,7 @@ const ConventionalSystemsTab = ({
       systemTypeFilter,
     ),
   );
-  const [ediOpen, onEditOpen] = useState(false);
+  const [editOpen, onEditOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
@@ -119,6 +119,7 @@ const ConventionalSystemsTab = ({
     onSetfilters(options?.filters);
   });
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     chrome.updateDocumentTitle('Systems - Inventory');
     chrome.appAction('system-list');
@@ -142,6 +143,7 @@ const ConventionalSystemsTab = ({
       dispatch(actions.clearEntitiesAction());
     };
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const calculateSelected = () => (selected ? selected.size : 0);
 
@@ -334,18 +336,19 @@ const ConventionalSystemsTab = ({
       />
       <TextInputModal
         title="Edit display name"
-        isOpen={ediOpen}
+        isOpen={editOpen}
         value={currentSystem.display_name}
         onCancel={() => onEditOpen(false)}
-        onSubmit={(value) => {
+        onSubmit={async (value) => {
           dispatch(
-            actions.editDisplayName(
+            await actions.editDisplayName(
               currentSystem.id,
               value,
-              _,
+              currentSystem.display_name,
               addNotification,
             ),
           );
+          inventory?.current?.onRefreshData({}, false, true);
           onEditOpen(false);
         }}
       />
