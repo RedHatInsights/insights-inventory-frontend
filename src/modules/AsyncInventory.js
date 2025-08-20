@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 
 import * as storeMod from '../store/redux';
@@ -8,6 +9,8 @@ import * as utils from '../Utilities/index';
 import * as apiMod from '../api/index';
 import RenderWrapper from '../Utilities/Wrapper';
 const { mergeWithDetail, ...rest } = storeMod;
+
+const queryClient = new QueryClient();
 
 const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
   useEffect(() => {
@@ -22,13 +25,15 @@ const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
   return (
     <RBACProvider appName="inventory" checkResourceDefinitions>
       <Provider store={store}>
-        <RenderWrapper
-          {...props}
-          isRbacEnabled
-          inventoryRef={innerRef}
-          store={store}
-          cmp={component}
-        />
+        <QueryClientProvider client={queryClient}>
+          <RenderWrapper
+            {...props}
+            isRbacEnabled
+            inventoryRef={innerRef}
+            store={store}
+            cmp={component}
+          />
+        </QueryClientProvider>
       </Provider>
     </RBACProvider>
   );

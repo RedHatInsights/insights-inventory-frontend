@@ -1,38 +1,81 @@
-import { act, renderHook, waitFor } from '@testing-library/react';
-import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
+import React from 'react';
+import '@testing-library/jest-dom';
+import {
+  act,
+  render,
+  renderHook,
+  waitFor,
+  screen,
+} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import {
+  QueryClientWrapper,
+  createTestQueryClient,
+  flushPromises,
+} from '../../Utilities/TestingUtilities';
 import useGroupFilter from './useGroupFilter';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { getGroups } from '../InventoryGroups/utils/api';
 
-jest.mock('../../Utilities/hooks/useFetchBatched');
 jest.mock('../InventoryGroups/utils/api', () => ({
   __esModule: true,
-  getGroups: () =>
-    new Promise((resolve) =>
-      resolve({
-        total: 60,
-      }),
-    ),
+  getGroups: jest.fn(),
 }));
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
   () => ({
-    esModule: true,
-
+    __esModule: true,
     usePermissionsWithContext: jest.fn(),
   }),
 );
 
+const renderWrappedHook = (
+  showNoGroupOption = false,
+  client = createTestQueryClient(),
+) =>
+  renderHook(() => useGroupFilter(showNoGroupOption), {
+    wrapper: ({ children }) => (
+      <QueryClientWrapper client={client}>{children}</QueryClientWrapper>
+    ),
+  });
+
+/* eslint-disable react/prop-types */
+function Harness({
+  showNoGroupOption = false,
+  client = createTestQueryClient(),
+}) {
+  return (
+    <QueryClientWrapper client={client}>
+      <WrappedHarness showNoGroupOption={showNoGroupOption} />
+    </QueryClientWrapper>
+  );
+}
+
+function WrappedHarness({ showNoGroupOption = false }) {
+  const [config] = useGroupFilter(showNoGroupOption);
+  return config.filterValues.children;
+}
+/* eslint-enable react/prop-types */
+
+const waitForGroupsToBeLoaded = async (
+  searchParams = {},
+  pageParams = { page: 1, per_page: 50 },
+) =>
+  await flushPromises().then(() =>
+    waitFor(() =>
+      expect(getGroups).toHaveBeenCalledWith(searchParams, pageParams),
+    ),
+  );
+
 describe('groups request not yet resolved', () => {
   beforeEach(() => {
-    useFetchBatched.mockReturnValue({
-      pageOffsetfetchBatched: () => new Promise(() => {}), // keep pending
-    });
+    getGroups.mockImplementation(() => new Promise(() => {})); // keep pending
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
   });
 
   it('initial values are empty', () => {
-    const { result } = renderHook(() => useGroupFilter());
+    const { result } = renderWrappedHook();
 
     const [, chips, value] = result.current;
     expect(chips.length).toBe(0);
@@ -40,15 +83,21 @@ describe('groups request not yet resolved', () => {
   });
 
   it('initial filter component is empty', () => {
-    const { result } = renderHook(() => useGroupFilter());
+    const { result } = renderWrappedHook();
 
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
       {
         "children": <SearchableGroupFilter
-          initialGroups={[]}
+          fetchNextPage={[Function]}
+          groups={[]}
+          hasNextPage={false}
+          isFetchingNextPage={false}
           isKesselEnabled={false}
+          isLoading={true}
+          searchQuery=""
           selectedGroupNames={[]}
+          setSearchQuery={[Function]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
         />,
@@ -58,38 +107,38 @@ describe('groups request not yet resolved', () => {
 });
 
 describe('with some groups available', () => {
-  const pageOffsetfetchBatched = jest.fn(
-    () =>
-      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
-  );
-
   beforeAll(() => {
-    useFetchBatched.mockReturnValue({
-      pageOffsetfetchBatched,
-    });
+    getGroups.mockResolvedValue({ total: 1, results: [{ name: 'group-1' }] });
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
   });
 
-  it('filter component updated with values', async () => {
-    const { result } = renderHook(() => useGroupFilter());
+  beforeEach(() => {
+    getGroups.mockClear();
+  });
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
+  it('filter component updated with values', async () => {
+    const { result } = renderWrappedHook();
+    await waitForGroupsToBeLoaded();
+
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
       {
         "children": <SearchableGroupFilter
-          initialGroups={
+          fetchNextPage={[Function]}
+          groups={
             [
               {
                 "name": "group-1",
               },
-              undefined,
             ]
           }
+          hasNextPage={false}
+          isFetchingNextPage={false}
           isKesselEnabled={false}
+          isLoading={false}
+          searchQuery=""
           selectedGroupNames={[]}
+          setSearchQuery={[Function]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
         />,
@@ -98,11 +147,9 @@ describe('with some groups available', () => {
   });
 
   it('can use setter', async () => {
-    const { result } = renderHook(() => useGroupFilter());
+    const { result } = renderWrappedHook();
+    await waitForGroupsToBeLoaded();
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
     const [, , , setValue] = result.current;
     act(() => {
       setValue(['group-1']);
@@ -125,25 +172,28 @@ describe('with some groups available', () => {
   });
 
   it('can enable no group option', async () => {
-    const { result } = renderHook(() => useGroupFilter(true));
+    const { result } = renderWrappedHook(true);
+    await waitForGroupsToBeLoaded();
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
       {
         "children": <SearchableGroupFilter
-          initialGroups={
+          fetchNextPage={[Function]}
+          groups={
             [
               {
                 "name": "group-1",
               },
-              undefined,
             ]
           }
+          hasNextPage={false}
+          isFetchingNextPage={false}
           isKesselEnabled={false}
+          isLoading={false}
+          searchQuery=""
           selectedGroupNames={[]}
+          setSearchQuery={[Function]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={true}
         />,
@@ -152,11 +202,9 @@ describe('with some groups available', () => {
   });
 
   it('can select no group option', async () => {
-    const { result } = renderHook(() => useGroupFilter());
+    const { result } = renderWrappedHook();
+    await waitForGroupsToBeLoaded();
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
     const [, , , setValue] = result.current;
     act(() => {
       setValue(['']);
@@ -177,56 +225,105 @@ describe('with some groups available', () => {
       },
     ]);
   });
+});
 
-  it('does not show no group option with kessel enabled', async () => {
-    const { result } = renderHook(() => useGroupFilter(true, true));
+describe('filtering', () => {
+  beforeAll(() => {
+    usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
+  });
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
+  describe('local filtering (under 2 pages of data)', () => {
+    beforeEach(() => {
+      const total = 70; // under 2 pages of data - page = 50
+      getGroups
+        .mockResolvedValueOnce({
+          total,
+          results: Array.from({ length: 50 }, (_, i) => ({
+            name: `group-${i + 1}`,
+          })),
+        })
+        .mockResolvedValueOnce({
+          total,
+          results: Array.from({ length: 20 }, (_, i) => ({
+            name: `group-${i + 51}`,
+          })),
+        });
     });
-    const [config] = result.current;
-    expect(config.filterValues).toMatchInlineSnapshot(`
-      {
-        "children": <SearchableGroupFilter
-          initialGroups={
-            [
-              {
-                "name": "group-1",
-              },
-              undefined,
-            ]
-          }
-          isKesselEnabled={true}
-          selectedGroupNames={[]}
-          setSelectedGroupNames={[Function]}
-          showNoGroupOption={true}
-        />,
-      }
-    `);
+
+    it('can filter groups', async () => {
+      render(<Harness />);
+      await act(async () => await null);
+      await waitForGroupsToBeLoaded();
+
+      const input = screen.getByPlaceholderText('Filter by workspace');
+      await userEvent.type(input, 'group-51');
+      await waitForGroupsToBeLoaded({}, { page: 2, per_page: 50 }); // Wait for the next page to load
+
+      // There should be only one option visible (the filtered one)
+      await waitFor(() =>
+        expect(screen.getAllByRole('menuitem')).toHaveLength(1),
+      );
+      expect(
+        screen.getByRole('menuitem', { name: 'group-51' }),
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe('remote filtering (over 2 pages of data)', () => {
+    beforeEach(() => {
+      const total = 170; // over 2 pages of data - page = 50
+      getGroups.mockImplementation((...args) => {
+        if (args[0] && args[0].name === 'group-51') {
+          return Promise.resolve({
+            total: 1,
+            results: [{ name: 'group-51' }],
+          });
+        }
+        const offset = args[0]?.offset || 0;
+        const limit = args[0]?.limit || 50;
+        const results = Array.from(
+          { length: Math.min(limit, total - offset) },
+          (_, i) => ({ name: `group-${offset + i + 1}` }),
+        );
+        return Promise.resolve({ total, results });
+      });
+    });
+
+    it('can filter groups with remote search', async () => {
+      render(<Harness />);
+      await act(async () => await null);
+      await waitForGroupsToBeLoaded();
+
+      const input = screen.getByPlaceholderText('Filter by workspace');
+      await userEvent.type(input, 'group-51');
+
+      await waitForGroupsToBeLoaded({ name: 'group-51' }); // Wait for the serach to complete
+
+      await waitFor(() =>
+        expect(screen.getAllByRole('menuitem')).toHaveLength(1),
+      );
+
+      expect(
+        screen.getByRole('menuitem', { name: 'group-51' }),
+      ).toBeInTheDocument();
+    });
   });
 });
 
 describe('no groups:read permission', () => {
-  const pageOffsetfetchBatched = jest.fn(
-    () =>
-      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
-  );
-
   beforeAll(() => {
-    useFetchBatched.mockReturnValue({
-      pageOffsetfetchBatched,
-    });
+    getGroups.mockClear();
+    getGroups.mockResolvedValue({ total: 1, results: [{ name: 'group-1' }] });
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: false }));
   });
 
   it('returns no groups', async () => {
-    renderHook(() => useGroupFilter(true));
+    const client = createTestQueryClient();
+    renderWrappedHook(false, client);
+    await flushPromises();
 
-    await waitFor(
-      () => {
-        expect(pageOffsetfetchBatched).not.toBeCalled();
-      },
-      { timeout: 5000 },
-    );
+    expect(getGroups).not.toHaveBeenCalled();
+    const { data } = client.getQueryState(['groups', '', false]);
+    expect(data).toBeUndefined();
   });
 });
