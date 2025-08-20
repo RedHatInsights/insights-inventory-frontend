@@ -7,50 +7,66 @@ import {
   Select /* data-codemods */,
   SelectList /* data-codemods */,
   SelectOption /* data-codemods */,
+  Spinner,
 } from '@patternfly/react-core';
 
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 
+const VISIBLE_LIMIT = 10;
+
 const SearchableGroupFilter = ({
-  initialGroups,
+  searchQuery,
+  setSearchQuery,
+  isFetchingNextPage,
+  hasNextPage,
+  groups,
+  fetchNextPage,
   selectedGroupNames,
   setSelectedGroupNames,
   showNoGroupOption,
   isKesselEnabled = false,
 }) => {
-  const initialValues = useMemo(
-    () => [
-      ...(showNoGroupOption || isKesselEnabled
+  const [isOpen, setIsOpen] = useState(false);
+  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(VISIBLE_LIMIT);
+  const [selectOptions, setSelectOptions] = useState([]);
+
+  const prefixOptions = useMemo(
+    () =>
+      showNoGroupOption || isKesselEnabled
         ? [
             {
               itemId: '',
               children: isKesselEnabled ? 'Ungrouped hosts' : 'No workspace',
             },
           ]
-        : []),
-      ...initialGroups.map(({ name }) => ({
-        itemId: name, // group name is unique by design
-        children: name,
-      })),
-    ],
-    [initialGroups, showNoGroupOption, isKesselEnabled],
+        : [],
+    [showNoGroupOption, isKesselEnabled],
   );
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [selectOptions, setSelectOptions] = useState(initialValues);
-  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
+  const groupOptions = useMemo(
+    () => groups.map(({ name }) => ({ itemId: name, children: name })),
+    [groups],
+  );
+
+  const allValues = useMemo(
+    () => [...prefixOptions, ...groupOptions],
+    [prefixOptions, groupOptions],
+  );
 
   useEffect(() => {
-    let newSelectOptions = initialValues;
+    let newSelectOptions = [
+      ...prefixOptions,
+      ...groupOptions.slice(0, visibleCount),
+    ];
 
     // filter menu items based on the text input value when one exists
-    if (inputValue) {
-      newSelectOptions = initialValues.filter((menuItem) =>
+    if (searchQuery) {
+      newSelectOptions = allValues.filter((menuItem) =>
         String(menuItem.children)
           .toLowerCase()
-          .includes(inputValue.toLowerCase()),
+          .includes(searchQuery.toLowerCase()),
       );
 
       // when no options are found after filtering, display 'No workspace found'
@@ -64,9 +80,17 @@ const SearchableGroupFilter = ({
       }
     }
 
-    setSelectOptions(newSelectOptions);
     setFocusedItemIndex(0);
-  }, [inputValue, initialValues]);
+    setSelectOptions(newSelectOptions);
+  }, [
+    searchQuery,
+    prefixOptions,
+    groupOptions,
+    visibleCount,
+    hasNextPage,
+    isFetchingNextPage,
+    setSelectOptions,
+  ]);
 
   const handleMenuArrowKeys = (key) => {
     let indexToFocus;
@@ -111,7 +135,7 @@ const SearchableGroupFilter = ({
       case 'Enter':
         if (!isOpen) {
           setIsOpen((prevIsOpen) => !prevIsOpen);
-          setInputValue('');
+          setSearchQuery('');
         } else {
           onSelect(focusedItem.itemId);
         }
@@ -119,7 +143,7 @@ const SearchableGroupFilter = ({
       case 'Tab':
       case 'Escape':
         setIsOpen(false);
-        setInputValue('');
+        setSearchQuery('');
         break;
       case 'ArrowUp':
       case 'ArrowDown':
@@ -132,15 +156,26 @@ const SearchableGroupFilter = ({
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
-    setInputValue('');
+    setSearchQuery('');
   };
 
   const onTextInputChange = (_event, value) => {
-    setInputValue(value);
+    setSearchQuery(value);
   };
 
-  const onSelect = (itemId) => {
+  const onSelect = async (itemId) => {
+    if (itemId === '__load_more__') {
+      return;
+    }
+
     setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
+  };
+
+  const onViewMoreClick = () => {
+    setVisibleCount((c) => c + VISIBLE_LIMIT);
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
   };
 
   const toggle = (toggleRef) => (
@@ -153,7 +188,7 @@ const SearchableGroupFilter = ({
     >
       <TextInputGroup isPlain>
         <TextInputGroupMain
-          value={inputValue}
+          value={searchQuery}
           onClick={onToggleClick}
           onChange={onTextInputChange}
           onKeyDown={onInputKeyDown}
@@ -175,7 +210,7 @@ const SearchableGroupFilter = ({
         onSelect={(event, selection) => onSelect(selection)}
         onOpenChange={() => {
           setIsOpen(false);
-          setInputValue('');
+          setSearchQuery('');
         }}
         toggle={toggle}
       >
@@ -199,6 +234,26 @@ const SearchableGroupFilter = ({
               </div>
             ))
           )}
+          {(isFetchingNextPage ||
+            (!searchQuery &&
+              (groupOptions.length > visibleCount || hasNextPage))) && (
+            <SelectOption
+              itemId="__load_more__"
+              onClick={onViewMoreClick}
+              isLoadButton={!isFetchingNextPage}
+              isLoading={isFetchingNextPage}
+            >
+              {
+                // Show spinner when loading more, "View more" when there is more to load
+                // Hide View More when filtering as filtering loads all results
+                isFetchingNextPage ? (
+                  <Spinner size="lg" />
+                ) : !searchQuery ? (
+                  'View more'
+                ) : null
+              }
+            </SelectOption>
+          )}
         </SelectList>
       </Select>
     </div>
@@ -206,12 +261,12 @@ const SearchableGroupFilter = ({
 };
 
 SearchableGroupFilter.propTypes = {
-  initialGroups: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      id: PropTypes.string,
-    }).isRequired,
-  ),
+  searchQuery: PropTypes.string.isRequired,
+  setSearchQuery: PropTypes.func.isRequired,
+  isFetchingNextPage: PropTypes.bool.isRequired,
+  hasNextPage: PropTypes.bool.isRequired,
+  fetchNextPage: PropTypes.func.isRequired,
+  groups: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,

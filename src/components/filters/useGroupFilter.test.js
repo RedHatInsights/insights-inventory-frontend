@@ -1,38 +1,42 @@
+import React from 'react';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
+import {
+  QueryClientWrapper,
+  createTestQueryClient,
+  flushPromises,
+} from '../../Utilities/TestingUtilities';
 import useGroupFilter from './useGroupFilter';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { getGroups } from '../InventoryGroups/utils/api';
 
-jest.mock('../../Utilities/hooks/useFetchBatched');
 jest.mock('../InventoryGroups/utils/api', () => ({
   __esModule: true,
-  getGroups: () =>
-    new Promise((resolve) =>
-      resolve({
-        total: 60,
-      }),
-    ),
+  getGroups: jest.fn(),
 }));
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
   () => ({
-    esModule: true,
-
+    __esModule: true,
     usePermissionsWithContext: jest.fn(),
   }),
 );
 
+const render = (showNoGroupOption = false, client = createTestQueryClient()) =>
+  renderHook(() => useGroupFilter(showNoGroupOption), {
+    wrapper: ({ children }) => (
+      <QueryClientWrapper client={client}>{children}</QueryClientWrapper>
+    ),
+  });
+
 describe('groups request not yet resolved', () => {
   beforeEach(() => {
-    useFetchBatched.mockReturnValue({
-      pageOffsetfetchBatched: () => new Promise(() => {}), // keep pending
-    });
+    getGroups.mockImplementation(() => new Promise(() => {})); // keep pending
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
   });
 
   it('initial values are empty', () => {
-    const { result } = renderHook(() => useGroupFilter());
+    const { result } = render();
 
     const [, chips, value] = result.current;
     expect(chips.length).toBe(0);
@@ -40,15 +44,20 @@ describe('groups request not yet resolved', () => {
   });
 
   it('initial filter component is empty', () => {
-    const { result } = renderHook(() => useGroupFilter());
+    const { result } = render();
 
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
       {
         "children": <SearchableGroupFilter
-          initialGroups={[]}
+          fetchNextPage={[Function]}
+          groups={[]}
+          hasNextPage={false}
+          isFetchingNextPage={false}
           isKesselEnabled={false}
+          searchQuery=""
           selectedGroupNames={[]}
+          setSearchQuery={[Function]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
         />,
@@ -58,38 +67,42 @@ describe('groups request not yet resolved', () => {
 });
 
 describe('with some groups available', () => {
-  const pageOffsetfetchBatched = jest.fn(
-    () =>
-      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
-  );
-
   beforeAll(() => {
-    useFetchBatched.mockReturnValue({
-      pageOffsetfetchBatched,
-    });
+    getGroups.mockResolvedValue({ total: 1, results: [{ name: 'group-1' }] });
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
   });
 
-  it('filter component updated with values', async () => {
-    const { result } = renderHook(() => useGroupFilter());
+  beforeEach(() => {
+    getGroups.mockClear();
+  });
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
+  const waitForGroupsToBeLoaded = async () =>
+    await flushPromises().then(() =>
+      waitFor(() => expect(getGroups).toHaveBeenCalled()),
+    );
+
+  it('filter component updated with values', async () => {
+    const { result } = render();
+    await waitForGroupsToBeLoaded();
+
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
       {
         "children": <SearchableGroupFilter
-          initialGroups={
+          fetchNextPage={[Function]}
+          groups={
             [
               {
                 "name": "group-1",
               },
-              undefined,
             ]
           }
+          hasNextPage={false}
+          isFetchingNextPage={false}
           isKesselEnabled={false}
+          searchQuery=""
           selectedGroupNames={[]}
+          setSearchQuery={[Function]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
         />,
@@ -98,11 +111,9 @@ describe('with some groups available', () => {
   });
 
   it('can use setter', async () => {
-    const { result } = renderHook(() => useGroupFilter());
+    const { result } = render();
+    await waitForGroupsToBeLoaded();
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
     const [, , , setValue] = result.current;
     act(() => {
       setValue(['group-1']);
@@ -125,25 +136,27 @@ describe('with some groups available', () => {
   });
 
   it('can enable no group option', async () => {
-    const { result } = renderHook(() => useGroupFilter(true));
+    const { result } = render(true);
+    await waitForGroupsToBeLoaded();
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
       {
         "children": <SearchableGroupFilter
-          initialGroups={
+          fetchNextPage={[Function]}
+          groups={
             [
               {
                 "name": "group-1",
               },
-              undefined,
             ]
           }
+          hasNextPage={false}
+          isFetchingNextPage={false}
           isKesselEnabled={false}
+          searchQuery=""
           selectedGroupNames={[]}
+          setSearchQuery={[Function]}
           setSelectedGroupNames={[Function]}
           showNoGroupOption={true}
         />,
@@ -152,11 +165,9 @@ describe('with some groups available', () => {
   });
 
   it('can select no group option', async () => {
-    const { result } = renderHook(() => useGroupFilter());
+    const { result } = render();
+    await waitForGroupsToBeLoaded();
 
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
     const [, , , setValue] = result.current;
     act(() => {
       setValue(['']);
@@ -177,56 +188,22 @@ describe('with some groups available', () => {
       },
     ]);
   });
-
-  it('does not show no group option with kessel enabled', async () => {
-    const { result } = renderHook(() => useGroupFilter(true, true));
-
-    await waitFor(() => {
-      expect(pageOffsetfetchBatched).toBeCalled();
-    });
-    const [config] = result.current;
-    expect(config.filterValues).toMatchInlineSnapshot(`
-      {
-        "children": <SearchableGroupFilter
-          initialGroups={
-            [
-              {
-                "name": "group-1",
-              },
-              undefined,
-            ]
-          }
-          isKesselEnabled={true}
-          selectedGroupNames={[]}
-          setSelectedGroupNames={[Function]}
-          showNoGroupOption={true}
-        />,
-      }
-    `);
-  });
 });
 
 describe('no groups:read permission', () => {
-  const pageOffsetfetchBatched = jest.fn(
-    () =>
-      new Promise((resolve) => resolve([{ results: [{ name: 'group-1' }] }])),
-  );
-
   beforeAll(() => {
-    useFetchBatched.mockReturnValue({
-      pageOffsetfetchBatched,
-    });
+    getGroups.mockClear();
+    getGroups.mockResolvedValue({ total: 1, results: [{ name: 'group-1' }] });
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: false }));
   });
 
   it('returns no groups', async () => {
-    renderHook(() => useGroupFilter(true));
+    const client = createTestQueryClient();
+    render(false, client);
+    await flushPromises();
 
-    await waitFor(
-      () => {
-        expect(pageOffsetfetchBatched).not.toBeCalled();
-      },
-      { timeout: 5000 },
-    );
+    expect(getGroups).not.toHaveBeenCalled();
+    const { data } = client.getQueryState(['groups', false]);
+    expect(data).toBeUndefined();
   });
 });

@@ -9,9 +9,14 @@ const setter = jest.fn();
 it('shows no groups available message', async () => {
   render(
     <SearchableGroupFilter
-      initialGroups={[]}
+      searchQuery=""
+      setSearchQuery={() => {}}
+      groups={[]}
       selectedGroupNames={[]}
       setSelectedGroupNames={() => {}}
+      isFetchingNextPage={false}
+      hasNextPage={false}
+      fetchNextPage={() => {}}
     />,
   );
 
@@ -26,9 +31,14 @@ it('shows no groups available message', async () => {
 it('shows some groups when available', async () => {
   render(
     <SearchableGroupFilter
-      initialGroups={[{ name: 'group-1' }]}
+      searchQuery=""
+      setSearchQuery={() => {}}
+      groups={[{ name: 'group-1' }]}
       selectedGroupNames={[]}
       setSelectedGroupNames={() => {}}
+      isFetchingNextPage={false}
+      hasNextPage={false}
+      fetchNextPage={() => {}}
     />,
   );
 
@@ -47,9 +57,14 @@ it('shows some groups when available', async () => {
 it('a group can be selected', async () => {
   render(
     <SearchableGroupFilter
-      initialGroups={[{ name: 'group-1' }]}
+      searchQuery=""
+      setSearchQuery={() => {}}
+      groups={[{ name: 'group-1' }]}
       selectedGroupNames={[]}
       setSelectedGroupNames={setter}
+      isFetchingNextPage={false}
+      hasNextPage={false}
+      fetchNextPage={() => {}}
     />,
   );
 
@@ -65,9 +80,14 @@ it('a group can be selected', async () => {
 it('selected groups are checked', async () => {
   render(
     <SearchableGroupFilter
-      initialGroups={[{ name: 'group-1' }, { name: 'group-2' }]}
+      searchQuery=""
+      setSearchQuery={() => {}}
+      groups={[{ name: 'group-1' }, { name: 'group-2' }]}
       selectedGroupNames={['group-1']}
       setSelectedGroupNames={setter}
+      isFetchingNextPage={false}
+      hasNextPage={false}
+      fetchNextPage={() => {}}
     />,
   );
 
