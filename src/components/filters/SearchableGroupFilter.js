@@ -7,47 +7,63 @@ import {
   Select /* data-codemods */,
   SelectList /* data-codemods */,
   SelectOption /* data-codemods */,
+  Spinner,
 } from '@patternfly/react-core';
 
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 
+const VISIBLE_LIMIT = 10;
+
 const SearchableGroupFilter = ({
-  initialGroups,
+  inputValue,
+  setInputValue,
+  isFetchingNextPage,
+  hasNextPage,
+  groups,
+  fetchNextPage,
   selectedGroupNames,
   setSelectedGroupNames,
   showNoGroupOption,
   isKesselEnabled = false,
 }) => {
-  const initialValues = useMemo(
-    () => [
-      ...(showNoGroupOption || isKesselEnabled
+  const [isOpen, setIsOpen] = useState(false);
+  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(VISIBLE_LIMIT);
+  const [selectOptions, setSelectOptions] = useState([]);
+
+  const prefixOptions = useMemo(
+    () =>
+      showNoGroupOption || isKesselEnabled
         ? [
             {
               itemId: '',
               children: isKesselEnabled ? 'Ungrouped hosts' : 'No workspace',
             },
           ]
-        : []),
-      ...initialGroups.map(({ name }) => ({
-        itemId: name, // group name is unique by design
-        children: name,
-      })),
-    ],
-    [initialGroups, showNoGroupOption, isKesselEnabled],
+        : [],
+    [showNoGroupOption, isKesselEnabled],
   );
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [selectOptions, setSelectOptions] = useState(initialValues);
-  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
+  const groupOptions = useMemo(
+    () => groups.map(({ name }) => ({ itemId: name, children: name })),
+    [groups],
+  );
+
+  const allValues = useMemo(
+    () => [...prefixOptions, ...groupOptions],
+    [prefixOptions, groupOptions],
+  );
 
   useEffect(() => {
-    let newSelectOptions = initialValues;
+    let newSelectOptions = [
+      ...prefixOptions,
+      ...groupOptions.slice(0, visibleCount),
+    ];
 
     // filter menu items based on the text input value when one exists
     if (inputValue) {
-      newSelectOptions = initialValues.filter((menuItem) =>
+      newSelectOptions = allValues.filter((menuItem) =>
         String(menuItem.children)
           .toLowerCase()
           .includes(inputValue.toLowerCase()),
@@ -64,9 +80,17 @@ const SearchableGroupFilter = ({
       }
     }
 
-    setSelectOptions(newSelectOptions);
     setFocusedItemIndex(0);
-  }, [inputValue, initialValues]);
+    setSelectOptions(newSelectOptions);
+  }, [
+    inputValue,
+    prefixOptions,
+    groupOptions,
+    visibleCount,
+    hasNextPage,
+    isFetchingNextPage,
+    setSelectOptions,
+  ]);
 
   const handleMenuArrowKeys = (key) => {
     let indexToFocus;
@@ -139,8 +163,19 @@ const SearchableGroupFilter = ({
     setInputValue(value);
   };
 
-  const onSelect = (itemId) => {
+  const onSelect = async (itemId) => {
+    if (itemId === '__load_more__') {
+      return;
+    }
+
     setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
+  };
+
+  const onViewMoreClick = () => {
+    setVisibleCount((c) => c + VISIBLE_LIMIT);
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
   };
 
   const toggle = (toggleRef) => (
@@ -199,6 +234,18 @@ const SearchableGroupFilter = ({
               </div>
             ))
           )}
+          {(isFetchingNextPage ||
+            (!inputValue &&
+              (groupOptions.length > visibleCount || hasNextPage))) && (
+            <SelectOption
+              itemId="__load_more__"
+              onClick={onViewMoreClick}
+              isLoadButton={!isFetchingNextPage}
+              isLoading={isFetchingNextPage}
+            >
+              {isFetchingNextPage ? <Spinner size="lg" /> : 'View more'}
+            </SelectOption>
+          )}
         </SelectList>
       </Select>
     </div>
@@ -206,12 +253,12 @@ const SearchableGroupFilter = ({
 };
 
 SearchableGroupFilter.propTypes = {
-  initialGroups: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      id: PropTypes.string,
-    }).isRequired,
-  ),
+  inputValue: PropTypes.string.isRequired,
+  setInputValue: PropTypes.func.isRequired,
+  isFetchingNextPage: PropTypes.bool.isRequired,
+  hasNextPage: PropTypes.bool.isRequired,
+  fetchNextPage: PropTypes.func.isRequired,
+  groups: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,
