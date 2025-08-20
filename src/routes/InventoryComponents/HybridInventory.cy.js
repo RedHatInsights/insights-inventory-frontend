@@ -171,8 +171,7 @@ describe('hybrid inventory table', () => {
     });
 
     it('can add to existing group', () => {
-      cy.wait('@getGroups');
-      cy.wait('@getGroups'); // wait for two sequential requests to groups with page 1 and 2 (the groups filter)
+      cy.wait('@getGroups'); // wait for one request to groups (the groups filter loads first page)
 
       cy.intercept(
         'POST',
