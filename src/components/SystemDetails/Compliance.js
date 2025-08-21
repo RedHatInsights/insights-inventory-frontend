@@ -15,7 +15,6 @@ const ComplianceTab = () => {
         locale: navigator.language.slice(0, 2),
       }}
       inventoryId={inventoryId}
-      remediationsEnabled
     />
   );
 };
