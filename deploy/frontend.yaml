@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedHatInsights/frontend-components/refs/heads/master/packages/config-utils/src/feo/spec/frontend-crd.schema.json
+---
 apiVersion: v1
 kind: Template
 metadata:
@@ -8,6 +10,7 @@ objects:
     metadata:
       name: inventory
     spec:
+      feoConfigEnabled: true
       envName: ${ENV_NAME}
       title: Inventory
       deploymentRepo: https://github.com/RedHatInsights/insights-inventory-frontend
@@ -18,18 +21,149 @@ objects:
         paths:
           - /apps/inventory
       image: ${IMAGE}:${IMAGE_TAG}
-      navItems:
-        - appId: "inventory"
-          title: "Inventory"
-          href: "/insights/inventory"
-          product: "Red Hat Insights"
       module:
-        manifestLocation: "/apps/inventory/fed-mods.json"
+        analytics:
+          APIKey: apRCg9V6oMXCcnTingqRYW6m1er4hkCW
+          APIKeyDev: aMINBssUhXV1okzk7ZBaqwdTgtA0ySpg
+        manifestLocation: /apps/inventory/fed-mods.json
+        config:
+          supportCaseData:
+            product: Red Hat Insights
+            version: Inventory
         modules:
-          - id: "inventory"
-            module: "./RootApp"
+          - id: inventory
+            module: ./RootApp
             routes:
               - pathname: /insights/inventory
+              - pathname: /ansible/inventory
+
+      bundleSegments:
+        - segmentId: inventory-insights
+          bundleId: insights
+          position: 500
+          navItems:
+            - id: inventory
+              title: Inventory
+              expandable: true
+              routes:
+                - id: systems
+                  title: Systems
+                  href: /insights/inventory
+                  product: Red Hat Insights
+                - id: workspaces
+                  title: Workspaces
+                  href: /insights/inventory/workspaces
+                  product: Red Hat Insights
+                - id: images
+                  title: Images
+                  href: /insights/image-builder
+                  product: Red Hat Insights
+                - id: system-configuration
+                  title: System Configuration
+                  expandable: true
+                  routes:
+                    - id: rhc
+                      title: Remote Host Configuration
+                      href: /insights/connector
+                      product: Red Hat Insights
+                    - id: activation-keys
+                      title: Activation Keys
+                      href: /insights/connector/activation-keys
+                      product: Red Hat Insights
+                    - id: staleness-and-deletion
+                      title: Staleness and Deletion
+                      href: /insights/inventory/staleness-and-deletion
+                      product: Red Hat Insights
+        - segmentId: inventory-ansible
+          bundleId: ansible
+          position: 1000
+          navItems:
+            - title: Inventory
+              id: inventory
+              href: /ansible/inventory
+              product: Red Hat Insights
+
+      serviceTiles:
+        - id: inventory-ansible-automation
+          title: Inventory
+          description: "View details about your Ansible Automation Platform systems."
+          href: /ansible/inventory
+          group: ansible
+          section: automation
+          icon: AnsibleIcon
+        - id: inventory-rhel-inventories
+          title: Inventory
+          description: "View details about your Red Hat Enterprise Linux systems."
+          href: /insights/inventory
+          group: rhel
+          section: inventories
+          icon: InsightsIcon
+        - id: inventory-ansible-inventories
+          title: Inventory
+          description: "View details about your Ansible Automation Platform systems."
+          href: /ansible/inventory
+          group: ansible
+          section: inventories
+          icon: AnsibleIcon
+        - id: inventory-workspaces-rhel-inventories
+          title: Workspaces
+          description: "Group your Red Hat Enterprise Linux systems for more granular User Access."
+          href: /insights/inventory/workspaces
+          group: rhel
+          section: inventories
+          icon: InsightsIcon
+        - id: inventory-staleness-and-deletion-rhel-systemConfiguration
+          title: Staleness and Deletion
+          description: "Configure when your systems should be marked as stale, marked as stale warning, and be deleted."
+          href: /insights/inventory/staleness-and-deletion
+          group: rhel
+          section: systemConfiguration
+          icon: InsightsIcon
+
+      searchEntries:
+        - id: inventory-systems-rhel
+          title: Systems - Inventory
+          description: "View details about your Red Hat Enterprise Linux systems."
+          href: /insights/inventory
+          alt_title:
+            - inventory
+            - rhel systems
+            - my systems
+            - hosts
+            - boxes
+            - rhel
+            - linux
+            - insights
+            - systems
+            - hosts
+            - rhel
+            - hostname(s)
+            - machine(s)
+            - server(s)
+        - id: inventory-workspaces-rhel
+          title: Workspaces - Inventory
+          description: "Organize your Red Hat Enterprise Linux systems with workspaces for more granular User Access."
+          href: /insights/inventory/workspaces
+          alt_title:
+            - workspaces
+            - workspace
+            - groups
+            - group
+        - id: systemConfiguration-rhc-rhel
+          title: Remote Host Configuration - System Configuration
+          description: "Configure your systems to execute Ansible Playbooks."
+          href: /insights/connector
+          alt_title:
+            - Remote host configuration
+            - remote host configuration
+            - connect systems
+            - connection options
+            - connect settings
+            - settings
+            - Register
+            - rhc
+            - RHC
+            - rhcd
 
 parameters:
   - name: ENV_NAME
