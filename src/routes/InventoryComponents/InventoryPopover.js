@@ -4,8 +4,10 @@ import {
   ExternalLinkAltIcon,
   OutlinedQuestionCircleIcon,
 } from '@patternfly/react-icons';
+import { useLightspeedFeatureFlag } from '../../Utilities/hooks/useLightspeedFeatureFlag';
 
 export const InventoryPopover = () => {
+  const platformName = useLightspeedFeatureFlag();
   return (
     <Popover
       aria-label="Inventory popover"
@@ -23,7 +25,7 @@ export const InventoryPopover = () => {
             <Content component="p">
               To appear in Inventory, systems must first be registered with Red
               Hat. You can register systems using several methods, including the
-              Red Hat Insights client, Red Hat Satellite, or Red Hat
+              Red Hat {platformName} client, Red Hat Satellite, or Red Hat
               Subscription Manager (RHSM).
             </Content>
             <Content component="p">
@@ -57,7 +59,7 @@ export const InventoryPopover = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                Client configuration guide for Red Hat Insights
+                Client configuration guide for Red Hat {platformName}
                 <ExternalLinkAltIcon className="pf-v6-u-ml-xs" />
               </a>
             </span>
