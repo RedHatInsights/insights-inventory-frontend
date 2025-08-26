@@ -23,6 +23,7 @@ import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
 import { useGetDevice } from '../api/edge/imagesInfo';
 import useFeatureFlag from '../Utilities/useFeatureFlag';
+import { useLightspeedFeatureFlag } from '../Utilities/hooks/useLightspeedFeatureFlag';
 
 const appList = {
   'CENTOS-LINUX': [
@@ -106,6 +107,7 @@ const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
 );
 
 const Inventory = () => {
+  const platformName = useLightspeedFeatureFlag();
   const chrome = useChrome();
   const { inventoryId } = useParams();
   const [searchParams] = useSearchParams();
@@ -178,7 +180,7 @@ const Inventory = () => {
   };
 
   if (entity) {
-    document.title = `${entity.display_name} | Systems | Red Hat Insights`;
+    document.title = `${entity.display_name} | Systems | Red Hat ${platformName}`;
   }
 
   useEffect(() => {
