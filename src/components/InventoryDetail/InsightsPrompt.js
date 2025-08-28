@@ -13,8 +13,10 @@ import {
   ContentVariants,
 } from '@patternfly/react-core';
 import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
+import { useLightspeedFeatureFlag } from '../../Utilities/hooks/useLightspeedFeatureFlag';
 
 const InsightsPrompt = () => {
+  const platformName = useLightspeedFeatureFlag();
   return (
     <Alert
       variant="info"
@@ -32,7 +34,7 @@ const InsightsPrompt = () => {
                 }}
               >
                 <Content component={ContentVariants.p}>
-                  With Insights you can easly:
+                  {`With ${platformName === 'Lightspeed' ? 'Red Hat Lightspeed' : 'Insights'} you can easily:`}
                 </Content>
                 <Content
                   component="ul"
@@ -81,7 +83,7 @@ const InsightsPrompt = () => {
                     href="https://access.redhat.com/solutions/6758841"
                     isInline
                   >
-                    Host not reporting data to Red Hat Insights
+                    {`Host not reporting data to Red Hat ${platformName}`}
                   </Button>
                 </CardFooter>
               </Card>

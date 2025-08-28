@@ -1,8 +1,8 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/RedhatInsights/insights-inventory-frontend/test.yml?branch=master)](https://github.com/RedHatInsights/insights-inventory-frontend/actions/workflows/test.yml) [![GitHub release](https://img.shields.io/github/release/RedHatInsights/insights-inventory-frontend.svg)](https://github.com/RedHatInsights/insights-inventory-frontend/releases/latest) [![codecov](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend/branch/master/graph/badge.svg?token=XC4AD7NQFW)](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend)
 
-# Insights Inventory Frontend
+# Inventory Frontend
 
-This is the frontend application for [Insights Inventory](https://github.com/RedHatInsights/insights-inventory). It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
+This is the frontend application for [Inventory](https://github.com/RedHatInsights/insights-inventory). It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
 
 ## Documentation
 

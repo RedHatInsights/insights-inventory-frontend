@@ -8,6 +8,7 @@ const appName = packageJson[bundle].appname;
 module.exports = {
   appName,
   appUrl: `/${bundle}/${appName}`,
+  publicPath: 'auto',
   useProxy: process.env.PROXY === 'true',
   debug: true,
   devtool: 'hidden-source-map',
