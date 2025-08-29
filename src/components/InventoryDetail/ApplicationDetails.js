@@ -1,7 +1,13 @@
 import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useStore } from 'react-redux';
-import { Spinner, Tab, TabContent, Tabs } from '@patternfly/react-core';
+import {
+  Bullseye,
+  Spinner,
+  Tab,
+  TabContent,
+  Tabs,
+} from '@patternfly/react-core';
 import { verifyCulledReporter } from '../../Utilities/sharedFunctions';
 import { getFact } from './helpers';
 import { NotConnected } from '@redhat-cloud-services/frontend-components/NotConnected';
@@ -140,7 +146,9 @@ const ApplicationDetails = ({
           </section>
         </React.Fragment>
       ) : (
-        <Spinner />
+        <Bullseye>
+          <Spinner />
+        </Bullseye>
       )}
     </React.Fragment>
   );
