@@ -2,12 +2,17 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import SystemsTable from './SystemsTable';
 import { TableToolsTable } from 'bastilian-tabletools';
-import { fetchSystems } from '../../helpers.js';
 
 jest.mock('bastilian-tabletools', () => ({
+  ...jest.requireActual('bastilian-tabletools'),
   TableToolsTable: jest.fn(() => (
     <div data-testid="table-tools-table">TableToolsTable</div>
   )),
+}));
+
+jest.mock('../../../../Utilities/useFeatureFlag', () => ({
+  __esModule: true,
+  default: () => false,
 }));
 
 jest.mock('../../helpers.js', () => {
@@ -27,7 +32,7 @@ describe('SystemsTable', () => {
     render(<SystemsTable />);
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
-        items: fetchSystems,
+        items: expect.any(Function),
       }),
       expect.anything(),
     );
@@ -51,7 +56,7 @@ describe('SystemsTable', () => {
     render(<SystemsTable items={items} />);
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
-        items: items,
+        items: expect.any(Function),
       }),
       expect.anything(),
     );

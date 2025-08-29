@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
@@ -7,19 +7,16 @@ const useGlobalFilter = () => {
   const edgeParityFilterDeviceEnabled = useFeatureFlag(
     'edgeParity.inventory-list-filter',
   );
-  const [globalFilter, setGlobalFilter] = useState();
+  // FIXME currently there seems to be no way to retrieve the current global filter state to initialise a default
+  // This bug already exists in InventoryTable
+  const [globalFilter, setGlobalFilterState] = useState();
 
-  useEffect(() => {
-    chrome.hideGlobalFilter(false);
-    const unlisten = chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
-      const [workloads, SID, tags] = chrome.mapGlobalFilter(data, false, true);
-
-      setGlobalFilter({
+  const setGlobalFilter = useCallback(
+    (tags, workloads, SID) =>
+      setGlobalFilterState({
         tags,
         filter: {
-          ...globalFilter?.filter,
           system_profile: {
-            ...globalFilter?.filter?.system_profile,
             ...(workloads?.SAP?.isSelected && { sap_system: true }),
             ...(workloads &&
               workloads['Ansible Automation Platform']?.isSelected && {
@@ -32,11 +29,20 @@ const useGlobalFilter = () => {
             ...(SID?.length > 0 && { sap_sids: SID }),
           },
         },
-      });
+      }),
+    [edgeParityFilterDeviceEnabled],
+  );
+
+  useEffect(() => {
+    chrome.hideGlobalFilter(false);
+    const unlisten = chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
+      const [workloads, SID, tags] = chrome.mapGlobalFilter(data, false, true);
+
+      setGlobalFilter(tags, workloads, SID);
     });
 
     return () => unlisten();
-  }, [edgeParityFilterDeviceEnabled]);
+  }, [setGlobalFilter, chrome]);
 
   return globalFilter;
 };
