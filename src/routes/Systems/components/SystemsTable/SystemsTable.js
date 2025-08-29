@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TableToolsTable } from 'bastilian-tabletools';
+import { TableToolsTable, TableStateProvider } from 'bastilian-tabletools';
 
 import filters, { CUSTOM_FILTER_TYPES } from './filters';
 import { fetchSystems, resolveColumns } from '../../helpers.js';
 import { DEFAULT_OPTIONS } from './constants';
+import useGlobalFilterForItems from './hooks/useGlobalFilterForItems';
 
 // TODO Filters should be customisable enable/disable, extend, etc.
 // TODO "global filter" needs to be integrated
-const SystemsTable = ({ items = fetchSystems, columns = [], options = {} }) => {
+const SystemsTable = ({
+  items: itemsProp = fetchSystems,
+  columns = [],
+  options = {},
+}) => {
+  const items = useGlobalFilterForItems(itemsProp);
+
   return (
     <TableToolsTable
       variant="compact"
@@ -32,4 +39,10 @@ SystemsTable.propTypes = {
   options: PropTypes.object,
 };
 
-export default SystemsTable;
+const SystemsTableWithProvider = (props) => (
+  <TableStateProvider>
+    <SystemsTable {...props} />
+  </TableStateProvider>
+);
+
+export default SystemsTableWithProvider;
