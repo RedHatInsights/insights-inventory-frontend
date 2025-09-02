@@ -63,7 +63,7 @@ export const getLastSeenSelectOptions = () => {
     },
     {
       label: 'Custom',
-      value: {},
+      value: { custom: true },
     },
   ];
 };

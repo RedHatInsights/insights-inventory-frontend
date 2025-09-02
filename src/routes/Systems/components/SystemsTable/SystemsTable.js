@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { TableToolsTable } from 'bastilian-tabletools';
 import { fetchSystems, resolveColumns, resolveFilters } from '../../helpers.js';
 import { DEFAULT_OPTIONS } from './constants';
+import DateRangeSelector from './components/DateRangeSelector.js';
 
 // TODO "global filter" needs to be integrated
 const SystemsTable = ({
@@ -17,6 +18,9 @@ const SystemsTable = ({
       items={items}
       columns={resolveColumns(columns)}
       filters={resolveFilters(filters)}
+      toolbarProps={{
+        children: <DateRangeSelector />,
+      }}
       options={{
         ...DEFAULT_OPTIONS,
         ...options,
