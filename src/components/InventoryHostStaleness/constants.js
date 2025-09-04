@@ -1,13 +1,6 @@
 import React from 'react';
 import { Button, Flex, Popover, Title } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
-import PropTypes from 'prop-types';
-
-export const CONVENTIONAL_TAB_TOOLTIP =
-  'With RPM-DNF, you can manage the system software by using the DNF package manager and updated RPM packages. This is a simple and adaptive method of managing and modifying the system over its lifecycle.';
-
-export const IMMUTABLE_TAB_TOOLTIP =
-  'With OSTree, you can manage the system software by referencing a central image repository. OSTree images contain a complete operating system ready to be remotely installed at scale.  You can track updates to images through commits and enable secure updates that only address changes and keep the operating system unchanged. The updates are quick, and the rollbacks are easy.';
 
 export const GENERAL_HOST_STALENESS_WRITE_PERMISSION =
   'staleness:staleness:write';
@@ -41,9 +34,6 @@ export const hostStalenessApiKeys = [
   'conventional_time_to_stale',
   'conventional_time_to_stale_warning',
   'conventional_time_to_delete',
-  'immutable_time_to_stale',
-  'immutable_time_to_stale_warning',
-  'immutable_time_to_delete',
 ];
 
 export const conventionalApiKeys = [
@@ -134,132 +124,30 @@ export const conditionalDropdownError = (newFormValues, dropdownItems) => {
       );
     }
   }
-
-  if (apiKey === 'immutable_time_to_stale') {
-    if (formValue >= newFormValues['immutable_time_to_stale_warning']) {
-      return (
-        <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
-          style={{ width: '200px' }}
-        >
-          Staleness must be before stale warning
-        </p>
-      );
-    } else if (formValue > newFormValues['immutable_time_to_delete']) {
-      return (
-        <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
-          style={{ width: '200px' }}
-        >
-          Staleness must be before deletion
-        </p>
-      );
-    } else {
-      return (
-        <p className="pf-v6-u-font-size-sm " style={{ width: '200px' }}>
-          Maximum: 7 days
-        </p>
-      );
-    }
-  }
-  if (apiKey === 'immutable_time_to_stale_warning') {
-    if (formValue >= newFormValues['immutable_time_to_delete']) {
-      return (
-        <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100 "
-          style={{ width: '200px' }}
-        >
-          Stale warning must be before deletion
-        </p>
-      );
-    } else if (formValue < newFormValues['immutable_time_to_stale']) {
-      return (
-        <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
-          style={{ width: '200px' }}
-        >
-          Stale warning must be after staleness
-        </p>
-      );
-    } else {
-      return (
-        <p className="pf-v6-u-font-size-sm " style={{ width: '200px' }}>
-          Maximum: 180 days
-        </p>
-      );
-    }
-  }
-  if (apiKey === 'immutable_time_to_delete') {
-    if (formValue < newFormValues['immutable_time_to_stale_warning']) {
-      return (
-        <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
-          style={{ width: '200px' }}
-        >
-          Deletion must be after staleness
-        </p>
-      );
-    } else if (formValue < newFormValues['immutable_time_to_stale']) {
-      return (
-        <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
-          style={{ width: '200px' }}
-        >
-          Deletion must be after stale warning
-        </p>
-      );
-    } else {
-      return (
-        <p className="pf-v6-u-font-size-sm " style={{ width: '200px' }}>
-          Maximum: 2 years
-        </p>
-      );
-    }
-  }
 };
 
-export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
+export const HostStalenessResetDefaultPopover = () => {
   return (
     <Popover
       aria-label="Organization level popover"
       headerContent={<Title headingLevel="h4">Default settings</Title>}
       position="left"
       bodyContent={
-        activeTabKey ? (
-          <Flex
-            direction={{ default: 'column' }}
-            spaceItems={{ default: 'spaceItemsNone' }}
-          >
-            <span className="pf-v6-u-font-size-sm">
-              - Systems are marked as stale after 2 days since last check-in.
-            </span>
-            <span className="pf-v6-u-font-size-sm">
-              - Systems are marked as stale warning after 180 days since last
-              check-in.
-            </span>
-
-            <span className="pf-v6-u-font-size-sm">
-              - Systems are deleted after 2 years since last check-in.
-            </span>
-          </Flex>
-        ) : (
-          <Flex
-            direction={{ default: 'column' }}
-            spaceItems={{ default: 'spaceItemsNone' }}
-          >
-            <span className="pf-v6-u-font-size-sm">
-              - Systems are marked as stale after 1 day since last check-in.
-            </span>
-            <span className="pf-v6-u-font-size-sm">
-              - Systems are marked as stale warning after 7 days since last
-              check-in.
-            </span>
-
-            <span className="pf-v6-u-font-size-sm">
-              - Systems are deleted after 14 days since last check-in.
-            </span>
-          </Flex>
-        )
+        <Flex
+          direction={{ default: 'column' }}
+          spaceItems={{ default: 'spaceItemsNone' }}
+        >
+          <span className="pf-v6-u-font-size-sm">
+            - Systems are marked as stale after 1 day since last check-in.
+          </span>
+          <span className="pf-v6-u-font-size-sm">
+            - Systems are marked as stale warning after 7 days since last
+            check-in.
+          </span>
+          <span className="pf-v6-u-font-size-sm">
+            - Systems are deleted after 14 days since last check-in.
+          </span>
+        </Flex>
       }
     >
       <Button
@@ -272,10 +160,7 @@ export const HostStalenessResetDefaultPopover = ({ activeTabKey }) => {
   );
 };
 
-export const InventoryHostStalenessPopover = ({
-  hasEdgeSystems,
-  edgeParityStalenessEnabled,
-}) => {
+export const InventoryHostStalenessPopover = () => {
   return (
     <Popover
       aria-label="Organization level popover"
@@ -308,29 +193,6 @@ export const InventoryHostStalenessPopover = ({
               - Systems are deleted after 14 days since last check-in.
             </span>
           </Flex>
-          {hasEdgeSystems && edgeParityStalenessEnabled && (
-            <Flex
-              direction={{ default: 'column' }}
-              spaceItems={{ default: 'spaceItemsNone' }}
-            >
-              <span className="pf-v6-u-font-size-sm">
-                Default for Immutable systems (OSTree):
-              </span>
-              <span className="pf-v6-u-font-size-sm">
-                <p>
-                  - Systems are marked as stale after 2 days since last
-                  check-in.
-                </p>
-              </span>
-              <span className="pf-v6-u-font-size-sm">
-                - Systems are marked as stale warning after 180 days since last
-                check-in.
-              </span>
-              <span className="pf-v6-u-font-size-sm">
-                - Systems are deleted after 2 years since last check-in.
-              </span>
-            </Flex>
-          )}
         </Flex>
       }
     >
@@ -344,11 +206,9 @@ export const InventoryHostStalenessPopover = ({
   );
 };
 
-export const systemStalenessItems = (activeTabKey) => {
+export const systemStalenessItems = () => {
   const allDays = [1, 2, 3, 4, 5, 6, 7];
-  const apiKey = activeTabKey
-    ? 'immutable_time_to_stale'
-    : 'conventional_time_to_stale';
+  const apiKey = 'conventional_time_to_stale';
   const title = 'System staleness';
   const newItems = allDays.map((value) => ({
     name: value === 1 ? '1 day' : `${value} days`,
@@ -362,11 +222,9 @@ export const systemStalenessItems = (activeTabKey) => {
   return newItems;
 };
 
-export const systemStalenessWarningItems = (activeTabKey) => {
+export const systemStalenessWarningItems = () => {
   const allDays = [2, 3, 4, 5, 6, 7, 14, 21, 30, 60, 90, 120, 150, 180];
-  const apiKey = activeTabKey
-    ? 'immutable_time_to_stale_warning'
-    : 'conventional_time_to_stale_warning';
+  const apiKey = 'conventional_time_to_stale_warning';
   const title = 'System stale warning';
   const newItems = allDays.map((value) => ({
     name: value + ' days',
@@ -380,11 +238,9 @@ export const systemStalenessWarningItems = (activeTabKey) => {
   return newItems;
 };
 
-export const systemDeletionItems = (activeTabKey) => {
+export const systemDeletionItems = () => {
   const allDays = [3, 4, 5, 6, 7, 14, 21, 30, 60, 90, 120, 150, 180, 365, 730];
-  const apiKey = activeTabKey
-    ? 'immutable_time_to_delete'
-    : 'conventional_time_to_delete';
+  const apiKey = 'conventional_time_to_delete';
   const title = 'System deletion';
 
   const newItems = allDays.map((value) => ({
@@ -417,22 +273,8 @@ export const formValidation = async (newFormValues, setIsFormValid) => {
       break;
     }
     if (
-      apiKey === 'immutable_time_to_stale' &&
-      formValue >= newFormValues['immutable_time_to_stale_warning']
-    ) {
-      setIsFormValid(false);
-      break;
-    }
-    if (
       apiKey === 'conventional_time_to_stale_warning' &&
       formValue >= newFormValues['conventional_time_to_delete']
-    ) {
-      setIsFormValid(false);
-      break;
-    }
-    if (
-      apiKey === 'immutable_time_to_stale_warning' &&
-      formValue >= newFormValues['immutable_time_to_delete']
     ) {
       setIsFormValid(false);
       break;
@@ -440,13 +282,4 @@ export const formValidation = async (newFormValues, setIsFormValid) => {
       setIsFormValid(true);
     }
   }
-};
-
-HostStalenessResetDefaultPopover.propTypes = {
-  activeTabKey: PropTypes.number,
-};
-
-InventoryHostStalenessPopover.propTypes = {
-  hasEdgeSystems: PropTypes.bool,
-  edgeParityStalenessEnabled: PropTypes.bool,
 };
