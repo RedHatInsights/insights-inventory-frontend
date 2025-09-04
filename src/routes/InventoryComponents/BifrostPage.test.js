@@ -11,8 +11,6 @@ import {
 } from '../../Utilities/constants';
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/interceptors');
-jest.mock('../../Utilities/useFeatureFlag');
-
 describe('BifrostPage', () => {
   const axiosMock = jest.fn(async () => mockedBootCStatusData);
 

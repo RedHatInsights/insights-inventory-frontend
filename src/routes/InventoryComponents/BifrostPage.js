@@ -8,15 +8,11 @@ import {
   INVENTORY_FETCH_EDGE,
 } from '../../Utilities/constants';
 import BifrostTable from './BifrostTable';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 const BifrostPage = () => {
   const axios = useAxiosWithPlatformInterceptors();
   const [bootcImages, setBootcImages] = useState();
   const [loaded, setLoaded] = useState(false);
-  const edgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter',
-  );
 
   useEffect(() => {
     const fetchBootcImages = async () => {
@@ -73,15 +69,12 @@ const BifrostPage = () => {
           systemCount: packageBasedSystems.total,
           hashCommitCount: '-',
         },
-      ];
-
-      if (!edgeParityFilterDeviceEnabled) {
-        updated.push({
+        {
           image: 'Immutable (OSTree) image based systems',
           systemCount: immutableImageBasedSystems.total,
           hashCommitCount: '-',
-        });
-      }
+        },
+      ];
 
       setLoaded(true);
       setBootcImages(updated);
