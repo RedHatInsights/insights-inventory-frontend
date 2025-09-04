@@ -182,25 +182,6 @@ const Inventory = () => {
     [searchParams],
   );
 
-  // const actionsEdge =
-  //   enableEdgeUpdate && hostType === 'edge'
-  //     ? [
-  //         {
-  //           title: 'Update',
-  //           isDisabled:
-  //             deviceData?.UpdateTransactions?.[0]?.Status === 'BUILDING' ||
-  //             deviceData?.UpdateTransactions?.[0]?.Status === 'CREATED' ||
-  //             !deviceData?.ImageInfo?.UpdatesAvailable?.length > 0,
-  //           onClick: () => {
-  //             navigate({
-  //               pathname: `${location.pathname}/update`,
-  //               search: '?from_details=true',
-  //             });
-  //           },
-  //         },
-  //       ]
-  //     : [];
-
   return (
     <InventoryDetail
       additionalClasses={additionalClasses}
@@ -225,7 +206,6 @@ const Inventory = () => {
       activeApp={searchParams.get('appName')}
       appList={availableApps}
       onTabSelect={onTabSelect}
-      // actions={actionsEdge}
     />
   );
 };

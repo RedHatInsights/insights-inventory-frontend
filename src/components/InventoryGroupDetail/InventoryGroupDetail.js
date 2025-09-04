@@ -11,7 +11,6 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 import GroupSystems from '../GroupSystems';
-import GroupTabDetails from './GroupTabDetails';
 import GroupDetailHeader from './GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import {
@@ -22,19 +21,12 @@ import {
   EmptyStateNoAccessToGroups,
   EmptyStateNoAccessToSystems,
 } from './EmptyStateNoAccess';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
-import { hybridInventoryTabKeys } from '../../Utilities/constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
-import { getHostsCount } from './helpers/getHostsCount';
 
 const GroupDetailInfo = lazy(() => import('./GroupDetailInfo'));
 
 const InventoryGroupDetail = ({ groupId }) => {
   const [activeTabKey, setActiveTabKey] = useState(0);
-
-  const [activeTab, setActiveTab] = useState(
-    hybridInventoryTabKeys.conventional.key,
-  );
 
   const dispatch = useDispatch();
   const { data, fulfilled, rejected, error } = useSelector(
@@ -68,30 +60,6 @@ const InventoryGroupDetail = ({ groupId }) => {
     chrome?.updateDocumentTitle?.(`${groupName || groupId} - Workspaces`);
   }, [groupName, groupId, chrome]);
 
-  // TODO: append search parameter to identify the active tab
-
-  const [hasEdgeImages, setHasEdgeImages] = useState(false);
-  const edgeParityEnabled = useFeatureFlag('edgeParity.inventory-list');
-
-  useEffect(() => {
-    // determines the active tab opened by default
-    const setInitialTab = async () => {
-      const hostsCount = await getHostsCount({ groupName });
-
-      if (hostsCount.immutableHostsCount > 0) {
-        setHasEdgeImages(true);
-
-        if (hostsCount.conventionalHostsCount === 0) {
-          setActiveTab(hybridInventoryTabKeys.immutable.key);
-        }
-      }
-    };
-
-    if (edgeParityEnabled && groupName) {
-      setInitialTab();
-    }
-  }, [edgeParityEnabled, groupName]);
-
   if (
     (fulfilled && data.total === 0) || // group does not exist
     (rejected && error.status === 400) // group name not correct
@@ -99,27 +67,7 @@ const InventoryGroupDetail = ({ groupId }) => {
     navigate('/groups');
   }
 
-  return hasEdgeImages && canViewGroup && edgeParityEnabled ? (
-    <React.Fragment>
-      <GroupDetailHeader groupId={groupId} />
-      {canViewGroup ? (
-        <PageSection hasBodyWrapper={false} type="tabs">
-          <GroupTabDetails
-            groupId={groupId}
-            groupName={groupName}
-            ungrouped={ungrouped}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            hasEdgeImages={hasEdgeImages}
-          />
-        </PageSection>
-      ) : (
-        <PageSection hasBodyWrapper={false}>
-          <EmptyStateNoAccessToGroups isSingle />
-        </PageSection>
-      )}
-    </React.Fragment>
-  ) : (
+  return (
     <React.Fragment>
       <GroupDetailHeader groupId={groupId} />
       {canViewGroup ? (
