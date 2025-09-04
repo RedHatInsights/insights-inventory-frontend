@@ -24,8 +24,6 @@ import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import TabCard from './TabCard';
 import {
-  CONVENTIONAL_TAB_TOOLTIP,
-  IMMUTABLE_TAB_TOOLTIP,
   conventionalApiKeys,
   daysToSecondsConversion,
   hostStalenessApiKeys,
@@ -193,10 +191,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
               Organization level system staleness and deletion
-              <InventoryHostStalenessPopover
-                hasEdgeSystems={hasEdgeSystems}
-                edgeParityStalenessEnabled={edgeParityStalenessEnabled}
-              />
+              <InventoryHostStalenessPopover />
             </Title>
           </CardHeader>
           <CardBody>
@@ -249,7 +244,6 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                         headerContent={
                           <div>Conventional systems (RPM-DNF)</div>
                         }
-                        bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
                       >
                         <OutlinedQuestionCircleIcon className="pf-v6-u-ml-md" />
                       </Popover>
@@ -281,7 +275,6 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                       <Popover
                         aria-label="Basic popover"
                         headerContent={<div>Immutable (OSTree)</div>}
-                        bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
                       >
                         <OutlinedQuestionCircleIcon className="pf-v6-u-ml-md" />
                       </Popover>
