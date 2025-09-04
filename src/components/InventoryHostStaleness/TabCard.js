@@ -76,7 +76,7 @@ const TabCard = ({
                 >
                   Reset to default setting
                 </Button>
-                <HostStalenessResetDefaultPopover activeTabKey={activeTabKey} />
+                <HostStalenessResetDefaultPopover />
               </FlexItem>
             </Flex>
           ) : (
