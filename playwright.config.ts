@@ -1,17 +1,30 @@
 import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
 
+const isCI = !!process.env.CI;
+const useCtrf = isCI && !!process.env.USE_CTRF; // toggle CTRF explicitly in CI
+
 export default defineConfig({
   testDir: './_playwright-tests/',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : 1,
-  reporter: [
-    ['list'],
-    ['json', { outputFile: 'playwright-ctrf/playwright-ctrf.json' }],
-    ['html', { outputFolder: 'playwright-report' }],
-  ],
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: 1,
+  reporter: isCI
+    ? [
+        ['html', { outputFolder: 'playwright-report' }],
+        useCtrf
+          ? [
+              'playwright-ctrf-json-reporter',
+              {
+                outputDir: 'playwright-ctrf',
+                outputFile: 'playwright-ctrf.json',
+              },
+            ]
+          : ['json', { outputFile: 'playwright-ctrf/playwright-ctrf.json' }],
+        ['@currents/playwright'],
+      ]
+    : 'list',
   timeout: 90_000,
   use: {
     actionTimeout: 90_000,

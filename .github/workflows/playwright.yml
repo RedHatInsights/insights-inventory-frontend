@@ -63,10 +63,9 @@ jobs:
       - name: Install front-end dependencies
         run: npm ci
 
-      - name: Install playwright
+      - name: Install Playwright
         run: npx playwright install --with-deps
 
-      # This prevents an error related to minimum watchers when running the front-end and playwright
       - name: Increase file watchers limit
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
       
@@ -74,15 +73,15 @@ jobs:
         run: sudo npm run patch:hosts
 
       - name: Run testing proxy
-        run: docker run -d --network=host -e HTTPS_PROXY=$RH_PROXY_URL -e ROUTES_JSON_PATH=/config/routes-ci.json  -v "$(pwd)/config:/config:ro,Z" --name consoledot-testing-proxy quay.io/dvagner/consoledot-testing-proxy
-
+        run: docker run -d --network=host -e HTTPS_PROXY=$RH_PROXY_URL -e ROUTES_JSON_PATH=/config/routes-ci.json  -v "$(pwd)/config:/config:ro,Z" --name frontend-development-proxy quay.io/redhat-user-workloads/hcc-platex-services-tenant/frontend-development-proxy
+        
       - name: Start front-end server
         run: |
           npm run static &
           npx wait-on http://localhost:8003/apps/inventory/
 
       - name: Run front-end Playwright tests
-        run: npx playwright test
+        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test
 
       - name: Publish front-end Test Report
         uses: ctrf-io/github-test-reporter@v1
