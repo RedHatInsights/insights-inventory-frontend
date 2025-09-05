@@ -2,17 +2,37 @@ import Workspace from './components/filters/Workspace';
 import {
   fetchTags,
   getOsSelectOptions,
-  getLastSeenSelectOptions,
   getWorkspaceSelectOptions,
 } from './helpers';
 import { getOperatingSystems } from '../../../../api';
+import LastSeenFilter from './components/filters/LastSeenFilter.js';
+import { stringToId } from './helpers';
 
 export const CUSTOM_FILTER_TYPES = {
   workspace: {
     Component: Workspace,
-    chips: (value) => [value],
+    chips: (value) => value,
     selectValue: (value) => [value, true],
     deselectValue: () => [undefined, true],
+  },
+  lastSeen: {
+    Component: LastSeenFilter,
+    filterChips: (configItem, value) => {
+      const result = {
+        category: configItem.label,
+        chips: [{ name: value?.label }],
+      };
+      return result;
+    },
+    toSelectValue: (configItem, selectedValue, selectedValues) => {
+      const customSelectValue = selectedValue || selectedValues;
+      const result = [customSelectValue, stringToId(configItem.label), true];
+      return result;
+    },
+    toDeselectValue: (configItem, chip) => {
+      const customDeselectValue = [];
+      return [customDeselectValue, stringToId(configItem.label), true];
+    },
   },
 };
 
@@ -170,10 +190,9 @@ export const tags = {
 export const lastSeen = {
   label: 'Last seen',
   value: 'last_seen',
-  type: 'singleSelect',
-  items: getLastSeenSelectOptions,
-  filterSerialiser: (_config, [value]) => {
-    return value;
+  type: 'lastSeen',
+  filterSerialiser: (_config, value) => {
+    return { updatedEnd: value?.end, updatedStart: value?.start };
   },
 };
 

@@ -36,39 +36,6 @@ export const getDateDaysAgo = (days) => {
   return daysAgo.toISOString();
 };
 
-export const getLastSeenSelectOptions = () => {
-  return [
-    {
-      label: 'Within the last 24 hours',
-      value: {
-        updatedEnd: getDateDaysAgo(0),
-        updatedStart: getDateDaysAgo(1),
-      },
-    },
-    {
-      label: 'More than 1 day ago',
-      value: { updatedEnd: getDateDaysAgo(1) },
-    },
-    {
-      label: 'More than 7 days ago',
-      value: { updatedEnd: getDateDaysAgo(7) },
-    },
-    {
-      label: 'More than 15 days ago',
-      value: { updatedEnd: getDateDaysAgo(15) },
-    },
-    {
-      label: 'More than 30 days ago',
-      value: { updatedEnd: getDateDaysAgo(30) },
-    },
-    {
-      label: 'Custom',
-      value: { custom: true },
-    },
-  ];
-};
-
-// TODO rework this with using tanstack query
 export const getWorkspaceSelectOptions = async () => {
   const firstResponse = await getGroups(undefined, {
     page: 1,
@@ -96,3 +63,6 @@ export const getWorkspaceSelectOptions = async () => {
 
   return allResults;
 };
+
+export const stringToId = (string) =>
+  string.split(/\s+/).join('-').toLowerCase();
