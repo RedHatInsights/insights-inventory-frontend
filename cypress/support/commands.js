@@ -32,9 +32,12 @@ import { getStore } from '../../src/store';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { mount } from 'cypress/react';
 import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
   const { path, routerProps = { initialEntries: ['/'] } } = options;
+
+  const queryClient = new QueryClient();
 
   return mount(
     <FlagProvider
@@ -44,19 +47,21 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
         appName: 'abc',
       }}
     >
-      <Provider store={getStore()}>
-        <MemoryRouter {...routerProps}>
-          <RBACProvider appName="inventory" checkResourceDefinitions>
-            {path ? (
-              <Routes>
-                <Route path={options.path} element={<Component {...props} />} />
-              </Routes>
-            ) : (
-              <Component {...props} />
-            )}
-          </RBACProvider>
-        </MemoryRouter>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={getStore()}>
+          <MemoryRouter {...routerProps}>
+            <RBACProvider appName="inventory" checkResourceDefinitions>
+              {path ? (
+                <Routes>
+                  <Route path={options.path} element={<Component {...props} />} />
+                </Routes>
+              ) : (
+                <Component {...props} />
+              )}
+            </RBACProvider>
+          </MemoryRouter>
+        </Provider>
+      </QueryClientProvider>
     </FlagProvider>,
   );
 });
