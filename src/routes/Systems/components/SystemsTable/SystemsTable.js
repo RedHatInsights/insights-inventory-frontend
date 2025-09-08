@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   TableToolsTable,
@@ -14,6 +14,9 @@ import { DEFAULT_OPTIONS } from './constants';
 import useGlobalFilterForItems from './hooks/useGlobalFilterForItems';
 import DeleteModal from '../../../../Utilities/DeleteModal';
 import useDeleteSystems from '../../hooks/useDeleteSystems';
+import useToolbarActions from '../../hooks/useToolbarActions';
+import AddSelectedHostsToGroupModal from '../../../../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
+import RemoveHostsFromGroupModal from '../../../../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
 // TODO Filters should be customisable enable/disable, extend, etc.
 // TODO "global filter" needs to be integrated
@@ -27,6 +30,27 @@ const SystemsTable = ({
   const tableState = useFullTableState();
   const { current: { reload, resetSelection } = {} } = useStateCallbacks();
   const { tableState: { selected } = {} } = tableState || {};
+  const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
+  const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
+    useState(false);
+
+  const reloadData = () => {
+    if (selectedItems.length > 0) {
+      resetSelection?.();
+      reload?.();
+    }
+  };
+
+  const selectedItems = useMemo(
+    () => itemsData?.filter(({ id }) => selected.includes(id)) || [],
+    [itemsData, selected],
+  );
+
+  const toolbarActions = useToolbarActions(
+    selectedItems,
+    setAddHostGroupModalOpen,
+    setRemoveHostsFromGroupModalOpen,
+  );
 
   const {
     itemsToDelete,
@@ -38,13 +62,31 @@ const SystemsTable = ({
 
   return (
     <>
-      <DeleteModal
-        className="sentry-mask data-hj-suppress"
-        handleModalToggle={handleModalToggle}
-        isModalOpen={isModalOpen}
-        currentSystems={itemsToDelete}
-        onConfirm={onConfirm}
-      />
+      {addHostGroupModalOpen && (
+        <AddSelectedHostsToGroupModal
+          isModalOpen={addHostGroupModalOpen}
+          setIsModalOpen={setAddHostGroupModalOpen}
+          modalState={selectedItems}
+          reloadData={() => reloadData()}
+        />
+      )}
+      {removeHostsFromGroupModalOpen && (
+        <RemoveHostsFromGroupModal
+          isModalOpen={removeHostsFromGroupModalOpen}
+          setIsModalOpen={setRemoveHostsFromGroupModalOpen}
+          modalState={selectedItems}
+          reloadData={() => reloadData()}
+        />
+      )}
+      {isModalOpen && (
+        <DeleteModal
+          className="sentry-mask data-hj-suppress"
+          handleModalToggle={handleModalToggle}
+          isModalOpen={isModalOpen}
+          currentSystems={itemsToDelete}
+          onConfirm={onConfirm}
+        />
+      )}
       <TableToolsTable
         variant="compact"
         items={items}
@@ -56,6 +98,7 @@ const SystemsTable = ({
         options={{
           ...DEFAULT_OPTIONS,
           dedicatedAction,
+          actions: toolbarActions,
           ...options,
         }}
       />

@@ -2,6 +2,7 @@
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags, getTags } from '../../api/hostInventoryApi';
 import defaultColumns from './components/SystemsTable/columns';
+import uniq from 'lodash/uniq';
 
 const fetchHostTags = async (hosts) => {
   if (hosts.length) {
@@ -69,4 +70,56 @@ export const resolveColumns = (columns) => {
   } else {
     return columns;
   }
+};
+
+export const isBulkAddHostsToGroupsEnabled = (
+  selectedSize,
+  selected,
+  isKesselEnabled,
+) => {
+  if (selectedSize > 0) {
+    const selectedHosts = Array.from(selected.values());
+
+    if (isKesselEnabled) {
+      return selectedHosts.every(({ groups }) => groups[0]?.ungrouped === true);
+    }
+
+    return selectedHosts.every(({ groups }) => groups.length === 0);
+  }
+
+  return false;
+};
+
+export const isBulkRemoveFromGroupsEnabled = (
+  selectedSize,
+  selected,
+  isKesselEnabled,
+) => {
+  if (isKesselEnabled) {
+    return (
+      // can't remove from ungrouped group
+      selectedSize > 0 &&
+      Array.from(selected?.values()).every(
+        ({ groups }) => groups[0].ungrouped !== true,
+      ) &&
+      Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
+      uniq(
+        // can remove from at maximum one group at a time
+        Array.from(selected.values())
+          .filter(({ groups }) => groups.length > 0)
+          .map(({ groups }) => groups[0].name),
+      ).length === 1
+    );
+  }
+
+  return (
+    selectedSize > 0 &&
+    Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
+    uniq(
+      // can remove from at maximum one group at a time
+      Array.from(selected.values())
+        .filter(({ groups }) => groups.length > 0)
+        .map(({ groups }) => groups[0].name),
+    ).length === 1
+  );
 };
