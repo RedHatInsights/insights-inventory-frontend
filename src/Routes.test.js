@@ -10,9 +10,6 @@ import { inventoryHasConventionalSystems } from './Utilities/conventional';
 import { inventoryHasEdgeSystems } from './Utilities/edge';
 
 jest.mock('./Utilities/useFeatureFlag');
-jest.mock('./routes/InventoryOrEdgeComponent', () => () => (
-  <span>Groups component</span>
-));
 jest.mock('./Utilities/conventional');
 jest.mock('./Utilities/edge');
 jest.mock(

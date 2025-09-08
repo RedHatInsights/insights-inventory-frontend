@@ -14,12 +14,6 @@ import Fallback from './components/SpinnerFallback';
 import Redirect from './Utilities/Redirect';
 import { AccountStatContext } from './Contexts';
 
-const InventoryOrEdgeGroupDetailsView = lazy(
-  () => import('./routes/InventoryOrEdgeGroupDetailsComponent'),
-);
-const InventoryOrEdgeView = lazy(
-  () => import('./routes/InventoryOrEdgeComponent'),
-);
 const InventoryTable = lazy(() => import('./routes/InventoryPage'));
 const Systems = lazy(() => import('./routes/Systems'));
 
@@ -28,7 +22,10 @@ const InventoryHostStaleness = lazy(
   () => import('./routes/InventoryHostStaleness'),
 );
 
-const EdgeInventoryUpdate = lazy(() => import('./routes/SystemUpdate'));
+const InventoryGroupDetail = lazy(
+  () => import('./routes/InventoryGroupDetail'),
+);
+const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
 
 export const routes = {
   table: '/',
@@ -36,8 +33,6 @@ export const routes = {
   detailWithModal: '/:inventoryId/:modalId',
   groups: '/groups',
   groupDetail: '/groups/:groupId',
-  update: '/:inventoryId/update',
-  edgeInventory: '/manage-edge-inventory',
   staleness: '/staleness-and-deletion',
   workspace: '/workspaces',
   workspaceDetail: '/workspaces/:groupId',
@@ -117,21 +112,11 @@ export const Routes = () => {
     },
     {
       path: '/workspaces',
-      element: <InventoryOrEdgeView />,
+      element: <InventoryGroups />,
     },
     {
       path: '/workspaces/:groupId',
-      element: <InventoryOrEdgeGroupDetailsView />,
-    },
-    {
-      path: '/:inventoryId/update',
-      element: <EdgeInventoryUpdate />,
-    },
-    {
-      path: '/manage-edge-inventory',
-      element: (
-        <RenderWrapper cmp={InventoryTable} isRbacEnabled isImmutableTabOpen />
-      ),
+      element: <InventoryGroupDetail />,
     },
     {
       path: '*',
