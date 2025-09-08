@@ -28,7 +28,6 @@ import {
   ActionButton,
   ActionDropdownItem,
 } from '../../InventoryTable/ActionWithRBAC';
-import uniq from 'lodash/uniq';
 import useTableActions from './useTableActions';
 import useGlobalFilter from '../../filters/useGlobalFilter';
 import useOnRefresh from '../../filters/useOnRefresh';
@@ -36,6 +35,10 @@ import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { AccountStatContext } from '../../../Contexts';
 import { INVENTORY_COLUMNS } from '../../../store/constants';
 import { DEFAULT_COLUMNS } from '../../../store/entities';
+import {
+  isBulkAddHostsToGroupsEnabled,
+  isBulkRemoveFromGroupsEnabled,
+} from '../../../routes/Systems/helpers';
 
 const BulkDeleteButton = ({ selectedSystems, ...props }) => {
   const requiredPermissions = selectedSystems.map(({ groups }) =>
@@ -147,52 +150,6 @@ const ConventionalSystemsTab = ({
 
   const calculateSelected = () => (selected ? selected.size : 0);
 
-  const isBulkRemoveFromGroupsEnabled = () => {
-    if (isKesselEnabled) {
-      return (
-        // can't remove from ungrouped group
-        calculateSelected() > 0 &&
-        Array.from(selected?.values()).every(
-          ({ groups }) => groups[0].ungrouped !== true,
-        ) &&
-        Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
-        uniq(
-          // can remove from at maximum one group at a time
-          Array.from(selected.values())
-            .filter(({ groups }) => groups.length > 0)
-            .map(({ groups }) => groups[0].name),
-        ).length === 1
-      );
-    }
-
-    return (
-      calculateSelected() > 0 &&
-      Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
-      uniq(
-        // can remove from at maximum one group at a time
-        Array.from(selected.values())
-          .filter(({ groups }) => groups.length > 0)
-          .map(({ groups }) => groups[0].name),
-      ).length === 1
-    );
-  };
-
-  const isBulkAddHostsToGroupsEnabled = () => {
-    if (calculateSelected() > 0) {
-      const selectedHosts = Array.from(selected.values());
-
-      if (isKesselEnabled) {
-        return selectedHosts.every(
-          ({ groups }) => groups[0]?.ungrouped === true,
-        );
-      }
-
-      return selectedHosts.every(({ groups }) => groups.length === 0);
-    }
-
-    return false;
-  };
-
   const tableActions = useTableActions(
     setCurrentSystem,
     onEditOpen,
@@ -251,7 +208,13 @@ const ConventionalSystemsTab = ({
                 <ActionDropdownItem
                   key="bulk-add-to-group"
                   requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-                  isAriaDisabled={!isBulkAddHostsToGroupsEnabled()}
+                  isAriaDisabled={
+                    !isBulkAddHostsToGroupsEnabled(
+                      calculateSelected(),
+                      selected,
+                      isKesselEnabled,
+                    )
+                  }
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
                   onClick={() => {
                     setCurrentSystem(Array.from(selected.values()));
@@ -280,7 +243,13 @@ const ConventionalSystemsTab = ({
                           .filter(Boolean) // don't check ungroupped hosts
                       : []
                   }
-                  isAriaDisabled={!isBulkRemoveFromGroupsEnabled()}
+                  isAriaDisabled={
+                    !isBulkRemoveFromGroupsEnabled(
+                      calculateSelected(),
+                      selected,
+                      isKesselEnabled,
+                    )
+                  }
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
                   onClick={() => {
                     setCurrentSystem(Array.from(selected.values()));
