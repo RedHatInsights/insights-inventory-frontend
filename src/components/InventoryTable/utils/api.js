@@ -2,13 +2,16 @@ import pAll from 'p-all';
 import { deleteHostById } from '../../../api/hostInventoryApi';
 
 const resolve = async (fns, limit = 2) => {
-  const results = await pAll(fns, {
-    concurrency: limit,
-  });
-  return results;
+  try {
+    return await pAll(fns, {
+      concurrency: limit,
+    });
+  } catch (error) {
+    return error;
+  }
 };
 
-export const deleteSystemsById = (items, batchSize = 50) => {
+export const deleteSystemsById = async (items, batchSize = 50) => {
   let arr = [];
   for (let i = 0; i < items.length; i += batchSize) {
     let chunk;
@@ -16,10 +19,9 @@ export const deleteSystemsById = (items, batchSize = 50) => {
     arr.push(chunk);
   }
 
-  const results = resolve(
-    arr.map((itemArray) => () => {
-      return deleteHostById({ hostIdList: itemArray });
+  return await resolve(
+    arr.map((itemArray) => async () => {
+      return await deleteHostById({ hostIdList: itemArray });
     }),
   );
-  return results;
 };
