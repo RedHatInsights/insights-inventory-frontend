@@ -47,20 +47,17 @@ export const filtersSerialiser = (state, filters) => {
     [],
   );
 
-  const query =
-    queryParts.length > 0
-      ? queryParts.reduce((allFilters, part) => {
-          if (part.filter) {
-            const newPart = {
-              filter: { ...allFilters.filter, ...part.filter },
-            };
-            return { ...allFilters, ...newPart };
-          }
-          return { ...allFilters, ...part };
-        }, {})
-      : undefined;
-
-  return query;
+  return queryParts.length
+    ? queryParts.reduce((allFilters, part) => {
+        if (part.filter) {
+          const newPart = {
+            filter: { ...allFilters.filter, ...part.filter },
+          };
+          return { ...allFilters, ...newPart };
+        }
+        return { ...allFilters, ...part };
+      }, {})
+    : undefined;
 };
 
 export const sortSerialiser = ({ index, direction } = {}, columns) =>
