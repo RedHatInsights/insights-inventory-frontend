@@ -174,6 +174,21 @@ export const tags = {
       ],
     },
   },
+  filterSerialiser: (_config, values) => {
+    const tagsGroupedByNamespace = Object.entries(values).map(
+      ([namespace, tagValues]) => {
+        return [namespace, Object.keys(tagValues)];
+      },
+    );
+
+    const tags = tagsGroupedByNamespace
+      .map(([namespace, values]) => {
+        return values.map((value) => `${namespace}/${value}`);
+      })
+      .flat();
+
+    return { tags };
+  },
 };
 
 export const lastSeen = {
