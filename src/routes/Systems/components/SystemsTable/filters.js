@@ -116,6 +116,15 @@ export const rhcStatus = {
     { label: 'Active', value: 'not_nil' },
     { label: 'Inactive', value: 'nil' },
   ],
+  filterSerialiser: (_config, values) => {
+    return {
+      filter: {
+        system_profile: {
+          rhc_client_id: values,
+        },
+      },
+    };
+  },
 };
 
 export const tags = {
