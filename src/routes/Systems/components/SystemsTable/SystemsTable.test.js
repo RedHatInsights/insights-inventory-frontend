@@ -8,11 +8,24 @@ jest.mock('bastilian-tabletools', () => ({
   TableToolsTable: jest.fn(() => (
     <div data-testid="table-tools-table">TableToolsTable</div>
   )),
+  useItemsData: jest.fn(() => ({
+    items: [],
+  })),
+  useFullTableState: jest.fn(),
+  useStateCallbacks: jest.fn(() => ({
+    current: { reload: jest.fn(), resetSelection: jest.fn() },
+  })),
+  TableStateProvider: jest.fn(({ children }) => <div>{children}</div>),
 }));
 
 jest.mock('../../../../Utilities/useFeatureFlag', () => ({
   __esModule: true,
   default: () => false,
+}));
+
+jest.mock('./hooks/useGlobalFilterForItems', () => ({
+  __esModule: true,
+  default: (itemsProp) => itemsProp,
 }));
 
 jest.mock('../../helpers.js', () => {
