@@ -51,7 +51,6 @@ const GeneralInformation = ({
   inventoryId,
   loadSystemDetail,
   systemProfilePrefetched = false,
-  showImageDetails = false,
   isBootcHost = false,
   showRuntimesProcesses = false,
 }) => {
@@ -189,16 +188,6 @@ const GeneralInformation = ({
                 </GridItem>
               )}
 
-              {showImageDetails && (
-                <GridItem>
-                  <AsyncComponent
-                    scope="edge"
-                    module="./ImagesInformationCard"
-                    deviceIdProps={inventoryId || entity.id}
-                  />
-                </GridItem>
-              )}
-
               {showRuntimesProcesses && entity.fqdn && (
                 <GridItem>
                   <AsyncComponent
@@ -290,7 +279,6 @@ GeneralInformation.propTypes = {
   navigate: PropTypes.any,
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
-  showImageDetails: PropTypes.bool,
   isBootcHost: PropTypes.bool,
   showRuntimesProcesses: PropTypes.bool,
 };
@@ -307,7 +295,6 @@ GeneralInformation.defaultProps = {
   CollectionCardWrapper: false,
   SubscriptionCardWrapper: SubscriptionCard,
   systemProfilePrefetched: false,
-  showImageDetails: false,
   showRuntimesProcesses: false,
 };
 

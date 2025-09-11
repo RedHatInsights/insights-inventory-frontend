@@ -1,7 +1,5 @@
 import {
   BREADCRUMB,
-  EMPTY_STATE_ICON,
-  EMPTY_STATE_TITLE,
   MENU_ITEM,
   MENU_TOGGLE,
   MODAL_CONTENT,
@@ -10,10 +8,8 @@ import {
 } from '@redhat-cloud-services/frontend-components-utilities';
 import groupDetailFixtures from '../../../cypress/fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c4b2C.json';
 import {
-  featureFlagsInterceptors,
   groupDetailInterceptors,
   groupsInterceptors,
-  hostsInterceptors,
 } from '../../../cypress/support/interceptors';
 import InventoryGroupDetail from './InventoryGroupDetail';
 
@@ -38,21 +34,6 @@ describe('test data', () => {
 });
 
 describe('group detail page', () => {
-  beforeEach(() => {
-    featureFlagsInterceptors.edgeParitySuccessful(); // enable edge parity in this describe block
-  });
-
-  it('renders empty state when no hosts', () => {
-    groupDetailInterceptors.successful();
-    hostsInterceptors.emptyHybridSystems();
-
-    mountPage();
-
-    cy.wait('@emptyHybridSystems');
-    cy.get(EMPTY_STATE_TITLE).contains('No systems added');
-    cy.get(EMPTY_STATE_ICON);
-  });
-
   it('name from server is rendered in header and breadcrumb', () => {
     groupDetailInterceptors.successful();
     mountPage();

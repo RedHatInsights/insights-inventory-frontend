@@ -10,7 +10,7 @@ import {
 } from './constants';
 import capitalize from 'lodash/capitalize';
 
-const TabCard = ({
+const StalenessSettings = ({
   isEditing,
   filter,
   setFilter,
@@ -19,19 +19,16 @@ const TabCard = ({
   setNewFormValues,
   isFormValid,
   setIsFormValid,
-  hostStalenessImmutableDefaults,
-  hostStalenessConventionalDefaults,
+  hostStalenessDefaults,
 }) => {
-  const dropdownArray = (activeTabKey) => [
-    systemStalenessItems(activeTabKey),
-    systemStalenessWarningItems(activeTabKey),
-    systemDeletionItems(activeTabKey),
+  const dropdownArray = () => [
+    systemStalenessItems(),
+    systemStalenessWarningItems(),
+    systemDeletionItems(),
   ];
 
-  const resetToStandard = (activeTab) => {
-    const defaultsForSelectedTab = activeTab
-      ? hostStalenessImmutableDefaults
-      : hostStalenessConventionalDefaults;
+  const resetToStandard = () => {
+    const defaultsForSelectedTab = hostStalenessDefaults;
 
     setNewFormValues({ ...newFormValues, ...defaultsForSelectedTab });
   };
@@ -43,12 +40,10 @@ const TabCard = ({
           spaceItems={{ default: 'spaceItems2xl' }}
           style={{ minHeight: '110px' }}
         >
-          {dropdownArray(activeTabKey).map((item) => (
+          {dropdownArray().map((item) => (
             <FlexItem key={item[0].title}>
               <BaseDropdown
-                ouiaId={`${
-                  activeTabKey === 0 ? 'Conventional' : 'Immutable'
-                }${item[0].title.split(' ').map(capitalize).join('')}Dropdown`}
+                ouiaId={`${item[0].title.split(' ').map(capitalize).join('')}Dropdown`}
                 dropdownItems={item}
                 currentItem={newFormValues[item[0].apiKey]}
                 disabled={!isEditing}
@@ -76,7 +71,7 @@ const TabCard = ({
                 >
                   Reset to default setting
                 </Button>
-                <HostStalenessResetDefaultPopover activeTabKey={activeTabKey} />
+                <HostStalenessResetDefaultPopover />
               </FlexItem>
             </Flex>
           ) : (
@@ -88,7 +83,7 @@ const TabCard = ({
   );
 };
 
-TabCard.propTypes = {
+StalenessSettings.propTypes = {
   filter: PropTypes.object,
   newFormValues: PropTypes.any,
   setNewFormValues: PropTypes.any,
@@ -98,7 +93,6 @@ TabCard.propTypes = {
   isFormValid: PropTypes.any,
   setIsFormValid: PropTypes.any,
   defaultValues: PropTypes.object,
-  hostStalenessImmutableDefaults: PropTypes.object,
-  hostStalenessConventionalDefaults: PropTypes.object,
+  hostStalenessDefaults: PropTypes.object,
 };
-export default TabCard;
+export default StalenessSettings;
