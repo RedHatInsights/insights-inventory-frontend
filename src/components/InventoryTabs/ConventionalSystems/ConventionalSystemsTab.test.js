@@ -2,14 +2,13 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { useGetRegistry } from '../../../Utilities/constants';
 import { mock } from '../../../__mocks__/hostApi';
 import ConventionalSystemsTab from './ConventionalSystemsTab';
 import { calculatePagination } from './Utilities';
 import { shouldDispatch } from '../../../Utilities/testUtils';
+import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 
@@ -131,11 +130,7 @@ describe('ConventionalSystemsTab', () => {
   };
 
   const renderWithProviders = (children, store) =>
-    render(
-      <MemoryRouter>
-        <Provider store={store}>{children}</Provider>
-      </MemoryRouter>,
-    );
+    render(<TestWrapper store={store}>{children}</TestWrapper>);
 
   const notificationMock = jest.fn();
 
