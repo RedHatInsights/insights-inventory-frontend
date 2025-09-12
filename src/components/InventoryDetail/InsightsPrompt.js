@@ -62,7 +62,7 @@ const InsightsPrompt = () => {
                 <CardFooter>
                   <ClipboardCopy isCode isReadOnly variant={'expansion'}>
                     {
-                      'yum install -y insights-client \ninsights-client --register'
+                      'dnf install -y insights-client \ninsights-client --register'
                     }
                   </ClipboardCopy>
                 </CardFooter>
