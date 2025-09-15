@@ -31,12 +31,12 @@ const Systems = () => (
             defaultFilters.tags,
             defaultFilters.systemType,
             defaultFilters.operatingSystem,
+            defaultFilters.lastSeen,
           ],
           customFilterTypes: defaultFilters.CUSTOM_FILTER_TYPES,
         }}
         options={{
-          // FIXME: remove debug
-          debug: true,
+          // debug: true,
           serialisers: {
             pagination: paginationSerialiser,
             sort: sortSerialiser,
