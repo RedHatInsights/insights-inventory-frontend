@@ -110,6 +110,7 @@ const Systems = () => {
             tags,
             systemType,
             operatingSystem,
+            lastSeen,
           }) => ({
             filterConfig: [
               displayName,
@@ -119,6 +120,7 @@ const Systems = () => {
               tags,
               systemType,
               operatingSystem,
+              lastSeen,
             ],
           })}
           options={(defaultOptions) => ({

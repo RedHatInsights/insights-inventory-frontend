@@ -65,3 +65,6 @@ export const getOsSelectOptions = (osName, osData) => {
       })),
   }));
 };
+
+export const stringToId = (string) =>
+  string.split(/\s+/).join('-').toLowerCase();
