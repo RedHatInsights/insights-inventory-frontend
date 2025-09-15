@@ -15,6 +15,8 @@ import useDeleteSystems from '../../hooks/useDeleteSystems';
 import useToolbarActions from '../../hooks/useToolbarActions';
 import AddSelectedHostsToGroupModal from '../../../../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import RemoveHostsFromGroupModal from '../../../../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
+import LastSeenFilterExtension from './components/filters/LastSeenFilterExtension.js';
+import { LAST_SEEN_ID } from './components/helpers.js';
 
 const SystemsTable = ({
   items: itemsProp = fetchSystems,
@@ -25,7 +27,8 @@ const SystemsTable = ({
   const items = useGlobalFilterForItems(itemsProp);
   const { items: itemsData } = useItemsData();
   const tableState = useFullTableState();
-  const { current: { reload, resetSelection } = {} } = useStateCallbacks();
+  const { current: { reload, resetSelection, setFilter } = {} } =
+    useStateCallbacks();
   const { tableState: { selected } = {} } = tableState || {};
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
@@ -89,6 +92,14 @@ const SystemsTable = ({
         items={items}
         columns={resolveColumns(columns)}
         filters={resolveFilters(filters)}
+        toolbarProps={{
+          children: (
+            <LastSeenFilterExtension
+              value={tableState?.tableState?.filters?.[LAST_SEEN_ID]}
+              onChange={(value) => setFilter(LAST_SEEN_ID, value)}
+            />
+          ),
+        }}
         options={{
           ...DEFAULT_OPTIONS,
           dedicatedAction,
