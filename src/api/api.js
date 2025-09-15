@@ -298,8 +298,8 @@ export async function getEntities(
       orderBy,
       orderHow: orderDirection,
       staleness: filters.staleFilter,
-      updatedStart: filters.lastSeenFilter?.updatedStart,
-      updatedEnd: filters.lastSeenFilter?.updatedEnd,
+      lastCheckInStart: filters.lastSeenFilter?.lastCheckInStart,
+      lastCheckInEnd: filters.lastSeenFilter?.lastCheckInEnd,
       tags: [
         ...constructTags(filters?.tagFilters),
         ...(options?.globalFilter?.tags || []),
