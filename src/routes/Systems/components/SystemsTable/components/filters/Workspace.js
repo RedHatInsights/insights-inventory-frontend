@@ -13,11 +13,14 @@ import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 
 const Workspace = ({
-  initialGroups = [],
-  value: selectedGroupNames,
+  value: selectedGroupNames = [],
   onChange: setSelectedGroupNames,
   showNoGroupOption = false,
+  items: initialGroups = [],
 }) => {
+  useEffect(() => {
+    console.log(initialGroups);
+  }, []);
   const initialValues = useMemo(
     () => [
       ...(showNoGroupOption
@@ -214,6 +217,7 @@ Workspace.propTypes = {
   value: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,
+  items: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Workspace;

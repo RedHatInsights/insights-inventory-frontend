@@ -7,9 +7,7 @@ import {
   useFullTableState,
   useStateCallbacks,
 } from 'bastilian-tabletools';
-
-import filters, { CUSTOM_FILTER_TYPES } from './filters';
-import { fetchSystems, resolveColumns } from '../../helpers.js';
+import { fetchSystems, resolveColumns, resolveFilters } from '../../helpers.js';
 import { DEFAULT_OPTIONS } from './constants';
 import useGlobalFilterForItems from './hooks/useGlobalFilterForItems';
 import DeleteModal from '../../../../Utilities/DeleteModal';
@@ -18,11 +16,10 @@ import useToolbarActions from '../../hooks/useToolbarActions';
 import AddSelectedHostsToGroupModal from '../../../../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import RemoveHostsFromGroupModal from '../../../../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 
-// TODO Filters should be customisable enable/disable, extend, etc.
-// TODO "global filter" needs to be integrated
 const SystemsTable = ({
   items: itemsProp = fetchSystems,
   columns = [],
+  filters,
   options = {},
 }) => {
   const items = useGlobalFilterForItems(itemsProp);
@@ -91,10 +88,7 @@ const SystemsTable = ({
         variant="compact"
         items={items}
         columns={resolveColumns(columns)}
-        filters={{
-          customFilterTypes: CUSTOM_FILTER_TYPES,
-          filterConfig: filters,
-        }}
+        filters={resolveFilters(filters)}
         options={{
           ...DEFAULT_OPTIONS,
           dedicatedAction,
@@ -109,6 +103,7 @@ const SystemsTable = ({
 SystemsTable.propTypes = {
   items: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   columns: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+  filters: PropTypes.object,
   options: PropTypes.object,
 };
 
