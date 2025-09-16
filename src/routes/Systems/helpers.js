@@ -1,8 +1,11 @@
 // TODO remove dependency on fec helpers and components
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
-import { getHostList, getHostTags, getTags } from '../../api/hostInventoryApi';
+import { getHostList, getHostTags } from '../../api/hostInventoryApi';
 import defaultColumns from './components/SystemsTable/columns';
 import uniq from 'lodash/uniq';
+import defaultFilters, {
+  CUSTOM_FILTER_TYPES,
+} from './components/SystemsTable/filters';
 
 const fetchHostTags = async (hosts) => {
   if (hosts.length) {
@@ -31,13 +34,15 @@ export const fetchSystems = async (
     ],
   };
 
+  const { filter, ...filterParams } = serialisedTableState?.filters || {};
+
   const params = {
     ...(serialisedTableState?.pagination || {}),
-    ...(serialisedTableState?.filters || {}),
     ...(serialisedTableState?.sort || {}),
     // Currently tags set in the global filter only appear in the global filter
     // If we wanted to keep the toolbar filters and global filters in sync
     // we should use `setFilter` instead and not add the global filter tags here
+    ...filterParams,
     tags: [
       ...(serialisedTableState?.filters?.tags || []),
       ...(globalFilterTags || []),
@@ -49,6 +54,7 @@ export const fetchSystems = async (
         // it should rather be something like `filter[systems_profile][sap_system]`
         ...generateFilter(fields, 'fields'),
         ...generateFilter(globalFilter),
+        ...generateFilter(filter),
       },
     },
   };
@@ -69,6 +75,17 @@ export const resolveColumns = (columns) => {
     return columns(defaultColumns);
   } else {
     return columns;
+  }
+};
+
+export const resolveFilters = (filters) => {
+  if (typeof filters === 'function') {
+    return filters({
+      customFilterTypes: CUSTOM_FILTER_TYPES,
+      filterConfig: defaultFilters,
+    });
+  } else {
+    return filters;
   }
 };
 
