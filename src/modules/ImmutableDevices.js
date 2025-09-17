@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BaseImmutableDevices = () => null;
+const BaseImmutableDevices = () => <></>;
 
 const ImmutableDevices = React.forwardRef((props, ref) => {
   React.useEffect(() => {

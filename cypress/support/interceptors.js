@@ -355,14 +355,3 @@ export const featureFlagsInterceptors = {
     }).as('getKesselFeatureFlag');
   },
 };
-
-export const edgeInterceptors = {
-  successful: () => {
-    cy.intercept('GET', '/api/edge/v1/devices/*', {
-      statusCode: 200,
-      body: {
-        UpdatesAvailable: [],
-      },
-    }).as('getDevice');
-  },
-};

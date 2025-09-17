@@ -5,10 +5,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Routes } from './Routes';
-import { inventoryHasConventionalSystems } from './Utilities/conventional';
+import { inventoryHasConventionalSystems } from './Utilities/systemsChecks';
 
 jest.mock('./Utilities/useFeatureFlag');
-jest.mock('./Utilities/conventional');
+jest.mock('./Utilities/systemsChecks');
 jest.mock(
   '@redhat-cloud-services/frontend-components/AsyncComponent',
   () => () => <span>Zero state</span>,
