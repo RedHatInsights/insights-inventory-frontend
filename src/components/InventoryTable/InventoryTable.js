@@ -238,9 +238,7 @@ const InventoryTable = forwardRef(
                   ...newParams,
                   ...options,
                   controller: controller.current,
-                  filterImmutableByDefault: props.loadChromelessInventory
-                    ? false
-                    : statContext.edgeParityFilterDeviceEnabled,
+                  filterImmutableByDefault: false,
                 },
                 cachedProps.showTags,
                 cachedProps.getEntities,
@@ -254,9 +252,7 @@ const InventoryTable = forwardRef(
                 axios,
                 ...newParams,
                 controller: controller.current,
-                filterImmutableByDefault: props.loadChromelessInventory
-                  ? false
-                  : statContext.edgeParityFilterDeviceEnabled,
+                filterImmutableByDefault: false,
               },
               cachedProps.showTags,
               cachedProps.getEntities,
@@ -316,9 +312,6 @@ const InventoryTable = forwardRef(
           enableExport={enableExport}
           isKesselFFEnabled={chromelessInventoryCheck(
             statContext.isKesselEnabled,
-          )}
-          edgeParityFilterDeviceEnabled={chromelessInventoryCheck(
-            statContext.edgeParityFilterDeviceEnabled,
           )}
           loadChromelessInventory={props.loadChromelessInventory}
           axios={axios}
