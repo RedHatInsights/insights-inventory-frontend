@@ -701,7 +701,6 @@ EntityTableToolbar.propTypes = {
   exportConfig: PropTypes.object,
   fetchCustomOSes: PropTypes.func,
   isKesselFFEnabled: PropTypes.bool,
-  edgeParityFilterDeviceEnabled: PropTypes.bool,
   axios: PropTypes.func,
 };
 
