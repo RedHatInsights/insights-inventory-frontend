@@ -9,7 +9,7 @@ import {
   hostsInterceptors,
   systemProfileInterceptors,
 } from '../../../cypress/support/interceptors';
-import Inventory from './HybridInventory';
+import Inventory from './SystemsInventory';
 import hostTagsFixtures from '../../../cypress/fixtures/hostsTags.json';
 import tagsFixtures from '../../../cypress/fixtures/tags.json';
 import hostsFixtures from '../../../cypress/fixtures/hosts.json';
@@ -127,7 +127,7 @@ const prepareTest = (
   waitForTable(waitNetwork);
 };
 
-describe('hybrid inventory table', () => {
+describe('Systems inventory table', () => {
   beforeEach(prepareTest);
 
   describe('has groups actions', () => {

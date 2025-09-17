@@ -5,13 +5,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Routes } from './Routes';
-import useFeatureFlag from './Utilities/useFeatureFlag';
 import { inventoryHasConventionalSystems } from './Utilities/conventional';
-import { inventoryHasEdgeSystems } from './Utilities/edge';
 
 jest.mock('./Utilities/useFeatureFlag');
 jest.mock('./Utilities/conventional');
-jest.mock('./Utilities/edge');
 jest.mock(
   '@redhat-cloud-services/frontend-components/AsyncComponent',
   () => () => <span>Zero state</span>,
@@ -35,13 +32,8 @@ describe('routes', () => {
     jest.clearAllMocks();
   });
 
-  useFeatureFlag.mockReturnValue({
-    'edgeParity.inventory-list': true, // to be removed once feature flag is gone
-  });
-
   describe('/groups', () => {
     inventoryHasConventionalSystems.mockReturnValue(true);
-    inventoryHasEdgeSystems.mockReturnValue(true);
 
     /* FIXME: drop the test completely or fix the test according to React 18 changes to Suspense/lazy.
     it('renders fallback on lazy load first', async () => {
@@ -56,7 +48,6 @@ describe('routes', () => {
   describe('zero state', () => {
     it('renderes zero state when there are no systems', async () => {
       inventoryHasConventionalSystems.mockReturnValue(false);
-      inventoryHasEdgeSystems.mockReturnValue(false);
       render(<TestWrapper route={'/'} />);
 
       await waitFor(() => {
@@ -64,19 +55,8 @@ describe('routes', () => {
       });
     });
 
-    it('renders a route when there are some conventional systems', async () => {
+    it('renders a route when there are some systems', async () => {
       inventoryHasConventionalSystems.mockReturnValue(true);
-      inventoryHasEdgeSystems.mockReturnValue(false);
-      render(<TestWrapper route={'/'} />);
-
-      await waitFor(() => {
-        expect(screen.getByText('Route component')).toBeVisible();
-      });
-    });
-
-    it('renders a route when there are some edge systems', async () => {
-      inventoryHasConventionalSystems.mockReturnValue(false);
-      inventoryHasEdgeSystems.mockReturnValue(true);
       render(<TestWrapper route={'/'} />);
 
       await waitFor(() => {

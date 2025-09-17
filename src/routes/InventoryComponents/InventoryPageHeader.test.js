@@ -10,7 +10,6 @@ jest.mock('../../Utilities/useFeatureFlag');
 
 const defaultContextValues = {
   hasConventionalSystems: true,
-  hasEdgeDevices: true,
   hasBootcImages: true,
 };
 
@@ -68,13 +67,13 @@ describe('InventoryContentToggle', () => {
     expect(defaultProps.changeMainContent).toHaveBeenCalledTimes(1);
   });
 
-  test('calls changeMainContent with correct content key when Hybrid inventory is clicked', async () => {
+  test('calls changeMainContent with correct content key when Systems inventory is clicked', async () => {
     mountWithContext();
 
     await user.click(screen.getByLabelText('View by systems'));
 
     expect(defaultProps.changeMainContent).toHaveBeenCalledWith(
-      'hybridInventory',
+      'systemsInventory',
     );
     expect(defaultProps.changeMainContent).toHaveBeenCalledTimes(1);
   });

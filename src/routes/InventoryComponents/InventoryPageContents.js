@@ -1,10 +1,10 @@
 import BifrostPage from './BifrostPage';
-import HybridInventory from './HybridInventory';
+import SystemsInventory from './SystemsInventory';
 
 export const pageContents = {
-  hybridInventory: {
-    key: 'hybridInventory',
-    component: HybridInventory,
+  systemsInventory: {
+    key: 'systemsInventory',
+    component: SystemsInventory,
   },
   bifrost: {
     key: 'bifrost',

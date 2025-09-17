@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { useGetImageData } from '../api';
 import {
-  INVENTORY_TOTAL_FETCH_EDGE_PARAMS,
   INVENTORY_TOTAL_FETCH_URL_SERVER,
   INVENTORY_FETCH_BOOTC,
 } from './constants';
@@ -41,13 +39,6 @@ const getNotificationProp = (addNotification) => {
   };
 };
 
-const inventoryHasEdgeSystems = async () => {
-  const result = await axios.get(
-    `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_TOTAL_FETCH_EDGE_PARAMS}`,
-  );
-  return result?.data?.total > 0;
-};
-
 const inventoryHasBootcImages = async () => {
   const result = await axios.get(
     `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_BOOTC}&per_page=1`,
@@ -66,14 +57,6 @@ const enhancedEdgeConfig = (groupName, config) => {
     hasItems: false,
   };
 };
-// TODO properly utilise the hook below and ensure it is called in the context of a component
-// eslint-disable-next-line
-const fetchImagesData = useGetImageData();
-const edgeImageDataResult = async (mapDeviceIds) => {
-  return await fetchImagesData({
-    devices_uuid: mapDeviceIds,
-  });
-};
 
 const mapDefaultData = (result) => {
   let mapDeviceIds = [];
@@ -88,9 +71,7 @@ const mapDefaultData = (result) => {
 export {
   getNotificationProp,
   manageEdgeInventoryUrlName,
-  inventoryHasEdgeSystems,
   enhancedEdgeConfig,
-  edgeImageDataResult,
   mapDefaultData,
   inventoryHasBootcImages,
 };
