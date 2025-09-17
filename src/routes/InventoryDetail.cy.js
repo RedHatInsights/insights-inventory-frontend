@@ -1,5 +1,4 @@
 import {
-  edgeInterceptors,
   featureFlagsInterceptors,
   hostsDetailInterceptors,
   hostsDetailTagsInterceptors,
@@ -21,7 +20,6 @@ const waitForLoad = () => {
 };
 const prepareTest = (hostDetail = hostDetail) => {
   featureFlagsInterceptors.successful();
-  edgeInterceptors.successful();
   systemProfileInterceptors['full system profile, successful with response']();
   hostsDetailInterceptors.successful(hostDetail);
   hostsDetailTagsInterceptors.successful();

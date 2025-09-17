@@ -5,8 +5,10 @@ import useFeatureFlag from './Utilities/useFeatureFlag';
 import useSystemsTableFeatureFlag from './routes/Systems/components/SystemsTable/hooks/useSystemsTableFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
-import { inventoryHasBootcImages } from './Utilities/edge';
-import { inventoryHasConventionalSystems } from './Utilities/conventional';
+import {
+  inventoryHasBootcImages,
+  inventoryHasConventionalSystems,
+} from './Utilities/systemsChecks';
 import Fallback from './components/SpinnerFallback';
 import Redirect from './Utilities/Redirect';
 import { AccountStatContext } from './Contexts';
