@@ -1,7 +1,7 @@
 import React from 'react';
-import ConventionalSystemsTab from '../components/InventoryTabs/ConventionalSystems/ConventionalSystemsTab';
+import PropTypes from 'prop-types';
 
-const ForwardComponent = (props, ref) => {
+const HybridInventoryTabsModule = ({ ConventionalSystemsTab }) => {
   React.useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
       console.warn(
@@ -10,8 +10,11 @@ const ForwardComponent = (props, ref) => {
     }
   }, []);
 
-  return <ConventionalSystemsTab {...props} innerRef={ref} />;
+  return ConventionalSystemsTab;
 };
-const HybridInventoryTabsModule = React.forwardRef(ForwardComponent);
+
+HybridInventoryTabsModule.propTypes = {
+  ConventionalSystemsTab: PropTypes.element.isRequired,
+};
 
 export default HybridInventoryTabsModule;
