@@ -1,5 +1,4 @@
 export const INVENTORY_API_BASE = '/api/inventory/v1';
-export const EDGE_API_BASE = '/api/edge/v1';
 import flatMap from 'lodash/flatMap';
 
 import axiosInstance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
@@ -381,30 +380,4 @@ export const fetchStalenessData = () => {
 
 export const postStalenessData = (data) => {
   return apiCreateStaleness({ stalenessIn: data });
-};
-
-export const fetchEdgeSystem = () => {
-  try {
-    return axiosInstance.get(`${EDGE_API_BASE}/devices/devicesview?limit=1`);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const useGetImageData = () => {
-  return (deviceIDs) => {
-    return axiosInstance.post(
-      `${EDGE_API_BASE}/devices/devicesview`,
-      deviceIDs,
-    );
-  };
-};
-export const fetchEdgeEnforceGroups = () => {
-  try {
-    return axiosInstance.get(
-      `${EDGE_API_BASE}/device-groups/enforce-edge-groups`,
-    );
-  } catch (err) {
-    console.error(err);
-  }
 };
