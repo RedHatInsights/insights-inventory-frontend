@@ -26,12 +26,13 @@ const Systems = () => (
           filterConfig: [
             defaultFilters.displayName,
             defaultFilters.statusFilter,
+            defaultFilters.operatingSystem,
             defaultFilters.dataCollector,
             defaultFilters.rhcStatus,
-            defaultFilters.tags,
-            defaultFilters.systemType,
-            defaultFilters.operatingSystem,
             defaultFilters.lastSeen,
+            defaultFilters.workspace,
+            defaultFilters.systemType,
+            defaultFilters.tags,
           ],
           customFilterTypes: defaultFilters.CUSTOM_FILTER_TYPES,
         }}
