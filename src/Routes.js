@@ -50,7 +50,6 @@ export const Routes = () => {
   const isSystemsTableEnabled = useSystemsTableFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
-  const isUpdateMethodEnabled = useFeatureFlag('hbi.ui.system-update-method');
   const edgeParityFilterDeviceEnabled = useFeatureFlag(
     'edgeParity.inventory-list-filter',
   );
@@ -155,7 +154,6 @@ export const Routes = () => {
         hasEdgeDevices,
         hasBootcImages,
         isKesselEnabled,
-        isUpdateMethodEnabled,
         edgeParityFilterDeviceEnabled,
         isLastCheckInEnabled,
       }}

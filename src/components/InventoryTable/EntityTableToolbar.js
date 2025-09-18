@@ -30,7 +30,6 @@ import {
   TEXTUAL_CHIP,
   TEXT_FILTER,
   TagsModal,
-  UPDATE_METHOD_KEY,
   SYSTEM_TYPE_KEY,
   arrayToSelection,
   reduceFilters,
@@ -52,8 +51,6 @@ import {
   stalenessFilterState,
   textFilterReducer,
   textFilterState,
-  updateMethodFilterReducer,
-  updateMethodFilterState,
   useLastSeenFilter,
   useOperatingSystemFilter,
   useRegisteredWithFilter,
@@ -61,7 +58,6 @@ import {
   useStalenessFilter,
   useTagsFilter,
   useTextFilter,
-  useUpdateMethodFilter,
   useSystemTypeFilter,
   systemTypeFilterReducer,
   systemTypeFilterState,
@@ -115,7 +111,6 @@ const EntityTableToolbar = ({
       operatingSystemFilterReducer,
       rhcdFilterReducer,
       lastSeenFilterReducer,
-      updateMethodFilterReducer,
       groupFilterReducer,
       systemTypeFilterReducer,
     ]),
@@ -126,7 +121,6 @@ const EntityTableToolbar = ({
       ...tagsFilterState,
       ...operatingSystemFilterState,
       ...rhcdFilterState,
-      ...updateMethodFilterState,
       ...lastSeenFilterState,
       ...groupFilterState,
       ...systemTypeFilterState,
@@ -179,18 +173,11 @@ const EntityTableToolbar = ({
       fetchCustomOSes,
       axios,
     );
-  const [
-    updateMethodConfig,
-    updateMethodChips,
-    updateMethodValue,
-    setUpdateMethodValue,
-  ] = useUpdateMethodFilter(reducer, props.edgeParityFilterDeviceEnabled);
 
   const isKesselEnabled = props.isKesselFFEnabled;
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
     useGroupFilter(showNoGroupOption, isKesselEnabled);
 
-  const isUpdateMethodEnabled = props.isUpdateMethodFFEnabled;
   const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =
     useTagsFilter(
       allTags,
@@ -241,10 +228,6 @@ const EntityTableToolbar = ({
       !(hideFilters.all && hideFilters.lastSeen !== false) &&
       !hideFilters.lastSeen,
     //hides the filter untill API is ready. JIRA: RHIF-169
-    updateMethodFilter:
-      isUpdateMethodEnabled &&
-      !(hideFilters.all && hideFilters.updateMethodFilter !== false) &&
-      !hideFilters.updateMethodFilter,
     hostGroupFilter:
       !(hideFilters.all && hideFilters.hostGroupFilter !== false) &&
       !hideFilters.hostGroupFilter,
@@ -302,7 +285,6 @@ const EntityTableToolbar = ({
       osFilter,
       rhcdFilter,
       lastSeenFilter,
-      updateMethodFilter,
       hostGroupFilter,
       systemTypeFilter,
     } = reduceFilters([
@@ -318,8 +300,6 @@ const EntityTableToolbar = ({
     enabledFilters.tags && setSelectedTags(tagFilters);
     enabledFilters.operatingSystem && setOsFilterValue(osFilter);
     enabledFilters.rhcdFilter && setRhcdFilterValue(rhcdFilter);
-    enabledFilters.updateMethodFilter &&
-      setUpdateMethodValue(updateMethodFilter);
     enabledFilters.lastSeenFilter && setLastSeenFilterValue(lastSeenFilter);
     enabledFilters.hostGroupFilter && setHostGroupValue(hostGroupFilter);
     enabledFilters.systemTypeFilter && setSystemTypeValue(systemTypeFilter);
@@ -421,12 +401,6 @@ const EntityTableToolbar = ({
   }, [lastSeenFilterValue]);
 
   useEffect(() => {
-    if (shouldReload && enabledFilters.updateMethodFilter) {
-      onSetFilter(updateMethodValue, 'updateMethodFilter', debouncedRefresh);
-    }
-  }, [updateMethodValue]);
-
-  useEffect(() => {
     if (shouldReload && enabledFilters.hostGroupFilter) {
       onSetFilter(hostGroupValue, 'hostGroupFilter', debouncedRefresh);
     }
@@ -464,8 +438,6 @@ const EntityTableToolbar = ({
       setStartDate();
       setEndDate();
     },
-    [UPDATE_METHOD_KEY]: (deleted) =>
-      setUpdateMethodValue(onDeleteFilter(deleted, updateMethodValue)),
     [HOST_GROUP_CHIP]: (deleted) =>
       setHostGroupValue(onDeleteFilter(deleted, hostGroupValue)),
     [SYSTEM_TYPE_KEY]: (deleted) =>
@@ -482,7 +454,6 @@ const EntityTableToolbar = ({
     enabledFilters.operatingSystem && setOsFilterValue([]);
     enabledFilters.rhcdFilter && setRhcdFilterValue([]);
     enabledFilters.lastSeenFilter && setLastSeenFilterValue([]);
-    enabledFilters.updateMethodFilter && setUpdateMethodValue([]);
     enabledFilters.hostGroupFilter && setHostGroupValue([]);
     enabledFilters.systemTypeFilter && setSystemTypeValue([]);
     setEndDate();
@@ -730,7 +701,6 @@ EntityTableToolbar.propTypes = {
   exportConfig: PropTypes.object,
   fetchCustomOSes: PropTypes.func,
   isKesselFFEnabled: PropTypes.bool,
-  isUpdateMethodFFEnabled: PropTypes.bool,
   edgeParityFilterDeviceEnabled: PropTypes.bool,
   axios: PropTypes.func,
 };

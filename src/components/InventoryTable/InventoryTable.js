@@ -314,9 +314,6 @@ const InventoryTable = forwardRef(
           }}
           showCentosVersions={showCentosVersions}
           enableExport={enableExport}
-          isUpdateMethodFFEnabled={chromelessInventoryCheck(
-            statContext.isUpdateMethodEnabled,
-          )}
           isKesselFFEnabled={chromelessInventoryCheck(
             statContext.isKesselEnabled,
           )}
