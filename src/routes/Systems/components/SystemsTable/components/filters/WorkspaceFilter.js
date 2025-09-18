@@ -4,23 +4,22 @@ import {
   MenuToggle,
   TextInputGroup,
   TextInputGroupMain,
-  Select /* data-codemods */,
-  SelectList /* data-codemods */,
-  SelectOption /* data-codemods */,
+  Select,
+  SelectList,
+  SelectOption,
 } from '@patternfly/react-core';
 
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 
-const Workspace = ({
+const WorkspaceFilter = ({
   value: selectedGroupNames = [],
   onChange: setSelectedGroupNames,
-  showNoGroupOption = false,
+  showNoGroupOption = true,
   items: initialGroups = [],
 }) => {
-  useEffect(() => {
-    console.log(initialGroups);
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const initialValues = useMemo(
     () => [
       ...(showNoGroupOption
@@ -38,9 +37,6 @@ const Workspace = ({
     ],
     [initialGroups, showNoGroupOption],
   );
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
   const [selectOptions, setSelectOptions] = useState(initialValues);
   const [focusedItemIndex, setFocusedItemIndex] = useState(null);
 
@@ -151,7 +147,6 @@ const Workspace = ({
       onClick={onToggleClick}
       innerRef={toggleRef}
       isExpanded={isOpen}
-      style={{ minWidth: '261px' }} // align width with the tags filter width
     >
       <TextInputGroup isPlain>
         <TextInputGroupMain
@@ -207,7 +202,7 @@ const Workspace = ({
   );
 };
 
-Workspace.propTypes = {
+WorkspaceFilter.propTypes = {
   initialGroups: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
@@ -220,4 +215,4 @@ Workspace.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default Workspace;
+export default WorkspaceFilter;

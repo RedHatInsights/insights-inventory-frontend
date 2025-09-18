@@ -1,18 +1,42 @@
-import Workspace from './components/filters/Workspace';
+import WorkspaceFilter from './components/filters/WorkspaceFilter';
 import {
   fetchTags,
   getOsSelectOptions,
-  getLastSeenSelectOptions,
   getWorkspaceSelectOptions,
 } from './helpers';
 import { getOperatingSystems } from '../../../../api';
+import LastSeenFilter from './components/filters/LastSeenFilter';
+import { stringToId } from './helpers';
 
 export const CUSTOM_FILTER_TYPES = {
   workspace: {
-    Component: Workspace,
-    chips: (value) => [value],
-    selectValue: (value) => [value, true],
-    deselectValue: () => [undefined, true],
+    Component: WorkspaceFilter,
+    filterChips: (configItem, selectedValues) => ({
+      category: configItem.label,
+      chips: [...selectedValues.map((name) => ({ name }))],
+    }),
+    toSelectValue: (configItem, _selectedValue, selectedValues) => {
+      return [selectedValues, stringToId(configItem.label), true];
+    },
+    toDeselectValue: (configItem, chip) => {
+      const customDeselectValue = chip?.chips?.[0]?.name;
+      return [customDeselectValue, stringToId(configItem.label), false];
+    },
+  },
+  lastSeen: {
+    Component: LastSeenFilter,
+    filterChips: (configItem, value) => ({
+      category: configItem.label,
+      chips: [{ name: value?.label }],
+    }),
+    toSelectValue: (configItem, selectedValue, selectedValues) => {
+      const customSelectValue = selectedValue || selectedValues;
+      return [customSelectValue, stringToId(configItem.label), true];
+    },
+    toDeselectValue: (configItem) => {
+      const customDeselectValue = [];
+      return [customDeselectValue, stringToId(configItem.label), true];
+    },
   },
 };
 
@@ -194,20 +218,29 @@ export const tags = {
 export const lastSeen = {
   label: 'Last seen',
   value: 'last_seen',
-  type: 'singleSelect',
-  items: getLastSeenSelectOptions,
-  filterSerialiser: (_config, [value]) => {
-    return value;
+  type: 'lastSeen',
+  filterSerialiser: (_config, value) => {
+    return { lastCheckInStart: value?.start, lastCheckInEnd: value?.end };
   },
 };
 
-export const workspaceFilter = {
+export const workspace = {
   label: 'Workspace',
   type: 'workspace',
   items: getWorkspaceSelectOptions,
   filterSerialiser: (_config, values) => {
-    return values;
+    return { groupName: values };
   },
 };
 
-export default [displayName, statusFilter, tags, dataCollector, rhcStatus];
+export default [
+  displayName,
+  systemType,
+  operatingSystem,
+  statusFilter,
+  dataCollector,
+  rhcStatus,
+  tags,
+  lastSeen,
+  workspace,
+];
