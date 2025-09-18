@@ -2,34 +2,8 @@ import {
   fetchTags,
   getOsSelectOptions,
   getWorkspaceSelectOptions,
-} from './helpers';
+} from './filtersHelpers';
 import { getOperatingSystems } from '../../../../api';
-import LastSeenFilter from './components/filters/LastSeenFilter';
-import { stringToId } from './helpers';
-
-export const CUSTOM_FILTER_TYPES = {
-  workspace: {
-    Component: Workspace,
-    chips: (value) => [value],
-    selectValue: (value) => [value, true],
-    deselectValue: () => [undefined, true],
-  },
-  lastSeen: {
-    Component: LastSeenFilter,
-    filterChips: (configItem, value) => ({
-      category: configItem.label,
-      chips: [{ name: value?.label }],
-    }),
-    toSelectValue: (configItem, selectedValue, selectedValues) => {
-      const customSelectValue = selectedValue || selectedValues;
-      return [customSelectValue, stringToId(configItem.label), true];
-    },
-    toDeselectValue: (configItem) => {
-      const customDeselectValue = [];
-      return [customDeselectValue, stringToId(configItem.label), true];
-    },
-  },
-};
 
 export const displayName = {
   type: 'text',
@@ -220,7 +194,7 @@ export const workspace = {
   type: 'workspace',
   items: getWorkspaceSelectOptions,
   filterSerialiser: (_config, values) => {
-    return values;
+    return { groupName: values };
   },
 };
 
@@ -231,10 +205,11 @@ export const workspace = {
  */
 export default [
   displayName,
-  status,
+  systemType,
+  operatingSystem,
   dataCollector,
   rhcStatus,
   tags,
-  systemType,
-  operatingSystem,
+  lastSeen,
+  workspace,
 ];
