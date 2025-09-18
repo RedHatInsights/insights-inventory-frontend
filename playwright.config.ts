@@ -34,6 +34,7 @@ export default defineConfig({
     video: 'retain-on-failure',
     trace: 'on',
     ignoreHTTPSErrors: true,
+    viewport: null,
   },
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
