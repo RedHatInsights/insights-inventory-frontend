@@ -1,4 +1,4 @@
-import Workspace from './components/filters/Workspace';
+import WorkspaceFilter from './components/filters/WorkspaceFilter';
 import {
   fetchTags,
   getOsSelectOptions,
@@ -10,10 +10,18 @@ import { stringToId } from './helpers';
 
 export const CUSTOM_FILTER_TYPES = {
   workspace: {
-    Component: Workspace,
-    chips: (value) => [value],
-    selectValue: (value) => [value, true],
-    deselectValue: () => [undefined, true],
+    Component: WorkspaceFilter,
+    filterChips: (configItem, selectedValues) => ({
+      category: configItem.label,
+      chips: [...selectedValues.map((name) => ({ name }))],
+    }),
+    toSelectValue: (configItem, _selectedValue, selectedValues) => {
+      return [selectedValues, stringToId(configItem.label), true];
+    },
+    toDeselectValue: (configItem, chip) => {
+      const customDeselectValue = chip?.chips?.[0]?.name;
+      return [customDeselectValue, stringToId(configItem.label), false];
+    },
   },
   lastSeen: {
     Component: LastSeenFilter,
@@ -216,13 +224,23 @@ export const lastSeen = {
   },
 };
 
-export const workspaceFilter = {
+export const workspace = {
   label: 'Workspace',
   type: 'workspace',
   items: getWorkspaceSelectOptions,
   filterSerialiser: (_config, values) => {
-    return values;
+    return { groupName: values };
   },
 };
 
-export default [displayName, statusFilter, tags, dataCollector, rhcStatus];
+export default [
+  displayName,
+  systemType,
+  operatingSystem,
+  statusFilter,
+  dataCollector,
+  rhcStatus,
+  tags,
+  lastSeen,
+  workspace,
+];
