@@ -20,8 +20,8 @@ describe('useLastSeenFilter', () => {
         {
           lastSeenFilter: {
             mark: 'last24',
-            updatedEnd: '2025-01-27T22:06:08.176Z',
-            updatedStart: '2025-01-26T22:06:08.176Z',
+            lastCheckInEnd: '2025-01-27T22:06:08.176Z',
+            lastCheckInStart: '2025-01-26T22:06:08.176Z',
           },
         },
         () => jest.fn(),

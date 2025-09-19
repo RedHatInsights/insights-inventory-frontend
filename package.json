@@ -18,7 +18,7 @@
     "@redhat-cloud-services/frontend-components": "^6.1.0",
     "@redhat-cloud-services/frontend-components-notifications": "^6.1.0",
     "@redhat-cloud-services/frontend-components-utilities": "^6.1.1",
-    "@redhat-cloud-services/host-inventory-client": "^4.0.2",
+    "@redhat-cloud-services/host-inventory-client": "^4.1.1",
     "@redhat-cloud-services/javascript-clients-shared": "^2.0.0",
     "@sentry/webpack-plugin": "^2.22.5",
     "@unleash/proxy-client-react": "^3.5.0",
