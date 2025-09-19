@@ -108,7 +108,7 @@
     "@faker-js/faker": "^9.6.0",
     "@playwright/test": "^1.54.1",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.0.0",
-    "@redhat-cloud-services/frontend-components-config": "^6.6.11",
+    "@redhat-cloud-services/frontend-components-config": "^6.7.0",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.24",
     "@stoplight/prism-cli": "^5.14.2",
     "@swc/jest": "^0.2.37",
