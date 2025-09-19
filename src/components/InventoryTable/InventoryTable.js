@@ -1,6 +1,7 @@
 import React, {
   Fragment,
   forwardRef,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -196,47 +197,61 @@ const InventoryTable = forwardRef(
      *  @param     disableOnRefresh
      *  @param     forceRefresh
      */
-    const onRefreshData = (
-      options = {},
-      disableOnRefresh,
-      forceRefresh = false,
-    ) => {
-      const { activeFilters } = store.getState().entities;
-      const cachedProps = cache.current?.getProps() || {};
+    const onRefreshData = useCallback(
+      (options = {}, disableOnRefresh, forceRefresh = false) => {
+        const { activeFilters } = store.getState().entities;
+        const cachedProps = cache.current?.getProps() || {};
 
-      let sortBy = options?.sortBy || cachedProps.sortBy;
-      if (lastSeenOverride && sortBy?.key === 'updated') {
-        sortBy = { ...sortBy, key: lastSeenOverride };
-      }
+        let sortBy = options?.sortBy || cachedProps.sortBy;
+        if (lastSeenOverride && sortBy?.key === 'updated') {
+          sortBy = { ...sortBy, key: lastSeenOverride };
+        }
 
-      const newParams = {
-        page: options?.page || cachedProps.page,
-        per_page: options?.per_page || options?.perPage || cachedProps.perPage,
-        items: cachedProps.items,
-        sortBy: sortBy,
-        hideFilters: cachedProps.hideFilters,
-        filters: activeFilters,
-        hasItems: cachedProps.hasItems,
-        //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
-        activeFiltersConfig: cachedProps.activeFiltersConfig,
-        ...customFilters,
-        ...options,
-        globalFilter: cachedProps?.customFilters?.globalFilter,
-      };
+        const newParams = {
+          page: options?.page || cachedProps.page,
+          per_page:
+            options?.per_page || options?.perPage || cachedProps.perPage,
+          items: cachedProps.items,
+          sortBy: sortBy,
+          hideFilters: cachedProps.hideFilters,
+          filters: activeFilters,
+          hasItems: cachedProps.hasItems,
+          //RHIF-246: Compliance app depends on activeFiltersConfig to apply its filters.
+          activeFiltersConfig: cachedProps.activeFiltersConfig,
+          ...customFilters,
+          ...options,
+          globalFilter: cachedProps?.customFilters?.globalFilter,
+        };
 
-      //Check for the rbac permissions
-      const cachedParams = cache.current.getParams();
-      if (hasAccess && (!isEqual(cachedParams, newParams) || forceRefresh)) {
-        cache.current.updateParams(newParams);
-        if (onRefresh && !disableOnRefresh) {
-          dispatch(entitiesLoading());
-          onRefresh(newParams, (options) => {
+        //Check for the rbac permissions
+        const cachedParams = cache.current.getParams();
+        if (hasAccess && (!isEqual(cachedParams, newParams) || forceRefresh)) {
+          cache.current.updateParams(newParams);
+          if (onRefresh && !disableOnRefresh) {
+            dispatch(entitiesLoading());
+            onRefresh(newParams, (options) => {
+              dispatch(
+                loadSystems(
+                  {
+                    axios,
+                    ...newParams,
+                    ...options,
+                    controller: controller.current,
+                    filterImmutableByDefault: props.loadChromelessInventory
+                      ? false
+                      : statContext.edgeParityFilterDeviceEnabled,
+                  },
+                  cachedProps.showTags,
+                  cachedProps.getEntities,
+                ),
+              );
+            });
+          } else {
             dispatch(
               loadSystems(
                 {
                   axios,
                   ...newParams,
-                  ...options,
                   controller: controller.current,
                   filterImmutableByDefault: props.loadChromelessInventory
                     ? false
@@ -246,25 +261,21 @@ const InventoryTable = forwardRef(
                 cachedProps.getEntities,
               ),
             );
-          });
-        } else {
-          dispatch(
-            loadSystems(
-              {
-                axios,
-                ...newParams,
-                controller: controller.current,
-                filterImmutableByDefault: props.loadChromelessInventory
-                  ? false
-                  : statContext.edgeParityFilterDeviceEnabled,
-              },
-              cachedProps.showTags,
-              cachedProps.getEntities,
-            ),
-          );
+          }
         }
-      }
-    };
+      },
+      [
+        customFilters,
+        lastSeenOverride,
+        hasAccess,
+        onRefresh,
+        axios,
+        props.loadChromelessInventory,
+        statContext.edgeParityFilterDeviceEnabled,
+        dispatch,
+        store,
+      ],
+    );
 
     const prevFilters = useRef(customFilters);
     useEffect(() => {
@@ -272,7 +283,7 @@ const InventoryTable = forwardRef(
         onRefreshData();
         prevFilters.current = customFilters;
       }
-    });
+    }, [autoRefresh, customFilters, onRefreshData]);
 
     const chromelessInventoryCheck = (flag) =>
       props.loadChromelessInventory ? false : flag;
