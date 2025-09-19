@@ -6,8 +6,8 @@ import '@testing-library/jest-dom';
 import InventoryPage from './InventoryPage';
 import { AccountStatContext } from '../Contexts';
 
-jest.mock('./InventoryComponents/HybridInventory', () => () => (
-  <div data-testid="HybridInventory" />
+jest.mock('./InventoryComponents/SystemsInventory', () => () => (
+  <div data-testid="SystemsInventory" />
 ));
 jest.mock('./InventoryComponents/BifrostPage', () => () => (
   <div data-testid="BifrostPage" />
@@ -15,7 +15,6 @@ jest.mock('./InventoryComponents/BifrostPage', () => () => (
 jest.mock('../Utilities/useFeatureFlag', () => () => true);
 const defaultContextValues = {
   hasConventionalSystems: true,
-  hasEdgeDevices: true,
   hasBootcImages: true,
 };
 
@@ -30,7 +29,7 @@ const mountWithContext = (contextValues = defaultContextValues) => {
 describe('Inventory', () => {
   test('renders initial default main content correctly', () => {
     mountWithContext();
-    expect(screen.getByTestId('HybridInventory')).toBeInTheDocument();
+    expect(screen.getByTestId('SystemsInventory')).toBeInTheDocument();
   });
 
   test('changes main content when toggle is clicked', async () => {

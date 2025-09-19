@@ -6,15 +6,14 @@ import useSystemsTableFeatureFlag from './routes/Systems/components/SystemsTable
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
-  inventoryHasEdgeSystems,
   inventoryHasBootcImages,
-} from './Utilities/edge';
-import { inventoryHasConventionalSystems } from './Utilities/conventional';
+  inventoryHasConventionalSystems,
+} from './Utilities/systemsChecks';
 import Fallback from './components/SpinnerFallback';
 import Redirect from './Utilities/Redirect';
 import { AccountStatContext } from './Contexts';
 
-const InventoryTable = lazy(() => import('./routes/InventoryPage'));
+const InventoryPage = lazy(() => import('./routes/InventoryPage'));
 const Systems = lazy(() => import('./routes/Systems'));
 
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
@@ -39,20 +38,13 @@ export const routes = {
 };
 
 export const Routes = () => {
-  const [hasConventionalSystems, setHasConventionalSystems] = useState(true);
-  const [hasEdgeDevices, setHasEdgeDevices] = useState(true);
+  const [hasSystems, setHasSystems] = useState(true);
   const [hasBootcImages, setHasBootcImages] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const edgeParityInventoryListEnabled = useFeatureFlag(
-    'edgeParity.inventory-list',
-  );
   const isSystemsTableEnabled = useSystemsTableFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
-  const edgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter',
-  );
   const isLastCheckInEnabled = useFeatureFlag(
     'hbi.create_last_check_in_update_per_reporter_staleness',
   );
@@ -61,12 +53,7 @@ export const Routes = () => {
     (async () => {
       try {
         const hasConventionalSystems = await inventoryHasConventionalSystems();
-        setHasConventionalSystems(hasConventionalSystems);
-
-        if (edgeParityInventoryListEnabled) {
-          const hasEdgeSystems = await inventoryHasEdgeSystems();
-          setHasEdgeDevices(hasEdgeSystems);
-        }
+        setHasSystems(hasConventionalSystems);
 
         if (isBifrostEnabled) {
           const hasBootc = await inventoryHasBootcImages();
@@ -89,7 +76,7 @@ export const Routes = () => {
       element: isSystemsTableEnabled ? (
         <Systems />
       ) : (
-        <RenderWrapper cmp={InventoryTable} />
+        <RenderWrapper cmp={InventoryPage} />
       ),
     },
     { path: '/:inventoryId', element: <InventoryDetail /> },
@@ -127,12 +114,6 @@ export const Routes = () => {
     },
   ]);
 
-  //bootc images are part of conventional systems,
-  //zero-state is not influenced by them
-  const hasSystems = edgeParityInventoryListEnabled
-    ? hasEdgeDevices || hasConventionalSystems
-    : hasConventionalSystems;
-
   if (isLoading) {
     return <Fallback />;
   }
@@ -150,11 +131,9 @@ export const Routes = () => {
   ) : (
     <AccountStatContext.Provider
       value={{
-        hasConventionalSystems,
-        hasEdgeDevices,
+        hasConventionalSystems: hasSystems,
         hasBootcImages,
         isKesselEnabled,
-        edgeParityFilterDeviceEnabled,
         isLastCheckInEnabled,
       }}
     >
