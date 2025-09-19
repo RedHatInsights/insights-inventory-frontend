@@ -47,3 +47,5 @@ docs/*
 
 # Auth files
 .auth/
+
+.claude/
