@@ -3,7 +3,6 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import debounce from 'lodash/debounce';
 import React from 'react';
-import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
 import { availableVersions } from '../../Utilities/__mocks__/OperatingSystemFilterHelpers.fixtures';
@@ -12,6 +11,7 @@ import useFetchBatched from '../../Utilities/hooks/useFetchBatched';
 import useFetchOperatingSystems from '../../Utilities/hooks/useFetchOperatingSystems';
 import { buildOperatingSystems } from '../../__factories__/operatingSystems';
 import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import { TestWrapper } from '../../Utilities/TestingUtilities';
 
 import EntityTableToolbar from './EntityTableToolbar';
 import TitleColumn from './TitleColumn';
@@ -188,9 +188,9 @@ describe('EntityTableToolbar', () => {
         },
       });
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded={false} />
-        </Provider>,
+        </TestWrapper>,
       );
 
       await expectDefaultFiltersVisible();
@@ -209,9 +209,9 @@ describe('EntityTableToolbar', () => {
     it('should render correctly - loaded', async () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
-        </Provider>,
+        </TestWrapper>,
       );
 
       await expectDefaultFiltersVisible();
@@ -226,14 +226,14 @@ describe('EntityTableToolbar', () => {
     it('should render correctly - with tags', async () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             showTags
             onRefreshData={onRefreshData}
             loaded
             total={1}
           />
-        </Provider>,
+        </TestWrapper>,
       );
       await expectDefaultFiltersVisible();
       expect(
@@ -246,13 +246,13 @@ describe('EntityTableToolbar', () => {
     it('should render correctly - with no access', () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             hasAccess={false}
             onRefreshData={onRefreshData}
             loaded
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       expect(
@@ -271,14 +271,14 @@ describe('EntityTableToolbar', () => {
     it('should render correctly - with items', () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             hasItems
             onRefreshData={onRefreshData}
             loaded
             total={1}
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       expect(
@@ -296,7 +296,7 @@ describe('EntityTableToolbar', () => {
     it('should render correctly - with custom filters', async () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
             loaded
@@ -305,7 +305,7 @@ describe('EntityTableToolbar', () => {
             }}
             total={1}
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       await expectDefaultFiltersVisible();
@@ -324,7 +324,7 @@ describe('EntityTableToolbar', () => {
     it('should render correctly - with custom activeFilters', () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
             loaded
@@ -346,7 +346,7 @@ describe('EntityTableToolbar', () => {
             showTags
             total={1}
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       const category = screen.getByRole('list', { name: 'Some' });
@@ -363,9 +363,9 @@ describe('EntityTableToolbar', () => {
         },
       });
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
-        </Provider>,
+        </TestWrapper>,
       );
 
       const category = screen.getByRole('list', { name: 'Status' });
@@ -400,14 +400,14 @@ describe('EntityTableToolbar', () => {
         },
       });
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
             loaded
             showTags
             total={1}
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       const category = screen.getByRole('list', { name: 'something' });
@@ -445,9 +445,9 @@ describe('EntityTableToolbar', () => {
         },
       });
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1} />
-        </Provider>,
+        </TestWrapper>,
       );
 
       const category = screen.queryByRole('list', { name: 'something' });
@@ -461,11 +461,11 @@ describe('EntityTableToolbar', () => {
     it('should render correctly - with children', () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded total={1}>
             <div>something</div>
           </EntityTableToolbar>
-        </Provider>,
+        </TestWrapper>,
       );
 
       expect(screen.getByText(/something/i)).toBeVisible();
@@ -474,7 +474,7 @@ describe('EntityTableToolbar', () => {
     it('should render correctly', () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             page={1}
             total={500}
@@ -482,7 +482,7 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       const button = screen.getByRole('button', {
@@ -496,7 +496,7 @@ describe('EntityTableToolbar', () => {
     it('should render correctly - with customFilters', () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
             loaded
@@ -509,7 +509,7 @@ describe('EntityTableToolbar', () => {
             }}
             showTags
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       const category = screen.getByRole('list', { name: 'RHC status' });
@@ -533,7 +533,7 @@ describe('EntityTableToolbar', () => {
       it('should set page ', async () => {
         const store = mockStore(initialState);
         render(
-          <Provider store={store}>
+          <TestWrapper store={store}>
             <EntityTableToolbar
               page={1}
               total={500}
@@ -541,7 +541,7 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>,
+          </TestWrapper>,
         );
 
         await userEvent.click(
@@ -556,7 +556,7 @@ describe('EntityTableToolbar', () => {
       it('should set per page ', async () => {
         const store = mockStore(initialState);
         render(
-          <Provider store={store}>
+          <TestWrapper store={store}>
             <EntityTableToolbar
               page={1}
               total={500}
@@ -564,7 +564,7 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>,
+          </TestWrapper>,
         );
 
         await userEvent.click(
@@ -587,7 +587,7 @@ describe('EntityTableToolbar', () => {
 
         const store = mockStore(stateWithActiveFilter);
         render(
-          <Provider store={store}>
+          <TestWrapper store={store}>
             <EntityTableToolbar
               page={1}
               total={500}
@@ -595,7 +595,7 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>,
+          </TestWrapper>,
         );
         onRefreshData.mockClear();
 
@@ -625,7 +625,7 @@ describe('EntityTableToolbar', () => {
           },
         });
         render(
-          <Provider store={store}>
+          <TestWrapper store={store}>
             <EntityTableToolbar
               page={1}
               total={500}
@@ -633,7 +633,7 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>,
+          </TestWrapper>,
         );
 
         await userEvent.click(
@@ -683,7 +683,7 @@ describe('EntityTableToolbar', () => {
           },
         });
         render(
-          <Provider store={store}>
+          <TestWrapper store={store}>
             <EntityTableToolbar
               page={1}
               total={500}
@@ -692,7 +692,7 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>,
+          </TestWrapper>,
         );
 
         // TODO: fix improper store mocking
@@ -714,7 +714,7 @@ describe('EntityTableToolbar', () => {
       it('should dispatch action on delete all filters', async () => {
         const store = mockStore(stateWithActiveFilter);
         render(
-          <Provider store={store}>
+          <TestWrapper store={store}>
             <EntityTableToolbar
               page={1}
               total={500}
@@ -722,7 +722,7 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>,
+          </TestWrapper>,
         );
 
         await userEvent.click(
@@ -748,7 +748,7 @@ describe('EntityTableToolbar', () => {
         const onDelete = jest.fn();
         const store = mockStore(stateWithActiveFilter);
         render(
-          <Provider store={store}>
+          <TestWrapper store={store}>
             <EntityTableToolbar
               page={1}
               total={500}
@@ -759,7 +759,7 @@ describe('EntityTableToolbar', () => {
               onRefreshData={onRefreshData}
               loaded
             />
-          </Provider>,
+          </TestWrapper>,
         );
 
         await userEvent.click(
@@ -775,7 +775,7 @@ describe('EntityTableToolbar', () => {
       debounce.mockImplementation((fn) => fn);
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             hideFilters={{ all: true, name: false, group: true }}
             page={1}
@@ -784,7 +784,7 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       await userEvent.type(
@@ -806,7 +806,7 @@ describe('EntityTableToolbar', () => {
       const onDelete = jest.fn();
       const store = mockStore(stateWithActiveFilter);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             page={1}
             total={500}
@@ -818,7 +818,7 @@ describe('EntityTableToolbar', () => {
             onRefreshData={onRefreshData}
             loaded
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       expect(
@@ -838,9 +838,9 @@ describe('EntityTableToolbar', () => {
     it('should hide the filter when flag is disabled', async () => {
       const store = mockStore(initialState);
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar onRefreshData={onRefreshData} loaded />
-        </Provider>,
+        </TestWrapper>,
       );
 
       await userEvent.click(
@@ -867,7 +867,7 @@ describe('EntityTableToolbar', () => {
       const onSelectMock = jest.fn(async () => {});
 
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
             loaded
@@ -876,7 +876,7 @@ describe('EntityTableToolbar', () => {
               onSelect: onSelectMock,
             }}
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       await userEvent.click(
@@ -908,13 +908,13 @@ describe('EntityTableToolbar', () => {
       }));
 
       render(
-        <Provider store={store}>
+        <TestWrapper store={store}>
           <EntityTableToolbar
             onRefreshData={onRefreshData}
             loaded
             enableExport
           />
-        </Provider>,
+        </TestWrapper>,
       );
 
       await userEvent.click(
