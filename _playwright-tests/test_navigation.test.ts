@@ -35,10 +35,10 @@ test('User can navigate to the workspaces page via the menu', async ({ page }) =
  
   // Navigate directly to the inventory page
   await navigateToInventoryFunc(page);
-  // await expect(page.getByRole('heading', { name: 'Systems' })).toBeVisible({ timeout: 20000 });
 
-  const WorkspacesParam = page.locator('text=Workspaces').locator('..');
+  const WorkspacesParam = page.locator('[data-ouia-component-id="Workspaces"]');
   await WorkspacesParam.click();
+
 
   await expect(page.getByRole('heading', { name: 'Workspaces' })).toBeVisible({ timeout: 90000 });
 
