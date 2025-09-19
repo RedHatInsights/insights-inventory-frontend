@@ -156,7 +156,7 @@
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelint.json",
     "server:ctr": "node src/server/generateServerKey.js",
     "start": "fec dev",
-    "start:proxy": "PROXY=true fec dev",
+    "start:proxy": "fec dev-proxy",
     "static": "fec static",
     "verify": "npm-run-all build lint test",
     "verify:local": "npm-run-all build lint test:local test:ct",
