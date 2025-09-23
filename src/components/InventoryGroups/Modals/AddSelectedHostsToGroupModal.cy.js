@@ -35,7 +35,7 @@ describe('AddSelectedHostsToGroupModal', () => {
     });
 
     it('create workspace button is hidden', () => {
-      cy.get('button').contains('Create a new workspace').should('not.exist');
+      cy.get('button').contains('Create workspace').should('not.exist');
     });
   });
 
@@ -59,7 +59,7 @@ describe('AddSelectedHostsToGroupModal', () => {
       });
 
       mountModal();
-      cy.get('button').contains('Create a new workspace').should('not.exist');
+      cy.get('button').contains('Create workspace').should('not.exist');
     });
   });
 
@@ -84,10 +84,8 @@ describe('AddSelectedHostsToGroupModal', () => {
     });
 
     it('create workspace button is visible', () => {
-      cy.get('button').contains('Create a new workspace').should('exist');
-      cy.get('button')
-        .contains('Create a new workspace')
-        .shouldHaveAriaEnabled();
+      cy.get('button').contains('Create workspace').should('exist');
+      cy.get('button').contains('Create workspace').shouldHaveAriaEnabled();
     });
   });
 });
