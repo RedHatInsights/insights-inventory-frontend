@@ -109,6 +109,9 @@ const GroupDetailHeader = ({ groupId }) => {
             onOpenChange={(dropdownOpen) => setDropdownOpen(dropdownOpen)}
             onSelect={() => setDropdownOpen(false)}
             autoFocus={false}
+            popperProps={{
+              position: 'right',
+            }}
             toggle={(toggleRef) => (
               <MenuToggle
                 ref={toggleRef}
@@ -119,7 +122,7 @@ const GroupDetailHeader = ({ groupId }) => {
                 isDisabled={!canModify || uninitialized || loading}
                 ouiaId="group-actions-dropdown-toggle"
               >
-                Workspace actions
+                Actions
               </MenuToggle>
             )}
           >
@@ -129,14 +132,14 @@ const GroupDetailHeader = ({ groupId }) => {
                 onClick={() => setRenameModalOpen(true)}
                 isAriaDisabled={isKesselEnabled && ungrouped}
               >
-                Rename
+                Rename workspace
               </DropdownItem>
               <DropdownItem
                 key="delete-group"
                 onClick={() => setDeleteModalOpen(true)}
                 isAriaDisabled={isKesselEnabled && ungrouped}
               >
-                Delete
+                Delete workspace
               </DropdownItem>
             </DropdownList>
           </Dropdown>
