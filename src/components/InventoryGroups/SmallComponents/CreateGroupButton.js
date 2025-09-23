@@ -13,7 +13,7 @@ export const CreateGroupButton = ({ closeModal }) => {
     <>
       <Content component="p">Or</Content>
       <Button variant="secondary" className="pf-v6-u-w-50" onClick={closeModal}>
-        Create a new workspace
+        Create workspace
       </Button>
     </>
   ) : (
