@@ -59,12 +59,12 @@ describe('group detail header', () => {
     );
 
     screen.getByRole('button', {
-      name: /workspace actions/i,
+      name: /actions/i,
     });
 
     await userEvent.click(
       screen.getByRole('button', {
-        name: /workspace actions/i,
+        name: /actions/i,
       }),
     );
 
