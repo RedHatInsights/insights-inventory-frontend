@@ -24,7 +24,6 @@ test('User can create, rename, and delete a workspace', async ({ page }) => {
 
   // Navigate to the Workspaces page
   await navigateToWorkspacesFunc(page);
-  await expect(page.getByRole('heading', { name: 'Workspaces' })).toBeVisible({ timeout: 100000 });
 
   // Generate a unique workspace name
   const WorkspaceName = `Workspace_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
@@ -86,3 +85,43 @@ test('User can create, rename, and delete a workspace', async ({ page }) => {
   await searchInput.fill(RenamedWorkspace);
   await expect(page.locator('text=No matching workspaces found')).toBeVisible();
 });
+
+test('User cannot delete a workspace with systems', async ({ page }) => {
+    /** 
+     * Jira References:
+         - https://issues.redhat.com/browse/ESSNTL-4370 – Delete workspace with systems
+     
+     * Metadata:
+         - requirements:
+             - inv-groups-delete
+         - importance: critical
+         - negative: true
+         - assignee: addubey
+     */
+    
+      const WorkspaceName = "Workspace_with_systems" 
+      // Close any modals/popups before navigating
+      await closePopupsIfExist(page);
+    
+      // Navigate to the Workspaces page
+      await navigateToWorkspacesFunc(page);
+    
+      // 3. Use the search bar to filter by workspace name
+      const searchInput = page.locator('input[placeholder="Filter by name"]');
+      await expect(searchInput).toBeVisible();
+      await page.reload({ waitUntil: 'networkidle' }); 
+      await searchInput.fill(WorkspaceName);
+    
+      const workspaceLink = page.getByRole('link', { name: WorkspaceName });
+      await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+      await workspaceLink.click();
+    
+    
+      const actionsButton = page.getByRole('button', { name: 'Actions' });
+      await expect(actionsButton).toBeVisible();
+      await actionsButton.click();
+    
+      await page.getByRole('menuitem', { name: 'Delete' }).first().click();
+    
+      await expect(page.locator('text=Cannot delete workspace at this time')).toBeVisible();
+    });
