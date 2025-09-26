@@ -83,7 +83,6 @@ describe('group detail page', () => {
     cy.get(MENU_TOGGLE).should('be.enabled').click();
     cy.get(MENU_ITEM).contains('Delete').click();
 
-    cy.get(`div[class="pf-v6-c-check"]`).click();
     cy.get(`button[type="submit"]`).click();
     cy.wait('@deleteGroup')
       .its('request.url')
