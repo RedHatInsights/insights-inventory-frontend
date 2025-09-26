@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import RepoModal from './Modal';
 import { deleteGroupsById, getGroupsByIds } from '../utils/api';
@@ -26,20 +25,13 @@ const generateSchema = (groups) => ({
       label:
         groups.length > 1 ? (
           <Content component="p">
-            <strong>{groups.length}</strong> workspaces and all their data will
-            be deleted.
+            <strong>{groups.length}</strong> workspaces will be deleted.
           </Content>
         ) : (
           <Content component="p">
-            <strong>{groups[0]?.name}</strong> and all its data will be deleted.
+            <strong>{groups[0]?.name}</strong> will be deleted.
           </Content>
         ),
-    },
-    {
-      component: componentTypes.CHECKBOX,
-      name: 'confirmation',
-      label: 'I understand that this action cannot be undone.',
-      validate: [{ type: validatorTypes.REQUIRED }],
     },
   ],
 });
