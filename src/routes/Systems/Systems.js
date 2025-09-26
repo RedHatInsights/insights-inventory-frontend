@@ -26,17 +26,18 @@ const Systems = () => (
           filterConfig: [
             defaultFilters.displayName,
             defaultFilters.statusFilter,
+            defaultFilters.operatingSystem,
             defaultFilters.dataCollector,
             defaultFilters.rhcStatus,
-            defaultFilters.tags,
+            defaultFilters.lastSeen,
+            defaultFilters.workspace,
             defaultFilters.systemType,
-            defaultFilters.operatingSystem,
+            defaultFilters.tags,
           ],
           customFilterTypes: defaultFilters.CUSTOM_FILTER_TYPES,
         }}
         options={{
-          // FIXME: remove debug
-          debug: true,
+          // debug: true,
           serialisers: {
             pagination: paginationSerialiser,
             sort: sortSerialiser,
