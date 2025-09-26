@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-import { navigateToWorkspacesFunc,waitFor } from './helpers/navHelpers';
+import { navigateToWorkspacesFunc } from './helpers/navHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 
 test('User can create, rename, and delete a workspace', async ({ page }) => {
@@ -50,7 +50,7 @@ test('User can create, rename, and delete a workspace', async ({ page }) => {
   await workspaceLink.click();
 
 
-  const actionsButton = page.getByRole('button', { name: 'Workspace actions' });
+  const actionsButton = page.getByRole('button', { name: 'Actions' });
   await expect(actionsButton).toBeVisible();
   await actionsButton.click();
 

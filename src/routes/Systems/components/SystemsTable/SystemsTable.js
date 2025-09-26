@@ -15,6 +15,7 @@ import useDeleteSystems from '../../hooks/useDeleteSystems';
 import useToolbarActions from '../../hooks/useToolbarActions';
 import AddSelectedHostsToGroupModal from '../../../../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import RemoveHostsFromGroupModal from '../../../../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
+import useInventoryExport from '../../../../components/InventoryTable/hooks/useInventoryExport/useInventoryExport';
 
 const SystemsTable = ({
   items: itemsProp = fetchSystems,
@@ -30,6 +31,9 @@ const SystemsTable = ({
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
+  const exportConfig = useInventoryExport({
+    filters,
+  });
 
   const reloadData = () => {
     if (selectedItems.length > 0) {
@@ -94,6 +98,9 @@ const SystemsTable = ({
           dedicatedAction,
           actions: toolbarActions,
           ...options,
+        }}
+        toolbarProps={{
+          exportConfig,
         }}
       />
     </>

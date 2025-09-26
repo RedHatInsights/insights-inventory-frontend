@@ -267,10 +267,7 @@ describe('hybrid inventory table', () => {
       cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(MENU_ITEM).contains('Add to workspace').click();
-      cy.get(MODAL_CONTENT)
-        .find('button')
-        .contains('Create a new workspace')
-        .click();
+      cy.get(MODAL_CONTENT).find('button').contains('Create workspace').click();
       cy.get(MODAL_CONTENT).find('h1').should('have.text', 'Create workspace');
     });
   });

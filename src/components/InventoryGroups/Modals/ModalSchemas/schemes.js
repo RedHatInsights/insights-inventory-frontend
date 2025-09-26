@@ -133,7 +133,7 @@ export const addHostSchema = (hosts, chrome, isKesselEnabled = false) => ({
     {
       component: 'select',
       name: 'group',
-      label: 'Select a workspace',
+      label: 'Select workspace',
       simpleValue: true,
       isSearchable: true, // enables typeahead
       isRequired: true,

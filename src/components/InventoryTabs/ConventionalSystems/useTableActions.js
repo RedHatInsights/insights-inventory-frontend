@@ -47,7 +47,7 @@ const useTableActions = (
             ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
           >
-            Edit
+            Edit display name
           </ActionDropdownItem>
         ),
       },
@@ -64,7 +64,7 @@ const useTableActions = (
             ]}
             noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
           >
-            Delete
+            Delete from inventory
           </ActionDropdownItem>
         ),
       },
