@@ -114,7 +114,7 @@ describe('multiple empty groups', () => {
     cy.get('h1').should('have.text', 'Warning alert:Delete workspaces?');
     cy.get('p').should(
       'have.text',
-      `${fixtures.results.length} workspaces and all their data will be deleted.`,
+      `${fixtures.results.length} workspaces will be deleted.`,
     );
   });
 
@@ -159,10 +159,7 @@ describe('multiple empty groups', () => {
       cy.wait('@getGroups'); // should make 6 batched requests
     }
 
-    cy.get('p').should(
-      'contain.text',
-      `workspaces and all their data will be deleted.`,
-    );
+    cy.get('p').should('contain.text', `workspaces will be deleted.`);
   });
 });
 
@@ -231,7 +228,7 @@ describe('single empty group', () => {
     cy.get('h1').should('have.text', 'Warning alert:Delete workspace?');
     cy.get('p').should(
       'contain.text',
-      `${fixtures.results[0].name} and all its data will be deleted.`,
+      `${fixtures.results[0].name} will be deleted.`,
     );
   });
 
