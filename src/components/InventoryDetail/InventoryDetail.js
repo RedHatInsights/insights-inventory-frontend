@@ -42,7 +42,7 @@ const InventoryDetail = ({
     }
   }, []);
   const deleteEntity = (systems, displayName, callback) => {
-    const action = deleteEntityAction(systems, displayName);
+    const action = deleteEntityAction(systems, displayName, addNotification);
     dispatch(reloadWrapper(action, callback));
   };
 

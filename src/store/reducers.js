@@ -65,11 +65,15 @@ function entitySelected(state, { payload }) {
   };
 }
 
-function entityDeleted(state, { meta }) {
+function entityDeleted(state, { meta, payload }) {
   const selected = state.selected || new Map();
   meta.systems.forEach((id) => selected.delete(id));
 
-  meta.notifications.fulfilled();
+  if (payload.status === 400 || payload.status === 404) {
+    meta.notifications.rejected();
+  } else {
+    meta.notifications.fulfilled();
+  }
 
   return {
     ...state,
