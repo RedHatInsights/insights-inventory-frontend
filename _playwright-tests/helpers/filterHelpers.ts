@@ -13,7 +13,7 @@ export const filterSystemsWithConditionalFilter = async (
     filterName: string,
     option: string,
 ) => {
-  let filterOption: Locator | undefined = undefined;
+//   let filterOption: Locator | undefined = undefined;
   // 1. SELECT FILER 
   await page.getByRole('button', { name: 'Conditional filter toggle' }).click();
   // wait for the dropdown to open - otherwise we type too soon and the search is not applied
@@ -23,7 +23,8 @@ export const filterSystemsWithConditionalFilter = async (
   // 2. SELECT OPTION
   if (filterName === "Workspace") {
     await page.getByRole('textbox', { name: 'Type to filter' }).click();
-    await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
+    // TODO: uncomment when issue is resolved https://issues.redhat.com/browse/RHINENG-20990
+    // await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
     const filterOption = page.getByText(option, { exact: true });
     await expect(filterOption).toBeVisible({ timeout: 100000 });
     await filterOption.click();
