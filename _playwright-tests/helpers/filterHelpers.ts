@@ -44,6 +44,9 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: Implement logic to select the Operating system filter option.
     // Logic not implemented yet. Test continues without filtering.
   }
+  // wait for filtered table
+  await page.waitForTimeout(1000);
+  await expect(page.locator("div[data-ouia-component-id='CompactPagination']")).toBeVisible({ timeout: 100000 }); 
 };
 
 
@@ -58,11 +61,8 @@ export const filterSystemsWithConditionalFilter = async (
 export const expectAllRowsHaveText = async (rowsLocator: Locator, expectedText: string) => {
     
   // 1. Get the current number of elements found by the locator.
-  const expectedCount = await rowsLocator.count();    
-  if (expectedCount === 0) {
-      console.warn("Locator found zero elements.");
-      return; 
-  }    
+  const expectedCount = await rowsLocator.count();
+  // TODO: Add check if we excpect 0 rows   
   // 2. Create an array where expectedText is repeated 'expectedCount' times.
   const expectedTextsArray = Array(expectedCount).fill(expectedText);     
   // 3. Assert that ALL elements found by the locator have the corresponding text.
