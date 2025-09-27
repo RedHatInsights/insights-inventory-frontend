@@ -24,7 +24,7 @@ export const filterSystemsWithConditionalFilter = async (
   if (filterName === "Workspace") {
     await page.getByRole('textbox', { name: 'Type to filter' }).click();
     await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
-    filterOption = page.getByText(option, { exact: true });
+    const filterOption = page.getByText(option, { exact: true });
     await expect(filterOption).toBeVisible({ timeout: 100000 });
     await filterOption.click();
   } else if (filterName === "Data collector") {
