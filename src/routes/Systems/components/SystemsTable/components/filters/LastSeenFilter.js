@@ -62,16 +62,11 @@ const LastSeenFilter = ({ value, onChange }) => {
 };
 
 LastSeenFilter.propTypes = {
-  value: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      PropTypes.shape({
-        start: PropTypes.string,
-        end: PropTypes.string,
-        label: PropTypes.string,
-      }),
-      PropTypes.bool,
-    ]),
-  ),
+  value: PropTypes.shape({
+    start: PropTypes.string,
+    end: PropTypes.string,
+    label: PropTypes.string,
+  }),
   onChange: PropTypes.func.isRequired,
 };
 
