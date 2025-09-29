@@ -101,8 +101,8 @@
     }
 
     .ins-composed-col div {
-        word-wrap: break-word;
-        word-break:break-all;
+        overflow-wrap: break-word;
+        word-break: break-all;
         &:nth-child(2):not(.ins-m-nodetail) {
             color: var(--pf-v5-global--link--Color);
             cursor: pointer;
