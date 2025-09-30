@@ -54,7 +54,7 @@ test('User can create, rename, and delete a workspace', async ({ page }) => {
   await actionsButton.click();
 
   // 5. Click "Rename workspace" from the dropdown
-  await page.getByRole('menuitem', { name: 'Rename' }).first().click();
+  await page.getByRole('menuitem', { name: 'Rename workspace' }).first().click();
 
   // 6. Rename dialog appears fill in new name
   await expect(dialog).toBeVisible();
@@ -74,7 +74,7 @@ test('User can create, rename, and delete a workspace', async ({ page }) => {
   await expect(actionsButton).toBeVisible();
   await actionsButton.click();
 
-  await page.getByRole('menuitem', { name: 'Delete' }).first().click();
+  await page.getByRole('menuitem', { name: 'Delete workspace' }).first().click();
   await expect(dialog).toBeVisible();
   await dialog.locator('input[type="checkbox"]').first().check();
   await page.getByRole('button', { name: 'Delete' }).click();
