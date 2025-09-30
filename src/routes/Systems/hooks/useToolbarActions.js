@@ -16,6 +16,7 @@ const useToolbarActions = (
   selected,
   setAddHostGroupModalOpen,
   setRemoveHostsFromGroupModalOpen,
+  setIsRowAction,
 ) => {
   const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
@@ -51,7 +52,10 @@ const useToolbarActions = (
           requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
           isAriaDisabled={addIsDisabled}
           noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-          onClick={() => setAddHostGroupModalOpen(true)}
+          onClick={() => {
+            setIsRowAction && setIsRowAction(false);
+            setAddHostGroupModalOpen(true);
+          }}
           ignoreResourceDefinitions
         >
           Add to workspace
@@ -65,7 +69,10 @@ const useToolbarActions = (
           requiredPermissions={removePermissions}
           isAriaDisabled={removeIsDisabled}
           noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-          onClick={() => setRemoveHostsFromGroupModalOpen(true)}
+          onClick={() => {
+            setIsRowAction && setIsRowAction(false);
+            setRemoveHostsFromGroupModalOpen(true);
+          }}
           {...(removeOverride && { override: true })}
           checkAll
         >
