@@ -3,7 +3,13 @@ import React, { useState, useMemo } from 'react';
 import DedicatedAction from '../components/SystemsTable/components/actions/DedicatedAction';
 import { deleteSystemsById } from '../../../components/InventoryTable/utils/api';
 
-const useDeleteSystems = (itemsData, reload, resetSelection, selected) => {
+const useDeleteSystems = (
+  itemsData,
+  reload,
+  resetSelection,
+  selected,
+  setIsRowAction,
+) => {
   const addNotification = useAddNotification();
   const [isModalOpen, handleModalToggle] = useState(false);
 
@@ -27,21 +33,25 @@ const useDeleteSystems = (itemsData, reload, resetSelection, selected) => {
     });
 
     handleModalToggle(false);
-    const result = await deleteSystemsById(selected);
+    try {
+      const result = await deleteSystemsById(selected);
 
-    if (result.status === 400 || result.status === 404) {
+      if (result[0].status === 200) {
+        addNotification({
+          variant: 'success',
+          title: 'Delete operation finished',
+          description: `${displayName} has been successfully removed.`,
+          dismissable: true,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+
       addNotification({
         variant: 'danger',
         title: 'System failed to be removed from Inventory',
         description:
           'There was an error processing the request. Please try again.',
-        dismissable: true,
-      });
-    } else if (result[0].status === 200) {
-      addNotification({
-        variant: 'success',
-        title: 'Delete operation finished',
-        description: `${displayName} has been successfully removed.`,
         dismissable: true,
       });
     }
@@ -54,11 +64,14 @@ const useDeleteSystems = (itemsData, reload, resetSelection, selected) => {
     // eslint-disable-next-line react/display-name
     () => () => (
       <DedicatedAction
-        onClick={() => handleModalToggle(true)}
+        onClick={() => {
+          setIsRowAction && setIsRowAction(false);
+          handleModalToggle(true);
+        }}
         selected={selected}
       />
     ),
-    [handleModalToggle, selected],
+    [handleModalToggle, selected, setIsRowAction],
   );
 
   return {

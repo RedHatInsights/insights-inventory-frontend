@@ -16,6 +16,10 @@ import useToolbarActions from '../../hooks/useToolbarActions';
 import AddSelectedHostsToGroupModal from '../../../../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import RemoveHostsFromGroupModal from '../../../../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import useInventoryExport from '../../../../components/InventoryTable/hooks/useInventoryExport/useInventoryExport';
+import useTableActions from '../../hooks/useTableActions';
+import { TextInputModal } from '../../../../components/SystemDetails/GeneralInfo';
+import useEditDisplayName from '../../hooks/useEditDisplayName';
+import useFeatureFlag from '../../../../Utilities/useFeatureFlag';
 
 const SystemsTable = ({
   items: itemsProp = fetchSystems,
@@ -23,17 +27,25 @@ const SystemsTable = ({
   filters,
   options = {},
 }) => {
-  const items = useGlobalFilterForItems(itemsProp);
+  /*tabletools state*/
   const { items: itemsData } = useItemsData();
   const tableState = useFullTableState();
   const { current: { reload, resetSelection } = {} } = useStateCallbacks();
   const { tableState: { selected } = {} } = tableState || {};
-  const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
-  const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
-    useState(false);
+
+  /*hooks*/
+  const items = useGlobalFilterForItems(itemsProp);
   const exportConfig = useInventoryExport({
     filters,
   });
+
+  /*local state*/
+  const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
+    useState(false);
+  const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
+  const [currentSystem, setCurrentSystem] = useState({});
+  const [isRowAction, setIsRowAction] = useState(false);
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   const reloadData = () => {
     if (selectedItems.length > 0) {
@@ -51,6 +63,7 @@ const SystemsTable = ({
     selectedItems,
     setAddHostGroupModalOpen,
     setRemoveHostsFromGroupModalOpen,
+    setIsRowAction,
   );
 
   const {
@@ -59,7 +72,29 @@ const SystemsTable = ({
     dedicatedAction,
     isModalOpen,
     handleModalToggle,
-  } = useDeleteSystems(itemsData, reload, resetSelection, selected);
+  } = useDeleteSystems(
+    itemsData,
+    reload,
+    resetSelection,
+    isRowAction ? [currentSystem.id] : selected,
+    setIsRowAction,
+  );
+
+  const { editModalOpen, onEditModalOpen, onSubmit } = useEditDisplayName(
+    currentSystem,
+    reload,
+    resetSelection,
+  );
+
+  const tableActions = useTableActions(
+    setCurrentSystem,
+    onEditModalOpen,
+    handleModalToggle,
+    setRemoveHostsFromGroupModalOpen,
+    setAddHostGroupModalOpen,
+    isKesselEnabled,
+    setIsRowAction,
+  );
 
   return (
     <>
@@ -67,7 +102,7 @@ const SystemsTable = ({
         <AddSelectedHostsToGroupModal
           isModalOpen={addHostGroupModalOpen}
           setIsModalOpen={setAddHostGroupModalOpen}
-          modalState={selectedItems}
+          modalState={isRowAction ? [currentSystem] : selectedItems}
           reloadData={() => reloadData()}
         />
       )}
@@ -75,7 +110,7 @@ const SystemsTable = ({
         <RemoveHostsFromGroupModal
           isModalOpen={removeHostsFromGroupModalOpen}
           setIsModalOpen={setRemoveHostsFromGroupModalOpen}
-          modalState={selectedItems}
+          modalState={isRowAction ? [currentSystem] : selectedItems}
           reloadData={() => reloadData()}
         />
       )}
@@ -84,8 +119,17 @@ const SystemsTable = ({
           className="sentry-mask data-hj-suppress"
           handleModalToggle={handleModalToggle}
           isModalOpen={isModalOpen}
-          currentSystems={itemsToDelete}
+          currentSystems={isRowAction ? [currentSystem] : itemsToDelete}
           onConfirm={onConfirm}
+        />
+      )}
+      {editModalOpen && (
+        <TextInputModal
+          title="Edit display name"
+          isOpen={editModalOpen}
+          value={currentSystem.display_name}
+          onCancel={() => onEditModalOpen(false)}
+          onSubmit={onSubmit}
         />
       )}
       <TableToolsTable
@@ -97,6 +141,7 @@ const SystemsTable = ({
           ...DEFAULT_OPTIONS,
           dedicatedAction,
           actions: toolbarActions,
+          actionResolver: tableActions,
           ...options,
         }}
         toolbarProps={{
