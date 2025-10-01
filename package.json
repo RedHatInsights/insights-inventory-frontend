@@ -47,7 +47,6 @@
   "jest": {
     "testEnvironment": "jsdom",
     "coverageDirectory": "coverage-jest",
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!src/**/*.cy.js",
