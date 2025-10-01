@@ -29,7 +29,6 @@ const RenderWrapper = ({
       hasAccess={props?.tableProps?.envContext?.loadChromeless || hasAccess}
       store={store}
       isKesselFFEnabled={statContext.isKesselEnabled}
-      edgeParityFilterDeviceEnabled={statContext.edgeParityFilterDeviceEnabled}
       loadChromelessInventory={loadChromelessInventory}
     />
   );
