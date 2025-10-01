@@ -25,7 +25,7 @@ export const InventoryPopover = () => {
             <Content component="p">
               To appear in Inventory, systems must first be registered with Red
               Hat. You can register systems using several methods, including the
-              Red Hat {platformName} client, Red Hat Satellite, or Red Hat
+              Red Hat Insights client, Red Hat Satellite, or Red Hat
               Subscription Manager (RHSM).
             </Content>
             <Content component="p">
