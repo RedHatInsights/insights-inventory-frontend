@@ -38,7 +38,7 @@ const InventoryApp = ({ logger }) => {
 };
 
 InventoryApp.propTypes = {
-  logger: PropTypes.object,
+  logger: PropTypes.func,
 };
 
 export default InventoryApp;
