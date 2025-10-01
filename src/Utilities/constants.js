@@ -303,17 +303,6 @@ export const generateFilter = (
 
 export const allStaleFilters = ['fresh', 'stale', 'stale_warning'];
 
-export const hybridInventoryTabKeys = {
-  conventional: {
-    key: 'conventional',
-    url: '',
-  },
-  immutable: {
-    key: 'immutable',
-    url: '/manage-edge-inventory',
-  },
-};
-
 export const systemTypeContent = {
   imageLabel: 'Image-based',
   packageLabel: 'Package-based',

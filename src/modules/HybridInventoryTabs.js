@@ -1,9 +1,20 @@
 import React from 'react';
-import HybridInventoryTabs from '../components/InventoryTabs/HybridInventoryTabs';
+import PropTypes from 'prop-types';
 
-const ForwardComponent = (props, ref) => (
-  <HybridInventoryTabs {...props} innerRef={ref} />
-);
-const HybridInventoryTabsModule = React.forwardRef(ForwardComponent);
+const HybridInventoryTabsModule = ({ ConventionalSystemsTab }) => {
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        'Deprecated: HybridInventoryTabs is deprecated and will be removed in a future release. Use Inventory table directly instead.',
+      );
+    }
+  }, []);
+
+  return ConventionalSystemsTab;
+};
+
+HybridInventoryTabsModule.propTypes = {
+  ConventionalSystemsTab: PropTypes.element.isRequired,
+};
 
 export default HybridInventoryTabsModule;

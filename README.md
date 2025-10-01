@@ -120,7 +120,6 @@ These applications import `InventoryTable` component through federated modules:
 - [malware-detection-frontend](https://github.com/RedHatInsights/malware-detection-frontend)
 - [ros-frontend](https://github.com/RedHatInsights/ros-frontend)
 - [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend)
-- [edge-frontend](https://github.com/RedHatInsights/edge-frontend)
 
 ## Documentation Links
 
