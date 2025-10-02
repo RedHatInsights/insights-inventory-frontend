@@ -96,5 +96,6 @@ export const expectAllRowsHaveText = async (rowLocator: Locator, expectedText: s
 export const searchByName = async (page: Page, name: string): Promise<void> => {
   const searchInput = page.locator('input[placeholder="Filter by name"]');
   await expect(searchInput).toBeVisible();
+  await page.reload({ waitUntil: 'networkidle' });
   await searchInput.fill(name);
 };
