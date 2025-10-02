@@ -48,6 +48,8 @@ export const Routes = () => {
   const isLastCheckInEnabled = useFeatureFlag(
     'hbi.create_last_check_in_update_per_reporter_staleness',
   );
+
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     // zero state check
     (async () => {
@@ -69,6 +71,7 @@ export const Routes = () => {
       }
     })();
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   let element = useRoutes([
     {

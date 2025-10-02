@@ -27,7 +27,22 @@ import useInsightsNavigate from '@redhat-cloud-services/frontend-components-util
 /**
  * Top inventory bar with title, buttons (namely remove from inventory and inventory detail button) and actions.
  * Remove from inventory button requires remove modal, which is included at bottom of this component.
- *  @param {*} props namely entity and if entity is loaded.
+ *  @param   {object}            props                     namely entity and if entity is loaded.
+ *  @param   {object}            props.entity              entity object
+ *  @param   {boolean}           props.loaded              if entity is loaded
+ *  @param   {Array}             props.actions             actions array for the top bar
+ *  @param   {boolean}           props.hideInvLink         if hide inv link is true
+ *  @param   {Function}          props.deleteEntity        delete entity function
+ *  @param   {Function}          props.addNotification     add notification function
+ *  @param   {Function}          props.onBackToListClick   on back to list click function
+ *  @param   {boolean}           props.showDelete          if show delete is true
+ *  @param   {boolean}           props.showInventoryDrawer if show inventory drawer is true
+ *  @param   {React.elementType} props.TitleWrapper        title wrapper element
+ *  @param   {React.elementType} props.TagsWrapper         tags wrapper element
+ *  @param   {React.elementType} props.DeleteWrapper       delete wrapper element
+ *  @param   {React.elementType} props.ActionsWrapper      actions wrapper element
+ *  @param   {boolean}           props.showTags            if show tags is true
+ *  @returns {React.ReactNode}                             the top bar component
  */
 const TopBar = ({
   entity,

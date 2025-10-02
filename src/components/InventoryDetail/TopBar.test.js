@@ -100,8 +100,6 @@ describe('TopBar', () => {
       </TestWrapper>,
     );
 
-    screen.logTestingPlaygroundURL();
-
     expect(
       screen.getByRole('button', {
         name: /delete/i,

@@ -1,6 +1,6 @@
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
@@ -25,6 +25,7 @@ import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
 import { prepareColumnsCoventional as prepareColumns } from './helpers';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
+import { useDeepCompareMemo } from 'use-deep-compare';
 
 const GroupSystems = ({ groupName, groupId, ungrouped }) => {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
   const noAccessTooltip = NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE;
   const removeLabel = 'Remove from workspace';
 
+  /*eslint-disable react-hooks/exhaustive-deps*/
   useEffect(() => {
     const { page, perPage } = getSearchParams(searchParams);
 
@@ -66,11 +68,12 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
       dispatch(clearEntitiesAction());
     };
   }, []);
+  /*eslint-enable react-hooks/exhaustive-deps*/
 
   const calculateSelected = () => (selected ? selected.size : 0);
 
   const onRefresh = useOnRefresh();
-  const initialFilters = useMemo(() => {
+  const initialFilters = useDeepCompareMemo(() => {
     const {
       status,
       source,
@@ -94,7 +97,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
       hostGroupFilter,
       lastSeenFilter,
     );
-  }, [addToGroupModalOpen]);
+  }, [addToGroupModalOpen, searchParams]);
 
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
