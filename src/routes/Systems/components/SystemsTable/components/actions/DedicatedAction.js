@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@patternfly/react-core';
 
-const DedicatedAction = ({ onClick, selected }) => {
+const DedicatedAction = ({ onClick = () => {}, selected = [] }) => {
   return (
     <Button
       isDisabled={!selected?.length}
@@ -18,11 +18,6 @@ const DedicatedAction = ({ onClick, selected }) => {
 DedicatedAction.propTypes = {
   onClick: PropTypes.func,
   selected: PropTypes.array,
-};
-
-DedicatedAction.defaultProps = {
-  onClick: () => {},
-  selected: [],
 };
 
 export default DedicatedAction;
