@@ -51,7 +51,7 @@ export const buildHostGroupChips = (
  * Behavior:
  * - Captures the unfiltered total when debouncedTerm is empty to understand dataset size.
  * - Uses a debounced search term for server-side filtering via getGroups if the total results exceed two pages (PAGE_SIZE * 2).
- * - Exposes setSearchTerm which is debounced; when remote search is disabled it resets
+ * - Exposes setSearchQuery which is debounced; when remote search is disabled it resets
  * the debounced term to initSearchQuery to avoid unnecessary server calls.
  *
  *  @param   {object}                 options
@@ -61,8 +61,8 @@ export const buildHostGroupChips = (
  *  @param   {number}                 [options.debounceTime]    Debounce duration for remote search, in ms.
  *  @returns {object}                                           result
  *  @returns {Array<{name: string}>}                            result.groups Flattened list of loaded workspaces.
- *  @returns {(term: string) => void}                           result.setSearchTerm Debounced setter for the remote search term.
- *  @returns {() => void}                                       result.fetchNextPage Load the next page when available.
+ *  @returns {function(string): void}                           result.setSearchQuery Debounced setter for the remote search term.
+ *  @returns {function(): void}                                 result.fetchNextPage Load the next page when available.
  *  @returns {boolean}                                          result.hasNextPage Whether there is another page to load.
  *  @returns {boolean}                                          result.isFetchingNextPage True while the next page is loading.
  *  @returns {boolean}                                          result.remoteSearchEnabled True when server-side search should be used (> 2 pages total).
