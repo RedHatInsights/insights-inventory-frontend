@@ -4,7 +4,8 @@ export * from '../Utilities/OperatingSystemFilterHelpers';
 
 /**
  * TODO: Deprecated, remove once no longer exposed through fed modules
- *  @param osVersions
+ *  @returns {Array}            the group selection value
+ *  @param   {Array} osVersions the versions to be selected
  */
 export const toGroupSelectionValue = (osVersions = []) =>
   osVersions.reduce((acc, version) => {
@@ -18,7 +19,8 @@ export const toGroupSelectionValue = (osVersions = []) =>
 
 /**
  * TODO: Deprecated, remove once no longer exposed through fed modules
- *  @param versions
+ *  @returns {Array}          the group selection value
+ *  @param   {Array} versions the versions to be selected
  */
 const groupOSVersions = (versions) => {
   const groups = Object.entries(
@@ -59,8 +61,9 @@ const groupOSVersions = (versions) => {
 
 /**
  * TODO: Deprecated, remove once no longer exposed through fed modules
- *  @param config
- *  @param operatingSystems
+ *  @returns {object}                  the OS filter config
+ *  @param   {object} config           the config object
+ *  @param   {Array}  operatingSystems the operating systems
  */
 export const buildOSFilterConfig = (config = {}, operatingSystems = []) => ({
   ...config,

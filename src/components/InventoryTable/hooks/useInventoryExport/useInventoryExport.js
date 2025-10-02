@@ -11,12 +11,11 @@ const JSON_ITEM_TEXT = 'Export all systems to JSON';
 /**
  * A hook encapsulating functionality to provide an export configuration for the InventoryTable to request an export.
  *
- *  @param   {object}   [options]         Options
- *  @param   {object}   [options.filters] (unused) Filters currently active in the InventoryTable and passed along to the export request
- *  @param   {object}   [options.axios]
+ *  @param   {object} [options]         Options
+ *  @param   {object} [options.filters] (unused) Filters currently active in the InventoryTable and passed along to the export request
+ *  @param   {object} [options.axios]   Axios instance
  *
- *  @returns {object}                     [exportConfig] An object to pass to exportConfig
- *  @returns {Function}                   [exportConfig.onSelect] onSelect callback for the exportConfig called when a export format is selected
+ *  @returns {object}                   [exportConfig] An object to pass to exportConfig
  *
  */
 const useInventoryExport = ({ filters = {}, axios } = {}) => {

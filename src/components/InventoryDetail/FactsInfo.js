@@ -16,7 +16,11 @@ import OsModeLabel from './OsModeLabel';
 /**
  * Basic information about system.
  * UUID and last seen.
- *  @param {*} props entity and if entity is loaded.
+ *  @param   {object}            props                 entity and if entity is loaded.
+ *  @param   {object}            props.entity          entity object
+ *  @param   {boolean}           props.loaded          if entity is loaded
+ *  @param   {React.elementType} props.LastSeenWrapper last seen wrapper element
+ *  @returns {React.ReactNode}                         the facts info component
  */
 const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
   <Grid className="ins-entity-facts" {...props}>

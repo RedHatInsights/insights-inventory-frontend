@@ -49,7 +49,7 @@ export const Clickable = ({
     if (target === modalId) {
       onClick({ value, target });
     }
-  }, [modalId, target]);
+  }, [modalId, target, value]);
 
   if (target?.[0] === '/') {
     return (

@@ -4,17 +4,18 @@ import PropTypes from 'prop-types';
 
 /**
  * Bottom pagination used in table. It can remember what page user is on if user entered the page number in input.
- *  @param props
- *  @param props.total
- *  @param props.page
- *  @param props.perPage
- *  @param props.direction
- *  @param props.isFull
- *  @param props.hasAccess
- *  @param props.paginationProps
- *  @param props.onRefreshData
- *  @param props.loaded
- *  @param props.ouiaId
+ *  @param   {object}     props                 props object
+ *  @param   {number}     props.total           total number of items
+ *  @param   {number}     props.page            current page
+ *  @param   {number}     props.perPage         items per page
+ *  @param   {string}     props.direction       direction of the pagination
+ *  @param   {boolean}    props.isFull          if true, the pagination is full
+ *  @param   {boolean}    props.hasAccess       if true, the pagination has access
+ *  @param   {object}     props.paginationProps pagination props
+ *  @param   {Function}   props.onRefreshData   on refresh data function
+ *  @param   {boolean}    props.loaded          if true, the pagination is loaded
+ *  @param   {string}     props.ouiaId          ouia id for testing
+ *  @returns {React.node}                       React node with pagination
  */
 const FooterPagination = ({
   total,
@@ -30,16 +31,18 @@ const FooterPagination = ({
 }) => {
   /**
    * Thi method sets new page and combines previous props to apply sort, filters etc.
-   *  @param {*} _event  html event to figure if target was input.
-   *  @param {*} pageArg current page to change to.
+   *  @param   {event}  _event  html event to figure if target was input.
+   *  @param   {number} pageArg current page to change to.
+   *  @returns {void}           void
    */
   const onSetPage = (_event, pageArg) => onRefreshData({ page: pageArg });
 
   /**
    * This method changes per page, it automatically sets page to first one.
    * It also applies previous sort, filters, etc.
-   *  @param {*} _event     event is now not used.
-   *  @param {*} perPageArg new perPage set by user.
+   *  @param   {event}  _event     event is now not used.
+   *  @param   {number} perPageArg new perPage set by user.
+   *  @returns {void}              void
    */
   const onPerPageSelect = (_event, perPageArg) =>
     onRefreshData({ page: 1, per_page: perPageArg });

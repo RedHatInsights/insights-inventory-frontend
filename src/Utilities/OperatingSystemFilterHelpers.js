@@ -22,8 +22,9 @@ const isVersionSelected = (selectedVersions, osVersion) =>
 /**
  * Takes an array of object versions `value` and returns an object in the format
  * required by ConditionalFilter component (group filter);
- *  @param value
- *  @param availableVersions
+ *  @returns {object}                   the group selection
+ *  @param   {Array}  value             the versions to be selected
+ *  @param   {Array}  availableVersions the available versions
  */
 export const toGroupSelection = (value = [], availableVersions) =>
   (availableVersions === undefined ? value : availableVersions).reduce(
@@ -47,7 +48,8 @@ export const compareVersions = (a, b, asc = true) =>
 
 /**
  * Extracts enabled OS filter values from ConditionalFilter-like object
- *  @param selected
+ *  @returns {Array}           the selected OS filter versions
+ *  @param   {object} selected the selected OS filter versions
  */
 export const getSelectedOsFilterVersions = (selected = {}) =>
   Object.entries(selected).reduce((acc, [osGroup, versions]) => {
