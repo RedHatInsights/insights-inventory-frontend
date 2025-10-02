@@ -67,6 +67,17 @@ test('User can create, rename, and delete a workspace', async ({ page }) => {
     const dialog = page.locator('[role="dialog"]');
     await expect(dialog).toBeVisible();
     await page.getByRole('button', { name: 'Delete' }).click();
+<<<<<<< HEAD
+=======
+
+    // search for the deleted workspace to confirm deletion worked
+    const resetFiltersButton = page.getByRole('button', { name: 'Reset filters' });
+    await resetFiltersButton.click();
+    await searchByName(page, renamedWorkspace);
+    const deletedWorkspaceLocator = page.locator(`text=${renamedWorkspace}`);
+    await expect(deletedWorkspaceLocator).toHaveCount(0, { timeout: 60000 });
+    await expect(page.locator('text=No matching workspaces found')).toBeVisible();
+>>>>>>> f2c5885 (test(RHINENG-21087-1): Add E2E test to rename and delete workpsce from Workpsaces page)
   });
 
   await test.step('Verify workspace deletion', async () => {
