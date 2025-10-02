@@ -21,25 +21,25 @@ import useColumns from './hooks/useColumns';
  */
 const EntityTable = ({
   hasItems,
-  expandable,
-  onExpandClick,
-  hasCheckbox,
+  expandable = false,
+  onExpandClick = () => undefined,
+  hasCheckbox = true,
   actions,
-  variant,
+  variant = TableVariant.compact,
   sortBy,
-  tableProps,
+  tableProps = {},
   onSort,
-  expandable: isExpandable,
   onRowClick,
   noDetail,
   noSystemsTable = <NoEntitiesFound />,
   showTags,
   columns: columnsProp,
   disableDefaultColumns,
-  loaded,
+  loaded = false,
   columnsCounter,
   lastSeenOverride,
 }) => {
+  const isExpandable = expandable;
   const dispatch = useDispatch();
   const columns = useColumns(columnsProp, {
     disableDefaultColumns,
@@ -158,9 +158,7 @@ EntityTable.propTypes = {
   onExpandClick: PropTypes.func,
   onSort: PropTypes.func,
   hasCheckbox: PropTypes.bool,
-  showActions: PropTypes.bool,
   hasItems: PropTypes.bool,
-  showHealth: PropTypes.bool,
   sortBy: PropTypes.shape({
     key: PropTypes.string,
     direction: PropTypes.oneOf(['asc', 'desc']),
@@ -185,18 +183,6 @@ EntityTable.propTypes = {
   actions: PropTypes.array,
   noDetail: PropTypes.any,
   lastSeenOverride: PropTypes.string,
-};
-
-EntityTable.defaultProps = {
-  loaded: false,
-  showHealth: false,
-  expandable: false,
-  hasCheckbox: true,
-  showActions: false,
-  rows: [],
-  variant: TableVariant.compact,
-  onExpandClick: () => undefined,
-  tableProps: {},
 };
 
 export default EntityTable;
