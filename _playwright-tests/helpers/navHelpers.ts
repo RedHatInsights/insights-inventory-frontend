@@ -29,3 +29,8 @@ export const test = base.extend({
     await use(page); // Pass control to the test
   },
 });
+export const navigateToSystemDetails = async (page: Page, uuid: string) => {
+  await page.goto(`/insights/inventory/${uuid}`);
+  await expect(page.getByText(uuid)).toBeVisible();
+  await expect(page.getByText('System not found')).not.toBeVisible();
+}
