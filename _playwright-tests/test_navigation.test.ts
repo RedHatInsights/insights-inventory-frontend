@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
-
-import { navigateToInventoryFunc } from './helpers/navHelpers';
+import { navigateToSystemDetails, navigateToInventoryFunc } from './helpers/navHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 
 test('User can navigate to the inventory page', async ({ page }) => {
@@ -43,3 +42,9 @@ test('User can navigate to the workspaces page via the menu', async ({ page }) =
   await expect(page.getByRole('heading', { name: 'Workspaces' })).toBeVisible({ timeout: 90000 });
 
 });
+
+test("User can navigate to System Details", async ({ page }) => {
+  const systemUUID = "607266e2-be2e-4aea-9554-e45e92bf2063"
+
+  await navigateToSystemDetails(page, systemUUID);
+})
