@@ -13,8 +13,6 @@ const flatPlugins = [
   pluginCypress.configs.recommended,
   reactHooks.configs['recommended-latest'],
   jsdoc.configs['flat/recommended'],
-  testingLibrary.configs['flat/react'],
-  jestDom.configs['flat/recommended'],
 ];
 
 export default defineConfig([
@@ -35,6 +33,20 @@ export default defineConfig([
       'no-unused-vars': 'warn',
       // Add other TypeScript-specific rules here
     },
+  },
+  {
+    files: [
+      'src/**/*.test.{js,jsx,ts,tsx}',
+      'src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+    ],
+    ...jestDom.configs['flat/recommended'],
+  },
+  {
+    files: [
+      'src/**/*.test.{js,jsx,ts,tsx}',
+      'src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+    ],
+    ...testingLibrary.configs['flat/react'],
   },
   {
     rules: {
