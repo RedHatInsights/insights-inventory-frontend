@@ -129,6 +129,7 @@
     "eslint-plugin-cypress": "^5.2.0",
     "eslint-plugin-jest-dom": "^5.5.0",
     "eslint-plugin-jsdoc": "^60.8.2",
+    "eslint-plugin-playwright": "^2.2.2",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-testing-library": "^7.12.0",
     "husky": "^8.0.3",
