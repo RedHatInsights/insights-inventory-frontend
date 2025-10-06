@@ -11,10 +11,12 @@ import InventoryGroupsPopover from '../components/InventoryGroups/SmallComponent
 const Groups = () => {
   const chrome = useChrome();
 
+  /*eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    chrome?.hideGlobalFilter?.();
+    chrome?.hideGlobalFilter?.(true);
     chrome?.updateDocumentTitle?.(`Workspaces - Inventory`);
   }, []);
+  /*eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <React.Fragment>
