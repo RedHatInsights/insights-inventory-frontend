@@ -197,6 +197,9 @@ const updateStaleness = async ({
 const getStaleness = async ({ options: { axios, ...options } = {} } = {}) =>
   await hostInventoryApi(axios).apiStalenessGetStaleness({ options });
 
+const deleteStaleness = async ({ options: { axios, ...options } = {} } = {}) =>
+  await hostInventoryApi(axios).apiStalenessDeleteStaleness({ options });
+
 const patchHostById = async ({
   hostIdList,
   patchHostIn,
@@ -328,6 +331,7 @@ export {
   createStaleness,
   updateStaleness,
   getStaleness,
+  deleteStaleness,
   patchHostById,
   deleteHostById,
   getGroupList,

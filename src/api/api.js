@@ -20,6 +20,7 @@ import {
   getHostSystemProfileById as apiGetHostSystemProfileById,
   getHostTags as apiGetHostTags,
   getStaleness as apiGetStaleness,
+  deleteStaleness as apiDeleteStaleness,
   getTags as apiGetTags,
   getOperatingSystem,
 } from './hostInventoryApi';
@@ -376,6 +377,10 @@ export const fetchDefaultStalenessValues = () => {
 
 export const fetchStalenessData = () => {
   return apiGetStaleness();
+};
+
+export const deleteStalenessData = () => {
+  return apiDeleteStaleness();
 };
 
 export const postStalenessData = (data) => {
