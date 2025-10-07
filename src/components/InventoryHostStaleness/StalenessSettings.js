@@ -20,6 +20,7 @@ const StalenessSettings = ({
   isFormValid,
   setIsFormValid,
   hostStalenessDefaults,
+  setIsResetToDefault,
 }) => {
   const dropdownArray = () => [
     systemStalenessItems(),
@@ -31,6 +32,7 @@ const StalenessSettings = ({
     const defaultsForSelectedTab = hostStalenessDefaults;
 
     setNewFormValues({ ...newFormValues, ...defaultsForSelectedTab });
+    setIsResetToDefault(true);
   };
 
   return (
@@ -85,14 +87,15 @@ const StalenessSettings = ({
 
 StalenessSettings.propTypes = {
   filter: PropTypes.object,
-  newFormValues: PropTypes.any,
-  setNewFormValues: PropTypes.any,
-  setFilter: PropTypes.any,
+  newFormValues: PropTypes.object,
+  setNewFormValues: PropTypes.func,
+  setFilter: PropTypes.func,
   activeTabKey: PropTypes.number,
   isEditing: PropTypes.bool,
-  isFormValid: PropTypes.any,
-  setIsFormValid: PropTypes.any,
+  isFormValid: PropTypes.bool,
+  setIsFormValid: PropTypes.func,
   defaultValues: PropTypes.object,
   hostStalenessDefaults: PropTypes.object,
+  setIsResetToDefault: PropTypes.func,
 };
 export default StalenessSettings;
