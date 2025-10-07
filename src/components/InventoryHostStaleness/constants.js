@@ -145,7 +145,7 @@ export const HostStalenessResetDefaultPopover = () => {
             check-in.
           </span>
           <span className="pf-v6-u-font-size-sm">
-            - Systems are deleted after 14 days since last check-in.
+            - Systems are deleted after 30 days since last check-in.
           </span>
         </Flex>
       }
@@ -190,7 +190,7 @@ export const InventoryHostStalenessPopover = () => {
               check-in.
             </span>
             <span className="pf-v6-u-font-size-sm">
-              - Systems are deleted after 14 days since last check-in.
+              - Systems are deleted after 30 days since last check-in.
             </span>
           </Flex>
         </Flex>
