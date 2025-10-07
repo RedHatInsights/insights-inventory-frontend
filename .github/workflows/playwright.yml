@@ -41,6 +41,7 @@ jobs:
             echo "PLAYWRIGHT_PASSWORD=$PLAYWRIGHT_PASSWORD"
             echo "BASE_URL=https://stage.foo.redhat.com:1337"
             echo "CI=true"
+            echo "PROXY=$PROXY"
           } >> .env
 
           echo ".env file created successfully."

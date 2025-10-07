@@ -202,7 +202,7 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
   await test.step('Test setup: navigate to Workspaces page, create workspace to work with', async () => {
     await navigateToWorkspacesFunc(page);
     await createNewWorkspace(page, workspaceName);
-    // serach for workspace and via 'Name' column make sure only 1 workspace is found
+    // search for workspace and via 'Name' column make sure only 1 workspace is found
     await searchByName(page, workspaceName);
     await expect(nameColumnLocator).toHaveCount(1);
     await expect(nameColumnLocator).toHaveText(workspaceName);  
