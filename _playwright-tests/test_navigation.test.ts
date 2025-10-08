@@ -1,16 +1,16 @@
 import { expect } from '@playwright/test';
-import { test,navigateToInventoryFunc } from './helpers/navHelpers';
+import { test,navigateToInventorySystemsFunc } from './helpers/navHelpers';
 
 test('User can navigate to the inventory page', async ({ page }) => {
   await test.step('Navigate to Inventory page', async () => {
-    await navigateToInventoryFunc(page);
+    await navigateToInventorySystemsFunc(page);
   });
 });
 
 
 test('User can navigate to the Staleness and Deletion page via the menu', async ({ page }) => {
   await test.step('Navigate to Inventory page', async () => {
-    await navigateToInventoryFunc(page);
+    await navigateToInventorySystemsFunc(page);
   });
 
   await test.step('Open System Configuration menu and click Staleness and Deletion', async () => {
@@ -31,7 +31,7 @@ test('User can navigate to the Staleness and Deletion page via the menu', async 
 
 test('User can navigate to the workspaces page via the menu', async ({ page }) => {
   await test.step('Navigate to Inventory page', async () => {
-    await navigateToInventoryFunc(page);
+    await navigateToInventorySystemsFunc(page);
   });
 
   await test.step('Click on Workspaces menu item and reload page', async () => {
