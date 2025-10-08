@@ -138,7 +138,7 @@
     "jsdoc": "^4.0.4",
     "node-fetch": "^2.6.7",
     "npm-run-all": "^4.1.5",
-    "playwright-ctrf-json-reporter": "^0.0.23",
+    "playwright-ctrf-json-reporter": "^0.0.24",
     "redux-mock-store": "^1.5.4",
     "stylelint": "^16.24.0",
     "stylelint-config-recommended-scss": "^16.0.2",
