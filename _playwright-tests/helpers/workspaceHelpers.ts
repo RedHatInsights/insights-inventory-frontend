@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 
 
 /**
- * Help function to generate unique workpsace name
+ * Help function to generate unique workspace name
  */
 export const generateUniqueWorkspaceName = async () => {
   return `Workspace_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
