@@ -1,51 +1,184 @@
-import React from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { PageSection } from '@patternfly/react-core';
-import InventoryPageHeader from '../InventoryComponents/InventoryPageHeader';
-import SystemsTable from './components/SystemsTable';
 import {
-  filtersSerialiser,
-  sortSerialiser,
-  paginationSerialiser,
-} from './serialisers';
-import * as defaultColumns from './components/SystemsTable/columns';
-import * as defaultFilters from './components/SystemsTable/filters';
+  TableStateProvider,
+  useItemsData,
+  useFullTableState,
+  useStateCallbacks,
+} from 'bastilian-tabletools';
 
-const Systems = () => (
-  <>
-    <InventoryPageHeader />
-    <PageSection>
-      <SystemsTable
-        columns={[
-          defaultColumns.displayName,
-          defaultColumns.workspace,
-          defaultColumns.tags,
-          defaultColumns.operatingSystem,
-          defaultColumns.lastSeen,
-        ]}
-        filters={{
-          filterConfig: [
-            defaultFilters.displayName,
-            defaultFilters.statusFilter,
-            defaultFilters.dataCollector,
-            defaultFilters.rhcStatus,
-            defaultFilters.tags,
-            defaultFilters.systemType,
-            defaultFilters.operatingSystem,
-          ],
-          customFilterTypes: defaultFilters.CUSTOM_FILTER_TYPES,
-        }}
-        options={{
-          // FIXME: remove debug
-          debug: true,
-          serialisers: {
-            pagination: paginationSerialiser,
-            sort: sortSerialiser,
-            filters: filtersSerialiser,
-          },
-        }}
-      />
-    </PageSection>
-  </>
+import InventoryPageHeader from '../InventoryComponents/InventoryPageHeader';
+import { TextInputModal } from '../../components/SystemDetails/GeneralInfo';
+import AddSelectedHostsToGroupModal from '../../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
+import RemoveHostsFromGroupModal from '../../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
+import DeleteModal from '../../Utilities/DeleteModal';
+import useInventoryExport from '../../components/InventoryTable/hooks/useInventoryExport/useInventoryExport';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+
+import useTableActions from './hooks/useTableActions';
+import useDeleteSystems from './hooks/useDeleteSystems';
+import useToolbarActions from './hooks/useToolbarActions';
+import useEditDisplayName from './hooks/useEditDisplayName';
+
+import SystemsTable from './components/SystemsTable';
+
+const Systems = () => {
+  /*tabletools state*/
+  const { items: itemsData } = useItemsData();
+  const tableState = useFullTableState();
+  const { current: { reload, resetSelection } = {} } = useStateCallbacks();
+  const { tableState: { selected } = {} } = tableState || {};
+
+  /*hooks*/
+  const exportConfig = useInventoryExport();
+
+  /*local state*/
+  const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
+    useState(false);
+  const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
+  const [currentSystem, setCurrentSystem] = useState({});
+  const [isRowAction, setIsRowAction] = useState(false);
+  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
+
+  const selectedItems = useMemo(
+    () => itemsData?.filter(({ id }) => selected.includes(id)) || [],
+    [itemsData, selected],
+  );
+
+  const reloadData = useCallback(() => {
+    if (selectedItems.length > 0) {
+      resetSelection?.();
+      reload?.();
+    }
+  }, [reload, resetSelection, selectedItems]);
+
+  const toolbarActions = useToolbarActions(
+    selectedItems,
+    setAddHostGroupModalOpen,
+    setRemoveHostsFromGroupModalOpen,
+    setIsRowAction,
+  );
+
+  const {
+    itemsToDelete,
+    onConfirm,
+    dedicatedAction,
+    isModalOpen,
+    handleModalToggle,
+  } = useDeleteSystems(
+    itemsData,
+    reload,
+    resetSelection,
+    isRowAction ? [currentSystem.id] : selected,
+    setIsRowAction,
+  );
+
+  const { editModalOpen, onEditModalOpen, onSubmit } = useEditDisplayName(
+    currentSystem,
+    reload,
+    resetSelection,
+  );
+
+  const tableActions = useTableActions(
+    setCurrentSystem,
+    onEditModalOpen,
+    handleModalToggle,
+    setRemoveHostsFromGroupModalOpen,
+    setAddHostGroupModalOpen,
+    isKesselEnabled,
+    setIsRowAction,
+  );
+
+  return (
+    <>
+      <InventoryPageHeader />
+      <PageSection>
+        <SystemsTable
+          variant="compact"
+          columns={({
+            displayName,
+            workspace,
+            tags,
+            operatingSystem,
+            lastSeen,
+          }) => [displayName, workspace, tags, operatingSystem, lastSeen]}
+          filters={({
+            displayName,
+            status,
+            dataCollector,
+            rhcStatus,
+            tags,
+            systemType,
+            operatingSystem,
+          }) => ({
+            filterConfig: [
+              displayName,
+              status,
+              dataCollector,
+              rhcStatus,
+              tags,
+              systemType,
+              operatingSystem,
+            ],
+          })}
+          options={(defaultOptions) => ({
+            ...defaultOptions,
+            dedicatedAction,
+            actions: toolbarActions,
+            actionResolver: tableActions,
+            onSelect: true,
+          })}
+          toolbarProps={{
+            exportConfig,
+          }}
+        />
+
+        {addHostGroupModalOpen && (
+          <AddSelectedHostsToGroupModal
+            isModalOpen={addHostGroupModalOpen}
+            setIsModalOpen={setAddHostGroupModalOpen}
+            modalState={isRowAction ? [currentSystem] : selectedItems}
+            reloadData={() => reloadData()}
+          />
+        )}
+
+        {removeHostsFromGroupModalOpen && (
+          <RemoveHostsFromGroupModal
+            isModalOpen={removeHostsFromGroupModalOpen}
+            setIsModalOpen={setRemoveHostsFromGroupModalOpen}
+            modalState={isRowAction ? [currentSystem] : selectedItems}
+            reloadData={() => reloadData()}
+          />
+        )}
+
+        {isModalOpen && (
+          <DeleteModal
+            className="sentry-mask data-hj-suppress"
+            handleModalToggle={handleModalToggle}
+            isModalOpen={isModalOpen}
+            currentSystems={isRowAction ? [currentSystem] : itemsToDelete}
+            onConfirm={onConfirm}
+          />
+        )}
+
+        {editModalOpen && (
+          <TextInputModal
+            title="Edit display name"
+            isOpen={editModalOpen}
+            value={currentSystem.display_name}
+            onCancel={() => onEditModalOpen(false)}
+            onSubmit={onSubmit}
+          />
+        )}
+      </PageSection>
+    </>
+  );
+};
+
+const SystemsWithProvider = (props) => (
+  <TableStateProvider>
+    <Systems {...props} />
+  </TableStateProvider>
 );
 
-export default Systems;
+export default SystemsWithProvider;

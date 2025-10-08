@@ -1,4 +1,3 @@
-import Workspace from './components/filters/Workspace';
 import {
   fetchTags,
   getOsSelectOptions,
@@ -6,15 +5,6 @@ import {
   getWorkspaceSelectOptions,
 } from './helpers';
 import { getOperatingSystems } from '../../../../api';
-
-export const CUSTOM_FILTER_TYPES = {
-  workspace: {
-    Component: Workspace,
-    chips: (value) => [value],
-    selectValue: (value) => [value, true],
-    deselectValue: () => [undefined, true],
-  },
-};
 
 export const displayName = {
   type: 'text',
@@ -75,7 +65,7 @@ export const operatingSystem = {
   },
 };
 
-export const statusFilter = {
+export const status = {
   label: 'Status',
   type: 'checkbox',
   items: [
@@ -201,7 +191,7 @@ export const lastSeen = {
   },
 };
 
-export const workspaceFilter = {
+export const workspace = {
   label: 'Workspace',
   type: 'workspace',
   items: getWorkspaceSelectOptions,
@@ -210,4 +200,17 @@ export const workspaceFilter = {
   },
 };
 
-export default [displayName, statusFilter, tags, dataCollector, rhcStatus];
+/**
+ *
+ * Default set of filters to show when no set of filters or customisation is provided
+ *
+ */
+export default [
+  displayName,
+  status,
+  dataCollector,
+  rhcStatus,
+  tags,
+  systemType,
+  operatingSystem,
+];
