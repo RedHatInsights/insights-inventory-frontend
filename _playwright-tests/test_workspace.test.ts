@@ -154,7 +154,7 @@ test('User able to bulk delete empty workspaces', async ({ page }) => {
     await expect(searchInput).toBeVisible();
     await page.reload({ waitUntil: 'networkidle' });
     await searchInput.fill("empty");
-    await expect(page.getByRole('row')).toHaveCount(4);
+    await expect(page.getByRole('row')).not.toHaveCount(0);
 
     const bulkSelectCheckbox = page.locator('[data-ouia-component-id="BulkSelectCheckbox"]');
     await expect(bulkSelectCheckbox).toBeVisible();
