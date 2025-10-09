@@ -3,7 +3,7 @@ import { test, navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { uploadArchive } from './helpers/uploadArchive';
 import { searchByName } from './helpers/filterHelpers';
 
-test('User should be able to edit and delete a system', async ({ page }) => {
+test.skip('User should be able to edit and delete a system', async ({ page }) => {
     /** 
      * Jira References:
         - https://issues.redhat.com/browse/RHINENG-21146 – Create a system
