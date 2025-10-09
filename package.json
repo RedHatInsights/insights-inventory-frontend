@@ -107,7 +107,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.26.0",
     "@faker-js/faker": "^9.6.0",
-    "@playwright/test": "^1.55.1",
+    "@playwright/test": "^1.56.0",
     "@redhat-cloud-services/eslint-config-redhat-cloud-services": "^3.0.0",
     "@redhat-cloud-services/frontend-components-config": "^6.7.0",
     "@redhat-cloud-services/tsc-transform-imports": "^1.0.24",
