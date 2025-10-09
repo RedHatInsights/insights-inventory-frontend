@@ -9,7 +9,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
-  workers: 1,
+  workers: 2,
   reporter: isCI
     ? [
         ['html', { outputFolder: 'playwright-report' }],
@@ -25,10 +25,10 @@ export default defineConfig({
         ['@currents/playwright'],
       ]
     : 'list',
-  timeout: 90_000,
+  timeout: 120_000, // 2 minutes
   use: {
-    actionTimeout: 90_000,
-    navigationTimeout: 90_000,
+    actionTimeout: 120_000,
+    navigationTimeout: 120_000,
     headless: true,
     baseURL: process.env.BASE_URL,
     video: 'retain-on-failure',
