@@ -355,7 +355,7 @@ describe('actions', () => {
         .find('p')
         .should(
           'contain.text',
-          `${fixtures.results[TEST_ID].name} and all its data will be deleted.`,
+          `${fixtures.results[TEST_ID].name} will be deleted.`,
         );
     });
 
@@ -370,7 +370,7 @@ describe('actions', () => {
         .find('p')
         .should(
           'contain.text',
-          `${fixtures.results[TEST_ID].name} and all its data will be deleted.`,
+          `${fixtures.results[TEST_ID].name} will be deleted.`,
         );
     });
 
@@ -404,7 +404,7 @@ describe('actions', () => {
         .find('p')
         .should(
           'contain.text',
-          `${TEST_ROWS.length} workspaces and all their data will be deleted.`,
+          `${TEST_ROWS.length} workspaces will be deleted.`,
         );
     });
 

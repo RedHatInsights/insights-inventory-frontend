@@ -92,7 +92,7 @@ const RemoveHostsFromGroupModal = ({
       isModalOpen={isModalOpen}
       closeModal={() => setIsModalOpen(false)}
       title="Remove from workspace"
-      variant="danger"
+      variant="primary"
       submitLabel="Remove"
       schema={schema(hosts)}
       onSubmit={handleRemoveHosts}

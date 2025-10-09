@@ -37,9 +37,12 @@ export const useBulkSelectConfig = (
       ? rows.length > 0
       : rows.some(({ id }) => selected && selected.has(id)) && null;
 
-  const fetchAllSystemIds = useCallback((filters, total) => {
-    return fetchBatched(getEntitiesWrapper, total, filters);
-  }, []);
+  const fetchAllSystemIds = useCallback(
+    (filters, total) => {
+      return fetchBatched(getEntitiesWrapper, total, filters);
+    },
+    [fetchBatched],
+  );
 
   const selectAllIds = async (selected = true) => {
     setBulkLoading(true);

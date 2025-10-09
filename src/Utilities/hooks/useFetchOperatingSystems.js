@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getOperatingSystems } from '../../api';
+import { useDeepCompareCallback } from 'use-deep-compare';
 
 const initialState = {
   operatingSystems: [],
@@ -16,25 +17,19 @@ const useFetchOperatingSystems = ({
 
   const [data, setData] = useState(initialState);
 
-  const fetchOperatingSystems = useCallback(async () => {
+  const fetchOperatingSystems = useDeepCompareCallback(async () => {
     if (hasAccess === false) return;
 
     const fetchFn = fetchCustomOSes || getOperatingSystems;
     const fetchArgs = [apiParams, showCentosVersions];
 
-    console.log(fetchArgs, 'fetchArgs test');
     try {
       return await fetchFn(...fetchArgs);
     } catch (error) {
       console.error(error);
       return { results: [] };
     }
-  }, [
-    hasAccess,
-    JSON.stringify(apiParams),
-    showCentosVersions,
-    fetchCustomOSes,
-  ]);
+  }, [hasAccess, apiParams, showCentosVersions, fetchCustomOSes]);
 
   useEffect(() => {
     mounted.current = true;

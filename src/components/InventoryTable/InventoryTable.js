@@ -26,6 +26,7 @@ import { AccountStatContext } from '../../Contexts';
  * For example, EntityTableToolbar wraps OnRefreshData in a callback, so we need this
  * to get the latest props and not the props at the time of when the function is
  * being wrapped in callback.
+ *  @returns {object} cache object with updateProps, updateParams, getProps and getParams functions
  */
 export const inventoryCache = () => {
   let cache = {};
@@ -192,9 +193,10 @@ const InventoryTable = forwardRef(
 
     /**
      * If consumer wants to change data they can call this function via component ref.
-     *  @param {*} options          new options to be applied, like pagination, filters, etc.
-     *  @param     disableOnRefresh
-     *  @param     forceRefresh
+     *  @param   {object}  options          new options to be applied, like pagination, filters, etc.
+     *  @param   {boolean} disableOnRefresh if true, the on refresh is disabled
+     *  @param   {boolean} forceRefresh     force refresh
+     *  @returns {void}                     void
      */
     const onRefreshData = (
       options = {},
@@ -238,9 +240,7 @@ const InventoryTable = forwardRef(
                   ...newParams,
                   ...options,
                   controller: controller.current,
-                  filterImmutableByDefault: props.loadChromelessInventory
-                    ? false
-                    : statContext.edgeParityFilterDeviceEnabled,
+                  filterImmutableByDefault: false,
                 },
                 cachedProps.showTags,
                 cachedProps.getEntities,
@@ -254,9 +254,7 @@ const InventoryTable = forwardRef(
                 axios,
                 ...newParams,
                 controller: controller.current,
-                filterImmutableByDefault: props.loadChromelessInventory
-                  ? false
-                  : statContext.edgeParityFilterDeviceEnabled,
+                filterImmutableByDefault: false,
               },
               cachedProps.showTags,
               cachedProps.getEntities,
@@ -314,14 +312,8 @@ const InventoryTable = forwardRef(
           }}
           showCentosVersions={showCentosVersions}
           enableExport={enableExport}
-          isUpdateMethodFFEnabled={chromelessInventoryCheck(
-            statContext.isUpdateMethodEnabled,
-          )}
           isKesselFFEnabled={chromelessInventoryCheck(
             statContext.isKesselEnabled,
-          )}
-          edgeParityFilterDeviceEnabled={chromelessInventoryCheck(
-            statContext.edgeParityFilterDeviceEnabled,
           )}
           loadChromelessInventory={props.loadChromelessInventory}
           axios={axios}

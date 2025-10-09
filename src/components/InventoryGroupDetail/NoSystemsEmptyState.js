@@ -31,7 +31,6 @@ const NoSystemsEmptyState = ({ groupId, groupName }) => {
         setIsModalOpen={setIsModalOpen}
         groupId={groupId}
         groupName={groupName}
-        edgeParityIsAllowed={true}
       />
       <EmptyStateBody>
         To manage systems more effectively, add systems to the workspace.

@@ -60,7 +60,11 @@ export const useLastSeenFilter = (
     const newApiStartDate = apiStartDate;
     const newApiEndDate = apiEndDate;
     if (isNaN(newApiEndDate) && isNaN(newApiStartDate)) {
-      setValue({ ...lastSeenValue, updatedStart: null, updatedEnd: null });
+      setValue({
+        ...lastSeenValue,
+        lastCheckInStart: null,
+        lastCheckInEnd: null,
+      });
     } else if (
       newApiStartDate > newApiEndDate ||
       isNaN(newApiStartDate) ||
@@ -68,13 +72,13 @@ export const useLastSeenFilter = (
     ) {
       setValue({
         ...lastSeenValue,
-        updatedStart: null,
-        updatedEnd: `${newApiEndDate.format('YYYY-MM-DD')}T23:59:00.000Z`,
+        lastCheckInStart: null,
+        lastCheckInEnd: `${newApiEndDate.format('YYYY-MM-DD')}T23:59:00.000Z`,
       });
     } else {
       setValue({
         ...lastSeenValue,
-        updatedStart: `${newApiStartDate.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        lastCheckInStart: `${newApiStartDate.format('YYYY-MM-DD')}T00:00:00.000Z`,
       });
     }
   };
@@ -84,17 +88,21 @@ export const useLastSeenFilter = (
     const newApiEndDate = apiEndDate.endOf('day');
 
     if (isNaN(newApiEndDate) && isNaN(newApiStartDate)) {
-      setValue({ ...lastSeenValue, updatedStart: null, updatedEnd: null });
+      setValue({
+        ...lastSeenValue,
+        lastCheckInStart: null,
+        lastCheckInEnd: null,
+      });
     } else if (newApiStartDate > newApiEndDate || isNaN(newApiEndDate)) {
       setValue({
         ...lastSeenValue,
-        updatedStart: `${newApiStartDate.format('YYYY-MM-DD')}T00:00:00.000Z`,
-        updatedEnd: null,
+        lastCheckInStart: `${newApiStartDate.format('YYYY-MM-DD')}T00:00:00.000Z`,
+        lastCheckInEnd: null,
       });
     } else {
       setValue({
         ...lastSeenValue,
-        updatedEnd: `${newApiEndDate.format('YYYY-MM-DD')}T23:59:00.000Z`,
+        lastCheckInEnd: `${newApiEndDate.format('YYYY-MM-DD')}T23:59:00.000Z`,
       });
     }
   };

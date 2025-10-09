@@ -41,8 +41,8 @@ const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
           id="view-by-systems-toggle"
           icon={<DesktopIcon />}
           aria-label="View by systems"
-          isSelected={mainContent === pageContents.hybridInventory.key}
-          onChange={() => changeMainContent(pageContents.hybridInventory.key)}
+          isSelected={mainContent === pageContents.systemsInventory.key}
+          onChange={() => changeMainContent(pageContents.systemsInventory.key)}
         />
         <Tooltip
           content="View by images"

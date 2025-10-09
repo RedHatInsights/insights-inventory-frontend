@@ -5,6 +5,9 @@
   "ignorePaths": [
     ".pre-commit-config.yaml"
   ],
+  "baseBranchPatterns": [
+    "master"
+  ],
   "tekton": {
     "enabled": true,
     "packageRules": [

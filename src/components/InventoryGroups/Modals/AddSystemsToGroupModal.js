@@ -4,18 +4,14 @@ import {
   Button,
   Flex,
   FlexItem,
-  Label,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Tab,
-  TabTitleText,
-  Tabs,
 } from '@patternfly/react-core';
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../../store/inventory-actions';
 import InventoryTable from '../../InventoryTable/InventoryTable';
@@ -24,20 +20,14 @@ import useApiWithToast from '../utils/apiWithToast';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
-import ImmutableDevicesView from '../../InventoryTabs/ImmutableDevices/EdgeDevicesView';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
-import { InfoCircleIcon } from '@patternfly/react-icons';
-import { hybridInventoryTabKeys } from '../../../Utilities/constants';
-import { AccountStatContext } from '../../../Contexts';
 import { prepareColumnsCoventional as prepareColumns } from '../../GroupSystems/helpers';
-import { defaultConventionalSystemsGetEntities } from '../helpers/defaultConventionalSystemsGetEntities';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
   setIsModalOpen,
   groupId,
   groupName,
-  activeTab,
 }) => {
   const apiWithToast = useApiWithToast();
 
@@ -94,18 +84,6 @@ const AddSystemsToGroupModal = ({
     [isModalOpen],
   );
 
-  const edgeParityInventoryListEnabled = useFeatureFlag(
-    'edgeParity.inventory-list',
-  );
-  const edgeParityInventoryGroupsEnabled = useFeatureFlag(
-    'edgeParity.inventory-groups-enabled',
-  );
-  const edgeParityFilterDeviceEnabled = useFeatureFlag(
-    'edgeParity.inventory-list-filter',
-  );
-  const edgeParityEnabled =
-    edgeParityInventoryListEnabled && edgeParityInventoryGroupsEnabled;
-
   const defaultInventorySystemsGetEntities = (
     items,
     config,
@@ -122,52 +100,18 @@ const AddSystemsToGroupModal = ({
       },
       showTags,
     );
-  const [selectedImmutableDevices, setSelectedImmutableDevices] = useState([]);
-  const selectedImmutableKeys = selectedImmutableDevices.map(
-    (immutableDevice) => immutableDevice.id,
-  );
 
-  // overallSelectedKeys is the list of the conventional and immutable systems ids
-  const overallSelectedKeys = [...selected.keys(), ...selectedImmutableKeys];
+  // overallSelectedKeys is the list of the systems ids
+  const overallSelectedKeys = [...selected.keys()];
   // noneSelected a boolean showing that no system is selected
   const noneSelected = overallSelectedKeys.length === 0;
-
-  const immutableDevicesAlreadyHasGroup = selectedImmutableDevices.filter(
-    (immutableDevice) =>
-      isKesselEnabled
-        ? !immutableDevice.deviceGroups?.[0]?.ungrouped
-        : immutableDevice.deviceGroups?.length > 0,
-  );
-  // showWarning when conventional or immutable systems had groups
-  const showWarning =
-    alreadyHasGroup.length > 0 || immutableDevicesAlreadyHasGroup.length > 0;
-
-  const { hasEdgeDevices } = useContext(AccountStatContext);
-  const [activeTabKey, setActiveTabKey] = useState(
-    hybridInventoryTabKeys[activeTab] === undefined
-      ? hybridInventoryTabKeys.conventional.key
-      : activeTab,
-  );
-
-  const handleTabClick = (_event, tabKey) => {
-    setActiveTabKey(tabKey);
-  };
-
-  let overallSelectedText;
-  if (overallSelectedKeys.length === 1) {
-    overallSelectedText = '1 system selected';
-  } else if (overallSelectedKeys.length > 1) {
-    overallSelectedText = `${overallSelectedKeys.length} systems selected`;
-  }
+  // showWarning when systems had groups
+  const showWarning = alreadyHasGroup.length > 0;
 
   const ConventionalInventoryTable = (
     <InventoryTable
       columns={(columns) => prepareColumns(columns, false, true)}
-      getEntities={
-        edgeParityFilterDeviceEnabled
-          ? defaultConventionalSystemsGetEntities
-          : defaultInventorySystemsGetEntities
-      }
+      getEntities={defaultInventorySystemsGetEntities}
       variant={TableVariant.compact} // TODO: this doesn't affect the table variant
       tableProps={{
         isStickyHeader: false,
@@ -195,55 +139,8 @@ const AddSystemsToGroupModal = ({
           onClose={() => setIsModalOpen(false)}
           variant="large" // required to accomodate the systems table
         >
-          <ModalHeader
-            title="Add systems"
-            titleIconVariant={
-              edgeParityEnabled &&
-              !noneSelected && (
-                <FlexItem align={{ default: 'alignRight' }}>
-                  <Label
-                    variant="outline"
-                    color="blue"
-                    icon={<InfoCircleIcon />}
-                  >
-                    {overallSelectedText}
-                  </Label>
-                </FlexItem>
-              )
-            }
-          />
-          <ModalBody>
-            {edgeParityEnabled && hasEdgeDevices ? (
-              <Tabs
-                className="pf-m-light pf-v6-c-table"
-                activeKey={activeTabKey}
-                onSelect={handleTabClick}
-                aria-label="Hybrid inventory tabs"
-              >
-                <Tab
-                  eventKey={hybridInventoryTabKeys.conventional.key}
-                  title={<TabTitleText>Conventional (RPM-DNF)</TabTitleText>}
-                >
-                  {ConventionalInventoryTable}
-                </Tab>
-                <Tab
-                  eventKey={hybridInventoryTabKeys.immutable.key}
-                  title={<TabTitleText>Immutable (OSTree)</TabTitleText>}
-                >
-                  <section className={'pf-v6-c-toolbar'}>
-                    <ImmutableDevicesView
-                      skeletonRowQuantity={15}
-                      hasCheckbox={true}
-                      isSystemsView={false}
-                      selectedItems={setSelectedImmutableDevices}
-                    />
-                  </section>
-                </Tab>
-              </Tabs>
-            ) : (
-              ConventionalInventoryTable
-            )}
-          </ModalBody>
+          <ModalHeader title="Add systems" />
+          <ModalBody>{ConventionalInventoryTable}</ModalBody>
           <ModalFooter>
             <Flex direction={{ default: 'column' }} style={{ width: '100%' }}>
               {showWarning && (
@@ -286,7 +183,6 @@ AddSystemsToGroupModal.propTypes = {
   reloadData: PropTypes.func,
   groupId: PropTypes.string,
   groupName: PropTypes.string,
-  activeTab: PropTypes.string,
 };
 
 export default AddSystemsToGroupModal;

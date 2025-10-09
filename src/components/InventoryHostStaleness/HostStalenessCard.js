@@ -1,31 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import {
-  Alert,
   Button,
   Card,
   CardBody,
   CardHeader,
-  Content,
   Flex,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Popover,
   Spinner,
-  Tab,
-  TabTitleText,
-  Tabs,
   Title,
   Tooltip,
 } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
-import { ExternalLinkAltIcon } from '@patternfly/react-icons';
-import TabCard from './TabCard';
+import StalenessSettings from './StalenessSettings';
 import {
-  CONVENTIONAL_TAB_TOOLTIP,
-  IMMUTABLE_TAB_TOOLTIP,
   conventionalApiKeys,
   daysToSecondsConversion,
   hostStalenessApiKeys,
@@ -34,37 +24,23 @@ import {
 import { InventoryHostStalenessPopover } from './constants';
 import {
   fetchDefaultStalenessValues,
-  fetchEdgeSystem,
   fetchStalenessData,
   postStalenessData,
 } from '../../api';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import PropTypes from 'prop-types';
 import { updateStaleness } from '../../api/hostInventoryApi';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [filter, setFilter] = useState({});
   const [newFormValues, setNewFormValues] = useState(filter);
   const [isEditing, setIsEditing] = useState(false);
-  const [activeTabKey, setActiveTabKey] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
-  const [hasEdgeSystems, setHasEdgeSystems] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [hostStalenessImmutableDefaults, setHostStalenessImmutableDefaults] =
-    useState({});
-  const [
-    hostStalenessConventionalDefaults,
-    setHostStalenessConventionalDefaults,
-  ] = useState({});
-  const edgeParityStalenessEnabled = useFeatureFlag('edgeParity.ui.staleness');
-  const edgeStalenessEnabled = edgeParityStalenessEnabled && hasEdgeSystems;
+  const [hostStalenessDefaults, setHostStalenessDefaults] = useState({});
   const addNotification = useAddNotification();
 
-  const handleTabClick = (_event, tabIndex) => {
-    setActiveTabKey(tabIndex);
-  };
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -76,9 +52,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   //On save Button
   const saveHostData = async () => {
     let apiData = {};
-    let apiKeys = edgeStalenessEnabled
-      ? hostStalenessApiKeys
-      : conventionalApiKeys;
+    let apiKeys = conventionalApiKeys;
     apiKeys.forEach(
       (filterKey) =>
         filterKey !== 'id' &&
@@ -151,32 +125,20 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const fetchDefaultValues = async () => {
     let results = await fetchDefaultStalenessValues().catch((err) => err);
     let conventionalFilter = {};
-    let immutableFilter = {};
 
     Object.keys(results).forEach((key) => {
       if (key.includes('conventional')) {
         conventionalFilter[key] = secondsToDaysConversion(results[key]);
-      } else if (key.includes('immutable')) {
-        immutableFilter[key] = secondsToDaysConversion(results[key]);
       }
     });
 
-    setHostStalenessConventionalDefaults({
-      ...hostStalenessConventionalDefaults,
+    setHostStalenessDefaults({
+      ...hostStalenessDefaults,
       ...conventionalFilter,
     });
-    setHostStalenessImmutableDefaults({
-      ...hostStalenessImmutableDefaults,
-      ...immutableFilter,
-    });
-  };
-
-  const edgeSystemCheck = () => {
-    fetchEdgeSystem().then((res) => setHasEdgeSystems(res.data.total > 0));
   };
 
   const batchedApi = async () => {
-    await edgeSystemCheck();
     await fetchApiStalenessData();
     await fetchDefaultValues();
     setIsLoading(false);
@@ -193,10 +155,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
               Organization level system staleness and deletion
-              <InventoryHostStalenessPopover
-                hasEdgeSystems={hasEdgeSystems}
-                edgeParityStalenessEnabled={edgeParityStalenessEnabled}
-              />
+              <InventoryHostStalenessPopover />
             </Title>
           </CardHeader>
           <CardBody>
@@ -232,122 +191,8 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 </Tooltip>
               )}
             </Flex>
-            {edgeStalenessEnabled ? (
-              <Tabs
-                id={'HostTabs'}
-                className="pf-m-light pf-v6-c-table pf-v6-u-mb-lg pf-v6-u-mt-lg"
-                activeKey={activeTabKey}
-                onSelect={handleTabClick}
-              >
-                <Tab
-                  eventKey={0}
-                  title={
-                    <TabTitleText>
-                      Conventional (RPM-DNF){' '}
-                      <Popover
-                        aria-label="Basic popover"
-                        headerContent={
-                          <div>Conventional systems (RPM-DNF)</div>
-                        }
-                        bodyContent={<div>{CONVENTIONAL_TAB_TOOLTIP}</div>}
-                      >
-                        <OutlinedQuestionCircleIcon className="pf-v6-u-ml-md" />
-                      </Popover>
-                    </TabTitleText>
-                  }
-                >
-                  <TabCard
-                    isEditing={isEditing}
-                    filter={filter}
-                    setFilter={setFilter}
-                    activeTabKey={0}
-                    newFormValues={newFormValues}
-                    setNewFormValues={setNewFormValues}
-                    isFormValid={isFormValid}
-                    setIsFormValid={setIsFormValid}
-                    hostStalenessImmutableDefaults={
-                      hostStalenessImmutableDefaults
-                    }
-                    hostStalenessConventionalDefaults={
-                      hostStalenessConventionalDefaults
-                    }
-                  />
-                </Tab>
-                <Tab
-                  eventKey={1}
-                  title={
-                    <TabTitleText>
-                      Immutable (OSTree){' '}
-                      <Popover
-                        aria-label="Basic popover"
-                        headerContent={<div>Immutable (OSTree)</div>}
-                        bodyContent={<div>{IMMUTABLE_TAB_TOOLTIP}</div>}
-                      >
-                        <OutlinedQuestionCircleIcon className="pf-v6-u-ml-md" />
-                      </Popover>
-                    </TabTitleText>
-                  }
-                >
-                  <>
-                    <Alert
-                      variant="info"
-                      isInline
-                      title={
-                        <>
-                          Upcoming decommission of hosted edge management
-                          service
-                        </>
-                      }
-                      className="pf-v6-u-mt-sm pf-v6-u-mb-sm"
-                    >
-                      <Content>
-                        <Content component="p">
-                          As of July 31, 2025, the hosted edge management will
-                          no longer be supported. Consequently, pushing image
-                          updates to Immutable (OSTree) systems via the Hybrid
-                          cloud console using this service will be discontinued.
-                          Customers are encouraged to explore Red Hat Edge
-                          Manager (RHEM) as the recommended alternative for
-                          managing their edge systems.
-                        </Content>
-                        <Content component="p">
-                          <Button
-                            component="a"
-                            target="_blank"
-                            variant="link"
-                            icon={<ExternalLinkAltIcon />}
-                            iconPosition="right"
-                            isInline
-                            href={
-                              'https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.5/html/managing_device_fleets_with_the_red_hat_edge_manager/index'
-                            }
-                          >
-                            Red Hat Edge Manager (RHEM) documentation
-                          </Button>
-                        </Content>
-                      </Content>
-                    </Alert>
-                    <TabCard
-                      isEditing={isEditing}
-                      filter={filter}
-                      setFilter={setFilter}
-                      activeTabKey={1}
-                      newFormValues={newFormValues}
-                      setNewFormValues={setNewFormValues}
-                      isFormValid={isFormValid}
-                      setIsFormValid={setIsFormValid}
-                      hostStalenessImmutableDefaults={
-                        hostStalenessImmutableDefaults
-                      }
-                      hostStalenessConventionalDefaults={
-                        hostStalenessConventionalDefaults
-                      }
-                    />
-                  </>
-                </Tab>
-              </Tabs>
-            ) : (
-              <TabCard
+            {
+              <StalenessSettings
                 isEditing={isEditing}
                 filter={filter}
                 setFilter={setFilter}
@@ -356,12 +201,9 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 setNewFormValues={setNewFormValues}
                 isFormValid={isFormValid}
                 setIsFormValid={setIsFormValid}
-                hostStalenessImmutableDefaults={hostStalenessImmutableDefaults}
-                hostStalenessConventionalDefaults={
-                  hostStalenessConventionalDefaults
-                }
+                hostStalenessDefaults={hostStalenessDefaults}
               />
-            )}
+            }
             {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                 <Button
@@ -404,7 +246,6 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                     >
                       Update
                     </Button>
-                    ,
                     <Button
                       key="cancel"
                       variant="link"

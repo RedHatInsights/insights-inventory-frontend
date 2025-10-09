@@ -4,8 +4,10 @@ import {
   ExternalLinkAltIcon,
   OutlinedQuestionCircleIcon,
 } from '@patternfly/react-icons';
+import { useLightspeedFeatureFlag } from '../../Utilities/hooks/useLightspeedFeatureFlag';
 
 export const InventoryPopover = () => {
+  const platformName = useLightspeedFeatureFlag();
   return (
     <Popover
       aria-label="Inventory popover"
@@ -57,7 +59,7 @@ export const InventoryPopover = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                Client configuration guide for Red Hat Insights
+                Client configuration guide for Red Hat {platformName}
                 <ExternalLinkAltIcon className="pf-v6-u-ml-xs" />
               </a>
             </span>

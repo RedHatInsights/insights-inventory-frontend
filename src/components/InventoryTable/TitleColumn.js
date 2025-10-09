@@ -10,10 +10,13 @@ import { systemTypeContent } from '../../Utilities/constants';
 /**
  * Helper function to proprly calculate what to do when user clicks on first cell.
  * Either full redirect if used with ctrl button or `onRowClick` from props is used.
- *  @param {*} event html event, to find out if meta key was clicked.
- *  @param {*} key   inventory UUID.
- *  @param {*} props additional props from `EntityTable` - loaded, onRowClick and noDetail.
- *  @param     id
+ *  @param   {object}   event            html event, to find out if meta key was clicked.
+ *  @param   {string}   id               inventory UUID.
+ *  @param   {object}   props            additional props from `EntityTable` - loaded, onRowClick and noDetail.
+ *  @param   {boolean}  props.loaded     boolean, if true, the row can be clicked.
+ *  @param   {Function} props.onRowClick function, to handle the row click.
+ *  @param   {boolean}  props.noDetail   boolean, if true, the row can be clicked.
+ *  @returns {void}                      void
  */
 const onRowClick = (event, id, { loaded, onRowClick: rowClick, noDetail }) => {
   if (loaded && !noDetail) {
@@ -31,10 +34,11 @@ const onRowClick = (event, id, { loaded, onRowClick: rowClick, noDetail }) => {
 /**
  * Helper component to generate first cell in plain inventory either with clickable detail or just data from attribut.
  * This is later on used in redux in `renderFunc`.
- *  @param {React.node} children React node with information that will be shown to user as column title.
- *  @param {string}     id       inventory UUID, used to navigate to correct URL.
- *  @param {*}          item     row data, holds every information from redux store for currecnt row.
- *  @param {*}          props    additional props passed from `EntityTable` - holds any props passed to inventory table.
+ *  @param   {React.node} children React node with information that will be shown to user as column title.
+ *  @param   {string}     id       inventory UUID, used to navigate to correct URL.
+ *  @param   {object}     item     row data, holds every information from redux store for currecnt row.
+ *  @param   {object}     props    additional props passed from `EntityTable` - holds any props passed to inventory table.
+ *  @returns {React.node}          React node with information that will be shown to user as column title.
  */
 const TitleColumn = ({ children, id, item, ...props }) => {
   return (

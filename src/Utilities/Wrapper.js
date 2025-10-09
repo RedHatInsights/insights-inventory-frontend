@@ -28,9 +28,7 @@ const RenderWrapper = ({
       isRbacEnabled={isRbacEnabled}
       hasAccess={props?.tableProps?.envContext?.loadChromeless || hasAccess}
       store={store}
-      isUpdateMethodFFEnabled={statContext.isUpdateMethodEnabled}
       isKesselFFEnabled={statContext.isKesselEnabled}
-      edgeParityFilterDeviceEnabled={statContext.edgeParityFilterDeviceEnabled}
       loadChromelessInventory={loadChromelessInventory}
     />
   );

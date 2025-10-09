@@ -16,7 +16,17 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
  * This component is connected to redux and reads `loaded` and `entity`.
- *  @param {*} props additional features from parent component.
+ *  @param   {object}          props                   additional features from parent component.
+ *  @param   {boolean}         props.showTags          if show tags is true
+ *  @param   {Function}        props.onTabSelect       on tab select function
+ *  @param   {Function}        props.onBackToListClick on back to list click function
+ *  @param   {string}          props.inventoryId       inventory id
+ *  @param   {object}          props.additionalClasses additional classes
+ *  @param   {string}          props.activeApp         active app name
+ *  @param   {Array}           props.appList           app list
+ *  @param   {boolean}         props.showMainSection   if show main section is true
+ *  @param   {object}          props.headerProps       props for the detail header
+ *  @returns {React.ReactNode}                         the inventory detail component
  */
 const InventoryDetail = ({
   showTags,
@@ -42,7 +52,7 @@ const InventoryDetail = ({
     }
   }, []);
   const deleteEntity = (systems, displayName, callback) => {
-    const action = deleteEntityAction(systems, displayName);
+    const action = deleteEntityAction(systems, displayName, addNotification);
     dispatch(reloadWrapper(action, callback));
   };
 

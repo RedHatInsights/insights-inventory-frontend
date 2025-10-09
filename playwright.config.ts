@@ -1,30 +1,41 @@
 import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
 
+const isCI = !!process.env.CI;
+const useCtrf = isCI && !!process.env.USE_CTRF; // toggle CTRF explicitly in CI
+
 export default defineConfig({
-  testDir: './_playwright-tests',
-  /* Run tests in files in parallel */
+  testDir: './_playwright-tests/',
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : 1,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: 1,
+  reporter: isCI
+    ? [
+        ['html', { outputFolder: 'playwright-report' }],
+        useCtrf
+          ? [
+              'playwright-ctrf-json-reporter',
+              {
+                outputDir: 'playwright-ctrf',
+                outputFile: 'playwright-ctrf.json',
+              },
+            ]
+          : ['json', { outputFile: 'playwright-ctrf/playwright-ctrf.json' }],
+        ['@currents/playwright'],
+      ]
+    : 'list',
   timeout: 90_000,
   use: {
-    actionTimeout: 90_000, // 90s
+    actionTimeout: 90_000,
     navigationTimeout: 90_000,
     headless: true,
     baseURL: process.env.BASE_URL,
     video: 'retain-on-failure',
     trace: 'on',
     ignoreHTTPSErrors: true,
+    viewport: null,
   },
-
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
     {

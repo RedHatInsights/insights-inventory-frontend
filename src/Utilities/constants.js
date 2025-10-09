@@ -75,20 +75,20 @@ export const lastSeenFilterItems = [
 ];
 export const lastSeenDefaults = {
   last24: {
-    updatedStart: subtractDate(1),
-    updatedEnd: currentDate,
+    lastCheckInStart: subtractDate(1),
+    lastCheckInEnd: currentDate,
   },
   '24more': {
-    updatedEnd: subtractDate(1),
+    lastCheckInEnd: subtractDate(1),
   },
   '7more': {
-    updatedEnd: subtractDate(7),
+    lastCheckInEnd: subtractDate(7),
   },
   '15more': {
-    updatedEnd: subtractDate(15),
+    lastCheckInEnd: subtractDate(15),
   },
   '30more': {
-    updatedEnd: subtractDate(30),
+    lastCheckInEnd: subtractDate(30),
   },
   custom: {},
 };
@@ -302,17 +302,6 @@ export const generateFilter = (
   ].filter(Boolean);
 
 export const allStaleFilters = ['fresh', 'stale', 'stale_warning'];
-
-export const hybridInventoryTabKeys = {
-  conventional: {
-    key: 'conventional',
-    url: '',
-  },
-  immutable: {
-    key: 'immutable',
-    url: '/manage-edge-inventory',
-  },
-};
 
 export const systemTypeContent = {
   imageLabel: 'Image-based',

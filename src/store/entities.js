@@ -298,9 +298,8 @@ function selectFilter(
 
 const getActiveSystemTag = (state, meta) => {
   if (state.rows) {
-    return state.rows.find(
-      ({ id, insightsId, insights_id }) =>
-        meta.systemId === insightsId || insights_id || id,
+    return state.rows.find(({ id, insightsId, insights_id }) =>
+      [id, insightsId, insights_id].includes(meta.systemId),
     );
   }
   if (state.entity) {

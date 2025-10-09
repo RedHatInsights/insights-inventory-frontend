@@ -1,16 +1,12 @@
-import Workspace from './components/filters/Workspace';
-import { fetchTags } from '../../helpers';
+import {
+  fetchTags,
+  getOsSelectOptions,
+  getLastSeenSelectOptions,
+  getWorkspaceSelectOptions,
+} from './helpers';
+import { getOperatingSystems } from '../../../../api';
 
-export const CUSTOM_FILTER_TYPES = {
-  workspace: {
-    Component: Workspace,
-    chips: (value) => [value],
-    selectValue: (value) => [value, true],
-    deselectValue: () => [undefined, true],
-  },
-};
-
-const displayName = {
+export const displayName = {
   type: 'text',
   label: 'Name',
   filterSerialiser: (_config, [value]) => ({
@@ -18,7 +14,58 @@ const displayName = {
   }),
 };
 
-const statusFilter = {
+export const systemType = {
+  label: 'System type',
+  value: 'not_nil',
+  type: 'checkbox',
+  items: [
+    { label: 'Package-based system', value: 'conventional' },
+    { label: 'Image-based system', value: 'image' },
+  ],
+  filterSerialiser: (_config, values) => {
+    const newValues = values
+      .map((val) => (val === 'image' ? ['bootc', 'edge'] : val))
+      .flat();
+    return { systemType: newValues };
+  },
+};
+
+export const operatingSystem = {
+  label: 'Operating system',
+  value: 'operating-system-filter',
+  type: 'group',
+  groups: async () => {
+    try {
+      const { results: osResults } = await getOperatingSystems({}, true);
+      const osData = osResults.map((result) => result.value);
+
+      return [
+        ...getOsSelectOptions('CentOS Linux', osData),
+        ...getOsSelectOptions('RHEL', osData),
+      ];
+    } catch {
+      return [];
+    }
+  },
+  filterSerialiser: (_config, values) => {
+    const osFilters = Object.entries(values).map(([osName, versions]) => ({
+      [osName]: { version: { eq: Object.keys(versions) } },
+    }));
+
+    return {
+      filter: {
+        system_profile: {
+          operating_system: osFilters.reduce(
+            (acc, obj) => ({ ...acc, ...obj }),
+            {},
+          ),
+        },
+      },
+    };
+  },
+};
+
+export const status = {
   label: 'Status',
   type: 'checkbox',
   items: [
@@ -31,7 +78,7 @@ const statusFilter = {
   }),
 };
 
-const dataCollector = {
+export const dataCollector = {
   label: 'Data collector',
   type: 'checkbox',
   items: [
@@ -52,16 +99,25 @@ const dataCollector = {
   }),
 };
 
-const rhcStatus = {
+export const rhcStatus = {
   label: 'RHC status',
   type: 'checkbox',
   items: [
     { label: 'Active', value: 'not_nil' },
     { label: 'Inactive', value: 'nil' },
   ],
+  filterSerialiser: (_config, values) => {
+    return {
+      filter: {
+        system_profile: {
+          rhc_client_id: values,
+        },
+      },
+    };
+  },
 };
 
-const tags = {
+export const tags = {
   label: 'Tags',
   type: 'group',
   groups: async () => {
@@ -108,6 +164,53 @@ const tags = {
       ],
     },
   },
+  filterSerialiser: (_config, values) => {
+    const tagsGroupedByNamespace = Object.entries(values).map(
+      ([namespace, tagValues]) => {
+        return [namespace, Object.keys(tagValues)];
+      },
+    );
+
+    const tags = tagsGroupedByNamespace
+      .map(([namespace, values]) => {
+        return values.map((value) => `${namespace}/${value}`);
+      })
+      .flat();
+
+    return { tags };
+  },
 };
 
-export default [displayName, statusFilter, tags, dataCollector, rhcStatus];
+export const lastSeen = {
+  label: 'Last seen',
+  value: 'last_seen',
+  type: 'singleSelect',
+  items: getLastSeenSelectOptions,
+  filterSerialiser: (_config, [value]) => {
+    return value;
+  },
+};
+
+export const workspace = {
+  label: 'Workspace',
+  type: 'workspace',
+  items: getWorkspaceSelectOptions,
+  filterSerialiser: (_config, values) => {
+    return values;
+  },
+};
+
+/**
+ *
+ * Default set of filters to show when no set of filters or customisation is provided
+ *
+ */
+export default [
+  displayName,
+  status,
+  dataCollector,
+  rhcStatus,
+  tags,
+  systemType,
+  operatingSystem,
+];

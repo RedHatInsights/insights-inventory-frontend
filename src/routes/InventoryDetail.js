@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import {
   Link,
-  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -21,8 +20,7 @@ import { GeneralInformationTab } from '../components/SystemDetails';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
-import { useGetDevice } from '../api/edge/imagesInfo';
-import useFeatureFlag from '../Utilities/useFeatureFlag';
+import { useLightspeedFeatureFlag } from '../Utilities/hooks/useLightspeedFeatureFlag';
 
 const appList = {
   'CENTOS-LINUX': [
@@ -106,12 +104,12 @@ const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
 );
 
 const Inventory = () => {
+  const platformName = useLightspeedFeatureFlag();
   const chrome = useChrome();
   const { inventoryId } = useParams();
   const [searchParams] = useSearchParams();
   const store = useStore();
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
   const [availableApps, setAvailableApps] = useState([]);
   const entityLoaded = useSelector(
@@ -121,12 +119,7 @@ const Inventory = () => {
   const { cloud_provider: cloudProvider, host_type: hostType } = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.systemProfile || [],
   );
-  const getDevice = useGetDevice();
-  const [deviceData, setDeviceData] = useState(null);
-  const enableEdgeUpdate = useFeatureFlag('edgeParity.inventory-system-detail');
-  const [hType, setHType] = useState(null);
   useEffect(() => {
-    setHType(hostType);
     let osSlug =
       entity?.system_profile?.operating_system?.name
         .replace(' ', '-')
@@ -149,7 +142,7 @@ const Inventory = () => {
       });
 
     setAvailableApps(newApps);
-  }, [entity, cloudProvider]);
+  }, [entity, cloudProvider, hostType]);
 
   const { hasAccess: canDeleteHost } = usePermissionsWithContext([
     REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
@@ -164,21 +157,13 @@ const Inventory = () => {
     if (inventoryId) dispatch(actions.systemProfile(inventoryId));
   }, []);
 
-  useEffect(() => {
-    if (hType == 'edge') {
-      (async () => {
-        const device = await getDevice(inventoryId);
-        setDeviceData(device);
-      })();
-    }
-  }, [hType]);
   const additionalClasses = {
     'ins-c-inventory__detail--general-info':
       searchParams.get('appName') === 'general_information',
   };
 
   if (entity) {
-    document.title = `${entity.display_name} | Systems | Red Hat Insights`;
+    document.title = `${entity.display_name} | Systems | Red Hat ${platformName}`;
   }
 
   useEffect(() => {
@@ -196,25 +181,6 @@ const Inventory = () => {
     },
     [searchParams],
   );
-
-  const actionsEdge =
-    enableEdgeUpdate && hostType === 'edge'
-      ? [
-          {
-            title: 'Update',
-            isDisabled:
-              deviceData?.UpdateTransactions?.[0]?.Status === 'BUILDING' ||
-              deviceData?.UpdateTransactions?.[0]?.Status === 'CREATED' ||
-              !deviceData?.ImageInfo?.UpdatesAvailable?.length > 0,
-            onClick: () => {
-              navigate({
-                pathname: `${location.pathname}/update`,
-                search: '?from_details=true',
-              });
-            },
-          },
-        ]
-      : [];
 
   return (
     <InventoryDetail
@@ -240,7 +206,6 @@ const Inventory = () => {
       activeApp={searchParams.get('appName')}
       appList={availableApps}
       onTabSelect={onTabSelect}
-      actions={actionsEdge}
     />
   );
 };

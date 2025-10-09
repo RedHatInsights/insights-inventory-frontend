@@ -1,27 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TableToolsTable } from 'bastilian-tabletools';
+import { TableToolsTable, TableStateProvider } from 'bastilian-tabletools';
+import { fetchSystems } from '../../helpers.js';
+import useGlobalFilterForItems from './hooks/useGlobalFilterForItems';
 
-import filters, { CUSTOM_FILTER_TYPES } from './filters';
-import { fetchSystems, resolveColumns } from '../../helpers.js';
-import { DEFAULT_OPTIONS } from './constants';
+import { resolveColumns, resolveFilters, resolveOptions } from './helpers';
 
-// TODO Filters should be customisable enable/disable, extend, etc.
-// TODO "global filter" needs to be integrated
-const SystemsTable = ({ items = fetchSystems, columns = [], options = {} }) => {
+const SystemsTable = ({
+  items: itemsProp = fetchSystems,
+  columns,
+  filters,
+  options,
+  ...props
+}) => {
+  const items = useGlobalFilterForItems(itemsProp);
+
   return (
     <TableToolsTable
-      variant="compact"
       items={items}
       columns={resolveColumns(columns)}
-      filters={{
-        customFilterTypes: CUSTOM_FILTER_TYPES,
-        filterConfig: filters,
-      }}
-      options={{
-        ...DEFAULT_OPTIONS,
-        ...options,
-      }}
+      filters={resolveFilters(filters)}
+      options={resolveOptions(options)}
+      {...props}
     />
   );
 };
@@ -29,7 +29,14 @@ const SystemsTable = ({ items = fetchSystems, columns = [], options = {} }) => {
 SystemsTable.propTypes = {
   items: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   columns: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  options: PropTypes.object,
+  filters: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+  options: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 };
 
-export default SystemsTable;
+const SystemsTableWithProvider = (props) => (
+  <TableStateProvider>
+    <SystemsTable {...props} />
+  </TableStateProvider>
+);
+
+export default SystemsTableWithProvider;

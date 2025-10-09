@@ -60,3 +60,6 @@ global.insights = {
     getApp: jest.fn(),
   },
 };
+
+// Make lodash/debounce synchronous in tests to avoid act() timing warnings
+jest.mock('lodash/debounce', () => jest.fn((fn) => fn));

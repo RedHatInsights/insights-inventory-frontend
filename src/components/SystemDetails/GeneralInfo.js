@@ -8,14 +8,7 @@ const GeneralInfoTab = (props) => {
   const systemProfile = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.systemProfile,
   );
-  const isEdgeHost = systemProfile?.host_type === 'edge';
   const isBootcHost = !!systemProfile.bootc_status?.booted?.image_digest;
-  const enableEdgeImageDetails = useFeatureFlag(
-    'edgeParity.inventory-system-detail',
-  );
-  const enableEdgeInventoryListDetails = useFeatureFlag(
-    'edgeParity.inventory-list',
-  );
   const enableRuntimesInventoryCard = useFeatureFlag(
     'runtimes.inventory-card.enabled',
   );
@@ -24,9 +17,6 @@ const GeneralInfoTab = (props) => {
     <GeneralInformation
       {...props}
       isBootcHost={isBootcHost}
-      showImageDetails={
-        enableEdgeImageDetails && enableEdgeInventoryListDetails && isEdgeHost
-      }
       showRuntimesProcesses={enableRuntimesInventoryCard}
     />
   );

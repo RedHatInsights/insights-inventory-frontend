@@ -286,40 +286,6 @@ export const featureFlagsInterceptors = {
       },
     }).as('getFeatureFlag');
   },
-  edgeParitySuccessful: () => {
-    cy.intercept('GET', '/feature_flags*', {
-      statusCode: 200,
-      body: {
-        toggles: [
-          {
-            name: 'edgeParity.inventory-list',
-            enabled: true,
-            variant: {
-              name: 'disabled',
-              enabled: true,
-            },
-          },
-        ],
-      },
-    }).as('getEdgeFeatureFlag');
-  },
-  edgeParityDisabled: () => {
-    cy.intercept('GET', '/feature_flags*', {
-      statusCode: 200,
-      body: {
-        toggles: [
-          {
-            name: 'edgeParity.inventory-list',
-            enabled: false,
-            variant: {
-              name: 'disabled',
-              enabled: false,
-            },
-          },
-        ],
-      },
-    }).as('getEdgeFeatureFlag');
-  },
   workspacesSuccessful: () => {
     cy.intercept('GET', '/feature_flags*', {
       statusCode: 200,
@@ -387,16 +353,5 @@ export const featureFlagsInterceptors = {
         ],
       },
     }).as('getKesselFeatureFlag');
-  },
-};
-
-export const edgeInterceptors = {
-  successful: () => {
-    cy.intercept('GET', '/api/edge/v1/devices/*', {
-      statusCode: 200,
-      body: {
-        UpdatesAvailable: [],
-      },
-    }).as('getDevice');
   },
 };

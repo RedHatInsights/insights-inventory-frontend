@@ -6,6 +6,9 @@ import { getStore, updateReducers } from './store';
 import RegistryContext from './store/registeryContext';
 import App from './App';
 import Fallback from './components/SpinnerFallback';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const InventoryApp = ({ logger }) => {
   const registry = useMemo(() => {
@@ -24,7 +27,9 @@ const InventoryApp = ({ logger }) => {
       }}
     >
       <Provider store={registry.getStore()}>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
       </Provider>
     </RegistryContext.Provider>
   ) : (
@@ -33,7 +38,7 @@ const InventoryApp = ({ logger }) => {
 };
 
 InventoryApp.propTypes = {
-  logger: PropTypes.object,
+  logger: PropTypes.func,
 };
 
 export default InventoryApp;

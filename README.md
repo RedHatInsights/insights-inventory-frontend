@@ -1,8 +1,8 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/RedhatInsights/insights-inventory-frontend/test.yml?branch=master)](https://github.com/RedHatInsights/insights-inventory-frontend/actions/workflows/test.yml) [![GitHub release](https://img.shields.io/github/release/RedHatInsights/insights-inventory-frontend.svg)](https://github.com/RedHatInsights/insights-inventory-frontend/releases/latest) [![codecov](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend/branch/master/graph/badge.svg?token=XC4AD7NQFW)](https://codecov.io/gh/RedHatInsights/insights-inventory-frontend)
 
-# Insights Inventory Frontend
+# Inventory Frontend
 
-This is the frontend application for [Insights Inventory](https://github.com/RedHatInsights/insights-inventory). It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
+This is the frontend application for [Inventory](https://github.com/RedHatInsights/insights-inventory). It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
 
 ## Documentation
 
@@ -47,8 +47,10 @@ If using any OS other than Fedora/Rhel (i.e., Mac, Ubuntu Linux):
 
 `npx playwright install  --with-deps`
 
-## Proxy setup to execute the test case using the local frontend : [consoledot-testing-proxy](https://github.com/dvagner/consoledot-testing-proxy)
+## Proxy setup to execute the test case using the local frontend in static mode : [consoledot-testing-proxy](https://github.com/dominikvagner/consoledot-testing-proxy)
 ```
+ npm run static
+
  podman run -d -e HTTPS_PROXY=$RH_PROXY_URL -p 1337:1337 -v "$(pwd)/config:/config:ro,Z" --replace --name consoledot-testing-proxy quay.io/dvagner/consoledot-testing-proxy
 ```
 
@@ -63,6 +65,8 @@ If using any OS other than Fedora/Rhel (i.e., Mac, Ubuntu Linux):
 **Run a single test:**
 
 `npx playwright test test_navigation.test.ts -g "User can navigate to the workspaces page via the menu"`
+
+Note: You can run all of the above to the stage env setup as well.
 
 ## Commit conventions
 
@@ -116,7 +120,6 @@ These applications import `InventoryTable` component through federated modules:
 - [malware-detection-frontend](https://github.com/RedHatInsights/malware-detection-frontend)
 - [ros-frontend](https://github.com/RedHatInsights/ros-frontend)
 - [insights-advisor-frontend](https://github.com/RedHatInsights/insights-advisor-frontend)
-- [edge-frontend](https://github.com/RedHatInsights/edge-frontend)
 
 ## Documentation Links
 
