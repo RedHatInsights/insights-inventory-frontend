@@ -16,8 +16,8 @@ test('User should be able to edit and delete a system', async ({ page }) => {
         - importance: critical
         - assignee: addubey
     */
-    const rhel94Vm = 'iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d';
-    const rhel94VmRenamed = `${rhel94Vm}_Renamed`;
+    const rhel94VM = 'iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d';
+    const rhel94VMRenamed = `${rhel94VM}_Renamed`;
     const dialog = page.locator('[role="dialog"]');
 
     await test.step('Upload the archive required for the test', async () => {
@@ -28,30 +28,27 @@ test('User should be able to edit and delete a system', async ({ page }) => {
         await navigateToInventorySystemsFunc(page);
     });
 
-    await test.step(`Search for the system "${rhel94Vm}"`, async () => {
-        await searchByName(page, rhel94Vm);
-    });
-
-    await test.step('Open kebab menu and select "Edit display name"', async () => {
-        await page
-        .getByRole('row', { name: new RegExp(rhel94Vm, 'i') })
-        .getByLabel('Kebab toggle')
-        .click();
-
-        await page.getByRole('menuitem', { name: 'Edit display name' }).first().click();
+    await test.step(`Search for the system "${rhel94VM}"`, async () => {
+        await searchByName(page, rhel94VM);
     });
 
     await test.step('Edit the system display name and save', async () => {
+        await page
+        .getByRole('row', { name: new RegExp(rhel94VM, 'i') })
+        .getByLabel('Kebab toggle')
+        .click();
+        await page.getByRole('menuitem', { name: 'Edit display name' }).first().click();
+
         await expect(dialog).toBeVisible();
-        await dialog.locator('input').first().fill(rhel94VmRenamed);
+        await dialog.locator('input').first().fill(rhel94VMRenamed);
         await dialog.getByRole('button', { name: 'Save' }).click();
     });
 
     await test.step(`Delete the renamed system and verify it is removed`, async () => {
-        await searchByName(page, rhel94VmRenamed);
+        await searchByName(page, rhel94VMRenamed);
 
         await page
-        .getByRole('row', { name: new RegExp(rhel94VmRenamed, 'i') })
+        .getByRole('row', { name: new RegExp(rhel94VMRenamed, 'i') })
         .getByLabel('Kebab toggle')
         .click();
 
@@ -59,7 +56,7 @@ test('User should be able to edit and delete a system', async ({ page }) => {
         await expect(dialog).toBeVisible();
         await dialog.getByRole('button', { name: 'Delete' }).click();
 
-        await searchByName(page, rhel94VmRenamed);
+        await searchByName(page, rhel94VMRenamed);
         await expect(page.getByText('No matching systems found')).toBeVisible();
   });
 });
