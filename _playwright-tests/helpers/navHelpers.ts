@@ -20,6 +20,12 @@ export const navigateToWorkspacesFunc = async (page: Page) => {
   await expect(page.getByRole('heading', { name: 'Workspaces' })).toBeVisible({ timeout: 100000 });
 };
 
+export const navigateToSystemDetails = async (page: Page, uuid: string) => {
+  await page.goto(`/insights/inventory/${uuid}`);
+  await expect(page.getByText(uuid)).toBeVisible();
+  await expect(page.getByText('System not found')).not.toBeVisible();
+}
+
 export const test = base.extend({
   page: async ({ page }, use) => {
     await closePopupsIfExist(page); // Run before each test

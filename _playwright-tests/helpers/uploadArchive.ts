@@ -12,6 +12,8 @@ import { spawnSync } from 'child_process';
  *
  * The function checks for missing credentials, validates response codes,
  * and throws descriptive errors if the upload fails or the command encounters issues.
+ * 
+ * Jira References: https://issues.redhat.com/browse/RHINENG-21146
  *
  * @param {string} archivePath - The relative path to the archive file inside `host_archives/`.
  * @returns {{ httpCode: number }} - The HTTP status code returned from the upload request.
