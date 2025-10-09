@@ -43,6 +43,7 @@ test.skip('User should be able to edit and delete a system', async ({ page }) =>
 
     await test.step('Edit the system display name and save', async () => {
         await expect(dialog).toBeVisible();
+        await expect(page.getByRole('textbox')).toHaveValue(rhel94Vm);
         await dialog.locator('input').first().fill(rhel94VmRenamed);
         await dialog.getByRole('button', { name: 'Save' }).click();
     });
