@@ -25,7 +25,7 @@ export default defineConfig({
         ['@currents/playwright'],
       ]
     : 'list',
-  timeout: 120_000,
+  timeout: 120_000, // 2 minutes
   use: {
     actionTimeout: 120_000,
     navigationTimeout: 120_000,
