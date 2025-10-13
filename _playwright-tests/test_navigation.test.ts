@@ -14,10 +14,10 @@ test('User can navigate to the Staleness and Deletion page via the menu', async 
   });
 
   await test.step('Open System Configuration menu and click Staleness and Deletion', async () => {
-    const sysConfigParent = page.locator('text=System Configuration').locator('..');
+    const sysConfigParent = page.locator('[data-quickstart-id="System-Configuration"]');
     await sysConfigParent.click();
 
-    const stalenessLink = page.locator('text=Staleness and Deletion');
+    const stalenessLink = page.locator('[data-quickstart-id="insights_inventory_staleness-and-deletion"]');
     await stalenessLink.click();
   });
 
@@ -25,6 +25,7 @@ test('User can navigate to the Staleness and Deletion page via the menu', async 
     await expect(
       page.getByRole('heading', { name: 'Staleness and Deletion' })
     ).toBeVisible({ timeout: 90000 });
+    await page.waitForSelector('text=Organization level system staleness and deletion', { state: 'visible' });
   });
 });
 
@@ -35,14 +36,15 @@ test('User can navigate to the workspaces page via the menu', async ({ page }) =
   });
 
   await test.step('Click on Workspaces menu item and reload page', async () => {
-    const WorkspacesParam = page.locator('[data-ouia-component-id="Workspaces"]');
+    const WorkspacesParam = page.locator('[data-quickstart-id="insights_inventory_workspaces"]');
     await WorkspacesParam.click();
-    await page.reload({ waitUntil: 'networkidle' });
   });
 
   await test.step('Verify Workspaces page is visible', async () => {
     await expect(
       page.getByRole('heading', { name: 'Workspaces' })
     ).toBeVisible({ timeout: 90000 });
+    await page.waitForSelector('#pagination-options-menu-bottom-bottom-toggle', { state: 'visible' });
+
   });
 });
