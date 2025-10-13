@@ -166,6 +166,37 @@ const ConventionalSystemsTab = ({
     'hbi.create_last_check_in_update_per_reporter_staleness',
   );
 
+  const handleEditDisplayName = (value) => {
+    try {
+      dispatch(
+        actions.editDisplayName(
+          currentSystem.id,
+          value,
+          currentSystem.display_name,
+        ),
+      );
+
+      addNotification({
+        variant: 'success',
+        title: `Display name has been changed to ${value}`,
+        dismissable: true,
+      });
+
+      inventory?.current?.onRefreshData({}, false, true);
+    } catch (error) {
+      addNotification({
+        variant: 'danger',
+        title: 'Display name failed to be changed',
+        description:
+          'There was an error processing the request. Please try again.',
+        dismissable: true,
+      });
+
+      console.error(error);
+    }
+    onEditOpen(false);
+  };
+
   return (
     <Fragment>
       <InventoryTableCmp
@@ -303,24 +334,15 @@ const ConventionalSystemsTab = ({
           handleModalToggle(false);
         }}
       />
-      <TextInputModal
-        title="Edit display name"
-        isOpen={editOpen}
-        value={currentSystem.display_name}
-        onCancel={() => onEditOpen(false)}
-        onSubmit={async (value) => {
-          dispatch(
-            await actions.editDisplayName(
-              currentSystem.id,
-              value,
-              currentSystem.display_name,
-              addNotification,
-            ),
-          );
-          inventory?.current?.onRefreshData({}, false, true);
-          onEditOpen(false);
-        }}
-      />
+      {editOpen && (
+        <TextInputModal
+          title="Edit display name"
+          isOpen={editOpen}
+          value={currentSystem.display_name}
+          onCancel={() => onEditOpen(false)}
+          onSubmit={(value) => handleEditDisplayName(value)}
+        />
+      )}
       {addHostGroupModalOpen && (
         <AddSelectedHostsToGroupModal
           isModalOpen={addHostGroupModalOpen}

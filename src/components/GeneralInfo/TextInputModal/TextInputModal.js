@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -27,14 +27,6 @@ const TextInputModal = ({
   value: initialValue,
 }) => {
   const [value, setValue] = useState(initialValue || '');
-
-  useEffect(() => {
-    if (!isOpen) {
-      setValue(undefined);
-    } else if (value === undefined) {
-      setValue(initialValue || '');
-    }
-  }, [isOpen, initialValue, value]);
 
   return (
     <Modal
