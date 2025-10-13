@@ -124,7 +124,7 @@
     "babel-plugin-istanbul": "^7.0.1",
     "babel-plugin-transform-imports": "^2.0.0",
     "better-docs": "^2.7.3",
-    "cypress": "^14.5.1",
+    "cypress": "^14.5.4",
     "eslint": "^9.36.0",
     "eslint-plugin-cypress": "^5.1.1",
     "eslint-plugin-jest-dom": "^5.5.0",
