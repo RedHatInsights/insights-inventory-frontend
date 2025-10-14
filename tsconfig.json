@@ -16,5 +16,24 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx","playwright.config.ts","_playwright-tests/helpers/loginHelpers.ts"]
+  "include": [
+    "src",
+    "playwright.config.js",
+    "_playwright-tests/**/*.ts"
+  ],
+  "exclude": [
+    ".cache",
+    ".auth", 
+    "node_modules",
+    "dist",
+    "test-results",
+  ],
+  "watchOptions": {
+    "excludeDirectories": [
+      ".cache",
+      ".auth", 
+      "node_modules",
+      "dist",
+      "test-results",
+  ]}
 }

@@ -1,12 +1,11 @@
 import { expect } from '@playwright/test';
-import { test,navigateToInventorySystemsFunc } from './helpers/navHelpers';
+import { test, navigateToInventorySystemsFunc } from './helpers/navHelpers';
 
 test('User can navigate to the inventory page', async ({ page }) => {
   await test.step('Navigate to Inventory page', async () => {
     await navigateToInventorySystemsFunc(page);
   });
 });
-
 
 test('User can navigate to the Staleness and Deletion page via the menu', async ({ page }) => {
   await test.step('Navigate to Inventory page', async () => {
@@ -29,7 +28,6 @@ test('User can navigate to the Staleness and Deletion page via the menu', async 
   });
 });
 
-
 test('User can navigate to the workspaces page via the menu', async ({ page }) => {
   await test.step('Navigate to Inventory page', async () => {
     await navigateToInventorySystemsFunc(page);
@@ -47,4 +45,19 @@ test('User can navigate to the workspaces page via the menu', async ({ page }) =
     await page.waitForSelector('#pagination-options-menu-bottom-bottom-toggle', { state: 'visible' });
 
   });
+});
+
+test('User can navigate to System details page', async ({ page }) => {
+  await navigateToInventorySystemsFunc(page);
+
+  const tableRow = page
+    .locator('[data-ouia-component-type="PF6/TableRow"]')
+    .nth(2);
+  const systemLink = tableRow.locator('a');
+  const systemName = await systemLink.textContent();
+  expect(systemName).toBeTruthy();
+
+  await systemLink.click();
+  await expect(page.getByRole('heading', { level: 1, name: systemName! })).toBeVisible()
+  await expect(page.getByText('System not found')).toBeHidden();
 });
