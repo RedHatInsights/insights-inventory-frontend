@@ -3,6 +3,9 @@ import { render } from '@testing-library/react';
 import SystemsTable from './SystemsTable';
 import { TableToolsTable } from 'bastilian-tabletools';
 
+import defaultColumns from './columns';
+import defaultFilterTypes from './filterTypes';
+
 jest.mock('bastilian-tabletools', () => ({
   ...jest.requireActual('bastilian-tabletools'),
   TableToolsTable: jest.fn(() => (
@@ -21,11 +24,6 @@ jest.mock('bastilian-tabletools', () => ({
 jest.mock('../../../../Utilities/useFeatureFlag', () => ({
   __esModule: true,
   default: () => false,
-}));
-
-jest.mock('./hooks/useGlobalFilterForItems', () => ({
-  __esModule: true,
-  default: (itemsProp) => itemsProp,
 }));
 
 jest.mock('../../helpers.js', () => {
@@ -57,7 +55,7 @@ describe('SystemsTable', () => {
     render(<SystemsTable items={items} />);
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
-        items: items,
+        items,
       }),
       expect.anything(),
     );
@@ -75,11 +73,11 @@ describe('SystemsTable', () => {
     );
   });
 
-  it('should pass an empty array, when columns not provided', () => {
+  it('should pass default columns, when columns not provided', () => {
     render(<SystemsTable />);
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
-        columns: [],
+        columns: defaultColumns,
       }),
       expect.anything(),
     );
@@ -91,7 +89,7 @@ describe('SystemsTable', () => {
     render(<SystemsTable columns={columns} />);
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
-        columns: columns,
+        columns,
       }),
       expect.anything(),
     );
@@ -104,31 +102,37 @@ describe('SystemsTable', () => {
     render(<SystemsTable columns={columnsFn} />);
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
-        columns: columns,
+        columns,
       }),
       expect.anything(),
     );
   });
 
   it('should pass filters object', () => {
-    const filters = { filterConfig: [{}, {}, {}], customeFilterTypes: {} };
+    const filters = {
+      filterConfig: [{}, {}, {}],
+      customFilterTypes: defaultFilterTypes,
+    };
 
     render(<SystemsTable filters={filters} />);
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
-        filters: filters,
+        filters,
       }),
       expect.anything(),
     );
   });
 
   it('should pass filters object, when filters fn is received', () => {
-    const filters = { filterConfig: [{}, {}, {}], customeFilterTypes: {} };
+    const filters = {
+      filterConfig: [{}, {}, {}],
+      customFilterTypes: defaultFilterTypes,
+    };
 
     render(<SystemsTable filters={() => filters} />);
     expect(TableToolsTable).toHaveBeenCalledWith(
       expect.objectContaining({
-        filters: filters,
+        filters,
       }),
       expect.anything(),
     );

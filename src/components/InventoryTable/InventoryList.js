@@ -12,10 +12,11 @@ const convertItem = ({ children, isOpen, ...item }) => item;
 
 /**
  * Component that works as a side channel for consumers to notify inventory of new data changes.
- *  @param props
- *  @param props.showHealth
- *  @param props.onRefreshData
- *  @param props.ignoreRefresh
+ *  @param   {object}     props               props object
+ *  @param   {boolean}    props.showHealth    if true, the health is shown
+ *  @param   {Function}   props.onRefreshData on refresh data function to notify inventory of new data changes
+ *  @param   {boolean}    props.ignoreRefresh if true, the ignore refresh is enabled and the onRefreshData function is not called
+ *  @returns {React.node}                     React node with inventory list
  */
 const ContextInventoryList = ({
   showHealth,
@@ -26,17 +27,20 @@ const ContextInventoryList = ({
   const prevItems = useRef(props.items);
   const prevSortBy = useRef(props.sortBy);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (props.hasItems) {
       onRefreshData({}, ignoreRefresh);
     }
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   /**
    * Function to calculate for new changes, this function limits re-renders by checking if previous items are
    * same as new items.
    * If items are not passed, it only checks for props sortBy.
-   *  @param {*} prevProps previous props - items, hasItems, sortBy.
+   *  @param   {object} prevProps previous props - items, hasItems, sortBy.
+   *  @returns {void}             void
    */
   useEffect(() => {
     if (
@@ -72,6 +76,10 @@ const ContextInventoryList = ({
 
 /**
  * Component that consumes active filters and passes them down to component.
+ *  @param   {object}     props               props object
+ *  @param   {boolean}    props.hasAccess     if true, the access is granted
+ *  @param   {Function}   props.onRefreshData on refresh data function to notify inventory of new data changes
+ *  @returns {React.node}                     React node with inventory list
  */
 const InventoryList = React.forwardRef(
   ({ hasAccess, onRefreshData, ...props }, ref) => {

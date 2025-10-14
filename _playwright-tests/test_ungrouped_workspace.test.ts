@@ -1,7 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { type Page } from '@playwright/test';
-import { navigateToInventoryFunc, navigateToWorkspacesFunc } from './helpers/navHelpers';
-import { closePopupsIfExist } from './helpers/loginHelpers';
+import { test,navigateToInventorySystemsFunc, navigateToWorkspacesFunc } from './helpers/navHelpers';
 import { filterSystemsWithConditionalFilter, expectAllRowsHaveText, searchByName } from './helpers/filterHelpers';
 
 test('User can filter, search and see deatils of "Ungrouped Hosts" workspace', async ({ page }: { page: Page }) => {
@@ -20,10 +19,8 @@ test('User can filter, search and see deatils of "Ungrouped Hosts" workspace', a
 
  */
   const ungroupedWorkspaceName: string = "Ungrouped Hosts";
-  await closePopupsIfExist(page);
-
   await test.step('Filter systems by "Ungrouped Hosts" workspace in Systems page', async () => {
-    await navigateToInventoryFunc(page);
+    await navigateToInventorySystemsFunc(page);
     await filterSystemsWithConditionalFilter(page, "Workspace", "Ungrouped hosts");
     const workspaceColumnLocator = page.locator('td[data-label="Workspace"]');
     await expectAllRowsHaveText(workspaceColumnLocator, ungroupedWorkspaceName);

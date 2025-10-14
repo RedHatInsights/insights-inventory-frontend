@@ -41,10 +41,6 @@ describe('editDisplayName', () => {
         id: '4',
         value: 'test-value',
         origValue: undefined,
-        notifications: {
-          fulfilled: expect.any(Function),
-          rejected: expect.any(Function),
-        },
       }),
     );
   });

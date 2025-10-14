@@ -1,20 +1,9 @@
-import Workspace from './components/filters/Workspace';
 import {
   fetchTags,
   getOsSelectOptions,
-  getLastSeenSelectOptions,
   getWorkspaceSelectOptions,
-} from './helpers';
+} from './filtersHelpers';
 import { getOperatingSystems } from '../../../../api';
-
-export const CUSTOM_FILTER_TYPES = {
-  workspace: {
-    Component: Workspace,
-    chips: (value) => [value],
-    selectValue: (value) => [value, true],
-    deselectValue: () => [undefined, true],
-  },
-};
 
 export const displayName = {
   type: 'text',
@@ -75,7 +64,7 @@ export const operatingSystem = {
   },
 };
 
-export const statusFilter = {
+export const status = {
   label: 'Status',
   type: 'checkbox',
   items: [
@@ -194,20 +183,33 @@ export const tags = {
 export const lastSeen = {
   label: 'Last seen',
   value: 'last_seen',
-  type: 'singleSelect',
-  items: getLastSeenSelectOptions,
-  filterSerialiser: (_config, [value]) => {
-    return value;
+  type: 'lastSeen',
+  filterSerialiser: (_config, value) => {
+    return { lastCheckInStart: value?.start, lastCheckInEnd: value?.end };
   },
 };
 
-export const workspaceFilter = {
+export const workspace = {
   label: 'Workspace',
   type: 'workspace',
   items: getWorkspaceSelectOptions,
   filterSerialiser: (_config, values) => {
-    return values;
+    return { groupName: values };
   },
 };
 
-export default [displayName, statusFilter, tags, dataCollector, rhcStatus];
+/**
+ *
+ * Default set of filters to show when no set of filters or customisation is provided
+ *
+ */
+export default [
+  displayName,
+  systemType,
+  operatingSystem,
+  dataCollector,
+  rhcStatus,
+  tags,
+  lastSeen,
+  workspace,
+];

@@ -17,7 +17,26 @@ import useColumns from './hooks/useColumns';
  * The actual (PF)table component. It calculates each cell and every table property.
  * It uses rows, columns and loaded from redux to show correct data.
  * When row is selected `selectEntity` is dispatched.
- *  @param {*} props all props used in this component.
+ *  @param   {object}          props                       all props used in this component.
+ *  @param   {boolean}         props.hasItems              if true, the items are loaded
+ *  @param   {boolean}         props.expandable            if true, the expandable is enabled
+ *  @param   {Function}        props.onExpandClick         on expand click function
+ *  @param   {boolean}         props.hasCheckbox           if true, the checkbox is enabled
+ *  @param   {Array}           props.actions               actions array for the table
+ *  @param   {string}          props.variant               variant of the table
+ *  @param   {object}          props.sortBy                sort by object
+ *  @param   {object}          props.tableProps            table props object
+ *  @param   {Function}        props.onSort                on sort function
+ *  @param   {Function}        props.onRowClick            on row click function
+ *  @param   {boolean}         props.noDetail              if true, the no detail is enabled
+ *  @param   {React.node}      props.noSystemsTable        no systems table node
+ *  @param   {boolean}         props.showTags              if true, the tags are shown
+ *  @param   {Array}           props.columns               columns array
+ *  @param   {boolean}         props.disableDefaultColumns if true, the default columns are disabled
+ *  @param   {boolean}         props.loaded                if true, the loaded is true
+ *  @param   {number}          props.columnsCounter        columns counter
+ *  @param   {string}          props.lastSeenOverride      last seen override
+ *  @returns {React.ReactNode}                             the table component
  */
 const EntityTable = ({
   hasItems,

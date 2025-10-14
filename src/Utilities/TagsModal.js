@@ -82,9 +82,11 @@ const TagsModal = ({
     setFilterBy(filterTagsBy);
   }, [filterTagsBy]);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     setSelected(preselectedTags);
   }, [JSON.stringify(preselectedTags)]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const fetchTags = useCallback(
     (pagination, filterBy) => {

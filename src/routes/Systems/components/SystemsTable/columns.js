@@ -55,4 +55,9 @@ export const lastSeen = {
   transforms: [fitContent],
 };
 
+/**
+ *
+ * Default set of columns to show when no set of columns or customisation is provided
+ *
+ */
 export default [displayName, workspace, tags, operatingSystem, lastSeen];

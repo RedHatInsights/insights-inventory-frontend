@@ -70,7 +70,34 @@ import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
 /**
  * Table toolbar used at top of inventory table.
  * It uses couple of filters and acces redux data along side all passed props.
- *  @param {*} props used in this component.
+ *  @param   {object}     props                      props object
+ *  @param   {number}     props.total                total number of items
+ *  @param   {number}     props.page                 current page
+ *  @param   {number}     props.perPage              items per page
+ *  @param   {object}     props.filterConfig         filter configuration for the table
+ *  @param   {boolean}    props.hasItems             if true, the items are loaded
+ *  @param   {React.node} props.children             children nodes for the toolbar
+ *  @param   {object}     props.actionsConfig        actions configuration for the toolbar
+ *  @param   {object}     props.activeFiltersConfig  active filters configuration for the toolbar
+ *  @param   {boolean}    props.showTags             if true, the tags are shown
+ *  @param   {Function}   props.getTags              get tags function to fetch tags
+ *  @param   {Array}      props.items                row items array for the table (systems)
+ *  @param   {object}     props.sortBy               sort by configuration
+ *  @param   {object}     props.customFilters        custom filters configuration
+ *  @param   {boolean}    props.hasAccess            if true, the access is granted
+ *  @param   {object}     props.bulkSelect           bulk select configuration
+ *  @param   {object}     props.hideFilters          hide filters configuration for the toolbar
+ *  @param   {object}     props.paginationProps      pagination properties
+ *  @param   {Function}   props.onRefreshData        on refresh data function to notify inventory of new data changes
+ *  @param   {boolean}    props.loaded               if true, the loaded is true
+ *  @param   {Function}   props.showTagModal         show tag modal function to show the tag modal
+ *  @param   {boolean}    props.showSystemTypeFilter if true, the system type filter is shown
+ *  @param   {boolean}    props.showCentosVersions   if true, the centos versions are shown
+ *  @param   {boolean}    props.showNoGroupOption    if true, the no group option is shown
+ *  @param   {boolean}    props.enableExport         if true, the export is enabled
+ *  @param   {Function}   props.fetchCustomOSes      fetch custom OSes function to fetch custom OSes
+ *  @param   {Function}   props.axios                axios function
+ *  @returns {React.node}                            React node with inventory table toolbar
  */
 const EntityTableToolbar = ({
   total,
@@ -244,7 +271,8 @@ const EntityTableToolbar = ({
 
   /**
    * Function to dispatch load systems and fetch all tags.
-   *  @param options
+   *  @param   {object} options options to fetch data
+   *  @returns {void}           void
    */
   const onRefreshDataInner = (options) => {
     if (hasAccess) {
@@ -260,7 +288,8 @@ const EntityTableToolbar = ({
    * `onRefresh` function takes two parameters
    * entire config with new changes.
    * callback to update data.
-   *  @param {*} config new config to fetch data.
+   *  @param   {object} config new config to fetch data.
+   *  @returns {void}          void
    */
   const updateData = (config) => {
     if (hasAccess) {
@@ -292,6 +321,7 @@ const EntityTableToolbar = ({
       ...(customFilters?.filters || []),
     ]);
 
+    /*eslint-disable react-hooks/exhaustive-deps*/
     debouncedRefresh();
     enabledFilters.name && setTextFilter(textFilter);
     enabledFilters.stale && setStaleFilter(staleFilter);
@@ -304,11 +334,13 @@ const EntityTableToolbar = ({
     enabledFilters.hostGroupFilter && setHostGroupValue(hostGroupFilter);
     enabledFilters.systemTypeFilter && setSystemTypeValue(systemTypeFilter);
   }, []);
+  /*eslint-enable react-hooks/exhaustive-deps*/
 
   /**
    * Function used to change text filter.
-   *  @param {*} value     new value used for filtering.
-   *  @param {*} debounced if debounce function should be used.
+   *  @param   {string}  value     new value used for filtering.
+   *  @param   {boolean} debounced if debounce function should be used.
+   *  @returns {void}              void
    */
   const onSetTextFilter = (value, debounced = true) => {
     const trimmedValue = value?.trim();
@@ -331,9 +363,10 @@ const EntityTableToolbar = ({
 
   /**
    * General function to apply filter (excluding tag and text).
-   *  @param {*} value     new value to be set of specified filter.
-   *  @param {*} filterKey which filter should be changed.
-   *  @param {*} refresh   refresh callback function.
+   *  @param   {object}   value     new value to be set of specified filter.
+   *  @param   {string}   filterKey which filter should be changed.
+   *  @param   {Function} refresh   refresh callback function.
+   *  @returns {void}               void
    */
   const onSetFilter = (value, filterKey, refresh) => {
     const newFilters = [
@@ -352,19 +385,19 @@ const EntityTableToolbar = ({
     if (shouldReload && showTags && enabledFilters.tags) {
       debounceGetAllTags(filterTagsBy);
     }
-  }, [filterTagsBy, customFilters?.tags]);
+  }, [filterTagsBy, customFilters?.tags, enabledFilters.tags]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.name) {
       onSetTextFilter(textFilter, true);
     }
-  }, [textFilter]);
+  }, [textFilter, enabledFilters.name]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.stale) {
       onSetFilter(staleFilter, 'staleFilter', debouncedRefresh);
     }
-  }, [staleFilter]);
+  }, [staleFilter, enabledFilters.stale]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.registeredWith) {
@@ -374,43 +407,43 @@ const EntityTableToolbar = ({
         debouncedRefresh,
       );
     }
-  }, [registeredWithFilter]);
+  }, [registeredWithFilter, enabledFilters.registeredWith]);
 
   useEffect(() => {
     if (shouldReload && showTags && enabledFilters.tags) {
       onSetFilter(mapGroups(selectedTags), 'tagFilters', debouncedRefresh);
     }
-  }, [selectedTags]);
+  }, [selectedTags, enabledFilters.tags, showTags]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.operatingSystem) {
       onSetFilter(osFilterValue, 'osFilter', debouncedRefresh);
     }
-  }, [osFilterValue]);
+  }, [osFilterValue, enabledFilters.operatingSystem]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.rhcdFilter) {
       onSetFilter(rhcdFilterValue, 'rhcdFilter', debouncedRefresh);
     }
-  }, [rhcdFilterValue]);
+  }, [rhcdFilterValue, enabledFilters.rhcdFilter]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.lastSeenFilter) {
       onSetFilter(lastSeenFilterValue, 'lastSeenFilter', debouncedRefresh);
     }
-  }, [lastSeenFilterValue]);
+  }, [lastSeenFilterValue, enabledFilters.lastSeenFilter]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.hostGroupFilter) {
       onSetFilter(hostGroupValue, 'hostGroupFilter', debouncedRefresh);
     }
-  }, [hostGroupValue]);
+  }, [hostGroupValue, enabledFilters.hostGroupFilter]);
 
   useEffect(() => {
     if (shouldReload && enabledFilters.systemTypeFilter) {
       onSetFilter(systemTypeValue, 'systemTypeFilter', debouncedRefresh);
     }
-  }, [systemTypeValue]);
+  }, [systemTypeValue, enabledFilters.systemTypeFilter]);
 
   /**
    * Mapper to simplify removing of any filter.
@@ -464,6 +497,7 @@ const EntityTableToolbar = ({
 
   /**
    * Function to create active filters chips.
+   *  @returns {object} active filters chips
    */
   const constructFilters = () => {
     return {

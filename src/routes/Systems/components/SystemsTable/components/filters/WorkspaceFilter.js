@@ -1,74 +1,94 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useRef,
+  Fragment,
+} from 'react';
 import {
   Divider,
   MenuToggle,
   TextInputGroup,
   TextInputGroupMain,
-  Select /* data-codemods */,
-  SelectList /* data-codemods */,
-  SelectOption /* data-codemods */,
+  Select,
+  SelectList,
+  SelectOption,
 } from '@patternfly/react-core';
 
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 
-const Workspace = ({
+const WorkspaceFilter = ({
   value: selectedGroupNames = [],
   onChange: setSelectedGroupNames,
-  showNoGroupOption = false,
-  items: initialGroups = [],
+  showNoGroupOption = true,
+  items,
 }) => {
-  useEffect(() => {
-    console.log(initialGroups);
-  }, []);
-  const initialValues = useMemo(
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
+  const debounceTimeoutRef = useRef(null);
+  const SEARCH_DELAY = 300;
+
+  const noGroupOption = useMemo(() => {
+    return showNoGroupOption && !searchValue
+      ? [
+          {
+            itemId: '',
+            children: 'Ungrouped hosts',
+          },
+        ]
+      : [];
+  }, [searchValue, showNoGroupOption]);
+
+  const groupOptions = useMemo(
     () => [
-      ...(showNoGroupOption
-        ? [
-            {
-              itemId: '',
-              children: 'No workspace',
-            },
-          ]
-        : []),
-      ...initialGroups.map(({ name }) => ({
+      ...items.map(({ name }) => ({
         itemId: name, // group name is unique by design
         children: name,
       })),
     ],
-    [initialGroups, showNoGroupOption],
+    [items],
   );
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [selectOptions, setSelectOptions] = useState(initialValues);
-  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
+  const [selectOptions, setSelectOptions] = useState([
+    ...noGroupOption,
+    ...groupOptions,
+  ]);
 
-  useEffect(() => {
-    let newSelectOptions = initialValues;
-
-    // filter menu items based on the text input value when one exists
-    if (inputValue) {
-      newSelectOptions = initialValues.filter((menuItem) =>
-        String(menuItem.children)
-          .toLowerCase()
-          .includes(inputValue.toLowerCase()),
-      );
-
-      // when no options are found after filtering, display 'No workspace found'
-      if (!newSelectOptions.length) {
-        newSelectOptions = [
-          {
-            isDisabled: true,
-            children: 'No workspace found',
-          },
-        ];
-      }
+  const debouncedSearch = useCallback((search, options) => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
     }
 
-    setSelectOptions(newSelectOptions);
-    setFocusedItemIndex(0);
-  }, [inputValue, initialValues]);
+    debounceTimeoutRef.current = setTimeout(() => {
+      let newSelectOptions = options;
+
+      if (search) {
+        newSelectOptions = options.filter((menuItem) =>
+          String(menuItem.children)
+            .toLowerCase()
+            .includes(search.toLowerCase()),
+        );
+
+        if (!newSelectOptions.length) {
+          newSelectOptions = [
+            {
+              isDisabled: true,
+              children: 'No workspace found',
+            },
+          ];
+        }
+      }
+
+      setSelectOptions(newSelectOptions);
+    }, SEARCH_DELAY);
+  }, []);
+
+  useEffect(() => {
+    debouncedSearch(searchValue, [...noGroupOption, ...groupOptions]);
+  }, [searchValue, groupOptions, noGroupOption, debouncedSearch]);
 
   const handleMenuArrowKeys = (key) => {
     let indexToFocus;
@@ -104,24 +124,25 @@ const Workspace = ({
       (menuItem) => !menuItem.isDisabled,
     );
     const [firstMenuItem] = enabledMenuItems;
-    const focusedItem = focusedItemIndex
-      ? enabledMenuItems[focusedItemIndex]
-      : firstMenuItem;
+    const focusedItem =
+      focusedItemIndex !== null
+        ? enabledMenuItems[focusedItemIndex]
+        : firstMenuItem;
 
     switch (event.key) {
       // select the first available option
       case 'Enter':
         if (!isOpen) {
           setIsOpen((prevIsOpen) => !prevIsOpen);
-          setInputValue('');
+          setSearchValue('');
         } else {
-          onSelect(focusedItem.itemId);
+          updateGroupNames(focusedItem.itemId);
         }
         break;
       case 'Tab':
       case 'Escape':
         setIsOpen(false);
-        setInputValue('');
+        setSearchValue('');
         break;
       case 'ArrowUp':
       case 'ArrowDown':
@@ -134,14 +155,10 @@ const Workspace = ({
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
-    setInputValue('');
+    setSearchValue('');
   };
 
-  const onTextInputChange = (_event, value) => {
-    setInputValue(value);
-  };
-
-  const onSelect = (itemId) => {
+  const updateGroupNames = (itemId) => {
     setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
   };
 
@@ -151,13 +168,14 @@ const Workspace = ({
       onClick={onToggleClick}
       innerRef={toggleRef}
       isExpanded={isOpen}
-      style={{ minWidth: '261px' }} // align width with the tags filter width
     >
       <TextInputGroup isPlain>
         <TextInputGroupMain
-          value={inputValue}
+          value={searchValue}
           onClick={onToggleClick}
-          onChange={onTextInputChange}
+          onChange={(_event, value) => {
+            setSearchValue(value);
+          }}
           onKeyDown={onInputKeyDown}
           id="multi-typeahead-select-input"
           autoComplete="off"
@@ -174,32 +192,33 @@ const Workspace = ({
         ouiaId="Filter by group"
         isOpen={isOpen}
         selected={selectedGroupNames}
-        onSelect={(event, selection) => onSelect(selection)}
+        onSelect={(_event, selection) => updateGroupNames(selection)}
         onOpenChange={() => {
           setIsOpen(false);
-          setInputValue('');
+          setFocusedItemIndex(null);
+          setSearchValue('');
         }}
         toggle={toggle}
       >
         <SelectList isAriaMultiselectable>
-          {selectOptions.length === 0 ? (
-            <SelectOption key="none">No workspaces available</SelectOption>
-          ) : (
+          {selectOptions.filter((item) => item.itemId).length > 0 ? (
             selectOptions.map((option, index) => (
-              <div key={option.itemId || option.children}>
+              <Fragment key={option.itemId || option.children}>
                 <SelectOption
-                  {...(!option.isDisabled && { hasCheck: true })}
+                  {...(!option.isDisabled && { hasCheckbox: true })}
                   isSelected={selectedGroupNames.includes(option.itemId)}
-                  key={option.itemId || option.children}
                   isFocused={focusedItemIndex === index}
                   className={option.className}
                   data-ouia-component-id="FilterByGroupOption"
-                  hasCheckbox
                   {...option}
                 />
                 {option.itemId === '' && <Divider />}
-              </div>
+              </Fragment>
             ))
+          ) : (
+            <SelectOption isDisabled={true}>
+              No workspaces available
+            </SelectOption>
           )}
         </SelectList>
       </Select>
@@ -207,17 +226,16 @@ const Workspace = ({
   );
 };
 
-Workspace.propTypes = {
-  initialGroups: PropTypes.arrayOf(
+WorkspaceFilter.propTypes = {
+  items: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
       id: PropTypes.string,
     }).isRequired,
   ),
-  value: PropTypes.arrayOf(PropTypes.string).isRequired,
+  value: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,
-  items: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default Workspace;
+export default WorkspaceFilter;

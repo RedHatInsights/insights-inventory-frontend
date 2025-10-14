@@ -1,45 +1,50 @@
-import { test, expect } from '@playwright/test';
-
-import { navigateToInventoryFunc } from './helpers/navHelpers';
-import { closePopupsIfExist } from './helpers/loginHelpers';
+import { expect } from '@playwright/test';
+import { test,navigateToInventorySystemsFunc } from './helpers/navHelpers';
 
 test('User can navigate to the inventory page', async ({ page }) => {
-  // Optionally close any modals/popups before navigating
-  await closePopupsIfExist(page);
-  // Navigate directly to the inventory page
-  await navigateToInventoryFunc(page);
+  await test.step('Navigate to Inventory page', async () => {
+    await navigateToInventorySystemsFunc(page);
+  });
 });
 
 
 test('User can navigate to the Staleness and Deletion page via the menu', async ({ page }) => {
-  // Optionally close any modals/popups before navigating
-  await closePopupsIfExist(page);
- 
-  // Navigate directly to the inventory page
-  await navigateToInventoryFunc(page);
+  await test.step('Navigate to Inventory page', async () => {
+    await navigateToInventorySystemsFunc(page);
+  });
 
-  const sysConfigParent = page.locator('text=System Configuration').locator('..');
-  await sysConfigParent.click();
- 
-  const stalenessLink = page.locator('text=Staleness and Deletion');
-  await stalenessLink.click();
+  await test.step('Open System Configuration menu and click Staleness and Deletion', async () => {
+    const sysConfigParent = page.locator('[data-quickstart-id="System-Configuration"]');
+    await sysConfigParent.click();
 
-  await expect(page.getByRole('heading', { name: 'Staleness and Deletion' })).toBeVisible({ timeout: 90000 });
+    const stalenessLink = page.locator('[data-quickstart-id="insights_inventory_staleness-and-deletion"]');
+    await stalenessLink.click();
+  });
 
+  await test.step('Verify Staleness and Deletion page is visible', async () => {
+    await expect(
+      page.getByRole('heading', { name: 'Staleness and Deletion' })
+    ).toBeVisible({ timeout: 90000 });
+    await page.waitForSelector('text=Organization level system staleness and deletion', { state: 'visible' });
+  });
 });
 
 
 test('User can navigate to the workspaces page via the menu', async ({ page }) => {
-  // Optionally close any modals/popups before navigating
-  await closePopupsIfExist(page);
- 
-  // Navigate directly to the inventory page
-  await navigateToInventoryFunc(page);
+  await test.step('Navigate to Inventory page', async () => {
+    await navigateToInventorySystemsFunc(page);
+  });
 
-  const WorkspacesParam = page.locator('[data-ouia-component-id="Workspaces"]');
-  await WorkspacesParam.click();
+  await test.step('Click on Workspaces menu item and reload page', async () => {
+    const WorkspacesParam = page.locator('[data-quickstart-id="insights_inventory_workspaces"]');
+    await WorkspacesParam.click();
+  });
 
+  await test.step('Verify Workspaces page is visible', async () => {
+    await expect(
+      page.getByRole('heading', { name: 'Workspaces' })
+    ).toBeVisible({ timeout: 90000 });
+    await page.waitForSelector('#pagination-options-menu-bottom-bottom-toggle', { state: 'visible' });
 
-  await expect(page.getByRole('heading', { name: 'Workspaces' })).toBeVisible({ timeout: 90000 });
-
+  });
 });

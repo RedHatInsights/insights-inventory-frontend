@@ -51,7 +51,7 @@ export const clearNotifications = () => {
   };
 };
 
-export const editDisplayName = (id, value, origValue, addNotification) => ({
+export const editDisplayName = (id, value, origValue) => ({
   type: ACTION_TYPES.UPDATE_DISPLAY_NAME,
   payload: patchHostById({
     hostIdList: [id],
@@ -61,22 +61,6 @@ export const editDisplayName = (id, value, origValue, addNotification) => ({
     id,
     value,
     origValue,
-    notifications: {
-      fulfilled: () =>
-        addNotification({
-          variant: 'success',
-          title: `Display name has been changed to ${value}`,
-          dismissable: true,
-        }),
-      rejected: () =>
-        addNotification({
-          variant: 'danger',
-          title: 'Display name failed to be changed',
-          description:
-            'There was an error processing the request. Please try again.',
-          dismissable: true,
-        }),
-    },
   },
 });
 

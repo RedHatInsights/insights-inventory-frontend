@@ -1,11 +1,7 @@
 // TODO remove dependency on fec helpers and components
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags } from '../../api/hostInventoryApi';
-import defaultColumns from './components/SystemsTable/columns';
 import uniq from 'lodash/uniq';
-import defaultFilters, {
-  CUSTOM_FILTER_TYPES,
-} from './components/SystemsTable/filters';
 
 const fetchHostTags = async (hosts) => {
   if (hosts.length) {
@@ -68,25 +64,6 @@ export const fetchSystems = async (
   }));
 
   return [systems, total];
-};
-
-export const resolveColumns = (columns) => {
-  if (typeof columns === 'function') {
-    return columns(defaultColumns);
-  } else {
-    return columns;
-  }
-};
-
-export const resolveFilters = (filters) => {
-  if (typeof filters === 'function') {
-    return filters({
-      customFilterTypes: CUSTOM_FILTER_TYPES,
-      filterConfig: defaultFilters,
-    });
-  } else {
-    return filters;
-  }
 };
 
 export const isBulkAddHostsToGroupsEnabled = (

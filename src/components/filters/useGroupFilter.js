@@ -54,18 +54,18 @@ export const buildHostGroupChips = (
  * - Exposes setSearchQuery which is debounced; when remote search is disabled it resets
  * the debounced term to initSearchQuery to avoid unnecessary server calls.
  *
- *  @param   {object}                 options
- *  @param   {string}                 [options.initSearchQuery] Initial query reflected when remote search is disabled.
- *  @param   {boolean}                [options.isKesselEnabled] When true, restricts to standard workspaces via type filter.
- *  @param   {boolean}                [options.hasAccess]       Enables the underlying query when true, otherwise the query is disabled.
- *  @param   {number}                 [options.debounceTime]    Debounce duration for remote search, in ms.
- *  @returns {object}                                           result
- *  @returns {Array<{name: string}>}                            result.groups Flattened list of loaded workspaces.
- *  @returns {function(string): void}                           result.setSearchQuery Debounced setter for the remote search term.
- *  @returns {function(): void}                                 result.fetchNextPage Load the next page when available.
- *  @returns {boolean}                                          result.hasNextPage Whether there is another page to load.
- *  @returns {boolean}                                          result.isFetchingNextPage True while the next page is loading.
- *  @returns {boolean}                                          result.remoteSearchEnabled True when server-side search should be used (> 2 pages total).
+ *  @param   {object}  options                   The options object.
+ *  @param   {string}  [options.initSearchQuery] Initial query reflected when remote search is disabled.
+ *  @param   {boolean} [options.isKesselEnabled] When true, restricts to standard workspaces via type filter.
+ *  @param   {boolean} [options.hasAccess]       Enables the underlying query when true, otherwise the query is disabled.
+ *  @param   {number}  [options.debounceTime]    Debounce duration for remote search, in ms.
+ *  @returns {Array}                             result array of a single object with the following properties:
+ *                                               result.groups {Array<{name: string}>} - Flattened list of loaded workspaces.
+ *                                               result.setSearchQuery {function(string): void} - Debounced setter for the remote search term.
+ *                                               result.fetchNextPage {function(): void} - Load the next page when available.
+ *                                               result.hasNextPage {boolean} - Whether there is another page to load.
+ *                                               result.isFetchingNextPage {boolean} - True while the next page is loading.
+ *                                               result.remoteSearchEnabled {boolean} - True when server-side search should be used (> 2 pages total).
  */
 const useGroupsQueryWithFilter = ({
   hasAccess,
