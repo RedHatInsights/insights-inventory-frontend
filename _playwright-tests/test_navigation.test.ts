@@ -55,8 +55,9 @@ test('User can navigate to System details page', async ({ page }) => {
     .nth(2);
   const systemLink = tableRow.locator('a');
   const systemName = await systemLink.textContent();
+  expect(systemName).toBeTruthy();
 
   await systemLink.click();
-  await expect(page.getByRole('heading', { level: 1, name: systemName || 'nonexistent'})).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: systemName! })).toBeVisible()
   await expect(page.getByText('System not found')).toBeHidden();
 });
