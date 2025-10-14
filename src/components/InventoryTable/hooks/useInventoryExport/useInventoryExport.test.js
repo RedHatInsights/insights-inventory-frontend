@@ -149,6 +149,19 @@ describe('useInventoryExport', () => {
     });
   });
 
+  it('should disable the button after initiating an export', async () => {
+    jest.useFakeTimers({ advanceTimers: true });
+    const { result } = renderHook(() => useInventoryExport());
+
+    result.current.onSelect(undefined, FORMAT);
+
+    await waitFor(() => expect(result.current.isDisabled).toBe(true));
+
+    await waitFor(() => expect(axiosPostMock).toHaveBeenCalled());
+
+    await waitFor(() => expect(result.current.isDisabled).toBe(false));
+  });
+
   it(
     'should trigger a notification when a export has a failed status for ' +
       FORMAT.toUpperCase(),
