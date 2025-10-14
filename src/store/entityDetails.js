@@ -63,16 +63,8 @@ function updateAnsibleNameRejected(state, { meta }) {
   return state;
 }
 
-function updateEntity(state, { meta }, useOrigValue) {
+function updateEntity(state, { meta }) {
   let value;
-
-  if (useOrigValue) {
-    value = meta?.origValue;
-    meta.notifications.rejected();
-  } else {
-    value = meta?.value;
-    meta.notifications.fulfilled();
-  }
 
   return {
     ...state,
@@ -97,11 +89,6 @@ function updateEntity(state, { meta }, useOrigValue) {
   };
 }
 
-function updateEntityRejected(state, { meta }) {
-  meta.notifications.rejected();
-  return state;
-}
-
 export default {
   [ACTION_TYPES.LOAD_ENTITIES_PENDING]: () => entityDefaultState,
   [ACTION_TYPES.LOAD_ENTITY_PENDING]: entityDetailPending,
@@ -114,7 +101,6 @@ export default {
   [`${ACTION_TYPES.SET_ANSIBLE_HOST}_FULFILLED`]: updateAnsibleName,
   [`${ACTION_TYPES.SET_ANSIBLE_HOST}_REJECTED`]: updateAnsibleNameRejected,
   [`${ACTION_TYPES.UPDATE_DISPLAY_NAME}_FULFILLED`]: updateEntity,
-  [`${ACTION_TYPES.UPDATE_DISPLAY_NAME}_REJECTED`]: updateEntityRejected,
   [ACTION_TYPES.UPDATE_DISPLAY_NAME_ERROR]: (state, payload) =>
     updateEntity(state, payload, true),
   [ACTION_TYPES.SET_ANSIBLE_HOST_REJECTED]: (state, payload) =>

@@ -134,27 +134,20 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const fetchData = useCallback(
     debounce((filters) => {
       const { perPage, page, sortIndex, sortDirection, ...search } = filters;
-
       if (sortIndex !== undefined && sortDirection !== undefined) {
         const order_by = GROUPS_TABLE_COLUMNS_TO_URL[sortIndex];
         const order_how = upperCase(sortDirection);
         return dispatch(
           fetchGroups(
-            {
-              ...search,
-              order_by,
-              order_how,
-            },
+            { ...search, order_by, order_how },
             { page, per_page: perPage },
           ),
         );
-      } else {
-        return dispatch(fetchGroups(search, { page, per_page: perPage }));
       }
-    }, REQUEST_DEBOUNCE_TIMEOUT), // wait the timeout before making the final fetch
-    [],
+      return dispatch(fetchGroups(search, { page, per_page: perPage }));
+    }, REQUEST_DEBOUNCE_TIMEOUT),
+    [], // dispatch is stable
   );
-
   useEffect(() => {
     updateURLSearchParams(filters, groupsTableFiltersConfig);
     fetchData(filters);
