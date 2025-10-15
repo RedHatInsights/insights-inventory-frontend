@@ -4,7 +4,7 @@ import path from 'path';
 // This file can only contain functions that are referenced by authentication.
 
 export const logout = async (page: Page) => {
-  const button = await page.locator(
+  const button = page.locator(
     'div.pf-v6-c-toolbar__item.pf-m-hidden.pf-m-visible-on-lg.pf-v6-u-mr-0 > button',
   );
 
