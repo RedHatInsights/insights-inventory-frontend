@@ -6,15 +6,15 @@ import { spawnSync } from 'child_process';
  * This function constructs and executes a `curl` command via `spawnSync`
  * to upload a specified `.tar.gz` archive to the platform.
  * It requires the following environment variables:
- *  - `PROXY` — proxy address used for the upload
- *  - `PLAYWRIGHT_USER` — username for authentication
- *  - `PLAYWRIGHT_PASSWORD` — password for authentication
+ * - `PROXY` — proxy address used for the upload
+ * - `PLAYWRIGHT_USER` — username for authentication
+ * - `PLAYWRIGHT_PASSWORD` — password for authentication
  *
  * The function checks for missing credentials, validates response codes,
  * and throws descriptive errors if the upload fails or the command encounters issues.
  *
- * @param {string} archivePath - The relative path to the archive file inside `host_archives/`.
- * @returns {{ httpCode: number }} - The HTTP status code returned from the upload request.
+ *  @param   {string}               archivePath - The relative path to the archive file inside `host_archives/`.
+ *  @returns {{ httpCode: number }}             - The HTTP status code returned from the upload request.
  *
  * @throws {Error} If required environment variables are missing.
  * @throws {Error} If the `curl` command fails to execute.
@@ -33,13 +33,18 @@ export function uploadArchive(archivePath: string) {
   const uploadUrl = 'https://console.stage.redhat.com/api/ingress/v1/upload';
 
   const args = [
-    '-x', `${proxy}`,
+    '-x',
+    `${proxy}`,
     '-s',
-    '-o', '/tmp/upload_output.txt',
-    '-w', '%{http_code}',
-    '-F', `upload=@${fullPath};type=application/vnd.redhat.advisor.collection+tgz`,
+    '-o',
+    '/tmp/upload_output.txt',
+    '-w',
+    '%{http_code}',
+    '-F',
+    `upload=@${fullPath};type=application/vnd.redhat.advisor.collection+tgz`,
     uploadUrl,
-    '-u', `${user}:${password}`,
+    '-u',
+    `${user}:${password}`,
   ];
 
   const result = spawnSync('curl', args, { encoding: 'utf-8' });
@@ -47,16 +52,19 @@ export function uploadArchive(archivePath: string) {
   const httpCode = Number(stdout.slice(-3));
 
   if (!user || !password) {
-    throw new Error('Missing PLAYWRIGHT_USER or PLAYWRIGHT_PASSWORD environment variables.');
+    throw new Error(
+      'Missing PLAYWRIGHT_USER or PLAYWRIGHT_PASSWORD environment variables.',
+    );
   }
   if (result.error) {
     throw new Error(`Failed to execute curl: ${result.error.message}`);
   }
   if (httpCode !== 201) {
     const stderrMsg = result.stderr?.toString().trim() || 'Unknown error';
-    throw new Error(`Upload failed with HTTP code ${httpCode}. stderr: ${stderrMsg}`);
+    throw new Error(
+      `Upload failed with HTTP code ${httpCode}. stderr: ${stderrMsg}`,
+    );
   }
 
   return { httpCode };
 }
-

@@ -153,7 +153,7 @@
     "test": "TZ=UTC jest --verbose --no-cache",
     "test:local": "TZ=UTC jest --verbose --collectCoverage=false",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint config src",
+    "lint:js": "eslint config src _playwright-tests",
     "lint:js:fix": "eslint config src --fix",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelint.json",
     "server:ctr": "node src/server/generateServerKey.js",
