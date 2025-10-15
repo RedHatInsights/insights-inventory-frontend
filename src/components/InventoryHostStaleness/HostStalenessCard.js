@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -23,6 +23,7 @@ import {
 } from './constants';
 import { InventoryHostStalenessPopover } from './constants';
 import {
+  deleteStalenessData,
   fetchDefaultStalenessValues,
   fetchStalenessData,
   postStalenessData,
@@ -39,6 +40,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [hostStalenessDefaults, setHostStalenessDefaults] = useState({});
+  const [isResetToDefault, setIsResetToDefault] = useState(false);
   const addNotification = useAddNotification();
 
   const handleModalToggle = () => {
@@ -86,6 +88,30 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
             dismissable: true,
           });
         });
+    } else if (isResetToDefault) {
+      deleteStalenessData()
+        .then(() => {
+          addNotification({
+            id: 'settings-saved',
+            variant: 'success',
+            title: 'Organization level settings saved',
+            description: `Organization level settings saved`,
+            dismissable: true,
+          });
+          fetchApiStalenessData();
+          setIsResetToDefault(false);
+          setIsEditing(!isEditing);
+          setIsModalOpen(false);
+        })
+        .catch(() => {
+          addNotification({
+            id: 'settings-saved-failed',
+            variant: 'danger',
+            title: 'Error saving organization level settings',
+            description: `Error saving organization level settings`,
+            dismissable: true,
+          });
+        });
     } else {
       updateStaleness({ stalenessIn: apiData })
         .then(() => {
@@ -110,7 +136,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     }
   };
 
-  const fetchApiStalenessData = async () => {
+  const fetchApiStalenessData = useCallback(async () => {
     let results = await fetchStalenessData();
     let newFilter = {};
     hostStalenessApiKeys.forEach(
@@ -120,9 +146,10 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
     newFilter['id'] = results.id;
     setFilter(newFilter);
     setNewFormValues(newFilter);
-  };
+  }, []);
+
   //keeps track of what default the backend wants
-  const fetchDefaultValues = async () => {
+  const fetchDefaultValues = useCallback(async () => {
     let results = await fetchDefaultStalenessValues().catch((err) => err);
     let conventionalFilter = {};
 
@@ -132,21 +159,21 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
       }
     });
 
-    setHostStalenessDefaults({
+    setHostStalenessDefaults((hostStalenessDefaults) => ({
       ...hostStalenessDefaults,
       ...conventionalFilter,
-    });
-  };
+    }));
+  }, []);
 
-  const batchedApi = async () => {
+  const batchedApi = useCallback(async () => {
     await fetchApiStalenessData();
     await fetchDefaultValues();
     setIsLoading(false);
-  };
+  }, [fetchApiStalenessData, fetchDefaultValues]);
 
   useEffect(() => {
     batchedApi();
-  }, []);
+  }, [batchedApi]);
 
   return (
     <React.Fragment>
@@ -202,6 +229,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
                 isFormValid={isFormValid}
                 setIsFormValid={setIsFormValid}
                 hostStalenessDefaults={hostStalenessDefaults}
+                setIsResetToDefault={setIsResetToDefault}
               />
             }
             {isEditing && (

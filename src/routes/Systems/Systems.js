@@ -107,6 +107,8 @@ const Systems = () => {
             status,
             dataCollector,
             rhcStatus,
+            lastSeen,
+            workspace,
             tags,
             systemType,
             operatingSystem,
@@ -114,11 +116,13 @@ const Systems = () => {
             filterConfig: [
               displayName,
               status,
+              operatingSystem,
               dataCollector,
               rhcStatus,
-              tags,
+              lastSeen,
+              workspace,
               systemType,
-              operatingSystem,
+              tags,
             ],
           })}
           options={(defaultOptions) => ({

@@ -3,6 +3,7 @@ import tsParser from '@typescript-eslint/parser';
 import pluginCypress from 'eslint-plugin-cypress/flat';
 import jestDom from 'eslint-plugin-jest-dom';
 import jsdoc from 'eslint-plugin-jsdoc';
+import playwright from 'eslint-plugin-playwright';
 import reactHooks from 'eslint-plugin-react-hooks';
 import testingLibrary from 'eslint-plugin-testing-library';
 import { defineConfig, globalIgnores } from 'eslint/config';
@@ -11,10 +12,12 @@ import tseslint from 'typescript-eslint';
 const flatPlugins = [
   fecPlugin,
   pluginCypress.configs.recommended,
-  reactHooks.configs['recommended-latest'],
   jsdoc.configs['flat/recommended'],
-  testingLibrary.configs['flat/react'],
-  jestDom.configs['flat/recommended'],
+];
+
+const TEST_FILES = [
+  'src/**/*.test.{js,jsx,ts,tsx}',
+  'src/**/__tests__/**/*.{js,jsx,ts,tsx}',
 ];
 
 export default defineConfig([
@@ -33,7 +36,27 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': 'warn',
+      '@typescript-eslint/no-floating-promises': 'error',
       // Add other TypeScript-specific rules here
+    },
+  },
+  {
+    files: TEST_FILES,
+    ...jestDom.configs['flat/recommended'],
+  },
+  {
+    files: TEST_FILES,
+    ...testingLibrary.configs['flat/react'],
+  },
+  {
+    files: ['src/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}'],
+    ...reactHooks.configs['recommended-latest'],
+  },
+  {
+    ...playwright.configs['flat/recommended'],
+    files: ['_playwright-tests/**'],
+    rules: {
+      ...playwright.configs['flat/recommended'].rules,
     },
   },
   {

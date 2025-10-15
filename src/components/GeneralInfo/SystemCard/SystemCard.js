@@ -15,17 +15,17 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 const SystemCard = ({
   writePermissions,
   handleClick,
-  hasHostName,
-  hasDisplayName,
-  hasAnsibleHostname,
-  hasWorkspace,
-  hasSystemPurpose,
-  hasCPUs,
-  hasSockets,
-  hasCores,
-  hasCPUFlags,
-  hasRAM,
-  extra,
+  hasHostName = true,
+  hasDisplayName = true,
+  hasAnsibleHostname = true,
+  hasWorkspace = true,
+  hasSystemPurpose = true,
+  hasCPUs = true,
+  hasSockets = true,
+  hasCores = true,
+  hasCPUFlags = true,
+  hasRAM = true,
+  extra = [],
 }) => {
   const dispatch = useDispatch();
   const addNotification = useAddNotification();
@@ -86,7 +86,7 @@ const SystemCard = ({
                 ),
                 value: (
                   <NameInlineEdit
-                    textValue={entity?.display_name}
+                    textValue={entity?.display_name || ''}
                     onSubmit={(value) =>
                       onSubmit(editDisplayName, value, entity?.display_name)
                     }
@@ -109,7 +109,7 @@ const SystemCard = ({
                 ),
                 value: (
                   <NameInlineEdit
-                    textValue={getAnsibleHost(entity)}
+                    textValue={getAnsibleHost(entity) || ''}
                     writePermissions={writePermissions}
                     onSubmit={(value) =>
                       onSubmit(editAnsibleHost, value, getAnsibleHost(entity))
@@ -207,32 +207,6 @@ const SystemCard = ({
 };
 
 SystemCard.propTypes = {
-  detailLoaded: PropTypes.bool,
-  entity: PropTypes.shape({
-    display_name: PropTypes.string,
-
-    ansible_host: PropTypes.string,
-    fqdn: PropTypes.string,
-    id: PropTypes.string,
-  }),
-  properties: PropTypes.shape({
-    cpuNumber: PropTypes.number,
-    sockets: PropTypes.number,
-    coresPerSocket: PropTypes.number,
-    ramSize: PropTypes.string,
-    storage: PropTypes.arrayOf(
-      PropTypes.shape({
-        device: PropTypes.string,
-
-        mount_point: PropTypes.string,
-        options: PropTypes.shape({}),
-        type: PropTypes.string,
-      }),
-    ),
-    sapIds: PropTypes.arrayOf(PropTypes.string),
-    systemPurpose: PropTypes.string,
-    cpuFlags: PropTypes.array,
-  }),
   setDisplayName: PropTypes.func,
   setAnsibleHost: PropTypes.func,
   writePermissions: PropTypes.bool,
@@ -248,22 +222,6 @@ SystemCard.propTypes = {
   hasCPUFlags: PropTypes.bool,
   hasRAM: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
-};
-SystemCard.defaultProps = {
-  detailLoaded: false,
-  entity: {},
-  properties: {},
-  hasHostName: true,
-  hasDisplayName: true,
-  hasAnsibleHostname: true,
-  hasWorkspace: true,
-  hasSystemPurpose: true,
-  hasCPUs: true,
-  hasSockets: true,
-  hasCores: true,
-  hasCPUFlags: true,
-  hasRAM: true,
-  extra: [],
 };
 
 export default SystemCard;

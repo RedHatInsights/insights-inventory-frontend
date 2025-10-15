@@ -1,9 +1,8 @@
 import {
   fetchTags,
   getOsSelectOptions,
-  getLastSeenSelectOptions,
   getWorkspaceSelectOptions,
-} from './helpers';
+} from './filtersHelpers';
 import { getOperatingSystems } from '../../../../api';
 
 export const displayName = {
@@ -184,10 +183,9 @@ export const tags = {
 export const lastSeen = {
   label: 'Last seen',
   value: 'last_seen',
-  type: 'singleSelect',
-  items: getLastSeenSelectOptions,
-  filterSerialiser: (_config, [value]) => {
-    return value;
+  type: 'lastSeen',
+  filterSerialiser: (_config, value) => {
+    return { lastCheckInStart: value?.start, lastCheckInEnd: value?.end };
   },
 };
 
@@ -196,7 +194,7 @@ export const workspace = {
   type: 'workspace',
   items: getWorkspaceSelectOptions,
   filterSerialiser: (_config, values) => {
-    return values;
+    return { groupName: values };
   },
 };
 
@@ -207,10 +205,11 @@ export const workspace = {
  */
 export default [
   displayName,
-  status,
+  systemType,
+  operatingSystem,
   dataCollector,
   rhcStatus,
   tags,
-  systemType,
-  operatingSystem,
+  lastSeen,
+  workspace,
 ];

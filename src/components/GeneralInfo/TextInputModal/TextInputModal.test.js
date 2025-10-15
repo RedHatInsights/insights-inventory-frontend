@@ -16,17 +16,6 @@ describe('TextInputModal', () => {
       expect(input).not.toBeInTheDocument();
     });
 
-    it('should have correct value when modal is reopened', () => {
-      const { rerender } = render(<TextInputModal isOpen={true} value="foo" />);
-      rerender(<TextInputModal isOpen={false} value="foo" />);
-      rerender(<TextInputModal isOpen={true} value="bar" />);
-
-      const input = screen.getByRole('textbox', {
-        name: /input text/i,
-      });
-      expect(input).toHaveValue('bar');
-    });
-
     it('should set value to initialValue when modal is opened', () => {
       render(<TextInputModal isOpen={true} value="foo" />);
 

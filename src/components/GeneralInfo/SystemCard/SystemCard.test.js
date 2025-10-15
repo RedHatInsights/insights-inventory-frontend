@@ -54,8 +54,6 @@ describe('SystemCard', () => {
     mock.onGet('/api/inventory/v1/hosts/test-id').reply(200, mockedData);
     mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
 
-    location.pathname = 'localhost:3000/example/path';
-
     initialState = {
       entityDetails: {
         entity: {
@@ -81,7 +79,7 @@ describe('SystemCard', () => {
       <TestWrapper
         store={mockStore({ systemProfileStore: {}, entityDetails: {} })}
       >
-        <SystemCard />
+        <SystemCard writePermissions={true} />
       </TestWrapper>,
     );
 
@@ -106,7 +104,7 @@ describe('SystemCard', () => {
   it('should render correctly with data', () => {
     render(
       <TestWrapper store={mockStore(initialState)}>
-        <SystemCard />
+        <SystemCard writePermissions={true} />
       </TestWrapper>,
     );
 
@@ -147,7 +145,7 @@ describe('SystemCard', () => {
           },
         })}
       >
-        <SystemCard />
+        <SystemCard writePermissions={true} />
       </TestWrapper>,
     );
 
@@ -170,7 +168,7 @@ describe('SystemCard', () => {
           },
         })}
       >
-        <SystemCard />
+        <SystemCard writePermissions={true} />
       </TestWrapper>,
     );
 
@@ -195,7 +193,7 @@ describe('SystemCard', () => {
     it('should calculate correct ansible host - direct ansible host', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <SystemCard />
+          <SystemCard writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -220,7 +218,7 @@ describe('SystemCard', () => {
             },
           })}
         >
-          <SystemCard />
+          <SystemCard writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -245,7 +243,7 @@ describe('SystemCard', () => {
             },
           })}
         >
-          <SystemCard />
+          <SystemCard writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -259,7 +257,7 @@ describe('SystemCard', () => {
     it('should show edit display name', async () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <SystemCard />
+          <SystemCard writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -276,7 +274,7 @@ describe('SystemCard', () => {
     it('should show edit ansible hostname', async () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <SystemCard />
+          <SystemCard writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -298,7 +296,7 @@ describe('SystemCard', () => {
       const store = mockStore(initialState);
       render(
         <TestWrapper store={store}>
-          <SystemCard />
+          <SystemCard writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -322,7 +320,7 @@ describe('SystemCard', () => {
       const store = mockStore(initialState);
       render(
         <TestWrapper store={store}>
-          <SystemCard />
+          <SystemCard writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -354,7 +352,7 @@ describe('SystemCard', () => {
           })}
           routerProps={{ initialEntries: ['/example/flag'] }}
         >
-          <SystemCard handleClick={handleClick} />
+          <SystemCard handleClick={handleClick} writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -392,7 +390,7 @@ describe('SystemCard', () => {
   it.each(fieldsToTest)('should not render %s when disabled', (prop, label) => {
     render(
       <TestWrapper store={mockStore(initialState)}>
-        <SystemCard {...{ [prop]: false }} />
+        <SystemCard writePermissions={true} {...{ [prop]: false }} />
       </TestWrapper>,
     );
 
@@ -403,6 +401,7 @@ describe('SystemCard', () => {
     render(
       <TestWrapper store={mockStore(initialState)}>
         <SystemCard
+          writePermissions={true}
           extra={[
             { title: 'something', value: 'test' },
             {
@@ -452,7 +451,7 @@ describe('SystemCard', () => {
               },
             })}
           >
-            <SystemCard />
+            <SystemCard writePermissions={true} />
           </TestWrapper>,
         );
 
@@ -478,7 +477,7 @@ describe('SystemCard', () => {
             },
           })}
         >
-          <SystemCard />
+          <SystemCard writePermissions={true} />
         </TestWrapper>,
       );
 
@@ -518,7 +517,7 @@ describe('SystemCard', () => {
             })}
             routerProps={{ initialEntries: [`/example/${name.toLowerCase()}`] }}
           >
-            <SystemCard handleClick={handleClick} />
+            <SystemCard handleClick={handleClick} writePermissions={true} />
           </TestWrapper>,
         );
 

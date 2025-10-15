@@ -9,7 +9,7 @@ exports[`TextInputModal render should render aria label 1`] = `
   />
   <div
     class="pf-v6-c-backdrop"
-    id="pf-modal-part-8"
+    id="pf-modal-part-7"
   >
     <div
       class="pf-v6-l-bullseye"
@@ -18,10 +18,10 @@ exports[`TextInputModal render should render aria label 1`] = `
         aria-label="Some aria label - modal"
         aria-modal="true"
         class="pf-v6-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
-        data-ouia-component-id="OUIA-Generated-Modal-small-8"
+        data-ouia-component-id="OUIA-Generated-Modal-small-7"
         data-ouia-component-type="PF6/ModalContent"
         data-ouia-safe="true"
-        id="pf-modal-part-7"
+        id="pf-modal-part-6"
         role="dialog"
       >
         <div
@@ -30,7 +30,7 @@ exports[`TextInputModal render should render aria label 1`] = `
           <button
             aria-label="Close"
             class="pf-v6-c-button pf-m-plain"
-            data-ouia-component-id="OUIA-Generated-Modal-small-8-ModalBoxCloseButton"
+            data-ouia-component-id="OUIA-Generated-Modal-small-7-ModalBoxCloseButton"
             data-ouia-component-type="PF6/Button"
             data-ouia-safe="true"
             type="button"
@@ -74,191 +74,6 @@ exports[`TextInputModal render should render aria label 1`] = `
             <input
               aria-invalid="true"
               aria-label="Some aria label"
-              data-ouia-component-id="OUIA-Generated-TextInputBase-8"
-              data-ouia-component-type="PF6/TextInput"
-              data-ouia-safe="true"
-              type="text"
-              value=""
-            />
-            <span
-              class="pf-v6-c-form-control__utilities"
-            >
-              <span
-                class="pf-v6-c-form-control__icon pf-m-status"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="pf-v6-svg"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  viewBox="0 0 512 512"
-                  width="1em"
-                >
-                  <path
-                    d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-                  />
-                </svg>
-              </span>
-            </span>
-          </span>
-          <div
-            class="pf-v6-c-form__helper-text"
-          >
-            <div
-              aria-live="polite"
-              class="pf-v6-c-helper-text"
-              id="helper-text2"
-            >
-              <div
-                class="pf-v6-c-helper-text__item pf-m-error"
-              >
-                <span
-                  class="pf-v6-c-helper-text__item-icon"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="pf-v6-svg"
-                    fill="currentColor"
-                    height="1em"
-                    role="img"
-                    viewBox="0 0 512 512"
-                    width="1em"
-                  >
-                    <path
-                      d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-                    />
-                  </svg>
-                </span>
-                <span
-                  class="pf-v6-c-helper-text__item-text"
-                >
-                  Name cannot be blank
-                  <span
-                    class="pf-v6-screen-reader"
-                  >
-                    : 
-                    error status
-                    ;
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <footer
-          class="pf-v6-c-modal-box__footer"
-        >
-          <button
-            class="pf-v6-c-button pf-m-primary"
-            data-action="confirm"
-            data-ouia-component-id="OUIA-Generated-Button-primary-8"
-            data-ouia-component-type="PF6/Button"
-            data-ouia-safe="true"
-            disabled=""
-            type="button"
-          >
-            <span
-              class="pf-v6-c-button__text"
-            >
-              Save
-            </span>
-          </button>
-          <button
-            class="pf-v6-c-button pf-m-link"
-            data-action="cancel"
-            data-ouia-component-id="OUIA-Generated-Button-link-8"
-            data-ouia-component-type="PF6/Button"
-            data-ouia-safe="true"
-            type="button"
-          >
-            <span
-              class="pf-v6-c-button__text"
-            >
-              Cancel
-            </span>
-          </button>
-        </footer>
-      </div>
-    </div>
-  </div>
-</body>
-`;
-
-exports[`TextInputModal render should render open 1`] = `
-<body
-  class="pf-v6-c-backdrop__open"
->
-  <div
-    aria-hidden="true"
-  />
-  <div
-    class="pf-v6-c-backdrop"
-    id="pf-modal-part-6"
-  >
-    <div
-      class="pf-v6-l-bullseye"
-    >
-      <div
-        aria-label="input text - modal"
-        aria-modal="true"
-        class="pf-v6-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
-        data-ouia-component-id="OUIA-Generated-Modal-small-6"
-        data-ouia-component-type="PF6/ModalContent"
-        data-ouia-safe="true"
-        id="pf-modal-part-5"
-        role="dialog"
-      >
-        <div
-          class="pf-v6-c-modal-box__close"
-        >
-          <button
-            aria-label="Close"
-            class="pf-v6-c-button pf-m-plain"
-            data-ouia-component-id="OUIA-Generated-Modal-small-6-ModalBoxCloseButton"
-            data-ouia-component-type="PF6/Button"
-            data-ouia-safe="true"
-            type="button"
-          >
-            <span
-              class="pf-v6-c-button__icon"
-            >
-              <svg
-                aria-hidden="true"
-                class="pf-v6-svg"
-                fill="currentColor"
-                height="1em"
-                role="img"
-                viewBox="0 0 352 512"
-                width="1em"
-              >
-                <path
-                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-                />
-              </svg>
-            </span>
-          </button>
-        </div>
-        <header
-          class="pf-v6-c-modal-box__header"
-        >
-          <h1
-            class="pf-v6-c-modal-box__title"
-          >
-            <span
-              class="pf-v6-c-modal-box__title-text"
-            />
-          </h1>
-        </header>
-        <div
-          class="pf-v6-c-modal-box__body"
-        >
-          <span
-            class="pf-v6-c-form-control pf-m-error"
-          >
-            <input
-              aria-invalid="true"
-              aria-label="input text"
               data-ouia-component-id="OUIA-Generated-TextInputBase-6"
               data-ouia-component-type="PF6/TextInput"
               data-ouia-safe="true"
@@ -370,7 +185,7 @@ exports[`TextInputModal render should render open 1`] = `
 </body>
 `;
 
-exports[`TextInputModal render should render title 1`] = `
+exports[`TextInputModal render should render open 1`] = `
 <body
   class="pf-v6-c-backdrop__open"
 >
@@ -379,7 +194,7 @@ exports[`TextInputModal render should render title 1`] = `
   />
   <div
     class="pf-v6-c-backdrop"
-    id="pf-modal-part-7"
+    id="pf-modal-part-5"
   >
     <div
       class="pf-v6-l-bullseye"
@@ -388,10 +203,10 @@ exports[`TextInputModal render should render title 1`] = `
         aria-label="input text - modal"
         aria-modal="true"
         class="pf-v6-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
-        data-ouia-component-id="OUIA-Generated-Modal-small-7"
+        data-ouia-component-id="OUIA-Generated-Modal-small-5"
         data-ouia-component-type="PF6/ModalContent"
         data-ouia-safe="true"
-        id="pf-modal-part-6"
+        id="pf-modal-part-4"
         role="dialog"
       >
         <div
@@ -400,7 +215,7 @@ exports[`TextInputModal render should render title 1`] = `
           <button
             aria-label="Close"
             class="pf-v6-c-button pf-m-plain"
-            data-ouia-component-id="OUIA-Generated-Modal-small-7-ModalBoxCloseButton"
+            data-ouia-component-id="OUIA-Generated-Modal-small-5-ModalBoxCloseButton"
             data-ouia-component-type="PF6/Button"
             data-ouia-safe="true"
             type="button"
@@ -432,9 +247,7 @@ exports[`TextInputModal render should render title 1`] = `
           >
             <span
               class="pf-v6-c-modal-box__title-text"
-            >
-              Some title
-            </span>
+            />
           </h1>
         </header>
         <div
@@ -446,7 +259,7 @@ exports[`TextInputModal render should render title 1`] = `
             <input
               aria-invalid="true"
               aria-label="input text"
-              data-ouia-component-id="OUIA-Generated-TextInputBase-7"
+              data-ouia-component-id="OUIA-Generated-TextInputBase-4"
               data-ouia-component-type="PF6/TextInput"
               data-ouia-safe="true"
               type="text"
@@ -524,7 +337,7 @@ exports[`TextInputModal render should render title 1`] = `
           <button
             class="pf-v6-c-button pf-m-primary"
             data-action="confirm"
-            data-ouia-component-id="OUIA-Generated-Button-primary-7"
+            data-ouia-component-id="OUIA-Generated-Button-primary-4"
             data-ouia-component-type="PF6/Button"
             data-ouia-safe="true"
             disabled=""
@@ -539,7 +352,194 @@ exports[`TextInputModal render should render title 1`] = `
           <button
             class="pf-v6-c-button pf-m-link"
             data-action="cancel"
-            data-ouia-component-id="OUIA-Generated-Button-link-7"
+            data-ouia-component-id="OUIA-Generated-Button-link-4"
+            data-ouia-component-type="PF6/Button"
+            data-ouia-safe="true"
+            type="button"
+          >
+            <span
+              class="pf-v6-c-button__text"
+            >
+              Cancel
+            </span>
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`TextInputModal render should render title 1`] = `
+<body
+  class="pf-v6-c-backdrop__open"
+>
+  <div
+    aria-hidden="true"
+  />
+  <div
+    class="pf-v6-c-backdrop"
+    id="pf-modal-part-6"
+  >
+    <div
+      class="pf-v6-l-bullseye"
+    >
+      <div
+        aria-label="input text - modal"
+        aria-modal="true"
+        class="pf-v6-c-modal-box ins-c-inventory__detail--edit pf-m-sm"
+        data-ouia-component-id="OUIA-Generated-Modal-small-6"
+        data-ouia-component-type="PF6/ModalContent"
+        data-ouia-safe="true"
+        id="pf-modal-part-5"
+        role="dialog"
+      >
+        <div
+          class="pf-v6-c-modal-box__close"
+        >
+          <button
+            aria-label="Close"
+            class="pf-v6-c-button pf-m-plain"
+            data-ouia-component-id="OUIA-Generated-Modal-small-6-ModalBoxCloseButton"
+            data-ouia-component-type="PF6/Button"
+            data-ouia-safe="true"
+            type="button"
+          >
+            <span
+              class="pf-v6-c-button__icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 352 512"
+                width="1em"
+              >
+                <path
+                  d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+        <header
+          class="pf-v6-c-modal-box__header"
+        >
+          <h1
+            class="pf-v6-c-modal-box__title"
+          >
+            <span
+              class="pf-v6-c-modal-box__title-text"
+            >
+              Some title
+            </span>
+          </h1>
+        </header>
+        <div
+          class="pf-v6-c-modal-box__body"
+        >
+          <span
+            class="pf-v6-c-form-control pf-m-error"
+          >
+            <input
+              aria-invalid="true"
+              aria-label="input text"
+              data-ouia-component-id="OUIA-Generated-TextInputBase-5"
+              data-ouia-component-type="PF6/TextInput"
+              data-ouia-safe="true"
+              type="text"
+              value=""
+            />
+            <span
+              class="pf-v6-c-form-control__utilities"
+            >
+              <span
+                class="pf-v6-c-form-control__icon pf-m-status"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="pf-v6-svg"
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+                  />
+                </svg>
+              </span>
+            </span>
+          </span>
+          <div
+            class="pf-v6-c-form__helper-text"
+          >
+            <div
+              aria-live="polite"
+              class="pf-v6-c-helper-text"
+              id="helper-text2"
+            >
+              <div
+                class="pf-v6-c-helper-text__item pf-m-error"
+              >
+                <span
+                  class="pf-v6-c-helper-text__item-icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="pf-v6-svg"
+                    fill="currentColor"
+                    height="1em"
+                    role="img"
+                    viewBox="0 0 512 512"
+                    width="1em"
+                  >
+                    <path
+                      d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="pf-v6-c-helper-text__item-text"
+                >
+                  Name cannot be blank
+                  <span
+                    class="pf-v6-screen-reader"
+                  >
+                    : 
+                    error status
+                    ;
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer
+          class="pf-v6-c-modal-box__footer"
+        >
+          <button
+            class="pf-v6-c-button pf-m-primary"
+            data-action="confirm"
+            data-ouia-component-id="OUIA-Generated-Button-primary-5"
+            data-ouia-component-type="PF6/Button"
+            data-ouia-safe="true"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="pf-v6-c-button__text"
+            >
+              Save
+            </span>
+          </button>
+          <button
+            class="pf-v6-c-button pf-m-link"
+            data-action="cancel"
+            data-ouia-component-id="OUIA-Generated-Button-link-5"
             data-ouia-component-type="PF6/Button"
             data-ouia-safe="true"
             type="button"

@@ -107,6 +107,14 @@ export const ensureInPreview = async (page: Page) => {
   await expect(toggle).toBeChecked();
 };
 
+
+/**
+ * Registers Playwright `addLocatorHandler` listeners to automatically close
+ * common intrusive pop-ups, such as toast notifications, Pendo guides,
+ * and consent banners, before test actions proceed.
+ *
+ * @param {Page} page - The Playwright Page object.
+ */
 export const closePopupsIfExist = async (page: Page) => {
   const locatorsToCheck = [
     page.locator('.pf-v6-c-alert.notification-item button'), // This closes all toast pop-ups

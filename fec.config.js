@@ -139,6 +139,7 @@ module.exports = {
         __dirname,
         '/src/modules/IOPInventoryTable.js',
       ),
+      './SystemsTable': resolve(__dirname, 'src/modules/SystemsTable.js'),
     },
   },
   _unstableSpdy: true,
