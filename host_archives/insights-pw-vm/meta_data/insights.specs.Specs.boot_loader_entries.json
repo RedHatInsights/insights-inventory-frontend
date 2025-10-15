@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.boot_loader_entries", "exec_time": 3.6716461181640625e-05, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "boot/loader/entries/ffffffffffffffffffffffffffffffff-5.14.0-427.13.1.el9_4.x86_64.conf", "rc": null}}], "ser_time": 0.0006749629974365234}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.dracut_kdump_capture_service", "exec_time": 4.8160552978515625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "usr/lib/dracut/modules.d/99kdumpbase/kdump-capture.service", "rc": null}}, "ser_time": 0.0009725093841552734}

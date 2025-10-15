@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.resolv_conf", "exec_time": 4.3392181396484375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/resolv.conf", "rc": null}}, "ser_time": 0.0003871917724609375}

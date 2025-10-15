@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.vma_ra_enabled", "exec_time": 4.482269287109375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "sys/kernel/mm/swap/vma_ra_enabled", "rc": null}}, "ser_time": 0.0003669261932373047}

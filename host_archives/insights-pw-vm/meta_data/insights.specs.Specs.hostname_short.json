@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.hostname_short", "exec_time": 7.700920104980469e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/hostname -s", "args": null, "save_as": false, "relative_path": "insights_commands/hostname_-s"}}, "ser_time": 0.004023075103759766}

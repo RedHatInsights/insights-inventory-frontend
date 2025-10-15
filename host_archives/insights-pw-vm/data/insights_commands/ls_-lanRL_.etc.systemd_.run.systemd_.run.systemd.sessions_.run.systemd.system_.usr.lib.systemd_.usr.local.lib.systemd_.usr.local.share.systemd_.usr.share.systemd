@@ -1,0 +1,1348 @@
+/bin/ls: cannot access '/usr/local/lib/systemd': No such file or directory
+/bin/ls: cannot access '/usr/local/share/systemd': No such file or directory
+/etc/systemd:
+total 44
+drwxr-xr-x.  4 0 0  166 Apr 19  2024 .
+drwxr-xr-x. 93 0 0 8192 Mar 20 06:21 ..
+-rw-r--r--.  1 0 0  845 Oct 31  2022 coredump.conf
+-rw-r--r--.  1 0 0 1278 Mar 19  2024 journald.conf
+-rw-r--r--.  1 0 0 1538 Mar 19  2024 logind.conf
+-rw-r--r--.  1 0 0  670 Oct 31  2022 pstore.conf
+-rw-r--r--.  1 0 0  953 Mar 19  2024 sleep.conf
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 system
+-rw-r--r--.  1 0 0 2091 Mar 19  2024 system.conf
+drwxr-xr-x.  5 0 0  107 Apr 19  2024 user
+-rw-r--r--.  1 0 0 1418 Mar 19  2024 user.conf
+
+/etc/systemd/system:
+total 24
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 .
+drwxr-xr-x.  4 0 0  166 Apr 19  2024 ..
+drwxr-xr-x.  2 0 0   31 Apr 19  2024 basic.target.wants
+drwxr-xr-x.  2 0 0  119 Apr 19  2024 cloud-init.target.wants
+-rw-r--r--.  1 0 0  598 Oct 31  2022 ctrl-alt-del.target
+-rw-r--r--.  1 0 0  696 Mar 26  2024 dbus-org.freedesktop.nm-dispatcher.service
+-rw-r--r--.  1 0 0  529 Aug 23  2022 dbus.service
+-rw-r--r--.  1 0 0  540 Oct 31  2022 default.target
+drwxr-xr-x.  2 0 0   38 Apr 19  2024 dev-virtio\x2dports-org.qemu.guest_agent.0.device.wants
+drwxr-xr-x.  2 0 0   32 Apr 19  2024 getty.target.wants
+drwxr-xr-x.  2 0 0   42 Mar 20 06:25 insights-client.timer.wants
+drwxr-xr-x.  2 0 0 4096 Apr 19  2024 multi-user.target.wants
+drwxr-xr-x.  2 0 0   48 Apr 19  2024 network-online.target.wants
+drwxr-xr-x.  2 0 0   31 Apr 19  2024 remote-fs.target.wants
+drwxr-xr-x.  2 0 0   70 Apr 19  2024 sockets.target.wants
+drwxr-xr-x.  2 0 0   59 Apr 19  2024 sshd-keygen@.service.d
+drwxr-xr-x.  2 0 0  152 Apr 19  2024 sysinit.target.wants
+drwxr-xr-x.  2 0 0   85 Mar 20 06:25 timers.target.wants
+
+/etc/systemd/system/basic.target.wants:
+total 8
+drwxr-xr-x.  2 0 0   31 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  284 Nov  6  2023 microcode.service
+
+/etc/systemd/system/cloud-init.target.wants:
+total 20
+drwxr-xr-x.  2 0 0  119 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  612 Mar 14  2024 cloud-config.service
+-rw-r--r--.  1 0 0  822 Mar 14  2024 cloud-final.service
+-rw-r--r--.  1 0 0  912 Mar 14  2024 cloud-init-local.service
+-rw-r--r--.  1 0 0  759 Mar 14  2024 cloud-init.service
+
+/etc/systemd/system/dev-virtio\x2dports-org.qemu.guest_agent.0.device.wants:
+total 8
+drwxr-xr-x.  2 0 0   38 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  491 Mar 26  2024 qemu-guest-agent.service
+
+/etc/systemd/system/getty.target.wants:
+total 8
+drwxr-xr-x.  2 0 0   32 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 2002 Mar 19  2024 getty@tty1.service
+
+/etc/systemd/system/insights-client.timer.wants:
+total 8
+drwxr-xr-x.  2 0 0   42 Mar 20 06:25 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  649 Feb 15  2024 insights-client-results.path
+
+/etc/systemd/system/multi-user.target.wants:
+total 68
+drwxr-xr-x.  2 0 0 4096 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 1460 Mar 26  2024 NetworkManager.service
+-rw-r--r--.  1 0 0 1771 Nov  8  2023 auditd.service
+-rw-r--r--.  1 0 0 1468 Jan 23  2024 chronyd.service
+-rw-r--r--.  1 0 0  371 Nov 30  2023 crond.service
+-rw-r--r--.  1 0 0  873 Sep 20  2023 insights-client-boot.service
+-rw-r--r--.  1 0 0  442 Aug 14  2023 irqbalance.service
+-rw-r--r--.  1 0 0  403 Jan 30  2024 kdump.service
+-rw-r--r--.  1 0 0  433 Feb 18  2024 nfs-client.target
+-rw-r--r--.  1 0 0  530 Oct 31  2022 remote-fs.target
+-rw-r--r--.  1 0 0  184 Jan 18  2024 rhsmcertd.service
+-rw-r--r--.  1 0 0  544 Feb 15  2024 rpcbind.service
+-rw-r--r--.  1 0 0  999 Jan  8  2024 rsyslog.service
+-rw-r--r--.  1 0 0  372 Jan  5  2024 sshd.service
+-rw-r--r--.  1 0 0  768 Feb 12  2024 sssd.service
+-rw-r--r--.  1 0 0  439 Feb 22  2024 tuned.service
+
+/etc/systemd/system/network-online.target.wants:
+total 8
+drwxr-xr-x.  2 0 0   48 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 1173 Mar 26  2024 NetworkManager-wait-online.service
+
+/etc/systemd/system/remote-fs.target.wants:
+total 8
+drwxr-xr-x.  2 0 0   31 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  433 Feb 18  2024 nfs-client.target
+
+/etc/systemd/system/sockets.target.wants:
+total 16
+drwxr-xr-x.  2 0 0   70 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  137 Jun 12  2023 dbus.socket
+-rw-r--r--.  1 0 0  368 Feb 15  2024 rpcbind.socket
+-rw-r--r--.  1 0 0  182 Feb 12  2024 sssd-kcm.socket
+
+/etc/systemd/system/sshd-keygen@.service.d:
+total 8
+drwxr-xr-x.  2 0 0   59 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  410 Dec  4  2023 disable-sshd-keygen-if-cloud-init-active.conf
+
+/etc/systemd/system/sysinit.target.wants:
+total 20
+drwxr-xr-x.  2 0 0  152 Apr 19  2024 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  378 Aug  9  2021 nis-domainname.service
+-rw-r--r--.  1 0 0  406 Feb 19  2024 selinux-autorelabel-mark.service
+-rw-r--r--.  1 0 0  685 Mar 19  2024 systemd-boot-update.service
+-rw-r--r--.  1 0 0  792 Mar 19  2024 systemd-network-generator.service
+
+/etc/systemd/system/timers.target.wants:
+total 16
+drwxr-xr-x.  2 0 0   85 Mar 20 06:25 .
+drwxr-xr-x. 14 0 0 4096 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  320 Sep  9  2022 dnf-makecache.timer
+-rw-r--r--.  1 0 0  696 Sep 20  2023 insights-client.timer
+-rw-r--r--.  1 0 0  191 Oct 14  2019 logrotate.timer
+
+/etc/systemd/user:
+total 4
+drwxr-xr-x. 5 0 0 107 Apr 19  2024 .
+drwxr-xr-x. 4 0 0 166 Apr 19  2024 ..
+drwxr-xr-x. 2 0 0  44 Apr 19  2024 basic.target.wants
+-rw-r--r--. 1 0 0 431 Aug 23  2022 dbus.service
+drwxr-xr-x. 2 0 0  25 Apr 19  2024 sockets.target.wants
+drwxr-xr-x. 2 0 0  42 Apr 19  2024 timers.target.wants
+
+/etc/systemd/user/basic.target.wants:
+total 4
+drwxr-xr-x. 2 0 0  44 Apr 19  2024 .
+drwxr-xr-x. 5 0 0 107 Apr 19  2024 ..
+-rw-r--r--. 1 0 0 728 Oct 31  2022 systemd-tmpfiles-setup.service
+
+/etc/systemd/user/sockets.target.wants:
+total 4
+drwxr-xr-x. 2 0 0  25 Apr 19  2024 .
+drwxr-xr-x. 5 0 0 107 Apr 19  2024 ..
+-rw-r--r--. 1 0 0 213 Jun 12  2023 dbus.socket
+
+/etc/systemd/user/timers.target.wants:
+total 4
+drwxr-xr-x. 2 0 0  42 Apr 19  2024 .
+drwxr-xr-x. 5 0 0 107 Apr 19  2024 ..
+-rw-r--r--. 1 0 0 541 Oct 31  2022 systemd-tmpfiles-clean.timer
+
+/run/systemd:
+total 0
+drwxr-xr-x. 23 0 0  580 Mar 20 06:25 .
+drwxr-xr-x. 31 0 0 1000 Mar 20 06:25 ..
+drwxr-xr-x.  2 0 0   40 Mar 20 06:20 ask-password
+drwx------.  2 0 0   60 Mar 20 06:25 ask-password********
+srw-------.  1 0 0    0 Mar 20 06:20 coredump
+drwxr-xr-x.  5 0 0  160 Mar 20 06:25 generator
+drwxr-xr-x.  3 0 0   60 Mar 20 06:25 generator.early
+drwxr-xr-x.  3 0 0  100 Mar 20 06:25 generator.late
+drwxr-xr-x.  3 0 0  160 Mar 20 06:20 inaccessible
+drwxr-xr-x.  2 0 0   40 Mar 20 06:20 incoming
+drwxr-xr-x.  2 0 0   80 Mar 20 06:21 inhibit
+srw-rw-rw-.  1 0 0    0 Mar 20 06:20 io.system.ManagedOOM
+drwxr-xr-x.  3 0 0  160 Mar 20 06:20 journal
+drwxr-xr-x.  2 0 0   40 Mar 20 06:20 machines
+drwxr-xr-x.  2 0 0   40 Mar 20 06:20 network
+srwxrwxrwx.  1 0 0    0 Mar 20 06:20 notify
+srwx------.  1 0 0    0 Mar 20 06:20 private
+drw-------. 11 0 0  220 Mar 20 06:26 propagate
+drwxr-xr-x.  2 0 0   60 Mar 20 06:20 seats
+drwxr-xr-x.  2 0 0   80 Mar 20 06:24 sessions
+-rw-r--r--.  1 0 0    0 Mar 20 06:20 show-status
+drwxr-xr-x.  2 0 0   40 Mar 20 06:20 shutdown
+drwxr-xr-x.  2 0 0   40 Mar 20 06:20 system
+-r--r--r--.  1 0 0    0 Mar 20 06:25 systemd-units-load
+drwxr-xr-x.  2 0 0   60 Mar 20 06:24 transient
+drwx------.  2 0 0   40 Mar 20 06:20 unit-root
+drwxr-xr-x.  2 0 0 1260 Mar 20 06:26 units
+drwxr-xr-x.  2 0 0   60 Mar 20 06:20 userdb
+drwxr-xr-x.  2 0 0   60 Mar 20 06:24 users
+
+/run/systemd/ask-password:
+total 0
+drwxr-xr-x.  2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+
+/run/systemd/ask-password********:
+total 0
+drwx------.  2 0 0  60 Mar 20 06:25 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+prw-------.  1 0 0   0 Mar 20 06:25 136:0
+
+/run/systemd/generator:
+total 12
+-rw-r--r--.  1 0 0 341 Mar 20 06:25 -.mount
+drwxr-xr-x.  5 0 0 160 Mar 20 06:25 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 465 Mar 20 06:25 boot-efi.mount
+-rw-r--r--.  1 0 0 345 Mar 20 06:25 boot.mount
+drwxr-xr-x.  2 0 0  60 Mar 20 06:25 getty.target.wants
+drwxr-xr-x.  2 0 0 100 Mar 20 06:25 local-fs.target.requires
+drwxr-xr-x.  2 0 0  60 Mar 20 06:25 local-fs.target.wants
+
+/run/systemd/generator/getty.target.wants:
+total 4
+drwxr-xr-x. 2 0 0   60 Mar 20 06:25 .
+drwxr-xr-x. 5 0 0  160 Mar 20 06:25 ..
+-rw-r--r--. 1 0 0 1519 Mar 19  2024 serial-getty@ttyS0.service
+
+/run/systemd/generator/local-fs.target.requires:
+total 12
+-rw-r--r--. 1 0 0 341 Mar 20 06:25 -.mount
+drwxr-xr-x. 2 0 0 100 Mar 20 06:25 .
+drwxr-xr-x. 5 0 0 160 Mar 20 06:25 ..
+-rw-r--r--. 1 0 0 465 Mar 20 06:25 boot-efi.mount
+-rw-r--r--. 1 0 0 345 Mar 20 06:25 boot.mount
+
+/run/systemd/generator/local-fs.target.wants:
+total 4
+drwxr-xr-x. 2 0 0  60 Mar 20 06:25 .
+drwxr-xr-x. 5 0 0 160 Mar 20 06:25 ..
+-rw-r--r--. 1 0 0 779 Mar 19  2024 systemd-remount-fs.service
+
+/run/systemd/generator.early:
+total 0
+drwxr-xr-x.  3 0 0  60 Mar 20 06:25 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+drwxr-xr-x.  2 0 0  60 Mar 20 06:25 multi-user.target.wants
+
+/run/systemd/generator.early/multi-user.target.wants:
+total 4
+drwxr-xr-x. 2 0 0  60 Mar 20 06:25 .
+drwxr-xr-x. 3 0 0  60 Mar 20 06:25 ..
+-rw-r--r--. 1 0 0 674 Dec  4  2023 cloud-init.target
+
+/run/systemd/generator.late:
+total 8
+drwxr-xr-x.  3 0 0 100 Mar 20 06:25 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 197 Mar 20 06:25 efi.automount
+-rw-r--r--.  1 0 0 335 Mar 20 06:25 efi.mount
+drwxr-xr-x.  2 0 0  60 Mar 20 06:25 local-fs.target.wants
+
+/run/systemd/generator.late/local-fs.target.wants:
+total 4
+drwxr-xr-x. 2 0 0  60 Mar 20 06:25 .
+drwxr-xr-x. 3 0 0 100 Mar 20 06:25 ..
+-rw-r--r--. 1 0 0 197 Mar 20 06:25 efi.automount
+
+/run/systemd/inaccessible:
+total 0
+drwxr-xr-x.  3 0 0  160 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0  580 Mar 20 06:25 ..
+b---------.  1 0 0 0, 0 Mar 20 06:20 blk
+c---------.  1 0 0 0, 0 Mar 20 06:20 chr
+d---------.  2 0 0   40 Mar 20 06:20 dir
+p---------.  1 0 0    0 Mar 20 06:20 fifo
+----------.  1 0 0    0 Mar 20 06:20 reg
+s---------.  1 0 0    0 Mar 20 06:20 sock
+
+/run/systemd/inaccessible/dir:
+total 0
+d---------. 2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 3 0 0 160 Mar 20 06:20 ..
+
+/run/systemd/incoming:
+total 0
+drwxr-xr-x.  2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+
+/run/systemd/inhibit:
+total 4
+drwxr-xr-x.  2 0 0  80 Mar 20 06:21 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 171 Mar 20 06:21 1
+prw-------.  1 0 0   0 Mar 20 06:21 1.ref
+
+/run/systemd/journal:
+total 4
+drwxr-xr-x.  3 0 0 160 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+srw-rw-rw-.  1 0 0   0 Mar 20 06:20 dev-log
+srw-------.  1 0 0   0 Mar 20 06:20 io.systemd.journal
+-rw-r--r--.  1 0 0   8 Mar 20 06:20 kernel-seqnum
+srw-rw-rw-.  1 0 0   0 Mar 20 06:20 socket
+srw-rw-rw-.  1 0 0   0 Mar 20 06:20 stdout
+drwxr-xr-x.  2 0 0 260 Mar 20 06:26 streams
+
+/run/systemd/journal/streams:
+total 44
+drwxr-xr-x. 2 0 0 260 Mar 20 06:26 .
+drwxr-xr-x. 3 0 0 160 Mar 20 06:20 ..
+-rw-------. 1 0 0 218 Mar 20 06:20 8:20617
+-rw-------. 1 0 0 206 Mar 20 06:20 8:21024
+-rw-------. 1 0 0 221 Mar 20 06:20 8:22114
+-rw-------. 1 0 0 220 Mar 20 06:20 8:22182
+-rw-------. 1 0 0 220 Mar 20 06:21 8:22759
+-rw-------. 1 0 0 208 Mar 20 06:21 8:22890
+-rw-------. 1 0 0 202 Mar 20 06:21 8:22904
+-rw-------. 1 0 0 200 Mar 20 06:21 8:24686
+-rw-------. 1 0 0 202 Mar 20 06:21 8:24773
+-rw-------. 1 0 0 208 Mar 20 06:24 8:28571
+-rw-------. 1 0 0 222 Mar 20 06:26 8:35932
+
+/run/systemd/machines:
+total 0
+drwxr-xr-x.  2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+
+/run/systemd/network:
+total 0
+drwxr-xr-x.  2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+
+/run/systemd/propagate:
+total 0
+drw-------. 11 0 0 220 Mar 20 06:26 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+drw-------.  2 0 0  40 Mar 20 06:21 NetworkManager.service
+drw-------.  2 0 0  40 Mar 20 06:20 auditd.service
+drw-------.  2 0 0  40 Mar 20 06:20 chronyd.service
+drw-------.  2 0 0  40 Mar 20 06:20 dbus-broker.service
+drw-------.  2 0 0  40 Mar 20 06:21 kdump.service
+drw-------.  2 0 0  40 Mar 20 06:21 rsyslog.service
+drw-------.  2 0 0  40 Mar 20 06:26 systemd-localed.service
+drw-------.  2 0 0  40 Mar 20 06:20 systemd-logind.service
+drw-------.  2 0 0  40 Mar 20 06:20 systemd-udevd.service
+
+/run/systemd/propagate/NetworkManager.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:21 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/propagate/auditd.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:20 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/propagate/chronyd.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:20 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/propagate/dbus-broker.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:20 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/propagate/kdump.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:21 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/propagate/rsyslog.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:21 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/propagate/systemd-localed.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:26 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/propagate/systemd-logind.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:20 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/propagate/systemd-udevd.service:
+total 0
+drw-------.  2 0 0  40 Mar 20 06:20 .
+drw-------. 11 0 0 220 Mar 20 06:26 ..
+
+/run/systemd/seats:
+total 4
+drwxr-xr-x.  2 0 0  60 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0  95 Mar 20 06:20 seat0
+
+/run/systemd/sessions:
+total 4
+drwxr-xr-x.  2 0 0  80 Mar 20 06:24 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 316 Mar 20 06:24 1
+prw-------.  1 0 0   0 Mar 20 06:24 1.ref
+
+/run/systemd/shutdown:
+total 0
+drwxr-xr-x.  2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+
+/run/systemd/system:
+total 0
+drwxr-xr-x.  2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+
+/run/systemd/transient:
+total 4
+drwxr-xr-x.  2 0 0  60 Mar 20 06:24 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 452 Mar 20 06:24 session-1.scope
+
+/run/systemd/unit-root:
+total 0
+drwx------.  2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+
+/run/systemd/units:
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-localed.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:efi.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:session-1.scope': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:user@1000.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:user-runtime-dir@1000.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:serial-getty@ttyS0.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:getty@tty1.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:crond.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-user-sessions.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:cloud-final.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:sshd.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:rsyslog.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:rpc-statd-notify.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:kdump.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:cloud-config.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:polkit.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:cloud-init.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:tuned.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:rhsmcertd.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:gssproxy.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:NetworkManager-wait-online.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:NetworkManager.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-logind.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:dracut-shutdown.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:chronyd.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:dbus-broker.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:cloud-init-local.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-update-done.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-update-utmp.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-journal-catalog-update.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:rpcbind.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:auditd.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-fsck@dev-vda2.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-tmpfiles-setup.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-machine-id-commit.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-boot-update.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:ldconfig.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:boot-efi.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:boot.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-fsck@dev-disk-by\x2duuid-7B77\x2d95E7.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:sys-fs-fuse-connections.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-udevd.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-tmpfiles-setup-dev.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-journal-flush.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-sysusers.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-random-seed.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-hwdb-update.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-sysctl.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:sys-kernel-config.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-udev-trigger.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-remount-fs.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-network-generator.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-modules-load.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:systemd-journald.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:nis-domainname.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:kmod-static-nodes.service': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:sys-kernel-tracing.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:sys-kernel-debug.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:dev-mqueue.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:dev-hugepages.mount': No such file or directory
+/bin/ls: cannot access '/run/systemd/units/invocation:sysroot.mount': No such file or directory
+total 0
+drwxr-xr-x.  2 0 0 1260 Mar 20 06:26 .
+drwxr-xr-x. 23 0 0  580 Mar 20 06:25 ..
+l??????????  ? ? ?    ?            ? invocation:NetworkManager-wait-online.service
+l??????????  ? ? ?    ?            ? invocation:NetworkManager.service
+l??????????  ? ? ?    ?            ? invocation:auditd.service
+l??????????  ? ? ?    ?            ? invocation:boot-efi.mount
+l??????????  ? ? ?    ?            ? invocation:boot.mount
+l??????????  ? ? ?    ?            ? invocation:chronyd.service
+l??????????  ? ? ?    ?            ? invocation:cloud-config.service
+l??????????  ? ? ?    ?            ? invocation:cloud-final.service
+l??????????  ? ? ?    ?            ? invocation:cloud-init-local.service
+l??????????  ? ? ?    ?            ? invocation:cloud-init.service
+l??????????  ? ? ?    ?            ? invocation:crond.service
+l??????????  ? ? ?    ?            ? invocation:dbus-broker.service
+l??????????  ? ? ?    ?            ? invocation:dev-hugepages.mount
+l??????????  ? ? ?    ?            ? invocation:dev-mqueue.mount
+l??????????  ? ? ?    ?            ? invocation:dracut-shutdown.service
+l??????????  ? ? ?    ?            ? invocation:efi.mount
+l??????????  ? ? ?    ?            ? invocation:getty@tty1.service
+l??????????  ? ? ?    ?            ? invocation:gssproxy.service
+l??????????  ? ? ?    ?            ? invocation:kdump.service
+l??????????  ? ? ?    ?            ? invocation:kmod-static-nodes.service
+l??????????  ? ? ?    ?            ? invocation:ldconfig.service
+l??????????  ? ? ?    ?            ? invocation:nis-domainname.service
+l??????????  ? ? ?    ?            ? invocation:polkit.service
+l??????????  ? ? ?    ?            ? invocation:rhsmcertd.service
+l??????????  ? ? ?    ?            ? invocation:rpc-statd-notify.service
+l??????????  ? ? ?    ?            ? invocation:rpcbind.service
+l??????????  ? ? ?    ?            ? invocation:rsyslog.service
+l??????????  ? ? ?    ?            ? invocation:serial-getty@ttyS0.service
+l??????????  ? ? ?    ?            ? invocation:session-1.scope
+l??????????  ? ? ?    ?            ? invocation:sshd.service
+l??????????  ? ? ?    ?            ? invocation:sys-fs-fuse-connections.mount
+l??????????  ? ? ?    ?            ? invocation:sys-kernel-config.mount
+l??????????  ? ? ?    ?            ? invocation:sys-kernel-debug.mount
+l??????????  ? ? ?    ?            ? invocation:sys-kernel-tracing.mount
+l??????????  ? ? ?    ?            ? invocation:sysroot.mount
+l??????????  ? ? ?    ?            ? invocation:systemd-boot-update.service
+l??????????  ? ? ?    ?            ? invocation:systemd-fsck@dev-disk-by\x2duuid-7B77\x2d95E7.service
+l??????????  ? ? ?    ?            ? invocation:systemd-fsck@dev-vda2.service
+l??????????  ? ? ?    ?            ? invocation:systemd-hwdb-update.service
+l??????????  ? ? ?    ?            ? invocation:systemd-journal-catalog-update.service
+l??????????  ? ? ?    ?            ? invocation:systemd-journal-flush.service
+l??????????  ? ? ?    ?            ? invocation:systemd-journald.service
+l??????????  ? ? ?    ?            ? invocation:systemd-localed.service
+l??????????  ? ? ?    ?            ? invocation:systemd-logind.service
+l??????????  ? ? ?    ?            ? invocation:systemd-machine-id-commit.service
+l??????????  ? ? ?    ?            ? invocation:systemd-modules-load.service
+l??????????  ? ? ?    ?            ? invocation:systemd-network-generator.service
+l??????????  ? ? ?    ?            ? invocation:systemd-random-seed.service
+l??????????  ? ? ?    ?            ? invocation:systemd-remount-fs.service
+l??????????  ? ? ?    ?            ? invocation:systemd-sysctl.service
+l??????????  ? ? ?    ?            ? invocation:systemd-sysusers.service
+l??????????  ? ? ?    ?            ? invocation:systemd-tmpfiles-setup-dev.service
+l??????????  ? ? ?    ?            ? invocation:systemd-tmpfiles-setup.service
+l??????????  ? ? ?    ?            ? invocation:systemd-udev-trigger.service
+l??????????  ? ? ?    ?            ? invocation:systemd-udevd.service
+l??????????  ? ? ?    ?            ? invocation:systemd-update-done.service
+l??????????  ? ? ?    ?            ? invocation:systemd-update-utmp.service
+l??????????  ? ? ?    ?            ? invocation:systemd-user-sessions.service
+l??????????  ? ? ?    ?            ? invocation:tuned.service
+l??????????  ? ? ?    ?            ? invocation:user-runtime-dir@1000.service
+l??????????  ? ? ?    ?            ? invocation:user@1000.service
+
+/run/systemd/userdb:
+total 0
+drwxr-xr-x.  2 0 0  60 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+srw-rw-rw-.  1 0 0   0 Mar 20 06:20 io.systemd.DynamicUser
+
+/run/systemd/users:
+total 4
+drwxr-xr-x.  2 0 0  60 Mar 20 06:24 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 240 Mar 20 06:24 1000
+
+/run/systemd/sessions:
+total 4
+drwxr-xr-x.  2 0 0  80 Mar 20 06:24 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+-rw-r--r--.  1 0 0 316 Mar 20 06:24 1
+prw-------.  1 0 0   0 Mar 20 06:24 1.ref
+
+/run/systemd/system:
+total 0
+drwxr-xr-x.  2 0 0  40 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+
+/usr/lib/systemd:
+total 2644
+drwxr-xr-x. 15 0 0   4096 Apr 19  2024 .
+dr-xr-xr-x. 32 0 0   4096 Apr 19  2024 ..
+drwxr-xr-x.  2 0 0      6 Mar 19  2024 boot
+drwxr-xr-x.  2 0 0   4096 Apr 19  2024 catalog
+-rw-r--r--.  1 0 0    100 Mar 19  2024 libsystemd-shared.abignore
+drwxr-xr-x.  2 0 0     29 Apr 19  2024 network
+drwxr-xr-x.  2 0 0     29 Apr 19  2024 ntp-units.d
+-rwxr-xr-x.  1 0 0   2355 Mar 19  2024 purge-nobody-user
+-rw-r--r--.  1 0 0    710 Oct 31  2022 resolv.conf
+drwxr-xr-x. 30 0 0  16384 Apr 19  2024 system
+drwxr-xr-x.  2 0 0   4096 Apr 19  2024 system-generators
+drwxr-xr-x.  2 0 0    148 Apr 19  2024 system-preset
+drwxr-xr-x.  2 0 0     28 Apr 19  2024 system-shutdown
+drwxr-xr-x.  2 0 0      6 Mar 19  2024 system-sleep
+-rwxr-xr-x.  1 0 0  98224 Mar 19  2024 systemd
+-rwxr-xr-x.  1 0 0  15568 Mar 19  2024 systemd-ac-power
+-rwxr-xr-x.  1 0 0  36392 Mar 19  2024 systemd-backlight
+-rwxr-xr-x.  1 0 0  24056 Mar 19  2024 systemd-binfmt
+-rwxr-xr-x.  1 0 0  32544 Mar 19  2024 systemd-bless-boot
+-rwxr-xr-x.  1 0 0  15840 Mar 19  2024 systemd-boot-check-no-failures
+-rwxr-xr-x.  1 0 0  15776 Mar 19  2024 systemd-cgroups-agent
+-rwxr-xr-x.  1 0 0  69520 Mar 19  2024 systemd-coredump
+-rwxr-xr-x.  1 0 0  86544 Mar 19  2024 systemd-cryptsetup
+-rwxr-xr-x.  1 0 0  44768 Mar 19  2024 systemd-export
+-rwxr-xr-x.  1 0 0  32248 Mar 19  2024 systemd-fsck
+-rwxr-xr-x.  1 0 0  23992 Mar 19  2024 systemd-growfs
+-rwxr-xr-x.  1 0 0  15584 Mar 19  2024 systemd-hibernate-resume
+-rwxr-xr-x.  1 0 0  53328 Mar 19  2024 systemd-hostnamed
+-rwxr-xr-x.  1 0 0  24072 Mar 19  2024 systemd-initctl
+-rwxr-xr-x.  1 0 0  24256 Mar 19  2024 systemd-integritysetup
+-rwxr-xr-x.  1 0 0 185640 Mar 19  2024 systemd-journald
+-rwxr-xr-x.  1 0 0  53104 Mar 19  2024 systemd-localed
+-rwxr-xr-x.  1 0 0 303000 Mar 19  2024 systemd-logind
+-rwxr-xr-x.  1 0 0  15776 Mar 19  2024 systemd-makefs
+-rwxr-xr-x.  1 0 0  53352 Mar 19  2024 systemd-measure
+-rwxr-xr-x.  1 0 0  24280 Mar 19  2024 systemd-modules-load
+-rwxr-xr-x.  1 0 0  40760 Mar 19  2024 systemd-network-generator
+-rwxr-xr-x.  1 0 0  32472 Mar 19  2024 systemd-pcrphase
+-rwxr-xr-x.  1 0 0  24160 Mar 19  2024 systemd-pstore
+-rwxr-xr-x.  1 0 0  15616 Mar 19  2024 systemd-quotacheck
+-rwxr-xr-x.  1 0 0  28128 Mar 19  2024 systemd-random-seed
+-rwxr-xr-x.  1 0 0  19928 Mar 19  2024 systemd-remount-fs
+-rwxr-xr-x.  1 0 0  15816 Mar 19  2024 systemd-reply-password
+-rwxr-xr-x.  1 0 0  24088 Mar 19  2024 systemd-rfkill
+-rwxr-xr-x.  1 0 0  52928 Mar 19  2024 systemd-shutdown
+-rwxr-xr-x.  1 0 0  32304 Mar 19  2024 systemd-sleep
+-rwxr-xr-x.  1 0 0  32408 Mar 19  2024 systemd-socket-proxyd
+-rwxr-xr-x.  1 0 0  19976 Mar 19  2024 systemd-sulogin-shell
+-rwxr-xr-x.  1 0 0  28400 Mar 19  2024 systemd-sysctl
+-rwxr-xr-x.  1 0 0  57696 Mar 19  2024 systemd-sysroot-fstab-check
+-rwxr-xr-x.  1 0 0 127872 Mar 19  2024 systemd-sysupdate
+-rwxr-xr-x.  1 0 0  48944 Mar 19  2024 systemd-timedated
+-rwxr-xr-x.  1 0 0 598016 Mar 19  2024 systemd-udevd
+-rwxr-xr-x.  1 0 0  15824 Mar 19  2024 systemd-update-done
+-rwxr-xr-x.  1 0 0   3204 Mar 19  2024 systemd-update-helper
+-rwxr-xr-x.  1 0 0  24088 Mar 19  2024 systemd-update-utmp
+-rwxr-xr-x.  1 0 0  24040 Mar 19  2024 systemd-user-runtime-dir
+-rwxr-xr-x.  1 0 0  15584 Mar 19  2024 systemd-user-sessions
+-rwxr-xr-x.  1 0 0  19952 Mar 19  2024 systemd-vconsole-setup
+-rwxr-xr-x.  1 0 0  24208 Mar 19  2024 systemd-veritysetup
+-rwxr-xr-x.  1 0 0  24032 Mar 19  2024 systemd-volatile-root
+-rwxr-xr-x.  1 0 0  15840 Mar 19  2024 systemd-xdg-autostart-condition
+drwxr-xr-x.  3 0 0   4096 Apr 19  2024 user
+drwxr-xr-x.  2 0 0     48 Apr 19  2024 user-environment-generators
+drwxr-xr-x.  2 0 0     45 Apr 19  2024 user-generators
+drwxr-xr-x.  2 0 0     94 Apr 19  2024 user-preset
+
+/usr/lib/systemd/boot:
+total 4
+drwxr-xr-x.  2 0 0    6 Mar 19  2024 .
+drwxr-xr-x. 15 0 0 4096 Apr 19  2024 ..
+
+/usr/lib/systemd/catalog:
+total 208
+drwxr-xr-x.  2 0 0  4096 Apr 19  2024 .
+drwxr-xr-x. 15 0 0  4096 Apr 19  2024 ..
+-rw-r--r--.  1 0 0  4246 Mar 17  2021 dbus-broker-launch.catalog
+-rw-r--r--.  1 0 0  2355 Mar 17  2021 dbus-broker.catalog
+-rw-r--r--.  1 0 0 12888 Mar 19  2024 systemd.be.catalog
+-rw-r--r--.  1 0 0  9897 Mar 19  2024 systemd.be@latin.catalog
+-rw-r--r--.  1 0 0 29050 Mar 19  2024 systemd.bg.catalog
+-rw-r--r--.  1 0 0 20211 Mar 19  2024 systemd.catalog
+-rw-r--r--.  1 0 0   694 Mar 19  2024 systemd.de.catalog
+-rw-r--r--.  1 0 0 13186 Mar 19  2024 systemd.fr.catalog
+-rw-r--r--.  1 0 0 15816 Mar 19  2024 systemd.it.catalog
+-rw-r--r--.  1 0 0 21697 Mar 19  2024 systemd.pl.catalog
+-rw-r--r--.  1 0 0  8204 Mar 19  2024 systemd.pt_BR.catalog
+-rw-r--r--.  1 0 0 20299 Mar 19  2024 systemd.ru.catalog
+-rw-r--r--.  1 0 0  7188 Mar 19  2024 systemd.zh_CN.catalog
+-rw-r--r--.  1 0 0  7147 Mar 19  2024 systemd.zh_TW.catalog
+
+/usr/lib/systemd/network:
+total 8
+drwxr-xr-x.  2 0 0   29 Apr 19  2024 .
+drwxr-xr-x. 15 0 0 4096 Apr 19  2024 ..
+-rw-r--r--.  1 0 0  763 Mar 19  2024 99-default.link
+
+/usr/lib/systemd/ntp-units.d:
+total 8
+drwxr-xr-x.  2 0 0   29 Apr 19  2024 .
+drwxr-xr-x. 15 0 0 4096 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   16 Jan 23  2024 50-chronyd.list
+
+/usr/lib/systemd/system:
+total 1288
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 -.slice.d
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 .
+drwxr-xr-x. 15 0 0  4096 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   696 Mar 26  2024 NetworkManager-dispatcher.service
+-rw-r--r--.  1 0 0  1173 Mar 26  2024 NetworkManager-wait-online.service
+-rw-r--r--.  1 0 0  1460 Mar 26  2024 NetworkManager.service
+-rw-r--r--.  1 0 0  1771 Nov  8  2023 auditd.service
+-rw-r--r--.  1 0 0   666 Feb 18  2024 auth-rpcgss-module.service
+-rw-r--r--.  1 0 0  2002 Mar 19  2024 autovt@.service
+-rw-r--r--.  1 0 0   964 Mar 19  2024 basic.target
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 basic.target.wants
+-rw-r--r--.  1 0 0   449 Oct 31  2022 blockdev@.target
+-rw-r--r--.  1 0 0   435 Oct 31  2022 bluetooth.target
+-rw-r--r--.  1 0 0   463 Oct 31  2022 boot-complete.target
+-rw-r--r--.  1 0 0  1082 Jan 23  2024 chrony-wait.service
+-rw-r--r--.  1 0 0  1811 Jan 23  2024 chronyd-restricted.service
+-rw-r--r--.  1 0 0  1468 Jan 23  2024 chronyd.service
+-rw-r--r--.  1 0 0   612 Mar 14  2024 cloud-config.service
+-rw-r--r--.  1 0 0   883 Dec  4  2023 cloud-config.target
+-rw-r--r--.  1 0 0   822 Mar 14  2024 cloud-final.service
+-rw-r--r--.  1 0 0   993 Dec  4  2023 cloud-init-hotplugd.service
+-rw-r--r--.  1 0 0   402 Dec  4  2023 cloud-init-hotplugd.socket
+-rw-r--r--.  1 0 0   912 Mar 14  2024 cloud-init-local.service
+-rw-r--r--.  1 0 0   759 Mar 14  2024 cloud-init.service
+-rw-r--r--.  1 0 0   674 Dec  4  2023 cloud-init.target
+-rw-r--r--.  1 0 0   222 Feb 20  2024 cockpit-motd.service
+-rw-r--r--.  1 0 0   221 Feb 20  2024 cockpit-wsinstance-http.service
+-rw-r--r--.  1 0 0   215 Feb 20  2024 cockpit-wsinstance-http.socket
+-rw-r--r--.  1 0 0   244 Feb 20  2024 cockpit-wsinstance-https-factory.socket
+-rw-r--r--.  1 0 0   165 Feb 20  2024 cockpit-wsinstance-https-factory@.service
+-rw-r--r--.  1 0 0   264 Feb 20  2024 cockpit-wsinstance-https@.service
+-rw-r--r--.  1 0 0   478 Feb 20  2024 cockpit-wsinstance-https@.socket
+-rw-r--r--.  1 0 0   720 Feb 20  2024 cockpit.service
+-rw-r--r--.  1 0 0   349 Feb 20  2024 cockpit.socket
+-rw-r--r--.  1 0 0  1102 Mar 19  2024 console-getty.service
+-rw-r--r--.  1 0 0  1254 Mar 19  2024 container-getty@.service
+-rw-r--r--.  1 0 0   294 Apr 10  2024 cpupower.service
+-rw-r--r--.  1 0 0   371 Nov 30  2023 crond.service
+-rw-r--r--.  1 0 0   473 Oct 31  2022 cryptsetup-pre.target
+-rw-r--r--.  1 0 0   420 Oct 31  2022 cryptsetup.target
+-rw-r--r--.  1 0 0   598 Oct 31  2022 ctrl-alt-del.target
+-rw-r--r--.  1 0 0   529 Aug 23  2022 dbus-broker.service
+-rw-r--r--.  1 0 0  1205 Mar 19  2024 dbus-org.freedesktop.hostname1.service
+-rw-r--r--.  1 0 0  1182 Mar 19  2024 dbus-org.freedesktop.locale1.service
+-rw-r--r--.  1 0 0  2037 Mar 19  2024 dbus-org.freedesktop.login1.service
+-rw-r--r--.  1 0 0  1162 Mar 19  2024 dbus-org.freedesktop.timedate1.service
+-rw-r--r--.  1 0 0   137 Jun 12  2023 dbus.socket
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 dbus.target.wants
+-rw-r--r--.  1 0 0  1063 Mar 19  2024 debug-shell.service
+-rw-r--r--.  1 0 0   606 Oct 31  2022 default.target
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 default.target.wants
+-rw-r--r--.  1 0 0   754 Oct 31  2022 dev-hugepages.mount
+-rw-r--r--.  1 0 0   701 Oct 31  2022 dev-mqueue.mount
+-rw-r--r--.  1 0 0   457 Sep  9  2022 dnf-makecache.service
+-rw-r--r--.  1 0 0   320 Sep  9  2022 dnf-makecache.timer
+-rw-r--r--.  1 0 0   322 Jan 15  2024 dnf-system-upgrade-cleanup.service
+-rw-r--r--.  1 0 0   631 Jan 15  2024 dnf-system-upgrade.service
+-rw-r--r--.  1 0 0   867 Jun 19  2022 dracut-cmdline.service
+-rw-r--r--.  1 0 0   784 Jun 19  2022 dracut-initqueue.service
+-rw-r--r--.  1 0 0   756 Jun 19  2022 dracut-mount.service
+-rw-r--r--.  1 0 0   785 Jun 19  2022 dracut-pre-mount.service
+-rw-r--r--.  1 0 0  1107 Jun 19  2022 dracut-pre-pivot.service
+-rw-r--r--.  1 0 0   877 Jun 19  2022 dracut-pre-trigger.service
+-rw-r--r--.  1 0 0   956 Jun 19  2022 dracut-pre-udev.service
+-rw-r--r--.  1 0 0   272 Jun 19  2022 dracut-shutdown-onfailure.service
+-rw-r--r--.  1 0 0   403 Jun 19  2022 dracut-shutdown.service
+-rw-r--r--.  1 0 0   813 Mar 19  2024 emergency.service
+-rw-r--r--.  1 0 0   479 Oct 31  2022 emergency.target
+-rw-r--r--.  1 0 0   549 Oct 31  2022 exit.target
+-rw-r--r--.  1 0 0   410 Oct 31  2022 factory-reset.target
+-rw-r--r--.  1 0 0   500 Oct 31  2022 final.target
+-rw-r--r--.  1 0 0   461 Oct 31  2022 first-boot-complete.target
+-rw-r--r--.  1 0 0   481 Feb  8  2024 fstrim.service
+-rw-r--r--.  1 0 0   270 Jan  6  2022 fstrim.timer
+-rw-r--r--.  1 0 0   406 Feb 19  2024 fwupd-offline-update.service
+-rw-r--r--.  1 0 0   439 Feb 19  2024 fwupd-refresh.service
+-rw-r--r--.  1 0 0   193 Feb  8  2024 fwupd-refresh.timer
+-rw-r--r--.  1 0 0   650 Feb 19  2024 fwupd.service
+-rw-r--r--.  1 0 0   517 Oct 31  2022 getty-pre.target
+-rw-r--r--.  1 0 0   508 Oct 31  2022 getty.target
+-rw-r--r--.  1 0 0  2002 Mar 19  2024 getty@.service
+-rw-r--r--.  1 0 0   606 Oct 31  2022 graphical.target
+drwxr-xr-x.  2 0 0    50 Apr 19  2024 graphical.target.wants
+-rw-r--r--.  1 0 0   263 Feb 22  2024 grub-boot-indeterminate.service
+-rw-r--r--.  1 0 0   263 Feb 22  2024 grub2-systemd-integration.service
+-rw-r--r--.  1 0 0   462 Apr 18  2023 gssproxy.service
+-rw-r--r--.  1 0 0   542 Oct 31  2022 halt.target
+-rw-r--r--.  1 0 0   526 Oct 31  2022 hibernate.target
+-rw-r--r--.  1 0 0   538 Oct 31  2022 hybrid-sleep.target
+-rw-r--r--.  1 0 0   670 Oct 31  2022 initrd-cleanup.service
+-rw-r--r--.  1 0 0   598 Oct 31  2022 initrd-fs.target
+-rw-r--r--.  1 0 0  1255 Mar 19  2024 initrd-parse-etc.service
+-rw-r--r--.  1 0 0   566 Oct 31  2022 initrd-root-device.target
+drwxr-xr-x.  2 0 0    71 Apr 19  2024 initrd-root-device.target.wants
+-rw-r--r--.  1 0 0   571 Oct 31  2022 initrd-root-fs.target
+drwxr-xr-x.  2 0 0    36 Apr 19  2024 initrd-root-fs.target.wants
+-rw-r--r--.  1 0 0   623 Oct 31  2022 initrd-switch-root.service
+-rw-r--r--.  1 0 0   779 Oct 31  2022 initrd-switch-root.target
+-rw-r--r--.  1 0 0   823 Oct 31  2022 initrd-udevadm-cleanup-db.service
+-rw-r--r--.  1 0 0   571 Oct 31  2022 initrd-usr-fs.target
+-rw-r--r--.  1 0 0   810 Oct 31  2022 initrd.target
+drwxr-xr-x.  2 0 0  4096 Apr 19  2024 initrd.target.wants
+-rw-r--r--.  1 0 0   873 Sep 20  2023 insights-client-boot.service
+-rw-r--r--.  1 0 0   649 Feb 15  2024 insights-client-results.path
+-rw-r--r--.  1 0 0   774 Feb 15  2024 insights-client-results.service
+-rw-r--r--.  1 0 0   784 Sep 20  2023 insights-client.service
+-rw-r--r--.  1 0 0   696 Sep 20  2023 insights-client.timer
+-rw-r--r--.  1 0 0   487 Oct 31  2022 integritysetup-pre.target
+-rw-r--r--.  1 0 0   430 Oct 31  2022 integritysetup.target
+-rw-r--r--.  1 0 0   442 Aug 14  2023 irqbalance.service
+-rw-r--r--.  1 0 0   403 Jan 30  2024 kdump.service
+-rw-r--r--.  1 0 0   549 Oct 31  2022 kexec.target
+-rw-r--r--.  1 0 0   705 Mar 19  2024 kmod-static-nodes.service
+-rw-r--r--.  1 0 0   368 Apr 10  2024 kvm_stat.service
+-rw-r--r--.  1 0 0   756 Oct 31  2022 ldconfig.service
+-rw-r--r--.  1 0 0   453 Oct 31  2022 local-fs-pre.target
+-rw-r--r--.  1 0 0   555 Oct 31  2022 local-fs.target
+-rw-r--r--.  1 0 0   870 Aug 21  2020 logrotate.service
+-rw-r--r--.  1 0 0   191 Oct 14  2019 logrotate.timer
+-rw-r--r--.  1 0 0   358 Sep 20  2022 man-db-cache-update.service
+-rw-r--r--.  1 0 0   301 Sep 20  2022 man-db-restart-cache-update.service
+-rw-r--r--.  1 0 0   284 Nov  6  2023 microcode.service
+-rw-r--r--.  1 0 0   573 Oct 31  2022 modprobe@.service
+-rw-r--r--.  1 0 0   540 Oct 31  2022 multi-user.target
+drwxr-xr-x.  2 0 0   175 Apr 19  2024 multi-user.target.wants
+-rw-r--r--.  1 0 0   483 Oct 31  2022 network-online.target
+-rw-r--r--.  1 0 0   490 Oct 31  2022 network-pre.target
+-rw-r--r--.  1 0 0   499 Oct 31  2022 network.target
+-rw-r--r--.  1 0 0   320 Feb 18  2024 nfs-blkmap.service
+-rw-r--r--.  1 0 0   433 Feb 18  2024 nfs-client.target
+-rw-r--r--.  1 0 0   250 Feb 18  2024 nfs-idmapd.service
+-rw-r--r--.  1 0 0   319 Feb 18  2024 nfs-mountd.service
+-rw-r--r--.  1 0 0  1037 Feb 18  2024 nfs-server.service
+-rw-r--r--.  1 0 0   567 Feb 18  2024 nfs-utils.service
+-rw-r--r--.  1 0 0   265 Feb 18  2024 nfsdcld.service
+-rw-r--r--.  1 0 0   378 Aug  9  2021 nis-domainname.service
+-rw-r--r--.  1 0 0  2119 Mar 26  2024 nm-priv-helper.service
+-rw-r--r--.  1 0 0   562 Oct 31  2022 nss-lookup.target
+-rw-r--r--.  1 0 0   521 Oct 31  2022 nss-user-lookup.target
+-rw-r--r--.  1 0 0   290 Dec  9  2022 oddjobd.service
+-rw-r--r--.  1 0 0   400 Jan 15  2024 packagekit-offline-update.service
+-rw-r--r--.  1 0 0   392 Jan 15  2024 packagekit.service
+-rw-r--r--.  1 0 0   331 Feb 12  2024 pam_namespace.service
+-rw-r--r--.  1 0 0   407 Oct 31  2022 paths.target
+-rw-r--r--.  1 0 0   172 Dec  5  2022 polkit.service
+-rw-r--r--.  1 0 0   607 Oct 31  2022 poweroff.target
+-rw-r--r--.  1 0 0   433 Oct 31  2022 printer.target
+-rw-r--r--.  1 0 0    98 Feb 18  2024 proc-fs-nfsd.mount
+-rw-r--r--.  1 0 0   764 Oct 31  2022 proc-sys-fs-binfmt_misc.automount
+-rw-r--r--.  1 0 0   711 Oct 31  2022 proc-sys-fs-binfmt_misc.mount
+-rw-r--r--.  1 0 0   491 Mar 26  2024 qemu-guest-agent.service
+-rw-r--r--.  1 0 0   625 Mar 19  2024 quotaon.service
+-rw-r--r--.  1 0 0   786 Mar 19  2024 rc-local.service
+-rw-r--r--.  1 0 0   602 Jun  8  2023 rdisc.service
+-rw-r--r--.  1 0 0   598 Oct 31  2022 reboot.target
+drwxr-xr-x.  2 0 0    47 Apr 19  2024 reboot.target.wants
+-rw-r--r--.  1 0 0   557 Oct 31  2022 remote-cryptsetup.target
+-rw-r--r--.  1 0 0   454 Oct 31  2022 remote-fs-pre.target
+-rw-r--r--.  1 0 0   530 Oct 31  2022 remote-fs.target
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 remote-fs.target.wants
+-rw-r--r--.  1 0 0   565 Oct 31  2022 remote-veritysetup.target
+-rw-r--r--.  1 0 0   804 Mar 19  2024 rescue.service
+-rw-r--r--.  1 0 0   500 Oct 31  2022 rescue.target
+drwxr-xr-x.  2 0 0    50 Apr 19  2024 rescue.target.wants
+-rw-r--r--.  1 0 0   255 Feb 14  2024 rhcd.service
+-rw-r--r--.  1 0 0   212 Jan 18  2024 rhsm-facts.service
+-rw-r--r--.  1 0 0   187 Jan 18  2024 rhsm.service
+-rw-r--r--.  1 0 0   184 Jan 18  2024 rhsmcertd.service
+-rw-r--r--.  1 0 0   311 Feb 18  2024 rpc-gssd.service
+-rw-r--r--.  1 0 0   435 Feb 18  2024 rpc-statd-notify.service
+-rw-r--r--.  1 0 0   461 Feb 18  2024 rpc-statd.service
+-rw-r--r--.  1 0 0    80 Feb 18  2024 rpc_pipefs.target
+-rw-r--r--.  1 0 0   544 Feb 15  2024 rpcbind.service
+-rw-r--r--.  1 0 0   368 Feb 15  2024 rpcbind.socket
+-rw-r--r--.  1 0 0   548 Oct 31  2022 rpcbind.target
+-rw-r--r--.  1 0 0   446 Dec 13  2023 rpmdb-rebuild.service
+-rw-r--r--.  1 0 0   999 Jan  8  2024 rsyslog.service
+-rw-r--r--.  1 0 0   607 Oct 31  2022 runlevel0.target
+-rw-r--r--.  1 0 0   500 Oct 31  2022 runlevel1.target
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 runlevel1.target.wants
+-rw-r--r--.  1 0 0   540 Oct 31  2022 runlevel2.target
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 runlevel2.target.wants
+-rw-r--r--.  1 0 0   540 Oct 31  2022 runlevel3.target
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 runlevel3.target.wants
+-rw-r--r--.  1 0 0   540 Oct 31  2022 runlevel4.target
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 runlevel4.target.wants
+-rw-r--r--.  1 0 0   606 Oct 31  2022 runlevel5.target
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 runlevel5.target.wants
+-rw-r--r--.  1 0 0   598 Oct 31  2022 runlevel6.target
+-rw-r--r--.  1 0 0   406 Feb 19  2024 selinux-autorelabel-mark.service
+-rw-r--r--.  1 0 0   301 Feb 19  2024 selinux-autorelabel.service
+-rw-r--r--.  1 0 0   230 Feb 19  2024 selinux-autorelabel.target
+-rw-r--r--.  1 0 0   538 Mar 14  2024 selinux-check-proper-disable.service
+-rw-r--r--.  1 0 0  1519 Mar 19  2024 serial-getty@.service
+-rw-r--r--.  1 0 0   220 Feb 15  2023 setroubleshootd.service
+-rw-r--r--.  1 0 0   457 Oct 31  2022 shutdown.target
+-rw-r--r--.  1 0 0   410 Oct 31  2022 sigpwr.target
+-rw-r--r--.  1 0 0   468 Oct 31  2022 sleep.target
+-rw-r--r--.  1 0 0   462 Oct 31  2022 slices.target
+-rw-r--r--.  1 0 0   428 Oct 31  2022 smartcard.target
+-rw-r--r--.  1 0 0   409 Oct 31  2022 sockets.target
+drwxr-xr-x.  2 0 0  4096 Apr 19  2024 sockets.target.wants
+-rw-r--r--.  1 0 0   428 Oct 31  2022 sound.target
+-rw-r--r--.  1 0 0   123 Jan  5  2024 sshd-keygen.target
+-rw-r--r--.  1 0 0   247 Jan  5  2024 sshd-keygen@.service
+-rw-r--r--.  1 0 0   372 Jan  5  2024 sshd.service
+-rw-r--r--.  1 0 0   181 Jan  5  2024 sshd.socket
+-rw-r--r--.  1 0 0   258 Jan  5  2024 sshd@.service
+-rw-r--r--.  1 0 0   472 Feb 12  2024 sssd-autofs.service
+-rw-r--r--.  1 0 0   371 Feb 12  2024 sssd-autofs.socket
+-rw-r--r--.  1 0 0   443 Feb 12  2024 sssd-kcm.service
+-rw-r--r--.  1 0 0   182 Feb 12  2024 sssd-kcm.socket
+-rw-r--r--.  1 0 0   351 Feb 12  2024 sssd-nss.service
+-rw-r--r--.  1 0 0   420 Feb 12  2024 sssd-nss.socket
+-rw-r--r--.  1 0 0   460 Feb 12  2024 sssd-pac.service
+-rw-r--r--.  1 0 0   362 Feb 12  2024 sssd-pac.socket
+-rw-r--r--.  1 0 0   443 Feb 12  2024 sssd-pam-priv.socket
+-rw-r--r--.  1 0 0   481 Feb 12  2024 sssd-pam.service
+-rw-r--r--.  1 0 0   391 Feb 12  2024 sssd-pam.socket
+-rw-r--r--.  1 0 0   460 Feb 12  2024 sssd-ssh.service
+-rw-r--r--.  1 0 0   362 Feb 12  2024 sssd-ssh.socket
+-rw-r--r--.  1 0 0   481 Feb 12  2024 sssd-sudo.service
+-rw-r--r--.  1 0 0   364 Feb 12  2024 sssd-sudo.socket
+-rw-r--r--.  1 0 0   768 Feb 12  2024 sssd.service
+-rw-r--r--.  1 0 0   585 Oct 31  2022 suspend-then-hibernate.target
+-rw-r--r--.  1 0 0   511 Oct 31  2022 suspend.target
+-rw-r--r--.  1 0 0   402 Oct 31  2022 swap.target
+-rw-r--r--.  1 0 0  1146 Oct 31  2022 sys-fs-fuse-connections.mount
+-rw-r--r--.  1 0 0  1111 Oct 31  2022 sys-kernel-config.mount
+-rw-r--r--.  1 0 0   730 Oct 31  2022 sys-kernel-debug.mount
+-rw-r--r--.  1 0 0   756 Oct 31  2022 sys-kernel-tracing.mount
+-rw-r--r--.  1 0 0   574 Oct 31  2022 sysinit.target
+drwxr-xr-x.  2 0 0  4096 Apr 19  2024 sysinit.target.wants
+-rw-r--r--.  1 0 0  1415 Oct 31  2022 syslog.socket
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 syslog.target.wants
+-rw-r--r--.  1 0 0   268 Feb 19  2024 system-cockpithttps.slice
+-rw-r--r--.  1 0 0   454 Oct 31  2022 system-systemd\x2dcryptsetup.slice
+-rw-r--r--.  1 0 0  1525 Mar 19  2024 system-update-cleanup.service
+-rw-r--r--.  1 0 0   551 Oct 31  2022 system-update-pre.target
+-rw-r--r--.  1 0 0   625 Oct 31  2022 system-update.target
+drwxr-xr-x.  2 0 0   156 Apr 19  2024 system-update.target.wants
+-rw-r--r--.  1 0 0   771 Oct 31  2022 systemd-ask-password********.path
+-rw-r--r--.  1 0 0   834 Oct 31  2022 systemd-ask-password********.service
+-rw-r--r--.  1 0 0   695 Oct 31  2022 systemd-ask-password********.path
+-rw-r--r--.  1 0 0   747 Oct 31  2022 systemd-ask-password********.service
+-rw-r--r--.  1 0 0   735 Mar 19  2024 systemd-backlight@.service
+-rw-r--r--.  1 0 0  1198 Mar 19  2024 systemd-binfmt.service
+-rw-r--r--.  1 0 0   690 Mar 19  2024 systemd-bless-boot.service
+-rw-r--r--.  1 0 0   730 Mar 19  2024 systemd-boot-check-no-failures.service
+-rw-r--r--.  1 0 0  1029 Mar 19  2024 systemd-boot-random-seed.service
+-rw-r--r--.  1 0 0   685 Mar 19  2024 systemd-boot-update.service
+-rw-r--r--.  1 0 0   594 Oct 31  2022 systemd-coredump.socket
+-rw-r--r--.  1 0 0  1149 Mar 19  2024 systemd-coredump@.service
+-rw-r--r--.  1 0 0   564 Oct 31  2022 systemd-exit.service
+-rw-r--r--.  1 0 0  1317 Oct 31  2022 systemd-firstboot.service
+-rw-r--r--.  1 0 0   724 Mar 19  2024 systemd-fsck-root.service
+-rw-r--r--.  1 0 0   712 Mar 19  2024 systemd-fsck@.service
+-rw-r--r--.  1 0 0   666 Mar 19  2024 systemd-growfs-root.service
+-rw-r--r--.  1 0 0   663 Mar 19  2024 systemd-growfs@.service
+-rw-r--r--.  1 0 0   594 Oct 31  2022 systemd-halt.service
+-rw-r--r--.  1 0 0   680 Mar 19  2024 systemd-hibernate-resume@.service
+-rw-r--r--.  1 0 0   555 Mar 19  2024 systemd-hibernate.service
+-rw-r--r--.  1 0 0  1205 Mar 19  2024 systemd-hostnamed.service
+drwxr-xr-x.  2 0 0    41 Apr 19  2024 systemd-hostnamed.service.d
+-rw-r--r--.  1 0 0   825 Mar 19  2024 systemd-hwdb-update.service
+-rw-r--r--.  1 0 0   576 Mar 19  2024 systemd-hybrid-sleep.service
+-rw-r--r--.  1 0 0   578 Mar 19  2024 systemd-initctl.service
+-rw-r--r--.  1 0 0   553 Oct 31  2022 systemd-initctl.socket
+-rw-r--r--.  1 0 0   741 Oct 31  2022 systemd-journal-catalog-update.service
+-rw-r--r--.  1 0 0   819 Oct 31  2022 systemd-journal-flush.service
+-rw-r--r--.  1 0 0   655 Oct 31  2022 systemd-journald-audit.socket
+-rw-r--r--.  1 0 0  1182 Oct 31  2022 systemd-journald-dev-log.socket
+-rw-r--r--.  1 0 0   605 Oct 31  2022 systemd-journald-varlink@.socket
+-rw-r--r--.  1 0 0  2001 Mar 19  2024 systemd-journald.service
+-rw-r--r--.  1 0 0   934 Oct 31  2022 systemd-journald.socket
+-rw-r--r--.  1 0 0  1458 Mar 19  2024 systemd-journald@.service
+-rw-r--r--.  1 0 0   746 Oct 31  2022 systemd-journald@.socket
+-rw-r--r--.  1 0 0   601 Oct 31  2022 systemd-kexec.service
+-rw-r--r--.  1 0 0  1182 Mar 19  2024 systemd-localed.service
+-rw-r--r--.  1 0 0  2037 Mar 19  2024 systemd-logind.service
+drwxr-xr-x.  2 0 0    42 Apr 19  2024 systemd-logind.service.d
+-rw-r--r--.  1 0 0   748 Oct 31  2022 systemd-machine-id-commit.service
+-rw-r--r--.  1 0 0  1019 Mar 19  2024 systemd-modules-load.service
+-rw-r--r--.  1 0 0   792 Mar 19  2024 systemd-network-generator.service
+-rw-r--r--.  1 0 0   820 Mar 19  2024 systemd-pcrfs-root.service
+-rw-r--r--.  1 0 0   844 Mar 19  2024 systemd-pcrfs@.service
+-rw-r--r--.  1 0 0   793 Mar 19  2024 systemd-pcrmachine.service
+-rw-r--r--.  1 0 0   984 Mar 19  2024 systemd-pcrphase-initrd.service
+-rw-r--r--.  1 0 0   886 Mar 19  2024 systemd-pcrphase-sysinit.service
+-rw-r--r--.  1 0 0   848 Mar 19  2024 systemd-pcrphase.service
+-rw-r--r--.  1 0 0   575 Oct 31  2022 systemd-poweroff.service
+-rw-r--r--.  1 0 0   815 Mar 19  2024 systemd-pstore.service
+-rw-r--r--.  1 0 0   678 Mar 19  2024 systemd-quotacheck.service
+-rw-r--r--.  1 0 0  1180 Mar 19  2024 systemd-random-seed.service
+-rw-r--r--.  1 0 0   568 Oct 31  2022 systemd-reboot.service
+-rw-r--r--.  1 0 0   779 Mar 19  2024 systemd-remount-fs.service
+-rw-r--r--.  1 0 0  1217 Mar 19  2024 systemd-repart.service
+-rw-r--r--.  1 0 0   729 Mar 19  2024 systemd-rfkill.service
+-rw-r--r--.  1 0 0   734 Oct 31  2022 systemd-rfkill.socket
+-rw-r--r--.  1 0 0   623 Mar 19  2024 systemd-suspend-then-hibernate.service
+-rw-r--r--.  1 0 0   556 Mar 19  2024 systemd-suspend.service
+-rw-r--r--.  1 0 0   733 Mar 19  2024 systemd-sysctl.service
+-rw-r--r--.  1 0 0  1063 Oct 31  2022 systemd-sysext.service
+-rw-r--r--.  1 0 0   612 Mar 19  2024 systemd-sysupdate-reboot.service
+-rw-r--r--.  1 0 0   573 Oct 31  2022 systemd-sysupdate-reboot.timer
+-rw-r--r--.  1 0 0  1072 Mar 19  2024 systemd-sysupdate.service
+-rw-r--r--.  1 0 0  1025 Oct 31  2022 systemd-sysupdate.timer
+-rw-r--r--.  1 0 0  1217 Oct 31  2022 systemd-sysusers.service
+-rw-r--r--.  1 0 0  1162 Mar 19  2024 systemd-timedated.service
+-rw-r--r--.  1 0 0   749 Oct 31  2022 systemd-tmpfiles-clean.service
+-rw-r--r--.  1 0 0   539 Oct 31  2022 systemd-tmpfiles-clean.timer
+-rw-r--r--.  1 0 0   837 Oct 31  2022 systemd-tmpfiles-setup-dev.service
+-rw-r--r--.  1 0 0   999 Oct 31  2022 systemd-tmpfiles-setup.service
+-rw-r--r--.  1 0 0   863 Oct 31  2022 systemd-udev-settle.service
+-rw-r--r--.  1 0 0   758 Oct 31  2022 systemd-udev-trigger.service
+drwxr-xr-x.  2 0 0    49 Apr 19  2024 systemd-udev-trigger.service.d
+-rw-r--r--.  1 0 0   650 Oct 31  2022 systemd-udevd-control.socket
+-rw-r--r--.  1 0 0   624 Oct 31  2022 systemd-udevd-kernel.socket
+-rw-r--r--.  1 0 0  1302 Mar 19  2024 systemd-udevd.service
+-rw-r--r--.  1 0 0   682 Mar 19  2024 systemd-update-done.service
+-rw-r--r--.  1 0 0   807 Mar 19  2024 systemd-update-utmp-runlevel.service
+-rw-r--r--.  1 0 0   807 Mar 19  2024 systemd-update-utmp.service
+-rw-r--r--.  1 0 0   655 Mar 19  2024 systemd-user-sessions.service
+-rw-r--r--.  1 0 0   650 Mar 19  2024 systemd-vconsole-setup.service
+-rw-r--r--.  1 0 0   743 Mar 19  2024 systemd-volatile-root.service
+-rw-r--r--.  1 0 0   244 Jan  9  2020 teamd@.service
+-rw-r--r--.  1 0 0   434 Oct 31  2022 time-set.target
+-rw-r--r--.  1 0 0   487 Oct 31  2022 time-sync.target
+-rw-r--r--.  1 0 0   458 Oct 31  2022 timers.target
+drwxr-xr-x.  2 0 0    42 Apr 19  2024 timers.target.wants
+-rw-r--r--.  1 0 0   876 Mar 19  2024 tmp.mount
+-rw-r--r--.  1 0 0   439 Feb 22  2024 tuned.service
+-rw-r--r--.  1 0 0   465 Oct 31  2022 umount.target
+-rw-r--r--.  1 0 0   426 Oct 31  2022 usb-gadget.target
+drwxr-xr-x.  2 0 0    30 Apr 19  2024 user-.slice.d
+-rw-r--r--.  1 0 0   674 Mar 19  2024 user-runtime-dir@.service
+-rw-r--r--.  1 0 0   440 Oct 31  2022 user.slice
+-rw-r--r--.  1 0 0   756 Mar 19  2024 user@.service
+drwxr-xr-x.  2 0 0    35 Apr 19  2024 user@.service.d
+drwxr-xr-x.  2 0 0    35 Apr 19  2024 user@0.service.d
+-rw-r--r--.  1 0 0   191 Feb 18  2024 var-lib-nfs-rpc_pipefs.mount
+-rw-r--r--.  1 0 0   481 Oct 31  2022 veritysetup-pre.target
+-rw-r--r--.  1 0 0   427 Oct 31  2022 veritysetup.target
+
+/usr/lib/systemd/system/-.slice.d:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/basic.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/dbus.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/default.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/graphical.target.wants:
+total 24
+drwxr-xr-x.  2 0 0    50 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   807 Mar 19  2024 systemd-update-utmp-runlevel.service
+
+/usr/lib/systemd/system/initrd-root-device.target.wants:
+total 28
+drwxr-xr-x.  2 0 0    71 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   557 Oct 31  2022 remote-cryptsetup.target
+-rw-r--r--.  1 0 0   565 Oct 31  2022 remote-veritysetup.target
+
+/usr/lib/systemd/system/initrd-root-fs.target.wants:
+total 24
+drwxr-xr-x.  2 0 0    36 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0  1217 Mar 19  2024 systemd-repart.service
+
+/usr/lib/systemd/system/initrd.target.wants:
+total 56
+drwxr-xr-x.  2 0 0  4096 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   867 Jun 19  2022 dracut-cmdline.service
+-rw-r--r--.  1 0 0   784 Jun 19  2022 dracut-initqueue.service
+-rw-r--r--.  1 0 0   756 Jun 19  2022 dracut-mount.service
+-rw-r--r--.  1 0 0   785 Jun 19  2022 dracut-pre-mount.service
+-rw-r--r--.  1 0 0  1107 Jun 19  2022 dracut-pre-pivot.service
+-rw-r--r--.  1 0 0   877 Jun 19  2022 dracut-pre-trigger.service
+-rw-r--r--.  1 0 0   956 Jun 19  2022 dracut-pre-udev.service
+-rw-r--r--.  1 0 0   984 Mar 19  2024 systemd-pcrphase-initrd.service
+
+/usr/lib/systemd/system/multi-user.target.wants:
+total 40
+drwxr-xr-x.  2 0 0   175 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   508 Oct 31  2022 getty.target
+-rw-r--r--.  1 0 0   695 Oct 31  2022 systemd-ask-password********.path
+-rw-r--r--.  1 0 0  2037 Mar 19  2024 systemd-logind.service
+-rw-r--r--.  1 0 0   807 Mar 19  2024 systemd-update-utmp-runlevel.service
+-rw-r--r--.  1 0 0   655 Mar 19  2024 systemd-user-sessions.service
+
+/usr/lib/systemd/system/reboot.target.wants:
+total 24
+drwxr-xr-x.  2 0 0    47 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   263 Feb 22  2024 grub2-systemd-integration.service
+
+/usr/lib/systemd/system/remote-fs.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/rescue.target.wants:
+total 24
+drwxr-xr-x.  2 0 0    50 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   807 Mar 19  2024 systemd-update-utmp-runlevel.service
+
+/usr/lib/systemd/system/runlevel1.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/runlevel2.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/runlevel3.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/runlevel4.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/runlevel5.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/sockets.target.wants:
+total 48
+drwxr-xr-x.  2 0 0  4096 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   594 Oct 31  2022 systemd-coredump.socket
+-rw-r--r--.  1 0 0   553 Oct 31  2022 systemd-initctl.socket
+-rw-r--r--.  1 0 0  1182 Oct 31  2022 systemd-journald-dev-log.socket
+-rw-r--r--.  1 0 0   934 Oct 31  2022 systemd-journald.socket
+-rw-r--r--.  1 0 0   650 Oct 31  2022 systemd-udevd-control.socket
+-rw-r--r--.  1 0 0   624 Oct 31  2022 systemd-udevd-kernel.socket
+
+/usr/lib/systemd/system/sysinit.target.wants:
+total 168
+drwxr-xr-x.  2 0 0  4096 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   420 Oct 31  2022 cryptsetup.target
+-rw-r--r--.  1 0 0   754 Oct 31  2022 dev-hugepages.mount
+-rw-r--r--.  1 0 0   701 Oct 31  2022 dev-mqueue.mount
+-rw-r--r--.  1 0 0   403 Jun 19  2022 dracut-shutdown.service
+-rw-r--r--.  1 0 0   430 Oct 31  2022 integritysetup.target
+-rw-r--r--.  1 0 0   705 Mar 19  2024 kmod-static-nodes.service
+-rw-r--r--.  1 0 0   756 Oct 31  2022 ldconfig.service
+-rw-r--r--.  1 0 0   764 Oct 31  2022 proc-sys-fs-binfmt_misc.automount
+-rw-r--r--.  1 0 0  1146 Oct 31  2022 sys-fs-fuse-connections.mount
+-rw-r--r--.  1 0 0  1111 Oct 31  2022 sys-kernel-config.mount
+-rw-r--r--.  1 0 0   730 Oct 31  2022 sys-kernel-debug.mount
+-rw-r--r--.  1 0 0   756 Oct 31  2022 sys-kernel-tracing.mount
+-rw-r--r--.  1 0 0   771 Oct 31  2022 systemd-ask-password********.path
+-rw-r--r--.  1 0 0  1198 Mar 19  2024 systemd-binfmt.service
+-rw-r--r--.  1 0 0  1029 Mar 19  2024 systemd-boot-random-seed.service
+-rw-r--r--.  1 0 0  1317 Oct 31  2022 systemd-firstboot.service
+-rw-r--r--.  1 0 0   825 Mar 19  2024 systemd-hwdb-update.service
+-rw-r--r--.  1 0 0   741 Oct 31  2022 systemd-journal-catalog-update.service
+-rw-r--r--.  1 0 0   819 Oct 31  2022 systemd-journal-flush.service
+-rw-r--r--.  1 0 0  2001 Mar 19  2024 systemd-journald.service
+-rw-r--r--.  1 0 0   748 Oct 31  2022 systemd-machine-id-commit.service
+-rw-r--r--.  1 0 0  1019 Mar 19  2024 systemd-modules-load.service
+-rw-r--r--.  1 0 0   793 Mar 19  2024 systemd-pcrmachine.service
+-rw-r--r--.  1 0 0   886 Mar 19  2024 systemd-pcrphase-sysinit.service
+-rw-r--r--.  1 0 0   848 Mar 19  2024 systemd-pcrphase.service
+-rw-r--r--.  1 0 0  1180 Mar 19  2024 systemd-random-seed.service
+-rw-r--r--.  1 0 0  1217 Mar 19  2024 systemd-repart.service
+-rw-r--r--.  1 0 0   733 Mar 19  2024 systemd-sysctl.service
+-rw-r--r--.  1 0 0  1217 Oct 31  2022 systemd-sysusers.service
+-rw-r--r--.  1 0 0   837 Oct 31  2022 systemd-tmpfiles-setup-dev.service
+-rw-r--r--.  1 0 0   999 Oct 31  2022 systemd-tmpfiles-setup.service
+-rw-r--r--.  1 0 0   758 Oct 31  2022 systemd-udev-trigger.service
+-rw-r--r--.  1 0 0  1302 Mar 19  2024 systemd-udevd.service
+-rw-r--r--.  1 0 0   682 Mar 19  2024 systemd-update-done.service
+-rw-r--r--.  1 0 0   807 Mar 19  2024 systemd-update-utmp.service
+-rw-r--r--.  1 0 0   427 Oct 31  2022 veritysetup.target
+
+/usr/lib/systemd/system/syslog.target.wants:
+total 20
+drwxr-xr-x.  2 0 0     6 Mar 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+
+/usr/lib/systemd/system/system-update.target.wants:
+total 36
+drwxr-xr-x.  2 0 0   156 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   631 Jan 15  2024 dnf-system-upgrade.service
+-rw-r--r--.  1 0 0   406 Feb 19  2024 fwupd-offline-update.service
+-rw-r--r--.  1 0 0   263 Feb 22  2024 grub-boot-indeterminate.service
+-rw-r--r--.  1 0 0   400 Jan 15  2024 packagekit-offline-update.service
+
+/usr/lib/systemd/system/systemd-hostnamed.service.d:
+total 24
+drwxr-xr-x.  2 0 0    41 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0    28 Mar 19  2024 disable-privatedevices.conf
+
+/usr/lib/systemd/system/systemd-logind.service.d:
+total 24
+drwxr-xr-x.  2 0 0    42 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0    62 Feb 22  2024 10-grub2-logind-service.conf
+
+/usr/lib/systemd/system/systemd-udev-trigger.service.d:
+total 24
+drwxr-xr-x.  2 0 0    49 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0    87 Mar 19  2024 systemd-udev-trigger-no-reload.conf
+
+/usr/lib/systemd/system/timers.target.wants:
+total 24
+drwxr-xr-x.  2 0 0    42 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   539 Oct 31  2022 systemd-tmpfiles-clean.timer
+
+/usr/lib/systemd/system/user-.slice.d:
+total 24
+drwxr-xr-x.  2 0 0    30 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   458 Oct 31  2022 10-defaults.conf
+
+/usr/lib/systemd/system/user@.service.d:
+total 24
+drwxr-xr-x.  2 0 0    35 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   605 Oct 31  2022 10-login-barrier.conf
+
+/usr/lib/systemd/system/user@0.service.d:
+total 24
+drwxr-xr-x.  2 0 0    35 Apr 19  2024 .
+drwxr-xr-x. 30 0 0 16384 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   548 Oct 31  2022 10-login-barrier.conf
+
+/usr/lib/systemd/system-generators:
+total 452
+drwxr-xr-x.  2 0 0  4096 Apr 19  2024 .
+drwxr-xr-x. 15 0 0  4096 Apr 19  2024 ..
+-rwxr-xr-x.  1 0 0  3101 Mar 14  2024 cloud-init-generator
+-rwxr-xr-x.  1 0 0   541 Jan 30  2024 kdump-dep-generator.sh
+-rwxr-xr-x.  1 0 0 40656 Feb 18  2024 nfs-server-generator
+-rwxr-xr-x.  1 0 0 24032 Feb 18  2024 rpc-pipefs-generator
+-rwxr-xr-x.  1 0 0  1005 Feb 19  2024 selinux-autorelabel-generator.sh
+-rwxr-xr-x.  1 0 0 15624 Mar 19  2024 systemd-bless-boot-generator
+-rwxr-xr-x.  1 0 0 40920 Mar 19  2024 systemd-cryptsetup-generator
+-rwxr-xr-x.  1 0 0 24312 Mar 19  2024 systemd-debug-generator
+-rwxr-xr-x.  1 0 0 57696 Mar 19  2024 systemd-fstab-generator
+-rwxr-xr-x.  1 0 0 24096 Mar 19  2024 systemd-getty-generator
+-rwxr-xr-x.  1 0 0 36496 Mar 19  2024 systemd-gpt-auto-generator
+-rwxr-xr-x.  1 0 0 16096 Mar 19  2024 systemd-hibernate-resume-generator
+-rwxr-xr-x.  1 0 0 24240 Mar 19  2024 systemd-integritysetup-generator
+-rwxr-xr-x.  1 0 0 15632 Mar 19  2024 systemd-rc-local-generator
+-rwxr-xr-x.  1 0 0 24288 Mar 19  2024 systemd-run-generator
+-rwxr-xr-x.  1 0 0 15824 Mar 19  2024 systemd-system-update-generator
+-rwxr-xr-x.  1 0 0 36424 Mar 19  2024 systemd-sysv-generator
+-rwxr-xr-x.  1 0 0 36864 Mar 19  2024 systemd-veritysetup-generator
+
+/usr/lib/systemd/system-preset:
+total 28
+drwxr-xr-x.  2 0 0  148 Apr 19  2024 .
+drwxr-xr-x. 15 0 0 4096 Apr 19  2024 ..
+-rw-r--r--.  1 0 0   36 Sep 20  2023 80-insights.preset
+-rw-r--r--.  1 0 0  284 Apr  5  2024 85-display-manager.preset
+-rw-r--r--.  1 0 0 7197 Apr  5  2024 90-default.preset
+-rw-r--r--.  1 0 0 1361 Oct 31  2022 90-systemd.preset
+-rw-r--r--.  1 0 0   10 Apr  5  2024 99-default-disable.preset
+
+/usr/lib/systemd/system-shutdown:
+total 8
+drwxr-xr-x.  2 0 0   28 Apr 19  2024 .
+drwxr-xr-x. 15 0 0 4096 Apr 19  2024 ..
+-rwxr-xr-x.  1 0 0  256 Feb 19  2024 fwupd.shutdown
+
+/usr/lib/systemd/system-sleep:
+total 4
+drwxr-xr-x.  2 0 0    6 Mar 19  2024 .
+drwxr-xr-x. 15 0 0 4096 Apr 19  2024 ..
+
+/usr/lib/systemd/user:
+total 144
+drwxr-xr-x.  3 0 0 4096 Apr 19  2024 .
+drwxr-xr-x. 15 0 0 4096 Apr 19  2024 ..
+-rw-r--r--.  1 0 0  419 Mar 19  2024 app.slice
+-rw-r--r--.  1 0 0  424 Mar 19  2024 background.slice
+-rw-r--r--.  1 0 0  505 Oct 31  2022 basic.target
+-rw-r--r--.  1 0 0  427 Oct 31  2022 bluetooth.target
+-rw-r--r--.  1 0 0  431 Aug 23  2022 dbus-broker.service
+-rw-r--r--.  1 0 0  213 Jun 12  2023 dbus.socket
+-rw-r--r--.  1 0 0  471 Oct 31  2022 default.target
+-rw-r--r--.  1 0 0  212 Nov 15  2017 dirmngr.service
+-rw-r--r--.  1 0 0  204 Mar 17  2017 dirmngr.socket
+-rw-r--r--.  1 0 0  510 Oct 31  2022 exit.target
+-rw-r--r--.  1 0 0  147 Feb 24  2022 glib-pacrunner.service
+-rw-r--r--.  1 0 0  298 Mar 17  2017 gpg-agent-browser.socket
+-rw-r--r--.  1 0 0  281 Mar 17  2017 gpg-agent-extra.socket
+-rw-r--r--.  1 0 0  308 Mar 17  2017 gpg-agent-ssh.socket
+-rw-r--r--.  1 0 0  223 Nov 15  2017 gpg-agent.service
+-rw-r--r--.  1 0 0  234 Mar 17  2017 gpg-agent.socket
+-rw-r--r--.  1 0 0  576 Oct 31  2022 graphical-session-pre.target
+-rw-r--r--.  1 0 0  492 Oct 31  2022 graphical-session.target
+-rw-r--r--.  1 0 0  119 Feb 22  2024 grub-boot-success.service
+-rw-r--r--.  1 0 0  168 Feb 22  2024 grub-boot-success.timer
+-rw-r--r--.  1 0 0  402 Oct 31  2022 paths.target
+-rw-r--r--.  1 0 0  425 Oct 31  2022 printer.target
+-rw-r--r--.  1 0 0  420 Mar 19  2024 session.slice
+-rw-r--r--.  1 0 0  450 Oct 31  2022 shutdown.target
+-rw-r--r--.  1 0 0  428 Oct 31  2022 smartcard.target
+-rw-r--r--.  1 0 0  404 Oct 31  2022 sockets.target
+-rw-r--r--.  1 0 0  428 Oct 31  2022 sound.target
+-rw-r--r--.  1 0 0  459 Jan  5  2024 ssh-agent.service
+-rw-r--r--.  1 0 0  598 Oct 31  2022 systemd-exit.service
+-rw-r--r--.  1 0 0  688 Oct 31  2022 systemd-tmpfiles-clean.service
+-rw-r--r--.  1 0 0  541 Oct 31  2022 systemd-tmpfiles-clean.timer
+-rw-r--r--.  1 0 0  728 Oct 31  2022 systemd-tmpfiles-setup.service
+-rw-r--r--.  1 0 0  453 Oct 31  2022 timers.target
+drwxr-xr-x.  2 0 0   37 Apr 19  2024 timers.target.wants
+-rw-r--r--.  1 0 0  477 Oct 31  2022 xdg-desktop-autostart.target
+
+/usr/lib/systemd/user/timers.target.wants:
+total 8
+drwxr-xr-x. 2 0 0   37 Apr 19  2024 .
+drwxr-xr-x. 3 0 0 4096 Apr 19  2024 ..
+-rw-r--r--. 1 0 0  168 Feb 22  2024 grub-boot-success.timer
+
+/usr/lib/systemd/user-environment-generators:
+total 20
+drwxr-xr-x.  2 0 0    48 Apr 19  2024 .
+drwxr-xr-x. 15 0 0  4096 Apr 19  2024 ..
+-rwxr-xr-x.  1 0 0 15816 Mar 19  2024 30-systemd-environment-d-generator
+
+/usr/lib/systemd/user-generators:
+total 40
+drwxr-xr-x.  2 0 0    45 Apr 19  2024 .
+drwxr-xr-x. 15 0 0  4096 Apr 19  2024 ..
+-rwxr-xr-x.  1 0 0 36576 Mar 19  2024 systemd-xdg-autostart-generator
+
+/usr/lib/systemd/user-preset:
+total 16
+drwxr-xr-x.  2 0 0   94 Apr 19  2024 .
+drwxr-xr-x. 15 0 0 4096 Apr 19  2024 ..
+-rw-r--r--.  1 0 0 1003 Apr  5  2024 90-default-user.preset
+-rw-r--r--.  1 0 0  580 Oct 31  2022 90-systemd.preset
+-rw-r--r--.  1 0 0   10 Apr  5  2024 99-default-disable.preset
+
+/usr/share/systemd:
+total 12
+drwxr-xr-x.  2 0 0   56 Apr 19  2024 .
+drwxr-xr-x. 95 0 0 4096 Apr 19  2024 ..
+-rw-r--r--.  1 0 0 3811 Oct 31  2022 kbd-model-map
+-rw-r--r--.  1 0 0  218 Oct 31  2022 language-fallback-map

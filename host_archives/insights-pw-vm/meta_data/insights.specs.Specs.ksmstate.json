@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ksmstate", "exec_time": 4.935264587402344e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "sys/kernel/mm/ksm/run", "rc": null}}, "ser_time": 0.0003306865692138672}

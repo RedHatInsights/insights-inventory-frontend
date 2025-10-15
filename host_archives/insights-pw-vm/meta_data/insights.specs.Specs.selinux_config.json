@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.selinux_config", "exec_time": 6.341934204101562e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/selinux/config", "rc": null}}, "ser_time": 0.0006937980651855469}

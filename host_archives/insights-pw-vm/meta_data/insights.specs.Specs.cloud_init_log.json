@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.cloud_init_log", "exec_time": 4.553794860839844e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "var/log/cloud-init.log", "rc": null}}, "ser_time": 0.00904083251953125}

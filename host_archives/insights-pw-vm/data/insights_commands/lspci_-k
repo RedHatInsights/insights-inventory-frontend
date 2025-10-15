@@ -1,0 +1,67 @@
+00:00.0 Host bridge: Intel Corporation 82G33/G31/P35/P31 Express DRAM Controller
+	Subsystem: Red Hat, Inc. QEMU Virtual Machine
+00:01.0 VGA compatible controller: Red Hat, Inc. Virtio 1.0 GPU (rev 01)
+	Subsystem: Red Hat, Inc. Device 1100
+	Kernel driver in use: virtio-pci
+00:02.0 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:02.1 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:02.2 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:02.3 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:02.4 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:02.5 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:02.6 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:02.7 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:03.0 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:03.1 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:03.2 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:03.3 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:03.4 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:03.5 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:03.6 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:03.7 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:04.0 PCI bridge: Red Hat, Inc. QEMU PCIe Root port
+	Kernel driver in use: pcieport
+00:1f.0 ISA bridge: Intel Corporation 82801IB (ICH9) LPC Interface Controller (rev 02)
+	Subsystem: Red Hat, Inc. QEMU Virtual Machine
+	Kernel driver in use: lpc_ich
+	Kernel modules: lpc_ich
+00:1f.2 SATA controller: Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) 6 port SATA Controller [AHCI mode] (rev 02)
+	Subsystem: Red Hat, Inc. QEMU Virtual Machine
+	Kernel driver in use: ahci
+	Kernel modules: ahci
+00:1f.3 SMBus: Intel Corporation 82801I (ICH9 Family) SMBus Controller (rev 02)
+	Subsystem: Red Hat, Inc. QEMU Virtual Machine
+	Kernel driver in use: i801_smbus
+	Kernel modules: i2c_i801
+01:00.0 PCI bridge: Red Hat, Inc. Device 000e
+02:01.0 USB controller: Intel Corporation 82371SB PIIX3 USB [Natoma/Triton II] (rev 01)
+	Subsystem: Red Hat, Inc. QEMU Virtual Machine
+	Kernel driver in use: uhci_hcd
+03:00.0 Ethernet controller: Red Hat, Inc. Virtio 1.0 network device (rev 01)
+	Subsystem: Red Hat, Inc. Device 1100
+	Kernel driver in use: virtio-pci
+04:00.0 SCSI storage controller: Red Hat, Inc. Virtio 1.0 block device (rev 01)
+	Subsystem: Red Hat, Inc. Device 1100
+	Kernel driver in use: virtio-pci
+05:00.0 Unclassified device [00ff]: Red Hat, Inc. Virtio 1.0 memory balloon (rev 01)
+	Subsystem: Red Hat, Inc. Device 1100
+	Kernel driver in use: virtio-pci
+06:00.0 Unclassified device [00ff]: Red Hat, Inc. Virtio 1.0 RNG (rev 01)
+	Subsystem: Red Hat, Inc. Device 1100
+	Kernel driver in use: virtio-pci

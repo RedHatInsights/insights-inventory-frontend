@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.sysconfig_grub", "exec_time": 4.5299530029296875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/default/grub", "rc": null}}, "ser_time": 0.005624294281005859}

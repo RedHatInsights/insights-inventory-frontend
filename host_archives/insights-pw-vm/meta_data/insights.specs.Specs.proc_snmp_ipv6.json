@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.proc_snmp_ipv6", "exec_time": 3.5762786865234375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/net/snmp6", "rc": null}}, "ser_time": 0.0008423328399658203}

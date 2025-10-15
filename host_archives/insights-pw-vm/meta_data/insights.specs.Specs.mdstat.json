@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.mdstat", "exec_time": 0.00010800361633300781, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/mdstat", "rc": null}}, "ser_time": 0.0005972385406494141}

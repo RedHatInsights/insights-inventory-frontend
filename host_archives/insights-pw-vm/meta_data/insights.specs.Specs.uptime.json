@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.uptime", "exec_time": 5.1021575927734375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/uptime", "args": null, "save_as": false, "relative_path": "insights_commands/uptime"}}, "ser_time": 0.009107112884521484}

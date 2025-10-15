@@ -1,0 +1,26 @@
+/bin/ls: cannot access '/etc/ostree': No such file or directory
+/:
+total 132
+dr-xr-xr-x.  19 0 0   246 Mar 20 06:20 .
+dr-xr-xr-x.  19 0 0   246 Mar 20 06:20 ..
+dr-xr-xr-x.   2 0 0     6 Aug  9  2021 afs
+dr-xr-xr-x.   2 0 0 20480 Apr 19  2024 bin
+dr-xr-xr-x.   5 0 0  4096 Mar 20 06:21 boot
+drwxr-xr-x.  18 0 0  3160 Mar 20 06:20 dev
+drwx------.   3 0 0 16384 Dec 31  1969 efi
+drwxr-xr-x.  93 0 0  8192 Mar 20 06:21 etc
+drwxr-xr-x.   3 0 0    24 Mar 20 06:21 home
+dr-xr-xr-x.  32 0 0  4096 Apr 19  2024 lib
+dr-xr-xr-x.  47 0 0 20480 Apr 19  2024 lib64
+drwxr-xr-x.   2 0 0     6 Aug  9  2021 media
+drwxr-xr-x.   2 0 0     6 Aug  9  2021 mnt
+drwxr-xr-x.   2 0 0     6 Aug  9  2021 opt
+dr-xr-xr-x. 204 0 0     0 Mar 20 06:20 proc
+dr-xr-x---.   4 0 0   117 Mar 20 06:25 root
+drwxr-xr-x.  31 0 0  1000 Mar 20 06:25 run
+dr-xr-xr-x.   2 0 0 12288 Apr 19  2024 sbin
+drwxr-xr-x.   2 0 0     6 Aug  9  2021 srv
+dr-xr-xr-x.  13 0 0     0 Mar 20 06:20 sys
+drwxrwxrwt.  11 0 0  4096 Mar 20 06:26 tmp
+drwxr-xr-x.  12 0 0   144 Apr 19  2024 usr
+drwxr-xr-x.  19 0 0  4096 Mar 20 06:20 var

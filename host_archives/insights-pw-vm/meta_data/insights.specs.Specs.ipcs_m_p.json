@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ipcs_m_p", "exec_time": 6.461143493652344e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/ipcs -m -p", "args": null, "save_as": false, "relative_path": "insights_commands/ipcs_-m_-p"}}, "ser_time": 0.004109621047973633}

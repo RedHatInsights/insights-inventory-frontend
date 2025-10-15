@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemctl_show_target", "exec_time": 7.295608520507812e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl show *.target", "args": null, "save_as": false, "relative_path": "insights_commands/systemctl_show_.target"}}, "ser_time": 0.08168482780456543}

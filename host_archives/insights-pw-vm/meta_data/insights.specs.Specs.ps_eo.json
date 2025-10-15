@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ps_eo", "exec_time": 4.8160552978515625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/ps -eo pid,ppid,comm,nlwp", "args": null, "save_as": false, "relative_path": "insights_commands/ps_-eo_pid_ppid_comm_nlwp"}}, "ser_time": 0.0145111083984375}

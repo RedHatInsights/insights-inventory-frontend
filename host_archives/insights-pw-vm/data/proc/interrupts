@@ -1,0 +1,54 @@
+           CPU0       
+  1:          9   IO-APIC   1-edge      i8042
+  4:       1996   IO-APIC   4-edge      ttyS0
+  8:          0   IO-APIC   8-edge      rtc0
+  9:          0   IO-APIC   9-fasteoi   acpi
+ 12:         15   IO-APIC  12-edge      i8042
+ 16:          0   IO-APIC  16-fasteoi   i801_smbus
+ 22:         79   IO-APIC  22-fasteoi   virtio4, uhci_hcd:usb1, virtio3
+ 24:          0  PCI-MSIX-0000:00:02.0   0-edge      PCIe PME, aerdrv
+ 25:          0  PCI-MSIX-0000:00:02.1   0-edge      PCIe PME, aerdrv
+ 26:          0  PCI-MSIX-0000:00:02.2   0-edge      PCIe PME, aerdrv
+ 27:          0  PCI-MSIX-0000:00:02.3   0-edge      PCIe PME, aerdrv
+ 28:          0  PCI-MSIX-0000:00:02.4   0-edge      PCIe PME, aerdrv
+ 29:          0  PCI-MSIX-0000:00:02.5   0-edge      PCIe PME, aerdrv
+ 30:          0  PCI-MSIX-0000:00:02.6   0-edge      PCIe PME, aerdrv
+ 31:          0  PCI-MSIX-0000:00:02.7   0-edge      PCIe PME, aerdrv
+ 32:          0  PCI-MSIX-0000:00:03.0   0-edge      PCIe PME, aerdrv
+ 33:          0  PCI-MSIX-0000:00:03.1   0-edge      PCIe PME, aerdrv
+ 34:          0  PCI-MSIX-0000:00:03.2   0-edge      PCIe PME, aerdrv
+ 35:          0  PCI-MSIX-0000:00:03.3   0-edge      PCIe PME, aerdrv
+ 36:          0  PCI-MSIX-0000:00:03.4   0-edge      PCIe PME, aerdrv
+ 37:          0  PCI-MSIX-0000:00:03.5   0-edge      PCIe PME, aerdrv
+ 38:          0  PCI-MSIX-0000:00:03.6   0-edge      PCIe PME, aerdrv
+ 39:          0  PCI-MSIX-0000:00:03.7   0-edge      PCIe PME, aerdrv
+ 40:          0  PCI-MSIX-0000:00:04.0   0-edge      PCIe PME, aerdrv
+ 41:          0  PCI-MSIX-0000:04:00.0   0-edge      virtio2-config
+ 42:       8049  PCI-MSIX-0000:04:00.0   1-edge      virtio2-req.0
+ 43:          0  PCI-MSIX-0000:03:00.0   0-edge      virtio1-config
+ 44:       1636  PCI-MSIX-0000:03:00.0   1-edge      virtio1-input.0
+ 45:        951  PCI-MSIX-0000:03:00.0   2-edge      virtio1-output.0
+ 46:          0  PCI-MSI-0000:00:1f.2   0-edge      ahci[0000:00:1f.2]
+ 47:          0  PCI-MSIX-0000:00:01.0   0-edge      virtio0-config
+ 48:       1705  PCI-MSIX-0000:00:01.0   1-edge      virtio0-control
+ 49:          0  PCI-MSIX-0000:00:01.0   2-edge      virtio0-cursor
+NMI:          0   Non-maskable interrupts
+LOC:      50670   Local timer interrupts
+SPU:          0   Spurious interrupts
+PMI:          0   Performance monitoring interrupts
+IWI:          2   IRQ work interrupts
+RTR:          0   APIC ICR read retries
+RES:          0   Rescheduling interrupts
+CAL:          0   Function call interrupts
+TLB:          0   TLB shootdowns
+TRM:          0   Thermal event interrupts
+THR:          0   Threshold APIC interrupts
+DFR:          0   Deferred Error APIC interrupts
+MCE:          0   Machine check exceptions
+MCP:          1   Machine check polls
+HYP:          1   Hypervisor callback interrupts
+ERR:          0
+MIS:          0
+PIN:          0   Posted-interrupt notification event
+NPI:          0   Nested posted-interrupt event
+PIW:          0   Posted-interrupt wakeup event

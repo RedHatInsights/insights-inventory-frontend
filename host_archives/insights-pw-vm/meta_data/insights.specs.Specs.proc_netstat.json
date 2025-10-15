@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.proc_netstat", "exec_time": 3.600120544433594e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/net/netstat", "rc": null}}, "ser_time": 0.00037860870361328125}

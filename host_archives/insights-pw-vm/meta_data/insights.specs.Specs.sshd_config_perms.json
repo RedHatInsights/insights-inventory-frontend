@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.sshd_config_perms", "exec_time": 0.0001423358917236328, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lH /etc/ssh/sshd_config", "args": null, "save_as": false, "relative_path": "insights_commands/ls_-lH_.etc.ssh.sshd_config"}}, "ser_time": 0.006359100341796875}

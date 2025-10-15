@@ -1,0 +1,11 @@
+crw-r--r-- root/root             1, 11 2025-03-20 06:21 squashfs-root/dev/kmsg
+-rwxr-xr-x root/root             73688 2024-02-08 12:57 squashfs-root/usr/bin/dmesg
+-rw-r--r-- root/root               942 2023-06-21 10:51 squashfs-root/usr/lib/kbd/keymaps/legacy/i386/qwertz/sg-latin1-lk450.map.gz
+-rw-r--r-- root/root               992 2023-06-21 10:51 squashfs-root/usr/lib/kbd/keymaps/legacy/i386/qwertz/sg-latin1.map.gz
+-rw-r--r-- root/root               924 2023-06-21 10:51 squashfs-root/usr/lib/kbd/keymaps/legacy/i386/qwertz/sg.map.gz
+-rw-r--r-- root/root              3161 2023-06-21 10:51 squashfs-root/usr/lib/kbd/keymaps/legacy/i386/qwertz/sg.map.sg-decimal-separator
+-rw-r--r-- root/root              4000 2023-06-21 10:51 squashfs-root/usr/lib/kbd/keymaps/xkb/lt-sgs.map.gz
+-rw-r--r-- root/root             37916 2024-04-10 10:52 squashfs-root/usr/lib/modules/5.14.0-427.13.1.el9_4.x86_64/kernel/drivers/scsi/sd_mod.ko.xz
+-rw-r--r-- root/root             23952 2024-04-10 10:52 squashfs-root/usr/lib/modules/5.14.0-427.13.1.el9_4.x86_64/kernel/drivers/scsi/sg.ko.xz
+-rw-r--r-- root/root             11184 2024-04-10 10:52 squashfs-root/usr/lib/modules/5.14.0-427.13.1.el9_4.x86_64/kernel/drivers/scsi/virtio_scsi.ko.xz
+-rwxr-xr-x root/root             28136 2024-01-30 03:44 squashfs-root/usr/sbin/vmcore-dmesg

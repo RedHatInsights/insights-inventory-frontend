@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.cpu_siblings", "exec_time": 4.220008850097656e-05, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "sys/devices/system/cpu/cpu0/topology/thread_siblings_list", "rc": null}}], "ser_time": 0.00043463706970214844}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ethtool", "exec_time": 0.0001533031463623047, "errors": [], "results": [{"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/ethtool eth0", "args": "eth0", "save_as": false, "relative_path": "insights_commands/ethtool_eth0"}}], "ser_time": 0.004349946975708008}

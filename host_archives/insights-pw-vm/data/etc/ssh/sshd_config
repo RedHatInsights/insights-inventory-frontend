@@ -1,0 +1,8 @@
+Include /etc/ssh/sshd_config.d/*.conf
+# Ciphers and keying
+AuthorizedKeysFile	.ssh/authorized_keys
+#PermitEmptyPasswords no
+#KbdInteractiveAuthentication yes
+# be allowed through the KbdInteractiveAuthentication and
+# PAM authentication via KbdInteractiveAuthentication may bypass
+# and KbdInteractiveAuthentication to 'no'.

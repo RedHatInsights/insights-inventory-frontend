@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.proc_keyusers", "exec_time": 3.4809112548828125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/key-users", "rc": null}}, "ser_time": 0.0002467632293701172}

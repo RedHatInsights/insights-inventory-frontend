@@ -1,0 +1,4 @@
+ff02::2 dev eth0 lladdr 33:33:00:00:00:02 NOARP 
+fe80::4e16:fc01:f83:88aa dev eth0 lladdr 4c:16:fc:83:88:aa router STALE 
+ff02::1:ffef:731 dev eth0 lladdr 33:33:ff:ef:07:31 NOARP 
+ff02::16 dev eth0 lladdr 33:33:00:00:00:16 NOARP 

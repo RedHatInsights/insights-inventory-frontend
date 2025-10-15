@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.localtime", "exec_time": 0.00011134147644042969, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/file -L /etc/localtime", "args": null, "save_as": false, "relative_path": "insights_commands/file_-L_.etc.localtime"}}, "ser_time": 0.011454343795776367}

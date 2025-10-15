@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.rc_local", "exec_time": 4.935264587402344e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/rc.d/rc.local", "rc": null}}, "ser_time": 0.0008697509765625}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ipv4_neigh", "exec_time": 4.00543212890625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/ip -4 neighbor show nud all", "args": null, "save_as": false, "relative_path": "insights_commands/ip_-4_neighbor_show_nud_all"}}, "ser_time": 0.005191802978515625}

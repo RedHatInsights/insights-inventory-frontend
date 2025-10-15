@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.proc_stat", "exec_time": 4.124641418457031e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/stat", "rc": null}}, "ser_time": 0.0003046989440917969}

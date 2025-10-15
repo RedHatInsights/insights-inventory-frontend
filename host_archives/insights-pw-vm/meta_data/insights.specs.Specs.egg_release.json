@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.egg_release", "exec_time": 2.8133392333984375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.DatasourceProvider", "object": {"relative_path": "egg_release", "save_as": null}}, "ser_time": 0.00012350082397460938}

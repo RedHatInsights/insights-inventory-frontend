@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.cloud_cfg_filtered", "exec_time": 5.888938903808594e-05, "errors": [], "results": {"type": "insights.core.spec_factory.DatasourceProvider", "object": {"relative_path": "etc/cloud/cloud.cfg", "save_as": null}}, "ser_time": 0.00016498565673828125}

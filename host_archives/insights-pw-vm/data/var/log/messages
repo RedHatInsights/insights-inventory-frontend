@@ -1,0 +1,10 @@
+Mar 20 06:20:55 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d kernel: Linux version 5.14.0-427.13.1.el9_4.x86_64 (mockbuild@x86-038.build.eng.bos.redhat.com) (gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3), GNU ld version 2.35.2-43.el9) #1 SMP PREEMPT_DYNAMIC Wed Apr 10 10:29:16 EDT 2024
+Mar 20 06:20:55 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d kernel: input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+Mar 20 06:20:55 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d kernel: input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input1
+Mar 20 06:20:55 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d kernel: input: VirtualPS/2 VMware VMMouse as /devices/platform/i8042/serio1/input/input4
+Mar 20 06:20:55 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d kernel: input: VirtualPS/2 VMware VMMouse as /devices/platform/i8042/serio1/input/input3
+Mar 20 06:20:55 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d kernel: input: QEMU QEMU USB Tablet as /devices/pci0000:00/0000:00:02.0/0000:01:00.0/0000:02:01.0/usb1/1-1/1-1:1.0/0003:0627:0001.0001/input/input5
+Mar 20 06:20:59 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d kernel: input: PC Speaker as /devices/platform/pcspkr/input/input6
+Mar 20 06:20:59 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d systemd[1]: Started Security Auditing Service.
+Mar 20 06:21:14 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d NetworkManager[679]: <info>  [1742466074.7294] manager: NetworkManager state is now CONNECTED_SITE
+Mar 20 06:25:54 iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d systemd[1]: Reloading.

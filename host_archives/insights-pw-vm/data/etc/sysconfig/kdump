@@ -1,0 +1,8 @@
+# command line options using "KDUMP_COMMANDLINE_APPEND=".
+KDUMP_COMMANDLINE_REMOVE="hugepages hugepagesz slub_debug quiet log_buf_len swiotlb cma hugetlb_cma ignition.firstboot"
+# after processed by KDUMP_COMMANDLINE_REMOVE
+KDUMP_COMMANDLINE_APPEND="irqpoll nr_cpus=1 reset_devices cgroup_disable=memory mce=off numa=off udev.children-max=2 panic=10 acpi_no_memhotplug transparent_hugepage=never nokaslr hest_disable novmcoredd cma=0 hugetlb_cma=0"
+#   KEXEC_ARGS="--elf32-core-headers"
+KEXEC_ARGS="-s"
+# log level in the above KDUMP_COMMANDLINE_APPEND.
+#   - for example: add the rd.kdumploglvl=3 option to KDUMP_COMMANDLINE_APPEND

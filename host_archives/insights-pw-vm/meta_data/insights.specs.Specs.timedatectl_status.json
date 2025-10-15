@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.timedatectl_status", "exec_time": 4.5299530029296875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/timedatectl status", "args": null, "save_as": false, "relative_path": "insights_commands/timedatectl_status"}}, "ser_time": 0.0743100643157959}

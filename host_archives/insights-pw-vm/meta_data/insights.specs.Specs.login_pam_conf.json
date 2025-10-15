@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.login_pam_conf", "exec_time": 6.532669067382812e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/pam.d/login", "rc": null}}, "ser_time": 0.0009710788726806641}

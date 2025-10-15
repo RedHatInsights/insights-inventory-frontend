@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.sestatus", "exec_time": 4.57763671875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/sestatus -b", "args": null, "save_as": false, "relative_path": "insights_commands/sestatus_-b"}}, "ser_time": 0.013683557510375977}

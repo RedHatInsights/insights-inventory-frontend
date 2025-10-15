@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemctl_list_unit_files", "exec_time": 0.00017309188842773438, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl list-unit-files", "args": null, "save_as": false, "relative_path": "insights_commands/systemctl_list-unit-files"}}, "ser_time": 0.3380117416381836}

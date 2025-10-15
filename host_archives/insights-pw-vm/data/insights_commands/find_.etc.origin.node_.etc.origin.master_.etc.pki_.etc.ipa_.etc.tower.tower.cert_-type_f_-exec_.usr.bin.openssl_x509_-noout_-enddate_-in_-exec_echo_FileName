@@ -1,0 +1,68 @@
+/usr/bin/find: '/etc/origin/node': No such file or directory
+/usr/bin/find: '/etc/origin/master': No such file or directory
+Could not read certificate from /etc/pki/entitlement/9192108371125782711-key.pem
+40AC0E39A77F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:crypto/store/store_result.c:151:
+Unable to load certificate
+notAfter=Mar 20 09:25:38 2026 GMT
+FileName= /etc/pki/entitlement/9192108371125782711.pem
+Could not read certificate from /etc/pki/fwupd/GPG-KEY-Linux-Foundation-Firmware
+Unable to load certificate
+Could not read certificate from /etc/pki/fwupd/GPG-KEY-Linux-Vendor-Firmware-Service
+Unable to load certificate
+notAfter=Aug  1 00:00:00 2047 GMT
+FileName= /etc/pki/fwupd/LVFS-CA.pem
+Could not read certificate from /etc/pki/fwupd-metadata/GPG-KEY-Linux-Foundation-Metadata
+Unable to load certificate
+Could not read certificate from /etc/pki/fwupd-metadata/GPG-KEY-Linux-Vendor-Firmware-Service
+Unable to load certificate
+notAfter=Aug  1 00:00:00 2047 GMT
+FileName= /etc/pki/fwupd-metadata/LVFS-CA.pem
+notAfter=Jul 19 16:34:08 2043 GMT
+FileName= /etc/pki/product-default/479.pem
+Could not read certificate from /etc/pki/rpm-gpg/ISV-Container-signing-key
+Unable to load certificate
+Could not read certificate from /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-beta
+Unable to load certificate
+Could not read certificate from /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+Unable to load certificate
+notAfter=Jan 10 11:15:39 2038 GMT
+FileName= /etc/pki/swid/CA/redhat.com/redhatcodesignca.cert
+Could not read certificate from /etc/pki/tls/ct_log_list.cnf
+Unable to load certificate
+Could not read certificate from /etc/pki/tls/openssl.cnf
+Unable to load certificate
+Could not read certificate from /etc/pki/ca-trust/README
+Unable to load certificate
+Could not read certificate from /etc/pki/ca-trust/ca-legacy.conf
+Unable to load certificate
+Could not read certificate from /etc/pki/ca-trust/extracted/README
+Unable to load certificate
+Could not read certificate from /etc/pki/ca-trust/extracted/edk2/cacerts.bin
+Unable to load certificate
+Could not read certificate from /etc/pki/ca-trust/extracted/edk2/README
+Unable to load certificate
+Could not read certificate from /etc/pki/ca-trust/extracted/java/README
+Unable to load certificate
+Could not read certificate from /etc/pki/ca-trust/extracted/java/cacerts
+Unable to load certificate
+Could not read certificate from /etc/pki/ca-trust/extracted/openssl/README
+Unable to load certificate
+notAfter=Jul  1 09:23:33 2024 GMT
+FileName= /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+notAfter=Dec 31 09:37:37 2030 GMT
+FileName= /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+Could not read certificate from /etc/pki/ca-trust/extracted/pem/README
+Unable to load certificate
+notAfter=Dec 31 09:37:37 2030 GMT
+FileName= /etc/pki/ca-trust/extracted/pem/email-ca-bundle.pem
+notAfter=Jul  1 09:23:33 2024 GMT
+FileName= /etc/pki/ca-trust/extracted/pem/objsign-ca-bundle.pem
+Could not read certificate from /etc/pki/ca-trust/source/README
+Unable to load certificate
+Could not read certificate from /etc/pki/consumer/key.pem
+40ACF3CC8E7F0000:error:1608010C:STORE routines:ossl_store_handle_load_result:unsupported:crypto/store/store_result.c:151:
+Unable to load certificate
+notAfter=Mar 20 10:25:37 2026 GMT
+FileName= /etc/pki/consumer/cert.pem
+/usr/bin/find: '/etc/ipa': No such file or directory
+/usr/bin/find: '/etc/tower/tower.cert': No such file or directory

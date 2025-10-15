@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.grubenv", "exec_time": 9.34600830078125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/grub2-editenv list", "args": null, "save_as": false, "relative_path": "insights_commands/grub2-editenv_list"}}, "ser_time": 0.00804591178894043}

@@ -1,0 +1,8 @@
+Filesystem      Inodes IUsed   IFree IUse% Mounted on
+devtmpfs        217222   363  216859    1% /dev
+tmpfs           227283     1  227282    1% /dev/shm
+tmpfs           819200   606  818594    1% /run
+/dev/vda4      9858032 39430 9818602    1% /
+/dev/vda3       524288   307  523981    1% /boot
+/dev/vda2            0     0       0     - /efi
+tmpfs            45456    14   45442    1% /run/user/1000

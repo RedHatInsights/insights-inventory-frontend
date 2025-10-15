@@ -1,0 +1,16 @@
+default via 10.0.147.254 dev eth0 proto dhcp src 10.0.144.70 metric 100 
+10.0.144.0/22 dev eth0 proto kernel scope link src 10.0.144.70 metric 100 
+169.254.169.254 via 10.0.144.10 dev eth0 proto dhcp src 10.0.144.70 metric 100 
+local 10.0.144.70 dev eth0 table local proto kernel scope host src 10.0.144.70 
+broadcast 10.0.147.255 dev eth0 table local proto kernel scope link src 10.0.144.70 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+::1 dev lo proto kernel metric 256 pref medium
+2620:52:0:90::/64 dev eth0 proto kernel metric 256 expires 2591961sec pref medium
+fe80::/64 dev eth0 proto kernel metric 256 pref medium
+default via fe80::4e16:fc01:f83:88aa dev eth0 proto ra metric 1024 expires 1761sec hoplimit 64 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local 2620:52:0:90:f816:3eff:feef:731 dev eth0 table local proto kernel metric 0 pref medium
+local fe80::f816:3eff:feef:731 dev eth0 table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev eth0 table local proto kernel metric 256 pref medium

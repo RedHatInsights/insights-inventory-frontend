@@ -1,0 +1,11 @@
+Netid State  Recv-Q Send-Q    Local Address:Port  Peer Address:Port Process                                                   
+udp   ESTAB  0      0      10.0.144.70%eth0:68    10.0.147.254:67    users:(("NetworkManager",pid=679,fd=26))                 
+udp   UNCONN 0      0               0.0.0.0:111        0.0.0.0:*     users:(("rpcbind",pid=609,fd=5),("systemd",pid=1,fd=106))
+udp   UNCONN 0      0             127.0.0.1:323        0.0.0.0:*     users:(("chronyd",pid=654,fd=5))                         
+udp   UNCONN 0      0                  [::]:111           [::]:*     users:(("rpcbind",pid=609,fd=7),("systemd",pid=1,fd=108))
+udp   UNCONN 0      0                 [::1]:323           [::]:*     users:(("chronyd",pid=654,fd=6))                         
+tcp   LISTEN 0      4096            0.0.0.0:111        0.0.0.0:*     users:(("rpcbind",pid=609,fd=4),("systemd",pid=1,fd=105))
+tcp   LISTEN 0      128             0.0.0.0:22         0.0.0.0:*     users:(("sshd",pid=1337,fd=3))                           
+tcp   ESTAB  0      0           10.0.144.70:22   10.45.224.120:56630 users:(("sshd",pid=4186,fd=4),("sshd",pid=4173,fd=4))    
+tcp   LISTEN 0      4096               [::]:111           [::]:*     users:(("rpcbind",pid=609,fd=6),("systemd",pid=1,fd=107))
+tcp   LISTEN 0      128                [::]:22            [::]:*     users:(("sshd",pid=1337,fd=4))                           

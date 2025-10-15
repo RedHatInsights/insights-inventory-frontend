@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.getconf_page_size", "exec_time": 3.504753112792969e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/getconf PAGE_SIZE", "args": null, "save_as": false, "relative_path": "insights_commands/getconf_PAGE_SIZE"}}, "ser_time": 0.0056154727935791016}

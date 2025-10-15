@@ -1,0 +1,203 @@
+Slot:	00:00.0
+Class:	0600
+Vendor:	8086
+Device:	29c0
+SVendor:	1af4
+SDevice:	1100
+
+Slot:	00:01.0
+Class:	0300
+Vendor:	1af4
+Device:	1050
+SVendor:	1af4
+SDevice:	1100
+Rev:	01
+Driver:	virtio-pci
+
+Slot:	00:02.0
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:02.1
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:02.2
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:02.3
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:02.4
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:02.5
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:02.6
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:02.7
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:03.0
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:03.1
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:03.2
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:03.3
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:03.4
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:03.5
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:03.6
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:03.7
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:04.0
+Class:	0604
+Vendor:	1b36
+Device:	000c
+Driver:	pcieport
+
+Slot:	00:1f.0
+Class:	0601
+Vendor:	8086
+Device:	2918
+SVendor:	1af4
+SDevice:	1100
+Rev:	02
+Driver:	lpc_ich
+Module:	lpc_ich
+
+Slot:	00:1f.2
+Class:	0106
+Vendor:	8086
+Device:	2922
+SVendor:	1af4
+SDevice:	1100
+Rev:	02
+ProgIf:	01
+Driver:	ahci
+Module:	ahci
+
+Slot:	00:1f.3
+Class:	0c05
+Vendor:	8086
+Device:	2930
+SVendor:	1af4
+SDevice:	1100
+Rev:	02
+Driver:	i801_smbus
+Module:	i2c_i801
+
+Slot:	01:00.0
+Class:	0604
+Vendor:	1b36
+Device:	000e
+
+Slot:	02:01.0
+Class:	0c03
+Vendor:	8086
+Device:	7020
+SVendor:	1af4
+SDevice:	1100
+PhySlot:	1
+Rev:	01
+Driver:	uhci_hcd
+
+Slot:	03:00.0
+Class:	0200
+Vendor:	1af4
+Device:	1041
+SVendor:	1af4
+SDevice:	1100
+PhySlot:	0-2
+Rev:	01
+Driver:	virtio-pci
+
+Slot:	04:00.0
+Class:	0100
+Vendor:	1af4
+Device:	1042
+SVendor:	1af4
+SDevice:	1100
+PhySlot:	0-3
+Rev:	01
+Driver:	virtio-pci
+
+Slot:	05:00.0
+Class:	00ff
+Vendor:	1af4
+Device:	1045
+SVendor:	1af4
+SDevice:	1100
+PhySlot:	0-4
+Rev:	01
+Driver:	virtio-pci
+
+Slot:	06:00.0
+Class:	00ff
+Vendor:	1af4
+Device:	1044
+SVendor:	1af4
+SDevice:	1100
+PhySlot:	0-5
+Rev:	01
+Driver:	virtio-pci

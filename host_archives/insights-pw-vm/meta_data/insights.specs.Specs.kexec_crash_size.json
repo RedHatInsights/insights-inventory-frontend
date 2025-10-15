@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.kexec_crash_size", "exec_time": 3.409385681152344e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "sys/kernel/kexec_crash_size", "rc": null}}, "ser_time": 0.00028443336486816406}

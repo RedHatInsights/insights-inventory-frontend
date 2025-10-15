@@ -1,0 +1,10 @@
+UID          PID    PPID  C STIME TTY          TIME CMD
+root          26       2  0 06:20 ?        00:00:00 [kauditd]
+root         611       1  0 06:20 ?        00:00:00 /sbin/auditd
+chrony       654       1  0 06:20 ?        00:00:00 /usr/sbin/chronyd -F 2
+root         696       1  0 06:21 ?        00:00:00 /usr/bin/python3 -Es /usr/sbin/tuned -l -P
+root        1026       1  0 06:21 ?        00:00:00 /usr/sbin/rsyslogd -n
+root        1337       1  0 06:21 ?        00:00:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root        4173    1337  0 06:24 ?        00:00:00 sshd: cloud-user [priv]
+cloud-u+    4186    4173  0 06:24 ?        00:00:00 sshd: cloud-user@pts/0
+root        4724    4503  0 06:25 pts/0    00:00:00 grep -F diagxps swift-proxy-ser pkla-check-auth clvmd COMMAND radosgw redis-server -ma] postmaster setroubleshootd openshift start node gnome-shell nfsd catalina.base awx nova-compute mongdb snmpd diagbs /bin/db2fmcd pacemaker-controld setup.sh kubelet pcsd nova-conductor pmie cmirrord monserver tuned dlm_controld ora_ ovs-vswitchd pacemakerd gnocchi-metricd chronyd httpd rngd docker-runc-current ksmtuned openshift start master api auditd pacemaker_remote oracle spausedd /usr/bin/openshift start node corosync smbd backupserver diagserver heat-engine xpserver jboss /usr/bin/openshift start master nginx rhcd openshift start master controllers dataserver qemu-kvm histserver abrtd sshd db2sysc crmd ntpd octavia-worker SystemPerformance rsyslogd sap CMD pmcd /usr/bin/teamd

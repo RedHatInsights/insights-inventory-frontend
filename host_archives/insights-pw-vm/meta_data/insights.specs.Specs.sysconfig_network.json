@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.sysconfig_network", "exec_time": 4.4345855712890625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/sysconfig/network", "rc": null}}, "ser_time": 0.004625558853149414}

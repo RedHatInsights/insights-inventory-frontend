@@ -1,0 +1,17 @@
+[    0.000000] Linux version 5.14.0-427.13.1.el9_4.x86_64 (mockbuild@x86-038.build.eng.bos.redhat.com) (gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3), GNU ld version 2.35.2-43.el9) #1 SMP PREEMPT_DYNAMIC Wed Apr 10 10:29:16 EDT 2024
+[    0.000000] SMBIOS 2.8 present.
+[    0.014666] smpboot: Allowing 1 CPUs, 0 hotplug CPUs
+[    0.220381] LSM support for eBPF active
+[    0.224405] Performance Events: unsupported p6 CPU model 85 no PMU driver, software events only.
+[    0.230062] smp: Brought up 1 node, 1 CPU
+[    0.308655] ACPI: PM: (supports S0 S5)
+[    0.315406] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI EDR HPX-Type3]
+[    0.315440] acpi PNP0A08:00: _OSC: platform does not support [PCIeHotplug LTR DPC]
+[    0.718532] PTP clock support registered
+[    0.724081] EDAC MC: Ver: 3.0.0
+[    1.549177] usbserial: USB Serial support registered for generic
+[    1.556334] intel_pstate: CPU model not supported
+[    2.087280] mpls_gso: MPLS GSO support
+[    4.747779] systemd[1]: Kernel Module supporting RPCSEC_GSS was skipped because of an unmet condition check (ConditionPathExists=/etc/krb5.keytab).
+[    6.357562] i2c i2c-0: Memory type 0x07 not supported yet, not instantiating SPD
+[    6.420977] iTCO_vendor_support: vendor-support=0

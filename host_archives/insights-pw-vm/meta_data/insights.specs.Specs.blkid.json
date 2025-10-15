@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.blkid", "exec_time": 0.00021886825561523438, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/blkid -c /dev/null", "args": null, "save_as": false, "relative_path": "insights_commands/blkid_-c_.dev.null"}}, "ser_time": 0.013962745666503906}

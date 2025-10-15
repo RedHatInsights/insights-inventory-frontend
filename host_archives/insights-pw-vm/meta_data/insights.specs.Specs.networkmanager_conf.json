@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.networkmanager_conf", "exec_time": 4.5299530029296875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/NetworkManager/NetworkManager.conf", "rc": null}}, "ser_time": 0.0007672309875488281}

@@ -1,0 +1,10 @@
+F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+1     0      26       2  20   0      0     0 kaudit S    ?          0:00 [kauditd]
+5     0     611       1  16  -4  91888  4540 do_sel S<sl ?          0:00 /sbin/auditd
+5   993     654       1  20   0  84916  4124 do_sel S    ?          0:00 /usr/sbin/chronyd -F 2
+4     0     696       1  20   0 256632 26880 futex_ Ssl  ?          0:00 /usr/bin/python3 -Es /usr/sbin/tuned -l -P
+4     0    1026       1  20   0 161192  8576 do_sel Ssl  ?          0:00 /usr/sbin/rsyslogd -n
+4     0    1337       1  20   0  15860  9344 do_sel Ss   ?          0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+4     0    4173    1337  20   0  19220 11648 do_pol Ss   ?          0:00 sshd: cloud-user [priv]
+5  1000    4186    4173  20   0  19428  7096 do_sel S    ?          0:00 sshd: cloud-user@pts/0
+0     0    4727    4503  20   0   3492  1792 pipe_r S+   pts/0      0:00 grep -F diagxps swift-proxy-ser pkla-check-auth clvmd COMMAND radosgw redis-server -ma] postmaster setroubleshootd openshift start node gnome-shell nfsd catalina.base awx nova-compute mongdb snmpd diagbs /bin/db2fmcd pacemaker-controld setup.sh kubelet pcsd nova-conductor pmie cmirrord monserver tuned dlm_controld ora_ ovs-vswitchd pacemakerd gnocchi-metricd chronyd httpd rngd docker-runc-current ksmtuned openshift start master api auditd avahi pacemaker_remote oracle spausedd /usr/bin/openshift start node corosync smbd backupserver diagserver heat-engine xpserver jboss /usr/bin/openshift start master nginx rhcd openshift start master controllers dataserver histserver abrtd sshd db2sysc crmd ntpd octavia-worker SystemPerformance rsyslogd sap dnsmasq pmcd /usr/bin/teamd ns-slapd

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.nfs_conf", "exec_time": 3.933906555175781e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/nfs.conf", "rc": null}}, "ser_time": 0.0009052753448486328}

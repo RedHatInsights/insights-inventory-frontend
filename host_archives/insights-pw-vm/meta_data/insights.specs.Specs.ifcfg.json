@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ifcfg", "exec_time": 5.3882598876953125e-05, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/sysconfig/network-scripts/ifcfg-eth0", "rc": null}}], "ser_time": 0.0005147457122802734}

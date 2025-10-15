@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.date_utc", "exec_time": 0.00010848045349121094, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/date --utc", "args": null, "save_as": false, "relative_path": "insights_commands/date_--utc"}}, "ser_time": 0.005488157272338867}

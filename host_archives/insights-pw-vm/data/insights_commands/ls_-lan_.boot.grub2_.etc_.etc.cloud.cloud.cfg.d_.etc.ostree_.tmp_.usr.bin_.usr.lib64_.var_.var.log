@@ -1,0 +1,1714 @@
+/bin/ls: cannot access '/etc/ostree': No such file or directory
+/boot/grub2:
+total 24
+drwx------. 4 0 0   65 Apr 19  2024 .
+dr-xr-xr-x. 5 0 0 4096 Mar 20 06:21 ..
+drwx------. 2 0 0   25 Apr 19  2024 fonts
+-rw-r--r--. 1 0 0  596 Apr 19  2024 grub.cfg
+-rw-r--r--. 1 0 0 1024 Apr 19  2024 grubenv
+drwxr-xr-x. 2 0 0 8192 Apr 19  2024 i386-pc
+/etc:
+total 1088
+drwxr-xr-x. 93   0   0   8192 Mar 20 06:21 .
+dr-xr-xr-x. 19   0   0    246 Mar 20 06:20 ..
+-rw-------.  1   0   0      0 Apr 19  2024 .pwd.lock
+-rw-r--r--.  1   0   0    208 Apr 19  2024 .updated
+-rw-r--r--.  1   0   0   4673 Jan 29  2024 DIR_COLORS
+-rw-r--r--.  1   0   0   4755 Jan 29  2024 DIR_COLORS.lightbgcolor
+-rw-r--r--.  1   0   0     94 Aug  9  2021 GREP_COLORS
+drwxr-xr-x.  7   0   0    134 Apr 19  2024 NetworkManager
+drwxr-xr-x.  2   0   0     48 Apr 19  2024 PackageKit
+drwxr-xr-x.  5   0   0     51 Apr 19  2024 X11
+-rw-r--r--.  1   0   0     12 Feb  8  2024 adjtime
+-rw-r--r--.  1   0   0   1529 Jun 23  2020 aliases
+drwxr-xr-x.  2   0   0   4096 Apr 19  2024 alternatives
+-rw-r--r--.  1   0   0    541 Nov 30  2023 anacrontab
+drwxr-x---.  4   0   0    100 Apr 19  2024 audit
+drwxr-xr-x.  3   0   0     46 Apr 19  2024 authselect
+drwxr-xr-x.  2   0   0     38 Apr 19  2024 bash_completion.d
+-rw-r--r--.  1   0   0   2658 Feb  7  2024 bashrc
+-rw-r--r--.  1   0   0    535 Mar 21  2024 bindresvport.blacklist
+drwxr-xr-x.  2   0   0      6 Mar 19  2024 binfmt.d
+-rw-r--r--.  1   0   0   1369 Dec  5  2023 chrony.conf
+-rw-r-----.  1   0 991    540 Jan 23  2024 chrony.keys
+drwxr-xr-x.  2   0   0     26 Apr 19  2024 cifs-utils
+drwxr-xr-x.  4   0   0     59 Apr 19  2024 cloud
+drwxr-xr-x.  4   0   0     66 Apr 19  2024 cockpit
+drwxr-xr-x.  2   0   0     21 Apr 19  2024 cron.d
+drwxr-xr-x.  2   0   0      6 Mar 23  2022 cron.daily
+-rw-r--r--.  1   0   0      0 Nov 30  2023 cron.deny
+drwxr-xr-x.  2   0   0     22 Mar 23  2022 cron.hourly
+drwxr-xr-x.  2   0   0      6 Mar 23  2022 cron.monthly
+drwxr-xr-x.  2   0   0      6 Mar 23  2022 cron.weekly
+-rw-r--r--.  1   0   0    451 Mar 23  2022 crontab
+drwxr-xr-x.  6   0   0     81 Apr 19  2024 crypto-policies
+-rw-r--r--.  1   0   0   1401 Feb  7  2024 csh.cshrc
+-rw-r--r--.  1   0   0   1112 Feb  7  2024 csh.login
+drwxr-xr-x.  4   0   0     78 Apr 19  2024 dbus-1
+drwxr-xr-x.  2   0   0     33 Apr 19  2024 default
+drwxr-xr-x.  2   0   0     23 Apr 19  2024 depmod.d
+drwxr-x---.  3   0   0     24 Apr 19  2024 dhcp
+drwxr-xr-x.  8   0   0    128 Apr 19  2024 dnf
+-rw-r--r--.  1   0   0    117 Jan  3  2024 dracut.conf
+drwxr-xr-x.  2   0   0      6 Jan  3  2024 dracut.conf.d
+-rw-r--r--.  1   0   0      0 Feb  7  2024 environment
+-rw-r--r--.  1   0   0   1362 Jun 23  2020 ethertypes
+-rw-r--r--.  1   0   0      0 Jun 23  2020 exports
+drwxr-xr-x.  2   0   0      6 Feb 18  2024 exports.d
+lrwxrwxrwx.  1   0   0     56 May 15  2023 favicon.png -> /usr/share/icons/hicolor/16x16/apps/fedora-logo-icon.png
+-rw-r--r--.  1   0   0     66 Jun 23  2020 filesystems
+drwxr-xr-x.  3   0   0     20 Apr 19  2024 fonts
+-rw-r--r--.  1   0   0    207 Apr 19  2024 fstab
+drwxr-xr-x.  4   0   0     64 Apr 19  2024 fwupd
+drwxr-xr-x.  2   0   0      6 Mar 24  2023 gcrypt
+drwxr-xr-x.  2   0   0      6 Apr 26  2023 gnupg
+drwxr-xr-x.  4   0   0     40 Apr 19  2024 groff
+-rw-r--r--.  1   0   0    617 Mar 20 06:21 group
+-rw-r--r--.  1   0   0    578 Mar 20 06:20 group-
+drwx------.  2   0   0   4096 Apr 19  2024 grub.d
+lrwxrwxrwx.  1   0   0     22 Feb 22  2024 grub2-efi.cfg -> ../boot/grub2/grub.cfg
+lrwxrwxrwx.  1   0   0     22 Feb 22  2024 grub2.cfg -> ../boot/grub2/grub.cfg
+----------.  1   0   0    494 Mar 20 06:21 gshadow
+----------.  1   0   0    459 Mar 20 06:20 gshadow-
+drwxr-xr-x.  3   0   0     20 Apr 19  2024 gss
+drwxr-xr-x.  2   0   0     79 Apr 19  2024 gssproxy
+-rw-r--r--.  1   0   0      9 Jun 23  2020 host.conf
+-rw-r--r--.  1   0   0     48 Mar 20 06:21 hostname
+-rw-r--r--.  1   0   0    158 Jun 23  2020 hosts
+-rw-r--r--.  1   0   0   5799 Feb 18  2024 idmapd.conf
+-rw-r--r--.  1   0   0    490 Mar 19  2024 inittab
+-rw-r--r--.  1   0   0    943 Jun 23  2020 inputrc
+drwxr-xr-x.  2   0   0   4096 Mar 20 06:25 insights-client
+drwxr-xr-x.  2   0   0    159 Apr 19  2024 iproute2
+-rw-r--r--.  1   0   0     23 Apr  5  2024 issue
+drwxr-xr-x.  2   0   0     27 Apr 19  2024 issue.d
+-rw-r--r--.  1   0   0     22 Apr  5  2024 issue.net
+drwxr-xr-x.  4   0   0     33 Apr 19  2024 kdump
+-rw-r--r--.  1   0   0   8979 Apr 19  2024 kdump.conf
+drwxr-xr-x.  3   0   0     38 Apr 19  2024 kernel
+drwxr-xr-x.  2   0   0      6 Oct 17  2022 keyutils
+-rw-r--r--.  1   0   0    880 Aug  9  2023 krb5.conf
+drwxr-xr-x.  2   0   0     55 Apr 19  2024 krb5.conf.d
+-rw-r--r--.  1   0   0  14199 Mar 20 06:20 ld.so.cache
+-rw-r--r--.  1   0   0     28 Aug  2  2021 ld.so.conf
+drwxr-xr-x.  2   0   0      6 Jan 30  2024 ld.so.conf.d
+-rw-r-----.  1   0   0    191 Aug  6  2023 libaudit.conf
+drwxr-xr-x.  2   0   0   4096 Apr 19  2024 libibverbs.d
+drwxr-xr-x.  2   0   0     35 Apr 19  2024 libnl
+drwxr-xr-x.  6   0   0     70 Apr 19  2024 libreport
+drwxr-xr-x.  2   0   0     62 Apr 19  2024 libssh
+-rw-r--r--.  1   0   0   2391 Mar  1  2021 libuser.conf
+-rw-r--r--.  1   0   0     13 Mar 20 06:21 locale.conf
+lrwxrwxrwx.  1   0   0     38 Apr 19  2024 localtime -> ../usr/share/zoneinfo/America/New_York
+-rw-r--r--.  1   0   0   7778 Jul 12  2023 login.defs
+-rw-r--r--.  1   0   0    496 Jun  7  2020 logrotate.conf
+drwxr-xr-x.  2   0   0    149 Apr 19  2024 logrotate.d
+-r--r--r--.  1   0   0     33 Mar 20 06:20 machine-id
+-rw-r--r--.  1   0   0    111 Nov 29  2023 magic
+-rw-r--r--.  1   0   0   5122 Jan 30  2024 makedumpfile.conf.sample
+-rw-r--r--.  1   0   0   5235 Sep 20  2022 man_db.conf
+drwxr-xr-x.  3   0   0     32 Apr 19  2024 microcode_ctl
+-rw-r--r--.  1   0   0   1208 Dec 13  2023 mke2fs.conf
+drwxr-xr-x.  2   0   0     42 Apr 19  2024 modprobe.d
+drwxr-xr-x.  2   0   0      6 Mar 19  2024 modules-load.d
+-rw-r--r--.  1   0   0      0 Jun 23  2020 motd
+drwxr-xr-x.  2   0   0     44 Mar 20 06:25 motd.d
+lrwxrwxrwx.  1   0   0     19 Apr 19  2024 mtab -> ../proc/self/mounts
+-rw-r--r--.  1   0   0    767 Mar 21  2024 netconfig
+-rw-r--r--.  1   0   0     58 Jun 23  2020 networks
+-rw-r--r--.  1   0   0   1468 Feb 18  2024 nfs.conf
+-rw-r--r--.  1   0   0   3604 Feb 18  2024 nfsmount.conf
+-rw-r--r--.  1   0   0   2124 Apr 19  2024 nsswitch.conf
+-rw-r--r--.  1   0   0   2108 Jan 30  2024 nsswitch.conf.bak
+drwxr-xr-x.  2   0   0      6 Dec  9  2022 oddjob
+-rw-r--r--.  1   0   0   4922 Dec  9  2022 oddjobd.conf
+drwxr-xr-x.  2   0   0     70 Apr 19  2024 oddjobd.conf.d
+drwxr-xr-x.  3   0   0     36 Apr 19  2024 openldap
+drwxr-xr-x.  2   0   0      6 Aug  9  2021 opt
+lrwxrwxrwx.  1   0   0     21 Apr  5  2024 os-release -> ../usr/lib/os-release
+drwxr-xr-x.  2   0   0   4096 Apr 19  2024 pam.d
+-rw-r--r--.  1   0   0   1409 Mar 20 06:21 passwd
+-rw-r--r--.  1   0   0   1409 Mar 20 06:21 passwd-
+drwxr-xr-x.  3   0   0     21 Apr 19  2024 pkcs11
+drwxr-xr-x. 14   0   0   4096 Mar 20 06:25 pki
+drwxr-xr-x.  5   0   0     52 Apr 19  2024 pm
+drwxr-xr-x.  5   0   0     72 Apr 19  2024 polkit-1
+drwxr-xr-x.  2   0   0      6 Aug 10  2021 popt.d
+-rw-r--r--.  1   0   0    233 Jun 23  2020 printcap
+-rw-r--r--.  1   0   0   1899 Feb  7  2024 profile
+drwxr-xr-x.  2   0   0   4096 Apr 19  2024 profile.d
+-rw-r--r--.  1   0   0   6568 Jun 23  2020 protocols
+drwxr-xr-x.  3   0   0     50 Apr 19  2024 qemu-ga
+drwxr-xr-x.  3   0   0     36 Apr 19  2024 rc.d
+lrwxrwxrwx.  1   0   0     13 Mar 19  2024 rc.local -> rc.d/rc.local
+-rw-r--r--.  1   0   0     44 Apr  5  2024 redhat-release
+-rw-r--r--.  1   0   0   1787 Oct 17  2022 request-key.conf
+drwxr-xr-x.  2   0   0     30 Apr 19  2024 request-key.d
+-rw-r--r--.  1   0   0    100 Mar 20 06:21 resolv.conf
+drwxr-xr-x.  3   0   0     40 Apr 19  2024 rhc
+drwxr-xr-x.  6   0   0     84 Mar 20 06:25 rhsm
+-rw-r--r--.  1   0   0   1634 Aug  1  2021 rpc
+drwxr-xr-x.  2   0   0      6 Dec 13  2023 rpm
+-rw-r--r--.  1   0   0    458 Nov  2  2022 rsyncd.conf
+-rw-r--r--.  1   0   0   3380 Jan  8  2024 rsyslog.conf
+drwxr-xr-x.  2   0   0     31 Apr 19  2024 rsyslog.d
+drwxr-xr-x.  2   0   0     51 Apr 19  2024 rwtab.d
+drwxr-xr-x.  2   0   0      6 Sep 12  2022 sasl2
+drwxr-xr-x.  7   0   0   4096 Apr 19  2024 security
+drwxr-xr-x.  3   0   0     57 Apr 19  2024 selinux
+-rw-r--r--.  1   0   0 692252 Jun 23  2020 services
+-rw-r--r--.  1   0   0    216 Feb 19  2024 sestatus.conf
+drwxr-xr-x.  2   0   0     33 Apr 19  2024 setroubleshoot
+----------.  1   0   0    697 Mar 20 06:21 shadow
+----------.  1   0   0    697 Mar 20 06:21 shadow-
+-rw-r--r--.  1   0   0     44 Jun 23  2020 shells
+drwxr-xr-x.  2   0   0     62 Apr 19  2024 skel
+drwxr-xr-x.  6   0   0     86 Apr 19  2024 sos
+drwxr-xr-x.  4   0   0   4096 Mar 20 06:21 ssh
+drwxr-xr-x.  2   0   0     77 Apr 19  2024 ssl
+drwx------.  4 996 994     31 Apr 19  2024 sssd
+drwxr-xr-x.  2   0   0      6 Aug  9  2021 statetab.d
+-rw-r--r--.  1   0   0     24 Mar 20 06:21 subgid
+-rw-r--r--.  1   0   0      0 Jun 23  2020 subgid-
+-rw-r--r--.  1   0   0     24 Mar 20 06:21 subuid
+-rw-r--r--.  1   0   0      0 Jun 23  2020 subuid-
+-rw-r-----.  1   0   0   3181 Jan 24  2024 sudo-ldap.conf
+-rw-r-----.  1   0   0   3983 Jan 24  2024 sudo.conf
+-r--r-----.  1   0   0   4328 Jan 24  2024 sudoers
+drwxr-x---.  2   0   0     33 Mar 20 06:21 sudoers.d
+drwxr-xr-x.  3   0   0     24 Apr 19  2024 swid
+drwxr-xr-x.  3   0   0   4096 Apr 19  2024 sysconfig
+-rw-r--r--.  1   0   0    449 Mar 19  2024 sysctl.conf
+drwxr-xr-x.  2   0   0     28 Apr 19  2024 sysctl.d
+lrwxrwxrwx.  1   0   0     14 Apr  5  2024 system-release -> redhat-release
+-rw-r--r--.  1   0   0     41 Apr  5  2024 system-release-cpe
+drwxr-xr-x.  4   0   0    166 Apr 19  2024 systemd
+drwxr-xr-x.  2   0   0      6 Aug 21  2023 terminfo
+drwxr-xr-x.  2   0   0     22 Apr 19  2024 tmpfiles.d
+drwxr-xr-x.  3   0   0     51 Apr 19  2024 tpm2-tss
+drwxr-xr-x.  3   0   0    136 Apr 19  2024 tuned
+drwxr-xr-x.  4   0   0     68 Mar 20 06:20 udev
+-rw-r--r--.  1   0   0   1184 Feb  9  2023 virc
+-rw-r--r--.  1   0   0    817 Aug  9  2021 xattr.conf
+drwxr-xr-x.  4   0   0     38 Apr 19  2024 xdg
+drwxr-xr-x.  2   0   0     57 Apr 19  2024 yum
+lrwxrwxrwx.  1   0   0     12 Oct 26  2023 yum.conf -> dnf/dnf.conf
+drwxr-xr-x.  2   0   0     25 Mar 20 06:25 yum.repos.d
+/etc/cloud/cloud.cfg.d:
+total 8
+drwxr-xr-x. 2 0 0   42 Apr 19  2024 .
+drwxr-xr-x. 4 0 0   59 Apr 19  2024 ..
+-rw-r--r--. 1 0 0 2070 Dec  4  2023 05_logging.cfg
+-rw-r--r--. 1 0 0  167 Dec  4  2023 README
+/tmp:
+total 8
+drwxrwxrwt. 11 0 0 4096 Mar 20 06:26 .
+dr-xr-xr-x. 19 0 0  246 Mar 20 06:20 ..
+drwxrwxrwt.  2 0 0    6 Mar 20 06:20 .ICE-unix
+drwxrwxrwt.  2 0 0    6 Mar 20 06:20 .X11-unix
+drwxrwxrwt.  2 0 0    6 Mar 20 06:20 .XIM-unix
+drwxrwxrwt.  2 0 0    6 Mar 20 06:20 .font-unix
+-rw-r--r--.  1 0 0    4 Mar 20 06:25 insights-client.ppid
+drwx------.  3 0 0   17 Mar 20 06:20 systemd-private-4d00031962fe4d8e944fb9485e3d3bed-chronyd.service-gfdPF6
+drwx------.  3 0 0   17 Mar 20 06:20 systemd-private-4d00031962fe4d8e944fb9485e3d3bed-dbus-broker.service-gnBwaO
+drwx------.  3 0 0   17 Mar 20 06:21 systemd-private-4d00031962fe4d8e944fb9485e3d3bed-kdump.service-1fcLTc
+drwx------.  3 0 0   17 Mar 20 06:26 systemd-private-4d00031962fe4d8e944fb9485e3d3bed-systemd-localed.service-ZFRyoc
+drwx------.  3 0 0   17 Mar 20 06:20 systemd-private-4d00031962fe4d8e944fb9485e3d3bed-systemd-logind.service-59AXzl
+/usr/bin:
+total 66916
+dr-xr-xr-x.  2 0 0   20480 Apr 19  2024 .
+drwxr-xr-x. 12 0 0     144 Apr 19  2024 ..
+-rwxr-xr-x.  1 0 0   53056 Jan 29  2024 [
+-rwxr-xr-x.  1 0 0   28584 Feb 14  2024 addr2line
+-rwxr-xr-x.  1 0 0      33 Feb 15  2024 alias
+-rwxr-xr-x.  1 0 0   32616 Aug  9  2021 appstream-compose
+-rwxr-xr-x.  1 0 0  119848 Aug  9  2021 appstream-util
+lrwxrwxrwx.  1 0 0      25 Apr 19  2024 apropos -> /etc/alternatives/apropos
+lrwxrwxrwx.  1 0 0       6 Sep 20  2022 apropos.man-db -> whatis
+-rwxr-xr-x.  1 0 0   57512 Feb 14  2024 ar
+-rwxr-xr-x.  1 0 0   32424 Jan 29  2024 arch
+-rwxr-xr-x.  1 0 0   27896 Jun  8  2023 arping
+-rwxr-xr-x.  1 0 0  727552 Feb 14  2024 as
+-rwxr-xr-x.  1 0 0   15064 Feb 19  2024 audit2allow
+lrwxrwxrwx.  1 0 0      11 Feb 19  2024 audit2why -> audit2allow
+-rwxr-xr-x.  1 0 0   19848 Nov  8  2023 aulast
+-rwxr-xr-x.  1 0 0   15680 Nov  8  2023 aulastlog
+-rwxr-xr-x.  1 0 0   15672 Nov  8  2023 ausyscall
+-rwxr-xr-x.  1 0 0   44728 Aug  3  2023 authselect
+-rwxr-xr-x.  1 0 0   36336 Nov  8  2023 auvirt
+lrwxrwxrwx.  1 0 0       4 Feb 16  2022 awk -> gawk
+-rwxr-xr-x.  1 0 0   53048 Jan 29  2024 b2sum
+-rwxr-xr-x.  1 0 0   36560 Jan 29  2024 base32
+-rwxr-xr-x.  1 0 0   36560 Jan 29  2024 base64
+-rwxr-xr-x.  1 0 0   36536 Jan 29  2024 basename
+-rwxr-xr-x.  1 0 0   49168 Jan 29  2024 basenc
+-rwxr-xr-x.  1 0 0 1389072 Feb 15  2024 bash
+lrwxrwxrwx.  1 0 0      10 Feb 15  2024 bashbug -> bashbug-64
+-rwxr-xr-x.  1 0 0    7079 Feb 15  2024 bashbug-64
+-rwxr-xr-x.  1 0 0      30 Feb 15  2024 bg
+-rwxr-xr-x.  1 0 0   23293 Jul 20  2020 bond2team
+-rwxr-xr-x.  1 0 0  103128 Mar 19  2024 bootctl
+-rwxr-xr-x.  1 0 0  102728 Mar 19  2024 busctl
+-rwxr-xr-x.  1 0 0   28016 Feb 14  2024 c++filt
+-rwxr-xr-x.  1 0 0    1648 Aug 29  2023 ca-legacy
+-rwxr-xr-x.  1 0 0   53248 Feb  8  2024 cal
+lrwxrwxrwx.  1 0 0       3 Aug 21  2023 captoinfo -> tic
+-rwxr-xr-x.  1 0 0   36520 Jan 29  2024 cat
+-rwxr-xr-x.  1 0 0    3289 Jan 30  2024 catchsegv
+-rwxr-xr-x.  1 0 0   36720 Sep 20  2022 catman
+-rwxr-xr-x.  1 0 0      30 Feb 15  2024 cd
+-rwxr-xr-x.  1 0 0   14464 Apr 10  2024 centrino-decode
+-rwxr-xr-x.  1 0 0   19600 Oct  6  2023 chacl
+-rwsr-xr-x.  1 0 0   73704 Jul 12  2023 chage
+-rwxr-xr-x.  1 0 0     225 Feb 21  2022 chardetect
+-rwxr-xr-x.  1 0 0   15736 Dec 13  2023 chattr
+-rwxr-xr-x.  1 0 0   13957 Feb 19  2024 chcat
+-rwxr-xr-x.  1 0 0   61696 Jan 29  2024 chcon
+-rwxr-xr-x.  1 0 0  462112 Dec 14  2023 checkmodule
+-rwxr-xr-x.  1 0 0  540592 Dec 14  2023 checkpolicy
+-rwxr-xr-x.  1 0 0   57520 Jan 29  2024 chgrp
+-rwxr-xr-x.  1 0 0   36432 Feb  8  2024 chmem
+-rwxr-xr-x.  1 0 0   57536 Jan 29  2024 chmod
+-rwxr-xr-x.  1 0 0   24040 Feb  8  2024 choom
+-rwxr-xr-x.  1 0 0   61648 Jan 29  2024 chown
+-rwxr-xr-x.  1 0 0  103240 Jan 23  2024 chronyc
+-rwxr-xr-x.  1 0 0   28136 Feb  8  2024 chrt
+-rwxr-xr-x.  1 0 0   15544 Jun 21  2023 chvt
+-rwxr-xr-x.  1 0 0   36432 Jan 29  2024 cksum
+-rwxr-xr-x.  1 0 0   15512 Aug 21  2023 clear
+-rwxr-xr-x.  1 0 0   23752 Jun  8  2023 clockdiff
+-rwxr-xr-x.  1 0 0     966 Mar 14  2024 cloud-id
+-rwxr-xr-x.  1 0 0     970 Mar 14  2024 cloud-init
+-rwxr-xr-x.  1 0 0    2112 Mar 14  2024 cloud-init-per
+-rwxr-xr-x.  1 0 0   41088 Aug  9  2021 cmp
+-rwxr-xr-x.  1 0 0     213 Feb 20  2024 cockpit-bridge
+-rwxr-xr-x.  1 0 0   23968 Feb  8  2024 col
+-rwxr-xr-x.  1 0 0   15744 Feb  8  2024 colcrt
+-rwxr-xr-x.  1 0 0   15720 Feb  8  2024 colrm
+-rwxr-xr-x.  1 0 0   36368 Feb  8  2024 column
+-rwxr-xr-x.  1 0 0   36624 Jan 29  2024 comm
+-rwxr-xr-x.  1 0 0      35 Feb 15  2024 command
+-rwxr-xr-x.  1 0 0   16032 Dec  9  2021 consolehelper
+-rwxr-xr-x.  1 0 0   61464 Mar 19  2024 coredumpctl
+-rwxr-xr-x.  1 0 0  152824 Jan 29  2024 cp
+-rwxr-xr-x.  1 0 0  148992 Sep 14  2021 cpio
+-rwxr-xr-x.  1 0 0   82608 Apr 10  2024 cpupower
+-rwxr-xr-x.  1 0 0   40896 Nov 30  2023 cronnext
+-rwsr-xr-x.  1 0 0   57296 Nov 30  2023 crontab
+-rwxr-xr-x.  1 0 0  111496 Jan 29  2024 csplit
+-rwxr-xr-x.  1 0 0  254632 Mar  7  2024 curl
+-rwxr-xr-x.  1 0 0   48968 Jan 29  2024 cut
+-rwxr-xr-x.  1 0 0  239088 Jan 24  2024 cvtsudoers
+-rwxr-xr-x.  1 0 0 1651760 Sep 12  2022 cyrusbdb2current
+-rwxr-xr-x.  1 0 0  106560 Jan 29  2024 date
+-rwxr-xr-x.  1 0 0  236336 Aug 23  2022 dbus-broker
+-rwxr-xr-x.  1 0 0  131896 Aug 23  2022 dbus-broker-launch
+-rwxr-xr-x.  1 0 0   27920 Jun 12  2023 dbus-monitor
+-rwxr-xr-x.  1 0 0   27872 Jun 12  2023 dbus-send
+-rwxr-xr-x.  1 0 0   15536 Jun 12  2023 dbus-update-activation-environment
+-rwxr-xr-x.  1 0 0   15504 Jun 12  2023 dbus-uuidgen
+-rwxr-xr-x.  1 0 0   40560 Feb 19  2024 dbxtool
+-rwxr-xr-x.  1 0 0   69792 Jan 29  2024 dd
+-rwxr-xr-x.  1 0 0   15552 Jun 21  2023 deallocvt
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 debuginfo-install -> /usr/libexec/dnf-utils
+-rwxr-xr-x.  1 0 0   19904 Dec 11  2023 debuginfod-find
+-rwxr-xr-x.  1 0 0   86768 Jan 29  2024 df
+-rwxr-xr-x.  1 0 0  127656 Feb 19  2024 dfu-tool
+-rwxr-xr-x.  1 0 0  199336 Aug  9  2021 diff
+-rwxr-xr-x.  1 0 0   53552 Aug  9  2021 diff3
+-rwxr-xr-x.  1 0 0  140960 Jan 29  2024 dir
+-rwxr-xr-x.  1 0 0   40768 Jan 29  2024 dircolors
+-rwxr-xr-x.  1 0 0  450512 Apr 26  2023 dirmngr
+-rwxr-xr-x.  1 0 0   57464 Apr 26  2023 dirmngr-client
+-rwxr-xr-x.  1 0 0   32248 Jan 29  2024 dirname
+-rwxr-xr-x.  1 0 0     953 Aug 10  2021 distro
+-rwxr-xr-x.  1 0 0   73688 Feb  8  2024 dmesg
+lrwxrwxrwx.  1 0 0       5 Oct 26  2023 dnf -> dnf-3
+-rwxr-xr-x.  1 0 0    2094 Oct 26  2023 dnf-3
+lrwxrwxrwx.  1 0 0       8 Aug  9  2021 dnsdomainname -> hostname
+lrwxrwxrwx.  1 0 0       8 Aug  9  2021 domainname -> hostname
+-rwxr-xr-x.  1 0 0   99879 Jan  3  2024 dracut
+-rwxr-xr-x.  1 0 0  153032 Jan 29  2024 du
+-rwxr-xr-x.  1 0 0  167800 Jun 21  2023 dumpkeys
+-rwxr-xr-x.  1 0 0  872112 Feb 14  2024 dwp
+-rwxr-xr-x.  1 0 0   36344 Jan 29  2024 echo
+-rwxr-xr-x.  1 0 0      32 Aug  9  2021 egrep
+-rwxr-xr-x.  1 0 0   44832 Feb  8  2024 eject
+-rwxr-xr-x.  1 0 0   36880 Feb 14  2024 elfedit
+-rwxr-xr-x.  1 0 0   45296 Jan 29  2024 env
+-rwxr-xr-x.  1 0 0   36240 Mar 30  2023 envsubst
+-rwxr-xr-x.  1 0 0  194080 Oct 11  2021 eqn
+-rwxr-xr-x.  1 0 0   67776 Dec 13  2021 evmctl
+lrwxrwxrwx.  1 0 0      15 Feb  9  2023 ex -> /usr/libexec/vi
+-rwxr-xr-x.  1 0 0   40696 Jan 29  2024 expand
+-rwxr-xr-x.  1 0 0  111216 Jan 29  2024 expr
+-rwxr-xr-x.  1 0 0   73792 Jan 29  2024 factor
+-rwxr-xr-x.  1 0 0   23936 Feb  8  2024 fallocate
+-rwxr-xr-x.  1 0 0   28136 Jan 29  2024 false
+-rwxr-xr-x.  1 0 0      30 Feb 15  2024 fc
+-rwxr-xr-x.  1 0 0      30 Feb 15  2024 fg
+-rwxr-xr-x.  1 0 0   15536 Jun 21  2023 fgconsole
+-rwxr-xr-x.  1 0 0      32 Aug  9  2021 fgrep
+-rwxr-xr-x.  1 0 0   28472 Nov 29  2023 file
+-rwxr-xr-x.  1 0 0   24040 Feb  8  2024 fincore
+-rwxr-xr-x.  1 0 0  291600 Aug 17  2023 find
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 find-repos-of-install -> /usr/libexec/dnf-utils
+-rwxr-xr-x.  1 0 0   66480 Feb  8  2024 findmnt
+-rwxr-xr-x.  1 0 0    1764 Feb  2  2024 fips-finish-install
+-rwxr-xr-x.  1 0 0    5755 Feb  2  2024 fips-mode-setup
+-rwxr-xr-x.  1 0 0   24112 Feb  8  2024 flock
+-rwxr-xr-x.  1 0 0   40736 Jan 29  2024 fmt
+-rwxr-xr-x.  1 0 0   40672 Jan 29  2024 fold
+-rwxr-xr-x.  1 0 0   24000 Jan 23  2024 free
+-rwxr-xr-x.  1 0 0   74624 Dec 13  2023 fuse2fs
+lrwxrwxrwx.  1 0 0       8 Feb 19  2024 fwupdagent -> fwupdmgr
+-rwxr-xr-x.  1 0 0  115120 Feb 19  2024 fwupdate
+-rwxr-xr-x.  1 0 0  148376 Feb 19  2024 fwupdmgr
+-rwxr-xr-x.  1 0 0  144264 Feb 19  2024 fwupdtool
+-rwxr-xr-x.  1 0 0  112936 Apr 26  2023 g13
+-rwxr-xr-x.  1 0 0   23944 Feb 21  2024 gapplication
+-rwxr-xr-x.  1 0 0  714976 Feb 16  2022 gawk
+-rwxr-xr-x.  1 0 0   52912 Feb 21  2024 gdbus
+-rwxr-xr-x.  1 0 0   15528 Nov  1  2022 gdk-pixbuf-query-loaders-64
+-rwxr-xr-x.  1 0 0   19600 Nov  1  2022 gdk-pixbuf-thumbnailer
+-rwxr-xr-x.  1 0 0   28304 Jan 30  2024 gencat
+-rwxr-xr-x.  1 0 0   15848 Dec  4  2023 genl-ctrl-list
+lrwxrwxrwx.  1 0 0       3 Oct 11  2021 geqn -> eqn
+-rwxr-xr-x.  1 0 0   36256 Jan 30  2024 getconf
+-rwxr-xr-x.  1 0 0   36888 Jan 30  2024 getent
+-rwxr-xr-x.  1 0 0   32560 Oct  6  2023 getfacl
+-rwxr-xr-x.  1 0 0   15528 Jun 21  2023 getkeycodes
+-rwxr-xr-x.  1 0 0   24008 Feb  8  2024 getopt
+-rwxr-xr-x.  1 0 0      35 Feb 15  2024 getopts
+-rwxr-xr-x.  1 0 0   36200 Mar 30  2023 gettext
+-rwxr-xr-x.  1 0 0    5191 Mar 30  2023 gettext.sh
+-rwxr-xr-x.  1 0 0   94200 Feb 21  2024 gio
+-rwxr-xr-x.  1 0 0   15672 Feb 21  2024 gio-querymodules-64
+-rwxr-xr-x.  1 0 0   52880 Feb 21  2024 glib-compile-schemas
+lrwxrwxrwx.  1 0 0       4 Oct 11  2021 gneqn -> neqn
+lrwxrwxrwx.  1 0 0       5 Oct 11  2021 gnroff -> nroff
+-rwsr-xr-x.  1 0 0   78024 Jul 12  2023 gpasswd
+-rwxr-xr-x.  1 0 0 1123664 Apr 26  2023 gpg
+-rwxr-xr-x.  1 0 0  350464 Apr 26  2023 gpg-agent
+-rwxr-xr-x.  1 0 0  174208 Apr 26  2023 gpg-card
+-rwxr-xr-x.  1 0 0   86776 Apr 26  2023 gpg-connect-agent
+-rwxr-xr-x.  1 0 0   36992 Dec  7  2021 gpg-error
+-rwxr-xr-x.  1 0 0  132648 Apr 26  2023 gpg-wks-client
+-rwxr-xr-x.  1 0 0  116040 Apr 26  2023 gpg-wks-server
+lrwxrwxrwx.  1 0 0       3 Apr 26  2023 gpg2 -> gpg
+-rwxr-xr-x.  1 0 0  103408 Apr 26  2023 gpgconf
+-rwxr-xr-x.  1 0 0   86656 Feb 17  2022 gpgme-json
+-rwxr-xr-x.  1 0 0   36176 Apr 26  2023 gpgparsemail
+-rwxr-xr-x.  1 0 0   28160 Apr 26  2023 gpgsplit
+-rwxr-xr-x.  1 0 0   66424 Apr 26  2023 gpgtar
+-rwxr-xr-x.  1 0 0  302512 Apr 26  2023 gpgv
+lrwxrwxrwx.  1 0 0       4 Apr 26  2023 gpgv2 -> gpgv
+lrwxrwxrwx.  1 0 0       3 Oct 11  2021 gpic -> pic
+-rwxr-xr-x.  1 0 0   18560 Apr 10  2024 gpio-event-mon
+-rwxr-xr-x.  1 0 0   14456 Apr 10  2024 gpio-hammer
+-rwxr-xr-x.  1 0 0   14456 Apr 10  2024 gpio-watch
+-rwxr-xr-x.  1 0 0  104088 Feb 14  2024 gprof
+-rwxr-xr-x.  1 0 0  158176 Aug  9  2021 grep
+-rwxr-xr-x.  1 0 0   99104 Oct 11  2021 groff
+-rwxr-xr-x.  1 0 0  171328 Oct 11  2021 grops
+-rwxr-xr-x.  1 0 0  125168 Oct 11  2021 grotty
+-rwxr-xr-x.  1 0 0   36528 Jan 29  2024 groups
+-rwxr-xr-x.  1 0 0   29899 Oct 20  2022 growpart
+-rwxr-xr-x.  1 0 0  474712 Feb 22  2024 grub2-editenv
+-rwxr-xr-x.  1 0 0 1136168 Feb 22  2024 grub2-file
+-rwxr-xr-x.  1 0 0  276104 Feb 22  2024 grub2-menulst2cfg
+-rwxr-xr-x.  1 0 0  448952 Feb 22  2024 grub2-mkimage
+-rwxr-xr-x.  1 0 0  302056 Feb 22  2024 grub2-mkpasswd-pbkdf2
+-rwxr-xr-x.  1 0 0  289096 Feb 22  2024 grub2-mkrelpath
+-rwxr-xr-x.  1 0 0 1042552 Feb 22  2024 grub2-mount
+-rwxr-xr-x.  1 0 0  322640 Feb 22  2024 grub2-script-check
+-rwxr-xr-x.  1 0 0   32320 Feb 21  2024 gsettings
+lrwxrwxrwx.  1 0 0       6 Oct 11  2021 gsoelim -> soelim
+lrwxrwxrwx.  1 0 0       3 Feb 13  2023 gtar -> tar
+lrwxrwxrwx.  1 0 0       3 Oct 11  2021 gtbl -> tbl
+lrwxrwxrwx.  1 0 0       5 Oct 11  2021 gtroff -> troff
+-rwxr-xr-x.  1 0 0    2350 Apr 21  2022 gunzip
+-rwxr-xr-x.  1 0 0    6451 Apr 21  2022 gzexe
+-rwxr-xr-x.  1 0 0   91792 Apr 21  2022 gzip
+-rwxr-xr-x.  1 0 0   36472 Feb  8  2024 hardlink
+-rwxr-xr-x.  1 0 0      32 Feb 15  2024 hash
+-rwxr-xr-x.  1 0 0   44856 Jan 29  2024 head
+-rwxr-xr-x.  1 0 0   52824 Feb  8  2024 hexdump
+-rwxr-xr-x.  1 0 0   32424 Jan 29  2024 hostid
+-rwxr-xr-x.  1 0 0   24384 Aug  9  2021 hostname
+-rwxr-xr-x.  1 0 0   32424 Mar 19  2024 hostnamectl
+lrwxrwxrwx.  1 0 0       7 Feb  8  2024 i386 -> setarch
+-rwxr-xr-x.  1 0 0   65952 Jan 30  2024 iconv
+-rwxr-xr-x.  1 0 0   40672 Jan 29  2024 id
+-rwxr-xr-x.  1 0 0   15896 Dec  4  2023 idiag-socket-details
+-rwxr-xr-x.  1 0 0   30856 Apr 10  2024 iio_event_monitor
+-rwxr-xr-x.  1 0 0   34960 Apr 10  2024 iio_generic_buffer
+-rwxr-xr-x.  1 0 0   65208 Aug 21  2023 infocmp
+lrwxrwxrwx.  1 0 0       3 Aug 21  2023 infotocap -> tic
+-rwxr-xr-x.  1 0 0     176 Feb 15  2024 insights-client
+-rwxr-xr-x.  1 0 0  152872 Jan 29  2024 install
+-rwxr-xr-x.  1 0 0  115368 Apr 10  2024 intel-speed-select
+-rwxr-xr-x.  1 0 0   15760 Feb  8  2024 ionice
+-rwxr-xr-x.  1 0 0   57416 Aug  9  2021 ipcalc
+-rwxr-xr-x.  1 0 0   24040 Feb  8  2024 ipcmk
+-rwxr-xr-x.  1 0 0   19872 Feb  8  2024 ipcrm
+-rwxr-xr-x.  1 0 0   40464 Feb  8  2024 ipcs
+-rwxr-xr-x.  1 0 0   36304 Feb  8  2024 irqtop
+-rwxr-xr-x.  1 0 0   15696 Feb  8  2024 isosize
+-rwxr-xr-x.  1 0 0   45248 Aug 10  2021 jcat-tool
+-rwxr-xr-x.  1 0 0      32 Feb 15  2024 jobs
+-rwxr-xr-x.  1 0 0   53128 Jan 29  2024 join
+-rwxr-xr-x.  1 0 0   90392 Mar 19  2024 journalctl
+-rwxr-xr-x.  1 0 0   32040 Oct 25  2023 jq
+lrwxrwxrwx.  1 0 0      14 Aug 10  2021 jsondiff -> ./jsondiff-3.9
+lrwxrwxrwx.  1 0 0      14 Aug 10  2021 jsondiff-3 -> ./jsondiff-3.9
+-rwxr-xr-x.  1 0 0    1021 Aug 10  2021 jsondiff-3.9
+lrwxrwxrwx.  1 0 0      15 Aug 10  2021 jsonpatch -> ./jsonpatch-3.9
+lrwxrwxrwx.  1 0 0      15 Aug 10  2021 jsonpatch-3 -> ./jsonpatch-3.9
+-rwxr-xr-x.  1 0 0    3664 Aug 10  2021 jsonpatch-3.9
+lrwxrwxrwx.  1 0 0      17 Aug 10  2021 jsonpointer -> ./jsonpointer-3.9
+lrwxrwxrwx.  1 0 0      17 Aug 10  2021 jsonpointer-3 -> ./jsonpointer-3.9
+-rwxr-xr-x.  1 0 0    1840 Aug 10  2021 jsonpointer-3.9
+-rwxr-xr-x.  1 0 0     973 Aug 10  2021 jsonschema
+-rwxr-xr-x.  1 0 0   15880 Jun 21  2023 kbd_mode
+-rwxr-xr-x.  1 0 0   19656 Jun 21  2023 kbdinfo
+-rwxr-xr-x.  1 0 0   19664 Jun 21  2023 kbdrate
+-rwxr-xr-x.  1 0 0   48676 Jan 30  2024 kdumpctl
+-rwxr-xr-x.  1 0 0   13383 Mar 19  2024 kernel-install
+-rwxr-xr-x.  1 0 0   65560 Oct 17  2022 keyctl
+-rwxr-xr-x.  1 0 0   32208 Feb  8  2024 kill
+-rwxr-xr-x.  1 0 0   33728 Aug 10  2021 killall
+-rwxr-xr-x.  1 0 0  169536 May 19  2023 kmod
+-rwxr-xr-x.  1 0 0   64430 Apr 10  2024 kvm_stat
+-rwxr-xr-x.  1 0 0   36328 Feb  8  2024 last
+lrwxrwxrwx.  1 0 0       4 Feb  8  2024 lastb -> last
+-rwxr-xr-x.  1 0 0   29320 Jul 12  2023 lastlog
+-rwxr-xr-x.  1 0 0   23680 Jul 12  2023 lchfn
+-rwxr-xr-x.  1 0 0   23680 Jul 12  2023 lchsh
+lrwxrwxrwx.  1 0 0      20 Apr 19  2024 ld -> /etc/alternatives/ld
+-rwxr-xr-x.  1 0 0 1787672 Feb 14  2024 ld.bfd
+-rwxr-xr-x.  1 0 0 2128672 Feb 14  2024 ld.gold
+lrwxrwxrwx.  1 0 0      32 Jan 30  2024 ld.so -> ../../lib64/ld-linux-x86-64.so.2
+-rwxr-xr-x.  1 0 0    5446 Jan 30  2024 ldd
+-rwxr-xr-x.  1 0 0  202440 Mar  6  2024 less
+-rwxr-xr-x.  1 0 0   15544 Mar  6  2024 lessecho
+-rwxr-xr-x.  1 0 0   25200 Mar  6  2024 lesskey
+-rwxr-xr-x.  1 0 0    3580 Mar  6  2024 lesspipe.sh
+-rwxr-xr-x.  1 0 0   90304 Sep 20  2022 lexgrog
+-rwxr-xr-x.  1 0 0   32432 Jan 29  2024 link
+-rwxr-xr-x.  1 0 0    5997 Feb 28  2023 linux-boot-prober
+lrwxrwxrwx.  1 0 0       7 Feb  8  2024 linux32 -> setarch
+lrwxrwxrwx.  1 0 0       7 Feb  8  2024 linux64 -> setarch
+-rwxr-xr-x.  1 0 0   61608 Jan 29  2024 ln
+-rwxr-xr-x.  1 0 0  205168 Jun 21  2023 loadkeys
+-rwxr-xr-x.  1 0 0   32184 Jun 21  2023 loadunimap
+-rwxr-xr-x.  1 0 0   60792 Jan 30  2024 locale
+-rwxr-xr-x.  1 0 0   32376 Mar 19  2024 localectl
+-rwxr-xr-x.  1 0 0  322128 Jan 30  2024 localedef
+-rwxr-xr-x.  1 0 0   37024 Feb  8  2024 logger
+-rwxr-xr-x.  1 0 0   44672 Feb  8  2024 login
+-rwxr-xr-x.  1 0 0   69768 Mar 19  2024 loginctl
+-rwxr-xr-x.  1 0 0   32424 Jan 29  2024 logname
+-rwxr-xr-x.  1 0 0   19816 Feb  8  2024 look
+-rwxr-xr-x.  1 0 0  140952 Jan 29  2024 ls
+-rwxr-xr-x.  1 0 0   15728 Dec 13  2023 lsattr
+-rwxr-xr-x.  1 0 0  127544 Feb  8  2024 lsblk
+-rwxr-xr-x.  1 0 0  111016 Feb  8  2024 lscpu
+-rwxr-xr-x.  1 0 0   14640 Apr 10  2024 lsgpio
+-rwxr-xr-x.  1 0 0   22672 Apr 10  2024 lsiio
+-rwxr-xr-x.  1 0 0   11999 Jan  3  2024 lsinitrd
+-rwxr-xr-x.  1 0 0   52920 Feb  8  2024 lsipc
+-rwxr-xr-x.  1 0 0   23984 Feb  8  2024 lsirq
+-rwxr-xr-x.  1 0 0   32536 Feb  8  2024 lslocks
+-rwxr-xr-x.  1 0 0   52920 Feb  8  2024 lslogins
+-rwxr-xr-x.  1 0 0   36576 Feb  8  2024 lsmem
+-rwxr-xr-x.  1 0 0   40464 Feb  8  2024 lsns
+-rwxr-xr-x.  1 0 0   91568 Aug 17  2021 lsscsi
+-rwxr-xr-x.  1 0 0     614 Feb 21  2024 make-dummy-cert
+lrwxrwxrwx.  1 0 0      21 Apr 19  2024 man -> /etc/alternatives/man
+-rwxr-xr-x.  1 0 0   28672 Sep 20  2022 man-recode
+-rwxr-xr-x.  1 0 0  117672 Sep 20  2022 man.man-db
+-rwxr-xr-x.  1 0 0  136200 Sep 20  2022 mandb
+-rwxr-xr-x.  1 0 0   32584 Sep 20  2022 manpath
+-rwxr-xr-x.  1 0 0   32144 Jun 21  2023 mapscrn
+-rwxr-xr-x.  1 0 0   28152 Feb  8  2024 mcookie
+-rwxr-xr-x.  1 0 0   40600 Jan 29  2024 md5sum
+-rwxr-xr-x.  1 0 0   15688 Feb  8  2024 mesg
+lrwxrwxrwx.  1 0 0      22 Aug 10  2021 miniterm-3.9.py -> /usr/bin/miniterm-3.py
+-rwxr-xr-x.  1 0 0   35101 Aug 10  2021 miniterm-3.py
+lrwxrwxrwx.  1 0 0      22 Aug 10  2021 miniterm.py -> /usr/bin/miniterm-3.py
+-rwxr-xr-x.  1 0 0   69952 Jan 29  2024 mkdir
+-rwxr-xr-x.  1 0 0   40792 Jan 29  2024 mkfifo
+-rwxr-xr-x.  1 0 0   44936 Jan 29  2024 mknod
+-rwxr-xr-x.  1 0 0   40768 Jan 29  2024 mktemp
+-rwxr-xr-x.  1 0 0   28840 Aug 10  2021 mmdblookup
+-rwxr-xr-x.  1 0 0   29056 Aug 12  2021 modulemd-validator
+-rwxr-xr-x.  1 0 0   62512 Oct 27  2022 mokutil
+-rwxr-xr-x.  1 0 0   44656 Feb  8  2024 more
+-rwsr-xr-x.  1 0 0   48664 Feb  8  2024 mount
+-rwxr-xr-x.  1 0 0   19816 Feb  8  2024 mountpoint
+-rwxr-xr-x.  1 0 0   27832 Mar 30  2023 msgattrib
+-rwxr-xr-x.  1 0 0   27792 Mar 30  2023 msgcat
+-rwxr-xr-x.  1 0 0   27920 Mar 30  2023 msgcmp
+-rwxr-xr-x.  1 0 0   27808 Mar 30  2023 msgcomm
+-rwxr-xr-x.  1 0 0   23704 Mar 30  2023 msgconv
+-rwxr-xr-x.  1 0 0   23704 Mar 30  2023 msgen
+-rwxr-xr-x.  1 0 0   23704 Mar 30  2023 msgexec
+-rwxr-xr-x.  1 0 0   36160 Mar 30  2023 msgfilter
+-rwxr-xr-x.  1 0 0   86112 Mar 30  2023 msgfmt
+-rwxr-xr-x.  1 0 0  119200 Mar 30  2023 msggrep
+-rwxr-xr-x.  1 0 0   69056 Mar 30  2023 msginit
+-rwxr-xr-x.  1 0 0   77296 Mar 30  2023 msgmerge
+-rwxr-xr-x.  1 0 0   36176 Mar 30  2023 msgunfmt
+-rwxr-xr-x.  1 0 0   23704 Mar 30  2023 msguniq
+-rwxr-xr-x.  1 0 0  144560 Jan 29  2024 mv
+-rwxr-xr-x.  1 0 0   23968 Feb  8  2024 namei
+-rwxr-xr-x.  1 0 0   28552 Aug 10  2021 ndptool
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 needs-restarting -> /usr/libexec/dnf-utils
+-rwxr-xr-x.  1 0 0     916 Oct 11  2021 neqn
+-rwxr-xr-x.  1 0 0   42960 Jul 12  2023 newgidmap
+-rwsr-xr-x.  1 0 0   41744 Jul 12  2023 newgrp
+-rwxr-xr-x.  1 0 0   38848 Jul 12  2023 newuidmap
+-rwxr-xr-x.  1 0 0   16280 Dec  4  2023 nf-ct-add
+-rwxr-xr-x.  1 0 0   15696 Dec  4  2023 nf-ct-events
+-rwxr-xr-x.  1 0 0   16312 Dec  4  2023 nf-ct-list
+-rwxr-xr-x.  1 0 0   20792 Dec  4  2023 nf-exp-add
+-rwxr-xr-x.  1 0 0   16472 Dec  4  2023 nf-exp-delete
+-rwxr-xr-x.  1 0 0   16320 Dec  4  2023 nf-exp-list
+-rwxr-xr-x.  1 0 0   15688 Dec  4  2023 nf-log
+-rwxr-xr-x.  1 0 0   15696 Dec  4  2023 nf-monitor
+-rwxr-xr-x.  1 0 0   15688 Dec  4  2023 nf-queue
+-rwxr-xr-x.  1 0 0   36200 Mar 30  2023 ngettext
+-rwxr-xr-x.  1 0 0   36536 Jan 29  2024 nice
+lrwxrwxrwx.  1 0 0       8 Aug  9  2021 nisdomainname -> hostname
+-rwxr-xr-x.  1 0 0  103128 Jan 29  2024 nl
+-rwxr-xr-x.  1 0 0   16152 Dec  4  2023 nl-addr-add
+-rwxr-xr-x.  1 0 0   16200 Dec  4  2023 nl-addr-delete
+-rwxr-xr-x.  1 0 0   20312 Dec  4  2023 nl-addr-list
+-rwxr-xr-x.  1 0 0   16136 Dec  4  2023 nl-class-add
+-rwxr-xr-x.  1 0 0   16048 Dec  4  2023 nl-class-delete
+-rwxr-xr-x.  1 0 0   16016 Dec  4  2023 nl-class-list
+-rwxr-xr-x.  1 0 0   15880 Dec  4  2023 nl-classid-lookup
+-rwxr-xr-x.  1 0 0   20288 Dec  4  2023 nl-cls-add
+-rwxr-xr-x.  1 0 0   16120 Dec  4  2023 nl-cls-delete
+-rwxr-xr-x.  1 0 0   16072 Dec  4  2023 nl-cls-list
+-rwxr-xr-x.  1 0 0   15904 Dec  4  2023 nl-fib-lookup
+-rwxr-xr-x.  1 0 0   15656 Dec  4  2023 nl-link-enslave
+-rwxr-xr-x.  1 0 0   15656 Dec  4  2023 nl-link-ifindex2name
+-rwxr-xr-x.  1 0 0   16056 Dec  4  2023 nl-link-list
+-rwxr-xr-x.  1 0 0   15656 Dec  4  2023 nl-link-name2ifindex
+-rwxr-xr-x.  1 0 0   15656 Dec  4  2023 nl-link-release
+-rwxr-xr-x.  1 0 0   16128 Dec  4  2023 nl-link-set
+-rwxr-xr-x.  1 0 0   15920 Dec  4  2023 nl-link-stats
+-rwxr-xr-x.  1 0 0   15672 Dec  4  2023 nl-list-caches
+-rwxr-xr-x.  1 0 0   15656 Dec  4  2023 nl-list-sockets
+-rwxr-xr-x.  1 0 0   15856 Dec  4  2023 nl-monitor
+-rwxr-xr-x.  1 0 0   16040 Dec  4  2023 nl-neigh-add
+-rwxr-xr-x.  1 0 0   16080 Dec  4  2023 nl-neigh-delete
+-rwxr-xr-x.  1 0 0   15984 Dec  4  2023 nl-neigh-list
+-rwxr-xr-x.  1 0 0   15824 Dec  4  2023 nl-neightbl-list
+-rwxr-xr-x.  1 0 0   15848 Dec  4  2023 nl-nh-list
+-rwxr-xr-x.  1 0 0   15912 Dec  4  2023 nl-pktloc-lookup
+-rwxr-xr-x.  1 0 0   16080 Dec  4  2023 nl-qdisc-add
+-rwxr-xr-x.  1 0 0   16048 Dec  4  2023 nl-qdisc-delete
+-rwxr-xr-x.  1 0 0   20168 Dec  4  2023 nl-qdisc-list
+-rwxr-xr-x.  1 0 0   20312 Dec  4  2023 nl-route-add
+-rwxr-xr-x.  1 0 0   20400 Dec  4  2023 nl-route-delete
+-rwxr-xr-x.  1 0 0   15688 Dec  4  2023 nl-route-get
+-rwxr-xr-x.  1 0 0   16248 Dec  4  2023 nl-route-list
+-rwxr-xr-x.  1 0 0   15848 Dec  4  2023 nl-rule-list
+-rwxr-xr-x.  1 0 0   15984 Dec  4  2023 nl-tctree-list
+-rwxr-xr-x.  1 0 0   15656 Dec  4  2023 nl-util-addr
+-rwxr-xr-x.  1 0 0   45968 Feb 14  2024 nm
+-rwxr-xr-x.  1 0 0   24120 Mar 26  2024 nm-online
+-rwxr-xr-x.  1 0 0 1061496 Mar 26  2024 nmcli
+-rwxr-xr-x.  1 0 0  835912 Mar 26  2024 nmtui
+lrwxrwxrwx.  1 0 0       5 Mar 26  2024 nmtui-connect -> nmtui
+lrwxrwxrwx.  1 0 0       5 Mar 26  2024 nmtui-edit -> nmtui
+lrwxrwxrwx.  1 0 0       5 Mar 26  2024 nmtui-hostname -> nmtui
+-rwxr-xr-x.  1 0 0   36440 Jan 29  2024 nohup
+-rwxr-xr-x.  1 0 0   36560 Jan 29  2024 nproc
+-rwxr-xr-x.  1 0 0    3285 Oct 11  2021 nroff
+-rwxr-xr-x.  1 0 0   28312 Feb  8  2024 nsenter
+-rwxr-xr-x.  1 0 0   57168 Jan 29  2024 numfmt
+-rwxr-xr-x.  1 0 0  190000 Feb 14  2024 objcopy
+-rwxr-xr-x.  1 0 0  423208 Feb 14  2024 objdump
+-rwxr-xr-x.  1 0 0   65616 Jan 29  2024 od
+-rwxr-xr-x.  1 0 0   23760 Dec  9  2022 oddjob_request
+-rwxr-xr-x.  1 0 0  999272 Feb 21  2024 openssl
+-rwxr-xr-x.  1 0 0   24112 Jun 21  2023 openvt
+-rwxr-xr-x.  1 0 0    5919 Feb 28  2023 os-prober
+-rwxr-xr-x.  1 0 0  192832 Nov 23  2023 p11-kit
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 package-cleanup -> /usr/libexec/dnf-utils
+-rwxr-xr-x.  1 0 0   26752 Apr 10  2024 page_owner_sort
+-rwsr-xr-x.  1 0 0   32648 Aug 10  2021 passwd
+-rwxr-xr-x.  1 0 0   36448 Jan 29  2024 paste
+-rwxr-xr-x.  1 0 0   36528 Jan 29  2024 pathchk
+-rwxr-xr-x.  1 0 0   16176 Aug 10  2021 peekfd
+-rwxr-xr-x.  1 0 0    2624 Nov 10  2023 pflags
+-rwxr-xr-x.  1 0 0   32256 Jan 23  2024 pgrep
+-rwxr-xr-x.  1 0 0  202496 Oct 11  2021 pic
+-rwxr-xr-x.  1 0 0   23960 Jan 23  2024 pidof
+-rwxr-xr-x.  1 0 0   32256 Jan 23  2024 pidwait
+-rwxr-xr-x.  2 0 0  132976 Oct 18  2021 pigz
+-rwxr-xr-x.  1 0 0   78336 Jun  8  2023 ping
+-rwxr-xr-x.  1 0 0   36472 Jan 29  2024 pinky
+-rwxr-xr-x.  1 0 0   19624 Dec  5  2022 pkaction
+-rwxr-xr-x.  1 0 0   23728 Dec  5  2022 pkcheck
+-rwxr-xr-x.  1 0 0   65344 Jan 15  2024 pkcon
+-rwsr-xr-x.  1 0 0   31936 Dec  5  2022 pkexec
+-rwxr-xr-x.  1 0 0   32256 Jan 23  2024 pkill
+-rwxr-xr-x.  1 0 0   24528 Aug 10  2021 pkla-admin-identities
+-rwxr-xr-x.  1 0 0   36952 Aug 10  2021 pkla-check-authorization
+-rwxr-xr-x.  1 0 0   28344 Jan 15  2024 pkmon
+-rwxr-xr-x.  1 0 0   23712 Dec  5  2022 pkttyagent
+-rwxr-xr-x.  1 0 0   24128 Jan 30  2024 pldd
+-rwxr-xr-x.  1 0 0   36328 Jan 23  2024 pmap
+-rwxr-xr-x.  1 0 0  208728 Oct 11  2021 post-grohtml
+-rwxr-xr-x.  1 0 0   14464 Apr 10  2024 powernow-k8-decode
+-rwxr-xr-x.  1 0 0   74032 Jan 29  2024 pr
+-rwxr-xr-x.  1 0 0   95176 Oct 11  2021 pre-grohtml
+-rwxr-xr-x.  1 0 0   57648 Oct 11  2021 preconv
+-rwxr-xr-x.  1 0 0   32248 Jan 29  2024 printenv
+-rwxr-xr-x.  1 0 0   53032 Jan 29  2024 printf
+-rwxr-xr-x.  1 0 0   28600 Feb  8  2024 prlimit
+-rwxr-xr-x.  1 0 0   24400 Aug 10  2021 prtstat
+-rwxr-xr-x.  1 0 0  144632 Jan 23  2024 ps
+lrwxrwxrwx.  1 0 0       9 Jun 21  2023 psfaddtable -> psfxtable
+lrwxrwxrwx.  1 0 0       9 Jun 21  2023 psfgettable -> psfxtable
+lrwxrwxrwx.  1 0 0       9 Jun 21  2023 psfstriptable -> psfxtable
+-rwxr-xr-x.  1 0 0   32008 Jun 21  2023 psfxtable
+-rwxr-xr-x.  1 0 0   16072 Aug 10  2021 pslog
+-rwxr-xr-x.  1 0 0   37768 Aug 10  2021 pstree
+lrwxrwxrwx.  1 0 0       6 Aug 10  2021 pstree.x11 -> pstree
+-rwxr-xr-x.  1 0 0  132128 Jan 29  2024 ptx
+-rwxr-xr-x.  1 0 0   36568 Jan 29  2024 pwd
+-rwxr-xr-x.  1 0 0   15728 Jan 23  2024 pwdx
+-rwxr-xr-x.  1 0 0   16072 Aug 10  2021 pwmake
+-rwxr-xr-x.  1 0 0   16064 Aug 10  2021 pwscore
+lrwxrwxrwx.  1 0 0       8 Jan 29  2024 pydoc -> ./pydoc3
+lrwxrwxrwx.  1 0 0       8 Jan 29  2024 pydoc3 -> pydoc3.9
+-rwxr-xr-x.  1 0 0      78 Jan 29  2024 pydoc3.9
+-rwxr-xr-x.  1 0 0     968 Aug 10  2021 pyinotify
+lrwxrwxrwx.  1 0 0       9 Jan 29  2024 python -> ./python3
+lrwxrwxrwx.  1 0 0       9 Jan 29  2024 python3 -> python3.9
+-rwxr-xr-x.  1 0 0   15624 Jan 29  2024 python3.9
+-rwxr-xr-x.  1 0 0 1872832 Mar 26  2024 qemu-ga
+-rwxr-xr-x.  1 0 0   84104 Aug 10  2021 quota
+-rwxr-xr-x.  1 0 0   66888 Aug 10  2021 quotasync
+-rwxr-xr-x.  1 0 0   57528 Feb 14  2024 ranlib
+-rwxr-xr-x.  1 0 0     995 Jan 18  2024 rct
+-rwxr-xr-x.  1 0 0      32 Feb 15  2024 read
+-rwxr-xr-x.  1 0 0  683480 Feb 14  2024 readelf
+-rwxr-xr-x.  1 0 0   40648 Jan 29  2024 readlink
+-rwxr-xr-x.  1 0 0   40728 Jan 29  2024 realpath
+-rwxr-xr-x.  1 0 0   15496 Mar 30  2023 recode-sr-latin
+-rwxr-xr-x.  1 0 0     181 Feb 15  2024 redhat-access-insights
+-rwxr-xr-x.  1 0 0   23968 Feb  8  2024 rename
+-rwxr-xr-x.  1 0 0     729 Feb 21  2024 renew-dummy-cert
+-rwxr-xr-x.  1 0 0   15720 Feb  8  2024 renice
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 repo-graph -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 repoclosure -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 repodiff -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 repomanage -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 repoquery -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 reposync -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 repotrack -> /usr/libexec/dnf-utils
+-rwxr-xr-x.  1 0 0   39002 Jun 15  2022 rescan-scsi-bus.sh
+lrwxrwxrwx.  1 0 0       4 Aug 21  2023 reset -> tset
+-rwxr-xr-x.  1 0 0   28032 Jun 21  2023 resizecons
+-rwxr-xr-x.  1 0 0   15712 Feb  8  2024 rev
+-rwxr-xr-x.  1 0 0 9147696 Feb 14  2024 rhc
+-rwxr-xr-x.  1 0 0    1009 Jan 18  2024 rhsm-debug
+-rwxr-xr-x.  1 0 0   32792 Jan 18  2024 rhsmcertd
+-rwxr-xr-x.  1 0 0   61656 Jan 29  2024 rm
+-rwxr-xr-x.  1 0 0   44664 Jan 29  2024 rmdir
+-rwxr-xr-x.  1 0 0   61400 Feb 15  2024 rpcbind
+-rwxr-xr-x.  1 0 0   36496 Feb 15  2024 rpcinfo
+-rwxr-xr-x.  1 0 0   24392 Dec 13  2023 rpm
+-rwxr-xr-x.  1 0 0   24064 Dec 13  2023 rpm2archive
+-rwxr-xr-x.  1 0 0   15656 Dec 13  2023 rpm2cpio
+-rwxr-xr-x.  1 0 0   20392 Dec 13  2023 rpmdb
+-rwxr-xr-x.  1 0 0   16152 Dec 13  2023 rpmkeys
+lrwxrwxrwx.  1 0 0       3 Dec 13  2023 rpmquery -> rpm
+lrwxrwxrwx.  1 0 0       3 Dec 13  2023 rpmverify -> rpm
+-rwxr-xr-x.  1 0 0  567512 Nov  2  2022 rsync
+-rwxr-xr-x.  1 0 0    4937 Nov  2  2022 rsync-ssl
+-rwxr-xr-x.  1 0 0    1987 Mar 23  2022 run-parts
+-rwxr-xr-x.  1 0 0   36512 Jan 29  2024 runcon
+lrwxrwxrwx.  1 0 0      15 Feb  9  2023 rvi -> /usr/libexec/vi
+lrwxrwxrwx.  1 0 0      15 Feb  9  2023 rview -> /usr/libexec/vi
+-rwxr-xr-x.  1 0 0  136264 Jan  5  2024 scp
+-rwxr-xr-x.  1 0 0   52984 Feb  8  2024 script
+-rwxr-xr-x.  1 0 0   44704 Feb  8  2024 scriptlive
+-rwxr-xr-x.  1 0 0   36328 Feb  8  2024 scriptreplay
+lrwxrwxrwx.  1 0 0      18 Jun 15  2022 scsi-rescan -> rescan-scsi-bus.sh
+-rwxr-xr-x.  1 0 0    8588 Mar 24  2016 scsi_logging_level
+-rwxr-xr-x.  1 0 0    3606 Oct 22  2017 scsi_mandat
+-rwxr-xr-x.  1 0 0    1331 May 15  2013 scsi_readcap
+-rwxr-xr-x.  1 0 0    1125 May 15  2013 scsi_ready
+-rwxr-xr-x.  1 0 0    3834 Jul 16  2020 scsi_satl
+-rwxr-xr-x.  1 0 0    1289 May 15  2013 scsi_start
+-rwxr-xr-x.  1 0 0    1478 May 15  2013 scsi_stop
+-rwxr-xr-x.  1 0 0     940 May 15  2013 scsi_temperature
+-rwxr-xr-x.  1 0 0   45248 Aug  9  2021 sdiff
+-rwxr-xr-x.  1 0 0   27683 Feb 15  2023 sealert
+-rwxr-xr-x.  1 0 0   29112 Feb 19  2024 secon
+-rwxr-xr-x.  1 0 0  116728 Aug 10  2021 sed
+-rwxr-xr-x.  1 0 0  296352 Dec 14  2023 sedismod
+-rwxr-xr-x.  1 0 0  225520 Dec 14  2023 sedispol
+-rwxr-xr-x.  1 0 0   15656 Feb 19  2024 semodule_expand
+-rwxr-xr-x.  1 0 0   15680 Feb 19  2024 semodule_link
+-rwxr-xr-x.  1 0 0   19808 Feb 19  2024 semodule_package
+-rwxr-xr-x.  1 0 0   15672 Feb 19  2024 semodule_unpackage
+-rwxr-xr-x.  1 0 0   48944 Jan 29  2024 seq
+-rwxr-xr-x.  1 0 0   23880 Feb 19  2024 sestatus
+-rwxr-xr-x.  1 0 0   28320 Feb  8  2024 setarch
+-rwxr-xr-x.  1 0 0   40936 Oct  6  2023 setfacl
+-rwxr-xr-x.  1 0 0   52880 Jun 21  2023 setfont
+-rwxr-xr-x.  1 0 0   15568 Jun 21  2023 setkeycodes
+-rwxr-xr-x.  1 0 0   19736 Jun 21  2023 setleds
+-rwxr-xr-x.  1 0 0   15672 Jun 21  2023 setmetamode
+-rwxr-xr-x.  1 0 0   40480 Feb  8  2024 setpriv
+-rwxr-xr-x.  1 0 0   15704 Feb  8  2024 setsid
+-rwxr-xr-x.  1 0 0   36352 Feb  8  2024 setterm
+-rwxr-xr-x.  1 0 0   15624 Jun 21  2023 setvtrgb
+-rwxr-xr-x.  1 0 0  144432 Jan  5  2024 sftp
+lrwxrwxrwx.  1 0 0       6 Jul 12  2023 sg -> newgrp
+-rwxr-xr-x.  1 0 0   16312 Jun 15  2022 sg_bg_ctl
+-rwxr-xr-x.  1 0 0   29032 Jun 15  2022 sg_compare_and_write
+-rwxr-xr-x.  1 0 0   25232 Jun 15  2022 sg_copy_results
+-rwxr-xr-x.  1 0 0   57384 Jun 15  2022 sg_dd
+-rwxr-xr-x.  1 0 0   16624 Jun 15  2022 sg_decode_sense
+-rwxr-xr-x.  1 0 0   16088 Jun 15  2022 sg_emc_trespass
+-rwxr-xr-x.  1 0 0   41872 Jun 15  2022 sg_format
+-rwxr-xr-x.  1 0 0   37632 Jun 15  2022 sg_get_config
+-rwxr-xr-x.  1 0 0   28896 Jun 15  2022 sg_get_elem_status
+-rwxr-xr-x.  1 0 0   24960 Jun 15  2022 sg_get_lba_status
+-rwxr-xr-x.  1 0 0   16392 Jun 15  2022 sg_ident
+-rwxr-xr-x.  1 0 0  124264 Jun 15  2022 sg_inq
+-rwxr-xr-x.  1 0 0  157760 Jun 15  2022 sg_logs
+-rwxr-xr-x.  1 0 0   24896 Jun 15  2022 sg_luns
+-rwxr-xr-x.  1 0 0   20320 Jun 15  2022 sg_map
+-rwxr-xr-x.  1 0 0   28992 Jun 15  2022 sg_map26
+-rwxr-xr-x.  1 0 0   48792 Jun 15  2022 sg_modes
+-rwxr-xr-x.  1 0 0   37488 Jun 15  2022 sg_opcodes
+-rwxr-xr-x.  1 0 0   38488 Jun 15  2022 sg_persist
+-rwxr-xr-x.  1 0 0   16288 Jun 15  2022 sg_prevent
+-rwxr-xr-x.  1 0 0   29016 Jun 15  2022 sg_raw
+-rwxr-xr-x.  1 0 0   24840 Jun 15  2022 sg_rbuf
+-rwxr-xr-x.  1 0 0   16064 Jun 15  2022 sg_rdac
+-rwxr-xr-x.  1 0 0   28512 Jun 15  2022 sg_read
+-rwxr-xr-x.  1 0 0   39096 Jun 15  2022 sg_read_attr
+-rwxr-xr-x.  1 0 0   16336 Jun 15  2022 sg_read_block_limits
+-rwxr-xr-x.  1 0 0   29624 Jun 15  2022 sg_read_buffer
+-rwxr-xr-x.  1 0 0   16504 Jun 15  2022 sg_read_long
+-rwxr-xr-x.  1 0 0   24896 Jun 15  2022 sg_readcap
+-rwxr-xr-x.  1 0 0   16456 Jun 15  2022 sg_reassign
+-rwxr-xr-x.  1 0 0   16472 Jun 15  2022 sg_referrals
+-rwxr-xr-x.  1 0 0   16376 Jun 15  2022 sg_rep_pip
+-rwxr-xr-x.  1 0 0   29096 Jun 15  2022 sg_rep_zones
+-rwxr-xr-x.  1 0 0   24752 Jun 15  2022 sg_requests
+-rwxr-xr-x.  1 0 0   16568 Jun 15  2022 sg_reset
+-rwxr-xr-x.  1 0 0   16400 Jun 15  2022 sg_reset_wp
+-rwxr-xr-x.  1 0 0   16296 Jun 15  2022 sg_rmsn
+-rwxr-xr-x.  1 0 0   16392 Jun 15  2022 sg_rtpg
+-rwxr-xr-x.  1 0 0   24704 Jun 15  2022 sg_safte
+-rwxr-xr-x.  1 0 0   29112 Jun 15  2022 sg_sanitize
+-rwxr-xr-x.  1 0 0   20648 Jun 15  2022 sg_sat_identify
+-rwxr-xr-x.  1 0 0   20928 Jun 15  2022 sg_sat_phy_event
+-rwxr-xr-x.  1 0 0   20632 Jun 15  2022 sg_sat_read_gplog
+-rwxr-xr-x.  1 0 0   20592 Jun 15  2022 sg_sat_set_features
+-rwxr-xr-x.  1 0 0   20312 Jun 15  2022 sg_scan
+-rwxr-xr-x.  1 0 0   20792 Jun 15  2022 sg_seek
+-rwxr-xr-x.  1 0 0   29432 Jun 15  2022 sg_senddiag
+-rwxr-xr-x.  1 0 0  124632 Jun 15  2022 sg_ses
+-rwxr-xr-x.  1 0 0   29600 Jun 15  2022 sg_ses_microcode
+-rwxr-xr-x.  1 0 0   20864 Jun 15  2022 sg_start
+-rwxr-xr-x.  1 0 0   24712 Jun 15  2022 sg_stpg
+-rwxr-xr-x.  1 0 0   20608 Jun 15  2022 sg_stream_ctl
+-rwxr-xr-x.  1 0 0   16464 Jun 15  2022 sg_sync
+-rwxr-xr-x.  1 0 0   20656 Jun 15  2022 sg_test_rwbuf
+-rwxr-xr-x.  1 0 0   24872 Jun 15  2022 sg_timestamp
+-rwxr-xr-x.  1 0 0   28944 Jun 15  2022 sg_turs
+-rwxr-xr-x.  1 0 0   24864 Jun 15  2022 sg_unmap
+-rwxr-xr-x.  1 0 0   20816 Jun 15  2022 sg_verify
+-rwxr-xr-x.  1 0 0  123032 Jun 15  2022 sg_vpd
+-rwxr-xr-x.  1 0 0   24712 Jun 15  2022 sg_wr_mode
+-rwxr-xr-x.  1 0 0   29360 Jun 15  2022 sg_write_buffer
+-rwxr-xr-x.  1 0 0   16568 Jun 15  2022 sg_write_long
+-rwxr-xr-x.  1 0 0   29080 Jun 15  2022 sg_write_same
+-rwxr-xr-x.  1 0 0   28912 Jun 15  2022 sg_write_verify
+-rwxr-xr-x.  1 0 0   62712 Jun 15  2022 sg_write_x
+-rwxr-xr-x.  1 0 0   45080 Jun 15  2022 sg_xcopy
+-rwxr-xr-x.  1 0 0   20696 Jun 15  2022 sg_zone
+-rwxr-xr-x.  1 0 0   76032 Jun 15  2022 sginfo
+-rwxr-xr-x.  1 0 0   40960 Jun 15  2022 sgm_dd
+-rwxr-xr-x.  1 0 0   45512 Jun 15  2022 sgp_dd
+lrwxrwxrwx.  1 0 0       4 Feb 15  2024 sh -> bash
+-rwxr-xr-x.  6 0 0   36296 Dec  7  2023 sha1hmac
+-rwxr-xr-x.  1 0 0   40600 Jan 29  2024 sha1sum
+-rwxr-xr-x.  6 0 0   36296 Dec  7  2023 sha224hmac
+-rwxr-xr-x.  1 0 0   40600 Jan 29  2024 sha224sum
+-rwxr-xr-x.  6 0 0   36296 Dec  7  2023 sha256hmac
+-rwxr-xr-x.  1 0 0   40608 Jan 29  2024 sha256sum
+-rwxr-xr-x.  6 0 0   36296 Dec  7  2023 sha384hmac
+-rwxr-xr-x.  1 0 0   40600 Jan 29  2024 sha384sum
+-rwxr-xr-x.  6 0 0   36296 Dec  7  2023 sha512hmac
+-rwxr-xr-x.  1 0 0   40600 Jan 29  2024 sha512sum
+-rwxr-xr-x.  1 0 0   19752 Jun 21  2023 showconsolefont
+-rwxr-xr-x.  1 0 0   19688 Jun 21  2023 showkey
+-rwxr-xr-x.  1 0 0   53120 Jan 29  2024 shred
+-rwxr-xr-x.  1 0 0   49176 Jan 29  2024 shuf
+-rwxr-xr-x.  1 0 0   32544 Feb 14  2024 size
+-rwxr-xr-x.  1 0 0   32240 Jan 23  2024 skill
+-rwxr-xr-x.  1 0 0   43984 Apr 10  2024 slabinfo
+-rwxr-xr-x.  1 0 0   24072 Jan 23  2024 slabtop
+-rwxr-xr-x.  1 0 0   36520 Jan 29  2024 sleep
+-rwxr-xr-x.  6 0 0   36296 Dec  7  2023 sm3hmac
+-rwxr-xr-x.  1 0 0   32240 Jan 23  2024 snice
+lrwxrwxrwx.  1 0 0      24 Apr 19  2024 soelim -> /etc/alternatives/soelim
+-rwxr-xr-x.  1 0 0   32984 Oct 11  2021 soelim.groff
+-rwxr-xr-x.  1 0 0  115832 Jan 29  2024 sort
+-rwxr-xr-x.  1 0 0    4282 Jan 30  2024 sotruss
+-rwxr-xr-x.  1 0 0   53576 Jan 29  2024 split
+-rwxr-xr-x.  1 0 0   36472 Jan 30  2024 sprof
+-rwxr-xr-x.  1 0 0   60936 Dec  5  2022 sscg
+-rwxr-xr-x.  1 0 0  863800 Jan  5  2024 ssh
+-rwxr-xr-x.  1 0 0  168824 Jan  5  2024 ssh-add
+-rwxr-xr-x.  1 0 0  287768 Jan  5  2024 ssh-agent
+-rwxr-xr-x.  1 0 0   12680 Jan  5  2024 ssh-copy-id
+-rwxr-xr-x.  1 0 0  465960 Jan  5  2024 ssh-keygen
+-rwxr-xr-x.  1 0 0  202192 Jan  5  2024 ssh-keyscan
+-rwxr-xr-x.  1 0 0   24032 Feb 12  2024 sss_ssh_authorizedkeys
+-rwxr-xr-x.  1 0 0   28136 Feb 12  2024 sss_ssh_knownhostsproxy
+-rwxr-xr-x.  1 0 0   81992 Jan 29  2024 stat
+-rwxr-xr-x.  1 0 0   44800 Jan 29  2024 stdbuf
+-rwxr-xr-x.  1 0 0   32680 Feb 14  2024 strings
+-rwxr-xr-x.  1 0 0  190000 Feb 14  2024 strip
+-rwxr-xr-x.  1 0 0   77656 Jan 29  2024 stty
+-rwsr-xr-x.  1 0 0   57120 Feb  8  2024 su
+lrwxrwxrwx.  1 0 0      22 Jan 18  2024 subscription-manager -> /usr/bin/consolehelper
+---s--x--x.  1 0 0  185320 Jan 24  2024 sudo
+lrwxrwxrwx.  1 0 0       4 Jan 24  2024 sudoedit -> sudo
+---x--x--x.  1 0 0   87008 Jan 24  2024 sudoreplay
+-rwxr-xr-x.  1 0 0   36456 Jan 29  2024 sum
+-rwxr-xr-x.  1 0 0   36392 Jan 29  2024 sync
+-rwxr-xr-x.  1 0 0  305744 Mar 19  2024 systemctl
+-rwxr-xr-x.  1 0 0  206592 Mar 19  2024 systemd-analyze
+-rwxr-xr-x.  1 0 0   20104 Mar 19  2024 systemd-ask-password
+-rwxr-xr-x.  1 0 0   19896 Mar 19  2024 systemd-cat
+-rwxr-xr-x.  1 0 0   24200 Mar 19  2024 systemd-cgls
+-rwxr-xr-x.  1 0 0   40528 Mar 19  2024 systemd-cgtop
+-rwxr-xr-x.  1 0 0   45040 Mar 19  2024 systemd-creds
+-rwxr-xr-x.  1 0 0   73968 Mar 19  2024 systemd-cryptenroll
+-rwxr-xr-x.  1 0 0   28144 Mar 19  2024 systemd-delta
+-rwxr-xr-x.  1 0 0   19896 Mar 19  2024 systemd-detect-virt
+-rwxr-xr-x.  1 0 0   49112 Mar 19  2024 systemd-dissect
+-rwxr-xr-x.  1 0 0   23992 Mar 19  2024 systemd-escape
+-rwxr-xr-x.  1 0 0   57600 Mar 19  2024 systemd-firstboot
+-rwxr-xr-x.  1 0 0   15816 Mar 19  2024 systemd-hwdb
+-rwxr-xr-x.  1 0 0   28208 Mar 19  2024 systemd-id128
+-rwxr-xr-x.  1 0 0   24048 Mar 19  2024 systemd-inhibit
+-rwxr-xr-x.  1 0 0   20192 Mar 19  2024 systemd-machine-id-setup
+-rwxr-xr-x.  1 0 0   61632 Mar 19  2024 systemd-mount
+-rwxr-xr-x.  1 0 0   24048 Mar 19  2024 systemd-notify
+-rwxr-xr-x.  1 0 0   19896 Mar 19  2024 systemd-path
+-rwxr-xr-x.  1 0 0  173472 Mar 19  2024 systemd-repart
+-rwxr-xr-x.  1 0 0   65728 Mar 19  2024 systemd-run
+-rwxr-xr-x.  1 0 0   28184 Mar 19  2024 systemd-socket-activate
+-rwxr-xr-x.  1 0 0   24000 Mar 19  2024 systemd-stdio-bridge
+-rwxr-xr-x.  1 0 0   49080 Mar 19  2024 systemd-sysext
+-rwxr-xr-x.  1 0 0   74272 Mar 19  2024 systemd-sysusers
+-rwxr-xr-x.  1 0 0  127704 Mar 19  2024 systemd-tmpfiles
+-rwxr-xr-x.  1 0 0   40496 Mar 19  2024 systemd-tty-ask-password********
+lrwxrwxrwx.  1 0 0      13 Mar 19  2024 systemd-umount -> systemd-mount
+-rwxr-xr-x.  1 0 0   19624 Aug 21  2023 tabs
+-rwxr-xr-x.  1 0 0  107120 Jan 29  2024 tac
+-rwxr-xr-x.  1 0 0   69736 Jan 29  2024 tail
+-rwxr-xr-x.  1 0 0  526432 Feb 13  2023 tar
+-rwxr-xr-x.  1 0 0   23968 Feb  8  2024 taskset
+-rwxr-xr-x.  1 0 0  134000 Oct 11  2021 tbl
+-rwxr-xr-x.  1 0 0   16138 Dec  7  2022 team2bond
+-rwxr-xr-x.  1 0 0  170592 Dec  7  2022 teamd
+-rwxr-xr-x.  1 0 0   38008 Dec  7  2022 teamdctl
+-rwxr-xr-x.  1 0 0   23816 Dec  7  2022 teamnl
+-rwxr-xr-x.  1 0 0   36552 Jan 29  2024 tee
+-rwxr-xr-x.  1 0 0   44848 Jan 29  2024 test
+-rwxr-xr-x.  1 0 0   89896 Aug 21  2023 tic
+-rwxr-xr-x.  1 0 0   48968 Mar 19  2024 timedatectl
+-rwxr-xr-x.  1 0 0   41144 Jan 29  2024 timeout
+-rwxr-xr-x.  1 0 0   19872 Jan 23  2024 tload
+-rwxr-xr-x.  1 0 0   43504 Apr 10  2024 tmon
+-rwxr-xr-x.  1 0 0   23784 Aug 21  2023 toe
+-rwxr-xr-x.  1 0 0  135552 Jan 23  2024 top
+-rwxr-xr-x.  1 0 0   94248 Jan 29  2024 touch
+-rwxr-xr-x.  1 0 0   27904 Aug 21  2023 tput
+-rwxr-xr-x.  1 0 0   49024 Jan 29  2024 tr
+-rwxr-xr-x.  1 0 0   19680 Jun  8  2023 tracepath
+-rwxr-xr-x.  1 0 0  749672 Oct 11  2021 troff
+-rwxr-xr-x.  1 0 0   28136 Jan 29  2024 true
+-rwxr-xr-x.  1 0 0   36520 Jan 29  2024 truncate
+-rwxr-xr-x.  1 0 0  226392 Nov 23  2023 trust
+-rwxr-xr-x.  1 0 0   27992 Aug 21  2023 tset
+-rwxr-xr-x.  1 0 0   48952 Jan 29  2024 tsort
+-rwxr-xr-x.  1 0 0   32416 Jan 29  2024 tty
+-rwxr-xr-x.  1 0 0  136776 Apr 10  2024 turbostat
+-rwxr-xr-x.  1 0 0      32 Feb 15  2024 type
+-rwxr-xr-x.  1 0 0   15352 Jan 30  2024 tzselect
+-rwxr-xr-x.  1 0 0  598016 Mar 19  2024 udevadm
+-rwxr-xr-x.  1 0 0   24000 Feb  8  2024 ul
+-rwxr-xr-x.  1 0 0      34 Feb 15  2024 ulimit
+-rwxr-xr-x.  1 0 0      33 Feb 15  2024 umask
+-rwsr-xr-x.  1 0 0   36296 Feb  8  2024 umount
+-rwxr-xr-x.  1 0 0      35 Feb 15  2024 unalias
+-rwxr-xr-x.  1 0 0   32432 Jan 29  2024 uname
+lrwxrwxrwx.  1 0 0       7 Feb  8  2024 uname26 -> setarch
+-rwxr-xr-x.  1 0 0   40688 Jan 29  2024 unexpand
+-rwxr-xr-x.  1 0 0    2633 Jun 21  2023 unicode_start
+-rwxr-xr-x.  1 0 0     367 Feb 27  2012 unicode_stop
+-rwxr-xr-x.  1 0 0   44888 Jan 29  2024 uniq
+-rwxr-xr-x.  1 0 0   32424 Jan 29  2024 unlink
+-rwxr-xr-x.  2 0 0  132976 Oct 18  2021 unpigz
+-rwxr-xr-x.  1 0 0   32488 Feb  8  2024 unshare
+lrwxrwxrwx.  1 0 0       2 May 31  2022 unxz -> xz
+-rwxr-xr-x.  1 0 0    1272 Aug 29  2023 update-ca-trust
+-rwxr-xr-x.  1 0 0      87 Feb  2  2024 update-crypto-policies
+-rwxr-xr-x.  1 0 0   61304 Nov  7  2022 update-mime-database
+-rwxr-xr-x.  1 0 0   15736 Jan 23  2024 uptime
+-rwxr-xr-x.  1 0 0   36544 Jan 29  2024 users
+-rwxr-xr-x.  1 0 0   23952 Feb  8  2024 utmpdump
+-rwxr-xr-x.  1 0 0   19800 Feb  8  2024 uuidgen
+-rwxr-xr-x.  1 0 0   23960 Feb  8  2024 uuidparse
+-rwxr-xr-x.  1 0 0  140968 Jan 29  2024 vdir
+-rwxr-xr-x.  1 0 0     691 Feb  9  2023 vi
+-rwxr-xr-x.  1 0 0     150 Feb  9  2023 view
+-rwxr-xr-x.  1 0 0   23984 Jun 21  2023 vlock
+-rwxr-xr-x.  1 0 0   40432 Jan 23  2024 vmstat
+-rwxr-xr-x.  1 0 0   24000 Jan 23  2024 w
+-rwxr-xr-x.  1 0 0      32 Feb 15  2024 wait
+-rwxr-xr-x.  1 0 0   23960 Feb  8  2024 wall
+-rwxr-xr-x.  1 0 0   28624 Jan 23  2024 watch
+-rwxr-xr-x.  1 0 0   23752 Apr 26  2023 watchgnupg
+-rwxr-xr-x.  1 0 0   44792 Jan 29  2024 wc
+-rwxr-xr-x.  1 0 0   32264 Feb  8  2024 wdctl
+lrwxrwxrwx.  1 0 0      24 Apr 19  2024 whatis -> /etc/alternatives/whatis
+-rwxr-xr-x.  1 0 0   49688 Sep 20  2022 whatis.man-db
+-rwxr-xr-x.  1 0 0   32800 Feb  8  2024 whereis
+-rwxr-xr-x.  1 0 0   28560 Mar 27  2023 which
+-rwxr-xr-x.  1 0 0   32680 Aug 10  2021 whiptail
+-rwxr-xr-x.  1 0 0   53016 Jan 29  2024 who
+-rwxr-xr-x.  1 0 0   32424 Jan 29  2024 whoami
+-rwxr-sr-x.  1 0 5   23976 Feb  8  2024 write
+lrwxrwxrwx.  1 0 0       7 Feb  8  2024 x86_64 -> setarch
+-rwxr-xr-x.  1 0 0   39656 Apr 10  2024 x86_energy_perf_policy
+-rwxr-xr-x.  1 0 0   65424 Aug 17  2023 xargs
+-rwxr-xr-x.  1 0 0   32216 Oct 18  2022 xb-tool
+-rwxr-xr-x.  1 0 0  303816 Mar 30  2023 xgettext
+-rwxr-xr-x.  1 0 0   23704 Sep 20  2023 xmlcatalog
+-rwxr-xr-x.  1 0 0   82488 Sep 20  2023 xmllint
+-rwxr-xr-x.  1 0 0   40776 Mar 20  2024 xmlwf
+-rwxr-xr-x.  1 0 0   86968 May 31  2022 xz
+lrwxrwxrwx.  1 0 0       2 May 31  2022 xzcat -> xz
+lrwxrwxrwx.  1 0 0       6 May 31  2022 xzcmp -> xzdiff
+-rwxr-xr-x.  1 0 0   16232 May 31  2022 xzdec
+-rwxr-xr-x.  1 0 0    6637 May 31  2022 xzdiff
+lrwxrwxrwx.  1 0 0       6 May 31  2022 xzegrep -> xzgrep
+lrwxrwxrwx.  1 0 0       6 May 31  2022 xzfgrep -> xzgrep
+-rwxr-xr-x.  1 0 0    5908 May 31  2022 xzgrep
+-rwxr-xr-x.  1 0 0    1803 May 31  2022 xzless
+-rwxr-xr-x.  1 0 0    2166 May 31  2022 xzmore
+-rwxr-xr-x.  1 0 0   32264 Jan 29  2024 yes
+lrwxrwxrwx.  1 0 0       8 Aug  9  2021 ypdomainname -> hostname
+lrwxrwxrwx.  1 0 0       5 Oct 26  2023 yum -> dnf-3
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 yum-builddep -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 yum-config-manager -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 yum-debug-dump -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 yum-debug-restore -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 yum-groups-manager -> /usr/libexec/dnf-utils
+lrwxrwxrwx.  1 0 0      22 Jan 15  2024 yumdownloader -> /usr/libexec/dnf-utils
+-rwxr-xr-x.  1 0 0    1988 Apr 21  2022 zcat
+-rwxr-xr-x.  1 0 0    1682 Apr 21  2022 zcmp
+-rwxr-xr-x.  1 0 0    6464 Apr 21  2022 zdiff
+-rwxr-xr-x.  1 0 0   28168 Jan 30  2024 zdump
+-rwxr-xr-x.  1 0 0      33 Apr 21  2022 zegrep
+-rwxr-xr-x.  1 0 0      33 Apr 21  2022 zfgrep
+-rwxr-xr-x.  1 0 0    2085 Apr 21  2022 zforce
+-rwxr-xr-x.  1 0 0    8116 Apr 21  2022 zgrep
+-rwxr-xr-x.  1 0 0    2210 Apr 21  2022 zless
+-rwxr-xr-x.  1 0 0    1846 Apr 21  2022 zmore
+-rwxr-xr-x.  1 0 0    4581 Apr 21  2022 znew
+lrwxrwxrwx.  1 0 0       6 Oct 11  2021 zsoelim -> soelim
+/usr/lib64:
+total 128388
+dr-xr-xr-x. 47 0 0    20480 Apr 19  2024 .
+drwxr-xr-x. 12 0 0      144 Apr 19  2024 ..
+-rw-r--r--.  1 0 0       65 Aug  3  2023 .libgmp.so.10.4.0.hmac
+lrwxrwxrwx.  1 0 0       22 Aug  3  2023 .libgmp.so.10.hmac -> .libgmp.so.10.4.0.hmac
+-rw-r--r--.  1 0 0      403 Jan 23  2024 .libgnutls.so.30.37.1.hmac
+lrwxrwxrwx.  1 0 0       26 Jan 23  2024 .libgnutls.so.30.hmac -> .libgnutls.so.30.37.1.hmac
+-rw-r--r--.  1 0 0       65 Nov 20  2023 .libhogweed.so.6.8.hmac
+lrwxrwxrwx.  1 0 0       23 Nov 20  2023 .libhogweed.so.6.hmac -> .libhogweed.so.6.8.hmac
+-rw-r--r--.  1 0 0       65 Nov 20  2023 .libnettle.so.8.8.hmac
+lrwxrwxrwx.  1 0 0       22 Nov 20  2023 .libnettle.so.8.hmac -> .libnettle.so.8.8.hmac
+drwxr-xr-x.  3 0 0       28 Apr 19  2024 NetworkManager
+dr-xr-xr-x.  2 0 0        6 Aug  9  2021 X11
+drwxr-xr-x.  2 0 0       28 Apr 19  2024 audit
+dr-xr-xr-x.  2 0 0        6 Aug  9  2021 bpf
+drwxr-xr-x.  2 0 0       31 Apr 19  2024 cifs-utils
+lrwxrwxrwx.  1 0 0       36 Aug  9  2021 cracklib_dict.hwm -> ../../usr/share/cracklib/pw_dict.hwm
+lrwxrwxrwx.  1 0 0       36 Aug  9  2021 cracklib_dict.pwd -> ../../usr/share/cracklib/pw_dict.pwd
+lrwxrwxrwx.  1 0 0       36 Aug  9  2021 cracklib_dict.pwi -> ../../usr/share/cracklib/pw_dict.pwi
+drwxr-xr-x.  2 0 0       94 Apr 19  2024 cryptsetup
+drwxr-xr-x.  2 0 0       78 Apr 19  2024 engines-3
+-rwxr-xr-x.  1 0 0   353720 Jan 30  2024 eppic_makedumpfile.so
+drwxr-xr-x.  2 0 0     4096 Apr 19  2024 fipscheck
+drwxr-xr-x.  2 0 0      111 Apr 19  2024 fwupd-1.9.13
+dr-xr-xr-x.  2 0 0        6 Aug  9  2021 games
+drwxr-xr-x.  2 0 0     4096 Apr 19  2024 gawk
+drwxr-xr-x.  3 0 0     8192 Apr 19  2024 gconv
+drwxr-xr-x.  3 0 0       20 Apr 19  2024 gdk-pixbuf-2.0
+drwxr-xr-x.  2 0 0       92 Apr 19  2024 gettext
+drwxr-xr-x.  3 0 0       21 Apr 19  2024 gio
+drwxr-xr-x.  2 0 0     4096 Apr 19  2024 girepository-1.0
+drwxr-xr-x.  2 0 0        6 Oct 11  2021 groff
+drwxr-xr-x.  2 0 0       26 Apr 19  2024 gssproxy
+drwxr-xr-x.  2 0 0      139 Apr 19  2024 hmaccalc
+drwxr-xr-x.  3 0 0       21 Apr 19  2024 krb5
+-rwxr-xr-x.  1 0 0   858856 Jan 30  2024 ld-linux-x86-64.so.2
+drwxr-xr-x.  3 0 0      127 Apr 19  2024 ldb
+-rwxr-xr-x.  1 0 0    15648 Jan 30  2024 libBrokenLocale.so.1
+-rwxr-xr-x.  1 0 0    24040 Jan 30  2024 libSegFault.so
+lrwxrwxrwx.  1 0 0       18 Oct  6  2023 libacl.so.1 -> libacl.so.1.1.2301
+-rwxr-xr-x.  1 0 0    40496 Oct  6  2023 libacl.so.1.1.2301
+-rwxr-xr-x.  1 0 0    15624 Jan 30  2024 libanl.so.1
+lrwxrwxrwx.  1 0 0       27 Aug  9  2021 libappstream-glib.so.8 -> libappstream-glib.so.8.0.10
+-rwxr-xr-x.  1 0 0   507240 Aug  9  2021 libappstream-glib.so.8.0.10
+lrwxrwxrwx.  1 0 0       20 Dec  6  2022 libarchive.so.13 -> libarchive.so.13.5.3
+-rwxr-xr-x.  1 0 0   840832 Dec  6  2022 libarchive.so.13.5.3
+-rwxr-xr-x.  1 0 0    36456 Dec 11  2023 libasm-0.190.so
+lrwxrwxrwx.  1 0 0       15 Dec 11  2023 libasm.so.1 -> libasm-0.190.so
+lrwxrwxrwx.  1 0 0       20 Mar 30  2023 libasprintf.so.0 -> libasprintf.so.0.0.0
+-rwxr-xr-x.  1 0 0    15232 Mar 30  2023 libasprintf.so.0.0.0
+lrwxrwxrwx.  1 0 0       18 Aug  9  2021 libassuan.so.0 -> libassuan.so.0.8.5
+-rwxr-xr-x.  1 0 0    86944 Aug  9  2021 libassuan.so.0.8.5
+lrwxrwxrwx.  1 0 0       18 Dec 19  2023 libatomic.so.1 -> libatomic.so.1.2.0
+-rwxr-xr-x.  1 0 0    29176 Dec 19  2023 libatomic.so.1.2.0
+lrwxrwxrwx.  1 0 0       19 Aug  9  2021 libattr.so.1 -> libattr.so.1.1.2501
+-rwxr-xr-x.  1 0 0    28552 Aug  9  2021 libattr.so.1.1.2501
+lrwxrwxrwx.  1 0 0       17 Nov  8  2023 libaudit.so.1 -> libaudit.so.1.0.0
+-rwxr-xr-x.  1 0 0   138848 Nov  8  2023 libaudit.so.1.0.0
+lrwxrwxrwx.  1 0 0       19 Nov  8  2023 libauparse.so -> libauparse.so.0.0.0
+lrwxrwxrwx.  1 0 0       19 Nov  8  2023 libauparse.so.0 -> libauparse.so.0.0.0
+-rwxr-xr-x.  1 0 0   147792 Nov  8  2023 libauparse.so.0.0.0
+lrwxrwxrwx.  1 0 0       22 Aug  3  2023 libauthselect.so.3 -> libauthselect.so.3.1.1
+-rwxr-xr-x.  1 0 0    95248 Aug  3  2023 libauthselect.so.3.1.1
+lrwxrwxrwx.  1 0 0       24 May 12  2022 libbasicobjects.so.0 -> libbasicobjects.so.0.1.0
+-rwxr-xr-x.  1 0 0    15912 May 12  2022 libbasicobjects.so.0.1.0
+-rwxr-xr-x.  1 0 0  1339408 Feb 14  2024 libbfd-2.35.2-43.el9.so
+lrwxrwxrwx.  1 0 0       17 Feb  8  2024 libblkid.so.1 -> libblkid.so.1.1.0
+-rwxr-xr-x.  1 0 0   229432 Feb  8  2024 libblkid.so.1.1.0
+lrwxrwxrwx.  1 0 0       15 Feb 22  2024 libbpf.so.1 -> libbpf.so.1.3.0
+-rwxr-xr-x.  1 0 0   403584 Feb 22  2024 libbpf.so.1.3.0
+lrwxrwxrwx.  1 0 0       24 Aug  9  2021 libbrotlicommon.so.1 -> libbrotlicommon.so.1.0.9
+-rwxr-xr-x.  1 0 0   138712 Aug  9  2021 libbrotlicommon.so.1.0.9
+lrwxrwxrwx.  1 0 0       21 Aug  9  2021 libbrotlidec.so.1 -> libbrotlidec.so.1.0.9
+-rwxr-xr-x.  1 0 0    53048 Aug  9  2021 libbrotlidec.so.1.0.9
+lrwxrwxrwx.  1 0 0       21 Aug  9  2021 libbrotlienc.so.1 -> libbrotlienc.so.1.0.9
+-rwxr-xr-x.  1 0 0   591520 Aug  9  2021 libbrotlienc.so.1.0.9
+lrwxrwxrwx.  1 0 0       15 Aug  9  2021 libbz2.so.1 -> libbz2.so.1.0.8
+-rwxr-xr-x.  1 0 0    76792 Aug  9  2021 libbz2.so.1.0.8
+-rwxr-xr-x.  1 0 0  2592544 Jan 30  2024 libc.so.6
+-rwxr-xr-x.  1 0 0    54496 Jan 30  2024 libc_malloc_debug.so.0
+lrwxrwxrwx.  1 0 0       18 Feb 15  2022 libcap-ng.so.0 -> libcap-ng.so.0.0.0
+-rwxr-xr-x.  1 0 0    32528 Feb 15  2022 libcap-ng.so.0.0.0
+lrwxrwxrwx.  1 0 0       14 Jul 12  2023 libcap.so.2 -> libcap.so.2.48
+-rwxr-xr-x.  1 0 0    36304 Jul 12  2023 libcap.so.2.48
+lrwxrwxrwx.  1 0 0       17 May 29  2023 libcares.so.2 -> libcares.so.2.6.1
+-rwxr-xr-x.  1 0 0   102640 May 29  2023 libcares.so.2.6.1
+lrwxrwxrwx.  1 0 0       16 Aug  9  2021 libcbor.so.0.7 -> libcbor.so.0.7.0
+-rwxr-xr-x.  1 0 0    70544 Aug  9  2021 libcbor.so.0.7.0
+lrwxrwxrwx.  1 0 0       22 May 12  2022 libcollection.so.4 -> libcollection.so.4.1.1
+-rwxr-xr-x.  1 0 0    58392 May 12  2022 libcollection.so.4.1.1
+lrwxrwxrwx.  1 0 0       17 Dec 13  2023 libcom_err.so.2 -> libcom_err.so.2.1
+-rwxr-xr-x.  1 0 0    23872 Dec 13  2023 libcom_err.so.2.1
+-rwxr-xr-x.  1 0 0   193072 Oct 25  2021 libcomps.so.0
+-rwxr-xr-x.  1 0 0    30760 Apr 10  2024 libcpupower.so.0.0.1
+lrwxrwxrwx.  1 0 0       20 Apr 10  2024 libcpupower.so.1 -> libcpupower.so.0.0.1
+lrwxrwxrwx.  1 0 0       17 Aug  9  2021 libcrack.so.2 -> libcrack.so.2.9.0
+-rwxr-xr-x.  1 0 0    48392 Aug  9  2021 libcrack.so.2.9.0
+lrwxrwxrwx.  1 0 0       17 Aug 10  2021 libcrypt.so.1 -> libcrypt.so.1.1.0
+-rwxr-xr-x.  1 0 0   201968 Aug 10  2021 libcrypt.so.1.1.0
+lrwxrwxrwx.  1 0 0       17 Aug 10  2021 libcrypt.so.2 -> libcrypt.so.2.0.0
+-rwxr-xr-x.  1 0 0   201808 Aug 10  2021 libcrypt.so.2.0.0
+lrwxrwxrwx.  1 0 0       18 Feb 21  2024 libcrypto.so.3 -> libcrypto.so.3.0.7
+-rwxr-xr-x.  1 0 0  4487176 Feb 21  2024 libcrypto.so.3.0.7
+lrwxrwxrwx.  1 0 0       23 Jul  2  2023 libcryptsetup.so.12 -> libcryptsetup.so.12.9.0
+-rwxr-xr-x.  1 0 0   554440 Jul  2  2023 libcryptsetup.so.12.9.0
+-rw-r--r--.  1 0 0     1070 Feb 14  2024 libctf-nobfd.la
+lrwxrwxrwx.  1 0 0       21 Feb 14  2024 libctf-nobfd.so -> libctf-nobfd.so.0.0.0
+lrwxrwxrwx.  1 0 0       21 Feb 14  2024 libctf-nobfd.so.0 -> libctf-nobfd.so.0.0.0
+-rwxr-xr-x.  1 0 0   115912 Feb 14  2024 libctf-nobfd.so.0.0.0
+-rw-r--r--.  1 0 0     1028 Feb 14  2024 libctf.la
+lrwxrwxrwx.  1 0 0       15 Feb 14  2024 libctf.so -> libctf.so.0.0.0
+lrwxrwxrwx.  1 0 0       15 Feb 14  2024 libctf.so.0 -> libctf.so.0.0.0
+-rwxr-xr-x.  1 0 0   120088 Feb 14  2024 libctf.so.0.0.0
+lrwxrwxrwx.  1 0 0       16 Mar  7  2024 libcurl.so.4 -> libcurl.so.4.7.0
+-rwxr-xr-x.  1 0 0   666504 Mar  7  2024 libcurl.so.4.7.0
+lrwxrwxrwx.  1 0 0       18 Aug  9  2021 libdaemon.so.0 -> libdaemon.so.0.5.0
+-rwxr-xr-x.  1 0 0    36176 Aug  9  2021 libdaemon.so.0.5.0
+-rwxr-xr-x.  1 0 0  1863912 Nov 24  2021 libdb-5.3.so
+lrwxrwxrwx.  1 0 0       12 Nov 24  2021 libdb-5.so -> libdb-5.3.so
+lrwxrwxrwx.  1 0 0       20 Jun 12  2023 libdbus-1.so.3 -> libdbus-1.so.3.19.13
+-rwxr-xr-x.  1 0 0   343752 Jun 12  2023 libdbus-1.so.3.19.13
+-rwxr-xr-x.  1 0 0    36152 Dec 11  2023 libdebuginfod-0.190.so
+lrwxrwxrwx.  1 0 0       22 Dec 11  2023 libdebuginfod.so.1 -> libdebuginfod-0.190.so
+-r-xr-xr-x.  1 0 0   384760 Feb  2  2024 libdevmapper.so.1.02
+lrwxrwxrwx.  1 0 0       17 May 12  2022 libdhash.so.1 -> libdhash.so.1.1.0
+-rwxr-xr-x.  1 0 0    20280 May 12  2022 libdhash.so.1.1.0
+-rwxr-xr-x.  1 0 0    15632 Jan 30  2024 libdl.so.2
+drwxr-xr-x.  3 0 0       21 Apr 19  2024 libdnf
+-rwxr-xr-x.  1 0 0  1656440 Dec  1  2023 libdnf.so.2
+lrwxrwxrwx.  1 0 0       24 Feb 15  2022 libdrop_ambient.so.0 -> libdrop_ambient.so.0.0.0
+-rwxr-xr-x.  1 0 0    15632 Feb 15  2022 libdrop_ambient.so.0.0.0
+-rwxr-xr-x.  1 0 0   643776 Dec 11  2023 libdw-0.190.so
+lrwxrwxrwx.  1 0 0       14 Dec 11  2023 libdw.so.1 -> libdw-0.190.so
+lrwxrwxrwx.  1 0 0       13 Dec 13  2023 libe2p.so.2 -> libe2p.so.2.3
+-rwxr-xr-x.  1 0 0    46368 Dec 13  2023 libe2p.so.2.3
+lrwxrwxrwx.  1 0 0       17 Jun  7  2023 libeconf.so.0 -> libeconf.so.0.4.1
+-rwxr-xr-x.  1 0 0    40432 Jun  7  2023 libeconf.so.0.4.1
+lrwxrwxrwx.  1 0 0       17 Jul 19  2023 libedit.so.0 -> libedit.so.0.0.64
+-rwxr-xr-x.  1 0 0   236272 Jul 19  2023 libedit.so.0.0.64
+lrwxrwxrwx.  1 0 0       18 Sep 28  2023 libefa.so.1 -> libefa.so.1.2.48.0
+-rwxr-xr-x.  1 0 0    48968 Sep 28  2023 libefa.so.1.2.48.0
+lrwxrwxrwx.  1 0 0       18 Jan 11  2023 libefiboot.so.1 -> libefiboot.so.1.38
+-rwxr-xr-x.  1 0 0   124112 Jan 11  2023 libefiboot.so.1.38
+lrwxrwxrwx.  1 0 0       17 Jan 11  2023 libefisec.so.1 -> libefisec.so.1.38
+-rwxr-xr-x.  1 0 0    40424 Jan 11  2023 libefisec.so.1.38
+lrwxrwxrwx.  1 0 0       17 Jan 11  2023 libefivar.so.1 -> libefivar.so.1.38
+-rwxr-xr-x.  1 0 0   210600 Jan 11  2023 libefivar.so.1.38
+-rwxr-xr-x.  1 0 0   111704 Dec 11  2023 libelf-0.190.so
+lrwxrwxrwx.  1 0 0       15 Dec 11  2023 libelf.so.1 -> libelf-0.190.so
+lrwxrwxrwx.  1 0 0       16 Apr  7  2022 libestr.so.0 -> libestr.so.0.0.0
+-rwxr-xr-x.  1 0 0    16032 Apr  7  2022 libestr.so.0.0.0
+lrwxrwxrwx.  1 0 0       14 Aug  9  2021 libev.so.4 -> libev.so.4.0.0
+-rwxr-xr-x.  1 0 0    70960 Aug  9  2021 libev.so.4.0.0
+lrwxrwxrwx.  1 0 0       21 Aug  9  2021 libevent-2.1.so.7 -> libevent-2.1.so.7.0.1
+-rwxr-xr-x.  1 0 0   366424 Aug  9  2021 libevent-2.1.so.7.0.1
+lrwxrwxrwx.  1 0 0       26 Aug  9  2021 libevent_core-2.1.so.7 -> libevent_core-2.1.so.7.0.1
+-rwxr-xr-x.  1 0 0   232880 Aug  9  2021 libevent_core-2.1.so.7.0.1
+lrwxrwxrwx.  1 0 0       27 Aug  9  2021 libevent_extra-2.1.so.7 -> libevent_extra-2.1.so.7.0.1
+-rwxr-xr-x.  1 0 0   158240 Aug  9  2021 libevent_extra-2.1.so.7.0.1
+lrwxrwxrwx.  1 0 0       29 Aug  9  2021 libevent_openssl-2.1.so.7 -> libevent_openssl-2.1.so.7.0.1
+-rwxr-xr-x.  1 0 0    36728 Aug  9  2021 libevent_openssl-2.1.so.7.0.1
+lrwxrwxrwx.  1 0 0       30 Aug  9  2021 libevent_pthreads-2.1.so.7 -> libevent_pthreads-2.1.so.7.0.1
+-rwxr-xr-x.  1 0 0    15816 Aug  9  2021 libevent_pthreads-2.1.so.7.0.1
+lrwxrwxrwx.  1 0 0       18 Mar 20  2024 libexpat.so.1 -> libexpat.so.1.8.10
+-rwxr-xr-x.  1 0 0   198072 Mar 20  2024 libexpat.so.1.8.10
+lrwxrwxrwx.  1 0 0       16 Dec 13  2023 libext2fs.so.2 -> libext2fs.so.2.4
+-rwxr-xr-x.  1 0 0   456392 Dec 13  2023 libext2fs.so.2.4
+lrwxrwxrwx.  1 0 0       20 Aug  2  2023 libfastjson.so.4 -> libfastjson.so.4.3.0
+-rwxr-xr-x.  1 0 0    52856 Aug  2  2023 libfastjson.so.4.3.0
+lrwxrwxrwx.  1 0 0       17 Feb  8  2024 libfdisk.so.1 -> libfdisk.so.1.1.0
+-rwxr-xr-x.  1 0 0   340936 Feb  8  2024 libfdisk.so.1.1.0
+lrwxrwxrwx.  1 0 0       15 Apr 17  2023 libffi.so.8 -> libffi.so.8.1.0
+-rwxr-xr-x.  1 0 0    44784 Apr 17  2023 libffi.so.8.1.0
+lrwxrwxrwx.  1 0 0       18 Nov  8  2023 libfido2.so.1 -> libfido2.so.1.13.0
+-rwxr-xr-x.  1 0 0   231096 Nov  8  2023 libfido2.so.1.13.0
+lrwxrwxrwx.  1 0 0       20 Aug  9  2021 libflashrom.so.1 -> libflashrom.so.1.0.0
+-rwxr-xr-x.  1 0 0   859832 Aug  9  2021 libflashrom.so.1.0.0
+lrwxrwxrwx.  1 0 0       14 Aug 21  2023 libform.so.6 -> libform.so.6.2
+-rwxr-xr-x.  1 0 0    75680 Aug 21  2023 libform.so.6.2
+lrwxrwxrwx.  1 0 0       15 Aug 21  2023 libformw.so.6 -> libformw.so.6.2
+-rwxr-xr-x.  1 0 0    84024 Aug 21  2023 libformw.so.6.2
+lrwxrwxrwx.  1 0 0       16 Jan 12  2022 libfuse.so.2 -> libfuse.so.2.9.9
+-rwxr-xr-x.  1 0 0   270800 Jan 12  2022 libfuse.so.2.9.9
+lrwxrwxrwx.  1 0 0       17 Feb 19  2024 libfwupd.so.2 -> libfwupd.so.2.0.0
+-rwxr-xr-x.  1 0 0   496224 Feb 19  2024 libfwupd.so.2.0.0
+-rwxr-xr-x.  1 0 0   108136 Dec 19  2023 libgcc_s-11-20231218.so.1
+lrwxrwxrwx.  1 0 0       25 Dec 19  2023 libgcc_s.so.1 -> libgcc_s-11-20231218.so.1
+lrwxrwxrwx.  1 0 0       19 Mar 24  2023 libgcrypt.so.20 -> libgcrypt.so.20.4.0
+-rwxr-xr-x.  1 0 0  1288512 Mar 24  2023 libgcrypt.so.20.4.0
+lrwxrwxrwx.  1 0 0       16 Aug  9  2021 libgdbm.so.6 -> libgdbm.so.6.0.0
+-rwxr-xr-x.  1 0 0    65728 Aug  9  2021 libgdbm.so.6.0.0
+lrwxrwxrwx.  1 0 0       23 Aug  9  2021 libgdbm_compat.so.4 -> libgdbm_compat.so.4.0.0
+-rwxr-xr-x.  1 0 0    15384 Aug  9  2021 libgdbm_compat.so.4.0.0
+lrwxrwxrwx.  1 0 0       29 Nov  1  2022 libgdk_pixbuf-2.0.so.0 -> libgdk_pixbuf-2.0.so.0.4200.6
+-rwxr-xr-x.  1 0 0   193728 Nov  1  2022 libgdk_pixbuf-2.0.so.0.4200.6
+-rwxr-xr-x.  1 0 0   270632 Mar 30  2023 libgettextlib-0.21.so
+lrwxrwxrwx.  1 0 0       21 Mar 30  2023 libgettextpo.so.0 -> libgettextpo.so.0.5.7
+-rwxr-xr-x.  1 0 0   395112 Mar 30  2023 libgettextpo.so.0.5.7
+-rwxr-xr-x.  1 0 0   342432 Mar 30  2023 libgettextsrc-0.21.so
+lrwxrwxrwx.  1 0 0       22 Feb 21  2024 libgio-2.0.so.0 -> libgio-2.0.so.0.6800.4
+-rwxr-xr-x.  1 0 0  1945176 Feb 21  2024 libgio-2.0.so.0.6800.4
+lrwxrwxrwx.  1 0 0       28 Nov  4  2022 libgirepository-1.0.so.1 -> libgirepository-1.0.so.1.0.0
+-rwxr-xr-x.  1 0 0   143200 Nov  4  2022 libgirepository-1.0.so.1.0.0
+lrwxrwxrwx.  1 0 0       23 Feb 21  2024 libglib-2.0.so.0 -> libglib-2.0.so.0.6800.4
+-rwxr-xr-x.  1 0 0  1303216 Feb 21  2024 libglib-2.0.so.0.6800.4
+lrwxrwxrwx.  1 0 0       26 Feb 21  2024 libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.6800.4
+-rwxr-xr-x.  1 0 0    19592 Feb 21  2024 libgmodule-2.0.so.0.6800.4
+lrwxrwxrwx.  1 0 0       16 Aug  3  2023 libgmp.so.10 -> libgmp.so.10.4.0
+-rwxr-xr-x.  1 0 0   677824 Aug  3  2023 libgmp.so.10.4.0
+lrwxrwxrwx.  1 0 0       20 Jan 23  2024 libgnutls.so.30 -> libgnutls.so.30.37.1
+-rwxr-xr-x.  1 0 0  2337672 Jan 23  2024 libgnutls.so.30.37.1
+lrwxrwxrwx.  1 0 0       26 Feb 21  2024 libgobject-2.0.so.0 -> libgobject-2.0.so.0.6800.4
+-rwxr-xr-x.  1 0 0   375264 Feb 21  2024 libgobject-2.0.so.0.6800.4
+lrwxrwxrwx.  1 0 0       16 Dec 19  2023 libgomp.so.1 -> libgomp.so.1.0.0
+-rwxr-xr-x.  1 0 0   294392 Dec 19  2023 libgomp.so.1.0.0
+lrwxrwxrwx.  1 0 0       22 Dec  7  2021 libgpg-error.so.0 -> libgpg-error.so.0.32.0
+-rwxr-xr-x.  1 0 0   153600 Dec  7  2021 libgpg-error.so.0.32.0
+lrwxrwxrwx.  1 0 0       19 Feb 17  2022 libgpgme.so.11 -> libgpgme.so.11.24.1
+-rwxr-xr-x.  1 0 0   350864 Feb 17  2022 libgpgme.so.11.24.1
+lrwxrwxrwx.  1 0 0       21 Aug  9  2023 libgssapi_krb5.so.2 -> libgssapi_krb5.so.2.2
+-rwxr-xr-x.  1 0 0   358448 Aug  9  2023 libgssapi_krb5.so.2.2
+lrwxrwxrwx.  1 0 0       16 Aug  9  2023 libgssrpc.so.4 -> libgssrpc.so.4.2
+-rwxr-xr-x.  1 0 0   142168 Aug  9  2023 libgssrpc.so.4.2
+lrwxrwxrwx.  1 0 0       26 Feb 21  2024 libgthread-2.0.so.0 -> libgthread-2.0.so.0.6800.4
+-rwxr-xr-x.  1 0 0    15096 Feb 21  2024 libgthread-2.0.so.0.6800.4
+lrwxrwxrwx.  1 0 0       21 Aug 19  2021 libgudev-1.0.so.0 -> libgudev-1.0.so.0.3.0
+-rwxr-xr-x.  1 0 0    53192 Aug 19  2021 libgudev-1.0.so.0.3.0
+lrwxrwxrwx.  1 0 0       17 Aug 14  2023 libgusb.so.2 -> libgusb.so.2.0.10
+-rwxr-xr-x.  1 0 0    74456 Aug 14  2023 libgusb.so.2.0.10
+lrwxrwxrwx.  1 0 0       18 Nov 15  2023 libhandle.so.1 -> libhandle.so.1.0.3
+-rwxr-xr-x.  1 0 0    15664 Nov 15  2023 libhandle.so.1.0.3
+lrwxrwxrwx.  1 0 0       17 Aug 10  2021 libhistory.so.8 -> libhistory.so.8.1
+-rwxr-xr-x.  1 0 0    53400 Aug 10  2021 libhistory.so.8.1
+lrwxrwxrwx.  1 0 0       17 Nov 20  2023 libhogweed.so.6 -> libhogweed.so.6.8
+-rwxr-xr-x.  1 0 0   626240 Nov 20  2023 libhogweed.so.6.8
+drwxr-xr-x.  2 0 0     4096 Apr 19  2024 libibverbs
+lrwxrwxrwx.  1 0 0       23 Sep 28  2023 libibverbs.so.1 -> libibverbs.so.1.14.48.0
+-rwxr-xr-x.  1 0 0   137720 Sep 28  2023 libibverbs.so.1.14.48.0
+lrwxrwxrwx.  1 0 0       18 Aug 24  2021 libicudata.so.67 -> libicudata.so.67.1
+-rwxr-xr-x.  1 0 0 28408488 Aug 24  2021 libicudata.so.67.1
+lrwxrwxrwx.  1 0 0       18 Aug 24  2021 libicui18n.so.67 -> libicui18n.so.67.1
+-rwxr-xr-x.  1 0 0  3201200 Aug 24  2021 libicui18n.so.67.1
+lrwxrwxrwx.  1 0 0       16 Aug 24  2021 libicuio.so.67 -> libicuio.so.67.1
+-rwxr-xr-x.  1 0 0    66488 Aug 24  2021 libicuio.so.67.1
+lrwxrwxrwx.  1 0 0       18 Aug 24  2021 libicutest.so.67 -> libicutest.so.67.1
+-rwxr-xr-x.  1 0 0    84168 Aug 24  2021 libicutest.so.67.1
+lrwxrwxrwx.  1 0 0       16 Aug 24  2021 libicutu.so.67 -> libicutu.so.67.1
+-rwxr-xr-x.  1 0 0   213072 Aug 24  2021 libicutu.so.67.1
+lrwxrwxrwx.  1 0 0       16 Aug 24  2021 libicuuc.so.67 -> libicuuc.so.67.1
+-rwxr-xr-x.  1 0 0  2024088 Aug 24  2021 libicuuc.so.67.1
+lrwxrwxrwx.  1 0 0       16 Aug 10  2021 libidn2.so.0 -> libidn2.so.0.3.7
+-rwxr-xr-x.  1 0 0   130952 Aug 10  2021 libidn2.so.0.3.7
+lrwxrwxrwx.  1 0 0       18 Dec 13  2021 libimaevm.so.3 -> libimaevm.so.3.0.0
+-rwxr-xr-x.  1 0 0    36704 Dec 13  2021 libimaevm.so.3.0.0
+lrwxrwxrwx.  1 0 0       22 May 12  2022 libini_config.so.5 -> libini_config.so.5.2.1
+-rwxr-xr-x.  1 0 0   120640 May 12  2022 libini_config.so.5.2.1
+lrwxrwxrwx.  1 0 0       13 Jun 13  2022 libinih.so.0 -> libinih.so.49
+-rwxr-xr-x.  1 0 0    15880 Jun 13  2022 libinih.so.49
+lrwxrwxrwx.  1 0 0       20 Nov 17  2021 libjansson.so.4 -> libjansson.so.4.14.0
+-rwxr-xr-x.  1 0 0    62456 Nov 17  2021 libjansson.so.4.14.0
+lrwxrwxrwx.  1 0 0       36 Feb  9  2024 libjavascriptcoregtk-4.0.so.18 -> libjavascriptcoregtk-4.0.so.18.23.14
+-rwxr-xr-x.  1 0 0 12850080 Feb  9  2024 libjavascriptcoregtk-4.0.so.18.23.14
+lrwxrwxrwx.  1 0 0       16 Aug 10  2021 libjcat.so.1 -> libjcat.so.1.0.0
+-rwxr-xr-x.  1 0 0    95552 Aug 10  2021 libjcat.so.1.0.0
+lrwxrwxrwx.  1 0 0       17 Jan 15  2024 libjpeg.so.62 -> libjpeg.so.62.3.0
+-rwxr-xr-x.  1 0 0   528248 Jan 15  2024 libjpeg.so.62.3.0
+lrwxrwxrwx.  1 0 0       14 Oct 25  2023 libjq.so.1 -> libjq.so.1.0.4
+-rwxr-xr-x.  1 0 0   339960 Oct 25  2023 libjq.so.1.0.4
+lrwxrwxrwx.  1 0 0       18 Sep 14  2021 libjson-c.so.5 -> libjson-c.so.5.0.0
+-rwxr-xr-x.  1 0 0    75928 Sep 14  2021 libjson-c.so.5.0.0
+lrwxrwxrwx.  1 0 0       27 Aug 24  2021 libjson-glib-1.0.so.0 -> libjson-glib-1.0.so.0.600.6
+-rwxr-xr-x.  1 0 0   183520 Aug 24  2021 libjson-glib-1.0.so.0.600.6
+lrwxrwxrwx.  1 0 0       18 Aug  9  2023 libk5crypto.so.3 -> libk5crypto.so.3.1
+-rwxr-xr-x.  1 0 0    98992 Aug  9  2023 libk5crypto.so.3.1
+lrwxrwxrwx.  1 0 0       17 Dec  7  2023 libkcapi.so.1 -> libkcapi.so.1.4.0
+-rwxr-xr-x.  1 0 0    70248 Dec  7  2023 libkcapi.so.1.4.0
+lrwxrwxrwx.  1 0 0       15 Aug  9  2023 libkdb5.so.10 -> libkdb5.so.10.0
+-rwxr-xr-x.  1 0 0    90920 Aug  9  2023 libkdb5.so.10.0
+lrwxrwxrwx.  1 0 0       19 Oct 17  2022 libkeyutils.so.1 -> libkeyutils.so.1.10
+-rwxr-xr-x.  1 0 0    23992 Oct 17  2022 libkeyutils.so.1.10
+lrwxrwxrwx.  1 0 0       16 May 19  2023 libkmod.so.2 -> libkmod.so.2.3.6
+-rwxr-xr-x.  1 0 0   107424 May 19  2023 libkmod.so.2.3.6
+lrwxrwxrwx.  1 0 0       14 Aug  9  2023 libkrad.so.0 -> libkrad.so.0.0
+-rwxr-xr-x.  1 0 0    44424 Aug  9  2023 libkrad.so.0.0
+lrwxrwxrwx.  1 0 0       14 Aug  9  2023 libkrb5.so.3 -> libkrb5.so.3.3
+-rwxr-xr-x.  1 0 0   906256 Aug  9  2023 libkrb5.so.3.3
+lrwxrwxrwx.  1 0 0       21 Aug  9  2023 libkrb5support.so.0 -> libkrb5support.so.0.1
+-rwxr-xr-x.  1 0 0    66192 Aug  9  2023 libkrb5support.so.0.1
+lrwxrwxrwx.  1 0 0       17 Jan 25  2023 libksba.so.8 -> libksba.so.8.13.1
+-rwxr-xr-x.  1 0 0   268760 Jan 25  2023 libksba.so.8.13.1
+lrwxrwxrwx.  1 0 0       18 Feb  9  2024 liblber.so.2 -> liblber.so.2.0.200
+-rwxr-xr-x.  1 0 0    70400 Feb  9  2024 liblber.so.2.0.200
+lrwxrwxrwx.  1 0 0       20 Feb  9  2024 libldap.so.2 -> libldap_r.so.2.0.200
+-rwxr-xr-x.  1 0 0   417712 Feb  9  2024 libldap.so.2.0.200
+lrwxrwxrwx.  1 0 0       20 Feb  9  2024 libldap_r.so.2 -> libldap_r.so.2.0.200
+-rwxr-xr-x.  1 0 0   417712 Feb  9  2024 libldap_r.so.2.0.200
+lrwxrwxrwx.  1 0 0       15 Dec  4  2023 libldb.so.2 -> libldb.so.2.8.0
+-rwxr-xr-x.  1 0 0   229000 Dec  4  2023 libldb.so.2.8.0
+-rwxr-xr-x.  1 0 0    96304 Aug 10  2021 liblmdb.so.0.0.0
+-rwxr-xr-x.  1 0 0   287296 Apr 17  2023 liblua-5.4.so
+lrwxrwxrwx.  1 0 0       15 Aug 10  2021 liblz4.so.1 -> liblz4.so.1.9.3
+-rwxr-xr-x.  1 0 0   144120 Aug 10  2021 liblz4.so.1.9.3
+lrwxrwxrwx.  1 0 0       16 May 31  2022 liblzma.so.5 -> liblzma.so.5.2.5
+-rwxr-xr-x.  1 0 0   178744 May 31  2022 liblzma.so.5.2.5
+lrwxrwxrwx.  1 0 0       16 Aug 10  2021 liblzo2.so.2 -> liblzo2.so.2.0.0
+-rwxr-xr-x.  1 0 0   131176 Aug 10  2021 liblzo2.so.2.0.0
+-rwxr-xr-x.  1 0 0   914368 Jan 30  2024 libm.so.6
+lrwxrwxrwx.  1 0 0       17 Nov 29  2023 libmagic.so.1 -> libmagic.so.1.0.0
+-rwxr-xr-x.  1 0 0   185544 Nov 29  2023 libmagic.so.1.0.0
+lrwxrwxrwx.  1 0 0       19 Sep 28  2023 libmana.so.1 -> libmana.so.1.0.48.0
+-rwxr-xr-x.  1 0 0    32104 Sep 28  2023 libmana.so.1.0.48.0
+lrwxrwxrwx.  1 0 0       21 Aug 10  2021 libmaxminddb.so.0 -> libmaxminddb.so.0.0.7
+-rwxr-xr-x.  1 0 0    24352 Aug 10  2021 libmaxminddb.so.0.0.7
+-rwxr-xr-x.  1 0 0    20224 Jan 30  2024 libmemusage.so
+lrwxrwxrwx.  1 0 0       14 Aug 21  2023 libmenu.so.6 -> libmenu.so.6.2
+-rwxr-xr-x.  1 0 0    40832 Aug 21  2023 libmenu.so.6.2
+lrwxrwxrwx.  1 0 0       15 Aug 21  2023 libmenuw.so.6 -> libmenuw.so.6.2
+-rwxr-xr-x.  1 0 0    40848 Aug 21  2023 libmenuw.so.6.2
+lrwxrwxrwx.  1 0 0       19 Sep 28  2023 libmlx4.so.1 -> libmlx4.so.1.0.48.0
+-rwxr-xr-x.  1 0 0    57136 Sep 28  2023 libmlx4.so.1.0.48.0
+lrwxrwxrwx.  1 0 0       20 Sep 28  2023 libmlx5.so.1 -> libmlx5.so.1.24.48.0
+-rwxr-xr-x.  1 0 0   481216 Sep 28  2023 libmlx5.so.1.24.48.0
+lrwxrwxrwx.  1 0 0       15 Aug 10  2021 libmnl.so.0 -> libmnl.so.0.2.0
+-rwxr-xr-x.  1 0 0    28392 Aug 10  2021 libmnl.so.0.2.0
+lrwxrwxrwx.  1 0 0       21 Aug 12  2021 libmodulemd.so.2 -> libmodulemd.so.2.13.0
+-rwxr-xr-x.  1 0 0   634720 Aug 12  2021 libmodulemd.so.2.13.0
+lrwxrwxrwx.  1 0 0       17 Feb  8  2024 libmount.so.1 -> libmount.so.1.1.0
+-rwxr-xr-x.  1 0 0   291512 Feb  8  2024 libmount.so.1.1.0
+lrwxrwxrwx.  1 0 0       16 Aug 10  2021 libmpfr.so.6 -> libmpfr.so.6.1.0
+-rwxr-xr-x.  1 0 0   726864 Aug 10  2021 libmpfr.so.6.1.0
+-rwxr-xr-x.  1 0 0   177536 Jan 30  2024 libmvec.so.1
+lrwxrwxrwx.  1 0 0       17 Aug 21  2023 libncurses.so.6 -> libncurses.so.6.2
+-rwxr-xr-x.  1 0 0   183184 Aug 21  2023 libncurses.so.6.2
+lrwxrwxrwx.  1 0 0       18 Aug 21  2023 libncursesw.so.6 -> libncursesw.so.6.2
+-rwxr-xr-x.  1 0 0   262144 Aug 21  2023 libncursesw.so.6.2
+lrwxrwxrwx.  1 0 0       15 Aug 10  2021 libndp.so.0 -> libndp.so.0.2.0
+-rwxr-xr-x.  1 0 0    32408 Aug 10  2021 libndp.so.0.2.0
+lrwxrwxrwx.  1 0 0       31 Dec  8  2022 libnetfilter_conntrack.so.3 -> libnetfilter_conntrack.so.3.8.0
+-rwxr-xr-x.  1 0 0   128552 Dec  8  2022 libnetfilter_conntrack.so.3.8.0
+lrwxrwxrwx.  1 0 0       16 Nov 20  2023 libnettle.so.8 -> libnettle.so.8.8
+-rwxr-xr-x.  1 0 0   357336 Nov 20  2023 libnettle.so.8.8
+lrwxrwxrwx.  1 0 0       18 Aug 10  2021 libnewt.so.0.52 -> libnewt.so.0.52.21
+-rwxr-xr-x.  1 0 0    96728 Aug 10  2021 libnewt.so.0.52.21
+lrwxrwxrwx.  1 0 0       21 Aug 10  2021 libnfnetlink.so.0 -> libnfnetlink.so.0.2.0
+-rwxr-xr-x.  1 0 0    35616 Aug 10  2021 libnfnetlink.so.0.2.0
+drwxr-xr-x.  2 0 0       93 Apr 19  2024 libnfsidmap
+lrwxrwxrwx.  1 0 0       20 Feb 18  2024 libnfsidmap.so.1 -> libnfsidmap.so.1.0.0
+-rwxr-xr-x.  1 0 0    40336 Feb 18  2024 libnfsidmap.so.1.0.0
+lrwxrwxrwx.  1 0 0       21 Oct 16  2023 libnghttp2.so.14 -> libnghttp2.so.14.20.1
+-rwxr-xr-x.  1 0 0   168560 Oct 16  2023 libnghttp2.so.14.20.1
+drwxr-xr-x.  3 0 0       17 Apr 19  2024 libnl
+lrwxrwxrwx.  1 0 0       19 Dec  4  2023 libnl-3.so.200 -> libnl-3.so.200.26.0
+-rwxr-xr-x.  1 0 0   146376 Dec  4  2023 libnl-3.so.200.26.0
+lrwxrwxrwx.  1 0 0       23 Dec  4  2023 libnl-cli-3.so.200 -> libnl-cli-3.so.200.26.0
+-rwxr-xr-x.  1 0 0    53472 Dec  4  2023 libnl-cli-3.so.200.26.0
+lrwxrwxrwx.  1 0 0       24 Dec  4  2023 libnl-genl-3.so.200 -> libnl-genl-3.so.200.26.0
+-rwxr-xr-x.  1 0 0    37544 Dec  4  2023 libnl-genl-3.so.200.26.0
+lrwxrwxrwx.  1 0 0       25 Dec  4  2023 libnl-idiag-3.so.200 -> libnl-idiag-3.so.200.26.0
+-rwxr-xr-x.  1 0 0    46104 Dec  4  2023 libnl-idiag-3.so.200.26.0
+lrwxrwxrwx.  1 0 0       22 Dec  4  2023 libnl-nf-3.so.200 -> libnl-nf-3.so.200.26.0
+-rwxr-xr-x.  1 0 0   120496 Dec  4  2023 libnl-nf-3.so.200.26.0
+lrwxrwxrwx.  1 0 0       25 Dec  4  2023 libnl-route-3.so.200 -> libnl-route-3.so.200.26.0
+-rwxr-xr-x.  1 0 0   617664 Dec  4  2023 libnl-route-3.so.200.26.0
+lrwxrwxrwx.  1 0 0       24 Dec  4  2023 libnl-xfrm-3.so.200 -> libnl-xfrm-3.so.200.26.0
+-rwxr-xr-x.  1 0 0    97672 Dec  4  2023 libnl-xfrm-3.so.200.26.0
+lrwxrwxrwx.  1 0 0       14 Mar 26  2024 libnm.so.0 -> libnm.so.0.1.0
+-rwxr-xr-x.  1 0 0  1563576 Mar 26  2024 libnm.so.0.1.0
+lrwxrwxrwx.  1 0 0       16 Aug 10  2021 libnpth.so.0 -> libnpth.so.0.1.2
+-rwxr-xr-x.  1 0 0    24040 Aug 10  2021 libnpth.so.0.1.2
+-rwxr-xr-x.  1 0 0    45776 Jan 30  2024 libnss_compat.so.2
+-rwxr-xr-x.  1 0 0    15480 Jan 30  2024 libnss_dns.so.2
+-rwxr-xr-x.  1 0 0    15480 Jan 30  2024 libnss_files.so.2
+-rwxr-xr-x.  1 0 0   157192 Mar 19  2024 libnss_myhostname.so.2
+-rwxr-xr-x.  1 0 0   149216 Mar 19  2024 libnss_resolve.so.2
+-rwxr-xr-x.  1 0 0    53472 Feb 12  2024 libnss_sss.so.2
+-rwxr-xr-x.  1 0 0   353416 Mar 19  2024 libnss_systemd.so.2
+lrwxrwxrwx.  1 0 0       38 Apr 19  2024 libnssckbi.so -> /etc/alternatives/libnssckbi.so.x86_64
+lrwxrwxrwx.  1 0 0       16 Sep 25  2023 libnuma.so.1 -> libnuma.so.1.0.0
+-rwxr-xr-x.  1 0 0    53816 Sep 25  2023 libnuma.so.1.0.0
+lrwxrwxrwx.  1 0 0       16 Dec  9  2021 libonig.so.5 -> libonig.so.5.1.0
+-rwxr-xr-x.  1 0 0   602536 Dec  9  2021 libonig.so.5.1.0
+-rwxr-xr-x.  1 0 0  1586288 Feb 14  2024 libopcodes-2.35.2-43.el9.so
+lrwxrwxrwx.  1 0 0       19 Nov 23  2023 libp11-kit.so.0 -> libp11-kit.so.0.3.1
+-rwxr-xr-x.  1 0 0  1714208 Nov 23  2023 libp11-kit.so.0.3.1
+lrwxrwxrwx.  1 0 0       29 Jan 15  2024 libpackagekit-glib2.so.18 -> libpackagekit-glib2.so.18.1.3
+-rwxr-xr-x.  1 0 0   462752 Jan 15  2024 libpackagekit-glib2.so.18.1.3
+lrwxrwxrwx.  1 0 0       16 Feb 12  2024 libpam.so.0 -> libpam.so.0.85.1
+-rwxr-xr-x.  1 0 0    69592 Feb 12  2024 libpam.so.0.85.1
+lrwxrwxrwx.  1 0 0       21 Feb 12  2024 libpam_misc.so.0 -> libpam_misc.so.0.82.1
+-rwxr-xr-x.  1 0 0    19712 Feb 12  2024 libpam_misc.so.0.82.1
+lrwxrwxrwx.  1 0 0       17 Feb 12  2024 libpamc.so.0 -> libpamc.so.0.82.1
+-rwxr-xr-x.  1 0 0    23720 Feb 12  2024 libpamc.so.0.82.1
+lrwxrwxrwx.  1 0 0       15 Aug 21  2023 libpanel.so.6 -> libpanel.so.6.2
+-rwxr-xr-x.  1 0 0    19376 Aug 21  2023 libpanel.so.6.2
+lrwxrwxrwx.  1 0 0       16 Aug 21  2023 libpanelw.so.6 -> libpanelw.so.6.2
+-rwxr-xr-x.  1 0 0    19376 Aug 21  2023 libpanelw.so.6.2
+lrwxrwxrwx.  1 0 0       28 Aug 15  2022 libparted-fs-resize.so.0 -> libparted-fs-resize.so.0.0.4
+-rwxr-xr-x.  1 0 0    90008 Aug 15  2022 libparted-fs-resize.so.0.0.4
+lrwxrwxrwx.  1 0 0       18 Aug 15  2022 libparted.so.2 -> libparted.so.2.0.4
+-rwxr-xr-x.  1 0 0   418288 Aug 15  2022 libparted.so.2.0.4
+lrwxrwxrwx.  1 0 0       22 May 12  2022 libpath_utils.so.1 -> libpath_utils.so.1.0.1
+-rwxr-xr-x.  1 0 0    20304 May 12  2022 libpath_utils.so.1.0.1
+lrwxrwxrwx.  1 0 0       17 Aug 10  2021 libpcap.so.1 -> libpcap.so.1.10.0
+-rwxr-xr-x.  1 0 0   319688 Aug 10  2021 libpcap.so.1.10.0
+lrwxrwxrwx.  1 0 0       15 Aug 10  2021 libpci.so.3 -> libpci.so.3.7.0
+-rwxr-xr-x.  1 0 0    62816 Aug 10  2021 libpci.so.3.7.0
+-rwxr-xr-x.  1 0 0    15680 Jan 30  2024 libpcprofile.so
+lrwxrwxrwx.  1 0 0       17 Aug 10  2021 libpcre.so.1 -> libpcre.so.1.2.12
+-rwxr-xr-x.  1 0 0   489696 Aug 10  2021 libpcre.so.1.2.12
+lrwxrwxrwx.  1 0 0       20 Feb 17  2024 libpcre2-8.so.0 -> libpcre2-8.so.0.11.0
+-rwxr-xr-x.  1 0 0   636848 Feb 17  2024 libpcre2-8.so.0.11.0
+lrwxrwxrwx.  1 0 0       23 Feb 17  2024 libpcre2-posix.so.3 -> libpcre2-posix.so.3.0.2
+-rwxr-xr-x.  1 0 0    15320 Feb 17  2024 libpcre2-posix.so.3.0.2
+lrwxrwxrwx.  1 0 0       21 Aug 10  2021 libpcreposix.so.0 -> libpcreposix.so.0.0.7
+-rwxr-xr-x.  1 0 0    15864 Aug 10  2021 libpcreposix.so.0.0.7
+lrwxrwxrwx.  1 0 0       20 Aug 10  2021 libpipeline.so.1 -> libpipeline.so.1.5.3
+-rwxr-xr-x.  1 0 0    53472 Aug 10  2021 libpipeline.so.1.5.3
+lrwxrwxrwx.  1 0 0       19 Aug 10  2021 libpng16.so.16 -> libpng16.so.16.37.0
+-rwxr-xr-x.  1 0 0   225568 Aug 10  2021 libpng16.so.16.37.0
+lrwxrwxrwx.  1 0 0       26 Dec  5  2022 libpolkit-agent-1.so.0 -> libpolkit-agent-1.so.0.0.0
+-rwxr-xr-x.  1 0 0    52584 Dec  5  2022 libpolkit-agent-1.so.0.0.0
+lrwxrwxrwx.  1 0 0       28 Dec  5  2022 libpolkit-gobject-1.so.0 -> libpolkit-gobject-1.so.0.0.0
+-rwxr-xr-x.  1 0 0   131296 Dec  5  2022 libpolkit-gobject-1.so.0.0.0
+lrwxrwxrwx.  1 0 0       16 Aug 10  2021 libpopt.so.0 -> libpopt.so.0.0.1
+-rwxr-xr-x.  1 0 0    58368 Aug 10  2021 libpopt.so.0.0.1
+lrwxrwxrwx.  1 0 0       18 Jan 23  2024 libprocps.so.8 -> libprocps.so.8.0.3
+-rwxr-xr-x.  1 0 0    86144 Jan 23  2024 libprocps.so.8.0.3
+drwxr-xr-x.  3 0 0       20 Apr 19  2024 libproxy
+lrwxrwxrwx.  1 0 0       17 Aug 26  2021 libproxy.so.1 -> libproxy.so.1.0.0
+-rwxr-xr-x.  1 0 0   134400 Aug 26  2021 libproxy.so.1.0.0
+lrwxrwxrwx.  1 0 0       15 Aug 10  2021 libpsl.so.5 -> libpsl.so.5.3.3
+-rwxr-xr-x.  1 0 0    77488 Aug 10  2021 libpsl.so.5.3.3
+lrwxrwxrwx.  1 0 0       14 Jul 12  2023 libpsx.so.2 -> libpsx.so.2.48
+-rwxr-xr-x.  1 0 0    19480 Jul 12  2023 libpsx.so.2.48
+-rwxr-xr-x.  1 0 0    15640 Jan 30  2024 libpthread.so.0
+lrwxrwxrwx.  1 0 0       21 Aug 10  2021 libpwquality.so.1 -> libpwquality.so.1.0.2
+-rwxr-xr-x.  1 0 0    32608 Aug 10  2021 libpwquality.so.1.0.2
+-rwxr-xr-x.  1 0 0  3486640 Jan 29  2024 libpython3.9.so.1.0
+-rwxr-xr-x.  1 0 0    14944 Jan 29  2024 libpython3.so
+lrwxrwxrwx.  1 0 0       18 Aug 10  2021 libreadline.so.8 -> libreadline.so.8.1
+-rwxr-xr-x.  1 0 0   358128 Aug 10  2021 libreadline.so.8.1
+lrwxrwxrwx.  1 0 0       21 May 12  2022 libref_array.so.1 -> libref_array.so.1.2.1
+-rwxr-xr-x.  1 0 0    16056 May 12  2022 libref_array.so.1.2.1
+-rwxr-xr-x.  1 0 0   189840 Nov 30  2023 librepo.so.0
+-rwxr-xr-x.  1 0 0    70928 Jan 30  2024 libresolv.so.2
+-rwxr-xr-x.  1 0 0    52752 Jan 11  2024 librhsm.so.0
+lrwxrwxrwx.  1 0 0       15 Dec 13  2023 librpm.so.9 -> librpm.so.9.1.3
+-rwxr-xr-x.  1 0 0   537912 Dec 13  2023 librpm.so.9.1.3
+lrwxrwxrwx.  1 0 0       20 Dec 13  2023 librpmbuild.so.9 -> librpmbuild.so.9.1.3
+-rwxr-xr-x.  1 0 0   198488 Dec 13  2023 librpmbuild.so.9.1.3
+lrwxrwxrwx.  1 0 0       17 Dec 13  2023 librpmio.so.9 -> librpmio.so.9.1.3
+-rwxr-xr-x.  1 0 0   231208 Dec 13  2023 librpmio.so.9.1.3
+lrwxrwxrwx.  1 0 0       19 Dec 13  2023 librpmsign.so.9 -> librpmsign.so.9.1.3
+-rwxr-xr-x.  1 0 0    27696 Dec 13  2023 librpmsign.so.9.1.3
+-rwxr-xr-x.  1 0 0    15840 Jan 30  2024 librt.so.1
+lrwxrwxrwx.  1 0 0       17 Sep 12  2022 libsasl2.so.3 -> libsasl2.so.3.0.0
+-rwxr-xr-x.  1 0 0   128416 Sep 12  2022 libsasl2.so.3.0.0
+lrwxrwxrwx.  1 0 0       19 Nov  9  2021 libseccomp.so.2 -> libseccomp.so.2.5.2
+-rwxr-xr-x.  1 0 0   127680 Nov  9  2021 libseccomp.so.2.5.2
+-rwxr-xr-x.  1 0 0   175752 Dec 14  2023 libselinux.so.1
+-rwxr-xr-x.  1 0 0   273104 Dec 14  2023 libsemanage.so.2
+-rwxr-xr-x.  1 0 0   802784 Dec 13  2023 libsepol.so.2
+lrwxrwxrwx.  1 0 0       25 Jun 15  2022 libsgutils2-1.47.so.2 -> libsgutils2-1.47.so.2.0.0
+-rwxr-xr-x.  1 0 0   285272 Jun 15  2022 libsgutils2-1.47.so.2.0.0
+lrwxrwxrwx.  1 0 0       19 Aug 10  2021 libsigsegv.so.2 -> libsigsegv.so.2.0.6
+-rwxr-xr-x.  1 0 0    20192 Aug 10  2021 libsigsegv.so.2.0.6
+lrwxrwxrwx.  1 0 0       17 Aug 10  2021 libslang.so.2 -> libslang.so.2.3.2
+-rwxr-xr-x.  1 0 0  1291328 Aug 10  2021 libslang.so.2.3.2
+lrwxrwxrwx.  1 0 0       19 Feb  9  2024 libslapi.so.2 -> libslapi.so.2.0.200
+-rwxr-xr-x.  1 0 0   144328 Feb  9  2024 libslapi.so.2.0.200
+lrwxrwxrwx.  1 0 0       21 Feb  8  2024 libsmartcols.so.1 -> libsmartcols.so.1.1.0
+-rwxr-xr-x.  1 0 0   107944 Feb  8  2024 libsmartcols.so.1.1.0
+lrwxrwxrwx.  1 0 0       18 Aug 10  2021 libsnappy.so.1 -> libsnappy.so.1.1.8
+-rwxr-xr-x.  1 0 0    49744 Aug 10  2021 libsnappy.so.1.1.8
+-rwxr-xr-x.  1 0 0   635776 Jun 22  2023 libsolv.so.1
+-rwxr-xr-x.  1 0 0   270304 Jun 22  2023 libsolvext.so.1
+lrwxrwxrwx.  1 0 0       21 Aug 10  2021 libsoup-2.4.so.1 -> libsoup-2.4.so.1.11.0
+-rwxr-xr-x.  1 0 0   691576 Aug 10  2021 libsoup-2.4.so.1.11.0
+lrwxrwxrwx.  1 0 0       27 Aug 10  2021 libsoup-gnome-2.4.so.1 -> libsoup-gnome-2.4.so.1.11.0
+-rwxr-xr-x.  1 0 0    15928 Aug 10  2021 libsoup-gnome-2.4.so.1.11.0
+lrwxrwxrwx.  1 0 0       19 Jan  4  2024 libsqlite3.so.0 -> libsqlite3.so.0.8.6
+-rwxr-xr-x.  1 0 0  1294824 Jan  4  2024 libsqlite3.so.0.8.6
+lrwxrwxrwx.  1 0 0       12 Dec 13  2023 libss.so.2 -> libss.so.2.0
+-rwxr-xr-x.  1 0 0    36240 Dec 13  2023 libss.so.2.0
+lrwxrwxrwx.  1 0 0       15 Feb 19  2024 libssh.so.4 -> libssh.so.4.9.4
+-rwxr-xr-x.  1 0 0   483832 Feb 19  2024 libssh.so.4.9.4
+lrwxrwxrwx.  1 0 0       15 Feb 19  2024 libssh_threads.so.4 -> libssh.so.4.9.4
+lrwxrwxrwx.  1 0 0       15 Feb 19  2024 libssh_threads.so.4.9.4 -> libssh.so.4.9.4
+lrwxrwxrwx.  1 0 0       15 Feb 21  2024 libssl.so.3 -> libssl.so.3.0.7
+-rwxr-xr-x.  1 0 0   688312 Feb 21  2024 libssl.so.3.0.7
+lrwxrwxrwx.  1 0 0       23 Feb 12  2024 libsss_certmap.so.0 -> libsss_certmap.so.0.2.0
+-rwxr-xr-x.  1 0 0    74600 Feb 12  2024 libsss_certmap.so.0.2.0
+lrwxrwxrwx.  1 0 0       21 Feb 12  2024 libsss_idmap.so.0 -> libsss_idmap.so.0.5.1
+-rwxr-xr-x.  1 0 0    36520 Feb 12  2024 libsss_idmap.so.0.5.1
+lrwxrwxrwx.  1 0 0       25 Feb 12  2024 libsss_nss_idmap.so.0 -> libsss_nss_idmap.so.0.6.0
+-rwxr-xr-x.  1 0 0    41152 Feb 12  2024 libsss_nss_idmap.so.0.6.0
+-rwxr-xr-x.  1 0 0    19672 Feb 12  2024 libsss_sudo.so
+lrwxrwxrwx.  1 0 0       19 Dec 19  2023 libstdc++.so.6 -> libstdc++.so.6.0.29
+-rwxr-xr-x.  1 0 0  2314576 Dec 19  2023 libstdc++.so.6.0.29
+lrwxrwxrwx.  1 0 0       19 Aug 10  2021 libstemmer.so.0 -> libstemmer.so.0.0.0
+-rwxr-xr-x.  1 0 0   345144 Aug 10  2021 libstemmer.so.0.0.0
+-rwxr-xr-x.  1 0 0    19752 Feb 12  2024 libsubid_sss.so
+lrwxrwxrwx.  1 0 0       17 Jan 26  2022 libsysfs.so.2 -> libsysfs.so.2.0.1
+-rwxr-xr-x.  1 0 0    49896 Jan 26  2022 libsysfs.so.2.0.1
+lrwxrwxrwx.  1 0 0       20 Mar 19  2024 libsystemd.so.0 -> libsystemd.so.0.35.0
+-rwxr-xr-x.  1 0 0   915840 Mar 19  2024 libsystemd.so.0.35.0
+lrwxrwxrwx.  1 0 0       18 Nov 30  2023 libtalloc.so.2 -> libtalloc.so.2.4.1
+-rwxr-xr-x.  1 0 0    57664 Nov 30  2023 libtalloc.so.2.4.1
+lrwxrwxrwx.  1 0 0       17 Dec  1  2022 libtasn1.so.6 -> libtasn1.so.6.6.0
+-rwxr-xr-x.  1 0 0    94112 Dec  1  2022 libtasn1.so.6.6.0
+lrwxrwxrwx.  1 0 0       15 Dec  4  2023 libtdb.so.1 -> libtdb.so.1.4.9
+-rwxr-xr-x.  1 0 0   103232 Dec  4  2023 libtdb.so.1.4.9
+lrwxrwxrwx.  1 0 0       16 Dec  7  2022 libteam.so.5 -> libteam.so.5.6.1
+-rwxr-xr-x.  1 0 0    60984 Dec  7  2022 libteam.so.5.6.1
+lrwxrwxrwx.  1 0 0       20 Dec  7  2022 libteamdctl.so.0 -> libteamdctl.so.0.1.5
+-rwxr-xr-x.  1 0 0    31792 Dec  7  2022 libteamdctl.so.0.1.5
+lrwxrwxrwx.  1 0 0       19 Dec  4  2023 libtevent.so.0 -> libtevent.so.0.16.0
+-rwxr-xr-x.  1 0 0    95992 Dec  4  2023 libtevent.so.0.16.0
+-rwxr-xr-x.  1 0 0    42232 Jan 30  2024 libthread_db.so.1
+lrwxrwxrwx.  1 0 0       13 Aug 21  2023 libtic.so.6 -> libtic.so.6.2
+-rwxr-xr-x.  1 0 0    73224 Aug 21  2023 libtic.so.6.2
+lrwxrwxrwx.  1 0 0       15 Aug 21  2023 libtinfo.so.6 -> libtinfo.so.6.2
+-rwxr-xr-x.  1 0 0   195080 Aug 21  2023 libtinfo.so.6.2
+lrwxrwxrwx.  1 0 0       17 Mar 21  2024 libtirpc.so.3 -> libtirpc.so.3.0.0
+-rwxr-xr-x.  1 0 0   196248 Mar 21  2024 libtirpc.so.3.0.0
+lrwxrwxrwx.  1 0 0       22 Oct 20  2022 libtraceevent.so.1 -> libtraceevent.so.1.5.3
+-rwxr-xr-x.  1 0 0   131984 Oct 20  2022 libtraceevent.so.1.5.3
+lrwxrwxrwx.  1 0 0       21 Jul  3  2023 libtss2-esys.so.0 -> libtss2-esys.so.0.0.0
+-rwxr-xr-x.  1 0 0   595632 Jul  3  2023 libtss2-esys.so.0.0.0
+lrwxrwxrwx.  1 0 0       21 Jul  3  2023 libtss2-fapi.so.1 -> libtss2-fapi.so.1.0.0
+-rwxr-xr-x.  1 0 0   905448 Jul  3  2023 libtss2-fapi.so.1.0.0
+lrwxrwxrwx.  1 0 0       19 Jul  3  2023 libtss2-mu.so.0 -> libtss2-mu.so.0.0.0
+-rwxr-xr-x.  1 0 0   318488 Jul  3  2023 libtss2-mu.so.0.0.0
+lrwxrwxrwx.  1 0 0       19 Jul  3  2023 libtss2-rc.so.0 -> libtss2-rc.so.0.0.0
+-rwxr-xr-x.  1 0 0    36896 Jul  3  2023 libtss2-rc.so.0.0.0
+lrwxrwxrwx.  1 0 0       20 Jul  3  2023 libtss2-sys.so.1 -> libtss2-sys.so.1.0.0
+-rwxr-xr-x.  1 0 0   159512 Jul  3  2023 libtss2-sys.so.1.0.0
+lrwxrwxrwx.  1 0 0       25 Jul  3  2023 libtss2-tcti-cmd.so.0 -> libtss2-tcti-cmd.so.0.0.0
+-rwxr-xr-x.  1 0 0    23672 Jul  3  2023 libtss2-tcti-cmd.so.0.0.0
+lrwxrwxrwx.  1 0 0       28 Jul  3  2023 libtss2-tcti-device.so.0 -> libtss2-tcti-device.so.0.0.0
+-rwxr-xr-x.  1 0 0    27808 Jul  3  2023 libtss2-tcti-device.so.0.0.0
+lrwxrwxrwx.  1 0 0       27 Jul  3  2023 libtss2-tcti-mssim.so.0 -> libtss2-tcti-mssim.so.0.0.0
+-rwxr-xr-x.  1 0 0    32008 Jul  3  2023 libtss2-tcti-mssim.so.0.0.0
+lrwxrwxrwx.  1 0 0       27 Jul  3  2023 libtss2-tcti-swtpm.so.0 -> libtss2-tcti-swtpm.so.0.0.0
+-rwxr-xr-x.  1 0 0    27920 Jul  3  2023 libtss2-tcti-swtpm.so.0.0.0
+lrwxrwxrwx.  1 0 0       24 Jul  3  2023 libtss2-tctildr.so.0 -> libtss2-tctildr.so.0.0.0
+-rwxr-xr-x.  1 0 0    27744 Jul  3  2023 libtss2-tctildr.so.0.0.0
+lrwxrwxrwx.  1 0 0       16 Mar 19  2024 libudev.so.1 -> libudev.so.1.7.5
+-rwxr-xr-x.  1 0 0   200248 Mar 19  2024 libudev.so.1.7.5
+lrwxrwxrwx.  1 0 0       20 Jan 12  2022 libulockmgr.so.1 -> libulockmgr.so.1.0.1
+-rwxr-xr-x.  1 0 0    16032 Jan 12  2022 libulockmgr.so.1.0.1
+lrwxrwxrwx.  1 0 0       21 Aug 10  2021 libunistring.so.2 -> libunistring.so.2.1.0
+-rwxr-xr-x.  1 0 0  1591920 Aug 10  2021 libunistring.so.2.1.0
+lrwxrwxrwx.  1 0 0       19 Aug 10  2021 liburcu-bp.so.6 -> liburcu-bp.so.6.1.0
+-rwxr-xr-x.  1 0 0    41360 Aug 10  2021 liburcu-bp.so.6.1.0
+lrwxrwxrwx.  1 0 0       20 Aug 10  2021 liburcu-cds.so.6 -> liburcu-cds.so.6.1.0
+-rwxr-xr-x.  1 0 0    45480 Aug 10  2021 liburcu-cds.so.6.1.0
+lrwxrwxrwx.  1 0 0       23 Aug 10  2021 liburcu-common.so.6 -> liburcu-common.so.6.1.0
+-rwxr-xr-x.  1 0 0    24248 Aug 10  2021 liburcu-common.so.6.1.0
+lrwxrwxrwx.  1 0 0       19 Aug 10  2021 liburcu-mb.so.6 -> liburcu-mb.so.6.1.0
+-rwxr-xr-x.  1 0 0    41352 Aug 10  2021 liburcu-mb.so.6.1.0
+lrwxrwxrwx.  1 0 0       21 Aug 10  2021 liburcu-memb.so.6 -> liburcu-memb.so.6.1.0
+-rwxr-xr-x.  1 0 0    41312 Aug 10  2021 liburcu-memb.so.6.1.0
+lrwxrwxrwx.  1 0 0       21 Aug 10  2021 liburcu-qsbr.so.6 -> liburcu-qsbr.so.6.1.0
+-rwxr-xr-x.  1 0 0    41400 Aug 10  2021 liburcu-qsbr.so.6.1.0
+lrwxrwxrwx.  1 0 0       23 Aug 10  2021 liburcu-signal.so.6 -> liburcu-signal.so.6.1.0
+-rwxr-xr-x.  1 0 0    41584 Aug 10  2021 liburcu-signal.so.6.1.0
+lrwxrwxrwx.  1 0 0       16 Aug 10  2021 liburcu.so.6 -> liburcu.so.6.1.0
+-rwxr-xr-x.  1 0 0    41312 Aug 10  2021 liburcu.so.6.1.0
+lrwxrwxrwx.  1 0 0       19 Nov 29  2023 liburing-ffi.so.2 -> liburing-ffi.so.2.5
+-rwxr-xr-x.  1 0 0    49872 Nov 29  2023 liburing-ffi.so.2.5
+lrwxrwxrwx.  1 0 0       15 Nov 29  2023 liburing.so.2 -> liburing.so.2.5
+-rwxr-xr-x.  1 0 0    28376 Nov 29  2023 liburing.so.2.5
+lrwxrwxrwx.  1 0 0       19 Apr 25  2022 libusb-1.0.so.0 -> libusb-1.0.so.0.3.0
+-rwxr-xr-x.  1 0 0   124512 Apr 25  2022 libusb-1.0.so.0.3.0
+drwxr-xr-x.  2 0 0       78 Apr 19  2024 libuser
+lrwxrwxrwx.  1 0 0       16 Jul 12  2023 libuser.so.1 -> libuser.so.1.5.2
+-rwxr-xr-x.  1 0 0   139624 Jul 12  2023 libuser.so.1.5.2
+lrwxrwxrwx.  1 0 0       20 Aug 10  2021 libutempter.so.0 -> libutempter.so.1.2.1
+-rwxr-xr-x.  1 0 0    16080 Aug 10  2021 libutempter.so.1.2.1
+-rwxr-xr-x.  1 0 0    15624 Jan 30  2024 libutil.so.1
+lrwxrwxrwx.  1 0 0       16 Feb  8  2024 libuuid.so.1 -> libuuid.so.1.3.0
+-rwxr-xr-x.  1 0 0    36440 Feb  8  2024 libuuid.so.1.3.0
+lrwxrwxrwx.  1 0 0       23 Aug 10  2021 libverto-libev.so.1 -> libverto-libev.so.1.0.0
+-rwxr-xr-x.  1 0 0    16168 Aug 10  2021 libverto-libev.so.1.0.0
+lrwxrwxrwx.  1 0 0       17 Aug 10  2021 libverto.so.1 -> libverto.so.1.0.0
+-rwxr-xr-x.  1 0 0    28472 Aug 10  2021 libverto.so.1.0.0
+lrwxrwxrwx.  1 0 0       17 Sep 20  2023 libxml2.so.2 -> libxml2.so.2.9.13
+-rwxr-xr-x.  1 0 0  1640680 Sep 20  2023 libxml2.so.2.9.13
+lrwxrwxrwx.  1 0 0       16 Oct 18  2022 libxmlb.so.2 -> libxmlb.so.2.0.0
+-rwxr-xr-x.  1 0 0   204192 Oct 18  2022 libxmlb.so.2.0.0
+lrwxrwxrwx.  1 0 0       20 Nov  7  2023 libxtables.so.12 -> libxtables.so.12.7.0
+-rwxr-xr-x.  1 0 0    69448 Nov  7  2023 libxtables.so.12.7.0
+lrwxrwxrwx.  1 0 0       18 Aug 10  2021 libyaml-0.so.2 -> libyaml-0.so.2.0.9
+-rwxr-xr-x.  1 0 0   136048 Aug 10  2021 libyaml-0.so.2.0.9
+lrwxrwxrwx.  1 0 0       14 May  9  2023 libz.so.1 -> libz.so.1.2.11
+-rwxr-xr-x.  1 0 0   102552 May  9  2023 libz.so.1.2.11
+lrwxrwxrwx.  1 0 0       16 Feb  8  2022 libzstd.so.1 -> libzstd.so.1.5.1
+-rwxr-xr-x.  1 0 0   882376 Feb  8  2022 libzstd.so.1.5.1
+drwxr-xr-x.  3 0 0       17 Apr 19  2024 lua
+drwxr-xr-x.  2 0 0       90 Apr 19  2024 man-db
+drwxr-xr-x.  2 0 0       38 Apr 19  2024 ossl-modules
+lrwxrwxrwx.  1 0 0       15 Nov 23  2023 p11-kit-proxy.so -> libp11-kit.so.0
+drwxr-xr-x.  2 0 0     4096 Apr 19  2024 packagekit-backend
+drwxr-xr-x.  2 0 0       30 Apr 19  2024 pkcs11
+dr-xr-xr-x.  5 0 0       52 Apr 19  2024 pm-utils
+drwxr-xr-x.  2 0 0       28 Apr 19  2024 polkit-1
+drwxr-xr-x. 32 0 0     8192 Apr 19  2024 python3.9
+drwxr-xr-x.  2 0 0       66 Apr 19  2024 rpm-plugins
+drwxr-xr-x.  2 0 0     4096 Apr 19  2024 rsyslog
+drwxr-xr-x.  2 0 0      151 Apr 19  2024 sasl2
+drwxr-xr-x.  3 0 0     4096 Apr 19  2024 security
+drwxr-xr-x.  4 0 0     4096 Apr 19  2024 sssd
+drwxr-xr-x.  2 0 0       68 Apr 19  2024 systemd
+drwxr-xr-x.  2 0 0      125 Apr 19  2024 tc
+drwxr-xr-x.  3 0 0       21 Apr 19  2024 traceevent
+drwxr-xr-x.  2 0 0        6 Nov 15  2023 xfsprogs
+drwxr-xr-x.  2 0 0     4096 Apr 19  2024 xtables
+/var:
+total 20
+drwxr-xr-x. 19 0 0 4096 Mar 20 06:20 .
+dr-xr-xr-x. 19 0 0  246 Mar 20 06:20 ..
+-rw-r--r--.  1 0 0  208 Apr 19  2024 .updated
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 adm
+drwxr-xr-x. 14 0 0  192 Apr 19  2024 cache
+drwxr-xr-x.  2 0 0    6 Jan 30  2024 crash
+drwxr-xr-x.  3 0 0   18 Apr 19  2024 db
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 empty
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 ftp
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 games
+drwxr-xr-x.  3 0 0   18 Apr 19  2024 kerberos
+drwxr-xr-x. 32 0 0 4096 Mar 20 06:20 lib
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 local
+lrwxrwxrwx.  1 0 0   11 Apr 19  2024 lock -> ../run/lock
+drwxr-xr-x. 10 0 0 4096 Mar 20 06:25 log
+lrwxrwxrwx.  1 0 0   10 Aug  9  2021 mail -> spool/mail
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 nis
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 opt
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 preserve
+lrwxrwxrwx.  1 0 0    6 Apr 19  2024 run -> ../run
+drwxr-xr-x.  7 0 0   68 Apr 19  2024 spool
+drwxrwxrwt.  9 0 0 4096 Mar 20 06:26 tmp
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 yp
+/var/log:
+total 648
+drwxr-xr-x. 10   0   0   4096 Mar 20 06:25 .
+drwxr-xr-x. 19   0   0   4096 Mar 20 06:20 ..
+lrwxrwxrwx.  1   0   0     39 Apr 19  2024 README -> ../../usr/share/doc/systemd/README.logs
+drwx------.  2   0   0     23 Mar 20 06:20 audit
+-rw-rw----.  1   0  22      0 Apr 19  2024 btmp
+drwxr-x---.  2 993 991      6 Jan 23  2024 chrony
+-rw-r-----.  1   0   4   4400 Mar 20 06:21 cloud-init-output.log
+-rw-r-----.  1   0   0 132088 Mar 20 06:21 cloud-init.log
+-rw-------.  1   0   0    496 Mar 20 06:21 cron
+-rw-r--r--.  1   0   0    464 Mar 20 06:26 dnf.librepo.log
+-rw-r--r--.  1   0   0   1383 Mar 20 06:26 dnf.log
+-rw-r--r--.  1   0   0    116 Mar 20 06:26 dnf.rpm.log
+-rw-r--r--.  1   0   0    180 Mar 20 06:26 hawkey.log
+drwx------.  2   0   0     33 Mar 20 06:25 insights-client
+-rw-------.  1   0   0    705 Mar 20 06:21 kdump.log
+-rw-rw-r--.  1   0  22 292292 Mar 20 06:24 lastlog
+-rw-------.  1   0   0      0 Apr 19  2024 maillog
+-rw-------.  1   0   0 211860 Mar 20 06:25 messages
+drwx------.  2   0   0      6 Apr 19  2024 private
+drwxr-xr-x.  2   0   0      6 Mar 26  2024 qemu-ga
+drwxr-xr-x.  2   0   0     43 Mar 20 06:25 rhsm
+-rw-------.  1   0   0   2871 Mar 20 06:24 secure
+-rw-------.  1   0   0      0 Apr 19  2024 spooler
+drwxr-x---.  2 996 994      6 Feb 12  2024 sssd
+-rw-------.  1   0   0      0 Apr 19  2024 tallylog
+drwxr-xr-x.  2   0   0     23 Mar 20 06:21 tuned
+-rw-rw-r--.  1   0  22   2688 Mar 20 06:24 wtmp

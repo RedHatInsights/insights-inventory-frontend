@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.softnet_stat", "exec_time": 3.8623809814453125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/net/softnet_stat", "rc": null}}, "ser_time": 0.0002849102020263672}

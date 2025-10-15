@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.wc_proc_1_mountinfo", "exec_time": 4.5299530029296875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/wc -l /proc/1/mountinfo", "args": null, "save_as": false, "relative_path": "insights_commands/wc_-l_.proc.1.mountinfo"}}, "ser_time": 0.007077932357788086}

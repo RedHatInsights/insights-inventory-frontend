@@ -1,0 +1,3 @@
+10.0.147.252 dev eth0 lladdr 4c:16:fc:8c:98:ed STALE 
+0.0.0.0 dev lo lladdr 00:00:00:00:00:00 NOARP 
+10.0.147.254 dev eth0 lladdr 02:00:5e:00:01:01 REACHABLE 

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.nmcli_dev_show", "exec_time": 5.9604644775390625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/nmcli dev show", "args": null, "save_as": false, "relative_path": "insights_commands/nmcli_dev_show"}}, "ser_time": 0.01975846290588379}

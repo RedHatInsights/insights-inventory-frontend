@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.sysctl_conf", "exec_time": 0.00018024444580078125, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/sysctl.conf", "rc": null}}, "ser_time": 0.0014865398406982422}

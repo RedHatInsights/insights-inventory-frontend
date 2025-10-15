@@ -1,0 +1,15 @@
+Ring parameters for eth0:
+Pre-set maximums:
+RX:		512
+RX Mini:	n/a
+RX Jumbo:	n/a
+TX:		256
+Current hardware settings:
+RX:		512
+RX Mini:	n/a
+RX Jumbo:	n/a
+TX:		256
+RX Buf Len:	n/a
+CQE Size:	n/a
+TX Push:	off
+TCP data split:	n/a

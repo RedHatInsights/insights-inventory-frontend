@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.sockstat", "exec_time": 6.270408630371094e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/net/sockstat", "rc": null}}, "ser_time": 0.0004138946533203125}

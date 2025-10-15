@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.virt_what", "exec_time": 0.00021338462829589844, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/virt-what", "args": null, "save_as": false, "relative_path": "insights_commands/virt-what"}}, "ser_time": 0.05072975158691406}

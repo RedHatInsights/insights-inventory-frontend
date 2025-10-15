@@ -1,0 +1,6 @@
+/var/log/rhsm/*.log {
+    missingok
+    notifempty
+    sharedscripts
+    copytruncate
+}

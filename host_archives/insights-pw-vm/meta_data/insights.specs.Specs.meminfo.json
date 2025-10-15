@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.meminfo", "exec_time": 6.151199340820312e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/meminfo", "rc": null}}, "ser_time": 0.0009853839874267578}

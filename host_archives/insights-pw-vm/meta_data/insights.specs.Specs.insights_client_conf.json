@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.insights_client_conf", "exec_time": 3.24249267578125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/insights-client/insights-client.conf", "rc": null}}, "ser_time": 0.007030010223388672}

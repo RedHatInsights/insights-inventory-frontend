@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.yum_updates", "exec_time": 6.961822509765625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.DatasourceProvider", "object": {"relative_path": "insights_commands/yum_updates_list", "save_as": null}}, "ser_time": 0.00021696090698242188}

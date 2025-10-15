@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.hosts", "exec_time": 6.0558319091796875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/hosts", "rc": null}}, "ser_time": 0.0003123283386230469}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.tty_console_active", "exec_time": 7.796287536621094e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "sys/class/tty/console/active", "rc": null}}, "ser_time": 0.0004246234893798828}

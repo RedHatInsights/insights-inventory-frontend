@@ -1,0 +1,8 @@
+/tmp:
+total 8
+/usr/bin:
+total 66916
+-rwsr-xr-x.  1 root root   57296 Nov 30  2023 crontab
+lrwxrwxrwx.  1 root root      22 Aug 10  2021 miniterm-3.9.py -> /usr/bin/miniterm-3.py
+lrwxrwxrwx.  1 root root      22 Aug 10  2021 miniterm.py -> /usr/bin/miniterm-3.py
+lrwxrwxrwx.  1 root root      22 Jan 18  2024 subscription-manager -> /usr/bin/consolehelper

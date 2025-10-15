@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.branch_info", "exec_time": 3.3855438232421875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.DatasourceProvider", "object": {"relative_path": "branch_info", "save_as": null}}, "ser_time": 0.0001888275146484375}

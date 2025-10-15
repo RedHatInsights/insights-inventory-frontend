@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.kernel_crash_kexec_post_notifiers", "exec_time": 4.220008850097656e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "sys/module/kernel/parameters/crash_kexec_post_notifiers", "rc": null}}, "ser_time": 0.00039958953857421875}

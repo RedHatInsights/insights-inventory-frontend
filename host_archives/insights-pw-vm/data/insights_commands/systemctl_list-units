@@ -1,0 +1,145 @@
+  UNIT                                                                           LOAD   ACTIVE SUB       DESCRIPTION
+  efi.automount                                                                  loaded active running   EFI System Partition Automount
+  proc-sys-fs-binfmt_misc.automount                                              loaded active running   Arbitrary Executable File Formats File System Automount Point
+  sys-devices-pci0000:00-0000:00:02.1-0000:03:00.0-virtio1-net-eth0.device       loaded active plugged   Virtio network device
+  sys-devices-pci0000:00-0000:00:02.2-0000:04:00.0-virtio2-block-vda-vda1.device loaded active plugged   /sys/devices/pci0000:00/0000:00:02.2/0000:04:00.0/virtio2/block/vda/vda1
+  sys-devices-pci0000:00-0000:00:02.2-0000:04:00.0-virtio2-block-vda-vda2.device loaded active plugged   /sys/devices/pci0000:00/0000:00:02.2/0000:04:00.0/virtio2/block/vda/vda2
+  sys-devices-pci0000:00-0000:00:02.2-0000:04:00.0-virtio2-block-vda-vda3.device loaded active plugged   /sys/devices/pci0000:00/0000:00:02.2/0000:04:00.0/virtio2/block/vda/vda3
+  sys-devices-pci0000:00-0000:00:02.2-0000:04:00.0-virtio2-block-vda-vda4.device loaded active plugged   /sys/devices/pci0000:00/0000:00:02.2/0000:04:00.0/virtio2/block/vda/vda4
+  sys-devices-pci0000:00-0000:00:02.2-0000:04:00.0-virtio2-block-vda.device      loaded active plugged   /sys/devices/pci0000:00/0000:00:02.2/0000:04:00.0/virtio2/block/vda
+  sys-devices-platform-serial8250-tty-ttyS1.device                               loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS1
+  sys-devices-platform-serial8250-tty-ttyS2.device                               loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS2
+  sys-devices-platform-serial8250-tty-ttyS3.device                               loaded active plugged   /sys/devices/platform/serial8250/tty/ttyS3
+  sys-devices-pnp0-00:00-tty-ttyS0.device                                        loaded active plugged   /sys/devices/pnp0/00:00/tty/ttyS0
+  sys-devices-virtual-misc-rfkill.device                                         loaded active plugged   /sys/devices/virtual/misc/rfkill
+  sys-module-configfs.device                                                     loaded active plugged   /sys/module/configfs
+  sys-module-fuse.device                                                         loaded active plugged   /sys/module/fuse
+  sys-subsystem-net-devices-eth0.device                                          loaded active plugged   Virtio network device
+  -.mount                                                                        loaded active mounted   Root Mount
+  boot-efi.mount                                                                 loaded active mounted   /boot/efi
+  boot.mount                                                                     loaded active mounted   /boot
+  dev-hugepages.mount                                                            loaded active mounted   Huge Pages File System
+  dev-mqueue.mount                                                               loaded active mounted   POSIX Message Queue File System
+  efi.mount                                                                      loaded active mounted   EFI System Partition Automount
+  proc-sys-fs-binfmt_misc.mount                                                  loaded active mounted   Arbitrary Executable File Formats File System
+  run-credentials-systemd\x2dsysctl.service.mount                                loaded active mounted   /run/credentials/systemd-sysctl.service
+  run-credentials-systemd\x2dsysusers.service.mount                              loaded active mounted   /run/credentials/systemd-sysusers.service
+  run-credentials-systemd\x2dtmpfiles\x2dsetup.service.mount                     loaded active mounted   /run/credentials/systemd-tmpfiles-setup.service
+  run-credentials-systemd\x2dtmpfiles\x2dsetup\x2ddev.service.mount              loaded active mounted   /run/credentials/systemd-tmpfiles-setup-dev.service
+  run-user-1000.mount                                                            loaded active mounted   /run/user/1000
+  sys-fs-fuse-connections.mount                                                  loaded active mounted   FUSE Control File System
+  sys-kernel-config.mount                                                        loaded active mounted   Kernel Configuration File System
+  sys-kernel-debug.mount                                                         loaded active mounted   Kernel Debug File System
+  sys-kernel-tracing.mount                                                       loaded active mounted   Kernel Trace File System
+  var-lib-nfs-rpc_pipefs.mount                                                   loaded active mounted   RPC Pipe File System
+  insights-client-results.path                                                   loaded active waiting   Monitor /etc/insights-client/.lastupload for modifications
+  systemd-ask-password********.path                                              loaded active waiting   Dispatch Password Requests to Console Directory Watch
+  systemd-ask-password********.path                                                 loaded active waiting   Forward Password Requests to Wall Directory Watch
+  init.scope                                                                     loaded active running   System and Service Manager
+  session-1.scope                                                                loaded active running   Session 1 of User cloud-user
+  auditd.service                                                                 loaded active running   Security Auditing Service
+  chronyd.service                                                                loaded active running   NTP client/server
+  cloud-config.service                                                           loaded active exited    Apply the settings specified in cloud-config
+  cloud-final.service                                                            loaded active exited    Execute cloud user/final scripts
+  cloud-init-local.service                                                       loaded active exited    Initial cloud-init job (pre-networking)
+  cloud-init.service                                                             loaded active exited    Initial cloud-init job (metadata service crawler)
+  crond.service                                                                  loaded active running   Command Scheduler
+  dbus-broker.service                                                            loaded active running   D-Bus System Message Bus
+  dracut-shutdown.service                                                        loaded active exited    Restore /run/initramfs on shutdown
+  getty@tty1.service                                                             loaded active running   Getty on tty1
+  gssproxy.service                                                               loaded active running   GSSAPI Proxy Daemon
+  kdump.service                                                                  loaded active exited    Crash recovery kernel arming
+  kmod-static-nodes.service                                                      loaded active exited    Create List of Static Device Nodes
+  ldconfig.service                                                               loaded active exited    Rebuild Dynamic Linker Cache
+  NetworkManager-wait-online.service                                             loaded active exited    Network Manager Wait Online
+  NetworkManager.service                                                         loaded active running   Network Manager
+  nis-domainname.service                                                         loaded active exited    Read and set NIS domainname from /etc/sysconfig/network
+  polkit.service                                                                 loaded active running   Authorization Manager
+  rhsmcertd.service                                                              loaded active running   Enable periodic update of entitlement certificates.
+  rpc-statd-notify.service                                                       loaded active exited    Notify NFS peers of a restart
+  rpcbind.service                                                                loaded active running   RPC Bind
+  rsyslog.service                                                                loaded active running   System Logging Service
+  serial-getty@ttyS0.service                                                     loaded active running   Serial Getty on ttyS0
+  setroubleshootd.service                                                        loaded active running   SETroubleshoot daemon for processing new SELinux denial logs
+  sshd.service                                                                   loaded active running   OpenSSH server daemon
+  systemd-boot-update.service                                                    loaded active exited    Automatic Boot Loader Update
+  systemd-fsck@dev-disk-by\x2duuid-7B77\x2d95E7.service                          loaded active exited    File System Check on /dev/disk/by-uuid/7B77-95E7
+  systemd-fsck@dev-vda2.service                                                  loaded active exited    File System Check on /dev/vda2
+  systemd-hwdb-update.service                                                    loaded active exited    Rebuild Hardware Database
+  systemd-journal-catalog-update.service                                         loaded active exited    Rebuild Journal Catalog
+  systemd-journal-flush.service                                                  loaded active exited    Flush Journal to Persistent Storage
+  systemd-journald.service                                                       loaded active running   Journal Service
+  systemd-localed.service                                                        loaded active running   Locale Service
+  systemd-logind.service                                                         loaded active running   User Login Management
+  systemd-machine-id-commit.service                                              loaded active exited    Commit a transient machine-id on disk
+  systemd-modules-load.service                                                   loaded active exited    Load Kernel Modules
+  systemd-network-generator.service                                              loaded active exited    Generate network units from Kernel command line
+  systemd-random-seed.service                                                    loaded active exited    Load/Save OS Random Seed
+  systemd-remount-fs.service                                                     loaded active exited    Remount Root and Kernel File Systems
+  systemd-sysctl.service                                                         loaded active exited    Apply Kernel Variables
+  systemd-sysusers.service                                                       loaded active exited    Create System Users
+  systemd-tmpfiles-setup-dev.service                                             loaded active exited    Create Static Device Nodes in /dev
+  systemd-tmpfiles-setup.service                                                 loaded active exited    Create Volatile Files and Directories
+  systemd-udev-trigger.service                                                   loaded active exited    Coldplug All udev Devices
+  systemd-udevd.service                                                          loaded active running   Rule-based Manager for Device Events and Files
+  systemd-update-done.service                                                    loaded active exited    Update is Completed
+  systemd-update-utmp.service                                                    loaded active exited    Record System Boot/Shutdown in UTMP
+  systemd-user-sessions.service                                                  loaded active exited    Permit User Sessions
+  tuned.service                                                                  loaded active running   Dynamic System Tuning Daemon
+  user-runtime-dir@1000.service                                                  loaded active exited    User Runtime Directory /run/user/1000
+  user@1000.service                                                              loaded active running   User Manager for UID 1000
+  -.slice                                                                        loaded active active    Root Slice
+  system-getty.slice                                                             loaded active active    Slice /system/getty
+  system-modprobe.slice                                                          loaded active active    Slice /system/modprobe
+  system-serial\x2dgetty.slice                                                   loaded active active    Slice /system/serial-getty
+  system-sshd\x2dkeygen.slice                                                    loaded active active    Slice /system/sshd-keygen
+  system-systemd\x2dfsck.slice                                                   loaded active active    Slice /system/systemd-fsck
+  system.slice                                                                   loaded active active    System Slice
+  user-1000.slice                                                                loaded active active    User Slice of UID 1000
+  user.slice                                                                     loaded active active    User and Session Slice
+  dbus.socket                                                                    loaded active running   D-Bus System Message Bus Socket
+  rpcbind.socket                                                                 loaded active running   RPCbind Server Activation Socket
+  sssd-kcm.socket                                                                loaded active listening SSSD Kerberos Cache Manager responder socket
+  systemd-coredump.socket                                                        loaded active listening Process Core Dump Socket
+  systemd-initctl.socket                                                         loaded active listening initctl Compatibility Named Pipe
+  systemd-journald-dev-log.socket                                                loaded active running   Journal Socket (/dev/log)
+  systemd-journald.socket                                                        loaded active running   Journal Socket
+  systemd-rfkill.socket                                                          loaded active listening Load/Save RF Kill Switch Status /dev/rfkill Watch
+  systemd-udevd-control.socket                                                   loaded active running   udev Control Socket
+  systemd-udevd-kernel.socket                                                    loaded active running   udev Kernel Socket
+  basic.target                                                                   loaded active active    Basic System
+  cloud-config.target                                                            loaded active active    Cloud-config availability
+  cloud-init.target                                                              loaded active active    Cloud-init target
+  cryptsetup.target                                                              loaded active active    Local Encrypted Volumes
+  getty.target                                                                   loaded active active    Login Prompts
+  integritysetup.target                                                          loaded active active    Local Integrity Protected Volumes
+  local-fs-pre.target                                                            loaded active active    Preparation for Local File Systems
+  local-fs.target                                                                loaded active active    Local File Systems
+  multi-user.target                                                              loaded active active    Multi-User System
+  network-online.target                                                          loaded active active    Network is Online
+  network-pre.target                                                             loaded active active    Preparation for Network
+  network.target                                                                 loaded active active    Network
+  nfs-client.target                                                              loaded active active    NFS client services
+  nss-user-lookup.target                                                         loaded active active    User and Group Name Lookups
+  paths.target                                                                   loaded active active    Path Units
+  remote-fs-pre.target                                                           loaded active active    Preparation for Remote File Systems
+  remote-fs.target                                                               loaded active active    Remote File Systems
+  rpc_pipefs.target                                                              loaded active active    rpc_pipefs.target
+  rpcbind.target                                                                 loaded active active    RPC Port Mapper
+  slices.target                                                                  loaded active active    Slice Units
+  sockets.target                                                                 loaded active active    Socket Units
+  sshd-keygen.target                                                             loaded active active    sshd-keygen.target
+  swap.target                                                                    loaded active active    Swaps
+  sysinit.target                                                                 loaded active active    System Initialization
+  timers.target                                                                  loaded active active    Timer Units
+  veritysetup.target                                                             loaded active active    Local Verity Protected Volumes
+  dnf-makecache.timer                                                            loaded active waiting   dnf makecache --timer
+  insights-client.timer                                                          loaded active waiting   Insights Client Timer Task
+  logrotate.timer                                                                loaded active waiting   Daily rotation of log files
+  systemd-tmpfiles-clean.timer                                                   loaded active waiting   Daily Cleanup of Temporary Directories
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+138 loaded units listed. Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.

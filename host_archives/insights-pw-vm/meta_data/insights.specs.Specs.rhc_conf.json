@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.rhc_conf", "exec_time": 4.00543212890625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/rhc/config.toml", "rc": null}}, "ser_time": 0.004962444305419922}

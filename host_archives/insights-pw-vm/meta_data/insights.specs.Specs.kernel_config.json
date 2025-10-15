@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.kernel_config", "exec_time": 6.246566772460938e-05, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "boot/config-5.14.0-427.13.1.el9_4.x86_64", "rc": null}}], "ser_time": 0.0069122314453125}

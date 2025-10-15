@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.yum_repos_d", "exec_time": 9.1552734375e-05, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/yum.repos.d/redhat.repo", "rc": null}}], "ser_time": 0.0005049705505371094}

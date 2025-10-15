@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.buddyinfo", "exec_time": 2.9802322387695312e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/buddyinfo", "rc": null}}, "ser_time": 0.00028777122497558594}

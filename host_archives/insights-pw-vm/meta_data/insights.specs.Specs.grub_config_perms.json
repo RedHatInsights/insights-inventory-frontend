@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.grub_config_perms", "exec_time": 3.719329833984375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lH /boot/grub2/grub.cfg", "args": null, "save_as": false, "relative_path": "insights_commands/ls_-lH_.boot.grub2.grub.cfg"}}, "ser_time": 0.005477190017700195}

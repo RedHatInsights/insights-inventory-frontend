@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.dnf_conf", "exec_time": 4.458427429199219e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/dnf/dnf.conf", "rc": null}}, "ser_time": 0.004876136779785156}

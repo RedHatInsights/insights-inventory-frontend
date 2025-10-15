@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.blacklist_report", "exec_time": 0.00017333030700683594, "errors": [], "results": {"type": "insights.core.spec_factory.DatasourceProvider", "object": {"relative_path": "blacklist_report", "save_as": null}}, "ser_time": 0.00045180320739746094}

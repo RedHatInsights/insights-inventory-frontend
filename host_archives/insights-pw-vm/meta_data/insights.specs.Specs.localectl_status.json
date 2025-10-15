@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.localectl_status", "exec_time": 3.743171691894531e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/localectl status", "args": null, "save_as": false, "relative_path": "insights_commands/localectl_status"}}, "ser_time": 0.08075380325317383}

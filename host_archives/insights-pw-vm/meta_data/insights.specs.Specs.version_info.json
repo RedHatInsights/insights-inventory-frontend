@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.version_info", "exec_time": 2.384185791015625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.DatasourceProvider", "object": {"relative_path": "version_info", "save_as": null}}, "ser_time": 0.00010132789611816406}

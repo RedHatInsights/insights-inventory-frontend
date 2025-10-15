@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemctl_get_default", "exec_time": 0.00015354156494140625, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl get-default", "args": null, "save_as": false, "relative_path": "insights_commands/systemctl_get-default"}}, "ser_time": 0.018112897872924805}

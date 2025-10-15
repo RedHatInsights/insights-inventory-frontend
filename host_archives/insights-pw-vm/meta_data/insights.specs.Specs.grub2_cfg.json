@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.grub2_cfg", "exec_time": 5.316734313964844e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "boot/grub2/grub.cfg", "rc": null}}, "ser_time": 0.0008785724639892578}

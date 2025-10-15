@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.thp_use_zero_page", "exec_time": 3.814697265625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "sys/kernel/mm/transparent_hugepage/use_zero_page", "rc": null}}, "ser_time": 0.00023221969604492188}

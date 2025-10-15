@@ -1,0 +1,655 @@
+/bin/ls: cannot access '/etc/watchdog.d': No such file or directory
+/bin/ls: cannot access '/usr/share/ipa/ui/js/plugins/idoverride-memberof': No such file or directory
+/bin/ls: cannot access '/var/lib/pcp/pmns': No such file or directory
+/bin/ls: cannot access '/var/lib/sss/pubconf/krb5.include.d': No such file or directory
+/bin/ls: cannot access '/var/opt/mssql/log': No such file or directory
+/bin/ls: cannot access '/var/spool/clientmqueue': No such file or directory
+/bin/ls: cannot access '/var/spool/postfix/maildrop': No such file or directory
+/bin/ls: cannot access '/var/www': No such file or directory
+lrwxrwxrwx.  1 0 0   11 Oct 26  2023 /etc/yum/vars -> ../dnf/vars
+lrwxrwxrwx.  1 0 0    6 Apr 19  2024 /var/run -> ../run
+
+/:
+total 40
+dr-xr-xr-x.  19 0 0   246 Mar 20 06:20 .
+dr-xr-xr-x.  19 0 0   246 Mar 20 06:20 ..
+dr-xr-xr-x.   2 0 0     6 Aug  9  2021 afs
+lrwxrwxrwx.   1 0 0     7 Aug  9  2021 bin -> usr/bin
+dr-xr-xr-x.   5 0 0  4096 Mar 20 06:21 boot
+drwxr-xr-x.  18 0 0  3160 Mar 20 06:20 dev
+drwx------.   3 0 0 16384 Dec 31  1969 efi
+drwxr-xr-x.  93 0 0  8192 Mar 20 06:21 etc
+drwxr-xr-x.   3 0 0    24 Mar 20 06:21 home
+lrwxrwxrwx.   1 0 0     7 Aug  9  2021 lib -> usr/lib
+lrwxrwxrwx.   1 0 0     9 Aug  9  2021 lib64 -> usr/lib64
+drwxr-xr-x.   2 0 0     6 Aug  9  2021 media
+drwxr-xr-x.   2 0 0     6 Aug  9  2021 mnt
+drwxr-xr-x.   2 0 0     6 Aug  9  2021 opt
+dr-xr-xr-x. 204 0 0     0 Mar 20 06:20 proc
+dr-xr-x---.   4 0 0   117 Mar 20 06:25 root
+drwxr-xr-x.  31 0 0  1000 Mar 20 06:25 run
+lrwxrwxrwx.   1 0 0     8 Aug  9  2021 sbin -> usr/sbin
+drwxr-xr-x.   2 0 0     6 Aug  9  2021 srv
+dr-xr-xr-x.  13 0 0     0 Mar 20 06:20 sys
+drwxrwxrwt.  11 0 0  4096 Mar 20 06:26 tmp
+drwxr-xr-x.  12 0 0   144 Apr 19  2024 usr
+drwxr-xr-x.  19 0 0  4096 Mar 20 06:20 var
+
+/boot:
+total 128000
+dr-xr-xr-x.  5 0 0     4096 Mar 20 06:21 .
+dr-xr-xr-x. 19 0 0      246 Mar 20 06:20 ..
+-rw-r--r--.  1 0 0      167 Apr 10  2024 .vmlinuz-5.14.0-427.13.1.el9_4.x86_64.hmac
+-rw-------.  1 0 0  8629622 Apr 10  2024 System.map-5.14.0-427.13.1.el9_4.x86_64
+-rw-r--r--.  1 0 0   223205 Apr 10  2024 config-5.14.0-427.13.1.el9_4.x86_64
+drwx------.  3 0 0    16384 Dec 31  1969 efi
+drwx------.  4 0 0       65 Apr 19  2024 grub2
+-rw-------.  1 0 0 75801095 Apr 19  2024 initramfs-5.14.0-427.13.1.el9_4.x86_64.img
+-rw-------.  1 0 0 32778240 Mar 20 06:21 initramfs-5.14.0-427.13.1.el9_4.x86_64kdump.img
+drwxr-xr-x.  3 0 0       21 Apr 19  2024 loader
+lrwxrwxrwx.  1 0 0       52 Apr 19  2024 symvers-5.14.0-427.13.1.el9_4.x86_64.gz -> /lib/modules/5.14.0-427.13.1.el9_4.x86_64/symvers.gz
+-rwxr-xr-x.  1 0 0 13604984 Apr 10  2024 vmlinuz-5.14.0-427.13.1.el9_4.x86_64
+
+/dev:
+total 0
+drwxr-xr-x. 18 0  0     3160 Mar 20 06:20 .
+dr-xr-xr-x. 19 0  0      246 Mar 20 06:20 ..
+crw-r--r--.  1 0  0  10, 235 Mar 20 06:20 autofs
+drwxr-xr-x.  2 0  0      140 Mar 20 06:21 block
+drwxr-xr-x.  3 0  0       60 Mar 20 06:20 bus
+drwxr-xr-x.  2 0  0     2800 Mar 20 06:21 char
+crw--w----.  1 0  5   5,   1 Mar 20 06:21 console
+lrwxrwxrwx.  1 0  0       11 Mar 20 06:20 core -> /proc/kcore
+drwxr-xr-x.  3 0  0       60 Mar 20 06:20 cpu
+crw-------.  1 0  0  10, 124 Mar 20 06:20 cpu_dma_latency
+drwxr-xr-x.  7 0  0      140 Mar 20 06:20 disk
+drwxr-xr-x.  2 0  0       60 Mar 20 06:20 dma_heap
+drwxr-xr-x.  3 0  0      100 Mar 20 06:20 dri
+crw-rw----.  1 0 39  29,   0 Mar 20 06:20 fb0
+lrwxrwxrwx.  1 0  0       13 Mar 20 06:20 fd -> /proc/self/fd
+crw-rw-rw-.  1 0  0   1,   7 Mar 20 06:20 full
+crw-rw-rw-.  1 0  0  10, 229 Mar 20 06:20 fuse
+crw-------.  1 0  0 242,   0 Mar 20 06:20 hidraw0
+crw-------.  1 0  0  10, 228 Mar 20 06:20 hpet
+drwxr-xr-x.  2 0  0        0 Mar 20 06:20 hugepages
+crw-------.  1 0  0  10, 183 Mar 20 06:20 hwrng
+lrwxrwxrwx.  1 0  0       12 Mar 20 06:20 initctl -> /run/initctl
+drwxr-xr-x.  4 0  0      280 Mar 20 06:20 input
+crw-r--r--.  1 0  0   1,  11 Mar 20 06:20 kmsg
+crw-rw-rw-.  1 0 36  10, 232 Mar 20 06:20 kvm
+lrwxrwxrwx.  1 0  0       28 Mar 20 06:20 log -> /run/systemd/journal/dev-log
+crw-rw----.  1 0  6  10, 237 Mar 20 06:20 loop-control
+drwxr-xr-x.  2 0  0       60 Mar 20 06:20 mapper
+crw-------.  1 0  0  10, 227 Mar 20 06:20 mcelog
+crw-r-----.  1 0  9   1,   1 Mar 20 06:20 mem
+drwxrwxrwt.  2 0  0       40 Mar 20 06:20 mqueue
+drwxr-xr-x.  2 0  0       60 Mar 20 06:20 net
+crw-rw-rw-.  1 0  0   1,   3 Mar 20 06:20 null
+crw-------.  1 0  0  10, 144 Mar 20 06:20 nvram
+crw-r-----.  1 0  9   1,   4 Mar 20 06:20 port
+crw-------.  1 0  0 108,   0 Mar 20 06:20 ppp
+crw-rw-rw-.  1 0  5   5,   2 Mar 20 06:25 ptmx
+drwxr-xr-x.  2 0  0        0 Mar 20 06:20 pts
+crw-rw-rw-.  1 0  0   1,   8 Mar 20 06:20 random
+crw-rw-r--.  1 0  0  10, 242 Mar 20 06:21 rfkill
+lrwxrwxrwx.  1 0  0        4 Mar 20 06:20 rtc -> rtc0
+crw-------.  1 0  0 250,   0 Mar 20 06:20 rtc0
+drwxrwxrwt.  2 0  0       40 Mar 20 06:20 shm
+crw-------.  1 0  0  10, 231 Mar 20 06:20 snapshot
+drwxr-xr-x.  2 0  0       80 Mar 20 06:20 snd
+lrwxrwxrwx.  1 0  0       15 Mar 20 06:20 stderr -> /proc/self/fd/2
+lrwxrwxrwx.  1 0  0       15 Mar 20 06:20 stdin -> /proc/self/fd/0
+lrwxrwxrwx.  1 0  0       15 Mar 20 06:20 stdout -> /proc/self/fd/1
+crw-rw-rw-.  1 0  5   5,   0 Mar 20 06:20 tty
+crw--w----.  1 0  5   4,   0 Mar 20 06:20 tty0
+crw--w----.  1 0  5   4,   1 Mar 20 06:21 tty1
+crw--w----.  1 0  5   4,  10 Mar 20 06:20 tty10
+crw--w----.  1 0  5   4,  11 Mar 20 06:20 tty11
+crw--w----.  1 0  5   4,  12 Mar 20 06:20 tty12
+crw--w----.  1 0  5   4,  13 Mar 20 06:20 tty13
+crw--w----.  1 0  5   4,  14 Mar 20 06:20 tty14
+crw--w----.  1 0  5   4,  15 Mar 20 06:20 tty15
+crw--w----.  1 0  5   4,  16 Mar 20 06:20 tty16
+crw--w----.  1 0  5   4,  17 Mar 20 06:20 tty17
+crw--w----.  1 0  5   4,  18 Mar 20 06:20 tty18
+crw--w----.  1 0  5   4,  19 Mar 20 06:20 tty19
+crw--w----.  1 0  5   4,   2 Mar 20 06:20 tty2
+crw--w----.  1 0  5   4,  20 Mar 20 06:20 tty20
+crw--w----.  1 0  5   4,  21 Mar 20 06:20 tty21
+crw--w----.  1 0  5   4,  22 Mar 20 06:20 tty22
+crw--w----.  1 0  5   4,  23 Mar 20 06:20 tty23
+crw--w----.  1 0  5   4,  24 Mar 20 06:20 tty24
+crw--w----.  1 0  5   4,  25 Mar 20 06:20 tty25
+crw--w----.  1 0  5   4,  26 Mar 20 06:20 tty26
+crw--w----.  1 0  5   4,  27 Mar 20 06:20 tty27
+crw--w----.  1 0  5   4,  28 Mar 20 06:20 tty28
+crw--w----.  1 0  5   4,  29 Mar 20 06:20 tty29
+crw--w----.  1 0  5   4,   3 Mar 20 06:20 tty3
+crw--w----.  1 0  5   4,  30 Mar 20 06:20 tty30
+crw--w----.  1 0  5   4,  31 Mar 20 06:20 tty31
+crw--w----.  1 0  5   4,  32 Mar 20 06:20 tty32
+crw--w----.  1 0  5   4,  33 Mar 20 06:20 tty33
+crw--w----.  1 0  5   4,  34 Mar 20 06:20 tty34
+crw--w----.  1 0  5   4,  35 Mar 20 06:20 tty35
+crw--w----.  1 0  5   4,  36 Mar 20 06:20 tty36
+crw--w----.  1 0  5   4,  37 Mar 20 06:20 tty37
+crw--w----.  1 0  5   4,  38 Mar 20 06:20 tty38
+crw--w----.  1 0  5   4,  39 Mar 20 06:20 tty39
+crw--w----.  1 0  5   4,   4 Mar 20 06:20 tty4
+crw--w----.  1 0  5   4,  40 Mar 20 06:20 tty40
+crw--w----.  1 0  5   4,  41 Mar 20 06:20 tty41
+crw--w----.  1 0  5   4,  42 Mar 20 06:20 tty42
+crw--w----.  1 0  5   4,  43 Mar 20 06:20 tty43
+crw--w----.  1 0  5   4,  44 Mar 20 06:20 tty44
+crw--w----.  1 0  5   4,  45 Mar 20 06:20 tty45
+crw--w----.  1 0  5   4,  46 Mar 20 06:20 tty46
+crw--w----.  1 0  5   4,  47 Mar 20 06:20 tty47
+crw--w----.  1 0  5   4,  48 Mar 20 06:20 tty48
+crw--w----.  1 0  5   4,  49 Mar 20 06:20 tty49
+crw--w----.  1 0  5   4,   5 Mar 20 06:20 tty5
+crw--w----.  1 0  5   4,  50 Mar 20 06:20 tty50
+crw--w----.  1 0  5   4,  51 Mar 20 06:20 tty51
+crw--w----.  1 0  5   4,  52 Mar 20 06:20 tty52
+crw--w----.  1 0  5   4,  53 Mar 20 06:20 tty53
+crw--w----.  1 0  5   4,  54 Mar 20 06:20 tty54
+crw--w----.  1 0  5   4,  55 Mar 20 06:20 tty55
+crw--w----.  1 0  5   4,  56 Mar 20 06:20 tty56
+crw--w----.  1 0  5   4,  57 Mar 20 06:20 tty57
+crw--w----.  1 0  5   4,  58 Mar 20 06:20 tty58
+crw--w----.  1 0  5   4,  59 Mar 20 06:20 tty59
+crw--w----.  1 0  5   4,   6 Mar 20 06:20 tty6
+crw--w----.  1 0  5   4,  60 Mar 20 06:20 tty60
+crw--w----.  1 0  5   4,  61 Mar 20 06:20 tty61
+crw--w----.  1 0  5   4,  62 Mar 20 06:20 tty62
+crw--w----.  1 0  5   4,  63 Mar 20 06:20 tty63
+crw--w----.  1 0  5   4,   7 Mar 20 06:20 tty7
+crw--w----.  1 0  5   4,   8 Mar 20 06:20 tty8
+crw--w----.  1 0  5   4,   9 Mar 20 06:20 tty9
+crw-rw----.  1 0 18   4,  64 Mar 20 06:21 ttyS0
+crw-rw----.  1 0 18   4,  65 Mar 20 06:20 ttyS1
+crw-rw----.  1 0 18   4,  66 Mar 20 06:20 ttyS2
+crw-rw----.  1 0 18   4,  67 Mar 20 06:20 ttyS3
+crw-rw----.  1 0 36  10, 125 Mar 20 06:20 udmabuf
+crw-------.  1 0  0  10, 239 Mar 20 06:20 uhid
+crw-------.  1 0  0  10, 223 Mar 20 06:20 uinput
+crw-rw-rw-.  1 0  0   1,   9 Mar 20 06:20 urandom
+crw-------.  1 0  0 244,   0 Mar 20 06:20 usbmon0
+crw-------.  1 0  0 244,   1 Mar 20 06:20 usbmon1
+crw-------.  1 0  0  10, 126 Mar 20 06:20 userfaultfd
+crw-rw----.  1 0  5   7,   0 Mar 20 06:20 vcs
+crw-rw----.  1 0  5   7,   1 Mar 20 06:20 vcs1
+crw-rw----.  1 0  5   7,   2 Mar 20 06:20 vcs2
+crw-rw----.  1 0  5   7,   3 Mar 20 06:21 vcs3
+crw-rw----.  1 0  5   7,   4 Mar 20 06:20 vcs4
+crw-rw----.  1 0  5   7,   5 Mar 20 06:20 vcs5
+crw-rw----.  1 0  5   7,   6 Mar 20 06:21 vcs6
+crw-rw----.  1 0  5   7, 128 Mar 20 06:20 vcsa
+crw-rw----.  1 0  5   7, 129 Mar 20 06:20 vcsa1
+crw-rw----.  1 0  5   7, 130 Mar 20 06:20 vcsa2
+crw-rw----.  1 0  5   7, 131 Mar 20 06:20 vcsa3
+crw-rw----.  1 0  5   7, 132 Mar 20 06:21 vcsa4
+crw-rw----.  1 0  5   7, 133 Mar 20 06:21 vcsa5
+crw-rw----.  1 0  5   7, 134 Mar 20 06:21 vcsa6
+crw-rw----.  1 0  5   7,  64 Mar 20 06:20 vcsu
+crw-rw----.  1 0  5   7,  65 Mar 20 06:20 vcsu1
+crw-rw----.  1 0  5   7,  66 Mar 20 06:20 vcsu2
+crw-rw----.  1 0  5   7,  67 Mar 20 06:20 vcsu3
+crw-rw----.  1 0  5   7,  68 Mar 20 06:21 vcsu4
+crw-rw----.  1 0  5   7,  69 Mar 20 06:21 vcsu5
+crw-rw----.  1 0  5   7,  70 Mar 20 06:21 vcsu6
+brw-rw----.  1 0  6 252,   0 Mar 20 06:21 vda
+brw-rw----.  1 0  6 252,   1 Mar 20 06:21 vda1
+brw-rw----.  1 0  6 252,   2 Mar 20 06:21 vda2
+brw-rw----.  1 0  6 252,   3 Mar 20 06:21 vda3
+brw-rw----.  1 0  6 252,   4 Mar 20 06:21 vda4
+drwxr-xr-x.  2 0  0       60 Mar 20 06:20 vfio
+crw-------.  1 0  0  10, 127 Mar 20 06:20 vga_arbiter
+crw-------.  1 0  0  10, 137 Mar 20 06:20 vhci
+crw-rw-rw-.  1 0 36  10, 238 Mar 20 06:20 vhost-net
+crw-rw-rw-.  1 0 36  10, 241 Mar 20 06:20 vhost-vsock
+crw-------.  1 0  0  10, 130 Mar 20 06:20 watchdog
+crw-------.  1 0  0 247,   0 Mar 20 06:20 watchdog0
+crw-rw-rw-.  1 0  0   1,   5 Mar 20 06:20 zero
+
+/dev/disk/by-path:
+total 0
+drwxr-xr-x. 2 0 0 240 Mar 20 06:21 .
+drwxr-xr-x. 7 0 0 140 Mar 20 06:20 ..
+lrwxrwxrwx. 1 0 0   9 Mar 20 06:21 pci-0000:04:00.0 -> ../../vda
+lrwxrwxrwx. 1 0 0  10 Mar 20 06:21 pci-0000:04:00.0-part1 -> ../../vda1
+lrwxrwxrwx. 1 0 0  10 Mar 20 06:21 pci-0000:04:00.0-part2 -> ../../vda2
+lrwxrwxrwx. 1 0 0  10 Mar 20 06:21 pci-0000:04:00.0-part3 -> ../../vda3
+lrwxrwxrwx. 1 0 0  10 Mar 20 06:21 pci-0000:04:00.0-part4 -> ../../vda4
+lrwxrwxrwx. 1 0 0   9 Mar 20 06:21 virtio-pci-0000:04:00.0 -> ../../vda
+lrwxrwxrwx. 1 0 0  10 Mar 20 06:21 virtio-pci-0000:04:00.0-part1 -> ../../vda1
+lrwxrwxrwx. 1 0 0  10 Mar 20 06:21 virtio-pci-0000:04:00.0-part2 -> ../../vda2
+lrwxrwxrwx. 1 0 0  10 Mar 20 06:21 virtio-pci-0000:04:00.0-part3 -> ../../vda3
+lrwxrwxrwx. 1 0 0  10 Mar 20 06:21 virtio-pci-0000:04:00.0-part4 -> ../../vda4
+
+/etc:
+total 1088
+drwxr-xr-x. 93   0   0   8192 Mar 20 06:21 .
+dr-xr-xr-x. 19   0   0    246 Mar 20 06:20 ..
+-rw-------.  1   0   0      0 Apr 19  2024 .pwd.lock
+-rw-r--r--.  1   0   0    208 Apr 19  2024 .updated
+-rw-r--r--.  1   0   0   4673 Jan 29  2024 DIR_COLORS
+-rw-r--r--.  1   0   0   4755 Jan 29  2024 DIR_COLORS.lightbgcolor
+-rw-r--r--.  1   0   0     94 Aug  9  2021 GREP_COLORS
+drwxr-xr-x.  7   0   0    134 Apr 19  2024 NetworkManager
+drwxr-xr-x.  2   0   0     48 Apr 19  2024 PackageKit
+drwxr-xr-x.  5   0   0     51 Apr 19  2024 X11
+-rw-r--r--.  1   0   0     12 Feb  8  2024 adjtime
+-rw-r--r--.  1   0   0   1529 Jun 23  2020 aliases
+drwxr-xr-x.  2   0   0   4096 Apr 19  2024 alternatives
+-rw-r--r--.  1   0   0    541 Nov 30  2023 anacrontab
+drwxr-x---.  4   0   0    100 Apr 19  2024 audit
+drwxr-xr-x.  3   0   0     46 Apr 19  2024 authselect
+drwxr-xr-x.  2   0   0     38 Apr 19  2024 bash_completion.d
+-rw-r--r--.  1   0   0   2658 Feb  7  2024 bashrc
+-rw-r--r--.  1   0   0    535 Mar 21  2024 bindresvport.blacklist
+drwxr-xr-x.  2   0   0      6 Mar 19  2024 binfmt.d
+-rw-r--r--.  1   0   0   1369 Dec  5  2023 chrony.conf
+-rw-r-----.  1   0 991    540 Jan 23  2024 chrony.keys
+drwxr-xr-x.  2   0   0     26 Apr 19  2024 cifs-utils
+drwxr-xr-x.  4   0   0     59 Apr 19  2024 cloud
+drwxr-xr-x.  4   0   0     66 Apr 19  2024 cockpit
+drwxr-xr-x.  2   0   0     21 Apr 19  2024 cron.d
+drwxr-xr-x.  2   0   0      6 Mar 23  2022 cron.daily
+-rw-r--r--.  1   0   0      0 Nov 30  2023 cron.deny
+drwxr-xr-x.  2   0   0     22 Mar 23  2022 cron.hourly
+drwxr-xr-x.  2   0   0      6 Mar 23  2022 cron.monthly
+drwxr-xr-x.  2   0   0      6 Mar 23  2022 cron.weekly
+-rw-r--r--.  1   0   0    451 Mar 23  2022 crontab
+drwxr-xr-x.  6   0   0     81 Apr 19  2024 crypto-policies
+-rw-r--r--.  1   0   0   1401 Feb  7  2024 csh.cshrc
+-rw-r--r--.  1   0   0   1112 Feb  7  2024 csh.login
+drwxr-xr-x.  4   0   0     78 Apr 19  2024 dbus-1
+drwxr-xr-x.  2   0   0     33 Apr 19  2024 default
+drwxr-xr-x.  2   0   0     23 Apr 19  2024 depmod.d
+drwxr-x---.  3   0   0     24 Apr 19  2024 dhcp
+drwxr-xr-x.  8   0   0    128 Apr 19  2024 dnf
+-rw-r--r--.  1   0   0    117 Jan  3  2024 dracut.conf
+drwxr-xr-x.  2   0   0      6 Jan  3  2024 dracut.conf.d
+-rw-r--r--.  1   0   0      0 Feb  7  2024 environment
+-rw-r--r--.  1   0   0   1362 Jun 23  2020 ethertypes
+-rw-r--r--.  1   0   0      0 Jun 23  2020 exports
+drwxr-xr-x.  2   0   0      6 Feb 18  2024 exports.d
+lrwxrwxrwx.  1   0   0     56 May 15  2023 favicon.png -> /usr/share/icons/hicolor/16x16/apps/fedora-logo-icon.png
+-rw-r--r--.  1   0   0     66 Jun 23  2020 filesystems
+drwxr-xr-x.  3   0   0     20 Apr 19  2024 fonts
+-rw-r--r--.  1   0   0    207 Apr 19  2024 fstab
+drwxr-xr-x.  4   0   0     64 Apr 19  2024 fwupd
+drwxr-xr-x.  2   0   0      6 Mar 24  2023 gcrypt
+drwxr-xr-x.  2   0   0      6 Apr 26  2023 gnupg
+drwxr-xr-x.  4   0   0     40 Apr 19  2024 groff
+-rw-r--r--.  1   0   0    617 Mar 20 06:21 group
+-rw-r--r--.  1   0   0    578 Mar 20 06:20 group-
+drwx------.  2   0   0   4096 Apr 19  2024 grub.d
+lrwxrwxrwx.  1   0   0     22 Feb 22  2024 grub2-efi.cfg -> ../boot/grub2/grub.cfg
+lrwxrwxrwx.  1   0   0     22 Feb 22  2024 grub2.cfg -> ../boot/grub2/grub.cfg
+----------.  1   0   0    494 Mar 20 06:21 gshadow
+----------.  1   0   0    459 Mar 20 06:20 gshadow-
+drwxr-xr-x.  3   0   0     20 Apr 19  2024 gss
+drwxr-xr-x.  2   0   0     79 Apr 19  2024 gssproxy
+-rw-r--r--.  1   0   0      9 Jun 23  2020 host.conf
+-rw-r--r--.  1   0   0     48 Mar 20 06:21 hostname
+-rw-r--r--.  1   0   0    158 Jun 23  2020 hosts
+-rw-r--r--.  1   0   0   5799 Feb 18  2024 idmapd.conf
+-rw-r--r--.  1   0   0    490 Mar 19  2024 inittab
+-rw-r--r--.  1   0   0    943 Jun 23  2020 inputrc
+drwxr-xr-x.  2   0   0   4096 Mar 20 06:25 insights-client
+drwxr-xr-x.  2   0   0    159 Apr 19  2024 iproute2
+-rw-r--r--.  1   0   0     23 Apr  5  2024 issue
+drwxr-xr-x.  2   0   0     27 Apr 19  2024 issue.d
+-rw-r--r--.  1   0   0     22 Apr  5  2024 issue.net
+drwxr-xr-x.  4   0   0     33 Apr 19  2024 kdump
+-rw-r--r--.  1   0   0   8979 Apr 19  2024 kdump.conf
+drwxr-xr-x.  3   0   0     38 Apr 19  2024 kernel
+drwxr-xr-x.  2   0   0      6 Oct 17  2022 keyutils
+-rw-r--r--.  1   0   0    880 Aug  9  2023 krb5.conf
+drwxr-xr-x.  2   0   0     55 Apr 19  2024 krb5.conf.d
+-rw-r--r--.  1   0   0  14199 Mar 20 06:20 ld.so.cache
+-rw-r--r--.  1   0   0     28 Aug  2  2021 ld.so.conf
+drwxr-xr-x.  2   0   0      6 Jan 30  2024 ld.so.conf.d
+-rw-r-----.  1   0   0    191 Aug  6  2023 libaudit.conf
+drwxr-xr-x.  2   0   0   4096 Apr 19  2024 libibverbs.d
+drwxr-xr-x.  2   0   0     35 Apr 19  2024 libnl
+drwxr-xr-x.  6   0   0     70 Apr 19  2024 libreport
+drwxr-xr-x.  2   0   0     62 Apr 19  2024 libssh
+-rw-r--r--.  1   0   0   2391 Mar  1  2021 libuser.conf
+-rw-r--r--.  1   0   0     13 Mar 20 06:21 locale.conf
+lrwxrwxrwx.  1   0   0     38 Apr 19  2024 localtime -> ../usr/share/zoneinfo/America/New_York
+-rw-r--r--.  1   0   0   7778 Jul 12  2023 login.defs
+-rw-r--r--.  1   0   0    496 Jun  7  2020 logrotate.conf
+drwxr-xr-x.  2   0   0    149 Apr 19  2024 logrotate.d
+-r--r--r--.  1   0   0     33 Mar 20 06:20 machine-id
+-rw-r--r--.  1   0   0    111 Nov 29  2023 magic
+-rw-r--r--.  1   0   0   5122 Jan 30  2024 makedumpfile.conf.sample
+-rw-r--r--.  1   0   0   5235 Sep 20  2022 man_db.conf
+drwxr-xr-x.  3   0   0     32 Apr 19  2024 microcode_ctl
+-rw-r--r--.  1   0   0   1208 Dec 13  2023 mke2fs.conf
+drwxr-xr-x.  2   0   0     42 Apr 19  2024 modprobe.d
+drwxr-xr-x.  2   0   0      6 Mar 19  2024 modules-load.d
+-rw-r--r--.  1   0   0      0 Jun 23  2020 motd
+drwxr-xr-x.  2   0   0     44 Mar 20 06:25 motd.d
+lrwxrwxrwx.  1   0   0     19 Apr 19  2024 mtab -> ../proc/self/mounts
+-rw-r--r--.  1   0   0    767 Mar 21  2024 netconfig
+-rw-r--r--.  1   0   0     58 Jun 23  2020 networks
+-rw-r--r--.  1   0   0   1468 Feb 18  2024 nfs.conf
+-rw-r--r--.  1   0   0   3604 Feb 18  2024 nfsmount.conf
+-rw-r--r--.  1   0   0   2124 Apr 19  2024 nsswitch.conf
+-rw-r--r--.  1   0   0   2108 Jan 30  2024 nsswitch.conf.bak
+drwxr-xr-x.  2   0   0      6 Dec  9  2022 oddjob
+-rw-r--r--.  1   0   0   4922 Dec  9  2022 oddjobd.conf
+drwxr-xr-x.  2   0   0     70 Apr 19  2024 oddjobd.conf.d
+drwxr-xr-x.  3   0   0     36 Apr 19  2024 openldap
+drwxr-xr-x.  2   0   0      6 Aug  9  2021 opt
+lrwxrwxrwx.  1   0   0     21 Apr  5  2024 os-release -> ../usr/lib/os-release
+drwxr-xr-x.  2   0   0   4096 Apr 19  2024 pam.d
+-rw-r--r--.  1   0   0   1409 Mar 20 06:21 passwd
+-rw-r--r--.  1   0   0   1409 Mar 20 06:21 passwd-
+drwxr-xr-x.  3   0   0     21 Apr 19  2024 pkcs11
+drwxr-xr-x. 14   0   0   4096 Mar 20 06:25 pki
+drwxr-xr-x.  5   0   0     52 Apr 19  2024 pm
+drwxr-xr-x.  5   0   0     72 Apr 19  2024 polkit-1
+drwxr-xr-x.  2   0   0      6 Aug 10  2021 popt.d
+-rw-r--r--.  1   0   0    233 Jun 23  2020 printcap
+-rw-r--r--.  1   0   0   1899 Feb  7  2024 profile
+drwxr-xr-x.  2   0   0   4096 Apr 19  2024 profile.d
+-rw-r--r--.  1   0   0   6568 Jun 23  2020 protocols
+drwxr-xr-x.  3   0   0     50 Apr 19  2024 qemu-ga
+drwxr-xr-x.  3   0   0     36 Apr 19  2024 rc.d
+lrwxrwxrwx.  1   0   0     13 Mar 19  2024 rc.local -> rc.d/rc.local
+-rw-r--r--.  1   0   0     44 Apr  5  2024 redhat-release
+-rw-r--r--.  1   0   0   1787 Oct 17  2022 request-key.conf
+drwxr-xr-x.  2   0   0     30 Apr 19  2024 request-key.d
+-rw-r--r--.  1   0   0    100 Mar 20 06:21 resolv.conf
+drwxr-xr-x.  3   0   0     40 Apr 19  2024 rhc
+drwxr-xr-x.  6   0   0     84 Mar 20 06:25 rhsm
+-rw-r--r--.  1   0   0   1634 Aug  1  2021 rpc
+drwxr-xr-x.  2   0   0      6 Dec 13  2023 rpm
+-rw-r--r--.  1   0   0    458 Nov  2  2022 rsyncd.conf
+-rw-r--r--.  1   0   0   3380 Jan  8  2024 rsyslog.conf
+drwxr-xr-x.  2   0   0     31 Apr 19  2024 rsyslog.d
+drwxr-xr-x.  2   0   0     51 Apr 19  2024 rwtab.d
+drwxr-xr-x.  2   0   0      6 Sep 12  2022 sasl2
+drwxr-xr-x.  7   0   0   4096 Apr 19  2024 security
+drwxr-xr-x.  3   0   0     57 Apr 19  2024 selinux
+-rw-r--r--.  1   0   0 692252 Jun 23  2020 services
+-rw-r--r--.  1   0   0    216 Feb 19  2024 sestatus.conf
+drwxr-xr-x.  2   0   0     33 Apr 19  2024 setroubleshoot
+----------.  1   0   0    697 Mar 20 06:21 shadow
+----------.  1   0   0    697 Mar 20 06:21 shadow-
+-rw-r--r--.  1   0   0     44 Jun 23  2020 shells
+drwxr-xr-x.  2   0   0     62 Apr 19  2024 skel
+drwxr-xr-x.  6   0   0     86 Apr 19  2024 sos
+drwxr-xr-x.  4   0   0   4096 Mar 20 06:21 ssh
+drwxr-xr-x.  2   0   0     77 Apr 19  2024 ssl
+drwx------.  4 996 994     31 Apr 19  2024 sssd
+drwxr-xr-x.  2   0   0      6 Aug  9  2021 statetab.d
+-rw-r--r--.  1   0   0     24 Mar 20 06:21 subgid
+-rw-r--r--.  1   0   0      0 Jun 23  2020 subgid-
+-rw-r--r--.  1   0   0     24 Mar 20 06:21 subuid
+-rw-r--r--.  1   0   0      0 Jun 23  2020 subuid-
+-rw-r-----.  1   0   0   3181 Jan 24  2024 sudo-ldap.conf
+-rw-r-----.  1   0   0   3983 Jan 24  2024 sudo.conf
+-r--r-----.  1   0   0   4328 Jan 24  2024 sudoers
+drwxr-x---.  2   0   0     33 Mar 20 06:21 sudoers.d
+drwxr-xr-x.  3   0   0     24 Apr 19  2024 swid
+drwxr-xr-x.  3   0   0   4096 Apr 19  2024 sysconfig
+-rw-r--r--.  1   0   0    449 Mar 19  2024 sysctl.conf
+drwxr-xr-x.  2   0   0     28 Apr 19  2024 sysctl.d
+lrwxrwxrwx.  1   0   0     14 Apr  5  2024 system-release -> redhat-release
+-rw-r--r--.  1   0   0     41 Apr  5  2024 system-release-cpe
+drwxr-xr-x.  4   0   0    166 Apr 19  2024 systemd
+drwxr-xr-x.  2   0   0      6 Aug 21  2023 terminfo
+drwxr-xr-x.  2   0   0     22 Apr 19  2024 tmpfiles.d
+drwxr-xr-x.  3   0   0     51 Apr 19  2024 tpm2-tss
+drwxr-xr-x.  3   0   0    136 Apr 19  2024 tuned
+drwxr-xr-x.  4   0   0     68 Mar 20 06:20 udev
+-rw-r--r--.  1   0   0   1184 Feb  9  2023 virc
+-rw-r--r--.  1   0   0    817 Aug  9  2021 xattr.conf
+drwxr-xr-x.  4   0   0     38 Apr 19  2024 xdg
+drwxr-xr-x.  2   0   0     57 Apr 19  2024 yum
+lrwxrwxrwx.  1   0   0     12 Oct 26  2023 yum.conf -> dnf/dnf.conf
+drwxr-xr-x.  2   0   0     25 Mar 20 06:25 yum.repos.d
+
+/etc/cloud/cloud.cfg.d:
+total 8
+drwxr-xr-x. 2 0 0   42 Apr 19  2024 .
+drwxr-xr-x. 4 0 0   59 Apr 19  2024 ..
+-rw-r--r--. 1 0 0 2070 Dec  4  2023 05_logging.cfg
+-rw-r--r--. 1 0 0  167 Dec  4  2023 README
+
+/etc/crypto-policies:
+total 20
+drwxr-xr-x.  6 0 0   81 Apr 19  2024 .
+drwxr-xr-x. 93 0 0 8192 Mar 20 06:21 ..
+drwxr-xr-x.  2 0 0 4096 Apr 19  2024 back-ends
+-rw-r--r--.  1 0 0    8 Apr 19  2024 config
+drwxr-xr-x.  2 0 0    6 Feb  5  2024 local.d
+drwxr-xr-x.  3 0 0   21 Apr 19  2024 policies
+drwxr-xr-x.  2 0 0   40 Apr 19  2024 state
+
+/etc/crypto-policies/back-ends:
+total 4
+drwxr-xr-x. 2 0 0 4096 Apr 19  2024 .
+drwxr-xr-x. 6 0 0   81 Apr 19  2024 ..
+lrwxrwxrwx. 1 0 0   43 Apr 19  2024 bind.config -> /usr/share/crypto-policies/DEFAULT/bind.txt
+lrwxrwxrwx. 1 0 0   45 Apr 19  2024 gnutls.config -> /usr/share/crypto-policies/DEFAULT/gnutls.txt
+lrwxrwxrwx. 1 0 0   43 Apr 19  2024 java.config -> /usr/share/crypto-policies/DEFAULT/java.txt
+lrwxrwxrwx. 1 0 0   49 Apr 19  2024 javasystem.config -> /usr/share/crypto-policies/DEFAULT/javasystem.txt
+lrwxrwxrwx. 1 0 0   43 Apr 19  2024 krb5.config -> /usr/share/crypto-policies/DEFAULT/krb5.txt
+lrwxrwxrwx. 1 0 0   48 Apr 19  2024 libreswan.config -> /usr/share/crypto-policies/DEFAULT/libreswan.txt
+lrwxrwxrwx. 1 0 0   45 Apr 19  2024 libssh.config -> /usr/share/crypto-policies/DEFAULT/libssh.txt
+lrwxrwxrwx. 1 0 0   42 Apr 19  2024 nss.config -> /usr/share/crypto-policies/DEFAULT/nss.txt
+lrwxrwxrwx. 1 0 0   46 Apr 19  2024 openssh.config -> /usr/share/crypto-policies/DEFAULT/openssh.txt
+lrwxrwxrwx. 1 0 0   52 Apr 19  2024 opensshserver.config -> /usr/share/crypto-policies/DEFAULT/opensshserver.txt
+lrwxrwxrwx. 1 0 0   46 Apr 19  2024 openssl.config -> /usr/share/crypto-policies/DEFAULT/openssl.txt
+lrwxrwxrwx. 1 0 0   51 Apr 19  2024 openssl_fips.config -> /usr/share/crypto-policies/DEFAULT/openssl_fips.txt
+lrwxrwxrwx. 1 0 0   49 Apr 19  2024 opensslcnf.config -> /usr/share/crypto-policies/DEFAULT/opensslcnf.txt
+
+/etc/crypto-policies/state:
+total 8
+drwxr-xr-x. 2 0 0   40 Apr 19  2024 .
+drwxr-xr-x. 6 0 0   81 Apr 19  2024 ..
+-rw-r--r--. 1 0 0 2438 Apr 19  2024 CURRENT.pol
+-rw-r--r--. 1 0 0    8 Apr 19  2024 current
+
+/etc/pki/tls/private:
+total 0
+drwxr-xr-x. 2 0 0   6 Feb 21  2024 .
+drwxr-xr-x. 6 0 0 143 Apr 19  2024 ..
+
+/etc/selinux/targeted/policy:
+total 3384
+drwxr-xr-x. 2 0 0      23 Apr 19  2024 .
+drwxr-xr-x. 5 0 0     133 Apr 19  2024 ..
+-rw-r--r--. 1 0 0 3462736 Apr 19  2024 policy.33
+
+/etc/ssh:
+total 616
+drwxr-xr-x.  4 0   0   4096 Mar 20 06:21 .
+drwxr-xr-x. 93 0   0   8192 Mar 20 06:21 ..
+-rw-r--r--.  1 0   0 578094 Jan  5  2024 moduli
+-rw-r--r--.  1 0   0   1921 Jan  5  2024 ssh_config
+drwxr-xr-x.  2 0   0     28 Apr 19  2024 ssh_config.d
+-rw-r-----.  1 0 101    557 Mar 20 06:21 ssh_host_ecdsa_key
+-rw-r--r--.  1 0   0    214 Mar 20 06:21 ssh_host_ecdsa_key.pub
+-rw-r-----.  1 0 101    452 Mar 20 06:21 ssh_host_ed25519_key
+-rw-r--r--.  1 0   0    134 Mar 20 06:21 ssh_host_ed25519_key.pub
+-rw-r-----.  1 0 101   2655 Mar 20 06:21 ssh_host_rsa_key
+-rw-r--r--.  1 0   0    606 Mar 20 06:21 ssh_host_rsa_key.pub
+-rw-------.  1 0   0   3667 Jan  5  2024 sshd_config
+drwx------.  2 0   0     54 Mar 20 06:21 sshd_config.d
+
+/etc/sysconfig:
+total 64
+drwxr-xr-x.  3 0 0 4096 Apr 19  2024 .
+drwxr-xr-x. 93 0 0 8192 Mar 20 06:21 ..
+-rw-r--r--.  1 0 0   50 Jan 23  2024 chronyd
+-rw-r--r--.  1 0 0  150 Apr 10  2024 cpupower
+-rw-r--r--.  1 0 0  110 Nov 30  2023 crond
+-rw-r--r--.  1 0 0 1399 Oct 31  2022 irqbalance
+-rw-r--r--.  1 0 0 2516 Jan 30  2024 kdump
+-rw-r--r--.  1 0 0   39 Apr 19  2024 kernel
+-rw-r--r--.  1 0 0  310 Sep 20  2022 man-db
+-rw-r--r--.  1 0 0   85 Mar 20 06:21 network
+drwxr-xr-x.  2 0 0   51 Mar 20 06:21 network-scripts
+-rw-r--r--.  1 0 0 1912 Mar 26  2024 qemu-ga
+-rw-r--r--.  1 0 0   73 Feb 15  2024 rpcbind
+-rw-r--r--.  1 0 0  196 Jan  8  2024 rsyslog
+-rw-r--r--.  1 0 0    0 Mar 23  2022 run-parts
+lrwxrwxrwx.  1 0 0   17 Apr 19  2024 selinux -> ../selinux/config
+-rw-r-----.  1 0 0  344 Jan  5  2024 sshd
+
+/run/systemd/journal:
+total 4
+drwxr-xr-x.  3 0 0 160 Mar 20 06:20 .
+drwxr-xr-x. 23 0 0 580 Mar 20 06:25 ..
+srw-rw-rw-.  1 0 0   0 Mar 20 06:20 dev-log
+srw-------.  1 0 0   0 Mar 20 06:20 io.systemd.journal
+-rw-r--r--.  1 0 0   8 Mar 20 06:20 kernel-seqnum
+srw-rw-rw-.  1 0 0   0 Mar 20 06:20 socket
+srw-rw-rw-.  1 0 0   0 Mar 20 06:20 stdout
+drwxr-xr-x.  2 0 0 260 Mar 20 06:26 streams
+
+/usr/lib/udev/rules.d:
+total 272
+drwxr-xr-x. 2 0 0  4096 Apr 19  2024 .
+drwxr-xr-x. 4 0 0  4096 Apr 19  2024 ..
+-r--r--r--. 1 0 0  7218 Feb  2  2024 10-dm.rules
+-rw-r--r--. 1 0 0  1442 Jan 26  2024 11-dm-parts.rules
+-r--r--r--. 1 0 0  2217 Feb  2  2024 13-dm-disk.rules
+-rw-r--r--. 1 0 0   728 Mar 19  2024 40-elevator.rules
+-rw-r--r--. 1 0 0  2014 Mar 19  2024 40-redhat.rules
+-rw-r--r--. 1 0 0   458 Oct 30  2021 40-usb-blacklist.rules
+-rw-r--r--. 1 0 0  5363 Mar 19  2024 50-udev-default.rules
+-rw-r--r--. 1 0 0   704 Oct 31  2022 60-autosuspend.rules
+-rw-r--r--. 1 0 0   703 Oct 31  2022 60-block.rules
+-rw-r--r--. 1 0 0  1071 Oct 31  2022 60-cdrom_id.rules
+-rw-r--r--. 1 0 0   413 Oct 31  2022 60-drm.rules
+-rw-r--r--. 1 0 0   990 Oct 31  2022 60-evdev.rules
+-rw-r--r--. 1 0 0   491 Oct 31  2022 60-fido-id.rules
+-rw-r--r--. 1 0 0   282 Oct 31  2022 60-input-id.rules
+-rw-r--r--. 1 0 0   129 Feb  8  2024 60-net.rules
+-rw-r--r--. 1 0 0   616 Oct 31  2022 60-persistent-alsa.rules
+-rw-r--r--. 1 0 0  2719 Oct 31  2022 60-persistent-input.rules
+-rw-r--r--. 1 0 0  2204 Oct 31  2022 60-persistent-storage-tape.rules
+-rw-r--r--. 1 0 0 10901 Mar 19  2024 60-persistent-storage.rules
+-rw-r--r--. 1 0 0   769 Oct 31  2022 60-persistent-v4l.rules
+-rw-r--r--. 1 0 0  1618 Oct 31  2022 60-sensor.rules
+-rw-r--r--. 1 0 0  1136 Mar 19  2024 60-serial.rules
+-rw-r--r--. 1 0 0   243 Jan 31  2023 60-tpm-udev.rules
+-rw-r--r--. 1 0 0  3385 Aug  9  2021 60_flashrom.rules
+-rw-r--r--. 1 0 0  6359 Nov  5  2021 61-scsi-sg3_id.rules
+-rw-r--r--. 1 0 0   624 Apr 29  2019 63-fc-wwpn-id.rules
+-rw-r--r--. 1 0 0  2864 Oct 30  2021 63-scsi-sg3_symlink.rules
+-rw-r--r--. 1 0 0   616 Mar 19  2024 64-btrfs.rules
+-rw-r--r--. 1 0 0   732 Sep 18  2017 65-scsi-cciss_id.rules
+-rw-r--r--. 1 0 0  1951 Dec  4  2023 66-azure-ephemeral.rules
+-rw-r--r--. 1 0 0  1392 Jan 26  2024 66-kpartx.rules
+-rw-r--r--. 1 0 0  1142 Jan 26  2024 68-del-part-nodes.rules
+-rw-r--r--. 1 0 0   281 Oct 31  2022 70-camera.rules
+-rw-r--r--. 1 0 0   432 Oct 31  2022 70-joystick.rules
+-rw-r--r--. 1 0 0   184 Oct 31  2022 70-memory.rules
+-rw-r--r--. 1 0 0   734 Oct 31  2022 70-mouse.rules
+-rw-r--r--. 1 0 0   576 Oct 31  2022 70-power-switch.rules
+-rw-r--r--. 1 0 0   473 Oct 31  2022 70-touchpad.rules
+-rw-r--r--. 1 0 0  3311 Mar 19  2024 70-uaccess.rules
+-rw-r--r--. 1 0 0   403 Aug 10  2021 71-prefixdevname.rules
+-rw-r--r--. 1 0 0  3818 Mar 19  2024 71-seat.rules
+-rw-r--r--. 1 0 0   643 Mar 19  2024 73-seat-late.rules
+-rw-r--r--. 1 0 0   512 Mar 19  2024 75-net-description.rules
+-rw-r--r--. 1 0 0   174 Oct 31  2022 75-probe_mtd.rules
+-rw-r--r--. 1 0 0  4816 Oct 31  2022 78-sound-card.rules
+-rw-r--r--. 1 0 0   600 Oct 31  2022 80-drivers.rules
+-rw-r--r--. 1 0 0   295 Oct 31  2022 80-net-setup-link.rules
+-rw-r--r--. 1 0 0   528 Oct 31  2022 81-net-dhcp.rules
+-rw-r--r--. 1 0 0   533 Feb 22  2024 84-nm-drivers.rules
+-rw-r--r--. 1 0 0  2013 Feb 22  2024 85-nm-unmanaged.rules
+-rw-r--r--. 1 0 0   281 Feb  8  2024 90-fwupd-devices.rules
+-rw-r--r--. 1 0 0   588 Feb 22  2024 90-nm-thunderbolt.rules
+-rw-r--r--. 1 0 0   489 Mar 19  2024 90-vconsole.rules
+-r--r--r--. 1 0 0   483 Feb  2  2024 95-dm-notify.rules
+-rw-r--r--. 1 0 0   695 Jan 30  2024 98-kexec.rules
+-rw-r--r--. 1 0 0    95 Feb 18  2024 99-nfs.rules
+-rw-r--r--. 1 0 0   130 Mar 26  2024 99-qemu-guest-agent.rules
+-rw-r--r--. 1 0 0  5039 Mar 19  2024 99-systemd.rules
+-rw-r--r--. 1 0 0   435 Oct 31  2022 README
+
+/var:
+total 20
+drwxr-xr-x. 19 0 0 4096 Mar 20 06:20 .
+dr-xr-xr-x. 19 0 0  246 Mar 20 06:20 ..
+-rw-r--r--.  1 0 0  208 Apr 19  2024 .updated
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 adm
+drwxr-xr-x. 14 0 0  192 Apr 19  2024 cache
+drwxr-xr-x.  2 0 0    6 Jan 30  2024 crash
+drwxr-xr-x.  3 0 0   18 Apr 19  2024 db
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 empty
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 ftp
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 games
+drwxr-xr-x.  3 0 0   18 Apr 19  2024 kerberos
+drwxr-xr-x. 32 0 0 4096 Mar 20 06:20 lib
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 local
+lrwxrwxrwx.  1 0 0   11 Apr 19  2024 lock -> ../run/lock
+drwxr-xr-x. 10 0 0 4096 Mar 20 06:25 log
+lrwxrwxrwx.  1 0 0   10 Aug  9  2021 mail -> spool/mail
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 nis
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 opt
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 preserve
+lrwxrwxrwx.  1 0 0    6 Apr 19  2024 run -> ../run
+drwxr-xr-x.  7 0 0   68 Apr 19  2024 spool
+drwxrwxrwt.  9 0 0 4096 Mar 20 06:26 tmp
+drwxr-xr-x.  2 0 0    6 Aug  9  2021 yp
+
+/var/lib/rpm:
+total 78676
+drwxr-xr-x.  2 0 0       91 Dec 13  2023 .
+drwxr-xr-x. 32 0 0     4096 Mar 20 06:20 ..
+-rw-r--r--.  1 0 0        0 Apr 19  2024 .rpm.lock
+-rw-r--r--.  1 0 0 80527360 Apr 19  2024 rpmdb.sqlite
+-rw-r--r--.  1 0 0    32768 Mar 20 06:26 rpmdb.sqlite-shm
+-rw-r--r--.  1 0 0        0 Apr 19  2024 rpmdb.sqlite-wal
+
+/var/log:
+total 648
+drwxr-xr-x. 10   0   0   4096 Mar 20 06:25 .
+drwxr-xr-x. 19   0   0   4096 Mar 20 06:20 ..
+lrwxrwxrwx.  1   0   0     39 Apr 19  2024 README -> ../../usr/share/doc/systemd/README.logs
+drwx------.  2   0   0     23 Mar 20 06:20 audit
+-rw-rw----.  1   0  22      0 Apr 19  2024 btmp
+drwxr-x---.  2 993 991      6 Jan 23  2024 chrony
+-rw-r-----.  1   0   4   4400 Mar 20 06:21 cloud-init-output.log
+-rw-r-----.  1   0   0 132088 Mar 20 06:21 cloud-init.log
+-rw-------.  1   0   0    496 Mar 20 06:21 cron
+-rw-r--r--.  1   0   0    464 Mar 20 06:26 dnf.librepo.log
+-rw-r--r--.  1   0   0   1383 Mar 20 06:26 dnf.log
+-rw-r--r--.  1   0   0    116 Mar 20 06:26 dnf.rpm.log
+-rw-r--r--.  1   0   0    180 Mar 20 06:26 hawkey.log
+drwx------.  2   0   0     33 Mar 20 06:25 insights-client
+-rw-------.  1   0   0    705 Mar 20 06:21 kdump.log
+-rw-rw-r--.  1   0  22 292292 Mar 20 06:24 lastlog
+-rw-------.  1   0   0      0 Apr 19  2024 maillog
+-rw-------.  1   0   0 211860 Mar 20 06:25 messages
+drwx------.  2   0   0      6 Apr 19  2024 private
+drwxr-xr-x.  2   0   0      6 Mar 26  2024 qemu-ga
+drwxr-xr-x.  2   0   0     43 Mar 20 06:25 rhsm
+-rw-------.  1   0   0   2871 Mar 20 06:24 secure
+-rw-------.  1   0   0      0 Apr 19  2024 spooler
+drwxr-x---.  2 996 994      6 Feb 12  2024 sssd
+-rw-------.  1   0   0      0 Apr 19  2024 tallylog
+drwxr-xr-x.  2   0   0     23 Mar 20 06:21 tuned
+-rw-rw-r--.  1   0  22   2688 Mar 20 06:24 wtmp
+
+/var/log/audit:
+total 36
+drwx------.  2 0 0    23 Mar 20 06:20 .
+drwxr-xr-x. 10 0 0  4096 Mar 20 06:25 ..
+-rw-------.  1 0 0 29260 Mar 20 06:26 audit.log
+
+/var/spool/cron:
+total 0
+drwx------. 2 0 0  6 Nov 30  2023 .
+drwxr-xr-x. 7 0 0 68 Apr 19  2024 ..

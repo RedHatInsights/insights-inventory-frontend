@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ssh_config", "exec_time": 8.177757263183594e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/ssh/ssh_config", "rc": null}}, "ser_time": 0.009591817855834961}

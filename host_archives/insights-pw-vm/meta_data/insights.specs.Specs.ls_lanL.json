@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ls_lanL", "exec_time": 8.058547973632812e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lanL / /etc/ostree", "args": null, "save_as": false, "relative_path": "insights_commands/ls_-lanL_._.etc.ostree"}}, "ser_time": 0.00903463363647461}

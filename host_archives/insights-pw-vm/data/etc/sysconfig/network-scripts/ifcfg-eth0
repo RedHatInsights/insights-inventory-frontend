@@ -1,0 +1,9 @@
+# Created by cloud-init automatically, do not edit.
+#
+AUTOCONNECT_PRIORITY=120
+BOOTPROTO=dhcp
+DEVICE=eth0
+HWADDR=fa:16:3e:ef:07:31
+ONBOOT=yes
+TYPE=Ethernet
+USERCTL=no

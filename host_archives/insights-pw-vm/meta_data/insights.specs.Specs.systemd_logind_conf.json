@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemd_logind_conf", "exec_time": 6.079673767089844e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/systemd/logind.conf", "rc": null}}, "ser_time": 0.0009496212005615234}

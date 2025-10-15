@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemctl_status_all", "exec_time": 0.00018739700317382812, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl status --all", "args": null, "save_as": false, "relative_path": "insights_commands/systemctl_status_--all"}}, "ser_time": 0.4721078872680664}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.lsattr", "exec_time": 0.00011229515075683594, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/lsattr /etc/default/grub", "args": null, "save_as": false, "relative_path": "insights_commands/lsattr_.etc.default.grub"}}, "ser_time": 0.0064544677734375}

@@ -1,0 +1,12 @@
+Model: Virtio Block Device (virtblk)
+Disk /dev/vda: 21.5GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: 
+
+Number  Start   End     Size    File system  Name  Flags
+ 1      1049kB  2097kB  1049kB                     bios_grub
+ 2      2097kB  212MB   210MB   fat16              boot, esp
+ 3      212MB   1286MB  1074MB  xfs                bls_boot
+ 4      1286MB  21.5GB  20.2GB  xfs
+

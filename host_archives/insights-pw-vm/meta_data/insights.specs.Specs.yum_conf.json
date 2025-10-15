@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.yum_conf", "exec_time": 5.435943603515625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "etc/yum.conf", "rc": null}}, "ser_time": 0.005408525466918945}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.parted__l", "exec_time": 5.269050598144531e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/parted -l -s", "args": null, "save_as": false, "relative_path": "insights_commands/parted_-l_-s"}}, "ser_time": 0.02806997299194336}

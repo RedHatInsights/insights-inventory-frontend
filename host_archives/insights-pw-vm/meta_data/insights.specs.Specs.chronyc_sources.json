@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.chronyc_sources", "exec_time": 4.5299530029296875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/chronyc sources", "args": null, "save_as": false, "relative_path": "insights_commands/chronyc_sources"}}, "ser_time": 1.2646715641021729}

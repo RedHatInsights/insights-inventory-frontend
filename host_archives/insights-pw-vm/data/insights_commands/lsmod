@@ -1,0 +1,52 @@
+Module                  Size  Used by
+tls                   159744  0
+rfkill                 40960  1
+intel_rapl_msr         20480  0
+intel_rapl_common      45056  1 intel_rapl_msr
+intel_uncore_frequency_common    16384  0
+isst_if_common         24576  0
+nfit                   86016  0
+libnvdimm             245760  1 nfit
+kvm_intel             442368  0
+kvm                  1339392  1 kvm_intel
+virtio_gpu            102400  0
+virtio_dma_buf         16384  1 virtio_gpu
+drm_shmem_helper       28672  1 virtio_gpu
+irqbypass              16384  1 kvm
+rapl                   28672  0
+drm_kms_helper        245760  3 virtio_gpu
+iTCO_wdt               16384  0
+iTCO_vendor_support    16384  1 iTCO_wdt
+i2c_i801               40960  0
+pcspkr                 16384  0
+lpc_ich                28672  0
+i2c_smbus              20480  1 i2c_i801
+virtio_balloon         28672  0
+syscopyarea            16384  1 drm_kms_helper
+sysfillrect            16384  1 drm_kms_helper
+sysimgblt              16384  1 drm_kms_helper
+fb_sys_fops            16384  1 drm_kms_helper
+vfat                   20480  1
+fat                   102400  1 vfat
+joydev                 28672  0
+drm                   741376  4 drm_kms_helper,drm_shmem_helper,virtio_gpu
+fuse                  212992  1
+xfs                  2510848  2
+libcrc32c              16384  1 xfs
+ahci                   49152  0
+libahci                61440  1 ahci
+libata                479232  2 libahci,ahci
+virtio_net             81920  0
+crct10dif_pclmul       16384  1
+crc32_pclmul           16384  0
+crc32c_intel           24576  1
+ghash_clmulni_intel    16384  0
+net_failover           24576  1 virtio_net
+virtio_blk             36864  3
+failover               16384  1 net_failover
+serio_raw              20480  0
+sunrpc                851968  1
+dm_mirror              32768  0
+dm_region_hash         28672  1 dm_mirror
+dm_log                 28672  2 dm_region_hash,dm_mirror
+dm_mod                237568  2 dm_log,dm_mirror

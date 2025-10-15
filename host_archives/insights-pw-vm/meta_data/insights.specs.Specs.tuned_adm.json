@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.tuned_adm", "exec_time": 6.341934204101562e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/tuned-adm list", "args": null, "save_as": false, "relative_path": "insights_commands/tuned-adm_list"}}, "ser_time": 0.1591193675994873}

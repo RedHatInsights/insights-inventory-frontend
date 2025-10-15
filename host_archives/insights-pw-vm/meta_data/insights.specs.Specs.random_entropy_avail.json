@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.random_entropy_avail", "exec_time": 4.9591064453125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"save_as": false, "relative_path": "proc/sys/kernel/random/entropy_avail", "rc": null}}, "ser_time": 0.00047659873962402344}
