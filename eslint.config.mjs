@@ -57,6 +57,7 @@ export default defineConfig([
     files: ['_playwright-tests/**/*.test.ts', '_playwright-tests/helpers/**'],
     rules: {
       ...playwright.configs['flat/recommended'].rules,
+      'playwright/prefer-web-first-assertions': 'off',
     },
   },
   {
