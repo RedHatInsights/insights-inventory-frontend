@@ -26,6 +26,8 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
  *  @param   {Array}           props.appList           app list
  *  @param   {boolean}         props.showMainSection   if show main section is true
  *  @param   {object}          props.headerProps       props for the detail header
+ *  @param   {object}          props.entity            entity object
+ *  @param   {Function}        props.fetchEntity       fetch entity function
  *  @returns {React.ReactNode}                         the inventory detail component
  */
 const InventoryDetail = ({
@@ -37,6 +39,8 @@ const InventoryDetail = ({
   activeApp,
   appList,
   showMainSection,
+  entity,
+  fetchEntity,
   ...headerProps
 }) => {
   const dispatch = useDispatch();
@@ -44,7 +48,6 @@ const InventoryDetail = ({
   const loaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded || false,
   );
-  const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
   //TODO: one all apps migrate to away from AppAinfo, remove this
   useEffect(() => {
     if (!entity || !(entity?.id === inventoryId) || !loaded) {
@@ -81,6 +84,7 @@ const InventoryDetail = ({
               appList={appList}
               inventoryId={inventoryId}
               entity={entity}
+              fetchEntity={fetchEntity}
             />
           )}
         </>

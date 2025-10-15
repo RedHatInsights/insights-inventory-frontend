@@ -45,6 +45,14 @@ jest.mock(
 describe('SystemCard', () => {
   let initialState;
   let mockStore;
+  const entity = {
+    display_name: 'test-display-name',
+    ansible_host: 'test-ansible-host',
+    id: 'test-id',
+    facts: {
+      rhsm: rhsmFacts,
+    },
+  };
 
   beforeEach(() => {
     mockStore = configureStore([promiseMiddleware]);
@@ -55,16 +63,6 @@ describe('SystemCard', () => {
     mock.onGet('/api/inventory/v1/hosts/test-id/system_profile?fields%5Bsystem_profile%5D%5B%5D=operating_system').reply(200, mockedData); // eslint-disable-line
 
     initialState = {
-      entityDetails: {
-        entity: {
-          display_name: 'test-display-name',
-          ansible_host: 'test-ansible-host',
-          id: 'test-id',
-          facts: {
-            rhsm: rhsmFacts,
-          },
-        },
-      },
       systemProfileStore: {
         systemProfile: {
           loaded: true,
@@ -104,7 +102,7 @@ describe('SystemCard', () => {
   it('should render correctly with data', () => {
     render(
       <TestWrapper store={mockStore(initialState)}>
-        <SystemCard writePermissions={true} />
+        <SystemCard writePermissions={true} entity={entity} />
       </TestWrapper>,
     );
 
@@ -126,26 +124,22 @@ describe('SystemCard', () => {
   });
 
   it('should render correctly with Workspace', () => {
+    entity.groups = [
+      {
+        id: 'your_favourite_uuid',
+        name: 'workspace_name',
+      },
+    ];
+
     render(
       <TestWrapper
         store={mockStore({
-          entityDetails: {
-            entity: {
-              ...initialState.entityDetails.entity,
-              groups: [
-                {
-                  id: 'your_favourite_uuid',
-                  name: 'workspace_name',
-                },
-              ],
-            },
-          },
           systemProfileStore: {
             ...initialState.systemProfileStore,
           },
         })}
       >
-        <SystemCard writePermissions={true} />
+        <SystemCard writePermissions={true} entity={entity} />
       </TestWrapper>,
     );
 
@@ -157,6 +151,8 @@ describe('SystemCard', () => {
   });
 
   it('should render correctly with rhsm facts', () => {
+    entity.groups = undefined;
+
     render(
       <TestWrapper
         store={mockStore({
@@ -168,7 +164,7 @@ describe('SystemCard', () => {
           },
         })}
       >
-        <SystemCard writePermissions={true} />
+        <SystemCard writePermissions={true} entity={entity} />
       </TestWrapper>,
     );
 
@@ -193,7 +189,7 @@ describe('SystemCard', () => {
     it('should calculate correct ansible host - direct ansible host', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <SystemCard writePermissions={true} />
+          <SystemCard writePermissions={true} entity={entity} />
         </TestWrapper>,
       );
 
@@ -205,20 +201,15 @@ describe('SystemCard', () => {
     });
 
     it('should calculate correct ansible host - from fqdn', () => {
+      entity.ansible_host = undefined;
+      entity.fqdn = 'test-fqdn';
       render(
         <TestWrapper
           store={mockStore({
             ...initialState,
-            entityDetails: {
-              entity: {
-                ...initialState.entity,
-                ansible_host: undefined,
-                fqdn: 'test-fqdn',
-              },
-            },
           })}
         >
-          <SystemCard writePermissions={true} />
+          <SystemCard writePermissions={true} entity={entity} />
         </TestWrapper>,
       );
 
@@ -230,20 +221,16 @@ describe('SystemCard', () => {
     });
 
     it('should calculate correct ansible host - from id', () => {
+      entity.ansible_host = undefined;
+      entity.fqdn = undefined;
+      entity.id = 'test-id';
       render(
         <TestWrapper
           store={mockStore({
             ...initialState,
-            entityDetails: {
-              entity: {
-                ...initialState.entity,
-                ansible_host: undefined,
-                id: 'test-id',
-              },
-            },
           })}
         >
-          <SystemCard writePermissions={true} />
+          <SystemCard writePermissions={true} entity={entity} />
         </TestWrapper>,
       );
 
@@ -257,7 +244,7 @@ describe('SystemCard', () => {
     it('should show edit display name', async () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <SystemCard writePermissions={true} />
+          <SystemCard writePermissions={true} entity={entity} />
         </TestWrapper>,
       );
 
@@ -272,9 +259,10 @@ describe('SystemCard', () => {
     });
 
     it('should show edit ansible hostname', async () => {
+      entity.ansible_host = 'test-ansible-host';
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <SystemCard writePermissions={true} />
+          <SystemCard writePermissions={true} entity={entity} />
         </TestWrapper>,
       );
 
@@ -296,7 +284,7 @@ describe('SystemCard', () => {
       const store = mockStore(initialState);
       render(
         <TestWrapper store={store}>
-          <SystemCard writePermissions={true} />
+          <SystemCard writePermissions={true} entity={entity} />
         </TestWrapper>,
       );
 
@@ -320,7 +308,7 @@ describe('SystemCard', () => {
       const store = mockStore(initialState);
       render(
         <TestWrapper store={store}>
-          <SystemCard writePermissions={true} />
+          <SystemCard writePermissions={true} entity={entity} />
         </TestWrapper>,
       );
 
@@ -352,7 +340,11 @@ describe('SystemCard', () => {
           })}
           routerProps={{ initialEntries: ['/example/flag'] }}
         >
-          <SystemCard handleClick={handleClick} writePermissions={true} />
+          <SystemCard
+            handleClick={handleClick}
+            writePermissions={true}
+            entity={entity}
+          />
         </TestWrapper>,
       );
 
@@ -390,7 +382,11 @@ describe('SystemCard', () => {
   it.each(fieldsToTest)('should not render %s when disabled', (prop, label) => {
     render(
       <TestWrapper store={mockStore(initialState)}>
-        <SystemCard writePermissions={true} {...{ [prop]: false }} />
+        <SystemCard
+          writePermissions={true}
+          {...{ [prop]: false }}
+          entity={entity}
+        />
       </TestWrapper>,
     );
 
@@ -398,6 +394,13 @@ describe('SystemCard', () => {
   });
 
   it('should render extra', () => {
+    entity.display_name = 'test-display-name';
+    entity.ansible_host = 'test-ansible-host';
+    entity.id = 'test-id';
+    entity.facts = {
+      rhsm: rhsmFacts,
+    };
+
     render(
       <TestWrapper store={mockStore(initialState)}>
         <SystemCard
@@ -411,6 +414,7 @@ describe('SystemCard', () => {
                 handleClick('Something', {}, 'small'),
             },
           ]}
+          entity={entity}
         />
       </TestWrapper>,
     );
@@ -451,7 +455,7 @@ describe('SystemCard', () => {
               },
             })}
           >
-            <SystemCard writePermissions={true} />
+            <SystemCard writePermissions={true} entity={entity} />
           </TestWrapper>,
         );
 
@@ -477,7 +481,7 @@ describe('SystemCard', () => {
             },
           })}
         >
-          <SystemCard writePermissions={true} />
+          <SystemCard writePermissions={true} entity={entity} />
         </TestWrapper>,
       );
 
@@ -517,7 +521,11 @@ describe('SystemCard', () => {
             })}
             routerProps={{ initialEntries: [`/example/${name.toLowerCase()}`] }}
           >
-            <SystemCard handleClick={handleClick} writePermissions={true} />
+            <SystemCard
+              handleClick={handleClick}
+              writePermissions={true}
+              entity={entity}
+            />
           </TestWrapper>,
         );
 

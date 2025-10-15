@@ -19,24 +19,22 @@ jest.mock('react-router-dom', () => ({
 describe('SystemStatusCard', () => {
   let initialState;
   let mockStore;
+  const entity = {
+    per_reporter_staleness: {
+      reporter1: {
+        last_check_in: '2025-03-05T00:00:00.0+00:00',
+      },
+      reporter2: {
+        last_check_in: '2025-03-06T00:00:00.0+00:00',
+      },
+    },
+    updated: '2014-06-01T00:00:00.0+00:00',
+    created: '2014-04-01T00:00:00.0+00:00',
+  };
 
   beforeEach(() => {
     mockStore = configureStore();
     initialState = {
-      entityDetails: {
-        entity: {
-          per_reporter_staleness: {
-            reporter1: {
-              last_check_in: '2025-03-05T00:00:00.0+00:00',
-            },
-            reporter2: {
-              last_check_in: '2025-03-06T00:00:00.0+00:00',
-            },
-          },
-          updated: '2014-06-01T00:00:00.0+00:00',
-          created: '2014-04-01T00:00:00.0+00:00',
-        },
-      },
       systemProfileStore: {
         systemProfile: {
           loaded: true,
@@ -54,7 +52,7 @@ describe('SystemStatusCard', () => {
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const view = render(<SystemStatusCard store={store} />);
+    const view = render(<SystemStatusCard entity={entity} store={store} />);
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -62,7 +60,11 @@ describe('SystemStatusCard', () => {
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
       const view = render(
-        <SystemStatusCard store={store} {...{ [item]: false }} />,
+        <SystemStatusCard
+          entity={entity}
+          store={store}
+          {...{ [item]: false }}
+        />,
       );
       expect(view.asFragment()).toMatchSnapshot();
     }),
@@ -70,7 +72,7 @@ describe('SystemStatusCard', () => {
 
   it('should display most recent date from reporters', () => {
     const store = mockStore(initialState);
-    render(<SystemStatusCard store={store} />);
+    render(<SystemStatusCard entity={entity} store={store} />);
 
     expect(screen.getByLabelText('Last seen value')).toHaveTextContent(
       '06 Mar 2025 00:00 UTC',

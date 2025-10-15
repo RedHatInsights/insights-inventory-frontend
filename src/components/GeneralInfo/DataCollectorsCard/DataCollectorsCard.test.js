@@ -16,22 +16,20 @@ jest.mock('react-router-dom', () => ({
 describe('DataCollectorsCard', () => {
   let initialState;
   let mockStore;
+  const entity = {
+    per_reporter_staleness: {
+      puptoo: {
+        check_in_succeeded: true,
+        last_check_in: '2022-05-13T07:42:21.663665+00:00',
+        stale_timestamp: '2260-01-01T00:00:00+00:00',
+      },
+    },
+    insights_id: '1234',
+  };
 
   beforeEach(() => {
     mockStore = configureStore();
     initialState = {
-      entityDetails: {
-        entity: {
-          per_reporter_staleness: {
-            puptoo: {
-              check_in_succeeded: true,
-              last_check_in: '2022-05-13T07:42:21.663665+00:00',
-              stale_timestamp: '2260-01-01T00:00:00+00:00',
-            },
-          },
-          insights_id: '1234',
-        },
-      },
       systemProfileStore: {
         systemProfile: {
           loaded: true,
@@ -48,7 +46,7 @@ describe('DataCollectorsCard', () => {
 
   it('should render correctly with data', () => {
     const store = mockStore(initialState);
-    const view = render(<DataCollectorsCard store={store} />);
+    const view = render(<DataCollectorsCard entity={entity} store={store} />);
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -56,6 +54,7 @@ describe('DataCollectorsCard', () => {
     const store = mockStore(initialState);
     const view = render(
       <DataCollectorsCard
+        entity={entity}
         store={store}
         {...{
           collectors: [
