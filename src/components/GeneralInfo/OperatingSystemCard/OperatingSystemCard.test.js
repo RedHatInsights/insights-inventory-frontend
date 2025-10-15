@@ -26,6 +26,11 @@ jest.mock('react-router-dom', () => ({
 describe('OperatingSystemCard', () => {
   let initialState;
   let mockStore;
+  const entity = {
+    facts: {
+      rhsm: rhsmFacts,
+    },
+  };
 
   beforeEach(() => {
     location.pathname = 'localhost:3000/example/path';
@@ -35,13 +40,6 @@ describe('OperatingSystemCard', () => {
         systemProfile: {
           loaded: true,
           ...osTest,
-        },
-      },
-      entityDetails: {
-        entity: {
-          facts: {
-            rhsm: rhsmFacts,
-          },
         },
       },
     };
@@ -64,7 +62,7 @@ describe('OperatingSystemCard', () => {
   it('should render correctly with data', () => {
     render(
       <TestWrapper store={mockStore(initialState)}>
-        <OperatingSystemCard />
+        <OperatingSystemCard entity={entity} />
       </TestWrapper>,
     );
 
@@ -91,7 +89,7 @@ describe('OperatingSystemCard', () => {
           },
         })}
       >
-        <OperatingSystemCard />
+        <OperatingSystemCard entity={entity} />
       </TestWrapper>,
     );
 
@@ -110,7 +108,7 @@ describe('OperatingSystemCard', () => {
     it('should not render modules clickable', () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <OperatingSystemCard />
+          <OperatingSystemCard entity={entity} />
         </TestWrapper>,
       );
 
@@ -126,19 +124,12 @@ describe('OperatingSystemCard', () => {
             kernel_modules: ['some-module'],
           },
         },
-        entityDetails: {
-          entity: {
-            facts: {
-              rhsm: rhsmFacts,
-            },
-          },
-        },
       };
       const onClick = jest.fn();
       location.pathname = 'localhost:3000/example/kernel_modules';
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <OperatingSystemCard handleClick={onClick} />
+          <OperatingSystemCard handleClick={onClick} entity={entity} />
         </TestWrapper>,
       );
 
@@ -157,7 +148,7 @@ describe('OperatingSystemCard', () => {
     it(`should not render ${item}`, () => {
       render(
         <TestWrapper store={mockStore(initialState)}>
-          <OperatingSystemCard {...{ [item]: false }} />
+          <OperatingSystemCard {...{ [item]: false }} entity={entity} />
         </TestWrapper>,
       );
 
@@ -180,6 +171,7 @@ describe('OperatingSystemCard', () => {
                 handleClick('Something', {}, 'small'),
             },
           ]}
+          entity={entity}
         />
       </TestWrapper>,
     );

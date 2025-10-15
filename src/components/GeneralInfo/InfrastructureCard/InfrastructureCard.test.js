@@ -18,6 +18,11 @@ jest.mock('react-router-dom', () => ({
 describe('InfrastructureCard', () => {
   let initialState;
   let mockStore;
+  const entity = {
+    facts: {
+      rhsm: rhsmFacts,
+    },
+  };
 
   beforeEach(() => {
     location.pathname = 'localhost:3000/example/path';
@@ -27,13 +32,6 @@ describe('InfrastructureCard', () => {
         systemProfile: {
           loaded: true,
           ...infraTest,
-        },
-      },
-      entityDetails: {
-        entity: {
-          facts: {
-            rhsm: rhsmFacts,
-          },
         },
       },
     };
@@ -53,7 +51,7 @@ describe('InfrastructureCard', () => {
     const store = mockStore(initialState);
     const view = render(
       <TestWrapper store={store}>
-        <InfrastructureCard />
+        <InfrastructureCard entity={entity} />
       </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
@@ -70,7 +68,7 @@ describe('InfrastructureCard', () => {
     });
     const view = render(
       <TestWrapper store={store}>
-        <InfrastructureCard />
+        <InfrastructureCard entity={entity} />
       </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
@@ -83,9 +81,6 @@ describe('InfrastructureCard', () => {
           loaded: true,
           ...infraTest,
         },
-      },
-      entityDetails: {
-        entity: {},
       },
     });
     const view = render(
@@ -104,7 +99,7 @@ describe('InfrastructureCard', () => {
       useParams.mockImplementation(() => ({ modalId: 'ipv4' }));
       render(
         <TestWrapper store={store}>
-          <InfrastructureCard handleClick={onClick} />
+          <InfrastructureCard handleClick={onClick} entity={entity} />
         </TestWrapper>,
       );
 
@@ -123,7 +118,7 @@ describe('InfrastructureCard', () => {
       useParams.mockImplementation(() => ({ modalId: 'ipv6' }));
       render(
         <TestWrapper store={store}>
-          <InfrastructureCard handleClick={onClick} />
+          <InfrastructureCard handleClick={onClick} entity={entity} />
         </TestWrapper>,
       );
 
@@ -142,7 +137,7 @@ describe('InfrastructureCard', () => {
       useParams.mockImplementation(() => ({ modalId: 'interfaces' }));
       render(
         <TestWrapper store={store}>
-          <InfrastructureCard handleClick={onClick} />
+          <InfrastructureCard handleClick={onClick} entity={entity} />
         </TestWrapper>,
       );
 
@@ -158,7 +153,7 @@ describe('InfrastructureCard', () => {
       const store = mockStore(initialState);
       const view = render(
         <TestWrapper store={store}>
-          <InfrastructureCard {...{ [item]: false }} />
+          <InfrastructureCard {...{ [item]: false }} entity={entity} />
         </TestWrapper>,
       );
 
@@ -180,6 +175,7 @@ describe('InfrastructureCard', () => {
                 handleClick('Something', {}, 'small'),
             },
           ]}
+          entity={entity}
         />
       </TestWrapper>,
     );

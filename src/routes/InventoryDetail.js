@@ -11,6 +11,7 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
 import { useLightspeedFeatureFlag } from '../Utilities/hooks/useLightspeedFeatureFlag';
+import { getHostById } from '../api/hostInventoryApi';
 
 const appList = {
   'CENTOS-LINUX': [
@@ -83,7 +84,24 @@ const Inventory = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [availableApps, setAvailableApps] = useState([]);
-  const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
+  const [entity, setEntity] = useState({});
+
+  const fetchEntity = useCallback(async () => {
+    try {
+      const result = await getHostById({ hostIdList: [inventoryId] });
+      setEntity(result?.results?.[0] || undefined);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [inventoryId]);
+
+  useEffect(() => {
+    const handleFetchEntity = async () => {
+      await fetchEntity();
+    };
+    handleFetchEntity();
+  }, [fetchEntity]);
+
   const { cloud_provider: cloudProvider, host_type: hostType } = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.systemProfile || [],
   );
@@ -167,6 +185,8 @@ const Inventory = () => {
       activeApp={searchParams.get('appName')}
       appList={availableApps}
       onTabSelect={onTabSelect}
+      entity={entity}
+      fetchEntity={fetchEntity}
     />
   );
 };

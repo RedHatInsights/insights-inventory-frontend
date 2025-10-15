@@ -16,84 +16,86 @@ const SystemStatusCardCore = ({
   hasRHC,
   entity,
   systemProfile,
-  systemStatus,
-}) => (
-  <LoadingCard
-    title="System status"
-    cardId="system-status-card"
-    isLoading={!detailLoaded}
-    items={[
-      ...(hasState
-        ? [
-            {
-              title: 'Current state',
-              value: systemStatus.stale ? 'Stale' : 'Active',
-            },
-          ]
-        : []),
-      ...(hasRegistered
-        ? [
-            {
-              title: 'Registered',
-              value: entity && (
-                <DateFormat date={entity.created} type="exact" />
-              ),
-            },
-          ]
-        : []),
-      ...(hasLastCheckIn
-        ? [
-            {
-              title: 'Last seen',
-              value:
-                entity && entity.per_reporter_staleness ? (
-                  <DateFormat
-                    date={
-                      Object.values(entity?.per_reporter_staleness)
-                        .map((reporter) => reporter.last_check_in)
-                        .sort()
-                        .reverse()[0]
-                    }
-                    type="exact"
+}) => {
+  const status = systemStatus(entity);
+  return (
+    <LoadingCard
+      title="System status"
+      cardId="system-status-card"
+      isLoading={!detailLoaded}
+      items={[
+        ...(hasState
+          ? [
+              {
+                title: 'Current state',
+                value: status.stale ? 'Stale' : 'Active',
+              },
+            ]
+          : []),
+        ...(hasRegistered
+          ? [
+              {
+                title: 'Registered',
+                value: entity && (
+                  <DateFormat date={entity.created} type="exact" />
+                ),
+              },
+            ]
+          : []),
+        ...(hasLastCheckIn
+          ? [
+              {
+                title: 'Last seen',
+                value:
+                  entity && entity.per_reporter_staleness ? (
+                    <DateFormat
+                      date={
+                        Object.values(entity?.per_reporter_staleness)
+                          .map((reporter) => reporter.last_check_in)
+                          .sort()
+                          .reverse()[0]
+                      }
+                      type="exact"
+                    />
+                  ) : (
+                    'Not available'
+                  ),
+              },
+            ]
+          : []),
+        ...(hasLastUpdated
+          ? [
+              {
+                title: 'Last updated',
+                value:
+                  entity && entity.updated ? (
+                    <DateFormat date={entity.updated} type="exact" />
+                  ) : (
+                    'Not available'
+                  ),
+              },
+            ]
+          : []),
+        ...(hasRHC
+          ? [
+              {
+                title: (
+                  <TitleWithPopover
+                    title="RHC"
+                    content={RHC_TOOLTIP_MESSAGE}
+                    headerContent="RHC (Remote host configuration)"
                   />
-                ) : (
-                  'Not available'
                 ),
-            },
-          ]
-        : []),
-      ...(hasLastUpdated
-        ? [
-            {
-              title: 'Last updated',
-              value:
-                entity && entity.updated ? (
-                  <DateFormat date={entity.updated} type="exact" />
-                ) : (
-                  'Not available'
-                ),
-            },
-          ]
-        : []),
-      ...(hasRHC
-        ? [
-            {
-              title: (
-                <TitleWithPopover
-                  title="RHC"
-                  content={RHC_TOOLTIP_MESSAGE}
-                  headerContent="RHC (Remote host configuration)"
-                />
-              ),
-              value: systemProfile?.rhc_client_id
-                ? 'Connected'
-                : 'Not available',
-            },
-          ]
-        : []),
-    ]}
-  />
-);
+                value: systemProfile?.rhc_client_id
+                  ? 'Connected'
+                  : 'Not available',
+              },
+            ]
+          : []),
+      ]}
+    />
+  );
+};
 
 SystemStatusCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
@@ -104,7 +106,6 @@ SystemStatusCardCore.propTypes = {
   systemProfile: PropTypes.shape({
     rhc_client_id: PropTypes.string,
   }),
-  systemStatus: PropTypes.object,
   handleClick: PropTypes.func,
   hasState: PropTypes.bool,
   hasLastCheckIn: PropTypes.bool,
@@ -113,7 +114,6 @@ SystemStatusCardCore.propTypes = {
 };
 SystemStatusCardCore.defaultProps = {
   detailLoaded: false,
-  systemStatus: {},
   handleClick: () => undefined,
   hasState: true,
   hasLastCheckIn: true,
@@ -123,11 +123,9 @@ SystemStatusCardCore.defaultProps = {
 };
 
 export const SystemStatusCard = connect(
-  ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
-    entity,
+  ({ systemProfileStore: { systemProfile } }) => ({
     systemProfile,
     detailLoaded: systemProfile?.loaded,
-    systemStatus: systemStatus(entity),
   }),
 )(SystemStatusCardCore);
 

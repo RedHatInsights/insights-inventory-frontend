@@ -5,12 +5,14 @@ import LoadingCard from '../LoadingCard';
 import { subscriptionsSelector } from '../selectors';
 
 const SubscriptionCardCore = ({
-  subscriptionFacts,
   detailLoaded,
+  entity,
   hasUsage,
   hasSLA,
   hasRole,
+  systemProfile,
 }) => {
+  const subscriptionFacts = subscriptionsSelector(entity, systemProfile);
   return (
     <LoadingCard
       title="Subscriptions"
@@ -29,14 +31,13 @@ const SubscriptionCardCore = ({
 
 SubscriptionCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
-  subscriptionFacts: PropTypes.shape({
-    usage: PropTypes.string,
-    sla: PropTypes.string,
-    role: PropTypes.string,
-  }),
+  entity: PropTypes.object,
   hasUsage: PropTypes.bool,
   hasSLA: PropTypes.bool,
   hasRole: PropTypes.bool,
+  systemProfile: PropTypes.shape({
+    system_purpose: PropTypes.object,
+  }),
 };
 SubscriptionCardCore.defaultProps = {
   detailLoaded: false,
@@ -46,9 +47,9 @@ SubscriptionCardCore.defaultProps = {
 };
 
 export const SubscriptionCard = connect(
-  ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
-    subscriptionFacts: subscriptionsSelector(entity, systemProfile),
+  ({ systemProfileStore: { systemProfile } }) => ({
     detailLoaded: systemProfile && systemProfile.loaded,
+    systemProfile,
   }),
 )(SubscriptionCardCore);
 

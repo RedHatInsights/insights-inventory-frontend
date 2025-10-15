@@ -61,21 +61,19 @@ const expectCardsToExist = (
 describe('GeneralInformation', () => {
   let initialState;
   let mockStore;
+  let entity = {
+    id: 'test-id',
+    per_reporter_staleness: {},
+    facts: {
+      SYSPURPOSE_USAGE: 'Development',
+      SYSPURPOSE_SLA: 'Self-Support',
+      SYSPURPOSE_ROLE: 'Red Hat Enterprise Linux Server',
+    },
+  };
 
   beforeEach(() => {
     mockStore = configureStore([promiseMiddleware]);
     initialState = {
-      entityDetails: {
-        entity: {
-          id: 'test-id',
-          per_reporter_staleness: {},
-          facts: {
-            SYSPURPOSE_USAGE: 'Development',
-            SYSPURPOSE_SLA: 'Self-Support',
-            SYSPURPOSE_ROLE: 'Red Hat Enterprise Linux Server',
-          },
-        },
-      },
       systemProfileStore: {
         systemProfile: {
           loaded: true,
@@ -115,7 +113,7 @@ describe('GeneralInformation', () => {
     render(
       <MemoryRouter initialEntries={['/example']}>
         <Provider store={store}>
-          <GeneralInformation inventoryId={'test-id'} />
+          <GeneralInformation entity={entity} inventoryId={'test-id'} />
         </Provider>
       </MemoryRouter>,
     );
@@ -128,7 +126,7 @@ describe('GeneralInformation', () => {
     const view = render(
       <MemoryRouter initialEntries={['/example']}>
         <Provider store={store}>
-          <GeneralInformation inventoryId={'test-id'} />
+          <GeneralInformation entity={entity} inventoryId={'test-id'} />
         </Provider>
       </MemoryRouter>,
     );
@@ -195,20 +193,19 @@ describe('GeneralInformation', () => {
       .onGet('/api/inventory/v1/hosts/test-id/system_profile')
       .reply(200, mockedData);
 
+    const entity = {
+      id: 'test-id',
+      per_reporter_staleness: {},
+    };
+
     it('should get data from server', () => {
       const store = mockStore({
         systemProfileStore: {},
-        entityDetails: {
-          entity: {
-            id: 'test-id',
-            per_reporter_staleness: {},
-          },
-        },
       });
       render(
         <MemoryRouter initialEntries={['/example']}>
           <Provider store={store}>
-            <GeneralInformation inventoryId={'test-id'} />
+            <GeneralInformation entity={entity} inventoryId={'test-id'} />
           </Provider>
         </MemoryRouter>,
       );
@@ -221,7 +218,7 @@ describe('GeneralInformation', () => {
       render(
         <MemoryRouter initialEntries={['/example/ipv4']}>
           <Provider store={store}>
-            <GeneralInformation inventoryId={'test-id'} />
+            <GeneralInformation entity={entity} inventoryId={'test-id'} />
           </Provider>
         </MemoryRouter>,
       );
@@ -238,7 +235,7 @@ describe('GeneralInformation', () => {
       render(
         <MemoryRouter initialEntries={['/example']}>
           <Provider store={store}>
-            <GeneralInformation inventoryId={'test-id'} />
+            <GeneralInformation entity={entity} inventoryId={'test-id'} />
           </Provider>
         </MemoryRouter>,
       );
@@ -257,7 +254,7 @@ describe('GeneralInformation', () => {
 
     beforeEach(() => {
       state = cloneDeep(initialState);
-      state.entityDetails.entity.system_profile = {
+      entity.system_profile = {
         operating_system: {
           name: 'CentOS Linux',
           major: '7',
@@ -269,7 +266,7 @@ describe('GeneralInformation', () => {
     it('shows alert for CentOS system', () => {
       render(
         <TestWrapper store={mockStore(state)}>
-          <GeneralInformation inventoryId={'test-id'} />
+          <GeneralInformation entity={entity} inventoryId={'test-id'} />
         </TestWrapper>,
       );
 
@@ -293,7 +290,7 @@ describe('GeneralInformation', () => {
       useInsightsNavigate.mockReturnValue(navigate);
       render(
         <TestWrapper store={mockStore(state)}>
-          <GeneralInformation inventoryId={'test-id'} />
+          <GeneralInformation entity={entity} inventoryId={'test-id'} />
         </TestWrapper>,
       );
 
@@ -308,9 +305,10 @@ describe('GeneralInformation', () => {
 
     it('not shown for RHEL systems', () => {
       const store = mockStore(initialState);
+      entity.system_profile.operating_system.name = 'RHEL';
       render(
         <TestWrapper store={store}>
-          <GeneralInformation inventoryId={'test-id'} />
+          <GeneralInformation entity={entity} inventoryId={'test-id'} />
         </TestWrapper>,
       );
 

@@ -63,9 +63,8 @@ function updateAnsibleNameRejected(state, { meta }) {
   return state;
 }
 
-function updateEntity(state, { meta }) {
-  let value;
-
+function updateEntity(state, { meta }, useOrigValue) {
+  const value = useOrigValue ? meta?.origValue : meta?.value;
   return {
     ...state,
     ...(state.rows && {
@@ -101,7 +100,7 @@ export default {
   [`${ACTION_TYPES.SET_ANSIBLE_HOST}_FULFILLED`]: updateAnsibleName,
   [`${ACTION_TYPES.SET_ANSIBLE_HOST}_REJECTED`]: updateAnsibleNameRejected,
   [`${ACTION_TYPES.UPDATE_DISPLAY_NAME}_FULFILLED`]: updateEntity,
-  [ACTION_TYPES.UPDATE_DISPLAY_NAME_ERROR]: (state, payload) =>
+  [`${ACTION_TYPES.UPDATE_DISPLAY_NAME}_REJECTED`]: (state, payload) =>
     updateEntity(state, payload, true),
   [ACTION_TYPES.SET_ANSIBLE_HOST_REJECTED]: (state, payload) =>
     updateAnsibleName(state, payload, true),
