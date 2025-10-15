@@ -10,7 +10,9 @@ export const logout = async (page: Page) => {
 
   await button.click();
 
-  await expect(async () => page.getByRole('menuitem', { name: 'Log out' }).isVisible()).toPass();
+  await expect(async () =>
+    page.getByRole('menuitem', { name: 'Log out' }).isVisible(),
+  ).toPass();
 
   await page.getByRole('menuitem', { name: 'Log out' }).click();
 
@@ -57,12 +59,16 @@ export const logInWithUsernameAndPassword = async (
 };
 
 export const logInWithUser1 = async (page: Page) =>
-  await logInWithUsernameAndPassword(page, process.env.PLAYWRIGHT_USER, process.env.PLAYWRIGHT_PASSWORD);
+  await logInWithUsernameAndPassword(
+    page,
+    process.env.PLAYWRIGHT_USER,
+    process.env.PLAYWRIGHT_PASSWORD,
+  );
 
 export const storeStorageStateAndToken = async (page: Page) => {
-  const { cookies } = await page
-    .context()
-    .storageState({ path: path.join(__dirname, '../../.auth/admin_user.json') });
+  const { cookies } = await page.context().storageState({
+    path: path.join(__dirname, '../../.auth/admin_user.json'),
+  });
   process.env.TOKEN = `Bearer ${cookies.find((cookie) => cookie.name === 'cs_jwt')?.value}`;
   await page.waitForTimeout(100);
 };
@@ -72,7 +78,9 @@ export const throwIfMissingEnvVariables = () => {
     'PLAYWRIGHT_USER',
     'PLAYWRIGHT_PASSWORD',
     'BASE_URL',
-    ...(process.env.INTEGRATION ? ['PROXY', 'ORG_ID_1', 'ACTIVATION_KEY_1'] : []),
+    ...(process.env.INTEGRATION
+      ? ['PROXY', 'ORG_ID_1', 'ACTIVATION_KEY_1']
+      : []),
   ];
 
   const missing: string[] = [];
@@ -88,14 +96,20 @@ export const throwIfMissingEnvVariables = () => {
 };
 
 export const ensureNotInPreview = async (page: Page) => {
-  const toggle = page.locator('div').filter({ hasText: 'Preview mode' }).getByRole('switch');
+  const toggle = page
+    .locator('div')
+    .filter({ hasText: 'Preview mode' })
+    .getByRole('switch');
   if ((await toggle.isVisible()) && (await toggle.isChecked())) {
     await toggle.click();
   }
 };
 
 export const ensureInPreview = async (page: Page) => {
-  const toggle = page.locator('div').filter({ hasText: 'Preview mode' }).getByRole('switch');
+  const toggle = page
+    .locator('div')
+    .filter({ hasText: 'Preview mode' })
+    .getByRole('switch');
   await expect(toggle).toBeVisible();
   if (!(await toggle.isChecked())) {
     await toggle.click();
@@ -107,13 +121,12 @@ export const ensureInPreview = async (page: Page) => {
   await expect(toggle).toBeChecked();
 };
 
-
 /**
  * Registers Playwright `addLocatorHandler` listeners to automatically close
  * common intrusive pop-ups, such as toast notifications, Pendo guides,
  * and consent banners, before test actions proceed.
  *
- * @param {Page} page - The Playwright Page object.
+ *  @param {Page} page - The Playwright Page object.
  */
 export const closePopupsIfExist = async (page: Page) => {
   const locatorsToCheck = [
@@ -126,7 +139,9 @@ export const closePopupsIfExist = async (page: Page) => {
   for (const locator of locatorsToCheck) {
     await page.addLocatorHandler(locator, async () => {
       try {
-        await page.getByRole('dialog').waitFor({ state: 'hidden', timeout: 1000 });
+        await page
+          .getByRole('dialog')
+          .waitFor({ state: 'hidden', timeout: 1000 });
         await locator.first().click({ timeout: 10_000, noWaitAfter: true }); // There can be multiple toast pop-ups
       } catch {
         return;
