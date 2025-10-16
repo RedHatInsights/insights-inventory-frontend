@@ -1,42 +1,38 @@
 import { expect } from '@playwright/test';
+import {
+  prepareTestArchive,
+  uploadArchive,
+  cleanupTestArchive,
+} from './helpers/uploadArchive';
 import { test, navigateToInventorySystemsFunc } from './helpers/navHelpers';
-import { uploadArchive } from './helpers/uploadArchive';
 import { searchByName } from './helpers/filterHelpers';
 
-test.skip('User should be able to edit and delete a system', async ({
-  page,
-}) => {
-  /**
-   * Jira References:
-     - https://issues.redhat.com/browse/RHINENG-21146 – Create a system
-     - https://issues.redhat.com/browse/RHINENG-21147 – Edit a system
-     - https://issues.redhat.com/browse/RHINENG-21149 - Delete a system
-   * Metadata:
-     - requirements:
-     - inv-hosts-patch
-     - inv-hosts-delete-by-id
-     - importance: critical
-     - assignee: addubey
-   */
-  const rhel94Vm = 'iqe-vm-cli-80196d0a-2704-4b38-bad0-8eacc6feda7d';
-  const rhel94VmRenamed = `${rhel94Vm}_Renamed`;
+test('User should be able to edit and delete a system', async ({ page }) => {
   const dialog = page.locator('[role="dialog"]');
 
-  await test.step('Upload the archive required for the test', async () => {
-    uploadArchive('rhel94_core_collect.tar.gz');
+  const {
+    hostname: systemName,
+    archiveName,
+    workingDir,
+  } = await test.step('Prepare and upload the archive', async () => {
+    const result = prepareTestArchive();
+    uploadArchive(result.archiveName);
+    return result;
   });
+
+  const renamedSystemName = `${systemName}_Renamed`;
 
   await test.step('Navigate to Inventory → Systems', async () => {
     await navigateToInventorySystemsFunc(page);
   });
 
-  await test.step(`Search for the system "${rhel94Vm}"`, async () => {
-    await searchByName(page, rhel94Vm);
+  await test.step(`Search for the system "${systemName}"`, async () => {
+    await searchByName(page, systemName);
   });
 
   await test.step('Open kebab menu and select "Edit display name"', async () => {
     await page
-      .getByRole('row', { name: new RegExp(rhel94Vm, 'i') })
+      .getByRole('row', { name: new RegExp(systemName, 'i') })
       .getByLabel('Kebab toggle')
       .click();
 
@@ -48,16 +44,16 @@ test.skip('User should be able to edit and delete a system', async ({
 
   await test.step('Edit the system display name and save', async () => {
     await expect(dialog).toBeVisible();
-    await expect(page.getByRole('textbox')).toHaveValue(rhel94Vm);
-    await dialog.locator('input').first().fill(rhel94VmRenamed);
+    await expect(page.getByRole('textbox')).toHaveValue(systemName);
+    await dialog.locator('input').first().fill(renamedSystemName);
     await dialog.getByRole('button', { name: 'Save' }).click();
   });
 
-  await test.step(`Delete the renamed system and verify it is removed`, async () => {
-    await searchByName(page, rhel94VmRenamed);
+  await test.step(`Delete the renamed system "${renamedSystemName}" and verify it is removed`, async () => {
+    await searchByName(page, renamedSystemName);
 
     await page
-      .getByRole('row', { name: new RegExp(rhel94VmRenamed, 'i') })
+      .getByRole('row', { name: new RegExp(renamedSystemName, 'i') })
       .getByLabel('Kebab toggle')
       .click();
 
@@ -68,7 +64,11 @@ test.skip('User should be able to edit and delete a system', async ({
     await expect(dialog).toBeVisible();
     await dialog.getByRole('button', { name: 'Delete' }).click();
 
-    await searchByName(page, rhel94VmRenamed);
+    await searchByName(page, renamedSystemName);
     await expect(page.getByText('No matching systems found')).toBeVisible();
+  });
+
+  await test.step('Cleanup the created archive and temp directory', async () => {
+    cleanupTestArchive(archiveName, workingDir);
   });
 });
