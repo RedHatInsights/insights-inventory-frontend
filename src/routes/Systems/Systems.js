@@ -19,6 +19,7 @@ import useTableActions from './hooks/useTableActions';
 import useDeleteSystems from './hooks/useDeleteSystems';
 import useToolbarActions from './hooks/useToolbarActions';
 import useEditDisplayName from './hooks/useEditDisplayName';
+import LastSeenFilterExtension from './components/SystemsTable/components/filters/LastSeenFilterExtension';
 
 import SystemsTable from './components/SystemsTable';
 
@@ -134,6 +135,7 @@ const Systems = () => {
           })}
           toolbarProps={{
             exportConfig,
+            children: <LastSeenFilterExtension />,
           }}
         />
 
