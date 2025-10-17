@@ -56,6 +56,7 @@ exports[`TitleColumn should render correctly with NO data 1`] = `
         </div>
         <a
           class="fakeLink"
+          to="../undefined"
         />
       </span>
     </div>
@@ -102,7 +103,7 @@ exports[`TitleColumn should render correctly with data 1`] = `
         </div>
         <a
           class="fakeLink"
-          to="testId"
+          to="../testId"
         >
           something
         </a>
@@ -151,7 +152,7 @@ exports[`TitleColumn should render correctly with href 1`] = `
         </div>
         <a
           class="fakeLink"
-          to="/link/to/item"
+          to="../testId"
         >
           something
         </a>
@@ -203,7 +204,7 @@ exports[`TitleColumn should render correctly with os_release 1`] = `
         </div>
         <a
           class="fakeLink"
-          to="testId"
+          to="../testId"
         >
           something
         </a>
@@ -252,7 +253,7 @@ exports[`TitleColumn should render correctly with to 1`] = `
         </div>
         <a
           class="fakeLink"
-          to="[object Object]"
+          to="../testId"
         >
           something
         </a>

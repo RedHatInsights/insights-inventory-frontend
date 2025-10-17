@@ -21,7 +21,7 @@ import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfi
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
-import { prepareColumnsCoventional as prepareColumns } from '../../GroupSystems/helpers';
+import { prepareColumns } from '../../GroupSystems/helpers';
 
 const AddSystemsToGroupModal = ({
   isModalOpen,
