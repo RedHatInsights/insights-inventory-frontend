@@ -38,6 +38,13 @@ export const test = base.extend({
     await use(page); // Pass control to the test
   },
 });
+
+/**
+ * Navigates the browser to the System's details page and waits for the
+ * main 'UUID' to become visible.
+ *  @param page
+ *  @param uuid
+ */
 export const navigateToSystemDetails = async (page: Page, uuid: string) => {
   await page.goto(`/insights/inventory/${uuid}`);
   await expect(page.getByText(uuid)).toBeVisible();
