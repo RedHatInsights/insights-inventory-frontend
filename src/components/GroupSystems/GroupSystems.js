@@ -23,7 +23,7 @@ import map from 'lodash/map';
 import useGlobalFilter from '../filters/useGlobalFilter';
 import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
-import { prepareColumnsCoventional as prepareColumns } from './helpers';
+import { prepareColumns } from './helpers';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { useDeepCompareMemo } from 'use-deep-compare';
 

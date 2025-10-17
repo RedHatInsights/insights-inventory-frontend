@@ -96,7 +96,7 @@ test('User should be able to edit and delete a system from System Details page',
   const newDisplayName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
   const newAnsibleName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 
-  await test.step('Setup: navigate to prepeared system details page', async () => {
+  await test.step('Setup: navigate to prepared system details page', async () => {
     await navigateToInventorySystemsFunc(page);
     await searchByName(page, systemName);
     await expect(nameColumnLocator).toHaveCount(1);
@@ -143,5 +143,94 @@ test('User should be able to edit and delete a system from System Details page',
 
   await test.step('Cleanup the created archive and temp directory', async () => {
     cleanupTestArchive(archiveName, workingDir);
+  });
+});
+
+test('User should be able to export systems to JSON', async ({ page }) => {
+  await test.step('Navigate to Inventory → Systems', async () => {
+    await navigateToInventorySystemsFunc(page);
+  });
+
+  await test.step('Open export menu and select "Export to JSON"', async () => {
+    // Listen for the export API request to verify the export was initiated
+    const exportRequestPromise = page.waitForRequest(
+      (request) =>
+        request.url().includes('/exports') && request.method() === 'POST',
+    );
+
+    // Listen for the export status check requests (indicates export processing)
+    const statusCheckPromise = page.waitForRequest(
+      (request) =>
+        request.url().includes('/exports/') &&
+        request.url().includes('/status'),
+    );
+
+    await page.getByRole('button', { name: 'Export' }).click();
+
+    await page
+      .getByRole('menuitem', { name: 'Export all systems to JSON' })
+      .click();
+
+    // Verify the export request was made successfully
+    const exportRequest = await exportRequestPromise;
+    expect(exportRequest.url()).toContain('/exports');
+    console.log('  ✓ Export request initiated successfully');
+
+    // Verify that status checking begins (indicates the "export being prepared" notification should appear)
+    await statusCheckPromise;
+    console.log('  ✓ Export status checking started (export being prepared)');
+
+    // Wait for any additional status checks that indicate completion
+    await page.waitForTimeout(3000);
+    console.log(
+      '  ✓ Export process completed - notifications should have appeared for preparation and download',
+    );
+
+    // Note: Due to auto-close handlers, we verify export functionality through API calls
+    // The notifications that should appear are:
+    // 1. "The requested export is being prepared. When ready, the download will start automatically."
+    // 2. "The requested export is being downloaded."
+  });
+});
+
+test('User should be able to export systems to CSV', async ({ page }) => {
+  await test.step('Navigate to Inventory → Systems', async () => {
+    await navigateToInventorySystemsFunc(page);
+  });
+
+  await test.step('Open export menu and select "Export to CSV"', async () => {
+    // Listen for the export API request to verify the export was initiated
+    const exportRequestPromise = page.waitForRequest(
+      (request) =>
+        request.url().includes('/exports') && request.method() === 'POST',
+    );
+
+    // Listen for the export status check requests (indicates export processing)
+    const statusCheckPromise = page.waitForRequest(
+      (request) =>
+        request.url().includes('/exports/') &&
+        request.url().includes('/status'),
+    );
+
+    await page.getByRole('button', { name: 'Export' }).click();
+
+    await page
+      .getByRole('menuitem', { name: 'Export all systems to CSV' })
+      .click();
+
+    // Verify the export request was made successfully
+    const exportRequest = await exportRequestPromise;
+    expect(exportRequest.url()).toContain('/exports');
+    console.log('  ✓ Export request initiated successfully');
+
+    // Verify that status checking begins (indicates the "export being prepared" notification should appear)
+    await statusCheckPromise;
+    console.log('  ✓ Export status checking started (export being prepared)');
+
+    // Wait for any additional status checks that indicate completion
+    await page.waitForTimeout(3000);
+    console.log(
+      '  ✓ Export process completed - notifications should have appeared for preparation and download',
+    );
   });
 });

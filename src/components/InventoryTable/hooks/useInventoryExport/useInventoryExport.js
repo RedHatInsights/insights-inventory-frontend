@@ -1,5 +1,5 @@
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { EXPORT_SERVICE_PATH, EXPORT_FILE_FORMAT } from './constants';
 import { buildExportRequestJson, downloadFile } from './helpers';
 import useExportApi from './useExportApi';
@@ -21,6 +21,7 @@ const JSON_ITEM_TEXT = 'Export all systems to JSON';
 const useInventoryExport = ({ filters = {}, axios } = {}) => {
   const { create } = useExportApi(axios);
   const addNotification = useAddNotification();
+  const [isDisabled, setIsDisabled] = useState(false);
   const onError = () => {
     addNotification({
       id: 'inventory-export-error',
@@ -45,13 +46,16 @@ const useInventoryExport = ({ filters = {}, axios } = {}) => {
         });
       } catch {
         onError();
+      } finally {
+        setIsDisabled(false);
       }
     },
     onError,
   });
 
   const onSelect = useCallback(
-    (_, format) =>
+    (_, format) => {
+      setIsDisabled(true);
       create(buildExportRequestJson(filters, format), {
         onError,
         onSuccess: (data) => {
@@ -63,8 +67,9 @@ const useInventoryExport = ({ filters = {}, axios } = {}) => {
           });
           checkForDownload(data.id);
         },
-      }),
-    [filters],
+      });
+    },
+    [filters, setIsDisabled],
   );
 
   return {
@@ -73,6 +78,7 @@ const useInventoryExport = ({ filters = {}, axios } = {}) => {
       json: JSON_ITEM_TEXT,
     },
     onSelect,
+    isDisabled,
   };
 };
 

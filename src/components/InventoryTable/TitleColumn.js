@@ -81,7 +81,7 @@ const TitleColumn = ({ children, id, item, ...props }) => {
               </Popover>
             )}
             <Link
-              to={item?.href || item?.to || id}
+              to={`../${id}`}
               {...{
                 ...(props?.onRowClick
                   ? {
