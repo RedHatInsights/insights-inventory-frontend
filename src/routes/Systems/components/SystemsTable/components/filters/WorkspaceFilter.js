@@ -1,61 +1,85 @@
+// @ts-check
 import React, {
   useCallback,
   useMemo,
   useState,
   useEffect,
   useRef,
-  Fragment,
 } from 'react';
 import {
-  Divider,
   MenuToggle,
   TextInputGroup,
   TextInputGroupMain,
   Select,
   SelectList,
   SelectOption,
+  Spinner,
+  Divider,
 } from '@patternfly/react-core';
-
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 
 const WorkspaceFilter = ({
   value: selectedGroupNames = [],
   onChange: setSelectedGroupNames,
-  showNoGroupOption = true,
   items,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
   const debounceTimeoutRef = useRef(null);
   const SEARCH_DELAY = 300;
-
-  const noGroupOption = useMemo(() => {
-    return showNoGroupOption && !searchValue
-      ? [
-          {
-            itemId: '',
-            children: 'Ungrouped hosts',
-          },
-        ]
-      : [];
-  }, [searchValue, showNoGroupOption]);
+  const INITIAL_OPTIONS_COUNT = 10;
+  const VIEW_MORE_INCREMENT = 10;
 
   const groupOptions = useMemo(
     () => [
       ...items.map(({ name }) => ({
-        itemId: name, // group name is unique by design
+        itemId: name, // is unique by design
         children: name,
       })),
     ],
     [items],
   );
 
-  const [selectOptions, setSelectOptions] = useState([
-    ...noGroupOption,
-    ...groupOptions,
-  ]);
+  const [selectOptions, setSelectOptions] = useState([...groupOptions]);
+  const [numOptions, setNumOptions] = useState(INITIAL_OPTIONS_COUNT);
+  const visibleOptions = selectOptions.slice(0, numOptions);
+  const [activeItem, setActiveItem] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // FIXME set loading on fetch
+  const onViewMoreClick = () => {
+    setIsLoading(true);
+    setTimeout(() => loadMoreOptions(), 2000);
+  };
+
+  const getNextValidItem = (startIndex, maxLength) => {
+    let validItem;
+    for (let i = startIndex; i < maxLength; i++) {
+      if (selectOptions[i].isDisabled) {
+        continue;
+      } else {
+        validItem = i;
+        break;
+      }
+    }
+    return validItem;
+  };
+
+  const loadMoreOptions = () => {
+    const newLength =
+      numOptions + VIEW_MORE_INCREMENT <= selectOptions.length
+        ? numOptions + VIEW_MORE_INCREMENT
+        : selectOptions.length;
+
+    const prevPosition = numOptions;
+    const nextItem = getNextValidItem(prevPosition, newLength);
+    setIsLoading(false);
+    setNumOptions(newLength);
+    setActiveItem(nextItem);
+  };
+
+  const activeItemRef = useRef(null);
 
   const debouncedSearch = useCallback((search, options) => {
     if (debounceTimeoutRef.current) {
@@ -71,15 +95,11 @@ const WorkspaceFilter = ({
             .toLowerCase()
             .includes(search.toLowerCase()),
         );
-
-        if (!newSelectOptions.length) {
-          newSelectOptions = [
-            {
-              isDisabled: true,
-              children: 'No workspace found',
-            },
-          ];
-        }
+      } else {
+        newSelectOptions = [
+          { itemId: '', children: 'Ungrouped hosts' },
+          ...options,
+        ];
       }
 
       setSelectOptions(newSelectOptions);
@@ -87,79 +107,16 @@ const WorkspaceFilter = ({
   }, []);
 
   useEffect(() => {
-    debouncedSearch(searchValue, [...noGroupOption, ...groupOptions]);
-  }, [searchValue, groupOptions, noGroupOption, debouncedSearch]);
+    debouncedSearch(searchValue, [...groupOptions]);
+  }, [searchValue, groupOptions, debouncedSearch]);
 
-  const handleMenuArrowKeys = (key) => {
-    let indexToFocus;
-
-    if (isOpen) {
-      if (key === 'ArrowUp') {
-        // when no index is set or at the first index, focus to the last, otherwise decrement focus index
-        if (focusedItemIndex === null || focusedItemIndex === 0) {
-          indexToFocus = selectOptions.length - 1;
-        } else {
-          indexToFocus = focusedItemIndex - 1;
-        }
-      }
-
-      if (key === 'ArrowDown') {
-        // when no index is set or at the last index, focus to the first, otherwise increment focus index
-        if (
-          focusedItemIndex === null ||
-          focusedItemIndex === selectOptions.length - 1
-        ) {
-          indexToFocus = 0;
-        } else {
-          indexToFocus = focusedItemIndex + 1;
-        }
-      }
-
-      setFocusedItemIndex(indexToFocus);
-    }
-  };
-
-  const onInputKeyDown = (event) => {
-    const enabledMenuItems = selectOptions.filter(
-      (menuItem) => !menuItem.isDisabled,
-    );
-    const [firstMenuItem] = enabledMenuItems;
-    const focusedItem =
-      focusedItemIndex !== null
-        ? enabledMenuItems[focusedItemIndex]
-        : firstMenuItem;
-
-    switch (event.key) {
-      // select the first available option
-      case 'Enter':
-        if (!isOpen) {
-          setIsOpen((prevIsOpen) => !prevIsOpen);
-          setSearchValue('');
-        } else {
-          updateGroupNames(focusedItem.itemId);
-        }
-        break;
-      case 'Tab':
-      case 'Escape':
-        setIsOpen(false);
-        setSearchValue('');
-        break;
-      case 'ArrowUp':
-      case 'ArrowDown':
-        handleMenuArrowKeys(event.key);
-        break;
-      default:
-        if (!isOpen) setIsOpen(true);
-    }
-  };
+  useEffect(() => {
+    activeItemRef.current?.focus();
+  }, [numOptions]);
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
     setSearchValue('');
-  };
-
-  const updateGroupNames = (itemId) => {
-    setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
   };
 
   const toggle = (toggleRef) => (
@@ -176,7 +133,6 @@ const WorkspaceFilter = ({
           onChange={(_event, value) => {
             setSearchValue(value);
           }}
-          onKeyDown={onInputKeyDown}
           id="multi-typeahead-select-input"
           autoComplete="off"
           placeholder="Filter by workspace"
@@ -192,33 +148,49 @@ const WorkspaceFilter = ({
         ouiaId="Filter by group"
         isOpen={isOpen}
         selected={selectedGroupNames}
-        onSelect={(_event, selection) => updateGroupNames(selection)}
+        onSelect={(_event, value) => {
+          if (value === 'loader') return;
+          setSelectedGroupNames(xor(selectedGroupNames, [value]));
+        }}
         onOpenChange={() => {
           setIsOpen(false);
-          setFocusedItemIndex(null);
           setSearchValue('');
         }}
         toggle={toggle}
       >
         <SelectList isAriaMultiselectable>
-          {selectOptions.filter((item) => item.itemId).length > 0 ? (
-            selectOptions.map((option, index) => (
-              <Fragment key={option.itemId || option.children}>
-                <SelectOption
-                  {...(!option.isDisabled && { hasCheckbox: true })}
-                  isSelected={selectedGroupNames.includes(option.itemId)}
-                  isFocused={focusedItemIndex === index}
-                  className={option.className}
-                  data-ouia-component-id="FilterByGroupOption"
-                  {...option}
-                />
-                {option.itemId === '' && <Divider />}
-              </Fragment>
-            ))
-          ) : (
+          {visibleOptions.length === 0 && !isLoading ? (
             <SelectOption isDisabled={true}>
               No workspaces available
             </SelectOption>
+          ) : (
+            <>
+              {visibleOptions.map((option, index) => {
+                return (
+                  <>
+                    <SelectOption
+                      isSelected={selectedGroupNames.includes(option.itemId)}
+                      key={option.itemId}
+                      data-ouia-component-id="FilterByGroupOption"
+                      ref={index === activeItem ? activeItemRef : null}
+                      hasCheckbox={!option.isDisabled}
+                      {...option}
+                    />
+                    {option.itemId === '' && <Divider />}
+                  </>
+                );
+              })}
+              {numOptions !== selectOptions.length && (
+                <SelectOption
+                  isLoading={isLoading}
+                  isLoadButton={!isLoading}
+                  onClick={onViewMoreClick}
+                  itemId="loader"
+                >
+                  {isLoading ? <Spinner size="lg" /> : 'View more'}
+                </SelectOption>
+              )}
+            </>
           )}
         </SelectList>
       </Select>
@@ -235,7 +207,6 @@ WorkspaceFilter.propTypes = {
   ),
   value: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
-  showNoGroupOption: PropTypes.bool,
 };
 
 export default WorkspaceFilter;
