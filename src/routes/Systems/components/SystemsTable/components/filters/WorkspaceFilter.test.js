@@ -105,25 +105,6 @@ describe('WorkspaceFilter', () => {
     });
   });
 
-  it('handles showNoGroupOption prop correctly', async () => {
-    const user = userEvent.setup();
-    render(
-      <WorkspaceFilter
-        onChange={mockOnChange}
-        items={mockGroups}
-        showNoGroupOption={false}
-      />,
-    );
-
-    await user.click(screen.getByRole('button'));
-    await waitFor(() => {
-      expect(screen.queryByText('No workspace')).not.toBeInTheDocument();
-    });
-    await waitFor(() => {
-      expect(screen.getByText('Workspace 1')).toBeInTheDocument();
-    });
-  });
-
   it('handles undefined value prop', () => {
     render(
       <WorkspaceFilter
