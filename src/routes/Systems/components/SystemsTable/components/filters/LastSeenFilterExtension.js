@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import DateRangePicker from '../DateRangePicker';
 import { CUSTOM_LABEL } from '../helpers';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { useFullTableState } from 'bastilian-tabletools';
 
-const LastSeenFilterExtension = ({ value, onChange }) => {
+const LastSeenFilterExtension = () => {
+  // hook into tableTools
+  const tableState = useFullTableState();
+  const onChange = useCallback(
+    (value) => {
+      tableState?.callbacks?.setFilter?.('last-seen', value);
+    },
+    [tableState],
+  );
+  const value = tableState?.tableState?.filters?.['last-seen'];
+
   const [selectedStartDate] = value?.start?.split('T') || [];
   const [selectedEndDate] = value?.end?.split('T') || [];
   const selectedLabel = value?.label;
