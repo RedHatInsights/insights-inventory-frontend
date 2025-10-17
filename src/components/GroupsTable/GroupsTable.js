@@ -480,9 +480,8 @@ const GroupsTable = ({ onCreateGroupClick }) => {
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
                   onClick={() => setDeleteModalOpen(true)}
                   isAriaDisabled={
-                    isKesselEnabled
-                      ? containsUngrouped(selectedIds)
-                      : selectedIds.length === 0
+                    selectedIds.length === 0 ||
+                    (isKesselEnabled && containsUngrouped(selectedIds))
                   }
                   checkAll
                 >
