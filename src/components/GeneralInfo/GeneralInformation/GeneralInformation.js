@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Grid,
   GridItem,
@@ -53,6 +53,7 @@ const GeneralInformation = ({
   systemProfilePrefetched = false,
   isBootcHost = false,
   showRuntimesProcesses = false,
+  fetchEntity,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -131,6 +132,8 @@ const GeneralInformation = ({
                   <SystemCardWrapper
                     handleClick={handleModalToggle}
                     writePermissions={writePermissions}
+                    entity={entity}
+                    fetchEntity={fetchEntity}
                   />
                 </GridItem>
               )}
@@ -281,6 +284,7 @@ GeneralInformation.propTypes = {
   systemProfilePrefetched: PropTypes.bool,
   isBootcHost: PropTypes.bool,
   showRuntimesProcesses: PropTypes.bool,
+  fetchEntity: PropTypes.func,
 };
 GeneralInformation.defaultProps = {
   entity: {},
@@ -301,13 +305,11 @@ GeneralInformation.defaultProps = {
 const GeneralInformationComponent = (props) => {
   const navigate = useInsightsNavigate();
   const dispatch = useDispatch();
-  const entity = useSelector(({ entityDetails }) => entityDetails.entity);
   const loadSystemDetail = (itemId) => dispatch(systemProfile(itemId));
   return (
     <GeneralInformation
       {...props}
       navigate={navigate}
-      entity={entity}
       loadSystemDetail={loadSystemDetail}
     />
   );
