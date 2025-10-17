@@ -17,6 +17,8 @@ import { randomUUID } from 'crypto';
  * The function checks for missing credentials, validates response codes,
  * and throws descriptive errors if the upload fails or the command encounters issues.
  *
+ * Jira References: https://issues.redhat.com/browse/RHINENG-21146
+ *
  *  @param   {string}               archivePath - The relative path to the archive file inside `host_archives/`.
  *  @returns {{ httpCode: number }}             - The HTTP status code returned from the upload request.
  *
@@ -169,4 +171,18 @@ export function cleanupTestArchive(archiveName: string, workingDir: string) {
 
   if (fs.existsSync(workingDir))
     fs.rmSync(workingDir, { recursive: true, force: true });
+}
+
+/**
+ * @function prepareSingleSystem
+ * @description Prepares a single test archive, uploads it, and returns the preparation result.
+ *  @returns  {object}             An object containing essential setup details.
+ *  @property {string} hostname    The name of the target execution system.
+ *  @property {string} archiveName The name of the uploaded archive file.
+ *  @property {string} workingDir  The remote directory where the archive was
+ */
+export function prepareSingleSystem() {
+  const result = prepareTestArchive();
+  uploadArchive(result.archiveName);
+  return result;
 }
