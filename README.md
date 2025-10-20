@@ -125,13 +125,13 @@ These applications import `InventoryTable` component through federated modules:
 ## Documentation Links
 
 * Components
-  * [inventory](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory.md)
-    * [props table](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/props_table.md)
-    * [props detail](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/props_detail.md)
-    * [custom fetch function](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/custom_fetch.md)
-    * [hide filters](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/hide_filters.md)
-    * [general info tab](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/general_info.md)
-  * [inventory_header](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/doc/inventory_header.md)
+  * [inventory](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/src/docs/inventory.md)
+    * [props table](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/src/docs/props_table.md)
+    * [props detail](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/src/docs/props_detail.md)
+    * [custom fetch function](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/src/docs/custom_fetch.md)
+    * [hide filters](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/src/docs/hide_filters.md)
+    * [general info tab](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/src/docs/general_info.md)
+  * [inventory_header](https://github.com/RedHatInsights/insights-inventory-frontend/blob/master/src/docs/inventory_header.md)
 
 ## Release process change in stage env
 

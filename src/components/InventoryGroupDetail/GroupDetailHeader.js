@@ -1,6 +1,4 @@
 import {
-  Breadcrumb,
-  BreadcrumbItem,
   Dropdown,
   DropdownItem,
   DropdownList,
@@ -15,7 +13,6 @@ import {
 } from '@redhat-cloud-services/frontend-components';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
 import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
@@ -90,12 +87,6 @@ const GroupDetailHeader = ({ groupId }) => {
           groupIds={[groupId]}
         />
       )}
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <Link to="../groups">Workspaces</Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem isActive>{getTitle()}</BreadcrumbItem>
-      </Breadcrumb>
       <Flex
         id="group-header"
         justifyContent={{ default: 'justifyContentSpaceBetween' }}

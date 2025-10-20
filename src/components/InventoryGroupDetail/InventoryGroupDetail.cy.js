@@ -1,5 +1,4 @@
 import {
-  BREADCRUMB,
   MENU_ITEM,
   MENU_TOGGLE,
   MODAL_CONTENT,
@@ -34,23 +33,18 @@ describe('test data', () => {
 });
 
 describe('group detail page', () => {
-  it('name from server is rendered in header and breadcrumb', () => {
+  it('name from server is rendered in header', () => {
     groupDetailInterceptors.successful();
     mountPage();
 
     cy.wait('@getGroupDetail');
     cy.get('h1').contains(groupDetailFixtures.results[0].name);
-    cy.get(BREADCRUMB)
-      .find('li')
-      .last()
-      .should('have.text', groupDetailFixtures.results[0].name);
   });
 
   it('skeletons rendered while fetching data', () => {
     groupDetailInterceptors['long responding']();
     mountPage();
 
-    cy.get(BREADCRUMB).find('li').last().find('.pf-v6-c-skeleton');
     cy.get('h1').find('.pf-v6-c-skeleton');
     cy.get('.pf-v6-c-empty-state').find('.pf-v6-c-spinner');
   });
@@ -101,12 +95,8 @@ describe('integration with rbac', () => {
       mountPage();
     });
 
-    it('should render only id in header and breadcrumb', () => {
+    it('should render only id in header', () => {
       cy.get('h1').contains(groupDetailFixtures.results[0].id);
-      cy.get(BREADCRUMB)
-        .find('li')
-        .last()
-        .should('have.text', groupDetailFixtures.results[0].id);
     });
 
     it('should not see any tabs', () => {
