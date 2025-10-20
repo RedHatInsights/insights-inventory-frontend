@@ -15,7 +15,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './inventory.scss';
-import { PageHeader, Main, Breadcrumbs } from '@redhat-cloud-services/frontend-components';
+import { PageHeader, Main } from '@redhat-cloud-services/frontend-components';
 import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
 import { entitesDetailReducer } from '../store';
 import * as actions from '../actions';
@@ -67,11 +67,6 @@ class Inventory extends Component {
         return (
             <Fragment>
                 <PageHeader className="pf-m-light ins-inventory-detail">
-                    <Breadcrumbs
-                        items={[{ title: 'Your app', navigate: 'some_endpoint' }]}
-                        current={entity && entity.display_name}
-                        onNavigate={(_event, navigateTo) => this.onNavigate(navigateTo)}
-                    />
                     {InventoryDetail && <InventoryDetail hideBack />}
                 </PageHeader>
                 <Main>
@@ -125,11 +120,6 @@ class Inventory extends Component {
         return (
             <Fragment>
                 <PageHeader className="pf-m-light ins-inventory-detail">
-                    <Breadcrumbs
-                        items={[{ title: 'Your app', navigate: 'some_endpoint' }]}
-                        current={entity && entity.display_name}
-                        onNavigate={(_event, navigateTo) => this.onNavigate(navigateTo)}
-                    />
                     {InventoryDetail && <InventoryDetail hideBack actions={[
                         {
                             title: 'First action',

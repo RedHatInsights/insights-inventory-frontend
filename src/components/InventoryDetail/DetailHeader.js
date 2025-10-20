@@ -34,12 +34,7 @@ const HeaderInfo = ({
   </Fragment>
 );
 
-const DetailHeader = ({
-  shouldWrapAsPage,
-  BreadcrumbWrapper,
-  additionalClasses,
-  ...props
-}) => {
+const DetailHeader = ({ shouldWrapAsPage, additionalClasses, ...props }) => {
   return shouldWrapAsPage ? (
     <PageHeader
       className={classnames(
@@ -47,7 +42,6 @@ const DetailHeader = ({
         additionalClasses,
       )}
     >
-      {BreadcrumbWrapper}
       <HeaderInfo {...props} />
     </PageHeader>
   ) : (
@@ -81,7 +75,6 @@ HeaderInfo.propTypes = {
   loaded: PropTypes.bool,
 };
 DetailHeader.propTypes = {
-  BreadcrumbWrapper: PropTypes.node,
   shouldWrapAsPage: PropTypes.bool,
   additionalClasses: PropTypes.object,
 };

@@ -30,7 +30,7 @@ jest.mock('@redhat-cloud-services/frontend-components-utilities/RBACHook');
 describe('group detail header', () => {
   usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
 
-  it('renders title and breadcrumbs', () => {
+  it('renders title', () => {
     render(
       <MemoryRouter>
         <GroupDetailHeader groupId="group-id-2" />
@@ -38,17 +38,6 @@ describe('group detail header', () => {
     );
 
     expect(screen.getByRole('heading')).toBeInTheDocument();
-  });
-
-  it('has breadcrumbs', () => {
-    render(
-      <MemoryRouter>
-        <GroupDetailHeader groupId="group-id-2" />
-      </MemoryRouter>,
-    );
-
-    expect(screen.getByRole('navigation')).toHaveClass('pf-v6-c-breadcrumb');
-    expect(screen.getByRole('navigation')).toHaveTextContent('group-name-1');
   });
 
   it('renders the actions dropdown', async () => {
