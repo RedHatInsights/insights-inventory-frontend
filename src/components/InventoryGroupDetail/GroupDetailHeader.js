@@ -26,7 +26,6 @@ import {
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
 } from '../../constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 const GroupDetailHeader = ({ groupId }) => {
   const dispatch = useDispatch();
@@ -46,8 +45,6 @@ const GroupDetailHeader = ({ groupId }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   const name = data?.results?.[0]?.name;
   const ungrouped = data?.results?.[0]?.ungrouped;
@@ -130,14 +127,14 @@ const GroupDetailHeader = ({ groupId }) => {
               <DropdownItem
                 key="rename-group"
                 onClick={() => setRenameModalOpen(true)}
-                isAriaDisabled={isKesselEnabled && ungrouped}
+                isAriaDisabled={ungrouped}
               >
                 Rename workspace
               </DropdownItem>
               <DropdownItem
                 key="delete-group"
                 onClick={() => setDeleteModalOpen(true)}
-                isAriaDisabled={isKesselEnabled && ungrouped}
+                isAriaDisabled={ungrouped}
               >
                 Delete workspace
               </DropdownItem>

@@ -13,7 +13,6 @@ import AddSelectedHostsToGroupModal from '../../components/InventoryGroups/Modal
 import RemoveHostsFromGroupModal from '../../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import DeleteModal from '../../Utilities/DeleteModal';
 import useInventoryExport from '../../components/InventoryTable/hooks/useInventoryExport/useInventoryExport';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 import useTableActions from './hooks/useTableActions';
 import useDeleteSystems from './hooks/useDeleteSystems';
@@ -39,7 +38,6 @@ const Systems = () => {
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [currentSystem, setCurrentSystem] = useState({});
   const [isRowAction, setIsRowAction] = useState(false);
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   const selectedItems = useMemo(
     () => itemsData?.filter(({ id }) => selected.includes(id)) || [],
@@ -86,7 +84,6 @@ const Systems = () => {
     handleModalToggle,
     setRemoveHostsFromGroupModalOpen,
     setAddHostGroupModalOpen,
-    isKesselEnabled,
     setIsRowAction,
   );
 

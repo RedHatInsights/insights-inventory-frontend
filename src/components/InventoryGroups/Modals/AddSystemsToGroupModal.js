@@ -20,7 +20,6 @@ import useApiWithToast from '../utils/apiWithToast';
 import { useBulkSelectConfig } from '../../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
-import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { prepareColumns } from '../../GroupSystems/helpers';
 
 const AddSystemsToGroupModal = ({
@@ -35,7 +34,6 @@ const AddSystemsToGroupModal = ({
     (state) => state?.entities?.selected || new Map(),
   );
 
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
   const rows = useSelector(({ entities }) => entities?.rows || []);
 
   const total = useSelector(({ entities }) => entities?.total);
@@ -52,10 +50,9 @@ const AddSystemsToGroupModal = ({
   );
 
   const alreadyHasGroup = [...selected].filter((entry) => {
-    return isKesselEnabled
-      ? !entry[1]?.groups?.[0]?.ungrouped
-      : entry[1]?.groups?.[0]?.name !== undefined &&
-          entry[1]?.groups?.[0]?.name !== '';
+    return (
+      !entry[1]?.groups?.[0]?.ungrouped && entry[1]?.groups?.[0]?.name !== ''
+    );
   });
 
   const handleSystemAddition = useCallback(
