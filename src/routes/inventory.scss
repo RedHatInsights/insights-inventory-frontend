@@ -13,8 +13,6 @@
     margin-top: -4px;
 }
 
-pf-v6-c-breadcrumb .pf-v6-c-breadcrumb__item .ins-c-skeleton { @include rem('width', 75px); }
-
 .ins-c-inventory__detail--general-info:not(.ins-inventory-detail) {
     background: var(--pf-t-global--background--color--100);
 }
@@ -27,13 +25,6 @@ pf-v6-c-breadcrumb .pf-v6-c-breadcrumb__item .ins-c-skeleton { @include rem('wid
     pf-v6-l-split:first-child {
         margin-bottom: 2rem;
     }
-}
-
-.ins-c-inventory__detail--breadcrumb-name {
-    width: 250px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .ins-c-inventory__bootc-systems-count-cell {
