@@ -39,6 +39,7 @@ test('User can filter, search and see deatils of "Ungrouped Hosts" workspace', a
       'Ungrouped hosts',
     );
     const workspaceColumnLocator = page.locator('td[data-label="Workspace"]');
+    await page.waitForTimeout(3000);
     await expectAllRowsHaveText(workspaceColumnLocator, ungroupedWorkspaceName);
   });
 
