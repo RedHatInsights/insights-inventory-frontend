@@ -40,6 +40,6 @@ describe('NoSystemsTable', () => {
         name: /clear all filters/i,
       }),
     );
-    expect(callback).toBeCalled();
+    expect(callback).toHaveBeenCalled();
   });
 });
