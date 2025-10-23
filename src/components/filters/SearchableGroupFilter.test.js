@@ -74,7 +74,7 @@ it('a group can be selected', async () => {
     }),
   );
   await userEvent.click(screen.getByText('group-1'));
-  expect(setter).toBeCalledWith(['group-1']);
+  expect(setter).toHaveBeenCalledWith(['group-1']);
 });
 
 it('selected groups are checked', async () => {
