@@ -5,6 +5,7 @@ import React, {
   useState,
   useEffect,
   useRef,
+  Fragment,
 } from 'react';
 import {
   MenuToggle,
@@ -18,105 +19,114 @@ import {
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getGroups } from '../../../../../../components/InventoryGroups/utils/api';
 
 const WorkspaceFilter = ({
   value: selectedGroupNames = [],
   onChange: setSelectedGroupNames,
-  items,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const debounceTimeoutRef = useRef(null);
-  const SEARCH_DELAY = 300;
+  const DEBOUNCE_TIMEOUT = 300;
   const INITIAL_OPTIONS_COUNT = 10;
   const VIEW_MORE_INCREMENT = 10;
+  const PAGE_SIZE = 50;
+  // TODO plug in access control solution
+  const hasAccess = true;
 
-  const groupOptions = useMemo(
-    () => [
-      ...items.map(({ name }) => ({
-        itemId: name, // is unique by design
+  const { data, fetchNextPage, hasNextPage, isFetching, isPending } =
+    useInfiniteQuery({
+      queryKey: ['groups', debouncedSearch],
+      queryFn: async ({ pageParam }) =>
+        getGroups(
+          {
+            type: 'standard',
+            ...(debouncedSearch && { name: debouncedSearch }),
+          },
+          {
+            page: pageParam,
+            per_page: PAGE_SIZE,
+          },
+        ),
+      enabled: hasAccess,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        return lastPage.per_page * lastPage.page < lastPage.total
+          ? lastPage.page + 1
+          : null;
+      },
+    });
+
+  const groupOptions = useMemo(() => {
+    if (!data?.pages) return [];
+
+    const items = data.pages
+      .map((page) => page.results)
+      .flat()
+      .map(({ name }) => ({
+        itemId: name,
         children: name,
-      })),
-    ],
-    [items],
-  );
+      }));
 
-  const [selectOptions, setSelectOptions] = useState([...groupOptions]);
-  const [numOptions, setNumOptions] = useState(INITIAL_OPTIONS_COUNT);
-  const visibleOptions = selectOptions.slice(0, numOptions);
+    return [
+      ...(!debouncedSearch
+        ? [{ itemId: '', children: 'Ungrouped hosts' }]
+        : []),
+      ...items,
+    ];
+  }, [data, debouncedSearch]);
+
+  const [visibleCount, setVisibleCount] = useState(INITIAL_OPTIONS_COUNT);
+  const visibleOptions = groupOptions.slice(0, visibleCount);
   const [activeItem, setActiveItem] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // FIXME set loading on fetch
-  const onViewMoreClick = () => {
-    setIsLoading(true);
-    setTimeout(() => loadMoreOptions(), 2000);
-  };
-
-  const getNextValidItem = (startIndex, maxLength) => {
-    let validItem;
-    for (let i = startIndex; i < maxLength; i++) {
-      if (selectOptions[i].isDisabled) {
-        continue;
-      } else {
-        validItem = i;
-        break;
-      }
-    }
-    return validItem;
-  };
-
-  const loadMoreOptions = () => {
-    const newLength =
-      numOptions + VIEW_MORE_INCREMENT <= selectOptions.length
-        ? numOptions + VIEW_MORE_INCREMENT
-        : selectOptions.length;
-
-    const prevPosition = numOptions;
-    const nextItem = getNextValidItem(prevPosition, newLength);
-    setIsLoading(false);
-    setNumOptions(newLength);
-    setActiveItem(nextItem);
-  };
 
   const activeItemRef = useRef(null);
 
-  const debouncedSearch = useCallback((search, options) => {
+  const onViewMoreClick = async () => {
+    const nextVisibleCount = visibleCount + VIEW_MORE_INCREMENT;
+
+    if (nextVisibleCount > groupOptions.length) {
+      await fetchNextPage();
+    }
+
+    setVisibleCount(nextVisibleCount);
+    setActiveItem(visibleCount);
+  };
+
+  const debounceSearch = useCallback((value) => {
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
-      let newSelectOptions = options;
-
-      if (search) {
-        newSelectOptions = options.filter((menuItem) =>
-          String(menuItem.children)
-            .toLowerCase()
-            .includes(search.toLowerCase()),
-        );
-      } else {
-        newSelectOptions = [
-          { itemId: '', children: 'Ungrouped hosts' },
-          ...options,
-        ];
+      setDebouncedSearch(value);
+      if (value) {
+        setIsOpen(true);
       }
-
-      setSelectOptions(newSelectOptions);
-    }, SEARCH_DELAY);
+    }, DEBOUNCE_TIMEOUT);
   }, []);
 
   useEffect(() => {
-    debouncedSearch(searchValue, [...groupOptions]);
-  }, [searchValue, groupOptions, debouncedSearch]);
+    debounceSearch(searchValue);
+
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, [searchValue, debounceSearch]);
 
   useEffect(() => {
     activeItemRef.current?.focus();
-  }, [numOptions]);
+  }, [visibleCount]);
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
-    setSearchValue('');
   };
 
   const toggle = (toggleRef) => (
@@ -155,11 +165,17 @@ const WorkspaceFilter = ({
         onOpenChange={() => {
           setIsOpen(false);
           setSearchValue('');
+          setVisibleSize(INITIAL_VISIBLE_SIZE);
         }}
         toggle={toggle}
       >
         <SelectList isAriaMultiselectable>
-          {visibleOptions.length === 0 && !isLoading ? (
+          {isPending && (
+            <SelectOption isLoading={true}>
+              <Spinner size="lg" />
+            </SelectOption>
+          )}
+          {visibleOptions.length === 0 && !isPending ? (
             <SelectOption isDisabled={true}>
               No workspaces available
             </SelectOption>
@@ -167,27 +183,28 @@ const WorkspaceFilter = ({
             <>
               {visibleOptions.map((option, index) => {
                 return (
-                  <>
+                  <Fragment key={option.itemId}>
                     <SelectOption
                       isSelected={selectedGroupNames.includes(option.itemId)}
                       key={option.itemId}
                       data-ouia-component-id="FilterByGroupOption"
                       ref={index === activeItem ? activeItemRef : null}
-                      hasCheckbox={!option.isDisabled}
+                      hasCheckbox={true}
                       {...option}
                     />
                     {option.itemId === '' && <Divider />}
-                  </>
+                  </Fragment>
                 );
               })}
-              {numOptions !== selectOptions.length && (
+              {hasNextPage && (
                 <SelectOption
-                  isLoading={isLoading}
-                  isLoadButton={!isLoading}
+                  isLoading={isFetching}
+                  isLoadButton={!isFetching}
+                  isDisabled={isFetching}
                   onClick={onViewMoreClick}
                   itemId="loader"
                 >
-                  {isLoading ? <Spinner size="lg" /> : 'View more'}
+                  {isFetching ? <Spinner size="lg" /> : 'View more'}
                 </SelectOption>
               )}
             </>
