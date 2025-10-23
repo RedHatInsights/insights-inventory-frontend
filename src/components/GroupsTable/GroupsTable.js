@@ -46,14 +46,11 @@ import {
   ActionDropdownItem,
 } from '../InventoryTable/ActionWithRBAC';
 import PropTypes from 'prop-types';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
-const GROUPS_TABLE_INITIAL_STATE = (isKesselEnabled) => {
-  return {
-    perPage: TABLE_DEFAULT_PAGINATION,
-    page: 1,
-    groupType: isKesselEnabled ? 'all' : 'standard',
-  };
+const GROUPS_TABLE_INITIAL_STATE = {
+  perPage: TABLE_DEFAULT_PAGINATION,
+  page: 1,
+  groupType: 'all',
 };
 
 const GROUPS_TABLE_COLUMNS = [
@@ -111,7 +108,6 @@ const groupsTableFiltersConfig = {
 };
 
 const GroupsTable = ({ onCreateGroupClick }) => {
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
   const dispatch = useDispatch();
   const { rejected, uninitialized, loading, fulfilled, data } = useSelector(
     (state) => state.groups,
@@ -119,7 +115,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const [rowsGenerated, setRowsGenerated] = useState(false);
   const location = useLocation();
   const [filters, setFilters] = useState({
-    ...GROUPS_TABLE_INITIAL_STATE(isKesselEnabled),
+    ...GROUPS_TABLE_INITIAL_STATE,
     ...readURLSearchParams(location.search, groupsTableFiltersConfig),
   });
   const [rows, setRows] = useState([]);
@@ -223,8 +219,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
     [filters.name, rejected],
   );
 
-  const onResetFilters = () =>
-    setFilters(GROUPS_TABLE_INITIAL_STATE(isKesselEnabled));
+  const onResetFilters = () => setFilters(GROUPS_TABLE_INITIAL_STATE);
 
   const activeFiltersConfig = {
     showDeleteButton: !!filters.name,
@@ -326,7 +321,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
         requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
           rowData?.groupId,
         )}
-        isAriaDisabled={isKesselEnabled ? rowData?.ungrouped : false}
+        isAriaDisabled={rowData?.ungrouped}
         noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
         onClick={() => {
           setSelectedGroup({
@@ -480,8 +475,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
                   onClick={() => setDeleteModalOpen(true)}
                   isAriaDisabled={
-                    selectedIds.length === 0 ||
-                    (isKesselEnabled && containsUngrouped(selectedIds))
+                    selectedIds.length === 0 || containsUngrouped(selectedIds)
                   }
                   checkAll
                 >

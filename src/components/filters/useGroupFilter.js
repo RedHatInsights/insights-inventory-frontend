@@ -19,14 +19,11 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
-export const buildHostGroupChips = (
-  selectedGroups = [],
-  isKesselEnabled = false,
-) => {
+export const buildHostGroupChips = (selectedGroups = []) => {
   const chips = [...selectedGroups]?.map((group) =>
     group === ''
       ? {
-          name: isKesselEnabled ? 'Ungrouped hosts' : 'No workspace',
+          name: 'Ungrouped hosts',
           value: '',
         }
       : {
@@ -56,7 +53,6 @@ export const buildHostGroupChips = (
  *
  *  @param   {object}  options                   The options object.
  *  @param   {string}  [options.initSearchQuery] Initial query reflected when remote search is disabled.
- *  @param   {boolean} [options.isKesselEnabled] When true, restricts to standard workspaces via type filter.
  *  @param   {boolean} [options.hasAccess]       Enables the underlying query when true, otherwise the query is disabled.
  *  @param   {number}  [options.debounceTime]    Debounce duration for remote search, in ms.
  *  @returns {Array}                             result array of a single object with the following properties:
@@ -70,7 +66,6 @@ export const buildHostGroupChips = (
 const useGroupsQueryWithFilter = ({
   hasAccess,
   initSearchQuery = '',
-  isKesselEnabled = false,
   debounceTime = INPUT_DEBOUNCE_MS,
 }) => {
   const [searchTerm, setSearchTerm] = useState(initSearchQuery);
@@ -91,12 +86,12 @@ const useGroupsQueryWithFilter = ({
 
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['groups', debouncedTerm, isKesselEnabled],
+      queryKey: ['groups', debouncedTerm],
       queryFn: async ({ pageParam = 1 }) =>
         getGroups(
           {
             ...(remoteSearchEnabled ? { name: debouncedTerm } : {}),
-            ...(isKesselEnabled ? { type: 'standard' } : {}),
+            ...{ type: 'standard' },
           },
           {
             page: pageParam,
@@ -180,7 +175,7 @@ const useGroupsQueryWithFilter = ({
   };
 };
 
-const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
+const useGroupFilter = (showNoGroupOption = false) => {
   const [selectedGroupNames, setSelectedGroupNames] = useState([]);
 
   const { hasAccess } = usePermissionsWithContext(
@@ -198,14 +193,13 @@ const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
     searchQuery,
     isLoading,
   } = useGroupsQueryWithFilter({
-    isKesselEnabled,
     hasAccess,
     debounceTime: INPUT_DEBOUNCE_MS,
   });
 
   const chips = useMemo(
-    () => buildHostGroupChips(selectedGroupNames, isKesselEnabled),
-    [selectedGroupNames, isKesselEnabled],
+    () => buildHostGroupChips(selectedGroupNames),
+    [selectedGroupNames],
   );
 
   return [
@@ -226,7 +220,6 @@ const useGroupFilter = (showNoGroupOption = false, isKesselEnabled = false) => {
             selectedGroupNames={selectedGroupNames}
             setSelectedGroupNames={setSelectedGroupNames}
             showNoGroupOption={showNoGroupOption}
-            isKesselEnabled={isKesselEnabled}
           />
         ),
       },

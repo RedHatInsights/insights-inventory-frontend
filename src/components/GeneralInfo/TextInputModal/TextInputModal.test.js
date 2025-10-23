@@ -71,7 +71,7 @@ describe('TextInputModal', () => {
           name: /cancel/i,
         }),
       );
-      expect(onCancel).toBeCalled();
+      expect(onCancel).toHaveBeenCalled();
     });
 
     it('onSubmit should be called with trimmed string', async () => {
@@ -90,7 +90,7 @@ describe('TextInputModal', () => {
       });
 
       await userEvent.click(submitButton);
-      expect(onSubmit).toBeCalledWith('some');
+      expect(onSubmit).toHaveBeenCalledWith('some');
     });
 
     it('submitButton should be disabled', async () => {
@@ -124,7 +124,7 @@ describe('TextInputModal', () => {
           name: /close/i,
         }),
       );
-      expect(onCancel).toBeCalled();
+      expect(onCancel).toHaveBeenCalled();
     });
   });
 });

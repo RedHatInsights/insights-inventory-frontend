@@ -299,7 +299,9 @@ describe('GeneralInformation', () => {
       );
 
       await waitFor(() => {
-        expect(navigate).toBeCalledWith('/available/convert-to-rhel-analysis');
+        expect(navigate).toHaveBeenCalledWith(
+          '/available/convert-to-rhel-analysis',
+        );
       });
     });
 

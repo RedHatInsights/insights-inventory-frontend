@@ -44,7 +44,6 @@ export const Routes = () => {
 
   const isSystemsTableEnabled = useSystemsTableFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
   const isLastCheckInEnabled = useFeatureFlag(
     'hbi.create_last_check_in_update_per_reporter_staleness',
   );
@@ -136,7 +135,6 @@ export const Routes = () => {
       value={{
         hasConventionalSystems: hasSystems,
         hasBootcImages,
-        isKesselEnabled,
         isLastCheckInEnabled,
       }}
     >

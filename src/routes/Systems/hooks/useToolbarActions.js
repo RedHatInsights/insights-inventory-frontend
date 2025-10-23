@@ -6,7 +6,6 @@ import {
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
 } from '../../../constants';
-import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import {
   isBulkAddHostsToGroupsEnabled,
   isBulkRemoveFromGroupsEnabled,
@@ -18,8 +17,6 @@ const useToolbarActions = (
   setRemoveHostsFromGroupModalOpen,
   setIsRowAction,
 ) => {
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
-
   // extract remove‐permissions logic
   const removePermissions = selected
     ? selected
@@ -35,12 +32,10 @@ const useToolbarActions = (
   const addIsDisabled = !isBulkAddHostsToGroupsEnabled(
     selected.length,
     selected,
-    isKesselEnabled,
   );
   const removeIsDisabled = !isBulkRemoveFromGroupsEnabled(
     selected.length,
     selected,
-    isKesselEnabled,
   );
   const removeOverride = selected == null;
 

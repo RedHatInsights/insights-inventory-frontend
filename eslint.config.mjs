@@ -51,6 +51,13 @@ export default defineConfig([
   {
     files: ['src/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}'],
     ...reactHooks.configs['recommended-latest'],
+    plugins: {
+      'react-hooks': reactHooks,
+    },
+    rules: {
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+    },
   },
   {
     ...playwright.configs['flat/recommended'],

@@ -116,7 +116,6 @@ const ConventionalSystemsTab = ({
     loaded,
   );
   const isExportEnabled = useFeatureFlag('hbi.export-data');
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   const onRefresh = useOnRefresh((options) => {
     onSetfilters(options?.filters);
@@ -156,7 +155,6 @@ const ConventionalSystemsTab = ({
     handleModalToggle,
     setRemoveHostsFromGroupModalOpen,
     setAddHostGroupModalOpen,
-    isKesselEnabled,
   );
 
   const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
@@ -243,7 +241,6 @@ const ConventionalSystemsTab = ({
                     !isBulkAddHostsToGroupsEnabled(
                       calculateSelected(),
                       selected,
-                      isKesselEnabled,
                     )
                   }
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
@@ -278,7 +275,6 @@ const ConventionalSystemsTab = ({
                     !isBulkRemoveFromGroupsEnabled(
                       calculateSelected(),
                       selected,
-                      isKesselEnabled,
                     )
                   }
                   noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
