@@ -47,7 +47,7 @@ const DeleteModal = ({
       }
     >
       <ModalHeader
-        title="Delete system from inventory?"
+        title={`Delete ${Array.isArray(currentSystems) && currentSystems.length > 1 ? 'systems' : 'system'} from inventory?`}
         titleIconVariant="warning"
       />
       <ModalBody>
