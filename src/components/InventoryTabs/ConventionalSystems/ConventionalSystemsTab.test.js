@@ -66,7 +66,18 @@ describe('ConventionalSystemsTab', () => {
     tags: [],
     updated: '2020-10-27T10:07:14.453072+00:00',
     last_check_in: '2021-10-27T10:07:14.453072+00:00',
-    groups: [],
+    groups: [
+      {
+        id: 'c15f9b38-1312-461c-abe6-24e85f935f6c',
+        name: 'Ungrouped Hosts',
+        org_id: '17299158',
+        account: '11642055',
+        created: '2025-05-22T13:34:22.192494+00:00',
+        updated: '2025-10-20T03:03:42.232416+00:00',
+        ungrouped: true,
+        host_count: 141,
+      },
+    ],
   };
 
   const initialStore = {
@@ -260,12 +271,7 @@ describe('ConventionalSystemsTab', () => {
 
 describe('calculatePagination', () => {
   beforeEach(() => {
-    Object.defineProperty(window, 'location', {
-      configurable: true,
-      value: {
-        search: '?page=5&per_page=20',
-      },
-    });
+    window.history.pushState({}, '', '/?page=5&per_page=20');
   });
 
   it('should calculate from new values', () => {

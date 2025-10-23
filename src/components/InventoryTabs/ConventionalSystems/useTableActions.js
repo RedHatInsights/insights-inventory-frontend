@@ -16,20 +16,13 @@ const useTableActions = (
   handleModalToggle,
   setRemoveHostsFromGroupModalOpen,
   setAddHostGroupModalOpen,
-  isKesselEnabled,
 ) => {
   const tableActionsCallback = useCallback((row) => {
     const isAddtoWorkspaceDisabled = (row) => {
-      if (isKesselEnabled) {
-        return !row.groups[0]?.ungrouped;
-      }
-      return row.groups.length > 0;
+      return !row.groups[0]?.ungrouped;
     };
     const isRemoveFromWorkspaceDisabled = (row) => {
-      if (isKesselEnabled) {
-        return row.groups[0]?.ungrouped;
-      }
-      return row.groups.length === 0;
+      return row.groups[0]?.ungrouped;
     };
     const hostActions = [
       {

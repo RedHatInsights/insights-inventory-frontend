@@ -34,7 +34,7 @@ describe('TopBar', () => {
       }),
     );
 
-    expect(navigateMocked).toBeCalled();
+    expect(navigateMocked).toHaveBeenCalled();
   });
 
   it('dropdown hides link to inventory', () => {
@@ -76,7 +76,7 @@ describe('TopBar', () => {
         name: /title/i,
       }),
     );
-    expect(onClick).toBeCalled();
+    expect(onClick).toHaveBeenCalled();
   });
 
   it('renders skeleton when loading', () => {

@@ -1,6 +1,8 @@
 import { getTags } from '../../../../api/hostInventoryApi';
 import { getGroups } from '../../../../components/InventoryGroups/utils/api';
-import { MAX_PER_PAGE } from './constants';
+
+const MAX_PER_PAGE = 50;
+
 export const getWorkspaceSelectOptions = async () => {
   const firstResponse = await getGroups(undefined, {
     page: 1,

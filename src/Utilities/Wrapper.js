@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
-import { AccountStatContext } from '../Contexts';
 
 const RenderWrapper = ({
   cmp: Component,
@@ -16,7 +15,6 @@ const RenderWrapper = ({
     true,
     false, // omit RD check to find out if there are any inventory:hosts:read available
   );
-  const statContext = useContext(AccountStatContext);
   const loadChromelessInventory =
     props?.tableProps?.envContext?.loadChromeless || false;
   return (
@@ -28,7 +26,6 @@ const RenderWrapper = ({
       isRbacEnabled={isRbacEnabled}
       hasAccess={props?.tableProps?.envContext?.loadChromeless || hasAccess}
       store={store}
-      isKesselFFEnabled={statContext.isKesselEnabled}
       loadChromelessInventory={loadChromelessInventory}
     />
   );

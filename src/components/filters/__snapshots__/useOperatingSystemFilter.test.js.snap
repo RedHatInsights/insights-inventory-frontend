@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`useOperatingSystemFilter with operating systems loaded should return correct chips array, current value and value setter 1`] = `
 [

@@ -16,23 +16,16 @@ const useTableActions = (
   handleModalToggle,
   setRemoveHostsFromGroupModalOpen,
   setAddHostGroupModalOpen,
-  isKesselEnabled,
   setIsRowAction,
 ) => {
   return useCallback(
     ({ item }) => {
       const isAddtoWorkspaceDisabled = () => {
-        if (isKesselEnabled) {
-          return !item.groups[0]?.ungrouped;
-        }
-        return item.groups.length > 0;
+        return !item.groups[0]?.ungrouped;
       };
 
       const isRemoveFromWorkspaceDisabled = () => {
-        if (isKesselEnabled) {
-          return item.groups[0]?.ungrouped;
-        }
-        return item.groups.length === 0;
+        return item.groups[0]?.ungrouped;
       };
 
       return [
@@ -119,7 +112,6 @@ const useTableActions = (
     },
     [
       handleModalToggle,
-      isKesselEnabled,
       onEditOpen,
       setAddHostGroupModalOpen,
       setCurrentSystem,

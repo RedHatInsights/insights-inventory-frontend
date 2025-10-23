@@ -152,7 +152,7 @@ describe('InfoTable', () => {
           name: /one cell/i,
         }),
       );
-      expect(onSort).toBeCalled();
+      expect(onSort).toHaveBeenCalled();
     });
   });
 

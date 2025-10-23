@@ -24,7 +24,6 @@ import useGlobalFilter from '../filters/useGlobalFilter';
 import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
 import { prepareColumns } from './helpers';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import { useDeepCompareMemo } from 'use-deep-compare';
 
 const GroupSystems = ({ groupName, groupId, ungrouped }) => {
@@ -34,8 +33,6 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
     useState(false);
   const [currentSystem, setCurrentSystem] = useState([]);
   const inventory = useRef(null);
-
-  const isKesselEnabled = useFeatureFlag('hbi.kessel-migration');
 
   const selected = useSelector(
     (state) => state?.entities?.selected || new Map(),
@@ -159,7 +156,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId,
                     )}
-                    isAriaDisabled={isKesselEnabled && ungrouped} // nao funciona, tem q ter o props
+                    isAriaDisabled={ungrouped}
                     noAccessTooltip={noAccessTooltip}
                     onClick={() => {
                       setCurrentSystem([row]);
@@ -185,16 +182,15 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                   setAddToGroupModalOpen(true);
                 }}
                 ouiaId="add-systems-button"
-                isAriaDisabled={isKesselEnabled ? ungrouped : !canModify}
+                isAriaDisabled={ungrouped || !canModify}
               >
                 Add systems
               </ActionButton>,
               {
                 label: removeLabel,
                 props: {
-                  isAriaDisabled: isKesselEnabled
-                    ? ungrouped
-                    : !canModify || calculateSelected() === 0,
+                  isAriaDisabled:
+                    ungrouped || !canModify || calculateSelected() === 0,
                   ...(!canModify && {
                     tooltipProps: {
                       content: noAccessTooltip,

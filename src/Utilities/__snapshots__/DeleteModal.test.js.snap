@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
 <body
@@ -149,7 +149,6 @@ exports[`DeleteModal DOM should render correctly with multiple systems 1`] = `
                       </span>
                       <button
                         aria-label="Copy to clipboard"
-                        aria-labelledby="copy-button-1 text-input-1"
                         class="pf-v6-c-button pf-m-control"
                         data-ouia-component-id="OUIA-Generated-Button-control-2"
                         data-ouia-component-type="PF6/Button"
@@ -374,7 +373,6 @@ exports[`DeleteModal DOM should render correctly with one system 1`] = `
                       </span>
                       <button
                         aria-label="Copy to clipboard"
-                        aria-labelledby="copy-button-0 text-input-0"
                         class="pf-v6-c-button pf-m-control"
                         data-ouia-component-id="OUIA-Generated-Button-control-1"
                         data-ouia-component-type="PF6/Button"

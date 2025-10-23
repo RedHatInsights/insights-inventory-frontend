@@ -66,48 +66,23 @@ export const fetchSystems = async (
   return [systems, total];
 };
 
-export const isBulkAddHostsToGroupsEnabled = (
-  selectedSize,
-  selected,
-  isKesselEnabled,
-) => {
+export const isBulkAddHostsToGroupsEnabled = (selectedSize, selected) => {
   if (selectedSize > 0) {
     const selectedHosts = Array.from(selected.values());
 
-    if (isKesselEnabled) {
-      return selectedHosts.every(({ groups }) => groups[0]?.ungrouped === true);
-    }
-
-    return selectedHosts.every(({ groups }) => groups.length === 0);
+    return selectedHosts.every(({ groups }) => groups[0]?.ungrouped === true);
   }
 
   return false;
 };
 
-export const isBulkRemoveFromGroupsEnabled = (
-  selectedSize,
-  selected,
-  isKesselEnabled,
-) => {
-  if (isKesselEnabled) {
-    return (
-      // can't remove from ungrouped group
-      selectedSize > 0 &&
-      Array.from(selected?.values()).every(
-        ({ groups }) => groups[0].ungrouped !== true,
-      ) &&
-      Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
-      uniq(
-        // can remove from at maximum one group at a time
-        Array.from(selected.values())
-          .filter(({ groups }) => groups.length > 0)
-          .map(({ groups }) => groups[0].name),
-      ).length === 1
-    );
-  }
-
+export const isBulkRemoveFromGroupsEnabled = (selectedSize, selected) => {
   return (
+    // can't remove from ungrouped group
     selectedSize > 0 &&
+    Array.from(selected?.values()).every(
+      ({ groups }) => groups[0].ungrouped !== true,
+    ) &&
     Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
     uniq(
       // can remove from at maximum one group at a time
