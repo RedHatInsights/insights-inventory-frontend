@@ -23,7 +23,6 @@ export const TABLE_ROW_CHECKBOX =
   'tbody [data-ouia-component-type="PF6/TableRow"] input';
 export const EMPTY_STATE = '[data-ouia-component-type="PF6/EmptyState"]';
 export const CARD = '[data-ouia-component-type="PF6/Card"]';
-export const BREADCRUMB = '[data-ouia-component-type="PF6/Breadcrumb"]';
 export const TAB_CONTENT = '[data-ouia-component-type="PF6/TabContent"]';
 export const TAB_BUTTON = '[data-ouia-component-type="PF6/TabButton"]';
 export const ALERT = '[data-ouia-component-type="PF6/Alert"]';
