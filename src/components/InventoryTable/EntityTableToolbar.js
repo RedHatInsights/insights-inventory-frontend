@@ -201,9 +201,8 @@ const EntityTableToolbar = ({
       axios,
     );
 
-  const isKesselEnabled = props.isKesselFFEnabled;
   const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
-    useGroupFilter(showNoGroupOption, isKesselEnabled);
+    useGroupFilter(showNoGroupOption);
 
   const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =
     useTagsFilter(

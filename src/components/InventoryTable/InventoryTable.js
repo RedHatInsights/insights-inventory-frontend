@@ -1,7 +1,7 @@
 import React, {
   Fragment,
   forwardRef,
-  useContext,
+  // useContext,
   useEffect,
   useRef,
   useState,
@@ -19,7 +19,7 @@ import isEqual from 'lodash/isEqual';
 import { clearErrors, entitiesLoading } from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
 import { ACTION_TYPES } from '../../store/action-types';
-import { AccountStatContext } from '../../Contexts';
+// import { AccountStatContext } from '../../Contexts';
 
 /**
  * A helper function to store props and to always return the latest state.
@@ -115,7 +115,7 @@ const InventoryTable = forwardRef(
       perPage,
       total,
     };
-    const statContext = useContext(AccountStatContext);
+    // const statContext = useContext(AccountStatContext);
 
     const columns = lastSeenOverride
       ? props?.columns?.map((col) =>
@@ -272,9 +272,6 @@ const InventoryTable = forwardRef(
       }
     });
 
-    const chromelessInventoryCheck = (flag) =>
-      props.loadChromelessInventory ? false : flag;
-
     return hasAccess === false && isFullView ? (
       <AccessDenied
         title="This application requires Inventory permissions"
@@ -312,9 +309,6 @@ const InventoryTable = forwardRef(
           }}
           showCentosVersions={showCentosVersions}
           enableExport={enableExport}
-          isKesselFFEnabled={chromelessInventoryCheck(
-            statContext.isKesselEnabled,
-          )}
           loadChromelessInventory={props.loadChromelessInventory}
           axios={axios}
         >
