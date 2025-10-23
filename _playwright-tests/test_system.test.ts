@@ -234,3 +234,50 @@ test('User should be able to export systems to CSV', async ({ page }) => {
     );
   });
 });
+
+test('User should be able to delete multiple systems from Systems page', async ({
+  page,
+}) => {
+  /**
+   * Jira References:
+     - https://issues.redhat.com/browse/RHINENG-21148 - Delete a system
+   * Metadata:
+     - requirements:
+     - inv-hosts-delete-by-id
+     - importance: critical
+     - assignee: addubey
+   */
+  const systems = Array.from({ length: 3 }, () => prepareSingleSystem());
+  const archives = systems.map((s) => s.archiveName);
+  const dirs = systems.map((s) => s.workingDir);
+  const dialog = page.locator('[role="dialog"]');
+  const systemName = 'insights-pw-vm';
+
+  await test.step('Navigate to Inventory → Systems', async () => {
+    await navigateToInventorySystemsFunc(page);
+    await searchByName(page, systemName);
+    await page.waitForTimeout(3000); // Keep this to be on safe side as bulk deletion is happening.
+    await page.waitForSelector('#options-menu-bottom-toggle', {
+      state: 'visible',
+    });
+  });
+
+  await test.step('Select all systems using Bulk Select', async () => {
+    await page.locator('[data-ouia-component-id="BulkSelect"]').click();
+    await page.getByRole('menuitem', { name: 'Select page' }).click();
+  });
+
+  await test.step('Delete selected systems via bulk action', async () => {
+    await page.getByRole('button', { name: 'Delete' }).click();
+
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText('Delete system from inventory');
+    await dialog.getByRole('button', { name: 'Delete' }).click();
+  });
+
+  await test.step('Cleanup the created archives and temp directories', async () => {
+    for (let i = 0; i < systems.length; i++) {
+      cleanupTestArchive(archives[i], dirs[i]);
+    }
+  });
+});
