@@ -1,20 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
-import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
-import {
-  Skeleton,
-  SkeletonSize,
-} from '@redhat-cloud-services/frontend-components/Skeleton';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import { GeneralInformationTab } from '../components/SystemDetails';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
@@ -84,25 +74,6 @@ const appList = {
   ],
 };
 
-const BreadcrumbWrapper = ({ entity, inventoryId, entityLoaded }) => (
-  <Breadcrumb ouiaId="systems-list">
-    <BreadcrumbItem>
-      <Link to="..">Systems</Link>
-    </BreadcrumbItem>
-    <BreadcrumbItem isActive>
-      <div className="ins-c-inventory__detail--breadcrumb-name">
-        {entity ? (
-          entity.display_name
-        ) : entityLoaded !== true ? (
-          <Skeleton size={SkeletonSize.xs} />
-        ) : (
-          inventoryId
-        )}
-      </div>
-    </BreadcrumbItem>
-  </Breadcrumb>
-);
-
 const Inventory = () => {
   const platformName = useLightspeedFeatureFlag();
   const chrome = useChrome();
@@ -112,9 +83,6 @@ const Inventory = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [availableApps, setAvailableApps] = useState([]);
-  const entityLoaded = useSelector(
-    ({ entityDetails }) => entityDetails?.loaded,
-  );
   const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
   const { cloud_provider: cloudProvider, host_type: hostType } = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.systemProfile || [],
@@ -196,24 +164,11 @@ const Inventory = () => {
       store={store}
       isInventoryApp
       shouldWrapAsPage
-      BreadcrumbWrapper={
-        <BreadcrumbWrapper
-          entity={entity}
-          entityLoaded={entityLoaded}
-          inventoryId={inventoryId}
-        />
-      }
       activeApp={searchParams.get('appName')}
       appList={availableApps}
       onTabSelect={onTabSelect}
     />
   );
-};
-
-BreadcrumbWrapper.propTypes = {
-  entity: PropTypes.object,
-  entityLoaded: PropTypes.bool,
-  inventoryId: PropTypes.string,
 };
 
 Inventory.contextTypes = {

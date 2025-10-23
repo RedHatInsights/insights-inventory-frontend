@@ -43,6 +43,6 @@ describe('NoGroupsEmptyState', () => {
         name: /create workspace/i,
       }),
     );
-    expect(onCreateGroupClick).toBeCalled();
+    expect(onCreateGroupClick).toHaveBeenCalled();
   });
 });

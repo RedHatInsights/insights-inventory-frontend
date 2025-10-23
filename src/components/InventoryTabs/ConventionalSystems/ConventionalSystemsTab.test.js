@@ -271,12 +271,7 @@ describe('ConventionalSystemsTab', () => {
 
 describe('calculatePagination', () => {
   beforeEach(() => {
-    Object.defineProperty(window, 'location', {
-      configurable: true,
-      value: {
-        search: '?page=5&per_page=20',
-      },
-    });
+    window.history.pushState({}, '', '/?page=5&per_page=20');
   });
 
   it('should calculate from new values', () => {
