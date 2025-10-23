@@ -9,7 +9,6 @@ import { extraShape, isDate } from '../../../constants';
 import OperatingSystemFormatter from '../../../Utilities/OperatingSystemFormatter';
 
 const OperatingSystemCardCore = ({
-  systemInfo,
   detailLoaded,
   handleClick,
   hasRelease,
@@ -17,90 +16,95 @@ const OperatingSystemCardCore = ({
   hasArchitecture,
   hasLastBoot,
   hasKernelModules,
+  entity,
   extra,
-}) => (
-  <LoadingCard
-    title="Operating system"
-    cardId="os-card"
-    isLoading={!detailLoaded}
-    items={[
-      ...(hasRelease
-        ? [
-            {
-              title: 'Release',
-              value: (
-                <OperatingSystemFormatter
-                  operatingSystem={systemInfo.release}
-                />
-              ),
-            },
-          ]
-        : []),
-      ...(hasKernelRelease
-        ? [{ title: 'Kernel release', value: systemInfo.kernelRelease }]
-        : []),
-      ...(hasArchitecture
-        ? [{ title: 'Architecture', value: systemInfo.architecture }]
-        : []),
-      ...(hasLastBoot
-        ? [
-            {
-              title: 'Last boot time',
-              value: isDate(systemInfo.bootTime) ? (
-                <DateFormat date={systemInfo.bootTime} type="onlyDate" />
-              ) : (
-                'Not available'
-              ),
-            },
-          ]
-        : []),
-      ...(hasKernelModules
-        ? [
-            {
-              title: 'Kernel modules',
-              value: systemInfo.kernelModules?.length,
-              singular: 'module',
-              target: 'kernel_modules',
-              onClick: () => {
-                handleClick(
-                  'Kernel modules',
-                  generalMapper(systemInfo.kernelModules, 'Module'),
-                );
+  systemProfile,
+}) => {
+  const systemInfo = operatingSystem(systemProfile, entity);
+  return (
+    <LoadingCard
+      title="Operating system"
+      cardId="os-card"
+      isLoading={!detailLoaded}
+      items={[
+        ...(hasRelease
+          ? [
+              {
+                title: 'Release',
+                value: (
+                  <OperatingSystemFormatter
+                    operatingSystem={systemInfo.release}
+                  />
+                ),
               },
-            },
-          ]
-        : []),
-      ...(systemInfo.systemUpdateMethod
-        ? [{ title: 'Update method', value: systemInfo.systemUpdateMethod }]
-        : []),
-      ...extra.map(({ onClick, ...item }) => ({
-        ...item,
-        ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
-      })),
-    ]}
-  />
-);
+            ]
+          : []),
+        ...(hasKernelRelease
+          ? [{ title: 'Kernel release', value: systemInfo.kernelRelease }]
+          : []),
+        ...(hasArchitecture
+          ? [{ title: 'Architecture', value: systemInfo.architecture }]
+          : []),
+        ...(hasLastBoot
+          ? [
+              {
+                title: 'Last boot time',
+                value: isDate(systemInfo.bootTime) ? (
+                  <DateFormat date={systemInfo.bootTime} type="onlyDate" />
+                ) : (
+                  'Not available'
+                ),
+              },
+            ]
+          : []),
+        ...(hasKernelModules
+          ? [
+              {
+                title: 'Kernel modules',
+                value: systemInfo.kernelModules?.length,
+                singular: 'module',
+                target: 'kernel_modules',
+                onClick: () => {
+                  handleClick(
+                    'Kernel modules',
+                    generalMapper(systemInfo.kernelModules, 'Module'),
+                  );
+                },
+              },
+            ]
+          : []),
+        ...(systemInfo.systemUpdateMethod
+          ? [{ title: 'Update method', value: systemInfo.systemUpdateMethod }]
+          : []),
+        ...extra.map(({ onClick, ...item }) => ({
+          ...item,
+          ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
+        })),
+      ]}
+    />
+  );
+};
 
 OperatingSystemCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
   handleClick: PropTypes.func,
-  systemInfo: PropTypes.shape({
-    release: PropTypes.shape({
-      name: PropTypes.string,
-      major: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      minor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    }),
-    architecture: PropTypes.string,
-    kernelRelease: PropTypes.string,
-    bootTime: PropTypes.string,
-    kernelModules: PropTypes.arrayOf(PropTypes.string),
-  }),
   hasRelease: PropTypes.bool,
   hasKernelRelease: PropTypes.bool,
   hasArchitecture: PropTypes.bool,
   hasLastBoot: PropTypes.bool,
   hasKernelModules: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
+  entity: PropTypes.shape({
+    facts: PropTypes.object,
+  }),
+  systemProfile: PropTypes.shape({
+    arch: PropTypes.string,
+    operating_system: PropTypes.string,
+    os_kernel_version: PropTypes.string,
+    last_boot_time: PropTypes.string,
+    kernel_modules: PropTypes.arrayOf(PropTypes.string),
+    system_update_method: PropTypes.string,
+  }),
 };
 OperatingSystemCardCore.defaultProps = {
   detailLoaded: false,
@@ -114,9 +118,9 @@ OperatingSystemCardCore.defaultProps = {
 };
 
 export const OperatingSystemCard = connect(
-  ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
+  ({ systemProfileStore: { systemProfile } }) => ({
     detailLoaded: systemProfile && systemProfile.loaded,
-    systemInfo: operatingSystem(systemProfile, entity),
+    systemProfile,
   }),
 )(OperatingSystemCardCore);
 

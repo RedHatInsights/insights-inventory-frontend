@@ -83,7 +83,9 @@ it('biosSelector - no data', () => {
 
 it('infrastructureSelector should return correct data', () => {
   expect(infrastructureSelector(infraTest)).toEqual({
-    type: 'test-type',
+    fqdn: undefined,
+    infrastructure_type: 'test-type',
+    public_ipv4_addresses: undefined,
     vendor: 'test-vendor',
     ipv4: ['1'],
     ipv6: ['6'],

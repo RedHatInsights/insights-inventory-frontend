@@ -18,102 +18,113 @@ const InfrastructureCardCore = ({
   hasFqdn,
   hasInterfaces,
   extra,
-}) => (
-  <LoadingCard
-    title="Infrastructure"
-    isLoading={!detailLoaded}
-    cardId="infrastructure-card"
-    items={[
-      ...(hasType ? [{ title: 'Type', value: infrastructure.type }] : []),
-      ...(hasVendor ? [{ title: 'Vendor', value: infrastructure.vendor }] : []),
-      ...(hasPublicIp
-        ? [
-            {
-              title: 'Public IP',
-              value:
-                Array.isArray(infrastructure.public_ipv4_addresses) &&
-                infrastructure.public_ipv4_addresses.length > 0
-                  ? infrastructure.public_ipv4_addresses[0]
-                  : 'Not available',
-            },
-          ]
-        : []),
-      ...(hasIPv4
-        ? [
-            {
-              title: 'IPv4 addresses',
-              value: infrastructure.ipv4?.length,
-              plural: 'addresses',
-              singular: 'address',
-              target: 'ipv4',
-              onClick: () => {
-                handleClick(
-                  'IPv4',
-                  generalMapper(infrastructure.ipv4, 'IP address'),
-                );
+  entity,
+}) => {
+  const type =
+    infrastructure.infrastructure_type ||
+    (entity?.facts?.rhsm?.IS_VIRTUAL !== undefined &&
+      (entity?.facts?.rhsm?.IS_VIRTUAL ? 'virtual' : 'physical')) ||
+    undefined;
+
+  return (
+    <LoadingCard
+      title="Infrastructure"
+      isLoading={!detailLoaded}
+      cardId="infrastructure-card"
+      items={[
+        ...(hasType ? [{ title: 'Type', value: type }] : []),
+        ...(hasVendor
+          ? [{ title: 'Vendor', value: infrastructure.vendor }]
+          : []),
+        ...(hasPublicIp
+          ? [
+              {
+                title: 'Public IP',
+                value:
+                  Array.isArray(infrastructure.public_ipv4_addresses) &&
+                  infrastructure.public_ipv4_addresses.length > 0
+                    ? infrastructure.public_ipv4_addresses[0]
+                    : 'Not available',
               },
-            },
-          ]
-        : []),
-      ...(hasIPv6
-        ? [
-            {
-              title: 'IPv6 addresses',
-              value: infrastructure.ipv6?.length,
-              plural: 'addresses',
-              singular: 'address',
-              target: 'ipv6',
-              onClick: () => {
-                handleClick(
-                  'IPv6',
-                  generalMapper(infrastructure.ipv6, 'IP address'),
-                );
+            ]
+          : []),
+        ...(hasIPv4
+          ? [
+              {
+                title: 'IPv4 addresses',
+                value: infrastructure.ipv4?.length,
+                plural: 'addresses',
+                singular: 'address',
+                target: 'ipv4',
+                onClick: () => {
+                  handleClick(
+                    'IPv4',
+                    generalMapper(infrastructure.ipv4, 'IP address'),
+                  );
+                },
               },
-            },
-          ]
-        : []),
-      ...(hasFqdn
-        ? [
-            {
-              title: 'FQDN',
-              value:
-                Array.isArray(infrastructure.fqdn) &&
-                infrastructure.fqdn.length > 0
-                  ? infrastructure.fqdn[0]
-                  : 'Not available',
-            },
-          ]
-        : []),
-      ...(hasInterfaces
-        ? [
-            {
-              title: 'Interfaces/NICs',
-              value: infrastructure.nics?.length,
-              singular: 'NIC',
-              target: 'interfaces',
-              onClick: () => {
-                handleClick(
-                  'Interfaces/NICs',
-                  interfaceMapper(infrastructure.nics),
-                  'medium',
-                );
+            ]
+          : []),
+        ...(hasIPv6
+          ? [
+              {
+                title: 'IPv6 addresses',
+                value: infrastructure.ipv6?.length,
+                plural: 'addresses',
+                singular: 'address',
+                target: 'ipv6',
+                onClick: () => {
+                  handleClick(
+                    'IPv6',
+                    generalMapper(infrastructure.ipv6, 'IP address'),
+                  );
+                },
               },
-            },
-          ]
-        : []),
-      ...extra.map(({ onClick, ...item }) => ({
-        ...item,
-        ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
-      })),
-    ]}
-  />
-);
+            ]
+          : []),
+        ...(hasFqdn
+          ? [
+              {
+                title: 'FQDN',
+                value:
+                  Array.isArray(infrastructure.fqdn) &&
+                  infrastructure.fqdn.length > 0
+                    ? infrastructure.fqdn[0]
+                    : 'Not available',
+              },
+            ]
+          : []),
+        ...(hasInterfaces
+          ? [
+              {
+                title: 'Interfaces/NICs',
+                value: infrastructure.nics?.length,
+                singular: 'NIC',
+                target: 'interfaces',
+                onClick: () => {
+                  handleClick(
+                    'Interfaces/NICs',
+                    interfaceMapper(infrastructure.nics),
+                    'medium',
+                  );
+                },
+              },
+            ]
+          : []),
+        ...extra.map(({ onClick, ...item }) => ({
+          ...item,
+          ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
+        })),
+      ]}
+    />
+  );
+};
 
 InfrastructureCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
   handleClick: PropTypes.func,
   infrastructure: PropTypes.shape({
-    type: PropTypes.string,
+    infrastructure_type: PropTypes.string,
     vendor: PropTypes.string,
     public_ipv4_addresses: PropTypes.arrayOf(PropTypes.string),
     ipv4: PropTypes.array,
@@ -143,12 +154,9 @@ InfrastructureCardCore.defaultProps = {
   extra: [],
 };
 
-const mapStateToProps = ({
-  entityDetails: { entity },
-  systemProfileStore: { systemProfile },
-}) => ({
+const mapStateToProps = ({ systemProfileStore: { systemProfile } }) => ({
   detailLoaded: systemProfile && systemProfile.loaded,
-  infrastructure: infrastructureSelector(systemProfile, entity),
+  infrastructure: infrastructureSelector(systemProfile),
 });
 
 export const InfrastructureCard = connect(mapStateToProps)(

@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LoadingCard from '../LoadingCard';
 import { propertiesSelector } from '../selectors';
-import { editAnsibleHost, editDisplayName } from '../../../store/actions';
 import TitleWithPopover from '../TitleWithPopover';
 import { generalMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
 import { workloadsTypesKeys } from './SystemCardConfigs';
 import WorkloadsSection from './Workloads';
 import { NameInlineEdit } from './NameInlineEdit';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
+import { patchHostById } from '../../../api/hostInventoryApi';
 
 const SystemCard = ({
   writePermissions,
@@ -26,10 +26,11 @@ const SystemCard = ({
   hasCPUFlags = true,
   hasRAM = true,
   extra = [],
+  entity,
+  fetchEntity,
 }) => {
-  const dispatch = useDispatch();
   const addNotification = useAddNotification();
-  const entity = useSelector((state) => state.entityDetails.entity);
+
   const systemProfile = useSelector(
     (state) => state.systemProfileStore.systemProfile,
   );
@@ -38,8 +39,41 @@ const SystemCard = ({
   const detailLoaded = systemProfile && systemProfile.loaded;
   const properties = propertiesSelector(systemProfile, entity);
 
-  const onSubmit = (fn, value, origValue) => {
-    dispatch(fn(entity?.id, value, origValue, addNotification));
+  const onSubmit = async (value, isAnsible = false) => {
+    addNotification({
+      id: 'change-display-name-initiated',
+      variant: 'info',
+      title: 'Display name change operation initiated',
+      description: `Display name change of ${entity?.display_name} started.`,
+      dismissable: true,
+    });
+
+    try {
+      await patchHostById({
+        hostIdList: [entity.id],
+        patchHostIn: isAnsible
+          ? { ansible_host: value }
+          : { display_name: value },
+      });
+
+      addNotification({
+        variant: 'success',
+        title: `Display name has been changed to ${value}`,
+        dismissable: true,
+      });
+
+      await fetchEntity(entity?.id);
+    } catch (error) {
+      addNotification({
+        variant: 'danger',
+        title: 'Display name failed to be changed',
+        description:
+          'There was an error processing the request. Please try again.',
+        dismissable: true,
+      });
+
+      console.error(error);
+    }
   };
 
   const getAnsibleHost = (entity) => {
@@ -87,9 +121,7 @@ const SystemCard = ({
                 value: (
                   <NameInlineEdit
                     textValue={entity?.display_name || ''}
-                    onSubmit={(value) =>
-                      onSubmit(editDisplayName, value, entity?.display_name)
-                    }
+                    onSubmit={(value) => onSubmit(value)}
                     writePermissions={writePermissions}
                   />
                 ),
@@ -111,9 +143,7 @@ const SystemCard = ({
                   <NameInlineEdit
                     textValue={getAnsibleHost(entity) || ''}
                     writePermissions={writePermissions}
-                    onSubmit={(value) =>
-                      onSubmit(editAnsibleHost, value, getAnsibleHost(entity))
-                    }
+                    onSubmit={(value) => onSubmit(value, true)}
                   />
                 ),
                 size: 'md',
@@ -222,6 +252,8 @@ SystemCard.propTypes = {
   hasCPUFlags: PropTypes.bool,
   hasRAM: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
+  entity: PropTypes.object,
+  fetchEntity: PropTypes.func,
 };
 
 export default SystemCard;

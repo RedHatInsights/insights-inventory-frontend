@@ -125,11 +125,9 @@ DataCollectorsCardCore.defaultProps = {
 };
 
 export const DataCollectorsCard = connect(
-  ({ entityDetails: { entity }, systemProfileStore: { systemProfile } }) => ({
-    entity,
+  ({ systemProfileStore: { systemProfile } }) => ({
     systemProfile,
     detailLoaded: systemProfile?.loaded,
-    defaultCollectors: getDefaultCollectors(entity),
   }),
 )(DataCollectorsCardCore);
 
