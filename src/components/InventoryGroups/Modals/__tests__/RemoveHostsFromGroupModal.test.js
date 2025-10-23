@@ -61,7 +61,7 @@ describe('RemoveHostsFromGroupModal', () => {
       }),
     );
 
-    expect(setIsModalOpen).toBeCalled();
+    expect(setIsModalOpen).toHaveBeenCalled();
   });
 
   it('can cancel the deletion', async () => {
@@ -79,7 +79,7 @@ describe('RemoveHostsFromGroupModal', () => {
       }),
     );
 
-    expect(setIsModalOpen).toBeCalled();
+    expect(setIsModalOpen).toHaveBeenCalled();
   });
 
   it('can remove single group', async () => {
@@ -103,7 +103,7 @@ describe('RemoveHostsFromGroupModal', () => {
       }),
     );
 
-    expect(removeHostsFromGroup).toBeCalledWith('g1', ['h1']);
+    expect(removeHostsFromGroup).toHaveBeenCalledWith('g1', ['h1']);
   });
 
   it('can remove more groups', async () => {
@@ -132,6 +132,6 @@ describe('RemoveHostsFromGroupModal', () => {
       }),
     );
 
-    expect(removeHostsFromGroup).toBeCalledWith('g1', ['h1', 'h2']);
+    expect(removeHostsFromGroup).toHaveBeenCalledWith('g1', ['h1', 'h2']);
   });
 });
