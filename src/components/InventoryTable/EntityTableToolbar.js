@@ -554,23 +554,29 @@ const EntityTableToolbar = ({
   ];
   const preselectedTags = Object.entries(selectedTags).reduce(
     (sTags, [namespace, tag]) => {
-      const tags = Object.values(tag).map(
-        ({
-          item: {
-            meta: {
-              tag: { key, value },
+      const tags = Object.values(tag)
+        .filter((tagItem) => {
+          // In frontend-components v7, the structure is { isSelected, group, item }
+          // Only include items that are selected and have the proper structure
+          return tagItem?.isSelected && tagItem?.item?.meta?.tag;
+        })
+        .map(
+          ({
+            item: {
+              meta: {
+                tag: { key, value },
+              },
             },
-          },
-        }) => ({
-          id: `${namespace}/${key}=${value}`,
-          cells: [key, value, namespace],
-          item: {
-            meta: {
-              tag: { key, value },
+          }) => ({
+            id: `${namespace}/${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+            cells: [key, value, namespace],
+            item: {
+              meta: {
+                tag: { key, value },
+              },
             },
-          },
-        }),
-      );
+          }),
+        );
 
       return [...sTags, ...tags];
     },
