@@ -21,8 +21,6 @@ import { useLocation, useParams, Link, useHistory } from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
-import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
-import { Skeleton, SkeletonSize } from '@redhat-cloud-services/frontend-components';
 import { routes } from '../Routes';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import { AdvisorTab, GeneralInformationTab } from '../components/SystemDetails';
@@ -31,14 +29,6 @@ const appList = [
     { title: 'General information', name: 'general_information', component: eneralInformationTab },
     { title: 'Advisor', name: 'advisor', component: AdvisorTab }
 ];
-
-const BreadcrumbWrapper = () => (
-    <Breadcrumb ouiaId="systems-list">
-        <BreadcrumbItem>
-            <Link to={routes.table}>Inventory</Link>
-        </BreadcrumbItem>
-    </Breadcrumb>
-);
 
 const Inventory = () => {
     const { inventoryId } = useParams();
@@ -71,9 +61,6 @@ const Inventory = () => {
             history={history}
             isInventoryApp
             shouldWrapAsPage
-            BreadcrumbWrapper={
-                <BreadcrumbWrapper/>
-            }
             activeApp={activeApp}
             appList={appList}
             onTabSelect={onTabSelect}
@@ -105,15 +92,6 @@ import React, { useEffect } from 'react';
 import { Main } from '@redhat-cloud-services/frontend-components/Main';
 import { DetailHeader, DetailWrapper } from '@redhat-cloud-services/frontend-components/Inventory';
 
-
-const BreadcrumbWrapper = () => (
-    <Breadcrumb ouiaId="systems-list">
-        <BreadcrumbItem>
-            <Link to={inventory-link}>Inventory</Link>
-        </BreadcrumbItem>
-    </Breadcrumb>
-);
-
 const InventoryDetail = () => {
     const {  inventoryId } = useParams();
      return (
@@ -139,57 +117,6 @@ const InventoryDetail = () => {
             </DetailHeader>
             <Main>
                 <YouCustomMainSection inventoryId={inventoryId}/>
-            </Main>
-        </DetailWrapper>);
-};
-
-
-```
-
-### Wrawping with PageHeader and displaying breadcrumb
-If you would like to wrap the header with PageHeader component and breadcrumb, you would need to pass shouldWrapAsPage prop together with your BreadcrumbWrapper
-
-
-### Example
-```JSX 
-import React, { useEffect } from 'react';
-import { Main } from '@redhat-cloud-services/frontend-components/Main';
-import { DetailHeader, DetailWrapper } from '@redhat-cloud-services/frontend-components/Inventory';
-
-
-const BreadcrumbWrapper = () => (
-    <Breadcrumb ouiaId="systems-list">
-        <BreadcrumbItem>
-            <Link to={inventory-link}>Inventory</Link>
-        </BreadcrumbItem>
-    </Breadcrumb>
-);
-
-const InventoryDetail = () => {
-    const {  inventoryId } = useParams();
-     return (
-        <DetailWrapper
-            // You can extend the entityDetail reducer with your own reducer
-            onLoad={({ mergeWithDetail }) => {
-                store.replaceReducer(combineReducers({
-                    ...defaultReducers,
-                    ...mergeWithDetail(SystemDetailStore)
-                }));
-            }}
-            inventoryId={inventoryId}
-        >
-            <DetailHeader
-                hideBack
-                showTags
-                inventoryId={inventoryId}
-                actions={[]}
-                shouldWrapAsPage
-                {..apiDataAsProps}
-            >
-                {<YourCustomComponentsInsideHeader />}
-            </DetailHeader>
-            <Main>
-                <SystemDetail inventoryId={inventoryId}/>
             </Main>
         </DetailWrapper>);
 };
