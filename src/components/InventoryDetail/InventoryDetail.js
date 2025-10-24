@@ -31,7 +31,7 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
  *  @returns {React.ReactNode}                         the inventory detail component
  */
 const InventoryDetail = ({
-  showTags,
+  showTags = false,
   onTabSelect,
   onBackToListClick,
   inventoryId,
@@ -39,7 +39,7 @@ const InventoryDetail = ({
   activeApp,
   appList,
   showMainSection,
-  entity,
+  entity: entityProp,
   fetchEntity,
   ...headerProps
 }) => {
@@ -48,12 +48,25 @@ const InventoryDetail = ({
   const loaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded || false,
   );
+  const entity = useSelector(
+    ({ entityDetails }) => entityDetails?.entity || entityProp,
+  );
+
   //TODO: one all apps migrate to away from AppAinfo, remove this
   useEffect(() => {
-    if (!entity || !(entity?.id === inventoryId) || !loaded) {
+    console.log(
+      'dispatch, inventoryId, entity, showTags, loaded',
+      dispatch,
+      inventoryId,
+      entity,
+      showTags,
+      loaded,
+    );
+    if (!entity || (!(entity?.id === inventoryId) && !loaded)) {
       dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
     }
-  }, []);
+  }, [dispatch, inventoryId, entity, showTags, loaded]);
+
   const deleteEntity = (systems, displayName, callback) => {
     const action = deleteEntityAction(systems, displayName, addNotification);
     dispatch(reloadWrapper(action, callback));
@@ -130,7 +143,7 @@ const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
     console.warn(
       'Missing inventoryId! Please provide one, we will remove the fallback from URL soon.',
     );
-    console.warn(`Please use DetailHead component in the fed-mod to render 
+    console.warn(`Please use DetailHead component in the fed-mod to render
             only Inventory header. Migrate away InventoryDetailHead`);
     console.warn('~~~~~~~~~~');
     console.warn('~~~~~~~~~~');
