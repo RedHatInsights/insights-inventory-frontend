@@ -1,8 +1,4 @@
-import {
-  fetchTags,
-  getOsSelectOptions,
-  getWorkspaceSelectOptions,
-} from './filtersHelpers';
+import { fetchTags, getOsSelectOptions } from './filtersHelpers';
 import { getOperatingSystems } from '../../../../api';
 
 export const displayName = {
@@ -192,7 +188,6 @@ export const lastSeen = {
 export const workspace = {
   label: 'Workspace',
   type: 'workspace',
-  items: getWorkspaceSelectOptions,
   filterSerialiser: (_config, values) => {
     return { groupName: values };
   },
