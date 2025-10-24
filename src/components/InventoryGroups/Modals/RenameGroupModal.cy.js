@@ -3,7 +3,7 @@ import { TEXT_INPUT } from '@redhat-cloud-services/frontend-components-utilities
 import groups from '../../../../cypress/fixtures/groups.json';
 
 const setInterceptors = () => {
-  cy.intercept('GET', '**/api/inventory/v1/groups', {
+  cy.intercept('GET', '**/api/inventory/v1/groups*', {
     statusCode: 200,
     body: groups,
   }).as('validate');
@@ -38,9 +38,11 @@ describe('render the modal', () => {
     });
 
     cy.get(TEXT_INPUT).type('t');
+
     cy.wait('@validate').then((xhr) => {
       expect(xhr.request.url).to.contain('groups');
     });
+
     cy.get(`button[type="submit"]`).should('be.disabled');
   });
 
@@ -51,9 +53,17 @@ describe('render the modal', () => {
       modalState: { id: '1', name: 'sre-group' },
     });
 
-    cy.get(TEXT_INPUT).type('newname');
-    cy.get(`button[type="submit"]`).should('be.disabled');
-    cy.get(`button[type="submit"]`).click();
-    cy.wait('@rename');
+    const input = () => cy.get(TEXT_INPUT);
+
+    input().clear();
+    input().type('newname');
+
+    cy.wait('@validate');
+
+    cy.get(`button[type="submit"]`).should('not.be.disabled').click();
+
+    cy.wait('@rename').then((xhr) => {
+      expect(xhr.response?.statusCode).to.eq(200);
+    });
   });
 });
