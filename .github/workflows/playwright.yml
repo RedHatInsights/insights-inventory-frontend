@@ -4,23 +4,42 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled]
   workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.client_payload.pull_request_number || github.event.issue.number }}
   cancel-in-progress: true
 
 jobs:
   playwright-tests:
+    if: |
+      github.event_name == 'pull_request' || 
+      github.event_name == 'repository_dispatch' ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.body == '/retest')
     runs-on:
       - codebuild-host-inventory-frontend-${{ github.run_id }}-${{ github.run_attempt }}
       - instance-size:large
       - buildspec-override:true
 
     steps:
+      - name: Get PR SHA for comment trigger
+        id: pr-details
+        if: github.event_name == 'issue_comment'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            core.setOutput('pr_sha', pr.data.head.sha);
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || format('refs/pull/{0}/merge', github.event.client_payload.pull_request_number) || steps.pr-details.outputs.pr_sha }}
 
       - name: Create front-end .env file
         run: |
@@ -97,3 +116,4 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 10
+          
