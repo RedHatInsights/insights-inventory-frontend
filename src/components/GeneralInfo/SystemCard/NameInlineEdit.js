@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -16,6 +16,10 @@ import EditButton from '../EditButton';
 export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
   const [currentValue, setCurrentValue] = useState(textValue);
   const [isEditingOpen, setEditingOpen] = useState(false);
+
+  useEffect(() => {
+    setCurrentValue(textValue);
+  }, [textValue]);
 
   const isValid = currentValue?.trim().length !== 0;
 
@@ -49,6 +53,7 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
               onClick={() => {
                 onSubmit(currentValue);
                 setEditingOpen(false);
+                setCurrentValue(textValue);
               }}
               isDisabled={!isValid}
               className="pf-v6-u-display-inline"

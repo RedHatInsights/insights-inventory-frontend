@@ -98,21 +98,14 @@ export const bootcSelector = ({ bootc_status } = {}) => ({
   rollbackImageDigest: bootc_status?.rollback?.image_digest,
 });
 
-export const infrastructureSelector = (
-  {
-    infrastructure_type,
-    infrastructure_vendor,
-    public_ipv4_addresses,
-    public_dns,
-    network = {},
-  } = {},
-  { facts } = {},
-) => ({
-  type:
-    infrastructure_type ||
-    (facts?.rhsm?.IS_VIRTUAL !== undefined &&
-      (facts?.rhsm?.IS_VIRTUAL ? 'virtual' : 'physical')) ||
-    undefined,
+export const infrastructureSelector = ({
+  infrastructure_type,
+  infrastructure_vendor,
+  public_ipv4_addresses,
+  public_dns,
+  network = {},
+} = {}) => ({
+  infrastructure_type,
   vendor: infrastructure_vendor,
   public_ipv4_addresses: public_ipv4_addresses,
   ipv4: network.ipv4,
@@ -155,9 +148,9 @@ export const getDefaultCollectors = (entity) =>
     .map((reporter) => ({
       name: reporter.label,
       status: getCollectorStatus(
-        entity?.per_reporter_staleness[reporter.value],
+        entity?.per_reporter_staleness?.[reporter.value],
       ),
-      updated: entity?.per_reporter_staleness[reporter.value]?.last_check_in,
+      updated: entity?.per_reporter_staleness?.[reporter.value]?.last_check_in,
       details: {
         name: reporter.idName,
         id: entity?.[reporter.idValue],

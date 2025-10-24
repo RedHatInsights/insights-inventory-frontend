@@ -26,7 +26,6 @@ const SearchableGroupFilter = ({
   selectedGroupNames,
   setSelectedGroupNames,
   showNoGroupOption,
-  isKesselEnabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [focusedItemIndex, setFocusedItemIndex] = useState(null);
@@ -41,15 +40,15 @@ const SearchableGroupFilter = ({
 
   const prefixOptions = useMemo(
     () =>
-      showNoGroupOption || isKesselEnabled
+      showNoGroupOption
         ? [
             {
               itemId: '',
-              children: isKesselEnabled ? 'Ungrouped hosts' : 'No workspace',
+              children: 'Ungrouped hosts',
             },
           ]
         : [],
-    [showNoGroupOption, isKesselEnabled],
+    [showNoGroupOption],
   );
 
   const groupOptions = useMemo(() => {
@@ -254,7 +253,6 @@ SearchableGroupFilter.propTypes = {
   selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,
-  isKesselEnabled: PropTypes.bool,
 };
 
 export default SearchableGroupFilter;

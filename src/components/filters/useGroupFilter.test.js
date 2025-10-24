@@ -59,7 +59,7 @@ function WrappedHarness({ showNoGroupOption = false }) {
 /* eslint-enable react/prop-types */
 
 const waitForGroupsToBeLoaded = async (
-  searchParams = {},
+  searchParams = { type: 'standard' },
   pageParams = { page: 1, per_page: 50 },
 ) =>
   await flushPromises().then(() =>
@@ -93,7 +93,6 @@ describe('groups request not yet resolved', () => {
           groups={[]}
           hasNextPage={false}
           isFetchingNextPage={false}
-          isKesselEnabled={false}
           isLoading={true}
           searchQuery=""
           selectedGroupNames={[]}
@@ -134,7 +133,6 @@ describe('with some groups available', () => {
           }
           hasNextPage={false}
           isFetchingNextPage={false}
-          isKesselEnabled={false}
           isLoading={false}
           searchQuery=""
           selectedGroupNames={[]}
@@ -189,7 +187,6 @@ describe('with some groups available', () => {
           }
           hasNextPage={false}
           isFetchingNextPage={false}
-          isKesselEnabled={false}
           isLoading={false}
           searchQuery=""
           selectedGroupNames={[]}
@@ -217,7 +214,7 @@ describe('with some groups available', () => {
         category: 'Workspace',
         chips: [
           {
-            name: 'No workspace',
+            name: 'Ungrouped hosts',
             value: '',
           },
         ],
@@ -257,7 +254,10 @@ describe('filtering', () => {
 
       const input = screen.getByPlaceholderText('Filter by workspace');
       await userEvent.type(input, 'group-51');
-      await waitForGroupsToBeLoaded({}, { page: 2, per_page: 50 }); // Wait for the next page to load
+      await waitForGroupsToBeLoaded(
+        { type: 'standard' },
+        { page: 2, per_page: 50 },
+      ); // Wait for the next page to load
 
       // There should be only one option visible (the filtered one)
       await waitFor(() =>
@@ -297,7 +297,7 @@ describe('filtering', () => {
       const input = screen.getByPlaceholderText('Filter by workspace');
       await userEvent.type(input, 'group-51');
 
-      await waitForGroupsToBeLoaded({ name: 'group-51' }); // Wait for the serach to complete
+      await waitForGroupsToBeLoaded({ name: 'group-51', type: 'standard' }); // Wait for the serach to complete
 
       await waitFor(() =>
         expect(screen.getAllByRole('menuitem')).toHaveLength(1),
@@ -323,7 +323,7 @@ describe('no groups:read permission', () => {
     await flushPromises();
 
     expect(getGroups).not.toHaveBeenCalled();
-    const { data } = client.getQueryState(['groups', '', false]);
+    const data = client.getQueryState(['groups', '', false])?.data;
     expect(data).toBeUndefined();
   });
 });

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Grid,
   GridItem,
@@ -53,6 +53,7 @@ const GeneralInformation = ({
   systemProfilePrefetched = false,
   isBootcHost = false,
   showRuntimesProcesses = false,
+  fetchEntity,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -131,22 +132,33 @@ const GeneralInformation = ({
                   <SystemCardWrapper
                     handleClick={handleModalToggle}
                     writePermissions={writePermissions}
+                    entity={entity}
+                    fetchEntity={fetchEntity}
                   />
                 </GridItem>
               )}
               {InfrastructureCardWrapper && (
                 <GridItem>
-                  <InfrastructureCardWrapper handleClick={handleModalToggle} />
+                  <InfrastructureCardWrapper
+                    entity={entity}
+                    handleClick={handleModalToggle}
+                  />
                 </GridItem>
               )}
               {SystemStatusCardWrapper && (
                 <GridItem>
-                  <SystemStatusCardWrapper handleClick={handleModalToggle} />
+                  <SystemStatusCardWrapper
+                    entity={entity}
+                    handleClick={handleModalToggle}
+                  />
                 </GridItem>
               )}
               {DataCollectorsCardWrapper && (
                 <GridItem>
-                  <DataCollectorsCardWrapper handleClick={handleModalToggle} />
+                  <DataCollectorsCardWrapper
+                    entity={entity}
+                    handleClick={handleModalToggle}
+                  />
                 </GridItem>
               )}
             </Grid>
@@ -155,7 +167,10 @@ const GeneralInformation = ({
             <Grid hasGutter>
               {OperatingSystemCardWrapper && (
                 <GridItem>
-                  <OperatingSystemCardWrapper handleClick={handleModalToggle} />
+                  <OperatingSystemCardWrapper
+                    entity={entity}
+                    handleClick={handleModalToggle}
+                  />
                 </GridItem>
               )}
 
@@ -167,7 +182,7 @@ const GeneralInformation = ({
 
               {SubscriptionCardWrapper && (
                 <GridItem>
-                  <SubscriptionCardWrapper />
+                  <SubscriptionCardWrapper entity={entity} />
                 </GridItem>
               )}
 
@@ -281,6 +296,7 @@ GeneralInformation.propTypes = {
   systemProfilePrefetched: PropTypes.bool,
   isBootcHost: PropTypes.bool,
   showRuntimesProcesses: PropTypes.bool,
+  fetchEntity: PropTypes.func,
 };
 GeneralInformation.defaultProps = {
   entity: {},
@@ -301,13 +317,11 @@ GeneralInformation.defaultProps = {
 const GeneralInformationComponent = (props) => {
   const navigate = useInsightsNavigate();
   const dispatch = useDispatch();
-  const entity = useSelector(({ entityDetails }) => entityDetails.entity);
   const loadSystemDetail = (itemId) => dispatch(systemProfile(itemId));
   return (
     <GeneralInformation
       {...props}
       navigate={navigate}
-      entity={entity}
       loadSystemDetail={loadSystemDetail}
     />
   );

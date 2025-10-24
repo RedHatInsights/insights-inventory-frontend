@@ -99,9 +99,13 @@ describe('test data', () => {
     ).to.equal(true);
   });
 
-  it('the fourth and fifth hosts are not in a group', () => {
-    expect(hostsFixtures.results[3].groups.length === 0).to.equal(true);
-    expect(hostsFixtures.results[4].groups.length === 0).to.equal(true);
+  it('the fourth and fifth hosts are in "ungrouped" group', () => {
+    expect(hostsFixtures.results[3].groups[0].ungrouped === true).to.equal(
+      true,
+    );
+    expect(hostsFixtures.results[4].groups[0].ungrouped === true).to.equal(
+      true,
+    );
   });
 });
 
@@ -138,7 +142,7 @@ describe('Systems inventory table', () => {
         .should('have.attr', 'aria-disabled', 'true');
     });
 
-    it('cannot remove host without group', () => {
+    it('cannot remove host from ungrouped group', () => {
       cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
 
       // TODO: implement ouia selector for this component
@@ -148,7 +152,7 @@ describe('Systems inventory table', () => {
         .should('have.attr', 'aria-disabled', 'true');
     });
 
-    it('cannot remove host without group, bulk select', () => {
+    it('cannot remove host from ungrouped group, bulk select', () => {
       cy.get(TABLE_ROW).eq(3).find(MENU_TOGGLE).click();
       cy.get(DROPDOWN_ITEM)
         .contains('Remove from workspace')
@@ -192,7 +196,7 @@ describe('Systems inventory table', () => {
       cy.wait('@getHosts'); // data must be reloaded
     });
 
-    it('cannot remove hosts from different groups', () => {
+    it('cannot bulk-remove hosts from different groups', () => {
       cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
       cy.get(TABLE_ROW_CHECKBOX).eq(2).click();
 
@@ -203,7 +207,7 @@ describe('Systems inventory table', () => {
         .should('have.attr', 'aria-disabled', 'true');
     });
 
-    it('can remove more hosts from the same group', () => {
+    it('can bulk-remove more hosts from the same group', () => {
       cy.intercept(
         'DELETE',
         `/api/inventory/v1/groups/${
@@ -263,7 +267,7 @@ describe('Systems inventory table', () => {
       cy.wait('@getHosts'); // data must be reloaded
     });
 
-    it('can add to a new workspace', () => {
+    it('can add host to a new workspace', () => {
       cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
       cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
       cy.get(MENU_ITEM).contains('Add to workspace').click();
@@ -405,7 +409,7 @@ describe('Systems inventory table', () => {
 
       beforeEach(prepareTest);
 
-      it.skip('can edit hosts that are not a part of any group', () => {
+      it.skip('can edit hosts that are part of ungrouped group', () => {
         cy.get(TABLE_ROW).eq(4).find(MENU_TOGGLE).click();
         cy.get(DROPDOWN_ITEM)
           .contains('Edit')
@@ -500,14 +504,14 @@ describe('Systems inventory table', () => {
           .should('not.have.attr', 'aria-disabled');
       });
 
-      it('can bulk remove from group together with ungroupped hosts', () => {
+      it('cannot bulk remove from group together with ungroupped hosts', () => {
         cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
         cy.get(TABLE_ROW_CHECKBOX).eq(3).click();
         // TODO: implement ouia selector for this component
         cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
         cy.get(DROPDOWN_ITEM)
           .contains('Remove from workspace')
-          .should('not.have.attr', 'aria-disabled');
+          .should('have.attr', 'aria-disabled', 'true');
       });
 
       it('can bulk add hosts to the permitted group', () => {

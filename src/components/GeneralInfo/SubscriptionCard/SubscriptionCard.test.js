@@ -12,6 +12,9 @@ import '@testing-library/jest-dom';
 describe('SubscriptionCard', () => {
   let initialState;
   let mockStore;
+  const entity = {
+    ...subscriptionsTestFacts,
+  };
 
   beforeEach(() => {
     mockStore = configureStore();
@@ -22,11 +25,6 @@ describe('SubscriptionCard', () => {
           cpu_flags: ['one'],
         },
       },
-      entityDetails: {
-        entity: {
-          ...subscriptionsTestFacts,
-        },
-      },
     };
   });
 
@@ -34,7 +32,7 @@ describe('SubscriptionCard', () => {
     const store = mockStore({ entityDetails: {}, systemProfileStore: {} });
     const view = render(
       <TestWrapper store={store}>
-        <SubscriptionCard />
+        <SubscriptionCard entity={entity} />
       </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
@@ -44,7 +42,7 @@ describe('SubscriptionCard', () => {
     const store = mockStore(initialState);
     const view = render(
       <TestWrapper store={store}>
-        <SubscriptionCard />
+        <SubscriptionCard entity={entity} />
       </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
@@ -55,7 +53,7 @@ describe('SubscriptionCard', () => {
       const store = mockStore(initialState);
       const view = render(
         <TestWrapper store={store}>
-          <SubscriptionCard {...{ [item]: false }} />
+          <SubscriptionCard {...{ [item]: false }} entity={entity} />
         </TestWrapper>,
       );
       expect(view.asFragment()).toMatchSnapshot();
@@ -65,12 +63,12 @@ describe('SubscriptionCard', () => {
   it('should render correctly with subscription system_purpose data', async () => {
     initialState.systemProfileStore.systemProfile.system_purpose =
       subscriptionsTestSystemPurpose.system_purpose;
-    initialState.entityDetails.entity.facts = undefined;
+    entity.facts = undefined;
 
     const store = mockStore(initialState);
     render(
       <TestWrapper store={store}>
-        <SubscriptionCard />
+        <SubscriptionCard entity={entity} />
       </TestWrapper>,
     );
 

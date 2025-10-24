@@ -8,348 +8,398 @@
       "id": "bBEbFFB0D339fA46eD81cCA301d85AAF",
       "created_at": "1991-03-22T23:00:00.0Z",
       "name": "Ut",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "id": "F66A94AC4E6d1B59F67cDf893D031F8e",
       "name": "velit in proident in",
       "updated_at": "1978-11-13T00:00:00.0Z",
       "created_at": "1966-12-21T00:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "updated_at": "2012-07-06T22:00:00.0Z",
       "name": "ancd",
       "id": "54b302e4-07d2-45c5-b2f8-92a286847f9d",
       "created_at": "1944-12-04T23:00:00.0Z",
-      "host_count": 5
+      "host_count": 5,
+      "ungrouped": false
     },
     {
       "updated_at": "1997-03-05T23:00:00.0Z",
       "name": "deserunt laborum ipsum commodo qui",
       "id": "9Ff0bf0A-a72a-0A3a-349d-F6cc428AfE53",
       "created_at": "1994-08-09T22:00:00.0Z",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "created_at": "1963-08-01T23:00:00.0Z",
       "updated_at": "1993-02-23T23:00:00.0Z",
       "name": "qui aliqua Ut",
       "id": "023AC4Bc-bCBc-6A31-5ef9-6C813BC47F5f",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "id": "Ad2dDeE2-a922-b815-b40C-Ba6bDa5C83Ad",
       "created_at": "2004-02-28T23:00:00.0Z",
       "name": "proident",
       "updated_at": "2005-07-10T22:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "name": "nisi adipisicing",
       "created_at": "1955-09-21T23:00:00.0Z",
       "updated_at": "1974-09-14T23:00:00.0Z",
       "id": "bf5a0Fbd-85c2-2Eff-D30A-0597Bb87c5AC",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "id": "DD1ea62A-dBbB-09EC-acc1-45DfA0af4e1A",
       "name": "sit ullamco eu",
       "created_at": "2006-10-19T00:00:00.0Z",
       "updated_at": "1980-08-31T22:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "name": "aliqua",
       "id": "fE5E884e-ad0A-6a1B-0bC6-FCAFCBeB82fe",
       "created_at": "2018-12-07T23:00:00.0Z",
       "updated_at": "1993-10-22T00:00:00.0Z",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "name": "conse",
       "created_at": "1982-11-13T00:00:00.0Z",
       "updated_at": "1990-08-06T22:00:00.0Z",
       "id": "4aeacA7BA9d4A6a44cFB72822CF59cfc",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "name": "dolore ",
       "id": "bd518cCc5dFE2D79ce0d8adD1cA5aAfE",
       "created_at": "2004-08-22T22:00:00.0Z",
       "updated_at": "1998-10-30T00:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "name": "ipsum exercitation Excepteur voluptate officia",
       "created_at": "1979-09-30T23:00:00.0Z",
       "updated_at": "1988-02-16T23:00:00.0Z",
       "id": "4aC8E5B1-65aF-22Ae-D9dc-E1D4DFBb62EE",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "id": "69081dF1-eedF-52fc-9Dc1-DB0D3c1dFb2C",
       "updated_at": "1998-06-24T22:00:00.0Z",
       "created_at": "1993-06-21T22:00:00.0Z",
       "name": "ut sint eu aute",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "id": "95943c18-A6AE-c85A-6CcE-cFA5BEFDCddB",
       "created_at": "1996-11-24T00:00:00.0Z",
       "updated_at": "1952-12-20T00:00:00.0Z",
       "name": "tempor Excepteur exercitation non cillum",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "created_at": "2014-05-17T22:00:00.0Z",
       "id": "8b7Eace8-3cA1-7F5A-6f2C-FaE1baE9D05a",
       "name": "quis est ut",
       "updated_at": "1999-05-05T22:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "id": "adB66Deb-139e-AC2C-FDbf-6B1B15beebcE",
       "updated_at": "1979-12-03T23:00:00.0Z",
       "created_at": "1954-04-22T23:00:00.0Z",
       "name": "minim consequat",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "id": "ED5C54d9df6E5b2A4c7bDBDCaF8e5072",
       "updated_at": "2006-11-08T23:00:00.0Z",
       "created_at": "1984-03-30T22:00:00.0Z",
       "name": "mollit eiusmod consectetur in",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "updated_at": "2005-12-23T00:00:00.0Z",
       "created_at": "1994-01-10T23:00:00.0Z",
       "name": "incididunt Ut est in",
       "id": "AfdB24EE8aCfF26B5B8019eDC0bacbDd",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "updated_at": "1974-05-27T23:00:00.0Z",
       "id": "AbfCAcA210bfe502F826B5a1d97826DE",
       "created_at": "1971-07-27T23:00:00.0Z",
       "name": "Ut",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "id": "b13CEdDdff211ABbE8D8D8DdEBfa0C2e",
       "updated_at": "1963-11-17T00:00:00.0Z",
       "name": "sint eiusmod nisi aliqua Excepteur",
       "created_at": "1964-10-11T00:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "created_at": "1992-04-11T22:00:00.0Z",
       "updated_at": "2017-05-05T22:00:00.0Z",
       "id": "c1795fe2-D4ec-e9de-AaAD-cea8ccEBBb43",
       "name": "in sunt ea",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "id": "35EfbDdCd8934E5dDBCfbEacdBAEa6fB",
       "created_at": "1969-01-08T23:00:00.0Z",
       "name": "ad qui incididunt anim ex",
       "updated_at": "1993-08-18T22:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "created_at": "1966-05-12T23:00:00.0Z",
       "name": "commodo Duis",
       "updated_at": "1974-08-23T23:00:00.0Z",
       "id": "D4bcFfeCDdFCb9D758Ddd55Bec5FFffd",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "created_at": "1974-08-30T23:00:00.0Z",
       "id": "8F60a7c4-557E-eE3c-eF3B-5dfAECA896AF",
       "name": "proident aute sed voluptate Excepteur",
       "updated_at": "1980-05-10T22:00:00.0Z",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "name": "nulla amet minim reprehenderit",
       "created_at": "1953-02-12T23:00:00.0Z",
       "updated_at": "1943-05-20T22:00:00.0Z",
       "id": "8CEE49aC-E55B-74cE-97Fb-c183DdFa75D1",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "updated_at": "1945-03-22T23:00:00.0Z",
       "id": "f7b6c3ceE8BCB68aCFFC6bed33c9B278",
       "name": "nulla",
       "created_at": "1944-05-14T22:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "name": "consectetur dolore",
       "id": "d4f2b78ea0332e1eae26fCcbfac737Aa",
       "created_at": "2015-12-18T00:00:00.0Z",
       "updated_at": "1965-06-26T23:00:00.0Z",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "name": "mollit ",
       "created_at": "1979-04-02T22:00:00.0Z",
       "id": "B2BBFa8FB8DbfddDeba9dEf7B3fABd26",
       "updated_at": "2001-01-09T23:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "name": "enim q",
       "created_at": "1961-03-06T23:00:00.0Z",
       "id": "B1F7fe93-c6bC-15e8-c2FC-3F6b3c1FDeab",
       "updated_at": "1973-07-09T23:00:00.0Z",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "created_at": "2022-12-06T23:00:00.0Z",
       "name": "proident fugiat reprehenderit tempor",
       "updated_at": "1971-01-12T23:00:00.0Z",
       "id": "aAB7eadfa8e5f91B6cAcBCd53bAfECAB",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "updated_at": "1973-07-27T23:00:00.0Z",
       "id": "CBd04bFB-5d02-DCb2-eC2d-ed1deBcE1318",
       "name": "anim quis cillum nulla ",
       "created_at": "2001-01-07T23:00:00.0Z",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "updated_at": "1991-05-05T22:00:00.0Z",
       "created_at": "2020-07-24T22:00:00.0Z",
       "id": "dAd6bBb1-B4c1-CaF4-88C6-bB47Cb04c117",
       "name": "voluptate nulla",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "created_at": "2004-08-10T22:00:00.0Z",
       "name": "sit ci",
       "updated_at": "2010-09-12T22:00:00.0Z",
       "id": "7C7acDDB143DE75D0D2BD0fe6395f1e4",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "created_at": "2018-10-13T00:00:00.0Z",
       "id": "61B3d64f87bEdc9EDEf70d7b43C621E2",
       "updated_at": "2005-03-09T23:00:00.0Z",
       "name": "consequat veniam quis nulla",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "created_at": "2003-08-03T22:00:00.0Z",
       "updated_at": "1970-01-29T23:00:00.0Z",
       "id": "E1A6fa1fb5bdc073BF4aC5bAFDC98A0a",
       "name": "pariatur adipisicing ut",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "updated_at": "1978-04-08T23:00:00.0Z",
       "created_at": "1967-03-06T23:00:00.0Z",
       "id": "482da6aA-FCA1-FADC-A368-9ABB042DDbaf",
       "name": "esse",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "updated_at": "1956-04-22T23:00:00.0Z",
       "id": "Bb9ABa408d2AF1e7A381ec57C3ff2FdC",
       "created_at": "1948-10-29T00:00:00.0Z",
       "name": "non irure qui",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "name": "velit dolor officia Lorem tempor",
       "id": "93692deaA3fAbaE666caA2ad472A2196",
       "updated_at": "1976-08-23T23:00:00.0Z",
       "created_at": "1985-11-02T23:00:00.0Z",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "name": "adipisicing esse",
       "created_at": "2022-04-12T22:00:00.0Z",
       "updated_at": "1997-08-10T22:00:00.0Z",
       "id": "B7b37Eecda0dEfC71e72FD7923AF8Bdc",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "id": "fAdcFeD365b0FE454e57dACcB69E0dfA",
       "name": "irure aliquip commodo",
       "created_at": "1977-02-01T23:00:00.0Z",
       "updated_at": "1952-01-05T23:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "name": "cupidatat",
       "created_at": "1996-07-15T22:00:00.0Z",
-      "host_count": 15
+      "host_count": 15,
+      "ungrouped": false
     },
     {
       "name": "nulla Ut adipisicing",
       "updated_at": "1970-09-25T23:00:00.0Z",
       "created_at": "1977-09-09T23:00:00.0Z",
       "id": "715e3468-8D58-6E64-eFDa-B9E709a00B0C",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "id": "dbFd6B78-49Bd-a65b-36cb-9ea32EFD77BF",
       "name": "Ut deserunt dolore incididunt nulla",
       "updated_at": "1980-03-07T23:00:00.0Z",
       "created_at": "1965-07-22T23:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "created_at": "1995-02-02T23:00:00.0Z",
       "name": "laboris aliqua anim",
       "updated_at": "1969-11-26T00:00:00.0Z",
       "id": "8DdB68dd6B845f1704e50C2dccca807A",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "name": "veniam anim",
       "created_at": "2004-08-03T22:00:00.0Z",
       "id": "fc85FF52-AD45-FBD0-E432-caA5Bb0FC98E",
       "updated_at": "1961-07-04T23:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "updated_at": "2012-07-13T22:00:00.0Z",
       "id": "c9DFA4Bf-dBcE-38A2-76B1-1f8ae941EF8E",
       "created_at": "2006-10-22T00:00:00.0Z",
       "name": "nostrud nisi sint U",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "created_at": "1954-06-09T23:00:00.0Z",
       "id": "D11bECBbB6282D99Ece43d18df1BfbeB",
       "updated_at": "1996-09-25T22:00:00.0Z",
       "name": "non laboris",
-      "host_count": 20
+      "host_count": 20,
+      "ungrouped": false
     },
     {
       "created_at": "1981-12-28T00:00:00.0Z",
       "name": "aliqua",
       "id": "3F3E4CaD-aD9e-FCBE-aDcE-fCEa73ed4e67",
       "updated_at": "2005-01-17T23:00:00.0Z",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
       "name": "vol",
       "created_at": "1943-12-16T00:00:00.0Z",
       "updated_at": "1985-05-29T22:00:00.0Z",
       "id": "CbBD1DCe-9855-B2D9-2c25-36f46ce16ED4",
-      "host_count": 0
+      "host_count": 0,
+      "ungrouped": false
     },
     {
-      "name": "magna deserunt esse",
+      "name": "Ungrouped Hosts",
       "id": "BB2DF02D-9EeF-ABB0-B2D9-cFe21Cef6B88",
       "updated_at": "2019-03-21T23:00:00.0Z",
       "created_at": "2018-03-27T22:00:00.0Z",
-      "host_count": 20
+      "host_count": 40,
+      "ungrouped": true
     }
   ],
   "total": 60

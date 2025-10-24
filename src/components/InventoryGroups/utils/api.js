@@ -32,7 +32,6 @@ export const getWritableGroups = async (
   groupName,
   pagination = {},
   getUserPermissions,
-  isKesselEnabled = false,
 ) => {
   let groupsWritePermissions = [];
 
@@ -59,11 +58,7 @@ export const getWritableGroups = async (
     ) // has general groups write permission; can fetch all groups
   ) {
     const groups = await getGroups(
-      groupName
-        ? { name: groupName }
-        : isKesselEnabled
-          ? { type: 'standard' }
-          : {},
+      groupName ? { name: groupName } : { type: 'standard' },
       pagination,
     );
 
