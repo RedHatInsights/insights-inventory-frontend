@@ -1,4 +1,3 @@
-// @ts-check
 import React, {
   useCallback,
   useMemo,
@@ -23,19 +22,22 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getGroups } from '../../../../../../components/InventoryGroups/utils/api';
 
 const WorkspaceFilter = ({
-  value: selectedGroupNames = [],
-  onChange: setSelectedGroupNames,
+  value: selectedWorkspaces = [],
+  onChange: setSelectedWorkspaces,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const debounceTimeoutRef = useRef(null);
+  const INITIAL_VISIBLE_SIZE = 10;
   const DEBOUNCE_TIMEOUT = 300;
-  const INITIAL_OPTIONS_COUNT = 10;
-  const VIEW_MORE_INCREMENT = 10;
+  const VIEW_MORE_SIZE = 10;
   const PAGE_SIZE = 50;
+  const LOADER_ID = 'loader';
   // TODO plug in access control solution
   const hasAccess = true;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [visibleSize, setVisibleSize] = useState(INITIAL_VISIBLE_SIZE);
+  const [focusedOption, setFocusedOption] = useState(0);
 
   const { data, fetchNextPage, hasNextPage, isFetching, isPending } =
     useInfiniteQuery({
@@ -62,7 +64,7 @@ const WorkspaceFilter = ({
       },
     });
 
-  const groupOptions = useMemo(() => {
+  const workspaceOptions = useMemo(() => {
     if (!data?.pages) return [];
 
     const items = data.pages
@@ -74,28 +76,24 @@ const WorkspaceFilter = ({
       }));
 
     return [
-      ...(!debouncedSearch
-        ? [{ itemId: '', children: 'Ungrouped hosts' }]
-        : []),
+      ...(debouncedSearch ? [] : [{ itemId: '', children: 'Ungrouped hosts' }]),
       ...items,
     ];
   }, [data, debouncedSearch]);
 
-  const [visibleCount, setVisibleCount] = useState(INITIAL_OPTIONS_COUNT);
-  const visibleOptions = groupOptions.slice(0, visibleCount);
-  const [activeItem, setActiveItem] = useState(0);
-
-  const activeItemRef = useRef(null);
+  const visibleOptions = workspaceOptions.slice(0, visibleSize);
+  const debounceTimeoutRef = useRef(null);
+  const focusedOptionRef = useRef(null);
 
   const onViewMoreClick = async () => {
-    const nextVisibleCount = visibleCount + VIEW_MORE_INCREMENT;
+    const nextVisibleSize = visibleSize + VIEW_MORE_SIZE;
 
-    if (nextVisibleCount > groupOptions.length) {
+    if (nextVisibleSize > workspaceOptions.length) {
       await fetchNextPage();
     }
 
-    setVisibleCount(nextVisibleCount);
-    setActiveItem(visibleCount);
+    setVisibleSize(nextVisibleSize);
+    setFocusedOption(visibleSize);
   };
 
   const debounceSearch = useCallback((value) => {
@@ -112,18 +110,18 @@ const WorkspaceFilter = ({
   }, []);
 
   useEffect(() => {
-    debounceSearch(searchValue);
+    debounceSearch(search);
 
     return () => {
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [searchValue, debounceSearch]);
+  }, [search, debounceSearch]);
 
   useEffect(() => {
-    activeItemRef.current?.focus();
-  }, [visibleCount]);
+    focusedOptionRef.current?.focus();
+  }, [visibleSize]);
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
@@ -138,10 +136,10 @@ const WorkspaceFilter = ({
     >
       <TextInputGroup isPlain>
         <TextInputGroupMain
-          value={searchValue}
+          value={search}
           onClick={onToggleClick}
           onChange={(_event, value) => {
-            setSearchValue(value);
+            setSearch(value);
           }}
           id="multi-typeahead-select-input"
           autoComplete="off"
@@ -157,14 +155,14 @@ const WorkspaceFilter = ({
         id="groups-filter-select"
         ouiaId="Filter by group"
         isOpen={isOpen}
-        selected={selectedGroupNames}
+        selected={selectedWorkspaces}
         onSelect={(_event, value) => {
-          if (value === 'loader') return;
-          setSelectedGroupNames(xor(selectedGroupNames, [value]));
+          if (value === LOADER_ID) return;
+          setSelectedWorkspaces(xor(selectedWorkspaces, [value]));
         }}
         onOpenChange={() => {
           setIsOpen(false);
-          setSearchValue('');
+          setSearch('');
           setVisibleSize(INITIAL_VISIBLE_SIZE);
         }}
         toggle={toggle}
@@ -180,15 +178,14 @@ const WorkspaceFilter = ({
               No workspaces available
             </SelectOption>
           ) : (
-            <>
+            <Fragment>
               {visibleOptions.map((option, index) => {
                 return (
                   <Fragment key={option.itemId}>
                     <SelectOption
-                      isSelected={selectedGroupNames.includes(option.itemId)}
-                      key={option.itemId}
+                      isSelected={selectedWorkspaces.includes(option.itemId)}
                       data-ouia-component-id="FilterByGroupOption"
-                      ref={index === activeItem ? activeItemRef : null}
+                      ref={index === focusedOption ? focusedOptionRef : null}
                       hasCheckbox={true}
                       {...option}
                     />
@@ -202,12 +199,12 @@ const WorkspaceFilter = ({
                   isLoadButton={!isFetching}
                   isDisabled={isFetching}
                   onClick={onViewMoreClick}
-                  itemId="loader"
+                  itemId={LOADER_ID}
                 >
                   {isFetching ? <Spinner size="lg" /> : 'View more'}
                 </SelectOption>
               )}
-            </>
+            </Fragment>
           )}
         </SelectList>
       </Select>
@@ -216,12 +213,6 @@ const WorkspaceFilter = ({
 };
 
 WorkspaceFilter.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      id: PropTypes.string,
-    }).isRequired,
-  ),
   value: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
 };
