@@ -6,8 +6,6 @@ import {
 import { test, navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { searchByName } from './helpers/filterHelpers';
 
-const BUG_URL = `https://issues.redhat.com/browse/RHINENG-21302`;
-
 test('User should be able to edit and delete a system from Systems page', async ({
   page,
 }) => {
@@ -110,8 +108,7 @@ test('User should be able to edit and delete a system from System Details page',
     });
   });
 
-  await test.step('Edit the system display name and verify', async (step) => {
-    step.skip(true, `Editing display name is blocked by bug: ${BUG_URL}.`);
+  await test.step('Edit the system display name and verify', async () => {
     await editButtons.nth(0).click();
     await page.locator('[aria-label="name"]').first().fill(newDisplayName);
     await page.getByRole('button', { name: 'submit' }).click();
@@ -138,7 +135,10 @@ test('User should be able to edit and delete a system from System Details page',
     await dialogModal.getByRole('button', { name: 'Delete' }).click();
 
     await page.reload();
-    await expect(page.getByText('System not found')).toBeVisible();
+    await page.waitForSelector('.loading-spinner', { state: 'detached' });
+    await expect(page.getByText('System not found')).toBeVisible({
+      timeout: 5000,
+    });
   });
 
   await test.step('Cleanup the created archive and temp directory', async () => {
