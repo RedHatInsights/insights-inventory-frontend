@@ -112,6 +112,7 @@ test('User should be able to edit and delete a system from System Details page',
     await editButtons.nth(0).click();
     await page.locator('[aria-label="name"]').first().fill(newDisplayName);
     await page.getByRole('button', { name: 'submit' }).click();
+    await page.waitForTimeout(2000);
 
     await expect(
       page.getByRole('heading', { name: newDisplayName }),
@@ -124,6 +125,7 @@ test('User should be able to edit and delete a system from System Details page',
     await editButtons.nth(1).click();
     await page.locator('[aria-label="name"]').first().fill(newAnsibleName);
     await page.getByRole('button', { name: 'submit' }).click();
+    await page.waitForTimeout(2000);
 
     const ansibleNameValueLocator = page.getByLabel('Ansible hostname value');
     await expect(ansibleNameValueLocator).toHaveText(newAnsibleName);
@@ -133,6 +135,12 @@ test('User should be able to edit and delete a system from System Details page',
     await page.getByRole('button', { name: 'Delete' }).click();
     await expect(dialogModal).toBeVisible();
     await dialogModal.getByRole('button', { name: 'Delete' }).click();
+
+    // Wait for the deletion to complete by waiting for the dialog to disappear
+    await expect(dialogModal).toBeHidden({ timeout: 10000 });
+
+    // Wait a bit for the backend to process the deletion
+    await page.waitForTimeout(2000);
 
     await page.reload();
     await page.waitForSelector('.loading-spinner', { state: 'detached' });
