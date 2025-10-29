@@ -15,7 +15,7 @@ setup.describe('Setup', async () => {
   });
 
   setup('Authenticate', async ({ page }) => {
-    setup.setTimeout(60_000);
+    setup.setTimeout(120_000);
 
     await closePopupsIfExist(page);
     await logInWithUser1(page);

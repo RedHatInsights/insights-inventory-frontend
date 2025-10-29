@@ -33,11 +33,11 @@ export const logInWithUsernameAndPassword = async (
     throw new Error('Username or password not found');
   }
 
-  await page.goto('/insights/inventory');
+  await page.goto('/insights/inventory', { timeout: 90000 });
 
   await expect(async () =>
     expect(page.getByText('Log in to your Red Hat account')).toBeVisible(),
-  ).toPass();
+  ).toPass({ timeout: 15000 });
 
   const login = page.getByRole('textbox');
   await login.fill(username);

@@ -18,6 +18,14 @@ function entityDetailLoaded(state, { payload }) {
   };
 }
 
+function entityDetailRejected(state) {
+  return {
+    ...state,
+    loaded: true,
+    entity: undefined,
+  };
+}
+
 function toggleDrawer(state, { payload }) {
   return {
     ...state,
@@ -92,6 +100,7 @@ export default {
   [ACTION_TYPES.LOAD_ENTITIES_PENDING]: () => entityDefaultState,
   [ACTION_TYPES.LOAD_ENTITY_PENDING]: entityDetailPending,
   [ACTION_TYPES.LOAD_ENTITY_FULFILLED]: entityDetailLoaded,
+  [ACTION_TYPES.LOAD_ENTITY_REJECTED]: entityDetailRejected,
   [ACTION_TYPES.LOAD_TAGS]: showTags,
   [ACTION_TYPES.LOAD_TAGS_PENDING]: showTagsPending,
   [ACTION_TYPES.LOAD_TAGS_FULFILLED]: showTags,

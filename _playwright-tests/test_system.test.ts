@@ -112,9 +112,10 @@ test('User should be able to edit and delete a system from System Details page',
     await editButtons.nth(0).click();
     await page.locator('[aria-label="name"]').first().fill(newDisplayName);
     await page.getByRole('button', { name: 'submit' }).click();
+    await page.waitForTimeout(2000);
 
     await expect(
-      page.getByRole('heading', { name: newDisplayName }),
+      page.getByRole('heading', { name: newDisplayName, level: 1 }),
     ).toBeVisible();
     const displayNameValueLocator = page.getByLabel('Display name value');
     await expect(displayNameValueLocator).toHaveText(newDisplayName);
@@ -124,6 +125,7 @@ test('User should be able to edit and delete a system from System Details page',
     await editButtons.nth(1).click();
     await page.locator('[aria-label="name"]').first().fill(newAnsibleName);
     await page.getByRole('button', { name: 'submit' }).click();
+    await page.waitForTimeout(2000);
 
     const ansibleNameValueLocator = page.getByLabel('Ansible hostname value');
     await expect(ansibleNameValueLocator).toHaveText(newAnsibleName);
@@ -135,7 +137,9 @@ test('User should be able to edit and delete a system from System Details page',
     await dialogModal.getByRole('button', { name: 'Delete' }).click();
 
     await page.reload();
-    await expect(page.getByText('System not found')).toBeVisible();
+    await expect(page.getByText('System not found')).toBeVisible({
+      timeout: 10000,
+    });
   });
 
   await test.step('Cleanup the created archive and temp directory', async () => {

@@ -62,7 +62,7 @@ const SystemCard = ({
         dismissable: true,
       });
 
-      await fetchEntity(entity?.id);
+      await fetchEntity();
     } catch (error) {
       addNotification({
         variant: 'danger',
