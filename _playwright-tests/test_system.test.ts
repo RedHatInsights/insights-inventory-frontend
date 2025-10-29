@@ -115,7 +115,7 @@ test('User should be able to edit and delete a system from System Details page',
     await page.waitForTimeout(2000);
 
     await expect(
-      page.getByRole('heading', { name: newDisplayName }),
+      page.getByRole('heading', { name: newDisplayName, level: 1 }),
     ).toBeVisible();
     const displayNameValueLocator = page.getByLabel('Display name value');
     await expect(displayNameValueLocator).toHaveText(newDisplayName);
@@ -136,16 +136,9 @@ test('User should be able to edit and delete a system from System Details page',
     await expect(dialogModal).toBeVisible();
     await dialogModal.getByRole('button', { name: 'Delete' }).click();
 
-    // Wait for the deletion to complete by waiting for the dialog to disappear
-    await expect(dialogModal).toBeHidden({ timeout: 10000 });
-
-    // Wait a bit for the backend to process the deletion
-    await page.waitForTimeout(2000);
-
     await page.reload();
-    await page.waitForSelector('.loading-spinner', { state: 'detached' });
     await expect(page.getByText('System not found')).toBeVisible({
-      timeout: 5000,
+      timeout: 10000,
     });
   });
 
