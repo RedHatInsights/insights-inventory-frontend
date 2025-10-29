@@ -45,27 +45,23 @@ const InventoryDetail = ({
 }) => {
   const dispatch = useDispatch();
   const addNotification = useAddNotification();
-  const loaded = useSelector(
+  const reduxLoaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded || false,
   );
+  // If entityProp is provided and has an ID, treat as loaded
+  const loaded = reduxLoaded || entityProp?.id !== undefined;
   const entity = useSelector(
-    ({ entityDetails }) => entityDetails?.entity || entityProp,
+    ({ entityDetails }) => entityProp || entityDetails?.entity,
   );
 
   //TODO: one all apps migrate to away from AppAinfo, remove this
   useEffect(() => {
-    console.log(
-      'dispatch, inventoryId, entity, showTags, loaded',
-      dispatch,
-      inventoryId,
-      entity,
-      showTags,
-      loaded,
-    );
-    if (!entity || (!(entity?.id === inventoryId) && !loaded)) {
+    // Only dispatch if not loaded yet, or if entity exists but doesn't match the inventoryId
+    // When entity prop is provided, still load via Redux to set loaded state
+    if ((!loaded && !entityProp) || (entity && entity.id !== inventoryId)) {
       dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
     }
-  }, [dispatch, inventoryId, entity, showTags, loaded]);
+  }, [dispatch, inventoryId, entity, entityProp, showTags, loaded]);
 
   const deleteEntity = (systems, displayName, callback) => {
     const action = deleteEntityAction(systems, displayName, addNotification);
