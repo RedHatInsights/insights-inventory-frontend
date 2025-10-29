@@ -135,7 +135,10 @@ test('User should be able to edit and delete a system from System Details page',
     await dialogModal.getByRole('button', { name: 'Delete' }).click();
 
     await page.reload();
-    await expect(page.getByText('System not found')).toBeVisible();
+    await page.waitForSelector('.loading-spinner', { state: 'detached' });
+    await expect(page.getByText('System not found')).toBeVisible({
+      timeout: 5000,
+    });
   });
 
   await test.step('Cleanup the created archive and temp directory', async () => {
