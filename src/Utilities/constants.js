@@ -228,12 +228,13 @@ export function reduceFilters(filters = []) {
 }
 
 export const reloadWrapper = (event, callback) => {
-  event.payload.then((data) => {
-    callback();
-    return data;
-  });
-
-  return event;
+  return {
+    ...event,
+    payload: event.payload.then((data) => {
+      callback();
+      return data;
+    }),
+  };
 };
 
 export const isEmpty = (check) => !check || check?.length === 0;
