@@ -162,7 +162,7 @@ const EntityTable = ({
         )
       ) : (
         <SkeletonTable
-          columns={columns.map(({ title }) => title)}
+          columns={columns.map(({ title, dataLabel }) => dataLabel || title)}
           rows={15}
           variant={variant ?? modifiedTableProps.variant}
         />
