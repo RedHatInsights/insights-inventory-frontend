@@ -41,7 +41,7 @@ const useExportDownloadCheck = ({ onDownloadAvailable, onError, axios }) => {
         onError?.(error);
       }
     },
-    [status, onDownloadAvailable, checking, onError],
+    [status, onDownloadAvailable, onError],
   );
 
   useEffect(() => {
@@ -53,7 +53,6 @@ const useExportDownloadCheck = ({ onDownloadAvailable, onError, axios }) => {
       }, DOWNLOAD_CHECK_INTERVAL);
 
       return () => {
-        setCheckForDownload(undefined);
         clearInterval(downloadCheck);
       };
     }
