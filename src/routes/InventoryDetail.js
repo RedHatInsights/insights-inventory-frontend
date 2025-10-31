@@ -11,7 +11,7 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
 import { useLightspeedFeatureFlag } from '../Utilities/hooks/useLightspeedFeatureFlag';
-import { getHostById } from '../api/hostInventoryApi';
+import { getEntities as defaultGetEntities } from '../api';
 
 const appList = {
   'CENTOS-LINUX': [
@@ -88,7 +88,11 @@ const Inventory = () => {
 
   const fetchEntity = useCallback(async () => {
     try {
-      const result = await getHostById({ hostIdList: [inventoryId] });
+      const result = await defaultGetEntities(
+        inventoryId,
+        { hasItems: true },
+        { showTags: true },
+      );
       setEntity(result?.results?.[0] || undefined);
     } catch (error) {
       console.error(error);
@@ -105,6 +109,7 @@ const Inventory = () => {
   const { cloud_provider: cloudProvider, host_type: hostType } = useSelector(
     ({ systemProfileStore }) => systemProfileStore?.systemProfile || [],
   );
+
   useEffect(() => {
     let osSlug =
       entity?.system_profile?.operating_system?.name
