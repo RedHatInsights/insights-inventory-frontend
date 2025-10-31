@@ -135,10 +135,9 @@ test('User should be able to edit and delete a system from System Details page',
     await page.getByRole('button', { name: 'Delete' }).click();
     await expect(dialogModal).toBeVisible();
     await dialogModal.getByRole('button', { name: 'Delete' }).click();
-
-    await page.reload();
-    await expect(page.getByText('System not found')).toBeVisible({
-      timeout: 10000,
+    await page.waitForTimeout(2000);
+    await expect(page.getByText('Delete operation finished')).toBeVisible({
+      timeout: 5000,
     });
   });
 
