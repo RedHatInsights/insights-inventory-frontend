@@ -141,7 +141,7 @@ const Systems = () => {
             isModalOpen={addHostGroupModalOpen}
             setIsModalOpen={setAddHostGroupModalOpen}
             modalState={isRowAction ? [currentSystem] : selectedItems}
-            reloadData={() => reloadData()}
+            reloadData={isRowAction ? () => reload() : () => reloadData()}
           />
         )}
 
@@ -150,7 +150,7 @@ const Systems = () => {
             isModalOpen={removeHostsFromGroupModalOpen}
             setIsModalOpen={setRemoveHostsFromGroupModalOpen}
             modalState={isRowAction ? [currentSystem] : selectedItems}
-            reloadData={() => reloadData()}
+            reloadData={isRowAction ? () => reload() : () => reloadData()}
           />
         )}
 

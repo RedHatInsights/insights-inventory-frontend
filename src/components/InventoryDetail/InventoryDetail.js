@@ -31,7 +31,7 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
  *  @returns {React.ReactNode}                         the inventory detail component
  */
 const InventoryDetail = ({
-  showTags,
+  showTags = false,
   onTabSelect,
   onBackToListClick,
   inventoryId,
@@ -39,21 +39,30 @@ const InventoryDetail = ({
   activeApp,
   appList,
   showMainSection,
-  entity,
+  entity: entityProp,
   fetchEntity,
   ...headerProps
 }) => {
   const dispatch = useDispatch();
   const addNotification = useAddNotification();
-  const loaded = useSelector(
+  const reduxLoaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded || false,
   );
+  // If entityProp is provided and has an ID, treat as loaded
+  const loaded = reduxLoaded || entityProp?.id !== undefined;
+  const entity = useSelector(
+    ({ entityDetails }) => entityProp || entityDetails?.entity,
+  );
+
   //TODO: one all apps migrate to away from AppAinfo, remove this
   useEffect(() => {
-    if (!entity || !(entity?.id === inventoryId) || !loaded) {
+    // Only dispatch if not loaded yet, or if entity exists but doesn't match the inventoryId
+    // When entity prop is provided, still load via Redux to set loaded state
+    if ((!loaded && !entityProp) || (entity && entity.id !== inventoryId)) {
       dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
     }
-  }, []);
+  }, [dispatch, inventoryId, entity, entityProp, showTags, loaded]);
+
   const deleteEntity = (systems, displayName, callback) => {
     const action = deleteEntityAction(systems, displayName, addNotification);
     dispatch(reloadWrapper(action, callback));
@@ -130,7 +139,7 @@ const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
     console.warn(
       'Missing inventoryId! Please provide one, we will remove the fallback from URL soon.',
     );
-    console.warn(`Please use DetailHead component in the fed-mod to render 
+    console.warn(`Please use DetailHead component in the fed-mod to render
             only Inventory header. Migrate away InventoryDetailHead`);
     console.warn('~~~~~~~~~~');
     console.warn('~~~~~~~~~~');
