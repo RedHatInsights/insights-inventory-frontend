@@ -67,7 +67,7 @@ const GeneralInformation = ({
 
   //Avoids duplicate profile fetch if consumer app already fetched, while staying backwards compatible
   useEffect(() => {
-    if (!systemProfilePrefetched) {
+    if (entity?.id && !systemProfilePrefetched) {
       loadSystemDetail?.(inventoryId || entity.id);
     }
   }, [entity.id, inventoryId, loadSystemDetail, systemProfilePrefetched]);

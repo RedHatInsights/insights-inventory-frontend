@@ -9,6 +9,13 @@ const GeneralInfoTab = ({ entity, ...props }) => {
     'runtimes.inventory-card.enabled',
   );
 
+  if (!entity) {
+    console.error('GeneralInfo: entity data is missing. Rendering aborted.', {
+      props,
+    });
+    return null;
+  }
+
   return (
     <GeneralInformation
       {...props}
