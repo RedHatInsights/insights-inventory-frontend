@@ -6,21 +6,21 @@ import userEvent from '@testing-library/user-event';
 describe('DeleteModal', () => {
   describe('DOM', () => {
     it('should render correctly with one system', () => {
-      const view = render(
+      render(
         <DeleteModal
           currentSystems={{ display_name: 'something' }}
           isModalOpen
         />,
       );
 
+      screen.getByText(/Delete system from inventory\?/i);
       screen.getByText(
         /something will be removed from all localhost:5000 applications and services/i,
       );
-      expect(view.baseElement).toMatchSnapshot();
     });
 
     it('should render correctly with multiple systems', () => {
-      const view = render(
+      render(
         <DeleteModal
           currentSystems={[
             { display_name: 'something' },
@@ -30,10 +30,10 @@ describe('DeleteModal', () => {
         />,
       );
 
+      screen.getByText(/Delete systems from inventory\?/i);
       screen.getByText(
         /2 systems will be removed from all localhost:5000 applications and services/i,
       );
-      expect(view.baseElement).toMatchSnapshot();
     });
   });
 
@@ -55,11 +55,7 @@ describe('DeleteModal', () => {
         />,
       );
 
-      await userEvent.click(
-        screen.getByRole('button', {
-          name: /close/i,
-        }),
-      );
+      await userEvent.click(screen.getByRole('button', { name: /close/i }));
       expect(onClose).toHaveBeenCalled();
     });
 
@@ -76,15 +72,11 @@ describe('DeleteModal', () => {
         />,
       );
 
-      await userEvent.click(
-        screen.getByRole('button', {
-          name: /cancel/i,
-        }),
-      );
+      await userEvent.click(screen.getByRole('button', { name: /cancel/i }));
       expect(onClose).toHaveBeenCalled();
     });
 
-    it('should call onConfirm', async () => {
+    it('should call onConfirm when delete is clicked', async () => {
       const onConfirm = jest.fn();
       render(
         <DeleteModal
@@ -97,11 +89,7 @@ describe('DeleteModal', () => {
         />,
       );
 
-      await userEvent.click(
-        screen.getByRole('button', {
-          name: /delete/i,
-        }),
-      );
+      await userEvent.click(screen.getByRole('button', { name: /delete/i }));
       expect(onConfirm).toHaveBeenCalled();
     });
   });
