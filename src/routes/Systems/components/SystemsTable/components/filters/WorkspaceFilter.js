@@ -25,10 +25,10 @@ const WorkspaceFilter = ({
   value: selectedWorkspaces = [],
   onChange: setSelectedWorkspaces,
 }) => {
-  const INITIAL_VISIBLE_SIZE = 10;
-  const DEBOUNCE_TIMEOUT = 300;
-  const VIEW_MORE_SIZE = 20;
   const PAGE_SIZE = 50;
+  const INITIAL_VISIBLE_SIZE = PAGE_SIZE;
+  const DEBOUNCE_TIMEOUT = 300;
+  const VIEW_MORE_SIZE = PAGE_SIZE;
   const LOADER_ID = 'loader';
   // TODO plug in access control solution
   const hasAccess = true;
@@ -204,7 +204,7 @@ const WorkspaceFilter = ({
                   onClick={onViewMoreClick}
                   itemId={LOADER_ID}
                 >
-                  {isFetching ? <Spinner size="lg" /> : 'View more'}
+                  {isFetching ? <Spinner size="lg" /> : 'Show more'}
                 </SelectOption>
               )}
             </Fragment>
