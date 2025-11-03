@@ -27,7 +27,7 @@ const WorkspaceFilter = ({
 }) => {
   const INITIAL_VISIBLE_SIZE = 10;
   const DEBOUNCE_TIMEOUT = 300;
-  const VIEW_MORE_SIZE = 10;
+  const VIEW_MORE_SIZE = 20;
   const PAGE_SIZE = 50;
   const LOADER_ID = 'loader';
   // TODO plug in access control solution
@@ -166,6 +166,7 @@ const WorkspaceFilter = ({
           setVisibleSize(INITIAL_VISIBLE_SIZE);
         }}
         toggle={toggle}
+        isScrollable
       >
         <SelectList isAriaMultiselectable>
           {isPending && (
@@ -197,6 +198,8 @@ const WorkspaceFilter = ({
                 <SelectOption
                   isLoading={isFetching}
                   isLoadButton={!isFetching}
+                  // overflow:visible prevents this option's height from collapsing to 0px
+                  style={{ overflow: 'visible' }}
                   isDisabled={isFetching}
                   onClick={onViewMoreClick}
                   itemId={LOADER_ID}
