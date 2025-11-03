@@ -13,6 +13,8 @@ import ApplicationDetails from './ApplicationDetails';
 import './InventoryDetail.scss';
 import DetailHeader from './DetailHeader';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
+import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
+import _ from 'lodash';
 /**
  * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
  * This component is connected to redux and reads `loaded` and `entity`.
@@ -41,6 +43,7 @@ const InventoryDetail = ({
   showMainSection,
   entity: entityProp,
   fetchEntity,
+  entityError,
   ...headerProps
 }) => {
   const dispatch = useDispatch();
@@ -58,7 +61,10 @@ const InventoryDetail = ({
   useEffect(() => {
     // Only dispatch if not loaded yet, or if entity exists but doesn't match the inventoryId
     // When entity prop is provided, still load via Redux to set loaded state
-    if ((!loaded && !entityProp) || (entity && entity.id !== inventoryId)) {
+    if (
+      (!loaded && !entityProp) ||
+      (!_.isEmpty(entity) && entity?.id !== inventoryId)
+    ) {
       dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
     }
   }, [dispatch, inventoryId, entity, entityProp, showTags, loaded]);
@@ -68,9 +74,12 @@ const InventoryDetail = ({
     dispatch(reloadWrapper(action, callback));
   };
 
+  // I'd love to replace the ErrorState with a custom error component that displays the error message
   return (
     <div className="ins-entity-detail">
-      {loaded && !entity ? (
+      {entityError?.status === 400 ? (
+        <ErrorState />
+      ) : loaded && _.isEmpty(entity) ? (
         <SystemNotFound
           onBackToListClick={onBackToListClick}
           inventoryId={inventoryId}
