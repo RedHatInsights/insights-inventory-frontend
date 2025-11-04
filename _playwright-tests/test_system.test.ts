@@ -271,7 +271,7 @@ test('User should be able to delete multiple systems from Systems page', async (
     await page.getByRole('button', { name: 'Delete' }).click();
 
     await expect(dialog).toBeVisible();
-    await expect(dialog).toContainText('Delete system from inventory');
+    await expect(dialog).toContainText('Delete systems from inventory?');
     await dialog.getByRole('button', { name: 'Delete' }).click();
   });
 
