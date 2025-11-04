@@ -110,6 +110,24 @@ const EntityTable = ({
     return withoutRowWrapper;
   }, [rows, tableProps]);
 
+  const skeletonColumns = useMemo(() => {
+    return columns.map((col) => {
+      if (col.key === 'system_profile') {
+        return 'OS';
+      }
+
+      if (
+        col.key === 'updated' ||
+        col.key === 'last_check_in' ||
+        col.key === lastSeenOverride
+      ) {
+        return 'Last seen';
+      }
+
+      return typeof col.title === 'string' ? col.title : col.key;
+    });
+  }, [columns, lastSeenOverride]);
+
   return (
     <React.Fragment>
       {loaded && cells ? (
@@ -162,7 +180,7 @@ const EntityTable = ({
         )
       ) : (
         <SkeletonTable
-          columns={columns.map(({ title }) => title)}
+          columns={skeletonColumns}
           rows={15}
           variant={variant ?? modifiedTableProps.variant}
         />

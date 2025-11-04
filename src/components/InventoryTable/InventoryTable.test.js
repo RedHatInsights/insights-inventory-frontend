@@ -270,7 +270,7 @@ describe('InventoryTable', () => {
         .every((row) => expect(row).toHaveTextContent(''));
     });
 
-    it.skip('renders four headers', () => {
+    it('renders four headers', () => {
       renderTable(mockStore(initialState));
 
       expect(screen.getAllByRole('columnheader')).toHaveLength(4);
