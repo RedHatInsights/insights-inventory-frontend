@@ -23,10 +23,11 @@ import './inventory.scss';
 import * as actions from '../store/actions';
 import { routes } from '../Routes';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
-import { AdvisorTab, GeneralInformationTab } from '../components/SystemDetails';
+import { AdvisorTab, OverviewTab, DetailsTab } from '../components/SystemDetails';
 
 const appList = [
-    { title: 'General information', name: 'general_information', component: eneralInformationTab },
+    { title: 'Overview', name: 'overview', component: OverviewTab },
+    { title: 'Details', name: 'details', component: DetailsTab },
     { title: 'Advisor', name: 'advisor', component: AdvisorTab }
 ];
 
