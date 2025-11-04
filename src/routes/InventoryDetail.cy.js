@@ -13,9 +13,7 @@ const mountWithProps = (options, props = {}) =>
   cy.mountWithContext(InventoryDetail, options, props);
 
 const waitForLoad = () => {
-  cy.get('.ins-c-inventory-detail__app-tabs')
-    .contains('General information')
-    .click();
+  cy.get('.ins-c-inventory-detail__app-tabs').contains('Overview').click();
   cy.ouiaId('Host name value').should('have.text', hostDetail.results[0].fqdn);
 };
 const prepareTest = (hostDetail = hostDetail) => {
