@@ -1,32 +1,4 @@
 import { getTags } from '../../../../api/hostInventoryApi';
-import { getGroups } from '../../../../components/InventoryGroups/utils/api';
-
-const MAX_PER_PAGE = 50;
-
-export const getWorkspaceSelectOptions = async () => {
-  const firstResponse = await getGroups(undefined, {
-    page: 1,
-    per_page: MAX_PER_PAGE,
-  });
-  const { total, results: firstPageResults } = firstResponse;
-
-  if (total <= MAX_PER_PAGE) {
-    return firstPageResults;
-  }
-
-  const remainingPages = Math.ceil((total - MAX_PER_PAGE) / MAX_PER_PAGE);
-  const remainingPagePromises = Array.from(
-    { length: remainingPages },
-    (_, index) =>
-      getGroups(undefined, { page: index + 2, per_page: MAX_PER_PAGE }),
-  );
-
-  const remainingResponses = await Promise.all(remainingPagePromises);
-  return [
-    ...firstPageResults,
-    ...remainingResponses.flatMap((response) => response.results),
-  ];
-};
 
 export const stringToId = (string) =>
   string.split(/\s+/).join('-').toLowerCase();

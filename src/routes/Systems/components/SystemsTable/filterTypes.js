@@ -8,7 +8,7 @@ export const workspace = {
     category: configItem.label,
     chips: [
       ...selectedValues.map((name) => ({
-        name: name ? name : 'No Workspace',
+        name: name ? name : 'Ungrouped hosts',
       })),
     ],
   }),
@@ -17,7 +17,7 @@ export const workspace = {
   },
   toDeselectValue: (configItem, chip) => {
     const chipName = chip?.chips?.[0]?.name;
-    const customDeselectValue = chipName === 'No Workspace' ? '' : chipName;
+    const customDeselectValue = chipName === 'Ungrouped hosts' ? '' : chipName;
     return [customDeselectValue, stringToId(configItem.label), false];
   },
 };
