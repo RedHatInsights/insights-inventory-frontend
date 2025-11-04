@@ -7,159 +7,124 @@ import React, {
   Fragment,
 } from 'react';
 import {
-  Divider,
   MenuToggle,
   TextInputGroup,
   TextInputGroupMain,
   Select,
   SelectList,
   SelectOption,
+  Spinner,
+  Divider,
 } from '@patternfly/react-core';
-
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getGroups } from '../../../../../../components/InventoryGroups/utils/api';
 
 const WorkspaceFilter = ({
-  value: selectedGroupNames = [],
-  onChange: setSelectedGroupNames,
-  showNoGroupOption = true,
-  items,
+  value: selectedWorkspaces = [],
+  onChange: setSelectedWorkspaces,
 }) => {
+  const PAGE_SIZE = 50;
+  const INITIAL_VISIBLE_SIZE = PAGE_SIZE;
+  const DEBOUNCE_TIMEOUT = 300;
+  const VIEW_MORE_SIZE = PAGE_SIZE;
+  const LOADER_ID = 'loader';
+  // TODO plug in access control solution
+  const hasAccess = true;
+
   const [isOpen, setIsOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
-  const debounceTimeoutRef = useRef(null);
-  const SEARCH_DELAY = 300;
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [visibleSize, setVisibleSize] = useState(INITIAL_VISIBLE_SIZE);
+  const [focusedOption, setFocusedOption] = useState(0);
 
-  const noGroupOption = useMemo(() => {
-    return showNoGroupOption && !searchValue
-      ? [
+  const { data, fetchNextPage, hasNextPage, isFetching, isPending } =
+    useInfiniteQuery({
+      queryKey: ['groups', debouncedSearch],
+      queryFn: async ({ pageParam }) =>
+        getGroups(
           {
-            itemId: '',
-            children: 'Ungrouped hosts',
+            type: 'standard',
+            ...(debouncedSearch && { name: debouncedSearch }),
           },
-        ]
-      : [];
-  }, [searchValue, showNoGroupOption]);
+          {
+            page: pageParam,
+            per_page: PAGE_SIZE,
+          },
+        ),
+      enabled: hasAccess,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        return lastPage.per_page * lastPage.page < lastPage.total
+          ? lastPage.page + 1
+          : null;
+      },
+    });
 
-  const groupOptions = useMemo(
-    () => [
-      ...items.map(({ name }) => ({
-        itemId: name, // group name is unique by design
+  const workspaceOptions = useMemo(() => {
+    if (!data?.pages) return [];
+
+    const items = data.pages
+      .map((page) => page.results)
+      .flat()
+      .map(({ name }) => ({
+        itemId: name,
         children: name,
-      })),
-    ],
-    [items],
-  );
+      }));
 
-  const [selectOptions, setSelectOptions] = useState([
-    ...noGroupOption,
-    ...groupOptions,
-  ]);
+    return [
+      ...(debouncedSearch ? [] : [{ itemId: '', children: 'Ungrouped hosts' }]),
+      ...items,
+    ];
+  }, [data, debouncedSearch]);
 
-  const debouncedSearch = useCallback((search, options) => {
+  const visibleOptions = workspaceOptions.slice(0, visibleSize);
+  const debounceTimeoutRef = useRef(null);
+  const focusedOptionRef = useRef(null);
+
+  const onViewMoreClick = async () => {
+    const nextVisibleSize = visibleSize + VIEW_MORE_SIZE;
+
+    if (nextVisibleSize > workspaceOptions.length) {
+      await fetchNextPage();
+    }
+
+    setVisibleSize(nextVisibleSize);
+    setFocusedOption(visibleSize);
+  };
+
+  const debounceSearch = useCallback((value) => {
     if (debounceTimeoutRef.current) {
       clearTimeout(debounceTimeoutRef.current);
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
-      let newSelectOptions = options;
-
-      if (search) {
-        newSelectOptions = options.filter((menuItem) =>
-          String(menuItem.children)
-            .toLowerCase()
-            .includes(search.toLowerCase()),
-        );
-
-        if (!newSelectOptions.length) {
-          newSelectOptions = [
-            {
-              isDisabled: true,
-              children: 'No workspace found',
-            },
-          ];
-        }
+      setDebouncedSearch(value);
+      if (value) {
+        setIsOpen(true);
       }
-
-      setSelectOptions(newSelectOptions);
-    }, SEARCH_DELAY);
+    }, DEBOUNCE_TIMEOUT);
   }, []);
 
   useEffect(() => {
-    debouncedSearch(searchValue, [...noGroupOption, ...groupOptions]);
-  }, [searchValue, groupOptions, noGroupOption, debouncedSearch]);
+    debounceSearch(search);
 
-  const handleMenuArrowKeys = (key) => {
-    let indexToFocus;
-
-    if (isOpen) {
-      if (key === 'ArrowUp') {
-        // when no index is set or at the first index, focus to the last, otherwise decrement focus index
-        if (focusedItemIndex === null || focusedItemIndex === 0) {
-          indexToFocus = selectOptions.length - 1;
-        } else {
-          indexToFocus = focusedItemIndex - 1;
-        }
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
       }
+    };
+  }, [search, debounceSearch]);
 
-      if (key === 'ArrowDown') {
-        // when no index is set or at the last index, focus to the first, otherwise increment focus index
-        if (
-          focusedItemIndex === null ||
-          focusedItemIndex === selectOptions.length - 1
-        ) {
-          indexToFocus = 0;
-        } else {
-          indexToFocus = focusedItemIndex + 1;
-        }
-      }
-
-      setFocusedItemIndex(indexToFocus);
-    }
-  };
-
-  const onInputKeyDown = (event) => {
-    const enabledMenuItems = selectOptions.filter(
-      (menuItem) => !menuItem.isDisabled,
-    );
-    const [firstMenuItem] = enabledMenuItems;
-    const focusedItem =
-      focusedItemIndex !== null
-        ? enabledMenuItems[focusedItemIndex]
-        : firstMenuItem;
-
-    switch (event.key) {
-      // select the first available option
-      case 'Enter':
-        if (!isOpen) {
-          setIsOpen((prevIsOpen) => !prevIsOpen);
-          setSearchValue('');
-        } else {
-          updateGroupNames(focusedItem.itemId);
-        }
-        break;
-      case 'Tab':
-      case 'Escape':
-        setIsOpen(false);
-        setSearchValue('');
-        break;
-      case 'ArrowUp':
-      case 'ArrowDown':
-        handleMenuArrowKeys(event.key);
-        break;
-      default:
-        if (!isOpen) setIsOpen(true);
-    }
-  };
+  useEffect(() => {
+    focusedOptionRef.current?.focus();
+  }, [visibleSize]);
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
-    setSearchValue('');
-  };
-
-  const updateGroupNames = (itemId) => {
-    setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
   };
 
   const toggle = (toggleRef) => (
@@ -171,12 +136,11 @@ const WorkspaceFilter = ({
     >
       <TextInputGroup isPlain>
         <TextInputGroupMain
-          value={searchValue}
+          value={search}
           onClick={onToggleClick}
           onChange={(_event, value) => {
-            setSearchValue(value);
+            setSearch(value);
           }}
-          onKeyDown={onInputKeyDown}
           id="multi-typeahead-select-input"
           autoComplete="off"
           placeholder="Filter by workspace"
@@ -191,34 +155,59 @@ const WorkspaceFilter = ({
         id="groups-filter-select"
         ouiaId="Filter by group"
         isOpen={isOpen}
-        selected={selectedGroupNames}
-        onSelect={(_event, selection) => updateGroupNames(selection)}
+        selected={selectedWorkspaces}
+        onSelect={(_event, value) => {
+          if (value === LOADER_ID) return;
+          setSelectedWorkspaces(xor(selectedWorkspaces, [value]));
+        }}
         onOpenChange={() => {
           setIsOpen(false);
-          setFocusedItemIndex(null);
-          setSearchValue('');
+          setSearch('');
+          setVisibleSize(INITIAL_VISIBLE_SIZE);
         }}
         toggle={toggle}
+        isScrollable
       >
         <SelectList isAriaMultiselectable>
-          {selectOptions.filter((item) => item.itemId).length > 0 ? (
-            selectOptions.map((option, index) => (
-              <Fragment key={option.itemId || option.children}>
-                <SelectOption
-                  {...(!option.isDisabled && { hasCheckbox: true })}
-                  isSelected={selectedGroupNames.includes(option.itemId)}
-                  isFocused={focusedItemIndex === index}
-                  className={option.className}
-                  data-ouia-component-id="FilterByGroupOption"
-                  {...option}
-                />
-                {option.itemId === '' && <Divider />}
-              </Fragment>
-            ))
-          ) : (
+          {isPending && (
+            <SelectOption isLoading={true}>
+              <Spinner size="lg" />
+            </SelectOption>
+          )}
+          {visibleOptions.length === 0 && !isPending ? (
             <SelectOption isDisabled={true}>
               No workspaces available
             </SelectOption>
+          ) : (
+            <Fragment>
+              {visibleOptions.map((option, index) => {
+                return (
+                  <Fragment key={option.itemId}>
+                    <SelectOption
+                      isSelected={selectedWorkspaces.includes(option.itemId)}
+                      data-ouia-component-id="FilterByGroupOption"
+                      ref={index === focusedOption ? focusedOptionRef : null}
+                      hasCheckbox={true}
+                      {...option}
+                    />
+                    {option.itemId === '' && <Divider />}
+                  </Fragment>
+                );
+              })}
+              {hasNextPage && (
+                <SelectOption
+                  isLoading={isFetching}
+                  isLoadButton={!isFetching}
+                  // overflow:visible prevents this option's height from collapsing to 0px
+                  style={{ overflow: 'visible' }}
+                  isDisabled={isFetching}
+                  onClick={onViewMoreClick}
+                  itemId={LOADER_ID}
+                >
+                  {isFetching ? <Spinner size="lg" /> : 'Show more'}
+                </SelectOption>
+              )}
+            </Fragment>
           )}
         </SelectList>
       </Select>
@@ -227,15 +216,8 @@ const WorkspaceFilter = ({
 };
 
 WorkspaceFilter.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      id: PropTypes.string,
-    }).isRequired,
-  ),
   value: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
-  showNoGroupOption: PropTypes.bool,
 };
 
 export default WorkspaceFilter;
