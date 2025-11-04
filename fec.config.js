@@ -49,16 +49,6 @@ module.exports = {
         __dirname,
         `/src/${process.env.NODE_ENV !== 'production' ? 'Dev' : ''}AppEntry`,
       ),
-      // System detail
-      './SystemDetail': resolve(
-        __dirname,
-        '/src/components/SystemDetails/GeneralInfo.js',
-      ),
-      // System detail cards
-      './GeneralInformation': resolve(
-        __dirname,
-        '/src/components/GeneralInfo/GeneralInformation/GeneralInformation.js',
-      ),
       './SystemCard': resolve(
         __dirname,
         '/src/components/GeneralInfo/SystemCard/SystemCard.js',

@@ -1,5 +1,7 @@
 @import '~@redhat-cloud-services/frontend-components-utilities/styles/mixins';
-.ins-c-general-information {
+
+// Shared styles for both Overview and Details tabs
+.ins-c-system-details {
     .pf-v6-c-content {
         .pf-v6-l-level div:first-child {
             font-weight: var(--pf-v6-global--FontWeight--bold);

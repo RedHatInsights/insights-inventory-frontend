@@ -75,7 +75,7 @@ const useTableActions = (
               key={`${item.id}-edit`}
               onClick={() => {
                 setCurrentSystem(item);
-                onEditOpen(() => true);
+                onEditOpen(true);
               }}
               requiredPermissions={[
                 REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
@@ -95,7 +95,7 @@ const useTableActions = (
               onClick={() => {
                 setCurrentSystem(item);
                 setIsRowAction && setIsRowAction(true);
-                handleModalToggle(() => true);
+                handleModalToggle(true);
               }}
               requiredPermissions={[
                 REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(

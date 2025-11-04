@@ -87,7 +87,8 @@ DetailWrapper.propTypes = {
   hideInvLink: PropTypes.bool,
   showTags: PropTypes.bool,
   appName: PropTypes.oneOf([
-    'general_information',
+    'overview',
+    'details',
     'advisor',
     'insights',
     'compliance',
@@ -100,7 +101,7 @@ DetailWrapper.propTypes = {
 };
 
 DetailWrapper.defaultProps = {
-  appName: 'general_information',
+  appName: 'overview',
 };
 
 export default DetailWrapper;

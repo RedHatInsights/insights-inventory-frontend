@@ -22,8 +22,8 @@ const ConversionAlert = (props) => {
         </Content>
         <Content component={ContentVariants.p}>
           Red Hat can help migrate CentOS Linux 7 users to maintain continuity
-          in their environment after the EOL date, whether they’re on premise or
-          in the cloud.{' '}
+          in their environment after the EOL date, whether they are on premise
+          or in the cloud.{' '}
           <a
             href="https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/centos-migration"
             target="_blank"
