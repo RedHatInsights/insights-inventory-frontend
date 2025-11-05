@@ -21,11 +21,11 @@ const filterSerialisers = {
 };
 
 const findFilterSerialiser = (filterConfigItem) => {
-  if (filterConfigItem.filterSerialiser) {
+  if (filterConfigItem?.filterSerialiser) {
     return filterConfigItem.filterSerialiser;
   } else {
     return (
-      filterConfigItem.filterAttribute &&
+      filterConfigItem?.filterAttribute &&
       filterSerialisers[filterConfigItem?.type]
     );
   }
