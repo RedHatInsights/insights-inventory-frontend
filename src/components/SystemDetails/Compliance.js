@@ -21,6 +21,7 @@ const ComplianceTab = () => {
       }}
       inventoryId={inventoryId}
       connectedToInsights={connectedToInsights}
+      remediationsEnabled
     />
   );
 };
