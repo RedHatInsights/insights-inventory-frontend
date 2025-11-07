@@ -85,6 +85,7 @@ const Inventory = () => {
   const dispatch = useDispatch();
   const [availableApps, setAvailableApps] = useState([]);
   const [entity, setEntity] = useState({});
+  const [entityError, setEntityError] = useState(null);
 
   const fetchEntity = useCallback(async () => {
     try {
@@ -94,8 +95,10 @@ const Inventory = () => {
         { showTags: true },
       );
       setEntity(result?.results?.[0] || undefined);
+      setEntityError(null);
     } catch (error) {
       console.error(error);
+      setEntityError(error);
     }
   }, [inventoryId]);
 
@@ -192,6 +195,7 @@ const Inventory = () => {
       onTabSelect={onTabSelect}
       entity={entity}
       fetchEntity={fetchEntity}
+      entityError={entityError}
     />
   );
 };
