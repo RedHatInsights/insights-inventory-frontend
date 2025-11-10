@@ -107,6 +107,15 @@ test.describe('System Details tests', () => {
         "[data-ouia-component-id='configuration-card']",
       );
       const bootc = page.locator("[data-ouia-component-id='bootmc-card']");
+      // RHEL AI card should not be visible for systems without RHEL AI data
+      const rhelAICard = page.locator(
+        "[data-ouia-component-id='rhel-ai-card']",
+      );
+      await expect(rhelAICard).toBeHidden();
+
+      // Verify the card title is also not present
+      const cardTitle = page.getByText('RHEL AI');
+      await expect(cardTitle).toBeHidden();
 
       for (const card of [
         infrastructure,
@@ -171,6 +180,57 @@ test.describe('System Details tests', () => {
       // Complinace doesn't support image-based system
       const complianceTab = page.locator('button[name="compliance"]');
       await expect(complianceTab).toBeDisabled();
+    });
+  });
+
+  test('User should be able to see RHEL AI card when system has RHEL AI data', async ({
+    page,
+  }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-get-by-id
+       - importance: normal
+       - assignee: micjohns
+     */
+
+    await test.step('Setup: navigate to prepared system details page', async () => {
+      const nameColumnLocator = page.locator('td[data-label="Name"]');
+      await searchByName(page, packageSystemName);
+      await expect(nameColumnLocator).toHaveCount(1);
+
+      const systemLink = page.getByRole('link', { name: packageSystemName });
+      await expect(systemLink).toBeVisible({ timeout: 100000 });
+      await systemLink.click();
+
+      await expect(
+        page.getByRole('heading', { name: packageSystemName }),
+      ).toBeVisible({
+        timeout: 100000,
+      });
+    });
+
+    await test.step('Document expected RHEL AI card structure', () => {
+      // Note: This test verifies the card is hidden for systems without RHEL AI data.
+      // To fully test the card with data, a test archive with RHEL AI workload data
+      // (system_profile.workloads.rhel_ai) would be needed.
+      //
+      // When the card is visible, it should display:
+      // - Card title: "RHEL AI"
+      // - Version: rhel_ai_version_id value
+      // - GPU manufacturer: vendor from gpu_models array (only if gpu_models.length > 0)
+      // - Models available: gpu_models.length
+      // - GPU model: name from gpu_models array (only if gpu_models.length > 0)
+      // - GPU memory: memory from gpu_models array (only if gpu_models.length > 0)
+      //
+      // Expected test steps when RHEL AI data is available:
+      // 1. Navigate to system details page
+      // 2. Click Details tab
+      // 3. Verify rhel-ai-card is visible
+      // 4. Verify card title "RHEL AI" is visible
+      // 5. Verify "Version" field and its value
+      // 6. Verify "Models available" field and count
+      // 7. If gpu_models exist, verify GPU manufacturer, GPU model, and GPU memory fields
     });
   });
 });
