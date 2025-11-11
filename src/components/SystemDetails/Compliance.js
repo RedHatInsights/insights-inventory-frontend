@@ -1,14 +1,10 @@
 import React from 'react';
-import { useSelector, useStore } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useStore } from 'react-redux';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 
-const ComplianceTab = () => {
-  const { inventoryId } = useParams();
-  const systemProfile = useSelector(
-    ({ entityDetails }) => entityDetails?.entity,
-  );
-  const connectedToInsights = !!systemProfile?.insights_id;
+const ComplianceTab = ({ inventoryId, entity }) => {
+  const connectedToInsights = !!entity?.insights_id;
 
   return (
     <AsyncComponent
@@ -24,6 +20,11 @@ const ComplianceTab = () => {
       remediationsEnabled
     />
   );
+};
+
+ComplianceTab.propTypes = {
+  inventoryId: PropTypes.string.isRequired,
+  entity: PropTypes.object.isRequired,
 };
 
 export default ComplianceTab;
