@@ -11,7 +11,7 @@ import {
   searchByName,
 } from './helpers/filterHelpers';
 
-test('User can filter, search and see deatils of "Ungrouped Hosts" workspace', async ({
+test('User can filter, search and see details of "Ungrouped Hosts" workspace', async ({
   page,
 }: {
   page: Page;
