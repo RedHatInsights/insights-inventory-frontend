@@ -42,24 +42,22 @@ describe('InfoTable', () => {
       render(
         <InfoTable
           cells={['One cell']}
-          rows={[
-            'first',
-            { title: 'second from title' },
-            ['multiple', 'cells'],
-          ]}
+          rows={[['first'], [{ title: 'second from title' }], ['third']]}
         />,
       );
 
       paginationShouldExist();
       expect(
-        screen.queryByRole('grid', {
+        screen.getByRole('grid', {
           name: /general information dialog table/i,
         }),
-      ).not.toBeInTheDocument();
-      expect(screen.queryByRole('columnheader')).not.toBeInTheDocument();
+      ).toBeInTheDocument();
+      screen.getByRole('columnheader', {
+        name: /one cell/i,
+      });
       screen.getByText('first');
       screen.getByText('second from title');
-      screen.getByText(/multiplecells/i);
+      screen.getByText('third');
     });
 
     it('multiple cells', () => {

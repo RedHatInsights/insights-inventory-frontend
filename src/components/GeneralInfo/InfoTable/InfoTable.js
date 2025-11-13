@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Pagination, Content, ContentVariants } from '@patternfly/react-core';
+import { Pagination } from '@patternfly/react-core';
 import PrimaryToolbar from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
 import TableToolbar from '@redhat-cloud-services/frontend-components/TableToolbar';
 import { SortByDirection, TableVariant } from '@patternfly/react-table';
@@ -140,31 +140,21 @@ const InfoTable = ({
           deleteTitle: 'Reset filters',
         }}
       />
-      {cells.length !== 1 ? (
-        <Table
-          aria-label="General information dialog table"
-          variant={TableVariant.compact}
-          cells={cells}
-          rows={mappedRows}
-          sortBy={{
-            ...sortBy,
-            index: expandable && sortBy.index === 0 ? 1 : sortBy.index,
-          }}
-          onSort={handleSort}
-          {...(expandable && { onCollapse })}
-        >
-          <TableHeader />
-          <TableBody />
-        </Table>
-      ) : (
-        <Content>
-          {prepareRows(activeRows, pagination).map((row, key) => (
-            <Content component={ContentVariants.p} key={key}>
-              {row.title || row}
-            </Content>
-          ))}
-        </Content>
-      )}
+      <Table
+        aria-label="General information dialog table"
+        variant={TableVariant.compact}
+        cells={cells}
+        rows={mappedRows}
+        sortBy={{
+          ...sortBy,
+          index: expandable && sortBy.index === 0 ? 1 : sortBy.index,
+        }}
+        onSort={handleSort}
+        {...(expandable && { onCollapse })}
+      >
+        <TableHeader />
+        <TableBody />
+      </Table>
       <TableToolbar isFooter className="ins-c-inventory__table--toolbar">
         <Pagination
           {...pagination}
