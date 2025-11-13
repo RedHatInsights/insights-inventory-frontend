@@ -183,12 +183,7 @@ export const repositoriesMapper = (
 });
 
 export const generalMapper = (data = [], title = '') => ({
-  cells: [
-    {
-      title,
-      transforms: [sortable],
-    },
-  ],
+  cells: [{ title, transforms: [sortable] }],
   rows: data.map((item) => [item]),
   filters: [{ type: 'text' }],
 });

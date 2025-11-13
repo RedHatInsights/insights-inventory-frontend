@@ -356,7 +356,7 @@ describe('SystemCard', () => {
       expect(handleClick).toHaveBeenCalledWith('CPU flags', {
         cells: [
           {
-            title: 'flag name',
+            title: 'Flag name',
             transforms: expect.any(Array),
           },
         ],

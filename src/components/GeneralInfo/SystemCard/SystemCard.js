@@ -212,7 +212,7 @@ const SystemCard = ({
                 onClick: () =>
                   handleClick(
                     'CPU flags',
-                    generalMapper(properties.cpuFlags, 'flag name'),
+                    generalMapper(properties.cpuFlags, 'Flag name'),
                   ),
               },
             ]
