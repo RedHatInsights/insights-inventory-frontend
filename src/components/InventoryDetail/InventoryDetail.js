@@ -30,6 +30,7 @@ import _ from 'lodash';
  *  @param   {object}          props.headerProps       props for the detail header
  *  @param   {object}          props.entity            entity object
  *  @param   {Function}        props.fetchEntity       fetch entity function
+ *  @param                     props.entityError
  *  @returns {React.ReactNode}                         the inventory detail component
  */
 const InventoryDetail = ({

@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import useSystemsTableFeatureFlag from './routes/Systems/components/SystemsTable/hooks/useSystemsTableFeatureFlag';
+import useInventoryViewsFeatureFlag from './Utilities/useInventoryViewsFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
@@ -15,6 +16,7 @@ import { AccountStatContext } from './Contexts';
 
 const InventoryPage = lazy(() => import('./routes/InventoryPage'));
 const Systems = lazy(() => import('./routes/Systems'));
+const InventoryViews = lazy(() => import('./routes/InventoryViews'));
 
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryHostStaleness = lazy(
@@ -43,6 +45,7 @@ export const Routes = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const isSystemsTableEnabled = useSystemsTableFeatureFlag();
+  const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const isLastCheckInEnabled = useFeatureFlag(
     'hbi.create_last_check_in_update_per_reporter_staleness',
@@ -75,7 +78,9 @@ export const Routes = () => {
   let element = useRoutes([
     {
       path: '/',
-      element: isSystemsTableEnabled ? (
+      element: isInventoryViewsEnabled ? (
+        <InventoryViews />
+      ) : isSystemsTableEnabled ? (
         <Systems />
       ) : (
         <RenderWrapper cmp={InventoryPage} />
