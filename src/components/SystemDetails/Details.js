@@ -11,41 +11,26 @@ import {
 } from '@patternfly/react-core';
 import { SortByDirection } from '@patternfly/react-table';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-
-import { systemProfile } from '../../../store/actions';
-import InfoTable from '../InfoTable';
-// Since there's a problem with cards loading asynchronously we have to import the cards here as named
-import { OperatingSystemCard } from '../OperatingSystemCard';
-import SystemCard from '../SystemCard';
-import { BiosCard } from '../BiosCard';
-import { BootcImageCard } from '../BootcImageCard';
-import { InfrastructureCard } from '../InfrastructureCard';
-import { ConfigurationCard } from '../ConfigurationCard';
-import { SystemStatusCard } from '../SystemStatusCard';
-import { DataCollectorsCard } from '../DataCollectorsCard/DataCollectorsCard';
-import { SubscriptionCard } from '../SubscriptionCard';
+import { systemProfile } from '../../store/actions';
+import InfoTable from '../GeneralInfo/InfoTable';
+import '../GeneralInfo/system-details.scss';
+import { OperatingSystemCard } from '../GeneralInfo/OperatingSystemCard';
+import { BiosCard } from '../GeneralInfo/BiosCard';
+import { BootcImageCard } from '../GeneralInfo/BootcImageCard';
+import { InfrastructureCard } from '../GeneralInfo/InfrastructureCard';
+import { ConfigurationCard } from '../GeneralInfo/ConfigurationCard';
 import { Provider } from 'react-redux';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
-
-import './general-information.scss';
-import { ConversionAlert } from './ConversionAlert';
-
 import sortBy from 'lodash/sortBy';
 
-const GeneralInformation = ({
+const Details = ({
   store,
-  writePermissions,
-  SystemCardWrapper = SystemCard,
   OperatingSystemCardWrapper = OperatingSystemCard,
   BiosCardWrapper = BiosCard,
   BootcImageCardWrapper = BootcImageCard,
   InfrastructureCardWrapper = InfrastructureCard,
   ConfigurationCardWrapper = ConfigurationCard,
-  SystemStatusCardWrapper = SystemStatusCard,
-  DataCollectorsCardWrapper = DataCollectorsCard,
   CollectionCardWrapper = false,
-  SubscriptionCardWrapper = SubscriptionCard,
-  children,
   navigate,
   entity,
   inventoryId,
@@ -53,7 +38,6 @@ const GeneralInformation = ({
   systemProfilePrefetched = false,
   isBootcHost = false,
   showRuntimesProcesses = false,
-  fetchEntity,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -65,7 +49,6 @@ const GeneralInformation = ({
     filters: [],
   });
 
-  //Avoids duplicate profile fetch if consumer app already fetched, while staying backwards compatible
   useEffect(() => {
     if (entity?.id && !systemProfilePrefetched) {
       loadSystemDetail?.(inventoryId || entity.id);
@@ -118,25 +101,10 @@ const GeneralInformation = ({
 
   return (
     <Wrapper {...(store && { store })}>
-      {entity?.system_profile?.operating_system?.name === 'CentOS Linux' && (
-        <ConversionAlert
-          style={{ marginBottom: 'var(--pf-t--global--spacer--md)' }}
-        />
-      )}
-      <div className="ins-c-general-information">
+      <div className="ins-c-system-details">
         <Grid hasGutter>
           <GridItem md={6} sm={12}>
             <Grid hasGutter>
-              {SystemCardWrapper && (
-                <GridItem>
-                  <SystemCardWrapper
-                    handleClick={handleModalToggle}
-                    writePermissions={writePermissions}
-                    entity={entity}
-                    fetchEntity={fetchEntity}
-                  />
-                </GridItem>
-              )}
               {InfrastructureCardWrapper && (
                 <GridItem>
                   <InfrastructureCardWrapper
@@ -145,26 +113,6 @@ const GeneralInformation = ({
                   />
                 </GridItem>
               )}
-              {SystemStatusCardWrapper && (
-                <GridItem>
-                  <SystemStatusCardWrapper
-                    entity={entity}
-                    handleClick={handleModalToggle}
-                  />
-                </GridItem>
-              )}
-              {DataCollectorsCardWrapper && (
-                <GridItem>
-                  <DataCollectorsCardWrapper
-                    entity={entity}
-                    handleClick={handleModalToggle}
-                  />
-                </GridItem>
-              )}
-            </Grid>
-          </GridItem>
-          <GridItem md={6} sm={12}>
-            <Grid hasGutter>
               {OperatingSystemCardWrapper && (
                 <GridItem>
                   <OperatingSystemCardWrapper
@@ -173,25 +121,20 @@ const GeneralInformation = ({
                   />
                 </GridItem>
               )}
-
-              {BiosCardWrapper && (
-                <GridItem>
-                  <BiosCardWrapper handleClick={handleModalToggle} />
-                </GridItem>
-              )}
-
-              {SubscriptionCardWrapper && (
-                <GridItem>
-                  <SubscriptionCardWrapper entity={entity} />
-                </GridItem>
-              )}
-
               {isBootcHost && BootcImageCardWrapper && (
                 <GridItem>
                   <BootcImageCardWrapper handleClick={handleModalToggle} />
                 </GridItem>
               )}
-
+            </Grid>
+          </GridItem>
+          <GridItem md={6} sm={12}>
+            <Grid hasGutter>
+              {BiosCardWrapper && (
+                <GridItem>
+                  <BiosCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
               {ConfigurationCardWrapper && (
                 <GridItem>
                   <ConfigurationCardWrapper handleClick={handleModalToggle} />
@@ -202,7 +145,6 @@ const GeneralInformation = ({
                   <CollectionCardWrapper handleClick={handleModalToggle} />
                 </GridItem>
               )}
-
               {showRuntimesProcesses && entity.fqdn && (
                 <GridItem>
                   <AsyncComponent
@@ -214,7 +156,6 @@ const GeneralInformation = ({
               )}
             </Grid>
           </GridItem>
-          {children}
           <Modal
             aria-label={`${modalTitle || ''} modal`}
             isOpen={isModalOpen}
@@ -239,24 +180,13 @@ const GeneralInformation = ({
   );
 };
 
-GeneralInformation.propTypes = {
+Details.propTypes = {
   entity: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    system_profile: PropTypes.shape({
-      operating_system: PropTypes.shape({
-        name: PropTypes.string,
-      }),
-    }),
     fqdn: PropTypes.string,
   }),
-  openedModal: PropTypes.string,
   loadSystemDetail: PropTypes.func,
   store: PropTypes.any,
-  writePermissions: PropTypes.bool,
-  SystemCardWrapper: PropTypes.oneOfType([
-    PropTypes.elementType,
-    PropTypes.bool,
-  ]),
   OperatingSystemCardWrapper: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.bool,
@@ -274,52 +204,35 @@ GeneralInformation.propTypes = {
     PropTypes.elementType,
     PropTypes.bool,
   ]),
-  SystemStatusCardWrapper: PropTypes.oneOfType([
-    PropTypes.elementType,
-    PropTypes.bool,
-  ]),
-  DataCollectorsCardWrapper: PropTypes.oneOfType([
-    PropTypes.elementType,
-    PropTypes.bool,
-  ]),
   CollectionCardWrapper: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.bool,
   ]),
-  SubscriptionCardWrapper: PropTypes.oneOfType([
-    PropTypes.elementType,
-    PropTypes.bool,
-  ]),
-  children: PropTypes.node,
   navigate: PropTypes.any,
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
   isBootcHost: PropTypes.bool,
   showRuntimesProcesses: PropTypes.bool,
-  fetchEntity: PropTypes.func,
 };
-GeneralInformation.defaultProps = {
+
+Details.defaultProps = {
   entity: {},
-  SystemCardWrapper: SystemCard,
   OperatingSystemCardWrapper: OperatingSystemCard,
   BiosCardWrapper: BiosCard,
   BootcImageCardWrapper: BootcImageCard,
   InfrastructureCardWrapper: InfrastructureCard,
   ConfigurationCardWrapper: ConfigurationCard,
-  SystemStatusCardWrapper: SystemStatusCard,
-  DataCollectorsCardWrapper: DataCollectorsCard,
   CollectionCardWrapper: false,
-  SubscriptionCardWrapper: SubscriptionCard,
   systemProfilePrefetched: false,
   showRuntimesProcesses: false,
 };
 
-const GeneralInformationComponent = (props) => {
+const DetailsComponent = (props) => {
   const navigate = useInsightsNavigate();
   const dispatch = useDispatch();
   const loadSystemDetail = (itemId) => dispatch(systemProfile(itemId));
   return (
-    <GeneralInformation
+    <Details
       {...props}
       navigate={navigate}
       loadSystemDetail={loadSystemDetail}
@@ -327,4 +240,4 @@ const GeneralInformationComponent = (props) => {
   );
 };
 
-export default GeneralInformationComponent;
+export default DetailsComponent;

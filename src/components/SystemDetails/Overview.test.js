@@ -3,25 +3,18 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
-import {
-  biosTest,
-  collectInfoTest,
-  configTest,
-  infraTest,
-  osTest,
-  testProperties,
-} from '../../../__mocks__/selectors';
-import GeneralInformation from './GeneralInformation';
+import { collectInfoTest, testProperties } from '../../__mocks__/selectors';
+import Overview from './Overview';
 
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
-import mockedData from '../../../__mocks__/mockedData.json';
+import mockedData from '../../__mocks__/mockedData.json';
 import { cloneDeep } from 'lodash';
-import { TestWrapper } from '../../../Utilities/TestingUtilities';
+import { TestWrapper } from '../../Utilities/TestingUtilities';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
-import { hostInventoryApi } from '../../../api/hostInventoryApi';
+import { hostInventoryApi } from '../../api/hostInventoryApi';
 
 const mock = new MockAdapter(hostInventoryApi().axios, {
   onNoMatch: 'throwException',
@@ -40,13 +33,10 @@ jest.mock(
 
 const expectCardsToExist = (
   titles = [
-    'System properties',
-    'Infrastructure',
     'System status',
+    'System properties',
     'Data collectors',
-    'Operating system',
-    'BIOS',
-    'Configuration',
+    'Subscriptions',
   ],
 ) => {
   titles.forEach((title) => {
@@ -58,7 +48,7 @@ const expectCardsToExist = (
   });
 };
 
-describe('GeneralInformation', () => {
+describe('Overview', () => {
   let initialState;
   let mockStore;
   let entity = {
@@ -77,11 +67,7 @@ describe('GeneralInformation', () => {
       systemProfileStore: {
         systemProfile: {
           loaded: true,
-          ...infraTest,
-          ...osTest,
-          ...biosTest,
           ...collectInfoTest,
-          ...configTest,
           ...testProperties,
           network: {
             ipv4: ['1', '2'],
@@ -113,7 +99,7 @@ describe('GeneralInformation', () => {
     render(
       <MemoryRouter initialEntries={['/example']}>
         <Provider store={store}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
+          <Overview entity={entity} inventoryId={'test-id'} />
         </Provider>
       </MemoryRouter>,
     );
@@ -126,7 +112,7 @@ describe('GeneralInformation', () => {
     const view = render(
       <MemoryRouter initialEntries={['/example']}>
         <Provider store={store}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
+          <Overview entity={entity} inventoryId={'test-id'} />
         </Provider>
       </MemoryRouter>,
     );
@@ -138,11 +124,9 @@ describe('GeneralInformation', () => {
   describe('custom components', () => {
     const mapping = {
       SystemCardWrapper: 'System properties',
-      OperatingSystemCardWrapper: 'Operating system',
-      BiosCardWrapper: 'BIOS',
-      InfrastructureCardWrapper: 'Infrastructure',
-      ConfigurationCardWrapper: 'Configuration',
+      SystemStatusCardWrapper: 'System status',
       DataCollectorsCardWrapper: 'Data collectors',
+      SubscriptionCardWrapper: 'Subscriptions',
     };
 
     Object.entries(mapping).map(([wrapper, title]) => {
@@ -151,10 +135,7 @@ describe('GeneralInformation', () => {
         render(
           <MemoryRouter initialEntries={['/example']}>
             <Provider store={store}>
-              <GeneralInformation
-                {...{ [wrapper]: false }}
-                inventoryId={'test-id'}
-              />
+              <Overview {...{ [wrapper]: false }} inventoryId={'test-id'} />
             </Provider>
           </MemoryRouter>,
         );
@@ -171,7 +152,7 @@ describe('GeneralInformation', () => {
         render(
           <MemoryRouter initialEntries={['/example']}>
             <Provider store={store}>
-              <GeneralInformation
+              <Overview
                 {...{ [wrapper]: () => <div>test</div> }}
                 inventoryId={'test-id'}
               />
@@ -205,47 +186,12 @@ describe('GeneralInformation', () => {
       render(
         <MemoryRouter initialEntries={['/example']}>
           <Provider store={store}>
-            <GeneralInformation entity={entity} inventoryId={'test-id'} />
+            <Overview entity={entity} inventoryId={'test-id'} />
           </Provider>
         </MemoryRouter>,
       );
 
       expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
-    });
-
-    it('should open modal with url', async () => {
-      const store = mockStore(initialState);
-      render(
-        <MemoryRouter initialEntries={['/example/ipv4']}>
-          <Provider store={store}>
-            <GeneralInformation entity={entity} inventoryId={'test-id'} />
-          </Provider>
-        </MemoryRouter>,
-      );
-
-      await waitFor(() => {
-        screen.getByRole('dialog', {
-          name: /ipv4 modal/i,
-        });
-      });
-    });
-
-    it('should open modal by click', async () => {
-      const store = mockStore(initialState);
-      render(
-        <MemoryRouter initialEntries={['/example']}>
-          <Provider store={store}>
-            <GeneralInformation entity={entity} inventoryId={'test-id'} />
-          </Provider>
-        </MemoryRouter>,
-      );
-
-      await userEvent.click(screen.getAllByText('2 addresses')[0]);
-      await waitFor(() => {
-        screen.getByRole('dialog', {
-          name: /ipv4 modal/i,
-        });
-      });
     });
   });
 
@@ -266,7 +212,7 @@ describe('GeneralInformation', () => {
     it('shows alert for CentOS system', () => {
       render(
         <TestWrapper store={mockStore(state)}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
+          <Overview entity={entity} inventoryId={'test-id'} />
         </TestWrapper>,
       );
 
@@ -290,7 +236,7 @@ describe('GeneralInformation', () => {
       useInsightsNavigate.mockReturnValue(navigate);
       render(
         <TestWrapper store={mockStore(state)}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
+          <Overview entity={entity} inventoryId={'test-id'} />
         </TestWrapper>,
       );
 
@@ -310,7 +256,7 @@ describe('GeneralInformation', () => {
       entity.system_profile.operating_system.name = 'RHEL';
       render(
         <TestWrapper store={store}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
+          <Overview entity={entity} inventoryId={'test-id'} />
         </TestWrapper>,
       );
 

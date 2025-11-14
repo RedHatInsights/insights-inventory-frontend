@@ -6,7 +6,7 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 import * as actions from '../store/actions';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
-import { GeneralInformationTab } from '../components/SystemDetails';
+import { OverviewTab, DetailsTab } from '../components/SystemDetails';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
@@ -16,18 +16,29 @@ import { getEntities as defaultGetEntities } from '../api';
 const appList = {
   'CENTOS-LINUX': [
     {
-      title: 'General information',
-      name: 'general_information',
-      component: GeneralInformationTab,
-      //use this if you want to prefetch systemProfile above GeneralInformationTab
+      title: 'Overview',
+      name: 'overview',
+      component: OverviewTab,
+      systemProfilePrefetched: true,
+    },
+    {
+      title: 'Details',
+      name: 'details',
+      component: DetailsTab,
       systemProfilePrefetched: true,
     },
   ],
   RHEL: [
     {
-      title: 'General information',
-      name: 'general_information',
-      component: GeneralInformationTab,
+      title: 'Overview',
+      name: 'overview',
+      component: OverviewTab,
+      systemProfilePrefetched: true,
+    },
+    {
+      title: 'Details',
+      name: 'details',
+      component: DetailsTab,
       systemProfilePrefetched: true,
     },
     {
@@ -153,7 +164,8 @@ const Inventory = () => {
 
   const additionalClasses = {
     'ins-c-inventory__detail--general-info':
-      searchParams.get('appName') === 'general_information',
+      searchParams.get('appName') === 'overview' ||
+      searchParams.get('appName') === 'details',
   };
 
   if (entity) {
