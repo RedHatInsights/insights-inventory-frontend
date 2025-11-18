@@ -15,20 +15,29 @@ import Tags from '../../routes/Systems/components/SystemsTable/components/column
 import OperatingSystem from '../../routes/Systems/components/SystemsTable/components/columns/OperatingSystem';
 import LastSeen from '../../routes/Systems/components/SystemsTable/components/columns/LastSeen';
 
+// TODO improve System interface types
 interface System {
   id: string;
   display_name: string;
-  groups?: Array<any>;
-  tags?: Array<any>;
+  groups?: Array<{ name?: string }>;
+  tags?: Array<object>;
   system_profile?: {
     operating_system?: {
       name?: string;
       major?: number;
       minor?: number;
     };
-    bootc_status?: any;
+    bootc_status?: unknown;
   };
   updated?: string;
+  culled_timestamp?: string;
+  stale_warning_timestamp?: string;
+  stale_timestamp?: string;
+  per_reporter_staleness?: {
+    [reporter: string]: {
+      stale_timestamp?: string | number | Date | null;
+    } | null;
+  } | null;
 }
 
 const SystemsDataViewTable: React.FC = () => {
@@ -82,10 +91,10 @@ const SystemsDataViewTable: React.FC = () => {
       <LastSeen
         key={`lastseen-${system.id}`}
         updated={system.updated}
-        culled_timestamp={(system as any).culled_timestamp}
-        stale_warning_timestamp={(system as any).stale_warning_timestamp}
-        stale_timestamp={(system as any).stale_timestamp}
-        per_reporter_staleness={(system as any).per_reporter_staleness}
+        culled_timestamp={system?.culled_timestamp}
+        stale_warning_timestamp={system?.stale_warning_timestamp}
+        stale_timestamp={system?.stale_timestamp}
+        per_reporter_staleness={system?.per_reporter_staleness}
       />,
     ],
   }));
