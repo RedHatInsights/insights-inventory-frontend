@@ -180,7 +180,9 @@
     "postinstall": "ts-patch install",
     "docs": "jsdoc --configure .jsdoc.json",
     "test:pw": "npx playwright test",
-    "patch:hosts": "fec patch-etc-hosts"
+    "patch:hosts": "fec patch-etc-hosts",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch"
   },
   "insights": {
     "appname": "inventory"
