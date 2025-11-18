@@ -8,6 +8,7 @@
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "bundler",
+    "types": ["node", "jest", "react", "react-dom"],
     "removeComments": false,
     "strict": true,
     "skipLibCheck": true,
