@@ -48,7 +48,7 @@ test('User can apply custom Staleness setting', async ({ page }) => {
   });
 
   await test.step('Verify new custom setting is applied', async () => {
-    await editButton.isEnabled();
+    await expect(editButton).toBeEnabled();
     await expect(freshMenu).toHaveText(customDateSettings.fresh);
     await expect(staleMenu).toHaveText(customDateSettings.stale);
     await expect(deletionMenu).toHaveText(customDateSettings.deletion);
@@ -70,7 +70,7 @@ test('User can apply custom Staleness setting', async ({ page }) => {
   });
 
   await test.step('Verify default setting is applied', async () => {
-    await editButton.isEnabled();
+    await expect(editButton).toBeEnabled();
     await expect(freshMenu).toHaveText(defaultDateSettings.fresh);
     await expect(staleMenu).toHaveText(defaultDateSettings.stale);
     await expect(deletionMenu).toHaveText(defaultDateSettings.deletion);
