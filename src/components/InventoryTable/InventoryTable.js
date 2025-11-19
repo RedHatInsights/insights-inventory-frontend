@@ -267,7 +267,8 @@ const InventoryTable = forwardRef(
     const prevFilters = useRef(customFilters);
     useEffect(() => {
       if (autoRefresh && !isEqual(prevFilters.current, customFilters)) {
-        onRefreshData();
+        // Reset pagination to page 1 when any filter changes
+        onRefreshData({ page: 1 });
         prevFilters.current = customFilters;
       }
     });

@@ -563,6 +563,139 @@ describe('InventoryTable', () => {
           shouldDispatch(store, { type: 'LOAD_ENTITIES' });
         });
       });
+
+      it('should reset pagination to page 1 when customFilters change', async () => {
+        const stateOnPage5 = {
+          entities: {
+            ...loadedState.entities,
+            page: 5,
+            perPage: 20,
+          },
+        };
+        const store = mockStore(stateOnPage5);
+        const { rerender } = renderTable(store, { autoRefresh: true });
+
+        await waitFor(() => {
+          shouldDispatch(store, { type: 'LOAD_ENTITIES' });
+          expect(getEntitiesSpied).toHaveBeenCalled();
+        });
+
+        store.clearActions();
+        getEntitiesSpied.mockClear();
+
+        // Apply a filter change
+        rerender({
+          autoRefresh: true,
+          customFilters: {
+            system_profile: { sap_system: true },
+          },
+        });
+
+        await waitFor(() => {
+          // Verify that getEntities was called with page: 1
+          expect(getEntitiesSpied).toHaveBeenCalledWith(
+            [],
+            expect.objectContaining({
+              page: 1,
+            }),
+            undefined,
+            expect.anything(),
+          );
+        });
+      });
+
+      it('should reset pagination to page 1 when globalFilter changes', async () => {
+        const stateOnPage10 = {
+          entities: {
+            ...loadedState.entities,
+            page: 10,
+            perPage: 50,
+          },
+        };
+        const store = mockStore(stateOnPage10);
+        const { rerender } = renderTable(store, { autoRefresh: true });
+
+        await waitFor(() => {
+          shouldDispatch(store, { type: 'LOAD_ENTITIES' });
+          expect(getEntitiesSpied).toHaveBeenCalled();
+        });
+
+        store.clearActions();
+        getEntitiesSpied.mockClear();
+
+        // Apply globalFilter change (e.g., SAP workload selection)
+        rerender({
+          autoRefresh: true,
+          customFilters: {
+            globalFilter: {
+              filter: {
+                system_profile: {
+                  sap_system: true,
+                },
+              },
+            },
+          },
+        });
+
+        await waitFor(() => {
+          // Verify that getEntities was called with page: 1
+          expect(getEntitiesSpied).toHaveBeenCalledWith(
+            [],
+            expect.objectContaining({
+              page: 1,
+            }),
+            undefined,
+            expect.anything(),
+          );
+        });
+      });
+
+      it('should reset pagination to page 1 when both filters and globalFilter change', async () => {
+        const stateOnPage100 = {
+          entities: {
+            ...loadedState.entities,
+            page: 100,
+            perPage: 50,
+          },
+        };
+        const store = mockStore(stateOnPage100);
+        const { rerender } = renderTable(store, { autoRefresh: true });
+
+        await waitFor(() => {
+          shouldDispatch(store, { type: 'LOAD_ENTITIES' });
+          expect(getEntitiesSpied).toHaveBeenCalled();
+        });
+
+        store.clearActions();
+        getEntitiesSpied.mockClear();
+
+        // Apply both custom filter and global filter changes
+        rerender({
+          autoRefresh: true,
+          customFilters: {
+            filters: [{ value: 'hostname_or_id', filter: 'test-system' }],
+            globalFilter: {
+              filter: {
+                system_profile: {
+                  sap_system: true,
+                },
+              },
+            },
+          },
+        });
+
+        await waitFor(() => {
+          // Verify that getEntities was called with page: 1
+          expect(getEntitiesSpied).toHaveBeenCalledWith(
+            [],
+            expect.objectContaining({
+              page: 1,
+            }),
+            undefined,
+            expect.anything(),
+          );
+        });
+      });
     });
 
     describe('hideFilters', () => {
