@@ -32,6 +32,26 @@ export const navigateToWorkspacesFunc = async (page: Page) => {
   });
 };
 
+/**
+ * Navigates the browser to the Staleness and Deletion page and waits for the
+ * main 'Workspaces' heading to become visible.
+ *  @param page
+ */
+export const navigateToStalenessPageFunc = async (page: Page) => {
+  await page.goto('/insights/inventory/staleness-and-deletion', {
+    timeout: 100000,
+  });
+  await expect(
+    page.getByRole('heading', { name: 'Staleness and Deletion', exact: true }),
+  ).toBeVisible({
+    timeout: 100000,
+  });
+  await page.waitForSelector(
+    'text=Organization level system staleness and deletion',
+    { state: 'visible' },
+  );
+};
+
 export const test = base.extend({
   page: async ({ page }, use) => {
     await closePopupsIfExist(page); // Run before each test
