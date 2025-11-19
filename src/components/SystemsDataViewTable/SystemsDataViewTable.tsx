@@ -8,47 +8,64 @@ import {
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
 import { Bullseye, Spinner, Tooltip } from '@patternfly/react-core';
 import { useQuery } from '@tanstack/react-query';
-import { fetchSystems } from '../../routes/Systems/helpers.js';
+import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import DisplayName from '../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
 import Workspace from '../../routes/Systems/components/SystemsTable/components/columns/Workspace';
 import Tags from '../../routes/Systems/components/SystemsTable/components/columns/Tags';
 import OperatingSystem from '../../routes/Systems/components/SystemsTable/components/columns/OperatingSystem';
 import LastSeen from '../../routes/Systems/components/SystemsTable/components/columns/LastSeen';
+import { getHostList, getHostTags } from '../../api/hostInventoryApiTyped';
 
-// TODO improve System interface types
-interface System {
-  id: string;
-  display_name: string;
-  groups?: Array<{ name?: string }>;
-  tags?: Array<object>;
-  system_profile?: {
-    operating_system?: {
-      name?: string;
-      major?: number;
-      minor?: number;
-    };
-    bootc_status?: unknown;
+// TODO reimplement and pass a real state
+const fetchSystems = async (state = { filters: { filter: {} } }) => {
+  const fields = {
+    system_profile: [
+      'operating_system',
+      'system_update_method' /* needed by inventory groups Why? */,
+      'bootc_status',
+    ],
   };
-  updated?: string;
-  culled_timestamp?: string;
-  stale_warning_timestamp?: string;
-  stale_timestamp?: string;
-  per_reporter_staleness?: {
-    [reporter: string]: {
-      stale_timestamp?: string | number | Date | null;
-    } | null;
-  } | null;
-}
+
+  const { filter, ...filterParams } = state?.filters || {};
+
+  const params = {
+    ...filterParams,
+    tags: [],
+    options: {
+      params: {
+        // There is a bug in the JS clients that requires us to pass "filter" and "fields" as "raw" params.
+        // the issue is that JS clients convert that object wrongly to something like filter.systems_profile.sap_system as the param name
+        // it should rather be something like `filter[systems_profile][sap_system]`
+        ...generateFilter(fields, 'fields'),
+        ...generateFilter(filter),
+      },
+    },
+  };
+
+  const { results: hosts } = await getHostList(params);
+  const { results: hostsTags = {} } = await getHostTags({
+    hostIdList: hosts
+      .map(({ id }) => id)
+      .filter((id): id is string => id !== undefined),
+  });
+
+  const systems = hosts.map((host) => ({
+    ...host,
+    ...(host.id && hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
+  }));
+
+  return systems;
+};
 
 const SystemsDataViewTable: React.FC = () => {
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
   });
 
-  const { data, isLoading } = useQuery<System[]>({
+  const { data, isLoading } = useQuery({
     queryKey: ['systems'],
     queryFn: async () => {
-      const [systemsData] = await fetchSystems({});
+      const systemsData = await fetchSystems();
       return systemsData;
     },
     refetchOnWindowFocus: false,
@@ -76,8 +93,9 @@ const SystemsDataViewTable: React.FC = () => {
   // Define rows
   const rows: DataViewTr[] = data.map((system) => ({
     id: system.id,
+    // FIXME types in column components
     row: [
-      <DisplayName key={`name-${system.id}`} {...system} props={{}} />,
+      <DisplayName key={`name-${system.id}`} id={system.id} props={{}} />,
       <Workspace key={`workspace-${system.id}`} groups={system.groups} />,
       <Tags
         key={`tags-${system.id}`}
