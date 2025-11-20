@@ -1,12 +1,12 @@
-import React from 'react';
-import { DataView } from '@patternfly/react-data-view';
+import React, { useState } from 'react';
+import { DataView, DataViewTextFilter } from '@patternfly/react-data-view';
 import {
   DataViewTable,
   DataViewTh,
   DataViewTr,
 } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
-import { Bullseye, Spinner, Tooltip } from '@patternfly/react-core';
+import { Bullseye, Pagination, Spinner, Tooltip } from '@patternfly/react-core';
 import { useQuery } from '@tanstack/react-query';
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import DisplayName from '../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
@@ -15,6 +15,13 @@ import Tags from '../../routes/Systems/components/SystemsTable/components/column
 import OperatingSystem from '../../routes/Systems/components/SystemsTable/components/columns/OperatingSystem';
 import LastSeen from '../../routes/Systems/components/SystemsTable/components/columns/LastSeen';
 import { getHostList, getHostTags } from '../../api/hostInventoryApiTyped';
+import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
+import DataViewFilters from '@patternfly/react-data-view/dist/dynamic/DataViewFilters';
+import {
+  ResponsiveAction,
+  ResponsiveActions,
+  BulkSelect,
+} from '@patternfly/react-component-groups';
 
 // TODO reimplement and pass a real state
 const fetchSystems = async (state = { filters: { filter: {} } }) => {
@@ -95,7 +102,12 @@ const SystemsDataViewTable: React.FC = () => {
     id: system.id,
     // FIXME types in column components
     row: [
-      <DisplayName key={`name-${system.id}`} id={system.id} props={{}} />,
+      <DisplayName
+        key={`name-${system.id}`}
+        id={system.id}
+        props={{}}
+        {...system}
+      />,
       <Workspace key={`workspace-${system.id}`} groups={system.groups} />,
       <Tags
         key={`tags-${system.id}`}
@@ -117,14 +129,80 @@ const SystemsDataViewTable: React.FC = () => {
     ],
   }));
 
+  // TODO Define filters
+  const filters = {};
+
+  // TODO Define selected
+  const selected = [];
+
   return (
-    <DataView selection={selection}>
+    <DataView selection={selection} activeState={'ready'}>
+      <DataViewToolbar
+        ouiaId="LayoutExampleHeader"
+        clearAllFilters={() => {
+          /* TODO implement clearAllFilters */
+        }}
+        bulkSelect={
+          <BulkSelect
+            pageCount={rows.length}
+            // totalCount={systems.length}
+            selectedCount={selected.length}
+            // pageSelected={rows.every((item) => isSelected(item))}
+            // pagePartiallySelected={
+            //   rows.some((item) => isSelected(item)) &&
+            //   !rows.every((item) => isSelected(item))
+            // }
+            onSelect={() => {
+              /** TODO implement onBulkSelect */
+            }}
+          />
+        }
+        filters={
+          <DataViewFilters
+            onChange={() => {
+              /* TODO implement onFilterChange */
+            }}
+            values={filters}
+          >
+            <DataViewTextFilter
+              filterId="name"
+              title="Name"
+              placeholder="Filter by name"
+            />
+          </DataViewFilters>
+        }
+        actions={
+          <ResponsiveActions ouiaId="example-actions">
+            <ResponsiveAction>Action 1</ResponsiveAction>
+            <ResponsiveAction>Action 2</ResponsiveAction>
+          </ResponsiveActions>
+        }
+        pagination={
+          <Pagination
+            isCompact
+            // perPageOptions={perPageOptions}
+            // itemCount={systems.length}
+            // {...pagination}
+          />
+        }
+      />
       <DataViewTable
         aria-label="Systems table"
         variant="compact"
         ouiaId="systems-dataview-table"
         columns={columns}
         rows={rows}
+      />
+      <DataViewToolbar
+        ouiaId="LayoutExampleFooter"
+        pagination={
+          <Pagination
+            isCompact
+            // perPageOptions={perPageOptions}
+            // itemCount={systems.length}
+            // {...pagination}
+          />
+        }
       />
     </DataView>
   );
