@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageSection, Title } from '@patternfly/react-core';
-import SystemsDataViewTable from '../components/SystemsDataViewTable';
+import SystemsDataViewTable from '../components/SystemsViewTable';
 
 const InventoryViews = function InventoryViews() {
   return (

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { DataView, DataViewTextFilter } from '@patternfly/react-data-view';
+import {
+  DataView,
+  DataViewTextFilter,
+  useDataViewPagination,
+} from '@patternfly/react-data-view';
 import {
   DataViewTable,
   DataViewTh,
@@ -7,14 +11,11 @@ import {
 } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
 import { Bullseye, Pagination, Spinner, Tooltip } from '@patternfly/react-core';
-import { useQuery } from '@tanstack/react-query';
-import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import DisplayName from '../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
 import Workspace from '../../routes/Systems/components/SystemsTable/components/columns/Workspace';
 import Tags from '../../routes/Systems/components/SystemsTable/components/columns/Tags';
 import OperatingSystem from '../../routes/Systems/components/SystemsTable/components/columns/OperatingSystem';
 import LastSeen from '../../routes/Systems/components/SystemsTable/components/columns/LastSeen';
-import { getHostList, getHostTags } from '../../api/hostInventoryApiTyped';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
 import DataViewFilters from '@patternfly/react-data-view/dist/dynamic/DataViewFilters';
 import {
@@ -22,60 +23,24 @@ import {
   ResponsiveActions,
   BulkSelect,
 } from '@patternfly/react-component-groups';
+import { useSystemsQuery } from './hooks/useSystemsQuery';
 
-// TODO reimplement and pass a real state
-const fetchSystems = async (state = { filters: { filter: {} } }) => {
-  const fields = {
-    system_profile: [
-      'operating_system',
-      'system_update_method' /* needed by inventory groups Why? */,
-      'bootc_status',
-    ],
-  };
+const PER_PAGE = 50;
+const INITIAL_PAGE = 1;
 
-  const { filter, ...filterParams } = state?.filters || {};
-
-  const params = {
-    ...filterParams,
-    tags: [],
-    options: {
-      params: {
-        // There is a bug in the JS clients that requires us to pass "filter" and "fields" as "raw" params.
-        // the issue is that JS clients convert that object wrongly to something like filter.systems_profile.sap_system as the param name
-        // it should rather be something like `filter[systems_profile][sap_system]`
-        ...generateFilter(fields, 'fields'),
-        ...generateFilter(filter),
-      },
-    },
-  };
-
-  const { results: hosts } = await getHostList(params);
-  const { results: hostsTags = {} } = await getHostTags({
-    hostIdList: hosts
-      .map(({ id }) => id)
-      .filter((id): id is string => id !== undefined),
+const SystemsViewTable: React.FC = () => {
+  const pagination = useDataViewPagination({
+    perPage: PER_PAGE,
+    page: INITIAL_PAGE,
   });
 
-  const systems = hosts.map((host) => ({
-    ...host,
-    ...(host.id && hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
-  }));
-
-  return systems;
-};
-
-const SystemsDataViewTable: React.FC = () => {
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
   });
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['systems'],
-    queryFn: async () => {
-      const systemsData = await fetchSystems();
-      return systemsData;
-    },
-    refetchOnWindowFocus: false,
+  const { data, total, isLoading } = useSystemsQuery({
+    page: pagination.page,
+    perPage: pagination.perPage,
   });
 
   if (isLoading || !data) {
@@ -86,7 +51,6 @@ const SystemsDataViewTable: React.FC = () => {
     );
   }
 
-  // Define columns
   const columns: DataViewTh[] = [
     'Name',
     'Workspace',
@@ -97,7 +61,6 @@ const SystemsDataViewTable: React.FC = () => {
     'Last seen',
   ];
 
-  // Define rows
   const rows: DataViewTr[] = data.map((system) => ({
     id: system.id,
     // FIXME types in column components
@@ -177,14 +140,7 @@ const SystemsDataViewTable: React.FC = () => {
             <ResponsiveAction>Action 2</ResponsiveAction>
           </ResponsiveActions>
         }
-        pagination={
-          <Pagination
-            isCompact
-            // perPageOptions={perPageOptions}
-            // itemCount={systems.length}
-            // {...pagination}
-          />
-        }
+        pagination={<Pagination isCompact itemCount={total} {...pagination} />}
       />
       <DataViewTable
         aria-label="Systems table"
@@ -195,17 +151,10 @@ const SystemsDataViewTable: React.FC = () => {
       />
       <DataViewToolbar
         ouiaId="LayoutExampleFooter"
-        pagination={
-          <Pagination
-            isCompact
-            // perPageOptions={perPageOptions}
-            // itemCount={systems.length}
-            // {...pagination}
-          />
-        }
+        pagination={<Pagination isCompact itemCount={total} {...pagination} />}
       />
     </DataView>
   );
 };
 
-export default SystemsDataViewTable;
+export default SystemsViewTable;
