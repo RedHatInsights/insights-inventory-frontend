@@ -1,0 +1,712 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Details should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="ins-c-system-details"
+  >
+    <div
+      class="pf-v6-l-grid pf-m-gutter"
+    >
+      <div
+        class="pf-v6-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md"
+      >
+        <div
+          class="pf-v6-l-grid pf-m-gutter"
+        >
+          <div
+            class="pf-v6-l-grid__item"
+          >
+            <div
+              class="pf-v6-c-card"
+              data-ouia-component-id="infrastructure-card"
+              data-ouia-component-type="PF6/Card"
+              data-ouia-safe="true"
+              id=""
+            >
+              <div
+                class="pf-v6-c-card__body"
+              >
+                <div
+                  class="pf-v6-l-stack pf-m-gutter"
+                >
+                  <div
+                    class="pf-v6-l-stack__item"
+                  >
+                    <div
+                      class="pf-v6-c-content"
+                      data-ouia-component-id="OUIA-Generated-Content-13"
+                      data-ouia-component-type="PF6/Content"
+                      data-ouia-safe="true"
+                      data-pf-content="true"
+                    >
+                      <h1
+                        class="pf-v6-c-content--h1"
+                        data-ouia-component-id="SystemPropertiesCardTitle"
+                        data-ouia-component-type="PF6/Content"
+                        data-ouia-safe="true"
+                        data-pf-content="true"
+                      >
+                        Infrastructure
+                      </h1>
+                    </div>
+                  </div>
+                  <div
+                    class="pf-v6-l-stack__item pf-m-fill"
+                  >
+                    <div
+                      class="pf-v6-c-content"
+                      data-ouia-component-id="OUIA-Generated-Content-15"
+                      data-ouia-component-type="PF6/Content"
+                      data-ouia-safe="true"
+                      data-pf-content="true"
+                    >
+                      <dl
+                        aria-label="Infrastructure title"
+                        class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+                        data-ouia-component-id="Infrastructure title"
+                        style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+                      >
+                        <div
+                          class="pf-v6-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Type
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Type value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Type value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              test-type
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Vendor
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Vendor value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Vendor value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              test-vendor
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Public IP
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Public IP value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Public IP value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Not available
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              IPv4 addresses
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="IPv4 addresses value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="IPv4 addresses value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <div>
+                                <a
+                                  href="/example/ipv4"
+                                >
+                                  2 addresses
+                                </a>
+                              </div>
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              IPv6 addresses
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="IPv6 addresses value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="IPv6 addresses value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <div>
+                                <a
+                                  href="/example/ipv6"
+                                >
+                                  2 addresses
+                                </a>
+                              </div>
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              FQDN
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="FQDN value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="FQDN value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Not available
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Interfaces/NICs
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Interfaces/NICs value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Interfaces/NICs value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <div>
+                                <a
+                                  href="/example/interfaces"
+                                >
+                                  2 NICs
+                                </a>
+                              </div>
+                            </div>
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="pf-v6-l-grid__item"
+          >
+            <div
+              class="pf-v6-c-card"
+              data-ouia-component-id="os-card"
+              data-ouia-component-type="PF6/Card"
+              data-ouia-safe="true"
+              id=""
+            >
+              <div
+                class="pf-v6-c-card__body"
+              >
+                <div
+                  class="pf-v6-l-stack pf-m-gutter"
+                >
+                  <div
+                    class="pf-v6-l-stack__item"
+                  >
+                    <div
+                      class="pf-v6-c-content"
+                      data-ouia-component-id="OUIA-Generated-Content-16"
+                      data-ouia-component-type="PF6/Content"
+                      data-ouia-safe="true"
+                      data-pf-content="true"
+                    >
+                      <h1
+                        class="pf-v6-c-content--h1"
+                        data-ouia-component-id="SystemPropertiesCardTitle"
+                        data-ouia-component-type="PF6/Content"
+                        data-ouia-safe="true"
+                        data-pf-content="true"
+                      >
+                        Operating system
+                      </h1>
+                    </div>
+                  </div>
+                  <div
+                    class="pf-v6-l-stack__item pf-m-fill"
+                  >
+                    <div
+                      class="pf-v6-c-content"
+                      data-ouia-component-id="OUIA-Generated-Content-18"
+                      data-ouia-component-type="PF6/Content"
+                      data-ouia-safe="true"
+                      data-pf-content="true"
+                    >
+                      <dl
+                        aria-label="Operating system title"
+                        class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+                        data-ouia-component-id="Operating system title"
+                        style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+                      >
+                        <div
+                          class="pf-v6-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Release
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Release value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Release value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <span
+                                aria-label="Formatted OS version"
+                              >
+                                test-release
+                              </span>
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Kernel release
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Kernel release value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Kernel release value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              test-kernel
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Architecture
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Architecture value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Architecture value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              test-arch
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Last boot time
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Last boot time value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Last boot time value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Not available
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Kernel modules
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Kernel modules value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Kernel modules value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              0 modules
+                            </div>
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="pf-v6-l-grid__item pf-m-12-col-on-sm pf-m-6-col-on-md"
+      >
+        <div
+          class="pf-v6-l-grid pf-m-gutter"
+        >
+          <div
+            class="pf-v6-l-grid__item"
+          >
+            <div
+              class="pf-v6-c-card"
+              data-ouia-component-id="bios-card"
+              data-ouia-component-type="PF6/Card"
+              data-ouia-safe="true"
+              id=""
+            >
+              <div
+                class="pf-v6-c-card__body"
+              >
+                <div
+                  class="pf-v6-l-stack pf-m-gutter"
+                >
+                  <div
+                    class="pf-v6-l-stack__item"
+                  >
+                    <div
+                      class="pf-v6-c-content"
+                      data-ouia-component-id="OUIA-Generated-Content-19"
+                      data-ouia-component-type="PF6/Content"
+                      data-ouia-safe="true"
+                      data-pf-content="true"
+                    >
+                      <h1
+                        class="pf-v6-c-content--h1"
+                        data-ouia-component-id="SystemPropertiesCardTitle"
+                        data-ouia-component-type="PF6/Content"
+                        data-ouia-safe="true"
+                        data-pf-content="true"
+                      >
+                        BIOS
+                      </h1>
+                    </div>
+                  </div>
+                  <div
+                    class="pf-v6-l-stack__item pf-m-fill"
+                  >
+                    <div
+                      class="pf-v6-c-content"
+                      data-ouia-component-id="OUIA-Generated-Content-21"
+                      data-ouia-component-type="PF6/Content"
+                      data-ouia-safe="true"
+                      data-pf-content="true"
+                    >
+                      <dl
+                        aria-label="BIOS title"
+                        class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+                        data-ouia-component-id="BIOS title"
+                        style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+                      >
+                        <div
+                          class="pf-v6-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Vendor
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Vendor value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Vendor value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              test-vendor
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Version
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Version value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Version value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              test-version
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Release date
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Release date value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Release date value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              01 Apr 2014
+                            </div>
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="pf-v6-l-grid__item"
+          >
+            <div
+              class="pf-v6-c-card"
+              data-ouia-component-id="configuration-card"
+              data-ouia-component-type="PF6/Card"
+              data-ouia-safe="true"
+              id=""
+            >
+              <div
+                class="pf-v6-c-card__body"
+              >
+                <div
+                  class="pf-v6-l-stack pf-m-gutter"
+                >
+                  <div
+                    class="pf-v6-l-stack__item"
+                  >
+                    <div
+                      class="pf-v6-c-content"
+                      data-ouia-component-id="OUIA-Generated-Content-22"
+                      data-ouia-component-type="PF6/Content"
+                      data-ouia-safe="true"
+                      data-pf-content="true"
+                    >
+                      <h1
+                        class="pf-v6-c-content--h1"
+                        data-ouia-component-id="SystemPropertiesCardTitle"
+                        data-ouia-component-type="PF6/Content"
+                        data-ouia-safe="true"
+                        data-pf-content="true"
+                      >
+                        Configuration
+                      </h1>
+                    </div>
+                  </div>
+                  <div
+                    class="pf-v6-l-stack__item pf-m-fill"
+                  >
+                    <div
+                      class="pf-v6-c-content"
+                      data-ouia-component-id="OUIA-Generated-Content-24"
+                      data-ouia-component-type="PF6/Content"
+                      data-ouia-safe="true"
+                      data-pf-content="true"
+                    >
+                      <dl
+                        aria-label="Configuration title"
+                        class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
+                        data-ouia-component-id="Configuration title"
+                        style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+                      >
+                        <div
+                          class="pf-v6-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Installed packages
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Installed packages value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Installed packages value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <div>
+                                <a
+                                  href="/example/installed_packages"
+                                >
+                                  1 package
+                                </a>
+                              </div>
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Services
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Services value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Services value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <div>
+                                <a
+                                  href="/example/services"
+                                >
+                                  1 service
+                                </a>
+                              </div>
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Running processes
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Running processes value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Running processes value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <div>
+                                <a
+                                  href="/example/running_processes"
+                                >
+                                  1 process
+                                </a>
+                              </div>
+                            </div>
+                          </dd>
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Repositories
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Repositories value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Repositories value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <div>
+                                <a
+                                  href="/example/repositories"
+                                >
+                                  1 enabled
+                                </a>
+                              </div>
+                            </div>
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
