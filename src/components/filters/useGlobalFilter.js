@@ -8,20 +8,29 @@ const useGlobalFilter = () => {
   const [globalFilter, setGlobalFilterState] = useState();
 
   const setGlobalFilter = useCallback(
-    (tags, workloads, SID) =>
+    (tags, workloads) =>
       setGlobalFilterState({
         tags,
         filter: {
           system_profile: {
-            ...(workloads?.SAP?.isSelected && { sap_system: true }),
-            ...(workloads &&
-              workloads['Ansible Automation Platform']?.isSelected && {
-                ansible: 'not_nil',
+            workloads: {
+              ...(workloads?.SAP?.isSelected && {
+                sap: {
+                  sap_system: true,
+                },
               }),
-            ...(workloads?.['Microsoft SQL']?.isSelected && {
-              mssql: 'not_nil',
-            }),
-            ...(SID?.length > 0 && { sap_sids: SID }),
+              ...(workloads &&
+                workloads['Ansible Automation Platform']?.isSelected && {
+                  ansible: {
+                    controller_version: 'not_nil',
+                  },
+                }),
+              ...(workloads?.['Microsoft SQL']?.isSelected && {
+                mssql: {
+                  version: 'not_nil',
+                },
+              }),
+            },
           },
         },
       }),
@@ -31,9 +40,9 @@ const useGlobalFilter = () => {
   useEffect(() => {
     chrome.hideGlobalFilter(false);
     const unlisten = chrome.on('GLOBAL_FILTER_UPDATE', ({ data }) => {
-      const [workloads, SID, tags] = chrome.mapGlobalFilter(data, false, true);
+      const [workloads, tags] = chrome.mapGlobalFilter(data, false, true);
 
-      setGlobalFilter(tags, workloads, SID);
+      setGlobalFilter(tags, workloads);
     });
 
     return () => unlisten();
