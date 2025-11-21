@@ -101,7 +101,7 @@ const SystemsViewTable: React.FC = () => {
   return (
     <DataView selection={selection} activeState={'ready'}>
       <DataViewToolbar
-        ouiaId="LayoutExampleHeader"
+        ouiaId="systems-view-header"
         clearAllFilters={() => {
           /* TODO implement clearAllFilters */
         }}
@@ -135,7 +135,7 @@ const SystemsViewTable: React.FC = () => {
           </DataViewFilters>
         }
         actions={
-          <ResponsiveActions ouiaId="example-actions">
+          <ResponsiveActions ouiaId="systems-view-toolbar-actions">
             <ResponsiveAction>Action 1</ResponsiveAction>
             <ResponsiveAction>Action 2</ResponsiveAction>
           </ResponsiveActions>
@@ -145,12 +145,12 @@ const SystemsViewTable: React.FC = () => {
       <DataViewTable
         aria-label="Systems table"
         variant="compact"
-        ouiaId="systems-dataview-table"
+        ouiaId="systems-view-table"
         columns={columns}
         rows={rows}
       />
       <DataViewToolbar
-        ouiaId="LayoutExampleFooter"
+        ouiaId="systems-view-footer"
         pagination={<Pagination isCompact itemCount={total} {...pagination} />}
       />
     </DataView>
