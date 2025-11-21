@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   DataView,
   DataViewTextFilter,
@@ -23,12 +23,19 @@ import {
   ResponsiveActions,
   BulkSelect,
 } from '@patternfly/react-component-groups';
-import { useSystemsQuery } from './hooks/useSystemsQuery';
+import {
+  type System,
+  fetchAllSystems,
+  useSystemsQuery,
+} from './hooks/useSystemsQuery';
+import { useQueryClient } from '@tanstack/react-query';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
 
 const SystemsViewTable: React.FC = () => {
+  const queryClient = useQueryClient();
+
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
@@ -36,7 +43,9 @@ const SystemsViewTable: React.FC = () => {
 
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
+    initialSelected: [],
   });
+  const { selected, onSelect, isSelected, setSelected } = selection;
 
   const { data, total, isLoading } = useSystemsQuery({
     page: pagination.page,
@@ -51,6 +60,40 @@ const SystemsViewTable: React.FC = () => {
     );
   }
 
+  const createRows = (data: System[]): DataViewTr[] => {
+    return data.map((system) => ({
+      id: system.id,
+      // FIXME types in column components
+      row: [
+        <DisplayName
+          key={`name-${system.id}`}
+          id={system.id}
+          props={{}}
+          {...system}
+        />,
+        <Workspace key={`workspace-${system.id}`} groups={system.groups} />,
+        <Tags
+          key={`tags-${system.id}`}
+          tags={system.tags}
+          systemId={system.id}
+        />,
+        <OperatingSystem
+          key={`os-${system.id}`}
+          system_profile={system.system_profile}
+        />,
+        <LastSeen
+          key={`lastseen-${system.id}`}
+          updated={system.updated}
+          culled_timestamp={system?.culled_timestamp}
+          stale_warning_timestamp={system?.stale_warning_timestamp}
+          stale_timestamp={system?.stale_timestamp}
+          per_reporter_staleness={system?.per_reporter_staleness}
+        />,
+      ],
+    }));
+  };
+
+  const rows = createRows(data);
   const columns: DataViewTh[] = [
     'Name',
     'Workspace',
@@ -61,42 +104,31 @@ const SystemsViewTable: React.FC = () => {
     'Last seen',
   ];
 
-  const rows: DataViewTr[] = data.map((system) => ({
-    id: system.id,
-    // FIXME types in column components
-    row: [
-      <DisplayName
-        key={`name-${system.id}`}
-        id={system.id}
-        props={{}}
-        {...system}
-      />,
-      <Workspace key={`workspace-${system.id}`} groups={system.groups} />,
-      <Tags
-        key={`tags-${system.id}`}
-        tags={system.tags}
-        systemId={system.id}
-      />,
-      <OperatingSystem
-        key={`os-${system.id}`}
-        system_profile={system.system_profile}
-      />,
-      <LastSeen
-        key={`lastseen-${system.id}`}
-        updated={system.updated}
-        culled_timestamp={system?.culled_timestamp}
-        stale_warning_timestamp={system?.stale_warning_timestamp}
-        stale_timestamp={system?.stale_timestamp}
-        per_reporter_staleness={system?.per_reporter_staleness}
-      />,
-    ],
-  }));
-
   // TODO Define filters
   const filters = {};
 
-  // TODO Define selected
-  const selected = [];
+  const onBulkSelect = async (value: string) => {
+    switch (value) {
+      case 'none':
+      case 'nonePage':
+        setSelected([]);
+      case 'page':
+        if (selected.length === 0) {
+          onSelect(true, rows);
+        } else {
+          setSelected([]);
+        }
+        break;
+      case 'all':
+        const allSystems = await fetchAllSystems({
+          total,
+          perPage: pagination.perPage,
+          queryClient,
+        });
+        onSelect(true, createRows(allSystems));
+        break;
+    }
+  };
 
   return (
     <DataView selection={selection} activeState={'ready'}>
@@ -108,16 +140,15 @@ const SystemsViewTable: React.FC = () => {
         bulkSelect={
           <BulkSelect
             pageCount={rows.length}
-            // totalCount={systems.length}
+            // canSelectAll disabled due to missing spinner & inability to disable bulkSelect
+            totalCount={total}
             selectedCount={selected.length}
-            // pageSelected={rows.every((item) => isSelected(item))}
-            // pagePartiallySelected={
-            //   rows.some((item) => isSelected(item)) &&
-            //   !rows.every((item) => isSelected(item))
-            // }
-            onSelect={() => {
-              /** TODO implement onBulkSelect */
-            }}
+            pagePartiallySelected={
+              rows.some((row) => isSelected(row)) &&
+              !rows.every((row) => isSelected(row))
+            }
+            pageSelected={rows.every((row) => isSelected(row))}
+            onSelect={onBulkSelect}
           />
         }
         filters={

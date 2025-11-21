@@ -1,19 +1,26 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import {
+  type QueryClient,
+  keepPreviousData,
+  useQuery,
+} from '@tanstack/react-query';
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
+import pAll from 'p-all';
+
+type FetchSystemsReturnedValue = Awaited<ReturnType<typeof fetchSystems>>;
+export type System = FetchSystemsReturnedValue['results'][number];
 
 interface FetchSystemsParams {
   page: number;
   perPage: number;
 }
 
-// TODO add filters
 const fetchSystems = async ({ page, perPage }: FetchSystemsParams) => {
   const state = { filters: { filter: {} } };
   const fields = {
     system_profile: [
       'operating_system',
-      'system_update_method' /* needed by inventory groups Why? */,
+      'system_update_method',
       'bootc_status',
     ],
   };
@@ -49,6 +56,37 @@ const fetchSystems = async ({ page, perPage }: FetchSystemsParams) => {
   }));
 
   return { results, total };
+};
+
+const MAX_CONCURRENT_FETCHES = 5;
+interface FetchAllSystemsParams {
+  total?: number;
+  perPage: number;
+  queryClient: QueryClient;
+}
+
+export const fetchAllSystems = async ({
+  total,
+  perPage,
+  queryClient,
+}: FetchAllSystemsParams) => {
+  if (!total) return [];
+
+  const totalPages = Math.ceil(total / perPage);
+
+  const allPages = (await pAll(
+    Array.from(
+      { length: totalPages },
+      (_, i) => () =>
+        queryClient.fetchQuery({
+          queryKey: ['systems', i + 1, perPage],
+          queryFn: () => fetchSystems({ page: i + 1, perPage }),
+        }),
+    ),
+    { concurrency: MAX_CONCURRENT_FETCHES },
+  )) as FetchSystemsReturnedValue[];
+
+  return allPages.flatMap((page) => page.results);
 };
 
 type UseSystemsQueryParams = FetchSystemsParams;
