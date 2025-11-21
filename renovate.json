@@ -5,9 +5,6 @@
   "ignorePaths": [
     ".pre-commit-config.yaml"
   ],
-  "baseBranches": [
-    "master"
-  ],
   "customManagers": [
     {
       "customType": "regex",
