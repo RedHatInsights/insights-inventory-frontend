@@ -1,8 +1,4 @@
-import {
-  type QueryClient,
-  keepPreviousData,
-  useQuery,
-} from '@tanstack/react-query';
+import { type QueryClient, useQuery } from '@tanstack/react-query';
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
 import pAll from 'p-all';
@@ -92,14 +88,13 @@ export const fetchAllSystems = async ({
 type UseSystemsQueryParams = FetchSystemsParams;
 
 export const useSystemsQuery = ({ page, perPage }: UseSystemsQueryParams) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['systems', page, perPage],
     queryFn: async () => {
       return await fetchSystems({ page, perPage });
     },
-    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
 
-  return { data: data?.results, total: data?.total, isLoading };
+  return { data: data?.results, total: data?.total, isLoading, isError, error };
 };
