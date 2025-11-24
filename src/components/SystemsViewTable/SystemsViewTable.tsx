@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  type DataViewState,
   DataView,
   DataViewTextFilter,
   useDataViewPagination,
@@ -10,7 +11,7 @@ import {
   DataViewTr,
 } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
-import { Bullseye, Pagination, Spinner, Tooltip } from '@patternfly/react-core';
+import { Pagination } from '@patternfly/react-core';
 import DisplayName from '../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
 import Workspace from '../../routes/Systems/components/SystemsTable/components/columns/Workspace';
 import Tags from '../../routes/Systems/components/SystemsTable/components/columns/Tags';
@@ -29,9 +30,13 @@ import {
   useSystemsQuery,
 } from './hooks/useSystemsQuery';
 import { useQueryClient } from '@tanstack/react-query';
+import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
+import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
+import { EmptySystemsState } from './components/EmptySystemsState';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
+const NO_HEADER = <></>;
 
 const SystemsViewTable: React.FC = () => {
   const queryClient = useQueryClient();
@@ -47,18 +52,25 @@ const SystemsViewTable: React.FC = () => {
   });
   const { selected, onSelect, isSelected, setSelected } = selection;
 
-  const { data, total, isLoading } = useSystemsQuery({
+  const { data, total, isLoading, isError, error } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
   });
 
-  if (isLoading || !data) {
-    return (
-      <Bullseye>
-        <Spinner size="xl" />
-      </Bullseye>
-    );
-  }
+  type ActiveState = DataViewState | 'ready' | undefined;
+  const getActiveState = (): ActiveState => {
+    if (isLoading) {
+      return 'loading';
+    }
+    if (isError) {
+      return 'error';
+    }
+    if (data && data.length === 0) {
+      return 'empty';
+    }
+
+    return 'ready';
+  };
 
   const createRows = (data: System[]): DataViewTr[] => {
     return data.map((system) => ({
@@ -93,15 +105,16 @@ const SystemsViewTable: React.FC = () => {
     }));
   };
 
-  const rows = createRows(data);
+  const rows = createRows(data ?? []);
   const columns: DataViewTh[] = [
-    'Name',
-    'Workspace',
-    'Tags',
-    <Tooltip key="os-column" content={<span>Operating system</span>}>
-      <span>OS</span>
-    </Tooltip>,
-    'Last seen',
+    { cell: 'Name' },
+    { cell: 'Workspace' },
+    { cell: 'Tags' },
+    { cell: 'OS' },
+    {
+      cell: 'Last Seen',
+      props: { tooltip: 'Operating system' },
+    },
   ];
 
   // TODO Define filters
@@ -131,7 +144,7 @@ const SystemsViewTable: React.FC = () => {
   };
 
   return (
-    <DataView selection={selection} activeState={'ready'}>
+    <DataView selection={selection} activeState={getActiveState()}>
       <DataViewToolbar
         ouiaId="systems-view-header"
         clearAllFilters={() => {
@@ -140,7 +153,7 @@ const SystemsViewTable: React.FC = () => {
         bulkSelect={
           <BulkSelect
             pageCount={rows.length}
-            // canSelectAll disabled due to missing spinner & inability to disable bulkSelect
+            // canSelectAll disabled as we miss spinner & ability to disable controls
             totalCount={total}
             selectedCount={selected.length}
             pagePartiallySelected={
@@ -179,6 +192,29 @@ const SystemsViewTable: React.FC = () => {
         ouiaId="systems-view-table"
         columns={columns}
         rows={rows}
+        headStates={{
+          loading: NO_HEADER,
+          empty: NO_HEADER,
+          error: NO_HEADER,
+        }}
+        bodyStates={{
+          loading: (
+            <SkeletonTable
+              ouiaId="loading-systems-state"
+              isSelectable
+              rowsCount={pagination.perPage}
+              columns={columns}
+            />
+          ),
+          empty: <EmptySystemsState />,
+          error: (
+            <ErrorState
+              ouiaId="error-systems-state"
+              titleText="Unable to load data"
+              bodyText={`There was an error retrieving data. ${error ? `${error.name} ${error.message}` : 'Check your connection and reload the page.'}`}
+            />
+          ),
+        }}
       />
       <DataViewToolbar
         ouiaId="systems-view-footer"
