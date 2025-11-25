@@ -308,8 +308,9 @@ test('User can add and remove system from an empty workspace', async ({
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await page.reload({ waitUntil: 'networkidle' });
 
+    // Wait for the system to appear in inventory (may take time after upload)
     await searchInput.fill(systemName);
-    await expect(nameColumnLocator).toHaveCount(1);
+    await expect(nameColumnLocator).toHaveCount(1, { timeout: 60000 });
   });
 
   await test.step('Create and open a new empty workspace', async () => {
@@ -334,27 +335,31 @@ test('User can add and remove system from an empty workspace', async ({
     const searchInput = dialog.locator('input[placeholder="Filter by name"]');
     await searchInput.fill(systemName);
 
+    // Wait for the system link to appear
     const systemLink = dialog.getByRole('link', { name: systemName });
-    await expect(systemLink).toHaveCount(1);
+    await expect(systemLink).toBeVisible({ timeout: 30000 });
 
+    // Since we searched for the exact system name, select the first checkbox in the results
     const checkbox = dialog.locator('input[name="checkrow0"]');
     await expect(checkbox).toBeVisible();
     await checkbox.check();
     await expect(checkbox).toBeChecked({ timeout: 10000 });
 
     const addButton = dialog.getByRole('button', { name: 'Add systems' });
-    await expect(addButton).toBeVisible();
+    await expect(addButton).toBeEnabled({ timeout: 10000 });
     await addButton.click();
 
+    // Wait for the dialog to close
+    await expect(dialog).not.toBeVisible({ timeout: 10000 });
     await page.reload();
   });
 
   await test.step('Remove system from workspace', async () => {
-    const systemRowLink = page.getByRole('link', { name: systemName });
-    await expect(systemRowLink).toBeVisible({ timeout: 100000 });
-
     const filterInput = page.getByPlaceholder('Filter by name');
     await filterInput.fill(systemName);
+
+    const systemRowLink = page.getByRole('link', { name: systemName });
+    await expect(systemRowLink).toBeVisible({ timeout: 30000 });
 
     const row = page.locator('tr', { hasText: systemName });
     await expect(row).toBeVisible({ timeout: 100000 });
@@ -435,13 +440,16 @@ test('User can add a system to an existing workspace with systems', async ({
     const dialog = page.locator('[role="dialog"]');
     await expect(dialog).toBeVisible({ timeout: 100000 });
 
-    const searchInput = page.locator('input[placeholder="Filter by name"]');
-    await searchInput.fill(systemName);
+    // Use the search input inside the dialog specifically
+    const dialogSearchInput = dialog.locator(
+      'input[placeholder="Filter by name"]',
+    );
+    await dialogSearchInput.fill(systemName);
 
-    const systemLink = page.getByRole('link', { name: systemName });
+    const systemLink = dialog.getByRole('link', { name: systemName });
     await expect(systemLink).toHaveCount(1);
 
-    const checkbox = page.locator('input[name="checkrow0"]');
+    const checkbox = dialog.locator('input[name="checkrow0"]');
     await expect(checkbox).toBeVisible();
     await checkbox.check();
     await expect(checkbox).toBeChecked({ timeout: 10000 });
@@ -449,10 +457,17 @@ test('User can add a system to an existing workspace with systems', async ({
     const addButton = dialog.getByRole('button', { name: 'Add systems' });
     await expect(addButton).toBeVisible();
     await addButton.click();
-    await page.reload();
+
+    // Wait for the dialog to close
+    await expect(dialog).not.toBeVisible({ timeout: 10000 });
+    await page.reload({ waitUntil: 'networkidle' });
   });
 
   await test.step('Verify system was added to workspace', async () => {
+    // Search for the system in the workspace's systems list
+    const filterInput = page.getByPlaceholder('Filter by name');
+    await filterInput.fill(systemName);
+
     await expect(page.getByRole('link', { name: systemName })).toBeVisible({
       timeout: 50000,
     });
