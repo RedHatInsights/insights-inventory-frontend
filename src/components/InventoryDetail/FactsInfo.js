@@ -47,10 +47,16 @@ const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
                   stale={getFact('stale_timestamp', entity)}
                   currDate={new Date()}
                 >
-                  <DateFormat date={getFact('updated', entity)} type="exact" />
+                  <DateFormat
+                    date={getFact('last_check_in', entity)}
+                    type="exact"
+                  />
                 </CullingInformation>
               ) : (
-                <DateFormat date={getFact('updated', entity)} type="exact" />
+                <DateFormat
+                  date={getFact('last_check_in', entity)}
+                  type="exact"
+                />
               )}
             </LastSeenWrapper>
           ) : (
