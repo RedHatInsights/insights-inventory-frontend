@@ -1,10 +1,18 @@
 import { expect } from '@playwright/test';
-import { test, navigateToWorkspacesFunc } from './helpers/navHelpers';
+import {
+  test,
+  navigateToWorkspacesFunc,
+  navigateToInventorySystemsFunc,
+} from './helpers/navHelpers';
 import { searchByName } from './helpers/filterHelpers';
 import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
 } from './helpers/workspaceHelpers';
+import {
+  cleanupTestArchive,
+  prepareSingleSystem,
+} from './helpers/uploadArchive';
 
 test('User can create, rename, and delete a workspace from Workspace Details page', async ({
   page,
@@ -210,7 +218,6 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
      - https://issues.redhat.com/browse/ESSNTL-3871 – Create workspace
      - https://issues.redhat.com/browse/ESSNTL-4370 – Rename workspace
      - https://issues.redhat.com/browse/ESSNTL-4370 – Delete workspace
-    
    * Metadata:
      - requirements:
      - inv-groups-post
@@ -270,5 +277,199 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
     await expect(
       page.locator('text=No matching workspaces found'),
     ).toBeVisible();
+  });
+});
+
+test('User can add and remove system from an empty workspace', async ({
+  page,
+}) => {
+  /**
+   * Jira References:
+   * - https://issues.redhat.com/browse/ESSNTL-3874 – Add systems to empty workspace
+   * - https://issues.redhat.com/browse/ESSNTL-3877 – Remove systems from workspace
+   *
+   * Metadata:
+   * - requirements:
+   * - inv-groups-add-hosts
+   * - inv-groups-remove-hosts
+   * - importance: high
+   * - assignee: addubey
+   */
+
+  const workspaceName = await generateUniqueWorkspaceName();
+  const setupResult = prepareSingleSystem();
+  const { hostname: systemName, archiveName, workingDir } = setupResult;
+  const nameColumnLocator = page.locator('td[data-label="Name"]');
+
+  await test.step('Confirm system exists in Inventory Systems', async () => {
+    await navigateToInventorySystemsFunc(page);
+
+    const searchInput = page.locator('input[placeholder="Filter by name"]');
+    await page.reload({ waitUntil: 'networkidle' });
+
+    await searchInput.fill(systemName);
+    await expect(nameColumnLocator).toHaveCount(1);
+  });
+
+  await test.step('Create and open a new empty workspace', async () => {
+    await navigateToWorkspacesFunc(page);
+    await createNewWorkspace(page, workspaceName);
+
+    await searchByName(page, workspaceName);
+
+    const workspaceLink = page.getByRole('link', { name: workspaceName });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await workspaceLink.click();
+  });
+
+  await test.step('Add system to workspace', async () => {
+    const addSystemsButton = page.getByRole('button', { name: 'Add systems' });
+    await expect(addSystemsButton).toBeVisible({ timeout: 10000 });
+    await addSystemsButton.click();
+
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible({ timeout: 10000 });
+
+    const searchInput = dialog.locator('input[placeholder="Filter by name"]');
+    await searchInput.fill(systemName);
+
+    const systemLink = dialog.getByRole('link', { name: systemName });
+    await expect(systemLink).toHaveCount(1);
+
+    const checkbox = dialog.locator('input[name="checkrow0"]');
+    await expect(checkbox).toBeVisible();
+    await checkbox.check();
+    await expect(checkbox).toBeChecked();
+
+    const addButton = dialog.getByRole('button', { name: 'Add systems' });
+    await expect(addButton).toBeVisible();
+    await addButton.click();
+
+    await page.reload();
+  });
+
+  await test.step('Remove system from workspace', async () => {
+    const systemRowLink = page.getByRole('link', { name: systemName });
+    await expect(systemRowLink).toBeVisible({ timeout: 10000 });
+
+    const filterInput = page.getByPlaceholder('Filter by name');
+    await filterInput.fill(systemName);
+
+    const row = page.locator('tr', { hasText: systemName });
+    await expect(row).toBeVisible({ timeout: 10000 });
+
+    const checkbox = page.locator('[name="checkrow0"]');
+    await checkbox.click();
+    await checkbox.check();
+
+    await page.getByLabel('kebab dropdown toggle').click();
+
+    const removeButton = page.getByRole('menuitem', {
+      name: 'Remove from workspace',
+    });
+    await expect(removeButton).toBeVisible({ timeout: 5000 });
+    await removeButton.click();
+
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible({ timeout: 5000 });
+
+    await expect(dialog.getByText('Remove from workspace')).toBeVisible();
+    await dialog.getByRole('button', { name: 'Remove' }).click();
+
+    await page.reload();
+
+    await expect(
+      page.getByText(
+        'To manage systems more effectively, add systems to the workspace.',
+      ),
+    ).toBeVisible({ timeout: 10000 });
+  });
+
+  await test.step('Cleanup test files', async () => {
+    cleanupTestArchive(archiveName, workingDir);
+  });
+});
+
+test('User can add a system to an existing workspace with systems', async ({
+  page,
+}) => {
+  /**
+   * Jira References:
+   * - https://issues.redhat.com/browse/RHINENG-21946 – Add systems to workspace with systems
+   * Metadata:
+   * - requirements: inv-groups-add-hosts
+   * - importance: high
+   * - assignee: addubey
+   */
+
+  const workspaceName = 'Workspace_with_systems';
+  const setupResult = prepareSingleSystem();
+  const { hostname: systemName, archiveName, workingDir } = setupResult;
+  const nameColumnLocator = page.locator('td[data-label="Name"]');
+
+  await test.step('Navigate to Inventory Systems and confirm system is available', async () => {
+    await navigateToInventorySystemsFunc(page);
+    const searchInput = page.locator('input[placeholder="Filter by name"]');
+    await page.reload({ waitUntil: 'networkidle' });
+    await searchInput.fill(systemName);
+    await expect(nameColumnLocator).toHaveCount(1);
+  });
+
+  await test.step('Navigate to existing workspace', async () => {
+    await navigateToWorkspacesFunc(page);
+    const searchInput = page.locator('input[placeholder="Filter by name"]');
+    await searchInput.fill(workspaceName);
+    const workspaceLink = page.getByRole('link', { name: workspaceName });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await workspaceLink.click();
+  });
+
+  await test.step('Open Add systems dialog', async () => {
+    const addSystemsButton = page.getByRole('button', { name: 'Add systems' });
+    await expect(addSystemsButton).toBeVisible({ timeout: 10000 });
+    await addSystemsButton.click();
+  });
+
+  await test.step('Search for new system and select it', async () => {
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible({ timeout: 10000 });
+
+    const searchInput = page.locator('input[placeholder="Filter by name"]');
+    await searchInput.fill(systemName);
+
+    const systemLink = page.getByRole('link', { name: systemName });
+    await expect(systemLink).toHaveCount(1);
+
+    const checkbox = page.locator('input[name="checkrow0"]');
+    await expect(checkbox).toBeVisible();
+    await checkbox.check();
+    await expect(checkbox).toBeChecked();
+
+    const addButton = dialog.getByRole('button', { name: 'Add systems' });
+    await expect(addButton).toBeVisible();
+    await addButton.click();
+    await page.reload();
+  });
+
+  await test.step('Verify system was added to workspace', async () => {
+    await expect(page.getByRole('link', { name: systemName })).toBeVisible({
+      timeout: 50000,
+    });
+  });
+
+  await test.step('Verify Workspace info shows User access configuration section', async () => {
+    const workspaceInfoTab = page.getByRole('tab', { name: 'Workspace info' });
+    await expect(workspaceInfoTab).toBeVisible();
+    await workspaceInfoTab.click();
+
+    await expect(
+      page.getByText('Manage your workspace user access configuration', {
+        exact: false,
+      }),
+    ).toBeVisible({ timeout: 10000 });
+  });
+
+  await test.step('Cleanup test artifacts', async () => {
+    cleanupTestArchive(archiveName, workingDir);
   });
 });
