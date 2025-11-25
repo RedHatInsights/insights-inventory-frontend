@@ -52,20 +52,21 @@ const InventoryDetail = ({
   const reduxLoaded = useSelector(
     ({ entityDetails }) => entityDetails?.loaded || false,
   );
+  const reduxEntity = useSelector(({ entityDetails }) => entityDetails?.entity);
   // If entityProp is provided and has an ID, treat as loaded
   const loaded = reduxLoaded || entityProp?.id !== undefined;
-  const entity = useSelector(
-    ({ entityDetails }) => entityProp || entityDetails?.entity,
-  );
+  const entity = entityProp || reduxEntity;
 
   //TODO: one all apps migrate to away from AppAinfo, remove this
   useEffect(() => {
     // Only dispatch if not loaded yet, or if entity exists but doesn't match the inventoryId
     // When entity prop is provided, still load via Redux to set loaded state
-    if (
-      (!loaded && !entityProp) ||
-      (!_.isEmpty(entity) && entity?.id !== inventoryId)
-    ) {
+    const hasEntity = entity && !_.isEmpty(entity);
+    const hasEntityId = hasEntity && entity.id;
+
+    const shouldLoad = !loaded || (hasEntityId && entity.id !== inventoryId);
+
+    if (shouldLoad) {
       dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
     }
   }, [dispatch, inventoryId, entity, entityProp, showTags, loaded]);
@@ -76,11 +77,18 @@ const InventoryDetail = ({
   };
 
   // I'd love to replace the ErrorState with a custom error component that displays the error message
+  // Only show SystemNotFound when Redux has finished loading and found nothing
+  // This prevents flickering: reduxLoaded becomes false during loading (PENDING action), so we won't show it prematurely
+  // Also check that we don't have a matching entityProp to avoid showing it when entity is provided via props
+  const hasMatchingEntityProp = entityProp && entityProp.id === inventoryId;
+  const shouldShowNotFound =
+    reduxLoaded && _.isEmpty(reduxEntity) && !hasMatchingEntityProp;
+
   return (
     <div className="ins-entity-detail">
       {entityError?.status === 400 ? (
         <ErrorState />
-      ) : loaded && _.isEmpty(entity) ? (
+      ) : shouldShowNotFound ? (
         <SystemNotFound
           onBackToListClick={onBackToListClick}
           inventoryId={inventoryId}
