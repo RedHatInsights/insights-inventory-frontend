@@ -20,7 +20,10 @@ test('User can filter systems by workspace', async ({ page }) => {
   const wspcFilter = page.getByRole('textbox', { name: 'Type to filter' });
   await wspcFilter.click();
   await wspcFilter.fill('Workspace_with');
-  const wspcOption = page.getByText('Workspace_with_systems', { exact: true });
+  const wspcOption = page.locator(
+    '[data-ouia-component-id="FilterByGroupOption"]',
+    { hasText: 'Workspace_with_systems' },
+  );
   await expect(wspcOption).toBeVisible({ timeout: 100000 });
   await wspcOption.click();
 
@@ -32,12 +35,10 @@ test('User can filter systems by workspace', async ({ page }) => {
     },
   );
   await expect(workspaceCellWithValue.first()).toBeVisible({ timeout: 30000 });
-
   // 2. Verify only systems from the workspace are displayed
   // All cells from the "Workspace" column
-  const workspaceCells = page.locator('table tbody td[data-label="Workspace"]');
-  const count = await workspaceCells.count();
-  await expect(workspaceCells).toHaveText(
+  const count = await workspaceCellWithValue.count();
+  await expect(workspaceCellWithValue).toHaveText(
     Array(count).fill('Workspace_with_systems'),
   );
 });
