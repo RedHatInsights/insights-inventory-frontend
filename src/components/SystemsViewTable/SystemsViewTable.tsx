@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  type DataViewState,
   DataView,
   DataViewTextFilter,
   useDataViewPagination,
@@ -57,23 +56,16 @@ const SystemsViewTable: React.FC = () => {
     perPage: pagination.perPage,
   });
 
-  type ActiveState = DataViewState | 'ready' | undefined;
-  const getActiveState = (): ActiveState => {
-    if (isLoading) {
-      return 'loading';
-    }
-    if (isError) {
-      return 'error';
-    }
-    if (data && data.length === 0) {
-      return 'empty';
-    }
+  const activeState = isLoading
+    ? 'loading'
+    : isError
+      ? 'error'
+      : data?.length === 0
+        ? 'empty'
+        : 'active';
 
-    return 'ready';
-  };
-
-  const createRows = (data: System[]): DataViewTr[] => {
-    return data.map((system) => ({
+  const mapSystemToRow = (system: System): DataViewTr => {
+    return {
       id: system.id,
       // FIXME types in column components
       row: [
@@ -102,20 +94,23 @@ const SystemsViewTable: React.FC = () => {
           per_reporter_staleness={system?.per_reporter_staleness}
         />,
       ],
-    }));
+    };
   };
 
-  const rows = createRows(data ?? []);
+  const rows = (data ?? []).map(mapSystemToRow);
   const columns: DataViewTh[] = [
     { cell: 'Name' },
     { cell: 'Workspace' },
     { cell: 'Tags' },
-    { cell: 'OS' },
-    {
-      cell: 'Last Seen',
-      props: { tooltip: 'Operating system' },
-    },
+    { cell: 'OS', props: { tooltip: 'Operating system' } },
+    { cell: 'Last Seen' },
   ];
+
+  const isPageSelected = (rows: DataViewTr[]) =>
+    rows.length > 0 && rows.every((row) => isSelected(row));
+
+  const isPagePartiallySelected = (rows: DataViewTr[]) =>
+    rows.some((row) => isSelected(row)) && !isPageSelected(rows);
 
   // TODO Define filters
   const filters = {};
@@ -125,6 +120,7 @@ const SystemsViewTable: React.FC = () => {
       case 'none':
       case 'nonePage':
         setSelected([]);
+        break;
       case 'page':
         if (selected.length === 0) {
           onSelect(true, rows);
@@ -138,13 +134,13 @@ const SystemsViewTable: React.FC = () => {
           perPage: pagination.perPage,
           queryClient,
         });
-        onSelect(true, createRows(allSystems));
+        onSelect(true, allSystems.map(mapSystemToRow));
         break;
     }
   };
 
   return (
-    <DataView selection={selection} activeState={getActiveState()}>
+    <DataView selection={selection} activeState={activeState}>
       <DataViewToolbar
         ouiaId="systems-view-header"
         clearAllFilters={() => {
@@ -156,11 +152,8 @@ const SystemsViewTable: React.FC = () => {
             // canSelectAll disabled as we miss spinner & ability to disable controls
             totalCount={total}
             selectedCount={selected.length}
-            pagePartiallySelected={
-              rows.some((row) => isSelected(row)) &&
-              !rows.every((row) => isSelected(row))
-            }
-            pageSelected={rows.every((row) => isSelected(row))}
+            pagePartiallySelected={isPagePartiallySelected(rows)}
+            pageSelected={isPageSelected(rows)}
             onSelect={onBulkSelect}
           />
         }
@@ -211,7 +204,7 @@ const SystemsViewTable: React.FC = () => {
             <ErrorState
               ouiaId="error-systems-state"
               titleText="Unable to load data"
-              bodyText={`There was an error retrieving data. ${error ? `${error.name} ${error.message}` : 'Check your connection and reload the page.'}`}
+              bodyText="There was an error retrieving data. Check your connection and reload the page."
             />
           ),
         }}
