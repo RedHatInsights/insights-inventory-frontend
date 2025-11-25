@@ -71,6 +71,7 @@ describe('DetailWrapper', () => {
         entity: {
           id: 'some-id',
           updated: new Date(),
+          last_check_in: new Date(1995, 11, 17, 3, 24, 0),
           culled_timestamp: new Date(),
           stale_warning_timestamp: new Date(),
           stale_timestamp: new Date(),
