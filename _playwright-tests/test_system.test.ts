@@ -286,6 +286,8 @@ test('User should be able navigate to Workspace Details page from System Details
   page,
 }) => {
   /**
+   * Jira References:
+     - https://issues.redhat.com/browse/RHINENG-21867
    * Metadata:
      - importance: medium
      - assignee: zabikeno
