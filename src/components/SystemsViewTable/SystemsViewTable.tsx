@@ -26,7 +26,7 @@ import {
 import { type System, useSystemsQuery } from './hooks/useSystemsQuery';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
-import { EmptySystemsState } from './components/EmptySystemsState';
+import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
@@ -44,7 +44,7 @@ const SystemsViewTable: React.FC = () => {
   });
   const { selected, onSelect, isSelected, setSelected } = selection;
 
-  const { data, total, isLoading, isError, error } = useSystemsQuery({
+  const { data, total, isLoading, isError } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
   });
@@ -178,16 +178,16 @@ const SystemsViewTable: React.FC = () => {
         bodyStates={{
           loading: (
             <SkeletonTable
-              ouiaId="loading-systems-state"
+              ouiaId="loading-state"
               isSelectable
               rowsCount={pagination.perPage}
               columns={columns}
             />
           ),
-          empty: <EmptySystemsState />,
+          empty: <NoEntitiesFound />,
           error: (
             <ErrorState
-              ouiaId="error-systems-state"
+              ouiaId="error-state"
               titleText="Unable to load data"
               bodyText="There was an error retrieving data. Check your connection and reload the page."
             />
