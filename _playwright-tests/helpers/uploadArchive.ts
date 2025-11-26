@@ -3,6 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 
+const CENTOS_ARCHIVE = 'centos79.tar.gz';
+const BOOTC_ARCHIVE = 'image-mode-rhel94.tar.gz';
+const EDGE_ARCHIVE = 'edge-hbi-ui-stage.tar.gz';
+const PACKAGE_BASED_ARCHIVE = 'rhel94_core_collect.tar.gz';
+
 /**
  * Uploads an archive file to the Red Hat ingress API using `curl`.
  *
@@ -184,7 +189,7 @@ export function cleanupTestArchive(archiveName: string, workingDir: string) {
  *  @property {string} workingDir  The remote directory where the archive was
  */
 export function prepareSingleSystem(
-  hostArchive: string = 'rhel94_core_collect.tar.gz',
+  hostArchive: string = PACKAGE_BASED_ARCHIVE,
 ) {
   const result = prepareTestArchive(hostArchive);
   uploadArchive(result.archiveName);
