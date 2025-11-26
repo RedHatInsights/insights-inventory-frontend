@@ -23,12 +23,7 @@ import {
   ResponsiveActions,
   BulkSelect,
 } from '@patternfly/react-component-groups';
-import {
-  type System,
-  fetchAllSystems,
-  useSystemsQuery,
-} from './hooks/useSystemsQuery';
-import { useQueryClient } from '@tanstack/react-query';
+import { type System, useSystemsQuery } from './hooks/useSystemsQuery';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
 import { EmptySystemsState } from './components/EmptySystemsState';
@@ -38,8 +33,6 @@ const INITIAL_PAGE = 1;
 const NO_HEADER = <></>;
 
 const SystemsViewTable: React.FC = () => {
-  const queryClient = useQueryClient();
-
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
@@ -128,14 +121,6 @@ const SystemsViewTable: React.FC = () => {
           setSelected([]);
         }
         break;
-      case 'all':
-        const allSystems = await fetchAllSystems({
-          total,
-          perPage: pagination.perPage,
-          queryClient,
-        });
-        onSelect(true, allSystems.map(mapSystemToRow));
-        break;
     }
   };
 
@@ -149,7 +134,7 @@ const SystemsViewTable: React.FC = () => {
         bulkSelect={
           <BulkSelect
             pageCount={rows.length}
-            // canSelectAll disabled as we miss spinner & ability to disable controls
+            // canSelectAll disabled see JIRA: RHINENG-22312 for details
             totalCount={total}
             selectedCount={selected.length}
             pagePartiallySelected={isPagePartiallySelected(rows)}
