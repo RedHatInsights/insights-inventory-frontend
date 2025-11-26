@@ -7,6 +7,27 @@ test('User can navigate to the inventory page', async ({ page }) => {
   });
 });
 
+test('User can switch to the Images view in Inventory page', async ({
+  page,
+}) => {
+  await test.step('Navigate to Inventory page', async () => {
+    await navigateToInventorySystemsFunc(page);
+  });
+
+  await test.step('Switch to Images view', async () => {
+    const imagesViewButton = page.getByRole('button', {
+      name: 'View by images',
+    });
+    await imagesViewButton.click();
+  });
+
+  await test.step('Verify Images view is visible', async () => {
+    await expect(
+      page.getByRole('columnheader', { name: 'Image name' }),
+    ).toBeVisible({ timeout: 10000 });
+  });
+});
+
 test('User can navigate to the Staleness and Deletion page via the menu', async ({
   page,
 }) => {
