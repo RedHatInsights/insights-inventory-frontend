@@ -80,11 +80,12 @@ export function uploadArchive(archivePath: string) {
  * 2. Updates machine-id, subscription-manager_identity, and hostname_-f.
  * 3. Compresses the folder into a uniquely named tar.gz.
  *
- *  @returns {{ hostname: string, archiveName: string, workingDir: string }} - The new hostname, archive name, and working directory path.
+ *  @param   {string}                                                        [hostArchive] The name of the base archive file located in the 'host_archives' directory.
+ *  @returns {{ hostname: string, archiveName: string, workingDir: string }}               - The new hostname, archive name, and working directory path.
  * @throws {Error} If extraction or compression fails, or required files are missing.
  */
-export function prepareTestArchive() {
-  const baseArchive = path.join('host_archives', 'rhel94_core_collect.tar.gz');
+export function prepareTestArchive(hostArchive: string) {
+  const baseArchive = path.join('host_archives', hostArchive);
   if (!fs.existsSync(baseArchive))
     throw new Error(`Base archive not found: ${baseArchive}`);
 
@@ -174,6 +175,7 @@ export function cleanupTestArchive(archiveName: string, workingDir: string) {
 }
 
 /**
+ *  @param             hostArchive The name of the base archive file located in the 'host_archives' directory.
  * @function prepareSingleSystem
  * @description Prepares a single test archive, uploads it, and returns the preparation result.
  *  @returns  {object}             An object containing essential setup details.
@@ -181,8 +183,10 @@ export function cleanupTestArchive(archiveName: string, workingDir: string) {
  *  @property {string} archiveName The name of the uploaded archive file.
  *  @property {string} workingDir  The remote directory where the archive was
  */
-export function prepareSingleSystem() {
-  const result = prepareTestArchive();
+export function prepareSingleSystem(
+  hostArchive: string = 'rhel94_core_collect.tar.gz',
+) {
+  const result = prepareTestArchive(hostArchive);
   uploadArchive(result.archiveName);
   return result;
 }
