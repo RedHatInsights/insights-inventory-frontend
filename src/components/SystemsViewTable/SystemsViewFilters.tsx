@@ -4,17 +4,22 @@ import {
   DataViewTextFilter,
 } from '@patternfly/react-data-view';
 import DataViewFilters from '@patternfly/react-data-view/dist/cjs/DataViewFilters';
+import {
+  ApiHostGetHostListRegisteredWithEnum,
+  ApiHostGetHostListStalenessEnum,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 
 export interface InventoryFilters {
   name: string;
-  status: string[];
-  dataCollector: string[];
+  status: ApiHostGetHostListStalenessEnum[];
+  dataCollector: ApiHostGetHostListRegisteredWithEnum[];
   rhcStatus: string[];
   systemType: string[];
 }
 interface SystemsViewFiltersProps {
   filters: InventoryFilters;
-  onSetFilters: (newFilters: Partial<InventoryFilters>) => void;
+  // eslint-disable-next-line no-unused-vars
+  onSetFilters: (_: Partial<InventoryFilters>) => void;
 }
 
 export const SystemsViewFilters: React.FC<SystemsViewFiltersProps> = ({
