@@ -44,9 +44,22 @@ const SystemsViewTable: React.FC = () => {
   });
   const { selected, onSelect, isSelected, setSelected } = selection;
 
+  const { filters, onSetFilters, clearAllFilters } =
+    useDataViewFilters<InventoryFilters>({
+      initialFilters: {
+        name: '',
+        status: [],
+        dataCollector: [],
+        rhcStatus: [],
+        systemType: [],
+      },
+      // TODO pass searchParams & setSearchParams in order to sync URL params
+    });
+
   const { data, total, isLoading, isError } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
+    filters,
   });
 
   const activeState = isLoading
@@ -104,18 +117,6 @@ const SystemsViewTable: React.FC = () => {
 
   const isPagePartiallySelected = (rows: DataViewTr[]) =>
     rows.some((row) => isSelected(row)) && !isPageSelected(rows);
-
-  const { filters, onSetFilters, clearAllFilters } =
-    useDataViewFilters<InventoryFilters>({
-      initialFilters: {
-        name: '',
-        status: [],
-        dataCollector: [],
-        rhcStatus: [],
-        systemType: [],
-      },
-      // TODO pass searchParams & setSearchParams in order to sync URL params
-    });
 
   const onBulkSelect = async (value: string) => {
     switch (value) {
