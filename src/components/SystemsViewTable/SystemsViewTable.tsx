@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   DataView,
   DataViewTextFilter,
@@ -10,7 +10,7 @@ import {
   DataViewTr,
 } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
-import { Bullseye, Pagination, Spinner, Tooltip } from '@patternfly/react-core';
+import { Pagination } from '@patternfly/react-core';
 import DisplayName from '../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
 import Workspace from '../../routes/Systems/components/SystemsTable/components/columns/Workspace';
 import Tags from '../../routes/Systems/components/SystemsTable/components/columns/Tags';
@@ -23,10 +23,14 @@ import {
   ResponsiveActions,
   BulkSelect,
 } from '@patternfly/react-component-groups';
-import { useSystemsQuery } from './hooks/useSystemsQuery';
+import { type System, useSystemsQuery } from './hooks/useSystemsQuery';
+import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
+import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
+import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
+const NO_HEADER = <></>;
 
 const SystemsViewTable: React.FC = () => {
   const pagination = useDataViewPagination({
@@ -36,70 +40,92 @@ const SystemsViewTable: React.FC = () => {
 
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
+    initialSelected: [],
   });
+  const { selected, onSelect, isSelected, setSelected } = selection;
 
-  const { data, total, isLoading } = useSystemsQuery({
+  const { data, total, isLoading, isError } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
   });
 
-  if (isLoading || !data) {
-    return (
-      <Bullseye>
-        <Spinner size="xl" />
-      </Bullseye>
-    );
-  }
+  const activeState = isLoading
+    ? 'loading'
+    : isError
+      ? 'error'
+      : data?.length === 0
+        ? 'empty'
+        : 'active';
 
+  const mapSystemToRow = (system: System): DataViewTr => {
+    return {
+      id: system.id,
+      // FIXME types in column components
+      row: [
+        <DisplayName
+          key={`name-${system.id}`}
+          id={system.id}
+          props={{}}
+          {...system}
+        />,
+        <Workspace key={`workspace-${system.id}`} groups={system.groups} />,
+        <Tags
+          key={`tags-${system.id}`}
+          tags={system.tags}
+          systemId={system.id}
+        />,
+        <OperatingSystem
+          key={`os-${system.id}`}
+          system_profile={system.system_profile}
+        />,
+        <LastSeen
+          key={`lastseen-${system.id}`}
+          updated={system.updated}
+          culled_timestamp={system?.culled_timestamp}
+          stale_warning_timestamp={system?.stale_warning_timestamp}
+          stale_timestamp={system?.stale_timestamp}
+          per_reporter_staleness={system?.per_reporter_staleness}
+        />,
+      ],
+    };
+  };
+
+  const rows = (data ?? []).map(mapSystemToRow);
   const columns: DataViewTh[] = [
-    'Name',
-    'Workspace',
-    'Tags',
-    <Tooltip key="os-column" content={<span>Operating system</span>}>
-      <span>OS</span>
-    </Tooltip>,
-    'Last seen',
+    { cell: 'Name' },
+    { cell: 'Workspace' },
+    { cell: 'Tags' },
+    { cell: 'OS', props: { tooltip: 'Operating system' } },
+    { cell: 'Last Seen' },
   ];
 
-  const rows: DataViewTr[] = data.map((system) => ({
-    id: system.id,
-    // FIXME types in column components
-    row: [
-      <DisplayName
-        key={`name-${system.id}`}
-        id={system.id}
-        props={{}}
-        {...system}
-      />,
-      <Workspace key={`workspace-${system.id}`} groups={system.groups} />,
-      <Tags
-        key={`tags-${system.id}`}
-        tags={system.tags}
-        systemId={system.id}
-      />,
-      <OperatingSystem
-        key={`os-${system.id}`}
-        system_profile={system.system_profile}
-      />,
-      <LastSeen
-        key={`lastseen-${system.id}`}
-        updated={system.updated}
-        culled_timestamp={system?.culled_timestamp}
-        stale_warning_timestamp={system?.stale_warning_timestamp}
-        stale_timestamp={system?.stale_timestamp}
-        per_reporter_staleness={system?.per_reporter_staleness}
-      />,
-    ],
-  }));
+  const isPageSelected = (rows: DataViewTr[]) =>
+    rows.length > 0 && rows.every((row) => isSelected(row));
+
+  const isPagePartiallySelected = (rows: DataViewTr[]) =>
+    rows.some((row) => isSelected(row)) && !isPageSelected(rows);
 
   // TODO Define filters
   const filters = {};
 
-  // TODO Define selected
-  const selected = [];
+  const onBulkSelect = async (value: string) => {
+    switch (value) {
+      case 'none':
+      case 'nonePage':
+        setSelected([]);
+        break;
+      case 'page':
+        if (selected.length === 0) {
+          onSelect(true, rows);
+        } else {
+          setSelected([]);
+        }
+        break;
+    }
+  };
 
   return (
-    <DataView selection={selection} activeState={'ready'}>
+    <DataView selection={selection} activeState={activeState}>
       <DataViewToolbar
         ouiaId="systems-view-header"
         clearAllFilters={() => {
@@ -108,16 +134,12 @@ const SystemsViewTable: React.FC = () => {
         bulkSelect={
           <BulkSelect
             pageCount={rows.length}
-            // totalCount={systems.length}
+            // canSelectAll disabled see JIRA: RHINENG-22312 for details
+            totalCount={total}
             selectedCount={selected.length}
-            // pageSelected={rows.every((item) => isSelected(item))}
-            // pagePartiallySelected={
-            //   rows.some((item) => isSelected(item)) &&
-            //   !rows.every((item) => isSelected(item))
-            // }
-            onSelect={() => {
-              /** TODO implement onBulkSelect */
-            }}
+            pagePartiallySelected={isPagePartiallySelected(rows)}
+            pageSelected={isPageSelected(rows)}
+            onSelect={onBulkSelect}
           />
         }
         filters={
@@ -148,6 +170,29 @@ const SystemsViewTable: React.FC = () => {
         ouiaId="systems-view-table"
         columns={columns}
         rows={rows}
+        headStates={{
+          loading: NO_HEADER,
+          empty: NO_HEADER,
+          error: NO_HEADER,
+        }}
+        bodyStates={{
+          loading: (
+            <SkeletonTable
+              ouiaId="loading-state"
+              isSelectable
+              rowsCount={pagination.perPage}
+              columns={columns}
+            />
+          ),
+          empty: <NoEntitiesFound />,
+          error: (
+            <ErrorState
+              ouiaId="error-state"
+              titleText="Unable to load data"
+              bodyText="There was an error retrieving data. Check your connection and reload the page."
+            />
+          ),
+        }}
       />
       <DataViewToolbar
         ouiaId="systems-view-footer"

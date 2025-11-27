@@ -1,19 +1,20 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
+
+type FetchSystemsReturnedValue = Awaited<ReturnType<typeof fetchSystems>>;
+export type System = FetchSystemsReturnedValue['results'][number];
 
 interface FetchSystemsParams {
   page: number;
   perPage: number;
 }
-
-// TODO add filters
 const fetchSystems = async ({ page, perPage }: FetchSystemsParams) => {
   const state = { filters: { filter: {} } };
   const fields = {
     system_profile: [
       'operating_system',
-      'system_update_method' /* needed by inventory groups Why? */,
+      'system_update_method',
       'bootc_status',
     ],
   };
@@ -51,17 +52,18 @@ const fetchSystems = async ({ page, perPage }: FetchSystemsParams) => {
   return { results, total };
 };
 
-type UseSystemsQueryParams = FetchSystemsParams;
-
+interface UseSystemsQueryParams {
+  page: number;
+  perPage: number;
+}
 export const useSystemsQuery = ({ page, perPage }: UseSystemsQueryParams) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['systems', page, perPage],
     queryFn: async () => {
       return await fetchSystems({ page, perPage });
     },
-    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
 
-  return { data: data?.results, total: data?.total, isLoading };
+  return { data: data?.results, total: data?.total, isLoading, isError, error };
 };

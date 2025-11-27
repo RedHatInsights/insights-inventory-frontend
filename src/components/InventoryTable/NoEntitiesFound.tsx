@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   EmptyState,
@@ -10,15 +9,17 @@ import {
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 
-/**
- * Empty state stable when no systems (or other entities) are found.
- *  @param   {object}     props            props object
- *  @param   {string}     props.entities   entities count (systems, workspaces, etc.)
- *  @param   {Function}   props.onClearAll on clear all function
- *  @param   {boolean}    props.showIcon   if true, the icon is shown
- *  @returns {React.node}                  React node with empty state
- */
-const NoEntitiesFound = ({ entities, onClearAll, showIcon }) => (
+interface NoEntitiesFoundProps {
+  entities?: string;
+  onClearAll?: () => void;
+  showIcon?: boolean;
+}
+
+const NoEntitiesFound: React.FC<NoEntitiesFoundProps> = ({
+  entities = 'systems',
+  onClearAll,
+  showIcon = true,
+}) => (
   <EmptyState
     headingLevel="h5"
     titleText={<>{`No matching ${entities} found`}</>}
@@ -26,7 +27,7 @@ const NoEntitiesFound = ({ entities, onClearAll, showIcon }) => (
     data-ouia-component-id="empty-state"
     data-ouia-component-type="PF6/EmptyState"
     data-ouia-safe={true}
-    icon={showIcon && SearchIcon}
+    icon={showIcon ? SearchIcon : undefined}
   >
     <EmptyStateBody>
       To continue, edit your filter settings and try again
@@ -42,16 +43,5 @@ const NoEntitiesFound = ({ entities, onClearAll, showIcon }) => (
     </EmptyStateFooter>
   </EmptyState>
 );
-
-NoEntitiesFound.propTypes = {
-  entities: PropTypes.string,
-  onClearAll: PropTypes.func,
-  showIcon: PropTypes.bool,
-};
-
-NoEntitiesFound.defaultProps = {
-  entities: 'systems',
-  showIcon: true,
-};
 
 export default NoEntitiesFound;
