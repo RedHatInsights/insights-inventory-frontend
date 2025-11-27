@@ -99,7 +99,7 @@ const TopBar = ({
                     count={entity && entity.tags && entity.tags.length}
                     systemId={entity && entity.id}
                   />
-                  <TagsModal />
+                  <TagsModal entity={entity} />
                 </TagsWrapper>
               </FlexItem>
             )}

@@ -9,6 +9,7 @@ import flatten from 'lodash/flatten';
 import { PAGINATION_DEFAULT } from '../constants';
 
 const TagsModal = ({
+  entity,
   filterTagsBy = '',
   onToggleModal = () => undefined,
   onApply,
@@ -23,8 +24,8 @@ const TagsModal = ({
     ({ entities, entityDetails }) => (entities || entityDetails)?.showTagDialog,
   );
 
-  const pagination = useSelector(({ entities, entityDetails }) => {
-    if (entities?.activeSystemTag || entityDetails?.entity) {
+  const pagination = useSelector(({ entities }) => {
+    if (entities?.activeSystemTag || entity) {
       return statePagination;
     }
 
@@ -36,9 +37,9 @@ const TagsModal = ({
       entities?.tagModalLoaded || entityDetails?.tagModalLoaded,
   );
 
-  const activeSystemTag = useSelector(({ entities, entityDetails }) => {
-    if (entityDetails?.entity) {
-      return entityDetails?.entity;
+  const activeSystemTag = useSelector(({ entities }) => {
+    if (entity) {
+      return entity;
     }
 
     if (entities?.activeSystemTag) {
@@ -46,9 +47,8 @@ const TagsModal = ({
     }
   });
 
-  const tags = useSelector(({ entities, entityDetails }) => {
-    const activeTags =
-      entities?.activeSystemTag?.tags || entityDetails?.entity?.tags;
+  const tags = useSelector(({ entities }) => {
+    const activeTags = entities?.activeSystemTag?.tags || entity?.tags;
 
     if (activeTags) {
       return activeTags
@@ -69,9 +69,9 @@ const TagsModal = ({
     );
   });
 
-  const tagsCount = useSelector(({ entities, entityDetails }) => {
+  const tagsCount = useSelector(({ entities }) => {
     const activeTags = (
-      entities?.activeSystemTag?.tags || entityDetails?.entity?.tags
+      entities?.activeSystemTag?.tags || entity?.tags
     )?.filter((tag) =>
       Object.values(tag).some((val) => val?.includes(filterBy)),
     );
@@ -188,15 +188,10 @@ const TagsModal = ({
 };
 
 TagsModal.propTypes = {
+  entity: PropTypes.object,
   onApply: PropTypes.func,
   onToggleModal: PropTypes.func,
   filterTagsBy: PropTypes.string,
-  customFilters: PropTypes.shape({
-    tags: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
-  }),
   getTags: PropTypes.func,
   selected: PropTypes.array,
 };
