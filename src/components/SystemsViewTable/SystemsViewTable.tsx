@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   DataView,
-  DataViewTextFilter,
+  useDataViewFilters,
   useDataViewPagination,
 } from '@patternfly/react-data-view';
 import {
@@ -17,7 +17,6 @@ import Tags from '../../routes/Systems/components/SystemsTable/components/column
 import OperatingSystem from '../../routes/Systems/components/SystemsTable/components/columns/OperatingSystem';
 import LastSeen from '../../routes/Systems/components/SystemsTable/components/columns/LastSeen';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
-import DataViewFilters from '@patternfly/react-data-view/dist/dynamic/DataViewFilters';
 import {
   ResponsiveAction,
   ResponsiveActions,
@@ -27,6 +26,7 @@ import { type System, useSystemsQuery } from './hooks/useSystemsQuery';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
+import { InventoryFilters, SystemsViewFilters } from './SystemsViewFilters';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
@@ -105,8 +105,17 @@ const SystemsViewTable: React.FC = () => {
   const isPagePartiallySelected = (rows: DataViewTr[]) =>
     rows.some((row) => isSelected(row)) && !isPageSelected(rows);
 
-  // TODO Define filters
-  const filters = {};
+  const { filters, onSetFilters, clearAllFilters } =
+    useDataViewFilters<InventoryFilters>({
+      initialFilters: {
+        name: '',
+        status: [],
+        dataCollector: [],
+        rhcStatus: [],
+        systemType: [],
+      },
+      // TODO pass searchParams & setSearchParams in order to sync URL params
+    });
 
   const onBulkSelect = async (value: string) => {
     switch (value) {
@@ -128,9 +137,7 @@ const SystemsViewTable: React.FC = () => {
     <DataView selection={selection} activeState={activeState}>
       <DataViewToolbar
         ouiaId="systems-view-header"
-        clearAllFilters={() => {
-          /* TODO implement clearAllFilters */
-        }}
+        clearAllFilters={clearAllFilters}
         bulkSelect={
           <BulkSelect
             pageCount={rows.length}
@@ -143,18 +150,7 @@ const SystemsViewTable: React.FC = () => {
           />
         }
         filters={
-          <DataViewFilters
-            onChange={() => {
-              /* TODO implement onFilterChange */
-            }}
-            values={filters}
-          >
-            <DataViewTextFilter
-              filterId="name"
-              title="Name"
-              placeholder="Filter by name"
-            />
-          </DataViewFilters>
+          <SystemsViewFilters filters={filters} onSetFilters={onSetFilters} />
         }
         actions={
           <ResponsiveActions ouiaId="systems-view-toolbar-actions">
