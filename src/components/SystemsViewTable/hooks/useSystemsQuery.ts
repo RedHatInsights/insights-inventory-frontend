@@ -1,6 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
-import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
+import { InventoryFilters } from '../SystemsViewFilters';
+import {
+  ApiHostGetHostListSystemTypeEnum,
+  type ApiHostGetHostListParams,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import qs from 'qs';
+
+const serializeSystemType = (values: string[]) => {
+  const validValues = Object.values(ApiHostGetHostListSystemTypeEnum);
+
+  return values
+    .map((val) => (val === 'image' ? ['bootc', 'edge'] : val))
+    .flat()
+    .filter((val): val is ApiHostGetHostListSystemTypeEnum =>
+      validValues.includes(val as ApiHostGetHostListSystemTypeEnum),
+    );
+};
 
 type FetchSystemsReturnedValue = Awaited<ReturnType<typeof fetchSystems>>;
 export type System = FetchSystemsReturnedValue['results'][number];
@@ -8,36 +24,51 @@ export type System = FetchSystemsReturnedValue['results'][number];
 interface FetchSystemsParams {
   page: number;
   perPage: number;
+  filters: InventoryFilters;
 }
-const fetchSystems = async ({ page, perPage }: FetchSystemsParams) => {
-  const state = { filters: { filter: {} } };
-  const fields = {
-    system_profile: [
-      'operating_system',
-      'system_update_method',
-      'bootc_status',
-    ],
-  };
-
-  const { filter, ...filterParams } = state?.filters || {};
-
-  const params = {
-    ...filterParams,
+const fetchSystems = async ({ page, perPage, filters }: FetchSystemsParams) => {
+  // TODO configure filters dynamically
+  const params: ApiHostGetHostListParams = {
     tags: [],
     page,
     perPage,
+    ...(filters?.name && { hostnameOrId: filters.name }),
+    ...(filters?.status && { staleness: filters.status }),
+    ...(filters?.dataCollector && { registeredWith: filters.dataCollector }),
+    ...(filters?.systemType && {
+      systemType: serializeSystemType(filters.systemType),
+    }),
+
+    /* Override default dot notation from API client: backend requires bracket notation for nested params (fields, filter) */
     options: {
+      paramsSerializer: (params) => {
+        return qs.stringify(params, {
+          arrayFormat: 'brackets',
+        });
+      },
       params: {
-        // There is a bug in the JS clients that requires us to pass "filter" and "fields" as "raw" params.
-        // the issue is that JS clients convert that object wrongly to something like filter.systems_profile.sap_system as the param name
-        // it should rather be something like `filter[systems_profile][sap_system]`
-        ...generateFilter(fields, 'fields'),
-        ...generateFilter(filter),
+        fields: {
+          system_profile: [
+            'operating_system',
+            'system_update_method',
+            'bootc_status',
+          ],
+        },
+        ...(filters?.rhcStatus && {
+          filter: {
+            system_profile: {
+              rhc_client_id: filters.rhcStatus,
+            },
+          },
+        }),
       },
     },
   };
 
   const { results: hosts, total } = await getHostList(params);
+
+  if (total === 0) return { results: [], total };
+
   const { results: hostsTags = {} } = await getHostTags({
     hostIdList: hosts
       .map(({ id }) => id)
@@ -55,12 +86,17 @@ const fetchSystems = async ({ page, perPage }: FetchSystemsParams) => {
 interface UseSystemsQueryParams {
   page: number;
   perPage: number;
+  filters: InventoryFilters;
 }
-export const useSystemsQuery = ({ page, perPage }: UseSystemsQueryParams) => {
+export const useSystemsQuery = ({
+  page,
+  perPage,
+  filters,
+}: UseSystemsQueryParams) => {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['systems', page, perPage],
+    queryKey: ['systems', page, perPage, filters],
     queryFn: async () => {
-      return await fetchSystems({ page, perPage });
+      return await fetchSystems({ page, perPage, filters });
     },
     refetchOnWindowFocus: false,
   });
