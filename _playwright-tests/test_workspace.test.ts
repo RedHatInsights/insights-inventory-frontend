@@ -473,3 +473,182 @@ test('User can add a system to an existing workspace with systems', async ({
     cleanupTestArchive(archiveName, workingDir);
   });
 });
+
+(['ascending', 'descending'] as const).forEach((order) => {
+  test(
+    'User can sort workspaces by Name column in ' + order + ' order',
+    async ({ page }) => {
+      /**
+       * Jira References:
+       * - https://issues.redhat.com/browse/ESSNTL-4239 – Sort workspaces by name
+       * Metadata:
+       * - requirements: inv-groups-get-by-id
+       * - importance: high
+       * - assignee: addubey
+       */
+
+      const UNIQUE_UI_ID = 'sort_' + order + '_' + Date.now();
+      const workspaceNames = [
+        UNIQUE_UI_ID + '_Charlie',
+        UNIQUE_UI_ID + '_Alpha',
+        UNIQUE_UI_ID + '_Echo',
+        UNIQUE_UI_ID + '_Bravo',
+        UNIQUE_UI_ID + '_Delta',
+      ];
+
+      const sortDirection: Record<typeof order, string> = {
+        ascending: 'ascending',
+        descending: 'descending',
+      };
+
+      await test.step('Navigate to Workspaces page', async () => {
+        await navigateToWorkspacesFunc(page);
+      });
+
+      await test.step('Create 5 workspaces for sorting test', async () => {
+        for (const name of workspaceNames) {
+          await createNewWorkspace(page, name);
+          await page.reload({ waitUntil: 'networkidle' });
+        }
+      });
+
+      await test.step('Filter to show only test workspaces', async () => {
+        await searchByName(page, UNIQUE_UI_ID);
+
+        // Wait for the filter to be applied
+        await expect(async () => {
+          const nameColumnCells = page.locator('td[data-label="Name"] a');
+          const count = await nameColumnCells.count();
+          expect(count).toBe(5);
+        }).toPass({ timeout: 15000 });
+      });
+
+      await test.step(
+        'Sort by Name column in ' + order + ' order',
+        async () => {
+          const nameColumnHeader = page.locator(
+            'th[data-label="Name"] button, thead th:has-text("Name") button',
+          );
+          await expect(nameColumnHeader).toBeVisible();
+
+          const targetSortDirection = sortDirection[order];
+          const expectedUrlParams = {
+            ascending: 'order_how=asc',
+            descending: 'order_how=desc',
+          };
+
+          // Keep clicking until we reach the desired sort direction (max 3 clicks)
+          for (let attempt = 0; attempt < 3; attempt++) {
+            const currentSort = await nameColumnHeader
+              .locator('..')
+              .getAttribute('aria-sort');
+
+            // If already at target, break
+            if (currentSort === targetSortDirection) {
+              break;
+            }
+
+            await nameColumnHeader.click();
+
+            // Wait for the sort to take effect
+            await expect(async () => {
+              const url = page.url();
+              expect(url).toContain('order_by=name');
+            }).toPass({ timeout: 5000 });
+          }
+
+          // Verify we reached the target sort direction
+          await expect(async () => {
+            const finalSort = await nameColumnHeader
+              .locator('..')
+              .getAttribute('aria-sort');
+            expect(finalSort).toBe(targetSortDirection);
+          }).toPass({ timeout: 5000 });
+
+          // Verify URL has correct sort parameters
+          await expect(async () => {
+            const url = page.url();
+            expect(url).toContain('order_by=name');
+            expect(url).toContain(expectedUrlParams[order]);
+          }).toPass({ timeout: 5000 });
+
+          // Wait for the table data to be sorted - verify first item matches expected
+          const nameColumnCells = page.locator('td[data-label="Name"] a');
+          await expect(async () => {
+            const allNames = await nameColumnCells.allTextContents();
+            expect(allNames.length).toBe(5);
+
+            // Verify the sort is actually applied by checking first element
+            const sortFn = {
+              ascending: (_a: string, _b: string) => _a.localeCompare(_b),
+              descending: (_a: string, _b: string) => _b.localeCompare(_a),
+            };
+            const sortedNames = [...allNames].sort(sortFn[order]);
+            expect(allNames[0]).toBe(sortedNames[0]);
+          }).toPass({ timeout: 10000 });
+        },
+      );
+
+      await test.step('Verify sorting is correct', async () => {
+        const nameColumnCells = page.locator('td[data-label="Name"] a');
+        await expect(nameColumnCells.first()).toBeVisible();
+
+        const displayedNames = await nameColumnCells.allTextContents();
+        const lowerCaseNames = displayedNames.map((name) =>
+          name.toLowerCase().trim(),
+        );
+
+        const sortFunctions = {
+          ascending: (_a: string, _b: string) => _a.localeCompare(_b),
+          descending: (_a: string, _b: string) => _b.localeCompare(_a),
+        };
+
+        const expectedSortedNames = [...lowerCaseNames].sort(
+          sortFunctions[order],
+        );
+
+        expect(lowerCaseNames).toEqual(expectedSortedNames);
+      });
+
+      await test.step('Verify sort indicator is displayed', async () => {
+        const nameColumnHeader = page.locator(
+          'th[data-label="Name"], thead th:has-text("Name")',
+        );
+        await expect(nameColumnHeader).toHaveAttribute(
+          'aria-sort',
+          sortDirection[order],
+        );
+      });
+
+      await test.step('Cleanup: Delete all test workspaces', async () => {
+        await searchByName(page, UNIQUE_UI_ID);
+
+        const bulkSelectCheckbox = page.locator(
+          '[data-ouia-component-id="BulkSelectCheckbox"]',
+        );
+        await expect(bulkSelectCheckbox).toBeVisible();
+        await bulkSelectCheckbox.click();
+
+        const bulkActionsToggle = page.locator(
+          '[data-ouia-component-id="BulkActionsToggle"]',
+        );
+        await bulkActionsToggle.click();
+
+        await page
+          .getByRole('menuitem', { name: 'Delete workspaces' })
+          .first()
+          .click();
+
+        const dialog = page.locator('[role="dialog"]');
+        await expect(dialog).toBeVisible();
+        await page.getByRole('button', { name: 'Delete' }).click();
+
+        // Verify workspaces are deleted
+        await searchByName(page, UNIQUE_UI_ID);
+        await expect(
+          page.locator('text=No matching workspaces found'),
+        ).toBeVisible();
+      });
+    },
+  );
+});
