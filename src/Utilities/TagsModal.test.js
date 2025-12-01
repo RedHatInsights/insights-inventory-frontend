@@ -6,14 +6,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { createPromise as promiseMiddleware } from 'redux-promise-middleware';
-import * as api from '../api/api';
+import * as hostInventoryApi from '../api/hostInventoryApi';
 import TagsModal from './TagsModal';
 
 jest.mock('lodash/debounce');
-jest.mock('../api/api', () => ({
-  __esModule: true,
-  ...jest.requireActual('../api/api'),
-}));
+jest.mock('../api/hostInventoryApi');
 
 describe('TagsModal', () => {
   let initialState;
@@ -146,8 +143,22 @@ describe('TagsModal', () => {
 
   describe('API', () => {
     beforeEach(() => {
-      api.getTags = jest.fn().mockImplementation(() => Promise.resolve());
-      api.getAllTags = jest.fn().mockImplementation(() => Promise.resolve());
+      hostInventoryApi.getTags = jest.fn().mockResolvedValue({
+        data: {
+          results: [],
+          total: 0,
+          page: 1,
+          per_page: 10,
+        },
+      });
+      hostInventoryApi.getHostTags = jest.fn().mockResolvedValue({
+        data: {
+          results: [],
+          total: 0,
+          page: 1,
+          per_page: 10,
+        },
+      });
     });
 
     it('should call onApply select correct tag', async () => {
@@ -233,6 +244,12 @@ describe('TagsModal', () => {
       );
       const actions = store.getActions();
       expect(actions[0]).toMatchObject({
+        type: 'ALL_TAGS_PENDING',
+      });
+      expect(actions[1]).toMatchObject({
+        type: 'ALL_TAGS_FULFILLED',
+      });
+      expect(actions[2]).toMatchObject({
         payload: { isOpen: false },
         type: 'TOGGLE_TAG_MODAL',
       });
