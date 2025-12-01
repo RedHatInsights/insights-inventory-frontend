@@ -1,57 +1,119 @@
 import { test, expect } from '@playwright/test';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
+import {
+  prepareSingleSystem,
+  cleanupTestArchive,
+  BOOTC_ARCHIVE,
+} from './helpers/uploadArchive';
+import { filterSystemsWithConditionalFilter } from './helpers/filterHelpers';
+import { closePopupsIfExist } from './helpers/loginHelpers';
 
-test('User can filter systems by workspace', async ({ page }) => {
-  /**
-   * Metadata:
-     - requirements:
-     - inv-hosts-filter-by-group_name
-     - assignee: oezr
-     - importance: critical
-   */
+test.describe('Filtering Systems Tests', () => {
+  let systemName: string;
+  let archiveName: string;
+  let workingDir: string;
+  let systemBootcName: string;
+  let archiveBootcName: string;
+  let workingBootcDir: string;
 
-  await navigateToInventorySystemsFunc(page);
-
-  // 1. Filter by workspace
-  await page.getByRole('button', { name: 'Conditional filter toggle' }).click();
-  // wait for the dropdown to open - otherwise we type too soon and the search is not applied
-  await page.waitForTimeout(1000);
-  await page.getByRole('menuitem', { name: 'Workspace' }).click();
-  const wspcFilter = page.getByRole('textbox', { name: 'Type to filter' });
-  await wspcFilter.click();
-  await wspcFilter.fill('Workspace_with');
-
-  // Look for the workspace option specifically within the dropdown menu (not in the table)
-  const dropdownMenu = page.locator('#groups-filter-select');
-  const wspcOption = dropdownMenu.getByText('Workspace_with_systems', {
-    exact: true,
+  test.beforeAll(async () => {
+    const setupResult = prepareSingleSystem();
+    const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
+    ({ hostname: systemName, archiveName, workingDir } = setupResult);
+    ({
+      hostname: systemBootcName,
+      archiveName: archiveBootcName,
+      workingDir: workingBootcDir,
+    } = setupBootcResult);
   });
-  await expect(wspcOption).toBeVisible({ timeout: 100000 });
-  await wspcOption.click();
 
-  // Wait for the table to refresh: at least one Workspace cell has the expected value
-  const workspaceCellWithValue = page.locator(
-    'table tbody td[data-label="Workspace"]',
-    {
-      hasText: 'Workspace_with_systems',
-    },
-  );
-  await expect(workspaceCellWithValue.first()).toBeVisible({ timeout: 30000 });
-
-  // Wait for the loading spinner to disappear to ensure table is fully loaded
-  await page
-    .waitForSelector('.loading-spinner', { state: 'hidden', timeout: 10000 })
-    .catch(() => {
-      // Spinner might not appear if the load is very fast, that's okay
+  test.beforeEach(async ({ page }) => {
+    await closePopupsIfExist(page);
+    await navigateToInventorySystemsFunc(page);
+    const resetFiltersButton = page.getByRole('button', {
+      name: 'Reset filters',
     });
+    if (await resetFiltersButton.isVisible({ timeout: 100 })) {
+      await resetFiltersButton.click();
+    }
+  });
 
-  // Wait a bit more for the table to stabilize
-  await page.waitForTimeout(1000);
+  test.afterAll(async () => {
+    cleanupTestArchive(archiveName, workingDir);
+    cleanupTestArchive(archiveBootcName, workingBootcDir);
+  });
 
-  // 2. Verify only systems from the workspace are displayed
-  // All cells from the "Workspace" column
-  const count = await workspaceCellWithValue.count();
-  await expect(workspaceCellWithValue).toHaveText(
-    Array(count).fill('Workspace_with_systems'),
-  );
+  test('User can filter systems by System type', async ({ page }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-system_type
+       - assignee: zabikeno
+       - importance: critical
+     */
+    const imageIconAriaLabel = 'Image mode icon';
+    const packageIconAriaLabel = 'Package mode icon';
+    const imageIcons = page.locator(`[aria-label="${imageIconAriaLabel}"]`);
+    const packageIcons = page.locator(`[aria-label="${packageIconAriaLabel}"]`);
+
+    await test.step('Package-based system option', async () => {
+      await filterSystemsWithConditionalFilter(
+        page,
+        'System type',
+        'Package-based system',
+      );
+      await expect(imageIcons).toHaveCount(0);
+      const packageCount = await packageIcons.count();
+      expect(packageCount).toBeGreaterThanOrEqual(0);
+    });
+    await test.step('Image-based system option', async () => {
+      // Reset previews filter
+      const resetFiltersButton = page.getByRole('button', {
+        name: 'Reset filters',
+      });
+      // eslint-disable-next-line playwright/no-conditional-in-test
+      if (await resetFiltersButton.isVisible({ timeout: 100 })) {
+        await resetFiltersButton.click();
+      }
+
+      await filterSystemsWithConditionalFilter(
+        page,
+        'System type',
+        'Image-based system',
+      );
+      await expect(packageIcons).toHaveCount(0);
+      const imageCount = await imageIcons.count();
+      expect(imageCount).toBeGreaterThanOrEqual(0);
+
+      await expect(
+        page.getByRole('button', { name: 'View by systems' }),
+      ).toBeVisible();
+    });
+  });
+
+  test('User can filter systems by workspace', async ({ page }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-group_name
+       - assignee: oezr
+       - importance: critical
+     */
+    await filterSystemsWithConditionalFilter(
+      page,
+      'Workspace',
+      'Workspace_with_systems',
+    );
+    const workspaceCellWithValue = page.locator(
+      'table tbody td[data-label="Workspace"]',
+      {
+        hasText: 'Workspace_with_systems',
+      },
+    );
+    await expect(workspaceCellWithValue.first()).toBeVisible();
+    const count = await workspaceCellWithValue.count();
+    await expect(workspaceCellWithValue).toHaveText(
+      Array(count).fill('Workspace_with_systems'),
+    );
+  });
 });

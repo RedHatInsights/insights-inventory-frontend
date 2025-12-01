@@ -33,8 +33,11 @@ export const filterSystemsWithConditionalFilter = async (
   if (filterName === 'Workspace') {
     await page.getByRole('textbox', { name: 'Type to filter' }).click();
     // TODO: uncomment when issue is resolved https://issues.redhat.com/browse/RHINENG-20990
-    // await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
-    optionCheckbox = page.getByText(option, { exact: true });
+    if (!(option === 'Ungrouped hosts')) {
+      await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
+      await page.waitForTimeout(100);
+    }
+    optionCheckbox = page.getByText(option, { exact: true }).first();
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'Data collector') {
@@ -47,14 +50,18 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: Implement logic to select the Tags filter option.
     // Logic not implemented yet. Test continues without filtering.
   } else if (filterName === 'System type') {
-    // TODO: Implement logic to select the System type filter option.
-    // Logic not implemented yet. Test continues without filtering.
+    await page.getByRole('button', { name: 'Options menu' }).click();
+    optionCheckbox = page.getByText(option, { exact: true });
+    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
+    await optionCheckbox.click();
   } else if (filterName === 'Operating system') {
     // TODO: Implement logic to select the Operating system filter option.
     // Logic not implemented yet. Test continues without filtering.
   }
   // wait for table to be filtered
+  await page.locator('body').click(); //to make sure menu is closed
   await page.waitForSelector('.loading-spinner', { state: 'hidden' });
+  await page.waitForTimeout(100);
 };
 
 /**
