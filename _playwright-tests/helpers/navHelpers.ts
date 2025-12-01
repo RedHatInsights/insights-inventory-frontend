@@ -8,9 +8,9 @@ import { closePopupsIfExist } from './loginHelpers';
  *  @param page
  */
 export const navigateToInventorySystemsFunc = async (page: Page) => {
-  await page.goto('/insights/inventory/', { timeout: 100000 });
+  await page.goto('/insights/inventory/', { timeout: 50000 });
   await expect(page.getByRole('heading', { name: 'Systems' })).toBeVisible({
-    timeout: 100000,
+    timeout: 50000,
   });
   await page.waitForSelector('#options-menu-bottom-toggle', {
     state: 'visible',
@@ -23,9 +23,9 @@ export const navigateToInventorySystemsFunc = async (page: Page) => {
  *  @param page
  */
 export const navigateToWorkspacesFunc = async (page: Page) => {
-  await page.goto('/insights/inventory/workspaces', { timeout: 100000 });
+  await page.goto('/insights/inventory/workspaces', { timeout: 50000 });
   await expect(page.getByRole('heading', { name: 'Workspaces' })).toBeVisible({
-    timeout: 100000,
+    timeout: 50000,
   });
   await page.waitForSelector('#pagination-options-menu-bottom-bottom-toggle', {
     state: 'visible',
@@ -39,12 +39,12 @@ export const navigateToWorkspacesFunc = async (page: Page) => {
  */
 export const navigateToStalenessPageFunc = async (page: Page) => {
   await page.goto('/insights/inventory/staleness-and-deletion', {
-    timeout: 100000,
+    timeout: 50000,
   });
   await expect(
     page.getByRole('heading', { name: 'Staleness and Deletion', exact: true }),
   ).toBeVisible({
-    timeout: 100000,
+    timeout: 50000,
   });
   await page.waitForSelector(
     'text=Organization level system staleness and deletion',
