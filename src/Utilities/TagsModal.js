@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+} from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchAllTags, toggleTagModal } from '../store/actions';
@@ -20,6 +26,7 @@ const TagsModal = ({
   const [filterBy, setFilterBy] = useState('');
   const [selected, setSelected] = useState();
   const [statePagination, setStatePagination] = useState(PAGINATION_DEFAULT);
+  const isInitialMount = useRef(true);
   const showTagDialog = useSelector(
     ({ entities, entityDetails }) => (entities || entityDetails)?.showTagDialog,
   );
@@ -99,10 +106,27 @@ const TagsModal = ({
     [activeSystemTag, dispatch, getTags],
   );
 
-  const debouncedFetch = useCallback(
-    () => debounce(fetchTags, 800),
-    [fetchTags],
+  const debouncedFetch = useMemo(() => debounce(fetchTags, 800), [fetchTags]);
+
+  const onUpdateData = useCallback(
+    (pagination) => fetchTags(pagination, filterBy),
+    [fetchTags, filterBy],
   );
+
+  // Initial fetch when modal opens
+  useEffect(() => {
+    if (showTagDialog) {
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+        if (!activeSystemTag) {
+          fetchTags(pagination, '');
+        }
+      }
+    } else {
+      // Reset when modal closes
+      isInitialMount.current = true;
+    }
+  }, [showTagDialog, activeSystemTag, fetchTags, pagination]);
 
   const isSelected = (id, { key, value, namespace }) =>
     id === `${namespace}/${key}=${value}`;
@@ -164,7 +188,7 @@ const TagsModal = ({
           },
         },
       ]}
-      onUpdateData={(pagination) => fetchTags(pagination, filterBy)}
+      onUpdateData={onUpdateData}
       columns={[
         { title: 'Name' },
         { title: 'Value', transforms: [cellWidth(30)] },
