@@ -8,6 +8,8 @@ import {
   ApiHostGetHostListRegisteredWithEnum,
   ApiHostGetHostListStalenessEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import { DataViewCustomFilter } from './DataViewCustomFilter';
+import WorkspaceFilter from './WorkspaceFilter';
 
 export interface InventoryFilters {
   name: string;
@@ -15,6 +17,7 @@ export interface InventoryFilters {
   dataCollector: ApiHostGetHostListRegisteredWithEnum[];
   rhcStatus: string[];
   systemType: string[];
+  workspace: string[];
 }
 interface SystemsViewFiltersProps {
   filters: InventoryFilters;
@@ -26,7 +29,9 @@ export const SystemsViewFilters: React.FC<SystemsViewFiltersProps> = ({
   onSetFilters,
 }) => (
   <DataViewFilters
-    onChange={(_, values) => onSetFilters(values)}
+    onChange={(_, values) => {
+      onSetFilters(values);
+    }}
     values={filters}
   >
     <DataViewTextFilter
@@ -80,5 +85,14 @@ export const SystemsViewFilters: React.FC<SystemsViewFiltersProps> = ({
         { label: 'Image-based system', value: 'image' },
       ]}
     />
+    <DataViewCustomFilter
+      filterId="workspace"
+      title="Workspace"
+      placeholder="Filter by workspace"
+      ouiaId="SystemsViewWorkspaceFilter"
+      filterComponent={WorkspaceFilter}
+    />
   </DataViewFilters>
 );
+
+export default DataViewFilters;
