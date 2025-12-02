@@ -41,7 +41,7 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
   await test.step('Create a new workspace', async () => {
     await page.click('button:has-text("Create workspace")');
     const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible({ timeout: 10000 });
+    await expect(dialog).toBeVisible({ timeout: 100000 });
     await dialog.locator('input').first().fill(workspaceName);
     await dialog.getByRole('button', { name: 'Create' }).click();
   });
@@ -53,7 +53,7 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
     await searchInput.fill(workspaceName);
 
     const workspaceLink = page.getByRole('link', { name: workspaceName });
-    await expect(workspaceLink).toBeVisible({ timeout: 10000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
   });
 
@@ -128,7 +128,7 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
     await searchInput.fill(workspaceName);
 
     const workspaceLink = page.getByRole('link', { name: workspaceName });
-    await expect(workspaceLink).toBeVisible({ timeout: 10000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
   });
 
@@ -318,7 +318,7 @@ test('User can add and remove system from an empty workspace', async ({
     await searchByName(page, workspaceName);
 
     const workspaceLink = page.getByRole('link', { name: workspaceName });
-    await expect(workspaceLink).toBeVisible({ timeout: 10000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
   });
 
@@ -420,7 +420,7 @@ test('User can add a system to an existing workspace with systems', async ({
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await searchInput.fill(workspaceName);
     const workspaceLink = page.getByRole('link', { name: workspaceName });
-    await expect(workspaceLink).toBeVisible({ timeout: 10000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
   });
 

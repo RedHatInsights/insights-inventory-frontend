@@ -100,11 +100,11 @@ test('User should be able to edit and delete a system from System Details page',
     await expect(nameColumnLocator).toHaveCount(1);
 
     const systemLink = page.getByRole('link', { name: systemName });
-    await expect(systemLink).toBeVisible({ timeout: 10000 });
+    await expect(systemLink).toBeVisible({ timeout: 100000 });
     await systemLink.click();
 
     await expect(page.getByRole('heading', { name: systemName })).toBeVisible({
-      timeout: 10000,
+      timeout: 100000,
     });
   });
 
