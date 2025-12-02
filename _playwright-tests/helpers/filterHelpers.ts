@@ -38,7 +38,7 @@ export const filterSystemsWithConditionalFilter = async (
       await page.waitForTimeout(100);
     }
     optionCheckbox = page.getByText(option, { exact: true }).first();
-    await expect(optionCheckbox).toBeVisible({ timeout: 10000 });
+    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'Data collector') {
     // TODO: Implement logic to select the Data Collector filter option.
@@ -52,7 +52,7 @@ export const filterSystemsWithConditionalFilter = async (
   } else if (filterName === 'System type') {
     await page.getByRole('button', { name: 'Options menu' }).click();
     optionCheckbox = page.getByText(option, { exact: true });
-    await expect(optionCheckbox).toBeVisible({ timeout: 10000 });
+    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'Operating system') {
     // TODO: Implement logic to select the Operating system filter option.

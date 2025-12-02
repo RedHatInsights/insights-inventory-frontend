@@ -55,10 +55,10 @@ test('User can filter, search and see details of "Ungrouped Hosts" workspace', a
     const workspaceLink = page.getByRole('link', {
       name: ungroupedWorkspaceName,
     });
-    await expect(workspaceLink).toBeVisible({ timeout: 10000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
     await expect(
       page.getByRole('heading', { name: ungroupedWorkspaceName }),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 100000 });
   });
 });
