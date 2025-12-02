@@ -119,10 +119,14 @@ export async function assertAllContain(
   locator: Locator,
   pattern: RegExp,
 ): Promise<void> {
-  // Wait for elements to be visible before reading text
+  // Wait for at least one element to be visible
   await expect(locator.first()).toBeVisible({ timeout: 10000 });
-  await locator.page().waitForTimeout(100);
-  expect(await locator.count()).toBeGreaterThanOrEqual(1);
+  // Wait for all elements to be visible before reading text
+  const count = await locator.count();
+  expect(count).toBeGreaterThanOrEqual(1);
+  for (let i = 0; i < count; i++) {
+    await expect(locator.nth(i)).toBeVisible({ timeout: 5000 });
+  }
   const allTexts = await locator.allTextContents();
   const allMatch = allTexts.every((text) => pattern.test(text));
   expect(allMatch).toBe(true);
