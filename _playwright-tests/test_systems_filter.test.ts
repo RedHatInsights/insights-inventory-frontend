@@ -116,4 +116,25 @@ test.describe('Filtering Systems Tests', () => {
       Array(count).fill('Workspace_with_systems'),
     );
   });
+
+  test('User can filter systems by OS', async ({ page }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-os
+       - assignee: zabikeno
+       - importance: critical
+     */
+    const OS = 'RHEL 9.4';
+    await filterSystemsWithConditionalFilter(page, 'Operating system', OS);
+    const workspaceCellWithValue = page.locator(
+      'table tbody td[data-label="OS"]',
+      {
+        hasText: OS,
+      },
+    );
+    await expect(workspaceCellWithValue.first()).toBeVisible();
+    const count = await workspaceCellWithValue.count();
+    await expect(workspaceCellWithValue).toHaveText(Array(count).fill(OS));
+  });
 });

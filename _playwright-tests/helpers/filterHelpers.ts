@@ -55,8 +55,8 @@ export const filterSystemsWithConditionalFilter = async (
     await expect(optionCheckbox).toBeVisible({ timeout: 10000 });
     await optionCheckbox.click();
   } else if (filterName === 'Operating system') {
-    // TODO: Implement logic to select the Operating system filter option.
-    // Logic not implemented yet. Test continues without filtering.
+    await page.getByRole('button', { name: 'Group filter' }).nth(1).click();
+    await page.getByRole('checkbox', { name: option }).check();
   }
   // wait for table to be filtered
   await page.locator('body').click(); //to make sure menu is closed
