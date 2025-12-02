@@ -5,7 +5,10 @@ import {
   cleanupTestArchive,
   BOOTC_ARCHIVE,
 } from './helpers/uploadArchive';
-import { filterSystemsWithConditionalFilter } from './helpers/filterHelpers';
+import {
+  filterSystemsWithConditionalFilter,
+  assertAllContain,
+} from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 
 test.describe('Filtering Systems Tests', () => {
@@ -117,7 +120,9 @@ test.describe('Filtering Systems Tests', () => {
     );
   });
 
-  test('User can filter systems by OS', async ({ page }) => {
+  test('User can filter systems by OS minor version option', async ({
+    page,
+  }) => {
     /**
      * Metadata:
        - requirements:
@@ -127,14 +132,39 @@ test.describe('Filtering Systems Tests', () => {
      */
     const OS = 'RHEL 9.4';
     await filterSystemsWithConditionalFilter(page, 'Operating system', OS);
-    const workspaceCellWithValue = page.locator(
-      'table tbody td[data-label="OS"]',
-      {
-        hasText: OS,
-      },
+    const columnVesrionOS = page.locator('table tbody td[data-label="OS"]', {
+      hasText: OS,
+    });
+    await expect(columnVesrionOS.first()).toBeVisible();
+    const count = await columnVesrionOS.count();
+    await expect(columnVesrionOS).toHaveText(Array(count).fill(OS));
+  });
+
+  test('User can filter systems by OS major version option', async ({
+    page,
+  }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-os
+       - assignee: zabikeno
+       - importance: critical
+     */
+    const OS = 'RHEL 9';
+    await filterSystemsWithConditionalFilter(page, 'Operating system', OS);
+
+    // Verify all filter chips contain Major version OS RHEL 9
+    const filterChipGroup = page.locator('span.pf-v6-c-label__text');
+    const pattern = /RHEL 9\./;
+    await assertAllContain(filterChipGroup, pattern);
+
+    // Multiple RHEL 9 versions should be applied when filtering by major OS version
+    expect(await filterChipGroup.count()).toBeGreaterThanOrEqual(1);
+
+    // OS version should cointain expected major version of OS
+    const columnVesrionOS = page.locator(
+      'span[aria-label="Formatted OS version"]',
     );
-    await expect(workspaceCellWithValue.first()).toBeVisible();
-    const count = await workspaceCellWithValue.count();
-    await expect(workspaceCellWithValue).toHaveText(Array(count).fill(OS));
+    await assertAllContain(columnVesrionOS, pattern);
   });
 });
