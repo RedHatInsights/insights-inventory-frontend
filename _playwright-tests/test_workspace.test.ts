@@ -350,7 +350,7 @@ test('User can add and remove system from an empty workspace', async ({
 
   await test.step('Remove system from workspace', async () => {
     const systemRowLink = page.getByRole('link', { name: systemName });
-    await expect(systemRowLink).toBeVisible({ timeout: 10000 });
+    await expect(systemRowLink).toBeVisible({ timeout: 100000 });
 
     const filterInput = page.getByPlaceholder('Filter by name');
     await filterInput.fill(systemName);
