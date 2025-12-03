@@ -24,8 +24,7 @@ import { getGroupList } from '../../api/hostInventoryApiTyped';
 
 interface WorkspaceFilterProps {
   placeholder?: string;
-  value: string[];
-  // eslint-disable-next-line no-unused-vars
+  value?: string[];
   onChange?: (event: unknown, value: string[]) => void;
 }
 

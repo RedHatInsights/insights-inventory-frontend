@@ -8,7 +8,7 @@ import {
 } from './helpers';
 import { isValidISODateStr } from './helpers';
 
-const DateRangePicker = ({ dateRange, onDateRangeChange }) => {
+export const DateRangePicker = ({ dateRange, onDateRangeChange }) => {
   const [startDate, setStartDate] = useState(dateRange?.start);
   const [endDate, setEndDate] = useState(dateRange?.end);
 
