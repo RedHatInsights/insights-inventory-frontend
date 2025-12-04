@@ -35,7 +35,7 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: uncomment when issue is resolved https://issues.redhat.com/browse/RHINENG-20990
     if (!(option === 'Ungrouped hosts')) {
       await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(200);
     }
     optionCheckbox = page.getByText(option, { exact: true }).first();
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
@@ -47,8 +47,14 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: Implement logic to select the Status filter option.
     // Logic not implemented yet. Test continues without filtering.
   } else if (filterName === 'Tags') {
-    // TODO: Implement logic to select the Tags filter option.
-    // Logic not implemented yet. Test continues without filtering.
+    const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
+    await inputLocator.click();
+    await inputLocator.fill(option);
+    // option = name=value
+    await page.waitForTimeout(100);
+    optionCheckbox = page.getByText(option, { exact: true }).first();
+    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
+    await optionCheckbox.click();
   } else if (filterName === 'System type') {
     await page.getByRole('button', { name: 'Options menu' }).click();
     optionCheckbox = page.getByText(option, { exact: true });
@@ -58,10 +64,15 @@ export const filterSystemsWithConditionalFilter = async (
     await page.getByRole('button', { name: 'Group filter' }).nth(1).click();
     await page.getByRole('checkbox', { name: option, exact: true }).check();
   }
-  // wait for table to be filtered
+
   await page.locator('body').click(); //to make sure menu is closed
-  await page.waitForSelector('.loading-spinner', { state: 'hidden' });
-  await page.waitForTimeout(100);
+  // wait for table to be filtered
+  await expect(
+    page.locator('[data-ouia-component-id="SkeletonTable"]'),
+  ).toBeVisible();
+  await page
+    .locator('[data-ouia-component-id="SkeletonTable"]')
+    .waitFor({ state: 'hidden' });
 };
 
 /**
