@@ -18,7 +18,6 @@ export interface InventoryFilters {
 }
 interface SystemsViewFiltersProps {
   filters: InventoryFilters;
-  // eslint-disable-next-line no-unused-vars
   onSetFilters: (_: Partial<InventoryFilters>) => void;
 }
 
