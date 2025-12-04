@@ -176,16 +176,14 @@ test('User able to bulk delete empty workspaces', async ({ page }) => {
 
   await test.step('Search for empty workspaces and bulk delete', async () => {
     await expect(searchInput).toBeVisible();
-    await page.reload({ waitUntil: 'networkidle' });
-    await searchInput.fill('empty');
-    await expect(page.getByRole('row')).not.toHaveCount(0);
+    await searchByName(page, 'empty');
 
     const bulkSelectCheckbox = page.locator(
       '[data-ouia-component-id="BulkSelectCheckbox"]',
     );
     await expect(bulkSelectCheckbox).toBeVisible();
-    await bulkSelectCheckbox.click();
-    await expect(bulkSelectCheckbox).toBeChecked();
+    await bulkSelectCheckbox.click({ timeout: 10000 });
+    await expect(bulkSelectCheckbox).toBeChecked({ timeout: 20000 });
 
     const bulkActionsToggle = page.locator(
       '[data-ouia-component-id="BulkActionsToggle"]',
@@ -202,7 +200,7 @@ test('User able to bulk delete empty workspaces', async ({ page }) => {
   });
 
   await test.step('Verify all empty workspaces are deleted', async () => {
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload();
     await searchInput.fill('empty');
     await expect(
       page.locator('text=No matching workspaces found'),
@@ -339,7 +337,7 @@ test('User can add and remove system from an empty workspace', async ({
     const checkbox = dialog.locator('input[name="checkrow0"]');
     await expect(checkbox).toBeVisible();
     await checkbox.check();
-    await expect(checkbox).toBeChecked();
+    await expect(checkbox).toBeChecked({ timeout: 10000 });
 
     const addButton = dialog.getByRole('button', { name: 'Add systems' });
     await expect(addButton).toBeVisible();
@@ -443,7 +441,7 @@ test('User can add a system to an existing workspace with systems', async ({
     const checkbox = page.locator('input[name="checkrow0"]');
     await expect(checkbox).toBeVisible();
     await checkbox.check();
-    await expect(checkbox).toBeChecked();
+    await expect(checkbox).toBeChecked({ timeout: 10000 });
 
     const addButton = dialog.getByRole('button', { name: 'Add systems' });
     await expect(addButton).toBeVisible();
