@@ -46,18 +46,18 @@ import useInsightsNavigate from '@redhat-cloud-services/frontend-components-util
  */
 const TopBar = ({
   entity,
-  loaded,
-  actions,
-  deleteEntity,
-  addNotification,
+  loaded = false,
+  actions = [],
+  deleteEntity = () => undefined,
+  addNotification = () => undefined,
   hideInvLink,
-  onBackToListClick,
-  showDelete,
-  showInventoryDrawer,
-  TitleWrapper,
-  TagsWrapper,
-  DeleteWrapper,
-  ActionsWrapper,
+  onBackToListClick = () => undefined,
+  showDelete = false,
+  showInventoryDrawer = false,
+  TitleWrapper = Fragment,
+  TagsWrapper = Fragment,
+  DeleteWrapper = Fragment,
+  ActionsWrapper = Fragment,
   showTags,
 }) => {
   const dispatch = useDispatch();
@@ -225,21 +225,6 @@ TopBar.propTypes = {
   TagsWrapper: PropTypes.elementType,
   DeleteWrapper: PropTypes.elementType,
   ActionsWrapper: PropTypes.elementType,
-};
-
-TopBar.defaultProps = {
-  actions: [],
-  loaded: false,
-  hideInvLink: false,
-  showDelete: false,
-  showInventoryDrawer: false,
-  deleteEntity: () => undefined,
-  addNotification: () => undefined,
-  onBackToListClick: () => undefined,
-  TitleWrapper: Fragment,
-  TitleWTagsWrapperrapper: Fragment,
-  DeleteWrapper: Fragment,
-  ActionsWrapper: Fragment,
 };
 
 export default TopBar;

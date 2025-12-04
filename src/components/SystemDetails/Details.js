@@ -28,7 +28,7 @@ const Details = ({
   ConfigurationCardWrapper = ConfigurationCard,
   CollectionCardWrapper = false,
   navigate,
-  entity,
+  entity = {},
   inventoryId,
   fetchEntity,
   systemProfilePrefetched = false,
@@ -166,18 +166,6 @@ Details.propTypes = {
   fetchEntity: PropTypes.func,
   isBootcHost: PropTypes.bool,
   showRuntimesProcesses: PropTypes.bool,
-};
-
-Details.defaultProps = {
-  entity: {},
-  OperatingSystemCardWrapper: OperatingSystemCard,
-  BiosCardWrapper: BiosCard,
-  BootcImageCardWrapper: BootcImageCard,
-  InfrastructureCardWrapper: InfrastructureCard,
-  ConfigurationCardWrapper: ConfigurationCard,
-  CollectionCardWrapper: false,
-  systemProfilePrefetched: false,
-  showRuntimesProcesses: false,
 };
 
 const DetailsComponent = (props) => {

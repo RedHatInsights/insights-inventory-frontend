@@ -23,7 +23,7 @@ const DetailWrapper = ({
   showTags,
   Wrapper,
   className,
-  appName,
+  appName = 'overview',
   inventoryId,
   ...props
 }) => {
@@ -98,10 +98,6 @@ DetailWrapper.propTypes = {
   className: PropTypes.string,
   Wrapper: PropTypes.elementType,
   inventoryId: PropTypes.string.isRequired,
-};
-
-DetailWrapper.defaultProps = {
-  appName: 'overview',
 };
 
 export default DetailWrapper;

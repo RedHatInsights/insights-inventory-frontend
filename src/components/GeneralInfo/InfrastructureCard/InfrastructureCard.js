@@ -8,16 +8,16 @@ import { extraShape } from '../../../constants';
 
 const InfrastructureCardCore = ({
   infrastructure,
-  handleClick,
-  detailLoaded,
-  hasType,
-  hasVendor,
-  hasPublicIp,
-  hasIPv4,
-  hasIPv6,
-  hasFqdn,
-  hasInterfaces,
-  extra,
+  handleClick = () => undefined,
+  detailLoaded = false,
+  hasType = true,
+  hasVendor = true,
+  hasPublicIp = true,
+  hasIPv4 = true,
+  hasIPv6 = true,
+  hasFqdn = true,
+  hasInterfaces = true,
+  extra = [],
   entity,
 }) => {
   const type =
@@ -141,18 +141,6 @@ InfrastructureCardCore.propTypes = {
   hasInterfaces: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
 };
-InfrastructureCardCore.defaultProps = {
-  detailLoaded: false,
-  handleClick: () => undefined,
-  hasType: true,
-  hasVendor: true,
-  hasPublicIp: true,
-  hasIPv4: true,
-  hasIPv6: true,
-  hasFqdn: true,
-  hasInterfaces: true,
-  extra: [],
-};
 
 const mapStateToProps = ({ systemProfileStore: { systemProfile } }) => ({
   detailLoaded: systemProfile && systemProfile.loaded,
@@ -164,6 +152,5 @@ export const InfrastructureCard = connect(mapStateToProps)(
 );
 
 InfrastructureCard.propTypes = InfrastructureCardCore.propTypes;
-InfrastructureCard.defaultProps = InfrastructureCardCore.defaultProps;
 
 export default InfrastructureCard;

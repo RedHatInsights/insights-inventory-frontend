@@ -26,7 +26,7 @@ const Overview = ({
   DataCollectorsCardWrapper = DataCollectorsCard,
   SubscriptionCardWrapper = SubscriptionCard,
   navigate,
-  entity,
+  entity = {},
   inventoryId,
   systemProfilePrefetched = false,
   fetchEntity,
@@ -152,15 +152,6 @@ Overview.propTypes = {
   inventoryId: PropTypes.string.isRequired,
   systemProfilePrefetched: PropTypes.bool,
   fetchEntity: PropTypes.func,
-};
-
-Overview.defaultProps = {
-  entity: {},
-  SystemCardWrapper: SystemCard,
-  SystemStatusCardWrapper: SystemStatusCard,
-  DataCollectorsCardWrapper: DataCollectorsCard,
-  SubscriptionCardWrapper: SubscriptionCard,
-  systemProfilePrefetched: false,
 };
 
 const OverviewComponent = (props) => {
