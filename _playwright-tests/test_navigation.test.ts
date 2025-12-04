@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from './helpers/navHelpers';
 
-test.describe('Navigate to Inventry pages via side Navigation bar', () => {
+test.describe('Navigate to Inventory pages via side Navigation bar', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/insights/dashboard/');
     await page.locator('[data-quickstart-id="Inventory"]').click();
