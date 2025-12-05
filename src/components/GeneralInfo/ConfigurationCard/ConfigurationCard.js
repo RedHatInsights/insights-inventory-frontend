@@ -22,14 +22,14 @@ export function enabledRepos(repositories) {
 }
 
 const ConfigurationCardCore = ({
-  detailLoaded,
+  detailLoaded = false,
   configuration,
-  handleClick,
-  hasPackages,
-  hasServices,
-  hasProcesses,
-  hasRepositories,
-  extra,
+  handleClick = () => undefined,
+  hasPackages = true,
+  hasServices = true,
+  hasProcesses = true,
+  hasRepositories = true,
+  extra = [],
 }) => (
   <LoadingCard
     title="Configuration"
@@ -141,15 +141,6 @@ ConfigurationCardCore.propTypes = {
   hasRepositories: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
 };
-ConfigurationCardCore.defaultProps = {
-  detailLoaded: false,
-  handleClick: () => undefined,
-  hasPackages: true,
-  hasServices: true,
-  hasProcesses: true,
-  hasRepositories: true,
-  extra: [],
-};
 
 export const ConfigurationCard = connect(
   ({ systemProfileStore: { systemProfile } }) => ({
@@ -159,6 +150,5 @@ export const ConfigurationCard = connect(
 )(ConfigurationCardCore);
 
 ConfigurationCard.propTypes = ConfigurationCardCore.propTypes;
-ConfigurationCard.defaultProps = ConfigurationCardCore.defaultProps;
 
 export default ConfigurationCard;

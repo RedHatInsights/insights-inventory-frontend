@@ -17,7 +17,7 @@ import { Flex, FlexItem } from '@patternfly/react-core';
 import { getDefaultCollectors } from '../selectors/selectors';
 
 const DataCollectorsCardCore = ({
-  detailLoaded,
+  detailLoaded = false,
   collectors,
   entity,
   dataMapper,
@@ -120,9 +120,6 @@ DataCollectorsCardCore.propTypes = {
     per_reporter_staleness: PropTypes.object,
   }),
 };
-DataCollectorsCardCore.defaultProps = {
-  detailLoaded: false,
-};
 
 export const DataCollectorsCard = connect(
   ({ systemProfileStore: { systemProfile } }) => ({
@@ -132,6 +129,5 @@ export const DataCollectorsCard = connect(
 )(DataCollectorsCardCore);
 
 DataCollectorsCard.propTypes = DataCollectorsCardCore.propTypes;
-DataCollectorsCard.defaultProps = DataCollectorsCardCore.defaultProps;
 
 export default DataCollectorsCard;

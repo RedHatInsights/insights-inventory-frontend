@@ -10,7 +10,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import DeleteModal from '../../../Utilities/DeleteModal';
-import { TextInputModal } from '../../SystemDetails/GeneralInfo';
+import TextInputModal from '../../GeneralInfo/TextInputModal';
 import { generateFilter } from '../../../Utilities/constants';
 import { InventoryTable as InventoryTableCmp } from '../../InventoryTable';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';

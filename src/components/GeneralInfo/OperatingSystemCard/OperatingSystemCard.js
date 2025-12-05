@@ -9,15 +9,15 @@ import { extraShape, isDate } from '../../../constants';
 import OperatingSystemFormatter from '../../../Utilities/OperatingSystemFormatter';
 
 const OperatingSystemCardCore = ({
-  detailLoaded,
-  handleClick,
-  hasRelease,
-  hasKernelRelease,
-  hasArchitecture,
-  hasLastBoot,
-  hasKernelModules,
+  detailLoaded = false,
+  handleClick = () => undefined,
+  hasRelease = true,
+  hasKernelRelease = true,
+  hasArchitecture = true,
+  hasLastBoot = true,
+  hasKernelModules = true,
   entity,
-  extra,
+  extra = [],
   systemProfile,
 }) => {
   const systemInfo = operatingSystem(systemProfile, entity);
@@ -106,16 +106,6 @@ OperatingSystemCardCore.propTypes = {
     system_update_method: PropTypes.string,
   }),
 };
-OperatingSystemCardCore.defaultProps = {
-  detailLoaded: false,
-  handleClick: () => undefined,
-  hasRelease: true,
-  hasKernelRelease: true,
-  hasArchitecture: true,
-  hasLastBoot: true,
-  hasKernelModules: true,
-  extra: [],
-};
 
 export const OperatingSystemCard = connect(
   ({ systemProfileStore: { systemProfile } }) => ({
@@ -125,6 +115,5 @@ export const OperatingSystemCard = connect(
 )(OperatingSystemCardCore);
 
 OperatingSystemCard.propTypes = OperatingSystemCardCore.propTypes;
-OperatingSystemCard.defaultProps = OperatingSystemCardCore.defaultProps;
 
 export default OperatingSystemCard;

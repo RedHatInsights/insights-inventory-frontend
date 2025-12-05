@@ -31,7 +31,7 @@ const useTableActions = (
             key={`${row.id}-edit`}
             onClick={() => {
               setCurrentSystem(row);
-              onEditOpen(() => true);
+              onEditOpen(true);
             }}
             requiredPermissions={[
               REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
@@ -50,7 +50,7 @@ const useTableActions = (
             key={`${row.id}-delete`}
             onClick={() => {
               setCurrentSystem(row);
-              handleModalToggle(() => true);
+              handleModalToggle(true);
             }}
             requiredPermissions={[
               REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(row?.groups?.[0]?.id),

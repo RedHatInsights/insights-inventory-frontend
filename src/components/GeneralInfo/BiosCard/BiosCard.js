@@ -8,12 +8,12 @@ import { extraShape, isDate } from '../../../constants';
 
 const BiosCardCore = ({
   bios,
-  detailLoaded,
-  hasVendor,
-  hasVersion,
-  handleClick,
-  hasReleaseDate,
-  extra,
+  detailLoaded = false,
+  hasVendor = true,
+  hasVersion = true,
+  handleClick = () => undefined,
+  hasReleaseDate = true,
+  extra = [],
 }) => (
   <LoadingCard
     title="BIOS"
@@ -56,14 +56,6 @@ BiosCardCore.propTypes = {
   hasReleaseDate: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
 };
-BiosCardCore.defaultProps = {
-  detailLoaded: false,
-  handleClick: () => undefined,
-  extra: [],
-  hasVendor: true,
-  hasVersion: true,
-  hasReleaseDate: true,
-};
 
 export const BiosCard = connect(
   ({ systemProfileStore: { systemProfile } }) => ({
@@ -73,6 +65,5 @@ export const BiosCard = connect(
 )(BiosCardCore);
 
 BiosCard.propTypes = BiosCardCore.propTypes;
-BiosCard.defaultProps = BiosCardCore.defaultProps;
 
 export default BiosCard;

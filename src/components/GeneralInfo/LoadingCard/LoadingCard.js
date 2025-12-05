@@ -78,8 +78,8 @@ Clickable.propTypes = {
 
 const LoadingCard = ({
   title,
-  isLoading,
-  items,
+  isLoading = true,
+  items = [],
   cardId = 'system-properties-card',
   children,
 }) => (
@@ -184,11 +184,6 @@ LoadingCard.propTypes = {
     }),
   ),
   children: PropTypes.node,
-};
-
-LoadingCard.defaultProps = {
-  isLoading: true,
-  items: [],
 };
 
 export default LoadingCard;

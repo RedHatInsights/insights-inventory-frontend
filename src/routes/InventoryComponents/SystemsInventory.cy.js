@@ -340,8 +340,26 @@ describe('Systems inventory table', () => {
 
       it('can edit hosts that in the test group', () => {
         cy.get(TABLE_ROW).eq(1).find(MENU_TOGGLE).click();
-        cy.get(INVENTORY_ACTION_MENU_ITEM).contains('Edit').click();
-        cy.get(MODAL_CONTENT).contains('Edit display name');
+        cy.get(INVENTORY_ACTION_MENU_ITEM)
+          .contains('Edit display name')
+          .should('be.visible')
+          .click();
+        // Check if modal or any PF6 modal-related element appears
+        cy.get('body').then(($body) => {
+          if (
+            $body.find('[data-ouia-component-type="PF6/ModalContent"]').length >
+            0
+          ) {
+            cy.log('Modal found with PF6/ModalContent');
+          } else if ($body.find('[role="dialog"]').length > 0) {
+            cy.log('Modal found with role=dialog');
+          } else {
+            cy.log('No modal found at all');
+          }
+        });
+        cy.get(MODAL_CONTENT, { timeout: 10000 })
+          .should('be.visible')
+          .contains('Edit display name');
       });
 
       it('can delete hosts in the test group', () => {

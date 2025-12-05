@@ -5,27 +5,15 @@ import configureStore from 'redux-mock-store';
 import promiseMiddleware from 'redux-promise-middleware';
 import {
   biosTest,
-  collectInfoTest,
   configTest,
   infraTest,
   osTest,
-  testProperties,
-} from '../../../__mocks__/selectors';
-import GeneralInformation from './GeneralInformation';
+} from '../../__mocks__/selectors';
+import Details from './Details';
 
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import MockAdapter from 'axios-mock-adapter';
-import mockedData from '../../../__mocks__/mockedData.json';
-import { cloneDeep } from 'lodash';
-import { TestWrapper } from '../../../Utilities/TestingUtilities';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
-import { hostInventoryApi } from '../../../api/hostInventoryApi';
-
-const mock = new MockAdapter(hostInventoryApi().axios, {
-  onNoMatch: 'throwException',
-});
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
@@ -34,20 +22,9 @@ jest.mock(
     usePermissionsWithContext: () => ({ hasAccess: true }),
   }),
 );
-jest.mock(
-  '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate',
-);
 
 const expectCardsToExist = (
-  titles = [
-    'System properties',
-    'Infrastructure',
-    'System status',
-    'Data collectors',
-    'Operating system',
-    'BIOS',
-    'Configuration',
-  ],
+  titles = ['Infrastructure', 'Operating system', 'BIOS', 'Configuration'],
 ) => {
   titles.forEach((title) => {
     expect(
@@ -58,17 +35,12 @@ const expectCardsToExist = (
   });
 };
 
-describe('GeneralInformation', () => {
+describe('Details', () => {
   let initialState;
   let mockStore;
   let entity = {
     id: 'test-id',
     per_reporter_staleness: {},
-    facts: {
-      SYSPURPOSE_USAGE: 'Development',
-      SYSPURPOSE_SLA: 'Self-Support',
-      SYSPURPOSE_ROLE: 'Red Hat Enterprise Linux Server',
-    },
   };
 
   beforeEach(() => {
@@ -80,9 +52,7 @@ describe('GeneralInformation', () => {
           ...infraTest,
           ...osTest,
           ...biosTest,
-          ...collectInfoTest,
           ...configTest,
-          ...testProperties,
           network: {
             ipv4: ['1', '2'],
             ipv6: ['6', '3'],
@@ -113,7 +83,7 @@ describe('GeneralInformation', () => {
     render(
       <MemoryRouter initialEntries={['/example']}>
         <Provider store={store}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
+          <Details entity={entity} inventoryId={'test-id'} />
         </Provider>
       </MemoryRouter>,
     );
@@ -126,7 +96,7 @@ describe('GeneralInformation', () => {
     const view = render(
       <MemoryRouter initialEntries={['/example']}>
         <Provider store={store}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
+          <Details entity={entity} inventoryId={'test-id'} />
         </Provider>
       </MemoryRouter>,
     );
@@ -137,12 +107,10 @@ describe('GeneralInformation', () => {
 
   describe('custom components', () => {
     const mapping = {
-      SystemCardWrapper: 'System properties',
       OperatingSystemCardWrapper: 'Operating system',
       BiosCardWrapper: 'BIOS',
       InfrastructureCardWrapper: 'Infrastructure',
       ConfigurationCardWrapper: 'Configuration',
-      DataCollectorsCardWrapper: 'Data collectors',
     };
 
     Object.entries(mapping).map(([wrapper, title]) => {
@@ -151,10 +119,7 @@ describe('GeneralInformation', () => {
         render(
           <MemoryRouter initialEntries={['/example']}>
             <Provider store={store}>
-              <GeneralInformation
-                {...{ [wrapper]: false }}
-                inventoryId={'test-id'}
-              />
+              <Details {...{ [wrapper]: false }} inventoryId={'test-id'} />
             </Provider>
           </MemoryRouter>,
         );
@@ -171,7 +136,7 @@ describe('GeneralInformation', () => {
         render(
           <MemoryRouter initialEntries={['/example']}>
             <Provider store={store}>
-              <GeneralInformation
+              <Details
                 {...{ [wrapper]: () => <div>test</div> }}
                 inventoryId={'test-id'}
               />
@@ -189,14 +154,11 @@ describe('GeneralInformation', () => {
   });
 
   describe('API', () => {
-    mock
-      .onGet('/api/inventory/v1/hosts/test-id/system_profile')
-      .reply(200, mockedData);
-
     const entity = {
       id: 'test-id',
       per_reporter_staleness: {},
     };
+    const fetchEntity = jest.fn();
 
     it('should get data from server', () => {
       const store = mockStore({
@@ -205,12 +167,16 @@ describe('GeneralInformation', () => {
       render(
         <MemoryRouter initialEntries={['/example']}>
           <Provider store={store}>
-            <GeneralInformation entity={entity} inventoryId={'test-id'} />
+            <Details
+              entity={entity}
+              inventoryId={'test-id'}
+              fetchEntity={fetchEntity}
+            />
           </Provider>
         </MemoryRouter>,
       );
 
-      expect(store.getActions()[0].type).toBe('LOAD_SYSTEM_PROFILE_PENDING');
+      expect(fetchEntity).toHaveBeenCalledWith('test-id');
     });
 
     it('should open modal with url', async () => {
@@ -218,7 +184,7 @@ describe('GeneralInformation', () => {
       render(
         <MemoryRouter initialEntries={['/example/ipv4']}>
           <Provider store={store}>
-            <GeneralInformation entity={entity} inventoryId={'test-id'} />
+            <Details entity={entity} inventoryId={'test-id'} />
           </Provider>
         </MemoryRouter>,
       );
@@ -235,7 +201,7 @@ describe('GeneralInformation', () => {
       render(
         <MemoryRouter initialEntries={['/example']}>
           <Provider store={store}>
-            <GeneralInformation entity={entity} inventoryId={'test-id'} />
+            <Details entity={entity} inventoryId={'test-id'} />
           </Provider>
         </MemoryRouter>,
       );
@@ -246,79 +212,6 @@ describe('GeneralInformation', () => {
           name: /ipv4 modal/i,
         });
       });
-    });
-  });
-
-  describe('conversion alert', () => {
-    let state = {};
-
-    beforeEach(() => {
-      state = cloneDeep(initialState);
-      entity.system_profile = {
-        operating_system: {
-          name: 'CentOS Linux',
-          major: '7',
-          minor: '9',
-        },
-      };
-    });
-
-    it('shows alert for CentOS system', () => {
-      render(
-        <TestWrapper store={mockStore(state)}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
-        </TestWrapper>,
-      );
-
-      expect(
-        screen.getByRole('heading', {
-          name: /convert this centos system to rhel/i,
-        }),
-      ).toBeVisible();
-      expect(
-        screen.getByRole('link', {
-          name: /learn more about centos migration here\./i,
-        }),
-      ).toHaveAttribute(
-        'href',
-        'https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/centos-migration',
-      );
-    });
-
-    it('redirect to pre-conversion task', async () => {
-      const navigate = jest.fn();
-      useInsightsNavigate.mockReturnValue(navigate);
-      render(
-        <TestWrapper store={mockStore(state)}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
-        </TestWrapper>,
-      );
-
-      await userEvent.click(
-        screen.getByText(/run a pre-conversion analysis of this system/i),
-      );
-
-      await waitFor(() => {
-        expect(navigate).toHaveBeenCalledWith(
-          '/available/convert-to-rhel-analysis',
-        );
-      });
-    });
-
-    it('not shown for RHEL systems', () => {
-      const store = mockStore(initialState);
-      entity.system_profile.operating_system.name = 'RHEL';
-      render(
-        <TestWrapper store={store}>
-          <GeneralInformation entity={entity} inventoryId={'test-id'} />
-        </TestWrapper>,
-      );
-
-      expect(
-        screen.queryByRole('heading', {
-          name: /convert this centos system to rhel/i,
-        }),
-      ).not.toBeInTheDocument();
     });
   });
 });
