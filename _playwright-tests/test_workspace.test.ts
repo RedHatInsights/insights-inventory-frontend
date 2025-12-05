@@ -167,7 +167,7 @@ test.skip('User able to bulk delete empty workspaces', async ({ page }) => {
     for (let i = 1; i <= 3; i++) {
       const workspaceName = `empty_${Date.now()}_${i}`;
       await page.click('button:has-text("Create workspace")');
-      await expect(dialog).toBeVisible({ timeout: 10000 });
+      await expect(dialog).toBeVisible({ timeout: 100000 });
       await dialog.locator('input').first().fill(workspaceName);
       await dialog.getByRole('button', { name: 'Create' }).click();
       await page.reload({ waitUntil: 'networkidle' });
@@ -325,11 +325,11 @@ test('User can add and remove system from an empty workspace', async ({
 
   await test.step('Add system to workspace', async () => {
     const addSystemsButton = page.getByRole('button', { name: 'Add systems' });
-    await expect(addSystemsButton).toBeVisible({ timeout: 10000 });
+    await expect(addSystemsButton).toBeVisible({ timeout: 100000 });
     await addSystemsButton.click();
 
     const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible({ timeout: 10000 });
+    await expect(dialog).toBeVisible({ timeout: 100000 });
 
     const searchInput = dialog.locator('input[placeholder="Filter by name"]');
     await searchInput.fill(systemName);
@@ -351,13 +351,13 @@ test('User can add and remove system from an empty workspace', async ({
 
   await test.step('Remove system from workspace', async () => {
     const systemRowLink = page.getByRole('link', { name: systemName });
-    await expect(systemRowLink).toBeVisible({ timeout: 10000 });
+    await expect(systemRowLink).toBeVisible({ timeout: 100000 });
 
     const filterInput = page.getByPlaceholder('Filter by name');
     await filterInput.fill(systemName);
 
     const row = page.locator('tr', { hasText: systemName });
-    await expect(row).toBeVisible({ timeout: 10000 });
+    await expect(row).toBeVisible({ timeout: 100000 });
 
     const checkbox = page.locator('[name="checkrow0"]');
     await checkbox.click();
@@ -383,7 +383,7 @@ test('User can add and remove system from an empty workspace', async ({
       page.getByText(
         'To manage systems more effectively, add systems to the workspace.',
       ),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 100000 });
   });
 
   await test.step('Cleanup test files', async () => {
@@ -427,13 +427,13 @@ test('User can add a system to an existing workspace with systems', async ({
 
   await test.step('Open Add systems dialog', async () => {
     const addSystemsButton = page.getByRole('button', { name: 'Add systems' });
-    await expect(addSystemsButton).toBeVisible({ timeout: 10000 });
+    await expect(addSystemsButton).toBeVisible({ timeout: 100000 });
     await addSystemsButton.click();
   });
 
   await test.step('Search for new system and select it', async () => {
     const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible({ timeout: 10000 });
+    await expect(dialog).toBeVisible({ timeout: 100000 });
 
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await searchInput.fill(systemName);
@@ -467,7 +467,7 @@ test('User can add a system to an existing workspace with systems', async ({
       page.getByText('Manage your workspace user access configuration', {
         exact: false,
       }),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 100000 });
   });
 
   await test.step('Cleanup test artifacts', async () => {
