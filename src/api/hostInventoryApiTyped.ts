@@ -10,6 +10,10 @@ import type {
   ApiHostGetHostTagsParams,
   ApiHostGetHostTagsReturnType,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostTags';
+import {
+  ApiGroupGetGroupListParams,
+  ApiGroupGetGroupListReturnType,
+} from '@redhat-cloud-services/host-inventory-client/ApiGroupGetGroupList';
 
 export type {
   HostOut,
@@ -57,4 +61,13 @@ export const getHostTags = async (
   return (await hostInventoryApi().apiHostGetHostTags(
     params,
   )) as unknown as ApiHostGetHostTagsReturnType;
+};
+
+export const getGroupList = async (
+  params: ApiGroupGetGroupListParams = {},
+): Promise<ApiGroupGetGroupListReturnType> => {
+  // type asserted because interceptor unwraps AxiosResponse in runtime
+  return (await hostInventoryApi().apiGroupGetGroupList(
+    params,
+  )) as unknown as ApiGroupGetGroupListReturnType;
 };
