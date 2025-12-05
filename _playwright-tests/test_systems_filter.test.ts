@@ -4,8 +4,12 @@ import {
   prepareSingleSystem,
   cleanupTestArchive,
   BOOTC_ARCHIVE,
+  CENTOS_ARCHIVE,
 } from './helpers/uploadArchive';
-import { filterSystemsWithConditionalFilter } from './helpers/filterHelpers';
+import {
+  filterSystemsWithConditionalFilter,
+  assertAllContain,
+} from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 
 test.describe('Filtering Systems Tests', () => {
@@ -15,10 +19,15 @@ test.describe('Filtering Systems Tests', () => {
   let systemBootcName: string;
   let archiveBootcName: string;
   let workingBootcDir: string;
+  const operatingSystemTestCases = [
+    { OS: 'RHEL 9.4' },
+    { OS: 'CentOS Linux 7.9' },
+  ];
 
   test.beforeAll(async () => {
     const setupResult = prepareSingleSystem();
     const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
+
     ({ hostname: systemName, archiveName, workingDir } = setupResult);
     ({
       hostname: systemBootcName,
@@ -115,5 +124,58 @@ test.describe('Filtering Systems Tests', () => {
     await expect(workspaceCellWithValue).toHaveText(
       Array(count).fill('Workspace_with_systems'),
     );
+  });
+
+  test('User can filter systems by OS major version option', async ({
+    page,
+  }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-os
+       - assignee: zabikeno
+       - importance: critical
+     */
+    const OS = 'RHEL 9';
+    await filterSystemsWithConditionalFilter(page, 'Operating system', OS);
+
+    // Verify all filter chips contain Major version OS RHEL 9
+    const filterChipGroup = page.locator('span.pf-v6-c-label__text');
+    const pattern = /RHEL 9\./;
+    await assertAllContain(filterChipGroup, pattern);
+
+    // Multiple RHEL 9 versions should be applied when filtering by major OS version
+    expect(await filterChipGroup.count()).toBeGreaterThanOrEqual(1);
+
+    // OS version should contain expected major version of OS
+    const columnVersionOS = page.locator(
+      'span[aria-label="Formatted OS version"]',
+    );
+    await assertAllContain(columnVersionOS, pattern);
+  });
+
+  operatingSystemTestCases.forEach((testData) => {
+    test(`User should be able to filter by OS verion: ${testData.OS}`, async ({
+      page,
+    }) => {
+      /**
+       * Metadata:
+         - requirements:
+         - inv-hosts-filter-by-os
+         - assignee: zabikeno
+         - importance: critical
+       */
+      await filterSystemsWithConditionalFilter(
+        page,
+        'Operating system',
+        testData.OS,
+      );
+      const columnVersionOS = page.locator('table tbody td[data-label="OS"]', {
+        hasText: testData.OS,
+      });
+      await expect(columnVersionOS.first()).toBeVisible();
+      const count = await columnVersionOS.count();
+      await expect(columnVersionOS).toHaveText(Array(count).fill(testData.OS));
+    });
   });
 });

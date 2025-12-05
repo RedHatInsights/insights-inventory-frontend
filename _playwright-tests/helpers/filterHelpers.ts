@@ -55,8 +55,8 @@ export const filterSystemsWithConditionalFilter = async (
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'Operating system') {
-    // TODO: Implement logic to select the Operating system filter option.
-    // Logic not implemented yet. Test continues without filtering.
+    await page.getByRole('button', { name: 'Group filter' }).nth(1).click();
+    await page.getByRole('checkbox', { name: option, exact: true }).check();
   }
   // wait for table to be filtered
   await page.locator('body').click(); //to make sure menu is closed
@@ -109,3 +109,25 @@ export const searchByName = async (page: Page, name: string): Promise<void> => {
   await expect(searchInput).toBeVisible();
   await searchInput.fill(name);
 };
+
+/**
+ * Checks if all elements matched by a locator have text that matches a given pattern.
+ *  @param locator Playwright Locator object (must point to multiple elements).
+ *  @param pattern Regular expression to test against each element's text.
+ */
+export async function assertAllContain(
+  locator: Locator,
+  pattern: RegExp,
+): Promise<void> {
+  // Wait for at least one element to be visible
+  await expect(locator.first()).toBeVisible({ timeout: 10000 });
+  // Wait for all elements to be visible before reading text
+  const count = await locator.count();
+  expect(count).toBeGreaterThanOrEqual(1);
+  for (let i = 0; i < count; i++) {
+    await expect(locator.nth(i)).toBeVisible({ timeout: 5000 });
+  }
+  const allTexts = await locator.allTextContents();
+  const allMatch = allTexts.every((text) => pattern.test(text));
+  expect(allMatch).toBe(true);
+}
