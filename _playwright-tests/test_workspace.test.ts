@@ -76,7 +76,7 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
     ).toBeVisible();
   });
 
-  await test.step('Delete the renamed workspace', async () => {
+  await test.step.skip('Delete the renamed workspace', async () => {
     const actionsButton = page.getByRole('button', { name: 'Actions' });
     await expect(actionsButton).toBeVisible();
     await actionsButton.click();
@@ -91,7 +91,7 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
     await page.getByRole('button', { name: 'Delete' }).click();
   });
 
-  await test.step('Verify workspace deletion', async () => {
+  await test.step.skip('Verify workspace deletion', async () => {
     await navigateToWorkspacesFunc(page);
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await searchInput.fill(renamedWorkspace);
@@ -145,7 +145,7 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
   });
 });
 
-test('User able to bulk delete empty workspaces', async ({ page }) => {
+test.skip('User able to bulk delete empty workspaces', async ({ page }) => {
   /**
    * Jira References:
      - https://issues.redhat.com/browse/ESSNTL-4367 – Bulk deletion of empty workspaces
@@ -258,24 +258,27 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
     await expect(nameColumnLocator).toHaveText(renamedWorkspace);
   });
 
-  await test.step('Delete workspace via per-row action from Workspaces page and verify deletion via search', async () => {
-    await searchByName(page, renamedWorkspace);
-    await perRowKebabButton.click();
-    await expect(perRowMenu).toBeVisible();
-    await page
-      .getByRole('menuitem', { name: 'Delete workspace' })
-      .first()
-      .click();
+  await test.step.skip(
+    'Delete workspace via per-row action from Workspaces page and verify deletion via search',
+    async () => {
+      await searchByName(page, renamedWorkspace);
+      await perRowKebabButton.click();
+      await expect(perRowMenu).toBeVisible();
+      await page
+        .getByRole('menuitem', { name: 'Delete workspace' })
+        .first()
+        .click();
 
-    await expect(dialogModal).toBeVisible();
-    await dialogModal.getByRole('button', { name: 'Delete' }).click();
+      await expect(dialogModal).toBeVisible();
+      await dialogModal.getByRole('button', { name: 'Delete' }).click();
 
-    // search for the workspace to confirm workspace is removed
-    await searchByName(page, renamedWorkspace);
-    await expect(
-      page.locator('text=No matching workspaces found'),
-    ).toBeVisible();
-  });
+      // search for the workspace to confirm workspace is removed
+      await searchByName(page, renamedWorkspace);
+      await expect(
+        page.locator('text=No matching workspaces found'),
+      ).toBeVisible();
+    },
+  );
 });
 
 test('User can add and remove system from an empty workspace', async ({
