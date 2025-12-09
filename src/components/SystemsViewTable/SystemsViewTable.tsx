@@ -6,7 +6,6 @@ import {
 } from '@patternfly/react-data-view';
 import {
   DataViewTable,
-  DataViewTh,
   DataViewTr,
 } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
@@ -27,6 +26,7 @@ import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorStat
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 import { InventoryFilters, SystemsViewFilters } from './SystemsViewFilters';
+import { useColumns } from './hooks/useColumns';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
@@ -54,7 +54,6 @@ const SystemsViewTable: React.FC = () => {
         systemType: [],
         workspace: [],
       },
-      // TODO pass searchParams & setSearchParams in order to sync URL params
     });
 
   const { data, total, isLoading, isError } = useSystemsQuery({
@@ -104,14 +103,8 @@ const SystemsViewTable: React.FC = () => {
     };
   };
 
+  const { columns, sortBy, direction } = useColumns();
   const rows = (data ?? []).map(mapSystemToRow);
-  const columns: DataViewTh[] = [
-    { cell: 'Name' },
-    { cell: 'Workspace' },
-    { cell: 'Tags' },
-    { cell: 'OS', props: { tooltip: 'Operating system' } },
-    { cell: 'Last Seen' },
-  ];
 
   const isPageSelected = (rows: DataViewTr[]) =>
     rows.length > 0 && rows.every((row) => isSelected(row));
