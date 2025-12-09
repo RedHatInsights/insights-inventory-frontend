@@ -1,12 +1,14 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
   CardBody,
+  CardExpandableContent,
+  CardHeader,
+  CardTitle,
   Stack,
   StackItem,
   Content,
-  ContentVariants,
   DescriptionList,
   DescriptionListGroup,
   DescriptionListTerm,
@@ -82,91 +84,91 @@ const LoadingCard = ({
   items = [],
   cardId = 'system-properties-card',
   children,
-}) => (
-  <Card ouiaId={`${cardId}`}>
-    <CardBody>
-      <Stack hasGutter>
-        <StackItem>
-          <Content>
-            <Content
-              component={ContentVariants.h1}
-              ouiaId="SystemPropertiesCardTitle"
-            >
-              {title}
-            </Content>
-          </Content>
-        </StackItem>
-        <StackItem isFilled>
-          {items.length ? (
-            <Content>
-              <DescriptionList
-                isHorizontal
-                isAutoFit
-                horizontalTermWidthModifier={{
-                  default: '20ch',
-                }}
-                data-ouia-component-id={`${title} title`}
-                aria-label={`${title} title`}
-              >
-                <DescriptionListGroup>
-                  {items.map(
-                    (
-                      {
-                        onClick,
-                        value,
-                        target,
-                        plural,
-                        singular,
-                        size,
-                        title: itemTitle,
-                        customClass,
-                      },
-                      key,
-                    ) => {
-                      const title =
-                        typeof itemTitle === 'string'
-                          ? itemTitle
-                          : itemTitle?.props?.title;
-                      return (
-                        <Fragment key={key}>
-                          <DescriptionListTerm>{itemTitle}</DescriptionListTerm>
-                          <DescriptionListDescription
-                            className={customClass}
-                            data-ouia-component-id={`${title} value`}
-                            aria-label={`${title} value`}
-                          >
-                            {isLoading && (
-                              <Skeleton size={size || SkeletonSize.sm} />
-                            )}
-                            {!isLoading &&
-                              ((onClick || target?.[0] === '/') && value ? (
-                                <div>
-                                  <Clickable
-                                    onClick={onClick}
-                                    value={value}
-                                    target={target}
-                                    plural={plural}
-                                    singular={singular}
-                                  />
-                                </div>
-                              ) : (
-                                valueToText(value, singular, plural)
-                              ))}
-                          </DescriptionListDescription>
-                        </Fragment>
-                      );
-                    },
-                  )}
-                </DescriptionListGroup>
-              </DescriptionList>
-            </Content>
-          ) : null}
-          {children}
-        </StackItem>
-      </Stack>
-    </CardBody>
-  </Card>
-);
+}) => {
+  const [isExpanded, setIsExpanded] = useState(true);
+  return (
+    <Card ouiaId={`${cardId}`} isExpanded={isExpanded}>
+      <CardHeader onExpand={() => setIsExpanded(!isExpanded)}>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardExpandableContent>
+        <CardBody>
+          <Stack hasGutter>
+            <StackItem isFilled>
+              {items.length ? (
+                <Content>
+                  <DescriptionList
+                    isHorizontal
+                    isAutoFit
+                    horizontalTermWidthModifier={{
+                      default: '20ch',
+                    }}
+                    data-ouia-component-id={`${title} title`}
+                    aria-label={`${title} title`}
+                  >
+                    <DescriptionListGroup>
+                      {items.map(
+                        (
+                          {
+                            onClick,
+                            value,
+                            target,
+                            plural,
+                            singular,
+                            size,
+                            title: itemTitle,
+                            customClass,
+                          },
+                          key,
+                        ) => {
+                          const title =
+                            typeof itemTitle === 'string'
+                              ? itemTitle
+                              : itemTitle?.props?.title;
+                          return (
+                            <Fragment key={key}>
+                              <DescriptionListTerm>
+                                {itemTitle}
+                              </DescriptionListTerm>
+                              <DescriptionListDescription
+                                className={customClass}
+                                data-ouia-component-id={`${title} value`}
+                                aria-label={`${title} value`}
+                              >
+                                {isLoading && (
+                                  <Skeleton size={size || SkeletonSize.sm} />
+                                )}
+                                {!isLoading &&
+                                  ((onClick || target?.[0] === '/') && value ? (
+                                    <div>
+                                      <Clickable
+                                        onClick={onClick}
+                                        value={value}
+                                        target={target}
+                                        plural={plural}
+                                        singular={singular}
+                                      />
+                                    </div>
+                                  ) : (
+                                    valueToText(value, singular, plural)
+                                  ))}
+                              </DescriptionListDescription>
+                            </Fragment>
+                          );
+                        },
+                      )}
+                    </DescriptionListGroup>
+                  </DescriptionList>
+                </Content>
+              ) : null}
+              {children}
+            </StackItem>
+          </Stack>
+        </CardBody>
+      </CardExpandableContent>
+    </Card>
+  );
+};
 
 LoadingCard.propTypes = {
   title: PropTypes.node.isRequired,

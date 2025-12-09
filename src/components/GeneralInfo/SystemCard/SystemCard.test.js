@@ -81,9 +81,7 @@ describe('SystemCard', () => {
       </TestWrapper>,
     );
 
-    screen.getByRole('heading', {
-      name: /system properties/i,
-    });
+    screen.getByText(/system properties/i);
     fields.forEach(screen.getByText);
     expect(
       screen.getAllByRole('definition').map((element) => element.textContent),
