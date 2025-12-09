@@ -3,168 +3,201 @@
 exports[`ConfigurationCard should render correctly - no data 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="configuration-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-1"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-1"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              Configuration
-            </h1>
+            Configuration
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="Configuration title"
-            class="pf-v6-c-description-list pf-m-2-col"
-            data-ouia-component-id="Configuration title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="Configuration title"
+              class="pf-v6-c-description-list pf-m-2-col"
+              data-ouia-component-id="Configuration title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Installed packages
-                </span>
-              </dt>
-              <dd
-                aria-label="Installed packages value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Installed packages value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Installed packages
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Installed packages value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Installed packages value"
                 >
                   <div
-                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
                   >
-                    <span
-                      class="pf-v6-screen-reader"
-                    />
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Services
-                </span>
-              </dt>
-              <dd
-                aria-label="Services value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Services value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Services
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Services value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Services value"
                 >
                   <div
-                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
                   >
-                    <span
-                      class="pf-v6-screen-reader"
-                    />
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Running processes
-                </span>
-              </dt>
-              <dd
-                aria-label="Running processes value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Running processes value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Running processes
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Running processes value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Running processes value"
                 >
                   <div
-                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
                   >
-                    <span
-                      class="pf-v6-screen-reader"
-                    />
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Repositories
-                </span>
-              </dt>
-              <dd
-                aria-label="Repositories value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Repositories value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Repositories
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Repositories value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Repositories value"
                 >
                   <div
-                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
                   >
-                    <span
-                      class="pf-v6-screen-reader"
-                    />
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-          </dl>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -175,168 +208,201 @@ exports[`ConfigurationCard should render correctly - no data 1`] = `
 exports[`ConfigurationCard should render correctly with data 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="configuration-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-2"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-3"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              Configuration
-            </h1>
+            Configuration
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="Configuration title"
-            class="pf-v6-c-description-list pf-m-2-col"
-            data-ouia-component-id="Configuration title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="Configuration title"
+              class="pf-v6-c-description-list pf-m-2-col"
+              data-ouia-component-id="Configuration title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Installed packages
-                </span>
-              </dt>
-              <dd
-                aria-label="Installed packages value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Installed packages value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Installed packages
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Installed packages value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Installed packages value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/installed_packages"
-                    >
-                      1 package
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/installed_packages"
+                      >
+                        1 package
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Services
-                </span>
-              </dt>
-              <dd
-                aria-label="Services value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Services value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Services
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Services value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Services value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/services"
-                    >
-                      1 service
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/services"
+                      >
+                        1 service
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Running processes
-                </span>
-              </dt>
-              <dd
-                aria-label="Running processes value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Running processes value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Running processes
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Running processes value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Running processes value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/running_processes"
-                    >
-                      1 process
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/running_processes"
+                      >
+                        1 process
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Repositories
-                </span>
-              </dt>
-              <dd
-                aria-label="Repositories value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Repositories value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Repositories
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Repositories value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Repositories value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/repositories"
-                    >
-                      1 enabled
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/repositories"
+                      >
+                        1 enabled
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-          </dl>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -347,168 +413,201 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
 exports[`ConfigurationCard should render enabled/disabled 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="configuration-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-3"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-5"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              Configuration
-            </h1>
+            Configuration
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="Configuration title"
-            class="pf-v6-c-description-list pf-m-2-col"
-            data-ouia-component-id="Configuration title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="Configuration title"
+              class="pf-v6-c-description-list pf-m-2-col"
+              data-ouia-component-id="Configuration title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Installed packages
-                </span>
-              </dt>
-              <dd
-                aria-label="Installed packages value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Installed packages value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Installed packages
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Installed packages value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Installed packages value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/installed_packages"
-                    >
-                      1 package
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/installed_packages"
+                      >
+                        1 package
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Services
-                </span>
-              </dt>
-              <dd
-                aria-label="Services value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Services value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Services
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Services value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Services value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/services"
-                    >
-                      1 service
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/services"
+                      >
+                        1 service
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Running processes
-                </span>
-              </dt>
-              <dd
-                aria-label="Running processes value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Running processes value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Running processes
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Running processes value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Running processes value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/running_processes"
-                    >
-                      1 process
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/running_processes"
+                      >
+                        1 process
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Repositories
-                </span>
-              </dt>
-              <dd
-                aria-label="Repositories value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Repositories value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Repositories
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Repositories value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Repositories value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/repositories"
-                    >
-                      1 enabled / 1 disabled
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/repositories"
+                      >
+                        1 enabled / 1 disabled
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-          </dl>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -519,222 +618,255 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
 exports[`ConfigurationCard should render extra 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="configuration-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-13"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-25"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              Configuration
-            </h1>
+            Configuration
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="Configuration title"
-            class="pf-v6-c-description-list pf-m-2-col"
-            data-ouia-component-id="Configuration title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="Configuration title"
+              class="pf-v6-c-description-list pf-m-2-col"
+              data-ouia-component-id="Configuration title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Installed packages
-                </span>
-              </dt>
-              <dd
-                aria-label="Installed packages value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Installed packages value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Installed packages
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Installed packages value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Installed packages value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/installed_packages"
-                    >
-                      1 package
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/installed_packages"
+                      >
+                        1 package
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Services
-                </span>
-              </dt>
-              <dd
-                aria-label="Services value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Services value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Services
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Services value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Services value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/services"
-                    >
-                      1 service
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/services"
+                      >
+                        1 service
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Running processes
-                </span>
-              </dt>
-              <dd
-                aria-label="Running processes value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Running processes value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Running processes
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Running processes value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Running processes value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/running_processes"
-                    >
-                      1 process
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/running_processes"
+                      >
+                        1 process
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Repositories
-                </span>
-              </dt>
-              <dd
-                aria-label="Repositories value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Repositories value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Repositories
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Repositories value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Repositories value"
                 >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/repositories"
-                    >
-                      1 enabled
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/repositories"
+                      >
+                        1 enabled
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  something
-                </span>
-              </dt>
-              <dd
-                aria-label="something value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="something value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    something
+                  </span>
+                </dt>
+                <dd
+                  aria-label="something value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="something value"
                 >
-                  test
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
-              >
-                <span
-                  class="pf-v6-c-description-list__text"
-                >
-                  with click
-                </span>
-              </dt>
-              <dd
-                aria-label="with click value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="with click value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
-                >
-                  <div>
-                    <a
-                      href="localhost:3000/example/path/undefined"
-                    >
-                      1 tests
-                    </a>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    test
                   </div>
-                </div>
-              </dd>
-            </div>
-          </dl>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
+              >
+                <dt
+                  class="pf-v6-c-description-list__term"
+                >
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    with click
+                  </span>
+                </dt>
+                <dd
+                  aria-label="with click value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="with click value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    <div>
+                      <a
+                        href="localhost:3000/example/path/undefined"
+                      >
+                        1 tests
+                      </a>
+                    </div>
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
