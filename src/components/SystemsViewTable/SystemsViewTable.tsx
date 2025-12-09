@@ -56,10 +56,13 @@ const SystemsViewTable: React.FC = () => {
       },
     });
 
+  const { columns, sortBy, direction } = useColumns();
   const { data, total, isLoading, isError } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
     filters,
+    sortBy,
+    direction,
   });
 
   const activeState = isLoading
@@ -103,7 +106,6 @@ const SystemsViewTable: React.FC = () => {
     };
   };
 
-  const { columns, sortBy, direction } = useColumns();
   const rows = (data ?? []).map(mapSystemToRow);
 
   const isPageSelected = (rows: DataViewTr[]) =>
