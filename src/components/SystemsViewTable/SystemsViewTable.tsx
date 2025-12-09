@@ -52,6 +52,7 @@ const SystemsViewTable: React.FC = () => {
         dataCollector: [],
         rhcStatus: [],
         systemType: [],
+        workspace: [],
       },
       // TODO pass searchParams & setSearchParams in order to sync URL params
     });
