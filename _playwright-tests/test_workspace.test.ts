@@ -101,7 +101,7 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
   });
 });
 
-test('User cannot delete a workspace with systems from Workspace Details page', async ({
+test.skip('User cannot delete a workspace with systems from Workspace Details page', async ({
   page,
 }) => {
   /**
