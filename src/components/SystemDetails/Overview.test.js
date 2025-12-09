@@ -33,11 +33,7 @@ const expectCardsToExist = (
   ],
 ) => {
   titles.forEach((title) => {
-    expect(
-      screen.getByRole('heading', {
-        name: title,
-      }),
-    ).toBeVisible();
+    expect(screen.getByText(title)).toBeVisible();
   });
 };
 
@@ -133,11 +129,7 @@ describe('Overview', () => {
           </MemoryRouter>,
         );
 
-        expect(
-          screen.queryByRole('heading', {
-            name: title,
-          }),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText(title)).not.toBeInTheDocument();
       });
 
       it(`should render custom ${title}`, () => {
@@ -153,11 +145,7 @@ describe('Overview', () => {
           </MemoryRouter>,
         );
 
-        expect(
-          screen.queryByRole('heading', {
-            name: title,
-          }),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText(title)).not.toBeInTheDocument();
       });
     });
   });

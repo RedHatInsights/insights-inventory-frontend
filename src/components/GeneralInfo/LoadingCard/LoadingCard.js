@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
   CardBody,
+  CardExpandableContent,
+  CardHeader,
+  CardTitle,
   Stack,
   StackItem,
-  Content,
-  ContentVariants,
   DescriptionList,
   DescriptionListGroup,
   DescriptionListTerm,
@@ -83,86 +84,82 @@ const LoadingCard = ({
   cardId = 'system-properties-card',
   children,
 }) => {
-  const columnMod = items.length > 3 ? '2Col' : '3Col';
+  const [isExpanded, setIsExpanded] = useState(true);
+  const columnMod = items.length < 4 ? '1Col' : '2Col';
   return (
-    <Card ouiaId={`${cardId}`}>
-      <CardBody>
-        <Stack hasGutter>
-          <StackItem>
-            <Content>
-              <Content
-                component={ContentVariants.h1}
-                ouiaId="SystemPropertiesCardTitle"
-              >
-                {title}
-              </Content>
-            </Content>
-          </StackItem>
-          <StackItem isFilled>
-            {items.length ? (
-              <DescriptionList
-                data-ouia-component-id={`${title} title`}
-                aria-label={`${title} title`}
-                isHorizontal={false}
-                isAutoFit={false}
-                columnModifier={{
-                  default: columnMod,
-                }}
-              >
-                {items.map(
-                  (
-                    {
-                      onClick,
-                      value,
-                      target,
-                      plural,
-                      singular,
-                      size,
-                      title: itemTitle,
-                      customClass,
+    <Card ouiaId={`${cardId}`} isExpanded={isExpanded}>
+      <CardHeader onExpand={() => setIsExpanded((prev) => !prev)}>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardExpandableContent>
+        <CardBody>
+          <Stack hasGutter>
+            <StackItem isFilled>
+              {items.length ? (
+                <DescriptionList
+                  data-ouia-component-id={`${title} title`}
+                  aria-label={`${title} title`}
+                  isHorizontal={false}
+                  isAutoFit={false}
+                  columnModifier={{
+                    default: columnMod,
+                  }}
+                >
+                  {items.map(
+                    (
+                      {
+                        onClick,
+                        value,
+                        target,
+                        plural,
+                        singular,
+                        size,
+                        title: itemTitle,
+                        customClass,
+                      },
+                      key,
+                    ) => {
+                      const title =
+                        typeof itemTitle === 'string'
+                          ? itemTitle
+                          : itemTitle?.props?.title;
+                      return (
+                        <DescriptionListGroup key={key}>
+                          <DescriptionListTerm>{itemTitle}</DescriptionListTerm>
+                          <DescriptionListDescription
+                            className={customClass}
+                            data-ouia-component-id={`${title} value`}
+                            aria-label={`${title} value`}
+                          >
+                            {isLoading && (
+                              <Skeleton size={size || SkeletonSize.sm} />
+                            )}
+                            {!isLoading &&
+                              ((onClick || target?.[0] === '/') && value ? (
+                                <div>
+                                  <Clickable
+                                    onClick={onClick}
+                                    value={value}
+                                    target={target}
+                                    plural={plural}
+                                    singular={singular}
+                                  />
+                                </div>
+                              ) : (
+                                valueToText(value, singular, plural)
+                              ))}
+                          </DescriptionListDescription>
+                        </DescriptionListGroup>
+                      );
                     },
-                    key,
-                  ) => {
-                    const title =
-                      typeof itemTitle === 'string'
-                        ? itemTitle
-                        : itemTitle?.props?.title;
-                    return (
-                      <DescriptionListGroup key={key}>
-                        <DescriptionListTerm>{itemTitle}</DescriptionListTerm>
-                        <DescriptionListDescription
-                          className={customClass}
-                          data-ouia-component-id={`${title} value`}
-                          aria-label={`${title} value`}
-                        >
-                          {isLoading && (
-                            <Skeleton size={size || SkeletonSize.sm} />
-                          )}
-                          {!isLoading &&
-                            ((onClick || target?.[0] === '/') && value ? (
-                              <div>
-                                <Clickable
-                                  onClick={onClick}
-                                  value={value}
-                                  target={target}
-                                  plural={plural}
-                                  singular={singular}
-                                />
-                              </div>
-                            ) : (
-                              valueToText(value, singular, plural)
-                            ))}
-                        </DescriptionListDescription>
-                      </DescriptionListGroup>
-                    );
-                  },
-                )}
-              </DescriptionList>
-            ) : null}
-            {children}
-          </StackItem>
-        </Stack>
-      </CardBody>
+                  )}
+                </DescriptionList>
+              ) : null}
+              {children}
+            </StackItem>
+          </Stack>
+        </CardBody>
+      </CardExpandableContent>
     </Card>
   );
 };

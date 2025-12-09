@@ -3,120 +3,153 @@
 exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="system-status-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-4"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-7"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              System status
-            </h1>
+            System status
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="System status title"
-            class="pf-v6-c-description-list pf-m-3-col"
-            data-ouia-component-id="System status title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="System status title"
+              class="pf-v6-c-description-list pf-m-1-col"
+              data-ouia-component-id="System status title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Current state
-                </span>
-              </dt>
-              <dd
-                aria-label="Current state value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Current state value"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Current state
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Current state value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Current state value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Active
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <div
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Active
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Registered
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Registered value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Registered value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Apr 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Registered
-                </span>
-              </dt>
-              <dd
-                aria-label="Registered value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Registered value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last updated
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last updated value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last updated value"
                 >
-                  01 Apr 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
-              >
-                <span
-                  class="pf-v6-c-description-list__text"
-                >
-                  Last updated
-                </span>
-              </dt>
-              <dd
-                aria-label="Last updated value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last updated value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
-                >
-                  01 Jun 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-          </dl>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Jun 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -127,144 +160,177 @@ exports[`SystemStatusCard should not render hasLastCheckIn 1`] = `
 exports[`SystemStatusCard should not render hasRHC 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="system-status-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-6"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-11"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              System status
-            </h1>
+            System status
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="System status title"
-            class="pf-v6-c-description-list pf-m-2-col"
-            data-ouia-component-id="System status title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="System status title"
+              class="pf-v6-c-description-list pf-m-2-col"
+              data-ouia-component-id="System status title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Current state
-                </span>
-              </dt>
-              <dd
-                aria-label="Current state value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Current state value"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Current state
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Current state value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Current state value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Active
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <div
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Active
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Registered
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Registered value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Registered value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Apr 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Registered
-                </span>
-              </dt>
-              <dd
-                aria-label="Registered value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Registered value"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last seen
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last seen value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last seen value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    06 Mar 2025 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <div
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  01 Apr 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
-              >
-                <span
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last updated
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last updated value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last updated value"
                 >
-                  Last seen
-                </span>
-              </dt>
-              <dd
-                aria-label="Last seen value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last seen value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
-                >
-                  06 Mar 2025 00:00 UTC
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
-              >
-                <span
-                  class="pf-v6-c-description-list__text"
-                >
-                  Last updated
-                </span>
-              </dt>
-              <dd
-                aria-label="Last updated value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last updated value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
-                >
-                  01 Jun 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-          </dl>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Jun 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -275,120 +341,153 @@ exports[`SystemStatusCard should not render hasRHC 1`] = `
 exports[`SystemStatusCard should not render hasRegistered 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="system-status-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-5"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-9"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              System status
-            </h1>
+            System status
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="System status title"
-            class="pf-v6-c-description-list pf-m-3-col"
-            data-ouia-component-id="System status title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="System status title"
+              class="pf-v6-c-description-list pf-m-1-col"
+              data-ouia-component-id="System status title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Current state
-                </span>
-              </dt>
-              <dd
-                aria-label="Current state value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Current state value"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Current state
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Current state value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Current state value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Active
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <div
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Active
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last seen
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last seen value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last seen value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    06 Mar 2025 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Last seen
-                </span>
-              </dt>
-              <dd
-                aria-label="Last seen value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last seen value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last updated
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last updated value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last updated value"
                 >
-                  06 Mar 2025 00:00 UTC
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
-              >
-                <span
-                  class="pf-v6-c-description-list__text"
-                >
-                  Last updated
-                </span>
-              </dt>
-              <dd
-                aria-label="Last updated value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last updated value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
-                >
-                  01 Jun 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-          </dl>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Jun 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -399,120 +498,153 @@ exports[`SystemStatusCard should not render hasRegistered 1`] = `
 exports[`SystemStatusCard should not render hasState 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="system-status-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-3"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-5"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              System status
-            </h1>
+            System status
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="System status title"
-            class="pf-v6-c-description-list pf-m-3-col"
-            data-ouia-component-id="System status title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="System status title"
+              class="pf-v6-c-description-list pf-m-1-col"
+              data-ouia-component-id="System status title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Registered
-                </span>
-              </dt>
-              <dd
-                aria-label="Registered value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Registered value"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Registered
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Registered value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Registered value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Apr 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <div
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  01 Apr 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last seen
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last seen value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last seen value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    06 Mar 2025 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Last seen
-                </span>
-              </dt>
-              <dd
-                aria-label="Last seen value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last seen value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last updated
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last updated value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last updated value"
                 >
-                  06 Mar 2025 00:00 UTC
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
-              >
-                <span
-                  class="pf-v6-c-description-list__text"
-                >
-                  Last updated
-                </span>
-              </dt>
-              <dd
-                aria-label="Last updated value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last updated value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
-                >
-                  01 Jun 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-          </dl>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Jun 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -523,168 +655,201 @@ exports[`SystemStatusCard should not render hasState 1`] = `
 exports[`SystemStatusCard should render correctly - no data 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="system-status-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-1"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-1"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              System status
-            </h1>
+            System status
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="System status title"
-            class="pf-v6-c-description-list pf-m-2-col"
-            data-ouia-component-id="System status title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="System status title"
+              class="pf-v6-c-description-list pf-m-2-col"
+              data-ouia-component-id="System status title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Current state
-                </span>
-              </dt>
-              <dd
-                aria-label="Current state value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Current state value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Current state
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Current state value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Current state value"
                 >
                   <div
-                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
                   >
-                    <span
-                      class="pf-v6-screen-reader"
-                    />
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Registered
-                </span>
-              </dt>
-              <dd
-                aria-label="Registered value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Registered value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Registered
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Registered value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Registered value"
                 >
                   <div
-                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
                   >
-                    <span
-                      class="pf-v6-screen-reader"
-                    />
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Last seen
-                </span>
-              </dt>
-              <dd
-                aria-label="Last seen value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last seen value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last seen
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last seen value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last seen value"
                 >
                   <div
-                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
                   >
-                    <span
-                      class="pf-v6-screen-reader"
-                    />
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Last updated
-                </span>
-              </dt>
-              <dd
-                aria-label="Last updated value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last updated value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last updated
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last updated value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last updated value"
                 >
                   <div
-                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    class="pf-v6-c-description-list__text"
                   >
-                    <span
-                      class="pf-v6-screen-reader"
-                    />
+                    <div
+                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                    >
+                      <span
+                        class="pf-v6-screen-reader"
+                      />
+                    </div>
                   </div>
-                </div>
-              </dd>
-            </div>
-          </dl>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -695,144 +860,177 @@ exports[`SystemStatusCard should render correctly - no data 1`] = `
 exports[`SystemStatusCard should render correctly with data 1`] = `
 <DocumentFragment>
   <div
-    class="pf-v6-c-card"
+    class="pf-v6-c-card pf-m-expanded"
     data-ouia-component-id="system-status-card"
     data-ouia-component-type="PF6/Card"
     data-ouia-safe="true"
     id=""
   >
     <div
-      class="pf-v6-c-card__body"
+      class="pf-v6-c-card__header"
     >
       <div
-        class="pf-v6-l-stack pf-m-gutter"
+        class="pf-v6-c-card__header-toggle"
+      >
+        <button
+          class="pf-v6-c-button pf-m-plain"
+          data-ouia-component-id="OUIA-Generated-Button-plain-2"
+          data-ouia-component-type="PF6/Button"
+          data-ouia-safe="true"
+          type="button"
+        >
+          <span
+            class="pf-v6-c-button__icon"
+          >
+            <span
+              class="pf-v6-c-card__header-toggle-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="pf-v6-svg"
+                fill="currentColor"
+                height="1em"
+                role="img"
+                viewBox="0 0 256 512"
+                width="1em"
+              >
+                <path
+                  d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                />
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+      <div
+        class="pf-v6-c-card__header-main"
       >
         <div
-          class="pf-v6-l-stack__item"
+          class="pf-v6-c-card__title"
         >
           <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-3"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+            class="pf-v6-c-card__title-text"
           >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              System status
-            </h1>
+            System status
           </div>
         </div>
+      </div>
+    </div>
+    <div
+      class="pf-v6-c-card__expandable-content"
+    >
+      <div
+        class="pf-v6-c-card__body"
+      >
         <div
-          class="pf-v6-l-stack__item pf-m-fill"
+          class="pf-v6-l-stack pf-m-gutter"
         >
-          <dl
-            aria-label="System status title"
-            class="pf-v6-c-description-list pf-m-2-col"
-            data-ouia-component-id="System status title"
+          <div
+            class="pf-v6-l-stack__item pf-m-fill"
           >
-            <div
-              class="pf-v6-c-description-list__group"
+            <dl
+              aria-label="System status title"
+              class="pf-v6-c-description-list pf-m-2-col"
+              data-ouia-component-id="System status title"
             >
-              <dt
-                class="pf-v6-c-description-list__term"
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Current state
-                </span>
-              </dt>
-              <dd
-                aria-label="Current state value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Current state value"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Current state
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Current state value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Current state value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Active
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <div
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Active
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Registered
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Registered value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Registered value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Apr 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <span
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  Registered
-                </span>
-              </dt>
-              <dd
-                aria-label="Registered value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Registered value"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last seen
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last seen value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last seen value"
+                >
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    06 Mar 2025 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+              <div
+                class="pf-v6-c-description-list__group"
               >
-                <div
-                  class="pf-v6-c-description-list__text"
+                <dt
+                  class="pf-v6-c-description-list__term"
                 >
-                  01 Apr 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
-              >
-                <span
-                  class="pf-v6-c-description-list__text"
+                  <span
+                    class="pf-v6-c-description-list__text"
+                  >
+                    Last updated
+                  </span>
+                </dt>
+                <dd
+                  aria-label="Last updated value"
+                  class="pf-v6-c-description-list__description"
+                  data-ouia-component-id="Last updated value"
                 >
-                  Last seen
-                </span>
-              </dt>
-              <dd
-                aria-label="Last seen value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last seen value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
-                >
-                  06 Mar 2025 00:00 UTC
-                </div>
-              </dd>
-            </div>
-            <div
-              class="pf-v6-c-description-list__group"
-            >
-              <dt
-                class="pf-v6-c-description-list__term"
-              >
-                <span
-                  class="pf-v6-c-description-list__text"
-                >
-                  Last updated
-                </span>
-              </dt>
-              <dd
-                aria-label="Last updated value"
-                class="pf-v6-c-description-list__description"
-                data-ouia-component-id="Last updated value"
-              >
-                <div
-                  class="pf-v6-c-description-list__text"
-                >
-                  01 Jun 2014 00:00 UTC
-                </div>
-              </dd>
-            </div>
-          </dl>
+                  <div
+                    class="pf-v6-c-description-list__text"
+                  >
+                    01 Jun 2014 00:00 UTC
+                  </div>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
