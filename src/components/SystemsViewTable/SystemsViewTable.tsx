@@ -196,7 +196,7 @@ const SystemsViewTable: React.FC = () => {
       />
       <DataViewToolbar
         ouiaId="systems-view-footer"
-        pagination={<Pagination isCompact itemCount={total} {...pagination} />}
+        pagination={<Pagination itemCount={total} {...pagination} />}
       />
     </DataView>
   );
