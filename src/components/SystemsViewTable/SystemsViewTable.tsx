@@ -27,12 +27,14 @@ import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/Skele
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 import { InventoryFilters, SystemsViewFilters } from './SystemsViewFilters';
 import { useColumns } from './hooks/useColumns';
+import { useSearchParams } from 'react-router-dom';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
 const NO_HEADER = <></>;
 
 const SystemsViewTable: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
@@ -54,6 +56,8 @@ const SystemsViewTable: React.FC = () => {
         systemType: [],
         workspace: [],
       },
+      searchParams,
+      setSearchParams,
     });
 
   const { columns, sortBy, direction } = useColumns();
