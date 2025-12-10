@@ -35,9 +35,12 @@ const NO_HEADER = <></>;
 
 const SystemsViewTable: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
+    searchParams,
+    setSearchParams,
   });
 
   const selection = useDataViewSelection({
