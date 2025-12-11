@@ -57,6 +57,15 @@ export const filterSystemsWithConditionalFilter = async (
   } else if (filterName === 'Operating system') {
     await page.getByRole('button', { name: 'Group filter' }).nth(1).click();
     await page.getByRole('checkbox', { name: option, exact: true }).check();
+  } else if (filterName === 'Last seen') {
+    const lastSeenToggle = page.locator('button', {
+      hasText: 'Filter by last seen',
+    });
+    await expect(lastSeenToggle).toBeVisible({ timeout: 10000 });
+    await lastSeenToggle.click();
+    optionCheckbox = page.getByRole('option', { name: option });
+    await expect(optionCheckbox).toBeVisible({ timeout: 10000 });
+    await optionCheckbox.click();
   }
   // wait for table to be filtered
   await page.locator('body').click(); //to make sure menu is closed
