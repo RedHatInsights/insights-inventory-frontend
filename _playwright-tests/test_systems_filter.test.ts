@@ -9,6 +9,8 @@ import {
 import {
   filterSystemsWithConditionalFilter,
   assertAllContain,
+  parseLastSeenToDays,
+  validateLastSeenValue,
 } from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 
@@ -236,6 +238,123 @@ test.describe('Filtering Systems Tests', () => {
       await expect(dialog.locator('td[data-label="Tag source"]')).toHaveText(
         tagSource,
       );
+    });
+  });
+
+  const lastSeenTestCases = [
+    {
+      option: 'Within the last 24 hours',
+      urlParam: 'last_seen=last24',
+      filterType: 'last24',
+    },
+    {
+      option: 'More than 1 day ago',
+      urlParam: 'last_seen=24more',
+      filterType: '24more',
+    },
+    {
+      option: 'More than 7 days ago',
+      urlParam: 'last_seen=7more',
+      filterType: '7more',
+    },
+    {
+      option: 'More than 15 days ago',
+      urlParam: 'last_seen=15more',
+      filterType: '15more',
+    },
+    {
+      option: 'More than 30 days ago',
+      urlParam: 'last_seen=30more',
+      filterType: '30more',
+    },
+  ];
+
+  lastSeenTestCases.forEach((testData) => {
+    test(`User can filter systems by Last seen: ${testData.option}`, async ({
+      page,
+    }) => {
+      /**
+       * Jira References:
+       * - https://issues.redhat.com/browse/RHINENG-20810 – Filter systems by Last seen
+       * Metadata:
+       * - requirements: inv-hosts-filter-by-last_seen
+       * - assignee: addubey
+       * - importance: high
+       */
+
+      await test.step('Apply Last seen filter', async () => {
+        await filterSystemsWithConditionalFilter(
+          page,
+          'Last seen',
+          testData.option,
+        );
+      });
+
+      await test.step('Verify filter chip is displayed', async () => {
+        const filterChip = page.locator('span.pf-v6-c-label__text', {
+          hasText: testData.option,
+        });
+        await expect(filterChip).toBeVisible({ timeout: 10000 });
+      });
+
+      await test.step('Verify URL contains correct filter parameter', async () => {
+        await expect(async () => {
+          const url = page.url();
+          expect(url).toContain(testData.urlParam);
+        }).toPass({ timeout: 5000 });
+      });
+
+      await test.step('Verify table shows filtered results or empty state', async () => {
+        await page.waitForSelector('.loading-spinner', {
+          state: 'hidden',
+          timeout: 10000,
+        });
+
+        const tableRows = page.locator('table tbody tr');
+        const noMatchingSystemsState = page.getByText(
+          'No matching systems found',
+        );
+
+        await expect(async () => {
+          const rowCount = await tableRows.count();
+          const isEmptyVisible = await noMatchingSystemsState.isVisible();
+          // Either we have rows OR we see the no matching systems state
+          expect(rowCount > 0 || isEmptyVisible).toBe(true);
+        }).toPass({ timeout: 10000 });
+      });
+
+      await test.step('Verify Last seen column values match filter criteria', async () => {
+        const noMatchingSystemsState = page.getByText(
+          'No matching systems found',
+        );
+        const isEmptyVisible = await noMatchingSystemsState.isVisible();
+
+        // Skip validation if no systems match the filter
+        // eslint-disable-next-line playwright/no-conditional-in-test
+        if (isEmptyVisible) {
+          return;
+        }
+
+        const lastSeenCells = page.locator(
+          'table tbody tr td[data-label="Last seen"]',
+        );
+        const cellCount = await lastSeenCells.count();
+
+        // Validate each displayed system's Last seen value
+        for (let i = 0; i < cellCount; i++) {
+          const cellText = await lastSeenCells.nth(i).textContent();
+          // eslint-disable-next-line playwright/no-conditional-in-test
+          if (!cellText) continue;
+
+          const days = parseLastSeenToDays(cellText);
+          const validation = validateLastSeenValue(days, testData.filterType);
+
+          expect(
+            validation.isValid,
+            `Row ${i + 1}: "${cellText}" - ${validation.reason}`,
+          ).toBe(true);
+        }
+      });
     });
   });
 });
