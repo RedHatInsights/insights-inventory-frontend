@@ -489,3 +489,164 @@ test('User can add a system to an existing workspace with systems', async ({
     cleanupTestArchive(archiveName, workingDir);
   });
 });
+
+/**
+ * Pre-requisite: Manually create these 6 workspaces in stage environment:
+ * - sort_name_Alpha
+ * - sort_name_Bravo
+ * - sort_name_Charlie
+ * - sort_modified_First
+ * - sort_modified_Second
+ * - sort_modified_Third
+ *
+ * These workspaces will be reused across test runs and should NOT be deleted.
+ */
+
+// Define sorting column configurations
+const sortingColumns = [
+  {
+    name: 'Name',
+    searchTerm: 'sort_name',
+    dataLabel: 'Name',
+    columnText: 'Name',
+    orderByParam: 'name',
+    jiraRef: 'ESSNTL-4239',
+    hasNameVerification: true,
+  },
+  {
+    name: 'Last modified',
+    searchTerm: 'sort_modified',
+    dataLabel: 'Last modified',
+    columnText: 'Last modified',
+    orderByParam: 'updated',
+    jiraRef: 'RHINENG-22174',
+    hasNameVerification: false,
+  },
+] as const;
+
+sortingColumns.forEach((column) => {
+  (['ascending', 'descending'] as const).forEach((order) => {
+    test(`User can sort workspaces by ${column.name} column in ${order} order`, async ({
+      page,
+    }) => {
+      /**
+       * Jira References:
+       * - https://issues.redhat.com/browse/${column.jiraRef} – Sort workspaces
+       * Metadata:
+       * - requirements: inv-groups-get-by-id
+       * - importance: high
+       * - assignee: addubey
+       */
+
+      await test.step('Navigate to Workspaces page', async () => {
+        await navigateToWorkspacesFunc(page);
+      });
+
+      await test.step('Filter to show only test workspaces', async () => {
+        await searchByName(page, column.searchTerm);
+
+        // Wait for the filter to be applied
+        await expect(async () => {
+          const nameColumnCells = page.locator('td[data-label="Name"] a');
+          const count = await nameColumnCells.count();
+          expect(count).toBe(3);
+        }).toPass({ timeout: 15000 });
+      });
+
+      await test.step(`Sort by ${column.name} column in ${order} order`, async () => {
+        const columnHeader = page.locator(
+          `th[data-label="${column.dataLabel}"] button, thead th:has-text("${column.columnText}") button`,
+        );
+        await expect(columnHeader).toBeVisible();
+
+        const expectedUrlParams = {
+          ascending: 'order_how=asc',
+          descending: 'order_how=desc',
+        };
+
+        // Keep clicking until we reach the desired sort direction (max 3 clicks)
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const currentSort = await columnHeader
+            .locator('..')
+            .getAttribute('aria-sort');
+
+          // If already at target, break
+          if (currentSort === order) {
+            break;
+          }
+
+          await columnHeader.click();
+
+          // Wait for the sort to take effect
+          await expect(async () => {
+            const url = page.url();
+            expect(url).toContain(`order_by=${column.orderByParam}`);
+          }).toPass({ timeout: 5000 });
+        }
+
+        // Verify we reached the target sort direction
+        await expect(async () => {
+          const finalSort = await columnHeader
+            .locator('..')
+            .getAttribute('aria-sort');
+          expect(finalSort).toBe(order);
+        }).toPass({ timeout: 5000 });
+
+        // Verify URL has correct sort parameters
+        await expect(async () => {
+          const url = page.url();
+          expect(url).toContain(`order_by=${column.orderByParam}`);
+          expect(url).toContain(expectedUrlParams[order]);
+        }).toPass({ timeout: 5000 });
+
+        // For Name column, also verify the actual sort order
+        if (column.hasNameVerification) {
+          const nameColumnCells = page.locator('td[data-label="Name"] a');
+          await expect(async () => {
+            const allNames = await nameColumnCells.allTextContents();
+            expect(allNames.length).toBe(3);
+
+            // Verify the sort is actually applied by checking first element
+            const sortFn = {
+              ascending: (_a: string, _b: string) => _a.localeCompare(_b),
+              descending: (_a: string, _b: string) => _b.localeCompare(_a),
+            };
+            const sortedNames = [...allNames].sort(sortFn[order]);
+            expect(allNames[0]).toBe(sortedNames[0]);
+          }).toPass({ timeout: 10000 });
+        }
+      });
+
+      // For Name column, verify full sorting correctness
+      if (column.hasNameVerification) {
+        await test.step('Verify sorting is correct', async () => {
+          const nameColumnCells = page.locator('td[data-label="Name"] a');
+          await expect(nameColumnCells.first()).toBeVisible();
+
+          const displayedNames = await nameColumnCells.allTextContents();
+          const lowerCaseNames = displayedNames.map((name) =>
+            name.toLowerCase().trim(),
+          );
+
+          const sortFunctions = {
+            ascending: (_a: string, _b: string) => _a.localeCompare(_b),
+            descending: (_a: string, _b: string) => _b.localeCompare(_a),
+          };
+
+          const expectedSortedNames = [...lowerCaseNames].sort(
+            sortFunctions[order],
+          );
+
+          expect(lowerCaseNames).toEqual(expectedSortedNames);
+        });
+      }
+
+      await test.step('Verify sort indicator is displayed', async () => {
+        const columnHeader = page.locator(
+          `th[data-label="${column.dataLabel}"], thead th:has-text("${column.columnText}")`,
+        );
+        await expect(columnHeader).toHaveAttribute('aria-sort', order);
+      });
+    });
+  });
+});

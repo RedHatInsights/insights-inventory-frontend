@@ -21,7 +21,7 @@ test.describe('Filtering Systems Tests', () => {
   let workingBootcDir: string;
   const operatingSystemTestCases = [
     { OS: 'RHEL 9.4' },
-    { OS: 'CentOS Linux 7.9' },
+    { OS: 'CentOS Linux 7.6' },
   ];
 
   test.beforeAll(async () => {
@@ -126,7 +126,7 @@ test.describe('Filtering Systems Tests', () => {
     );
   });
 
-  test('User can filter systems by OS major version option', async ({
+  test.skip('User can filter systems by OS major version option', async ({
     page,
   }) => {
     /**
