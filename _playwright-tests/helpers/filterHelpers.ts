@@ -68,6 +68,15 @@ export const filterSystemsWithConditionalFilter = async (
   } else if (filterName === 'Operating system') {
     await page.getByRole('button', { name: 'Group filter' }).nth(1).click();
     await page.getByRole('checkbox', { name: option, exact: true }).check();
+  } else if (filterName === 'Last seen') {
+    const lastSeenToggle = page.locator('button', {
+      hasText: 'Filter by last seen',
+    });
+    await expect(lastSeenToggle).toBeVisible({ timeout: 10000 });
+    await lastSeenToggle.click();
+    optionCheckbox = page.getByRole('option', { name: option });
+    await expect(optionCheckbox).toBeVisible({ timeout: 10000 });
+    await optionCheckbox.click();
   }
 
   await page.locator('body').click(); //to make sure menu is closed
@@ -128,8 +137,10 @@ export const searchByName = async (page: Page, name: string): Promise<void> => {
 
 /**
  * Checks if all elements matched by a locator have text that matches a given pattern.
- *  @param locator Playwright Locator object (must point to multiple elements).
- *  @param pattern Regular expression to test against each element's text.
+ *
+ *  @param   {Locator}       locator - Playwright Locator object (must point to multiple elements).
+ *  @param   {RegExp}        pattern - Regular expression to test against each element's text.
+ *  @returns {Promise<void>}         - A promise that resolves when the assertion passes.
  */
 export async function assertAllContain(
   locator: Locator,
@@ -147,3 +158,105 @@ export async function assertAllContain(
   const allMatch = allTexts.every((text) => pattern.test(text));
   expect(allMatch).toBe(true);
 }
+
+/**
+ * Parses relative time text (e.g., "3 hours ago", "5 days ago") to approximate days.
+ *
+ *  @param   {string} text - The relative time text to parse.
+ *  @returns {number}      - The number of days represented by the text, or -1 if unknown format.
+ *
+ * @example
+ * parseLastSeenToDays('3 hours ago'); // returns 0
+ * parseLastSeenToDays('5 days ago'); // returns 5
+ * parseLastSeenToDays('2 weeks ago'); // returns 14
+ */
+export const parseLastSeenToDays = (text: string): number => {
+  const lowerText = text.toLowerCase().trim();
+
+  // "just now", "X seconds ago", "X minutes ago", "X hours ago" = 0 days
+  if (
+    lowerText.includes('just now') ||
+    lowerText.includes('second') ||
+    lowerText.includes('minute') ||
+    lowerText.includes('hour')
+  ) {
+    return 0;
+  }
+
+  // "X days ago" or "X day ago"
+  const dayMatch = lowerText.match(/(\d+)\s*days?\s*ago/);
+  if (dayMatch) {
+    return parseInt(dayMatch[1], 10);
+  }
+
+  // "X weeks ago" or "X week ago"
+  const weekMatch = lowerText.match(/(\d+)\s*weeks?\s*ago/);
+  if (weekMatch) {
+    return parseInt(weekMatch[1], 10) * 7;
+  }
+
+  // "X months ago" or "X month ago"
+  const monthMatch = lowerText.match(/(\d+)\s*months?\s*ago/);
+  if (monthMatch) {
+    return parseInt(monthMatch[1], 10) * 30;
+  }
+
+  // "X years ago" or "X year ago"
+  const yearMatch = lowerText.match(/(\d+)\s*years?\s*ago/);
+  if (yearMatch) {
+    return parseInt(yearMatch[1], 10) * 365;
+  }
+
+  // Default: return -1 to indicate unknown format
+  return -1;
+};
+
+/**
+ * Validates if the parsed days match the expected filter criteria.
+ *
+ *  @param   {number}                               days       - The number of days parsed from "Last seen" text.
+ *  @param   {string}                               filterType - The filter type (e.g., 'last24', '24more', '7more', '15more', '30more').
+ *  @returns {{ isValid: boolean; reason: string }}            - Validation result with reason.
+ *
+ * @example
+ * validateLastSeenValue(0, 'last24'); // { isValid: true, reason: '...' }
+ * validateLastSeenValue(5, '7more'); // { isValid: false, reason: '...' }
+ */
+export const validateLastSeenValue = (
+  days: number,
+  filterType: string,
+): { isValid: boolean; reason: string } => {
+  if (days === -1) {
+    return { isValid: true, reason: 'Unknown format, skipping validation' };
+  }
+
+  switch (filterType) {
+    case 'last24': // Within the last 24 hours
+      return {
+        isValid: days === 0,
+        reason: `Expected within 24 hours (0 days), got ${days} days`,
+      };
+    case '24more': // More than 1 day ago
+      return {
+        isValid: days >= 1,
+        reason: `Expected more than 1 day ago, got ${days} days`,
+      };
+    case '7more': // More than 7 days ago
+      return {
+        isValid: days >= 7,
+        reason: `Expected more than 7 days ago, got ${days} days`,
+      };
+    case '15more': // More than 15 days ago
+      return {
+        isValid: days >= 15,
+        reason: `Expected more than 15 days ago, got ${days} days`,
+      };
+    case '30more': // More than 30 days ago
+      return {
+        isValid: days >= 30,
+        reason: `Expected more than 30 days ago, got ${days} days`,
+      };
+    default:
+      return { isValid: true, reason: 'Unknown filter type' };
+  }
+};

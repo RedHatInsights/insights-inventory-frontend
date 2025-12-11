@@ -9,6 +9,8 @@ import {
 import {
   filterSystemsWithConditionalFilter,
   assertAllContain,
+  parseLastSeenToDays,
+  validateLastSeenValue,
 } from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 
@@ -236,6 +238,85 @@ test.describe('Filtering Systems Tests', () => {
       await expect(dialog.locator('td[data-label="Tag source"]')).toHaveText(
         tagSource,
       );
+    });
+  });
+
+  test('User can filter systems by Last seen: Within the last 24 hours', async ({
+    page,
+  }) => {
+    /**
+     * Jira References:
+     * - https://issues.redhat.com/browse/RHINENG-20810 – Filter systems by Last seen
+     * Metadata:
+     * - requirements: inv-hosts-filter-by-last_seen
+     * - assignee: addubey
+     * - importance: high
+     *
+     * Note: Only testing "Within the last 24 hours" filter as active test systems
+     * reliably check in within this window. Other staleness filters (>1d, >7d, etc.)
+     * require systems with controlled last-seen timestamps which the test environment
+     * cannot guarantee.
+     */
+
+    await test.step('Apply Last seen filter', async () => {
+      await filterSystemsWithConditionalFilter(
+        page,
+        'Last seen',
+        'Within the last 24 hours',
+      );
+    });
+
+    await test.step('Verify filter chip is displayed', async () => {
+      const filterChip = page.locator('span.pf-v6-c-label__text', {
+        hasText: 'Within the last 24 hours',
+      });
+      await expect(filterChip).toBeVisible({ timeout: 10000 });
+    });
+
+    await test.step('Verify URL contains correct filter parameter', async () => {
+      await expect(async () => {
+        const url = page.url();
+        expect(url).toContain('last_seen=last24');
+      }).toPass({ timeout: 5000 });
+    });
+
+    await test.step('Verify table shows filtered results', async () => {
+      await page.waitForSelector('.loading-spinner', {
+        state: 'hidden',
+        timeout: 10000,
+      });
+
+      const tableRows = page.locator('table tbody tr');
+      await expect(async () => {
+        const rowCount = await tableRows.count();
+        expect(
+          rowCount,
+          'Expected systems within last 24 hours - active test systems should exist',
+        ).toBeGreaterThan(0);
+      }).toPass({ timeout: 10000 });
+    });
+
+    await test.step('Verify Last seen column values are within 24 hours', async () => {
+      const lastSeenCells = page.locator(
+        'table tbody tr td[data-label="Last seen"]',
+      );
+      const cellCount = await lastSeenCells.count();
+
+      for (let i = 0; i < cellCount; i++) {
+        const cellText = await lastSeenCells.nth(i).textContent();
+        expect(
+          cellText,
+          `Row ${i + 1} should have Last seen text`,
+        ).toBeTruthy();
+
+        const days = parseLastSeenToDays(cellText!);
+        const validation = validateLastSeenValue(days, 'last24');
+
+        expect(
+          validation.isValid,
+          `Row ${i + 1}: "${cellText}" - ${validation.reason}`,
+        ).toBe(true);
+      }
     });
   });
 });
