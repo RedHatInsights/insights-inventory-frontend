@@ -248,6 +248,7 @@ test('User should be able to delete multiple systems from Systems page', async (
      - assignee: addubey
    */
   const systems = Array.from({ length: 3 }, () => prepareSingleSystem());
+
   const archives = systems.map((s) => s.archiveName);
   const dirs = systems.map((s) => s.workingDir);
   const dialog = page.locator('[role="dialog"]');

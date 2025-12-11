@@ -2,7 +2,7 @@ name: build-playwright-test
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled, unlabeled]
+    types: [opened, reopened, synchronize]
   workflow_dispatch:
 
 concurrency:

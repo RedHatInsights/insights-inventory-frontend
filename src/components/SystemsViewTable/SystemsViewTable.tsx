@@ -6,7 +6,6 @@ import {
 } from '@patternfly/react-data-view';
 import {
   DataViewTable,
-  DataViewTh,
   DataViewTr,
 } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
@@ -27,15 +26,21 @@ import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorStat
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 import { InventoryFilters, SystemsViewFilters } from './SystemsViewFilters';
+import { useColumns } from './hooks/useColumns';
+import { useSearchParams } from 'react-router-dom';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
 const NO_HEADER = <></>;
 
 const SystemsViewTable: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
+    searchParams,
+    setSearchParams,
   });
 
   const selection = useDataViewSelection({
@@ -52,14 +57,19 @@ const SystemsViewTable: React.FC = () => {
         dataCollector: [],
         rhcStatus: [],
         systemType: [],
+        workspace: [],
       },
-      // TODO pass searchParams & setSearchParams in order to sync URL params
+      searchParams,
+      setSearchParams,
     });
 
+  const { columns, sortBy, direction } = useColumns();
   const { data, total, isLoading, isError } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
     filters,
+    sortBy,
+    direction,
   });
 
   const activeState = isLoading
@@ -104,13 +114,6 @@ const SystemsViewTable: React.FC = () => {
   };
 
   const rows = (data ?? []).map(mapSystemToRow);
-  const columns: DataViewTh[] = [
-    { cell: 'Name' },
-    { cell: 'Workspace' },
-    { cell: 'Tags' },
-    { cell: 'OS', props: { tooltip: 'Operating system' } },
-    { cell: 'Last Seen' },
-  ];
 
   const isPageSelected = (rows: DataViewTr[]) =>
     rows.length > 0 && rows.every((row) => isSelected(row));
@@ -193,7 +196,7 @@ const SystemsViewTable: React.FC = () => {
       />
       <DataViewToolbar
         ouiaId="systems-view-footer"
-        pagination={<Pagination isCompact itemCount={total} {...pagination} />}
+        pagination={<Pagination itemCount={total} {...pagination} />}
       />
     </DataView>
   );

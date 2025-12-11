@@ -41,7 +41,7 @@ export const InventoryPopover = () => {
             <span>
               <a
                 href={
-                  'https://docs.redhat.com/en/documentation/red_hat_insights/1-latest/html/viewing_and_managing_system_inventory/index'
+                  'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html/viewing_and_managing_system_inventory/index'
                 }
                 target="_blank"
                 rel="noreferrer"
@@ -54,7 +54,7 @@ export const InventoryPopover = () => {
             <span>
               <a
                 href={
-                  'https://docs.redhat.com/en/documentation/red_hat_insights/1-latest/html-single/client_configuration_guide_for_red_hat_insights/index'
+                  'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html-single/client_configuration_guide_for_red_hat_lightspeed/index'
                 }
                 target="_blank"
                 rel="noreferrer"
@@ -67,7 +67,7 @@ export const InventoryPopover = () => {
             <span>
               <a
                 href={
-                  'https://docs.redhat.com/en/documentation/red_hat_insights/1-latest/html-single/viewing_and_managing_system_inventory/index#systems-lifecycle_user-access'
+                  'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html-single/viewing_and_managing_system_inventory/index#systems-lifecycle_user-access'
                 }
                 target="_blank"
                 rel="noreferrer"
@@ -80,7 +80,7 @@ export const InventoryPopover = () => {
             <span>
               <a
                 href={
-                  'https://docs.redhat.com/en/documentation/red_hat_insights/1-latest/html/viewing_and_managing_system_inventory/configuring-inventory-events_user-access'
+                  'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html/viewing_and_managing_system_inventory/configuring-inventory-events_user-access'
                 }
                 target="_blank"
                 rel="noreferrer"

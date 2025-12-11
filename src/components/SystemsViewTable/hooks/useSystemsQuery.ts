@@ -6,6 +6,8 @@ import {
   type ApiHostGetHostListParams,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import qs from 'qs';
+import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import { SortDirection } from './useColumns';
 
 const serializeSystemType = (values: string[]) => {
   const validValues = Object.values(ApiHostGetHostListSystemTypeEnum);
@@ -25,20 +27,33 @@ interface FetchSystemsParams {
   page: number;
   perPage: number;
   filters: InventoryFilters;
+  sortBy: ApiOrderByEnum | undefined;
+  direction: SortDirection | undefined;
 }
-const fetchSystems = async ({ page, perPage, filters }: FetchSystemsParams) => {
-  // TODO configure filters dynamically
+const fetchSystems = async ({
+  page,
+  perPage,
+  filters,
+  sortBy,
+  direction,
+}: FetchSystemsParams) => {
   const params: ApiHostGetHostListParams = {
     tags: [],
     page,
     perPage,
+    ...(sortBy && { orderBy: sortBy }),
+    ...(direction && { orderHow: direction.toUpperCase() }),
     ...(filters?.name && { hostnameOrId: filters.name }),
     ...(filters?.status && { staleness: filters.status }),
     ...(filters?.dataCollector && { registeredWith: filters.dataCollector }),
     ...(filters?.systemType && {
       systemType: serializeSystemType(filters.systemType),
     }),
-
+    ...(filters?.workspace && { groupName: filters.workspace }),
+    ...(filters?.lastSeen && {
+      lastCheckInStart: filters.lastSeen?.start,
+      lastCheckInEnd: filters.lastSeen?.end,
+    }),
     /* Override default dot notation from API client: backend requires bracket notation for nested params (fields, filter) */
     options: {
       paramsSerializer: (params) => {
@@ -87,16 +102,20 @@ interface UseSystemsQueryParams {
   page: number;
   perPage: number;
   filters: InventoryFilters;
+  sortBy: ApiOrderByEnum | undefined;
+  direction: SortDirection | undefined;
 }
 export const useSystemsQuery = ({
   page,
   perPage,
   filters,
+  sortBy,
+  direction,
 }: UseSystemsQueryParams) => {
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['systems', page, perPage, filters],
+    queryKey: ['systems', page, perPage, filters, sortBy, direction],
     queryFn: async () => {
-      return await fetchSystems({ page, perPage, filters });
+      return await fetchSystems({ page, perPage, filters, sortBy, direction });
     },
     refetchOnWindowFocus: false,
   });
