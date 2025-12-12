@@ -20,7 +20,7 @@ exports[`SubscriptionCard should not render hasRole 1`] = `
         >
           <div
             class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-13"
+            data-ouia-component-id="OUIA-Generated-Content-9"
             data-ouia-component-type="PF6/Content"
             data-ouia-safe="true"
             data-pf-content="true"
@@ -39,65 +39,60 @@ exports[`SubscriptionCard should not render hasRole 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-15"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <dl
+            aria-label="Subscriptions title"
+            class="pf-v6-c-description-list pf-m-3-col"
+            data-ouia-component-id="Subscriptions title"
           >
-            <dl
-              aria-label="Subscriptions title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Subscriptions title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <div
+              class="pf-v6-c-description-list__group"
             >
-              <div
-                class="pf-v6-c-description-list__group"
+              <dt
+                class="pf-v6-c-description-list__term"
               >
-                <dt
-                  class="pf-v6-c-description-list__term"
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Usage
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Usage value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Usage value"
+                  Usage
+                </span>
+              </dt>
+              <dd
+                aria-label="Usage value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Usage value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Development
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                  Development
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    SLA
-                  </span>
-                </dt>
-                <dd
-                  aria-label="SLA value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="SLA value"
+                  SLA
+                </span>
+              </dt>
+              <dd
+                aria-label="SLA value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="SLA value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Self-Support
-                  </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
+                  Self-Support
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -106,111 +101,6 @@ exports[`SubscriptionCard should not render hasRole 1`] = `
 `;
 
 exports[`SubscriptionCard should not render hasSLA 1`] = `
-<DocumentFragment>
-  <div
-    class="pf-v6-c-card"
-    data-ouia-component-id="subscriptions-card"
-    data-ouia-component-type="PF6/Card"
-    data-ouia-safe="true"
-    id=""
-  >
-    <div
-      class="pf-v6-c-card__body"
-    >
-      <div
-        class="pf-v6-l-stack pf-m-gutter"
-      >
-        <div
-          class="pf-v6-l-stack__item"
-        >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-10"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
-          >
-            <h1
-              class="pf-v6-c-content--h1"
-              data-ouia-component-id="SystemPropertiesCardTitle"
-              data-ouia-component-type="PF6/Content"
-              data-ouia-safe="true"
-              data-pf-content="true"
-            >
-              Subscriptions
-            </h1>
-          </div>
-        </div>
-        <div
-          class="pf-v6-l-stack__item pf-m-fill"
-        >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-12"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
-          >
-            <dl
-              aria-label="Subscriptions title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Subscriptions title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
-            >
-              <div
-                class="pf-v6-c-description-list__group"
-              >
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Usage
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Usage value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Usage value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Development
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Role
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Role value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Role value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Red Hat Enterprise Linux Server
-                  </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`SubscriptionCard should not render hasUsage 1`] = `
 <DocumentFragment>
   <div
     class="pf-v6-c-card"
@@ -249,65 +139,160 @@ exports[`SubscriptionCard should not render hasUsage 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
+          <dl
+            aria-label="Subscriptions title"
+            class="pf-v6-c-description-list pf-m-3-col"
+            data-ouia-component-id="Subscriptions title"
+          >
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Usage
+                </span>
+              </dt>
+              <dd
+                aria-label="Usage value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Usage value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  Development
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Role
+                </span>
+              </dt>
+              <dd
+                aria-label="Role value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Role value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  Red Hat Enterprise Linux Server
+                </div>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`SubscriptionCard should not render hasUsage 1`] = `
+<DocumentFragment>
+  <div
+    class="pf-v6-c-card"
+    data-ouia-component-id="subscriptions-card"
+    data-ouia-component-type="PF6/Card"
+    data-ouia-safe="true"
+    id=""
+  >
+    <div
+      class="pf-v6-c-card__body"
+    >
+      <div
+        class="pf-v6-l-stack pf-m-gutter"
+      >
+        <div
+          class="pf-v6-l-stack__item"
+        >
           <div
             class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-9"
+            data-ouia-component-id="OUIA-Generated-Content-5"
             data-ouia-component-type="PF6/Content"
             data-ouia-safe="true"
             data-pf-content="true"
           >
-            <dl
-              aria-label="Subscriptions title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Subscriptions title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <h1
+              class="pf-v6-c-content--h1"
+              data-ouia-component-id="SystemPropertiesCardTitle"
+              data-ouia-component-type="PF6/Content"
+              data-ouia-safe="true"
+              data-pf-content="true"
             >
-              <div
-                class="pf-v6-c-description-list__group"
-              >
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    SLA
-                  </span>
-                </dt>
-                <dd
-                  aria-label="SLA value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="SLA value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Self-Support
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Role
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Role value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Role value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Red Hat Enterprise Linux Server
-                  </div>
-                </dd>
-              </div>
-            </dl>
+              Subscriptions
+            </h1>
           </div>
+        </div>
+        <div
+          class="pf-v6-l-stack__item pf-m-fill"
+        >
+          <dl
+            aria-label="Subscriptions title"
+            class="pf-v6-c-description-list pf-m-3-col"
+            data-ouia-component-id="Subscriptions title"
+          >
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  SLA
+                </span>
+              </dt>
+              <dd
+                aria-label="SLA value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="SLA value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  Self-Support
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Role
+                </span>
+              </dt>
+              <dd
+                aria-label="Role value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Role value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  Red Hat Enterprise Linux Server
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -354,103 +339,102 @@ exports[`SubscriptionCard should render correctly - loading 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-3"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <dl
+            aria-label="Subscriptions title"
+            class="pf-v6-c-description-list pf-m-3-col"
+            data-ouia-component-id="Subscriptions title"
           >
-            <dl
-              aria-label="Subscriptions title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Subscriptions title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <div
+              class="pf-v6-c-description-list__group"
             >
-              <div
-                class="pf-v6-c-description-list__group"
+              <dt
+                class="pf-v6-c-description-list__term"
               >
-                <dt
-                  class="pf-v6-c-description-list__term"
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Usage
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Usage value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Usage value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    SLA
-                  </span>
-                </dt>
-                <dd
-                  aria-label="SLA value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="SLA value"
+                  Usage
+                </span>
+              </dt>
+              <dd
+                aria-label="Usage value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Usage value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                   >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
                   </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Role
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Role value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Role value"
+                  SLA
+                </span>
+              </dt>
+              <dd
+                aria-label="SLA value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="SLA value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                   >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
                   </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Role
+                </span>
+              </dt>
+              <dd
+                aria-label="Role value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Role value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  <div
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                  >
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
+                  </div>
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -478,7 +462,7 @@ exports[`SubscriptionCard should render correctly with data 1`] = `
         >
           <div
             class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-4"
+            data-ouia-component-id="OUIA-Generated-Content-3"
             data-ouia-component-type="PF6/Content"
             data-ouia-safe="true"
             data-pf-content="true"
@@ -497,85 +481,84 @@ exports[`SubscriptionCard should render correctly with data 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-6"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <dl
+            aria-label="Subscriptions title"
+            class="pf-v6-c-description-list pf-m-3-col"
+            data-ouia-component-id="Subscriptions title"
           >
-            <dl
-              aria-label="Subscriptions title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Subscriptions title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <div
+              class="pf-v6-c-description-list__group"
             >
-              <div
-                class="pf-v6-c-description-list__group"
+              <dt
+                class="pf-v6-c-description-list__term"
               >
-                <dt
-                  class="pf-v6-c-description-list__term"
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Usage
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Usage value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Usage value"
+                  Usage
+                </span>
+              </dt>
+              <dd
+                aria-label="Usage value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Usage value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Development
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                  Development
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    SLA
-                  </span>
-                </dt>
-                <dd
-                  aria-label="SLA value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="SLA value"
+                  SLA
+                </span>
+              </dt>
+              <dd
+                aria-label="SLA value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="SLA value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Self-Support
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                  Self-Support
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Role
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Role value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Role value"
+                  Role
+                </span>
+              </dt>
+              <dd
+                aria-label="Role value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Role value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Red Hat Enterprise Linux Server
-                  </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
+                  Red Hat Enterprise Linux Server
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
