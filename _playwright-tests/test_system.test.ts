@@ -282,3 +282,102 @@ test('User should be able to delete multiple systems from Systems page', async (
     }
   });
 });
+
+(['ascending', 'descending'] as const).forEach((order) => {
+  test(`User can sort systems by Name column in ${order} order`, async ({
+    page,
+  }) => {
+    /**
+     * Jira References:
+     * - https://issues.redhat.com/browse/RHINENG-21942 – Sort systems by Name
+     * Metadata:
+     * - requirements: inv-hosts-get
+     * - importance: high
+     * - assignee: addubey
+     *
+     */
+
+    await test.step('Navigate to Systems page and wait for systems to load', async () => {
+      await navigateToInventorySystemsFunc(page);
+      const nameColumnCells = page.locator('td[data-label="Name"] a');
+      await expect(nameColumnCells.first()).toBeVisible({ timeout: 30000 });
+
+      // Ensure we have at least 2 systems to verify sorting
+      await expect(async () => {
+        const count = await nameColumnCells.count();
+        expect(count).toBeGreaterThanOrEqual(2);
+      }).toPass({ timeout: 15000 });
+    });
+
+    await test.step(`Sort by Name column in ${order} order`, async () => {
+      const columnHeader = page.locator('th[data-label="Name"] button');
+      await expect(columnHeader).toBeVisible();
+
+      // Expected URL sort parameter: ascending = display_name, descending = -display_name
+      const expectedSortParam = {
+        ascending: 'sort=display_name',
+        descending: 'sort=-display_name',
+      };
+
+      // Keep clicking until we reach the desired sort direction (max 3 clicks)
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const currentSort = await columnHeader
+          .locator('..')
+          .getAttribute('aria-sort');
+
+        // If already at target, break
+        if (currentSort === order) {
+          break;
+        }
+
+        await columnHeader.click();
+
+        // Wait for the sort to take effect
+        await expect(async () => {
+          const url = page.url();
+          expect(url).toContain('sort=');
+        }).toPass({ timeout: 5000 });
+      }
+
+      // Verify we reached the target sort direction
+      await expect(async () => {
+        const finalSort = await columnHeader
+          .locator('..')
+          .getAttribute('aria-sort');
+        expect(finalSort).toBe(order);
+      }).toPass({ timeout: 5000 });
+
+      // Verify URL has exact sort parameter for the expected order
+      await expect(async () => {
+        const url = page.url();
+        expect(url).toContain(expectedSortParam[order]);
+      }).toPass({ timeout: 5000 });
+    });
+
+    await test.step('Verify systems are sorted alphabetically', async () => {
+      const nameColumnCells = page.locator('td[data-label="Name"] a');
+      await expect(nameColumnCells.first()).toBeVisible();
+
+      const displayedNames = await nameColumnCells.allTextContents();
+      const lowerCaseNames = displayedNames.map((name) =>
+        name.toLowerCase().trim(),
+      );
+
+      const sortFunctions = {
+        ascending: (_a: string, _b: string) => _a.localeCompare(_b),
+        descending: (_a: string, _b: string) => _b.localeCompare(_a),
+      };
+
+      const expectedSortedNames = [...lowerCaseNames].sort(
+        sortFunctions[order],
+      );
+
+      expect(lowerCaseNames).toEqual(expectedSortedNames);
+    });
+
+    await test.step('Verify sort indicator is displayed', async () => {
+      const columnHeader = page.locator('th[data-label="Name"]');
+      await expect(columnHeader).toHaveAttribute('aria-sort', order);
+    });
+  });
+});
