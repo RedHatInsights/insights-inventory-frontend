@@ -35,7 +35,7 @@ exports[`Overview should render correctly 1`] = `
                   >
                     <div
                       class="pf-v6-c-content"
-                      data-ouia-component-id="OUIA-Generated-Content-12"
+                      data-ouia-component-id="OUIA-Generated-Content-9"
                       data-ouia-component-type="PF6/Content"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -54,157 +54,164 @@ exports[`Overview should render correctly 1`] = `
                   <div
                     class="pf-v6-l-stack__item pf-m-fill"
                   >
-                    <div
-                      class="pf-v6-c-content"
-                      data-ouia-component-id="OUIA-Generated-Content-14"
-                      data-ouia-component-type="PF6/Content"
-                      data-ouia-safe="true"
-                      data-pf-content="true"
+                    <dl
+                      aria-label="System status title"
+                      class="pf-v6-c-description-list pf-m-2-col"
+                      data-ouia-component-id="System status title"
                     >
-                      <dl
-                        aria-label="System status title"
-                        class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-                        data-ouia-component-id="System status title"
-                        style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+                      <div
+                        class="pf-v6-c-description-list__group"
                       >
-                        <div
-                          class="pf-v6-c-description-list__group"
+                        <dt
+                          class="pf-v6-c-description-list__term"
                         >
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Current state
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Current state value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Current state value"
+                            Current state
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Current state value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Current state value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Active
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Active
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Registered
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Registered value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Registered value"
+                            Registered
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Registered value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Registered value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Invalid date
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Invalid date
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Last seen
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Last seen value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Last seen value"
+                            Last seen
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Last seen value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Last seen value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Invalid date
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Invalid date
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Last updated
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Last updated value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Last updated value"
+                            Last updated
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Last updated value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Last updated value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Not available
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Not available
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              <span>
-                                RHC
-                                <div
-                                  style="display: contents;"
+                            <span>
+                              RHC
+                              <div
+                                style="display: contents;"
+                              >
+                                <button
+                                  aria-label="Action for RHC"
+                                  class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                                  data-ouia-component-type="PF6/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
                                 >
-                                  <button
-                                    aria-label="Action for RHC"
-                                    class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
-                                    data-ouia-component-id="OUIA-Generated-Button-plain-7"
-                                    data-ouia-component-type="PF6/Button"
-                                    data-ouia-safe="true"
-                                    type="button"
+                                  <span
+                                    class="pf-v6-c-button__icon"
                                   >
-                                    <span
-                                      class="pf-v6-c-button__icon"
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-v6-svg"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      viewBox="0 0 512 512"
+                                      width="1em"
                                     >
-                                      <svg
-                                        aria-hidden="true"
-                                        class="pf-v6-svg"
-                                        fill="currentColor"
-                                        height="1em"
-                                        role="img"
-                                        viewBox="0 0 512 512"
-                                        width="1em"
-                                      >
-                                        <path
-                                          d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </button>
-                                </div>
-                              </span>
+                                      <path
+                                        d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </button>
+                              </div>
                             </span>
-                          </dt>
-                          <dd
-                            aria-label="RHC value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="RHC value"
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="RHC value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="RHC value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Not available
-                            </div>
-                          </dd>
-                        </div>
-                      </dl>
-                    </div>
+                            Not available
+                          </div>
+                        </dd>
+                      </div>
+                    </dl>
                   </div>
                 </div>
               </div>
@@ -231,7 +238,7 @@ exports[`Overview should render correctly 1`] = `
                   >
                     <div
                       class="pf-v6-c-content"
-                      data-ouia-component-id="OUIA-Generated-Content-15"
+                      data-ouia-component-id="OUIA-Generated-Content-11"
                       data-ouia-component-type="PF6/Content"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -250,392 +257,423 @@ exports[`Overview should render correctly 1`] = `
                   <div
                     class="pf-v6-l-stack__item pf-m-fill"
                   >
-                    <div
-                      class="pf-v6-c-content"
-                      data-ouia-component-id="OUIA-Generated-Content-17"
-                      data-ouia-component-type="PF6/Content"
-                      data-ouia-safe="true"
-                      data-pf-content="true"
+                    <dl
+                      aria-label="System properties title"
+                      class="pf-v6-c-description-list pf-m-2-col"
+                      data-ouia-component-id="System properties title"
                     >
-                      <dl
-                        aria-label="System properties title"
-                        class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-                        data-ouia-component-id="System properties title"
-                        style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+                      <div
+                        class="pf-v6-c-description-list__group"
                       >
-                        <div
-                          class="pf-v6-c-description-list__group"
+                        <dt
+                          class="pf-v6-c-description-list__term"
                         >
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              <span>
-                                Host name
-                                <div
-                                  style="display: contents;"
-                                >
-                                  <button
-                                    aria-label="Action for Host name"
-                                    class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
-                                    data-ouia-component-id="OUIA-Generated-Button-plain-8"
-                                    data-ouia-component-type="PF6/Button"
-                                    data-ouia-safe="true"
-                                    type="button"
-                                  >
-                                    <span
-                                      class="pf-v6-c-button__icon"
-                                    >
-                                      <svg
-                                        aria-hidden="true"
-                                        class="pf-v6-svg"
-                                        fill="currentColor"
-                                        height="1em"
-                                        role="img"
-                                        viewBox="0 0 512 512"
-                                        width="1em"
-                                      >
-                                        <path
-                                          d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </button>
-                                </div>
-                              </span>
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Host name value"
-                            class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
-                            data-ouia-component-id="Host name value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Not available
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              <span>
-                                Display name
-                                <div
-                                  style="display: contents;"
-                                >
-                                  <button
-                                    aria-label="Action for Display name"
-                                    class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
-                                    data-ouia-component-id="OUIA-Generated-Button-plain-9"
-                                    data-ouia-component-type="PF6/Button"
-                                    data-ouia-safe="true"
-                                    type="button"
-                                  >
-                                    <span
-                                      class="pf-v6-c-button__icon"
-                                    >
-                                      <svg
-                                        aria-hidden="true"
-                                        class="pf-v6-svg"
-                                        fill="currentColor"
-                                        height="1em"
-                                        role="img"
-                                        viewBox="0 0 512 512"
-                                        width="1em"
-                                      >
-                                        <path
-                                          d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </button>
-                                </div>
-                              </span>
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Display name value"
-                            class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
-                            data-ouia-component-id="Display name value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              <button
-                                aria-label="Edit"
-                                class="pf-v6-c-button pf-m-link ins-c-inventory__detail--action"
-                                data-ouia-component-id="OUIA-Generated-Button-link-1"
-                                data-ouia-component-type="PF6/Button"
-                                data-ouia-safe="true"
-                                type="button"
+                            <span>
+                              Host name
+                              <div
+                                style="display: contents;"
                               >
-                                <span
-                                  class="pf-v6-c-button__icon"
+                                <button
+                                  aria-label="Action for Host name"
+                                  class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                                  data-ouia-component-type="PF6/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="pf-v6-svg"
-                                    fill="currentColor"
-                                    height="1em"
-                                    role="img"
-                                    viewBox="0 0 512 512"
-                                    width="1em"
+                                  <span
+                                    class="pf-v6-c-button__icon"
                                   >
-                                    <path
-                                      d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
-                                    />
-                                  </svg>
-                                </span>
-                              </button>
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              <span>
-                                Ansible hostname
-                                <div
-                                  style="display: contents;"
-                                >
-                                  <button
-                                    aria-label="Action for Ansible hostname"
-                                    class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
-                                    data-ouia-component-id="OUIA-Generated-Button-plain-10"
-                                    data-ouia-component-type="PF6/Button"
-                                    data-ouia-safe="true"
-                                    type="button"
-                                  >
-                                    <span
-                                      class="pf-v6-c-button__icon"
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-v6-svg"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      viewBox="0 0 512 512"
+                                      width="1em"
                                     >
-                                      <svg
-                                        aria-hidden="true"
-                                        class="pf-v6-svg"
-                                        fill="currentColor"
-                                        height="1em"
-                                        role="img"
-                                        viewBox="0 0 512 512"
-                                        width="1em"
-                                      >
-                                        <path
-                                          d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </button>
-                                </div>
-                              </span>
+                                      <path
+                                        d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </button>
+                              </div>
                             </span>
-                          </dt>
-                          <dd
-                            aria-label="Ansible hostname value"
-                            class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
-                            data-ouia-component-id="Ansible hostname value"
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Host name value"
+                          class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
+                          data-ouia-component-id="Host name value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              test-id
-                              <button
-                                aria-label="Edit"
-                                class="pf-v6-c-button pf-m-link ins-c-inventory__detail--action"
-                                data-ouia-component-id="OUIA-Generated-Button-link-2"
-                                data-ouia-component-type="PF6/Button"
-                                data-ouia-safe="true"
-                                type="button"
+                            Not available
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
+                          >
+                            <span>
+                              Display name
+                              <div
+                                style="display: contents;"
                               >
-                                <span
-                                  class="pf-v6-c-button__icon"
+                                <button
+                                  aria-label="Action for Display name"
+                                  class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-9"
+                                  data-ouia-component-type="PF6/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
                                 >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="pf-v6-svg"
-                                    fill="currentColor"
-                                    height="1em"
-                                    role="img"
-                                    viewBox="0 0 512 512"
-                                    width="1em"
+                                  <span
+                                    class="pf-v6-c-button__icon"
                                   >
-                                    <path
-                                      d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
-                                    />
-                                  </svg>
-                                </span>
-                              </button>
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Workspace
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-v6-svg"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      viewBox="0 0 512 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </button>
+                              </div>
                             </span>
-                          </dt>
-                          <dd
-                            aria-label="Workspace value"
-                            class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
-                            data-ouia-component-id="Workspace value"
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Display name value"
+                          class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
+                          data-ouia-component-id="Display name value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
+                            <button
+                              aria-label="Edit"
+                              class="pf-v6-c-button pf-m-link ins-c-inventory__detail--action"
+                              data-ouia-component-id="OUIA-Generated-Button-link-1"
+                              data-ouia-component-type="PF6/Button"
+                              data-ouia-safe="true"
+                              type="button"
                             >
-                              Not available
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                              <span
+                                class="pf-v6-c-button__icon"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="pf-v6-svg"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  viewBox="0 0 512 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Workloads
+                            <span>
+                              Ansible hostname
+                              <div
+                                style="display: contents;"
+                              >
+                                <button
+                                  aria-label="Action for Ansible hostname"
+                                  class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                                  data-ouia-component-type="PF6/Button"
+                                  data-ouia-safe="true"
+                                  type="button"
+                                >
+                                  <span
+                                    class="pf-v6-c-button__icon"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="pf-v6-svg"
+                                      fill="currentColor"
+                                      height="1em"
+                                      role="img"
+                                      viewBox="0 0 512 512"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
+                                      />
+                                    </svg>
+                                  </span>
+                                </button>
+                              </div>
                             </span>
-                          </dt>
-                          <dd
-                            aria-label="Workloads value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Workloads value"
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Ansible hostname value"
+                          class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
+                          data-ouia-component-id="Ansible hostname value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
+                            test-id
+                            <button
+                              aria-label="Edit"
+                              class="pf-v6-c-button pf-m-link ins-c-inventory__detail--action"
+                              data-ouia-component-id="OUIA-Generated-Button-link-2"
+                              data-ouia-component-type="PF6/Button"
+                              data-ouia-safe="true"
+                              type="button"
                             >
-                              Not available
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                              <span
+                                class="pf-v6-c-button__icon"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="pf-v6-svg"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  viewBox="0 0 512 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              System purpose
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="System purpose value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="System purpose value"
+                            Workspace
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Workspace value"
+                          class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
+                          data-ouia-component-id="Workspace value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Production
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Not available
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Number of CPUs
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Number of CPUs value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Number of CPUs value"
+                            Workloads
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Workloads value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Workloads value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              1
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Not available
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Sockets
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Sockets value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Sockets value"
+                            System purpose
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="System purpose value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="System purpose value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              1
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Production
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Cores per socket
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Cores per socket value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Cores per socket value"
+                            Number of CPUs
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Number of CPUs value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Number of CPUs value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              1
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            1
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              CPU flags
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="CPU flags value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="CPU flags value"
+                            Sockets
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Sockets value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Sockets value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              0 flags
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            1
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              RAM
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="RAM value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="RAM value"
+                            Cores per socket
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Cores per socket value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Cores per socket value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              5 MB
-                            </div>
-                          </dd>
-                        </div>
-                      </dl>
-                    </div>
+                            1
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
+                          >
+                            CPU flags
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="CPU flags value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="CPU flags value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
+                          >
+                            0 flags
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
+                          >
+                            RAM
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="RAM value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="RAM value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
+                          >
+                            5 MB
+                          </div>
+                        </dd>
+                      </div>
+                    </dl>
                   </div>
                 </div>
               </div>
@@ -670,7 +708,7 @@ exports[`Overview should render correctly 1`] = `
                   >
                     <div
                       class="pf-v6-c-content"
-                      data-ouia-component-id="OUIA-Generated-Content-18"
+                      data-ouia-component-id="OUIA-Generated-Content-13"
                       data-ouia-component-type="PF6/Content"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -1051,7 +1089,7 @@ exports[`Overview should render correctly 1`] = `
                   >
                     <div
                       class="pf-v6-c-content"
-                      data-ouia-component-id="OUIA-Generated-Content-20"
+                      data-ouia-component-id="OUIA-Generated-Content-15"
                       data-ouia-component-type="PF6/Content"
                       data-ouia-safe="true"
                       data-pf-content="true"
@@ -1070,85 +1108,84 @@ exports[`Overview should render correctly 1`] = `
                   <div
                     class="pf-v6-l-stack__item pf-m-fill"
                   >
-                    <div
-                      class="pf-v6-c-content"
-                      data-ouia-component-id="OUIA-Generated-Content-22"
-                      data-ouia-component-type="PF6/Content"
-                      data-ouia-safe="true"
-                      data-pf-content="true"
+                    <dl
+                      aria-label="Subscriptions title"
+                      class="pf-v6-c-description-list pf-m-3-col"
+                      data-ouia-component-id="Subscriptions title"
                     >
-                      <dl
-                        aria-label="Subscriptions title"
-                        class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-                        data-ouia-component-id="Subscriptions title"
-                        style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+                      <div
+                        class="pf-v6-c-description-list__group"
                       >
-                        <div
-                          class="pf-v6-c-description-list__group"
+                        <dt
+                          class="pf-v6-c-description-list__term"
                         >
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Usage
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Usage value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Usage value"
+                            Usage
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Usage value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Usage value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Development
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Development
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              SLA
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="SLA value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="SLA value"
+                            SLA
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="SLA value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="SLA value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Self-Support
-                            </div>
-                          </dd>
-                          <dt
-                            class="pf-v6-c-description-list__term"
+                            Self-Support
+                          </div>
+                        </dd>
+                      </div>
+                      <div
+                        class="pf-v6-c-description-list__group"
+                      >
+                        <dt
+                          class="pf-v6-c-description-list__term"
+                        >
+                          <span
+                            class="pf-v6-c-description-list__text"
                           >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Role
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Role value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Role value"
+                            Role
+                          </span>
+                        </dt>
+                        <dd
+                          aria-label="Role value"
+                          class="pf-v6-c-description-list__description"
+                          data-ouia-component-id="Role value"
+                        >
+                          <div
+                            class="pf-v6-c-description-list__text"
                           >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Red Hat Enterprise Linux Server
-                            </div>
-                          </dd>
-                        </div>
-                      </dl>
-                    </div>
+                            Red Hat Enterprise Linux Server
+                          </div>
+                        </dd>
+                      </div>
+                    </dl>
                   </div>
                 </div>
               </div>
