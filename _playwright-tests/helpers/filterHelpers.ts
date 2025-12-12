@@ -32,11 +32,15 @@ export const filterSystemsWithConditionalFilter = async (
   // 2. SELECT OPTION
   if (filterName === 'Workspace') {
     await page.getByRole('textbox', { name: 'Type to filter' }).click();
+    const menuOption = page.locator(
+      '[data-ouia-component-id="FilterByGroupOption"]',
+    );
     if (!(option === 'Ungrouped hosts')) {
       await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
-      await page.waitForTimeout(200);
+
+      await expect(menuOption).toHaveCount(1);
     }
-    optionCheckbox = page.getByText(option, { exact: true }).first();
+    optionCheckbox = menuOption.first();
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'Data collector') {
