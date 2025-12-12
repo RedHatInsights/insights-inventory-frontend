@@ -130,7 +130,7 @@ exports[`LoadingCard Loading card render 1`] = `
         >
           <div
             class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-8"
+            data-ouia-component-id="OUIA-Generated-Content-7"
             data-ouia-component-type="PF6/Content"
             data-ouia-safe="true"
             data-pf-content="true"
@@ -149,71 +149,66 @@ exports[`LoadingCard Loading card render 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-10"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <dl
+            aria-label="Some title title"
+            class="pf-v6-c-description-list pf-m-3-col"
+            data-ouia-component-id="Some title title"
           >
-            <dl
-              aria-label="Some title title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Some title title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <div
+              class="pf-v6-c-description-list__group"
             >
-              <div
-                class="pf-v6-c-description-list__group"
+              <dt
+                class="pf-v6-c-description-list__term"
               >
-                <dt
-                  class="pf-v6-c-description-list__term"
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    test-title
-                  </span>
-                </dt>
-                <dd
-                  aria-label="test-title value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="test-title value"
+                  test-title
+                </span>
+              </dt>
+              <dd
+                aria-label="test-title value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="test-title value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    <div>
-                      <a
-                        href="localhost:3000/example/path/undefined"
-                      >
-                        some value
-                      </a>
-                    </div>
+                  <div>
+                    <a
+                      href="localhost:3000/example/path/undefined"
+                    >
+                      some value
+                    </a>
                   </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    just title
-                  </span>
-                </dt>
-                <dd
-                  aria-label="just title value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="just title value"
+                  just title
+                </span>
+              </dt>
+              <dd
+                aria-label="just title value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="just title value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Not available
-                  </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
+                  Not available
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -260,77 +255,72 @@ exports[`LoadingCard should render loading bars 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-7"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <dl
+            aria-label="Some title title"
+            class="pf-v6-c-description-list pf-m-3-col"
+            data-ouia-component-id="Some title title"
           >
-            <dl
-              aria-label="Some title title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Some title title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <div
+              class="pf-v6-c-description-list__group"
             >
-              <div
-                class="pf-v6-c-description-list__group"
+              <dt
+                class="pf-v6-c-description-list__term"
               >
-                <dt
-                  class="pf-v6-c-description-list__term"
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    test-title
-                  </span>
-                </dt>
-                <dd
-                  aria-label="test-title value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="test-title value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__md"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    just title
-                  </span>
-                </dt>
-                <dd
-                  aria-label="just title value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="just title value"
+                  test-title
+                </span>
+              </dt>
+              <dd
+                aria-label="test-title value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="test-title value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__md"
                   >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
                   </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  just title
+                </span>
+              </dt>
+              <dd
+                aria-label="just title value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="just title value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  <div
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                  >
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
+                  </div>
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>

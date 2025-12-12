@@ -308,4 +308,72 @@ describe('LoadingCard', () => {
     });
     expect(view.asFragment()).toMatchSnapshot();
   });
+
+  describe('Column layout', () => {
+    const createItems = (count) =>
+      Array.from({ length: count }, (_, i) => ({
+        title: `Item ${i + 1}`,
+        value: `Value ${i + 1}`,
+      }));
+
+    it('should use 3 columns when there are 3 or fewer items', () => {
+      [1, 2, 3].forEach((itemCount) => {
+        const { container } = render(
+          <TestWrapper>
+            <LoadingCard
+              isLoading={false}
+              title="Test Card"
+              items={createItems(itemCount)}
+            />
+          </TestWrapper>,
+        );
+
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+        const descriptionList = container.querySelector(
+          '.pf-v6-c-description-list',
+        );
+        expect(descriptionList).toBeInTheDocument();
+        expect(descriptionList).toHaveClass('pf-m-3-col');
+      });
+    });
+
+    it('should use 2 columns when there are more than 3 items', () => {
+      [4, 5, 6, 10].forEach((itemCount) => {
+        const { container } = render(
+          <TestWrapper>
+            <LoadingCard
+              isLoading={false}
+              title="Test Card"
+              items={createItems(itemCount)}
+            />
+          </TestWrapper>,
+        );
+
+        // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+        const descriptionList = container.querySelector(
+          '.pf-v6-c-description-list',
+        );
+        expect(descriptionList).toBeInTheDocument();
+        expect(descriptionList).toHaveClass('pf-m-2-col');
+      });
+    });
+
+    it('should render items in separate DescriptionListGroups for proper column flow', () => {
+      const { container } = render(
+        <TestWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Test Card"
+            items={createItems(4)}
+          />
+        </TestWrapper>,
+      );
+
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      const descriptionListGroups = container.querySelectorAll(
+        '.pf-v6-c-description-list__group',
+      );
+      expect(descriptionListGroups).toHaveLength(4);
+    });
+  });
 });

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -82,91 +82,90 @@ const LoadingCard = ({
   items = [],
   cardId = 'system-properties-card',
   children,
-}) => (
-  <Card ouiaId={`${cardId}`}>
-    <CardBody>
-      <Stack hasGutter>
-        <StackItem>
-          <Content>
-            <Content
-              component={ContentVariants.h1}
-              ouiaId="SystemPropertiesCardTitle"
-            >
-              {title}
-            </Content>
-          </Content>
-        </StackItem>
-        <StackItem isFilled>
-          {items.length ? (
+}) => {
+  const columnMod = items.length > 3 ? '2Col' : '3Col';
+  return (
+    <Card ouiaId={`${cardId}`}>
+      <CardBody>
+        <Stack hasGutter>
+          <StackItem>
             <Content>
+              <Content
+                component={ContentVariants.h1}
+                ouiaId="SystemPropertiesCardTitle"
+              >
+                {title}
+              </Content>
+            </Content>
+          </StackItem>
+          <StackItem isFilled>
+            {items.length ? (
               <DescriptionList
-                isHorizontal
-                isAutoFit
-                horizontalTermWidthModifier={{
-                  default: '20ch',
-                }}
                 data-ouia-component-id={`${title} title`}
                 aria-label={`${title} title`}
+                isHorizontal={false}
+                isAutoFit={false}
+                columnModifier={{
+                  default: columnMod,
+                }}
               >
-                <DescriptionListGroup>
-                  {items.map(
-                    (
-                      {
-                        onClick,
-                        value,
-                        target,
-                        plural,
-                        singular,
-                        size,
-                        title: itemTitle,
-                        customClass,
-                      },
-                      key,
-                    ) => {
-                      const title =
-                        typeof itemTitle === 'string'
-                          ? itemTitle
-                          : itemTitle?.props?.title;
-                      return (
-                        <Fragment key={key}>
-                          <DescriptionListTerm>{itemTitle}</DescriptionListTerm>
-                          <DescriptionListDescription
-                            className={customClass}
-                            data-ouia-component-id={`${title} value`}
-                            aria-label={`${title} value`}
-                          >
-                            {isLoading && (
-                              <Skeleton size={size || SkeletonSize.sm} />
-                            )}
-                            {!isLoading &&
-                              ((onClick || target?.[0] === '/') && value ? (
-                                <div>
-                                  <Clickable
-                                    onClick={onClick}
-                                    value={value}
-                                    target={target}
-                                    plural={plural}
-                                    singular={singular}
-                                  />
-                                </div>
-                              ) : (
-                                valueToText(value, singular, plural)
-                              ))}
-                          </DescriptionListDescription>
-                        </Fragment>
-                      );
+                {items.map(
+                  (
+                    {
+                      onClick,
+                      value,
+                      target,
+                      plural,
+                      singular,
+                      size,
+                      title: itemTitle,
+                      customClass,
                     },
-                  )}
-                </DescriptionListGroup>
+                    key,
+                  ) => {
+                    const title =
+                      typeof itemTitle === 'string'
+                        ? itemTitle
+                        : itemTitle?.props?.title;
+                    return (
+                      <DescriptionListGroup key={key}>
+                        <DescriptionListTerm>{itemTitle}</DescriptionListTerm>
+                        <DescriptionListDescription
+                          className={customClass}
+                          data-ouia-component-id={`${title} value`}
+                          aria-label={`${title} value`}
+                        >
+                          {isLoading && (
+                            <Skeleton size={size || SkeletonSize.sm} />
+                          )}
+                          {!isLoading &&
+                            ((onClick || target?.[0] === '/') && value ? (
+                              <div>
+                                <Clickable
+                                  onClick={onClick}
+                                  value={value}
+                                  target={target}
+                                  plural={plural}
+                                  singular={singular}
+                                />
+                              </div>
+                            ) : (
+                              valueToText(value, singular, plural)
+                            ))}
+                        </DescriptionListDescription>
+                      </DescriptionListGroup>
+                    );
+                  },
+                )}
               </DescriptionList>
-            </Content>
-          ) : null}
-          {children}
-        </StackItem>
-      </Stack>
-    </CardBody>
-  </Card>
-);
+            ) : null}
+            {children}
+          </StackItem>
+        </Stack>
+      </CardBody>
+    </Card>
+  );
+};
 
 LoadingCard.propTypes = {
   title: PropTypes.node.isRequired,
