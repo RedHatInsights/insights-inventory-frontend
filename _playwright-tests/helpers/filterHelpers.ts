@@ -32,7 +32,6 @@ export const filterSystemsWithConditionalFilter = async (
   // 2. SELECT OPTION
   if (filterName === 'Workspace') {
     await page.getByRole('textbox', { name: 'Type to filter' }).click();
-    // TODO: uncomment when issue is resolved https://issues.redhat.com/browse/RHINENG-20990
     if (!(option === 'Ungrouped hosts')) {
       await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
       await page.waitForTimeout(200);
@@ -50,8 +49,10 @@ export const filterSystemsWithConditionalFilter = async (
     const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
     await inputLocator.click();
     await inputLocator.fill(option);
-    // option = name=value
-    await page.waitForTimeout(100);
+    await expect(
+      page.locator(`input[type="checkbox"][value="${option}"]`),
+    ).toBeVisible();
+
     optionCheckbox = page.getByText(option, { exact: true }).first();
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
