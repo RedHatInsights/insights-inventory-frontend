@@ -27,11 +27,7 @@ const expectCardsToExist = (
   titles = ['Infrastructure', 'Operating system', 'BIOS', 'Configuration'],
 ) => {
   titles.forEach((title) => {
-    expect(
-      screen.getByRole('heading', {
-        name: title,
-      }),
-    ).toBeVisible();
+    expect(screen.getByText(title)).toBeVisible();
   });
 };
 
@@ -124,11 +120,7 @@ describe('Details', () => {
           </MemoryRouter>,
         );
 
-        expect(
-          screen.queryByRole('heading', {
-            name: title,
-          }),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText(title)).not.toBeInTheDocument();
       });
 
       it(`should render custom ${title}`, () => {
@@ -144,11 +136,7 @@ describe('Details', () => {
           </MemoryRouter>,
         );
 
-        expect(
-          screen.queryByRole('heading', {
-            name: title,
-          }),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText(title)).not.toBeInTheDocument();
       });
     });
   });
