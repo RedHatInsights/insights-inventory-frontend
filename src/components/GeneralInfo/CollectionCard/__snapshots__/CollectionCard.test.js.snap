@@ -39,155 +39,162 @@ exports[`CollectionCard should render correctly - no data 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-3"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <dl
+            aria-label="Collection information title"
+            class="pf-v6-c-description-list pf-m-2-col"
+            data-ouia-component-id="Collection information title"
           >
-            <dl
-              aria-label="Collection information title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Collection information title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <div
+              class="pf-v6-c-description-list__group"
             >
-              <div
-                class="pf-v6-c-description-list__group"
+              <dt
+                class="pf-v6-c-description-list__term"
               >
-                <dt
-                  class="pf-v6-c-description-list__term"
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Insights client
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Insights client value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Insights client value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Last check-in
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Last check-in value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Last check-in value"
+                  Insights client
+                </span>
+              </dt>
+              <dd
+                aria-label="Insights client value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Insights client value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                   >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
                   </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Registered
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Registered value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Registered value"
+                  Last check-in
+                </span>
+              </dt>
+              <dd
+                aria-label="Last check-in value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Last check-in value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                   >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
                   </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Insights id
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Insights id value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Insights id value"
+                  Registered
+                </span>
+              </dt>
+              <dd
+                aria-label="Registered value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Registered value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                   >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
                   </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Reporter
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Reporter value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Reporter value"
+                  Insights id
+                </span>
+              </dt>
+              <dd
+                aria-label="Insights id value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Insights id value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
                   >
-                    <div
-                      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
-                    >
-                      <span
-                        class="pf-v6-screen-reader"
-                      />
-                    </div>
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
                   </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Reporter
+                </span>
+              </dt>
+              <dd
+                aria-label="Reporter value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Reporter value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  <div
+                    class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+                  >
+                    <span
+                      class="pf-v6-screen-reader"
+                    />
+                  </div>
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -215,7 +222,7 @@ exports[`CollectionCard should render correctly with data 1`] = `
         >
           <div
             class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-4"
+            data-ouia-component-id="OUIA-Generated-Content-3"
             data-ouia-component-type="PF6/Content"
             data-ouia-safe="true"
             data-pf-content="true"
@@ -234,131 +241,138 @@ exports[`CollectionCard should render correctly with data 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-6"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <dl
+            aria-label="Collection information title"
+            class="pf-v6-c-description-list pf-m-2-col"
+            data-ouia-component-id="Collection information title"
           >
-            <dl
-              aria-label="Collection information title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Collection information title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <div
+              class="pf-v6-c-description-list__group"
             >
-              <div
-                class="pf-v6-c-description-list__group"
+              <dt
+                class="pf-v6-c-description-list__term"
               >
-                <dt
-                  class="pf-v6-c-description-list__term"
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Insights client
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Insights client value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Insights client value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    <div
-                      style="display: contents;"
-                    >
-                      <span>
-                        test-client
-                      </span>
-                    </div>
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Last check-in
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Last check-in value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Last check-in value"
+                  Insights client
+                </span>
+              </dt>
+              <dd
+                aria-label="Insights client value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Insights client value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    style="display: contents;"
                   >
-                    01 Jun 2014
+                    <span>
+                      test-client
+                    </span>
                   </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Registered
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Registered value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Registered value"
+                  Last check-in
+                </span>
+              </dt>
+              <dd
+                aria-label="Last check-in value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Last check-in value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    01 Apr 2014
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                  01 Jun 2014
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Insights id
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Insights id value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Insights id value"
+                  Registered
+                </span>
+              </dt>
+              <dd
+                aria-label="Registered value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Registered value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Not available
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
+                  01 Apr 2014
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Reporter
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Reporter value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Reporter value"
+                  Insights id
+                </span>
+              </dt>
+              <dd
+                aria-label="Insights id value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Insights id value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Not available
-                  </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
+                  Not available
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Reporter
+                </span>
+              </dt>
+              <dd
+                aria-label="Reporter value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Reporter value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  Not available
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
@@ -386,7 +400,7 @@ exports[`CollectionCard should render extra 1`] = `
         >
           <div
             class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-25"
+            data-ouia-component-id="OUIA-Generated-Content-17"
             data-ouia-component-type="PF6/Content"
             data-ouia-safe="true"
             data-pf-content="true"
@@ -405,177 +419,192 @@ exports[`CollectionCard should render extra 1`] = `
         <div
           class="pf-v6-l-stack__item pf-m-fill"
         >
-          <div
-            class="pf-v6-c-content"
-            data-ouia-component-id="OUIA-Generated-Content-27"
-            data-ouia-component-type="PF6/Content"
-            data-ouia-safe="true"
-            data-pf-content="true"
+          <dl
+            aria-label="Collection information title"
+            class="pf-v6-c-description-list pf-m-2-col"
+            data-ouia-component-id="Collection information title"
           >
-            <dl
-              aria-label="Collection information title"
-              class="pf-v6-c-description-list pf-m-horizontal pf-m-auto-fit"
-              data-ouia-component-id="Collection information title"
-              style="--pf-v6-c-description-list--m-horizontal__term--width: 20ch;"
+            <div
+              class="pf-v6-c-description-list__group"
             >
-              <div
-                class="pf-v6-c-description-list__group"
+              <dt
+                class="pf-v6-c-description-list__term"
               >
-                <dt
-                  class="pf-v6-c-description-list__term"
+                <span
+                  class="pf-v6-c-description-list__text"
                 >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Insights client
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Insights client value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Insights client value"
+                  Insights client
+                </span>
+              </dt>
+              <dd
+                aria-label="Insights client value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Insights client value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
                 >
                   <div
-                    class="pf-v6-c-description-list__text"
+                    style="display: contents;"
                   >
-                    <div
-                      style="display: contents;"
+                    <span>
+                      test-client
+                    </span>
+                  </div>
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Last check-in
+                </span>
+              </dt>
+              <dd
+                aria-label="Last check-in value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Last check-in value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  01 Jun 2014
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Registered
+                </span>
+              </dt>
+              <dd
+                aria-label="Registered value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Registered value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  01 Apr 2014
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Insights id
+                </span>
+              </dt>
+              <dd
+                aria-label="Insights id value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Insights id value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  Not available
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  Reporter
+                </span>
+              </dt>
+              <dd
+                aria-label="Reporter value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="Reporter value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  Not available
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  something
+                </span>
+              </dt>
+              <dd
+                aria-label="something value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="something value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  test
+                </div>
+              </dd>
+            </div>
+            <div
+              class="pf-v6-c-description-list__group"
+            >
+              <dt
+                class="pf-v6-c-description-list__term"
+              >
+                <span
+                  class="pf-v6-c-description-list__text"
+                >
+                  with click
+                </span>
+              </dt>
+              <dd
+                aria-label="with click value"
+                class="pf-v6-c-description-list__description"
+                data-ouia-component-id="with click value"
+              >
+                <div
+                  class="pf-v6-c-description-list__text"
+                >
+                  <div>
+                    <a
+                      href="//undefined"
                     >
-                      <span>
-                        test-client
-                      </span>
-                    </div>
+                      1 tests
+                    </a>
                   </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Last check-in
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Last check-in value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Last check-in value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    01 Jun 2014
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Registered
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Registered value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Registered value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    01 Apr 2014
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Insights id
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Insights id value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Insights id value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Not available
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Reporter
-                  </span>
-                </dt>
-                <dd
-                  aria-label="Reporter value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="Reporter value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    Not available
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    something
-                  </span>
-                </dt>
-                <dd
-                  aria-label="something value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="something value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    test
-                  </div>
-                </dd>
-                <dt
-                  class="pf-v6-c-description-list__term"
-                >
-                  <span
-                    class="pf-v6-c-description-list__text"
-                  >
-                    with click
-                  </span>
-                </dt>
-                <dd
-                  aria-label="with click value"
-                  class="pf-v6-c-description-list__description"
-                  data-ouia-component-id="with click value"
-                >
-                  <div
-                    class="pf-v6-c-description-list__text"
-                  >
-                    <div>
-                      <a
-                        href="//undefined"
-                      >
-                        1 tests
-                      </a>
-                    </div>
-                  </div>
-                </dd>
-              </div>
-            </dl>
-          </div>
+                </div>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </div>
