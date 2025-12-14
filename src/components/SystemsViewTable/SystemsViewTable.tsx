@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DataView,
+  DataViewTrObject,
   useDataViewFilters,
   useDataViewPagination,
 } from '@patternfly/react-data-view';
-import {
-  DataViewTable,
-  DataViewTr,
-} from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
+import { DataViewTable } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
 import { Pagination } from '@patternfly/react-core';
 import DisplayName from '../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
@@ -28,6 +26,9 @@ import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 import { InventoryFilters, SystemsViewFilters } from './SystemsViewFilters';
 import { useColumns } from './hooks/useColumns';
 import { useSearchParams } from 'react-router-dom';
+import DeleteModal from '../../Utilities/DeleteModal';
+import { ActionsColumn } from '@patternfly/react-table';
+import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
@@ -35,6 +36,8 @@ const NO_HEADER = <></>;
 
 const SystemsViewTable: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [systemsToDelete, setSystemsToDelete] = useState<System[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
@@ -46,8 +49,14 @@ const SystemsViewTable: React.FC = () => {
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
     initialSelected: [],
-  });
-  const { selected, onSelect, isSelected, setSelected } = selection;
+  }) as {
+    selected: DataViewTrObject[];
+    setSelected: (items: DataViewTrObject[]) => void;
+    onSelect: (isSelecting: boolean, items?: DataViewTrObject[]) => void;
+    isSelected: (item: DataViewTrObject) => boolean;
+  };
+
+  const { selected, setSelected, onSelect, isSelected } = selection;
 
   const { filters, onSetFilters, clearAllFilters } =
     useDataViewFilters<InventoryFilters>({
@@ -64,7 +73,7 @@ const SystemsViewTable: React.FC = () => {
     });
 
   const { columns, sortBy, direction } = useColumns();
-  const { data, total, isLoading, isError } = useSystemsQuery({
+  const { data, total, isLoading, isFetching, isError } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
     filters,
@@ -72,15 +81,49 @@ const SystemsViewTable: React.FC = () => {
     direction,
   });
 
-  const activeState = isLoading
-    ? 'loading'
-    : isError
-      ? 'error'
-      : data?.length === 0
-        ? 'empty'
-        : 'active';
+  const { onDeleteConfirm } = useDeleteSystemsMutation({
+    systemsToDelete,
+    onSuccess: () => {
+      setSelected([]);
+    },
+    onMutate: () => {
+      setIsDeleteModalOpen(false);
+    },
+  });
 
-  const mapSystemToRow = (system: System): DataViewTr => {
+  const activeState =
+    isLoading || isFetching
+      ? 'loading'
+      : isError
+        ? 'error'
+        : data?.length === 0
+          ? 'empty'
+          : 'active';
+
+  const mapSystemToRow = (system: System): DataViewTrObject => {
+    const rowActions = [
+      {
+        title: 'Add to workspace',
+        onClick: () => {},
+      },
+      {
+        title: 'Remove from workspace',
+        onClick: () => {},
+        isDisabled: true,
+      },
+      {
+        title: 'Edit display name',
+        onClick: () => {},
+      },
+      {
+        title: 'Delete from inventory',
+        onClick: () => {
+          setSystemsToDelete([system]);
+          setIsDeleteModalOpen(true);
+        },
+      },
+    ];
+
     return {
       id: system.id,
       // FIXME types in column components
@@ -109,16 +152,20 @@ const SystemsViewTable: React.FC = () => {
           stale_timestamp={system?.stale_timestamp}
           per_reporter_staleness={system?.per_reporter_staleness}
         />,
+        {
+          cell: <ActionsColumn items={rowActions} />,
+          props: { isActionCell: true },
+        },
       ],
     };
   };
 
   const rows = (data ?? []).map(mapSystemToRow);
 
-  const isPageSelected = (rows: DataViewTr[]) =>
+  const isPageSelected = (rows: DataViewTrObject[]) =>
     rows.length > 0 && rows.every((row) => isSelected(row));
 
-  const isPagePartiallySelected = (rows: DataViewTr[]) =>
+  const isPagePartiallySelected = (rows: DataViewTrObject[]) =>
     rows.some((row) => isSelected(row)) && !isPageSelected(rows);
 
   const onBulkSelect = async (value: string) => {
@@ -158,8 +205,22 @@ const SystemsViewTable: React.FC = () => {
         }
         actions={
           <ResponsiveActions ouiaId="systems-view-toolbar-actions">
-            <ResponsiveAction>Action 1</ResponsiveAction>
-            <ResponsiveAction>Action 2</ResponsiveAction>
+            <ResponsiveAction
+              isPersistent
+              onClick={() => {
+                setIsDeleteModalOpen(true);
+                const selectedIds = selected.map(({ id }) => id);
+                const systemsBulkSelected =
+                  data?.filter(({ id }) => id && selectedIds.includes(id)) ||
+                  [];
+                setSystemsToDelete(systemsBulkSelected);
+              }}
+              isDisabled={activeState !== 'active' || selected.length === 0}
+            >
+              Delete
+            </ResponsiveAction>
+            <ResponsiveAction>Add to workspace</ResponsiveAction>
+            <ResponsiveAction>Remove from workspace</ResponsiveAction>
           </ResponsiveActions>
         }
         pagination={<Pagination isCompact itemCount={total} {...pagination} />}
@@ -194,6 +255,16 @@ const SystemsViewTable: React.FC = () => {
           ),
         }}
       />
+
+      {isDeleteModalOpen && (
+        <DeleteModal
+          handleModalToggle={setIsDeleteModalOpen}
+          isModalOpen={isDeleteModalOpen}
+          currentSystems={systemsToDelete}
+          onConfirm={onDeleteConfirm}
+        />
+      )}
+
       <DataViewToolbar
         ouiaId="systems-view-footer"
         pagination={<Pagination itemCount={total} {...pagination} />}

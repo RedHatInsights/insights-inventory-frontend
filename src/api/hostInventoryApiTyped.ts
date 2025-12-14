@@ -14,6 +14,10 @@ import {
   ApiGroupGetGroupListParams,
   ApiGroupGetGroupListReturnType,
 } from '@redhat-cloud-services/host-inventory-client/ApiGroupGetGroupList';
+import {
+  ApiHostDeleteHostByIdParams,
+  ApiHostDeleteHostByIdReturnType,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostDeleteHostById';
 
 export type {
   HostOut,
@@ -70,4 +74,12 @@ export const getGroupList = async (
   return (await hostInventoryApi().apiGroupGetGroupList(
     params,
   )) as unknown as ApiGroupGetGroupListReturnType;
+};
+
+export const deleteHostById = async (
+  params: ApiHostDeleteHostByIdParams = { hostIdList: [] },
+): Promise<ApiHostDeleteHostByIdReturnType> => {
+  return (await hostInventoryApi().apiHostDeleteHostById(
+    params,
+  )) as unknown as ApiHostDeleteHostByIdReturnType;
 };
