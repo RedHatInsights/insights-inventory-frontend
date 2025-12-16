@@ -29,6 +29,9 @@ import { useSearchParams } from 'react-router-dom';
 import DeleteModal from '../../Utilities/DeleteModal';
 import { ActionsColumn } from '@patternfly/react-table';
 import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
+import AddSelectedHostsToGroupModal from '../InventoryGroups/Modals/AddSelectedHostsToGroupModal';
+import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
+import { useQueryClient } from '@tanstack/react-query';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
@@ -36,9 +39,13 @@ const NO_HEADER = <></>;
 
 const SystemsViewTable: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [systemsToDelete, setSystemsToDelete] = useState<System[]>([]);
+  const [systemsForAction, setSystemsForAction] = useState<System[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
+  const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
+    useState(false);
 
+  const queryClient = useQueryClient();
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
@@ -81,8 +88,12 @@ const SystemsViewTable: React.FC = () => {
     direction,
   });
 
+  const selectedIds = selected.map(({ id }) => id);
+  const selectedSystems =
+    data?.filter(({ id }) => id && selectedIds.includes(id)) || [];
+
   const { onDeleteConfirm } = useDeleteSystemsMutation({
-    systemsToDelete,
+    systemsToDelete: systemsForAction,
     onSuccess: () => {
       setSelected([]);
     },
@@ -100,16 +111,31 @@ const SystemsViewTable: React.FC = () => {
           ? 'empty'
           : 'active';
 
+  const hasWorkspace = (system: System) => {
+    return !system?.groups?.[0]?.ungrouped;
+  };
+
+  const hasSameWorkspace = (system: System, _: number, systemArr: System[]) => {
+    return system?.groups?.[0]?.name === systemArr[0]?.groups?.[0]?.name;
+  };
+
   const mapSystemToRow = (system: System): DataViewTrObject => {
     const rowActions = [
       {
         title: 'Add to workspace',
-        onClick: () => {},
+        onClick: () => {
+          setSystemsForAction([system]);
+          setAddHostGroupModalOpen(true);
+        },
+        isDisabled: hasWorkspace(system),
       },
       {
         title: 'Remove from workspace',
-        onClick: () => {},
-        isDisabled: true,
+        onClick: () => {
+          setSystemsForAction([system]);
+          setRemoveHostsFromGroupModalOpen(true);
+        },
+        isDisabled: !hasWorkspace(system),
       },
       {
         title: 'Edit display name',
@@ -118,7 +144,7 @@ const SystemsViewTable: React.FC = () => {
       {
         title: 'Delete from inventory',
         onClick: () => {
-          setSystemsToDelete([system]);
+          setSystemsForAction([system]);
           setIsDeleteModalOpen(true);
         },
       },
@@ -208,19 +234,39 @@ const SystemsViewTable: React.FC = () => {
             <ResponsiveAction
               isPersistent
               onClick={() => {
+                setSystemsForAction(selectedSystems);
                 setIsDeleteModalOpen(true);
-                const selectedIds = selected.map(({ id }) => id);
-                const systemsBulkSelected =
-                  data?.filter(({ id }) => id && selectedIds.includes(id)) ||
-                  [];
-                setSystemsToDelete(systemsBulkSelected);
               }}
               isDisabled={activeState !== 'active' || selected.length === 0}
             >
               Delete
             </ResponsiveAction>
-            <ResponsiveAction>Add to workspace</ResponsiveAction>
-            <ResponsiveAction>Remove from workspace</ResponsiveAction>
+            <ResponsiveAction
+              onClick={() => {
+                setSystemsForAction(selectedSystems);
+                setAddHostGroupModalOpen(true);
+              }}
+              isDisabled={
+                activeState !== 'active' ||
+                selected.length === 0 ||
+                selectedSystems.some(hasWorkspace)
+              }
+            >
+              Add to workspace
+            </ResponsiveAction>
+            <ResponsiveAction
+              onClick={() => {
+                setSystemsForAction(selectedSystems);
+                setRemoveHostsFromGroupModalOpen(true);
+              }}
+              isDisabled={
+                activeState !== 'active' ||
+                selected.length === 0 ||
+                !selectedSystems.every(hasSameWorkspace)
+              }
+            >
+              Remove from workspace
+            </ResponsiveAction>
           </ResponsiveActions>
         }
         pagination={<Pagination isCompact itemCount={total} {...pagination} />}
@@ -260,8 +306,32 @@ const SystemsViewTable: React.FC = () => {
         <DeleteModal
           handleModalToggle={setIsDeleteModalOpen}
           isModalOpen={isDeleteModalOpen}
-          currentSystems={systemsToDelete}
+          currentSystems={systemsForAction}
           onConfirm={onDeleteConfirm}
+        />
+      )}
+
+      {addHostGroupModalOpen && (
+        <AddSelectedHostsToGroupModal
+          isModalOpen={addHostGroupModalOpen}
+          setIsModalOpen={setAddHostGroupModalOpen}
+          modalState={systemsForAction}
+          reloadData={async () => {
+            setSelected([]);
+            await queryClient.invalidateQueries({ queryKey: ['systems'] });
+          }}
+        />
+      )}
+
+      {removeHostsFromGroupModalOpen && (
+        <RemoveHostsFromGroupModal
+          isModalOpen={removeHostsFromGroupModalOpen}
+          setIsModalOpen={setRemoveHostsFromGroupModalOpen}
+          modalState={systemsForAction}
+          reloadData={async () => {
+            setSelected([]);
+            await queryClient.invalidateQueries({ queryKey: ['systems'] });
+          }}
         />
       )}
 
