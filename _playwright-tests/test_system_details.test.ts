@@ -175,4 +175,109 @@ test.describe('System Details tests', () => {
       await expect(complianceTab).toBeDisabled();
     });
   });
+
+  test('DescriptionList should use correct column layout based on item count', async ({
+    page,
+  }) => {
+    /**
+     * Metadata:
+     * - requirements: inv-hosts-get-by-id
+     * - importance: medium
+     * - assignee: micjohns
+     */
+
+    await test.step('Setup: navigate to prepared system details page', async () => {
+      const nameColumnLocator = page.locator('td[data-label="Name"]');
+      await searchByName(page, packageSystemName);
+      await expect(nameColumnLocator).toHaveCount(1);
+
+      const systemLink = page.getByRole('link', { name: packageSystemName });
+      await expect(systemLink).toBeVisible({ timeout: 100000 });
+      await systemLink.click();
+
+      await expect(
+        page.getByRole('heading', { name: packageSystemName }),
+      ).toBeVisible({
+        timeout: 100000,
+      });
+    });
+
+    await test.step('Verify 3-column layout for cards with 3 or fewer items', async () => {
+      // SubscriptionCard has 3 items (Usage, SLA, Role) - should use 3 columns
+      const subscriptionsCard = page.locator(
+        "[data-ouia-component-id='subscriptions-card']",
+      );
+      await expect(subscriptionsCard).toBeVisible();
+
+      const subscriptionsDescriptionList = subscriptionsCard.locator(
+        '.pf-v6-c-description-list',
+      );
+      await expect(subscriptionsDescriptionList).toHaveClass(/pf-m-3-col/);
+
+      // Navigate to Details tab to check BiosCard
+      await page.locator('button[name="details"]').click();
+      const detailsTab = page.locator(
+        'button[name="details"][aria-selected="true"]',
+      );
+      await expect(detailsTab).toBeVisible();
+
+      // BiosCard has 3 items (Vendor, Version, Release date) - should use 3 columns
+      const biosCard = page.locator("[data-ouia-component-id='bios-card']");
+      await expect(biosCard).toBeVisible();
+
+      const biosDescriptionList = biosCard.locator('.pf-v6-c-description-list');
+      await expect(biosDescriptionList).toHaveClass(/pf-m-3-col/);
+    });
+
+    await test.step('Verify 2-column layout for cards with more than 3 items', async () => {
+      // Navigate back to Overview tab
+      await page.locator('button[name="overview"]').click();
+      const overviewTab = page.locator(
+        'button[name="overview"][aria-selected="true"]',
+      );
+      await expect(overviewTab).toBeVisible();
+
+      // SystemStatusCard has 5 items - should use 2 columns
+      const systemStatusCard = page.locator(
+        "[data-ouia-component-id='system-status-card']",
+      );
+      await expect(systemStatusCard).toBeVisible();
+
+      const systemStatusDescriptionList = systemStatusCard.locator(
+        '.pf-v6-c-description-list',
+      );
+      await expect(systemStatusDescriptionList).toHaveClass(/pf-m-2-col/);
+
+      // Navigate to Details tab
+      await page.locator('button[name="details"]').click();
+      const detailsTab = page.locator(
+        'button[name="details"][aria-selected="true"]',
+      );
+      await expect(detailsTab).toBeVisible();
+
+      // InfrastructureCard has 7 items - should use 2 columns
+      const infrastructureCard = page.locator(
+        "[data-ouia-component-id='infrastructure-card']",
+      );
+      await expect(infrastructureCard).toBeVisible();
+
+      const infrastructureDescriptionList = infrastructureCard.locator(
+        '.pf-v6-c-description-list',
+      );
+      await expect(infrastructureDescriptionList).toHaveClass(/pf-m-2-col/);
+    });
+
+    await test.step('Verify items are rendered in separate DescriptionListGroups', async () => {
+      const systemStatusCard = page.locator(
+        "[data-ouia-component-id='system-status-card']",
+      );
+      await page.locator('button[name="overview"]').click();
+
+      const systemStatusGroups = systemStatusCard.locator(
+        '.pf-v6-c-description-list__group',
+      );
+      // SystemStatusCard should have 5 groups (one per item)
+      await expect(systemStatusGroups).toHaveCount(5);
+    });
+  });
 });
