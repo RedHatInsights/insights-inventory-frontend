@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   DataView,
   DataViewTrObject,
@@ -7,7 +7,6 @@ import {
 } from '@patternfly/react-data-view';
 import { DataViewTable } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
-import { Pagination } from '@patternfly/react-core';
 import DisplayName from '../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
 import Workspace from '../../routes/Systems/components/SystemsTable/components/columns/Workspace';
 import Tags from '../../routes/Systems/components/SystemsTable/components/columns/Tags';
@@ -34,6 +33,8 @@ import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFrom
 import { useQueryClient } from '@tanstack/react-query';
 import TextInputModal from '../GeneralInfo/TextInputModal/TextInputModal';
 import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
+import { Pagination } from '@patternfly/react-core';
+import { SystemsViewExport } from './SystemsViewExport';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
@@ -246,44 +247,48 @@ const SystemsViewTable: React.FC = () => {
           <SystemsViewFilters filters={filters} onSetFilters={onSetFilters} />
         }
         actions={
-          <ResponsiveActions ouiaId="systems-view-toolbar-actions">
-            <ResponsiveAction
-              isPersistent
-              onClick={() => {
-                setSystemsForAction(selectedSystems);
-                setIsDeleteModalOpen(true);
-              }}
-              isDisabled={activeState !== 'active' || selected.length === 0}
-            >
-              Delete
-            </ResponsiveAction>
-            <ResponsiveAction
-              onClick={() => {
-                setSystemsForAction(selectedSystems);
-                setAddHostGroupModalOpen(true);
-              }}
-              isDisabled={
-                activeState !== 'active' ||
-                selected.length === 0 ||
-                selectedSystems.some(hasWorkspace)
-              }
-            >
-              Add to workspace
-            </ResponsiveAction>
-            <ResponsiveAction
-              onClick={() => {
-                setSystemsForAction(selectedSystems);
-                setRemoveHostsFromGroupModalOpen(true);
-              }}
-              isDisabled={
-                activeState !== 'active' ||
-                selected.length === 0 ||
-                !selectedSystems.every(hasSameWorkspace)
-              }
-            >
-              Remove from workspace
-            </ResponsiveAction>
-          </ResponsiveActions>
+          <Fragment>
+            <SystemsViewExport />
+            <ResponsiveActions ouiaId="systems-view-toolbar-actions">
+              <ResponsiveAction
+                isPersistent
+                onClick={() => {
+                  setSystemsForAction(selectedSystems);
+                  setIsDeleteModalOpen(true);
+                }}
+                isDisabled={activeState !== 'active' || selected.length === 0}
+              >
+                Delete
+              </ResponsiveAction>
+              <ResponsiveAction
+                onClick={() => {
+                  setSystemsForAction(selectedSystems);
+                  setAddHostGroupModalOpen(true);
+                }}
+                isDisabled={
+                  activeState !== 'active' ||
+                  selectedSystems.length === 0 ||
+                  selectedSystems.some(hasWorkspace)
+                }
+              >
+                Add to workspace
+              </ResponsiveAction>
+              <ResponsiveAction
+                onClick={() => {
+                  setSystemsForAction(selectedSystems);
+                  setRemoveHostsFromGroupModalOpen(true);
+                }}
+                isDisabled={
+                  activeState !== 'active' ||
+                  selectedSystems.length === 0 ||
+                  !selectedSystems.some(hasWorkspace) ||
+                  !selectedSystems.every(hasSameWorkspace)
+                }
+              >
+                Remove from workspace
+              </ResponsiveAction>
+            </ResponsiveActions>
+          </Fragment>
         }
         pagination={<Pagination isCompact itemCount={total} {...pagination} />}
       />
