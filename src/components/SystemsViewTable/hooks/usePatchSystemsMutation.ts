@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
-import { deleteSystemsById } from '../../InventoryTable/utils/api';
 import { type System } from './useSystemsQuery';
 import { useMemo } from 'react';
+import { patchHostById } from '../../../api/hostInventoryApiTyped';
+import { PatchHostIn } from '@redhat-cloud-services/host-inventory-client';
 
-interface UseDeleteSystemsMutationParams {
+interface usePatchSystemsMutationParams {
   systems: System[];
   onSuccess?: () => void;
   onError?: () => void;
@@ -17,27 +18,35 @@ const getDisplayName = (systems: System[]): string => {
     : (systems[0]?.display_name ?? 'system');
 };
 
-export const useDeleteSystemsMutation = ({
+export const usePatchSystemsMutation = ({
   systems,
   onSuccess,
   onError,
   onMutate,
-}: UseDeleteSystemsMutationParams) => {
+}: usePatchSystemsMutationParams) => {
   const addNotification = useAddNotification();
   const queryClient = useQueryClient();
 
   const displayName = useMemo(() => getDisplayName(systems), [systems]);
 
-  const deleteMutation = useMutation({
-    mutationFn: async (ids: string[]) => {
-      return await deleteSystemsById(ids);
+  const patchMutation = useMutation<
+    void,
+    Error,
+    { ids: string[]; fields: PatchHostIn }
+  >({
+    mutationFn: async ({ ids, fields }) => {
+      return await patchHostById({
+        hostIdList: ids,
+        patchHostIn: fields,
+      });
     },
+
     onMutate: () => {
       onMutate?.();
       addNotification({
         variant: 'info',
-        title: 'Delete operation initiated',
-        description: `Removal of ${displayName} started.`,
+        title: 'Edit display name operation initiated',
+        description: `Edit of ${displayName} started.`,
         dismissable: true,
       });
     },
@@ -45,8 +54,8 @@ export const useDeleteSystemsMutation = ({
       onSuccess?.();
       addNotification({
         variant: 'success',
-        title: 'Delete operation finished',
-        description: `${displayName} has been successfully removed.`,
+        title: 'Edit display name operation finished',
+        description: `Display name has been changed to ${displayName}`,
         dismissable: true,
       });
 
@@ -58,23 +67,20 @@ export const useDeleteSystemsMutation = ({
       console.error(error);
       addNotification({
         variant: 'danger',
-        title: 'System(s) failed to be removed from Inventory',
+        title: 'Display name failed to be changed',
         description:
           'There was an error processing the request. Please try again.',
         dismissable: true,
       });
-
-      // refetch systems due to possible partial failures
-      await queryClient.invalidateQueries({ queryKey: ['systems'] });
     },
   });
 
-  const onDeleteConfirm = () => {
+  const onPatchConfirm = (name: string) => {
     if (systems.length === 0) {
       addNotification({
         variant: 'warning',
         title: 'No systems selected',
-        description: 'Please select at least one system to delete.',
+        description: 'Please select at least one system to patch.',
         dismissable: true,
       });
       return;
@@ -84,8 +90,8 @@ export const useDeleteSystemsMutation = ({
       .map((system) => system.id)
       .filter((id): id is string => id !== undefined);
 
-    deleteMutation.mutate(systemIds);
+    patchMutation.mutate({ ids: systemIds, fields: { display_name: name } });
   };
 
-  return { onDeleteConfirm };
+  return { onPatchConfirm };
 };
