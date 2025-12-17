@@ -32,6 +32,8 @@ import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 import AddSelectedHostsToGroupModal from '../InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { useQueryClient } from '@tanstack/react-query';
+import TextInputModal from '../GeneralInfo/TextInputModal/TextInputModal';
+import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
@@ -44,6 +46,7 @@ const SystemsViewTable: React.FC = () => {
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   const queryClient = useQueryClient();
   const pagination = useDataViewPagination({
@@ -93,12 +96,22 @@ const SystemsViewTable: React.FC = () => {
     data?.filter(({ id }) => id && selectedIds.includes(id)) || [];
 
   const { onDeleteConfirm } = useDeleteSystemsMutation({
-    systemsToDelete: systemsForAction,
+    systems: systemsForAction,
     onSuccess: () => {
       setSelected([]);
     },
     onMutate: () => {
       setIsDeleteModalOpen(false);
+    },
+  });
+
+  const { onPatchConfirm } = usePatchSystemsMutation({
+    systems: systemsForAction,
+    onSuccess: () => {
+      setSelected([]);
+    },
+    onMutate: () => {
+      setEditModalOpen(false);
     },
   });
 
@@ -139,7 +152,10 @@ const SystemsViewTable: React.FC = () => {
       },
       {
         title: 'Edit display name',
-        onClick: () => {},
+        onClick: () => {
+          setSystemsForAction([system]);
+          setEditModalOpen(true);
+        },
       },
       {
         title: 'Delete from inventory',
@@ -332,6 +348,16 @@ const SystemsViewTable: React.FC = () => {
             setSelected([]);
             await queryClient.invalidateQueries({ queryKey: ['systems'] });
           }}
+        />
+      )}
+
+      {editModalOpen && (
+        <TextInputModal
+          title="Edit display name"
+          isOpen={editModalOpen}
+          value={systemsForAction[0]?.display_name}
+          onCancel={() => setEditModalOpen(false)}
+          onSubmit={onPatchConfirm}
         />
       )}
 
