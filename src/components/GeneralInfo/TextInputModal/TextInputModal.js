@@ -17,8 +17,8 @@ import {
 const TextInputModal = ({
   title = '',
   isOpen = false,
-  onCancel = () => undefined,
-  onSubmit = () => undefined,
+  onCancel = () => {},
+  onSubmit,
   ariaLabel = 'input text',
   modalOuiaId,
   cancelOuiaId,
@@ -62,7 +62,7 @@ const TextInputModal = ({
           key="confirm"
           data-action="confirm"
           variant="primary"
-          onClick={() => onSubmit(value?.trim())}
+          onClick={() => onSubmit?.(value?.trim())}
           ouiaId={confirmOuiaId}
           isDisabled={value === initialValue || value?.trim().length === 0}
         >
