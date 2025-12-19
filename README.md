@@ -2,7 +2,8 @@
 
 # Inventory Frontend
 
-This is the frontend application for [Inventory](https://github.com/RedHatInsights/insights-inventory). It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
+This is the frontend application for [Inventory](https://github.com/RedHatInsights/insights-inventory).
+It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights/insights-frontend-starter-app.git).
 
 ## Documentation
 
@@ -39,7 +40,7 @@ You also need to add the username and password of your Stage testing account to 
 Install the test runner
 `npm install --save-dev @playwright/test`
 
-Install Playwright browsers and dependencies 
+Install Playwright browsers and dependencies
 `npx playwright install`
 
 OR
@@ -95,7 +96,7 @@ LOCAL_APPS=advisor:8003~http npm run start:proxy
 
 ## Mocking Inventory API
 
-This is one of the advanced methods to test frontend locally without waiting for API to have desired endpoints available. 
+This is one of the advanced methods to test frontend locally without waiting for API to have desired endpoints available.
 
 Inventory frontend has support for https://github.com/stoplightio/prism CLI. The CLI reads the OpenAPI schema, spins up a localhost server and serves dynamically generated responses for Inventory API endpoints (/hosts, /groups, etc.).
 
@@ -141,7 +142,7 @@ We use the new release process in stage environment that uses containers for dep
 
 * Some APIs we use require the latest version of their client package in order to enjoy the latest properties they provide.
 In case you checked the Network tab in the console and had a look at the requiered API call that should contain a property you need to fetch and use, but did not see this property in the list of properties in the Response tab, make sure you have the latest version of the client package that contains this API.
-To make sure the versions align, 
+To make sure the versions align,
 Have a look at your `package.json` file and compare the appropriate client package version (that should have the API you need) with the latest published version on npmjs.com.
 In case they don't match, update this client package to it's latest version by running this command: `npm i @redhat-cloud-services/{name-of-client-package}@latest`
 
