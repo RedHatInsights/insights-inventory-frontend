@@ -18,10 +18,12 @@ import { ConfigurationCard } from '../GeneralInfo/ConfigurationCard';
 import { Provider } from 'react-redux';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import useModalState from './hooks/useModalState';
+import RhelAICard from '../GeneralInfo/RhelAICard/RhelAICard';
 
 const Details = ({
   store,
   OperatingSystemCardWrapper = OperatingSystemCard,
+  RhelAICardWrapper = RhelAICard,
   BiosCardWrapper = BiosCard,
   BootcImageCardWrapper = BootcImageCard,
   InfrastructureCardWrapper = InfrastructureCard,
@@ -83,6 +85,14 @@ const Details = ({
           </GridItem>
           <GridItem md={6} sm={12}>
             <Grid hasGutter>
+              {RhelAICardWrapper &&
+                entity?.system_profile?.workloads?.rhel_ai && (
+                  <GridItem>
+                    <RhelAICardWrapper
+                      rhelAI={entity.system_profile.workloads.rhel_ai}
+                    />
+                  </GridItem>
+                )}
               {BiosCardWrapper && (
                 <GridItem>
                   <BiosCardWrapper handleClick={handleModalToggle} />
@@ -140,6 +150,10 @@ Details.propTypes = {
   }),
   store: PropTypes.any,
   OperatingSystemCardWrapper: PropTypes.oneOfType([
+    PropTypes.elementType,
+    PropTypes.bool,
+  ]),
+  RhelAICardWrapper: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.bool,
   ]),
