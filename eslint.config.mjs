@@ -1,6 +1,6 @@
-import fecPlugin from '@redhat-cloud-services/eslint-config-redhat-cloud-services';
+import fecConfig from '@redhat-cloud-services/eslint-config-redhat-cloud-services';
 import tsParser from '@typescript-eslint/parser';
-import pluginCypress from 'eslint-plugin-cypress/flat';
+import cypress from 'eslint-plugin-cypress/flat';
 import jestDom from 'eslint-plugin-jest-dom';
 import jsdoc from 'eslint-plugin-jsdoc';
 import playwright from 'eslint-plugin-playwright';
@@ -9,11 +9,9 @@ import testingLibrary from 'eslint-plugin-testing-library';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-const flatPlugins = [
-  fecPlugin,
-  pluginCypress.configs.recommended,
-  jsdoc.configs['flat/recommended'],
-];
+/* 
+  For debuggins rules run npx @eslint/config-inspector@latest
+*/
 
 const TEST_FILES = [
   'src/**/*.test.{js,jsx,ts,tsx}',
@@ -22,7 +20,9 @@ const TEST_FILES = [
 
 export default defineConfig([
   globalIgnores(['node_modules/*', 'static/*', 'dist/*', 'docs/*']),
-  ...flatPlugins,
+  ...fecConfig,
+  cypress.configs.recommended,
+  jsdoc.configs['flat/recommended'],
   {
     linterOptions: {
 			reportUnusedDisableDirectives: "error",
