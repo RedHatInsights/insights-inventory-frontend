@@ -24,6 +24,9 @@ export default defineConfig([
   globalIgnores(['node_modules/*', 'static/*', 'dist/*', 'docs/*']),
   ...flatPlugins,
   {
+    linterOptions: {
+			reportUnusedDisableDirectives: "error",
+		},
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parser: tsParser,
