@@ -8,7 +8,7 @@ import {
 } from 'bastilian-tabletools';
 
 import InventoryPageHeader from '../InventoryComponents/InventoryPageHeader';
-import { TextInputModal } from '../../components/GeneralInfo/TextInputModal';
+import TextInputModal from '../../components/GeneralInfo/TextInputModal';
 import AddSelectedHostsToGroupModal from '../../components/InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import RemoveHostsFromGroupModal from '../../components/InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import DeleteModal from '../../Utilities/DeleteModal';

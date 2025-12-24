@@ -178,4 +178,64 @@ test.describe('Filtering Systems Tests', () => {
       await expect(columnVersionOS).toHaveText(Array(count).fill(testData.OS));
     });
   });
+
+  test('User can filter systems by Tags', async ({ page }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-tags
+       - assignee: zabikeno
+       - importance: critical
+     */
+    const expectedTagsCount = '7';
+    const name = 'Location';
+    const value = 'basement';
+    const tagSource = 'insights-client';
+    const tagOption = `${name}=${value}`;
+
+    await test.step('Filter systems by tag', async () => {
+      await filterSystemsWithConditionalFilter(page, 'Tags', tagOption);
+      const tagsRows = page.locator(
+        '[data-ouia-component-id="TagCount-text"]',
+        {
+          hasText: expectedTagsCount,
+        },
+      );
+      await expect(tagsRows.first()).toBeVisible();
+      const count = await tagsRows.count();
+      await expect(tagsRows).toHaveText(Array(count).fill(expectedTagsCount));
+    });
+    await test.step('Verify Tags Modal has expected tag', async () => {
+      // TODO: Remove when RHINENG-22581 is fixed
+      const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
+      await inputLocator.fill('');
+
+      // get name of system we check the tags to verify tags modal title
+      const nameLocator = page.locator('td[data-label="Name"]').first();
+      await nameLocator.waitFor({ state: 'visible' });
+      const expectedSystemName = await nameLocator.innerText();
+
+      // open Tags modal
+      const tagButton = page.locator(
+        '[data-ouia-component-id="TagCount-text"]',
+      );
+      await tagButton.first().click();
+      const dialog = page.locator('[role="dialog"]');
+      // Title of the modal should be the name + tags count of clicked system
+      const tagModalTitle = `${expectedSystemName} (${expectedTagsCount})`;
+      await expect(
+        dialog.getByRole('heading', { name: tagModalTitle }),
+      ).toBeVisible({
+        timeout: 10000,
+      });
+      // search for expected tag
+      const inputLocatorDialog = page.getByPlaceholder('Filter tags');
+      await inputLocatorDialog.fill(value);
+      await expect(dialog.locator('td[data-label="Name"]')).toHaveText(name);
+      await expect(dialog.locator('td[data-label="Value"]')).toHaveText(value);
+      await expect(dialog.locator('td[data-label="Tag source"]')).toHaveText(
+        tagSource,
+      );
+    });
+  });
 });

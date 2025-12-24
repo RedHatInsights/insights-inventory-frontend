@@ -32,7 +32,6 @@ BaseIOPInventoryTable.propTypes = {
   columns: PropTypes.func,
   customFilters: PropTypes.shape({
     advisorFilters: PropTypes.object,
-    SID: PropTypes.arrayOf(PropTypes.string),
   }),
   exportConfig: PropTypes.bool,
   getEntities: PropTypes.func,
