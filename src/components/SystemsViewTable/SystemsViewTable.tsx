@@ -21,6 +21,7 @@ import { useSystemsViewModals } from './hooks/useSystemsViewModals';
 import { SystemsViewActions } from './SystemsViewActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
+import './SystemsViewTable.scss';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
