@@ -10,13 +10,14 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
 /* 
-  For debuggins rules run npx @eslint/config-inspector@latest
+  To debug eslint config run: npx eslint --inspect-config
 */
 
 const TEST_FILES = [
   'src/**/*.test.{js,jsx,ts,tsx}',
   'src/**/__tests__/**/*.{js,jsx,ts,tsx}',
 ];
+const TS_FILES = ['**/*.ts', '**/*.tsx'];
 
 export default defineConfig([
   globalIgnores(['node_modules/*', 'static/*', 'dist/*', 'docs/*']),
@@ -24,10 +25,11 @@ export default defineConfig([
   cypress.configs.recommended,
   jsdoc.configs['flat/recommended'],
   {
+    ...jsdoc.configs['flat/recommended-typescript'],
     linterOptions: {
-			reportUnusedDisableDirectives: "error",
-		},
-    files: ['**/*.ts', '**/*.tsx'],
+      reportUnusedDisableDirectives: 'error',
+    },
+    files: TS_FILES,
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -41,7 +43,11 @@ export default defineConfig([
       'no-unused-vars': 'off',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
-      // Add other TypeScript-specific rules here
+      // Disable JSDoc's type requirements
+      'jsdoc/require-param-type': 'off',
+      'jsdoc/require-returns-type': 'off',
+      'jsdoc/require-property-type': 'off',
+      'jsdoc/require-type': 'off',
     },
   },
   {
