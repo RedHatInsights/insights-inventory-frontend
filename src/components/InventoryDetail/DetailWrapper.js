@@ -23,7 +23,7 @@ const DetailWrapper = ({
   showTags,
   Wrapper,
   className,
-  appName,
+  appName = 'overview',
   inventoryId,
   ...props
 }) => {
@@ -87,7 +87,8 @@ DetailWrapper.propTypes = {
   hideInvLink: PropTypes.bool,
   showTags: PropTypes.bool,
   appName: PropTypes.oneOf([
-    'general_information',
+    'overview',
+    'details',
     'advisor',
     'insights',
     'compliance',
@@ -97,10 +98,6 @@ DetailWrapper.propTypes = {
   className: PropTypes.string,
   Wrapper: PropTypes.elementType,
   inventoryId: PropTypes.string.isRequired,
-};
-
-DetailWrapper.defaultProps = {
-  appName: 'general_information',
 };
 
 export default DetailWrapper;

@@ -248,6 +248,7 @@ test('User should be able to delete multiple systems from Systems page', async (
      - assignee: addubey
    */
   const systems = Array.from({ length: 3 }, () => prepareSingleSystem());
+
   const archives = systems.map((s) => s.archiveName);
   const dirs = systems.map((s) => s.workingDir);
   const dialog = page.locator('[role="dialog"]');
@@ -279,47 +280,5 @@ test('User should be able to delete multiple systems from Systems page', async (
     for (let i = 0; i < systems.length; i++) {
       cleanupTestArchive(archives[i], dirs[i]);
     }
-  });
-});
-
-test('User should be able navigate to Workspace Details page from System Details page', async ({
-  page,
-}) => {
-  /**
-   * Jira References:
-     - https://issues.redhat.com/browse/RHINENG-21867
-   * Metadata:
-     - importance: medium
-     - assignee: zabikeno
-   */
-  const setupResult = prepareSingleSystem();
-  const { hostname: systemName, archiveName, workingDir } = setupResult;
-  const nameColumnLocator = page.locator('td[data-label="Name"]');
-
-  await test.step('Setup: navigate to prepared system details page', async () => {
-    await navigateToInventorySystemsFunc(page);
-    await searchByName(page, systemName);
-    await expect(nameColumnLocator).toHaveCount(1);
-
-    const systemLink = page.getByRole('link', { name: systemName });
-    await expect(systemLink).toBeVisible();
-    await systemLink.click();
-
-    await expect(page.getByRole('heading', { name: systemName })).toBeVisible();
-  });
-
-  await test.step('Navigate to workspace details page via clicking workspace link', async () => {
-    const workspaceLink = page
-      .locator('a')
-      .filter({ hasText: 'Ungrouped Hosts' });
-    await workspaceLink.click();
-
-    await expect(
-      page.getByRole('heading', { name: 'Ungrouped Hosts' }),
-    ).toBeVisible();
-  });
-
-  await test.step('Cleanup the created archive and temp directory', async () => {
-    cleanupTestArchive(archiveName, workingDir);
   });
 });

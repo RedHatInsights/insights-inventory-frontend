@@ -8,12 +8,12 @@ import { systemStatus } from '../selectors';
 import { RHC_TOOLTIP_MESSAGE } from '../../../constants';
 
 const SystemStatusCardCore = ({
-  detailLoaded,
-  hasState,
-  hasRegistered,
-  hasLastCheckIn,
-  hasLastUpdated,
-  hasRHC,
+  detailLoaded = false,
+  hasState = true,
+  hasRegistered = true,
+  hasLastCheckIn = true,
+  hasLastUpdated = true,
+  hasRHC = true,
   entity,
   systemProfile,
 }) => {
@@ -112,15 +112,6 @@ SystemStatusCardCore.propTypes = {
   hasRegistered: PropTypes.bool,
   hasRHC: PropTypes.bool,
 };
-SystemStatusCardCore.defaultProps = {
-  detailLoaded: false,
-  handleClick: () => undefined,
-  hasState: true,
-  hasLastCheckIn: true,
-  hasLastUpdated: true,
-  hasRegistered: true,
-  hasRHC: true,
-};
 
 export const SystemStatusCard = connect(
   ({ systemProfileStore: { systemProfile } }) => ({
@@ -130,6 +121,5 @@ export const SystemStatusCard = connect(
 )(SystemStatusCardCore);
 
 SystemStatusCard.propTypes = SystemStatusCardCore.propTypes;
-SystemStatusCard.defaultProps = SystemStatusCardCore.defaultProps;
 
 export default SystemStatusCard;

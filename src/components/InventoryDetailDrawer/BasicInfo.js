@@ -12,7 +12,7 @@ import {
 
 import { useSelector } from 'react-redux';
 
-const BasicInfo = ({ hideInvLink, showTags }) => {
+const BasicInfo = ({ hideInvLink = false, showTags = false }) => {
   const displayName = useSelector(
     ({ entityDetails: { entity } }) => entity?.display_name,
   );
@@ -66,11 +66,6 @@ const BasicInfo = ({ hideInvLink, showTags }) => {
 BasicInfo.propTypes = {
   hideInvLink: PropTypes.bool,
   showTags: PropTypes.bool,
-};
-
-BasicInfo.defaultProps = {
-  hideInvLink: false,
-  showTags: false,
 };
 
 export default BasicInfo;

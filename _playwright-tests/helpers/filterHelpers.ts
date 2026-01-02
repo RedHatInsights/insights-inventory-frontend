@@ -32,9 +32,15 @@ export const filterSystemsWithConditionalFilter = async (
   // 2. SELECT OPTION
   if (filterName === 'Workspace') {
     await page.getByRole('textbox', { name: 'Type to filter' }).click();
-    // TODO: uncomment when issue is resolved https://issues.redhat.com/browse/RHINENG-20990
-    // await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
-    optionCheckbox = page.getByText(option, { exact: true });
+    const menuOption = page.locator(
+      '[data-ouia-component-id="FilterByGroupOption"]',
+    );
+    if (!(option === 'Ungrouped hosts')) {
+      await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
+
+      await expect(menuOption).toHaveCount(1);
+    }
+    optionCheckbox = menuOption.first();
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'Data collector') {
@@ -44,17 +50,34 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: Implement logic to select the Status filter option.
     // Logic not implemented yet. Test continues without filtering.
   } else if (filterName === 'Tags') {
-    // TODO: Implement logic to select the Tags filter option.
-    // Logic not implemented yet. Test continues without filtering.
+    const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
+    await inputLocator.click();
+    await inputLocator.fill(option);
+    await expect(
+      page.locator(`input[type="checkbox"][value="${option}"]`),
+    ).toBeVisible();
+
+    optionCheckbox = page.getByText(option, { exact: true }).first();
+    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
+    await optionCheckbox.click();
   } else if (filterName === 'System type') {
-    // TODO: Implement logic to select the System type filter option.
-    // Logic not implemented yet. Test continues without filtering.
+    await page.getByRole('button', { name: 'Options menu' }).click();
+    optionCheckbox = page.getByText(option, { exact: true });
+    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
+    await optionCheckbox.click();
   } else if (filterName === 'Operating system') {
-    // TODO: Implement logic to select the Operating system filter option.
-    // Logic not implemented yet. Test continues without filtering.
+    await page.getByRole('button', { name: 'Group filter' }).nth(1).click();
+    await page.getByRole('checkbox', { name: option, exact: true }).check();
   }
+
+  await page.locator('body').click(); //to make sure menu is closed
   // wait for table to be filtered
-  await page.waitForSelector('.loading-spinner', { state: 'hidden' });
+  await expect(
+    page.locator('[data-ouia-component-id="SkeletonTable"]'),
+  ).toBeVisible();
+  await page
+    .locator('[data-ouia-component-id="SkeletonTable"]')
+    .waitFor({ state: 'hidden' });
 };
 
 /**
@@ -102,3 +125,25 @@ export const searchByName = async (page: Page, name: string): Promise<void> => {
   await expect(searchInput).toBeVisible();
   await searchInput.fill(name);
 };
+
+/**
+ * Checks if all elements matched by a locator have text that matches a given pattern.
+ *  @param locator Playwright Locator object (must point to multiple elements).
+ *  @param pattern Regular expression to test against each element's text.
+ */
+export async function assertAllContain(
+  locator: Locator,
+  pattern: RegExp,
+): Promise<void> {
+  // Wait for at least one element to be visible
+  await expect(locator.first()).toBeVisible({ timeout: 10000 });
+  // Wait for all elements to be visible before reading text
+  const count = await locator.count();
+  expect(count).toBeGreaterThanOrEqual(1);
+  for (let i = 0; i < count; i++) {
+    await expect(locator.nth(i)).toBeVisible({ timeout: 5000 });
+  }
+  const allTexts = await locator.allTextContents();
+  const allMatch = allTexts.every((text) => pattern.test(text));
+  expect(allMatch).toBe(true);
+}

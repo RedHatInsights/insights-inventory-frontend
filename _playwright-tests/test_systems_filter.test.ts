@@ -1,57 +1,241 @@
 import { test, expect } from '@playwright/test';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
+import {
+  prepareSingleSystem,
+  cleanupTestArchive,
+  BOOTC_ARCHIVE,
+  CENTOS_ARCHIVE,
+} from './helpers/uploadArchive';
+import {
+  filterSystemsWithConditionalFilter,
+  assertAllContain,
+} from './helpers/filterHelpers';
+import { closePopupsIfExist } from './helpers/loginHelpers';
 
-test('User can filter systems by workspace', async ({ page }) => {
-  /**
-   * Metadata:
-     - requirements:
-     - inv-hosts-filter-by-group_name
-     - assignee: oezr
-     - importance: critical
-   */
+test.describe('Filtering Systems Tests', () => {
+  let systemName: string;
+  let archiveName: string;
+  let workingDir: string;
+  let systemBootcName: string;
+  let archiveBootcName: string;
+  let workingBootcDir: string;
+  const operatingSystemTestCases = [
+    { OS: 'RHEL 9.4' },
+    { OS: 'CentOS Linux 7.6' },
+  ];
 
-  await navigateToInventorySystemsFunc(page);
+  test.beforeAll(async () => {
+    const setupResult = prepareSingleSystem();
+    const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
 
-  // 1. Filter by workspace
-  await page.getByRole('button', { name: 'Conditional filter toggle' }).click();
-  // wait for the dropdown to open - otherwise we type too soon and the search is not applied
-  await page.waitForTimeout(1000);
-  await page.getByRole('menuitem', { name: 'Workspace' }).click();
-  const wspcFilter = page.getByRole('textbox', { name: 'Type to filter' });
-  await wspcFilter.click();
-  await wspcFilter.fill('Workspace_with');
-
-  // Look for the workspace option specifically within the dropdown menu (not in the table)
-  const dropdownMenu = page.locator('#groups-filter-select');
-  const wspcOption = dropdownMenu.getByText('Workspace_with_systems', {
-    exact: true,
+    ({ hostname: systemName, archiveName, workingDir } = setupResult);
+    ({
+      hostname: systemBootcName,
+      archiveName: archiveBootcName,
+      workingDir: workingBootcDir,
+    } = setupBootcResult);
   });
-  await expect(wspcOption).toBeVisible({ timeout: 100000 });
-  await wspcOption.click();
 
-  // Wait for the table to refresh: at least one Workspace cell has the expected value
-  const workspaceCellWithValue = page.locator(
-    'table tbody td[data-label="Workspace"]',
-    {
-      hasText: 'Workspace_with_systems',
-    },
-  );
-  await expect(workspaceCellWithValue.first()).toBeVisible({ timeout: 30000 });
-
-  // Wait for the loading spinner to disappear to ensure table is fully loaded
-  await page
-    .waitForSelector('.loading-spinner', { state: 'hidden', timeout: 10000 })
-    .catch(() => {
-      // Spinner might not appear if the load is very fast, that's okay
+  test.beforeEach(async ({ page }) => {
+    await closePopupsIfExist(page);
+    await navigateToInventorySystemsFunc(page);
+    const resetFiltersButton = page.getByRole('button', {
+      name: 'Reset filters',
     });
+    if (await resetFiltersButton.isVisible({ timeout: 100 })) {
+      await resetFiltersButton.click();
+    }
+  });
 
-  // Wait a bit more for the table to stabilize
-  await page.waitForTimeout(1000);
+  test.afterAll(async () => {
+    cleanupTestArchive(archiveName, workingDir);
+    cleanupTestArchive(archiveBootcName, workingBootcDir);
+  });
 
-  // 2. Verify only systems from the workspace are displayed
-  // All cells from the "Workspace" column
-  const count = await workspaceCellWithValue.count();
-  await expect(workspaceCellWithValue).toHaveText(
-    Array(count).fill('Workspace_with_systems'),
-  );
+  test('User can filter systems by System type', async ({ page }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-system_type
+       - assignee: zabikeno
+       - importance: critical
+     */
+    const imageIconAriaLabel = 'Image mode icon';
+    const packageIconAriaLabel = 'Package mode icon';
+    const imageIcons = page.locator(`[aria-label="${imageIconAriaLabel}"]`);
+    const packageIcons = page.locator(`[aria-label="${packageIconAriaLabel}"]`);
+
+    await test.step('Package-based system option', async () => {
+      await filterSystemsWithConditionalFilter(
+        page,
+        'System type',
+        'Package-based system',
+      );
+      await expect(imageIcons).toHaveCount(0);
+      const packageCount = await packageIcons.count();
+      expect(packageCount).toBeGreaterThanOrEqual(0);
+    });
+    await test.step('Image-based system option', async () => {
+      // Reset previews filter
+      const resetFiltersButton = page.getByRole('button', {
+        name: 'Reset filters',
+      });
+      // eslint-disable-next-line playwright/no-conditional-in-test
+      if (await resetFiltersButton.isVisible({ timeout: 100 })) {
+        await resetFiltersButton.click();
+      }
+
+      await filterSystemsWithConditionalFilter(
+        page,
+        'System type',
+        'Image-based system',
+      );
+      await expect(packageIcons).toHaveCount(0);
+      const imageCount = await imageIcons.count();
+      expect(imageCount).toBeGreaterThanOrEqual(0);
+
+      await expect(
+        page.getByRole('button', { name: 'View by systems' }),
+      ).toBeVisible();
+    });
+  });
+
+  test('User can filter systems by workspace', async ({ page }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-group_name
+       - assignee: oezr
+       - importance: critical
+     */
+    await filterSystemsWithConditionalFilter(
+      page,
+      'Workspace',
+      'Workspace_with_systems',
+    );
+    const workspaceCellWithValue = page.locator(
+      'table tbody td[data-label="Workspace"]',
+      {
+        hasText: 'Workspace_with_systems',
+      },
+    );
+    await expect(workspaceCellWithValue.first()).toBeVisible();
+    const count = await workspaceCellWithValue.count();
+    await expect(workspaceCellWithValue).toHaveText(
+      Array(count).fill('Workspace_with_systems'),
+    );
+  });
+
+  test.skip('User can filter systems by OS major version option', async ({
+    page,
+  }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-os
+       - assignee: zabikeno
+       - importance: critical
+     */
+    const OS = 'RHEL 9';
+    await filterSystemsWithConditionalFilter(page, 'Operating system', OS);
+
+    // Verify all filter chips contain Major version OS RHEL 9
+    const filterChipGroup = page.locator('span.pf-v6-c-label__text');
+    const pattern = /RHEL 9\./;
+    await assertAllContain(filterChipGroup, pattern);
+
+    // Multiple RHEL 9 versions should be applied when filtering by major OS version
+    expect(await filterChipGroup.count()).toBeGreaterThanOrEqual(1);
+
+    // OS version should contain expected major version of OS
+    const columnVersionOS = page.locator(
+      'span[aria-label="Formatted OS version"]',
+    );
+    await assertAllContain(columnVersionOS, pattern);
+  });
+
+  operatingSystemTestCases.forEach((testData) => {
+    test(`User should be able to filter by OS verion: ${testData.OS}`, async ({
+      page,
+    }) => {
+      /**
+       * Metadata:
+         - requirements:
+         - inv-hosts-filter-by-os
+         - assignee: zabikeno
+         - importance: critical
+       */
+      await filterSystemsWithConditionalFilter(
+        page,
+        'Operating system',
+        testData.OS,
+      );
+      const columnVersionOS = page.locator('table tbody td[data-label="OS"]', {
+        hasText: testData.OS,
+      });
+      await expect(columnVersionOS.first()).toBeVisible();
+      const count = await columnVersionOS.count();
+      await expect(columnVersionOS).toHaveText(Array(count).fill(testData.OS));
+    });
+  });
+
+  test('User can filter systems by Tags', async ({ page }) => {
+    /**
+     * Metadata:
+       - requirements:
+       - inv-hosts-filter-by-tags
+       - assignee: zabikeno
+       - importance: critical
+     */
+    const expectedTagsCount = '7';
+    const name = 'Location';
+    const value = 'basement';
+    const tagSource = 'insights-client';
+    const tagOption = `${name}=${value}`;
+
+    await test.step('Filter systems by tag', async () => {
+      await filterSystemsWithConditionalFilter(page, 'Tags', tagOption);
+      const tagsRows = page.locator(
+        '[data-ouia-component-id="TagCount-text"]',
+        {
+          hasText: expectedTagsCount,
+        },
+      );
+      await expect(tagsRows.first()).toBeVisible();
+      const count = await tagsRows.count();
+      await expect(tagsRows).toHaveText(Array(count).fill(expectedTagsCount));
+    });
+    await test.step('Verify Tags Modal has expected tag', async () => {
+      // TODO: Remove when RHINENG-22581 is fixed
+      const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
+      await inputLocator.fill('');
+
+      // get name of system we check the tags to verify tags modal title
+      const nameLocator = page.locator('td[data-label="Name"]').first();
+      await nameLocator.waitFor({ state: 'visible' });
+      const expectedSystemName = await nameLocator.innerText();
+
+      // open Tags modal
+      const tagButton = page.locator(
+        '[data-ouia-component-id="TagCount-text"]',
+      );
+      await tagButton.first().click();
+      const dialog = page.locator('[role="dialog"]');
+      // Title of the modal should be the name + tags count of clicked system
+      const tagModalTitle = `${expectedSystemName} (${expectedTagsCount})`;
+      await expect(
+        dialog.getByRole('heading', { name: tagModalTitle }),
+      ).toBeVisible({
+        timeout: 10000,
+      });
+      // search for expected tag
+      const inputLocatorDialog = page.getByPlaceholder('Filter tags');
+      await inputLocatorDialog.fill(value);
+      await expect(dialog.locator('td[data-label="Name"]')).toHaveText(name);
+      await expect(dialog.locator('td[data-label="Value"]')).toHaveText(value);
+      await expect(dialog.locator('td[data-label="Tag source"]')).toHaveText(
+        tagSource,
+      );
+    });
+  });
 });

@@ -40,7 +40,7 @@ const InventoryDetail = ({
   inventoryId,
   additionalClasses,
   activeApp,
-  appList,
+  appList = [],
   showMainSection,
   entity: entityProp,
   fetchEntity,
@@ -126,18 +126,6 @@ InventoryDetail.propTypes = {
       pageId: PropTypes.string,
     }),
   ),
-};
-InventoryDetail.defaultProps = {
-  actions: [],
-  hideInvLink: false,
-  showTags: false,
-  UUIDWrapper: Fragment,
-  LastSeenWrapper: Fragment,
-  TitleWrapper: Fragment,
-  TagsWrapper: Fragment,
-  DeleteWrapper: Fragment,
-  ActionsWrapper: Fragment,
-  appList: [],
 };
 
 const InventoryDetailWrapper = ({ inventoryId, ...props }) => {

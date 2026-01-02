@@ -3,10 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 
-const CENTOS_ARCHIVE = 'centos79.tar.gz';
-const BOOTC_ARCHIVE = 'image-mode-rhel94.tar.gz';
-const EDGE_ARCHIVE = 'edge-hbi-ui-stage.tar.gz';
-const PACKAGE_BASED_ARCHIVE = 'rhel94_core_collect.tar.gz';
+export const CENTOS_ARCHIVE = 'centos79.tar.gz';
+export const BOOTC_ARCHIVE = 'image-mode-rhel94.tar.gz';
+export const EDGE_ARCHIVE = 'edge-hbi-ui-stage.tar.gz';
+export const PACKAGE_BASED_ARCHIVE = 'rhel94_core_collect.tar.gz';
 
 /**
  * Uploads an archive file to the Red Hat ingress API using `curl`.

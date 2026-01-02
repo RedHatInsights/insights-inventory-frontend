@@ -22,7 +22,12 @@ import OsModeLabel from './OsModeLabel';
  *  @param   {React.elementType} props.LastSeenWrapper last seen wrapper element
  *  @returns {React.ReactNode}                         the facts info component
  */
-const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
+const FactsInfo = ({
+  entity,
+  loaded,
+  LastSeenWrapper = Fragment,
+  ...props
+}) => (
   <Grid className="ins-entity-facts" {...props}>
     <GridItem md={6}>
       <Flex>
@@ -47,10 +52,16 @@ const FactsInfo = ({ entity, loaded, LastSeenWrapper, ...props }) => (
                   stale={getFact('stale_timestamp', entity)}
                   currDate={new Date()}
                 >
-                  <DateFormat date={getFact('updated', entity)} type="exact" />
+                  <DateFormat
+                    date={getFact('last_check_in', entity)}
+                    type="exact"
+                  />
                 </CullingInformation>
               ) : (
-                <DateFormat date={getFact('updated', entity)} type="exact" />
+                <DateFormat
+                  date={getFact('last_check_in', entity)}
+                  type="exact"
+                />
               )}
             </LastSeenWrapper>
           ) : (
@@ -94,11 +105,6 @@ FactsInfo.propTypes = {
   loaded: PropTypes.bool,
   entity: PropTypes.object,
   LastSeenWrapper: PropTypes.elementType,
-};
-
-FactsInfo.defaultProps = {
-  UUIDWrapper: Fragment,
-  LastSeenWrapper: Fragment,
 };
 
 export default FactsInfo;

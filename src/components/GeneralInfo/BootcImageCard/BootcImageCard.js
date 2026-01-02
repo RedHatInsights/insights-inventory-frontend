@@ -5,7 +5,10 @@ import LoadingCard from '../LoadingCard';
 import { bootcSelector } from '../selectors';
 import { extraShape } from '../../../constants';
 
-export const BootcImageCard = ({ handleClick, extra }) => {
+export const BootcImageCard = ({
+  handleClick = () => undefined,
+  extra = [],
+}) => {
   const { detailLoaded, bootc } = useSelector(
     ({ systemProfileStore: { systemProfile } }) => ({
       detailLoaded: systemProfile && systemProfile.loaded,
@@ -57,9 +60,4 @@ BootcImageCard.propTypes = {
     rollbackImageDigest: PropTypes.string,
   }),
   extra: PropTypes.arrayOf(extraShape),
-};
-BootcImageCard.defaultProps = {
-  detailLoaded: false,
-  handleClick: () => undefined,
-  extra: [],
 };

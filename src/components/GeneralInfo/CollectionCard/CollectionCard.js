@@ -28,16 +28,16 @@ VersionTooltip.propTypes = {
 };
 
 const CollectionCard = ({
-  detailLoaded,
+  detailLoaded = false,
   collectionInformation,
-  entity,
-  handleClick,
-  hasClient,
-  hasLastCheckIn,
-  hasRegistered,
-  hasInsightsId,
-  hasReporter,
-  extra,
+  entity = {},
+  handleClick = () => undefined,
+  hasClient = true,
+  hasLastCheckIn = true,
+  hasRegistered = true,
+  hasInsightsId = true,
+  hasReporter = true,
+  extra = [],
 }) => (
   <LoadingCard
     title="Collection information"
@@ -118,17 +118,6 @@ CollectionCard.propTypes = {
   hasInsightsId: PropTypes.bool,
   hasReporter: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
-};
-CollectionCard.defaultProps = {
-  detailLoaded: false,
-  handleClick: () => undefined,
-  hasClient: true,
-  hasEgg: true,
-  hasLastCheckIn: true,
-  hasRegistered: true,
-  hasInsightsId: true,
-  hasReporter: true,
-  extra: [],
 };
 
 export default connect(
