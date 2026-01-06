@@ -19,8 +19,8 @@ import { useSearchParams } from 'react-router-dom';
 import { Pagination } from '@patternfly/react-core';
 import { useSystemsViewModals } from './hooks/useSystemsViewModals';
 import { SystemsViewActions } from './SystemsViewActions';
-import { useRowMapping } from './hooks/useRowMapping';
 import { useBulkSelect } from './hooks/useBulkSelect';
+import { useRows } from './hooks/useRows';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -72,12 +72,21 @@ const SystemsViewTable: React.FC = () => {
     });
 
   const { columns, sortBy, direction } = useColumns();
+
   const { data, total, isLoading, isFetching, isError } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
     filters,
     sortBy,
     direction,
+  });
+
+  const { rows } = useRows({
+    data,
+    openAddToWorkspaceModal,
+    openRemoveFromWorkspaceModal,
+    openEditModal,
+    openDeleteModal,
   });
 
   const selectedIds = selected.map(({ id }) => id);
@@ -92,15 +101,6 @@ const SystemsViewTable: React.FC = () => {
         : data?.length === 0
           ? 'empty'
           : 'active';
-
-  const mapSystemToRow = useRowMapping({
-    openAddToWorkspaceModal,
-    openRemoveFromWorkspaceModal,
-    openEditModal,
-    openDeleteModal,
-  });
-
-  const rows = (data ?? []).map(mapSystemToRow);
 
   const { isPageSelected, isPagePartiallySelected, onBulkSelect } =
     useBulkSelect({ selection, rows });

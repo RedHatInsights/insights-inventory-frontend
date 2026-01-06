@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import DeleteModal from '../../../Utilities/DeleteModal';
 import AddSelectedHostsToGroupModal from '../../InventoryGroups/Modals/AddSelectedHostsToGroupModal';
@@ -43,25 +43,25 @@ export const useSystemsViewModals = (onSelectionClear?: () => void) => {
     await queryClient.invalidateQueries({ queryKey: ['systems'] });
   };
 
-  const openDeleteModal = (systems: System[]) => {
+  const openDeleteModal = useCallback((systems: System[]) => {
     setSystemsForAction(systems);
     setIsDeleteModalOpen(true);
-  };
+  }, []);
 
-  const openAddToWorkspaceModal = (systems: System[]) => {
+  const openAddToWorkspaceModal = useCallback((systems: System[]) => {
     setSystemsForAction(systems);
     setAddHostGroupModalOpen(true);
-  };
+  }, []);
 
-  const openRemoveFromWorkspaceModal = (systems: System[]) => {
+  const openRemoveFromWorkspaceModal = useCallback((systems: System[]) => {
     setSystemsForAction(systems);
     setRemoveHostsFromGroupModalOpen(true);
-  };
+  }, []);
 
-  const openEditModal = (systems: System[]) => {
+  const openEditModal = useCallback((systems: System[]) => {
     setSystemsForAction(systems);
     setEditModalOpen(true);
-  };
+  }, []);
 
   const modals = (
     <>
