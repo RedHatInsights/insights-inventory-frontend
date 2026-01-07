@@ -1,6 +1,6 @@
-import fecPlugin from '@redhat-cloud-services/eslint-config-redhat-cloud-services';
+import fecConfig from '@redhat-cloud-services/eslint-config-redhat-cloud-services';
 import tsParser from '@typescript-eslint/parser';
-import pluginCypress from 'eslint-plugin-cypress/flat';
+import cypress from 'eslint-plugin-cypress/flat';
 import jestDom from 'eslint-plugin-jest-dom';
 import jsdoc from 'eslint-plugin-jsdoc';
 import playwright from 'eslint-plugin-playwright';
@@ -9,22 +9,27 @@ import testingLibrary from 'eslint-plugin-testing-library';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-const flatPlugins = [
-  fecPlugin,
-  pluginCypress.configs.recommended,
-  jsdoc.configs['flat/recommended'],
-];
+/* 
+  To debug eslint config run: npx eslint --inspect-config
+*/
 
 const TEST_FILES = [
   'src/**/*.test.{js,jsx,ts,tsx}',
   'src/**/__tests__/**/*.{js,jsx,ts,tsx}',
 ];
+const TS_FILES = ['**/*.ts', '**/*.tsx'];
 
 export default defineConfig([
   globalIgnores(['node_modules/*', 'static/*', 'dist/*', 'docs/*']),
-  ...flatPlugins,
+  ...fecConfig,
+  cypress.configs.recommended,
+  jsdoc.configs['flat/recommended'],
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    ...jsdoc.configs['flat/recommended-typescript'],
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
+    files: TS_FILES,
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -38,7 +43,11 @@ export default defineConfig([
       'no-unused-vars': 'off',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
-      // Add other TypeScript-specific rules here
+      // Disable JSDoc's type requirements
+      'jsdoc/require-param-type': 'off',
+      'jsdoc/require-returns-type': 'off',
+      'jsdoc/require-property-type': 'off',
+      'jsdoc/require-type': 'off',
     },
   },
   {

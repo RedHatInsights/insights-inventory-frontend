@@ -14,6 +14,14 @@ import {
   ApiGroupGetGroupListParams,
   ApiGroupGetGroupListReturnType,
 } from '@redhat-cloud-services/host-inventory-client/ApiGroupGetGroupList';
+import {
+  ApiHostDeleteHostByIdParams,
+  ApiHostDeleteHostByIdReturnType,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostDeleteHostById';
+import {
+  ApiHostPatchHostByIdParams,
+  ApiHostPatchHostByIdReturnType,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostPatchHostById';
 
 export type {
   HostOut,
@@ -43,12 +51,15 @@ const hostInventoryApi = (axios: AxiosInstance = axiosInstance) =>
     axios,
   });
 
-// See API docs https://console.redhat.com/docs/api/inventory/
+/**
+ * For details see API docs https://console.redhat.com/docs/api/inventory
+ *
+ * Return types are asserted because interceptors unwrap AxiosResponse in runtime
+ */
 
 export const getHostList = async (
   params: ApiHostGetHostListParams = {},
 ): Promise<ApiHostGetHostListReturnType> => {
-  // type asserted because interceptor unwraps AxiosResponse in runtime
   return (await hostInventoryApi().apiHostGetHostList(
     params,
   )) as unknown as ApiHostGetHostListReturnType;
@@ -57,7 +68,6 @@ export const getHostList = async (
 export const getHostTags = async (
   params: ApiHostGetHostTagsParams = { hostIdList: [] },
 ): Promise<ApiHostGetHostTagsReturnType> => {
-  // type asserted because interceptor unwraps AxiosResponse in runtime
   return (await hostInventoryApi().apiHostGetHostTags(
     params,
   )) as unknown as ApiHostGetHostTagsReturnType;
@@ -66,8 +76,23 @@ export const getHostTags = async (
 export const getGroupList = async (
   params: ApiGroupGetGroupListParams = {},
 ): Promise<ApiGroupGetGroupListReturnType> => {
-  // type asserted because interceptor unwraps AxiosResponse in runtime
   return (await hostInventoryApi().apiGroupGetGroupList(
     params,
   )) as unknown as ApiGroupGetGroupListReturnType;
+};
+
+export const deleteHostById = async (
+  params: ApiHostDeleteHostByIdParams = { hostIdList: [] },
+): Promise<ApiHostDeleteHostByIdReturnType> => {
+  return (await hostInventoryApi().apiHostDeleteHostById(
+    params,
+  )) as unknown as ApiHostDeleteHostByIdReturnType;
+};
+
+export const patchHostById = async (
+  params: ApiHostPatchHostByIdParams = { hostIdList: [], patchHostIn: {} },
+): Promise<ApiHostPatchHostByIdReturnType> => {
+  return (await hostInventoryApi().apiHostPatchHostById(
+    params,
+  )) as unknown as ApiHostPatchHostByIdReturnType;
 };
