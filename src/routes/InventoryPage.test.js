@@ -12,7 +12,13 @@ jest.mock('./InventoryComponents/SystemsInventory', () => () => (
 jest.mock('./InventoryComponents/BifrostPage', () => () => (
   <div data-testid="BifrostPage" />
 ));
-jest.mock('../Utilities/useFeatureFlag', () => () => true);
+jest.mock('../Utilities/useFeatureFlag', () => ({
+  __esModule: true,
+  default: jest.fn(() => true),
+  useFeatureVariant: jest.fn(() => ({
+    isEnabled: false,
+  })),
+}));
 const defaultContextValues = {
   hasConventionalSystems: true,
   hasBootcImages: true,

@@ -6,7 +6,13 @@ import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import InventoryPageHeader from './InventoryPageHeader';
 import { AccountStatContext } from '../../Contexts';
 
-jest.mock('../../Utilities/useFeatureFlag');
+jest.mock('../../Utilities/useFeatureFlag', () => ({
+  __esModule: true,
+  default: jest.fn(() => true),
+  useFeatureVariant: jest.fn(() => ({
+    isEnabled: false,
+  })),
+}));
 
 const defaultContextValues = {
   hasConventionalSystems: true,
