@@ -144,6 +144,7 @@ const SystemsViewTable: React.FC = () => {
           variant="compact"
           ouiaId="systems-view-table"
           columns={columns}
+          className="ins-c-systems-view-table"
           rows={rows}
           headStates={{
             loading: NO_HEADER,
