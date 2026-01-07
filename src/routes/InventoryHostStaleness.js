@@ -9,6 +9,7 @@ import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-compo
 import { GENERAL_HOST_STALENESS_READ_PERMISSION } from '../components/InventoryHostStaleness/constants';
 import { PageSection } from '@patternfly/react-core';
 import HostStalenessNoAccess from '../components/InventoryHostStaleness/HostStalenessNoAccess';
+import { OutageAlert } from '../components/OutageAlert';
 
 const REQUIRED_PERMISSIONS = [GENERAL_HOST_STALENESS_READ_PERMISSION];
 
@@ -30,6 +31,7 @@ const HostStaleness = () => {
     <PageSection>
       <PageHeader>
         <PageHeaderTitle title={'Staleness and Deletion'} />
+        <OutageAlert />
       </PageHeader>
       {canReadHostStaleness ? (
         <PageSection hasBodyWrapper={false} variant="default">
