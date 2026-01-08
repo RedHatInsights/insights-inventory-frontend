@@ -14,7 +14,10 @@ import { useSystemsQuery } from './hooks/useSystemsQuery';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
-import { InventoryFilters, SystemsViewFilters } from './SystemsViewFilters';
+import {
+  InventoryFilters,
+  SystemsViewFilters,
+} from './filters/SystemsViewFilters';
 import { useColumns } from './hooks/useColumns';
 import { useSearchParams } from 'react-router-dom';
 import { useSystemsViewModals } from './hooks/useSystemsViewModals';

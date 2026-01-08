@@ -8,7 +8,7 @@ import {
   SplitItem,
   MenuToggleElement,
 } from '@patternfly/react-core';
-import { LAST_SEEN_OPTIONS as selectOptions } from '../../routes/Systems/components/SystemsTable/components/helpers';
+import { LAST_SEEN_OPTIONS as selectOptions } from '../../../routes/Systems/components/SystemsTable/components/helpers';
 
 export interface LastSeenFilterItem {
   label: string;

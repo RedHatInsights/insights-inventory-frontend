@@ -20,7 +20,7 @@ import {
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { getGroupList } from '../../api/hostInventoryApiTyped';
+import { getGroupList } from '../../../api/hostInventoryApiTyped';
 
 interface WorkspaceFilterProps {
   placeholder?: string;
