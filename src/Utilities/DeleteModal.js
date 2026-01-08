@@ -64,7 +64,9 @@ const DeleteModal = ({
                 use the following command:
               </StackItem>
               <StackItem>
-                <ClipboardCopy>insights-client --unregister</ClipboardCopy>
+                <ClipboardCopy isReadOnly isCode>
+                  insights-client --unregister
+                </ClipboardCopy>
               </StackItem>
             </Stack>
           </SplitItem>

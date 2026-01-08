@@ -112,7 +112,7 @@ export const useSystemsQuery = ({
   sortBy,
   direction,
 }: UseSystemsQueryParams) => {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: ['systems', page, perPage, filters, sortBy, direction],
     queryFn: async () => {
       return await fetchSystems({ page, perPage, filters, sortBy, direction });
@@ -120,5 +120,12 @@ export const useSystemsQuery = ({
     refetchOnWindowFocus: false,
   });
 
-  return { data: data?.results, total: data?.total, isLoading, isError, error };
+  return {
+    data: data?.results,
+    total: data?.total,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  };
 };
