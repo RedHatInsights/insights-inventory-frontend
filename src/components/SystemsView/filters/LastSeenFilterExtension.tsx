@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import DateRangePicker from '../../routes/Systems/components/SystemsTable/components/DateRangePicker';
+import DateRangePicker from '../../../routes/Systems/components/SystemsTable/components/DateRangePicker';
 import moment from 'moment';
 import { LastSeenFilterProps } from './LastSeenFilter';
 
