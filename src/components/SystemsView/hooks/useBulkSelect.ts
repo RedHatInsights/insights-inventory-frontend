@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { DataViewTrObject } from '@patternfly/react-data-view';
-import { SystemsViewSelection } from '../SystemsViewTable';
+import type { SystemsViewSelection } from '../SystemsView';
 
 interface UseBulkSelectParams {
   selection: SystemsViewSelection;

@@ -21,7 +21,7 @@ import { useSystemsViewModals } from './hooks/useSystemsViewModals';
 import { SystemsViewActions } from './SystemsViewActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
-import './SystemsViewTable.scss';
+import './SystemsView.scss';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -34,7 +34,7 @@ const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
 const NO_HEADER = <></>;
 
-const SystemsViewTable: React.FC = () => {
+const SystemsView: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const {
     openDeleteModal,
@@ -180,4 +180,4 @@ const SystemsViewTable: React.FC = () => {
   );
 };
 
-export default SystemsViewTable;
+export default SystemsView;
