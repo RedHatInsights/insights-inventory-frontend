@@ -28,6 +28,7 @@ export const useFeatureVariant = (flag) => {
   return {
     isEnabled,
     body: payload?.body,
+    variant: payload?.variant,
     title: payload?.title,
   };
 };

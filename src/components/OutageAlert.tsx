@@ -7,6 +7,7 @@ export const OutageAlert = () => {
   const {
     isEnabled,
     body: body = '',
+    variant: variant = 'danger',
     title:
       title = 'The Inventory service is currently unavailable. Please check back later.',
   } = useFeatureVariant('hbi.outage-banner');
@@ -16,7 +17,7 @@ export const OutageAlert = () => {
   }
 
   return (
-    <Alert title={title} variant="danger">
+    <Alert title={title} variant={variant}>
       {body}
     </Alert>
   );
