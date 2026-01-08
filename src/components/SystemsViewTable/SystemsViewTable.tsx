@@ -7,6 +7,7 @@ import {
 } from '@patternfly/react-data-view';
 import { DataViewTable } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
+import { PageSection, Pagination } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
 import { BulkSelect } from '@patternfly/react-component-groups';
 import { useSystemsQuery } from './hooks/useSystemsQuery';
@@ -16,11 +17,11 @@ import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 import { InventoryFilters, SystemsViewFilters } from './SystemsViewFilters';
 import { useColumns } from './hooks/useColumns';
 import { useSearchParams } from 'react-router-dom';
-import { Pagination } from '@patternfly/react-core';
 import { useSystemsViewModals } from './hooks/useSystemsViewModals';
 import { SystemsViewActions } from './SystemsViewActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
+import './SystemsViewTable.scss';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -107,64 +108,73 @@ const SystemsViewTable: React.FC = () => {
 
   return (
     <DataView selection={selection} activeState={activeState}>
-      <DataViewToolbar
-        ouiaId="systems-view-header"
-        clearAllFilters={clearAllFilters}
-        bulkSelect={
-          <BulkSelect
-            pageCount={rows.length}
-            // canSelectAll disabled see JIRA: RHINENG-22312 for details
-            totalCount={total}
-            selectedCount={selected.length}
-            pagePartiallySelected={isPagePartiallySelected}
-            pageSelected={isPageSelected}
-            onSelect={onBulkSelect}
-          />
-        }
-        filters={
-          <SystemsViewFilters filters={filters} onSetFilters={onSetFilters} />
-        }
-        actions={
-          <SystemsViewActions
-            selectedSystems={selectedSystems}
-            activeState={activeState}
-            openDeleteModal={openDeleteModal}
-            openAddToWorkspaceModal={openAddToWorkspaceModal}
-            openRemoveFromWorkspaceModal={openRemoveFromWorkspaceModal}
-          />
-        }
-        pagination={<Pagination isCompact itemCount={total} {...pagination} />}
-      />
-      <DataViewTable
-        aria-label="Systems table"
-        variant="compact"
-        ouiaId="systems-view-table"
-        columns={columns}
-        rows={rows}
-        headStates={{
-          loading: NO_HEADER,
-          empty: NO_HEADER,
-          error: NO_HEADER,
-        }}
-        bodyStates={{
-          loading: (
-            <SkeletonTable
-              ouiaId="loading-state"
-              isSelectable
-              rowsCount={pagination.perPage}
-              columns={columns}
+      <PageSection hasBodyWrapper={false}>
+        <DataViewToolbar
+          ouiaId="systems-view-header"
+          clearAllFilters={clearAllFilters}
+          bulkSelect={
+            <BulkSelect
+              pageCount={rows.length}
+              // canSelectAll disabled see JIRA: RHINENG-22312 for details
+              totalCount={total}
+              selectedCount={selected.length}
+              pagePartiallySelected={isPagePartiallySelected}
+              pageSelected={isPageSelected}
+              onSelect={onBulkSelect}
             />
-          ),
-          empty: <NoEntitiesFound />,
-          error: (
-            <ErrorState
-              ouiaId="error-state"
-              titleText="Unable to load data"
-              bodyText="There was an error retrieving data. Check your connection and reload the page."
+          }
+          filters={
+            <SystemsViewFilters filters={filters} onSetFilters={onSetFilters} />
+          }
+          actions={
+            <SystemsViewActions
+              selectedSystems={selectedSystems}
+              activeState={activeState}
+              openDeleteModal={openDeleteModal}
+              openAddToWorkspaceModal={openAddToWorkspaceModal}
+              openRemoveFromWorkspaceModal={openRemoveFromWorkspaceModal}
             />
-          ),
-        }}
-      />
+          }
+          pagination={
+            <Pagination isCompact itemCount={total} {...pagination} />
+          }
+        />
+        <DataViewTable
+          aria-label="Systems table"
+          variant="compact"
+          ouiaId="systems-view-table"
+          columns={columns}
+          className="ins-c-systems-view-table"
+          rows={rows}
+          headStates={{
+            loading: NO_HEADER,
+            empty: NO_HEADER,
+            error: NO_HEADER,
+          }}
+          bodyStates={{
+            loading: (
+              <SkeletonTable
+                ouiaId="loading-state"
+                isSelectable
+                rowsCount={pagination.perPage}
+                columns={columns}
+              />
+            ),
+            empty: <NoEntitiesFound />,
+            error: (
+              <ErrorState
+                ouiaId="error-state"
+                titleText="Unable to load data"
+                bodyText="There was an error retrieving data. Check your connection and reload the page."
+              />
+            ),
+          }}
+        />
+        <DataViewToolbar
+          ouiaId="systems-view-footer"
+          pagination={<Pagination itemCount={total} {...pagination} />}
+        />
+      </PageSection>
       {modals}
     </DataView>
   );

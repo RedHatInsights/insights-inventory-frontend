@@ -1,16 +1,15 @@
 import React from 'react';
 import { PageSection, Title } from '@patternfly/react-core';
 import SystemsViewTable from '../components/SystemsViewTable';
+import { PageHeader } from '@redhat-cloud-services/frontend-components';
 
-const InventoryViews = function InventoryViews() {
+const InventoryViews: React.FC = () => {
   return (
     <>
-      <PageSection>
-        <Title headingLevel="h1">Inventory Views (Data View POC)</Title>
-      </PageSection>
-      <PageSection>
-        <SystemsViewTable />
-      </PageSection>
+      <PageHeader>
+        <Title headingLevel="h1">Inventory Views (Data View PoC)</Title>
+      </PageHeader>
+      <SystemsViewTable />
     </>
   );
 };
