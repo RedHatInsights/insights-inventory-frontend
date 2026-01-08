@@ -7,6 +7,7 @@ import {
 } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { Flex, FlexItem } from '@patternfly/react-core';
 import InventoryGroupsPopover from '../components/InventoryGroups/SmallComponents/Popover';
+import { OutageAlert } from '../components/OutageAlert';
 
 const Groups = () => {
   const chrome = useChrome();
@@ -35,6 +36,7 @@ const Groups = () => {
             <InventoryGroupsPopover />
           </FlexItem>
         </Flex>
+        <OutageAlert />
       </PageHeader>
       <InventoryGroups />
     </React.Fragment>

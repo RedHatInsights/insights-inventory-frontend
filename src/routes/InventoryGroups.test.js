@@ -25,6 +25,13 @@ jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
     },
   }),
 }));
+jest.mock('../Utilities/useFeatureFlag', () => ({
+  __esModule: false,
+  default: jest.fn(() => true),
+  useFeatureVariant: jest.fn(() => ({
+    isEnabled: false,
+  })),
+}));
 
 describe('workspaces route', () => {
   it('renders header and table wrapper', () => {
