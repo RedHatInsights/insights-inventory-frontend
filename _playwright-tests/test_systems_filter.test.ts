@@ -10,7 +10,6 @@ import {
   filterSystemsWithConditionalFilter,
   assertAllContain,
   parseLastSeenToDays,
-  validateLastSeenValue,
 } from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 
@@ -310,12 +309,11 @@ test.describe('Filtering Systems Tests', () => {
         ).toBeTruthy();
 
         const days = parseLastSeenToDays(cellText!);
-        const validation = validateLastSeenValue(days, 'last24');
-
+        // "Within the last 24 hours" means 0 days (hours/minutes/seconds ago)
         expect(
-          validation.isValid,
-          `Row ${i + 1}: "${cellText}" - ${validation.reason}`,
-        ).toBe(true);
+          days,
+          `Row ${i + 1}: "${cellText}" should be within 24 hours (0 days), got ${days} days`,
+        ).toBe(0);
       }
     });
   });
