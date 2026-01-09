@@ -1,15 +1,51 @@
-import { useCallback, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import DeleteModal from '../../../Utilities/DeleteModal';
-import AddSelectedHostsToGroupModal from '../../InventoryGroups/Modals/AddSelectedHostsToGroupModal';
-import RemoveHostsFromGroupModal from '../../InventoryGroups/Modals/RemoveHostsFromGroupModal';
-import TextInputModal from '../../GeneralInfo/TextInputModal/TextInputModal';
-import { useDeleteSystemsMutation } from './useDeleteSystemsMutation';
-import { usePatchSystemsMutation } from './usePatchSystemsMutation';
-import type { System } from './useSystemsQuery';
+import DeleteModal from '../../Utilities/DeleteModal';
+import AddSelectedHostsToGroupModal from '../InventoryGroups/Modals/AddSelectedHostsToGroupModal';
+import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
+import TextInputModal from '../GeneralInfo/TextInputModal/TextInputModal';
+import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
+import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
+import type { System } from './hooks/useSystemsQuery';
 import React from 'react';
 
-export const useSystemsViewModals = (onSelectionClear?: () => void) => {
+type OpenModalFn = (systems: System[]) => void;
+
+interface SystemsViewModalsContextValue {
+  openDeleteModal: OpenModalFn;
+  openAddToWorkspaceModal: OpenModalFn;
+  openRemoveFromWorkspaceModal: OpenModalFn;
+  openEditModal: OpenModalFn;
+}
+
+const SystemsViewModalsContext =
+  createContext<SystemsViewModalsContextValue | null>(null);
+
+export const useSystemsViewModalsContext = () => {
+  const context = useContext(SystemsViewModalsContext);
+  if (!context) {
+    throw new Error(
+      'hook useSystemsViewModalsContext must be used within SystemsViewModalsProvider',
+    );
+  }
+  return context;
+};
+
+interface SystemsViewModalsProviderProps {
+  children: React.ReactNode;
+  onSelectionClear?: () => void;
+}
+
+export const SystemsViewModalsProvider = ({
+  children,
+  onSelectionClear,
+}: SystemsViewModalsProviderProps) => {
   const queryClient = useQueryClient();
   const [systemsForAction, setSystemsForAction] = useState<System[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -63,8 +99,24 @@ export const useSystemsViewModals = (onSelectionClear?: () => void) => {
     setEditModalOpen(true);
   }, []);
 
-  const modals = (
-    <>
+  const contextValue: SystemsViewModalsContextValue = useMemo(
+    () => ({
+      openDeleteModal,
+      openAddToWorkspaceModal,
+      openRemoveFromWorkspaceModal,
+      openEditModal,
+    }),
+    [
+      openDeleteModal,
+      openAddToWorkspaceModal,
+      openRemoveFromWorkspaceModal,
+      openEditModal,
+    ],
+  );
+
+  return (
+    <SystemsViewModalsContext.Provider value={contextValue}>
+      {children}
       {isDeleteModalOpen && (
         <DeleteModal
           handleModalToggle={setIsDeleteModalOpen}
@@ -101,14 +153,6 @@ export const useSystemsViewModals = (onSelectionClear?: () => void) => {
           onSubmit={onPatchConfirm}
         />
       )}
-    </>
+    </SystemsViewModalsContext.Provider>
   );
-
-  return {
-    openDeleteModal,
-    openAddToWorkspaceModal,
-    openRemoveFromWorkspaceModal,
-    openEditModal,
-    modals,
-  };
 };

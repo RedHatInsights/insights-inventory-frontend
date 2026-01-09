@@ -2,22 +2,20 @@ import { ActionsColumn } from '@patternfly/react-table';
 import React from 'react';
 import { System } from './hooks/useSystemsQuery';
 import { hasWorkspace } from './utils/systemHelpers';
+import { useSystemsViewModalsContext } from './SystemsViewModalsContext';
 
 interface RowActionsProps {
   system: System;
-  openAddToWorkspaceModal: (systems: System[]) => void;
-  openRemoveFromWorkspaceModal: (systems: System[]) => void;
-  openEditModal: (systems: System[]) => void;
-  openDeleteModal: (systems: System[]) => void;
 }
 
-const RowActions: React.FC<RowActionsProps> = ({
-  system,
-  openAddToWorkspaceModal,
-  openRemoveFromWorkspaceModal,
-  openEditModal,
-  openDeleteModal,
-}) => {
+const RowActions = ({ system }: RowActionsProps) => {
+  const {
+    openDeleteModal,
+    openAddToWorkspaceModal,
+    openRemoveFromWorkspaceModal,
+    openEditModal,
+  } = useSystemsViewModalsContext();
+
   const rowActions = [
     {
       title: 'Add to workspace',
