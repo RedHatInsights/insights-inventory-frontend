@@ -21,6 +21,7 @@ import FontAwesomeImageIcon from '../../components/FontAwesomeImageIcon';
 import { AccountStatContext } from '../../Contexts';
 import { pageContents } from './InventoryPageContents';
 import { InventoryPopover } from './InventoryPopover';
+import { OutageAlert } from '../../components/OutageAlert';
 
 const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
   <Split hasGutter>
@@ -82,6 +83,7 @@ const InventoryPageHeader = (toggleProps) => {
           hasBootcImages && <InventoryContentToggle {...toggleProps} />
         }
       />
+      <OutageAlert />
     </PageHeader>
   );
 };
