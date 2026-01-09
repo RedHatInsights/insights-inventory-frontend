@@ -6,7 +6,7 @@ import OperatingSystem from '../../../routes/Systems/components/SystemsTable/com
 import LastSeen from '../../../routes/Systems/components/SystemsTable/components/columns/LastSeen';
 import React from 'react';
 import Tags from '../../../routes/Systems/components/SystemsTable/components/columns/Tags';
-import RowActions from '../RowActions';
+import SystemsViewRowActions from '../SystemsViewRowActions';
 
 interface UseRowsParams {
   data?: System[];
@@ -46,7 +46,7 @@ export const useRows = ({ data }: UseRowsParams): UseRowsReturnValue => {
           per_reporter_staleness={system?.per_reporter_staleness}
         />,
         {
-          cell: <RowActions system={system} />,
+          cell: <SystemsViewRowActions system={system} />,
           props: { isActionCell: true },
         },
       ],

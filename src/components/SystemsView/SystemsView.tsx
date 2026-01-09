@@ -21,7 +21,7 @@ import {
 import { useColumns } from './hooks/useColumns';
 import { useSearchParams } from 'react-router-dom';
 import { SystemsViewModalsProvider } from './SystemsViewModalsContext';
-import { SystemsViewActions } from './SystemsViewActions';
+import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
 import './SystemsView.scss';
@@ -123,7 +123,7 @@ const SystemsView: React.FC = () => {
               />
             }
             actions={
-              <SystemsViewActions
+              <SystemsViewBulkActions
                 selectedSystems={selectedSystems}
                 activeState={activeState}
               />
