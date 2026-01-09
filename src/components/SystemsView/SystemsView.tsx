@@ -37,7 +37,7 @@ const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
 const NO_HEADER = <></>;
 
-const SystemsView: React.FC = () => {
+const SystemsView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const pagination = useDataViewPagination({

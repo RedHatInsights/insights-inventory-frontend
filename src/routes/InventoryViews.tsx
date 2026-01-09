@@ -3,7 +3,7 @@ import { Title } from '@patternfly/react-core';
 import SystemsView from '../components/SystemsView';
 import { PageHeader } from '@redhat-cloud-services/frontend-components';
 
-const InventoryViews: React.FC = () => {
+const InventoryViews = () => {
   return (
     <>
       <PageHeader>

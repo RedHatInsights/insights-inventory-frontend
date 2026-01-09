@@ -15,11 +15,11 @@ interface NoEntitiesFoundProps {
   showIcon?: boolean;
 }
 
-const NoEntitiesFound: React.FC<NoEntitiesFoundProps> = ({
+const NoEntitiesFound = ({
   entities = 'systems',
   onClearAll,
   showIcon = true,
-}) => (
+}: NoEntitiesFoundProps) => (
   <EmptyState
     headingLevel="h5"
     titleText={<>{`No matching ${entities} found`}</>}
