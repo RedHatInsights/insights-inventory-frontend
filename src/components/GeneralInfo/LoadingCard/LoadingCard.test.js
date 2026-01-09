@@ -55,28 +55,25 @@ describe('LoadingCard', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it(`Loading card render`, () => {
-    const view = render(
+  it('should render the card expanded by default', () => {
+    render(
       <TestWrapper>
         <LoadingCard
           isLoading={false}
-          title="Some title"
+          title="Expandable Card"
           items={[
             {
-              onClick: jest.fn(),
-              title: 'test-title',
-              size: 'md',
-              value: 'some value',
-            },
-            {
-              title: 'just title',
+              title: 'test-item',
+              value: 'test-value',
             },
           ]}
         />
       </TestWrapper>,
     );
 
-    expect(view.asFragment()).toMatchSnapshot();
+    expect(screen.getByText('Expandable Card')).toBeVisible();
+    expect(screen.getByText('test-item')).toBeVisible();
+    expect(screen.getByText('test-value')).toBeVisible();
   });
 
   it('Clickable should render - no data', () => {
@@ -307,5 +304,45 @@ describe('LoadingCard', () => {
       expect(onClick).not.toHaveBeenCalled();
     });
     expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  describe('expandable card', () => {
+    it('should collapse and expand when toggle button is clicked', async () => {
+      render(
+        <TestWrapper>
+          <LoadingCard
+            isLoading={false}
+            title="Expandable Card"
+            items={[
+              {
+                title: 'test-item',
+                value: 'test-value',
+              },
+            ]}
+          />
+        </TestWrapper>,
+      );
+
+      // Content should be visible initially
+      expect(screen.getByText('test-value')).toBeVisible();
+
+      // Click the toggle button to collapse
+      const toggleButton = screen.getByRole('button');
+      await userEvent.click(toggleButton);
+
+      // Content should not be in the document after collapse
+      await waitFor(() => {
+        expect(screen.queryByText('test-value')).not.toBeInTheDocument();
+      });
+
+      // Title should still be visible
+      expect(screen.getByText('Expandable Card')).toBeVisible();
+
+      // Expand the card again
+      await userEvent.click(toggleButton);
+      await waitFor(() => {
+        expect(screen.getByText('test-value')).toBeVisible();
+      });
+    });
   });
 });
