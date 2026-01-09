@@ -10,23 +10,13 @@ import RowActions from '../RowActions';
 
 interface UseRowsParams {
   data?: System[];
-  openAddToWorkspaceModal: (systems: System[]) => void;
-  openRemoveFromWorkspaceModal: (systems: System[]) => void;
-  openEditModal: (systems: System[]) => void;
-  openDeleteModal: (systems: System[]) => void;
 }
 
 interface UseRowsReturnValue {
   rows: DataViewTrObject[];
 }
 
-export const useRows = ({
-  data,
-  openAddToWorkspaceModal,
-  openRemoveFromWorkspaceModal,
-  openEditModal,
-  openDeleteModal,
-}: UseRowsParams): UseRowsReturnValue => {
+export const useRows = ({ data }: UseRowsParams): UseRowsReturnValue => {
   const mapSystemToRow = (system: System): DataViewTrObject => {
     return {
       id: system.id,
@@ -56,15 +46,7 @@ export const useRows = ({
           per_reporter_staleness={system?.per_reporter_staleness}
         />,
         {
-          cell: (
-            <RowActions
-              system={system}
-              openAddToWorkspaceModal={openAddToWorkspaceModal}
-              openRemoveFromWorkspaceModal={openRemoveFromWorkspaceModal}
-              openEditModal={openEditModal}
-              openDeleteModal={openDeleteModal}
-            />
-          ),
+          cell: <RowActions system={system} />,
           props: { isActionCell: true },
         },
       ],

@@ -20,7 +20,7 @@ import {
 } from './filters/SystemsViewFilters';
 import { useColumns } from './hooks/useColumns';
 import { useSearchParams } from 'react-router-dom';
-import { useSystemsViewModals } from './hooks/useSystemsViewModals';
+import { SystemsViewModalsProvider } from './SystemsViewModalsContext';
 import { SystemsViewActions } from './SystemsViewActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
@@ -39,13 +39,6 @@ const NO_HEADER = <></>;
 
 const SystemsView: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const {
-    openDeleteModal,
-    openAddToWorkspaceModal,
-    openRemoveFromWorkspaceModal,
-    openEditModal,
-    modals,
-  } = useSystemsViewModals(() => setSelected([]));
 
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
@@ -87,10 +80,6 @@ const SystemsView: React.FC = () => {
 
   const { rows } = useRows({
     data,
-    openAddToWorkspaceModal,
-    openRemoveFromWorkspaceModal,
-    openEditModal,
-    openDeleteModal,
   });
 
   const selectedIds = selected.map(({ id }) => id);
@@ -110,76 +99,77 @@ const SystemsView: React.FC = () => {
     useBulkSelect({ selection, rows });
 
   return (
-    <DataView selection={selection} activeState={activeState}>
-      <PageSection hasBodyWrapper={false}>
-        <DataViewToolbar
-          ouiaId="systems-view-header"
-          clearAllFilters={clearAllFilters}
-          bulkSelect={
-            <BulkSelect
-              pageCount={rows.length}
-              // canSelectAll disabled see JIRA: RHINENG-22312 for details
-              totalCount={total}
-              selectedCount={selected.length}
-              pagePartiallySelected={isPagePartiallySelected}
-              pageSelected={isPageSelected}
-              onSelect={onBulkSelect}
-            />
-          }
-          filters={
-            <SystemsViewFilters filters={filters} onSetFilters={onSetFilters} />
-          }
-          actions={
-            <SystemsViewActions
-              selectedSystems={selectedSystems}
-              activeState={activeState}
-              openDeleteModal={openDeleteModal}
-              openAddToWorkspaceModal={openAddToWorkspaceModal}
-              openRemoveFromWorkspaceModal={openRemoveFromWorkspaceModal}
-            />
-          }
-          pagination={
-            <Pagination isCompact itemCount={total} {...pagination} />
-          }
-        />
-        <DataViewTable
-          aria-label="Systems table"
-          variant="compact"
-          ouiaId="systems-view-table"
-          columns={columns}
-          className="ins-c-systems-view-table"
-          rows={rows}
-          headStates={{
-            loading: NO_HEADER,
-            empty: NO_HEADER,
-            error: NO_HEADER,
-          }}
-          bodyStates={{
-            loading: (
-              <SkeletonTable
-                ouiaId="loading-state"
-                isSelectable
-                rowsCount={pagination.perPage}
-                columns={columns}
+    <SystemsViewModalsProvider onSelectionClear={() => setSelected([])}>
+      <DataView selection={selection} activeState={activeState}>
+        <PageSection hasBodyWrapper={false}>
+          <DataViewToolbar
+            ouiaId="systems-view-header"
+            clearAllFilters={clearAllFilters}
+            bulkSelect={
+              <BulkSelect
+                pageCount={rows.length}
+                // canSelectAll disabled see JIRA: RHINENG-22312 for details
+                totalCount={total}
+                selectedCount={selected.length}
+                pagePartiallySelected={isPagePartiallySelected}
+                pageSelected={isPageSelected}
+                onSelect={onBulkSelect}
               />
-            ),
-            empty: <NoEntitiesFound />,
-            error: (
-              <ErrorState
-                ouiaId="error-state"
-                titleText="Unable to load data"
-                bodyText="There was an error retrieving data. Check your connection and reload the page."
+            }
+            filters={
+              <SystemsViewFilters
+                filters={filters}
+                onSetFilters={onSetFilters}
               />
-            ),
-          }}
-        />
-        <DataViewToolbar
-          ouiaId="systems-view-footer"
-          pagination={<Pagination itemCount={total} {...pagination} />}
-        />
-      </PageSection>
-      {modals}
-    </DataView>
+            }
+            actions={
+              <SystemsViewActions
+                selectedSystems={selectedSystems}
+                activeState={activeState}
+              />
+            }
+            pagination={
+              <Pagination isCompact itemCount={total} {...pagination} />
+            }
+          />
+          <DataViewTable
+            aria-label="Systems table"
+            variant="compact"
+            ouiaId="systems-view-table"
+            columns={columns}
+            className="ins-c-systems-view-table"
+            rows={rows}
+            headStates={{
+              loading: NO_HEADER,
+              empty: NO_HEADER,
+              error: NO_HEADER,
+            }}
+            bodyStates={{
+              loading: (
+                <SkeletonTable
+                  ouiaId="loading-state"
+                  isSelectable
+                  rowsCount={pagination.perPage}
+                  columns={columns}
+                />
+              ),
+              empty: <NoEntitiesFound />,
+              error: (
+                <ErrorState
+                  ouiaId="error-state"
+                  titleText="Unable to load data"
+                  bodyText="There was an error retrieving data. Check your connection and reload the page."
+                />
+              ),
+            }}
+          />
+          <DataViewToolbar
+            ouiaId="systems-view-footer"
+            pagination={<Pagination itemCount={total} {...pagination} />}
+          />
+        </PageSection>
+      </DataView>
+    </SystemsViewModalsProvider>
   );
 };
 
