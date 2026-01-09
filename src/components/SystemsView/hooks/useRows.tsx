@@ -4,10 +4,9 @@ import DisplayName from '../../../routes/Systems/components/SystemsTable/compone
 import Workspace from '../../../routes/Systems/components/SystemsTable/components/columns/Workspace';
 import OperatingSystem from '../../../routes/Systems/components/SystemsTable/components/columns/OperatingSystem';
 import LastSeen from '../../../routes/Systems/components/SystemsTable/components/columns/LastSeen';
-import { ActionsColumn } from '@patternfly/react-table';
 import React from 'react';
 import Tags from '../../../routes/Systems/components/SystemsTable/components/columns/Tags';
-import { hasWorkspace } from '../utils/systemHelpers';
+import RowActions from '../RowActions';
 
 interface UseRowsParams {
   data?: System[];
@@ -29,27 +28,6 @@ export const useRows = ({
   openDeleteModal,
 }: UseRowsParams): UseRowsReturnValue => {
   const mapSystemToRow = (system: System): DataViewTrObject => {
-    const rowActions = [
-      {
-        title: 'Add to workspace',
-        onClick: () => openAddToWorkspaceModal([system]),
-        isDisabled: hasWorkspace(system),
-      },
-      {
-        title: 'Remove from workspace',
-        onClick: () => openRemoveFromWorkspaceModal([system]),
-        isDisabled: !hasWorkspace(system),
-      },
-      {
-        title: 'Edit display name',
-        onClick: () => openEditModal([system]),
-      },
-      {
-        title: 'Delete from inventory',
-        onClick: () => openDeleteModal([system]),
-      },
-    ];
-
     return {
       id: system.id,
       row: [
@@ -78,7 +56,15 @@ export const useRows = ({
           per_reporter_staleness={system?.per_reporter_staleness}
         />,
         {
-          cell: <ActionsColumn items={rowActions} />,
+          cell: (
+            <RowActions
+              system={system}
+              openAddToWorkspaceModal={openAddToWorkspaceModal}
+              openRemoveFromWorkspaceModal={openRemoveFromWorkspaceModal}
+              openEditModal={openEditModal}
+              openDeleteModal={openDeleteModal}
+            />
+          ),
           props: { isActionCell: true },
         },
       ],
