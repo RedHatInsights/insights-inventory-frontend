@@ -1,6 +1,5 @@
 import { DataViewTrObject } from '@patternfly/react-data-view';
 import { System } from './useSystemsQuery';
-import { useCallback, useMemo } from 'react';
 import DisplayName from '../../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
 import Workspace from '../../../routes/Systems/components/SystemsTable/components/columns/Workspace';
 import OperatingSystem from '../../../routes/Systems/components/SystemsTable/components/columns/OperatingSystem';
