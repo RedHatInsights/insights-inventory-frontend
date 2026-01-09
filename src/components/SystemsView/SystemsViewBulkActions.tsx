@@ -8,15 +8,15 @@ import type { System } from './hooks/useSystemsQuery';
 import { hasSameWorkspace, hasWorkspace } from './utils/systemHelpers';
 import { useSystemsViewModalsContext } from './SystemsViewModalsContext';
 
-interface SystemsViewActionsProps {
+interface SystemsViewBulkActionsProps {
   selectedSystems: System[];
   activeState: string;
 }
 
-export const SystemsViewActions = ({
+export const SystemsViewBulkActions = ({
   selectedSystems,
   activeState,
-}: SystemsViewActionsProps) => {
+}: SystemsViewBulkActionsProps) => {
   const {
     openDeleteModal,
     openAddToWorkspaceModal,

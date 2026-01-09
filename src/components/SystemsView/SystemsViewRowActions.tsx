@@ -8,7 +8,7 @@ interface RowActionsProps {
   system: System;
 }
 
-const RowActions = ({ system }: RowActionsProps) => {
+const SystemsViewRowActions = ({ system }: RowActionsProps) => {
   const {
     openDeleteModal,
     openAddToWorkspaceModal,
@@ -40,4 +40,4 @@ const RowActions = ({ system }: RowActionsProps) => {
   return <ActionsColumn items={rowActions} />;
 };
 
-export default RowActions;
+export default SystemsViewRowActions;
