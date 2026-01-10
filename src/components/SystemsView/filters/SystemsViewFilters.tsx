@@ -32,10 +32,10 @@ export const isToolbarLabel = (
   label: string | ToolbarLabel,
 ): label is ToolbarLabel => typeof label === 'object' && 'key' in label;
 
-export const SystemsViewFilters: React.FC<SystemsViewFiltersProps> = ({
+export const SystemsViewFilters = ({
   filters,
   onSetFilters,
-}) => (
+}: SystemsViewFiltersProps) => (
   <>
     <DataViewFilters
       onChange={(_, values) => {
