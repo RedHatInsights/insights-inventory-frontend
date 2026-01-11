@@ -1,10 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# vscode config
+# IDE configs
 .vscode/
-
-# ide config
 .idea/
+.zed/
 
 # dependencies
 node_modules
