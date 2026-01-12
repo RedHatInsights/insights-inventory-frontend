@@ -26,7 +26,6 @@ test('User can filter, search and see details of "Ungrouped Hosts" workspace', a
      - inv-hosts-filter-by-group_name
      - inv-kessel-ungrouped
      - importance: critical
-     - assignee: zabikeno
    */
   const ungroupedWorkspaceName: string = 'Ungrouped Hosts';
   await test.step('Filter systems by "Ungrouped Hosts" workspace in Systems page', async () => {

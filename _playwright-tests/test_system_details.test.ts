@@ -46,7 +46,6 @@ test.describe('System Details tests', () => {
        - requirements:
        - inv-hosts-get-by-id
        - importance: critical
-       - assignee: zabikeno
      */
 
     await test.step('Setup: navigate to prepared system details page', async () => {
@@ -143,7 +142,6 @@ test.describe('System Details tests', () => {
        - requirements:
        - inv-hosts-get-by-id
        - importance: critical
-       - assignee: zabikeno
      */
 
     await test.step('Setup: navigate to prepared system details page', async () => {

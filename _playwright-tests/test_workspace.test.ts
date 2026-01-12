@@ -28,7 +28,6 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
      - inv-groups-patch
      - inv-groups-delete
      - importance: critical
-     - assignee: addubey
    */
 
   await test.step('Navigate to Workspaces page', async () => {
@@ -112,7 +111,6 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
      - inv-groups-delete
      - importance: critical
      - negative: true
-     - assignee: addubey
    */
 
   const workspaceName = 'Workspace_with_systems';
@@ -153,7 +151,6 @@ test.skip('User able to bulk delete empty workspaces', async ({ page }) => {
      - requirements:
      - inv-groups-delete
      - importance: critical
-     - assignee: addubey
    */
 
   await test.step('Navigate to Workspaces', async () => {
@@ -222,7 +219,6 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
      - inv-groups-patch
      - inv-groups-delete
      - importance: critical
-     - assignee: zabikeno
    */
   const workspaceName = await generateUniqueWorkspaceName();
   const renamedWorkspace = `${workspaceName}_Renamed`;
@@ -294,7 +290,6 @@ test('User can add and remove system from an empty workspace', async ({
    * - inv-groups-add-hosts
    * - inv-groups-remove-hosts
    * - importance: high
-   * - assignee: addubey
    */
 
   const workspaceName = await generateUniqueWorkspaceName();
@@ -405,7 +400,6 @@ test('User can add a system to an existing workspace with systems', async ({
    * Metadata:
    * - requirements: inv-groups-add-hosts
    * - importance: high
-   * - assignee: addubey
    */
 
   const workspaceName = 'Workspace_with_systems';
@@ -535,7 +529,6 @@ sortingColumns.forEach((column) => {
        * Metadata:
        * - requirements: inv-groups-get-by-id
        * - importance: high
-       * - assignee: addubey
        */
 
       await test.step('Navigate to Workspaces page', async () => {
