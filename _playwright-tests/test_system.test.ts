@@ -18,7 +18,6 @@ test('User should be able to edit and delete a system from Systems page', async 
      - inv-hosts-patch
      - inv-hosts-delete-by-id
      - importance: critical
-     - assignee: addubey
    */
   const setupResult = prepareSingleSystem();
   const { hostname: systemName, archiveName, workingDir } = setupResult;
@@ -83,7 +82,6 @@ test('User should be able to edit and delete a system from System Details page',
      - inv-hosts-patch
      - inv-hosts-delete-by-id
      - importance: critical
-     - assignee: zabikeno
    */
   const setupResult = prepareSingleSystem();
   const { hostname: systemName, archiveName, workingDir } = setupResult;
@@ -245,7 +243,6 @@ test('User should be able to delete multiple systems from Systems page', async (
      - requirements:
      - inv-hosts-delete-by-id
      - importance: critical
-     - assignee: addubey
    */
   const systems = Array.from({ length: 3 }, () => prepareSingleSystem());
 
@@ -293,7 +290,6 @@ test('User should be able to delete multiple systems from Systems page', async (
      * Metadata:
      * - requirements: inv-hosts-get
      * - importance: high
-     * - assignee: addubey
      *
      */
 

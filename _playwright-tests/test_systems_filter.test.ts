@@ -58,7 +58,6 @@ test.describe('Filtering Systems Tests', () => {
      * Metadata:
        - requirements:
        - inv-hosts-filter-by-system_type
-       - assignee: zabikeno
        - importance: critical
      */
     const imageIconAriaLabel = 'Image mode icon';
@@ -106,7 +105,6 @@ test.describe('Filtering Systems Tests', () => {
      * Metadata:
        - requirements:
        - inv-hosts-filter-by-group_name
-       - assignee: oezr
        - importance: critical
      */
     await filterSystemsWithConditionalFilter(
@@ -134,7 +132,6 @@ test.describe('Filtering Systems Tests', () => {
      * Metadata:
        - requirements:
        - inv-hosts-filter-by-os
-       - assignee: zabikeno
        - importance: critical
      */
     const OS = 'RHEL 9';
@@ -161,22 +158,31 @@ test.describe('Filtering Systems Tests', () => {
     }) => {
       /**
        * Metadata:
-         - requirements:
-         - inv-hosts-filter-by-os
-         - assignee: zabikeno
-         - importance: critical
+       * - requirements: inv-hosts-filter-by-os
+       * - importance: critical
        */
-      await filterSystemsWithConditionalFilter(
-        page,
-        'Operating system',
-        testData.OS,
-      );
-      const columnVersionOS = page.locator('table tbody td[data-label="OS"]', {
-        hasText: testData.OS,
+
+      await test.step('Apply Operating system filter', async () => {
+        await filterSystemsWithConditionalFilter(
+          page,
+          'Operating system',
+          testData.OS,
+        );
       });
-      await expect(columnVersionOS.first()).toBeVisible();
-      const count = await columnVersionOS.count();
-      await expect(columnVersionOS).toHaveText(Array(count).fill(testData.OS));
+
+      await test.step('Verify filtered results show correct OS', async () => {
+        const columnVersionOS = page.locator(
+          'table tbody td[data-label="OS"]',
+          {
+            hasText: testData.OS,
+          },
+        );
+        await expect(columnVersionOS.first()).toBeVisible();
+        const count = await columnVersionOS.count();
+        await expect(columnVersionOS).toHaveText(
+          Array(count).fill(testData.OS),
+        );
+      });
     });
   });
 
@@ -185,7 +191,6 @@ test.describe('Filtering Systems Tests', () => {
      * Metadata:
        - requirements:
        - inv-hosts-filter-by-tags
-       - assignee: zabikeno
        - importance: critical
      */
     const expectedTagsCount = '7';
@@ -248,7 +253,6 @@ test.describe('Filtering Systems Tests', () => {
      * - https://issues.redhat.com/browse/RHINENG-20810 – Filter systems by Last seen
      * Metadata:
      * - requirements: inv-hosts-filter-by-last_seen
-     * - assignee: addubey
      * - importance: high
      *
      * Note: Only testing "Within the last 24 hours" filter as active test systems
@@ -258,11 +262,41 @@ test.describe('Filtering Systems Tests', () => {
      */
 
     await test.step('Apply Last seen filter', async () => {
-      await filterSystemsWithConditionalFilter(
-        page,
-        'Last seen',
-        'Within the last 24 hours',
+      // Close any existing Last seen filter chip
+      const closeChipButton = page.locator(
+        'button[aria-label^="Close"][aria-label*="days ago"]',
       );
+      // eslint-disable-next-line playwright/no-conditional-in-test
+      if (await closeChipButton.first().isVisible({ timeout: 2000 })) {
+        await closeChipButton.first().click();
+        // Wait for table to reload
+        await page.waitForTimeout(1000);
+      }
+
+      // Open conditional filter dropdown and select "Last seen"
+      await page
+        .getByRole('button', { name: 'Conditional filter toggle' })
+        .click();
+      await page.getByRole('menuitem', { name: 'Last seen' }).click();
+
+      // Click the "Filter by last seen" button to open options
+      const lastSeenToggle = page.locator('button', {
+        hasText: 'Filter by last seen',
+      });
+      await expect(lastSeenToggle).toBeVisible({ timeout: 10000 });
+      await lastSeenToggle.click();
+
+      // Wait for dropdown to be ready, then click the first option
+      await page.waitForTimeout(500);
+      const option = page
+        .getByRole('option', { name: 'Within the last 24 hours' })
+        .first();
+      await expect(option).toBeVisible({ timeout: 5000 });
+      await option.scrollIntoViewIfNeeded();
+      await option.click();
+
+      // Wait for table to reload with filter
+      await page.waitForTimeout(1000);
     });
 
     await test.step('Verify filter chip is displayed', async () => {
