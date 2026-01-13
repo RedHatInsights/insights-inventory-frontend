@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
-import TitleWithPopover from '../TitleWithPopover';
+//import TitleWithPopover from '../TitleWithPopover';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import { systemStatus } from '../selectors';
-import { RHC_TOOLTIP_MESSAGE } from '../../../constants';
+//import { RHC_TOOLTIP_MESSAGE } from '../../../constants';
 
 const SystemStatusCardCore = ({
   detailLoaded = false,
@@ -13,9 +13,9 @@ const SystemStatusCardCore = ({
   hasRegistered = true,
   hasLastCheckIn = true,
   hasLastUpdated = true,
-  hasRHC = true,
+  //hasRHC = true,
   entity,
-  systemProfile,
+  //systemProfile,
 }) => {
   const status = systemStatus(entity);
   return (
@@ -76,7 +76,8 @@ const SystemStatusCardCore = ({
               },
             ]
           : []),
-        ...(hasRHC
+        // Temporarily disabled until we have a way to properly detect RHC connectivity or remove it altogether
+        /*...(hasRHC
           ? [
               {
                 title: (
@@ -91,7 +92,7 @@ const SystemStatusCardCore = ({
                   : 'Not available',
               },
             ]
-          : []),
+          : []),*/
       ]}
     />
   );
@@ -103,19 +104,19 @@ SystemStatusCardCore.propTypes = {
     updated: PropTypes.string,
     created: PropTypes.string,
   }),
-  systemProfile: PropTypes.shape({
+  /*systemProfile: PropTypes.shape({
     rhc_client_id: PropTypes.string,
-  }),
+  }),*/
   handleClick: PropTypes.func,
   hasState: PropTypes.bool,
   hasLastCheckIn: PropTypes.bool,
   hasRegistered: PropTypes.bool,
-  hasRHC: PropTypes.bool,
+  //hasRHC: PropTypes.bool,
 };
 
 export const SystemStatusCard = connect(
   ({ systemProfileStore: { systemProfile } }) => ({
-    systemProfile,
+    //systemProfile,
     detailLoaded: systemProfile?.loaded,
   }),
 )(SystemStatusCardCore);
