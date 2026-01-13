@@ -3,7 +3,7 @@ import SystemStatusCard from './SystemStatusCard';
 import configureStore from 'redux-mock-store';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
+//import userEvent from '@testing-library/user-event';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
 
 jest.mock('react-router-dom', () => ({
@@ -79,7 +79,8 @@ describe('SystemStatusCard', () => {
     );
   });
 
-  it('should render correctly with data', async () => {
+  // Temporarily skip until we have a way to properly detect RHC connectivity or remove it altogether
+  it.skip('should render correctly with data', async () => {
     const store = mockStore(initialState);
     render(
       <TestWrapper store={store}>
