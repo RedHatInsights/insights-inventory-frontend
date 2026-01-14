@@ -6,22 +6,23 @@ import {
 import { SystemsViewExport } from './SystemsViewExport';
 import type { System } from './hooks/useSystemsQuery';
 import { hasSameWorkspace, hasWorkspace } from './utils/systemHelpers';
+import { useSystemsViewModalsContext } from './SystemsViewModalsContext';
 
-interface SystemsViewActionsProps {
+interface SystemsViewBulkActionsProps {
   selectedSystems: System[];
   activeState: string;
-  openDeleteModal: (systems: System[]) => void;
-  openAddToWorkspaceModal: (systems: System[]) => void;
-  openRemoveFromWorkspaceModal: (systems: System[]) => void;
 }
 
-export const SystemsViewActions = ({
+export const SystemsViewBulkActions = ({
   selectedSystems,
   activeState,
-  openDeleteModal,
-  openAddToWorkspaceModal,
-  openRemoveFromWorkspaceModal,
-}: SystemsViewActionsProps) => {
+}: SystemsViewBulkActionsProps) => {
+  const {
+    openDeleteModal,
+    openAddToWorkspaceModal,
+    openRemoveFromWorkspaceModal,
+  } = useSystemsViewModalsContext();
+
   return (
     <Fragment>
       <SystemsViewExport />

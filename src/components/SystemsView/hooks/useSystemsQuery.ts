@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
-import { InventoryFilters } from '../SystemsViewFilters';
+import { InventoryFilters } from '../filters/SystemsViewFilters';
 import {
   ApiHostGetHostListSystemTypeEnum,
   type ApiHostGetHostListParams,
