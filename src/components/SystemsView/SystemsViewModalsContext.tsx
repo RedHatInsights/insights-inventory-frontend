@@ -125,7 +125,6 @@ export const SystemsViewModalsProvider = ({
           onConfirm={onDeleteConfirm}
         />
       )}
-
       {addHostGroupModalOpen && (
         <AddSelectedHostsToGroupModal
           isModalOpen={addHostGroupModalOpen}
@@ -134,7 +133,6 @@ export const SystemsViewModalsProvider = ({
           reloadData={reloadData}
         />
       )}
-
       {removeHostsFromGroupModalOpen && (
         <RemoveHostsFromGroupModal
           isModalOpen={removeHostsFromGroupModalOpen}
@@ -143,7 +141,6 @@ export const SystemsViewModalsProvider = ({
           reloadData={reloadData}
         />
       )}
-
       {editModalOpen && (
         <TextInputModal
           title="Edit display name"

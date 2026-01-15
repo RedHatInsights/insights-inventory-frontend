@@ -7,7 +7,7 @@ import {
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import qs from 'qs';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { SortDirection } from './useColumns';
+import { SortDirection } from '../SystemsView';
 
 const serializeSystemType = (values: string[]) => {
   const validValues = Object.values(ApiHostGetHostListSystemTypeEnum);
