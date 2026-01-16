@@ -650,7 +650,7 @@ sortingColumns.forEach((column) => {
   });
 });
 
-test('User can add a system to workpsace from Systems page', async ({
+test('User can add a system to workspace from Systems page', async ({
   page,
 }) => {
   /**
@@ -689,8 +689,7 @@ test('User can add a system to workpsace from Systems page', async ({
     const inputLocator = page.getByPlaceholder(
       'Type or click to select a workspace',
     );
-    // wait for input to be enabled
-    await page.waitForTimeout(3000);
+    await expect(inputLocator).toBeEnabled();
 
     await inputLocator.click();
     await inputLocator.fill(workspaceName);
