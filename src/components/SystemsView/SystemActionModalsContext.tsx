@@ -17,35 +17,35 @@ import React from 'react';
 
 type OpenModalFn = (systems: System[]) => void;
 
-interface SystemsViewModalsContextValue {
+interface SystemActionModalsContextValue {
   openDeleteModal: OpenModalFn;
   openAddToWorkspaceModal: OpenModalFn;
   openRemoveFromWorkspaceModal: OpenModalFn;
   openEditModal: OpenModalFn;
 }
 
-const SystemsViewModalsContext =
-  createContext<SystemsViewModalsContextValue | null>(null);
+const SystemActionModalsContext =
+  createContext<SystemActionModalsContextValue | null>(null);
 
-export const useSystemsViewModalsContext = () => {
-  const context = useContext(SystemsViewModalsContext);
+export const useSystemActionModalsContext = () => {
+  const context = useContext(SystemActionModalsContext);
   if (!context) {
     throw new Error(
-      'hook useSystemsViewModalsContext must be used within SystemsViewModalsProvider',
+      'hook useSystemActionModalsContext must be used within SystemsViewModalsProvider',
     );
   }
   return context;
 };
 
-interface SystemsViewModalsProviderProps {
+interface SystemActionModalsProviderProps {
   children: React.ReactNode;
   onSelectionClear?: () => void;
 }
 
-export const SystemsViewModalsProvider = ({
+export const SystemActionModalsProvider = ({
   children,
   onSelectionClear,
-}: SystemsViewModalsProviderProps) => {
+}: SystemActionModalsProviderProps) => {
   const queryClient = useQueryClient();
   const [systemsForAction, setSystemsForAction] = useState<System[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -99,7 +99,7 @@ export const SystemsViewModalsProvider = ({
     setEditModalOpen(true);
   }, []);
 
-  const contextValue: SystemsViewModalsContextValue = useMemo(
+  const contextValue: SystemActionModalsContextValue = useMemo(
     () => ({
       openDeleteModal,
       openAddToWorkspaceModal,
@@ -115,7 +115,7 @@ export const SystemsViewModalsProvider = ({
   );
 
   return (
-    <SystemsViewModalsContext.Provider value={contextValue}>
+    <SystemActionModalsContext.Provider value={contextValue}>
       {children}
       {isDeleteModalOpen && (
         <DeleteModal
@@ -150,6 +150,6 @@ export const SystemsViewModalsProvider = ({
           onSubmit={onPatchConfirm}
         />
       )}
-    </SystemsViewModalsContext.Provider>
+    </SystemActionModalsContext.Provider>
   );
 };

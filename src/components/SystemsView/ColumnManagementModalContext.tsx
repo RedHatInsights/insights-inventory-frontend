@@ -5,31 +5,31 @@ import { ColumnManagementModal } from '@patternfly/react-component-groups';
 interface SystemsViewColumnManagementContextValue {
   openColumnManagementModal: () => void;
 }
-const SystemsViewColumnManagementContext =
+const ColumnManagementModalContext =
   React.createContext<SystemsViewColumnManagementContextValue | null>(null);
 
-export const useSystemsViewColumnManagementContext = () => {
-  const context = useContext(SystemsViewColumnManagementContext);
+export const useColumnManagementModalContext = () => {
+  const context = useContext(ColumnManagementModalContext);
   if (!context) {
     throw new Error(
-      'hook useSystemsViewColumnManagementContext must be used within SystemsViewColumnManagementProvider',
+      'hook useColumnManagementModalContext must be used within ColumnManagementModalProvider',
     );
   }
 
   return context;
 };
 
-interface SystemsViewModalsProviderProps {
+interface ColumnManagementModalProviderProps {
   children: React.ReactNode;
   columns: Column[];
   setColumns: React.Dispatch<React.SetStateAction<Column[]>>;
 }
 
-export const SystemsViewColumnManagementProvider = ({
+export const ColumnManagementModalProvider = ({
   children,
   columns,
   setColumns,
-}: SystemsViewModalsProviderProps) => {
+}: ColumnManagementModalProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const openColumnManagementModal = useCallback(() => {
     setIsOpen(true);
@@ -43,7 +43,7 @@ export const SystemsViewColumnManagementProvider = ({
   );
 
   return (
-    <SystemsViewColumnManagementContext.Provider value={contextValue}>
+    <ColumnManagementModalContext.Provider value={contextValue}>
       {children}
       {isOpen && (
         <ColumnManagementModal
@@ -56,6 +56,6 @@ export const SystemsViewColumnManagementProvider = ({
           description="Selected categories will be displayed in the table."
         />
       )}
-    </SystemsViewColumnManagementContext.Provider>
+    </ColumnManagementModalContext.Provider>
   );
 };

@@ -21,14 +21,14 @@ import {
 } from './filters/SystemsViewFilters';
 import { useColumns } from './hooks/useColumns';
 import { useSearchParams } from 'react-router-dom';
-import { SystemsViewModalsProvider } from './SystemsViewModalsContext';
+import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
 import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { ISortBy } from '@patternfly/react-table';
-import { SystemsViewColumnManagementProvider } from './SystemsViewColumnManagementContext';
+import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -126,11 +126,8 @@ const SystemsView = () => {
     useBulkSelect({ selection, rows });
 
   return (
-    <SystemsViewModalsProvider onSelectionClear={() => setSelected([])}>
-      <SystemsViewColumnManagementProvider
-        columns={columns}
-        setColumns={setColumns}
-      >
+    <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>
+      <ColumnManagementModalProvider columns={columns} setColumns={setColumns}>
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
             <DataViewToolbar
@@ -200,8 +197,8 @@ const SystemsView = () => {
             />
           </PageSection>
         </DataView>
-      </SystemsViewColumnManagementProvider>
-    </SystemsViewModalsProvider>
+      </ColumnManagementModalProvider>
+    </SystemActionModalsProvider>
   );
 };
 

@@ -2,7 +2,7 @@ import { ActionsColumn } from '@patternfly/react-table';
 import React from 'react';
 import { System } from './hooks/useSystemsQuery';
 import { hasWorkspace } from './utils/systemHelpers';
-import { useSystemsViewModalsContext } from './SystemsViewModalsContext';
+import { useSystemActionModalsContext } from './SystemActionModalsContext';
 
 interface RowActionsProps {
   system: System;
@@ -14,7 +14,7 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
     openAddToWorkspaceModal,
     openRemoveFromWorkspaceModal,
     openEditModal,
-  } = useSystemsViewModalsContext();
+  } = useSystemActionModalsContext();
 
   const rowActions = [
     {

@@ -10,7 +10,6 @@ import OperatingSystem from '../../../routes/Systems/components/SystemsTable/com
 import Tags from '../../../routes/Systems/components/SystemsTable/components/columns/Tags';
 import { System } from './useSystemsQuery';
 import type { onSort, SortBy, SortDirection } from '../SystemsView';
-import { DirectionsIcon } from '@patternfly/react-icons';
 
 export interface Column extends ColumnManagementModalColumn {}
 export interface RenderableColumn extends Column {
