@@ -24,13 +24,13 @@ interface SystemsViewModalsProviderProps {
   columns: Column[];
   setColumns: React.Dispatch<React.SetStateAction<Column[]>>;
 }
+
 export const SystemsViewColumnManagementProvider = ({
   children,
   columns,
   setColumns,
 }: SystemsViewModalsProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const openColumnManagementModal = useCallback(() => {
     setIsOpen(true);
   }, []);

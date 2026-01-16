@@ -1,5 +1,5 @@
 import { DataViewTh } from '@patternfly/react-data-view';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
 import DisplayName from '../../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
@@ -10,12 +10,18 @@ import OperatingSystem from '../../../routes/Systems/components/SystemsTable/com
 import Tags from '../../../routes/Systems/components/SystemsTable/components/columns/Tags';
 import { System } from './useSystemsQuery';
 import type { onSort, SortBy, SortDirection } from '../SystemsView';
+import { DirectionsIcon } from '@patternfly/react-icons';
 
 export interface Column extends ColumnManagementModalColumn {}
 export interface RenderableColumn extends Column {
   renderCell: (system: System) => React.ReactNode;
   sortBy?: ApiOrderByEnum;
 }
+
+const FALLBACK_SORT: { sortBy: SortBy; direction: SortDirection } = {
+  sortBy: ApiOrderByEnum.DisplayName,
+  direction: 'asc',
+};
 
 const INITIAL_COLUMNS: Column[] = [
   {
@@ -140,6 +146,18 @@ export const useColumns = ({ sortBy, onSort, direction }: UseColumnParams) => {
         }),
     [renderableColumns, fromSortByToIndex, sortBy, direction, onSort],
   );
+
+  useEffect(() => {
+    if (sortBy) {
+      const isSortColumnVisible = renderableColumns.some(
+        (col) => col.sortBy === sortBy && col.isShown,
+      );
+
+      if (!isSortColumnVisible) {
+        onSort(undefined, FALLBACK_SORT.sortBy!, FALLBACK_SORT.direction);
+      }
+    }
+  });
 
   return {
     columns,
