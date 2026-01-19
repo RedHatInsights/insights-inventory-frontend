@@ -207,12 +207,7 @@ const HostStalenessCard = ({
               ) : (
                 <Tooltip content="You do not have the Staleness and deletion admin role and/or Inventory Hosts Administrator role required to perform this action. Contact your org admin for access.">
                   <div>
-                    <Button
-                      variant="link"
-                      // @ts-ignore
-                      style={{ 'padding-left': '0px' }}
-                      isDisabled={!canModifyHostStaleness}
-                    >
+                    <Button variant="link" isDisabled={true}>
                       Edit
                     </Button>
                   </div>
