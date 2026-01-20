@@ -649,3 +649,114 @@ sortingColumns.forEach((column) => {
     });
   });
 });
+
+test('User can add a system to workspace from Systems page', async ({
+  page,
+}) => {
+  /**
+   * Jira References:
+   * - https://issues.redhat.com/browse/RHINENG-21946 – Add systems to workspace with systems
+   * Metadata:
+   * - requirements: inv-groups-add-hosts
+   * - importance: high
+   */
+
+  const workspaceName = 'Workspace_with_systems';
+  const setupResult = prepareSingleSystem();
+  const { hostname: systemName, archiveName, workingDir } = setupResult;
+  const nameColumnLocator = page.locator('td[data-label="Name"]');
+
+  await test.step('Navigate to Inventory → Systems', async () => {
+    await navigateToInventorySystemsFunc(page);
+  });
+
+  await test.step(`Add system "${systemName}" to "${workspaceName}"`, async () => {
+    await searchByName(page, systemName);
+    await page
+      .getByRole('row', { name: new RegExp(systemName, 'i') })
+      .getByLabel('Kebab toggle')
+      .click();
+
+    await page
+      .getByRole('menuitem', { name: 'Add to workspace' })
+      .first()
+      .click();
+
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible();
+
+    // search for workspace
+    const inputLocator = page.getByPlaceholder(
+      'Type or click to select a workspace',
+    );
+    await expect(inputLocator).toBeEnabled();
+
+    await inputLocator.click();
+    await inputLocator.fill(workspaceName);
+    await expect(page.locator(`input[value="${workspaceName}"]`)).toBeVisible();
+
+    await expect(
+      page.getByRole('option', { name: workspaceName }),
+    ).toBeVisible();
+    await page.getByRole('option', { name: workspaceName }).click();
+
+    await dialog.getByRole('button', { name: 'Add' }).click();
+  });
+
+  await test.step('Verify system was added to workspace', async () => {
+    const workspaceCellWithValue = page.locator(
+      'table tbody td[data-label="Workspace"]',
+      {
+        hasText: workspaceName,
+      },
+    );
+    await expect(workspaceCellWithValue.first()).toBeVisible();
+
+    const nameCellWithValue = page.locator(
+      'table tbody td[data-label="Name"]',
+      {
+        hasText: systemName,
+      },
+    );
+    await expect(nameCellWithValue.first()).toBeVisible();
+  });
+
+  await test.step(`Remove system "${systemName}" from "${workspaceName}"`, async () => {
+    // await searchByName(page, systemName);
+    await page
+      .getByRole('row', { name: new RegExp(systemName, 'i') })
+      .getByLabel('Kebab toggle')
+      .click();
+
+    await page
+      .getByRole('menuitem', { name: 'Remove from workspace' })
+      .first()
+      .click();
+
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('button', { name: 'Remove' }).click();
+  });
+
+  await test.step('Verify system was removed from workspace', async () => {
+    const workspaceCellWithValue = page.locator(
+      'table tbody td[data-label="Workspace"]',
+      {
+        hasText: 'Ungrouped Hosts',
+      },
+    );
+    await expect(workspaceCellWithValue.first()).toBeVisible();
+
+    const nameCellWithValue = page.locator(
+      'table tbody td[data-label="Name"]',
+      {
+        hasText: systemName,
+      },
+    );
+    await expect(nameCellWithValue.first()).toBeVisible();
+  });
+
+  await test.step('Cleanup test artifacts', async () => {
+    cleanupTestArchive(archiveName, workingDir);
+  });
+});
