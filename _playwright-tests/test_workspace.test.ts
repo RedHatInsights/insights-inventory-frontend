@@ -327,6 +327,12 @@ test('User can add and remove system from an empty workspace', async ({
     const dialog = page.locator('[role="dialog"]');
     await expect(dialog).toBeVisible({ timeout: 100000 });
 
+    // Workaround for https://issues.redhat.com/browse/RHINENG-23330
+    // Wait for a system to appear - system checkbox loads
+    // to ensure the system table is fully loaded
+    const checkboxToWaitFor = dialog.locator('input[name="checkrow0"]');
+    await expect(checkboxToWaitFor).toBeVisible({ timeout: 10000 });
+
     const searchInput = dialog.locator('input[placeholder="Filter by name"]');
     await searchInput.fill(systemName);
 
