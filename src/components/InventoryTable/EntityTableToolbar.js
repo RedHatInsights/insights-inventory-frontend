@@ -66,6 +66,7 @@ import useGroupFilter from '../filters/useGroupFilter';
 import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
 import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
 import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 /**
  * Table toolbar used at top of inventory table.
@@ -153,6 +154,9 @@ const EntityTableToolbar = ({
       ...systemTypeFilterState,
     },
   );
+
+  const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
+
   const activeFilters = useSelector(
     ({ entities: { activeFilters } }) => activeFilters,
   );
@@ -249,7 +253,8 @@ const EntityTableToolbar = ({
     tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags,
     rhcdFilter:
       !(hideFilters.all && hideFilters.rhcdFilter !== false) &&
-      !hideFilters.rhcdFilter,
+      !hideFilters.rhcdFilter &&
+      !isHideRHCFilterFlagEnabled,
     lastSeenFilter:
       !(hideFilters.all && hideFilters.lastSeen !== false) &&
       !hideFilters.lastSeen,
