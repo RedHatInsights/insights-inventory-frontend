@@ -4,6 +4,7 @@ import {
   DataViewTrObject,
   useDataViewFilters,
   useDataViewPagination,
+  useDataViewSort,
 } from '@patternfly/react-data-view';
 import { DataViewTable } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
@@ -20,11 +21,14 @@ import {
 } from './filters/SystemsViewFilters';
 import { useColumns } from './hooks/useColumns';
 import { useSearchParams } from 'react-router-dom';
-import { SystemsViewModalsProvider } from './SystemsViewModalsContext';
+import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
 import './SystemsView.scss';
+import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import { ISortBy } from '@patternfly/react-table';
+import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -32,6 +36,13 @@ export interface SystemsViewSelection {
   onSelect: (isSelecting: boolean, items?: DataViewTrObject[]) => void;
   isSelected: (item: DataViewTrObject) => boolean;
 }
+export type SortDirection = ISortBy['direction'];
+export type SortBy = ApiOrderByEnum | undefined;
+export type onSort = (
+  _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
+  newSortBy: string,
+  newSortDirection: SortDirection,
+) => void;
 
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
@@ -51,7 +62,6 @@ const SystemsView = () => {
     matchOption: (a, b) => a.id === b.id,
     initialSelected: [],
   }) as SystemsViewSelection;
-
   const { selected, setSelected } = selection;
 
   const { filters, onSetFilters, clearAllFilters } =
@@ -68,7 +78,23 @@ const SystemsView = () => {
       setSearchParams,
     });
 
-  const { columns, sortBy, direction } = useColumns();
+  const sort = useDataViewSort({
+    initialSort: {
+      direction: 'desc',
+      sortBy: ApiOrderByEnum.LastCheckIn,
+    },
+    defaultDirection: 'asc',
+    searchParams,
+    setSearchParams,
+    sortByParam: 'order_by',
+    directionParam: 'order_how',
+  });
+
+  const sortBy = sort?.sortBy as SortBy;
+  const { direction, onSort } = sort;
+
+  const { columns, setColumns, renderableColumns, tableHeaderNodes } =
+    useColumns({ sortBy, onSort, direction });
 
   const { data, total, isLoading, isFetching, isError } = useSystemsQuery({
     page: pagination.page,
@@ -80,6 +106,7 @@ const SystemsView = () => {
 
   const { rows } = useRows({
     data,
+    renderableColumns,
   });
 
   const selectedIds = selected.map(({ id }) => id);
@@ -99,77 +126,79 @@ const SystemsView = () => {
     useBulkSelect({ selection, rows });
 
   return (
-    <SystemsViewModalsProvider onSelectionClear={() => setSelected([])}>
-      <DataView selection={selection} activeState={activeState}>
-        <PageSection hasBodyWrapper={false}>
-          <DataViewToolbar
-            ouiaId="systems-view-header"
-            clearAllFilters={clearAllFilters}
-            bulkSelect={
-              <BulkSelect
-                pageCount={rows.length}
-                // canSelectAll disabled see JIRA: RHINENG-22312 for details
-                totalCount={total}
-                selectedCount={selected.length}
-                pagePartiallySelected={isPagePartiallySelected}
-                pageSelected={isPageSelected}
-                onSelect={onBulkSelect}
-              />
-            }
-            filters={
-              <SystemsViewFilters
-                filters={filters}
-                onSetFilters={onSetFilters}
-              />
-            }
-            actions={
-              <SystemsViewBulkActions
-                selectedSystems={selectedSystems}
-                activeState={activeState}
-              />
-            }
-            pagination={
-              <Pagination isCompact itemCount={total} {...pagination} />
-            }
-          />
-          <DataViewTable
-            aria-label="Systems table"
-            variant="compact"
-            ouiaId="systems-view-table"
-            columns={columns}
-            className="ins-c-systems-view-table"
-            rows={rows}
-            headStates={{
-              loading: NO_HEADER,
-              empty: NO_HEADER,
-              error: NO_HEADER,
-            }}
-            bodyStates={{
-              loading: (
-                <SkeletonTable
-                  ouiaId="loading-state"
-                  isSelectable
-                  rowsCount={pagination.perPage}
-                  columns={columns}
+    <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>
+      <ColumnManagementModalProvider columns={columns} setColumns={setColumns}>
+        <DataView selection={selection} activeState={activeState}>
+          <PageSection hasBodyWrapper={false}>
+            <DataViewToolbar
+              ouiaId="systems-view-header"
+              clearAllFilters={clearAllFilters}
+              bulkSelect={
+                <BulkSelect
+                  pageCount={rows.length}
+                  // canSelectAll disabled see JIRA: RHINENG-22312 for details
+                  totalCount={total}
+                  selectedCount={selected.length}
+                  pagePartiallySelected={isPagePartiallySelected}
+                  pageSelected={isPageSelected}
+                  onSelect={onBulkSelect}
                 />
-              ),
-              empty: <NoEntitiesFound />,
-              error: (
-                <ErrorState
-                  ouiaId="error-state"
-                  titleText="Unable to load data"
-                  bodyText="There was an error retrieving data. Check your connection and reload the page."
+              }
+              filters={
+                <SystemsViewFilters
+                  filters={filters}
+                  onSetFilters={onSetFilters}
                 />
-              ),
-            }}
-          />
-          <DataViewToolbar
-            ouiaId="systems-view-footer"
-            pagination={<Pagination itemCount={total} {...pagination} />}
-          />
-        </PageSection>
-      </DataView>
-    </SystemsViewModalsProvider>
+              }
+              actions={
+                <SystemsViewBulkActions
+                  selectedSystems={selectedSystems}
+                  activeState={activeState}
+                />
+              }
+              pagination={
+                <Pagination isCompact itemCount={total} {...pagination} />
+              }
+            />
+            <DataViewTable
+              aria-label="Systems table"
+              variant="compact"
+              ouiaId="systems-view-table"
+              columns={tableHeaderNodes}
+              className="ins-c-systems-view-table"
+              rows={rows}
+              headStates={{
+                loading: NO_HEADER,
+                empty: NO_HEADER,
+                error: NO_HEADER,
+              }}
+              bodyStates={{
+                loading: (
+                  <SkeletonTable
+                    ouiaId="loading-state"
+                    isSelectable
+                    rowsCount={pagination.perPage}
+                    columns={tableHeaderNodes}
+                  />
+                ),
+                empty: <NoEntitiesFound />,
+                error: (
+                  <ErrorState
+                    ouiaId="error-state"
+                    titleText="Unable to load data"
+                    bodyText="There was an error retrieving data. Check your connection and reload the page."
+                  />
+                ),
+              }}
+            />
+            <DataViewToolbar
+              ouiaId="systems-view-footer"
+              pagination={<Pagination itemCount={total} {...pagination} />}
+            />
+          </PageSection>
+        </DataView>
+      </ColumnManagementModalProvider>
+    </SystemActionModalsProvider>
   );
 };
 

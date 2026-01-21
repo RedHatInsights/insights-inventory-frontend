@@ -6,7 +6,8 @@ import {
 import { SystemsViewExport } from './SystemsViewExport';
 import type { System } from './hooks/useSystemsQuery';
 import { hasSameWorkspace, hasWorkspace } from './utils/systemHelpers';
-import { useSystemsViewModalsContext } from './SystemsViewModalsContext';
+import { useSystemActionModalsContext } from './SystemActionModalsContext';
+import { useColumnManagementModalContext } from './ColumnManagementModalContext';
 
 interface SystemsViewBulkActionsProps {
   selectedSystems: System[];
@@ -21,7 +22,8 @@ export const SystemsViewBulkActions = ({
     openDeleteModal,
     openAddToWorkspaceModal,
     openRemoveFromWorkspaceModal,
-  } = useSystemsViewModalsContext();
+  } = useSystemActionModalsContext();
+  const { openColumnManagementModal } = useColumnManagementModalContext();
 
   return (
     <Fragment>
@@ -54,6 +56,9 @@ export const SystemsViewBulkActions = ({
           }
         >
           Remove from workspace
+        </ResponsiveAction>
+        <ResponsiveAction onClick={() => openColumnManagementModal()}>
+          Manage columns
         </ResponsiveAction>
       </ResponsiveActions>
     </Fragment>
