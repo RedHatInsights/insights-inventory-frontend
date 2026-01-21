@@ -39,7 +39,7 @@ export const useRows = ({ data }: UseRowsParams): UseRowsReturnValue => {
         />,
         <LastSeen
           key={`lastseen-${system.id}`}
-          updated={system.updated}
+          updated={system.last_check_in}
           culled_timestamp={system?.culled_timestamp}
           stale_warning_timestamp={system?.stale_warning_timestamp}
           stale_timestamp={system?.stale_timestamp}
