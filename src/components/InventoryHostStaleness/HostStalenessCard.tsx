@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Button,
@@ -29,11 +28,16 @@ import {
   postStalenessData,
 } from '../../api';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
-import PropTypes from 'prop-types';
 import { updateStaleness } from '../../api/hostInventoryApi';
 
-const HostStalenessCard = ({ canModifyHostStaleness }) => {
-  const [filter, setFilter] = useState({});
+interface HostStalenessCardProps {
+  canModifyHostStaleness: boolean;
+}
+
+const HostStalenessCard = ({
+  canModifyHostStaleness,
+}: HostStalenessCardProps) => {
+  const [filter, setFilter] = useState<Record<string, string | number>>({});
   const [newFormValues, setNewFormValues] = useState(filter);
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,6 +50,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   //Cancel button when a user opts out of saving changes
   const resetToOriginalValues = () => {
     setNewFormValues(filter);
@@ -53,7 +58,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   };
   //On save Button
   const saveHostData = async () => {
-    let apiData = {};
+    let apiData: Record<string, string | number> = {};
     let apiKeys = conventionalApiKeys;
     apiKeys.forEach(
       (filterKey) =>
@@ -69,19 +74,17 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
       postStalenessData(apiData)
         .then(() => {
           addNotification({
-            id: 'settings-saved',
             variant: 'success',
             title: 'Organization level settings saved',
             description: `Organization level settings saved`,
             dismissable: true,
           });
-          fetchApiStalenessData();
+          void fetchApiStalenessData();
           setIsEditing(!isEditing);
           setIsModalOpen(false);
         })
         .catch(() => {
           addNotification({
-            id: 'settings-saved-failed',
             variant: 'danger',
             title: 'Error saving organization level settings',
             description: `Error saving organization level settings`,
@@ -92,20 +95,18 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
       deleteStalenessData()
         .then(() => {
           addNotification({
-            id: 'settings-saved',
             variant: 'success',
             title: 'Organization level settings saved',
             description: `Organization level settings saved`,
             dismissable: true,
           });
-          fetchApiStalenessData();
+          void fetchApiStalenessData();
           setIsResetToDefault(false);
           setIsEditing(!isEditing);
           setIsModalOpen(false);
         })
         .catch(() => {
           addNotification({
-            id: 'settings-saved-failed',
             variant: 'danger',
             title: 'Error saving organization level settings',
             description: `Error saving organization level settings`,
@@ -116,18 +117,16 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
       updateStaleness({ stalenessIn: apiData })
         .then(() => {
           addNotification({
-            id: 'settings-saved',
             variant: 'success',
             title: 'Organization level settings saved',
             dismissable: true,
           });
-          fetchApiStalenessData();
+          void fetchApiStalenessData();
           setIsEditing(!isEditing);
           setIsModalOpen(false);
         })
         .catch(() => {
           addNotification({
-            id: 'settings-saved-failed',
             variant: 'danger',
             title: 'Error saving organization level settings',
             dismissable: true,
@@ -138,7 +137,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
 
   const fetchApiStalenessData = useCallback(async () => {
     let results = await fetchStalenessData();
-    let newFilter = {};
+    let newFilter: Record<string, string | number> = {};
     hostStalenessApiKeys.forEach(
       (filterKey) =>
         (newFilter[filterKey] = secondsToDaysConversion(results[filterKey])),
@@ -151,7 +150,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   //keeps track of what default the backend wants
   const fetchDefaultValues = useCallback(async () => {
     let results = await fetchDefaultStalenessValues().catch((err) => err);
-    let conventionalFilter = {};
+    let conventionalFilter: Record<string, string | number> = {};
 
     Object.keys(results).forEach((key) => {
       if (key.includes('conventional')) {
@@ -172,7 +171,7 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
   }, [fetchApiStalenessData, fetchDefaultValues]);
 
   useEffect(() => {
-    batchedApi();
+    void batchedApi();
   }, [batchedApi]);
 
   return (
@@ -187,8 +186,9 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
           </CardHeader>
           <CardBody>
             <p>
-              Keep or customize your organization's default settings using the
-              options below.
+              {
+                "Keep or customize your organization's default settings using the options below."
+              }
             </p>
             <Flex className="pf-v6-u-mt-md">
               <Title headingLevel="h6">System configuration</Title>
@@ -207,31 +207,25 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
               ) : (
                 <Tooltip content="You do not have the Staleness and deletion admin role and/or Inventory Hosts Administrator role required to perform this action. Contact your org admin for access.">
                   <div>
-                    <Button
-                      variant="link"
-                      style={{ 'padding-left': '0px' }}
-                      isDisabled={!canModifyHostStaleness}
-                    >
+                    <Button variant="link" isDisabled={true}>
                       Edit
                     </Button>
                   </div>
                 </Tooltip>
               )}
             </Flex>
-            {
-              <StalenessSettings
-                isEditing={isEditing}
-                filter={filter}
-                setFilter={setFilter}
-                activeTabKey={0}
-                newFormValues={newFormValues}
-                setNewFormValues={setNewFormValues}
-                isFormValid={isFormValid}
-                setIsFormValid={setIsFormValid}
-                hostStalenessDefaults={hostStalenessDefaults}
-                setIsResetToDefault={setIsResetToDefault}
-              />
-            }
+            <StalenessSettings
+              isEditing={isEditing}
+              filter={filter}
+              setFilter={setFilter}
+              activeTabKey={0}
+              newFormValues={newFormValues}
+              setNewFormValues={setNewFormValues}
+              isFormValid={isFormValid}
+              setIsFormValid={setIsFormValid}
+              hostStalenessDefaults={hostStalenessDefaults}
+              setIsResetToDefault={setIsResetToDefault}
+            />
             {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                 <Button
@@ -292,10 +286,6 @@ const HostStalenessCard = ({ canModifyHostStaleness }) => {
       )}
     </React.Fragment>
   );
-};
-
-HostStalenessCard.propTypes = {
-  canModifyHostStaleness: PropTypes.bool.isRequired,
 };
 
 export default HostStalenessCard;
