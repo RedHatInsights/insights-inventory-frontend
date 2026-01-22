@@ -17,28 +17,34 @@ export const useBulkSelect = ({ selection, rows }: UseBulkSelectParams) => {
   );
 
   const isPagePartiallySelected = useCallback(
-    (rows: DataViewTrObject[]) =>
-      rows.some((row) => isSelected(row)) && !isPageSelected(rows),
-    [isSelected, isPageSelected],
+    (rows: DataViewTrObject[]) => {
+      const pagePartiallySelected = rows.some((row) => isSelected(row));
+      const pageFullSelected = isPageSelected(rows);
+      return (
+        (pagePartiallySelected && !pageFullSelected) ||
+        (!pagePartiallySelected && selected.length > 0)
+      );
+    },
+    [isSelected, isPageSelected, selected.length],
   );
 
   const onBulkSelect = useCallback(
     async (value: string) => {
+      const pageIsSelected =
+        rows.length > 0 && rows.every((row) => isSelected(row));
       switch (value) {
         case 'none':
         case 'nonePage':
           setSelected([]);
           break;
         case 'page':
-          if (selected.length === 0) {
+          if (!pageIsSelected) {
             onSelect(true, rows);
-          } else {
-            setSelected([]);
           }
           break;
       }
     },
-    [selected.length, setSelected, onSelect, rows],
+    [isSelected, setSelected, onSelect, rows],
   );
 
   return {
