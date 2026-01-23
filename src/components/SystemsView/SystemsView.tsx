@@ -123,7 +123,7 @@ const SystemsView = () => {
           : 'active';
 
   const { isPageSelected, isPagePartiallySelected, onBulkSelect } =
-    useBulkSelect({ selection, rows });
+    useBulkSelect({ selection, rows, total });
 
   return (
     <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>
