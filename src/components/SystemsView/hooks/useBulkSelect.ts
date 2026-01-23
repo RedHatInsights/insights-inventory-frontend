@@ -30,8 +30,7 @@ export const useBulkSelect = ({ selection, rows }: UseBulkSelectParams) => {
 
   const onBulkSelect = useCallback(
     async (value: string) => {
-      const pageIsSelected =
-        rows.length > 0 && rows.every((row) => isSelected(row));
+      const pageIsSelected = isPageSelected(rows);
       switch (value) {
         case 'none':
         case 'nonePage':
@@ -44,7 +43,7 @@ export const useBulkSelect = ({ selection, rows }: UseBulkSelectParams) => {
           break;
       }
     },
-    [isSelected, setSelected, onSelect, rows],
+    [isPageSelected, setSelected, onSelect, rows],
   );
 
   return {
