@@ -15,20 +15,21 @@ export const useBulkSelect = ({
 }: UseBulkSelectParams) => {
   const { selected, setSelected, onSelect, isSelected } = selection;
 
+  const selectedCount = selected.length;
+  const isAnySelected = selectedCount > 0;
+  const isFullySelected = total > 0 && selectedCount === total;
+  const isPartiallySelected = isAnySelected && !isFullySelected;
+
   const isPageSelected = useCallback(
     (rows: DataViewTrObject[]) =>
       rows.length > 0 && rows.every((row) => isSelected(row)),
     [isSelected],
   );
 
-  const isPagePartiallySelected = useCallback(() => {
-    const selectedCount = selected.length;
-    return selectedCount > 0 && selectedCount < total;
-  }, [selected.length, total]);
-
   const onBulkSelect = useCallback(
     async (value: string) => {
       const pageIsSelected = isPageSelected(rows);
+
       switch (value) {
         case 'none':
         case 'nonePage':
@@ -46,7 +47,7 @@ export const useBulkSelect = ({
 
   return {
     isPageSelected: isPageSelected(rows),
-    isPagePartiallySelected: isPagePartiallySelected(),
+    isPagePartiallySelected: isPartiallySelected,
     onBulkSelect,
   };
 };
