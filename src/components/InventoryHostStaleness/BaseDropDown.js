@@ -102,6 +102,7 @@ const BaseDropdown = ({
             onSelect={onSelect}
             toggle={toggle}
             selected={selected}
+            onOpenChange={(isOpen) => setIsOpen(isOpen)}
             isScrollable
             ouiaId={ouiaId}
           >
