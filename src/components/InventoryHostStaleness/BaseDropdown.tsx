@@ -1,6 +1,4 @@
-//@ts-check
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, Ref } from 'react';
 import {
   Button,
   Flex,
@@ -10,15 +8,38 @@ import {
   Select,
   SelectOption,
   SelectList,
-} from "@patternfly/react-core";
-import { OutlinedQuestionCircleIcon } from "@patternfly/react-icons";
-import { useEffect } from "react";
-import { conditionalDropdownError, formValidation } from "./constants";
+  MenuToggleElement,
+} from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import { useEffect } from 'react';
+import { conditionalDropdownError, formValidation } from './constants';
+
+interface DropdownItem {
+  name: string;
+  value: number;
+  apiKey: string;
+  title: string;
+  modalMessage?: string;
+}
+
+interface BaseDropdownProps {
+  dropdownItems: DropdownItem[];
+  isDisabled?: boolean;
+  title: string;
+  currentItem: number;
+  newFormValues: Record<string, number>;
+  setNewFormValues: (values: Record<string, number>) => void;
+  edit?: boolean;
+  modalMessage?: string;
+  isFormValid: boolean;
+  setIsFormValid: (isValid: boolean) => void;
+  ouiaId?: string;
+}
 
 const BaseDropdown = ({
   dropdownItems,
   currentItem,
-  disabled,
+  isDisabled,
   title,
   newFormValues,
   setNewFormValues,
@@ -27,15 +48,19 @@ const BaseDropdown = ({
   isFormValid,
   setIsFormValid,
   ouiaId,
-}) => {
+}: BaseDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(currentItem);
-  const onSelect = (event, value) => {
+
+  const onSelect = (
+    _event: React.MouseEvent<Element, MouseEvent> | undefined,
+    value: number,
+  ) => {
     setSelected(value);
     setIsOpen(false);
   };
 
-  const updateFilter = (item) => {
+  const updateFilter = (item: DropdownItem) => {
     setNewFormValues({ ...newFormValues, [item.apiKey]: item.value });
   };
 
@@ -48,21 +73,22 @@ const BaseDropdown = ({
     setIsOpen(!isOpen);
   };
 
-  const toggle = (toggleRef) => {
-    const getNameByValue = (value) => {
+  const toggle = (toggleRef: Ref<MenuToggleElement>) => {
+    const getNameByValue = (value: number) => {
       const item = dropdownItems.find((obj) => obj.value === value);
-      return item ? item.name : "undefined";
+      return item?.name;
     };
+
     return (
       <MenuToggle
         ref={toggleRef}
         onClick={onToggleClick}
         isExpanded={isOpen}
-        isDisabled={disabled}
+        isDisabled={isDisabled}
         style={{
-          width: "200px",
+          width: '200px',
         }}
-        status={!isFormValid && "danger"}
+        status={isFormValid ? undefined : 'danger'}
         ouiaId={ouiaId}
       >
         {getNameByValue(selected)}
@@ -72,10 +98,10 @@ const BaseDropdown = ({
 
   return (
     <React.Fragment>
-      <Flex direction={{ default: "column" }} gap={{ default: "gapNone" }}>
+      <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
         <FlexItem className="pf-v6-u-mb-sm">
           <Flex>
-            <FlexItem spacer={{ default: "spacerXs" }}>
+            <FlexItem spacer={{ default: 'spacerXs' }}>
               <p className="pf-v6-u-font-weight-bold pf-v6-u-font-size-sm">
                 {title}
               </p>
@@ -109,7 +135,7 @@ const BaseDropdown = ({
             <SelectList>
               {dropdownItems.map((item) => (
                 <SelectOption
-                  isDisabled={disabled}
+                  isDisabled={isDisabled}
                   key={item.name}
                   value={item.value}
                   onClick={() => updateFilter(item)}
@@ -124,22 +150,6 @@ const BaseDropdown = ({
       </Flex>
     </React.Fragment>
   );
-};
-
-BaseDropdown.propTypes = {
-  dropdownItems: PropTypes.array,
-  disabled: PropTypes.bool,
-  onSelect: PropTypes.bool,
-  placeholder: PropTypes.string,
-  title: PropTypes.string,
-  currentItem: PropTypes.number,
-  newFormValues: PropTypes.any,
-  setNewFormValues: PropTypes.any,
-  edit: PropTypes.bool,
-  modalMessage: PropTypes.string,
-  isFormValid: PropTypes.any,
-  setIsFormValid: PropTypes.any,
-  ouiaId: PropTypes.string,
 };
 
 export default BaseDropdown;
