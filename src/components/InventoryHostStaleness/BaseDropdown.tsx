@@ -67,7 +67,7 @@ const BaseDropdown = ({
   useEffect(() => {
     setSelected(currentItem);
     formValidation(newFormValues, setIsFormValid);
-  }, [edit, currentItem]);
+  }, [edit, currentItem, newFormValues, setIsFormValid]);
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
