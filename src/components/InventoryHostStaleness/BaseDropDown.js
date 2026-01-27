@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+//@ts-check
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   Button,
   Flex,
@@ -8,10 +9,11 @@ import {
   Popover,
   Select,
   SelectOption,
-} from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
-import { useEffect } from 'react';
-import { conditionalDropdownError, formValidation } from './constants';
+  SelectList,
+} from "@patternfly/react-core";
+import { OutlinedQuestionCircleIcon } from "@patternfly/react-icons";
+import { useEffect } from "react";
+import { conditionalDropdownError, formValidation } from "./constants";
 
 const BaseDropdown = ({
   dropdownItems,
@@ -49,7 +51,7 @@ const BaseDropdown = ({
   const toggle = (toggleRef) => {
     const getNameByValue = (value) => {
       const item = dropdownItems.find((obj) => obj.value === value);
-      return item ? item.name : 'undefined';
+      return item ? item.name : "undefined";
     };
     return (
       <MenuToggle
@@ -58,9 +60,9 @@ const BaseDropdown = ({
         isExpanded={isOpen}
         isDisabled={disabled}
         style={{
-          width: '200px',
+          width: "200px",
         }}
-        status={!isFormValid && 'danger'}
+        status={!isFormValid && "danger"}
         ouiaId={ouiaId}
       >
         {getNameByValue(selected)}
@@ -70,10 +72,10 @@ const BaseDropdown = ({
 
   return (
     <React.Fragment>
-      <Flex direction={{ default: 'column' }} gap={{ default: 'gapNone' }}>
+      <Flex direction={{ default: "column" }} gap={{ default: "gapNone" }}>
         <FlexItem className="pf-v6-u-mb-sm">
           <Flex>
-            <FlexItem spacer={{ default: 'spacerXs' }}>
+            <FlexItem spacer={{ default: "spacerXs" }}>
               <p className="pf-v6-u-font-weight-bold pf-v6-u-font-size-sm">
                 {title}
               </p>
@@ -99,20 +101,22 @@ const BaseDropdown = ({
             isOpen={isOpen}
             onSelect={onSelect}
             toggle={toggle}
-            selections={selected}
+            selected={selected}
             isScrollable
             ouiaId={ouiaId}
           >
-            {dropdownItems.map((item) => (
-              <SelectOption
-                isDisabled={disabled}
-                key={item.name}
-                value={item.value}
-                onClick={() => updateFilter(item)}
-              >
-                {item.name}
-              </SelectOption>
-            ))}
+            <SelectList>
+              {dropdownItems.map((item) => (
+                <SelectOption
+                  isDisabled={disabled}
+                  key={item.name}
+                  value={item.value}
+                  onClick={() => updateFilter(item)}
+                >
+                  {item.name}
+                </SelectOption>
+              ))}
+            </SelectList>
           </Select>
           {conditionalDropdownError(newFormValues, dropdownItems)}
         </FlexItem>
