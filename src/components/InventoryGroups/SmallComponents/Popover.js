@@ -7,7 +7,7 @@ import {
 } from '@patternfly/react-core';
 import { 
   OutlinedQuestionCircleIcon, 
-  ExternalLinkAltIcon 
+  ExternalLinkAltIcon,
 } from '@patternfly/react-icons';
 import React from 'react';
 
