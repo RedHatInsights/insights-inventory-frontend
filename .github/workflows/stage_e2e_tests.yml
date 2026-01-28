@@ -46,6 +46,8 @@ jobs:
             echo "INTEGRATION=true"
             echo "RH_CLIENT_PROXY=\"$RH_PROXY_URL\""
             echo "DOCKER_SOCKET=/var/run/docker.sock"
+            echo "ORG_ID_1=not_needed"
+            echo "ACTIVATION_KEY_1=not_needed
           } >> .env 2>/dev/null
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             echo "BASE_URL=https://stage.foo.redhat.com:1337" >> .env
