@@ -40,8 +40,14 @@ export function uploadArchive(archivePath: string) {
   const fullPath = `host_archives/${archivePath}`;
   const proxy = process.env.PROXY;
   const user = process.env.PLAYWRIGHT_USER;
-  const password = process.env.PLAYWRIGHT_PASSWORD;
-  const uploadUrl = 'https://console.stage.redhat.com/api/ingress/v1/upload';
+  const password =
+    process.env.PROD === 'true'
+      ? process.env.PROD_PLAYWRIGHT_PASSWORD
+      : process.env.PLAYWRIGHT_PASSWORD;
+  const uploadUrl =
+    process.env.PROD === 'true'
+      ? 'https://console.redhat.com/api/ingress/v1/upload'
+      : 'https://console.stage.redhat.com/api/ingress/v1/upload';
   const args = [
     '-x',
     `${proxy}`,

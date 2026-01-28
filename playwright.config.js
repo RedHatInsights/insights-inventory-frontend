@@ -35,6 +35,17 @@ export default defineConfig({
     trace: 'on',
     ignoreHTTPSErrors: true,
     viewport: null,
+    ...(process.env.INTEGRATION === 'true'
+      ? {
+          ...(process.env.PROXY
+            ? {
+                proxy: {
+                  server: process.env.PROXY,
+                },
+              }
+            : {}),
+        }
+      : {}),
   },
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
