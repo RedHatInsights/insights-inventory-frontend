@@ -6,6 +6,7 @@ on:
       - e2e-ci
   schedule:
     - cron: '0 0 * * *' # This cron expression runs the action every 24 hours at midnight UTC
+    
   workflow_dispatch:
 
 concurrency:
