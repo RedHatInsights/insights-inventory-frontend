@@ -15,7 +15,7 @@ concurrency:
 jobs:
   playwright-integration-tests:
     runs-on:
-      - codebuild-host-inventory-frontend
+      - codebuild-host-inventory-frontend-${{ github.run_id }}-${{ github.run_attempt }}
       - instance-size:large
       - buildspec-override:true
 
