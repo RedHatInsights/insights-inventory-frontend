@@ -5,7 +5,10 @@ import {
   ContentVariants,
   Title,
 } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
+import { 
+  OutlinedQuestionCircleIcon, 
+  ExternalLinkAltIcon 
+} from '@patternfly/react-icons';
 import React from 'react';
 
 const InventoryGroupsPopover = () => (
@@ -34,7 +37,11 @@ const InventoryGroupsPopover = () => (
             rel="noopener noreferrer"
           >
             Learn more about managing workspaces and user access
-            <ExternalLinkAltIcon aria-hidden="true" focusable="false" className="pf-v6-u-ml-xs" />
+            <ExternalLinkAltIcon 
+              aria-hidden="true" 
+              focusable="false" 
+              className="pf-v6-u-ml-xs" 
+            />
           </a>
         </span>
       </>
