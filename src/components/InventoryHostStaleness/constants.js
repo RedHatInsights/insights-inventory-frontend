@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Flex, Popover, Title } from '@patternfly/react-core';
 import { 
   OutlinedQuestionCircleIcon, 
-  ExternalLinkAltIcon 
+  ExternalLinkAltIcon,
 } from '@patternfly/react-icons';
 
 export const GENERAL_HOST_STALENESS_WRITE_PERMISSION =
