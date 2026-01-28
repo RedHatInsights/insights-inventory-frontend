@@ -25,20 +25,6 @@ jobs:
         with:
           submodules: recursive
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v6
-      #   with:
-      #     node-version-file: '.nvmrc'
-
-      # - name: Cache - node_modules
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: |
-      #       node_modules 
-      #       dist
-      #     key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
-      #     restore-keys: ${{ runner.os }}-frontend-node-modules-
-
       - name: Create front-end .env file
         run: |
           # Check if the secrets are set
@@ -60,8 +46,6 @@ jobs:
             echo "INTEGRATION=true"
             echo "RH_CLIENT_PROXY=\"$RH_PROXY_URL\""
             echo "DOCKER_SOCKET=/var/run/docker.sock"
-            # echo "ORG_ID_1=\"$STAGE_ORG_ID\""
-            # echo "ACTIVATION_KEY_1=\"$STAGE_ACTIVATION_KEY\""
           } >> .env 2>/dev/null
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             echo "BASE_URL=https://stage.foo.redhat.com:1337" >> .env
@@ -101,7 +85,7 @@ jobs:
 
       - name: Update /etc/hosts
         if: ${{ github.event_name == 'pull_request' }}
-        run: sudo npm run patch:hosts
+        run: sudo npx fec patch-etc-hosts
 
       - name: Build frontend
         if: ${{ github.event_name == 'pull_request' }}
