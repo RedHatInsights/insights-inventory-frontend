@@ -5,7 +5,7 @@ import {
   ContentVariants,
   Title,
 } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import { OutlinedQuestionCircleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
 import React from 'react';
 
 const InventoryGroupsPopover = () => (
