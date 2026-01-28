@@ -1,8 +1,6 @@
 name: 'Stage E2E tests'
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
   schedule:
     - cron: '0 0 * * *' # This cron expression runs the action every 24 hours at midnight UTC
   workflow_dispatch:
@@ -13,7 +11,6 @@ concurrency:
 
 jobs:
   playwright-integration-tests:
-    if: ${{ ! contains(github.event.pull_request.labels.*.name, 'skip-integration-tests') }}
     runs-on:
       - codebuild-host-inventory-frontend-${{ github.run_id }}-${{ github.run_attempt }}
       - instance-size:large
@@ -92,34 +89,6 @@ jobs:
 
       - name: Install Playwright
         run: npx playwright install --with-deps
-
-      ### Pull request specific steps ###
-      # This prevents an error related to minimum watchers when running the front-end and playwright
-      - name: Increase file watchers limit
-        if: ${{ github.event_name == 'pull_request' }}
-        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-
-      - name: Update /etc/hosts
-        if: ${{ github.event_name == 'pull_request' }}
-        run: sudo npx fec patch-etc-hosts
-
-      - name: Build frontend
-        if: ${{ github.event_name == 'pull_request' }}
-        run: npm run build
-
-      - name: Frontend run (static)
-        if: ${{ github.event_name == 'pull_request' }}
-        run: npx fec static --port 8003 &
-
-      - name: Wait for frontend to be ready
-        if: ${{ github.event_name == 'pull_request' }}
-        timeout-minutes: 3
-        run: npx wait-on http://localhost:8003/apps/inventory/
-
-      - name: Run testing proxy
-        if: ${{ github.event_name == 'pull_request' }}
-        run: docker run -d --network=host -e HTTPS_PROXY=$RH_PROXY_URL -e ROUTES_JSON_PATH=/config/routes-ci.json -v "$(pwd)/config:/config:ro,Z"  --name frontend-development-proxy quay.io/redhat-user-workloads/hcc-platex-services-tenant/frontend-development-proxy:latest
-      ### End of pull request specific steps ###
 
       - name: Run front-end Playwright tests
         run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test
