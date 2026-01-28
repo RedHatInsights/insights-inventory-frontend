@@ -25,19 +25,19 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v6
+      #   with:
+      #     node-version-file: '.nvmrc'
 
-      - name: Cache - node_modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules 
-            dist
-          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: ${{ runner.os }}-frontend-node-modules-
+      # - name: Cache - node_modules
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       node_modules 
+      #       dist
+      #     key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
+      #     restore-keys: ${{ runner.os }}-frontend-node-modules-
 
       - name: Create front-end .env file
         run: |
@@ -80,6 +80,12 @@ jobs:
           echo "Pull Request URL: $pr_url"
           # Set the PR URL as an output using the environment file
           echo "pr_url=$pr_url" >> $GITHUB_ENV
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
       
       - name: Install front-end dependencies
         run: npm ci
