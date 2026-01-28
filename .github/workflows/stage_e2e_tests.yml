@@ -25,19 +25,25 @@ jobs:
         with:
           submodules: recursive
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v6
-      #   with:
-      #     node-version-file: '.nvmrc'
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
 
-      # - name: Cache - node_modules
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: |
-      #       node_modules 
-      #       dist
-      #     key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
-      #     restore-keys: ${{ runner.os }}-frontend-node-modules-
+      - name: Cache - node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules 
+            dist
+          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-frontend-node-modules-
+
+      - name: Install dependencies
+        run: 'npm ci'
+
+      - name: Setup Playwright
+        run: npx playwright install --with-deps
 
       - name: Create front-end .env file
         run: |
@@ -59,39 +65,15 @@ jobs:
             echo "CI=true"
             echo "INTEGRATION=true"
             echo "RH_CLIENT_PROXY=\"$RH_PROXY_URL\""
-            echo "DOCKER_SOCKET=/var/run/docker.sock"
-            echo "ORG_ID_1=not_needed"
-            echo "ACTIVATION_KEY_1=not_needed"
+            # Use the Stage URL for nightly runs
+            echo "BASE_URL=$STAGE_BASE_URL" 
+            echo "PROXY=$RH_PROXY_URL"
+            # Satisfy the "Missing Var" error with dummy values if not used
+            echo "ORG_ID_1=nightly_dummy"
+            echo "ACTIVATION_KEY_1=nightly_dummy"
           } >> .env 2>/dev/null
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo "BASE_URL=https://stage.foo.redhat.com:1337" >> .env
-          else
-            echo "BASE_URL=$STAGE_BASE_URL" >> .env
-            echo "PROXY=$RH_PROXY_URL" >> .env
-          fi
 
           echo ".env file created successfully."
-      
-      - name: Get current PR URL
-        id: get-pr-url
-        run: |
-          # Extract the pull request URL from the event payload
-          pr_url=$(jq -r '.pull_request.html_url' < "$GITHUB_EVENT_PATH")
-          echo "Pull Request URL: $pr_url"
-          # Set the PR URL as an output using the environment file
-          echo "pr_url=$pr_url" >> $GITHUB_ENV
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "npm"
-      
-      - name: Install front-end dependencies
-        run: npm ci
-
-      - name: Install Playwright
-        run: npx playwright install --with-deps
 
       - name: Run front-end Playwright tests
         run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test
