@@ -1,0 +1,133 @@
+name: 'Stage E2E tests'
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  schedule:
+    - cron: '0 0 * * *' # This cron expression runs the action every 24 hours at midnight UTC
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }} # target branch
+  cancel-in-progress: true
+
+jobs:
+  playwright-integration-tests:
+    if: ${{ ! contains(github.event.pull_request.labels.*.name, 'skip-integration-tests') }}
+    runs-on:
+      - codebuild-host-inventory-frontend-${{ github.run_id }}-${{ github.run_attempt }}
+      - instance-size:large
+      - buildspec-override:true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache - node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules 
+            dist
+          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-frontend-node-modules-
+
+      - name: Create front-end .env file
+        run: |
+          # Check if the secrets are set
+          if [ -z "$PLAYWRIGHT_USER" ]; then
+            echo "Error: PLAYWRIGHT_USER secret is not set."
+            exit 1
+          fi
+
+          if [ -z "$PLAYWRIGHT_PASSWORD" ]; then
+            echo "Error: PLAYWRIGHT_PASSWORD secret is not set."
+            exit 1
+          fi
+
+          # Create the .env file and write the secrets and other variables to it
+          {
+            echo "PLAYWRIGHT_USER=$PLAYWRIGHT_USER"
+            echo "PLAYWRIGHT_PASSWORD=$PLAYWRIGHT_PASSWORD"
+            echo "CI=true"
+            echo "INTEGRATION=true"
+            echo "RH_CLIENT_PROXY=\"$RH_PROXY_URL\""
+            echo "DOCKER_SOCKET=/var/run/docker.sock"
+            echo "ORG_ID_1=\"$STAGE_ORG_ID\""
+            echo "ACTIVATION_KEY_1=\"$STAGE_ACTIVATION_KEY\""
+          } >> .env 2>/dev/null
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "BASE_URL=https://stage.foo.redhat.com:1337" >> .env
+          else
+            echo "BASE_URL=$STAGE_BASE_URL" >> .env
+            echo "PROXY=$RH_PROXY_URL" >> .env
+          fi
+
+          echo ".env file created successfully."
+      
+      - name: Get current PR URL
+        id: get-pr-url
+        run: |
+          # Extract the pull request URL from the event payload
+          pr_url=$(jq -r '.pull_request.html_url' < "$GITHUB_EVENT_PATH")
+          echo "Pull Request URL: $pr_url"
+          # Set the PR URL as an output using the environment file
+          echo "pr_url=$pr_url" >> $GITHUB_ENV
+      
+      - name: Install front-end dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      ### Pull request specific steps ###
+      # This prevents an error related to minimum watchers when running the front-end and playwright
+      - name: Increase file watchers limit
+        if: ${{ github.event_name == 'pull_request' }}
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
+      - name: Update /etc/hosts
+        if: ${{ github.event_name == 'pull_request' }}
+        run: sudo npm run patch:hosts
+
+      - name: Build frontend
+        if: ${{ github.event_name == 'pull_request' }}
+        run: npm run build
+
+      - name: Frontend run (static)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: npx fec static --port 8003 &
+
+      - name: Wait for frontend to be ready
+        if: ${{ github.event_name == 'pull_request' }}
+        timeout-minutes: 3
+        run: npx wait-on http://localhost:8003/apps/inventory/
+
+      - name: Run testing proxy
+        if: ${{ github.event_name == 'pull_request' }}
+        run: docker run -d --network=host -e HTTPS_PROXY=$RH_PROXY_URL -e ROUTES_JSON_PATH=/config/routes-ci.json -v "$(pwd)/config:/config:ro,Z"  --name frontend-development-proxy quay.io/redhat-user-workloads/hcc-platex-services-tenant/frontend-development-proxy:latest
+      ### End of pull request specific steps ###
+
+      - name: Run front-end Playwright tests
+        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test
+
+      - name: Publish front-end Test Report
+        uses: ctrf-io/github-test-reporter@v1
+        with:
+          report-path: './playwright-ctrf/playwright-ctrf.json'
+        if: ${{ !cancelled() }}
+
+      - name: Store front-end Test report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 10
