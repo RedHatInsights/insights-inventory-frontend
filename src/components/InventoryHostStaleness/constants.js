@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, Flex, Popover, Title } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
+import { 
+  OutlinedQuestionCircleIcon, 
+  ExternalLinkAltIcon 
+} from '@patternfly/react-icons';
 
 export const GENERAL_HOST_STALENESS_WRITE_PERMISSION =
   'staleness:staleness:write';
@@ -172,7 +175,9 @@ export const InventoryHostStalenessPopover = () => {
       bodyContent={
         <Flex direction={{ default: 'column' }}>
           <p className="pf-v6-u-font-size-sm">
-            Configure how long systems can go without checking in before they are flagged or removed from your inventory. These settings apply to all systems in your organization.
+            Configure how long systems can go without checking in before they 
+            are flagged or removed from your inventory. These settings apply to 
+            all systems in your organization.
           </p>
           <Flex
             direction={{ default: 'column' }}
@@ -199,7 +204,11 @@ export const InventoryHostStalenessPopover = () => {
               rel="noopener noreferrer"
             >
               Managing system staleness and deletion
-              <ExternalLinkAltIcon aria-hidden="true" focusable="false" className="pf-v6-u-ml-xs" />
+              <ExternalLinkAltIcon 
+                aria-hidden="true" 
+                focusable="false" 
+                className="pf-v6-u-ml-xs" 
+              />
             </a>
           </span>
         </Flex>
