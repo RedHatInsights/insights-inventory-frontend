@@ -25,6 +25,20 @@ jobs:
         with:
           submodules: recursive
 
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v6
+      #   with:
+      #     node-version-file: '.nvmrc'
+
+      # - name: Cache - node_modules
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       node_modules 
+      #       dist
+      #     key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
+      #     restore-keys: ${{ runner.os }}-frontend-node-modules-
+
       - name: Create front-end .env file
         run: |
           # Check if the secrets are set
