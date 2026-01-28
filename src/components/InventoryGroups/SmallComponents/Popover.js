@@ -30,10 +30,10 @@ const InventoryGroupsPopover = () => (
             'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html/viewing_and_managing_system_inventory/deploying-insights-with-rhca_user-access'
           }
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           Learn more about managing workspaces and user access
-          <ExternalLinkAltIcon className="pf-v6-u-ml-xs" />
+          <ExternalLinkAltIcon aria-hidden="true" focusable="false" className="pf-v6-u-ml-xs" />
         </a>
       </span>
     }
