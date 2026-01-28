@@ -11,7 +11,7 @@ import React from 'react';
 const InventoryGroupsPopover = () => (
   <Popover
     aria-label="Inventory Groups popover"
-    headerContent={<Title headingLevel="h4">Workspaces</Title>}
+    headerContent={<Title headingLevel="h4">About workspaces</Title>}
     position="right"
     bodyContent={
       <Content>
@@ -24,6 +24,18 @@ const InventoryGroupsPopover = () => (
           security within your organization.
         </Content>
       </Content>
+      <span>
+        <a
+          href={
+            'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html/viewing_and_managing_system_inventory/deploying-insights-with-rhca_user-access'
+          }
+          target="_blank"
+          rel="noreferrer"
+        >
+          Learn more about managing workspaces and user access
+          <ExternalLinkAltIcon className="pf-v6-u-ml-xs" />
+        </a>
+      </span>
     }
   >
     <Button
