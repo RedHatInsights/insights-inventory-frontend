@@ -1,8 +1,22 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import RhelAICard from './RhelAICard';
+
+const location = {
+  pathname: 'localhost:3000/example/path',
+};
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => location,
+  useParams: jest.fn(() => ({
+    modalId: 'testModal',
+  })),
+}));
 
 describe('RhelAICard', () => {
   it('should render correctly - no data', () => {
@@ -14,8 +28,9 @@ describe('RhelAICard', () => {
 
     expect(screen.getByText('RHEL AI')).toBeInTheDocument();
     expect(screen.getByText('Version')).toBeInTheDocument();
-    expect(screen.getAllByText('Not available')).toHaveLength(2);
+    expect(screen.getByText('Not available')).toBeInTheDocument();
     expect(screen.getByText('Models available')).toBeInTheDocument();
+    expect(screen.getAllByText('None')).toHaveLength(2);
   });
 
   it('should render correctly with no rhelAI prop', () => {
@@ -27,8 +42,9 @@ describe('RhelAICard', () => {
 
     expect(screen.getByText('RHEL AI')).toBeInTheDocument();
     expect(screen.getByText('Version')).toBeInTheDocument();
-    expect(screen.getAllByText('Not available')).toHaveLength(2);
+    expect(screen.getByText('Not available')).toBeInTheDocument();
     expect(screen.getByText('Models available')).toBeInTheDocument();
+    expect(screen.getAllByText('None')).toHaveLength(2);
   });
 
   it('should render correctly with version only', () => {
@@ -46,7 +62,7 @@ describe('RhelAICard', () => {
     expect(screen.getByText('Version')).toBeInTheDocument();
     expect(screen.getByText('1.0.0')).toBeInTheDocument();
     expect(screen.getByText('Models available')).toBeInTheDocument();
-    expect(screen.getByText('None')).toBeInTheDocument();
+    expect(screen.getAllByText('None')).toHaveLength(2);
     expect(screen.queryByText('GPU manufacturer')).not.toBeInTheDocument();
     expect(screen.queryByText('GPU model')).not.toBeInTheDocument();
     expect(screen.queryByText('GPU memory')).not.toBeInTheDocument();
@@ -151,10 +167,58 @@ describe('RhelAICard', () => {
     expect(screen.getByText('GPU manufacturer')).toBeInTheDocument();
     expect(screen.getByText('NVIDIA')).toBeInTheDocument();
     expect(screen.getByText('Models available')).toBeInTheDocument();
+    expect(screen.getByText('None')).toBeInTheDocument();
+    expect(screen.getByText('Number of GPUs')).toBeInTheDocument();
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('GPU model')).toBeInTheDocument();
     expect(screen.getByText('NVIDIA A100')).toBeInTheDocument();
     expect(screen.getByText('GPU memory')).toBeInTheDocument();
     expect(screen.getByText('40GB')).toBeInTheDocument();
+  });
+
+  describe('api', () => {
+    beforeEach(() => {
+      location.pathname = 'localhost:3000/example/path';
+    });
+
+    it('should NOT call handleClick', async () => {
+      const rhelAI = {
+        rhel_ai_version_id: '1.0.0',
+        ai_models: ['model1', 'model2'],
+      };
+      const onClick = jest.fn();
+      render(
+        <TestWrapper>
+          <RhelAICard rhelAI={rhelAI} />
+        </TestWrapper>,
+      );
+
+      const modelsAvailableLink = screen.getByRole('link', { name: /2/i });
+      await userEvent.click(modelsAvailableLink);
+      await waitFor(() => {
+        expect(onClick).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should call handleClick on models available', async () => {
+      const rhelAI = {
+        rhel_ai_version_id: '1.0.0',
+        ai_models: ['model1', 'model2'],
+      };
+      const onClick = jest.fn();
+      location.pathname = 'localhost:3000/example/models_available';
+      useParams.mockImplementation(() => ({ modalId: 'models_available' }));
+      render(
+        <TestWrapper>
+          <RhelAICard rhelAI={rhelAI} handleClick={onClick} />
+        </TestWrapper>,
+      );
+
+      const modelsAvailableLink = screen.getByRole('link', { name: /2/i });
+      await userEvent.click(modelsAvailableLink);
+      await waitFor(() => {
+        expect(onClick).toHaveBeenCalled();
+      });
+    });
   });
 });

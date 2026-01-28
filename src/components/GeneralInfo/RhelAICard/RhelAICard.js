@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LoadingCard from '../LoadingCard';
+import { generalMapper } from '../dataMapper';
 
-const RhelAICard = ({ rhelAI }) => {
+const RhelAICard = ({ rhelAI, handleClick = () => undefined }) => {
   return (
     <LoadingCard
       title="RHEL AI"
@@ -18,7 +19,21 @@ const RhelAICard = ({ rhelAI }) => {
               },
             ]
           : []),
-        { title: 'Models available', value: rhelAI?.gpu_models?.length },
+        {
+          title: 'Models available',
+          value: rhelAI?.ai_models?.length || 'None',
+          target: 'models_available',
+          onClick: () => {
+            handleClick(
+              'Models available',
+              generalMapper(rhelAI?.ai_models, 'Model name'),
+            );
+          },
+        },
+        {
+          title: 'Number of GPUs',
+          value: rhelAI?.gpu_models?.length || 'None',
+        },
         ...(rhelAI?.gpu_models?.length > 0
           ? [
               {
@@ -41,6 +56,7 @@ const RhelAICard = ({ rhelAI }) => {
 };
 
 RhelAICard.propTypes = {
+  handleClick: PropTypes.func,
   rhelAI: PropTypes.shape({
     gpu_models: PropTypes.arrayOf(
       PropTypes.shape({
@@ -50,6 +66,7 @@ RhelAICard.propTypes = {
         memory: PropTypes.string,
       }),
     ),
+    ai_models: PropTypes.arrayOf(PropTypes.string),
     rhel_ai_version_id: PropTypes.string,
     variant: PropTypes.string,
   }),
