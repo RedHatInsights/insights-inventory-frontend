@@ -1,6 +1,6 @@
 import { Button, Flex, FlexItem } from '@patternfly/react-core';
 import React from 'react';
-import BaseDropdown from './BaseDropDown';
+import BaseDropdown from './BaseDropdown';
 import PropTypes from 'prop-types';
 import {
   HostStalenessResetDefaultPopover,
@@ -44,7 +44,7 @@ const StalenessSettings = ({
               ouiaId={`${item[0].title.split(' ').map(capitalize).join('')}Dropdown`}
               dropdownItems={item}
               currentItem={newFormValues[item[0].apiKey]}
-              disabled={!isEditing}
+              isDisabled={!isEditing}
               title={item[0].title}
               filter={filter}
               setFilter={setFilter}

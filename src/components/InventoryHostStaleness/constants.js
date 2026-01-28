@@ -260,7 +260,7 @@ export const systemDeletionItems = () => {
   return newItems;
 };
 
-export const formValidation = async (newFormValues, setIsFormValid) => {
+export const formValidation = (newFormValues, setIsFormValid) => {
   for (let i = 0; i < hostStalenessApiKeys.length; i++) {
     const apiKey = hostStalenessApiKeys[i];
     let formValue = newFormValues[apiKey];

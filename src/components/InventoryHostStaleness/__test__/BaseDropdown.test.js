@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import BaseDropdown from '../BaseDropDown';
+import BaseDropdown from '../BaseDropdown';
 
 describe('BaseDropdown', () => {
   it('renders OUIA ID attributes', () => {
