@@ -29,7 +29,6 @@ interface BaseDropdownProps {
   currentItem: number;
   newFormValues: Record<string, number>;
   setNewFormValues: (values: Record<string, number>) => void;
-  edit?: boolean;
   modalMessage?: string;
   isFormValid: boolean;
   setIsFormValid: (isValid: boolean) => void;
@@ -43,7 +42,6 @@ const BaseDropdown = ({
   title,
   newFormValues,
   setNewFormValues,
-  edit,
   modalMessage,
   isFormValid,
   setIsFormValid,
@@ -67,7 +65,7 @@ const BaseDropdown = ({
   useEffect(() => {
     setSelected(currentItem);
     formValidation(newFormValues, setIsFormValid);
-  }, [edit, currentItem, newFormValues, setIsFormValid]);
+  }, [currentItem, newFormValues, setIsFormValid]);
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
