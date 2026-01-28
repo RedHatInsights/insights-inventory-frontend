@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Flex, Popover, Title } from '@patternfly/react-core';
-import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import { OutlinedQuestionCircleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
 
 export const GENERAL_HOST_STALENESS_WRITE_PERMISSION =
   'staleness:staleness:write';
@@ -180,9 +180,7 @@ export const InventoryHostStalenessPopover = () => {
           >
             <span className="pf-v6-u-font-size-sm">Default settings:</span>
             <span className="pf-v6-u-font-size-sm">
-              <p>
-                - Systems are marked as stale after 1 day since last check-in.
-              </p>
+              - Systems are marked as stale after 1 day since last check-in.
             </span>
             <span className="pf-v6-u-font-size-sm">
               - Systems are marked as stale warning after 7 days since last
