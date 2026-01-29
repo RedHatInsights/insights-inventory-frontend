@@ -5,10 +5,20 @@ import type { SystemsViewSelection } from '../SystemsView';
 interface UseBulkSelectParams {
   selection: SystemsViewSelection;
   rows: DataViewTrObject[];
+  total?: number;
 }
 
-export const useBulkSelect = ({ selection, rows }: UseBulkSelectParams) => {
+export const useBulkSelect = ({
+  selection,
+  rows,
+  total = 0,
+}: UseBulkSelectParams) => {
   const { selected, setSelected, onSelect, isSelected } = selection;
+
+  const selectedCount = selected.length;
+  const isAnySelected = selectedCount > 0;
+  const isFullySelected = total > 0 && selectedCount === total;
+  const isPartiallySelected = isAnySelected && !isFullySelected;
 
   const isPageSelected = useCallback(
     (rows: DataViewTrObject[]) =>
@@ -16,34 +26,28 @@ export const useBulkSelect = ({ selection, rows }: UseBulkSelectParams) => {
     [isSelected],
   );
 
-  const isPagePartiallySelected = useCallback(
-    (rows: DataViewTrObject[]) =>
-      rows.some((row) => isSelected(row)) && !isPageSelected(rows),
-    [isSelected, isPageSelected],
-  );
-
   const onBulkSelect = useCallback(
     async (value: string) => {
+      const pageIsSelected = isPageSelected(rows);
+
       switch (value) {
         case 'none':
         case 'nonePage':
           setSelected([]);
           break;
         case 'page':
-          if (selected.length === 0) {
+          if (!pageIsSelected) {
             onSelect(true, rows);
-          } else {
-            setSelected([]);
           }
           break;
       }
     },
-    [selected.length, setSelected, onSelect, rows],
+    [isPageSelected, setSelected, onSelect, rows],
   );
 
   return {
     isPageSelected: isPageSelected(rows),
-    isPagePartiallySelected: isPagePartiallySelected(rows),
+    isPagePartiallySelected: isPartiallySelected,
     onBulkSelect,
   };
 };
