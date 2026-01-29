@@ -122,8 +122,11 @@ const SystemsView = () => {
           ? 'empty'
           : 'active';
 
-  const { isPageSelected, isPagePartiallySelected, onBulkSelect } =
-    useBulkSelect({ selection, rows, total });
+  const { isPageSelected, isPartiallySelected, onBulkSelect } = useBulkSelect({
+    selection,
+    rows,
+    total,
+  });
 
   return (
     <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>
@@ -139,7 +142,7 @@ const SystemsView = () => {
                   // canSelectAll disabled see JIRA: RHINENG-22312 for details
                   totalCount={total}
                   selectedCount={selected.length}
-                  pagePartiallySelected={isPagePartiallySelected}
+                  pagePartiallySelected={isPartiallySelected}
                   pageSelected={isPageSelected}
                   onSelect={onBulkSelect}
                 />

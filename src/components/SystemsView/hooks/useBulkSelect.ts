@@ -14,17 +14,11 @@ export const useBulkSelect = ({
   total = 0,
 }: UseBulkSelectParams) => {
   const { selected, setSelected, onSelect, isSelected } = selection;
-
-  const selectedCount = selected.length;
-  const isAnySelected = selectedCount > 0;
-  const isFullySelected = total > 0 && selectedCount === total;
+  const isAnySelected = selected.length > 0;
+  const isFullySelected = total > 0 && selected.length === total;
   const isPartiallySelected = isAnySelected && !isFullySelected;
-
-  const isPageSelected = useCallback(
-    (rows: DataViewTrObject[]) =>
-      rows.length > 0 && rows.every((row) => isSelected(row)),
-    [isSelected],
-  );
+  const isPageSelected =
+    rows.length > 0 && rows.every((row) => isSelected(row));
 
   const onBulkSelect = useCallback(
     async (value: string) => {
@@ -46,8 +40,8 @@ export const useBulkSelect = ({
   );
 
   return {
-    isPageSelected: isPageSelected(rows),
-    isPagePartiallySelected: isPartiallySelected,
+    isPageSelected,
+    isPartiallySelected,
     onBulkSelect,
   };
 };
