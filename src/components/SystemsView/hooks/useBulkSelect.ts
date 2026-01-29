@@ -28,21 +28,21 @@ export const useBulkSelect = ({
 
   const onBulkSelect = useCallback(
     async (value: string) => {
-      const pageIsSelected = isPageSelected(rows);
-
       switch (value) {
         case 'none':
         case 'nonePage':
           setSelected([]);
           break;
         case 'page':
-          if (!pageIsSelected) {
+          if (isPartiallySelected) {
+            setSelected([]);
+          } else {
             onSelect(true, rows);
           }
           break;
       }
     },
-    [isPageSelected, setSelected, onSelect, rows],
+    [isPartiallySelected, setSelected, onSelect, rows],
   );
 
   return {
