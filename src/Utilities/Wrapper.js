@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from './hooks/useConditionalRBAC';
 import { GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
 
 const RenderWrapper = ({
@@ -10,7 +10,7 @@ const RenderWrapper = ({
   store,
   ...props
 }) => {
-  const { hasAccess } = usePermissionsWithContext(
+  const { hasAccess } = useConditionalRBAC(
     [GENERAL_HOSTS_READ_PERMISSIONS],
     true,
     false, // omit RD check to find out if there are any inventory:hosts:read available

@@ -5,7 +5,7 @@
  * The permissions are checked _only_ within the Inventory app context.
  */
 import React from 'react';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { Button, MenuItem, Tooltip } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import './ActionWithRBAC.scss';
@@ -21,7 +21,7 @@ export const ActionButton = ({
   const { hasAccess: enabled } =
     override !== undefined
       ? { hasAccess: override }
-      : usePermissionsWithContext(
+      : useConditionalRBAC(
           requiredPermissions,
           checkAll,
           !ignoreResourceDefinitions
@@ -59,7 +59,7 @@ export const ActionDropdownItem = ({
   const { hasAccess: enabled } =
     override !== undefined
       ? { hasAccess: override }
-      : usePermissionsWithContext(
+      : useConditionalRBAC(
           requiredPermissions,
           checkAll,
           !ignoreResourceDefinitions

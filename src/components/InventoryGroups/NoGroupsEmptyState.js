@@ -9,14 +9,14 @@ import {
 import { PlusCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_GROUPS_WRITE_PERMISSION } from '../../constants';
 
 const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_WRITE_PERMISSION];
 
 const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
   const { hasAccess: canModifyGroups } =
-    usePermissionsWithContext(REQUIRED_PERMISSIONS);
+    useConditionalRBAC(REQUIRED_PERMISSIONS);
 
   return (
     <EmptyState
