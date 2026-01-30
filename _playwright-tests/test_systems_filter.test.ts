@@ -94,9 +94,31 @@ test.describe('Filtering Systems Tests', () => {
       const imageCount = await imageIcons.count();
       expect(imageCount).toBeGreaterThanOrEqual(0);
 
+      const imagesViewButton = page.getByRole('button', {
+        name: 'View by images',
+      });
+      await imagesViewButton.click();
       await expect(
-        page.getByRole('button', { name: 'View by systems' }),
-      ).toBeVisible();
+        page.getByRole('columnheader', { name: 'Image name' }),
+      ).toBeVisible({ timeout: 10000 });
+    });
+
+    await test.step('Switch between systems and image tables', async () => {
+      const imagesViewButton = page.getByRole('button', {
+        name: 'View by images',
+      });
+      await imagesViewButton.click();
+      await expect(
+        page.getByRole('columnheader', { name: 'Image name' }),
+      ).toBeVisible({ timeout: 10000 });
+    });
+
+    const systemsViewButton = page.getByRole('button', {
+      name: 'View by systems',
+    });
+    await systemsViewButton.click();
+    await expect(page.getByRole('columnheader', { name: 'Name' })).toBeVisible({
+      timeout: 10000,
     });
   });
 

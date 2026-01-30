@@ -1,10 +1,5 @@
 import { expect } from '@playwright/test';
 import { test } from './helpers/navHelpers';
-import {
-  BOOTC_ARCHIVE,
-  prepareSingleSystem,
-  cleanupTestArchive,
-} from './helpers/uploadArchive';
 
 test.describe('Navigate to Inventory pages via side Navigation bar', () => {
   test.beforeEach(async ({ page }) => {
@@ -34,30 +29,5 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
       .locator('[data-quickstart-id="insights_inventory_workspaces"]')
       .click();
     await expect(page).toHaveURL(new RegExp(expectedURL));
-  });
-
-  test('User can switch to the Images view in Inventory page', async ({
-    page,
-  }) => {
-    const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
-    await page.locator('[data-quickstart-id="insights_inventory"]').click();
-
-    await test.step('Switch to Images view', async () => {
-      const imagesViewButton = page.getByRole('button', {
-        name: 'View by images',
-      });
-      await imagesViewButton.click();
-    });
-
-    await test.step('Verify Images view is visible', async () => {
-      await expect(
-        page.getByRole('columnheader', { name: 'Image name' }),
-      ).toBeVisible({ timeout: 10000 });
-    });
-
-    cleanupTestArchive(
-      setupBootcResult.archiveName,
-      setupBootcResult.workingDir,
-    );
   });
 });
