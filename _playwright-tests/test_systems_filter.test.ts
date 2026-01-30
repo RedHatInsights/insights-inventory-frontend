@@ -93,32 +93,27 @@ test.describe('Filtering Systems Tests', () => {
       await expect(packageIcons).toHaveCount(0);
       const imageCount = await imageIcons.count();
       expect(imageCount).toBeGreaterThanOrEqual(0);
-
-      const imagesViewButton = page.getByRole('button', {
-        name: 'View by images',
-      });
-      await imagesViewButton.click();
-      await expect(
-        page.getByRole('columnheader', { name: 'Image name' }),
-      ).toBeVisible({ timeout: 10000 });
     });
 
     await test.step('Switch between systems and image tables', async () => {
+      const systemsViewButton = page.getByRole('button', {
+        name: 'View by systems',
+      });
       const imagesViewButton = page.getByRole('button', {
         name: 'View by images',
       });
+
+      // Switch to images view and verify images table
       await imagesViewButton.click();
       await expect(
         page.getByRole('columnheader', { name: 'Image name' }),
       ).toBeVisible({ timeout: 10000 });
-    });
 
-    const systemsViewButton = page.getByRole('button', {
-      name: 'View by systems',
-    });
-    await systemsViewButton.click();
-    await expect(page.getByRole('columnheader', { name: 'Name' })).toBeVisible({
-      timeout: 10000,
+      // Switch back to systems view and verify systems table
+      await systemsViewButton.click();
+      await expect(
+        page.getByRole('columnheader', { name: 'Name' }),
+      ).toBeVisible({ timeout: 10000 });
     });
   });
 
