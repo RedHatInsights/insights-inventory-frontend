@@ -147,32 +147,33 @@ test.describe('Filtering Systems Tests', () => {
     );
   });
 
-  test.skip('User can filter systems by OS major version option', async ({
-    page,
-  }) => {
-    /**
-     * Metadata:
-       - requirements:
-       - inv-hosts-filter-by-os
-       - importance: critical
-     */
-    const OS = 'RHEL 9';
-    await filterSystemsWithConditionalFilter(page, 'Operating system', OS);
+  test.fixme(
+    'User can filter systems by OS major version option',
+    async ({ page }) => {
+      /**
+       * Metadata:
+         - requirements:
+         - inv-hosts-filter-by-os
+         - importance: critical
+       */
+      const OS = 'RHEL 9';
+      await filterSystemsWithConditionalFilter(page, 'Operating system', OS);
 
-    // Verify all filter chips contain Major version OS RHEL 9
-    const filterChipGroup = page.locator('span.pf-v6-c-label__text');
-    const pattern = /RHEL 9\./;
-    await assertAllContain(filterChipGroup, pattern);
+      // Verify all filter chips contain Major version OS RHEL 9
+      const filterChipGroup = page.locator('span.pf-v6-c-label__text');
+      const pattern = /RHEL 9\./;
+      await assertAllContain(filterChipGroup, pattern);
 
-    // Multiple RHEL 9 versions should be applied when filtering by major OS version
-    expect(await filterChipGroup.count()).toBeGreaterThanOrEqual(1);
+      // Multiple RHEL 9 versions should be applied when filtering by major OS version
+      expect(await filterChipGroup.count()).toBeGreaterThanOrEqual(1);
 
-    // OS version should contain expected major version of OS
-    const columnVersionOS = page.locator(
-      'span[aria-label="Formatted OS version"]',
-    );
-    await assertAllContain(columnVersionOS, pattern);
-  });
+      // OS version should contain expected major version of OS
+      const columnVersionOS = page.locator(
+        'span[aria-label="Formatted OS version"]',
+      );
+      await assertAllContain(columnVersionOS, pattern);
+    },
+  );
 
   operatingSystemTestCases.forEach((testData) => {
     test(`User should be able to filter by OS verion: ${testData.OS}`, async ({
