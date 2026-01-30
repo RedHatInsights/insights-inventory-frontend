@@ -1,9 +1,6 @@
 name: 'Prod Post-Release Sanity'
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # This cron expression runs the action every 24 hours at midnight UTC
-    
   workflow_dispatch:
 
 concurrency:
@@ -37,7 +34,7 @@ jobs:
             exit 1
           fi
 
-          if [ -z "$PLAYWRIGHT_PASSWORD" ]; then
+          if [ -z "$PROD_PLAYWRIGHT_PASSWORD" ]; then
             echo "Error: PROD_PLAYWRIGHT_PASSWORD secret is not set."
             exit 1
           fi
@@ -49,7 +46,8 @@ jobs:
             echo "CI=true"
             echo "INTEGRATION=true"
             echo "PROD=true"
-            echo "BASE_URL=$PROD_BASE_URL" 
+            echo "BASE_URL=$PROD_BASE_URL"
+            echo "PROXY=$RH_PROXY_URL"
           } >> .env 2>/dev/null
 
           echo ".env file created successfully."
