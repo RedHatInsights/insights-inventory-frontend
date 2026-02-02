@@ -1,22 +1,26 @@
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
-import { useKesselMigration } from '../../Contexts/KesselMigrationContext';
+import type { Access } from '@redhat-cloud-services/rbac-client/types';
+import { useKesselMigrationFeatureFlag } from './useKesselMigrationFeatureFlag';
+
+/** Permission can be a string (e.g. 'inventory:hosts:read') or an object with resource definitions. */
+export type Permission = string | Access;
 
 /**
  * Conditional RBAC hook that skips RBAC checks when Kessel migration is enabled.
  * When Kessel is enabled, returns default access (hasAccess: true) to bypass legacy RBAC.
  * When Kessel is disabled, uses the standard usePermissionsWithContext hook.
  *
- *  @param   {Array}   requiredPermissions      - Array of permission objects or strings
- *  @param   {boolean} checkAll                 - Whether all permissions must be fulfilled
- *  @param   {boolean} checkResourceDefinitions - Whether to check resource definitions
- *  @returns {object}                           Object with hasAccess and isOrgAdmin properties
+ *  @param requiredPermissions      - Array of permission objects or strings
+ *  @param checkAll                 - Whether all permissions must be fulfilled
+ *  @param checkResourceDefinitions - Whether to check resource definitions
+ *  @returns                        Object with hasAccess and isOrgAdmin properties
  */
 export const useConditionalRBAC = (
-  requiredPermissions,
+  requiredPermissions: Permission[],
   checkAll = false,
   checkResourceDefinitions = true,
 ) => {
-  const isKesselMigrationEnabled = useKesselMigration();
+  const isKesselMigrationEnabled = useKesselMigrationFeatureFlag();
 
   const rbacResult = usePermissionsWithContext(
     isKesselMigrationEnabled ? [] : requiredPermissions,
