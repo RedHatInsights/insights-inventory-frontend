@@ -79,7 +79,7 @@ export const filterSystemsWithConditionalFilter = async (
     await optionCheckbox.click();
   }
 
-  await page.mouse.click(0, 0);
+  await page.locator('body').click(); //to make sure menu is closed
   // wait for table to be filtered
   await expect(
     page.locator('[data-ouia-component-id="SkeletonTable"]'),
