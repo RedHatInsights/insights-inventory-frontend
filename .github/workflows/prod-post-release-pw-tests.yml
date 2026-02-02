@@ -1,0 +1,76 @@
+name: 'Prod Post-Release Sanity'
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }} # target branch
+  cancel-in-progress: true
+
+jobs:
+  playwright-prod-check:
+    runs-on:
+      - codebuild-host-inventory-frontend-${{ github.run_id }}-${{ github.run_attempt }}
+      - instance-size:large
+      - buildspec-override:true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Create front-end .env file
+        run: |
+          # Check if the secrets are set
+          if [ -z "$PLAYWRIGHT_USER" ]; then
+            echo "Error: PLAYWRIGHT_USER secret is not set."
+            exit 1
+          fi
+
+          if [ -z "$PROD_PLAYWRIGHT_PASSWORD" ]; then
+            echo "Error: PROD_PLAYWRIGHT_PASSWORD secret is not set."
+            exit 1
+          fi
+
+          # Create the .env file and write the secrets and other variables to it
+          {
+            echo "PLAYWRIGHT_USER=$PLAYWRIGHT_USER"
+            echo "PLAYWRIGHT_PASSWORD=$PROD_PLAYWRIGHT_PASSWORD"
+            echo "CI=true"
+            echo "INTEGRATION=true"
+            echo "PROD=true"
+            echo "BASE_URL=$PROD_BASE_URL"
+            echo "PROXY=$RH_PROXY_URL"
+          } >> .env 2>/dev/null
+
+          echo ".env file created successfully."
+
+      - name: Install front-end dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run front-end Playwright tests
+        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test
+
+      - name: Publish front-end Test Report
+        uses: ctrf-io/github-test-reporter@v1
+        with:
+          report-path: './playwright-ctrf/playwright-ctrf.json'
+        if: ${{ !cancelled() }}
+
+      - name: Store front-end Test report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 10
