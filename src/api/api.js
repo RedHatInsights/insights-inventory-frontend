@@ -288,8 +288,20 @@ export async function getEntities(
         calculateSystemProfile(combinedFilters, filterImmutableByDefault),
       );
 
+    // Exclude 'workloads' from fields when fetching systems list to avoid API validation errors
+    // (some systems have null values in workloads.ansible.hub_version which violates the spec)
+    // workloads is still available for individual system fetches (hasItems=true) via apiGetHostSystemProfileById
+    const fieldsForList = fields?.system_profile
+      ? {
+          system_profile: fields.system_profile.filter(
+            (field) => field !== 'workloads',
+          ),
+        }
+      : fields;
+
     const fieldsQueryParams =
-      Object.keys(fields || {}).length && generateFilter(fields, 'fields');
+      Object.keys(fieldsForList || {}).length &&
+      generateFilter(fieldsForList, 'fields');
 
     return apiGetHostList({
       hostnameOrId: filters.hostnameOrId,
