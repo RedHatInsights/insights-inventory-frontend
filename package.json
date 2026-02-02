@@ -193,11 +193,12 @@
   "nyc": {
     "report-dir": "coverage-cypress",
     "include": [
-      "src/**/*.{js,jsx}"
+      "src/**/*.{js,jsx,ts,tsx}"
     ],
     "exclude": [
-      "src/**/*.test.js",
-      "src/**/*.cy.js",
+      "src/**/*.{test,spec}.{js,jsx,ts,tsx}",
+      "src/**/*.cy.{js,jsx,ts,tsx}",
+      "src/**/*.d.ts",
       "src/**/__fixtures__/**",
       "src/**/__factories__/**",
       "src/{entry,entry-dev}.js"
