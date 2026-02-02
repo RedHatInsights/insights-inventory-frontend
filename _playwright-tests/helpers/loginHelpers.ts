@@ -47,7 +47,7 @@ export const logInWithUsernameAndPassword = async (
   await passwordField.press('Enter');
 
   await expect(async () => {
-    expect(page.url()).toBe(`${process.env.BASE_URL}/insights/inventory`);
+    expect(page.url()).toContain(`${process.env.BASE_URL}/insights/inventory`);
 
     const cookies = await page.context().cookies();
     const found = cookies.find((cookie) => cookie.name === 'cs_jwt');
@@ -64,6 +64,26 @@ export const logInWithUser1 = async (page: Page) =>
     process.env.PLAYWRIGHT_USER,
     process.env.PLAYWRIGHT_PASSWORD,
   );
+
+export const closeCookieBanner = async (page: Page) => {
+  const iframeLocator = page.locator(
+    'iframe[title="TrustArc Cookie Consent Manager"]',
+  );
+
+  const frameVisible = await iframeLocator
+    .isVisible({ timeout: 5000 })
+    .catch(() => false);
+  if (!frameVisible) return;
+
+  const frame = page.frameLocator(
+    'iframe[title="TrustArc Cookie Consent Manager"]',
+  );
+
+  await frame
+    .getByRole('button', { name: 'Proceed with Required Cookies only' })
+    .click();
+  await iframeLocator.waitFor({ state: 'hidden', timeout: 5000 });
+};
 
 export const storeStorageStateAndToken = async (page: Page) => {
   const { cookies } = await page.context().storageState({
