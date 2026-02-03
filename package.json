@@ -166,6 +166,7 @@
     "server:ctr": "node src/server/generateServerKey.js",
     "start": "fec dev",
     "start:proxy": "fec dev-proxy",
+    "start:stage": "fec dev-proxy --clouddotEnv=stage",
     "static": "fec static",
     "verify": "npm-run-all build lint test",
     "verify:local": "npm-run-all build lint test:local test:ct",
