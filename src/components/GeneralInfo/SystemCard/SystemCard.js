@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LoadingCard from '../LoadingCard';
+import LoadingCard, { getDefaultColumnModifier } from '../LoadingCard';
 import TitleWithPopover from '../TitleWithPopover';
 import { extraShape } from '../../../constants';
 import { workloadsTypesKeys } from './SystemCardConfigs';
@@ -80,122 +80,124 @@ const SystemCard = ({
 
   const workloadsTypes = checkWorkloadsKeys(workloadsData, workloadsTypesKeys);
 
+  const items = [
+    ...(hasHostName
+      ? [
+          {
+            title: (
+              <TitleWithPopover
+                title="Host name"
+                content="Name imported from the system."
+              />
+            ),
+            value:
+              entity?.fqdn != null ? (
+                <Truncate maxCharsDisplayed={36} content={entity.fqdn} />
+              ) : (
+                ''
+              ),
+            size: 'md',
+            customClass: 'sentry-mask data-hj-suppress',
+          },
+        ]
+      : []),
+    ...(workloadsTypes.length > 0
+      ? [
+          {
+            title: 'Workloads',
+            size: 'md',
+            value: (
+              <WorkloadsSection
+                handleClick={handleClick}
+                workloadsData={workloadsData}
+                workloadsTypes={workloadsTypes}
+              />
+            ),
+          },
+        ]
+      : [
+          {
+            title: 'Workloads',
+            size: 'md',
+            value: 'Not available',
+          },
+        ]),
+    ...(hasDisplayName
+      ? [
+          {
+            title: (
+              <TitleWithPopover
+                title="Display name"
+                content="System name displayed in an inventory list."
+              />
+            ),
+            value: (
+              <NameInlineEdit
+                textValue={entity?.display_name || ''}
+                onSubmit={(value) => onSubmit(value)}
+                writePermissions={writePermissions}
+              />
+            ),
+            size: 'md',
+            customClass: 'sentry-mask data-hj-suppress',
+          },
+        ]
+      : []),
+    ...(hasWorkspace
+      ? [
+          {
+            title: 'Workspace',
+            value:
+              (entity?.groups?.length > 0 && entity?.groups?.[0]?.name) || '',
+            size: 'md',
+            customClass: 'sentry-mask data-hj-suppress',
+            target: `/workspaces/${entity?.groups?.[0]?.id}`,
+          },
+        ]
+      : []),
+    ...(hasAnsibleHostname
+      ? [
+          {
+            title: (
+              <TitleWithPopover
+                title="Ansible hostname"
+                content="Hostname that is used in playbooks by Remediations."
+              />
+            ),
+            value: (
+              <NameInlineEdit
+                textValue={getAnsibleHost(entity) || ''}
+                writePermissions={writePermissions}
+                onSubmit={(value) => onSubmit(value, true)}
+              />
+            ),
+            size: 'md',
+            customClass: 'sentry-mask data-hj-suppress',
+          },
+        ]
+      : []),
+    ...extra.map(({ onClick, ...item }) => ({
+      ...item,
+      ...(onClick && {
+        onClick: (e, handleClick) => {
+          // If the original onClick expects two arguments, call as is
+          if (onClick.length >= 2) {
+            return onClick(e, handleClick);
+          }
+          // Otherwise, call with just the event
+          return onClick(e);
+        },
+      }),
+    })),
+  ];
+
   return (
     <LoadingCard
       title="System properties"
       isLoading={!detailLoaded}
       cardId="system-card"
-      items={[
-        ...(hasHostName
-          ? [
-              {
-                title: (
-                  <TitleWithPopover
-                    title="Host name"
-                    content="Name imported from the system."
-                  />
-                ),
-                value:
-                  entity?.fqdn != null ? (
-                    <Truncate maxCharsDisplayed={36} content={entity.fqdn} />
-                  ) : (
-                    ''
-                  ),
-                size: 'md',
-                customClass: 'sentry-mask data-hj-suppress',
-              },
-            ]
-          : []),
-        ...(workloadsTypes.length > 0
-          ? [
-              {
-                title: 'Workloads',
-                size: 'md',
-                value: (
-                  <WorkloadsSection
-                    handleClick={handleClick}
-                    workloadsData={workloadsData}
-                    workloadsTypes={workloadsTypes}
-                  />
-                ),
-              },
-            ]
-          : [
-              {
-                title: 'Workloads',
-                size: 'md',
-                value: 'Not available',
-              },
-            ]),
-        ...(hasDisplayName
-          ? [
-              {
-                title: (
-                  <TitleWithPopover
-                    title="Display name"
-                    content="System name displayed in an inventory list."
-                  />
-                ),
-                value: (
-                  <NameInlineEdit
-                    textValue={entity?.display_name || ''}
-                    onSubmit={(value) => onSubmit(value)}
-                    writePermissions={writePermissions}
-                  />
-                ),
-                size: 'md',
-                customClass: 'sentry-mask data-hj-suppress',
-              },
-            ]
-          : []),
-        ...(hasWorkspace
-          ? [
-              {
-                title: 'Workspace',
-                value:
-                  (entity?.groups?.length > 0 && entity?.groups?.[0]?.name) ||
-                  '',
-                size: 'md',
-                customClass: 'sentry-mask data-hj-suppress',
-                target: `/workspaces/${entity?.groups?.[0]?.id}`,
-              },
-            ]
-          : []),
-        ...(hasAnsibleHostname
-          ? [
-              {
-                title: (
-                  <TitleWithPopover
-                    title="Ansible hostname"
-                    content="Hostname that is used in playbooks by Remediations."
-                  />
-                ),
-                value: (
-                  <NameInlineEdit
-                    textValue={getAnsibleHost(entity) || ''}
-                    writePermissions={writePermissions}
-                    onSubmit={(value) => onSubmit(value, true)}
-                  />
-                ),
-                size: 'md',
-                customClass: 'sentry-mask data-hj-suppress',
-              },
-            ]
-          : []),
-        ...extra.map(({ onClick, ...item }) => ({
-          ...item,
-          ...(onClick && {
-            onClick: (e, handleClick) => {
-              // If the original onClick expects two arguments, call as is
-              if (onClick.length >= 2) {
-                return onClick(e, handleClick);
-              }
-              // Otherwise, call with just the event
-              return onClick(e);
-            },
-          }),
-        })),
-      ]}
+      columnModifier={getDefaultColumnModifier(items)}
+      items={items}
     />
   );
 };
