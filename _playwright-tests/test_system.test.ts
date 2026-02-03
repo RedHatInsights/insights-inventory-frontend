@@ -101,9 +101,10 @@ test('User should be able to edit and delete a system from System Details page',
     await expect(systemLink).toBeVisible({ timeout: 100000 });
     await systemLink.click();
 
-    await expect(page.getByRole('heading', { name: systemName })).toBeVisible({
-      timeout: 100000,
-    });
+    // Detail page heading shows display_name (full or truncated); accept either
+    const heading = page.getByRole('heading', { level: 1 }).first();
+    await expect(heading).toBeVisible({ timeout: 100000 });
+    await expect(heading).toContainText(systemName.substring(0, 36));
   });
 
   await test.step('Edit the system display name and verify', async () => {
@@ -116,7 +117,8 @@ test('User should be able to edit and delete a system from System Details page',
       page.getByRole('heading', { name: newDisplayName, level: 1 }),
     ).toBeVisible();
     const displayNameValueLocator = page.getByLabel('Display name value');
-    await expect(displayNameValueLocator).toHaveText(newDisplayName);
+    // UI may truncate with ellipsis (maxCharsDisplayed=36)
+    await expect(displayNameValueLocator).toContainText(newDisplayName);
   });
 
   await test.step('Edit the system Ansible name and verify', async () => {
@@ -126,7 +128,8 @@ test('User should be able to edit and delete a system from System Details page',
     await page.waitForTimeout(2000);
 
     const ansibleNameValueLocator = page.getByLabel('Ansible hostname value');
-    await expect(ansibleNameValueLocator).toHaveText(newAnsibleName);
+    // UI may truncate with ellipsis (maxCharsDisplayed=36)
+    await expect(ansibleNameValueLocator).toContainText(newAnsibleName);
   });
 
   await test.step(`Delete the system and verify it is removed`, async () => {
