@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingCard from '../LoadingCard';
+import LoadingCard, { getDefaultColumnModifier } from '../LoadingCard';
 import { subscriptionsSelector } from '../selectors';
 
 const SubscriptionCardCore = ({
@@ -13,18 +13,18 @@ const SubscriptionCardCore = ({
   systemProfile,
 }) => {
   const subscriptionFacts = subscriptionsSelector(entity, systemProfile);
+  const items = [
+    ...(hasUsage ? [{ title: 'Usage', value: subscriptionFacts.usage }] : []),
+    ...(hasSLA ? [{ title: 'SLA', value: subscriptionFacts.sla }] : []),
+    ...(hasRole ? [{ title: 'Role', value: subscriptionFacts.role }] : []),
+  ];
   return (
     <LoadingCard
       title="Subscriptions"
       cardId="subscriptions-card"
       isLoading={!detailLoaded}
-      items={[
-        ...(hasUsage
-          ? [{ title: 'Usage', value: subscriptionFacts.usage }]
-          : []),
-        ...(hasSLA ? [{ title: 'SLA', value: subscriptionFacts.sla }] : []),
-        ...(hasRole ? [{ title: 'Role', value: subscriptionFacts.role }] : []),
-      ]}
+      columnModifier={getDefaultColumnModifier(items)}
+      items={items}
     />
   );
 };

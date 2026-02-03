@@ -95,6 +95,11 @@ const Details = ({
           </GridItem>
           <GridItem md={6} sm={12}>
             <Grid hasGutter>
+              {ConfigurationCardWrapper && (
+                <GridItem>
+                  <ConfigurationCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
               {RhelAICardWrapper &&
                 entity?.system_profile?.workloads?.rhel_ai && (
                   <GridItem>
@@ -104,11 +109,6 @@ const Details = ({
                     />
                   </GridItem>
                 )}
-              {ConfigurationCardWrapper && (
-                <GridItem>
-                  <ConfigurationCardWrapper handleClick={handleModalToggle} />
-                </GridItem>
-              )}
               {BiosCardWrapper && (
                 <GridItem>
                   <BiosCardWrapper handleClick={handleModalToggle} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingCard from '../LoadingCard';
+import LoadingCard, { getDefaultColumnModifier } from '../LoadingCard';
 import { generalMapper } from '../dataMapper';
 import { operatingSystem } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
@@ -21,66 +21,67 @@ const OperatingSystemCardCore = ({
   systemProfile,
 }) => {
   const systemInfo = operatingSystem(systemProfile, entity);
+  const items = [
+    ...(hasArchitecture
+      ? [{ title: 'Architecture', value: systemInfo.architecture }]
+      : []),
+    ...(hasRelease
+      ? [
+          {
+            title: 'Release',
+            value: (
+              <OperatingSystemFormatter operatingSystem={systemInfo.release} />
+            ),
+          },
+        ]
+      : []),
+    ...(hasKernelModules
+      ? [
+          {
+            title: 'Kernel modules',
+            value: systemInfo.kernelModules?.length,
+            singular: 'module',
+            target: 'kernel_modules',
+            onClick: () => {
+              handleClick(
+                'Kernel modules',
+                generalMapper(systemInfo.kernelModules, 'Module'),
+              );
+            },
+          },
+        ]
+      : []),
+    ...(hasLastBoot
+      ? [
+          {
+            title: 'Last boot time',
+            value: isDate(systemInfo.bootTime) ? (
+              <DateFormat date={systemInfo.bootTime} type="onlyDate" />
+            ) : (
+              'Not available'
+            ),
+          },
+        ]
+      : []),
+    ...(hasKernelRelease
+      ? [{ title: 'Kernel release', value: systemInfo.kernelRelease }]
+      : []),
+    ...(systemInfo.systemUpdateMethod
+      ? [{ title: 'Update method', value: systemInfo.systemUpdateMethod }]
+      : []),
+    ...extra.map(({ onClick, ...item }) => ({
+      ...item,
+      ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
+    })),
+  ];
+
   return (
     <LoadingCard
       title="Operating system"
       cardId="os-card"
       isLoading={!detailLoaded}
-      items={[
-        ...(hasArchitecture
-          ? [{ title: 'Architecture', value: systemInfo.architecture }]
-          : []),
-        ...(hasRelease
-          ? [
-              {
-                title: 'Release',
-                value: (
-                  <OperatingSystemFormatter
-                    operatingSystem={systemInfo.release}
-                  />
-                ),
-              },
-            ]
-          : []),
-        ...(hasKernelModules
-          ? [
-              {
-                title: 'Kernel modules',
-                value: systemInfo.kernelModules?.length,
-                singular: 'module',
-                target: 'kernel_modules',
-                onClick: () => {
-                  handleClick(
-                    'Kernel modules',
-                    generalMapper(systemInfo.kernelModules, 'Module'),
-                  );
-                },
-              },
-            ]
-          : []),
-        ...(hasLastBoot
-          ? [
-              {
-                title: 'Last boot time',
-                value: isDate(systemInfo.bootTime) ? (
-                  <DateFormat date={systemInfo.bootTime} type="onlyDate" />
-                ) : (
-                  'Not available'
-                ),
-              },
-            ]
-          : []),
-        ...(hasKernelRelease
-          ? [{ title: 'Kernel release', value: systemInfo.kernelRelease }]
-          : []),
-        ...(systemInfo.systemUpdateMethod
-          ? [{ title: 'Update method', value: systemInfo.systemUpdateMethod }]
-          : []),
-        ...extra.map(({ onClick, ...item }) => ({
-          ...item,
-          ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
-        })),
-      ]}
+      columnModifier={getDefaultColumnModifier(items)}
+      items={items}
     />
   );
 };
