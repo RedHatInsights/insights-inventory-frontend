@@ -25,6 +25,7 @@ export default defineConfig({
         ['@currents/playwright'],
       ]
     : 'list',
+  globalTimeout: 35 * 60 * 1000, // 35 min
   timeout: 90_000,
   use: {
     actionTimeout: 90_000,
@@ -35,6 +36,17 @@ export default defineConfig({
     trace: 'on',
     ignoreHTTPSErrors: true,
     viewport: null,
+    ...(process.env.INTEGRATION === 'true'
+      ? {
+          ...(process.env.PROXY
+            ? {
+                proxy: {
+                  server: process.env.PROXY,
+                },
+              }
+            : {}),
+        }
+      : {}),
   },
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
