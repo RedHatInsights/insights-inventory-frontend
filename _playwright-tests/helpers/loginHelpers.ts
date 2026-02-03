@@ -35,9 +35,9 @@ export const logInWithUsernameAndPassword = async (
 
   await page.goto('/insights/inventory', { timeout: 90000 });
 
-  await expect(async () =>
-    expect(page.getByText('Log in to your Red Hat account')).toBeVisible(),
-  ).toPass({ timeout: 15000 });
+  await expect(page.getByText('Log in to your Red Hat account')).toBeVisible({
+    timeout: 15000,
+  });
 
   const login = page.getByRole('textbox');
   await login.fill(username);
