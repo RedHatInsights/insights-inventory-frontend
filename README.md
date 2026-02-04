@@ -89,6 +89,8 @@ npx playwright install  --with-deps
 * `npx playwright test test_navigation.test.ts` - run a specific test file
 * `npx playwright test test_navigation.test.ts -g "Test name"` - run a specific test by its name
 
+For more examples on how to run and debug tests, visit the [official Playwright documentation](https://playwright.dev/docs/running-tests).
+
 ## Commit conventions
 
 In order to keep our commits style consistent and the commits history easy to read, we utilize [semantic-release](https://github.com/semantic-release/semantic-release) which follows [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format). Also, there is a commitlint check run on all branches which ensures that all the commits meet the expected format (`<type>(<scope>): <short summary>`). Following this standard and specifying at least the type and summary for each commit helps to automatically generate a changelog of changes.
