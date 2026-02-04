@@ -59,7 +59,7 @@ The E2E tests are located in the [_playwright-tests/](_playwright-tests/) direct
 #### First time setup
 
 1. Copy the example env file (`playwright_example.env`) and create a file named `.env`. For local development only the `BASE_URL` - `https://stage.foo.redhat.com:1337` is required, which is already set in the example config.
-You also need to update the `PLAYWRIGHT_USER` and `PLAYWRIGHT_PASSWORD` of your Stage testing account to the `.env` file.
+You also need to set the `PLAYWRIGHT_USER` and `PLAYWRIGHT_PASSWORD` for your Stage testing account in the `.env` file.
 
 2. Install the test runner:
 ```bash
