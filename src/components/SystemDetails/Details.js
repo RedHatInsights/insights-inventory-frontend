@@ -13,8 +13,9 @@ import '../GeneralInfo/system-details.scss';
 import { OperatingSystemCard } from '../GeneralInfo/OperatingSystemCard';
 import { BiosCard } from '../GeneralInfo/BiosCard';
 import { BootcImageCard } from '../GeneralInfo/BootcImageCard';
-import { InfrastructureCard } from '../GeneralInfo/InfrastructureCard';
+import { NetworkInterfacesCard } from '../GeneralInfo/NetworkInterfacesCard';
 import { ConfigurationCard } from '../GeneralInfo/ConfigurationCard';
+import { HardwarePropertiesCard } from '../GeneralInfo/HardwarePropertiesCard';
 import { Provider } from 'react-redux';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import useModalState from './hooks/useModalState';
@@ -26,7 +27,8 @@ const Details = ({
   RhelAICardWrapper = RhelAICard,
   BiosCardWrapper = BiosCard,
   BootcImageCardWrapper = BootcImageCard,
-  InfrastructureCardWrapper = InfrastructureCard,
+  NetworkInterfacesCardWrapper = NetworkInterfacesCard,
+  HardwarePropertiesCardWrapper = HardwarePropertiesCard,
   ConfigurationCardWrapper = ConfigurationCard,
   CollectionCardWrapper = false,
   navigate,
@@ -60,9 +62,9 @@ const Details = ({
         <Grid hasGutter>
           <GridItem md={6} sm={12}>
             <Grid hasGutter>
-              {InfrastructureCardWrapper && (
+              {HardwarePropertiesCardWrapper && (
                 <GridItem>
-                  <InfrastructureCardWrapper
+                  <HardwarePropertiesCardWrapper
                     entity={entity}
                     handleClick={handleModalToggle}
                   />
@@ -71,6 +73,14 @@ const Details = ({
               {OperatingSystemCardWrapper && (
                 <GridItem>
                   <OperatingSystemCardWrapper
+                    entity={entity}
+                    handleClick={handleModalToggle}
+                  />
+                </GridItem>
+              )}
+              {NetworkInterfacesCardWrapper && (
+                <GridItem>
+                  <NetworkInterfacesCardWrapper
                     entity={entity}
                     handleClick={handleModalToggle}
                   />
@@ -94,14 +104,14 @@ const Details = ({
                     />
                   </GridItem>
                 )}
-              {BiosCardWrapper && (
-                <GridItem>
-                  <BiosCardWrapper handleClick={handleModalToggle} />
-                </GridItem>
-              )}
               {ConfigurationCardWrapper && (
                 <GridItem>
                   <ConfigurationCardWrapper handleClick={handleModalToggle} />
+                </GridItem>
+              )}
+              {BiosCardWrapper && (
+                <GridItem>
+                  <BiosCardWrapper handleClick={handleModalToggle} />
                 </GridItem>
               )}
               {CollectionCardWrapper && (
@@ -163,7 +173,11 @@ Details.propTypes = {
     PropTypes.elementType,
     PropTypes.bool,
   ]),
-  InfrastructureCardWrapper: PropTypes.oneOfType([
+  NetworkInterfacesCardWrapper: PropTypes.oneOfType([
+    PropTypes.elementType,
+    PropTypes.bool,
+  ]),
+  HardwarePropertiesCardWrapper: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.bool,
   ]),

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
 import { infraTest, rhsmFacts } from '../../../__mocks__/selectors';
-import InfrastructureCard from './InfrastructureCard';
+import NetworkInterfacesCard from './NetworkInterfacesCard';
 
 const location = {};
 
@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => ({
   useParams: jest.fn(() => ({ modalId: 'ipv4' })),
 }));
 
-describe('InfrastructureCard', () => {
+describe('NetworkInterfacesCard', () => {
   let initialState;
   let mockStore;
   const entity = {
@@ -41,7 +41,7 @@ describe('InfrastructureCard', () => {
     const store = mockStore({ systemProfileStore: {}, entityDetails: {} });
     const view = render(
       <TestWrapper store={store}>
-        <InfrastructureCard />
+        <NetworkInterfacesCard />
       </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
@@ -51,7 +51,7 @@ describe('InfrastructureCard', () => {
     const store = mockStore(initialState);
     const view = render(
       <TestWrapper store={store}>
-        <InfrastructureCard entity={entity} />
+        <NetworkInterfacesCard entity={entity} />
       </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
@@ -68,7 +68,7 @@ describe('InfrastructureCard', () => {
     });
     const view = render(
       <TestWrapper store={store}>
-        <InfrastructureCard entity={entity} />
+        <NetworkInterfacesCard entity={entity} />
       </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
@@ -85,7 +85,7 @@ describe('InfrastructureCard', () => {
     });
     const view = render(
       <TestWrapper store={store}>
-        <InfrastructureCard />
+        <NetworkInterfacesCard />
       </TestWrapper>,
     );
     expect(view.asFragment()).toMatchSnapshot();
@@ -99,7 +99,7 @@ describe('InfrastructureCard', () => {
       useParams.mockImplementation(() => ({ modalId: 'ipv4' }));
       render(
         <TestWrapper store={store}>
-          <InfrastructureCard handleClick={onClick} entity={entity} />
+          <NetworkInterfacesCard handleClick={onClick} entity={entity} />
         </TestWrapper>,
       );
 
@@ -118,7 +118,7 @@ describe('InfrastructureCard', () => {
       useParams.mockImplementation(() => ({ modalId: 'ipv6' }));
       render(
         <TestWrapper store={store}>
-          <InfrastructureCard handleClick={onClick} entity={entity} />
+          <NetworkInterfacesCard handleClick={onClick} entity={entity} />
         </TestWrapper>,
       );
 
@@ -137,7 +137,7 @@ describe('InfrastructureCard', () => {
       useParams.mockImplementation(() => ({ modalId: 'interfaces' }));
       render(
         <TestWrapper store={store}>
-          <InfrastructureCard handleClick={onClick} entity={entity} />
+          <NetworkInterfacesCard handleClick={onClick} entity={entity} />
         </TestWrapper>,
       );
 
@@ -148,12 +148,12 @@ describe('InfrastructureCard', () => {
     });
   });
 
-  ['hasType', 'hasVendor', 'hasIPv4', 'hasIPv6', 'hasInterfaces'].map((item) =>
+  ['hasIPv4', 'hasIPv6', 'hasInterfaces', 'hasFqdn'].map((item) =>
     it(`should not render ${item}`, () => {
       const store = mockStore(initialState);
       const view = render(
         <TestWrapper store={store}>
-          <InfrastructureCard {...{ [item]: false }} entity={entity} />
+          <NetworkInterfacesCard {...{ [item]: false }} entity={entity} />
         </TestWrapper>,
       );
 
@@ -165,7 +165,7 @@ describe('InfrastructureCard', () => {
     const store = mockStore(initialState);
     const view = render(
       <TestWrapper store={store}>
-        <InfrastructureCard
+        <NetworkInterfacesCard
           extra={[
             { title: 'something', value: 'test' },
             {

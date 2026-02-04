@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LoadingCard from '../LoadingCard';
-import { propertiesSelector } from '../selectors';
 import TitleWithPopover from '../TitleWithPopover';
-import { generalMapper } from '../dataMapper';
 import { extraShape } from '../../../constants';
 import { workloadsTypesKeys } from './SystemCardConfigs';
 import WorkloadsSection from './Workloads';
@@ -19,12 +17,6 @@ const SystemCard = ({
   hasDisplayName = true,
   hasAnsibleHostname = true,
   hasWorkspace = true,
-  hasSystemPurpose = true,
-  hasCPUs = true,
-  hasSockets = true,
-  hasCores = true,
-  hasCPUFlags = true,
-  hasRAM = true,
   extra = [],
   entity,
   fetchEntity,
@@ -37,7 +29,6 @@ const SystemCard = ({
   const workloadsData = systemProfile && systemProfile.workloads;
 
   const detailLoaded = systemProfile && systemProfile.loaded;
-  const properties = propertiesSelector(systemProfile, entity);
 
   const onSubmit = async (value, isAnsible = false) => {
     addNotification({
@@ -109,6 +100,27 @@ const SystemCard = ({
               },
             ]
           : []),
+        ...(workloadsTypes.length > 0
+          ? [
+              {
+                title: 'Workloads',
+                size: 'md',
+                value: (
+                  <WorkloadsSection
+                    handleClick={handleClick}
+                    workloadsData={workloadsData}
+                    workloadsTypes={workloadsTypes}
+                  />
+                ),
+              },
+            ]
+          : [
+              {
+                title: 'Workloads',
+                size: 'md',
+                value: 'Not available',
+              },
+            ]),
         ...(hasDisplayName
           ? [
               {
@@ -127,6 +139,19 @@ const SystemCard = ({
                 ),
                 size: 'md',
                 customClass: 'sentry-mask data-hj-suppress',
+              },
+            ]
+          : []),
+        ...(hasWorkspace
+          ? [
+              {
+                title: 'Workspace',
+                value:
+                  (entity?.groups?.length > 0 && entity?.groups?.[0]?.name) ||
+                  '',
+                size: 'md',
+                customClass: 'sentry-mask data-hj-suppress',
+                target: `/workspaces/${entity?.groups?.[0]?.id}`,
               },
             ]
           : []),
@@ -151,73 +176,6 @@ const SystemCard = ({
               },
             ]
           : []),
-        ...(hasWorkspace
-          ? [
-              {
-                title: 'Workspace',
-                value:
-                  (entity?.groups?.length > 0 && entity?.groups?.[0]?.name) ||
-                  '',
-                size: 'md',
-                customClass: 'sentry-mask data-hj-suppress',
-                target: `/workspaces/${entity?.groups?.[0]?.id}`,
-              },
-            ]
-          : []),
-        ...(workloadsTypes.length > 0
-          ? [
-              {
-                title: 'Workloads',
-                size: 'md',
-                value: (
-                  <WorkloadsSection
-                    handleClick={handleClick}
-                    workloadsData={workloadsData}
-                    workloadsTypes={workloadsTypes}
-                  />
-                ),
-              },
-            ]
-          : [
-              {
-                title: 'Workloads',
-                size: 'md',
-                value: 'Not available',
-              },
-            ]),
-        ...(hasSystemPurpose
-          ? [{ title: 'System purpose', value: properties.systemPurpose }]
-          : []),
-        ...(hasCPUs
-          ? [{ title: 'Number of CPUs', value: properties.cpuNumber }]
-          : []),
-        ...(hasSockets
-          ? [{ title: 'Sockets', value: properties.sockets }]
-          : []),
-        ...(hasCores
-          ? [
-              {
-                title: 'Cores per socket',
-                value: properties.coresPerSocket,
-              },
-            ]
-          : []),
-        ...(hasCPUFlags
-          ? [
-              {
-                title: 'CPU flags',
-                value: properties?.cpuFlags?.length,
-                singular: 'flag',
-                target: 'flag',
-                onClick: () =>
-                  handleClick(
-                    'CPU flags',
-                    generalMapper(properties.cpuFlags, 'Flag name'),
-                  ),
-              },
-            ]
-          : []),
-        ...(hasRAM ? [{ title: 'RAM', value: properties.ramSize }] : []),
         ...extra.map(({ onClick, ...item }) => ({
           ...item,
           ...(onClick && {
@@ -244,13 +202,7 @@ SystemCard.propTypes = {
   hasHostName: PropTypes.bool,
   hasDisplayName: PropTypes.bool,
   hasAnsibleHostname: PropTypes.bool,
-  hasSystemPurpose: PropTypes.bool,
   hasWorkspace: PropTypes.bool,
-  hasCPUs: PropTypes.bool,
-  hasSockets: PropTypes.bool,
-  hasCores: PropTypes.bool,
-  hasCPUFlags: PropTypes.bool,
-  hasRAM: PropTypes.bool,
   extra: PropTypes.arrayOf(extraShape),
   entity: PropTypes.object,
   fetchEntity: PropTypes.func,

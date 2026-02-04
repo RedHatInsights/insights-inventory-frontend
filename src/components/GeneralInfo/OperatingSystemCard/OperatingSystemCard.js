@@ -27,6 +27,9 @@ const OperatingSystemCardCore = ({
       cardId="os-card"
       isLoading={!detailLoaded}
       items={[
+        ...(hasArchitecture
+          ? [{ title: 'Architecture', value: systemInfo.architecture }]
+          : []),
         ...(hasRelease
           ? [
               {
@@ -35,24 +38,6 @@ const OperatingSystemCardCore = ({
                   <OperatingSystemFormatter
                     operatingSystem={systemInfo.release}
                   />
-                ),
-              },
-            ]
-          : []),
-        ...(hasKernelRelease
-          ? [{ title: 'Kernel release', value: systemInfo.kernelRelease }]
-          : []),
-        ...(hasArchitecture
-          ? [{ title: 'Architecture', value: systemInfo.architecture }]
-          : []),
-        ...(hasLastBoot
-          ? [
-              {
-                title: 'Last boot time',
-                value: isDate(systemInfo.bootTime) ? (
-                  <DateFormat date={systemInfo.bootTime} type="onlyDate" />
-                ) : (
-                  'Not available'
                 ),
               },
             ]
@@ -72,6 +57,21 @@ const OperatingSystemCardCore = ({
                 },
               },
             ]
+          : []),
+        ...(hasLastBoot
+          ? [
+              {
+                title: 'Last boot time',
+                value: isDate(systemInfo.bootTime) ? (
+                  <DateFormat date={systemInfo.bootTime} type="onlyDate" />
+                ) : (
+                  'Not available'
+                ),
+              },
+            ]
+          : []),
+        ...(hasKernelRelease
+          ? [{ title: 'Kernel release', value: systemInfo.kernelRelease }]
           : []),
         ...(systemInfo.systemUpdateMethod
           ? [{ title: 'Update method', value: systemInfo.systemUpdateMethod }]

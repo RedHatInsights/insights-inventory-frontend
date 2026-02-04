@@ -69,11 +69,11 @@ describe('OperatingSystemCard', () => {
     expect(
       screen.getAllByRole('definition').map((element) => element.textContent),
     ).toEqual([
-      'test-release',
-      'test-kernel',
       'test-arch',
-      'Not available',
+      'test-release',
       '0 modules',
+      'Not available',
+      'test-kernel',
     ]);
   });
 
@@ -96,9 +96,9 @@ describe('OperatingSystemCard', () => {
     expect(
       screen.getAllByRole('definition').map((element) => element.textContent),
     ).toEqual([
-      'Not available',
-      'Not available',
       'x86_64',
+      'Not available',
+      'Not available',
       'Not available',
       'Not available',
     ]);
