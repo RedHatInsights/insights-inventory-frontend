@@ -182,19 +182,9 @@ Navigate to the Actions tab in GitHub and locate the [Stage: Daily Frontend Suit
 
 ### 2. Promoting to production
 
-You have two methods to update the production image SHA:
+The **Standard Release** method uses the `app-interface-bot`. This is the preferred way to promote the latest validated image from the `master` branch.
 
-#### Manual PR via `app-interface` (targeted release)
-
-Use this if you need to promote a specific image version (e.g., rolling back to a previous known-good SHA or skipping a buggy commit).
-
-* Open MR for [deploy-clowder.yml](https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/host-inventory/deploy-clowder.yml)
-file.
-* Update the `ref` for `prod-frontends` and `prod-multicluster-frontends` namespaces
-
-#### Using the `app-interface-bot` (standard release)
-
-The bot is designed to always promote the latest validated image from the master branch.
+#### Standard release: Automated
 
 * Navigate to the to [Bot Pipelines](https://gitlab.cee.redhat.com/osbuild/app-interface-bot/-/pipelines)
 * Click `New pipeline` (top right).
@@ -204,6 +194,16 @@ The bot is designed to always promote the latest validated image from the master
   * FORCE: Use `--force` only if GitHub CI is failing for an unrelated/known flake.
 * Click Run Pipeline.
 * Result: The bot will create a MR and post the link in the `#insights-release` Slack channel.
+
+#### Fallback: Manual promotion
+
+Use this method **only** if you need a targeted release (e.g., rolling back to a specific SHA or skipping a buggy commit).
+
+* Open MR for [deploy-clowder.yml](https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/host-inventory/deploy-clowder.yml)
+file.
+* Update the `ref` for `prod-frontends` and `prod-multicluster-frontends` namespaces
+
+
 
 #### Approval and monitoring
 
