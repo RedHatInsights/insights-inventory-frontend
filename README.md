@@ -46,6 +46,8 @@ It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights
 
 ## Testing
 
+Before running functional tests, ensure your code is type-safe. You can run `npm run type-check` to verify this.
+
 ### Unit testing
 
 We use Jest with React Testing Library to write unit tests. For larger pieces of code or components, we utilize Cypress. For testing commands shortcuts (like `npm run test`, `npm run test:ct`, etc.), take a look at the package.json file which lists available scripts.
