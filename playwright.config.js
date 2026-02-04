@@ -35,6 +35,7 @@ export default defineConfig({
     video: 'retain-on-failure',
     trace: 'on',
     ignoreHTTPSErrors: true,
+    launchOptions: { args: ['--disable-http-cache'] },
     viewport: null,
     ...(process.env.INTEGRATION === 'true'
       ? {
