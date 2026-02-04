@@ -336,6 +336,30 @@ exports[`Overview should render correctly 1`] = `
                             <span
                               class="pf-v6-c-description-list__text"
                             >
+                              Workloads
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Workloads value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Workloads value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Not available
+                            </div>
+                          </dd>
+                        </div>
+                        <div
+                          class="pf-v6-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
                               <span>
                                 Display name
                                 <div
@@ -405,6 +429,30 @@ exports[`Overview should render correctly 1`] = `
                                   </svg>
                                 </span>
                               </button>
+                            </div>
+                          </dd>
+                        </div>
+                        <div
+                          class="pf-v6-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Workspace
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Workspace value"
+                            class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
+                            data-ouia-component-id="Workspace value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              Not available
                             </div>
                           </dd>
                         </div>
@@ -487,198 +535,6 @@ exports[`Overview should render correctly 1`] = `
                                   </svg>
                                 </span>
                               </button>
-                            </div>
-                          </dd>
-                        </div>
-                        <div
-                          class="pf-v6-c-description-list__group"
-                        >
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Workspace
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Workspace value"
-                            class="pf-v6-c-description-list__description sentry-mask data-hj-suppress"
-                            data-ouia-component-id="Workspace value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Not available
-                            </div>
-                          </dd>
-                        </div>
-                        <div
-                          class="pf-v6-c-description-list__group"
-                        >
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Workloads
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Workloads value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Workloads value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Not available
-                            </div>
-                          </dd>
-                        </div>
-                        <div
-                          class="pf-v6-c-description-list__group"
-                        >
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              System purpose
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="System purpose value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="System purpose value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Production
-                            </div>
-                          </dd>
-                        </div>
-                        <div
-                          class="pf-v6-c-description-list__group"
-                        >
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Number of CPUs
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Number of CPUs value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Number of CPUs value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              1
-                            </div>
-                          </dd>
-                        </div>
-                        <div
-                          class="pf-v6-c-description-list__group"
-                        >
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Sockets
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Sockets value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Sockets value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              1
-                            </div>
-                          </dd>
-                        </div>
-                        <div
-                          class="pf-v6-c-description-list__group"
-                        >
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              Cores per socket
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="Cores per socket value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="Cores per socket value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              1
-                            </div>
-                          </dd>
-                        </div>
-                        <div
-                          class="pf-v6-c-description-list__group"
-                        >
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              CPU flags
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="CPU flags value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="CPU flags value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              0 flags
-                            </div>
-                          </dd>
-                        </div>
-                        <div
-                          class="pf-v6-c-description-list__group"
-                        >
-                          <dt
-                            class="pf-v6-c-description-list__term"
-                          >
-                            <span
-                              class="pf-v6-c-description-list__text"
-                            >
-                              RAM
-                            </span>
-                          </dt>
-                          <dd
-                            aria-label="RAM value"
-                            class="pf-v6-c-description-list__description"
-                            data-ouia-component-id="RAM value"
-                          >
-                            <div
-                              class="pf-v6-c-description-list__text"
-                            >
-                              5 MB
                             </div>
                           </dd>
                         </div>

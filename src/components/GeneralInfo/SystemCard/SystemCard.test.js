@@ -22,12 +22,6 @@ const fields = [
   'Ansible hostname',
   'Workspace',
   'Workloads',
-  'System purpose',
-  'Number of CPUs',
-  'Sockets',
-  'Cores per socket',
-  'CPU flags',
-  'RAM',
 ];
 
 const mock = new MockAdapter(hostInventoryApi().axios, {
@@ -85,7 +79,7 @@ describe('SystemCard', () => {
     fields.forEach(screen.getByText);
     expect(
       screen.getAllByRole('definition').map((element) => element.textContent),
-    ).toEqual(['', '', '', '', '', '', '', '', '', '', '']);
+    ).toEqual(['', '', '', '', '']);
     screen.getByRole('button', {
       name: /action for host name/i,
     });
@@ -108,16 +102,10 @@ describe('SystemCard', () => {
       screen.getAllByRole('definition').map((element) => element.textContent),
     ).toEqual([
       'Not available',
+      'Not available',
       'test-display-name',
+      'Not available',
       'test-ansible-host',
-      'Not available',
-      'Not available',
-      'Production',
-      '1',
-      '1',
-      '1',
-      '0 flags',
-      '5 MB',
     ]);
   });
 
@@ -170,16 +158,10 @@ describe('SystemCard', () => {
       screen.getAllByRole('definition').map((element) => element.textContent),
     ).toEqual([
       'Not available',
+      'Not available',
       'test-display-name',
+      'Not available',
       'test-ansible-host',
-      'Not available',
-      'Not available',
-      'Not available',
-      '2',
-      '1',
-      '2',
-      'Not available',
-      '2 GB',
     ]);
   });
 
@@ -321,47 +303,6 @@ describe('SystemCard', () => {
       );
       expect(store.getActions().length).toBe(0); // the button is disabled since the input hasn't been changed
     });
-
-    it('should handle click on cpu flags identifiers', async () => {
-      const handleClick = jest.fn();
-      render(
-        <TestWrapper
-          store={mockStore({
-            ...initialState,
-            systemProfileStore: {
-              systemProfile: {
-                loaded: true,
-                ...testProperties,
-                cpu_flags: ['flag_1', 'flag_2'],
-              },
-            },
-          })}
-          routerProps={{ initialEntries: ['/example/flag'] }}
-        >
-          <SystemCard
-            handleClick={handleClick}
-            writePermissions={true}
-            entity={entity}
-          />
-        </TestWrapper>,
-      );
-
-      await userEvent.click(
-        screen.getByRole('link', {
-          name: /2 flags/i,
-        }),
-      );
-      expect(handleClick).toHaveBeenCalledWith('CPU flags', {
-        cells: [
-          {
-            title: 'Flag name',
-            transforms: expect.any(Array),
-          },
-        ],
-        filters: [{ type: 'text' }],
-        rows: [['flag_1'], ['flag_2']],
-      });
-    });
   });
 
   const fieldsToTest = [
@@ -369,12 +310,6 @@ describe('SystemCard', () => {
     ['hasDisplayName', 'Display name'],
     ['hasAnsibleHostname', 'Ansible hostname'],
     ['hasWorkspace', 'Workspace'],
-    ['hasSystemPurpose', 'System purpose'],
-    ['hasCPUs', 'Number of CPUs'],
-    ['hasSockets', 'Sockets'],
-    ['hasCores', 'Cores per socket'],
-    ['hasCPUFlags', 'CPU flags'],
-    ['hasRAM', 'RAM'],
   ];
 
   it.each(fieldsToTest)('should not render %s when disabled', (prop, label) => {
@@ -421,16 +356,10 @@ describe('SystemCard', () => {
       screen.getAllByRole('definition').map((element) => element.textContent),
     ).toEqual([
       'Not available',
+      'Not available',
       'test-display-name',
+      'Not available',
       'test-ansible-host',
-      'Not available',
-      'Not available',
-      'Production',
-      '1',
-      '1',
-      '1',
-      '0 flags',
-      '5 MB',
       'test',
       '1 tests',
     ]);

@@ -57,9 +57,9 @@ module.exports = {
         __dirname,
         '/src/components/GeneralInfo/OperatingSystemCard/OperatingSystemCard.js',
       ),
-      './InfrastructureCard': resolve(
+      './NetworkInterfacesCard': resolve(
         __dirname,
-        '/src/components/GeneralInfo/InfrastructureCard/InfrastructureCard.js',
+        '/src/components/GeneralInfo/NetworkInterfacesCard/NetworkInterfacesCard.js',
       ),
       './ConfigurationCard': resolve(
         __dirname,

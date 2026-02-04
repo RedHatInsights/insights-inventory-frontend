@@ -32,6 +32,7 @@ export default defineConfig({
     navigationTimeout: 90_000,
     headless: true,
     baseURL: process.env.BASE_URL,
+    launchOptions: { args: ['--disable-http-cache'] },
     video: 'retain-on-failure',
     trace: 'on',
     ignoreHTTPSErrors: true,

@@ -96,8 +96,11 @@ test.describe('System Details tests', () => {
       );
       await expect(detailsTab).toBeVisible();
 
-      const infrastructure = page.locator(
-        "[data-ouia-component-id='infrastructure-card']",
+      const hardwareProperties = page.locator(
+        "[data-ouia-component-id='hardware-properties-card']",
+      );
+      const networkInterfaces = page.locator(
+        "[data-ouia-component-id='network-interfaces-card']",
       );
       const BIOS = page.locator("[data-ouia-component-id='bios-card']");
       const operatingSystem = page.locator(
@@ -118,7 +121,8 @@ test.describe('System Details tests', () => {
       await expect(cardTitle).toBeHidden();
 
       for (const card of [
-        infrastructure,
+        hardwareProperties,
+        networkInterfaces,
         BIOS,
         operatingSystem,
         configuration,

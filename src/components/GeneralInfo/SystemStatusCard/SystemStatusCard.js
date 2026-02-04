@@ -63,19 +63,6 @@ const SystemStatusCardCore = ({
               },
             ]
           : []),
-        ...(hasLastUpdated
-          ? [
-              {
-                title: 'Last updated',
-                value:
-                  entity && entity.updated ? (
-                    <DateFormat date={entity.updated} type="exact" />
-                  ) : (
-                    'Not available'
-                  ),
-              },
-            ]
-          : []),
         // Temporarily disabled until we have a way to properly detect RHC connectivity or remove it altogether
         /*...(hasRHC
           ? [
@@ -93,6 +80,19 @@ const SystemStatusCardCore = ({
               },
             ]
           : []),*/
+        ...(hasLastUpdated
+          ? [
+              {
+                title: 'Last updated',
+                value:
+                  entity && entity.updated ? (
+                    <DateFormat date={entity.updated} type="exact" />
+                  ) : (
+                    'Not available'
+                  ),
+              },
+            ]
+          : []),
       ]}
     />
   );

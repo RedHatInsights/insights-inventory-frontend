@@ -8,6 +8,7 @@ import {
   configTest,
   infraTest,
   osTest,
+  testProperties,
 } from '../../__mocks__/selectors';
 import Details from './Details';
 
@@ -24,7 +25,13 @@ jest.mock(
 );
 
 const expectCardsToExist = (
-  titles = ['Infrastructure', 'Operating system', 'BIOS', 'Configuration'],
+  titles = [
+    'Hardware properties',
+    'Operating system',
+    'Network interfaces',
+    'BIOS',
+    'Configuration',
+  ],
 ) => {
   titles.forEach((title) => {
     expect(screen.getByText(title)).toBeVisible();
@@ -49,6 +56,7 @@ describe('Details', () => {
           ...osTest,
           ...biosTest,
           ...configTest,
+          ...testProperties,
           network: {
             ipv4: ['1', '2'],
             ipv6: ['6', '3'],
@@ -105,7 +113,8 @@ describe('Details', () => {
     const mapping = {
       OperatingSystemCardWrapper: 'Operating system',
       BiosCardWrapper: 'BIOS',
-      InfrastructureCardWrapper: 'Infrastructure',
+      NetworkInterfacesCardWrapper: 'Network interfaces',
+      HardwarePropertiesCardWrapper: 'Hardware properties',
       ConfigurationCardWrapper: 'Configuration',
     };
 
