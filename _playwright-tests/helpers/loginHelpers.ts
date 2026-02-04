@@ -90,10 +90,11 @@ export const closeCookieBanner = async (page: Page) => {
     'iframe[title="TrustArc Cookie Consent Manager"]',
   );
 
-  const frameVisible = await iframeLocator
-    .isVisible({ timeout: 5000 })
-    .catch(() => false);
-  if (!frameVisible) return;
+  try {
+    await iframeLocator.waitFor({ state: 'visible', timeout: 15000 });
+  } catch {
+    return;
+  }
 
   const frame = page.frameLocator(
     'iframe[title="TrustArc Cookie Consent Manager"]',
