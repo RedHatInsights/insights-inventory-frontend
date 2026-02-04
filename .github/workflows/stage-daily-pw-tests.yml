@@ -2,8 +2,7 @@ name: 'Stage: Daily Frontend Suite'
 
 on:
   schedule:
-    - cron: '0 0 * * *' # This cron expression runs the action every 24 hours at midnight UTC
-    
+    - cron: '0 4 * * *' # This cron expression runs the action every 24 hours at 04:00 UTC
   workflow_dispatch:
 
 concurrency:
