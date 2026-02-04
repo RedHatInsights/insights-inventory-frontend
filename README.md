@@ -166,7 +166,7 @@ When a new pull request is opened, some jobs are run automatically, like unit te
 When a pull request is merged to master, a new container image is built and tagged
 as [insights-inventory-frontend:latest](https://quay.io/repository/cloudservices/insights-inventory-frontend?tab=tags).
 This image is then automatically deployed to
-the [Stage environment](https://console-openshift-console.apps.crcs02ue1.urby.p1.openshiftapps.com/k8s/cluster/projects/host-inventory-stage).
+the [Stage environment](https://console-openshift-console.apps.crcs02ue1.urby.p1.openshiftapps.com/k8s/cluster/projects/frontends).
 
 ### 1. Pre-promotion verification
 
@@ -211,7 +211,9 @@ Once the MR is open (either manually or via bot):
 * Validation: Review the list of PRs included. Ensure all associated Jira cards are in "Release Pending" (no cards should be "On QA").
 * Review: Request a review from another Inventory team member.
 * Approval: The reviewer must comment `/lgtm` to trigger the automatic merge.
-* Responsibility: The engineer who approved the MR is responsible for monitoring the rollout to ensure the production environment remains stable.
+* Responsibility: The engineer who approved the MR is responsible for monitoring the rollout to ensure the production environment remains stable: 
+  * OpenShift namespace: [frontends](https://console-openshift-console.apps.crcp01ue1.o9m8.p1.openshiftapps.com/k8s/cluster/projects/frontends)
+  * Check for Pod: `inventory-frontend`
 
 
 ### 3. Post-release verification
