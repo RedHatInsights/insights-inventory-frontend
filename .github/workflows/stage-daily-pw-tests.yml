@@ -2,8 +2,7 @@ name: 'Stage: Daily Frontend Suite'
 
 on:
   schedule:
-    - cron: '0 0 * * *' # This cron expression runs the action every 24 hours at midnight UTC
-    
+    - cron: '0 4 * * *' # This cron expression runs the action every 24 hours at 04:00 UTC
   workflow_dispatch:
 
 concurrency:
@@ -76,3 +75,28 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 10
+
+      - name: Notify Slack on failure
+        uses: slackapi/slack-github-action@v2.1.1
+        if: ${{ failure() && github.event_name == 'schedule' && !cancelled() }}
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#d72839",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Daily Stage Inventory Frontend Test>: *failed* :large_red_circle: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+
