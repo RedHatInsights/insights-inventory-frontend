@@ -12,36 +12,40 @@ import {
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';
-import { conditionalDropdownError, formValidation } from './constants';
+import {
+  conditionalDropdownError,
+  formValidation,
+  HostStalenessApiKey,
+} from './constants';
+import { Staleness } from './HostStalenessCard';
 
 interface DropdownItem {
   name: string;
   value: number;
-  apiKey: string;
-  title: string;
-  modalMessage?: string;
 }
 
 interface BaseDropdownProps {
-  dropdownItems: DropdownItem[];
+  items: DropdownItem[];
+  apiKey: HostStalenessApiKey;
   isDisabled?: boolean;
   title: string;
-  currentItem: number;
-  newFormValues: Record<string, number>;
-  setNewFormValues: (values: Record<string, number>) => void;
+  currentItem?: number;
+  staleness: Staleness;
+  setStaleness: React.Dispatch<React.SetStateAction<Staleness>>;
   modalMessage?: string;
   isFormValid: boolean;
-  setIsFormValid: (isValid: boolean) => void;
+  setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>;
   ouiaId?: string;
 }
 
 const BaseDropdown = ({
-  dropdownItems,
+  items,
+  apiKey,
   currentItem,
   isDisabled,
   title,
-  newFormValues,
-  setNewFormValues,
+  staleness,
+  setStaleness,
   modalMessage,
   isFormValid,
   setIsFormValid,
@@ -59,21 +63,22 @@ const BaseDropdown = ({
   };
 
   const updateFilter = (item: DropdownItem) => {
-    setNewFormValues({ ...newFormValues, [item.apiKey]: item.value });
+    setStaleness({ ...staleness, [apiKey]: item.value });
   };
 
   useEffect(() => {
     setSelected(currentItem);
-    formValidation(newFormValues, setIsFormValid);
-  }, [currentItem, newFormValues, setIsFormValid]);
+    formValidation(staleness, setIsFormValid);
+  }, [currentItem, staleness, setIsFormValid]);
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
   };
 
   const toggle = (toggleRef: Ref<MenuToggleElement>) => {
-    const getNameByValue = (value: number) => {
-      const item = dropdownItems.find((obj) => obj.value === value);
+    const getNameByValue = (value?: number) => {
+      if (value === undefined) return '';
+      const item = items.find((obj) => obj.value === value);
       return item?.name;
     };
 
@@ -131,7 +136,7 @@ const BaseDropdown = ({
             ouiaId={ouiaId}
           >
             <SelectList>
-              {dropdownItems.map((item) => (
+              {items.map((item) => (
                 <SelectOption
                   isDisabled={isDisabled}
                   key={item.name}
@@ -143,7 +148,7 @@ const BaseDropdown = ({
               ))}
             </SelectList>
           </Select>
-          {conditionalDropdownError(newFormValues, dropdownItems)}
+          {conditionalDropdownError(staleness, apiKey)}
         </FlexItem>
       </Flex>
     </React.Fragment>
